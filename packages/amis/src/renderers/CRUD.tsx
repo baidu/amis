@@ -2026,7 +2026,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'pagination',
           {
             type: 'pagination',
-            testIdBuilder: testIdBuilder.getChild('pagination')
+            testIdBuilder: testIdBuilder?.getChild('pagination')
           },
           {
             ...extraProps,
@@ -2105,7 +2105,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
           popOverContainer={this.parentContainer}
-          testIdBuilder={testIdBuilder.getChild('perPage')}
+          testIdBuilder={testIdBuilder?.getChild('perPage')}
         />
       </div>
     );
@@ -2131,7 +2131,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             this.search({page: page + 1, loadDataMode: 'load-more'})
           }
           size="sm"
-          {...testIdBuilder.getChild('loadMore').getTestId()}
+          {...testIdBuilder?.getChild('loadMore').getTestId()}
         >
           {__('CRUD.loadMore')}
         </Button>
@@ -2258,7 +2258,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           <div
             className={cx('Crud-toolbar')}
             key={index}
-            {...testIdBuilder.getChild('toolbar').getTestId()}
+            {...testIdBuilder?.getChild('toolbar').getTestId()}
           >
             {children.map(({toolbar, dom: child}, index) => {
               const type = (toolbar as Schema).type || toolbar;
@@ -2537,7 +2537,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
-        {...testIdBuilder.getChild('wrapper').getTestId()}
+        {...testIdBuilder?.getChild('wrapper').getTestId()}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
@@ -2549,7 +2549,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 ...filter,
                 type: 'form',
                 api: null,
-                testIdBuilder: testIdBuilder.getChild('filter')
+                testIdBuilder: testIdBuilder?.getChild('filter')
               },
               {
                 key: 'filter',

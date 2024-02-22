@@ -12,6 +12,7 @@ import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon, Spinner} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import type {TestIdBuilder} from 'amis-core';
 
 /**
  * 复选框
@@ -43,6 +44,7 @@ export interface CheckboxesControlSchema extends FormOptionsSchema {
    * 自定义选项展示
    */
   menuTpl?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface CheckboxesProps
@@ -258,10 +260,14 @@ export default class CheckboxesControl extends React.Component<
       translate: __,
       optionType,
       menuTpl,
-      data
+      data,
+      testIdBuilder
     } = this.props;
     const labelText = String(option[labelField || 'label']);
     const optionLabelClassName = option['labelClassName'];
+    const itemTestIdBuilder = testIdBuilder?.getChild(
+      'item-' + labelText || index
+    );
 
     return (
       <Checkbox
@@ -274,6 +280,7 @@ export default class CheckboxesControl extends React.Component<
         labelClassName={optionLabelClassName || labelClassName}
         description={option.description}
         optionType={optionType}
+        testIdBuilder={itemTestIdBuilder}
       >
         {menuTpl
           ? render(`checkboxes/${index}`, menuTpl, {

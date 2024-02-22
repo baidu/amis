@@ -44,7 +44,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   regionPrefix?: string;
   checkOnItemClick?: boolean;
   ignoreFootableContent?: boolean;
-  testIdBuilder?: TestIdBuilder;
+  testIdBuilder?: (key: string) => TestIdBuilder;
   rowPath: string; // 整体行的路径，树形时需要父行序号/当前展开层级下的行序号
   [propName: string]: any;
 }
@@ -323,7 +323,7 @@ export class TableRow extends React.PureComponent<
           },
           `Table-tr--${depth}th`
         )}
-        {...testIdBuilder?.getTestId()}
+        {...testIdBuilder?.(rowPath).getTestId()}
       >
         {columns.map(column =>
           appeard ? (

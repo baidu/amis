@@ -186,7 +186,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
           {labelNode}
           {labelExtra}
           {!stacked && depth === 1 ? (
-            <span key="expand-toggle" className={cx('Nav-Menu-submenu-arrow')}>
+            <span
+              key="expand-toggle"
+              className={cx('Nav-Menu-submenu-arrow')}
+              {...testIdBuilder?.getChild('expand-toggle').getTestId()}
+            >
               <Icon icon="right-arrow-bold" className="icon" />
             </span>
           ) : null}

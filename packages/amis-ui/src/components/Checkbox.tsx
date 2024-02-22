@@ -117,8 +117,13 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           readOnly={readOnly}
           name={name}
         />
-        <i />
-        <span className={cx(labelClassName)}>{children || label}</span>
+        <i {...testIdBuilder?.getChild('input').getTestId()} />
+        <span
+          className={cx(labelClassName)}
+          {...testIdBuilder?.getChild('label').getTestId()}
+        >
+          {children || label}
+        </span>
         {description ? (
           <div className={cx('Checkbox-desc')}>{description}</div>
         ) : null}

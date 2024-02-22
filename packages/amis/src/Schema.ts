@@ -129,7 +129,7 @@ import {
   SchemaClassName,
   SchemaExpression
 } from 'amis-core';
-import type {FormSchemaBase} from 'amis-core';
+import type {FormSchemaBase, TestIdBuilder} from 'amis-core';
 import {MultilineTextSchema} from './renderers/MultilineText';
 import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';

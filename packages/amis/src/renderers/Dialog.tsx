@@ -240,7 +240,7 @@ export default class Dialog extends React.Component<DialogProps> {
     let ret: Array<ActionSchema> = [];
     ret.push({
       type: 'button',
-      testIdBuilder: testIdBuilder.getChild('cancel'),
+      testIdBuilder: testIdBuilder?.getChild('cancel'),
       actionType: 'cancel',
       label: __('cancel')
     });
@@ -248,7 +248,7 @@ export default class Dialog extends React.Component<DialogProps> {
     if (confirm) {
       ret.push({
         type: 'button',
-        testIdBuilder: testIdBuilder.getChild('confirm'),
+        testIdBuilder: testIdBuilder?.getChild('confirm'),
         actionType: 'confirm',
         label: __('confirm'),
         primary: true

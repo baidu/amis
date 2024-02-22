@@ -810,7 +810,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
-            testIdBuilder={testIdBuilder.getChild(
+            testIdBuilder={testIdBuilder?.getChild(
               `tab-${typeof tab.title === 'string' ? tab.title : index}`
             )}
           >
@@ -854,7 +854,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
-            testIdBuilder={testIdBuilder.getChild(
+            testIdBuilder={testIdBuilder?.getChild(
               `tab-${typeof tab.title === 'string' ? tab.title : index}`
             )}
           >

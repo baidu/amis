@@ -801,7 +801,7 @@ export default class TextControl extends React.PureComponent<
                 }
               )}
               onClick={this.handleClick}
-              {...testIdBuilder.getTestId()}
+              {...testIdBuilder?.getTestId()}
             >
               <>
                 {filteredPlaceholder &&
@@ -1008,7 +1008,7 @@ export default class TextControl extends React.PureComponent<
           inputControlClassName,
           inputOnly ? className : ''
         )}
-        {...testIdBuilder.getTestId()}
+        {...testIdBuilder?.getTestId()}
       >
         {prefix ? (
           <span className={cx('TextControl-inputPrefix')}>
@@ -1036,7 +1036,7 @@ export default class TextControl extends React.PureComponent<
           className={cx(nativeInputClassName, {
             'TextControl-input-password': type === 'password' && revealPassword
           })}
-          {...testIdBuilder.getChild('input').getTestId()}
+          {...testIdBuilder?.getChild('input').getTestId()}
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={cx('TextControl-clear')}>

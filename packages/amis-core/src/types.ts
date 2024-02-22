@@ -2,6 +2,7 @@
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
+import type {TestIdBuilder} from './utils/helper';
 
 export interface Option {
   /**
@@ -689,6 +690,8 @@ export interface BaseSchemaWithoutType {
    * 可以组件级别用来关闭移动端样式
    */
   useMobileUI?: boolean;
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 export type OperatorType =

@@ -418,7 +418,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showNativeTitle: true,
       className: cx('Select-option-content', optionClassName),
       data: createObject(createObject(data, state), option),
-      testIdBuilder: testIdBuilder?.getChild('option-' + state.index)
+      testIdBuilder: testIdBuilder?.getChild(
+        'option-' + option.value || state.index
+      )
     });
   }
 
