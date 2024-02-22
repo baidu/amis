@@ -2303,7 +2303,7 @@ export class TestIdBuilder {
   }
 
   // 生成子区域的testid生成器
-  getChild(childPath: string, data?: object) {
+  getChild(childPath: string | number, data?: object) {
     if (this.testId == null) {
       return new TestIdBuilder();
     }

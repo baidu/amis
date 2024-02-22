@@ -1060,7 +1060,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       }
 
       let label = labelToString(item[labelField]);
-      let optTestIdBudr = testIdBuilder?.getChild(`option-${index}`);
+      let optTestIdBudr = testIdBuilder?.getChild(`option-${label || index}`);
 
       return (
         <div
@@ -1405,7 +1405,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 />
               ) : null}
 
-              <span className={cx('Select-arrow')}>
+              <span
+                className={cx('Select-arrow')}
+                {...testIdBuilder?.getChild('arrow').getTestId()}
+              >
                 <Icon icon="right-arrow-bold" className="icon" />
               </span>
               {isOpen ? this.renderOuter(options) : null}

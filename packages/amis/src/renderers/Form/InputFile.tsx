@@ -1416,7 +1416,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 disabled={disabled}
                 {...getInputProps()}
                 capture={capture as any}
-                {...testIdBuilder.getChild('input').getTestId()}
+                {...testIdBuilder?.getChild('input').getTestId()}
               />
 
               {drag || isDragActive ? (
@@ -1461,7 +1461,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         : ''
                     }
                     onClick={this.handleSelect}
-                    testIdBuilder={testIdBuilder.getChild('select')}
+                    testIdBuilder={testIdBuilder?.getChild('select')}
                   >
                     <Icon icon="upload" className="icon" />
                     <span>
@@ -1591,7 +1591,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {!autoUpload && !hideUploadButton && files.length ? (
           <Button
             level="default"
-            testIdBuilder={testIdBuilder.getChild('upload')}
+            testIdBuilder={testIdBuilder?.getChild('upload')}
             disabled={!hasPending}
             className={cx('FileControl-uploadBtn', btnUploadClassName)}
             onClick={this.toggleUpload}

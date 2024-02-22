@@ -305,7 +305,10 @@ export default class DropDownButton extends React.Component<
               ...(button as any),
               className: '',
               // 防止dropdown中button没有 testid或者id
-              testIdBuilder: testIdBuilder.getChild(button.label || index, data)
+              testIdBuilder: testIdBuilder?.getChild(
+                button.label || index,
+                data
+              )
             },
             {
               isMenuItem: true,
@@ -443,7 +446,6 @@ export default class DropDownButton extends React.Component<
           className
         )}
         style={style}
-        {...testIdBuilder.getTestId(data)}
         onMouseEnter={trigger === 'hover' ? this.open : () => {}}
         onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}
@@ -458,6 +460,7 @@ export default class DropDownButton extends React.Component<
           <button
             onClick={this.toogle}
             disabled={disabled || btnDisabled}
+            {...testIdBuilder?.getTestId(data)}
             className={cx(
               'Button',
               btnClassName,

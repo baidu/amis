@@ -1155,8 +1155,8 @@ export class TreeSelector extends React.Component<
     const disabled = this.isItemDisabled(item, checked);
     const partial = this.isItemChildrenPartialChecked(item, checked);
     const checkedInValue = !!~this.state.value.indexOf(item);
-    const itemTestBildr = testIdBuilder?.getChild(
-      `item-${item[labelField] || index}`
+    const itemTestBuilder = testIdBuilder?.getChild(
+      `item-${item[valueField] || item[labelField] || index}`
     );
 
     const checkbox: JSX.Element | null = multiple ? (
@@ -1166,7 +1166,7 @@ export class TreeSelector extends React.Component<
         checked={checked || partial}
         partial={partial}
         onChange={this.handleCheck.bind(this, item, !checked)}
-        {...itemTestBildr?.getChild('chekbx').getTestId()}
+        {...itemTestBuilder?.getChild('chekbx').getTestId()}
       />
     ) : showRadio ? (
       <Checkbox
@@ -1174,7 +1174,7 @@ export class TreeSelector extends React.Component<
         disabled={disabled}
         checked={checked}
         onChange={this.handleSelect.bind(this, item)}
-        {...itemTestBildr?.getChild('chekbx').getTestId()}
+        {...itemTestBuilder?.getChild('chekbx').getTestId()}
       />
     ) : null;
 
@@ -1192,11 +1192,11 @@ export class TreeSelector extends React.Component<
     let body = null;
 
     if (isEditing && editingItem === item) {
-      body = this.renderInput(checkbox, itemTestBildr?.getChild('edit'));
+      body = this.renderInput(checkbox, itemTestBuilder?.getChild('edit'));
     } else if (item.isAdding) {
       body = this.renderInput(
         <span className={cx('Tree-itemArrowPlaceholder')} />,
-        itemTestBildr?.getChild('add')
+        itemTestBuilder?.getChild('add')
       );
     } else {
       const isFolded = !this.isUnfolded(item);
@@ -1219,7 +1219,7 @@ export class TreeSelector extends React.Component<
           {draggable && (
             <a
               className={cx('Tree-itemDrager drag-bar')}
-              {...itemTestBildr?.getChild('drag-bar').getTestId()}
+              {...itemTestBuilder?.getChild('drag-bar').getTestId()}
             >
               <Icon icon="drag-bar" className="icon" />
             </a>
@@ -1239,7 +1239,7 @@ export class TreeSelector extends React.Component<
               className={cx('Tree-itemArrow', {
                 'is-folded': isFolded
               })}
-              {...itemTestBildr
+              {...itemTestBuilder
                 ?.getChild(isFolded ? 'open' : 'fold')
                 .getTestId()}
             >
@@ -1253,7 +1253,7 @@ export class TreeSelector extends React.Component<
 
           <div
             className={cx('Tree-itemLabel-item', {'is-mobile': mobileUI})}
-            {...itemTestBildr?.getChild('content').getTestId()}
+            {...itemTestBuilder?.getChild('content').getTestId()}
           >
             {showIcon ? (
               <i
@@ -1292,7 +1292,7 @@ export class TreeSelector extends React.Component<
                   : this.handleSelect(item))
               }
               title={item[labelField]}
-              {...itemTestBildr?.getChild('text').getTestId()}
+              {...itemTestBuilder?.getChild('text').getTestId()}
             >
               {itemRender
                 ? itemRender(item, {
@@ -1323,7 +1323,7 @@ export class TreeSelector extends React.Component<
                   >
                     <a
                       onClick={this.handleAdd.bind(this, item)}
-                      {...itemTestBildr?.getChild('add').getTestId()}
+                      {...itemTestBuilder?.getChild('add').getTestId()}
                     >
                       <Icon icon="plus" className="icon" />
                     </a>
@@ -1339,7 +1339,7 @@ export class TreeSelector extends React.Component<
                   >
                     <a
                       onClick={this.handleRemove.bind(this, item)}
-                      {...itemTestBildr?.getChild('remove').getTestId()}
+                      {...itemTestBuilder?.getChild('remove').getTestId()}
                     >
                       <Icon icon="minus" className="icon" />
                     </a>
@@ -1355,7 +1355,7 @@ export class TreeSelector extends React.Component<
                   >
                     <a
                       onClick={this.handleEdit.bind(this, item)}
-                      {...itemTestBildr?.getChild('edit').getTestId()}
+                      {...itemTestBuilder?.getChild('edit').getTestId()}
                     >
                       <Icon icon="new-edit" className="icon" />
                     </a>
@@ -1379,7 +1379,7 @@ export class TreeSelector extends React.Component<
           ...style,
           paddingLeft: `calc(${level} * var(--Tree-indent))`
         }}
-        {...itemTestBildr?.getTestId()}
+        {...itemTestBuilder?.getTestId()}
       >
         {body}
       </li>

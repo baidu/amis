@@ -543,8 +543,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     disabled?: boolean;
     [propName: string]: any;
   }) {
-    const {classnames: cx, expandIcon} = this.props;
-
+    const navigations = this.state.navigations;
+    const {classnames: cx, expandIcon, testIdBuilder} = this.props;
+    const link = findTree(navigations, item => item.id === ctx.eventKey);
     return (
       <span
         key="expand-toggle"
@@ -553,6 +554,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           this.handleToggleExpand(ctx);
           e.preventDefault();
         }}
+        {...testIdBuilder
+          ?.getChild(link?.link?.testid || ctx.eventKey)
+          .getChild('expand-toggle')
+          .getTestId()}
       >
         {!React.isValidElement(expandIcon) ? (
           <Icon
@@ -617,9 +622,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             badge={badge}
             renderLink={renderLink}
             depth={level || 1}
-            testIdBuilder={testIdBuilder?.getChild(
-              link.testid || index.toString()
-            )}
+            testIdBuilder={testIdBuilder?.getChild(link.testid || index)}
             popupClassName={popupClassName}
           >
             {this.renderMenuContent(item.children || [], item.depth + 1)}
@@ -641,9 +644,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           renderLink={renderLink}
           badge={badge}
           data={data}
-          testIdBuilder={testIdBuilder?.getChild(
-            link.testid || index.toString()
-          )}
+          testIdBuilder={testIdBuilder?.getChild(link.testid || index)}
           depth={level || 1}
           order={index}
           overflowedIndicator={overflowedIndicator}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassNamesFn, RendererEvent} from 'amis-core';
+import {ClassNamesFn, RendererEvent, autobind} from 'amis-core';
 
 import {SchemaNode, ActionObject} from 'amis-core';
 import TableRow from './TableRow';
@@ -69,6 +69,11 @@ export class TableBody extends React.Component<TableBodyProps> {
     this.props.store.initTableWidth();
   }
 
+  @autobind
+  testIdBuilder(rowPath: string) {
+    return this.props.testIdBuilder?.getChild(`row-${rowPath}`);
+  }
+
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,
@@ -94,19 +99,17 @@ export class TableBody extends React.Component<TableBodyProps> {
       onRowDbClick,
       onRowMouseEnter,
       onRowMouseLeave,
-      store,
-      testIdBuilder
+      store
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
       const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
       const rowPath = `${indexPath ? indexPath + '/' : ''}${rowIndex}`;
-      const rowTestBuidr = testIdBuilder?.getChild(`row-${rowPath}`);
 
       const doms = [
         <TableRow
           {...itemProps}
-          testIdBuilder={rowTestBuidr}
+          testIdBuilder={this.testIdBuilder}
           store={store}
           itemAction={itemAction}
           classnames={cx}
@@ -173,7 +176,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               onQuickChange={onQuickChange}
               ignoreFootableContent={ignoreFootableContent}
               {...rowProps}
-              testIdBuilder={rowTestBuidr}
+              testIdBuilder={this.testIdBuilder}
             />
           );
         }

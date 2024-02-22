@@ -629,7 +629,8 @@ export default class PickerControl extends React.PureComponent<
       valueField,
       embed,
       source,
-      strictMode
+      strictMode,
+      testIdBuilder
     } = this.props;
     const {maxTagCount, overflowTagPopoverInCRUD, displayPosition} =
       this.getOverflowConfig();
@@ -641,6 +642,7 @@ export default class PickerControl extends React.PureComponent<
       options: source ? [] : options,
       multiple,
       strictMode,
+      testIdBuilder: testIdBuilder?.getChild('body-schema'),
       onSelect: embed
         ? (selectedItems: Array<any>, unSelectedItems: Array<any>) => {
             // 选择行后，crud 会给出连续多次事件，且selectedItems会变化，会导致初始化和点击无效
@@ -712,7 +714,8 @@ export default class PickerControl extends React.PureComponent<
       themeCss,
       css,
       id,
-      classPrefix: ns
+      classPrefix: ns,
+      testIdBuilder
     } = this.props;
     return (
       <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
@@ -753,7 +756,10 @@ export default class PickerControl extends React.PureComponent<
                 </div>
               ) : null}
 
-              <div className={cx('Picker-valueWrap')}>
+              <div
+                className={cx('Picker-valueWrap')}
+                {...testIdBuilder?.getTestId()}
+              >
                 {this.renderValues()}
 
                 <input
@@ -773,7 +779,11 @@ export default class PickerControl extends React.PureComponent<
                 </a>
               ) : null}
 
-              <span onClick={this.open} className={cx('Picker-btn')}>
+              <span
+                onClick={this.open}
+                className={cx('Picker-btn')}
+                {...testIdBuilder?.getChild('picker-btn').getTestId()}
+              >
                 <Icon
                   icon="window-restore"
                   className={cx(
@@ -802,7 +812,8 @@ export default class PickerControl extends React.PureComponent<
                 className: modalClassName,
                 body: {
                   children: this.renderBody
-                }
+                },
+                testIdBuilder: testIdBuilder?.getChild('modal')
               },
               {
                 key: 'modal',
