@@ -2,7 +2,7 @@ import sys
 import os
 import glob
 import uuid
-import pickle
+import json
 from embedding import get_embedding
 from split_markdown import split_markdown
 from vector_store import get_client
@@ -21,11 +21,11 @@ text_blocks_by_id = {}
 embedding_cache = {}
 
 embedding_cache_file = os.path.join(
-    os.path.dirname(__file__), 'embedding.pickle')
+    os.path.dirname(__file__), 'embedding.json')
 
 if os.path.exists(embedding_cache_file):
     with open(embedding_cache_file, 'rb') as f:
-        embedding_cache = pickle.load(f)
+        embedding_cache = json.load(f)
 
 
 def get_embedding_with_cache(text):
@@ -65,8 +65,8 @@ for filename in glob.iglob(doc_dir + '**/*.md', recursive=True):
         )
 
 
-with open(os.path.join(os.path.dirname(__file__), 'text.pickle'), 'wb') as f:
-    pickle.dump(text_blocks_by_id, f, pickle.HIGHEST_PROTOCOL)
+with open(os.path.join(os.path.dirname(__file__), 'text.json'), 'w') as f:
+    json.dump(text_blocks_by_id, f)
 
-with open(embedding_cache_file, 'wb') as f:
-    pickle.dump(embedding_cache, f, pickle.HIGHEST_PROTOCOL)
+with open(embedding_cache_file, 'w') as f:
+    json.dump(embedding_cache, f)
