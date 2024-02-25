@@ -41,7 +41,8 @@ import {
   resizeSensor,
   offset,
   getStyleNumber,
-  getPropValue
+  getPropValue,
+  buildTestId
 } from 'amis-core';
 import {
   Button,
@@ -2802,7 +2803,8 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       autoFillHeight,
       autoGenerateFilter,
-      mobileUI
+      mobileUI,
+      testid
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2821,6 +2823,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--autoFillHeight': autoFillHeight
         })}
         style={store.buildStyles(style)}
+        {...buildTestId(testid)}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {this.renderAffixHeader(tableClassName)}
