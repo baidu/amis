@@ -130,6 +130,7 @@ import InputBoxWithSuggestion from './InputBoxWithSuggestion';
 import {CodeMirrorEditor} from './CodeMirror';
 import type CodeMirror from 'codemirror';
 import OverflowTpl from './OverflowTpl';
+import PdfView from './PdfViewer';
 
 export {
   NotFound,
@@ -263,5 +264,6 @@ export {
   Menu,
   CodeMirror,
   CodeMirrorEditor,
-  OverflowTpl
+  OverflowTpl,
+  PdfView
 };
