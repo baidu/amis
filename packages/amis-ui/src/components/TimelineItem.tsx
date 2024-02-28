@@ -3,7 +3,7 @@ import {localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {Icon} from './icons';
 
-import type {IconCheckedSchema} from 'amis-ui';
+import type {IconCheckedSchema} from '../index';
 
 export interface TimelineItemProps {
   /**
