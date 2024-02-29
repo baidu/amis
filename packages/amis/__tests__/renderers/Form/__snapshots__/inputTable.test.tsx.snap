@@ -448,7 +448,7 @@ exports[`Renderer:input table add 1`] = `
                         <th
                           class="is-sticky is-sticky-right is-sticky-first-right cxd-Table-operationCell"
                           data-index="5"
-                          style="right: 0px;"
+                          style="width: 150px; min-width: 150px;"
                         >
                           <div
                             class="cxd-TableCell--title v-middle nowrap"
