@@ -169,7 +169,7 @@ export function calculatePosition(
           : overlayHeight / 2;
 
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
-      if (tests.length) {
+      if (tests.length || isAuto) {
         const transformed = {
           x: clip.x + positionLeft / scaleX,
           y: clip.y + positionTop / scaleY,
@@ -200,6 +200,10 @@ export function calculatePosition(
 
         if (visibleX && visibleY) {
           break;
+        } else if (isAuto && tests.length === 0) {
+          // 如果是 auto 模式，且最后一个方向都不可见，则直接平移到可见区域
+          visibleY || (positionTop = window.innerHeight - transformed.height);
+          visibleX || (positionLeft = window.innerWidth - transformed.width);
         }
       }
     }

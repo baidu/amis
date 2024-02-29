@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "decoratorMetadata": true,
+      "legacyDecorator": true,
+      "react": {
+        "runtime": "classic"
+      }
+    },
+    "keepClassNames": true,
+    "externalHelpers": true,
+    "loose": false
+  },
+  "minify": false
+}

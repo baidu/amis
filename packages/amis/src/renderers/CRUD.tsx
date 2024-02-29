@@ -7,7 +7,8 @@ import {
   RendererProps,
   evalExpressionWithConditionBuilder,
   filterTarget,
-  mapTree
+  mapTree,
+  buildTestId
 } from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -759,6 +760,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       stopAutoRefreshWhenModalIsOpen
     } = this.props;
+
+    if (store.loading) {
+      //由于curd的loading样式未遮罩按钮部分，如果处于加载中时不处理操作
+      return;
+    }
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
@@ -2511,6 +2517,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSearchableFromInit,
       headerToolbarRender,
       footerToolbarRender,
+      testid,
       ...rest
     } = this.props;
 
@@ -2521,6 +2528,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
+        {...buildTestId(testid)}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(

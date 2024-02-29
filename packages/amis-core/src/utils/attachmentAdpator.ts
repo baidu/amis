@@ -38,7 +38,7 @@ export function attachmentAdpator(
         }
       }
 
-      let type = response.headers['content-type'];
+      let type = response.headers?.['content-type'];
       let blob =
         response.data.toString() === '[object Blob]'
           ? response.data

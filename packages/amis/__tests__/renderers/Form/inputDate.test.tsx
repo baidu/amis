@@ -509,7 +509,14 @@ test('Renderer:inputDate disabledDate', async () => {
   )!;
   expect(todayCell).toBeInTheDocument();
 
-  const toddayTr = todayCell.parentElement as HTMLElement;
+  const toddayTr: HTMLElement = // 因为周日被认为是第一天
+  // 当今天是周日的时候，moment().day(1) 是明天，moment().day(2) 是后天
+  // 而日历组件周日是最后一天，所以 moment().day(1) 其实是在下一组里面展示的
+  (
+    moment().day() === 0
+      ? todayCell.parentElement?.nextElementSibling
+      : todayCell.parentElement
+  ) as any;
 
   const mondayCell = toddayTr.querySelector(
     'td[data-value="' + monday.date() + '"]'
@@ -540,9 +547,8 @@ test('Renderer:inputDate defaultValue with formula', async () => {
 
   expect(input).toBeInTheDocument();
   expect(input.value).toBe('2021-12-06');
-
 });
-  
+
 test('Renderer:inputDate setValue actions with special words', async () => {
   const {container, submitBtn, onSubmit, getByText} = await setup([
     {

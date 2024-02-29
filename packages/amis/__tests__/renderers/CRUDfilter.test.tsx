@@ -162,7 +162,8 @@ test('Picker filter1', async () => {
       }
     });
   });
-  const {container} = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -217,6 +218,8 @@ test('Picker filter1', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container} as any)
     )
   );
+  container = renderResult.container;
+
   await wait(200);
   const pickerBtn = container.querySelector('span.cxd-Picker-btn')!;
   expect(pickerBtn).toBeTruthy();
@@ -249,7 +252,8 @@ test('Picker filter2', async () => {
       }
     });
   });
-  const {container} = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -295,6 +299,8 @@ test('Picker filter2', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container} as any)
     )
   );
+  container = renderResult.container;
+
   await wait(200);
   const pickerBtn = container.querySelector('span.cxd-Picker-btn')!;
   expect(pickerBtn).toBeTruthy();

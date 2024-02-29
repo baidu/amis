@@ -16,7 +16,8 @@ test('EventAction:prevent', async () => {
       }
     })
   );
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -84,6 +85,8 @@ test('EventAction:prevent', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   fireEvent.click(getByText('打开弹窗'));
   await waitFor(() => {
@@ -111,7 +114,8 @@ test('EventAction:ignoreError', async () => {
       }
     })
   );
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -156,6 +160,8 @@ test('EventAction:ignoreError', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   fireEvent.click(getByText('按钮'));
   await waitFor(() => {
