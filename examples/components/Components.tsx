@@ -988,13 +988,6 @@ export const components = [
         )
       },
       {
-        label: 'PDFViewer 渲染',
-        path: '/zh-CN/components/pdf-viewer',
-        component: React.lazy(() =>
-          import('../../docs/zh-CN/components/pdf-viewer.md').then(wrapDoc)
-        )
-      },
-      {
         label: 'Progress 进度条',
         path: '/zh-CN/components/progress',
         component: React.lazy(() =>
