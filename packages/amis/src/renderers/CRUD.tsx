@@ -7,7 +7,8 @@ import {
   RendererProps,
   evalExpressionWithConditionBuilder,
   filterTarget,
-  mapTree
+  mapTree,
+  buildTestId
 } from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -2516,6 +2517,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSearchableFromInit,
       headerToolbarRender,
       footerToolbarRender,
+      testid,
       ...rest
     } = this.props;
 
@@ -2526,6 +2528,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
+        {...buildTestId(testid)}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(

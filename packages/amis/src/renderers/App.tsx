@@ -8,7 +8,13 @@ import {
   SpinnerExtraProps
 } from 'amis-ui';
 import {Layout} from 'amis-ui';
-import {Renderer, RendererProps, filter, replaceText} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  envOverwrite,
+  filter,
+  replaceText
+} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
@@ -244,11 +250,13 @@ export default class App extends React.Component<AppProps, object> {
       store,
       env,
       showFullBreadcrumbPath = false,
-      showBreadcrumbHomePath = true
+      showBreadcrumbHomePath = true,
+      locale
     } = this.props;
 
     if (isEffectiveApi(api, store.data)) {
       const json = await store.fetchInitData(api, store.data, {});
+
       if (env.replaceText) {
         json.data = replaceText(
           json.data,
@@ -258,6 +266,8 @@ export default class App extends React.Component<AppProps, object> {
       }
 
       if (json?.data.pages) {
+        json.data = envOverwrite(json.data, locale);
+
         store.setPages(json.data.pages);
         store.updateActivePage(
           Object.assign({}, env ?? {}, {

@@ -1125,6 +1125,109 @@ test('Renderer:table-accessSuperData4', () => {
   expect(td2?.textContent).toBe('-');
 });
 
+// https://github.com/baidu/amis/issues/9556
+test('Renderer:table-accessSuperData5', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          engine: 'xxx',
+          items: [
+            {
+              id: 1
+            },
+            {
+              id: 2,
+              engine: 'Trident'
+            }
+          ]
+        },
+        body: {
+          type: 'table',
+          name: 'crud',
+          source: '${items}',
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+            {
+              type: 'static-text',
+              name: 'engine',
+              label: 'Rendering engine'
+            },
+            {
+              type: 'text',
+              name: 'engine',
+              label: 'Rendering engine'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const tds = [].slice
+    .call(container.querySelectorAll('td'))
+    .map((td: any) => td.textContent);
+  expect(tds).toEqual(['1', '-', '-', '2', 'Trident', 'Trident']);
+});
+test('Renderer:table-accessSuperData6', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          engine: 'xxx',
+          items: [
+            {
+              id: 1
+            },
+            {
+              id: 2,
+              engine: 'Trident'
+            }
+          ]
+        },
+        body: {
+          type: 'table',
+          name: 'crud',
+          source: '${items}',
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+            {
+              type: 'static-text',
+              name: 'engine',
+              label: 'Rendering engine',
+              canAccessSuperData: true
+            },
+            {
+              type: 'text',
+              name: 'engine',
+              label: 'Rendering engine'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const tds = [].slice
+    .call(container.querySelectorAll('td'))
+    .map((td: any) => td.textContent);
+  expect(tds).toEqual(['1', 'xxx', '-', '2', 'Trident', 'Trident']);
+});
+
 test('Renderer:table-each', () => {
   const {container, getByText} = render(
     amisRender(

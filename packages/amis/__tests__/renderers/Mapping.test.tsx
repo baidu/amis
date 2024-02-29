@@ -1,137 +1,156 @@
 import {render} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 
-const tag = (label: string) => render(
-  amisRender(
-    {type: 'tag', label},
-    {},
-    makeEnv({})
-  )
-).container;
+const tag = (label: string) =>
+  render(amisRender({type: 'tag', label}, {}, makeEnv({}))).container;
 
 test('Renderer:mapping width object map', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: {
-          1: "漂亮",
-          2: "开心",
-          3: "惊吓",
-          4: "紧张",
-          '*': '其他',
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: {
+            1: '漂亮',
+            2: '开心',
+            3: '惊吓',
+            4: '紧张',
+            '*': '其他'
+          },
+          ...(value !== undefined ? {value} : {})
         },
-        ...(value !== undefined ? {value} : {})
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
-  const value1 = setup(1).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value1 = setup(1).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value1.innerHTML).toBe('漂亮');
 
-  const value5 = setup(5).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value5 = setup(5).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value5.innerHTML).toBe('其他');
 });
 
 test('Renderer:mapping width array map', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: [
-          {1: "漂亮"},
-          {2: "开心"},
-          {3: "惊吓"},
-          {4: "紧张"},
-          {'*': '其他'}
-        ],
-        ...(value !== undefined ? {value} : {})
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: [
+            {1: '漂亮'},
+            {2: '开心'},
+            {3: '惊吓'},
+            {4: '紧张'},
+            {'*': '其他'}
+          ],
+          ...(value !== undefined ? {value} : {})
+        },
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
-  const value1 = setup(1).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value1 = setup(1).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value1.innerHTML).toBe('漂亮');
 
-  const value5 = setup(5).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value5 = setup(5).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value5.innerHTML).toBe('其他');
 });
 
 test('Renderer:mapping attr: valueField and labelField', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: [
-          {
-            name: 1,
-            text: '漂亮'
-          },
-          {
-            name: 2,
-            text: '开心'
-          },
-          {
-            name: '*',
-            text: '其他'
-          }
-        ],
-        labelField: 'text',
-        valueField: 'name',
-        ...(value !== undefined ? {value} : {})
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: [
+            {
+              name: 1,
+              text: '漂亮'
+            },
+            {
+              name: 2,
+              text: '开心'
+            },
+            {
+              name: '*',
+              text: '其他'
+            }
+          ],
+          labelField: 'text',
+          valueField: 'name',
+          ...(value !== undefined ? {value} : {})
+        },
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
-  const value1 = setup(1).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value1 = setup(1).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value1.innerHTML).toBe('漂亮');
 
-  const value5 = setup(5).querySelector('.cxd-MappingField .cxd-TplField span')! as HTMLElement;
+  const value5 = setup(5).querySelector(
+    '.cxd-MappingField .cxd-TplField span'
+  )! as HTMLElement;
   expect(value5.innerHTML).toBe('其他');
 });
 
 test('Renderer:mapping attr: itemSchema when simple map', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: [
-          {1: "漂亮"},
-          {2: "开心"},
-          {3: "惊吓"},
-          {4: "紧张"},
-          {'*': '其他'}
-        ],
-        valueField: 'name',
-        ...(value !== undefined ? {value} : {}),
-        itemSchema: {
-          type: 'tag',
-          label: '${item}'
-        }
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: [
+            {1: '漂亮'},
+            {2: '开心'},
+            {3: '惊吓'},
+            {4: '紧张'},
+            {'*': '其他'}
+          ],
+          valueField: 'name',
+          ...(value !== undefined ? {value} : {}),
+          itemSchema: {
+            type: 'tag',
+            label: '${item}'
+          }
+        },
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
   const value1 = setup(1).querySelector('.cxd-MappingField')! as HTMLElement;
@@ -142,37 +161,40 @@ test('Renderer:mapping attr: itemSchema when simple map', async () => {
 });
 
 test('Renderer:mapping attr: itemSchema when normal map', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: [
-          {
-            name: 1,
-            text: '漂亮'
-          },
-          {
-            name: 2,
-            text: '开心'
-          },
-          {
-            name: '*',
-            text: '其他'
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: [
+            {
+              name: 1,
+              text: '漂亮'
+            },
+            {
+              name: 2,
+              text: '开心'
+            },
+            {
+              name: '*',
+              text: '其他'
+            }
+          ],
+          valueField: 'name',
+          ...(value !== undefined ? {value} : {}),
+          itemSchema: {
+            type: 'tag',
+            label: '${name} ${text}'
           }
-        ],
-        valueField: 'name',
-        ...(value !== undefined ? {value} : {}),
-        itemSchema: {
-          type: 'tag',
-          label: '${name} ${text}'
-        }
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+        },
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
   const value1 = setup(1).querySelector('.cxd-MappingField')! as HTMLElement;
@@ -204,23 +226,24 @@ test('Renderer:mapping', async () => {
 });
 
 test('Renderer:mapping html', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: {
-          1: "<span class='label label-info'>漂亮</span>",
-          2: "<span class='label label-success'>开心</span>",
-          3: "<span class='label label-danger'>惊吓</span>",
-          4: "<span class='label label-warning'>紧张</span>",
-          '*': '其他'
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: {
+            1: "<span class='label label-info'>漂亮</span>",
+            2: "<span class='label label-success'>开心</span>",
+            3: "<span class='label label-danger'>惊吓</span>",
+            4: "<span class='label label-warning'>紧张</span>",
+            '*': '其他'
+          },
+          ...(value !== undefined ? {value} : {})
         },
-        ...(value !== undefined ? {value} : {})
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+        {},
+        makeEnv({})
+      )
+    ).container;
 
   expect(setup()).toMatchSnapshot();
   expect(setup(1)).toMatchSnapshot();
@@ -228,25 +251,28 @@ test('Renderer:mapping html', async () => {
 });
 
 test('Renderer:mapping schema', async () => {
-  const setup = (value?: any) => render(
-    amisRender(
-      {
-        type: 'mapping',
-        map: {
-          1: {type: 'tag', label: '漂亮'},
-          2: {type: 'tag', label: '开心'},
-          3: {type: 'tag', label: '惊吓'},
-          4: {type: 'tag', label: '紧张'},
-          '*': {type: 'tag', label: '其他'}
+  const setup = (value?: any) =>
+    render(
+      amisRender(
+        {
+          type: 'mapping',
+          map: {
+            1: {type: 'tag', label: '漂亮'},
+            2: {type: 'tag', label: '开心'},
+            3: {type: 'tag', label: '惊吓'},
+            4: {type: 'tag', label: '紧张'},
+            '*': {type: 'tag', label: '其他'}
+          },
+          ...(value !== undefined ? {value} : {})
         },
-        ...(value !== undefined ? {value} : {})
-      },
-      {},
-      makeEnv({})
-    )
-  ).container;
+        {},
+        makeEnv({})
+      )
+    ).container;
 
-  const noValue = setup().querySelector('.cxd-MappingField .text-muted')! as HTMLElement;
+  const noValue = setup().querySelector(
+    '.cxd-MappingField .text-muted'
+  )! as HTMLElement;
   expect(noValue.innerHTML).toBe('-');
 
   const value1 = setup(1).querySelector('.cxd-MappingField')! as HTMLElement;
@@ -254,4 +280,69 @@ test('Renderer:mapping schema', async () => {
 
   const value5 = setup(5).querySelector('.cxd-MappingField')! as HTMLElement;
   expect(value5.innerHTML).toBe(tag('其他').innerHTML);
+});
+
+// 对应 issue https://github.com/baidu/amis/issues/9613
+test('Renderer:mapping schema status', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          items: [
+            {
+              status: 1,
+              id: 1
+            }
+          ]
+        },
+        body: [
+          {
+            type: 'table',
+            title: '表格',
+            columns: [
+              {
+                name: 'id',
+                label: 'ID'
+              },
+              {
+                name: 'status',
+                label: '状态2',
+                type: 'mapping',
+                map: {
+                  '*': {
+                    type: 'status',
+                    map: {
+                      '0': 'schedule',
+                      '1': 'rolling',
+                      '2': 'success',
+                      '3': 'fail',
+                      '4': 'warning'
+                    },
+                    labelMap: {
+                      '2': '任务成功',
+                      '1': '处理中',
+                      '3': '异常终止',
+                      '0': '等待中',
+                      '4': '已过期'
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+
+  expect(
+    [].slice
+      .call(container.querySelectorAll('tbody td'))
+      .map((td: any) => td.textContent)
+  ).toEqual(['1', '处理中']);
 });

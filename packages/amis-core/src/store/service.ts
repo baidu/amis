@@ -6,7 +6,8 @@ import {ServerError} from '../utils/errors';
 import {normalizeApiResponseData} from '../utils/api';
 import {replaceText} from '../utils/replaceText';
 import {concatData} from '../utils/concatData';
-
+import {envOverwrite} from '../envOverwrite';
+import {filter} from 'amis-core';
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
   .props({
@@ -54,7 +55,7 @@ export const ServiceStore = iRendererStore
     }
 
     function updateMessage(msg?: string, error: boolean = false) {
-      self.msg = (msg && String(msg)) || '';
+      self.msg = (msg && filter(msg, self.data)) || '';
       self.error = error;
     }
 
@@ -445,6 +446,7 @@ export const ServiceStore = iRendererStore
         } else {
           if (json.data) {
             const env = getEnv(self);
+            json.data = envOverwrite(json.data, env.locale);
             json.data = replaceText(
               json.data,
               env.replaceText,
