@@ -2,10 +2,15 @@
   height: px2rem(30px);
   line-height: px2rem(30px);
   font-size: px2rem(12px);
+
   list-style: none;
   margin: 0;
   padding: 0 0 0 var(--gap-md);
   border-bottom: var(--borderWidth) solid var(--borderColor);
+
+  a {
+    font-size: inherit;
+  }
 
   &-item {
     display: inline-block;
