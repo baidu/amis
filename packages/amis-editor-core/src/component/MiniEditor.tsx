@@ -53,6 +53,7 @@ export default class MiniEditor extends Editor {
               theme={theme}
               data={data}
               autoFocus={autoFocus}
+              appLocale={this.props.appLocale}
             ></Preview>
           </div>
         </div>

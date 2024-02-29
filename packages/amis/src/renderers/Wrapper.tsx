@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {buildTestId, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {resolveVariable} from 'amis-core';
 import {SchemaNode} from 'amis-core';
@@ -59,7 +59,15 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, style, data, wrap} = this.props;
+    const {
+      className,
+      size,
+      classnames: cx,
+      style,
+      data,
+      wrap,
+      testid
+    } = this.props;
 
     // 期望不要使用，给 form controls 用法自动转换时使用的。
     if (wrap === false) {
@@ -74,6 +82,7 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
           className
         )}
         style={buildStyle(style, data)}
+        {...buildTestId(testid)}
       >
         {this.renderBody()}
       </div>

@@ -3,7 +3,7 @@ from split_markdown import split_markdown
 from embedding import get_embedding
 import gradio as gr
 import os
-import pickle
+import json
 from llm.wenxin import Wenxin, ModelName
 from dotenv import load_dotenv
 load_dotenv()
@@ -15,8 +15,8 @@ collection = chroma_client.get_collection(name="amis")
 wenxin = Wenxin()
 
 text_blocks_by_id = {}
-with open(os.path.join(os.path.dirname(__file__), 'text.pickle'), 'rb') as f:
-    text_blocks_by_id = pickle.load(f)
+with open(os.path.join(os.path.dirname(__file__), 'text.json'), 'rb') as f:
+    text_blocks_by_id = json.load(f)
 
 
 def get_prompt(context, query):

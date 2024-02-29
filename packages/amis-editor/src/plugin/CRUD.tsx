@@ -812,14 +812,19 @@ export class CRUDPlugin extends BasePlugin {
                   api: valueSchema.api?.method?.match(/^(post|put)$/i)
                     ? valueSchema.api
                     : {...valueSchema.api, method: 'post'},
-                  body: valueSchema.columns.map((column: ColumnItem) => {
-                    const type = column.type;
-                    return {
-                      type: viewTypeToEditType(type),
-                      name: column.name,
-                      label: column.label
-                    };
-                  })
+                  body: valueSchema.columns
+                    .filter(
+                      ({type}: any) =>
+                        type !== 'progress' && type !== 'operation'
+                    )
+                    .map((column: ColumnItem) => {
+                      const type = column.type;
+                      return {
+                        type: viewTypeToEditType(type),
+                        name: column.name,
+                        label: column.label
+                      };
+                    })
                 };
                 valueSchema.headerToolbar = [createSchemaBase, 'bulkActions'];
               }
