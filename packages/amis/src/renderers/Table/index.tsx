@@ -2843,6 +2843,7 @@ export default class Table extends React.Component<TableProps, object> {
 @Renderer({
   type: 'table',
   storeType: TableStore.name,
+  autoVar: true,
   name: 'table'
 })
 export class TableRenderer extends Table {
