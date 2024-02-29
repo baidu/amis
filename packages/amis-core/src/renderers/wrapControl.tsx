@@ -468,7 +468,7 @@ export function wrapControl<
 
           setInitialValue(value: any) {
             const model = this.model!;
-            const {formStore: form, canAccessSuperData, data} = this.props;
+            const {formStore: form, data, canAccessSuperData} = this.props;
             const isExp = isExpression(value);
 
             if (isExp) {

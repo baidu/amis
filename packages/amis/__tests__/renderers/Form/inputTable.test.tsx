@@ -947,3 +947,75 @@ test('Renderer:input-table autoFill', async () => {
     ]
   });
 });
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9520
+test('Renderer:input-table canAccessSuperData', async () => {
+  const onSubmit = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            a: 'xxx',
+            table: [
+              {
+                a: 'a1',
+                b: 'b1'
+              }
+            ]
+          },
+          api: '/amis/api/mock2/form/saveForm',
+          body: [
+            {
+              showIndex: true,
+              type: 'input-table',
+              name: 'table',
+              addable: true,
+              needConfirm: true,
+              columns: [
+                {
+                  name: 'a',
+                  label: 'A',
+                  type: 'wrapper',
+                  body: [
+                    {
+                      name: 'a',
+                      label: false,
+                      type: 'input-text'
+                    }
+                  ]
+                },
+                {
+                  name: 'b',
+                  label: 'B',
+                  type: 'input-text'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const addBtn = container.querySelector('.cxd-OperationField button');
+  expect(addBtn).toBeInTheDocument();
+  fireEvent.click(addBtn!);
+
+  await wait(200);
+  const confrimBtn = container.querySelector('.cxd-OperationField button');
+  expect(confrimBtn).toBeInTheDocument();
+  fireEvent.click(confrimBtn!);
+
+  await wait(200);
+  const inputs = [].slice
+    .call(container.querySelectorAll('tbody td input[name="a"]'))
+    .map((td: any) => td.value);
+
+  expect(inputs).toEqual(['a1', '']);
+});
