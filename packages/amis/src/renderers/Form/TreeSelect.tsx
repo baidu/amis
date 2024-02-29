@@ -257,22 +257,28 @@ export default class TreeSelectControl extends React.Component<
       : options;
   }
 
+  resolveOption(options: any, value: string) {
+    return findTree(options, item => {
+      const valueAbility = this.props.valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      return itemValue === value;
+    });
+  }
+
   handleFocus(e: any) {
     const {dispatchEvent, value} = this.props;
-
-    dispatchEvent(
-      'focus',
-      resolveEventData(this.props, {value, items: this.resolveOptions()})
-    );
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
+    dispatchEvent('focus', resolveEventData(this.props, {value, item, items}));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value} = this.props;
-
-    dispatchEvent(
-      'blur',
-      resolveEventData(this.props, {value, items: this.resolveOptions()})
-    );
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
+    dispatchEvent('blur', resolveEventData(this.props, {value, item, items}));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -549,36 +555,28 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   editItemFromAction(item: Option, originValue: any) {
-    const {onEdit, options, valueField} = this.props;
-    const editItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
-      return value === originValue;
-    });
+    const {onEdit, options} = this.props;
+    const editItem = this.resolveOption(options, originValue);
     onEdit && editItem && onEdit({...item, originValue}, editItem, true);
   }
 
   @autobind
   deleteItemFromAction(value: any) {
-    const {onDelete, options, valueField} = this.props;
-    const deleteItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const itemValue = hasAbility(item, valueAbility)
-        ? item[valueAbility]
-        : '';
-      return itemValue === value;
-    });
+    const {onDelete, options} = this.props;
+    const deleteItem = this.resolveOption(options, value);
     onDelete && deleteItem && onDelete(deleteItem);
   }
 
   @autobind
   async resultChangeEvent(value: any) {
     const {onChange, dispatchEvent} = this.props;
-
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
         value,
+        item,
         items: this.resolveOptions()
       })
     );

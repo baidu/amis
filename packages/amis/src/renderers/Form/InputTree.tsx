@@ -263,6 +263,16 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
   }
 
+  resolveOption(options: Array<Option>, value: any) {
+    return findTree(options, item => {
+      const valueAbility = this.props.valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      return itemValue === value;
+    });
+  }
+
   @autobind
   addItemFromAction(item: Option, parentValue?: any) {
     const {onAdd, options, valueField} = this.props;
@@ -277,25 +287,15 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   @autobind
   editItemFromAction(item: Option, originValue: any) {
-    const {onEdit, options, valueField} = this.props;
-    const editItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
-      return value === originValue;
-    });
+    const {onEdit, options} = this.props;
+    const editItem = this.resolveOption(options, originValue);
     onEdit && editItem && onEdit({...item, originValue}, editItem, true);
   }
 
   @autobind
   deleteItemFromAction(value: any) {
-    const {onDelete, options, valueField} = this.props;
-    const deleteItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const itemValue = hasAbility(item, valueAbility)
-        ? item[valueAbility]
-        : '';
-      return itemValue === value;
-    });
+    const {onDelete, options} = this.props;
+    const deleteItem = this.resolveOption(options, value);
     onDelete && deleteItem && onDelete(deleteItem);
   }
 
@@ -328,12 +328,14 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   async handleChange(value: any) {
     const {onChange, searchable, options, dispatchEvent} = this.props;
     const {filteredOptions} = this.state;
-
+    const items = searchable ? filteredOptions : options;
+    const item = this.resolveOption(items, value);
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
         value,
-        items: searchable ? filteredOptions : options
+        item,
+        items
       })
     );
 
