@@ -1288,7 +1288,7 @@ export const TableStore = iRendererStore
           typeof column.pristine.width === 'number'
             ? `width: ${column.pristine.width}px;`
             : column.pristine.width
-            ? `width: ${column.pristine.width};`
+            ? `width: ${column.pristine.width};min-width: ${column.pristine.width};`
             : '' // todo 可能需要让修改过列宽的保持相应宽度，目前这样相当于重置了
         }`;
       });

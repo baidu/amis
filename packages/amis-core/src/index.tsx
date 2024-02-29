@@ -206,7 +206,8 @@ export {
   splitTarget,
   CustomStyle,
   enableDebug,
-  disableDebug
+  disableDebug,
+  envOverwrite
 };
 
 export function render(

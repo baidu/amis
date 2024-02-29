@@ -73,7 +73,7 @@ function normalizeValue(value: any, language?: string) {
 export class DiffEditor extends React.Component<DiffEditorProps, any> {
   static defaultProps: Partial<DiffEditorProps> = {
     language: 'javascript',
-    theme: 'vs',
+    editorTheme: 'vs',
     options: {
       automaticLayout: false,
       selectOnLineNumbers: true,
@@ -304,7 +304,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       size,
       options,
       language,
-      theme,
+      editorTheme,
       classnames: cx
     } = this.props;
 
@@ -326,7 +326,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
           onChange={onChange}
           disabled={disabled}
           language={language}
-          theme={theme}
+          editorTheme={editorTheme}
           editorDidMount={this.handleEditorMounted}
           editorFactory={this.editorFactory}
           options={{

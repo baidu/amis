@@ -8,7 +8,7 @@ export default {
     body: [
       {
         type: 'input-file',
-        name: 'file.test',
+        name: 'file',
         label: '选择 PDF 文件预览效果（不会上传到服务器）',
         asBlob: true,
         accept: '.pdf'
@@ -16,7 +16,7 @@ export default {
       {
         type: 'pdf-viewer',
         id: 'pdf-viewer',
-        name: 'file.test'
+        name: 'file'
       }
     ]
   }

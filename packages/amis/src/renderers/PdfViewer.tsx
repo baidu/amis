@@ -28,7 +28,7 @@ export interface PdfViewerSchema extends BaseSchema {
    */
   src?: string;
   /**
-   * 文件取值，一般配个表单使用
+   * 文件取值，一般配合表单使用
    */
   name?: string;
   width?: number;

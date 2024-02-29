@@ -30,7 +30,8 @@ import {
   isApiOutdated,
   isPureVariable,
   resolveVariableAndFilter,
-  parsePrimitiveQueryString
+  parsePrimitiveQueryString,
+  buildTestId
 } from 'amis-core';
 import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
@@ -1308,6 +1309,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       columnsTogglable,
       headerToolbarClassName,
       footerToolbarClassName,
+      testid,
       ...rest
     } = this.props;
 
@@ -1317,6 +1319,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'is-loading': store.loading
         })}
         style={style}
+        {...buildTestId(testid)}
       >
         <div className={cx('Crud2-filter')}>
           {this.renderFilter(filterSchema)}
