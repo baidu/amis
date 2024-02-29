@@ -19,5 +19,6 @@ import './EmailAction';
 import './LinkAction';
 import './ToastAction';
 import './PageAction';
+import './PrintAction';
 
 export * from './Action';

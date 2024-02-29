@@ -5,7 +5,8 @@ import {
   RendererProps,
   buildStyle,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  buildTestId
 } from 'amis-core';
 import pick from 'lodash/pick';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
@@ -212,7 +213,8 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss
+      themeCss,
+      testid
     } = this.props;
     const styleVar = buildStyle(style, data);
     return (
@@ -239,6 +241,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           })
         )}
         style={styleVar}
+        {...buildTestId(testid)}
       >
         {this.renderColumns(this.props.columns)}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />
