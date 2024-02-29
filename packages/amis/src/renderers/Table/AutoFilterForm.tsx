@@ -191,7 +191,8 @@ export function AutoFilterForm({
     autoGenerateFilter,
     activedSearchableColumns,
     searchableColumns,
-    searchFormExpanded
+    searchFormExpanded,
+    __ // 保证语言更新后能重新渲染
   ]);
 
   return render('searchable-form', schema, {

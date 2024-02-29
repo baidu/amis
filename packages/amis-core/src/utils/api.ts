@@ -368,7 +368,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
   if (typeof data === 'string') {
-    const contentType = (ret.headers as any)['content-type'] || '';
+    const contentType = (ret.headers as any)?.['content-type'] || '';
     // 如果是文本类型就尝试解析一下
     if (
       ret.headers &&
