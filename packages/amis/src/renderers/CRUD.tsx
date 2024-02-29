@@ -982,8 +982,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   handleFilterReset(values: object, action: any) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
+    const resetQuery: any = {};
+    Object.keys(values).forEach(key => (resetQuery[key] = ''));
     store.updateQuery(
-      store.pristineQuery,
+      {
+        ...resetQuery,
+        ...store.pristineQuery
+      },
       syncLocation && env && env.updateLocation
         ? (location: any) => env.updateLocation(location)
         : undefined,
