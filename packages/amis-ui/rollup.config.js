@@ -49,8 +49,7 @@ const input = [
   './src/components/Markdown.tsx',
   './src/components/Tinymce.tsx',
   './src/components/RichText.tsx',
-  './src/components/CityDB.ts',
-  './src/components/PdfViewer.tsx'
+  './src/components/CityDB.ts'
 ];
 
 /** 获取子包编译后的入口路径，需要使用相对路径 */

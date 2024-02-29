@@ -130,7 +130,6 @@ import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
 import CodeSchema from './Code';
 import OfficeViewer from './OfficeViewer';
-import PdfViewer from './PdfViewer';
 import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
 import WizardPage from './WizardPage';
 
@@ -911,13 +910,6 @@ export const examples = [
         icon: 'fa fa-file-word',
         path: '/examples/office-viwewer',
         component: makeSchemaRenderer(OfficeViewer)
-      },
-
-      {
-        label: 'Pdf 预览',
-        icon: 'fa fa-file-pdf',
-        path: '/examples/pdf-viewer',
-        component: makeSchemaRenderer(PdfViewer)
       },
 
       {
