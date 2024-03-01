@@ -153,6 +153,7 @@ import './renderers/Password';
 import './renderers/DateRange';
 import './renderers/MultilineText';
 import './renderers/OfficeViewer';
+import './renderers/PdfViewer';
 import './renderers/AMIS';
 
 import './compat';
