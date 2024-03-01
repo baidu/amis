@@ -7,7 +7,8 @@ import {normalizeApiResponseData} from '../utils/api';
 import {replaceText} from '../utils/replaceText';
 import {concatData} from '../utils/concatData';
 import {envOverwrite} from '../envOverwrite';
-import {filter} from 'amis-core';
+import {filter} from '../utils';
+
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
   .props({
