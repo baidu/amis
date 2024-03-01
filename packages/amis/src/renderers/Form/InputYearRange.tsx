@@ -50,6 +50,7 @@ export default class YearRangeControl extends InputDateRange {
               ? env?.getModalContainer
               : rest.popOverContainer || env.getModalContainer
           }
+          onRef={this.getRef}
           data={data}
           {...rest}
           minDate={
