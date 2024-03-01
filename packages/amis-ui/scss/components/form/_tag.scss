@@ -108,7 +108,8 @@
   }
 }
 
-.#{$ns}TagControl-popover {
+.#{$ns}TagControl-popover,
+.#{$ns}ListMenu-popover {
   &.#{$ns}PopOver--leftBottomLeftTop > .#{$ns}ListMenu {
     border-top-left-radius: 0;
     border-top-right-radius: 0;

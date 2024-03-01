@@ -15,19 +15,18 @@ import {InputBoxProps} from '../../../amis-ui/src/components/InputBox';
 import cx from 'classnames';
 import {getEnv} from 'mobx-state-tree';
 import {pick} from 'lodash';
+import {LocaleProps} from 'amis-core';
 
 /** 语料 key 正则表达式 */
 export const corpusKeyReg =
   /^i18n:[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$/;
 
-interface InputTextI18nProps extends InputBoxProps {
+interface InputTextI18nProps extends InputBoxProps, LocaleProps {
   classPrefix: string;
   i18nEnabled?: boolean;
   disabled?: boolean;
-  locale?: string;
   maxLength?: number;
   minLength?: number;
-  translate?: (value: any) => any;
   onI18nChange?: (value: string) => void;
 }
 

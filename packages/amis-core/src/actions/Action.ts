@@ -344,6 +344,7 @@ export const runAction = async (
     {
       ...action,
       args,
+      rawData: actionConfig.data,
       data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
       ...key
     },

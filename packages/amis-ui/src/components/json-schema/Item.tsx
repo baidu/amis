@@ -17,6 +17,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
   } else if (schema.type == 'number') {
     return (
       <NumberInput
+        className={props.className}
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}
@@ -26,6 +27,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
   } else if (schema.type == 'integer') {
     return (
       <NumberInput
+        className={props.className}
         value={props.value}
         onChange={props.onChange}
         precision={0}
@@ -41,6 +43,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
 
   return (
     <InputBox
+      className={props.className}
       value={props.value}
       onChange={props.onChange}
       placeholder={props.placeholder}

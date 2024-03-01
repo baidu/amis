@@ -64,6 +64,7 @@
       align-items: unset;
       border-top: 1px solid #e5e5e5;
       background: #f2f2f4;
+      border-radius: 0 !important;
       @include collapse-header-text();
 
       i {

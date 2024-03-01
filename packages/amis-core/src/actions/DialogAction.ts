@@ -76,7 +76,8 @@ export class DialogAction implements RendererAction {
       {
         actionType: 'dialog',
         dialog: action.dialog,
-        reload: 'none'
+        reload: 'none',
+        data: action.rawData
       },
       action.data
     );
@@ -142,11 +143,20 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const type = action.dialog?.type ?? (action.args as any)?.type;
+    let modal: any = action.dialog ?? action.args;
+
+    if (modal.$ref && renderer.props.resolveDefinitions) {
+      modal = {
+        ...renderer.props.resolveDefinitions(modal.$ref),
+        ...modal
+      };
+    }
+
+    const type = modal?.type;
 
     if (!type) {
       const confirmed = await event.context.env.confirm?.(
-        filter(action.dialog?.msg, event.data) || action.args?.msg,
+        filter(modal?.msg, event.data) || action.args?.msg,
         filter(action.dialog?.title, event.data) || action.args?.title,
         {
           closeOnEsc:
@@ -177,7 +187,8 @@ export class ConfirmAction implements RendererAction {
         event,
         {
           actionType: 'dialog',
-          dialog: action.dialog ?? action.args,
+          dialog: modal,
+          data: action.rawData,
           reload: 'none',
           callback: (result: boolean) => resolve(result)
         },

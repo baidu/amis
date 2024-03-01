@@ -7,6 +7,7 @@ import {Icon, InputBox, Tab, Tabs} from 'amis';
 import {EditorNodeType} from '../../store/node';
 import {isAlive} from 'mobx-state-tree';
 import type {Schema} from 'amis';
+import DialogList from './DialogList';
 
 @observer
 export class OutlinePanel extends React.Component<PanelProps> {
@@ -42,8 +43,8 @@ export class OutlinePanel extends React.Component<PanelProps> {
     e: React.MouseEvent<HTMLAnchorElement>,
     option: Schema
   ) {
-    const store = this.props.store;
-    store.setPreviewDialogId(option.$$id);
+    // const store = this.props.store;
+    // store.setPreviewDialogId(option.$$id);
   }
 
   @autobind
@@ -61,9 +62,9 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const store = this.props.store;
     if (key && isAlive(store)) {
       store.changeOutlineTabsKey(key);
-      if (key === 'component-outline') {
-        store.setPreviewDialogId();
-      }
+      // if (key === 'component-outline') {
+      //   store.setPreviewDialogId();
+      // }
     }
   }
 
@@ -250,15 +251,13 @@ export class OutlinePanel extends React.Component<PanelProps> {
   }
 
   renderDialogItem(option: any, index: number) {
-    const store = this.props.store;
-    const children = store.root.children;
-    const isSelectedDialog = option.$$id === store.previewDialogId;
+    // const store = this.props.store;
+    // const children = store.root.children;
+    // const isSelectedDialog = option.$$id === store.previewDialogId;
 
     const dialogLabel = this.getDialogLabel(option, false);
 
-    return children?.length && isSelectedDialog ? (
-      this.renderItem(children[0], index, 'dialog')
-    ) : (
+    return (
       <li className={cx('ae-Outline-node')} key={index}>
         <a onClick={e => this.handleDialogNodeClick(e, option)}>
           <span className="ae-Outline-node-text">
@@ -277,7 +276,6 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const {store} = this.props;
     const outlineTabsKey = store.outlineTabsKey || 'component-outline';
     const options = store.outline;
-    const dialogOptions = store.dialogOutlineList;
 
     return (
       <div className="ae-Outline-panel">
@@ -336,46 +334,16 @@ export class OutlinePanel extends React.Component<PanelProps> {
               )}
             </div>
           </Tab>
-          <Tab
-            className={'ae-outline-tabs-panel'}
-            key={'dialog-outline'}
-            eventKey={'dialog-outline'}
-            title={'弹窗大纲'}
-          >
-            <InputBox
-              className="editor-InputSearch"
-              value={curSearchElemKey}
-              onChange={this.handleSearchElemKeyChange}
-              placeholder={'查询页面元素'}
-              clearable={false}
+          {store.isSubEditor ? null : (
+            <Tab
+              className={'ae-outline-tabs-panel'}
+              key={'dialog-outline'}
+              eventKey={'dialog-outline'}
+              title={'弹窗列表'}
             >
-              {curSearchElemKey ? (
-                <a onClick={this.clearSearchElemKey}>
-                  <Icon icon="close" className="icon" />
-                </a>
-              ) : (
-                <Icon icon="editor-search" className="icon" />
-              )}
-            </InputBox>
-            <hr className="margin-top" />
-            <div
-              className={cx('ae-Outline', 'hoverShowScrollBar', {
-                'ae-Outline--draging': store.dragging
-              })}
-              onDragOver={this.handleDragOver}
-              onDrop={this.handleDrop}
-            >
-              {dialogOptions.length ? (
-                <ul className="ae-Outline-list">
-                  {dialogOptions.map((option, index) =>
-                    this.renderDialogItem(option, index)
-                  )}
-                </ul>
-              ) : (
-                <div>暂无数据</div>
-              )}
-            </div>
-          </Tab>
+              <DialogList store={store} classnames={cx} />
+            </Tab>
+          )}
         </Tabs>
       </div>
     );

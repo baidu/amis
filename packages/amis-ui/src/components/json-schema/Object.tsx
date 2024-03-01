@@ -26,7 +26,9 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     renderKey,
     collapsable,
     renderValue,
-    mobileUI
+    mobileUI,
+    className,
+    addButtonText
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
@@ -205,7 +207,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       ) : null}
 
       <div
-        className={cx('JSONSchemaObject', {
+        className={cx('JSONSchemaObject', className, {
           'is-mobile': mobileUI,
           'is-expanded': collapsable && !collapsed
         })}
@@ -306,6 +308,9 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                 <div className={cx('JSONSchemaMember-value')}>
                   <InputJSONSchemaItem
                     {...props}
+                    className=""
+                    addButtonText={undefined}
+                    required={member.required}
                     value={value?.[member.name]}
                     onChange={onMemberChange.bind(null, member)}
                     schema={
@@ -339,7 +344,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
             size="xs"
             disabled={disabled}
           >
-            {__('JSONSchema.add_prop')}
+            {addButtonText ?? __('JSONSchema.add_prop')}
           </Button>
         ) : null}
       </div>

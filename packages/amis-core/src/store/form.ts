@@ -548,11 +548,17 @@ export const FormStore = ServiceStore.named('FormStore')
       self.submiting = true;
 
       try {
-        yield validate(hooks, true, true, failedMessage, validateErrCb);
+        const valid = yield validate(
+          hooks,
+          true,
+          true,
+          failedMessage,
+          validateErrCb
+        );
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
-          const result = yield fn(
+          const result: any = yield fn(
             createObject(
               createObject(self.data.__super, {
                 diff: diff,
@@ -578,7 +584,7 @@ export const FormStore = ServiceStore.named('FormStore')
       failedMessage?: string,
       validateErrCb?: () => void
     ) => Promise<boolean> = flow(function* validate(
-      hooks?: Array<() => Promise<any>>,
+      hooks?: Array<(data: any) => Promise<any>>,
       forceValidate?: boolean,
       throwErrors?: boolean,
       failedMessage?: string,
@@ -624,10 +630,30 @@ export const FormStore = ServiceStore.named('FormStore')
         }
       }
 
-      if (hooks && hooks.length) {
-        for (let i = 0, len = hooks.length; i < len; i++) {
-          yield hooks[i]();
+      try {
+        if (hooks && hooks.length) {
+          for (let i = 0, len = hooks.length; i < len; i++) {
+            const msg = yield hooks[i](self.data);
+
+            if (typeof msg == 'string' && msg) {
+              throw new Error(msg);
+            } else if (msg === false) {
+              // 不提示直接不通过校验
+              throw new ValidateError(
+                failedMessage || self.__('Form.validateFailed'),
+                self.errors
+              );
+            }
+          }
         }
+      } catch (e) {
+        if (throwErrors) {
+          throw e;
+        } else {
+          toastValidateError(e.message);
+        }
+
+        return false;
       }
 
       if (!self.valid) {

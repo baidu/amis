@@ -123,6 +123,45 @@ order: 61
 }
 ```
 
+## Mini 版本
+
+通过设置 `mini` 属性可以开启 mini 版本，适用于宽度窄的情况。同时通过 `advancedSettings` 可以定制弹窗中的配置面板。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "json-schema-editor",
+            "name": "schema",
+            "label": "字段类型",
+            "mini": true,
+            "style": {
+                "width": 300
+            },
+            "advancedSettings": {
+                "string": [
+                    {
+                        "type": "input-text",
+                        "name": "maxLength",
+                        "label": "Max Length"
+                    }
+                ],
+                "number": [
+                    {
+                        "type": "input-number",
+                        "name": "max",
+                        "label": "Max"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
 ## 占位提示
 
 > 2.8.0 及以上版本
@@ -160,6 +199,7 @@ order: 61
 | showRootInfo    | `boolean`                     | false                                                                                    | 是否显示顶级类型信息                                                                             |
 | disabledTypes   | `Array<string>`               |                                                                                          | 用来禁用默认数据类型，默认类型有：string、number、interger、object、number、array、boolean、null |
 | definitions     | `object`                      |                                                                                          | 用来配置预设类型                                                                                 |
+| mini            | `boolean`                     |                                                                                          | 用来开启迷你模式，适应于边栏面板，宽度较低的情况                                                 |
 | placeholder     | `SchemaEditorItemPlaceholder` | `{key: "字段名", title: "名称", description: "描述", default: "默认值", empty: "<空>",}` | 属性输入控件的占位提示文本                                                                       | `2.8.0` |
 
 ### SchemaEditorItemPlaceholder

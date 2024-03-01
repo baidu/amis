@@ -1205,7 +1205,7 @@ export default class Form extends React.Component<FormProps, object> {
         return;
       }
 
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
 
       if (action.actionType === 'reset-and-submit') {
         store.reset(this.handleReset(action));
@@ -1372,16 +1372,16 @@ export default class Form extends React.Component<FormProps, object> {
           }
         });
     } else if (action.type === 'reset' || action.actionType === 'reset') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.reset(onReset);
     } else if (action.actionType === 'clear') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.clear(onReset);
     } else if (action.actionType === 'validate') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       return this.validate(true, throwErrors, true, true);
     } else if (action.actionType === 'dialog') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDialog(
         data,
         undefined,
@@ -1389,10 +1389,10 @@ export default class Form extends React.Component<FormProps, object> {
         delegate || (this.context as any)
       );
     } else if (action.actionType === 'drawer') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDrawer(data);
     } else if (action.actionType === 'ajax') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       if (!isEffectiveApi(action.api)) {
         return env.alert(__(`当 actionType 为 ajax 时，请设置 api 属性`));
       }
@@ -1447,7 +1447,7 @@ export default class Form extends React.Component<FormProps, object> {
           }
         });
     } else if (action.actionType === 'reload') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       if (action.target) {
         this.reloadTarget(filterTarget(action.target, data), data);
       } else {
@@ -1558,11 +1558,14 @@ export default class Form extends React.Component<FormProps, object> {
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,
