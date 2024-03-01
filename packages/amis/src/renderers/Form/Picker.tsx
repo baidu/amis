@@ -172,9 +172,16 @@ export default class PickerControl extends React.PureComponent<
   };
 
   input: React.RefObject<HTMLInputElement> = React.createRef();
+  toDispose: Array<() => void> = [];
 
-  componentDidMount() {
-    this.fetchOptions();
+  constructor(props: PickerProps) {
+    super(props);
+
+    const {formInited, addHook} = props;
+
+    formInited || !addHook
+      ? this.fetchOptions()
+      : this.toDispose.push(addHook(this.fetchOptions, 'init'));
   }
 
   componentDidUpdate(prevProps: PickerProps) {
@@ -196,7 +203,13 @@ export default class PickerControl extends React.PureComponent<
     }
   }
 
-  fetchOptions() {
+  componentWillUnmount(): void {
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+  }
+
+  @autobind
+  fetchOptions(): any {
     const {value, formItem, valueField, labelField, source, data} = this.props;
     let selectedOptions: any;
 
@@ -221,7 +234,7 @@ export default class PickerControl extends React.PureComponent<
     if (isPureVariable(source)) {
       formItem.setOptions(resolveVariableAndFilter(source, data, '| raw'));
     } else if (isEffectiveApi(source, ctx)) {
-      formItem.loadOptions(source, ctx, {
+      return formItem.loadOptions(source, ctx, {
         autoAppend: true
       });
     }
