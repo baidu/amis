@@ -172,10 +172,12 @@ export class TabsTransfer extends React.Component<
       selectMode,
       loadingConfig,
       valueField = 'value',
-      labelField = 'label'
+      labelField = 'label',
+      testIdBuilder
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode || selectMode; // 没有配置时默认和左侧选项展示形式一致
+    const searchTIB = testIdBuilder?.getChild('search-result');
 
     return mode === 'table' ? (
       <TableCheckboxes
@@ -190,6 +192,7 @@ export class TabsTransfer extends React.Component<
         cellRender={cellRender}
         itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
+        testIdBuilder={searchTIB}
       />
     ) : mode === 'tree' ? (
       <Tree
@@ -214,6 +217,7 @@ export class TabsTransfer extends React.Component<
         }
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={searchTIB}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -236,6 +240,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={searchTIB}
       />
     ) : (
       <ListCheckboxes
@@ -258,6 +263,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={searchTIB}
       />
     );
   }
@@ -272,7 +278,8 @@ export class TabsTransfer extends React.Component<
       translate: __,
       ctx,
       mobileUI,
-      searchable
+      searchable,
+      testIdBuilder
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -290,6 +297,7 @@ export class TabsTransfer extends React.Component<
         className={cx('TabsTransfer-tabs')}
         onSelect={this.handleTabChange}
         activeKey={activeKey}
+        testIdBuilder={testIdBuilder?.getChild('tabs')}
       >
         {showOptions.map((option, index) => (
           <Tab
@@ -300,6 +308,7 @@ export class TabsTransfer extends React.Component<
               createObject(ctx, option)
             )}
             className="TabsTransfer-tab"
+            testIdBuilder={testIdBuilder?.getChild(`tab-${index}`)}
           >
             {option.searchable || searchable ? (
               <div
@@ -351,9 +360,11 @@ export class TabsTransfer extends React.Component<
       loadingConfig,
       valueField = 'value',
       labelField = 'label',
-      deferField = 'defer'
+      deferField = 'defer',
+      testIdBuilder
     } = this.props;
     const selectMode = option.selectMode || this.props.selectMode;
+    const selTIB = testIdBuilder?.getChild('selection');
 
     return selectMode === 'table' ? (
       <TableCheckboxes
@@ -371,6 +382,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={selTIB}
       />
     ) : selectMode === 'tree' ? (
       <Tree
@@ -400,6 +412,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={selTIB}
       />
     ) : selectMode === 'chained' ? (
       <ChainedCheckboxes
@@ -425,6 +438,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={selTIB}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedCheckboxes
@@ -455,6 +469,7 @@ export class TabsTransfer extends React.Component<
         valueField={valueField}
         labelField={labelField}
         deferField={deferField}
+        testIdBuilder={selTIB}
       />
     ) : (
       <ListCheckboxes
@@ -479,6 +494,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        testIdBuilder={selTIB}
       />
     );
   }
