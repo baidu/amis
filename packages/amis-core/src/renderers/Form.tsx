@@ -49,7 +49,7 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
-import {injectObjectChain} from '../utils';
+import {buildTestId, injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
 
 export interface FormHorizontal {
@@ -1811,7 +1811,8 @@ export default class Form extends React.Component<FormProps, object> {
       render,
       staticClassName,
       static: isStatic = false,
-      loadingConfig
+      loadingConfig,
+      testid
     } = this.props;
 
     const {restError} = store;
@@ -1843,6 +1844,7 @@ export default class Form extends React.Component<FormProps, object> {
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
+        {...buildTestId(testid)}
       >
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />
