@@ -465,7 +465,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         : query;
 
     store.updateQuery(
-      resetQuery ? this.props.store.pristineQuery : query,
+      resetQuery ? {...query, ...this.props.store.pristineQuery} : query,
       syncLocation && env && env.updateLocation
         ? (location: any) => env.updateLocation(location, true)
         : undefined,
@@ -1086,11 +1086,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         key: index + 'filter',
         data: this.props.store.filterData,
         onSubmit: (data: any) => this.handleSearch({query: data}),
-        onReset: () =>
+        onReset: (data: any) => {
+          const resetQueries: any = {};
+          Object.keys(data!).forEach(key => (resetQueries[key] = ''));
+
           this.handleSearch({
+            query: resetQueries,
             resetQuery: true,
             replaceQuery: true
-          })
+          });
+        }
       })
     );
   }
