@@ -1818,9 +1818,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       updatePristineAfterStoreDataReInit
     } = this.props;
     const finnalItems = Array.isArray(finnalControls)
-      ? finnalControls.map(item => {
+      ? finnalControls.map((item, itemIndex) => {
           const indexKey = index !== undefined && index >= 0 ? `-${index}` : '';
-          const key = `item-${item.testid || item.id}` + indexKey;
+          const key = `item-${item.testid || item.id || itemIndex}` + indexKey;
           return {
             ...item,
             testIdBuilder: testIdBuilder?.getChild(key)

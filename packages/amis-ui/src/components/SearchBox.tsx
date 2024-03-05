@@ -349,6 +349,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
               'SearchBox-searchBtn--loading': loading
             })}
             onClick={this.handleSearch}
+            {...testIdBuilder?.getChild('search').getTestId()}
           >
             {loading ? (
               <Spinner

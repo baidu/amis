@@ -1166,7 +1166,7 @@ export class TreeSelector extends React.Component<
         checked={checked || partial}
         partial={partial}
         onChange={this.handleCheck.bind(this, item, !checked)}
-        {...itemTestBuilder?.getChild('chekbx').getTestId()}
+        testIdBuilder={itemTestBuilder?.getChild('chekbx')}
       />
     ) : showRadio ? (
       <Checkbox
@@ -1174,7 +1174,7 @@ export class TreeSelector extends React.Component<
         disabled={disabled}
         checked={checked}
         onChange={this.handleSelect.bind(this, item)}
-        {...itemTestBuilder?.getChild('chekbx').getTestId()}
+        testIdBuilder={itemTestBuilder?.getChild('chekbx')}
       />
     ) : null;
 

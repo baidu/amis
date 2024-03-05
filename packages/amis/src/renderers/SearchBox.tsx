@@ -15,7 +15,7 @@ import {
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {SearchBox} from 'amis-ui';
 
-import type {ListenerAction} from 'amis-core';
+import {ListenerAction, TestIdBuilder} from 'amis-core';
 import type {SpinnerExtraProps} from 'amis-ui';
 
 /**
@@ -82,6 +82,7 @@ interface SearchBoxProps
   name: string;
   onQuery?: (query: {[propName: string]: string}) => any;
   loading?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface SearchBoxState {
@@ -212,7 +213,8 @@ export class SearchBoxRenderer extends React.Component<
       mobileUI,
       loading,
       loadingConfig,
-      onEvent
+      onEvent,
+      testIdBuilder
     } = this.props;
     const value = this.state.value;
     /** 有可能通过Search事件处理 */
@@ -241,6 +243,7 @@ export class SearchBoxRenderer extends React.Component<
         onFocus={() => this.dispatchEvent('focus')}
         onBlur={() => this.dispatchEvent('blur')}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder}
       />
     );
   }

@@ -596,7 +596,8 @@ export class BaseTransferRenderer<
       pagination,
       formItem,
       env,
-      popOverContainer
+      popOverContainer,
+      testIdBuilder
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -682,6 +683,7 @@ export class BaseTransferRenderer<
             popOverContainer: popOverContainer ?? env?.getModalContainer
           }}
           onPageChange={this.handlePageChange}
+          testIdBuilder={testIdBuilder}
         />
 
         <Spinner
