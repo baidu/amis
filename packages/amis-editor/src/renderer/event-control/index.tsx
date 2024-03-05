@@ -43,9 +43,7 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction,
-  getDialogListBySchema,
-  getFixDialogType
+  SubRendererPluginAction
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';

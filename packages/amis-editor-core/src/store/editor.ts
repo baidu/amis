@@ -21,8 +21,6 @@ import {
   guid,
   appTranslate,
   JSONGetByPath,
-  getDialogListBySchema,
-  getFixDialogType,
   addModal
 } from '../../src/util';
 import {

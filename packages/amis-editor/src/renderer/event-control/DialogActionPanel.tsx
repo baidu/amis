@@ -8,7 +8,7 @@ import {
 } from 'amis-editor-core';
 import React from 'react';
 import {observer} from 'mobx-react';
-import {RendererProps, ThemeProps, guid} from 'amis-core';
+import {JSONValueMap, RendererProps} from 'amis-core';
 import {Button, FormField, InputJSONSchema, Select, Switch} from 'amis-ui';
 
 export interface DialogActionPanelProps extends RendererProps {
@@ -148,6 +148,15 @@ function DialogActionPanel({
               $ref: refKey
             })
           };
+
+          // 这个要先执行，否则下面的那个 update 有可能更新的是  __actionModals 里面的对象
+          schema = JSONUpdate(
+            schema,
+            actionSchema.$$id,
+            JSONPipeIn(newActionSchema),
+            true
+          );
+
           // 原来的动作也要更新
           schema = JSONUpdate(
             schema,
@@ -157,6 +166,7 @@ function DialogActionPanel({
             }),
             true
           );
+          return schema;
         }
 
         schema = JSONUpdate(
