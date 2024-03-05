@@ -785,6 +785,16 @@ export const components = [
             wrapDoc
           )
         )
+      },
+
+      {
+        label: 'InputSignature 签名面板',
+        path: '/zh-CN/components/form/input-signature',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/input-signature.md').then(
+            wrapDoc
+          )
+        )
       }
     ]
   },
