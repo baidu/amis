@@ -149,12 +149,14 @@ function DialogActionPanel({
             })
           };
 
-          // schema中存在__actionModals 直接更新Id会更新到冗余数据__actionModals 先去除再更新
-          JSONValueMap(schema, (value, key, host: any) => {
-            if (key === '__actionModals') {
-              host[key] = undefined;
-            }
-          });
+          // 这个要先执行，否则下面的那个 update 有可能更新的是  __actionModals 里面的对象
+          schema = JSONUpdate(
+            schema,
+            actionSchema.$$id,
+            JSONPipeIn(newActionSchema),
+            true
+          );
+
           // 原来的动作也要更新
           schema = JSONUpdate(
             schema,
@@ -164,6 +166,7 @@ function DialogActionPanel({
             }),
             true
           );
+          return schema;
         }
 
         schema = JSONUpdate(
