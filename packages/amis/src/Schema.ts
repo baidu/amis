@@ -130,7 +130,7 @@ import {
   SchemaClassName,
   SchemaExpression
 } from 'amis-core';
-import type {FormSchemaBase} from 'amis-core';
+import type {FormSchemaBase, TestIdBuilder} from 'amis-core';
 import {MultilineTextSchema} from './renderers/MultilineText';
 import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';
@@ -726,6 +726,8 @@ export type SchemaFunction = string | Function;
 
 export interface BaseSchema extends BaseSchemaWithoutType {
   type: SchemaType;
+
+  testid?: string;
 }
 
 export interface Option {

@@ -41,8 +41,7 @@ import {
   resizeSensor,
   offset,
   getStyleNumber,
-  getPropValue,
-  buildTestId
+  getPropValue
 } from 'amis-core';
 import {
   Button,
@@ -1677,7 +1676,8 @@ export default class Table extends React.Component<TableProps, object> {
       translate: __,
       query,
       data,
-      autoGenerateFilter
+      autoGenerateFilter,
+      testIdBuilder
     } = this.props;
 
     const searchableColumns = store.searchableColumns;
@@ -1697,6 +1697,7 @@ export default class Table extends React.Component<TableProps, object> {
         onSearchableFromSubmit={onSearchableFromSubmit}
         onSearchableFromInit={onSearchableFromInit}
         popOverContainer={this.getPopOverContainer}
+        testIdBuilder={testIdBuilder.getChild('filter')}
       />
     );
   }
@@ -2096,7 +2097,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       canAccessSuperData,
       itemBadge,
-      translate
+      translate,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -2120,6 +2122,9 @@ export default class Table extends React.Component<TableProps, object> {
         quickEditFormRef={this.subFormRef}
         onImageEnlarge={this.handleImageEnlarge}
         translate={translate}
+        testIdBuilder={testIdBuilder.getChild(
+          `cell-${props.rowPath}-${column.index}`
+        )}
       />
     );
   }
@@ -2685,7 +2690,9 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder,
+      data
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2701,6 +2708,7 @@ export default class Table extends React.Component<TableProps, object> {
           itemActions
         })}
         <TableContent
+          testIdBuilder={testIdBuilder}
           tableClassName={cx(
             {
               'Table-table--checkOnItemClick': checkOnItemClick,
@@ -2805,7 +2813,7 @@ export default class Table extends React.Component<TableProps, object> {
       autoFillHeight,
       autoGenerateFilter,
       mobileUI,
-      testid
+      testIdBuilder
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2824,7 +2832,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--autoFillHeight': autoFillHeight
         })}
         style={store.buildStyles(style)}
-        {...buildTestId(testid)}
+        {...testIdBuilder.getTestId()}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {this.renderAffixHeader(tableClassName)}

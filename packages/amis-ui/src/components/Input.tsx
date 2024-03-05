@@ -4,11 +4,12 @@
  * 功能很有必要。
  */
 import React from 'react';
-import {autobind} from 'amis-core';
+import {TestIdBuilder, autobind} from 'amis-core';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   forwardedRef: React.Ref<HTMLInputElement>;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface InputState {
@@ -60,7 +61,7 @@ class InputInner extends React.Component<InputProps, InputState> {
   }
 
   render() {
-    const {forwardedRef, ...rest} = this.props;
+    const {forwardedRef, testIdBuilder, ...rest} = this.props;
 
     return (
       <input
@@ -73,6 +74,7 @@ class InputInner extends React.Component<InputProps, InputState> {
         onCompositionStart={this.handleComposition}
         onCompositionUpdate={this.handleComposition}
         onCompositionEnd={this.handleComposition}
+        {...testIdBuilder?.getTestId()}
       />
     );
   }
@@ -81,5 +83,6 @@ class InputInner extends React.Component<InputProps, InputState> {
 export default React.forwardRef<HTMLInputElement>((props, ref) => {
   return <InputInner {...props} forwardedRef={ref} />;
 }) as React.ComponentType<
-  React.InputHTMLAttributes<HTMLInputElement> & {ref?: any}
+  Omit<InputProps, 'forwardedRef'> &
+    React.InputHTMLAttributes<HTMLInputElement> & {ref?: any}
 >;

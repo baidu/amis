@@ -680,7 +680,8 @@ export default class PickerControl extends React.PureComponent<
       valueField,
       embed,
       source,
-      strictMode
+      strictMode,
+      testIdBuilder
     } = this.props;
     const {maxTagCount, overflowTagPopoverInCRUD, displayPosition} =
       this.getOverflowConfig();
@@ -693,6 +694,7 @@ export default class PickerControl extends React.PureComponent<
       multiple,
       strictMode,
       onSelect: embed ? this.handleSelect : undefined,
+      testIdBuilder: testIdBuilder?.getChild('body-schema'),
       ref: this.crudRef,
       popOverContainer,
       ...(embed ||
@@ -727,7 +729,8 @@ export default class PickerControl extends React.PureComponent<
       themeCss,
       css,
       id,
-      classPrefix: ns
+      classPrefix: ns,
+      testIdBuilder
     } = this.props;
     return (
       <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
@@ -768,7 +771,10 @@ export default class PickerControl extends React.PureComponent<
                 </div>
               ) : null}
 
-              <div className={cx('Picker-valueWrap')}>
+              <div
+                className={cx('Picker-valueWrap')}
+                {...testIdBuilder?.getTestId()}
+              >
                 {this.renderValues()}
 
                 <input
@@ -788,7 +794,11 @@ export default class PickerControl extends React.PureComponent<
                 </a>
               ) : null}
 
-              <span onClick={this.open} className={cx('Picker-btn')}>
+              <span
+                onClick={this.open}
+                className={cx('Picker-btn')}
+                {...testIdBuilder?.getChild('picker-open-btn').getTestId()}
+              >
                 <Icon
                   icon="window-restore"
                   className={cx(
@@ -817,7 +827,8 @@ export default class PickerControl extends React.PureComponent<
                 className: modalClassName,
                 body: {
                   children: this.renderBody
-                }
+                },
+                testIdBuilder: testIdBuilder?.getChild('modal')
               },
               {
                 key: 'modal',

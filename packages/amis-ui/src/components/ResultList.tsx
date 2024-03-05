@@ -15,6 +15,8 @@ import {LocaleProps, localeable, ClassNamesFn} from 'amis-core';
 import TransferSearch from './TransferSearch';
 import VirtualList, {AutoSizer} from './virtual-list';
 
+import type {TestIdBuilder} from 'amis-core';
+
 export interface ResultListProps extends ThemeProps, LocaleProps {
   className?: string;
   value?: Array<Option>;
@@ -33,6 +35,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
   showInvalidMatch?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface ItemRenderStates {
@@ -275,9 +278,10 @@ export class ResultList extends React.Component<
       sortable,
       labelField,
       translate: __,
-      showInvalidMatch
+      showInvalidMatch,
+      testIdBuilder
     } = this.props;
-
+    const itemTIB = testIdBuilder?.getChild(`item-${option.value || index}`);
     return (
       <div
         style={styles}
@@ -309,6 +313,7 @@ export class ResultList extends React.Component<
             onClick={(e: React.MouseEvent<HTMLElement>) =>
               this.handleCloseItem(e, option)
             }
+            {...itemTIB?.getChild('close').getTestId()}
           >
             <Icon icon="close" className="icon" />
           </a>

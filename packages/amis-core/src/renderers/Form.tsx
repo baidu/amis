@@ -49,7 +49,7 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
-import {buildTestId, injectObjectChain} from '../utils';
+import {injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
 
@@ -1860,7 +1860,6 @@ export default class Form extends React.Component<FormProps, object> {
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
-        {...buildTestId(testid)}
       >
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />

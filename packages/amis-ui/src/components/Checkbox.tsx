@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {ThemeProps, themeable} from 'amis-core';
+import {TestIdBuilder, ThemeProps, themeable} from 'amis-core';
 import {autobind} from 'amis-core';
 
 const preventEvent = (e: any) => e.stopPropagation();
@@ -28,6 +28,7 @@ interface CheckboxProps extends ThemeProps {
   partial?: boolean;
   optionType?: 'default' | 'button';
   children?: React.ReactNode | Array<React.ReactNode>;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
@@ -72,7 +73,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       name,
       labelClassName,
       optionType,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
     const _checked =
       typeof checked !== 'undefined'
@@ -96,6 +98,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           'is-mobile': mobileUI
         })}
         data-role="checkbox"
+        {...testIdBuilder?.getTestId()}
       >
         <input
           type={type}
@@ -114,8 +117,13 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           readOnly={readOnly}
           name={name}
         />
-        <i />
-        <span className={cx(labelClassName)}>{children || label}</span>
+        <i {...testIdBuilder?.getChild('input').getTestId()} />
+        <span
+          className={cx(labelClassName)}
+          {...testIdBuilder?.getChild('label').getTestId()}
+        >
+          {children || label}
+        </span>
         {description ? (
           <div className={cx('Checkbox-desc')}>{description}</div>
         ) : null}

@@ -459,6 +459,7 @@ export class CardRenderer extends React.Component<CardProps> {
                 level: 'link',
                 type: 'button',
                 ...action,
+                testid: action.testid ? filter(action.testid, data) : index,
                 size
               },
               {

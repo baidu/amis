@@ -246,6 +246,7 @@ export default function (schema, schemaProps, showCode, envOverrides) {
               };
             });
           },
+          enableTestid: true,
           ...envOverrides
         };
 
