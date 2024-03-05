@@ -763,7 +763,8 @@ export default class Form extends React.Component<FormProps, object> {
     const initedAt = store.initedAt;
 
     store.setInited(true);
-    const hooks = groupBy(this.hooks['init'] || [], item =>
+    const hooks = this.hooks['init'] || [];
+    const groupedHooks = groupBy(hooks, item =>
       (item as any).__enforce === 'prev'
         ? 'prev'
         : (item as any).__enforce === 'post'
@@ -771,9 +772,16 @@ export default class Form extends React.Component<FormProps, object> {
         : 'normal'
     );
 
-    await Promise.all((hooks.prev || []).map(hook => hook(data)));
-    await Promise.all((hooks.normal || []).map(hook => hook(data)));
-    await Promise.all((hooks.post || []).map(hook => hook(data)));
+    await Promise.all((groupedHooks.prev || []).map(hook => hook(data)));
+    //  有可能在前面的步骤中删除了钩子，所以需要重新验证一下
+    await Promise.all(
+      (groupedHooks.normal || []).map(
+        hook => hooks.includes(hook) && hook(data)
+      )
+    );
+    await Promise.all(
+      (groupedHooks.post || []).map(hook => hooks.includes(hook) && hook(data))
+    );
 
     if (!isAlive(store)) {
       return;
