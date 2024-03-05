@@ -321,7 +321,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
 
                 store.openSubEditor({
                   title: '编辑弹窗',
-                  value: modal,
+                  value: {
+                    type: 'dialog',
+                    ...modal
+                  },
                   onChange: (value: any, diff: any) => {
                     store.updateModal(modal.$$id!, value);
                   }

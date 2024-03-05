@@ -40,7 +40,10 @@ export default observer(function DialogList({
     const dialog = store.modals[index];
     store.openSubEditor({
       title: '编辑弹窗',
-      value: dialog,
+      value: {
+        type: 'dialog',
+        ...(dialog as any)
+      },
       onChange: (value: any, diff: any) => {
         store.updateModal(dialog.$$id!, value);
       }
@@ -62,14 +65,10 @@ export default observer(function DialogList({
       const refsCount = store.countModalActionRefs(dialog.$$id!);
 
       const confirmed = await confirm(
-        `确认删除弹窗「${
-          dialog.editorSetting?.displayName || dialog.title
-        }」？${
-          refsCount
-            ? `<br/>当前弹窗已关联${refsCount} 个事件，删除后，所配置的事件动作将一起被删除。`
-            : ''
-        }`,
-        ''
+        refsCount
+          ? `当前弹窗已关联 ${refsCount} 个事件，删除后，所配置的事件动作将一起被删除。`
+          : '',
+        `确认删除弹窗「${dialog.editorSetting?.displayName || dialog.title}」？`
       );
 
       if (confirmed) {

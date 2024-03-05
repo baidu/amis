@@ -14,7 +14,8 @@ import {Button, FormField, InputJSONSchema, Select, Switch} from 'amis-ui';
 export interface DialogActionPanelProps extends RendererProps {
   manager: EditorManager;
   subscribeSchemaSubmit: (
-    fn: (schema: any, value: any, id: string, diff?: any) => any
+    fn: (schema: any, value: any, id: string, diff?: any) => any,
+    once?: boolean
   ) => () => void;
   subscribeActionSubmit: (fn: (value: any) => any) => () => void;
   addHook: (fn: Function, type?: 'validate' | 'init' | 'flush') => () => void;
@@ -60,126 +61,125 @@ function DialogActionPanel({
   // 订阅由面板触发的 schema 变跟事件
   // 写入 store 之前执行，可以对 schema 进行修改
   React.useEffect(() => {
-    const unsubscribe = subscribeSchemaSubmit(
-      (schema: any, nodeSchema: any, id: string) => {
-        const rawActions = JSONGetById(schema, id)?.onEvent[eventKey]?.actions;
-        if (!rawActions || !Array.isArray(rawActions)) {
-          throw new Error('动作配置错误');
-        }
+    subscribeSchemaSubmit((schema: any, nodeSchema: any, id: string) => {
+      const rawActions = JSONGetById(schema, id)?.onEvent[eventKey]?.actions;
+      if (!rawActions || !Array.isArray(rawActions)) {
+        throw new Error('动作配置错误');
+      }
 
-        const actionSchema =
-          rawActions[
-            typeof actionIndex === 'undefined'
-              ? rawActions.length - 1
-              : actionIndex
-          ];
-        const modals: Array<LocalModal> = actionSchema.__actionModals;
-        const currentModal = modals.find(item => item.isActive)!;
+      const actionSchema =
+        rawActions[
+          typeof actionIndex === 'undefined'
+            ? rawActions.length - 1
+            : actionIndex
+        ];
+      const modals: Array<LocalModal> = actionSchema.__actionModals;
+      const currentModal = modals.find(item => item.isActive)!;
 
-        let newActionSchema: any = null;
-        const modalType =
-          currentModal.modal.type === 'drawer' ? 'drawer' : 'dialog';
+      let newActionSchema: any = null;
+      const modalType =
+        currentModal.modal.type === 'drawer' ? 'drawer' : 'dialog';
 
-        if (currentModal.value === '__new') {
-          // 选择新建弹窗情况
-          let refKey: string = '';
-          [schema, refKey] = addModal(schema, currentModal.modal);
-          newActionSchema = {
-            ...actionSchema,
-            __actionModals: undefined,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            actionType: currentModal.modal.actionType ?? modalType,
-            data: currentModal.data,
-            [modalType]: {
-              $ref: refKey
-            }
-          };
-        } else if (currentModal.isCurrentActionModal) {
-          // 选中的是当前动作内嵌的弹窗
-          // 直接更新当前动作即可
-          newActionSchema = {
-            ...actionSchema,
-            __actionModals: undefined,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            actionType: currentModal.modal.actionType ?? modalType,
-            data: currentModal.data,
-            [modalType]: currentModal.modal
-          };
-        } else if (currentModal.modal.$$ref) {
-          // 选中的是引用的弹窗
-          newActionSchema = {
-            ...actionSchema,
-            __actionModals: undefined,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            actionType: currentModal.modal.actionType ?? modalType,
-            data: currentModal.data,
-            [modalType]: {
-              $ref: currentModal.modal.$$ref
-            }
-          };
-
-          // 可能弹窗内容更新了
-          schema = {...schema, definitions: {...schema.definitions}};
-          schema.definitions[currentModal.modal.$$ref] = JSONPipeIn({
+      if (currentModal.value === '__new') {
+        // 选择新建弹窗情况
+        let refKey: string = '';
+        [schema, refKey] = addModal(schema, currentModal.modal);
+        newActionSchema = {
+          ...actionSchema,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: currentModal.modal.actionType ?? modalType,
+          data: currentModal.data,
+          [modalType]: {
+            $ref: refKey
+          }
+        };
+      } else if (currentModal.isCurrentActionModal) {
+        // 选中的是当前动作内嵌的弹窗
+        // 直接更新当前动作即可
+        newActionSchema = {
+          ...actionSchema,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: currentModal.modal.actionType ?? modalType,
+          data: currentModal.data,
+          [modalType]: {
             ...currentModal.modal,
-            $$ref: undefined
-          });
-        } else {
-          // 选的是别的工作内嵌的弹窗
-          // 需要把目标弹窗转成 definition
-          // 然后都引用这个 definition
-          let refKey: string = '';
-          [schema, refKey] = addModal(schema, currentModal.modal);
-          newActionSchema = {
-            ...actionSchema,
-            __actionModals: undefined,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            actionType: currentModal.modal.actionType ?? modalType,
-            data: currentModal.data,
-            [modalType]: JSONPipeIn({
-              $ref: refKey
-            })
-          };
+            data: undefined
+          }
+        };
+      } else if (currentModal.modal.$$ref) {
+        // 选中的是引用的弹窗
+        newActionSchema = {
+          ...actionSchema,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: currentModal.modal.actionType ?? modalType,
+          data: currentModal.data,
+          [modalType]: {
+            $ref: currentModal.modal.$$ref
+          }
+        };
 
-          // 这个要先执行，否则下面的那个 update 有可能更新的是  __actionModals 里面的对象
-          schema = JSONUpdate(
-            schema,
-            actionSchema.$$id,
-            JSONPipeIn(newActionSchema),
-            true
-          );
+        // 可能弹窗内容更新了
+        schema = {...schema, definitions: {...schema.definitions}};
+        schema.definitions[currentModal.modal.$$ref] = JSONPipeIn({
+          ...currentModal.modal,
+          $$ref: undefined
+        });
+      } else {
+        // 选的是别的工作内嵌的弹窗
+        // 需要把目标弹窗转成 definition
+        // 然后都引用这个 definition
+        let refKey: string = '';
+        [schema, refKey] = addModal(schema, currentModal.modal);
+        newActionSchema = {
+          ...actionSchema,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: currentModal.modal.actionType ?? modalType,
+          data: currentModal.data,
+          [modalType]: JSONPipeIn({
+            $ref: refKey
+          })
+        };
 
-          // 原来的动作也要更新
-          schema = JSONUpdate(
-            schema,
-            currentModal.value,
-            JSONPipeIn({
-              $ref: refKey
-            }),
-            true
-          );
-          return schema;
-        }
-
+        // 这个要先执行，否则下面的那个 update 有可能更新的是  __actionModals 里面的对象
         schema = JSONUpdate(
           schema,
           actionSchema.$$id,
           JSONPipeIn(newActionSchema),
           true
         );
+
+        // 原来的动作也要更新
+        schema = JSONUpdate(
+          schema,
+          currentModal.value,
+          JSONPipeIn({
+            $ref: refKey
+          }),
+          true
+        );
         return schema;
       }
-    );
 
-    return () => unsubscribe();
+      schema = JSONUpdate(
+        schema,
+        actionSchema.$$id,
+        JSONPipeIn(newActionSchema),
+        true
+      );
+      return schema;
+    }, true);
   }, []);
 
   const [errors, setErrors] = React.useState<{

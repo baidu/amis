@@ -1766,7 +1766,7 @@ export const MainStore = types
             args: undefined,
             dialog: undefined,
             drawer: undefined,
-            [newHostKey]: modal
+            [newHostKey]: JSONPipeIn(modal)
           });
         }
 

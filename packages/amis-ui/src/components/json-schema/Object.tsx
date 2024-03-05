@@ -7,6 +7,7 @@ import InputBoxWithSuggestion from '../InputBoxWithSuggestion';
 import Select from '../Select';
 import type {InputJSONSchemaItemProps} from './index';
 import {InputJSONSchemaItem} from './Item';
+import isEqual from 'lodash/isEqual';
 
 type JSONSchemaObjectMember = {
   key: string;
@@ -15,6 +16,7 @@ type JSONSchemaObjectMember = {
   schema?: any;
   invalid?: boolean;
   required?: boolean;
+  value?: any;
 };
 export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   const {
@@ -41,26 +43,28 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
         name: key,
         nameMutable: !required.includes(key),
         required: required.includes(key),
-        schema: child
+        schema: child,
+        value: value?.[key] ?? child.default
       });
     });
 
     const keys = Object.keys(value || {});
     for (let key of keys) {
       const exists = members.find(m => m.name === key);
-      if (!exists) {
+      if (!exists && schema.additionalProperties !== false) {
         members.push({
           key: guid(),
           name: key,
           nameMutable: true,
           schema: {
             type: 'string'
-          }
+          },
+          value: value[key]
         });
       }
     }
 
-    if (!members.length) {
+    if (!members.length && schema.additionalProperties !== false) {
       members.push({
         key: guid(),
         name: '',
@@ -74,11 +78,15 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     return members;
   }, []);
 
-  const [members, setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
-    buildMembers(props.schema, props.value)
+  const [members, _setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
+    []
   );
   const membersRef = React.useRef<Array<JSONSchemaObjectMember>>();
   membersRef.current = members;
+  const setMembers = (members: Array<JSONSchemaObjectMember>) => {
+    _setMembers(members);
+    membersRef.current = members;
+  };
 
   const [collapsed, setCollapsed] = React.useState<boolean>(
     collapsable ? true : false
@@ -87,42 +95,67 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     setCollapsed(!collapsed);
   };
 
+  const emitChange = () => {
+    const members: Array<JSONSchemaObjectMember> = membersRef.current!;
+    const value =
+      props.schema.additionalProperties === false
+        ? {}
+        : {
+            ...props.value
+          };
+
+    members.forEach(member => {
+      if (
+        !member.invalid &&
+        (typeof member.value !== 'undefined' ||
+          typeof value[member.name] !== 'undefined')
+      ) {
+        value[member.name] = member.value;
+      }
+    });
+
+    if (!isEqual(value, props.value || {})) {
+      onChange?.(value);
+    }
+  };
+
   const onMemberChange = (member: JSONSchemaObjectMember, memberValue: any) => {
-    const newValue = {
-      ...props.value,
-      [member.name]: memberValue
-    };
-    onChange?.(newValue);
+    const arr = members.concat();
+    const idx = arr.indexOf(member);
+    if (!~idx) {
+      throw new Error('member object not found');
+    }
+
+    arr.splice(idx, 1, {
+      ...arr[idx],
+      value: memberValue
+    });
+
+    setMembers(arr);
+    emitChange();
   };
   const onMemberKeyChange = (
     member: JSONSchemaObjectMember,
-    memberValue: any
+    memberKey: any
   ) => {
     const idx = members.indexOf(member);
     if (!~idx) {
       throw new Error('member object not found');
     }
 
-    const newValue = {
-      ...props.value
-    };
-    const m = members.concat();
-    m.splice(idx, 1, {
+    const arr = members.concat();
+    arr.splice(idx, 1, {
       ...member,
-      schema: props.schema?.properties?.[memberValue] || {
+      schema: props.schema?.properties?.[memberKey] || {
         type: 'string'
       },
-      name: memberValue,
+      name: memberKey,
       invalid:
-        !memberValue ||
-        members.some((a, b) => a.name === memberValue && b !== idx)
+        !memberKey || members.some((a, b) => a.name === memberKey && b !== idx)
     });
 
-    setMembers(m);
-
-    newValue[memberValue] = newValue[member.name];
-    delete newValue[member.name];
-    onChange?.(newValue);
+    setMembers(arr);
+    emitChange();
   };
   const onMemberDelete = (member: JSONSchemaObjectMember) => {
     const idx = members.indexOf(member);
@@ -130,52 +163,55 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       throw new Error('member object not found');
     }
 
-    const m = members.concat();
-    m.splice(idx, 1);
-    setMembers(m);
-
-    const newValue = {
-      ...props.value
-    };
-    delete newValue[member.name];
-    onChange?.(newValue);
+    const arr = members.concat();
+    arr.splice(idx, 1);
+    setMembers(arr);
+    emitChange();
   };
 
   React.useEffect(() => {
-    setMembers(buildMembers(props.schema, props.value));
+    const members = buildMembers(props.schema, props.value);
+    setMembers(members);
+    emitChange();
   }, [JSON.stringify(props.schema)]);
 
   React.useEffect(() => {
     const value = props.value;
-    const m = membersRef.current!.concat();
+    const arr = membersRef.current!.concat();
     const keys = Object.keys(value || {});
     for (let key of keys) {
-      const exists = m.find(m => m.name === key);
-      if (!exists) {
-        m.push({
+      const idx = arr.findIndex(m => m.name === key);
+      const exists = arr[idx];
+      if (!exists && props.schema.additionalProperties !== false) {
+        arr.push({
           key: guid(),
           name: key,
           nameMutable: true,
           schema: {
             type: 'string'
-          }
+          },
+          value: value?.[key]
+        });
+      } else {
+        arr.splice(idx, 1, {
+          ...exists,
+          value: value?.[key]
         });
       }
     }
-    if (m.length !== membersRef.current!.length) {
-      setMembers(m);
-    }
+    setMembers(arr);
   }, [JSON.stringify(props.value)]);
 
   const handleAdd = React.useCallback(() => {
-    const m = members.concat();
-    m.push({
+    const arr = members.concat();
+    arr.push({
       key: guid(),
       name: '',
       invalid: true,
       nameMutable: true
     });
-    setMembers(m);
+    setMembers(arr);
+    emitChange();
   }, [members]);
 
   const options: Array<any> = [];

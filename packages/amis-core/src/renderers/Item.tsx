@@ -674,7 +674,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       onInit();
     } else if (addHook) {
       // 放在初始化的最后面
-      addHook(onInit, 'init', 'post');
+      this.toDispose.push(addHook(onInit, 'init', 'post'));
     }
   }
 
