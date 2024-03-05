@@ -2774,12 +2774,12 @@ export default class Table extends React.Component<TableProps, object> {
         store.clear();
         break;
       case 'select':
-        const dataSource = store.getData(data);
         const selected: Array<any> = [];
-        dataSource.items.forEach((item: any, rowIndex: number) => {
-          const flag = evalExpression(args?.selected, {record: item, rowIndex});
+        store.falttenedRows.forEach((item: any, rowIndex: number) => {
+          const record = item.data;
+          const flag = evalExpression(args?.selected, {record, rowIndex});
           if (flag) {
-            selected.push(item);
+            selected.push(record);
           }
         });
         store.updateSelected(selected, valueField);
