@@ -430,5 +430,8 @@ register('de-DE', {
   'TimeNow': 'Jetzt',
   'Steps.step': 'Schritt {{index}}',
   'FormulaInput.True': 'Treu',
-  'FormulaInput.False': 'Falsch'
+  'FormulaInput.False': 'Falsch',
+  'Signature.clear': 'leer',
+  'Signature.undo': 'widerrufen',
+  'Signature.confirm': 'bestätigen'
 });

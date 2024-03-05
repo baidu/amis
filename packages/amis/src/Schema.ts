@@ -121,6 +121,7 @@ import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {InputSignatureSchema} from './renderers/Form/InputSignature';
 import {TableSchema2} from './renderers/Table2';
 import {
   BaseSchemaWithoutType,
@@ -254,6 +255,7 @@ export type SchemaType =
   | 'diff-editor'
   | 'office-viewer'
   | 'pdf-viewer'
+  | 'input-signature'
 
   // editor 系列
   | 'editor'
@@ -461,6 +463,7 @@ export type SchemaObject =
   | InputGroupControlSchema
   | ListControlSchema
   | JSONSchemaEditorControlSchema
+  | InputSignatureSchema
   | LocationControlSchema
   | UUIDControlSchema
   | MatrixControlSchema

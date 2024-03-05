@@ -1,0 +1,35 @@
+.#{$ns}Signature {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &-canvas {
+    border: 1px dashed #aaa;
+  }
+  &-Tool {
+    text-align: center;
+    height: 40px;
+    margin-top: 8px;
+    button {
+      margin-left: 5px;
+    }
+  }
+
+  &.is-horizontal {
+    flex-direction: row-reverse;
+    align-items: center;
+    .#{$ns}Signature-Tool {
+      width: 32px;
+      height: 100%;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .actions {
+        white-space: nowrap;
+        transform: rotate(90deg);
+      }
+    }
+  }
+}

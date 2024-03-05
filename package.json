@@ -43,7 +43,8 @@
   "dependencies": {
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.4.14",
-    "qs": "6.9.7"
+    "qs": "6.9.7",
+    "smooth-signature": "^1.0.13"
   },
   "devDependencies": {
     "@babel/generator": "^7.22.9",
