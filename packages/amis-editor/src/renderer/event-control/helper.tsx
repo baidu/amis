@@ -282,6 +282,69 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableOptions = variableManager?.getVariableOptions() || [];
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
+  const modalDescDetail: (info: any, context: any, props: any) => any = (
+    info,
+    {eventKey, actionIndex},
+    props: any
+  ) => {
+    const {
+      actionTree,
+      actions: pluginActions,
+      commonActions,
+      allComponents,
+      node,
+      manager
+    } = props;
+    const store = manager.store;
+    const modals = store.modals;
+    const onEvent = node.schema?.onEvent;
+    const action = onEvent?.[eventKey].actions?.[actionIndex];
+    const actionBody =
+      action?.[action?.actionType === 'drawer' ? 'drawer' : 'dialog'];
+    let modalId = actionBody?.$$id;
+    if (actionBody?.$ref) {
+      modalId =
+        modals.find((item: any) => item.$$ref === actionBody.$ref)?.$$id || '';
+    }
+    const modal = modalId
+      ? manager.store.modals.find((item: any) => item.$$id === modalId)
+      : '';
+    if (modal) {
+      return (
+        <>
+          <div>
+            打开&nbsp;
+            <a
+              href="#"
+              onClick={(e: React.UIEvent<any>) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                store.openSubEditor({
+                  title: '编辑弹窗',
+                  value: modal,
+                  onChange: (value: any, diff: any) => {
+                    store.updateModal(modal.$$id!, value);
+                  }
+                });
+              }}
+            >
+              {modal.editorSetting?.displayName || modal.title || '未命名弹窗'}
+            </a>
+            &nbsp;
+            {(modal as any).actionType === 'confirmDialog'
+              ? '确认框'
+              : modal.type === 'drawer'
+              ? '抽屉弹窗'
+              : '弹窗'}
+          </div>
+        </>
+      );
+    }
+
+    return null;
+  };
+
   return [
     {
       actionLabel: '页面',
@@ -370,13 +433,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           description: '打开弹窗，弹窗内支持复杂的交互设计',
           actions: [
             {
-              actionType: 'dialog'
+              actionType: 'dialog',
+              descDetail: modalDescDetail
             },
             {
-              actionType: 'drawer'
+              actionType: 'drawer',
+              descDetail: modalDescDetail
             },
             {
-              actionType: 'confirmDialog'
+              actionType: 'confirmDialog',
+              descDetail: modalDescDetail
             }
           ],
           schema: [
@@ -1180,19 +1246,19 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {/* 只要path字段存在就认为是应用变量赋值，无论是否有值 */}
                 {typeof info?.args?.path === 'string' && !info?.componentId ? (
                   <>
-                    设置变量「
+                    设置变量
                     <span className="variable-left variable-right">
                       {variableManager.getNameByPath(info.args.path)}
                     </span>
-                    」的数据
+                    的数据
                   </>
                 ) : (
                   <>
-                    设置组件「
+                    设置组件
                     <span className="variable-left variable-right">
                       {info?.rendererLabel || info.componentId || '-'}
                     </span>
-                    」的数据
+                    的数据
                   </>
                 )}
                 {/* 值为
