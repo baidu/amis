@@ -51,6 +51,7 @@ import {isAlive} from 'mobx-state-tree';
 import type {LabelAlign} from './Item';
 import {buildTestId, injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
+import groupBy from 'lodash/groupBy';
 
 export interface FormHorizontal {
   left?: number;
@@ -461,7 +462,7 @@ export default class Form extends React.Component<FormProps, object> {
   ];
 
   hooks: {
-    [propName: string]: Array<() => Promise<any>>;
+    [propName: string]: Array<(...args: any) => Promise<any>>;
   } = {};
   asyncCancel: () => void;
   toDispose: Array<() => void> = [];
@@ -762,8 +763,17 @@ export default class Form extends React.Component<FormProps, object> {
     const initedAt = store.initedAt;
 
     store.setInited(true);
-    const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
-    await Promise.all(hooks.map(hook => hook(data)));
+    const hooks = groupBy(this.hooks['init'] || [], item =>
+      (item as any).__enforce === 'prev'
+        ? 'prev'
+        : (item as any).__enforce === 'post'
+        ? 'post'
+        : 'normal'
+    );
+
+    await Promise.all((hooks.prev || []).map(hook => hook(data)));
+    await Promise.all((hooks.normal || []).map(hook => hook(data)));
+    await Promise.all((hooks.post || []).map(hook => hook(data)));
 
     if (!isAlive(store)) {
       return;
@@ -976,9 +986,15 @@ export default class Form extends React.Component<FormProps, object> {
     store.reset(onReset);
   }
 
-  addHook(fn: () => any, type: 'validate' | 'init' | 'flush' = 'validate') {
+  addHook(
+    fn: () => any,
+    type: 'validate' | 'init' | 'flush' = 'validate',
+    enforce?: 'prev' | 'post'
+  ) {
     this.hooks[type] = this.hooks[type] || [];
-    this.hooks[type].push(type === 'flush' ? fn : promisify(fn));
+    const hook = type === 'flush' ? fn : promisify(fn);
+    (hook as any).__enforce = enforce;
+    this.hooks[type].push(hook);
     return () => {
       this.removeHook(fn, type);
       fn = noop;
