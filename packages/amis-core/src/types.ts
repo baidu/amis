@@ -572,6 +572,10 @@ export type SchemaClassName =
     };
 export interface BaseSchemaWithoutType {
   /**
+   * 组件唯一 id，主要用于页面设计器中定位 json 节点
+   */
+  $$id?: string;
+  /**
    * 容器 css 类名
    */
   className?: SchemaClassName;

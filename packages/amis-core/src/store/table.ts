@@ -487,6 +487,7 @@ export const TableStore = iRendererStore
   .named('TableStore')
   .props({
     columns: types.array(Column),
+    columnsKey: '',
     rows: types.array(Row),
     selectedRows: types.array(types.reference(Row)),
     expandedRows: types.array(types.string),
@@ -1105,6 +1106,7 @@ export const TableStore = iRendererStore
         (self.tableLayout = config.tableLayout);
 
       if (config.columns && Array.isArray(config.columns)) {
+        self.columnsKey = getPersistDataKey(config.columns);
         let columns: Array<SColumn> = config.columns
           .map(column => {
             if (
@@ -1123,7 +1125,7 @@ export const TableStore = iRendererStore
           .filter(column => column);
 
         // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
-        const key = getPersistDataKey(columns);
+        const key = self.columnsKey;
         const data = localStorage.getItem(key);
         let tableMetaData = null;
 
@@ -1286,7 +1288,7 @@ export const TableStore = iRendererStore
           typeof column.pristine.width === 'number'
             ? `width: ${column.pristine.width}px;`
             : column.pristine.width
-            ? `width: ${column.pristine.width};`
+            ? `width: ${column.pristine.width};min-width: ${column.pristine.width};`
             : '' // todo 可能需要让修改过列宽的保持相应宽度，目前这样相当于重置了
         }`;
       });
@@ -1841,7 +1843,7 @@ export const TableStore = iRendererStore
      * 前端持久化记录列排序，查询字段，显示列信息
      */
     function persistSaveToggledColumns() {
-      const key = getPersistDataKey(self.columnsData);
+      const key = self.columnsKey;
 
       localStorage.setItem(
         key,
@@ -1947,7 +1949,7 @@ export const TableStore = iRendererStore
           if (!isAlive(self)) {
             return;
           }
-          const key = getPersistDataKey(self.columnsData);
+          const key = self.columnsKey;
           const data = localStorage.getItem(key);
 
           if (data) {

@@ -33,11 +33,19 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping, setThemeClassName} from '../utils';
+import {
+  dataMapping,
+  getTreeAncestors,
+  isEmpty,
+  keyToPath,
+  setThemeClassName,
+  setVariable
+} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import CustomStyle from '../components/CustomStyle';
 import classNames from 'classnames';
+import isPlainObject from 'lodash/isPlainObject';
 
 export type LabelAlign = 'right' | 'left';
 
@@ -383,6 +391,75 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
    * 远端校验表单项接口
    */
   validateApi?: string | BaseApiObject;
+
+  /**
+   * 自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。
+   *
+   */
+  autoFill?:
+    | {
+        [propName: string]: string;
+      }
+    | {
+        /**
+         * 是否为参照录入模式，参照录入会展示候选值供用户选择，而不是直接填充。
+         */
+        showSuggestion?: boolean;
+
+        /**
+         * 自动填充 api
+         */
+        api?: BaseApiObject | string;
+
+        /**
+         * 是否展示数据格式错误提示，默认为不展示
+         * @default true
+         */
+        silent?: boolean;
+
+        /**
+         * 填充时的数据映射
+         */
+        fillMappinng?: {
+          [propName: string]: any;
+        };
+
+        /**
+         * 触发条件，默认为 change
+         */
+        trigger?: 'change' | 'foucs';
+
+        /**
+         * 弹窗方式，当为参照录入时用可以配置
+         */
+        mode?: 'popOver' | 'dialog' | 'drawer';
+
+        /**
+         * 当参照录入为抽屉时可以配置弹出位置
+         */
+        position?: string;
+
+        /**
+         * 当为参照录入时可以配置弹出容器的大小
+         */
+        size?: string;
+
+        /**
+         * 参照录入展示的项
+         */
+        columns?: Array<any>;
+
+        /**
+         * 参照录入时的过滤条件
+         */
+        filter?: any;
+      };
+
+  /**
+   * @default fillIfNotSet
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean | 'fillIfNotSet';
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
@@ -439,7 +516,11 @@ export interface FormItemProps extends RendererProps {
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
-  addHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => () => void;
+  addHook: (
+    fn: Function,
+    mode?: 'validate' | 'init' | 'flush',
+    enforce?: 'prev' | 'post'
+  ) => () => void;
   removeHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => void;
   renderFormItems: (
     schema: Partial<FormSchemaBase>,
@@ -525,9 +606,12 @@ const getItemInputClassName = (props: FormItemProps) => {
 };
 
 export class FormItemWrap extends React.Component<FormItemProps> {
-  reaction: Array<() => void> = [];
   lastSearchTerm: any;
   target: HTMLElement;
+  mounted = false;
+  initedOptionFilled = false;
+  initedApiFilled = false;
+  toDispose: Array<() => void> = [];
 
   constructor(props: FormItemProps) {
     super(props);
@@ -536,28 +620,67 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       isOpened: false
     };
 
-    const {formItem: model} = props;
-
-    if (model) {
-      this.reaction.push(
-        reaction(
-          () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
-          () => this.forceUpdate()
-        )
-      );
-      this.reaction.push(
-        reaction(
-          () => model?.filteredOptions,
-          () => this.forceUpdate()
-        )
-      );
-      this.reaction.push(
-        reaction(
-          () => JSON.stringify(model.tmpValue),
-          () => this.syncAutoFill(model.tmpValue)
-        )
-      );
+    const {formItem: model, formInited, addHook, initAutoFill} = props;
+    if (!model) {
+      return;
     }
+
+    this.toDispose.push(
+      reaction(
+        () =>
+          `${model.errors.join('')}${model.isFocused}${
+            model.dialogOpen
+          }${JSON.stringify(model.filteredOptions)}`,
+        () => this.forceUpdate()
+      )
+    );
+
+    this.toDispose.push(
+      reaction(
+        () => JSON.stringify(model.tmpValue),
+        () =>
+          this.mounted &&
+          this.initedApiFilled &&
+          this.syncApiAutoFill(model.tmpValue)
+      )
+    );
+
+    this.toDispose.push(
+      reaction(
+        () => JSON.stringify(model.getSelectedOptions(model.tmpValue)),
+        () =>
+          this.mounted &&
+          this.initedOptionFilled &&
+          this.syncOptionAutoFill(model.getSelectedOptions(model.tmpValue))
+      )
+    );
+
+    let onInit = () => {
+      this.initedOptionFilled = true;
+      initAutoFill !== false &&
+        this.syncOptionAutoFill(
+          model.getSelectedOptions(model.tmpValue),
+          initAutoFill === 'fillIfNotSet'
+        );
+      this.initedApiFilled = true;
+      initAutoFill !== false &&
+        this.syncApiAutoFill(
+          model.tmpValue ?? '',
+          false,
+          initAutoFill === 'fillIfNotSet'
+        );
+    };
+    if (formInited || !addHook) {
+      onInit();
+    } else if (addHook) {
+      // 放在初始化的最后面
+      this.toDispose.push(addHook(onInit, 'init', 'post'));
+    }
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+    this.target = findDOMNode(this) as HTMLElement;
   }
 
   componentDidUpdate(prevProps: FormItemProps) {
@@ -573,18 +696,15 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         props.data
       )
     ) {
-      this.syncAutoFill(model?.tmpValue, true);
+      this.syncApiAutoFill(model?.tmpValue, true);
     }
   }
 
-  componentDidMount() {
-    this.target = findDOMNode(this) as HTMLElement;
-  }
-
   componentWillUnmount() {
-    this.reaction.forEach(fn => fn());
-    this.reaction = [];
-    this.syncAutoFill.cancel();
+    this.syncApiAutoFill.cancel();
+    this.mounted = false;
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   @autobind
@@ -622,7 +742,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       trigger === type &&
       (mode === 'dialog' || mode === 'drawer')
     ) {
-      formItem?.openDialog(this.buildSchema(), data, result => {
+      formItem?.openDialog(this.buildAutoFillSchema(), data, result => {
         if (!result?.selectedItems) {
           return;
         }
@@ -651,44 +771,76 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     onBulkChange?.(responseData);
   }
 
-  syncAutoFill = debounce(
-    (term: any, reload?: boolean) => {
-      (async (term: string, reload?: boolean) => {
+  syncApiAutoFill = debounce(
+    async (term: any, forceLoad?: boolean, skipIfExits = false) => {
+      try {
         const {autoFill, onBulkChange, formItem, data} = this.props;
 
         // 参照录入
-        if (!autoFill || (autoFill && !autoFill?.hasOwnProperty('api'))) {
+        if (
+          !onBulkChange ||
+          !formItem ||
+          !autoFill ||
+          (autoFill && !autoFill?.hasOwnProperty('api'))
+        ) {
+          return;
+        } else if (
+          skipIfExits &&
+          (!autoFill.fillMapping ||
+            Object.keys(autoFill.fillMapping).some(
+              key => typeof getVariable(data, key) !== 'undefined'
+            ))
+        ) {
+          // 只要目标填充值有一个有值，就初始不自动填充
           return;
         }
+
         if (autoFill?.showSuggestion) {
           this.handleAutoFill('change');
         } else {
           // 自动填充
-          const itemName = formItem?.name;
+          const itemName = formItem.name;
           const ctx = createObject(data, {
-            [itemName || '']: term
+            [itemName || '']: term,
+            __term: term
           });
           if (
-            (onBulkChange &&
-              isEffectiveApi(autoFill.api, ctx) &&
-              this.lastSearchTerm !== term) ||
-            reload
+            forceLoad ||
+            (isEffectiveApi(autoFill.api, ctx) && this.lastSearchTerm !== term)
           ) {
-            let result = await formItem?.loadAutoUpdateData(
+            let result = await formItem.loadAutoUpdateData(
               autoFill.api,
               ctx,
               !!(autoFill.api as BaseApiObject)?.silent
             );
+
             this.lastSearchTerm =
               (result && getVariable(result, itemName)) ?? term;
+
+            // 如果没有返回不应该处理
+            if (!result) {
+              return;
+            }
 
             if (autoFill?.fillMapping) {
               result = dataMapping(autoFill.fillMapping, result);
             }
-            result && onBulkChange?.(result);
+
+            if (result) {
+              // 不能把自己给清了吧
+              setVariable(
+                result,
+                itemName,
+                getVariable(result, itemName) || formItem.tmpValue
+              );
+
+              onBulkChange?.(result);
+            }
           }
         }
-      })(term, reload).catch(e => console.error(e));
+      } catch (e) {
+        console.error(e);
+      }
     },
     250,
     {
@@ -697,7 +849,81 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
   );
 
-  buildSchema() {
+  syncOptionAutoFill(selectedOptions: Array<any>, skipIfExits = false) {
+    const {autoFill, multiple, onBulkChange, data} = this.props;
+    const formItem = this.props.formItem as IFormItemStore;
+    // 参照录入｜自动填充
+    if (autoFill?.hasOwnProperty('api')) {
+      return;
+    }
+
+    if (
+      onBulkChange &&
+      autoFill &&
+      !isEmpty(autoFill) &&
+      formItem.filteredOptions.length
+    ) {
+      const toSync = dataMapping(
+        autoFill,
+        multiple
+          ? {
+              items: selectedOptions.map(item =>
+                createObject(
+                  {
+                    ...data,
+                    ancestors: getTreeAncestors(
+                      formItem.filteredOptions,
+                      item,
+                      true
+                    )
+                  },
+                  item
+                )
+              )
+            }
+          : createObject(
+              {
+                ...data,
+                ancestors: getTreeAncestors(
+                  formItem.filteredOptions,
+                  selectedOptions[0],
+                  true
+                )
+              },
+              selectedOptions[0]
+            )
+      );
+      const tmpData = {...data};
+      const result = {...toSync};
+
+      Object.keys(autoFill).forEach(key => {
+        const keys = keyToPath(key);
+        let value = getVariable(toSync, key);
+
+        if (skipIfExits) {
+          const originValue = getVariable(data, key);
+          if (typeof originValue !== 'undefined') {
+            value = originValue;
+          }
+        }
+
+        setVariable(result, key, value);
+
+        // 如果左边的 key 是一个路径
+        // 这里不希望直接把原始对象都给覆盖没了
+        // 而是保留原始的对象，只修改指定的属性
+        if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
+          // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
+          setVariable(tmpData, key, value);
+          result[keys[0]] = tmpData[keys[0]];
+        }
+      });
+
+      onBulkChange(result);
+    }
+  }
+
+  buildAutoFillSchema() {
     const {
       render,
       autoFill,
@@ -775,26 +1001,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         }
       ]
     };
-    const schema = {
-      type: mode,
-      className: 'auto-fill-dialog',
-      title: __('FormItem.autoFillSuggest'),
-      size,
-      body: form,
-      actions: [
-        {
-          type: 'button',
-          actionType: 'cancel',
-          label: __('cancel')
-        },
-        {
-          type: 'submit',
-          actionType: 'submit',
-          level: 'primary',
-          label: __('confirm')
-        }
-      ]
-    };
+
     if (mode === 'popOver') {
       return (
         <Overlay
@@ -805,7 +1012,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         >
           <PopOver
             classPrefix={ns}
-            className={cx(`${ns}auto-fill-popOver`, popOverClassName)}
+            className={cx(`${ns}Autofill-popOver`, popOverClassName)}
             style={{
               minWidth: this.target ? this.target.offsetWidth : undefined
             }}
@@ -821,7 +1028,29 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         </Overlay>
       );
     } else {
-      return schema;
+      return {
+        type: mode,
+        className: 'auto-fill-dialog',
+        title: __('FormItem.autoFillSuggest'),
+        size,
+        body: {
+          ...form,
+          wrapWithPanel: false
+        },
+        actions: [
+          {
+            type: 'button',
+            actionType: 'cancel',
+            label: __('cancel')
+          },
+          {
+            type: 'submit',
+            actionType: 'submit',
+            level: 'primary',
+            label: __('confirm')
+          }
+        ]
+      };
     }
   }
 
@@ -1738,7 +1967,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
     return wrapControl(
       hoistNonReactStatic(
         class extends FormItemWrap {
-          static defaultProps = {
+          static defaultProps: any = {
+            initAutoFill: 'fillIfNotSet',
             className: '',
             renderLabel: config.renderLabel,
             renderDescription: config.renderDescription,
@@ -1757,14 +1987,14 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             ...((Control as any).propsList || [])
           ];
 
-          static displayName = `FormItem${
+          static displayName: string = `FormItem${
             config.type ? `(${config.type})` : ''
           }`;
           static ComposedComponent = Control;
 
           ref: any;
 
-          constructor(props: FormItemProps) {
+          constructor(props: FormControlProps) {
             super(props);
             this.refFn = this.refFn.bind(this);
 
@@ -1859,7 +2089,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                     getItemInputClassName(this.props)
                   )}
                 ></Control>
-                {isOpened ? this.buildSchema() : null}
+                {isOpened ? this.buildAutoFillSchema() : null}
               </>
             );
           }

@@ -1,5 +1,10 @@
 import React from 'react';
-import {chromeVersion, type IColumn, type ITableStore} from 'amis-core';
+import {
+  chromeVersion,
+  isSafari,
+  type IColumn,
+  type ITableStore
+} from 'amis-core';
 import {observer} from 'mobx-react';
 
 export function ColGroup({
@@ -37,7 +42,9 @@ export function ColGroup({
   // 低版本同时设置 thead>th
   // The problem is min-width CSS property.
   // Before Chrome 91, min-width was ignored on COL elements. 91 no longer ignores it.
-  if (typeof chromeVersion === 'number' && chromeVersion < 91) {
+  //
+  // 同时 safari 也存在类似问题，设置 colgroup>col 的 width 属性无效
+  if (isSafari || (typeof chromeVersion === 'number' && chromeVersion < 91)) {
     React.useEffect(() => {
       if (domRef.current) {
         const ths = [].slice.call(

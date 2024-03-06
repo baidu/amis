@@ -846,3 +846,13 @@
     }
   }
 }
+
+.#{$ns}Autofill-popOver {
+  border: none;
+  min-width: px2rem(320px);
+  max-width: px2rem(640px);
+
+  > .#{$ns}Panel {
+    margin: 0;
+  }
+}

@@ -698,11 +698,14 @@ export default class Service extends React.Component<ServiceProps> {
     return new Promise(resolve => {
       const {store} = this.props;
 
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,
@@ -724,7 +727,7 @@ export default class Service extends React.Component<ServiceProps> {
     const {onAction, store, env, api, translate: __} = this.props;
 
     if (api && action.actionType === 'ajax') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store
         .saveRemote(action.api as string, data, {
           successMessage: __(action.messages && action.messages.success),

@@ -175,7 +175,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDialog(
         ctx,
         undefined,
@@ -183,7 +183,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         delegate || (this.context as any)
       );
     } else if (action.actionType === 'drawer') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'toast') {
       action.toast?.items?.forEach((item: any) => {
@@ -211,7 +211,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         );
       });
     } else if (action.actionType === 'ajax') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store
         .saveRemote(action.api as string, ctx, {
           successMessage:
@@ -341,11 +341,14 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const store = this.store;
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,

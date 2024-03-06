@@ -253,7 +253,7 @@ export const MappingField = withStore(props =>
     }
 
     renderViewValue(value: any) {
-      const {render, itemSchema, data, labelField} = this.props;
+      const {render, itemSchema, data, labelField, name} = this.props;
 
       if (!itemSchema) {
         let label = value;
@@ -265,6 +265,12 @@ export const MappingField = withStore(props =>
               // object 也没有 type，不能作为schema渲染
               // 默认取 label 字段
               label = value['label'];
+            } else {
+              // 不会下发 value 了，所以要把 name 下发一下
+              label = {
+                name,
+                ...label
+              };
             }
           } else {
             label = value[labelField || 'label'];
