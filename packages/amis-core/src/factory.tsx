@@ -73,7 +73,7 @@ export interface RendererProps
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
   $schema: any; // 原始 schema 配置
-  testIdBuild: TestIdBuilder;
+  testIdBuilder?: TestIdBuilder;
   store?: IIRendererStore;
   syncSuperStore?: boolean;
   data: {
