@@ -224,7 +224,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
           },
           {
             type: 'submit',
-            label: '确认',
+            label: '保存',
             level: 'primary'
           },
           {

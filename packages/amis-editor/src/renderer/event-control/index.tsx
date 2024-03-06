@@ -43,9 +43,7 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction,
-  getDialogActions,
-  getFixDialogType
+  SubRendererPluginAction
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -76,6 +74,12 @@ interface EventControlProps extends FormControlProps {
     schema?: Schema
   ) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
+
+  // 监听面板提交事件
+  // 更改后写入 store 前触发
+  subscribeSchemaSubmit: (
+    fn: (schema: any, value: any, id: string, diff?: any) => any
+  ) => () => void;
 }
 
 interface EventDialogData {
@@ -141,6 +145,7 @@ export class EventControl extends React.Component<
   } = {};
   drag?: HTMLElement | null;
   unReaction: any;
+  submitSubscribers: Array<(value: any) => any> = [];
 
   constructor(props: EventControlProps) {
     super(props);
@@ -187,6 +192,7 @@ export class EventControl extends React.Component<
 
   componentWillUnmount() {
     this.unReaction?.();
+    this.submitSubscribers = [];
   }
 
   componentDidUpdate(
@@ -222,6 +228,16 @@ export class EventControl extends React.Component<
         eventPanelActive
       });
     }
+  }
+
+  @autobind
+  subscribeSubmit(subscriber: (value: any) => any) {
+    const fn = (value: any) => subscriber?.(value) || value;
+    this.submitSubscribers.push(fn);
+    return () => {
+      const idx = this.submitSubscribers.indexOf(fn);
+      this.submitSubscribers.splice(idx, 1);
+    };
   }
 
   generateEmptyDefault(events: RendererPluginEvent[]) {
@@ -782,26 +798,6 @@ export class EventControl extends React.Component<
     return updateComponentContext(variables);
   }
 
-  // 获取现有弹窗列表
-  getDialogList(
-    manager: EditorManager,
-    action?: ActionConfig,
-    actionType?: keyof typeof dialogObjMap
-  ) {
-    if (
-      action &&
-      actionType &&
-      dialogObjMap[actionType] &&
-      !action?.args?.fromCurrentDialog
-    ) {
-      let dialogBodyContent = dialogObjMap[actionType];
-      let filterId = Array.isArray(dialogBodyContent)
-        ? action[dialogBodyContent[0]].id || action[dialogBodyContent[1]].id
-        : action[dialogBodyContent].id;
-      return getDialogActions(manager.store.schema, 'source', filterId);
-    } else return getDialogActions(manager.store.schema, 'source');
-  }
-
   // 唤起动作配置弹窗
   async activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
@@ -866,37 +862,12 @@ export class EventControl extends React.Component<
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
         __cmptTreeSource: supportComponents ?? [],
-        __dialogActions: this.getDialogList(manager, action, actionGroupType),
+        // __dialogActions: manager.store.modalOptions,
         __superCmptTreeSource: allComponents,
         // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
-
-      // 编辑时准备已选的弹窗来源和标题
-      if (actionConfig?.actionType == 'openDialog') {
-        const definitions = manager.store.schema.definitions;
-        let dialogBody =
-          dialogObjMap[actionGroupType as keyof typeof dialogObjMap];
-        const dialogObj = Array.isArray(dialogBody)
-          ? dialogBody[0] || dialogBody[1]
-          : dialogBody;
-
-        const dialogRef = actionConfig?.[dialogObj!]?.$ref;
-
-        if (dialogRef) {
-          data.actionData!.__dialogTitle = definitions[dialogRef].title;
-        } else {
-          data.actionData!.__dialogTitle = actionConfig?.[dialogObj!]?.title;
-        }
-
-        if (actionConfig.args?.fromCurrentDialog) {
-          data.actionData!.__dialogSource = 'current';
-          data.actionData!.__selectDialog = definitions[dialogRef].$$id;
-        } else {
-          data.actionData!.__dialogSource = 'new';
-        }
-      }
 
       // 选中项自动滚动至可见位置
       setTimeout(
@@ -913,14 +884,14 @@ export class EventControl extends React.Component<
         pluginActions,
         getContextSchemas,
         __superCmptTreeSource: allComponents,
-        __dialogActions: this.getDialogList(manager)
+        __dialogActions: manager.store.modalOptions
       };
     }
     this.setState(data);
   }
 
   // 渲染描述信息
-  renderDesc(action: ActionConfig) {
+  renderDesc(action: ActionConfig, actionIndex: number, eventKey: string) {
     const {
       actions: pluginActions,
       actionTree,
@@ -957,33 +928,17 @@ export class EventControl extends React.Component<
     }
 
     return typeof desc === 'function' ? (
-      <div className="action-control-content">{desc?.(info) || '-'}</div>
+      <div className="action-control-content">
+        {desc?.(
+          info,
+          {
+            actionIndex,
+            eventKey
+          },
+          this.props
+        ) || '-'}
+      </div>
     ) : null;
-  }
-
-  getRefsFromCurrentDialog(store: any, action: any) {
-    let definitions = store.schema.definitions;
-    let dialogMaxIndex: number = 0;
-    let dialogRefsName = '';
-    if (definitions) {
-      Object.keys(definitions).forEach(k => {
-        const dialog = definitions[k];
-        if (dialog.$$id === action.__selectDialog) {
-          dialogRefsName = k;
-        }
-        if (k.includes('ref-')) {
-          let index = Number(k.split('-')[2]);
-          dialogMaxIndex = Math.max(dialogMaxIndex, index);
-        }
-      });
-    }
-    let dialogType = getFixDialogType(store.schema, action.__selectDialog);
-    if (!dialogRefsName) {
-      dialogRefsName = dialogMaxIndex
-        ? `${dialogType}-ref-${dialogMaxIndex + 1}`
-        : `${dialogType}-ref-1`;
-    }
-    return dialogRefsName;
   }
 
   @autobind
@@ -991,57 +946,21 @@ export class EventControl extends React.Component<
     const {actionConfigSubmitFormatter, manager} = this.props;
     const {actionData} = this.state;
     const store = manager.store;
-    const action =
+
+    let action =
       actionConfigSubmitFormatter?.(config, type, actionData, store.schema) ??
       config;
+
+    action = this.submitSubscribers.reduce(
+      (action, fn) => fn(action) || action,
+      action
+    );
+
     delete action.__actionSchema;
     if (type === 'add') {
-      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
-        let args =
-          action.actionType === 'dialog'
-            ? 'dialog'
-            : action.actionType === 'drawer'
-            ? 'drawer'
-            : 'dialog';
-
-        if (!config?.__dialogSource || config?.__dialogSource === 'new') {
-          let actionLength = this.state.onEvent[config.eventKey].actions.length;
-          let path = `${store.getSchemaPath(store.activeId)}/onEvent/${
-            config.eventKey
-          }/actions/${actionLength}/${args}`;
-          store.setActiveDialogPath(path);
-        } else if (config?.__dialogSource === 'current') {
-          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
-          let path = `definitions/${dialogRefsName}`;
-          store.setActiveDialogPath(path);
-        }
-        this.addAction?.(config.eventKey, action);
-      } else {
-        this.addAction?.(config.eventKey, action);
-      }
+      this.addAction?.(config.eventKey, action);
     } else if (type === 'update') {
-      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
-        let args =
-          action.actionType === 'dialog'
-            ? 'dialog'
-            : action.actionType === 'drawer'
-            ? 'drawer'
-            : 'dialog';
-
-        if (config.__dialogSource === 'new') {
-          let path = `${store.getSchemaPath(store.activeId)}/onEvent/${
-            config.eventKey
-          }/actions/${config.actionIndex}/${args}`;
-          store.setActiveDialogPath(path);
-        } else if (config.__dialogSource === 'current') {
-          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
-          let path = `definitions/${dialogRefsName}`;
-          store.setActiveDialogPath(path);
-        }
-        this.updateAction?.(config.eventKey, config.actionIndex, action);
-      } else {
-        this.updateAction?.(config.eventKey, config.actionIndex, action);
-      }
+      this.updateAction?.(config.eventKey, config.actionIndex, action);
     }
 
     updateCommonUseActions({
@@ -1079,6 +998,30 @@ export class EventControl extends React.Component<
     //   });
   }
 
+  renderActionType(action: any, actionIndex: number, eventKey: string) {
+    const {
+      actionTree,
+      actions: pluginActions,
+      commonActions,
+      allComponents,
+      node,
+      manager
+    } = this.props;
+
+    return (
+      <span>
+        {getPropOfAcion(
+          action,
+          'actionLabel',
+          actionTree,
+          pluginActions,
+          commonActions,
+          allComponents
+        ) || action.actionType}
+      </span>
+    );
+  }
+
   render() {
     const {
       actionTree,
@@ -1086,7 +1029,8 @@ export class EventControl extends React.Component<
       commonActions,
       getComponents,
       allComponents,
-      render
+      render,
+      subscribeSchemaSubmit
     } = this.props;
     const {
       onEvent,
@@ -1282,14 +1226,11 @@ export class EventControl extends React.Component<
                                     />
                                   </div>
                                   <div className="action-item-actiontype">
-                                    {getPropOfAcion(
+                                    {this.renderActionType(
                                       action,
-                                      'actionLabel',
-                                      actionTree,
-                                      pluginActions,
-                                      commonActions,
-                                      allComponents
-                                    ) || action.actionType}
+                                      actionIndex,
+                                      eventKey
+                                    )}
                                   </div>
                                 </div>
                                 <div className="action-control-header-right">
@@ -1327,7 +1268,7 @@ export class EventControl extends React.Component<
                                   </div>
                                 </div>
                               </div>
-                              {this.renderDesc(action)}
+                              {this.renderDesc(action, actionIndex, eventKey)}
                             </li>
                           );
                         }
@@ -1447,6 +1388,8 @@ export class EventControl extends React.Component<
           onSubmit={this.onSubmit}
           onClose={this.onClose}
           render={this.props.render}
+          subscribeSchemaSubmit={subscribeSchemaSubmit}
+          subscribeActionSubmit={this.subscribeSubmit}
         />
       </div>
     );

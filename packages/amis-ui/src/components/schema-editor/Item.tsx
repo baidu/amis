@@ -25,6 +25,8 @@ export class SchemaEditorItem extends React.Component<SchemaEditorItemProps> {
         break;
     }
 
-    return <Renderer {...this.props} />;
+    return (
+      <Renderer {...this.props} key={(value?.type as string) || 'string'} />
+    );
   }
 }

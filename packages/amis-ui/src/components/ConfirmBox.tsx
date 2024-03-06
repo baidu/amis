@@ -28,6 +28,7 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
           | undefined
         >;
         popOverContainer: () => HTMLElement | null | undefined;
+        onConfirm: () => void;
       }) => JSX.Element);
   popOverContainer?: any;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -116,7 +117,8 @@ export function ConfirmBox({
           ? children({
               bodyRef: bodyRef,
               loading,
-              popOverContainer: getPopOverContainer
+              popOverContainer: getPopOverContainer,
+              onConfirm: handleConfirm
             })
           : children}
       </PopUp>
@@ -139,6 +141,7 @@ export function ConfirmBox({
             ? children({
                 bodyRef: bodyRef,
                 loading,
+                onConfirm: handleConfirm,
                 popOverContainer: getPopOverContainer
               })
             : children}
@@ -195,7 +198,8 @@ export function ConfirmBox({
             ? children({
                 bodyRef: bodyRef,
                 loading,
-                popOverContainer: getPopOverContainer
+                popOverContainer: getPopOverContainer,
+                onConfirm: handleConfirm
               })
             : children}
         </div>

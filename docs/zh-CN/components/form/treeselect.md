@@ -409,19 +409,19 @@ order: 60
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称                             | 事件参数                                                                                                              | 说明                         |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| change                               | `[name]: string` 组件的值 <br/>`items: object[]`选项集合（< 3.6.0 及以下版本 不支持该参数）                           | 选中值变化时触发             |
-| blur                                 | `[name]: string` 组件的值 <br/>`items: object[]`选项集合（< 3.6.4 及以下版本 不支持该参数）                           | 输入框失去焦点时触发         |
-| focus                                | `[name]: string` 组件的值 <br/>`items: object[]`选项集合（< 3.6.4 及以下版本 不支持该参数）                           | 输入框获取焦点时触发         |
-| addConfirm (3.6.4 及以上版本)        | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合                             | 新增节点提交时触发           |
-| editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                             | 编辑节点提交时触发           |
-| deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                             | 删除节点提交时触发           |
-| deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合 | 懒加载接口远程请求成功时触发 |
-| add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                       | 新增节点提交时触发           |
-| edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                       | 编辑节点提交时触发           |
-| delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                       | 删除节点提交时触发           |
-| loadFinished（不推荐）               | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                                              | 懒加载接口远程请求成功时触发 |
+| 事件名称                             | 事件参数                                                                                                                      | 说明                         |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| change                               | `[name]: string` 组件的值 <br/>`item: object`选中的节点（6.2.0 及以上版本）<br/>`items: object[]`选项集合（3.6.0 及以上版本） | 选中值变化时触发             |
+| blur                                 | `[name]: string` 组件的值 <br/>``item: object`选中的节点（6.2.0 及以上版本）<br/>items: object[]`选项集合（3.6.4 及以上版本） | 输入框失去焦点时触发         |
+| focus                                | `[name]: string` 组件的值 <br/>`item: object`选中的节点（6.2.0 及以上版本）<br/>`items: object[]`选项集合（3.6.4 及以上版本） | 输入框获取焦点时触发         |
+| addConfirm (3.6.4 及以上版本)        | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合                                     | 新增节点提交时触发           |
+| editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                     | 编辑节点提交时触发           |
+| deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                     | 删除节点提交时触发           |
+| deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合         | 懒加载接口远程请求成功时触发 |
+| add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 新增节点提交时触发           |
+| edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 编辑节点提交时触发           |
+| delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 删除节点提交时触发           |
+| loadFinished（不推荐）               | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                                                      | 懒加载接口远程请求成功时触发 |
 
 ### change
 

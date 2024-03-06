@@ -38,7 +38,8 @@ export class DrawerAction implements RendererAction {
       {
         actionType: 'drawer',
         drawer: action.drawer,
-        reload: 'none'
+        reload: 'none',
+        data: action.rawData
       },
       action.data
     );

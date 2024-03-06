@@ -400,15 +400,22 @@ register('en-US', {
   'SchemaType.boolean': 'Boolean',
   'SchemaType.any': 'Any',
   'SchemaType.null': 'Null',
+  'JSONSchema.type': 'Type',
+  'JSONSchema.required': 'Required',
   'JSONSchema.title': 'Title',
   'JSONSchema.default': 'Default',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
+  'JSONSchema.members': 'Members',
+  'JSONSchema.key_duplicated': 'Key already exists',
   'TimeNow': 'Now',
   'IconSelect.all': 'All',
   'IconSelect.choice': 'Icon selection',
   'Steps.step': 'Step {{index}}',
   'FormulaInput.True': 'True',
-  'FormulaInput.False': 'False'
+  'FormulaInput.False': 'False',
+  'Signature.clear': 'clear',
+  'Signature.undo': 'undo',
+  'Signature.confirm': 'confirm'
 });

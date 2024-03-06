@@ -1323,10 +1323,15 @@ export class EditorManager {
    * @param diff
    */
   @autobind
-  panelChangeValue(value: any, diff?: any) {
+  panelChangeValue(
+    value: any,
+    diff?: any,
+    changeFilter?: (schema: any, value: any, id: string, diff?: any) => any,
+    id = this.store.activeId
+  ) {
     const store = this.store;
     const context: ChangeEventContext = {
-      ...this.buildEventContext(store.activeId),
+      ...this.buildEventContext(id),
       value,
       diff
     };
@@ -1336,9 +1341,12 @@ export class EditorManager {
       return;
     }
 
-    store.changeValue(value, diff);
+    store.changeValue(value, diff, changeFilter, id);
 
-    this.trigger('after-update', context);
+    this.trigger('after-update', {
+      ...context,
+      schema: context.node.schema // schema 是新的，因为修改完了
+    });
   }
 
   /**

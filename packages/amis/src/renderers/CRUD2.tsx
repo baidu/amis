@@ -30,7 +30,8 @@ import {
   isApiOutdated,
   isPureVariable,
   resolveVariableAndFilter,
-  parsePrimitiveQueryString
+  parsePrimitiveQueryString,
+  buildTestId
 } from 'amis-core';
 import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
@@ -541,7 +542,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
 
     store.updateQuery(
-      resetQuery ? this.props.store.pristineQuery : query,
+      resetQuery ? {...query, ...this.props.store.pristineQuery} : query,
       syncLocation && env && env.updateLocation
         ? (location: any) => env.updateLocation(location, true)
         : undefined,
@@ -1206,12 +1207,17 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         data: this.props.store.filterData,
         onSubmit: (data: any) =>
           this.handleSearch({query: data, resetPage: true}),
-        onReset: () =>
+        onReset: (data: any) => {
+          const resetQueries: any = {};
+          Object.keys(data!).forEach(key => (resetQueries[key] = ''));
+
           this.handleSearch({
+            query: resetQueries,
             resetQuery: true,
             replaceQuery: true,
             resetPage: true
-          })
+          });
+        }
       })
     );
   }
@@ -1308,6 +1314,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       columnsTogglable,
       headerToolbarClassName,
       footerToolbarClassName,
+      testid,
       ...rest
     } = this.props;
 
@@ -1317,6 +1324,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'is-loading': store.loading
         })}
         style={style}
+        {...buildTestId(testid)}
       >
         <div className={cx('Crud2-filter')}>
           {this.renderFilter(filterSchema)}

@@ -63,7 +63,7 @@ export interface ControlOutterProps extends RendererProps {
   submitOnChange?: boolean;
   validate?: (value: any, values: any, name: string) => any;
   formItem?: IFormItemStore;
-  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
+  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => () => void;
   removeHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
   $schema: {
     pipeIn?: (value: any, data: any) => any;
@@ -468,7 +468,7 @@ export function wrapControl<
 
           setInitialValue(value: any) {
             const model = this.model!;
-            const {formStore: form, data} = this.props;
+            const {formStore: form, data, canAccessSuperData} = this.props;
             const isExp = isExpression(value);
 
             if (isExp) {
@@ -479,10 +479,22 @@ export function wrapControl<
             } else {
               let initialValue = model.extraName
                 ? [
-                    getVariable(data, model.name, form?.canAccessSuperData),
-                    getVariable(data, model.extraName, form?.canAccessSuperData)
+                    getVariable(
+                      data,
+                      model.name,
+                      canAccessSuperData ?? form?.canAccessSuperData
+                    ),
+                    getVariable(
+                      data,
+                      model.extraName,
+                      canAccessSuperData ?? form?.canAccessSuperData
+                    )
                   ]
-                : getVariable(data, model.name, form?.canAccessSuperData);
+                : getVariable(
+                    data,
+                    model.name,
+                    canAccessSuperData ?? form?.canAccessSuperData
+                  );
 
               if (
                 model.extraName &&

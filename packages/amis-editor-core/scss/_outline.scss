@@ -224,3 +224,59 @@
     perspective: 1000px;
   }
 }
+
+.ae-DialogList {
+  &-wrap {
+    padding: 0 10px;
+  }
+
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+
+  li {
+    cursor: pointer;
+    margin: 4px 0;
+    padding: 4px 10px;
+    font-size: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--colors-neutral-text-2);
+
+    a {
+      font-size: inherit;
+      color: var(--icon-color);
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--icon-onHover-color);
+        background: var(--colors-neutral-bg-2);
+      }
+    }
+  }
+
+  // li + li {
+  //  border-top: var(--borderWidth) solid var(--borderColor);
+  // }
+
+  li:hover {
+    color: var(--Layout-fontColor--onHover);
+    background: $hover-bg-color;
+    // border-top: var(--borderWidth) solid var(--borderColor);
+    // border-bottom: var(--borderWidth) solid var(--borderColor);
+  }
+
+  &-placeholder {
+    color: #b4b6ba;
+    padding-top: px2rem(10px);
+    text-align: center;
+    vertical-align: middle;
+  }
+}

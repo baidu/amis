@@ -167,7 +167,6 @@ export default class Code extends React.Component<CodeProps> {
 
   static defaultProps: Partial<CodeProps> = {
     language: 'plaintext',
-    editorTheme: 'vs',
     tabSize: 4,
     wordWrap: true
   };
@@ -267,12 +266,11 @@ export default class Code extends React.Component<CodeProps> {
 
     return language;
   }
-
   /** 注册并返回当前主题名称，如果未自定义主题，则范围editorTheme值，默认为'vs' */
   registerAndGetTheme() {
     const monaco = this.monaco;
-    const {editorTheme = 'vs'} = this.props;
-
+    let {theme, editorTheme} = this.props;
+    editorTheme = editorTheme || (theme === 'dark' ? 'vs-dark' : 'vs');
     if (!monaco) {
       return editorTheme;
     }

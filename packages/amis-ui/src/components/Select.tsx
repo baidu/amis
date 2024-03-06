@@ -89,7 +89,8 @@ export interface OptionProps {
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
-    skipForm?: boolean
+    skipForm?: boolean,
+    closePopOver?: () => void
   ) => void;
   editable?: boolean;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
@@ -764,7 +765,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   handleAddClick() {
     const {onAdd} = this.props;
-    onAdd && onAdd();
+    onAdd && onAdd(undefined, undefined, false, this.close);
   }
 
   @autobind
@@ -1129,7 +1130,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                       cx('Select-option-hl')
                     )}
 
-                {item.tip}
+                {item.tip ? <span>{item.tip}</span> : null}
               </Checkbox>
             </div>
           ) : (
@@ -1144,7 +1145,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     inputValue as string,
                     cx('Select-option-hl')
                   )}
-              {item.tip}
+              {item.tip ? <span>{item.tip}</span> : null}
             </span>
           )}
           {editable ? (

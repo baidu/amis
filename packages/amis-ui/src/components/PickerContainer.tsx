@@ -49,7 +49,6 @@ export class PickerContainer extends React.Component<
     isOpened: false,
     value: this.props.value
   };
-  bodyRef = React.createRef<any>();
 
   componentDidUpdate(prevProps: PickerContainerProps) {
     const props = this.props;
@@ -96,10 +95,13 @@ export class PickerContainer extends React.Component<
   }
 
   @autobind
-  async confirm(): Promise<any> {
+  async beforeConfirm(form?: any): Promise<any> {
     const {onConfirm, beforeConfirm} = this.props;
 
-    const ret = await beforeConfirm?.(this.bodyRef.current);
+    const ret = beforeConfirm
+      ? await beforeConfirm?.(form)
+      : await form?.submit?.();
+
     let state: any = {
       isOpened: false
     };
@@ -110,8 +112,8 @@ export class PickerContainer extends React.Component<
     } else if (isObject(ret)) {
       state.value = ret;
     }
-
-    this.setState(state, () => onConfirm?.(this.state.value));
+    await onConfirm?.(state.value ?? this.state.value);
+    this.setState(state);
   }
 
   @autobind
@@ -160,19 +162,19 @@ export class PickerContainer extends React.Component<
           bodyClassName={bodyClassName}
           className={className}
           showFooter={showFooter}
-          beforeConfirm={this.confirm}
+          beforeConfirm={this.beforeConfirm}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
           disabled={disabled}
         >
-          {({popOverContainer, loading}) =>
+          {({popOverContainer, loading, onConfirm, bodyRef}) =>
             popOverRender({
               ...(this.state as any),
-              ref: this.bodyRef,
+              ref: bodyRef,
               setState: this.updateState,
               onClose: this.close,
               onChange: this.handleChange,
-              onConfirm: this.confirm,
+              onConfirm: onConfirm,
               popOverContainer,
               loading
             })!

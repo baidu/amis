@@ -94,6 +94,7 @@ import './renderers/Form/TabsTransferPicker';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Form/UserSelect';
+import './renderers/Form/InputSignature';
 import './renderers/Grid';
 import './renderers/Grid2D';
 import './renderers/HBox';
@@ -153,6 +154,7 @@ import './renderers/Password';
 import './renderers/DateRange';
 import './renderers/MultilineText';
 import './renderers/OfficeViewer';
+import './renderers/PdfViewer';
 import './renderers/AMIS';
 
 import './compat';
