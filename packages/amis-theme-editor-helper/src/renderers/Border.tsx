@@ -270,16 +270,18 @@ function BoxBorder(props: BorderProps & FormControlProps) {
             }-border-width`}
             state={state}
             inheritValue={editorThemePath ? 'inherit' : ''}
-            placeholder={editorDefaultValue?.[getKey('width')]}
+            placeholder={editorDefaultValue?.[getKey('width')] || '边框粗细'}
           />
           <div className="Theme-Border-settings-style-color">
             <Select
               options={borderStyleOptions}
               value={borderData[getKey('style')]}
-              placeholder={getLabel(
-                editorDefaultValue?.[getKey('style')],
-                borderStyleOptions
-              )}
+              placeholder={
+                getLabel(
+                  editorDefaultValue?.[getKey('style')],
+                  borderStyleOptions
+                ) || '边框样式'
+              }
               onChange={(item: any) => changeItem('style')(item.value)}
               clearable={!!editorDefaultValue}
               renderMenu={(item: Options) => {
@@ -322,7 +324,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
               itemName={`${
                 borderType === 'all' ? 'top' : borderType
               }-border-color`}
-              placeholder={editorDefaultValue?.[getKey('color')]}
+              placeholder={editorDefaultValue?.[getKey('color')] || '边框颜色'}
             />
           </div>
         </div>
