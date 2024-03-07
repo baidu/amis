@@ -15,6 +15,7 @@ import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import debounce from 'lodash/debounce';
 import merge from 'lodash/merge';
+import {EditorModalBody} from './store/editor';
 
 const {
   guid,
@@ -1393,8 +1394,13 @@ export const scrollToActive = debounce((selector: string) => {
   }
 }, 200);
 
-export function addModal(schema: any, modal: any) {
+export function addModal(schema: any, modal: any, definitions?: any) {
   schema = {...schema, definitions: {...schema.definitions}};
+
+  // 如果有传入definitions，则合并到schema中
+  if (definitions && isPlainObject(definitions)) {
+    schema = mergeDefinitions(schema, definitions, modal);
+  }
 
   let idx = 1;
   while (true) {
@@ -1413,4 +1419,91 @@ export function addModal(schema: any, modal: any) {
   schema.definitions[`modal-ref-${idx}`] = JSONPipeIn(modal);
 
   return [schema, `modal-ref-${idx}`];
+}
+
+/**
+ * 弹窗转成 definitions 定义
+ * 这样打开子弹窗的时候，可以把父级的弹窗列表透传到子弹窗里面去
+ *
+ * 这样子弹窗里面打开弹窗才能选到外面的弹窗
+ * @param modals
+ * @param definitions
+ * @returns
+ */
+export function modalsToDefinitions(
+  modals: Array<EditorModalBody>,
+  definitions: any = {}
+) {
+  let schema = {
+    definitions
+  };
+  modals.forEach((modal, idx) => {
+    if (modal.$$ref) {
+      schema.definitions[modal.$$ref] = JSONPipeIn(modal);
+    } else {
+      [schema] = addModal(schema, {...modal, $$originId: modal.$$id});
+    }
+  });
+  return schema.definitions;
+}
+
+/**
+ * 从子弹窗的 definitions 合并回来到主弹窗的 definitions
+ *
+ * @param originSchema
+ * @param definitions
+ * @param modal
+ * @returns
+ */
+export function mergeDefinitions(
+  originSchema: any,
+  definitions: any,
+  modal: any
+) {
+  const refs: Array<string> = [];
+  JSONTraverse(modal, (value, key) => {
+    if (key === '$ref') {
+      refs.push(value);
+    }
+  });
+
+  let schema = originSchema;
+  Object.keys(definitions).forEach(key => {
+    // 弹窗里面用到了才更新
+    if (!refs.includes(key)) {
+      return;
+    }
+
+    // 要修改就复制一份，避免污染原始数据
+    if (schema === originSchema) {
+      schema = {...schema, definitions: {...schema.definitions}};
+    }
+
+    const {$$originId, ...def} = definitions[key];
+
+    if ($$originId) {
+      const parent = JSONGetParentById(schema, $$originId);
+      if (!parent) {
+        throw new Error('Can not find modal action.');
+      }
+
+      const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+      schema = JSONUpdate(schema, parent.$$id, {
+        ...parent,
+        __actionModals: undefined,
+        args: undefined,
+        dialog: undefined,
+        drawer: undefined,
+        actionType: def.actionType ?? modalType,
+        [modalType]: JSONPipeIn({
+          $ref: key
+        })
+      });
+      schema.definitions[key] = JSONPipeIn(def);
+    } else {
+      schema.definitions[key] = JSONPipeIn(def);
+    }
+  });
+
+  return schema;
 }
