@@ -409,3 +409,7 @@ test('Renderer:Formitem initial value in table', async () => {
   );
   expect(container.innerHTML).toContain('123');
 });
+
+// TODO 补充测试用例
+// https://github.com/baidu/amis/issues/9742
+// https://github.com/baidu/amis/issues/9733
