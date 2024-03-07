@@ -21,7 +21,8 @@ import {
   guid,
   appTranslate,
   JSONGetByPath,
-  addModal
+  addModal,
+  mergeDefinitions
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -124,6 +125,16 @@ export interface TargetName {
   name: string;
   editorId: string;
 }
+
+export type EditorModalBody = (DialogSchema | DrawerSchema) & {
+  // 节点 ID
+  $$id?: string;
+  // 如果是公共弹窗，在 definitions 中的 key
+  $$ref?: string;
+
+  // 弹出方式
+  actionType?: string;
+};
 
 export const MainStore = types
   .model('EditorRoot', {
@@ -1001,7 +1012,7 @@ export const MainStore = types
       },
 
       // 获取弹窗大纲列表
-      get modals(): Array<DialogSchema | DrawerSchema> {
+      get modals(): Array<EditorModalBody> {
         const schema = self.schema;
         const modals: Array<DialogSchema | DrawerSchema> = [];
         Object.keys(schema.definitions || {}).forEach(key => {
@@ -1033,7 +1044,7 @@ export const MainStore = types
       },
 
       get modalOptions() {
-        return this.modals.map((modal: any) => {
+        return this.modals.map((modal: EditorModalBody) => {
           return {
             label: `${
               modal.editorSetting?.displayName || modal.title || '未命名弹窗'
@@ -1666,8 +1677,8 @@ export const MainStore = types
         self.jsonSchemaUri = schemaUri;
       },
 
-      addModal(modal?: DialogSchema | DrawerSchema) {
-        const [schema] = addModal(self.schema, modal);
+      addModal(modal?: DialogSchema | DrawerSchema, definitions?: any) {
+        const [schema] = addModal(self.schema, modal, definitions);
         this.traceableSetSchema(schema);
       },
 
@@ -1728,20 +1739,36 @@ export const MainStore = types
         this.traceableSetSchema(schema);
       },
 
-      updateModal(id: string, modal: DialogSchema | DrawerSchema) {
+      updateModal(
+        id: string,
+        modal: DialogSchema | DrawerSchema,
+        definitions?: any
+      ) {
         let schema = self.schema;
-        schema = JSONUpdate(schema, id, modal);
         const parent = JSONGetParentById(schema, id);
+
+        if (!parent) {
+          throw new Error('modal not found');
+        }
+
+        if (definitions && isPlainObject(definitions)) {
+          schema = mergeDefinitions(schema, definitions, modal);
+        }
+
         const newHostKey =
           ((modal as any).actionType || modal.type) === 'drawer'
             ? 'drawer'
             : 'dialog';
 
-        if (parent === schema.definitions) {
+        schema = JSONUpdate(schema, id, modal);
+
+        // 如果编辑的是公共弹窗
+        if (!parent.actionType) {
           const modalKey = Object.keys(parent).find(
             key => parent[key]?.$$id === id
           );
 
+          // 所有引用的地方都要更新
           JSONTraverse(schema, (value: any, key: string, host: any) => {
             if (
               key === 'actionType' &&
@@ -1761,6 +1788,7 @@ export const MainStore = types
             return value;
           });
         } else {
+          // 内嵌弹窗只用改自己就行了
           schema = JSONUpdate(schema, parent.$$id, {
             actionType: (modal as any).actionType || modal.type,
             args: undefined,
