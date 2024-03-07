@@ -567,9 +567,9 @@ function DialogActionPanel({
 
   const hasRequired =
     Array.isArray(currentModal?.modal.inputParams?.required) &&
-    currentModal.modal.inputParams.required.length;
+    currentModal!.modal.inputParams.required.length;
   React.useEffect(() => {
-    if (hasRequired && !currentModal.data) {
+    if (hasRequired && !currentModal?.data) {
       handleDataChange({});
     }
   }, [hasRequired]);
