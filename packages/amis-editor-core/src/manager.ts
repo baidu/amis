@@ -1528,7 +1528,18 @@ export class EditorManager {
       return;
     }
     const json = reGenerateID(parse(this.clipboardData));
-    region ? this.addChild(id, region, json) : this.replaceChild(id, json);
+    if (region) {
+      this.addChild(id, region, json);
+      return;
+    }
+    if (this.replaceChild(id, json)) {
+      setTimeout(() => {
+        this.store.highlightNodes.forEach(node => {
+          node.calculateHighlightBox();
+        });
+        this.updateConfigPanel(json.type);
+      });
+    }
   }
 
   /**
