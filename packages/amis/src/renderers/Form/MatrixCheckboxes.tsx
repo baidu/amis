@@ -111,6 +111,7 @@ export default class MatrixCheckbox extends React.Component<
 
   state: MatrixState;
   mounted: boolean = false;
+  toDispose: Array<() => void> = [];
 
   constructor(props: MatrixProps) {
     super(props);
@@ -128,9 +129,14 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   componentDidMount() {
-    const {formInited, addHook} = this.props;
+    const {formInited, addHook, formItem} = this.props;
 
-    formInited || !addHook ? this.reload() : addHook(this.initOptions, 'init');
+    formItem &&
+      this.toDispose.push(
+        formInited || !addHook
+          ? formItem.addInitHook(this.initOptions)
+          : addHook(this.initOptions, 'init')
+      );
   }
 
   componentDidUpdate(prevProps: MatrixProps) {
@@ -164,8 +170,8 @@ export default class MatrixCheckbox extends React.Component<
 
   componentWillUnmount() {
     this.mounted = false;
-    const {removeHook} = this.props;
-    removeHook?.(this.initOptions, 'init');
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {

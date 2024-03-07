@@ -329,34 +329,36 @@ export function registerOptionsControl(config: OptionsConfig) {
         defaultCheckAll
       } = props;
 
-      if (formItem) {
-        formItem.setOptions(
-          normalizeOptions(options, undefined, valueField),
-          this.changeOptionValue,
-          data
-        );
+      if (!formItem) {
+        return;
+      }
 
-        this.toDispose.push(
-          reaction(
-            () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
-            () => this.mounted && this.forceUpdate()
-          )
-        );
+      formItem.setOptions(
+        normalizeOptions(options, undefined, valueField),
+        this.changeOptionValue,
+        data
+      );
 
-        // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
-        if (
-          multiple &&
-          defaultCheckAll &&
-          formItem.filteredOptions?.length &&
-          !source
-        ) {
-          this.defaultCheckAll();
-        }
+      this.toDispose.push(
+        reaction(
+          () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
+          () => this.mounted && this.forceUpdate()
+        )
+      );
+
+      // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
+      if (
+        multiple &&
+        defaultCheckAll &&
+        formItem.filteredOptions?.length &&
+        !source
+      ) {
+        this.defaultCheckAll();
       }
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (formItem && joinValues === false && defaultValue) {
+      if (joinValues === false && defaultValue) {
         const selectedOptions = extractValue
           ? formItem
               .getSelectedOptions(value)
@@ -372,9 +374,11 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       loadOptions &&
         config.autoLoadOptionsFromSource !== false &&
-        (formInited || !addHook
-          ? this.reload()
-          : this.toDispose.push(addHook(this.initOptions, 'init')));
+        this.toDispose.push(
+          formInited || !addHook
+            ? formItem.addInitHook(this.reload)
+            : addHook(this.initOptions, 'init')
+        );
     }
 
     componentDidMount() {
