@@ -78,6 +78,7 @@ export interface ControlOutterProps extends RendererProps {
     changePristine?: boolean
   ) => void;
   formItemDispatchEvent: (type: string, data: any) => void;
+  formItemRef?: (control: any) => void;
 }
 
 export interface ControlProps {
@@ -539,7 +540,12 @@ export function wrapControl<
           }
 
           controlRef(control: any) {
-            const {addHook, removeHook, formStore: form} = this.props;
+            const {
+              addHook,
+              removeHook,
+              formStore: form,
+              formItemRef
+            } = this.props;
 
             // 因为 control 有可能被 n 层 hoc 包裹。
             while (control && control.getWrappedInstance) {
@@ -568,6 +574,7 @@ export function wrapControl<
               this.hook = undefined;
             }
 
+            formItemRef?.(control);
             // 注册到 Scoped 上
             const originRef = this.control;
             this.control = control;
