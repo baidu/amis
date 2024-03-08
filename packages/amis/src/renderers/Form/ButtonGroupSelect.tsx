@@ -34,7 +34,7 @@ export interface ButtonGroupProps
       | 'btnClassName'
     > {
   options: Array<Option>;
-  testIdBuilder: TestIdBuilder;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class ButtonGroupControl extends React.Component<

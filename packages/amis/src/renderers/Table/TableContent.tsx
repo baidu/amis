@@ -22,7 +22,7 @@ export interface TableContentProps extends LocaleProps {
   className?: string;
   tableClassName?: string;
   classnames: ClassNamesFn;
-  testIdBuilder: TestIdBuilder;
+  testIdBuilder?: TestIdBuilder;
   columns: Array<IColumn>;
   columnsGroup: Array<{
     label: string;

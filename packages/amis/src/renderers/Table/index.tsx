@@ -1697,7 +1697,7 @@ export default class Table extends React.Component<TableProps, object> {
         onSearchableFromSubmit={onSearchableFromSubmit}
         onSearchableFromInit={onSearchableFromInit}
         popOverContainer={this.getPopOverContainer}
-        testIdBuilder={testIdBuilder.getChild('filter')}
+        testIdBuilder={testIdBuilder?.getChild('filter')}
       />
     );
   }
@@ -2122,7 +2122,7 @@ export default class Table extends React.Component<TableProps, object> {
         quickEditFormRef={this.subFormRef}
         onImageEnlarge={this.handleImageEnlarge}
         translate={translate}
-        testIdBuilder={testIdBuilder.getChild(
+        testIdBuilder={testIdBuilder?.getChild(
           `cell-${props.rowPath}-${column.index}`
         )}
       />
@@ -2832,7 +2832,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--autoFillHeight': autoFillHeight
         })}
         style={store.buildStyles(style)}
-        {...testIdBuilder.getTestId()}
+        {...testIdBuilder?.getTestId()}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {this.renderAffixHeader(tableClassName)}

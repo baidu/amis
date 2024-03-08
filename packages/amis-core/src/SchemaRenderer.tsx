@@ -478,11 +478,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // 优先使用组件自己的testid或者id，这个解决不了table行内的一些子元素
     // 每一行都会出现这个testid的元素，只在测试工具中直接使用nth拿序号
-    if (props.testid || props.id || props.testIdBuilder == null) {
-      if (!(props.testIdBuilder instanceof TestIdBuilder)) {
-        props.testIdBuilder = new TestIdBuilder(
-          rest.env.enableTestid ? props.testid || props.id : null
-        );
+    if (rest.env.enableTestid) {
+      if (props.testid || props.id || props.testIdBuilder == null) {
+        if (!(props.testIdBuilder instanceof TestIdBuilder)) {
+          props.testIdBuilder = new TestIdBuilder(props.testid || props.id);
+        }
       }
     }
 

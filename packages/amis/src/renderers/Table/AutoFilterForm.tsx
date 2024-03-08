@@ -60,12 +60,12 @@ export function AutoFilterForm({
                 type: 'input-text',
                 name: column.name,
                 label: column.label,
-                testIdBuilder: testIdBuilder.getChild(column.name)
+                testIdBuilder: testIdBuilder?.getChild(column.name)
               }
             : {
                 type: 'input-text',
                 name: column.name,
-                testIdBuilder: testIdBuilder.getChild(column.name),
+                testIdBuilder: testIdBuilder?.getChild(column.name),
                 ...column.searchable
               }),
           name: column.searchable?.name ?? column.name,
@@ -130,7 +130,9 @@ export function AutoFilterForm({
                     inputClassName: cx('Table-searchableForm-checkbox-inner'),
                     name: `__whatever_name`,
                     option: column.searchable?.label ?? column.label,
-                    testIdBuilder: moreTestIdBuilder?.getChild(column.name),
+                    testIdBuilder: moreTestIdBuilder?.getChild(
+                      column.name + ''
+                    ),
                     badge: {
                       offset: [-10, 5],
                       visibleOn: `${
