@@ -417,5 +417,7 @@ register('en-US', {
   'FormulaInput.False': 'False',
   'Signature.clear': 'clear',
   'Signature.undo': 'undo',
-  'Signature.confirm': 'confirm'
+  'Signature.confirm': 'confirm',
+  'Signature.cancel': 'cancel',
+  'Signature.embedLabel': 'Click to sign'
 });

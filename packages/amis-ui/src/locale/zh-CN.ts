@@ -412,5 +412,7 @@ register('zh-CN', {
   'FormulaInput.False': '假',
   'Signature.clear': '清空',
   'Signature.undo': '撤销',
-  'Signature.confirm': '确认'
+  'Signature.confirm': '确认',
+  'Signature.cancel': '取消',
+  'Signature.embedLabel': '点击签名'
 });
