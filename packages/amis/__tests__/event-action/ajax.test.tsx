@@ -611,9 +611,13 @@ test('EventAction:ajax data3', async () => {
   });
 
   fireEvent.click(getByText(/表单外的校验按钮/));
+  await wait(200);
   fireEvent.click(getByText(/表单内的校验按钮/));
+  await wait(200);
   fireEvent.click(getByText(/无data/));
+  await wait(200);
   fireEvent.click(getByText(/字符串api无参数/));
+  await wait(200);
 
   await waitFor(() => {
     expect(fetcher).toHaveBeenCalledTimes(4);

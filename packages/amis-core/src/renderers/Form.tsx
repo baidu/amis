@@ -835,13 +835,16 @@ export default class Form extends React.Component<FormProps, object> {
     return this.props.store.validated;
   }
 
-  validate(
+  async validate(
     forceValidate?: boolean,
-    throwErrors: boolean = false
+    throwErrors: boolean = false,
+    skipFlush = false
   ): Promise<boolean> {
     const {store, dispatchEvent, data, messages, translate: __} = this.props;
 
-    this.flush();
+    if (!skipFlush) {
+      await this.flush();
+    }
     return store
       .validate(
         this.hooks['validate'] || [],
@@ -884,12 +887,15 @@ export default class Form extends React.Component<FormProps, object> {
     store.setValues(value, undefined, replace);
   }
 
-  submit(
+  async submit(
     fn?: (values: object) => Promise<any>,
-    throwErrors: boolean = false
+    throwErrors: boolean = false,
+    skipFlush = false
   ): Promise<any> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
-    this.flush();
+    if (!skipFlush) {
+      await this.flush();
+    }
     const validateErrCb = () => dispatchEvent('validateError', data);
     return store.submit(
       fn,
@@ -903,10 +909,20 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   // 如果开启了 lazyChange，需要一个 flush 方法把队列中值应用上。
-  flush() {
-    const hooks = this.hooks['flush'] || [];
-    hooks.forEach(fn => fn());
-    this.lazyEmitChange.flush();
+  flushing = false;
+  async flush() {
+    try {
+      if (this.flushing) {
+        return;
+      }
+
+      this.flushing = true;
+      const hooks = this.hooks['flush'] || [];
+      await Promise.all(hooks.map(fn => fn()));
+      await this.lazyEmitChange.flush();
+    } finally {
+      this.flushing = false;
+    }
   }
 
   reset() {
@@ -996,7 +1012,10 @@ export default class Form extends React.Component<FormProps, object> {
       this.handleAction(
         undefined,
         {
-          type: 'submit'
+          type: 'submit',
+          // 如果这里不跳过，会相互依赖死循环，flush 会 让 emiteChange 立即执行
+          // handleAction 里面又会调用 flush
+          skipFormFlush: true
         },
         store.data
       );
@@ -1085,7 +1104,9 @@ export default class Form extends React.Component<FormProps, object> {
     } = this.props;
 
     // 做动作之前，先把数据同步一下。
-    this.flush();
+    if (!action.skipFormFlush) {
+      await this.flush();
+    }
 
     if (trimValues) {
       store.trimValues();
@@ -1145,112 +1166,119 @@ export default class Form extends React.Component<FormProps, object> {
         store.clear(this.handleReset(action));
       }
 
-      return this.submit((values): any => {
-        if (onSubmit && onSubmit(values, action) === false) {
-          return Promise.resolve(false);
-        }
-        // 走到这里代表校验成功了
-        dispatchEvent('validateSucc', this.props.data);
+      return this.submit(
+        (values): any => {
+          if (onSubmit && onSubmit(values, action) === false) {
+            return Promise.resolve(false);
+          }
+          // 走到这里代表校验成功了
+          dispatchEvent('validateSucc', this.props.data);
 
-        if (target) {
-          this.submitToTarget(filterTarget(target, values), values);
-          dispatchEvent('submitSucc', createObject(this.props.data, values));
-        } else if (action.actionType === 'reload') {
-          action.target &&
-            this.reloadTarget(filterTarget(action.target, values), values);
-        } else if (action.actionType === 'dialog') {
-          store.openDialog(
-            data,
-            undefined,
-            action.callback,
-            delegate || (this.context as any)
-          );
-        } else if (action.actionType === 'drawer') {
-          store.openDrawer(data);
-        } else if (isEffectiveApi(action.api || api, values)) {
-          let finnalAsyncApi = action.asyncApi || asyncApi;
-          isEffectiveApi(finnalAsyncApi, store.data) &&
-            store.updateData({
-              [finishedField || 'finished']: false
-            });
+          if (target) {
+            this.submitToTarget(filterTarget(target, values), values);
+            dispatchEvent('submitSucc', createObject(this.props.data, values));
+          } else if (action.actionType === 'reload') {
+            action.target &&
+              this.reloadTarget(filterTarget(action.target, values), values);
+          } else if (action.actionType === 'dialog') {
+            store.openDialog(
+              data,
+              undefined,
+              action.callback,
+              delegate || (this.context as any)
+            );
+          } else if (action.actionType === 'drawer') {
+            store.openDrawer(data);
+          } else if (isEffectiveApi(action.api || api, values)) {
+            let finnalAsyncApi = action.asyncApi || asyncApi;
+            isEffectiveApi(finnalAsyncApi, store.data) &&
+              store.updateData({
+                [finishedField || 'finished']: false
+              });
 
-          return store
-            .saveRemote(action.api || (api as Api), values, {
-              successMessage:
-                typeof saveSuccess === 'string'
-                  ? filter(saveSuccess, store.data)
-                  : undefined,
-              errorMessage:
-                typeof saveFailed === 'string'
-                  ? filter(saveFailed, store.data)
-                  : undefined,
-              onSuccess: async (result: Payload) => {
-                // result为提交接口返回的内容
-                const dispatcher = await dispatchEvent(
-                  'submitSucc',
-                  createObject(this.props.data, {result})
-                );
-                if (
-                  !isEffectiveApi(finnalAsyncApi, store.data) ||
-                  store.data[finishedField || 'finished']
-                ) {
+            return store
+              .saveRemote(action.api || (api as Api), values, {
+                successMessage:
+                  typeof saveSuccess === 'string'
+                    ? filter(saveSuccess, store.data)
+                    : undefined,
+                errorMessage:
+                  typeof saveFailed === 'string'
+                    ? filter(saveFailed, store.data)
+                    : undefined,
+                onSuccess: async (result: Payload) => {
+                  // result为提交接口返回的内容
+                  const dispatcher = await dispatchEvent(
+                    'submitSucc',
+                    createObject(this.props.data, {result})
+                  );
+                  if (
+                    !isEffectiveApi(finnalAsyncApi, store.data) ||
+                    store.data[finishedField || 'finished']
+                  ) {
+                    return {
+                      cbResult: null,
+                      dispatcher
+                    };
+                  }
+                  const cbResult = until(
+                    () => store.checkRemote(finnalAsyncApi as Api, store.data),
+                    (ret: any) => ret && ret[finishedField || 'finished'],
+                    cancel => (this.asyncCancel = cancel),
+                    checkInterval
+                  ).then((value: any) => {
+                    // 派发asyncApiFinished事件
+                    dispatchEvent('asyncApiFinished', store.data);
+                  });
                   return {
-                    cbResult: null,
+                    cbResult,
+                    dispatcher
+                  };
+                },
+                onFailed: async (result: Payload) => {
+                  const dispatcher = await dispatchEvent(
+                    'submitFail',
+                    createObject(this.props.data, {error: result})
+                  );
+                  return {
                     dispatcher
                   };
                 }
-                const cbResult = until(
-                  () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                  (ret: any) => ret && ret[finishedField || 'finished'],
-                  cancel => (this.asyncCancel = cancel),
-                  checkInterval
-                ).then((value: any) => {
-                  // 派发asyncApiFinished事件
-                  dispatchEvent('asyncApiFinished', store.data);
-                });
-                return {
-                  cbResult,
-                  dispatcher
-                };
-              },
-              onFailed: async (result: Payload) => {
-                const dispatcher = await dispatchEvent(
-                  'submitFail',
-                  createObject(this.props.data, {error: result})
-                );
-                return {
-                  dispatcher
-                };
-              }
-            })
-            .then(async response => {
-              onSaved && onSaved(values, response);
-              const feedback = action.feedback || this.props.feedback;
+              })
+              .then(async response => {
+                onSaved && onSaved(values, response);
+                const feedback = action.feedback || this.props.feedback;
 
-              // submit 也支持 feedback
-              if (feedback && isVisible(feedback, store.data)) {
-                const confirmed = await this.openFeedback(feedback, store.data);
+                // submit 也支持 feedback
+                if (feedback && isVisible(feedback, store.data)) {
+                  const confirmed = await this.openFeedback(
+                    feedback,
+                    store.data
+                  );
 
-                // 如果 feedback 配置了，取消就跳过原有逻辑。
-                if (feedback.skipRestOnCancel && !confirmed) {
-                  throw new SkipOperation();
-                } else if (feedback.skipRestOnConfirm && confirmed) {
-                  throw new SkipOperation();
+                  // 如果 feedback 配置了，取消就跳过原有逻辑。
+                  if (feedback.skipRestOnCancel && !confirmed) {
+                    throw new SkipOperation();
+                  } else if (feedback.skipRestOnConfirm && confirmed) {
+                    throw new SkipOperation();
+                  }
                 }
-              }
 
-              return injectObjectChain(store.data, {
-                __payload: values,
-                __response: response
+                return injectObjectChain(store.data, {
+                  __payload: values,
+                  __response: response
+                });
               });
-            });
-        } else {
-          // type为submit，但是没有配api以及target时，只派发事件
-          dispatchEvent('submitSucc', createObject(this.props.data, values));
-        }
+          } else {
+            // type为submit，但是没有配api以及target时，只派发事件
+            dispatchEvent('submitSucc', createObject(this.props.data, values));
+          }
 
-        return Promise.resolve(null);
-      }, throwErrors)
+          return Promise.resolve(null);
+        },
+        throwErrors,
+        true
+      )
         .then(values => {
           // 有可能 onSubmit return false 了，那么后面的就不应该再执行了。
           if (values === false) {
@@ -1296,7 +1324,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
-      return this.validate(true, throwErrors);
+      return this.validate(true, throwErrors, true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(
