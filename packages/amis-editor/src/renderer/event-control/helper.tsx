@@ -9,6 +9,7 @@ import {
   getSchemaTpl,
   JsonGenerateID,
   JSONGetById,
+  modalsToDefinitions,
   persistGet,
   persistSet,
   PluginActions,
@@ -323,10 +324,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   title: '编辑弹窗',
                   value: {
                     type: 'dialog',
-                    ...modal
+                    ...modal,
+                    definitions: modalsToDefinitions(store.modals)
                   },
-                  onChange: (value: any, diff: any) => {
-                    store.updateModal(modal.$$id!, value);
+                  onChange: ({definitions, ...modal}: any, diff: any) => {
+                    store.updateModal(modal.$$id!, modal, definitions);
                   }
                 });
               }}

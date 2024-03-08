@@ -358,6 +358,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     executor: () => void;
   }> = [];
   initedFilled = false;
+  toDispose: Array<() => void> = [];
 
   static valueToFile(
     value: string | FileValue,
@@ -446,17 +447,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    const {formInited, addHook} = this.props;
+    const {formInited, addHook, formItem} = this.props;
 
-    if (formInited || !addHook) {
+    const onInited = () => {
       this.initedFilled = true;
       this.props.initAutoFill && this.syncAutoFill();
-    } else if (addHook) {
-      addHook(() => {
-        this.initedFilled = true;
-        this.props.initAutoFill && this.syncAutoFill();
-      }, 'init');
-    }
+    };
+
+    formItem &&
+      this.toDispose.push(
+        formInited || !addHook
+          ? formItem.addInitHook(onInited)
+          : addHook(onInited, 'init')
+      );
   }
 
   componentDidUpdate(prevProps: FileProps) {
@@ -512,6 +515,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           : undefined
       );
     }
+  }
+
+  componentWillUnmount(): void {
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+    this.fileUploadCancelExecutors.forEach(item => item.executor());
+    this.fileUploadCancelExecutors = [];
   }
 
   handleDrop(files: Array<FileX>) {

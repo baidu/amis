@@ -2727,9 +2727,14 @@ export class CRUDRenderer extends CRUD {
     condition?: any
   ) {
     const {store} = this.props;
-    const len = store.data.items.length;
+    const len = store.data.items?.length;
 
     if (index !== undefined) {
+      // TODO 修复以下逻辑
+      // store.data.items 可能没值
+      // crud 可能 table 也可能可能是 list 或者 cards，应该交给 body 子组件自己去处理
+      // 修改完数据应该是类似 quickEdit 修改后的效果，目前界面上无交互出现
+      // @hsm-lv
       let items = [...store.data.items];
       const indexs = String(index).split(',');
       indexs.forEach(i => {

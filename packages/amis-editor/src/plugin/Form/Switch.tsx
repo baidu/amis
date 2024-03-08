@@ -1,4 +1,9 @@
-import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
+import {
+  defaultValue,
+  getSchemaTpl,
+  undefinedPipeOut,
+  valuePipeOut
+} from 'amis-editor-core';
 import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
@@ -9,7 +14,8 @@ import type {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {isExpression} from 'amis-core';
+import {isExpression, isPureVariable} from 'amis-core';
+import omit from 'lodash/omit';
 
 export class SwitchControlPlugin extends BasePlugin {
   static id = 'SwitchControlPlugin';
@@ -123,49 +129,58 @@ export class SwitchControlPlugin extends BasePlugin {
                   body: [getSchemaTpl('onText'), getSchemaTpl('offText')]
                 }
               },
-
               {
                 type: 'ae-switch-more',
-                bulk: true,
+                hiddenOnDefault: false,
                 mode: 'normal',
-                label: tipedLabel(
-                  '值格式',
-                  '默认勾选后的值 true，未勾选的值 false'
-                ),
+                label: '值格式',
                 formType: 'extend',
                 form: {
                   body: [
                     {
-                      type: 'input-text',
-                      label: '勾选后的值',
+                      type: 'ae-valueFormat',
                       name: 'trueValue',
-                      value: true,
-                      pipeOut: valuePipeOut,
+                      label: '开启时',
+                      pipeIn: defaultValue(true),
+                      pipeOut: undefinedPipeOut,
                       onChange: (
-                        value: string,
-                        oldValue: string,
+                        value: any,
+                        oldValue: any,
                         model: any,
                         form: any
                       ) => {
-                        if (oldValue === form.getValueByName('value')) {
-                          form.setValueByName('value', value);
+                        const {value: defaultValue, trueValue} =
+                          form?.data || {};
+                        if (isPureVariable(defaultValue)) {
+                          return;
+                        }
+                        if (trueValue === defaultValue && trueValue !== value) {
+                          form.setValues({value});
                         }
                       }
                     },
                     {
-                      type: 'input-text',
-                      label: '未勾选的值',
+                      type: 'ae-valueFormat',
                       name: 'falseValue',
-                      value: false,
-                      pipeOut: valuePipeOut,
+                      label: '关闭时',
+                      pipeIn: defaultValue(false),
+                      pipeOut: undefinedPipeOut,
                       onChange: (
-                        value: string,
-                        oldValue: string,
+                        value: any,
+                        oldValue: any,
                         model: any,
                         form: any
                       ) => {
-                        if (oldValue === form.getValueByName('value')) {
-                          form.setValueByName('value', value);
+                        const {value: defaultValue, falseValue} =
+                          form?.data || {};
+                        if (isPureVariable(defaultValue)) {
+                          return;
+                        }
+                        if (
+                          falseValue === defaultValue &&
+                          falseValue !== value
+                        ) {
+                          form.setValues({value});
                         }
                       }
                     }
@@ -189,18 +204,18 @@ export class SwitchControlPlugin extends BasePlugin {
               }),
               */
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: {
+                  ...omit(context?.schema, ['trueValue', 'falseValue']),
+                  type: 'switch'
+                },
                 needDeleteProps: ['option'],
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                // valueType: 'boolean',
+                valueType: 'boolean',
                 pipeIn: (value: any, data: any) => {
-                  const {trueValue = true, falseValue = false} =
-                    data.data || {};
-                  return value === trueValue
-                    ? true
-                    : value === falseValue
-                    ? false
-                    : value;
+                  if (isPureVariable(value)) {
+                    return value;
+                  }
+                  return value === (data?.data?.trueValue ?? true);
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
                   // 如果是表达式，直接返回

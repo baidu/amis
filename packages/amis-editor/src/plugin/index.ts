@@ -63,6 +63,7 @@ export * from './Form/UUID'; // UUID
 export * from './Form/LocationPicker'; // 地理位置
 export * from './Form/InputSubForm'; // 子表单项
 export * from './Form/Hidden'; // 隐藏域
+export * from './Form/InputSignature'; // 签名面板
 export * from './Form/Static'; // 静态展示框
 
 // 功能

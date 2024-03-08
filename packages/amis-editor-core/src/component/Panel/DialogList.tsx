@@ -2,7 +2,7 @@ import {ClassNamesFn} from 'amis-core';
 import {observer} from 'mobx-react';
 import React from 'react';
 import {EditorStoreType} from '../../store/editor';
-import {translateSchema} from '../../util';
+import {modalsToDefinitions, translateSchema} from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
 
 export interface DialogListProps {
@@ -17,20 +17,23 @@ export default observer(function DialogList({
   const modals = store.modals;
 
   const handleAddDialog = React.useCallback(() => {
+    const modal = {
+      type: 'dialog',
+      title: '未命名弹窗',
+      definitions: modalsToDefinitions(store.modals),
+      body: [
+        {
+          type: 'tpl',
+          tpl: '弹窗内容'
+        }
+      ]
+    };
+
     store.openSubEditor({
       title: '编辑弹窗',
-      value: {
-        type: 'dialog',
-        title: '未命名弹窗',
-        body: [
-          {
-            type: 'tpl',
-            tpl: '弹窗内容'
-          }
-        ]
-      },
-      onChange: (value: any, diff: any) => {
-        store.addModal(value);
+      value: modal,
+      onChange: ({definitions, ...modal}: any, diff: any) => {
+        store.addModal(modal, definitions);
       }
     });
   }, []);
@@ -42,10 +45,11 @@ export default observer(function DialogList({
       title: '编辑弹窗',
       value: {
         type: 'dialog',
-        ...(dialog as any)
+        ...(dialog as any),
+        definitions: modalsToDefinitions(store.modals)
       },
-      onChange: (value: any, diff: any) => {
-        store.updateModal(dialog.$$id!, value);
+      onChange: ({definitions, ...modal}: any, diff: any) => {
+        store.updateModal(dialog.$$id!, modal, definitions);
       }
     });
   }, []);

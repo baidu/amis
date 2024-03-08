@@ -1001,7 +1001,7 @@ function FontEditor(props: FontEditorProps) {
                   }}
                   itemName="color"
                   state={state}
-                  placeholder={editorDefaultValue?.color}
+                  placeholder={editorDefaultValue?.color || '字体颜色'}
                   editorInheritValue={editorInheritValue?.color}
                 />
               </div>
@@ -1019,7 +1019,7 @@ function FontEditor(props: FontEditorProps) {
                   menuTpl="label"
                   state={state}
                   inheritValue={editorThemePath ? 'inherit' : ''}
-                  placeholder={editorDefaultValue?.fontSize}
+                  placeholder={editorDefaultValue?.fontSize || '字体大小'}
                 />
               </div>
             )}
@@ -1038,7 +1038,7 @@ function FontEditor(props: FontEditorProps) {
                   menuTpl="label"
                   state={state}
                   inheritValue={editorThemePath ? 'inherit' : ''}
-                  placeholder={editorDefaultValue?.fontWeight}
+                  placeholder={editorDefaultValue?.fontWeight || '字体字重'}
                 />
                 {(!hideLineHeight || !hideFontFamily) && (
                   <div className="Theme-FontEditor-item-label">字重</div>
@@ -1058,7 +1058,7 @@ function FontEditor(props: FontEditorProps) {
                   menuTpl="label"
                   state={state}
                   inheritValue={editorThemePath ? 'inherit' : ''}
-                  placeholder={editorDefaultValue?.lineHeight}
+                  placeholder={editorDefaultValue?.lineHeight || '字体行高'}
                 />
                 <div className="Theme-FontEditor-item-label">行高</div>
               </div>
