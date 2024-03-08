@@ -433,5 +433,7 @@ register('de-DE', {
   'FormulaInput.False': 'Falsch',
   'Signature.clear': 'leer',
   'Signature.undo': 'widerrufen',
-  'Signature.confirm': 'bestätigen'
+  'Signature.confirm': 'bestätigen',
+  'Signature.cancel': 'Abbrechen',
+  'Signature.embedLabel': 'Klicken Sie zum Signieren'
 });

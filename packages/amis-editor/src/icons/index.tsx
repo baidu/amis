@@ -105,6 +105,7 @@ import inputRepeat from './form/input-repeat.svg';
 import inputRichText from './form/input-rich-text.svg';
 import inputTag from './form/input-tag.svg';
 import inputText from './form/input-text.svg';
+import InputSignature from './form/input-signature.svg';
 
 import inputTime from './form/input-time.svg';
 import inputTree from './form/input-tree.svg';
@@ -283,6 +284,7 @@ registerIcon('input-rich-text-plugin', inputRichText);
 registerIcon('input-tag-plugin', inputTag);
 registerIcon('input-text-plugin', inputText);
 registerIcon('input-time-range-plugin', inputTimeRange);
+registerIcon('input-signature-plugin', InputSignature);
 
 registerIcon('input-time-plugin', inputTime);
 registerIcon('input-tree-plugin', inputTree);
