@@ -319,7 +319,7 @@ export class TableRow extends React.PureComponent<
           },
           `Table-tr--${depth}th`
         )}
-        {...testIdBuilder?.(rowPath).getTestId()}
+        {...testIdBuilder?.(rowPath)?.getTestId()}
       >
         {columns.map(column =>
           appeard ? (
