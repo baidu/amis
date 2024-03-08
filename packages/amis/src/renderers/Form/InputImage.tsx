@@ -459,6 +459,8 @@ export default class ImageControl extends React.Component<
   // 文件重新上传的位置标记，用以定位替换
   reuploadIndex: undefined | number = undefined;
 
+  toDispose: Array<() => void> = [];
+
   constructor(props: ImageProps) {
     super(props);
     const value: string | Array<string | FileValue> | FileValue = props.value;
@@ -514,17 +516,19 @@ export default class ImageControl extends React.Component<
   }
 
   componentDidMount() {
-    const {formInited, addHook} = this.props;
+    const {formInited, addHook, formItem} = this.props;
 
-    if (formInited || !addHook) {
+    const onInited = () => {
       this.initedFilled = true;
       this.props.initAutoFill && this.syncAutoFill();
-    } else if (addHook) {
-      addHook(() => {
-        this.initedFilled = true;
-        this.props.initAutoFill && this.syncAutoFill();
-      }, 'init');
-    }
+    };
+
+    formItem &&
+      this.toDispose.push(
+        formInited || !addHook
+          ? formItem.addInitHook(onInited)
+          : addHook(onInited, 'init')
+      );
 
     if (this.props.initCrop && this.files.length) {
       this.editImage(0);
@@ -598,6 +602,9 @@ export default class ImageControl extends React.Component<
   componentWillUnmount() {
     this.unmounted = true;
     this.fileKeys = new WeakMap();
+
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   getFileKey(file: FileValue | FileX) {

@@ -25,23 +25,6 @@ order: 62
 }
 ```
 
-## 水平展示
-
-```schema: scope="body"
-{
-    "type": "form",
-    "api": "/api/mock2/form/saveForm",
-    "body": [
-        {
-            "name": "signature",
-            "type": "input-signature",
-            "horiz": true,
-            "height": 300
-        }
-    ]
-}
-```
-
 ## 自定义按钮名称
 
 ```schema: scope="body"
@@ -53,9 +36,9 @@ order: 62
             "name": "signature",
             "type": "input-signature",
             "height": 160,
-            "confirmText": "确定",
-            "undoText": "上一步",
-            "clearText": "重置"
+            "confirmBtnLabel": "确定",
+            "undoBtnLabel": "上一步",
+            "clearBtnLabel": "重置"
         }
     ]
 }
@@ -101,15 +84,38 @@ order: 62
 }
 ```
 
+## 内嵌模式
+
+在内嵌模式下，组件会以按钮的形式展示，点击按钮后弹出一个容器，用户可以在容器中完成签名。更适合在移动端使用。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "signature",
+            "type": "input-signature",
+            "label": "手写签名",
+            "embed": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名      | 类型      | 默认值    | 说明               |
-| ----------- | --------- | --------- | ------------------ |
-| width       | `number`  |           | 组件宽度，最小 300 |
-| height      | `number`  |           | 组件高度，最小 160 |
-| color       | `string`  | `#000`    | 手写字体颜色       |
-| bgColor     | `string`  | `#EFEFEF` | 面板背景颜色       |
-| clearText   | `string`  | `清空`    | 清空按钮名称       |
-| undoText    | `string`  | `撤销`    | 撤销按钮名称       |
-| confirmText | `string`  | `确认`    | 确认按钮名称       |
-| horiz       | `boolean` |           | 是否水平展示       |
+| 属性名            | 类型      | 默认值     | 说明                 |
+| ----------------- | --------- | ---------- | -------------------- |
+| width             | `number`  |            | 组件宽度，最小 300   |
+| height            | `number`  |            | 组件高度，最小 160   |
+| color             | `string`  | `#000`     | 手写字体颜色         |
+| bgColor           | `string`  | `#EFEFEF`  | 面板背景颜色         |
+| clearBtnLabel     | `string`  | `清空`     | 清空按钮名称         |
+| undoBtnLabel      | `string`  | `撤销`     | 撤销按钮名称         |
+| confirmBtnLabel   | `string`  | `确认`     | 确认按钮名称         |
+| embed             | `boolean` |            | 是否内嵌             |
+| embedConfirmLabel | `string`  | `确认`     | 内嵌容器确认按钮名称 |
+| ebmedCancelLabel  | `string`  | `取消`     | 内嵌容器取消按钮名称 |
+| embedBtnIcon      | `string`  |            | 内嵌按钮图标         |
+| embedBtnLabel     | `string`  | `点击签名` | 内嵌按钮文案         |

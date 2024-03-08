@@ -39,21 +39,39 @@ export interface InputSignatureSchema extends FormBaseControlSchema {
    * 清空按钮名称
    * @default 清空
    */
-  clearText?: string;
+  clearBtnLabel?: string;
   /**
    * 撤销按钮名称
    * @default 撤销
    */
-  undoText?: string;
+  undoBtnLabel?: string;
   /**
    * 确认按钮名称
    * @default 确认
    */
-  confirmText?: string;
+  confirmBtnLabel?: string;
+
   /**
-   * 是否水平展示
+   * 是否内嵌
    */
-  horiz?: boolean;
+  embed?: boolean;
+
+  /**
+   * 弹窗确认按钮名称
+   */
+  embedConfirmLabel?: string;
+  /**
+   * 弹窗取消按钮名称
+   */
+  ebmedCancelLabel?: string;
+  /**
+   * 弹窗按钮图标
+   */
+  embedBtnIcon?: string;
+  /**
+   * 弹窗按钮文案
+   */
+  embedBtnLabel?: string;
 }
 
 export interface IInputSignatureProps extends FormControlProps {}
@@ -67,22 +85,28 @@ export default class InputSignatureComp extends React.Component<
   IInputSignatureState
 > {
   render() {
-    const {classnames: cx, horiz: horizontal, onChange} = this.props;
+    const {classnames: cx, className, onChange} = this.props;
     const props = pick(this.props, [
+      'value',
       'width',
       'height',
       'mobileUI',
+      'embed',
       'color',
       'bgColor',
-      'clearText',
-      'undoText',
-      'confirmText'
+      'clearBtnLabel',
+      'undoBtnLabel',
+      'confirmBtnLabel',
+      'embedConfirmLabel',
+      'ebmedCancelLabel',
+      'embedBtnIcon',
+      'embedBtnLabel'
     ]);
 
     return (
       <Signature
         classnames={cx}
-        horizontal={horizontal}
+        className={className}
         onChange={onChange}
         {...props}
       />

@@ -873,7 +873,11 @@ export class EditorManager {
    * @param rendererIdOrSchema
    * 备注：可以根据渲染器ID添加新元素，也可以根据现有schema片段添加新元素
    */
-  async addElem(rendererIdOrSchema: string | any, reGenerateId?: boolean) {
+  async addElem(
+    rendererIdOrSchema: string | any,
+    reGenerateId?: boolean,
+    activeChild: boolean = true
+  ) {
     if (!rendererIdOrSchema) {
       return;
     }
@@ -1029,7 +1033,7 @@ export class EditorManager {
       },
       reGenerateId
     );
-    if (child) {
+    if (child && activeChild) {
       // mobx 修改数据是异步的
       setTimeout(() => {
         store.setActiveId(child.$$id);
