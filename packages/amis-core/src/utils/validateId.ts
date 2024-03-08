@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * 身份证号码校验，（没有校验城市和区县）
  *
@@ -142,7 +144,9 @@ function verifyRegion(province: string, city: string, country: string) {
 }
 
 function verifyBirthday(birthday: any) {
-  return !isNaN(+birthday);
+  const min = moment(new Date('1850-01-01')); // 还有1850年前的人活着吗？
+  const max = moment().endOf('day'); // 最大值是今天
+  return !isNaN(+birthday) && moment(birthday).isBetween(min, max);
 }
 
 /**
