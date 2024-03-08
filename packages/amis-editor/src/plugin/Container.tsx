@@ -1,3 +1,6 @@
+import React from 'react';
+import {Button} from 'amis';
+import {Icon} from 'amis-editor-core';
 import {
   ActiveEventContext,
   BaseEventContext,
@@ -11,6 +14,8 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control';
+import {EditorNodeType} from 'packages/amis-editor-core/lib';
+import {defaultFlexColumnSchema} from './Layout/FlexPluginBase';
 
 export class ContainerPlugin extends LayoutBasePlugin {
   static id = 'ContainerPlugin';
@@ -32,8 +37,12 @@ export class ContainerPlugin extends LayoutBasePlugin {
     type: 'container',
     body: [],
     style: {
-      position: 'static',
-      display: 'block'
+      position: 'relative',
+      display: 'flex',
+      inset: 'auto',
+      flexWrap: 'nowrap',
+      flexDirection: 'column',
+      alignItems: 'flex-start'
     },
     size: 'none',
     wrapperBody: false
@@ -123,6 +132,183 @@ export class ContainerPlugin extends LayoutBasePlugin {
     }
   ];
 
+  onActive(event: PluginEvent<ActiveEventContext>) {
+    const context = event.context;
+
+    if (context.info?.plugin !== this || !context.node) {
+      return;
+    }
+
+    const node = context.node!;
+    const isFlexItem = this.manager?.isFlexItem(node.id);
+    if (isFlexItem && context.node.parent?.children?.length > 1) {
+      let isColumnFlex = String(node.schema?.style?.flexDirection).includes(
+        'column'
+      );
+      console.log(
+        'isColumnFlex',
+        isColumnFlex,
+        node.schema?.style?.flexDirection
+      );
+      // context?.node.setHeightMutable(isColumnFlex);
+      context?.node.setWidthMutable(!isColumnFlex);
+    }
+  }
+
+  afterUpdate(event: PluginEvent<ActiveEventContext>) {
+    const node = event.context?.node;
+  }
+
+  onWidthChangeStart(
+    event: PluginEvent<
+      ResizeMoveEventContext,
+      {
+        onMove(e: MouseEvent): void;
+        onEnd(e: MouseEvent): void;
+      }
+    >
+  ) {
+    const context = event.context;
+    const node = context.node;
+    const host = node.host;
+
+    const dom = context.dom;
+    const parent = dom.parentElement as HTMLElement;
+    if (!parent) {
+      return;
+    }
+    console.log('on width change start');
+    const resizer = context.resizer;
+    const frameRect = parent.getBoundingClientRect();
+    const rect = dom.getBoundingClientRect();
+    const isFlexItem = this.manager?.isFlexItem(node.id);
+    const schema = node.schema;
+    const index = node.index;
+    const isFlexSize =
+      schema.style?.flex === '1 1 auto' &&
+      (schema.style?.position === 'static' ||
+        schema.style?.position === 'relative');
+
+    let flexGrow = 1;
+    let width = 0;
+
+    event.setData({
+      onMove: (e: MouseEvent) => {
+        const children = parent.children;
+
+        width = e.pageX - rect.left;
+        flexGrow = Math.max(
+          1,
+          Math.min(12, Math.round((12 * width) / frameRect.width))
+        );
+
+        resizer.setAttribute(
+          'data-value',
+          isFlexSize ? `${flexGrow}` : width + 'px'
+        );
+
+        if (isFlexSize) {
+          // 需重新计算flex下各子组件占比，按照12等分计算
+          for (let i = 0; i < children.length; i++) {
+            if (i !== index) {
+              let width = children[i].clientWidth;
+              if (width > 0) {
+                let grow = Math.max(
+                  1,
+                  Math.min(12, Math.round((12 * width) / frameRect.width))
+                );
+                host.children[i]?.updateState({
+                  style: {
+                    ...host.children[i].schema.style,
+                    flexGrow: grow
+                  }
+                });
+              }
+            } else {
+              node.updateState({
+                style: {
+                  ...node.schema.style,
+                  flexGrow: +flexGrow
+                }
+              });
+            }
+          }
+        } else {
+          if (isFlexItem) {
+            node.updateState({
+              style: {
+                ...node.schema.style,
+                flex: '0 0 150px',
+                flexBasis: `${width}px`
+              }
+            });
+          } else {
+            node.updateState({
+              style: {
+                ...node.schema.style,
+                width: `${width}px`
+              }
+            });
+          }
+        }
+
+        requestAnimationFrame(() => {
+          node.calculateHighlightBox();
+        });
+      },
+      onEnd: () => {
+        resizer.removeAttribute('data-value');
+
+        if (isFlexSize) {
+          host?.children.forEach((item: EditorNodeType) => {
+            item.updateSchema({
+              style: {
+                ...node.schema.style,
+                flexGrow: item.state.style?.flexGrow ?? 1
+              }
+            });
+            item.updateState({}, true);
+          });
+        } else {
+          if (isFlexItem) {
+            node.updateSchema({
+              style: {
+                ...node.schema.style,
+                flex: `0 0 150px`,
+                flexBasis: `${width}px`
+              }
+            });
+          } else {
+            node.updateSchema({
+              style: {
+                ...node.schema.style,
+                width: `${width}px`
+              }
+            });
+          }
+          node.updateState({}, true);
+        }
+
+        requestAnimationFrame(() => {
+          node.calculateHighlightBox();
+        });
+      }
+    });
+  }
+
+  onHeightChangeStart(
+    event: PluginEvent<
+      ResizeMoveEventContext,
+      {
+        onMove(e: MouseEvent): void;
+        onEnd(e: MouseEvent): void;
+      }
+    >
+  ) {
+    console.log('on height change start');
+    // return this.onSizeChangeStart(event, 'vertical');
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
     const isRowContent =
@@ -132,6 +318,19 @@ export class ContainerPlugin extends LayoutBasePlugin {
     const isFreeContainer = curRendererSchema?.isFreeContainer || false;
     const isFlexItem = this.manager?.isFlexItem(context?.id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
+    const node = context.node;
+
+    const parent = node.parent?.schema;
+    const draggableContainer = this.manager.draggableContainer(context?.id);
+    const canAppendSiblings =
+      parent &&
+      isFlexItem &&
+      !draggableContainer &&
+      this.manager?.canAppendSiblings();
+
+    const newItemSchema = isFlexColumnItem
+      ? defaultFlexColumnSchema('', false)
+      : defaultFlexColumnSchema();
 
     const displayTpl = [
       getSchemaTpl('layout:display'),
@@ -154,53 +353,122 @@ export class ContainerPlugin extends LayoutBasePlugin {
       {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
+          // {
+          //   title: '基本',
+          //   body: [
+          //     {
+          //       name: 'wrapperComponent',
+          //       label: '容器标签',
+          //       type: 'select',
+          //       searchable: true,
+          //       options: [
+          //         'div',
+          //         'p',
+          //         'h1',
+          //         'h2',
+          //         'h3',
+          //         'h4',
+          //         'h5',
+          //         'h6',
+          //         'article',
+          //         'aside',
+          //         'code',
+          //         'footer',
+          //         'header',
+          //         'section'
+          //       ],
+          //       pipeIn: defaultValue('div'),
+          //       validations: {
+          //         isAlphanumeric: true,
+          //         matchRegexp: '/^(?!.*script).*$/' // 禁用一下script标签
+          //       },
+          //       validationErrors: {
+          //         isAlpha: 'HTML标签不合法，请重新输入',
+          //         matchRegexp: 'HTML标签不合法，请重新输入'
+          //       },
+          //       validateOnChange: false
+          //     },
+          //     getSchemaTpl('layout:padding')
+          //   ]
+          // },
           {
             title: '基本',
             body: [
-              {
-                name: 'wrapperComponent',
-                label: '容器标签',
-                type: 'select',
-                searchable: true,
-                options: [
-                  'div',
-                  'p',
-                  'h1',
-                  'h2',
-                  'h3',
-                  'h4',
-                  'h5',
-                  'h6',
-                  'article',
-                  'aside',
-                  'code',
-                  'footer',
-                  'header',
-                  'section'
-                ],
-                pipeIn: defaultValue('div'),
-                validations: {
-                  isAlphanumeric: true,
-                  matchRegexp: '/^(?!.*script).*$/' // 禁用一下script标签
-                },
-                validationErrors: {
-                  isAlpha: 'HTML标签不合法，请重新输入',
-                  matchRegexp: 'HTML标签不合法，请重新输入'
-                },
-                validateOnChange: false
+              canAppendSiblings && {
+                type: 'wrapper',
+                size: 'none',
+                className: 'grid grid-cols-2 gap-4 mb-4',
+                body: [
+                  {
+                    children: (
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          this.manager.appendSiblingSchema(
+                            newItemSchema,
+                            true,
+                            true
+                          )
+                        }
+                      >
+                        <Icon
+                          className="icon"
+                          icon={
+                            isFlexColumnItem
+                              ? 'top-arrow-to-top'
+                              : 'left-arrow-to-left'
+                          }
+                        />
+                        <span>
+                          {isFlexColumnItem ? '上方' : '左侧'}插入一
+                          {isFlexColumnItem ? '行' : '列'}
+                        </span>
+                      </Button>
+                    )
+                  },
+                  {
+                    children: (
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          this.manager.appendSiblingSchema(
+                            newItemSchema,
+                            false,
+                            true
+                          )
+                        }
+                      >
+                        <Icon
+                          className="icon"
+                          icon={
+                            isFlexColumnItem
+                              ? 'arrow-to-bottom'
+                              : 'arrow-to-right'
+                          }
+                        />
+                        <span>
+                          {isFlexColumnItem ? '下方' : '右侧'}插入一
+                          {isFlexColumnItem ? '行' : '列'}
+                        </span>
+                      </Button>
+                    )
+                  }
+                ]
               },
-              getSchemaTpl('layout:padding')
-            ]
-          },
-          {
-            title: '布局',
-            body: [
-              getSchemaTpl('layout:position', {
-                visibleOn: '!data.stickyStatus'
+
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.baseControlClassName.padding-and-margin:default'
               }),
-              getSchemaTpl('layout:originPosition'),
-              getSchemaTpl('layout:inset', {
-                mode: 'vertical'
+              getSchemaTpl('theme:border', {
+                name: `themeCss.baseControlClassName.border:default`
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                name: 'themeCss.baseControlClassName.background:default',
+                label: '背景',
+                needCustom: true,
+                needGradient: true,
+                needImage: true,
+                labelMode: 'input'
               }),
 
               // 自由容器不需要 display 相关配置项
@@ -263,7 +531,12 @@ export class ContainerPlugin extends LayoutBasePlugin {
               getSchemaTpl('layout:isFixedWidth', {
                 visibleOn: `${!isFlexItem || isFlexColumnItem}`,
                 onChange: (value: boolean) => {
-                  context?.node.setWidthMutable(value);
+                  if (
+                    !isFlexItem ||
+                    context.node.parent?.children?.length > 1
+                  ) {
+                    context?.node.setWidthMutable(value);
+                  }
                 }
               }),
               getSchemaTpl('layout:width', {
@@ -295,15 +568,27 @@ export class ContainerPlugin extends LayoutBasePlugin {
                       'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
                   })
                 : null,
-              getSchemaTpl('layout:z-index'),
+              getSchemaTpl('layout:z-index')
+            ]
+          },
+          getSchemaTpl('status'),
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('layout:position', {
+                visibleOn: '!data.stickyStatus'
+              }),
+              getSchemaTpl('layout:originPosition'),
+              getSchemaTpl('layout:inset', {
+                mode: 'vertical'
+              }),
               getSchemaTpl('layout:sticky', {
                 visibleOn:
                   'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
               }),
               getSchemaTpl('layout:stickyPosition')
             ]
-          },
-          getSchemaTpl('status')
+          }
         ])
       },
       {
