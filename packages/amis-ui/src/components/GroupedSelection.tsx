@@ -129,10 +129,12 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       itemClassName,
       itemRender,
       multiple,
-      labelField
+      labelField,
+      testIdBuilder
     } = this.props;
 
     const valueArray = this.valueArray;
+    const itemTIB = testIdBuilder?.getChild(`item-${option.value || index}`);
 
     return (
       <div
@@ -146,6 +148,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
           !!~valueArray.indexOf(option) ? 'is-active' : ''
         )}
         onClick={() => this.toggleOption(option)}
+        {...itemTIB?.getTestId()}
       >
         {multiple ? (
           <Checkbox
@@ -154,6 +157,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             disabled={disabled || option.disabled}
             labelClassName={labelClassName}
             description={option.description}
+            testIdBuilder={itemTIB?.getChild('checkbox')}
           />
         ) : null}
         <div className={cx('GroupedSelection-itemLabel')}>

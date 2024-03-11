@@ -10,8 +10,7 @@ import {
   RendererProps,
   ScopedContext,
   uuid,
-  setThemeClassName,
-  getTestId
+  setThemeClassName
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
@@ -23,8 +22,6 @@ export interface ButtonSchema extends BaseSchema {
    * 主要用于用户行为跟踪里区分是哪个按钮
    */
   id?: string;
-
-  testid?: string;
 
   /**
    * 是否为块状展示，默认为内联。
@@ -749,7 +746,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       wrapperCustomStyle,
       css,
       id,
-      testid,
+      testIdBuilder,
       env
     } = this.props;
 
@@ -849,7 +846,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
               [activeClassName || 'is-active']: isActive
             }
           )}
-          testid={getTestId(testid, data)}
+          testIdBuilder={testIdBuilder}
           style={style}
           size={size}
           level={

@@ -4,7 +4,7 @@
  * @created: 2024/02/26
  */
 
-import React from 'react';
+import React, {Suspense} from 'react';
 import {
   autobind,
   getVariable,
@@ -40,6 +40,8 @@ export interface PdfViewerProps extends RendererProps {}
 
 interface PdfViewerState {
   loading: boolean;
+  inited: boolean;
+  width?: number;
 }
 
 export default class PdfViewer extends React.Component<
@@ -49,14 +51,21 @@ export default class PdfViewer extends React.Component<
   file?: ArrayBuffer;
   reader?: FileReader;
   fetchCancel?: Function;
+  wrapper = React.createRef<HTMLDivElement>();
   constructor(props: PdfViewerProps) {
     super(props);
     this.state = {
+      inited: false,
       loading: false
     };
   }
 
   componentDidMount() {
+    if (this.wrapper.current) {
+      this.setState({
+        width: this.wrapper.current.clientWidth - 100
+      });
+    }
     this.renderPdf();
   }
 
@@ -77,6 +86,10 @@ export default class PdfViewer extends React.Component<
         this.renderPdf();
       }
     }
+  }
+
+  componentWillUnmount() {
+    this.abortLoad();
   }
 
   @autobind
@@ -117,6 +130,7 @@ export default class PdfViewer extends React.Component<
     }
 
     this.setState({
+      inited: true,
       loading: true
     });
 
@@ -140,11 +154,18 @@ export default class PdfViewer extends React.Component<
   async renderFormFile() {
     const {name, data} = this.props;
     const file = getVariable(data, name);
+    this.setState({
+      inited: true,
+      loading: true
+    });
     if (file instanceof File) {
       const reader = new FileReader();
       reader.onload = _e => {
         const data = reader.result as ArrayBuffer;
         this.file = data;
+        this.setState({
+          loading: false
+        });
         this.forceUpdate();
       };
       reader.readAsArrayBuffer(file);
@@ -153,17 +174,26 @@ export default class PdfViewer extends React.Component<
   }
 
   render() {
-    const {className, classnames: cx, width, height, background} = this.props;
+    const {className, classnames: cx, height, background} = this.props;
+    const {loading, inited} = this.state;
+    const width = Math.max(this.props.width || this.state.width, 300);
 
     return (
-      <PdfView
-        file={this.file}
-        className={className}
-        classnames={cx}
-        width={width}
-        height={height}
-        background={background}
-      />
+      <div ref={this.wrapper}>
+        <Suspense fallback={<div>...</div>}>
+          {inited ? (
+            <PdfView
+              file={this.file}
+              loading={loading}
+              className={className}
+              classnames={cx}
+              width={width}
+              height={height}
+              background={background}
+            />
+          ) : null}
+        </Suspense>
+      </div>
     );
   }
 }

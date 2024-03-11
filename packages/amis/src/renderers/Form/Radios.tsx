@@ -6,7 +6,8 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  TestIdBuilder
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -37,6 +38,7 @@ export interface RadiosProps extends OptionsControlProps {
   labelClassName?: string;
   /** 选项CSS类名 */
   optionClassName?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class RadiosControl extends React.Component<RadiosProps, any> {
@@ -126,7 +128,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       data,
       translate: __,
       optionType,
-      level
+      level,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -151,6 +154,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         itemClassName={itemClassName}
         optionType={optionType}
         level={level}
+        testIdBuilder={testIdBuilder}
       />
     );
   }

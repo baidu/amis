@@ -7,6 +7,7 @@ import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
 import {filter} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
 import {Breadcrumb} from 'amis-ui';
+import type {TestIdBuilder} from 'amis-core';
 
 export type BreadcrumbBaseItemSchema = {
   /**
@@ -101,6 +102,8 @@ export interface BreadcrumbSchema extends BaseSchema {
    * 浮窗提示位置
    */
   tooltipPosition?: TooltipPositionType;
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface BreadcrumbProps

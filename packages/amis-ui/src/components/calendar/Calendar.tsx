@@ -15,7 +15,7 @@ import {PickerOption} from '../PickerColumn';
 import 'moment/locale/zh-cn';
 import 'moment/locale/de';
 
-import type {RendererEnv} from 'amis-core';
+import type {RendererEnv, TestIdBuilder} from 'amis-core';
 import type {unitOfTime} from 'moment';
 
 /** 视图模式 */
@@ -132,6 +132,7 @@ interface BaseDatePickerProps {
   timeConstraints?: any;
   timeRangeHeader?: string;
   status?: ChangeEventViewStatus;
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface BaseDatePickerState {
@@ -456,7 +457,8 @@ class BaseDatePicker extends React.Component<
       'mobileUI',
       'showToolbar',
       'embed',
-      'env'
+      'env',
+      'testIdBuilder'
     ].forEach(key => (props[key] = (this.props as any)[key]));
 
     return props;
@@ -721,8 +723,14 @@ class BaseDatePicker extends React.Component<
   }
 
   render() {
-    const {viewMode, timeFormat, dateFormat, timeRangeHeader, mobileUI} =
-      this.props;
+    const {
+      viewMode,
+      timeFormat,
+      dateFormat,
+      timeRangeHeader,
+      mobileUI,
+      testIdBuilder
+    } = this.props;
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
@@ -757,6 +765,7 @@ class BaseDatePicker extends React.Component<
             ? 'rdtTime'
             : ''
         )}
+        {...testIdBuilder?.getTestId()}
       >
         <div
           key="dt"

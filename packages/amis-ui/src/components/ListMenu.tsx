@@ -2,6 +2,7 @@ import {ThemeProps, themeable} from 'amis-core';
 import React from 'react';
 import {Options, Option} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface ListMenuProps extends ThemeProps, LocaleProps {
   options: Options;
@@ -14,6 +15,7 @@ export interface ListMenuProps extends ThemeProps, LocaleProps {
   getItemProps: (props: {item: Option; index: number}) => any;
   prefix?: JSX.Element;
   children?: React.ReactNode | Array<React.ReactNode>;
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface RenderResult {
@@ -37,7 +39,8 @@ export class ListMenu extends React.Component<ListMenuProps> {
       highlightIndex,
       selectedOptions,
       mobileUI,
-      onSelect
+      onSelect,
+      testIdBuilder
     } = this.props;
 
     if (Array.isArray(option.children) && option.children.length) {
@@ -74,6 +77,7 @@ export class ListMenu extends React.Component<ListMenuProps> {
         )}
         key={index}
         onClick={onSelect ? (e: any) => onSelect(e, option) : undefined}
+        {...testIdBuilder?.getChild(option.value || index).getTestId()}
         {...getItemProps({
           item: option,
           index: index
