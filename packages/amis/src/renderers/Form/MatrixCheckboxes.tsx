@@ -17,6 +17,8 @@ import {ApiObject, ActionObject, isMobile} from 'amis-core';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
+import type {TestIdBuilder} from 'amis-core';
+
 /**
  * Matrix 选择控件。适合做权限勾选。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
@@ -88,6 +90,7 @@ export interface MatrixProps extends FormControlProps, SpinnerExtraProps {
    * 横向选择所有能力
    */
   xCheckAll?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface MatrixState {
@@ -411,7 +414,8 @@ export default class MatrixCheckbox extends React.Component<
       multiple,
       textAlign,
       xCheckAll,
-      yCheckAll
+      yCheckAll,
+      testIdBuilder
     } = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
@@ -459,6 +463,7 @@ export default class MatrixCheckbox extends React.Component<
                         onChange={(checked: boolean) =>
                           this.toggleRowCheckAll(checked, value, y)
                         }
+                        testIdBuilder={testIdBuilder?.getChild(y)}
                       />
                     ) : null}
                     {row.label}
@@ -484,6 +489,7 @@ export default class MatrixCheckbox extends React.Component<
                         onChange={(checked: boolean) =>
                           this.toggleItem(checked, x, y)
                         }
+                        testIdBuilder={testIdBuilder?.getChild(`${x}-${y}`)}
                       />
                     </td>
                   ))}

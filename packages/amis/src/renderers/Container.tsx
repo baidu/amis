@@ -8,8 +8,7 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   CustomStyle,
-  setThemeClassName,
-  buildTestId
+  setThemeClassName
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
@@ -233,7 +232,6 @@ export default class Container<T> extends React.Component<
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={buildStyle(style, data)}
-        {...buildTestId(testid)}
       >
         {this.renderBody()}
         <CustomStyle

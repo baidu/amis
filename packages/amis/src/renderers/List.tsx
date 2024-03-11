@@ -959,7 +959,8 @@ export default class List extends React.Component<ListProps, object> {
       checkOnItemClick,
       itemAction,
       classnames: cx,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
     const hasClickActions =
       onEvent &&
@@ -979,6 +980,7 @@ export default class List extends React.Component<ListProps, object> {
           'is-modified': item.modified,
           'is-moved': item.moved
         }),
+        testIdBuilder: testIdBuilder?.getChild(index),
         selectable: store.selectable,
         checkable: item.checkable,
         multiple,
@@ -1180,7 +1182,8 @@ export class ListItem extends React.Component<ListItemProps> {
       hideCheckToggler,
       checkOnItemClick,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      testIdBuilder
     } = this.props;
 
     if (dragging) {
@@ -1199,6 +1202,7 @@ export class ListItem extends React.Component<ListItemProps> {
             checked={selected}
             onChange={this.handleCheck}
             inline
+            testIdBuilder={testIdBuilder?.getChild('checkbox')}
           />
         </div>
       );

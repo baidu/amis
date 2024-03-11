@@ -16,6 +16,8 @@ import {localeable, LocaleProps} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
+import type {TestIdBuilder} from 'amis-core';
+
 /**
  * City 城市选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/city
@@ -86,6 +88,7 @@ export interface CityPickerProps
     [propName: string]: any;
   };
   popOverContainer?: any;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface CityDb {
@@ -419,7 +422,8 @@ export class CityPicker extends React.Component<
       translate: __,
       loadingConfig,
       popOverContainer,
-      itemClassName
+      itemClassName,
+      testIdBuilder
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -437,6 +441,7 @@ export class CityPicker extends React.Component<
           value={provinceCode || ''}
           onChange={this.handleProvinceChange}
           popOverContainer={popOverContainer}
+          testIdBuilder={testIdBuilder?.getChild('province')}
         />
 
         {allowCity && db.city[provinceCode] && db.city[provinceCode].length ? (
@@ -451,6 +456,7 @@ export class CityPicker extends React.Component<
             value={cityCode || ''}
             onChange={this.handleCityChange}
             popOverContainer={popOverContainer}
+            testIdBuilder={testIdBuilder?.getChild('city')}
           />
         ) : null}
 
@@ -470,6 +476,7 @@ export class CityPicker extends React.Component<
             value={districtCode || ''}
             onChange={this.handleDistrictChange}
             popOverContainer={popOverContainer}
+            testIdBuilder={testIdBuilder?.getChild('district')}
           />
         ) : null}
 
@@ -481,6 +488,7 @@ export class CityPicker extends React.Component<
             onBlur={this.handleStreetEnd}
             placeholder={__('City.street')}
             disabled={disabled}
+            {...testIdBuilder?.getChild('street').getTestId()}
           />
         ) : null}
       </div>
@@ -578,7 +586,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
       env,
       mobileUI,
       popOverContainer,
-      itemClassName
+      itemClassName,
+      testIdBuilder
     } = this.props;
 
     return mobileUI ? (
@@ -607,6 +616,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         joinValues={joinValues}
         allowStreet={allowStreet}
         disabled={disabled}
+        testIdBuilder={testIdBuilder}
       />
     );
   }

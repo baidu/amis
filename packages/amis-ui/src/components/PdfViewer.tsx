@@ -20,15 +20,17 @@ export interface PdfViewerProps extends ThemeProps {
   width?: number;
   height?: number;
   background?: string;
+  loading: boolean;
 }
 
 const PdfViewer: React.FC<PdfViewerProps> = props => {
-  const {classnames: cx, className, width = 500} = props;
+  const {classnames: cx, className, loading, width = 300} = props;
   const [file, setFile] = React.useState(props.file);
   const [loaded, setLoaded] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [scale, setScale] = React.useState(1);
   const [total, setTotal] = React.useState(1);
+  const wrapper = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>();
 
   React.useEffect(() => {
@@ -67,13 +69,9 @@ const PdfViewer: React.FC<PdfViewerProps> = props => {
     setScale(scale * t);
   }
 
-  if (!file) {
-    return null;
-  }
-
   function renderLoading() {
     return (
-      <div className={cx('PdfViewer-Loading')} style={{width: `${width}px`}}>
+      <div className={cx('PdfViewer-Loading')}>
         <Spinner />
       </div>
     );
@@ -115,27 +113,33 @@ const PdfViewer: React.FC<PdfViewerProps> = props => {
   }
 
   return (
-    <div className={cx(className, 'PdfViewer')}>
-      <div className={cx('PdfViewer-Content', {'is-loaded': loaded})}>
-        <Document
-          file={file}
-          onLoadSuccess={handleLoadSuccess}
-          loading={renderLoading()}
-        >
-          <Page
-            className={cx('PdfViewer-Content-Page')}
-            pageNumber={page}
-            width={width}
-            height={props.height}
-            loading={renderLoading()}
-            noData={<div>No PDF data</div>}
-            scale={scale}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-          />
-        </Document>
-      </div>
-      {loaded ? renderTool() : null}
+    <div className={cx(className, 'PdfViewer')} ref={wrapper}>
+      {!file || loading ? (
+        renderLoading()
+      ) : (
+        <>
+          <div className={cx('PdfViewer-Content', {'is-loaded': loaded})}>
+            <Document
+              file={file}
+              onLoadSuccess={handleLoadSuccess}
+              loading={renderLoading()}
+            >
+              <Page
+                className={cx('PdfViewer-Content-Page')}
+                pageNumber={page}
+                width={width}
+                height={props.height}
+                loading={renderLoading()}
+                noData={<div>No PDF data</div>}
+                scale={scale}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
+            </Document>
+          </div>
+          {loaded ? renderTool() : null}
+        </>
+      )}
     </div>
   );
 };

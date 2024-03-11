@@ -16,7 +16,8 @@ export default {
       {
         type: 'pdf-viewer',
         id: 'pdf-viewer',
-        name: 'file'
+        name: 'file',
+        width: 500
       }
     ]
   }

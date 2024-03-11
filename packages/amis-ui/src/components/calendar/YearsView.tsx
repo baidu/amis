@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable, utils, getRange} from 'amis-core';
 import Picker from '../Picker';
+import type {TestIdBuilder} from 'amis-core';
 
 interface CustomYearsViewProps extends LocaleProps {
   viewDate: moment.Moment;
@@ -31,6 +32,7 @@ interface CustomYearsViewProps extends LocaleProps {
     currentDate: moment.Moment,
     selected?: moment.Moment
   ) => boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class CustomYearsView extends React.Component<CustomYearsViewProps> {
@@ -124,9 +126,10 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
   }
 
   renderYear = (props: any, year: number, date?: moment.Moment) => {
+    const {testIdBuilder} = this.props;
     return (
       <td {...props}>
-        <span>{year}</span>
+        <span {...testIdBuilder?.getChild(props.key).getTestId()}>{year}</span>
       </td>
     );
   };
@@ -179,7 +182,7 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
   render() {
     let year = this.props.viewDate.year();
     year = year - (year % 10);
-    const __ = this.props.translate;
+    const {testIdBuilder, translate: __} = this.props;
     if (this.props.mobileUI) {
       return <div className="rdtYears">{this.renderYearPicker()}</div>;
     }
@@ -191,13 +194,18 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
               <th
                 className="rdtPrev"
                 onClick={this.props.subtractTime(10, 'years')}
+                {...testIdBuilder?.getChild('prev-year').getTestId()}
               >
                 &laquo;
               </th>
               <th className="rdtSwitch">
                 {__('year-to-year', {from: year, to: year + 9})}
               </th>
-              <th className="rdtNext" onClick={this.props.addTime(10, 'years')}>
+              <th
+                className="rdtNext"
+                onClick={this.props.addTime(10, 'years')}
+                {...testIdBuilder?.getChild('next-year').getTestId()}
+              >
                 &raquo;
               </th>
             </tr>

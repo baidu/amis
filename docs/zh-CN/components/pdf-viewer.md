@@ -14,7 +14,8 @@ order: 24
 {
   "type": "pdf-viewer",
   "id": "pdf-viewer",
-  "src": "/examples/static/simple.pdf"
+  "src": "/examples/static/simple.pdf",
+  "width": 500
 }
 ```
 
@@ -38,7 +39,8 @@ order: 24
     {
       "type": "pdf-viewer",
       "id": "pdf-viewer",
-      "name": "file"
+      "name": "file",
+      "width": 500
     }
   ]
 }
@@ -49,6 +51,6 @@ order: 24
 | 属性名     | 类型   | 默认值 | 说明       |
 | ---------- | ------ | ------ | ---------- |
 | src        | Api    |        | 文档地址   |
-| width      | number | 500    | 宽度       |
+| width      | number |        | 宽度       |
 | height     | number | -      | 高度       |
 | background | string | #fff   | PDF 背景色 |
