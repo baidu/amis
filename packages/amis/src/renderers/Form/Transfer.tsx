@@ -637,7 +637,8 @@ export class BaseTransferRenderer<
       popOverContainer,
       data,
       autoCheckChildren = true,
-      initiallyOpen = true
+      initiallyOpen = true,
+      testIdBuilder
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -729,6 +730,7 @@ export class BaseTransferRenderer<
           onPageChange={this.handlePageChange}
           initiallyOpen={initiallyOpen}
           autoCheckChildren={autoCheckChildren}
+          testIdBuilder={testIdBuilder}
         />
         <Spinner
           overlay

@@ -2,7 +2,7 @@ import {ClassNamesFn} from 'amis-core';
 import {observer} from 'mobx-react';
 import React from 'react';
 import {EditorStoreType} from '../../store/editor';
-import {translateSchema} from '../../util';
+import {modalsToDefinitions, translateSchema} from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
 
 export interface DialogListProps {
@@ -17,20 +17,23 @@ export default observer(function DialogList({
   const modals = store.modals;
 
   const handleAddDialog = React.useCallback(() => {
+    const modal = {
+      type: 'dialog',
+      title: '未命名弹窗',
+      definitions: modalsToDefinitions(store.modals),
+      body: [
+        {
+          type: 'tpl',
+          tpl: '弹窗内容'
+        }
+      ]
+    };
+
     store.openSubEditor({
       title: '编辑弹窗',
-      value: {
-        type: 'dialog',
-        title: '未命名弹窗',
-        body: [
-          {
-            type: 'tpl',
-            tpl: '弹窗内容'
-          }
-        ]
-      },
-      onChange: (value: any, diff: any) => {
-        store.addModal(value);
+      value: modal,
+      onChange: ({definitions, ...modal}: any, diff: any) => {
+        store.addModal(modal, definitions);
       }
     });
   }, []);
@@ -40,9 +43,13 @@ export default observer(function DialogList({
     const dialog = store.modals[index];
     store.openSubEditor({
       title: '编辑弹窗',
-      value: dialog,
-      onChange: (value: any, diff: any) => {
-        store.updateModal(dialog.$$id!, value);
+      value: {
+        type: 'dialog',
+        ...(dialog as any),
+        definitions: modalsToDefinitions(store.modals)
+      },
+      onChange: ({definitions, ...modal}: any, diff: any) => {
+        store.updateModal(dialog.$$id!, modal, definitions);
       }
     });
   }, []);
@@ -62,14 +69,10 @@ export default observer(function DialogList({
       const refsCount = store.countModalActionRefs(dialog.$$id!);
 
       const confirmed = await confirm(
-        `确认删除弹窗「${
-          dialog.editorSetting?.displayName || dialog.title
-        }」？${
-          refsCount
-            ? `<br/>当前弹窗已关联${refsCount} 个事件，删除后，所配置的事件动作将一起被删除。`
-            : ''
-        }`,
-        ''
+        refsCount
+          ? `当前弹窗已关联 ${refsCount} 个事件，删除后，所配置的事件动作将一起被删除。`
+          : '',
+        `确认删除弹窗「${dialog.editorSetting?.displayName || dialog.title}」？`
       );
 
       if (confirmed) {

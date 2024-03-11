@@ -12,8 +12,8 @@ import {
   themeable,
   autobind,
   createObject,
-  filter,
-  buildTestId
+  TestIdBuilder,
+  filter
 } from 'amis-core';
 
 import {getIcon, Icon} from '../icons';
@@ -42,6 +42,7 @@ export interface SubMenuProps
   onTitleClick?: (e: MenuItemTitleInfo) => void;
   renderLink: Function;
   [propName: string]: any;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class SubMenu extends React.Component<SubMenuProps> {
@@ -111,7 +112,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       disabled,
       data: defaultData,
       extra,
-      testid,
+      testIdBuilder,
       renderLink
     } = this.props;
     const isCollapsedNode = collapsed && depth === 1;
@@ -166,7 +167,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
       ) : null;
     const dragNode =
       !disabled && stacked && mode === 'inline' && !collapsed && draggable ? (
-        <span className={cx('Nav-Menu-item-dragBar')} draggable>
+        <span
+          className={cx('Nav-Menu-item-dragBar')}
+          draggable
+          {...testIdBuilder?.getChild('drag-bar').getTestId()}
+        >
           <DragIcon />
         </span>
       ) : null;
@@ -181,7 +186,11 @@ export class SubMenu extends React.Component<SubMenuProps> {
           {labelNode}
           {labelExtra}
           {!stacked && depth === 1 ? (
-            <span key="expand-toggle" className={cx('Nav-Menu-submenu-arrow')}>
+            <span
+              key="expand-toggle"
+              className={cx('Nav-Menu-submenu-arrow')}
+              {...testIdBuilder?.getChild('expand-toggle').getTestId()}
+            >
               <Icon icon="right-arrow-bold" className="icon" />
             </span>
           ) : null}
@@ -205,7 +214,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             data-id={link?.__id || id}
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
-            {...buildTestId(testid, link)}
+            {...testIdBuilder?.getTestId()}
           >
             {renderContent()}
           </a>

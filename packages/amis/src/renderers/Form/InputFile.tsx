@@ -3,8 +3,7 @@ import {
   FormItem,
   FormControlProps,
   prettyBytes,
-  resolveEventData,
-  buildTestId
+  resolveEventData
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -247,8 +246,6 @@ export interface FileControlSchema extends FormBaseControlSchema {
    * 是否为拖拽上传
    */
   drag?: boolean;
-
-  testid?: string;
 }
 
 export interface FileProps
@@ -358,6 +355,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     executor: () => void;
   }> = [];
   initedFilled = false;
+  toDispose: Array<() => void> = [];
 
   static valueToFile(
     value: string | FileValue,
@@ -446,17 +444,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    const {formInited, addHook} = this.props;
+    const {formInited, addHook, formItem} = this.props;
 
-    if (formInited || !addHook) {
+    const onInited = () => {
       this.initedFilled = true;
       this.props.initAutoFill && this.syncAutoFill();
-    } else if (addHook) {
-      addHook(() => {
-        this.initedFilled = true;
-        this.props.initAutoFill && this.syncAutoFill();
-      }, 'init');
-    }
+    };
+
+    formItem &&
+      this.toDispose.push(
+        formInited || !addHook
+          ? formItem.addInitHook(onInited)
+          : addHook(onInited, 'init')
+      );
   }
 
   componentDidUpdate(prevProps: FileProps) {
@@ -512,6 +512,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           : undefined
       );
     }
+  }
+
+  componentWillUnmount(): void {
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+    this.fileUploadCancelExecutors.forEach(item => item.executor());
+    this.fileUploadCancelExecutors = [];
   }
 
   handleDrop(files: Array<FileX>) {
@@ -1358,9 +1365,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       data,
       documentation,
       documentLink,
-      testid,
       env,
-      container
+      container,
+      testIdBuilder
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1419,7 +1426,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 disabled={disabled}
                 {...getInputProps()}
                 capture={capture as any}
-                {...buildTestId(testid && `${testid}-input`)}
+                {...testIdBuilder?.getChild('input').getTestId()}
               />
 
               {drag || isDragActive ? (
@@ -1458,13 +1465,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       'is-disabled':
                         multiple && !!maxLength && files.length >= maxLength
                     })}
-                    testid={testid}
                     tooltip={
                       multiple && maxLength && files.length >= maxLength
                         ? __('File.maxLength', {maxLength})
                         : ''
                     }
                     onClick={this.handleSelect}
+                    testIdBuilder={testIdBuilder?.getChild('select')}
                   >
                     <Icon icon="upload" className="icon" />
                     <span>
@@ -1594,6 +1601,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {!autoUpload && !hideUploadButton && files.length ? (
           <Button
             level="default"
+            testIdBuilder={testIdBuilder?.getChild('upload')}
             disabled={!hasPending}
             className={cx('FileControl-uploadBtn', btnUploadClassName)}
             onClick={this.toggleUpload}

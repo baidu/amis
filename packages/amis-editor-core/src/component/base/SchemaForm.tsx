@@ -106,13 +106,27 @@ export function SchemaFrom({
   const themeConfig = React.useMemo(() => getThemeConfig(), []);
   const submitSubscribers = React.useRef<Array<Function>>([]);
   const subscribeSubmit = React.useCallback(
-    (fn: (schema: any, value: any, id: string, diff?: any) => any) => {
-      submitSubscribers.current.push(fn);
-      return () => {
+    (
+      fn: (schema: any, value: any, id: string, diff?: any) => any,
+      once = false
+    ) => {
+      let raw = fn;
+      const unsubscribe = () => {
         submitSubscribers.current = submitSubscribers.current.filter(
-          item => item !== fn
+          item => ((item as any).__raw ?? item) !== raw
         );
       };
+
+      if (once) {
+        fn = (schema: any, value: any, id: string, diff?: any) => {
+          const ret = raw(schema, value, id, diff);
+          unsubscribe();
+          return ret;
+        };
+        (fn as any).__raw = raw;
+      }
+      submitSubscribers.current.push(fn);
+      return unsubscribe;
     },
     []
   );

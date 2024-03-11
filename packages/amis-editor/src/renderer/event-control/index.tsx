@@ -43,9 +43,7 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction,
-  getDialogListBySchema,
-  getFixDialogType
+  SubRendererPluginAction
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -893,7 +891,7 @@ export class EventControl extends React.Component<
   }
 
   // 渲染描述信息
-  renderDesc(action: ActionConfig) {
+  renderDesc(action: ActionConfig, actionIndex: number, eventKey: string) {
     const {
       actions: pluginActions,
       actionTree,
@@ -930,7 +928,16 @@ export class EventControl extends React.Component<
     }
 
     return typeof desc === 'function' ? (
-      <div className="action-control-content">{desc?.(info) || '-'}</div>
+      <div className="action-control-content">
+        {desc?.(
+          info,
+          {
+            actionIndex,
+            eventKey
+          },
+          this.props
+        ) || '-'}
+      </div>
     ) : null;
   }
 
@@ -994,64 +1001,12 @@ export class EventControl extends React.Component<
   renderActionType(action: any, actionIndex: number, eventKey: string) {
     const {
       actionTree,
-      pluginActions,
+      actions: pluginActions,
       commonActions,
       allComponents,
       node,
       manager
     } = this.props;
-
-    if (['dialog', 'drawer', 'confirmDialog'].includes(action?.actionType)) {
-      const store = manager.store;
-      const modals = store.modals;
-      const onEvent = node.schema?.onEvent;
-      const action = onEvent?.[eventKey].actions?.[actionIndex];
-      const actionBody =
-        action?.[action?.actionType === 'drawer' ? 'drawer' : 'dialog'];
-      let modalId = actionBody?.$$id;
-      if (actionBody?.$ref) {
-        modalId =
-          modals.find((item: any) => item.$$ref === actionBody.$ref)?.$$id ||
-          '';
-      }
-      const modal = modalId
-        ? manager.store.modals.find((item: any) => item.$$id === modalId)
-        : '';
-      if (modal) {
-        return (
-          <>
-            <div className="m-b-xs">打开弹窗</div>
-            <div>
-              打开{' '}
-              <a
-                href="#"
-                onClick={(e: React.UIEvent<any>) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  store.openSubEditor({
-                    title: '编辑弹窗',
-                    value: modal,
-                    onChange: (value: any, diff: any) => {
-                      store.updateModal(modal.$$id!, value);
-                    }
-                  });
-                }}
-              >
-                {modal.editorSetting?.displayName ||
-                  modal.title ||
-                  '未命名弹窗'}
-              </a>{' '}
-              {(modal as any).actionType === 'confirmDialog'
-                ? '确认框'
-                : modal.type === 'drawer'
-                ? '抽屉弹窗'
-                : '弹窗'}
-            </div>
-          </>
-        );
-      }
-    }
 
     return (
       <span>
@@ -1313,7 +1268,7 @@ export class EventControl extends React.Component<
                                   </div>
                                 </div>
                               </div>
-                              {this.renderDesc(action)}
+                              {this.renderDesc(action, actionIndex, eventKey)}
                             </li>
                           );
                         }

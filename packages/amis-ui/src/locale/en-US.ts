@@ -414,5 +414,10 @@ register('en-US', {
   'IconSelect.choice': 'Icon selection',
   'Steps.step': 'Step {{index}}',
   'FormulaInput.True': 'True',
-  'FormulaInput.False': 'False'
+  'FormulaInput.False': 'False',
+  'Signature.clear': 'clear',
+  'Signature.undo': 'undo',
+  'Signature.confirm': 'confirm',
+  'Signature.cancel': 'cancel',
+  'Signature.embedLabel': 'Click to sign'
 });

@@ -12,6 +12,7 @@ import {isMobile} from 'amis-core';
 import {PopUp} from 'amis-ui';
 import {autobind} from 'amis-core';
 
+import type {TestIdBuilder} from 'amis-core';
 /**
  * SubForm 子表单
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/subform
@@ -112,6 +113,7 @@ export interface SubFormProps extends FormControlProps {
   minLength?: number;
   maxLength?: number;
   labelField?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface SubFormState {
@@ -418,7 +420,8 @@ export default class SubFormControl extends React.PureComponent<
       addable,
       removable,
       minLength,
-      addButtonText
+      addButtonText,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -435,6 +438,7 @@ export default class SubFormControl extends React.PureComponent<
                   itemClassName
                 )}
                 key={key}
+                {...testIdBuilder?.getChild(`item-${key}`).getTestId()}
               >
                 {draggable && value.length > 1 ? (
                   <a className={cx('SubForm-valueDragBar')}>
@@ -502,6 +506,7 @@ export default class SubFormControl extends React.PureComponent<
                   value.length >= maxLength
                 )
               }
+              {...testIdBuilder?.getChild('add-button').getTestId()}
             >
               <Icon icon="plus" className="icon" />
               <span>{__(addButtonText || 'SubForm.add')}</span>
@@ -530,8 +535,11 @@ export default class SubFormControl extends React.PureComponent<
       btnLabel,
       render,
       data,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
+
+    const tIdBuilder = testIdBuilder?.getChild('edit-single');
 
     return (
       <div className={cx('SubForm-values', itemsClassName)} key="values">
@@ -546,6 +554,7 @@ export default class SubFormControl extends React.PureComponent<
           onClick={this.editSingle}
           data-tooltip={__('SubForm.editDetail')}
           data-position="bottom"
+          {...tIdBuilder?.getTestId()}
         >
           <span className={cx('SubForm-valueLabel')}>
             {btnLabel &&
@@ -566,7 +575,10 @@ export default class SubFormControl extends React.PureComponent<
                 stripTag(value[labelField])) ||
                 __(defaultLabel))}
           </span>
-          <a className={cx('SubForm-valueEdit')}>
+          <a
+            className={cx('SubForm-valueEdit')}
+            {...tIdBuilder?.getChild('icon').getTestId()}
+          >
             <Icon icon="pencil" className="icon" />
           </a>
         </div>

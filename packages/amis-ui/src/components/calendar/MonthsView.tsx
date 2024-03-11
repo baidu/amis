@@ -4,6 +4,7 @@ import {LocaleProps, localeable, getRange} from 'amis-core';
 import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface OtherProps {
   inputFormat?: string;
@@ -47,6 +48,7 @@ export interface CustomMonthsViewProps extends LocaleProps {
   timeCell: (value: number, type: DateType) => string;
   getDateBoundary: (currentDate: moment.Moment) => any;
   mobileUI: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
@@ -71,6 +73,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
   }
 
   renderMonths() {
+    const {testIdBuilder} = this.props;
     let date = this.props.selectedDate,
       month = this.props.viewDate.month(),
       year = this.props.viewDate.year(),
@@ -159,7 +162,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     year: number,
     date: moment.Moment
   ) => {
-    const {translate: __} = this.props;
+    const {translate: __, testIdBuilder} = this.props;
     const {viewDate: localMoment, ...rest} = props;
     const monthStr = localMoment.month(month).format(__('MMM'));
     const strLength = 3;
@@ -169,7 +172,9 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
 
     return (
       <td {...rest}>
-        <span>{monthStrFixedLength}</span>
+        <span {...testIdBuilder?.getChild(props.key).getTestId()}>
+          {monthStrFixedLength}
+        </span>
       </td>
     );
   };
@@ -248,6 +253,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
 
   render() {
     const __ = this.props.translate;
+    const {testIdBuilder} = this.props;
     const showYearHead =
       !/^mm$/i.test(this.props.inputFormat || '') && !this.props.hideHeader;
     const canClick = /yy/i.test(this.props.inputFormat || '');
@@ -264,6 +270,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
                 <th
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'years')}
+                  {...testIdBuilder?.getChild('prev-year').getTestId()}
                 >
                   &laquo;
                 </th>
@@ -271,6 +278,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
                   <th
                     className="rdtSwitch"
                     onClick={this.props.showView('years')}
+                    {...testIdBuilder?.getChild('switch-year').getTestId()}
                   >
                     {this.props.viewDate.format(__('dateformat.year'))}
                   </th>
@@ -283,6 +291,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
                 <th
                   className="rdtNext"
                   onClick={this.props.addTime(1, 'years')}
+                  {...testIdBuilder?.getChild('next-year').getTestId()}
                 >
                   &raquo;
                 </th>

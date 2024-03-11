@@ -1,5 +1,5 @@
 import React from 'react';
-import {buildTestId, Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {resolveVariable} from 'amis-core';
 import {SchemaNode} from 'amis-core';
@@ -82,7 +82,6 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
           className
         )}
         style={buildStyle(style, data)}
-        {...buildTestId(testid)}
       >
         {this.renderBody()}
       </div>

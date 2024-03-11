@@ -15,7 +15,8 @@ import {
   BuildPanelEventContext,
   BasicPanelItem,
   PluginEvent,
-  ChangeEventContext
+  ChangeEventContext,
+  JSONPipeOut
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
@@ -577,7 +578,10 @@ export class DialogPlugin extends BasePlugin {
   ) {
     const renderer = this.manager.store.getNodeById(node.id)?.getComponent();
     const data = omit(renderer.props.$schema.data, '$$id');
-    let dataSchema: any = {};
+    const inputParams = JSONPipeOut(renderer.props.$schema.inputParams);
+    let dataSchema: any = {
+      ...inputParams?.properties
+    };
 
     if (renderer.props.$schema.data === undefined || !isEmpty(data)) {
       // 静态数据
@@ -609,6 +613,7 @@ export class DialogPlugin extends BasePlugin {
     return {
       $id: 'dialog',
       type: 'object',
+      ...inputParams,
       title: node.schema?.label || node.schema?.name,
       properties: dataSchema
     };

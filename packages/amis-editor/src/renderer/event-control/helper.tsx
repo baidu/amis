@@ -6,10 +6,10 @@ import {
   BaseEventContext,
   defaultValue,
   EditorManager,
-  getFixDialogType,
   getSchemaTpl,
   JsonGenerateID,
   JSONGetById,
+  modalsToDefinitions,
   persistGet,
   persistSet,
   PluginActions,
@@ -282,6 +282,73 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableOptions = variableManager?.getVariableOptions() || [];
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
+  const modalDescDetail: (info: any, context: any, props: any) => any = (
+    info,
+    {eventKey, actionIndex},
+    props: any
+  ) => {
+    const {
+      actionTree,
+      actions: pluginActions,
+      commonActions,
+      allComponents,
+      node,
+      manager
+    } = props;
+    const store = manager.store;
+    const modals = store.modals;
+    const onEvent = node.schema?.onEvent;
+    const action = onEvent?.[eventKey].actions?.[actionIndex];
+    const actionBody =
+      action?.[action?.actionType === 'drawer' ? 'drawer' : 'dialog'];
+    let modalId = actionBody?.$$id;
+    if (actionBody?.$ref) {
+      modalId =
+        modals.find((item: any) => item.$$ref === actionBody.$ref)?.$$id || '';
+    }
+    const modal = modalId
+      ? manager.store.modals.find((item: any) => item.$$id === modalId)
+      : '';
+    if (modal) {
+      return (
+        <>
+          <div>
+            打开&nbsp;
+            <a
+              href="#"
+              onClick={(e: React.UIEvent<any>) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                store.openSubEditor({
+                  title: '编辑弹窗',
+                  value: {
+                    type: 'dialog',
+                    ...modal,
+                    definitions: modalsToDefinitions(store.modals)
+                  },
+                  onChange: ({definitions, ...modal}: any, diff: any) => {
+                    store.updateModal(modal.$$id!, modal, definitions);
+                  }
+                });
+              }}
+            >
+              {modal.editorSetting?.displayName || modal.title || '未命名弹窗'}
+            </a>
+            &nbsp;
+            {(modal as any).actionType === 'confirmDialog'
+              ? '确认框'
+              : modal.type === 'drawer'
+              ? '抽屉弹窗'
+              : '弹窗'}
+          </div>
+        </>
+      );
+    }
+
+    return null;
+  };
+
   return [
     {
       actionLabel: '页面',
@@ -370,13 +437,16 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           description: '打开弹窗，弹窗内支持复杂的交互设计',
           actions: [
             {
-              actionType: 'dialog'
+              actionType: 'dialog',
+              descDetail: modalDescDetail
             },
             {
-              actionType: 'drawer'
+              actionType: 'drawer',
+              descDetail: modalDescDetail
             },
             {
-              actionType: 'confirmDialog'
+              actionType: 'confirmDialog',
+              descDetail: modalDescDetail
             }
           ],
           schema: [
@@ -1180,19 +1250,19 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {/* 只要path字段存在就认为是应用变量赋值，无论是否有值 */}
                 {typeof info?.args?.path === 'string' && !info?.componentId ? (
                   <>
-                    设置变量「
+                    设置变量
                     <span className="variable-left variable-right">
                       {variableManager.getNameByPath(info.args.path)}
                     </span>
-                    」的数据
+                    的数据
                   </>
                 ) : (
                   <>
-                    设置组件「
+                    设置组件
                     <span className="variable-left variable-right">
                       {info?.rendererLabel || info.componentId || '-'}
                     </span>
-                    」的数据
+                    的数据
                   </>
                 )}
                 {/* 值为
@@ -3175,138 +3245,6 @@ export const getEventControlConfig = (
       ['drawer', 'dialog', 'args'].forEach(key => {
         action[key] = action[key] ?? actionData?.[key];
       });
-
-      // if (config.actionType === 'openDialog') {
-      //   // 初始化弹窗schema
-      //   const dialogInitSchema = {
-      //     type: 'dialog',
-      //     title: action.__dialogTitle,
-      //     body: [
-      //       {
-      //         type: 'tpl',
-      //         tpl: '对，你刚刚点击了',
-      //         wrapperComponent: '',
-      //         inline: false
-      //       }
-      //     ],
-      //     showCloseButton: true,
-      //     showErrorMsg: true,
-      //     showLoading: true,
-      //     className: 'app-popover :AMISCSSWrapper',
-      //     actions: [
-      //       {
-      //         type: 'button',
-      //         actionType: 'cancel',
-      //         label: '取消'
-      //       },
-      //       {
-      //         type: 'button',
-      //         actionType: 'confirm',
-      //         label: '确认',
-      //         primary: true
-      //       }
-      //     ]
-      //   };
-
-      //   const drawerInitSchema = {
-      //     type: 'drawer',
-      //     title: action.__dialogTitle,
-      //     body: [
-      //       {
-      //         type: 'tpl',
-      //         tpl: '对，你刚刚点击了',
-      //         wrapperComponent: '',
-      //         inline: false
-      //       }
-      //     ],
-      //     className: 'app-popover :AMISCSSWrapper',
-      //     actions: [
-      //       {
-      //         type: 'button',
-      //         actionType: 'cancel',
-      //         label: '取消'
-      //       },
-      //       {
-      //         type: 'button',
-      //         actionType: 'confirm',
-      //         label: '确认',
-      //         primary: true
-      //       }
-      //     ]
-      //   };
-
-      //   const confirmDialogInitSchema = {
-      //     type: 'dialog',
-      //     title: action.__dialogTitle,
-      //     body: [
-      //       {
-      //         type: 'tpl',
-      //         tpl: '对，你刚刚点击了',
-      //         wrapperComponent: '',
-      //         inline: false
-      //       }
-      //     ],
-      //     dialogType: 'confirm',
-      //     confirmText: '确认',
-      //     cancelText: '取消',
-      //     confirmBtnLevel: 'primary'
-      //   };
-
-      //   const setInitSchema = (groupType: string, action: ActionConfig) => {
-      //     if (groupType === 'dialog') {
-      //       JsonGenerateID(dialogInitSchema);
-      //       action.dialog = dialogInitSchema;
-      //     } else if (groupType === 'drawer') {
-      //       JsonGenerateID(drawerInitSchema);
-      //       action.drawer = drawerInitSchema;
-      //     } else if (groupType === 'confirmDialog') {
-      //       JsonGenerateID(confirmDialogInitSchema);
-      //       action.dialog = confirmDialogInitSchema;
-      //     }
-      //   };
-
-      //   const chooseCurrentDialog = (action: ActionConfig, schema: Schema) => {
-      //     const selectDialog = action.__selectDialog;
-      //     let dialogType = getFixDialogType(schema, selectDialog);
-      //     // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
-      //     let newDialogId = guid();
-      //     action.actionType = dialogType;
-      //     action[dialogType] = {
-      //       $$id: newDialogId,
-      //       type: dialogType
-      //     };
-      //     // 在这里记录一下新生成的弹窗id
-      //     action.__relatedDialogId = newDialogId;
-      //   };
-
-      //   if (type === 'add') {
-      //     if (config.__dialogSource === 'new') {
-      //       setInitSchema(config.groupType, action);
-      //     } else if (config.__dialogSource === 'current') {
-      //       chooseCurrentDialog(action, shcema!);
-      //     }
-      //   }
-      //   // 编辑
-      //   else if (type === 'update') {
-      //     if (config.__dialogSource === 'new') {
-      //       // 如果切换了弹窗类型或切换了弹窗来源，则初始化schema
-      //       if (
-      //         config.groupType !== actionData?.groupType ||
-      //         (config.__dialogSource === 'new' &&
-      //           actionData?.__dialogSource === 'current')
-      //       ) {
-      //         setInitSchema(config.groupType, action);
-      //       } else {
-      //         action[config.groupType] = {
-      //           ...actionData![config.groupType],
-      //           title: config.__dialogTitle
-      //         };
-      //       }
-      //     } else if (config.__dialogSource === 'current') {
-      //       chooseCurrentDialog(action, shcema!);
-      //     }
-      //   }
-      // }
 
       // 刷新组件时，处理是否追加事件变量
       if (config.actionType === 'reload') {

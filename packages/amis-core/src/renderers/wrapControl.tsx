@@ -306,6 +306,8 @@ export function wrapControl<
               };
               addHook?.(this.hook2);
             }
+
+            formItem?.init();
           }
 
           componentDidUpdate(prevProps: OuterProps) {

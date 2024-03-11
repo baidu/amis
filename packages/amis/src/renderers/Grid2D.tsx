@@ -1,5 +1,5 @@
 import React from 'react';
-import {buildTestId, Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
 import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
@@ -215,11 +215,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
       gridTemplateRows: templateRows.join(' ')
     };
 
-    return (
-      <div style={curStyle} {...buildTestId(testid)}>
-        {this.renderGrids()}
-      </div>
-    );
+    return <div style={curStyle}>{this.renderGrids()}</div>;
   }
 }
 

@@ -49,8 +49,9 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
-import {buildTestId, injectObjectChain} from '../utils';
+import {injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
+import groupBy from 'lodash/groupBy';
 
 export interface FormHorizontal {
   left?: number;
@@ -461,7 +462,7 @@ export default class Form extends React.Component<FormProps, object> {
   ];
 
   hooks: {
-    [propName: string]: Array<() => Promise<any>>;
+    [propName: string]: Array<(...args: any) => Promise<any>>;
   } = {};
   asyncCancel: () => void;
   toDispose: Array<() => void> = [];
@@ -762,8 +763,25 @@ export default class Form extends React.Component<FormProps, object> {
     const initedAt = store.initedAt;
 
     store.setInited(true);
-    const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
-    await Promise.all(hooks.map(hook => hook(data)));
+    const hooks = this.hooks['init'] || [];
+    const groupedHooks = groupBy(hooks, item =>
+      (item as any).__enforce === 'prev'
+        ? 'prev'
+        : (item as any).__enforce === 'post'
+        ? 'post'
+        : 'normal'
+    );
+
+    await Promise.all((groupedHooks.prev || []).map(hook => hook(data)));
+    //  有可能在前面的步骤中删除了钩子，所以需要重新验证一下
+    await Promise.all(
+      (groupedHooks.normal || []).map(
+        hook => hooks.includes(hook) && hook(data)
+      )
+    );
+    await Promise.all(
+      (groupedHooks.post || []).map(hook => hooks.includes(hook) && hook(data))
+    );
 
     if (!isAlive(store)) {
       return;
@@ -976,9 +994,15 @@ export default class Form extends React.Component<FormProps, object> {
     store.reset(onReset);
   }
 
-  addHook(fn: () => any, type: 'validate' | 'init' | 'flush' = 'validate') {
+  addHook(
+    fn: () => any,
+    type: 'validate' | 'init' | 'flush' = 'validate',
+    enforce?: 'prev' | 'post'
+  ) {
     this.hooks[type] = this.hooks[type] || [];
-    this.hooks[type].push(type === 'flush' ? fn : promisify(fn));
+    const hook = type === 'flush' ? fn : promisify(fn);
+    (hook as any).__enforce = enforce;
+    this.hooks[type].push(hook);
     return () => {
       this.removeHook(fn, type);
       fn = noop;
@@ -1844,7 +1868,6 @@ export default class Form extends React.Component<FormProps, object> {
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
-        {...buildTestId(testid)}
       >
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />

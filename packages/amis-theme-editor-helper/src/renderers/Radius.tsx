@@ -196,7 +196,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
             itemName={'all-border-radius'}
             state={state}
             inheritValue={editorThemePath ? 'inherit' : ''}
-            placeholder={editorDefaultValue?.[getKey('all')]}
+            placeholder={editorDefaultValue?.[getKey('all')] || '圆角'}
           />
         </div>
       </div>

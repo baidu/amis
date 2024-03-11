@@ -25,6 +25,8 @@ import ResultTreeList from './ResultTreeList';
 import {SpinnerExtraProps} from './Spinner';
 import Pagination from './Pagination';
 
+import type {TestIdBuilder} from 'amis-core';
+
 export type SelectMode =
   | 'table'
   | 'group'
@@ -165,6 +167,7 @@ export interface TransferProps
    * ui级联关系，true代表级联选中，false代表不级联，默认为true
    */
   autoCheckChildren?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface TransferState {
@@ -540,7 +543,8 @@ export class Transfer<
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
       mobileUI,
-      valueField = 'value'
+      valueField = 'value',
+      testIdBuilder
     } = props;
 
     if (selectRender) {
@@ -585,6 +589,7 @@ export class Transfer<
                 partial={checkedPartial && !checkedAll}
                 onChange={props.onToggleAll || this.toggleAll}
                 size="sm"
+                testIdBuilder={testIdBuilder?.getChild('toggle-all')}
               />
             ) : null}
             {__(selectTitle || 'Transfer.available')}
@@ -605,6 +610,7 @@ export class Transfer<
                 'Transfer-checkAll',
                 disabled || !options.length ? 'is-disabled' : ''
               )}
+              {...testIdBuilder?.getChild('toggle-all').getTestId()}
             >
               {__('Select.checkAll')}
             </a>
@@ -620,9 +626,13 @@ export class Transfer<
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
               mobileUI={mobileUI}
+              testIdBuilder={testIdBuilder?.getChild('search-input')}
             >
               {this.state.searchResult !== null ? (
-                <a onClick={this.handleSeachCancel}>
+                <a
+                  onClick={this.handleSeachCancel}
+                  {...testIdBuilder?.getChild('search-cancel').getTestId()}
+                >
                   <Icon icon="close" className="icon" />
                 </a>
               ) : (
@@ -702,7 +712,8 @@ export class Transfer<
       virtualListHeight,
       checkAll,
       checkAllLabel,
-      onlyChildren
+      onlyChildren,
+      testIdBuilder
     } = props;
     const {isTreeDeferLoad, searchResult, inputValue} = this.state;
     const options = searchResult ?? [];
@@ -730,6 +741,7 @@ export class Transfer<
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
+        testIdBuilder={testIdBuilder?.getChild('search-result')}
       />
     ) : mode === 'tree' ? (
       <Tree
@@ -793,6 +805,7 @@ export class Transfer<
         virtualListHeight={virtualListHeight}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        testIdBuilder={testIdBuilder?.getChild('search-result')}
       />
     );
   }
@@ -826,7 +839,8 @@ export class Transfer<
       checkAllLabel,
       onlyChildren,
       autoCheckChildren = true,
-      initiallyOpen = true
+      initiallyOpen = true,
+      testIdBuilder
     } = props;
 
     return selectMode === 'table' ? (
@@ -846,6 +860,7 @@ export class Transfer<
         virtualListHeight={virtualListHeight}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        testIdBuilder={testIdBuilder?.getChild('selection')}
       />
     ) : selectMode === 'tree' ? (
       <Tree
@@ -871,6 +886,7 @@ export class Transfer<
         checkAll={checkAll}
         initiallyOpen={initiallyOpen}
         autoCheckChildren={autoCheckChildren}
+        testIdBuilder={testIdBuilder?.getChild('selection')}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -891,6 +907,7 @@ export class Transfer<
         loadingConfig={loadingConfig}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        testIdBuilder={testIdBuilder?.getChild('selection')}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -917,6 +934,7 @@ export class Transfer<
         loadingConfig={loadingConfig}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        testIdBuilder={testIdBuilder?.getChild('selection')}
       />
     ) : (
       <GroupedSelection
@@ -936,6 +954,7 @@ export class Transfer<
         virtualListHeight={virtualListHeight}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        testIdBuilder={testIdBuilder?.getChild('selection')}
       />
     );
   }
@@ -962,7 +981,8 @@ export class Transfer<
       loadingConfig,
       showInvalidMatch,
       pagination,
-      accumulatedOptions
+      accumulatedOptions,
+      testIdBuilder
     } = this.props;
     const {resultSelectMode, isTreeDeferLoad} = this.state;
     const searchable = !isTreeDeferLoad && resultSearchable;
@@ -987,6 +1007,7 @@ export class Transfer<
             onSearch={onResultSearch}
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}
+            testIdBuilder={testIdBuilder?.getChild('result')}
           />
         );
       case 'tree':
@@ -1008,6 +1029,7 @@ export class Transfer<
             labelField={labelField}
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}
+            testIdBuilder={testIdBuilder?.getChild('result')}
           />
         );
       default:
@@ -1028,6 +1050,7 @@ export class Transfer<
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}
             showInvalidMatch={showInvalidMatch}
+            testIdBuilder={testIdBuilder?.getChild('result')}
           />
         );
     }
@@ -1050,7 +1073,8 @@ export class Transfer<
       translate: __,
       valueField = 'value',
       mobileUI,
-      pagination
+      pagination,
+      testIdBuilder
     } = this.props as any;
     const {searchResult} = this.state;
 
@@ -1113,6 +1137,7 @@ export class Transfer<
                 'Transfer-clearAll',
                 disabled || !this.valueArray.length ? 'is-disabled' : ''
               )}
+              {...testIdBuilder?.getChild('clear-all').getTestId()}
             >
               {__('clear')}
             </a>

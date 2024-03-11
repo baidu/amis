@@ -27,7 +27,8 @@ import {
   getTreeParent,
   getTreeAncestors,
   flattenTree,
-  flattenTreeWithLeafNodes
+  flattenTreeWithLeafNodes,
+  TestIdBuilder
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
@@ -152,6 +153,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   // 全选按钮文案
   checkAllLabel?: string;
   enableDefaultIcon?: boolean;
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface TreeSelectorState {
@@ -766,7 +769,7 @@ export class TreeSelector extends React.Component<
     });
   }
 
-  renderInput(prfix: JSX.Element | null = null) {
+  renderInput(prfix: JSX.Element | null = null, testIdBuilder?: TestIdBuilder) {
     const {classnames: cx, mobileUI, translate: __} = this.props;
     const {inputValue} = this.state;
 
@@ -786,11 +789,20 @@ export class TreeSelector extends React.Component<
             onChange={this.handleInputChange}
             value={inputValue}
             placeholder={__('placeholder.enter')}
+            {...testIdBuilder?.getChild('input').getTestId()}
           />
-          <a data-tooltip={__('cancel')} onClick={this.handleCancel}>
+          <a
+            data-tooltip={__('cancel')}
+            onClick={this.handleCancel}
+            {...testIdBuilder?.getChild('cancel').getTestId()}
+          >
             <Icon icon="close" className="icon" />
           </a>
-          <a data-tooltip={__('confirm')} onClick={this.handleConfirm}>
+          <a
+            data-tooltip={__('confirm')}
+            onClick={this.handleConfirm}
+            {...testIdBuilder?.getChild('confirm').getTestId()}
+          >
             <Icon icon="check" className="icon" />
           </a>
         </div>
@@ -1127,7 +1139,8 @@ export class TreeSelector extends React.Component<
       loadingConfig,
       enableDefaultIcon,
       valueField,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1142,6 +1155,9 @@ export class TreeSelector extends React.Component<
     const disabled = this.isItemDisabled(item, checked);
     const partial = this.isItemChildrenPartialChecked(item, checked);
     const checkedInValue = !!~this.state.value.indexOf(item);
+    const itemTestBuilder = testIdBuilder?.getChild(
+      `item-${item[valueField] || item[labelField] || index}`
+    );
 
     const checkbox: JSX.Element | null = multiple ? (
       <Checkbox
@@ -1150,6 +1166,7 @@ export class TreeSelector extends React.Component<
         checked={checked || partial}
         partial={partial}
         onChange={this.handleCheck.bind(this, item, !checked)}
+        testIdBuilder={itemTestBuilder?.getChild('chekbx')}
       />
     ) : showRadio ? (
       <Checkbox
@@ -1157,6 +1174,7 @@ export class TreeSelector extends React.Component<
         disabled={disabled}
         checked={checked}
         onChange={this.handleSelect.bind(this, item)}
+        testIdBuilder={itemTestBuilder?.getChild('chekbx')}
       />
     ) : null;
 
@@ -1174,12 +1192,14 @@ export class TreeSelector extends React.Component<
     let body = null;
 
     if (isEditing && editingItem === item) {
-      body = this.renderInput(checkbox);
+      body = this.renderInput(checkbox, itemTestBuilder?.getChild('edit'));
     } else if (item.isAdding) {
       body = this.renderInput(
-        <span className={cx('Tree-itemArrowPlaceholder')} />
+        <span className={cx('Tree-itemArrowPlaceholder')} />,
+        itemTestBuilder?.getChild('add')
       );
     } else {
+      const isFolded = !this.isUnfolded(item);
       body = (
         <div
           className={cx('Tree-itemLabel', {
@@ -1197,7 +1217,10 @@ export class TreeSelector extends React.Component<
           onDragEnd={this.onDragEnd(item)}
         >
           {draggable && (
-            <a className={cx('Tree-itemDrager drag-bar')}>
+            <a
+              className={cx('Tree-itemDrager drag-bar')}
+              {...itemTestBuilder?.getChild('drag-bar').getTestId()}
+            >
               <Icon icon="drag-bar" className="icon" />
             </a>
           )}
@@ -1214,8 +1237,11 @@ export class TreeSelector extends React.Component<
             <div
               onClick={() => this.toggleUnfolded(item)}
               className={cx('Tree-itemArrow', {
-                'is-folded': !this.isUnfolded(item)
+                'is-folded': isFolded
               })}
+              {...itemTestBuilder
+                ?.getChild(isFolded ? 'open' : 'fold')
+                .getTestId()}
             >
               <Icon icon="down-arrow-bold" className="icon" />
             </div>
@@ -1225,7 +1251,10 @@ export class TreeSelector extends React.Component<
 
           {checkbox}
 
-          <div className={cx('Tree-itemLabel-item', {'is-mobile': mobileUI})}>
+          <div
+            className={cx('Tree-itemLabel-item', {'is-mobile': mobileUI})}
+            {...itemTestBuilder?.getChild('content').getTestId()}
+          >
             {showIcon ? (
               <i
                 className={cx(
@@ -1263,6 +1292,7 @@ export class TreeSelector extends React.Component<
                   : this.handleSelect(item))
               }
               title={item[labelField]}
+              {...itemTestBuilder?.getChild('text').getTestId()}
             >
               {itemRender
                 ? itemRender(item, {
@@ -1291,7 +1321,10 @@ export class TreeSelector extends React.Component<
                     trigger={'hover'}
                     tooltipTheme="dark"
                   >
-                    <a onClick={this.handleAdd.bind(this, item)}>
+                    <a
+                      onClick={this.handleAdd.bind(this, item)}
+                      {...itemTestBuilder?.getChild('add').getTestId()}
+                    >
                       <Icon icon="plus" className="icon" />
                     </a>
                   </TooltipWrapper>
@@ -1304,7 +1337,10 @@ export class TreeSelector extends React.Component<
                     trigger={'hover'}
                     tooltipTheme="dark"
                   >
-                    <a onClick={this.handleRemove.bind(this, item)}>
+                    <a
+                      onClick={this.handleRemove.bind(this, item)}
+                      {...itemTestBuilder?.getChild('remove').getTestId()}
+                    >
                       <Icon icon="minus" className="icon" />
                     </a>
                   </TooltipWrapper>
@@ -1317,7 +1353,10 @@ export class TreeSelector extends React.Component<
                     trigger={'hover'}
                     tooltipTheme="dark"
                   >
-                    <a onClick={this.handleEdit.bind(this, item)}>
+                    <a
+                      onClick={this.handleEdit.bind(this, item)}
+                      {...itemTestBuilder?.getChild('edit').getTestId()}
+                    >
                       <Icon icon="new-edit" className="icon" />
                     </a>
                   </TooltipWrapper>
@@ -1340,6 +1379,7 @@ export class TreeSelector extends React.Component<
           ...style,
           paddingLeft: `calc(${level} * var(--Tree-indent))`
         }}
+        {...itemTestBuilder?.getTestId()}
       >
         {body}
       </li>
@@ -1473,7 +1513,8 @@ export class TreeSelector extends React.Component<
       rootCreateTip,
       disabled,
       draggable,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
     const {
       value,
@@ -1493,6 +1534,7 @@ export class TreeSelector extends React.Component<
             'is-disabled': isAdding || isEditing
           })}
           onClick={this.handleAdd.bind(this, null)}
+          {...testIdBuilder?.getChild('add').getTestId()}
         >
           <Icon icon="plus" className="icon" />
           <span>{__(rootCreateTip)}</span>
@@ -1508,6 +1550,7 @@ export class TreeSelector extends React.Component<
           'is-draggable': draggable
         })}
         ref={this.root}
+        {...testIdBuilder?.getTestId()}
       >
         {(flattenedOptions && flattenedOptions.length) ||
         addBtn ||
@@ -1532,6 +1575,7 @@ export class TreeSelector extends React.Component<
                   <span
                     className={cx('Tree-itemText')}
                     onClick={this.clearSelect}
+                    {...testIdBuilder?.getChild(`root-item`).getTestId()}
                   >
                     {showIcon ? (
                       <i className={cx('Tree-itemIcon Tree-rootIcon')}>
@@ -1551,6 +1595,7 @@ export class TreeSelector extends React.Component<
                           onClick={this.handleAdd.bind(this, null)}
                           data-tooltip={rootCreateTip}
                           data-position="left"
+                          {...testIdBuilder?.getChild(`root-add`).getTestId()}
                         >
                           <Icon icon="plus" className="icon" />
                         </a>

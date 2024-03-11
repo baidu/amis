@@ -33,6 +33,7 @@ import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import type {TestIdBuilder} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -130,6 +131,7 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 是否为选项添加默认的Icon，默认值为true
    */
   enableDefaultIcon?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface TreeSelectProps
@@ -677,7 +679,8 @@ export default class TreeSelectControl extends React.Component<
       itemHeight,
       menuTpl,
       enableDefaultIcon,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
 
     let filtedOptions =
@@ -741,6 +744,7 @@ export default class TreeSelectControl extends React.Component<
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder}
       />
     );
   }
@@ -768,7 +772,8 @@ export default class TreeSelectControl extends React.Component<
       overflowTagPopover,
       translate: __,
       env,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
     const {isOpened} = this.state;
     const resultValue = multiple
@@ -778,7 +783,11 @@ export default class TreeSelectControl extends React.Component<
       : '';
 
     return (
-      <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
+      <div
+        ref={this.container}
+        className={cx(`TreeSelectControl`, className)}
+        {...testIdBuilder?.getTestId()}
+      >
         <ResultBox
           popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
@@ -815,6 +824,7 @@ export default class TreeSelectControl extends React.Component<
           hasDropDownArrow
           readOnly={mobileUI}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('result-box')}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />

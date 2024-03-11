@@ -983,7 +983,7 @@ export interface RendererPluginAction {
   schema?: any; // 动作配置schema
   supportComponents?: string[] | string; // 如果schema中包含选择组件，可以指定该动作支持的组件类型，用于组件数树过滤
   innerArgs?: string[]; // 动作专属配置参数，主要是为了区分特性字段和附加参数
-  descDetail?: (info: any) => string | JSX.Element; // 动作详细描述
+  descDetail?: (info: any, context: any, props: any) => string | JSX.Element; // 动作详细描述
   outputVarDataSchema?: any | any[]; // 动作出参的结构定义
   actions?: SubRendererPluginAction[]; // 分支动作（配置面板包含多种动作的情况）
   children?: RendererPluginAction[]; // 子类型，for动作树

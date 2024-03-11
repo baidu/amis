@@ -28,7 +28,8 @@ import {
   eachTree,
   mapTree,
   setVariable,
-  cloneObject
+  cloneObject,
+  promisify
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
@@ -91,6 +92,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
     itemsRef: types.optional(types.array(types.string), []),
+    inited: false,
     validated: false,
     validating: false,
     multiple: false,
@@ -317,6 +319,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const form = self.form as IFormStore;
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
     let loadAutoUpdateCancel: Function | null = null;
+
+    const initHooks: Array<(store: any) => any> = [];
 
     function config({
       name,
@@ -1495,6 +1499,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.isControlled = !!value;
     }
 
+    const init: () => Promise<void> = flow(function* init() {
+      const hooks = initHooks.sort(
+        (a: any, b: any) => (a.__weight || 0) - (b.__weight || 0)
+      );
+      try {
+        for (let hook of hooks) {
+          yield hook(self);
+        }
+      } finally {
+        self.inited = true;
+      }
+    });
+
     return {
       focus,
       blur,
@@ -1523,7 +1540,24 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       addSubFormItem,
       removeSubFormItem,
       loadAutoUpdateData,
-      setIsControlled
+      setIsControlled,
+
+      init,
+
+      addInitHook(fn: (store: any) => any, weight = 0) {
+        fn = promisify(fn);
+        initHooks.push(fn);
+        (fn as any).__weight = weight;
+        return () => {
+          const idx = initHooks.indexOf(fn);
+          ~idx && initHooks.splice(idx, 1);
+        };
+      },
+
+      beforeDestroy: () => {
+        // 销毁
+        initHooks.splice(0, initHooks.length);
+      }
     };
   });
 

@@ -180,7 +180,8 @@ export default class ListControl extends React.Component<ListProps, any> {
       data,
       labelField,
       listClassName,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
 
     let body: JSX.Element | null = null;
@@ -202,6 +203,9 @@ export default class ListControl extends React.Component<ListProps, any> {
                   ? this.handleDBClick.bind(this, option)
                   : undefined
               }
+              {...testIdBuilder
+                ?.getChild(`options-${option.value || key}`)
+                .getTestId()}
             >
               {itemSchema
                 ? render(

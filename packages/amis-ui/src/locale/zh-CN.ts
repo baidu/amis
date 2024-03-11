@@ -409,5 +409,10 @@ register('zh-CN', {
   'IconSelect.choice': '图标选择',
   'Steps.step': '第 {{index}} 步',
   'FormulaInput.True': '真',
-  'FormulaInput.False': '假'
+  'FormulaInput.False': '假',
+  'Signature.clear': '清空',
+  'Signature.undo': '撤销',
+  'Signature.confirm': '确认',
+  'Signature.cancel': '取消',
+  'Signature.embedLabel': '点击签名'
 });
