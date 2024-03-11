@@ -7,7 +7,8 @@ import {
   resolveEventData,
   CustomStyle,
   formatInputThemeCss,
-  setThemeClassName
+  setThemeClassName,
+  TestIdBuilder
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -158,6 +159,8 @@ export interface NumberProps extends FormControlProps {
    * 是否在清空内容时从数据域中删除该表单项对应的值
    */
   clearValueOnEmpty?: boolean;
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface NumberState {
@@ -446,7 +449,8 @@ export default class NumberControl extends React.Component<
       inputControlClassName,
       id,
       env,
-      name
+      name,
+      testIdBuilder
     } = this.props;
     const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
@@ -525,6 +529,7 @@ export default class NumberControl extends React.Component<
           displayMode={displayMode}
           big={big}
           clearValueOnEmpty={clearValueOnEmpty}
+          testIdBuilder={testIdBuilder}
         />
         {Array.isArray(unitOptions) && unitOptions.length !== 0 ? (
           unitOptions.length > 1 ? (

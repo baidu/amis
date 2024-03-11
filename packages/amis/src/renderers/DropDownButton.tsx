@@ -4,7 +4,7 @@ import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop, filterClassNameObject} from 'amis-core';
-import {filter, buildTestId, getTestId} from 'amis-core';
+import {filter} from 'amis-core';
 import {Icon, hasIcon} from 'amis-ui';
 import {
   BaseSchema,
@@ -51,8 +51,6 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 按钮集合，支持分组
    */
   buttons?: Array<DropdownButton>;
-
-  testid?: string;
 
   /**
    * 内容区域
@@ -255,7 +253,13 @@ export default class DropDownButton extends React.Component<
     button: DropdownButton,
     index: number | string
   ): React.ReactNode {
-    const {render, classnames: cx, data, testid, ignoreConfirm} = this.props;
+    const {
+      render,
+      classnames: cx,
+      data,
+      ignoreConfirm,
+      testIdBuilder
+    } = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
     if (typeof button !== 'string' && Array.isArray(button?.children)) {
@@ -302,11 +306,13 @@ export default class DropDownButton extends React.Component<
             `button/${index}`,
             {
               type: 'button',
-              testid:
-                testid &&
-                `${getTestId(testid, data)}-${button.testid || index}`,
               ...(button as any),
-              className: ''
+              className: '',
+              // 防止dropdown中button没有 testid或者id
+              testIdBuilder: testIdBuilder?.getChild(
+                button.label || index,
+                data
+              )
             },
             {
               isMenuItem: true,
@@ -426,8 +432,8 @@ export default class DropDownButton extends React.Component<
       trigger,
       data,
       hideCaret,
-      testid,
-      env
+      env,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -444,7 +450,6 @@ export default class DropDownButton extends React.Component<
           className
         )}
         style={style}
-        {...buildTestId(testid, data)}
         onMouseEnter={trigger === 'hover' ? this.open : () => {}}
         onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}
@@ -459,6 +464,7 @@ export default class DropDownButton extends React.Component<
           <button
             onClick={this.toogle}
             disabled={disabled || btnDisabled}
+            {...testIdBuilder?.getTestId(data)}
             className={cx(
               'Button',
               btnClassName,

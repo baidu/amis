@@ -288,7 +288,8 @@ export class BaseResultTreeList extends React.Component<
       placeholder,
       virtualThreshold,
       itemHeight,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
 
     const {treeOptions, searching, searchTreeOptions} = this.state;
@@ -309,6 +310,7 @@ export class BaseResultTreeList extends React.Component<
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
             virtualThreshold={virtualThreshold}
             itemHeight={itemHeight}
+            testIdBuilder={testIdBuilder}
           />
         ) : (
           <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>

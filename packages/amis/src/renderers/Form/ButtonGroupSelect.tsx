@@ -4,7 +4,7 @@ import {
   OptionsControlProps,
   FormOptionsControl
 } from 'amis-core';
-import type {Option} from 'amis-core';
+import {Option, TestIdBuilder} from 'amis-core';
 import {ActionObject, isObject} from 'amis-core';
 import type {BadgeObject} from 'amis-ui';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
@@ -34,6 +34,7 @@ export interface ButtonGroupProps
       | 'btnClassName'
     > {
   options: Array<Option>;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class ButtonGroupControl extends React.Component<
@@ -102,6 +103,7 @@ export default class ButtonGroupControl extends React.Component<
       vertical,
       tiled,
       badge,
+      testIdBuilder,
       translate: __
     } = props;
 
@@ -137,6 +139,9 @@ export default class ButtonGroupControl extends React.Component<
               active && 'ButtonGroup-button--active'
             ),
             disabled: option.disabled || disabled,
+            testIdBuilder: testIdBuilder?.getChild(
+              `item-${option[labelField || 'label'] || key}`
+            ),
             onClick: (e: React.UIEvent<any>) => {
               if (disabled) {
                 return;

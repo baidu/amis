@@ -1416,4 +1416,57 @@ describe('validation: isId', () => {
       }
     ]);
   });
+
+  test('validation: isId invalid when the birthday is before 1850', () => {
+    expect(
+      validate(
+        '14112918490909001X',
+        {},
+        {
+          isId: true
+        }
+      )
+    ).toMatchObject([
+      {
+        msg: 'validate.isId',
+        rule: 'isId'
+      }
+    ]);
+  });
+
+  test('validation: isId invalid when the birthday is after today', () => {
+    const tomorrow = new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+    const year = tomorrow.getFullYear();
+    const month = tomorrow.getMonth() + 1;
+    const day = tomorrow.getDate();
+    let id = `141129${year}${month < 10 ? '0' + month : month}${
+      day < 10 ? day : '0' + day
+    }001`;
+    id = `${id}${generateCheckCode(id)}`;
+    expect(
+      validate(
+        id,
+        {},
+        {
+          isId: true
+        }
+      )
+    ).toMatchObject([
+      {
+        msg: 'validate.isId',
+        rule: 'isId'
+      }
+    ]);
+  });
 });
+
+// 生成身份证验证码
+function generateCheckCode(id: string) {
+  const arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  const arrCh = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+  let cardTemp = 0;
+  for (let i = 0; i < 17; i++) {
+    cardTemp += +id.slice(i, i + 1) * arrInt[i];
+  }
+  return arrCh[cardTemp % 11];
+}

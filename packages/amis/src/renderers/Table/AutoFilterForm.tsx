@@ -39,7 +39,8 @@ export function AutoFilterForm({
   onSearchableFromReset,
   onSearchableFromSubmit,
   onSearchableFromInit,
-  popOverContainer
+  popOverContainer,
+  testIdBuilder
 }: AutoFilterFormProps) {
   const schema = React.useMemo(() => {
     const {columnsNum, showBtnToolbar} =
@@ -58,11 +59,13 @@ export function AutoFilterForm({
             ? {
                 type: 'input-text',
                 name: column.name,
-                label: column.label
+                label: column.label,
+                testIdBuilder: testIdBuilder?.getChild(column.name)
               }
             : {
                 type: 'input-text',
                 name: column.name,
+                testIdBuilder: testIdBuilder?.getChild(column.name),
                 ...column.searchable
               }),
           name: column.searchable?.name ?? column.name,
@@ -98,6 +101,8 @@ export function AutoFilterForm({
         tpl: ''
       });
     }
+
+    const moreTestIdBuilder = testIdBuilder?.getChild('more');
     lastGroup.body.push({
       type: 'container',
       className: 'AutoFilterToolbar',
@@ -112,6 +117,7 @@ export function AutoFilterForm({
           size: 'sm',
           align: 'right',
           visible: showBtnToolbar,
+          testIdBuilder: moreTestIdBuilder,
           buttons: searchableColumns.map(column => {
             return {
               children: ({render}: any) =>
@@ -124,6 +130,9 @@ export function AutoFilterForm({
                     inputClassName: cx('Table-searchableForm-checkbox-inner'),
                     name: `__whatever_name`,
                     option: column.searchable?.label ?? column.label,
+                    testIdBuilder: moreTestIdBuilder?.getChild(
+                      column.name + ''
+                    ),
                     badge: {
                       offset: [-10, 5],
                       visibleOn: `${
