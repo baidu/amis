@@ -355,7 +355,8 @@ export interface ActionObject extends ButtonObject {
     | 'step-submit'
     | 'selectAll'
     | 'changeTabKey'
-    | 'clearSearch';
+    | 'clearSearch'
+    | 'submitQuickEdit';
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
   payload?: any;
