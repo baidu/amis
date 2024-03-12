@@ -332,6 +332,7 @@ register('zh-CN', {
   'Condition.not': '非',
   'Condition.and': '且',
   'Condition.or': '或',
+  'Condition.must': '必',
   'Condition.collapse': '展开全部',
   'Condition.add_cond': '添加条件',
   'Condition.add_cond_group': '添加条件组',

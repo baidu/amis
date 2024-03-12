@@ -84,7 +84,7 @@ export interface FormulaPickerProps
    */
   btnLabel?: string;
 
-  store: any;
+  store?: any;
   /**
    * 按钮样式
    */
