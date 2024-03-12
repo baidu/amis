@@ -96,14 +96,15 @@
     "ts-node": "^10.5.0",
     "tslib": "^2.3.1",
     "typescript": "^4.6.4",
-    "amis-theme-editor": "2.0.11-beta.1",
-    "amis-theme-editor-helper": "2.0.11-beta.1"
+    "amis-theme-editor": "2.0.22-beta.2",
+    "amis-theme-editor-helper": "2.0.22-beta.2"
   },
   "peerDependencies": {
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
     "amis-theme-editor": "*",
+    "amis-theme-editor-helper": "*",
     "amis-ui": "*",
     "i18n-runtime": "*",
     "react": ">=16.8.6",
