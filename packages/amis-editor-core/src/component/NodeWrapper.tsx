@@ -80,7 +80,7 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
 
     // 自动合并假数据
     if (isObject(mockProps) && !isEmpty(mockProps)) {
-      rest = merge({}, rest, mockProps);
+      rest = merge(rest, mockProps);
     }
 
     if ($$editor.renderRenderer) {
