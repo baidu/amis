@@ -72,9 +72,11 @@ export class ChainedSelection extends BaseSelection<
       itemClassName,
       itemRender,
       multiple,
-      labelField
+      labelField,
+      testIdBuilder
     } = this.props;
     const valueArray = this.valueArray;
+    const itemTIB = testIdBuilder?.getChild(`item-${option.value || index}`);
 
     return (
       <div
@@ -96,6 +98,7 @@ export class ChainedSelection extends BaseSelection<
             disabled={disabled || option.disabled}
             labelClassName={labelClassName}
             description={option.description}
+            testIdBuilder={itemTIB}
           />
         ) : null}
 
@@ -130,9 +133,11 @@ export class ChainedSelection extends BaseSelection<
       multiple,
       labelField,
       deferField = 'defer',
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
     const valueArray = this.valueArray;
+    const itemTIB = testIdBuilder?.getChild(`item-${option.value || index}`);
 
     if (Array.isArray(option.children) || option[deferField]) {
       return (
@@ -147,6 +152,7 @@ export class ChainedSelection extends BaseSelection<
             ~this.state.selected.indexOf(id) ? 'is-active' : ''
           )}
           onClick={() => this.selectOption(option, depth, id)}
+          {...itemTIB?.getTestId()}
         >
           <div className={cx('ChainedSelection-itemLabel')}>
             {itemRender(option, {
@@ -230,7 +236,8 @@ export class ChainedSelection extends BaseSelection<
       translate: __,
       virtualThreshold = 1000,
       itemHeight = 32,
-      virtualListHeight
+      virtualListHeight,
+      testIdBuilder
     } = this.props;
 
     this.valueArray = BaseSelection.value2array(value, options, option2value);

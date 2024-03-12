@@ -22,6 +22,7 @@ import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {columnsSplit} from 'amis-core';
+import {TestIdBuilder} from 'amis-core';
 
 interface RadioProps extends OptionProps {
   id?: string;
@@ -42,6 +43,7 @@ interface RadioProps extends OptionProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   renderLabel?: (item: Option, props: RadioProps) => JSX.Element;
+  testIdBuilder?: TestIdBuilder;
 }
 
 const defaultLabelRender = (item: Option, props: RadioProps) => (
@@ -123,8 +125,10 @@ export class Radios extends React.Component<RadioProps, any> {
       level,
       btnActiveLevel,
       classPrefix: ns,
+      testIdBuilder,
       renderLabel = defaultLabelRender
     } = this.props;
+    const itemTestIdBuilder = testIdBuilder?.getChild(option.value || index);
 
     if (optionType === 'button') {
       const active = !!~valueArray.indexOf(option);
@@ -153,6 +157,7 @@ export class Radios extends React.Component<RadioProps, any> {
         description={option.description}
         inline={inline}
         labelClassName={labelClassName}
+        testIdBuilder={itemTestIdBuilder}
       >
         {renderLabel(option, this.props)}
       </Checkbox>

@@ -7,7 +7,8 @@ import {
   ThemeProps,
   resolveVariable,
   buildTrackExpression,
-  evalTrackExpression
+  evalTrackExpression,
+  TestIdBuilder
 } from 'amis-core';
 import {BadgeObject, Checkbox, Icon, Spinner} from 'amis-ui';
 import React from 'react';
@@ -33,6 +34,7 @@ export interface CellProps extends ThemeProps {
   quickEditFormRef: any;
   onImageEnlarge?: any;
   translate: (key: string, ...args: Array<any>) => string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default function Cell({
@@ -53,7 +55,8 @@ export default function Cell({
   popOverContainer,
   quickEditFormRef,
   onImageEnlarge,
-  translate: __
+  translate: __,
+  testIdBuilder
 }: CellProps) {
   if (column.name && item.rowSpans[column.name] === 0) {
     return null;
@@ -77,6 +80,7 @@ export default function Cell({
       <td
         style={style}
         className={cx(column.pristine.className, stickyClassName)}
+        {...testIdBuilder?.getTestId()}
       >
         <Checkbox
           classPrefix={ns}
@@ -85,6 +89,7 @@ export default function Cell({
           checked={item.checked || item.partial}
           disabled={item.checkdisable || !item.checkable}
           onChange={onCheckboxChange}
+          testIdBuilder={testIdBuilder?.getChild('chekbx')}
         />
       </td>
     );
@@ -95,6 +100,7 @@ export default function Cell({
         className={cx(column.pristine.className, stickyClassName, {
           'is-dragDisabled': !item.draggable
         })}
+        {...testIdBuilder?.getChild('drag').getTestId()}
       >
         {item.draggable ? <Icon icon="drag" className="icon" /> : null}
       </td>
@@ -111,6 +117,9 @@ export default function Cell({
             // data-tooltip="展开/收起"
             // data-position="top"
             onClick={item.toggleExpanded}
+            {...testIdBuilder
+              ?.getChild(item.expanded ? 'fold' : 'expand')
+              .getTestId()}
           >
             <Icon icon="right-arrow-bold" className="icon" />
           </a>
@@ -142,6 +151,7 @@ export default function Cell({
             key="retryBtn"
             onClick={item.resetDefered}
             data-tooltip={__('Options.retry', {reason: item.error})}
+            {...testIdBuilder?.getChild('retry').getTestId()}
           >
             <Icon icon="retry" className="icon" />
           </a>
@@ -152,6 +162,9 @@ export default function Cell({
             // data-tooltip="展开/收起"
             // data-position="top"
             onClick={item.toggleExpanded}
+            {...testIdBuilder
+              ?.getChild(item.expanded ? 'fold' : 'expand')
+              .getTestId()}
           >
             <Icon icon="right-arrow-bold" className="icon" />
           </a>
@@ -174,6 +187,7 @@ export default function Cell({
           draggable
           onDragStart={onDragStart}
           className={cx('Table-dragBtn')}
+          {...testIdBuilder?.getChild('drag').getTestId()}
         >
           <Icon icon="drag" className="icon" />
         </a>
@@ -240,7 +254,8 @@ export default function Cell({
       column.pristine.className,
       stickyClassName,
       addtionalClassName
-    )
+    ),
+    testIdBuilder: testIdBuilder?.getChild(column.name || column.value)
   };
   delete subProps.label;
 

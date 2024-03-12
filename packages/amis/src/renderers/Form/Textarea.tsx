@@ -59,8 +59,6 @@ export interface TextareaControlSchema extends FormBaseControlSchema {
    * 重置值
    */
   resetValue?: string;
-
-  testid?: string;
 }
 
 export type TextAreaRendererEvent = 'blur' | 'focus' | 'change';

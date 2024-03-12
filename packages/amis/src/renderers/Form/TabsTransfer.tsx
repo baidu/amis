@@ -308,7 +308,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       menuTpl,
       data,
       mobileUI,
-      initiallyOpen = true
+      initiallyOpen = true,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -343,6 +344,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           ctx={data}
           mobileUI={mobileUI}
           initiallyOpen={initiallyOpen}
+          testIdBuilder={testIdBuilder}
         />
 
         <Spinner

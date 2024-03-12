@@ -246,6 +246,8 @@ export default function (schema, schemaProps, showCode, envOverrides) {
               };
             });
           },
+          // 是否开启测试 testid
+          // enableTestid: true,
           ...envOverrides
         };
 

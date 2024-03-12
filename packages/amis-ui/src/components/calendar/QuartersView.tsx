@@ -5,6 +5,7 @@ import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
 import {getRange} from 'amis-core';
 import {autobind} from 'amis-core';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface QuarterViewProps extends LocaleProps, ThemeProps {
   viewDate: moment.Moment;
@@ -29,6 +30,7 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
   hideHeader?: boolean;
   onConfirm?: (value: number[], types?: string[]) => void;
   onClose?: () => void;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class QuarterView extends React.Component<QuarterViewProps> {
@@ -38,7 +40,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
   };
 
   renderYear() {
-    const __ = this.props.translate;
+    const {translate: __, testIdBuilder} = this.props;
     const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
 
     if (!showYearHead) {
@@ -54,11 +56,16 @@ export class QuarterView extends React.Component<QuarterViewProps> {
             <th
               className="rdtPrev"
               onClick={this.props.subtractTime(1, 'years')}
+              {...testIdBuilder?.getChild('prev-year').getTestId()}
             >
               &laquo;
             </th>
             {canClick ? (
-              <th className="rdtSwitch" onClick={this.props.showView('years')}>
+              <th
+                className="rdtSwitch"
+                onClick={this.props.showView('years')}
+                {...testIdBuilder?.getChild('switch-year').getTestId()}
+              >
                 {this.props.viewDate.format(__('dateformat.year'))}
               </th>
             ) : (
@@ -67,7 +74,11 @@ export class QuarterView extends React.Component<QuarterViewProps> {
               </th>
             )}
 
-            <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
+            <th
+              className="rdtNext"
+              onClick={this.props.addTime(1, 'years')}
+              {...testIdBuilder?.getChild('next-year').getTestId()}
+            >
               &raquo;
             </th>
           </tr>
@@ -135,9 +146,12 @@ export class QuarterView extends React.Component<QuarterViewProps> {
     year: number,
     date: moment.Moment
   ) => {
+    const {testIdBuilder} = this.props;
     return (
       <td {...props}>
-        <span>Q{quartar}</span>
+        <span {...testIdBuilder?.getChild(props.key).getTestId()}>
+          Q{quartar}
+        </span>
       </td>
     );
   };

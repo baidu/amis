@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassNamesFn, RendererEvent} from 'amis-core';
+import {ClassNamesFn, RendererEvent, autobind} from 'amis-core';
 
 import {SchemaNode, ActionObject} from 'amis-core';
 import TableRow from './TableRow';
@@ -9,7 +9,7 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow, ITableStore} from 'amis-core';
+import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
@@ -60,6 +60,7 @@ export interface TableBodyProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
+  testIdBuilder?: TestIdBuilder;
 }
 
 @observer
@@ -68,10 +69,16 @@ export class TableBody extends React.Component<TableBodyProps> {
     this.props.store.initTableWidth();
   }
 
+  @autobind
+  testIdBuilder(rowPath: string) {
+    return this.props.testIdBuilder?.getChild(`row-${rowPath}`);
+  }
+
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,
-    rowProps: any = {}
+    rowProps: any = {},
+    indexPath?: string
   ): any {
     const {
       rowClassName,
@@ -97,15 +104,19 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     return rows.map((item: IRow, rowIndex: number) => {
       const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
+      const rowPath = `${indexPath ? indexPath + '/' : ''}${rowIndex}`;
+
       const doms = [
         <TableRow
           {...itemProps}
+          testIdBuilder={this.testIdBuilder}
           store={store}
           itemAction={itemAction}
           classnames={cx}
           checkOnItemClick={checkOnItemClick}
           key={item.id}
           itemIndex={rowIndex}
+          rowPath={rowPath}
           item={item}
           itemClassName={cx(
             rowClassNameExpr
@@ -144,6 +155,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               checkOnItemClick={checkOnItemClick}
               key={`foot-${item.id}`}
               itemIndex={rowIndex}
+              rowPath={rowPath}
               item={item}
               itemClassName={cx(
                 rowClassNameExpr
@@ -164,16 +176,22 @@ export class TableBody extends React.Component<TableBodyProps> {
               onQuickChange={onQuickChange}
               ignoreFootableContent={ignoreFootableContent}
               {...rowProps}
+              testIdBuilder={this.testIdBuilder}
             />
           );
         }
       } else if (item.children.length && item.expanded) {
         // 嵌套表格
         doms.push(
-          ...this.renderRows(item.children, columns, {
-            ...rowProps,
-            parent: item
-          })
+          ...this.renderRows(
+            item.children,
+            columns,
+            {
+              ...rowProps,
+              parent: item
+            },
+            rowPath
+          )
         );
       }
       return doms;

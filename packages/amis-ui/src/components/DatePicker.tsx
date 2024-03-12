@@ -27,7 +27,7 @@ import Input from './Input';
 import Button from './Button';
 
 import type {Moment} from 'moment';
-import type {PlainObject, RendererEnv} from 'amis-core';
+import type {PlainObject, RendererEnv, TestIdBuilder} from 'amis-core';
 import type {ChangeEventViewMode, MutableUnitOfTime} from './calendar/Calendar';
 
 const availableShortcuts: {[propName: string]: any} = {
@@ -334,6 +334,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
 
   // 是否为结束时间
   isEndDate?: boolean;
+  testIdBuilder?: TestIdBuilder;
 
   disabledDate?: (date: moment.Moment) => any;
   onClick?: (date: moment.Moment) => any;
@@ -949,6 +950,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       mobileCalendarMode,
       label,
       env,
+      testIdBuilder,
       onClick,
       onMouseEnter,
       onMouseLeave,
@@ -1058,6 +1060,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            testIdBuilder={testIdBuilder?.getChild('calendar')}
           />
         </div>
       );
@@ -1081,6 +1084,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         )}
         ref={this.domRef}
         onClick={this.handleClick}
+        {...testIdBuilder?.getTestId()}
       >
         <Input
           className={cx('DatePicker-input')}
@@ -1092,17 +1096,25 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           value={this.state.inputValue || ''}
           disabled={disabled}
           readOnly={mobileUI}
+          {...testIdBuilder?.getChild('input').getTestId()}
         />
 
         {clearable &&
         !disabled &&
         normalizeDate(value, valueFormat || format) ? (
-          <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>
+          <a
+            className={cx(`DatePicker-clear`)}
+            onClick={this.clearValue}
+            {...testIdBuilder?.getChild('clear').getTestId()}
+          >
             <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 
-        <a className={cx(`DatePicker-toggler`)}>
+        <a
+          className={cx(`DatePicker-toggler`)}
+          {...testIdBuilder?.getChild('toggler').getTestId()}
+        >
           <Icon
             icon={viewMode === 'time' ? 'clock' : 'date'}
             className="icon"
@@ -1151,6 +1163,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onClick={onClick}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                testIdBuilder={testIdBuilder?.getChild('calendar')}
                 // utc={utc}
               />
               {isConfirmMode ? (
@@ -1209,6 +1222,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onClick={onClick}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                testIdBuilder={testIdBuilder?.getChild('calendar')}
                 // utc={utc}
               />
             </PopUp>
