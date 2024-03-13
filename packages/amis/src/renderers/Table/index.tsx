@@ -2790,7 +2790,11 @@ export default class Table extends React.Component<TableProps, object> {
             selected.push(record);
           }
         });
-        store.updateSelected(selected, valueField);
+        const replaceDataFlag =
+          args?.replaceData !== undefined
+            ? evalExpression(args?.replaceData, {})
+            : true;
+        store.updateSelected(selected, valueField, replaceDataFlag);
         break;
       case 'initDrag':
         store.stopDragging();

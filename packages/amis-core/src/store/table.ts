@@ -1544,8 +1544,14 @@ export const TableStore = iRendererStore
       }
     }
 
-    function updateSelected(selected: Array<any>, valueField?: string) {
-      self.selectedRows.clear();
+    function updateSelected(
+      selected: Array<any>,
+      valueField?: string,
+      replaceData = true
+    ) {
+      if (replaceData) {
+        self.selectedRows.clear();
+      }
 
       selected.forEach(item => {
         let resolved = findTree(self.rows, a => a.pristine === item);
