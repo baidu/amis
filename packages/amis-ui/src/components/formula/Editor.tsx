@@ -74,6 +74,20 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   functions?: Array<FuncGroup>;
 
   /**
+   * 过滤函数，返回一个过滤后的函数集合，默认不需要传，即  amis-formula 里面那个函数
+   * 如果有扩充，则需要传。
+   */
+  functionsFilter?: (
+    functions: Array<FuncGroup>,
+    data: any
+  ) => Array<FuncGroup>;
+
+  /**
+   * 外层透传的 data
+   */
+  data?: any;
+
+  /**
    * 顶部标题，默认为表达式
    */
   header: string;
@@ -276,14 +290,18 @@ export class FormulaEditor extends React.Component<
     const customFunctions = Array.isArray(this.props.functions)
       ? this.props.functions
       : [];
-    const functionList = [
+    let functionList = [
       ...FormulaEditor.buildDefaultFunctions(doc),
       ...FormulaEditor.buildCustomFunctions(functionDocs),
       ...customFunctions
     ];
-    this.setState({
-      functions: functionList
-    });
+
+    const {functionsFilter, data} = this.props;
+    if (functionsFilter) {
+      functionList = functionsFilter(functionList, data);
+    }
+
+    this.setState({functions: functionList});
   }
 
   normalizeVariables(variables?: Array<VariableItem>) {
