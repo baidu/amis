@@ -77,7 +77,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
       value,
       disabled,
       option2value,
-      multiple
+      multiple,
+      testIdBuilder
     } = this.props;
     let columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -108,6 +109,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
                   onChange={this.toggleAll}
                   checked={partialChecked}
                   partial={partialChecked && !allChecked}
+                  testIdBuilder={testIdBuilder?.getChild('check-all')}
                 />
               </th>
             ) : null}
@@ -140,10 +142,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
       multiple,
       translate: __,
       itemClassName,
-      resultMode
+      resultMode,
+      testIdBuilder
     } = this.props;
 
     const checked = valueArray.indexOf(option) !== -1;
+    const itemTIB = testIdBuilder?.getChild(`item-${option.value || rowIndex}`);
 
     return (
       <tr
@@ -171,7 +175,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
               this.toggleOption(option);
             }}
           >
-            <Checkbox size="sm" checked={checked} disabled={disabled} />
+            <Checkbox
+              size="sm"
+              checked={checked}
+              disabled={disabled}
+              testIdBuilder={itemTIB}
+            />
           </td>
         ) : null}
         {columns.map((column, colIndex) => (

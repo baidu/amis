@@ -121,6 +121,7 @@ import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {InputSignatureSchema} from './renderers/Form/InputSignature';
 import {TableSchema2} from './renderers/Table2';
 import {
   BaseSchemaWithoutType,
@@ -129,7 +130,7 @@ import {
   SchemaClassName,
   SchemaExpression
 } from 'amis-core';
-import type {FormSchemaBase} from 'amis-core';
+import type {FormSchemaBase, TestIdBuilder} from 'amis-core';
 import {MultilineTextSchema} from './renderers/MultilineText';
 import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';
@@ -253,6 +254,8 @@ export type SchemaType =
   | 'input-formula'
   | 'diff-editor'
   | 'office-viewer'
+  | 'pdf-viewer'
+  | 'input-signature'
 
   // editor 系列
   | 'editor'
@@ -460,6 +463,7 @@ export type SchemaObject =
   | InputGroupControlSchema
   | ListControlSchema
   | JSONSchemaEditorControlSchema
+  | InputSignatureSchema
   | LocationControlSchema
   | UUIDControlSchema
   | MatrixControlSchema
@@ -722,6 +726,8 @@ export type SchemaFunction = string | Function;
 
 export interface BaseSchema extends BaseSchemaWithoutType {
   type: SchemaType;
+
+  testid?: string;
 }
 
 export interface Option {

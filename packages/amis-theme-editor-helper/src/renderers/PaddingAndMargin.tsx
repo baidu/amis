@@ -231,7 +231,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   itemName="margin-all"
                   state={state}
                   inheritValue={editorThemePath ? 'inherit' : ''}
-                  placeholder={editorDefaultValue?.margin}
+                  placeholder={editorDefaultValue?.margin || '外边距'}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">外边距</div>
               </div>
@@ -250,7 +250,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   itemName="padding-all"
                   state={state}
                   inheritValue={editorThemePath ? 'inherit' : ''}
-                  placeholder={editorDefaultValue?.padding}
+                  placeholder={editorDefaultValue?.padding || '内边距'}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">内边距</div>
               </div>

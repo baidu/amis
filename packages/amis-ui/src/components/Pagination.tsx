@@ -5,7 +5,12 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {localeable, LocaleProps, resolveEventData} from 'amis-core';
+import {
+  localeable,
+  LocaleProps,
+  resolveEventData,
+  TestIdBuilder
+} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import {Icon} from './icons';
@@ -120,6 +125,7 @@ export interface PaginationProps
     ThemeProps,
     LocaleProps {
   popOverContainer?: any;
+  testIdBuilder?: TestIdBuilder;
 }
 export interface PaginationState {
   pageNum: string;
@@ -189,7 +195,7 @@ export class Pagination extends React.Component<
    * @param page 页码
    */
   renderPageItem(page: number) {
-    const {classnames: cx, activePage} = this.props;
+    const {classnames: cx, activePage, testIdBuilder} = this.props;
     const {perPage} = this.state;
 
     return (
@@ -200,7 +206,12 @@ export class Pagination extends React.Component<
           'is-active': page === activePage
         })}
       >
-        <a role="button">{page}</a>
+        <a
+          role="button"
+          {...testIdBuilder?.getChild(`page-${page}`).getTestId()}
+        >
+          {page}
+        </a>
       </li>
     );
   }
@@ -212,7 +223,12 @@ export class Pagination extends React.Component<
    * @param page 页码
    */
   renderEllipsis(key: string) {
-    const {classnames: cx, activePage, ellipsisPageGap} = this.props;
+    const {
+      classnames: cx,
+      activePage,
+      ellipsisPageGap,
+      testIdBuilder
+    } = this.props;
     const {perPage} = this.state;
     const lastPage = this.getLastPage();
     const gap: number =
@@ -240,6 +256,7 @@ export class Pagination extends React.Component<
             isPrevEllipsis ? 'backward' : 'forward'
           );
         }}
+        {...testIdBuilder?.getChild(key).getTestId()}
       >
         <a role="button">...</a>
         <span className="icon">{jumpContent}</span>
@@ -382,7 +399,8 @@ export class Pagination extends React.Component<
       popOverContainerSelector,
       mobileUI,
       size,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
     let maxButtons = this.props.maxButtons;
     const {pageNum, perPage, internalPageNum} = this.state;
@@ -402,6 +420,7 @@ export class Pagination extends React.Component<
             onKeyUp={this.handleSimpleKeyUp}
             onBlur={this.handleSimpleBlur}
             value={internalPageNum}
+            {...testIdBuilder?.getChild('simple-input').getTestId()}
           />
           /
           <span className={cx('Pagination-simplego-right')} key="go-right">
@@ -419,6 +438,7 @@ export class Pagination extends React.Component<
             className
           )}
           style={style}
+          {...testIdBuilder?.getTestId()}
         >
           <ul
             key="pager-items"
@@ -445,7 +465,7 @@ export class Pagination extends React.Component<
               }}
               key="prev"
             >
-              <span>
+              <span {...testIdBuilder?.getChild(`go-prev`).getTestId()}>
                 <Icon icon="left-arrow" className="icon" />
               </span>
             </li>
@@ -466,7 +486,7 @@ export class Pagination extends React.Component<
               }}
               key="next"
             >
-              <span>
+              <span {...testIdBuilder?.getChild(`go-next`).getTestId()}>
                 <Icon icon="right-arrow" className="icon" />
               </span>
             </li>
@@ -557,7 +577,7 @@ export class Pagination extends React.Component<
         }}
         key="prev"
       >
-        <span>
+        <span {...testIdBuilder?.getChild('go-prev').getTestId()}>
           <Icon icon="left-arrow" className="icon" />
         </span>
       </li>
@@ -576,7 +596,7 @@ export class Pagination extends React.Component<
         }}
         key="next"
       >
-        <span>
+        <span {...testIdBuilder?.getChild('go-next').getTestId()}>
           <Icon icon="right-arrow" className="icon" />
         </span>
       </li>
@@ -613,6 +633,7 @@ export class Pagination extends React.Component<
             this.handlePageNumChange(v, perPage);
           }}
           value={pageNum}
+          {...testIdBuilder?.getChild('go-input').getTestId()}
         />
         <span
           className={cx('Pagination-inputGroup-right')}
@@ -624,6 +645,7 @@ export class Pagination extends React.Component<
             this.setState({pageNum: ''});
             this.handlePageNumChange(+pageNum, perPage);
           }}
+          {...testIdBuilder?.getChild('go').getTestId()}
         >
           {__('Pagination.go')}
         </span>
@@ -649,6 +671,7 @@ export class Pagination extends React.Component<
           });
           this.handlePageNumChange(1, p.value);
         }}
+        {...testIdBuilder?.getChild('perpage').getTestId()}
       />
     );
     // total或者lastpage不存在，不渲染总数
@@ -667,6 +690,7 @@ export class Pagination extends React.Component<
           {disabled: disabled},
           className
         )}
+        {...testIdBuilder?.getTestId()}
       >
         {layoutList.map(layoutItem => {
           if (layoutItem === PaginationWidget.Pager) {

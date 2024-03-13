@@ -766,7 +766,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     if (action.actionType === 'dialog') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       const idx: number = (ctx as any).index;
       const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
@@ -783,7 +783,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         delegate || (this.context as any)
       );
     } else if (action.actionType === 'ajax') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       const data = ctx;
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
@@ -827,12 +827,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode &&
       (action.actionType === 'confirm' || action.actionType === 'submit')
     ) {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       return Promise.resolve({
         items: store.selectedItems.concat()
       });
     } else if (action.onClick) {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       let onClick = action.onClick;
       if (typeof onClick === 'string') {
         onClick = str2function(onClick, 'event', 'props', 'data');
@@ -981,8 +981,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   handleFilterReset(values: object, action: any) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
+    const resetQuery: any = {};
+    Object.keys(values).forEach(key => (resetQuery[key] = ''));
     store.updateQuery(
-      store.pristineQuery,
+      {
+        ...resetQuery,
+        ...store.pristineQuery
+      },
       syncLocation && env && env.updateLocation
         ? (location: any) => env.updateLocation(location)
         : undefined,
@@ -1210,11 +1215,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,
@@ -1981,7 +1989,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       render,
       classnames: cx,
       alwaysShowPagination,
-      perPageAvailable
+      perPageAvailable,
+      testIdBuilder
     } = this.props;
     const {page, lastPage} = store;
 
@@ -2029,7 +2038,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         {render(
           'pagination',
           {
-            type: 'pagination'
+            type: 'pagination',
+            testIdBuilder: testIdBuilder?.getChild('pagination')
           },
           {
             ...extraProps,
@@ -2076,7 +2086,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
 
     const items = childProps.items;
@@ -2107,13 +2118,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
           popOverContainer={this.parentContainer}
+          testIdBuilder={testIdBuilder?.getChild('perPage')}
         />
       </div>
     );
   }
 
   renderLoadMore() {
-    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      testIdBuilder
+    } = this.props;
     const {page, lastPage} = store;
 
     return (
@@ -2126,6 +2144,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             this.search({page: page + 1, loadDataMode: 'load-more'})
           }
           size="sm"
+          {...testIdBuilder?.getChild('loadMore').getTestId()}
         >
           {__('CRUD.loadMore')}
         </Button>
@@ -2204,7 +2223,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, mobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __, testIdBuilder} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -2249,7 +2268,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const cx = this.props.classnames;
       if (len) {
         return (
-          <div className={cx('Crud-toolbar')} key={index}>
+          <div
+            className={cx('Crud-toolbar')}
+            key={index}
+            {...testIdBuilder?.getChild('toolbar').getTestId()}
+          >
             {children.map(({toolbar, dom: child}, index) => {
               const type = (toolbar as Schema).type || toolbar;
               let align =
@@ -2516,6 +2539,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSearchableFromInit,
       headerToolbarRender,
       footerToolbarRender,
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -2526,6 +2550,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
+        {...testIdBuilder?.getChild('wrapper').getTestId()}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
@@ -2536,7 +2561,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 submitText: __('search'),
                 ...filter,
                 type: 'form',
-                api: null
+                api: null,
+                testIdBuilder: testIdBuilder?.getChild('filter')
               },
               {
                 key: 'filter',
@@ -2716,9 +2742,14 @@ export class CRUDRenderer extends CRUD {
     condition?: any
   ) {
     const {store} = this.props;
-    const len = store.data.items.length;
+    const len = store.data.items?.length;
 
     if (index !== undefined) {
+      // TODO 修复以下逻辑
+      // store.data.items 可能没值
+      // crud 可能 table 也可能可能是 list 或者 cards，应该交给 body 子组件自己去处理
+      // 修改完数据应该是类似 quickEdit 修改后的效果，目前界面上无交互出现
+      // @hsm-lv
       let items = [...store.data.items];
       const indexs = String(index).split(',');
       indexs.forEach(i => {

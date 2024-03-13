@@ -809,3 +809,279 @@ test('Renderer:input-table formula', async () => {
     ]
   });
 });
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9494
+test('Renderer:input-table autoFill', async () => {
+  const onSubmit = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        title: 'Hello low code',
+        body: [
+          {
+            type: 'form',
+            api: '/api/mock2/form/saveForm',
+            body: [
+              {
+                type: 'input-table',
+                name: 'table',
+                label: '表格表单',
+                columns: [
+                  {
+                    label: '名称',
+                    name: 'name',
+                    quickEdit: {
+                      type: 'input-text',
+                      name: 'name',
+                      id: 'u:514910e73695'
+                    },
+                    id: 'u:97d119520d7c'
+                  },
+                  {
+                    label: '分数',
+                    name: 'score',
+                    quickEdit: {
+                      type: 'input-number',
+                      name: 'score',
+                      id: 'u:644f5984ff07'
+                    },
+                    id: 'u:60636ff9ed10'
+                  },
+                  {
+                    label: '等级',
+                    name: 'level',
+                    quickEdit: {
+                      type: 'select',
+                      name: 'level',
+                      autoFill: {
+                        id: '$id'
+                      },
+                      id: 'u:38014752298b',
+                      options: [
+                        {
+                          label: 'a',
+                          value: '111',
+                          id: 111
+                        },
+                        {
+                          label: 'a1',
+                          value: '1121',
+                          id: 222
+                        }
+                      ]
+                    },
+                    id: 'u:bc682229ad4f'
+                  }
+                ],
+                addable: true,
+                footerAddBtn: {
+                  label: '新增',
+                  icon: 'fa fa-plus',
+                  id: 'u:a0d2d9eab4f7'
+                },
+                strictMode: true,
+                id: 'u:c296ba75753c',
+                minLength: 0,
+                editable: true,
+                removable: true
+              }
+            ],
+            id: 'u:a2f24ee3ab2d',
+            debug: true
+          }
+        ],
+        id: 'u:09eedced8bb6',
+        asideResizor: false,
+        style: {
+          boxShadow: ' 0px 0px 0px 0px transparent'
+        },
+        pullRefresh: {
+          disabled: true
+        }
+      },
+      {
+        onSubmit: onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+
+  const add = container.querySelector('.cxd-InputTable-toolbar button');
+  fireEvent.click(add!);
+  await wait(200);
+
+  fireEvent.change(container.querySelector('input[name="name"]')!, {
+    target: {value: 'a1'}
+  });
+  await wait(200);
+
+  fireEvent.change(container.querySelector('input[name="score"]')!, {
+    target: {value: '123'}
+  });
+  await wait(200);
+
+  fireEvent.click(container.querySelector('.cxd-Select')!);
+  await wait(200);
+  fireEvent.click(container.querySelector('.cxd-Select-menu [role="option"]')!);
+  await wait(200);
+
+  fireEvent.click(container.querySelector('.cxd-OperationField button')!);
+  await wait(200);
+
+  const submitBtn = container.querySelector('button[type=submit]');
+  fireEvent.click(submitBtn!);
+  await wait(200);
+
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    table: [
+      {
+        id: 111,
+        name: 'a1',
+        score: 123,
+        level: '111'
+      }
+    ]
+  });
+});
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9520
+test('Renderer:input-table canAccessSuperData', async () => {
+  const onSubmit = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            a: 'xxx',
+            table: [
+              {
+                a: 'a1',
+                b: 'b1'
+              }
+            ]
+          },
+          api: '/amis/api/mock2/form/saveForm',
+          body: [
+            {
+              showIndex: true,
+              type: 'input-table',
+              name: 'table',
+              addable: true,
+              needConfirm: true,
+              columns: [
+                {
+                  name: 'a',
+                  label: 'A',
+                  type: 'wrapper',
+                  body: [
+                    {
+                      name: 'a',
+                      label: false,
+                      type: 'input-text'
+                    }
+                  ]
+                },
+                {
+                  name: 'b',
+                  label: 'B',
+                  type: 'input-text'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const addBtn = container.querySelector('.cxd-OperationField button');
+  expect(addBtn).toBeInTheDocument();
+  fireEvent.click(addBtn!);
+
+  await wait(200);
+  const confrimBtn = container.querySelector('.cxd-OperationField button');
+  expect(confrimBtn).toBeInTheDocument();
+  fireEvent.click(confrimBtn!);
+
+  await wait(200);
+  const inputs = [].slice
+    .call(container.querySelectorAll('tbody td input[name="a"]'))
+    .map((td: any) => td.value);
+
+  expect(inputs).toEqual(['a1', '']);
+});
+
+
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9537
+test('Renderer:input-table item confirm validate', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            a: 'xxx',
+            table: [
+              {
+                a: 'a1',
+                b: 'b1'
+              }
+            ]
+          },
+          api: '/amis/api/mock2/form/saveForm',
+          body: [
+            {
+              showIndex: true,
+              type: 'input-table',
+              name: 'table',
+              addable: true,
+              columns: [
+                {
+                  name: 'a',
+                  label: 'A',
+                  quickEdit: {
+                    type: 'input-text',
+                    required: true
+                  }
+                },
+                {
+                  name: 'b',
+                  label: 'B'
+                }
+              ],
+              needConfirm: true
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const addBtn = container.querySelector('.cxd-OperationField button');
+  expect(addBtn).toBeInTheDocument();
+  fireEvent.click(addBtn!);
+
+  await wait(200);
+  const confirmBtn = container.querySelector('.cxd-OperationField button');
+  expect(confirmBtn).toBeInTheDocument();
+  fireEvent.click(confirmBtn!);
+
+  await wait(200);
+
+  expect(container.querySelector('.has-error--isRequired')).toBeInTheDocument();
+});

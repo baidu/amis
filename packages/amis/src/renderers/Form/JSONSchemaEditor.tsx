@@ -85,6 +85,11 @@ export interface JSONSchemaEditorControlSchema
    *
    */
   placeholder?: SchemaEditorItemPlaceholder;
+
+  /**
+   * 是否为迷你模式，会隐藏一些不必要的元素
+   */
+  mini?: boolean;
 }
 
 export interface JSONSchemaEditorProps

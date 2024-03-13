@@ -15,6 +15,7 @@ import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import debounce from 'lodash/debounce';
 import merge from 'lodash/merge';
+import {EditorModalBody} from './store/editor';
 
 const {
   guid,
@@ -1393,129 +1394,116 @@ export const scrollToActive = debounce((selector: string) => {
   }
 }, 200);
 
-/**
- * 获取弹窗事件
- * @param schema 遍历的schema
- * @param listType 列表形式，弹窗list或label value形式的数据源
- * @param filterId 要过滤弹窗的id
- */
-export const getDialogActions = (
-  schema: Schema,
-  listType: 'list' | 'source',
-  filterId?: string
-) => {
-  let dialogActions: any[] = [];
-  JSONTraverse(
-    schema,
-    (value: any, key: string, object: any) => {
-      // definitions中的弹窗
-      if (key === 'type' && value === 'page') {
-        const definitions = object.definitions;
-        if (definitions) {
-          Object.keys(definitions).forEach(key => {
-            if (key.includes('ref-')) {
-              if (listType === 'list') {
-                dialogActions.push(definitions[key]);
-              } else {
-                const dialog = definitions[key];
-                const dialogTypeName =
-                  dialog.type === 'drawer'
-                    ? '抽屉式弹窗'
-                    : dialog.dialogType
-                    ? '确认对话框'
-                    : '弹窗';
-                dialogActions.push({
-                  label: `${dialog.title || '-'}（${dialogTypeName}）`,
-                  value: dialog.$$id
-                });
-              }
-            }
-          });
-        }
-      }
-      if (
-        (key === 'actionType' && value === 'dialog') ||
-        (key === 'actionType' && value === 'drawer') ||
-        (key === 'actionType' && value === 'confirmDialog')
-      ) {
-        const dialogBodyMap = new Map([
-          [
-            'dialog',
-            {
-              title: '弹窗',
-              body: 'dialog'
-            }
-          ],
-          [
-            'drawer',
-            {
-              title: '抽屉式弹窗',
-              body: 'drawer'
-            }
-          ],
-          [
-            'confirmDialog',
-            {
-              title: '确认对话框',
-              // 兼容历史args参数
-              body: ['dialog', 'args']
-            }
-          ]
-        ]);
-        let dialogBody = dialogBodyMap.get(value)?.body!;
-        let dialogBodyContent = Array.isArray(dialogBody)
-          ? object[dialogBody[0]] || object[dialogBody[1]]
-          : object[dialogBody];
+export function addModal(schema: any, modal: any, definitions?: any) {
+  schema = {...schema, definitions: {...schema.definitions}};
 
-        if (
-          dialogBodyMap.has(value) &&
-          dialogBodyContent &&
-          !dialogBodyContent.$ref
-        ) {
-          if (listType == 'list') {
-            // 没有 type: dialog的历史数据兼容一下
-            dialogActions.push({
-              ...dialogBodyContent,
-              type: Array.isArray(dialogBody) ? 'dialog' : dialogBody
-            });
-          } else {
-            // 新建弹窗切换到现有弹窗把自身过滤掉
-            if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
-              dialogActions.push({
-                label: `${dialogBodyContent?.title || '-'}（${
-                  dialogBodyMap.get(value)?.title
-                }）`,
-                value: dialogBodyContent.$$id
-              });
-            }
-          }
-        }
-      }
-    },
-    (value, key) => key.toString().startsWith('__')
-  );
-  return dialogActions;
-};
+  // 如果有传入definitions，则合并到schema中
+  if (definitions && isPlainObject(definitions)) {
+    schema = mergeDefinitions(schema, definitions, modal);
+  }
+
+  let idx = 1;
+  while (true) {
+    if (!schema.definitions[`modal-ref-${idx}`]) {
+      break;
+    }
+    idx++;
+  }
+  modal = {
+    type: 'dialog',
+    body: [{type: 'tpl', tpl: '这是一个弹窗'}],
+    title: `未命名弹窗${idx}`,
+    ...modal,
+    $$id: guid()
+  } as any;
+  schema.definitions[`modal-ref-${idx}`] = JSONPipeIn(modal);
+
+  return [schema, `modal-ref-${idx}`];
+}
 
 /**
- * 获取弹窗的类型，来源于事件或definitions,由于历史数据可能没有type: dialog,在这里兼容一下
- * @param json
- * @param previewDialogId
+ * 弹窗转成 definitions 定义
+ * 这样打开子弹窗的时候，可以把父级的弹窗列表透传到子弹窗里面去
+ *
+ * 这样子弹窗里面打开弹窗才能选到外面的弹窗
+ * @param modals
+ * @param definitions
+ * @returns
  */
-export const getFixDialogType = (json: Schema, dialogId: string) => {
-  const dialogBodyMap = {
-    dialog: 'dialog',
-    drawer: 'drawer',
-    confirmDialog: 'dialog'
+export function modalsToDefinitions(
+  modals: Array<EditorModalBody>,
+  definitions: any = {}
+) {
+  let schema = {
+    definitions
   };
-  let parentSchema = JSONGetParentById(json, dialogId);
-  // 事件中的弹窗
-  if (parentSchema.actionType) {
-    return dialogBodyMap[parentSchema.actionType as keyof typeof dialogBodyMap];
-  }
-  // definitions中的弹窗
-  else {
-    let dialogRefSchema = JSONGetById(parentSchema, dialogId);
-    return dialogRefSchema.type;
-  }
-};
+  modals.forEach((modal, idx) => {
+    if (modal.$$ref) {
+      schema.definitions[modal.$$ref] = JSONPipeIn(modal);
+    } else {
+      [schema] = addModal(schema, {...modal, $$originId: modal.$$id});
+    }
+  });
+  return schema.definitions;
+}
+
+/**
+ * 从子弹窗的 definitions 合并回来到主弹窗的 definitions
+ *
+ * @param originSchema
+ * @param definitions
+ * @param modal
+ * @returns
+ */
+export function mergeDefinitions(
+  originSchema: any,
+  definitions: any,
+  modal: any
+) {
+  const refs: Array<string> = [];
+  JSONTraverse(modal, (value, key) => {
+    if (key === '$ref') {
+      refs.push(value);
+    }
+  });
+
+  let schema = originSchema;
+  Object.keys(definitions).forEach(key => {
+    // 弹窗里面用到了才更新
+    if (!refs.includes(key)) {
+      return;
+    }
+
+    // 要修改就复制一份，避免污染原始数据
+    if (schema === originSchema) {
+      schema = {...schema, definitions: {...schema.definitions}};
+    }
+
+    const {$$originId, ...def} = definitions[key];
+
+    if ($$originId) {
+      const parent = JSONGetParentById(schema, $$originId);
+      if (!parent) {
+        throw new Error('Can not find modal action.');
+      }
+
+      const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+      schema = JSONUpdate(schema, parent.$$id, {
+        ...parent,
+        __actionModals: undefined,
+        args: undefined,
+        dialog: undefined,
+        drawer: undefined,
+        actionType: def.actionType ?? modalType,
+        [modalType]: JSONPipeIn({
+          $ref: key
+        })
+      });
+      schema.definitions[key] = JSONPipeIn(def);
+    } else {
+      schema.definitions[key] = JSONPipeIn(def);
+    }
+  });
+
+  return schema;
+}

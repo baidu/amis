@@ -649,7 +649,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.type === 'reset') {
       this.form.reset();
     } else if (action.actionType === 'dialog') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDialog(
         data,
         undefined,
@@ -743,11 +743,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,

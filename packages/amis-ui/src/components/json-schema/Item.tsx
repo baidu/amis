@@ -17,7 +17,8 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
   } else if (schema.type == 'number') {
     return (
       <NumberInput
-        value={props.value}
+        className={props.className}
+        value={props.value ?? schema.default}
         onChange={props.onChange}
         placeholder={props.placeholder}
         mobileUI={props.mobileUI}
@@ -26,7 +27,8 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
   } else if (schema.type == 'integer') {
     return (
       <NumberInput
-        value={props.value}
+        className={props.className}
+        value={props.value ?? schema.default}
         onChange={props.onChange}
         precision={0}
         placeholder={props.placeholder}
@@ -35,13 +37,18 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
     );
   } else if (schema.type == 'boolean') {
     return (
-      <Switch value={props.value} onChange={props.onChange} className="mt-2" />
+      <Switch
+        value={props.value ?? schema.default}
+        onChange={props.onChange}
+        className="mt-2"
+      />
     );
   }
 
   return (
     <InputBox
-      value={props.value}
+      className={props.className}
+      value={props.value ?? schema.default}
       onChange={props.onChange}
       placeholder={props.placeholder}
       mobileUI={props.mobileUI}

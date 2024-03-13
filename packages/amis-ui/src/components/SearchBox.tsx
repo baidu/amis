@@ -2,7 +2,7 @@ import React from 'react';
 import isInteger from 'lodash/isInteger';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
-import {ThemeProps, themeable} from 'amis-core';
+import {TestIdBuilder, ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';
 import {uncontrollable} from 'amis-core';
 import {autobind} from 'amis-core';
@@ -56,6 +56,7 @@ export interface SearchBoxProps
   history?: SearchHistoryOptions;
   clearAndSubmit?: boolean;
   loading?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface SearchBoxState {
@@ -297,7 +298,8 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       mobileUI,
       translate: __,
       loading,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
     const {isFocused, inputValue} = this.state;
     const {enable} = this.getHistoryOptions();
@@ -315,6 +317,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           {'is-mobile': mobileUI}
         )}
         style={style}
+        {...testIdBuilder?.getTestId()}
       >
         <Input
           name={name}
@@ -327,10 +330,15 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
+          testIdBuilder={testIdBuilder?.getChild('input')}
         />
 
         {!mini && clearable && inputValue && !disabled ? (
-          <div className={cx('SearchBox-clearable')} onClick={this.handleClear}>
+          <div
+            className={cx('SearchBox-clearable')}
+            onClick={this.handleClear}
+            {...testIdBuilder?.getChild('clear').getTestId()}
+          >
             <Icon icon="input-clear" className="icon" />
           </div>
         ) : null}
@@ -341,6 +349,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
               'SearchBox-searchBtn--loading': loading
             })}
             onClick={this.handleSearch}
+            {...testIdBuilder?.getChild('search').getTestId()}
           >
             {loading ? (
               <Spinner

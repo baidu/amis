@@ -241,7 +241,7 @@ fis.match('/examples/mod.js', {
   isMod: false
 });
 
-fis.match('{markdown-it,moment-timezone}/**', {
+fis.match('{markdown-it,moment-timezone,pdfjs-dist}/**', {
   preprocessor: fis.plugin('js-require-file')
 });
 
@@ -503,6 +503,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-ui/lib/components/RichText.js',
         '!amis-ui/lib/components/Tinymce.js',
         '!amis-ui/lib/components/ColorPicker.js',
+        '!amis-ui/lib/components/PdfViewer.js',
         '!react-color/**',
         '!material-colors/**',
         '!reactcss/**',
@@ -562,6 +563,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'tinycolor2/**'
       ],
 
+      'pdf-viewer.js': [
+        'amis-ui/lib/components/PdfViewer.js',
+        'pdfjs-dist/build/pdf.worker.min.js'
+      ],
+
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
       'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
@@ -584,6 +590,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!pdfjs-dist/**',
 
         '!amis-ui/lib/components/RichText.js',
         '!zrender/**',

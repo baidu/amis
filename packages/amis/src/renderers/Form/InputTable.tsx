@@ -787,7 +787,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     });
 
     const results = await Promise.all(
-      validateForms.map(item => item.validate())
+      validateForms
+        .map(item => item.validate())
+        .concat(subFormItems.map(item => item.props.onValidate()))
     );
 
     // 有校验不通过的
@@ -978,7 +980,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     isCreateMode = false,
     editRowIndex?: number
   ): Array<any> {
-    const {env, enableStaticTransform} = this.props;
+    const {env, enableStaticTransform, testIdBuilder} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
       ? props.columns.concat()
       : [];
@@ -1014,6 +1016,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
+              testIdBuilder={testIdBuilder?.getChild(
+                `addRow-${rowIndex + offset}`
+              )}
             >
               {props.addBtnIcon ? (
                 <Icon
@@ -1049,6 +1054,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
+              testIdBuilder={testIdBuilder?.getChild(
+                `copyRow-${rowIndex + offset}`
+              )}
             >
               {props.copyBtnIcon ? (
                 <Icon
@@ -1147,6 +1155,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 }
                 disabled={disabled}
                 onClick={() => this.editItem(rowIndex + offset)}
+                testIdBuilder={testIdBuilder?.getChild(
+                  `editRow-${rowIndex + offset}`
+                )}
               >
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
@@ -1193,6 +1204,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.confirmEdit}
+                testIdBuilder={testIdBuilder?.getChild(
+                  `confirmRow-${rowIndex + offset}`
+                )}
               >
                 {props.confirmBtnIcon ? (
                   <Icon
@@ -1230,6 +1244,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.cancelEdit}
+                testIdBuilder={testIdBuilder?.getChild(
+                  `cancelRow-${rowIndex + offset}`
+                )}
               >
                 {props.cancelBtnIcon ? (
                   <Icon
@@ -1285,6 +1302,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
+              testIdBuilder={testIdBuilder?.getChild(
+                `delRow-${rowIndex + offset}`
+              )}
             >
               {props.deleteBtnIcon ? (
                 <Icon
@@ -1604,7 +1624,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       showFooterAddBtn,
       footerAddBtn,
       toolbarClassName,
-      onEvent
+      onEvent,
+      testIdBuilder
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1664,7 +1685,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             offset,
             rowClassName,
             rowClassNameExpr,
-            onPristineChange: this.handlePristineChange
+            onPristineChange: this.handlePristineChange,
+            testIdBuilder: testIdBuilder?.getChild('table')
           }
         )}
         {(!isStatic &&
@@ -1687,7 +1709,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   },
                   {
                     disabled: this.computedAddBtnDisabled(),
-                    onClick: () => this.addItem(this.state.items.length)
+                    onClick: () => this.addItem(this.state.items.length),
+                    testIdBuilder: testIdBuilder?.getChild('add')
                   }
                 )
               : null}
@@ -1703,7 +1726,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     perPage,
                     total: this.state.items.length,
                     onPageChange: this.handlePageChange,
-                    className: 'InputTable-pager'
+                    className: 'InputTable-pager',
+                    testIdBuilder: testIdBuilder?.getChild('page')
                   }
                 )
               : null}

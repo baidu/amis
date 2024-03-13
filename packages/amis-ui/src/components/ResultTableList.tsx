@@ -178,7 +178,8 @@ export class BaseResultTableSelection extends BaseSelection<
       translate: __,
       placeholder,
       virtualThreshold,
-      itemHeight
+      itemHeight,
+      testIdBuilder
     } = this.props;
 
     const {searching, tableOptions, searchTableOptions} = this.state;
@@ -208,6 +209,10 @@ export class BaseResultTableSelection extends BaseSelection<
               rowIndex: number
             ) => {
               const raw = cellRender(column, option, colIndex, rowIndex);
+              const itemTIB = testIdBuilder?.getChild(
+                `item-${option.value || rowIndex}`
+              );
+
               if (colIndex === columns.length - 1) {
                 return (
                   <>
@@ -219,6 +224,7 @@ export class BaseResultTableSelection extends BaseSelection<
                           e.stopPropagation();
                           this.handleCloseItem(option);
                         }}
+                        {...itemTIB?.getChild(`close`).getTestId()}
                       >
                         <CloseIcon />
                       </span>

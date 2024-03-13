@@ -212,7 +212,8 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss
+      themeCss,
+      testid
     } = this.props;
     const styleVar = buildStyle(style, data);
     return (

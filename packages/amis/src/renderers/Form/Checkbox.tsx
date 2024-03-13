@@ -12,6 +12,7 @@ import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {BaseSchema, FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface SchemaMap {
   checkbox: CheckboxControlSchema;
@@ -49,6 +50,7 @@ export interface CheckboxControlSchema extends FormBaseControlSchema {
   partial?: boolean;
   optionType?: 'default' | 'button';
   checked?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface CheckboxProps
@@ -139,6 +141,7 @@ export default class CheckboxControl extends React.Component<
       optionType,
       checked,
       labelClassName,
+      testIdBuilder,
       classPrefix: ns
     } = this.props;
 
@@ -155,6 +158,7 @@ export default class CheckboxControl extends React.Component<
           optionType={optionType}
           checked={checked}
           labelClassName={labelClassName}
+          testIdBuilder={testIdBuilder}
         >
           {option ? render('option', option) : null}
         </Checkbox>

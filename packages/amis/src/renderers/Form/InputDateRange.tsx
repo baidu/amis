@@ -13,7 +13,7 @@ import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-
+import type {TestIdBuilder} from 'amis-core';
 /**
  * DateRange 日期范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
@@ -134,6 +134,7 @@ export interface DateRangeProps
   format: string;
   valueFormat: string;
   joinValues: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class DateRangeControl extends React.Component<DateRangeProps> {

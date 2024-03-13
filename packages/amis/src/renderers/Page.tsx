@@ -480,7 +480,7 @@ export default class Page extends React.Component<PageProps> {
     const {env, store, messages, onAction} = this.props;
 
     if (action.actionType === 'dialog') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDialog(
         ctx,
         undefined,
@@ -488,10 +488,10 @@ export default class Page extends React.Component<PageProps> {
         delegate || (this.context as any)
       );
     } else if (action.actionType === 'drawer') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
       store.openDrawer(ctx, undefined, undefined, delegate);
     } else if (action.actionType === 'ajax') {
-      store.setCurrentAction(action);
+      store.setCurrentAction(action, this.props.resolveDefinitions);
 
       if (!isEffectiveApi(action.api, ctx)) {
         return;
@@ -661,11 +661,14 @@ export default class Page extends React.Component<PageProps> {
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
+      store.setCurrentAction(
+        {
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        },
+        this.props.resolveDefinitions
+      );
       store.openDialog(
         ctx,
         undefined,

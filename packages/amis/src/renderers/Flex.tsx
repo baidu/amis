@@ -111,7 +111,8 @@ export default class Flex extends React.Component<FlexProps, object> {
       wrapperCustomStyle,
       env,
       themeCss,
-      classnames: cx
+      classnames: cx,
+      testid
     } = this.props;
     const styleVar = buildStyle(style, data);
     const flexStyle = {

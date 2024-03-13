@@ -514,6 +514,7 @@ export class ImagePlugin extends BasePlugin {
 
         resizer.removeAttribute('data-value');
         node.updateSchema(state);
+        node.updateState({}, true);
         requestAnimationFrame(() => {
           node.calculateHighlightBox();
         });

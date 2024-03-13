@@ -105,6 +105,7 @@ import inputRepeat from './form/input-repeat.svg';
 import inputRichText from './form/input-rich-text.svg';
 import inputTag from './form/input-tag.svg';
 import inputText from './form/input-text.svg';
+import InputSignature from './form/input-signature.svg';
 
 import inputTime from './form/input-time.svg';
 import inputTree from './form/input-tree.svg';
@@ -158,6 +159,7 @@ import layout_fixed_top from './layout/layout-fixed-top.svg';
 // 其他类 icon
 import inputAddFx from './other/+fx.svg';
 import inputFx from './other/fx.svg';
+import modalSetting from './other/modal-setting.svg';
 
 // 属性配置面板/显示类型
 import block from './display/block.svg';
@@ -282,6 +284,7 @@ registerIcon('input-rich-text-plugin', inputRichText);
 registerIcon('input-tag-plugin', inputTag);
 registerIcon('input-text-plugin', inputText);
 registerIcon('input-time-range-plugin', inputTimeRange);
+registerIcon('input-signature-plugin', InputSignature);
 
 registerIcon('input-time-plugin', inputTime);
 registerIcon('input-tree-plugin', inputTree);
@@ -313,6 +316,7 @@ registerIcon('formula-plugin', formula);
 registerIcon('property-sheet-plugin', propertySheet);
 registerIcon('tooltip-plugin', tooltip);
 registerIcon('divider-plugin', divider);
+registerIcon('modal-setting', modalSetting);
 
 // 常见布局组件 icon x 13
 registerIcon('layout-absolute-plugin', layout_absolute);

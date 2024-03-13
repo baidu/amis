@@ -319,6 +319,7 @@ export default class ChainedSelectControl extends React.Component<
       multiple,
       mobileUI,
       env,
+      testIdBuilder,
       ...rest
     } = this.props;
     const arr = Array.isArray(value)
@@ -341,6 +342,7 @@ export default class ChainedSelectControl extends React.Component<
           }
           classPrefix={ns}
           key="base"
+          testIdBuilder={testIdBuilder?.getChild('base')}
           options={Array.isArray(options) ? options : []}
           value={arr[0]}
           onChange={this.handleChange.bind(this, 0)}
@@ -361,6 +363,7 @@ export default class ChainedSelectControl extends React.Component<
               }
               classPrefix={ns}
               key={`x-${index + 1}`}
+              testIdBuilder={testIdBuilder?.getChild(`x-${index + 1}`)}
               options={Array.isArray(options) ? options : []}
               value={arr[index + 1]}
               onChange={this.handleChange.bind(this, index + 1)}

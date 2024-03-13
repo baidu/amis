@@ -38,6 +38,11 @@ interface ActionDialogProp {
     node: SchemaNode,
     props?: PlainObject
   ) => JSX.Element;
+
+  subscribeSchemaSubmit: (
+    fn: (schema: any, value: any, id: string, diff?: any) => any
+  ) => () => void;
+  subscribeActionSubmit: (fn: (value: any) => any) => () => void;
 }
 
 export default class ActionDialog extends React.Component<ActionDialogProp> {
@@ -209,6 +214,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
   render() {
     const {
       data,
+      subscribeSchemaSubmit,
+      subscribeActionSubmit,
       show,
       type,
       actionTree,
@@ -426,7 +433,10 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         onClose
       },
       {
-        data // 必须这样，不然变量会被当作数据映射处理掉
+        data, // 必须这样，不然变量会被当作数据映射处理掉
+
+        subscribeActionSubmit,
+        subscribeSchemaSubmit
       }
     );
     //   : null;

@@ -63,7 +63,7 @@ export interface ControlOutterProps extends RendererProps {
   submitOnChange?: boolean;
   validate?: (value: any, values: any, name: string) => any;
   formItem?: IFormItemStore;
-  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
+  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => () => void;
   removeHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
   $schema: {
     pipeIn?: (value: any, data: any) => any;
@@ -306,6 +306,8 @@ export function wrapControl<
               };
               addHook?.(this.hook2);
             }
+
+            formItem?.init();
           }
 
           componentDidUpdate(prevProps: OuterProps) {
@@ -468,7 +470,7 @@ export function wrapControl<
 
           setInitialValue(value: any) {
             const model = this.model!;
-            const {formStore: form, canAccessSuperData, data} = this.props;
+            const {formStore: form, data, canAccessSuperData} = this.props;
             const isExp = isExpression(value);
 
             if (isExp) {

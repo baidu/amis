@@ -23,6 +23,8 @@ import {
 import Checkbox from './Checkbox';
 import {Option, Options} from './Select';
 
+import type {TestIdBuilder} from 'amis-core';
+
 export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
@@ -49,6 +51,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   placeholderRender?: (props: any) => JSX.Element | null;
   checkAll?: boolean;
   checkAllLabel?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface ItemRenderStates {

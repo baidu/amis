@@ -77,15 +77,15 @@ setSchemaTpl(
           value: 'static'
         },
         {
-          label: '相对(relative)',
+          label: '相对原位置定位(relative)',
           value: 'relative'
         },
         {
-          label: '固定(fixed)',
+          label: '视窗中悬浮(fixed)',
           value: 'fixed'
         },
         {
-          label: '绝对(absolute)',
+          label: '绝对定位(absolute)',
           value: 'absolute'
         }
       ]
@@ -238,6 +238,11 @@ setSchemaTpl(
     flexHide?: boolean;
   }) => {
     const configOptions = compact([
+      !config?.flexHide && {
+        label: '弹性布局(flex)',
+        icon: 'flex-display',
+        value: 'flex'
+      },
       {
         label: '块级(block)',
         icon: 'block-display',
@@ -252,11 +257,6 @@ setSchemaTpl(
         label: '行内元素(inline)',
         icon: 'inline-display',
         value: 'inline'
-      },
-      !config?.flexHide && {
-        label: '弹性布局(flex)',
-        icon: 'flex-display',
-        value: 'flex'
       }
     ]);
     const configSchema = {
@@ -898,7 +898,7 @@ setSchemaTpl(
       type: 'select',
       label:
         config?.label ||
-        tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
+        tipedLabel('水平内容超出', '用于设置水平方向的滚动模式'),
       name: config?.name || 'style.overflowX',
       value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
@@ -914,7 +914,7 @@ setSchemaTpl(
           value: 'hidden'
         },
         {
-          label: '滚动显示',
+          label: '水平滚动',
           value: 'scroll'
         },
         {
@@ -1104,7 +1104,7 @@ setSchemaTpl(
       type: 'select',
       label:
         config?.label ||
-        tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
+        tipedLabel('垂直内容超出', '用于设置垂直方向的滚动模式'),
       name: config?.name || 'style.overflowY',
       value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
@@ -1120,7 +1120,7 @@ setSchemaTpl(
           value: 'hidden'
         },
         {
-          label: '滚动显示',
+          label: '垂直滚动',
           value: 'scroll'
         },
         {
@@ -1349,8 +1349,12 @@ setSchemaTpl('layout:sticky', {
   inputClassName: 'inline-flex justify-between',
   onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
     if (value) {
+      const inset = form.getValueByName('style.inset');
+      if (!inset || inset === 'auto') {
+        form.setValueByName('stickyPosition', 'auto');
+        form.setValueByName('style.inset', '0px auto 0px auto');
+      }
       form.setValueByName('style.position', 'sticky');
-      form.setValueByName('style.inset', '0px auto auto auto');
       form.setValueByName('style.zIndex', 10);
     } else {
       form.setValueByName('style.position', 'static');
@@ -1488,6 +1492,26 @@ setSchemaTpl(
   }
 );
 
+setSchemaTpl(
+  'layout:flex-layout',
+  (config?: {
+    name?: string;
+    label?: string;
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'flex-layout',
+      mode: 'default',
+      name: config?.name || 'layout',
+      label: config?.label ?? false,
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut
+    };
+  }
+);
 // flex相关配置项（整合版）
 setSchemaTpl(
   'layout:flex-setting',

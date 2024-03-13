@@ -177,7 +177,7 @@ export default class FlexSettingControl extends React.Component<FlexSettingContr
 
     return (
       <div className="ap-Flex">
-        {!label && <div className="ap-Flex-label">弹性布局设置</div>}
+        {!label && <div className="ap-Flex-label">内部对齐设置</div>}
         {flexItems.map(item => (
           <div
             className={`ap-Flex-item ap-Flex-${item.field}`}

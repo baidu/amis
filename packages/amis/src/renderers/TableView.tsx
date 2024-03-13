@@ -276,6 +276,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
       wrapperCustomStyle,
       env,
       themeCss,
+      testid,
       baseControlClassName
     } = this.props;
 

@@ -172,7 +172,8 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
   }
 
   render() {
-    const {grids, cols, gap, gapRow, width, rowHeight, style} = this.props;
+    const {grids, cols, gap, gapRow, width, rowHeight, style, testid} =
+      this.props;
 
     const templateColumns = new Array(cols);
     templateColumns.fill('1fr');

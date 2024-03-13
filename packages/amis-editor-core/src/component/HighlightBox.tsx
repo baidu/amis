@@ -7,6 +7,7 @@ import {Icon} from 'amis';
 import {autobind, noop} from '../util';
 import {PluginEvent, ResizeMoveEventContext} from '../plugin';
 import {EditorManager} from '../manager';
+import {isAlive} from 'mobx-state-tree';
 
 export interface HighlightBoxProps {
   store: EditorStoreType;
@@ -20,315 +21,271 @@ export interface HighlightBoxProps {
   children?: React.ReactNode;
 }
 
-@observer
-export default class HighlightBox extends React.Component<HighlightBoxProps> {
-  mainRef = React.createRef<HTMLDivElement>();
+export default observer(function ({
+  className,
+  store,
+  id,
+  title,
+  children,
+  node,
+  toolbarContainer,
+  onSwitch,
+  manager
+}: HighlightBoxProps) {
+  const handleWResizerMouseDown = React.useCallback(
+    (e: MouseEvent) => startResize(e, 'horizontal'),
+    []
+  );
 
-  @autobind
-  handleWResizerMouseDown(e: MouseEvent) {
-    return this.startResize(e, 'horizontal');
-  }
+  const handleHResizerMouseDown = React.useCallback(
+    (e: MouseEvent) => startResize(e, 'vertical'),
+    []
+  );
 
-  @autobind
-  handleHResizerMouseDown(e: MouseEvent) {
-    return this.startResize(e, 'vertical');
-  }
+  const handleResizerMouseDown = React.useCallback(
+    (e: MouseEvent) => startResize(e, 'both'),
+    []
+  );
 
-  @autobind
-  handleResizerMouseDown(e: MouseEvent) {
-    return this.startResize(e, 'both');
-  }
+  const startResize = React.useCallback(
+    (e: MouseEvent, direction: 'horizontal' | 'vertical' | 'both') => {
+      const isLeftButton =
+        (e.button === 1 && window.event !== null) || e.button === 0;
+      if (!isLeftButton || e.defaultPrevented) return;
 
-  startResize(
-    e: MouseEvent,
-    direction: 'horizontal' | 'vertical' | 'both' = 'horizontal'
-  ) {
-    const isLeftButton =
-      (e.button === 1 && window.event !== null) || e.button === 0;
-    if (!isLeftButton || e.defaultPrevented) return;
-
-    e.preventDefault();
-    const {manager, id, node, store} = this.props;
-    if (!node) {
-      return;
-    }
-
-    const target = document.querySelector(`[data-editor-id="${id}"]`);
-
-    if (!target) {
-      return;
-    }
-    manager.disableHover = true;
-
-    const event = manager[
-      direction === 'both'
-        ? 'onSizeChangeStart'
-        : direction === 'vertical'
-        ? 'onHeightChangeStart'
-        : 'onWidthChangeStart'
-    ](e, {
-      dom: target as HTMLElement,
-      node: node,
-      store: store,
-      resizer:
-        direction === 'both'
-          ? this.resizerDom
-          : direction === 'vertical'
-          ? this.hResizerDom
-          : this.wResizerDom
-    }) as PluginEvent<
-      ResizeMoveEventContext,
-      {
-        onMove(e: MouseEvent): void;
-        onEnd(e: MouseEvent): void;
+      e.preventDefault();
+      if (!node) {
+        return;
       }
-    >;
 
-    const pluginOnMove = event.data?.onMove;
-    const pluginonEnd = event.data?.onEnd;
+      const target = document.querySelector(`[data-editor-id="${id}"]`);
 
-    if (!pluginOnMove && !pluginonEnd) {
-      return;
-    }
-    this.mainRef.current?.setAttribute('data-resizing', '');
+      if (!target) {
+        return;
+      }
+      manager.disableHover = true;
 
-    const onMove = (e: MouseEvent) => {
-      e.preventDefault();
-      pluginOnMove?.(e);
-    };
+      const event = manager[
+        direction === 'both'
+          ? 'onSizeChangeStart'
+          : direction === 'vertical'
+          ? 'onHeightChangeStart'
+          : 'onWidthChangeStart'
+      ](e, {
+        dom: target as HTMLElement,
+        node: node,
+        store: store,
+        resizer:
+          direction === 'both'
+            ? resizerDom.current!
+            : direction === 'vertical'
+            ? hResizerDom.current!
+            : wResizerDom.current!
+      }) as PluginEvent<
+        ResizeMoveEventContext,
+        {
+          onMove(e: MouseEvent): void;
+          onEnd(e: MouseEvent): void;
+        }
+      >;
 
-    const onUp = (e: MouseEvent) => {
-      e.preventDefault();
-      manager.disableHover = false;
-      this.mainRef.current?.removeAttribute('data-resizing');
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onUp);
-      document.body.style.cursor = 'default';
+      const pluginOnMove = event.data?.onMove;
+      const pluginonEnd = event.data?.onEnd;
 
-      // 阻止 click 事件触发。
-      let captureClick = (e: MouseEvent) => {
-        window.removeEventListener('click', captureClick, true);
+      if (!pluginOnMove && !pluginonEnd) {
+        return;
+      }
+      mainRef.current?.setAttribute('data-resizing', '');
+
+      const onMove = (e: MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
+        pluginOnMove?.(e);
       };
-      window.addEventListener('click', captureClick, true);
-      setTimeout(
-        () => window.removeEventListener('click', captureClick, true),
-        350
-      );
 
-      pluginonEnd?.(e);
-    };
+      const onUp = (e: MouseEvent) => {
+        e.preventDefault();
+        manager.disableHover = false;
+        mainRef.current?.removeAttribute('data-resizing');
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        document.body.style.cursor = 'default';
 
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-    document.body.style.cursor =
-      direction === 'both'
-        ? 'nwse-resize'
-        : direction === 'vertical'
-        ? 'ns-resize'
-        : 'ew-resize';
-  }
+        // 阻止 click 事件触发。
+        let captureClick = (e: MouseEvent) => {
+          window.removeEventListener('click', captureClick, true);
+          e.preventDefault();
+          e.stopPropagation();
+        };
+        window.addEventListener('click', captureClick, true);
+        setTimeout(
+          () => window.removeEventListener('click', captureClick, true),
+          350
+        );
 
-  wResizerDom: HTMLElement;
+        pluginonEnd?.(e);
+      };
 
-  @autobind
-  wResizerRef(ref: any) {
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+      document.body.style.cursor =
+        direction === 'both'
+          ? 'nwse-resize'
+          : direction === 'vertical'
+          ? 'ns-resize'
+          : 'ew-resize';
+    },
+    []
+  );
+  const wResizerDom = React.useRef<HTMLElement>();
+  const wResizerRef = React.useCallback((ref: HTMLElement) => {
     if (ref) {
-      ref.addEventListener('mousedown', this.handleWResizerMouseDown);
+      ref.addEventListener('mousedown', handleWResizerMouseDown);
     } else {
-      this.wResizerDom?.removeEventListener(
+      wResizerDom.current?.removeEventListener(
         'mousedown',
-        this.handleWResizerMouseDown
+        handleWResizerMouseDown
       );
     }
 
-    this.wResizerDom = ref;
-  }
+    wResizerDom.current = ref;
+  }, []);
 
-  hResizerDom: HTMLElement;
-
-  @autobind
-  hResizerRef(ref: any) {
+  const hResizerDom = React.useRef<HTMLElement>();
+  const hResizerRef = React.useCallback((ref: HTMLElement) => {
     if (ref) {
-      ref.addEventListener('mousedown', this.handleHResizerMouseDown);
+      ref.addEventListener('mousedown', handleHResizerMouseDown);
     } else {
-      this.hResizerDom?.removeEventListener(
+      hResizerDom.current?.removeEventListener(
         'mousedown',
-        this.handleHResizerMouseDown
+        handleHResizerMouseDown
       );
     }
 
-    this.hResizerDom = ref;
-  }
+    hResizerDom.current = ref;
+  }, []);
 
-  resizerDom: HTMLElement;
-
-  @autobind
-  resizerRef(ref: any) {
+  const resizerDom = React.useRef<HTMLElement>();
+  const resizerRef = React.useCallback((ref: HTMLElement) => {
     if (ref) {
-      ref.addEventListener('mousedown', this.handleResizerMouseDown);
+      ref.addEventListener('mousedown', handleResizerMouseDown);
     } else {
-      this.resizerDom?.removeEventListener(
+      resizerDom.current?.removeEventListener(
         'mousedown',
-        this.handleResizerMouseDown
+        handleResizerMouseDown
       );
     }
 
-    this.resizerDom = ref;
-  }
+    resizerDom.current = ref;
+  }, []);
 
-  @autobind
-  handleMouseEnter() {
-    const manager = this.props.manager;
-
+  const handleMouseEnter = React.useCallback(() => {
     if (manager.disableHover) {
       return;
     }
 
-    this.props.store.setHoverId(this.props.id);
-  }
+    store.setHoverId(id);
+  }, []);
 
-  // 特殊布局元素和自由容器直接子元素直接拖拽调整位置
-  @autobind
-  handleDragStart(e: React.DragEvent) {
-    const {manager, id} = this.props;
-
+  const handleDragStart = React.useCallback((e: React.DragEvent) => {
     if (manager.disableHover) {
       return;
     }
 
     manager.startDrag(id, e);
+  }, []);
+
+  const mainRef = React.createRef<HTMLDivElement>();
+  const toolbars = store.sortedToolbars;
+  const secondaryToolbars = store.sortedSecondaryToolbars;
+  const specialToolbars = store.sortedSpecialToolbars;
+  const isActive = store.isActive(id);
+  const curFreeContainerId = store.parentIsFreeContainer();
+  const isHover =
+    store.isHoved(id) ||
+    store.dropId === id ||
+    store.insertOrigId === id ||
+    curFreeContainerId === id;
+  const isDraggableContainer = store.draggableContainer(id);
+
+  // todo 干掉这个逻辑
+  // 获取当前高亮画布宽度
+  const aePreviewOffsetWidth = document.getElementById(
+    'aePreviewHighlightBox'
+  )!.offsetWidth;
+
+  if (!isAlive(node)) {
+    return <div />;
   }
 
-  // @autobind
-  // handleMouseLeave() {
-  //   this.props.store.setHoverId(this.props.id);
-  // }
+  // 判断是否在最右侧（考虑组件头部工具栏被遮挡的问题）
+  const isRightElem = aePreviewOffsetWidth - node.x < 176; // 跳过icode代码检查
 
-  render() {
-    const {
-      className,
-      store,
-      id,
-      title,
-      children,
-      node,
-      toolbarContainer,
-      onSwitch
-    } = this.props;
-    const toolbars = store.sortedToolbars;
-    const secondaryToolbars = store.sortedSecondaryToolbars;
-    const specialToolbars = store.sortedSpecialToolbars;
-    const isActive = store.isActive(id);
-    const curFreeContainerId = store.parentIsFreeContainer();
-    const isHover =
-      store.isHoved(id) ||
-      store.dropId === id ||
-      store.insertOrigId === id ||
-      curFreeContainerId === id;
-    const isDraggableContainer = store.draggableContainer(id);
-
-    // 获取当前高亮画布宽度
-    const aePreviewOffsetWidth = document.getElementById(
-      'aePreviewHighlightBox'
-    )!.offsetWidth;
-    // 判断是否在最右侧（考虑组件头部工具栏被遮挡的问题）
-    const isRightElem = aePreviewOffsetWidth - node.x < 176; // 跳过icode代码检查
-
-    /* bca-disable */ return (
-      <div
-        className={cx(
-          'ae-Editor-hlbox',
-          {
-            shake: id === store.insertOrigId,
-            selected: isActive || ~store.selections.indexOf(id),
-            hover: isHover,
-            regionOn: node.childRegions.some(region =>
-              store.isRegionHighlighted(region.id, region.region)
-            ),
-            isFreeContainerElem: !!curFreeContainerId || isDraggableContainer
-          },
-          className
-        )}
-        data-hlbox-id={id}
-        style={{
-          display: node.w && node.h ? 'block' : 'none',
-          top: node.y,
-          left: node.x,
-          width: node.w,
-          height: node.h
-        }}
-        ref={this.mainRef}
-        onMouseEnter={this.handleMouseEnter}
-        draggable={!!curFreeContainerId || isDraggableContainer}
-        onDragStart={this.handleDragStart}
-      >
-        {isActive ? (
-          <div
-            className={`ae-Editor-toolbarPopover ${
-              isRightElem ? 'is-right-elem' : ''
-            }`}
-          >
-            <div className="ae-Editor-nav">
-              {node.host ? (
-                <div
-                  className="ae-Editor-tip parent"
-                  onClick={() => onSwitch?.(node.host.id)}
-                >
-                  {node.host.label}
-                </div>
-              ) : null}
-
-              <div key="tip" className="ae-Editor-tip current">
-                {title}
+  /* bca-disable */
+  return (
+    <div
+      className={cx(
+        'ae-Editor-hlbox',
+        {
+          shake: id === store.insertOrigId,
+          selected: isActive || ~store.selections.indexOf(id),
+          hover: isHover,
+          regionOn: node.childRegions.some(region =>
+            store.isRegionHighlighted(region.id, region.region)
+          ),
+          isFreeContainerElem: !!curFreeContainerId || isDraggableContainer
+        },
+        className
+      )}
+      data-hlbox-id={id}
+      style={{
+        display: node.w && node.h ? 'block' : 'none',
+        top: node.y,
+        left: node.x,
+        width: node.w,
+        height: node.h
+      }}
+      ref={mainRef}
+      onMouseEnter={handleMouseEnter}
+      draggable={!!curFreeContainerId || isDraggableContainer}
+      onDragStart={handleDragStart}
+    >
+      {isActive ? (
+        <div
+          className={`ae-Editor-toolbarPopover ${
+            isRightElem ? 'is-right-elem' : ''
+          }`}
+        >
+          <div className="ae-Editor-nav">
+            {node.host ? (
+              <div
+                className="ae-Editor-tip parent"
+                onClick={() => onSwitch?.(node.host.id)}
+              >
+                {node.host.label}
               </div>
+            ) : null}
 
-              {node.firstChild ? (
-                <div
-                  className="ae-Editor-tip child"
-                  onClick={() => onSwitch?.(node.firstChild.id)}
-                >
-                  {node.firstChild.label}
-                </div>
-              ) : null}
+            <div key="tip" className="ae-Editor-tip current">
+              {title}
             </div>
 
-            <div className="ae-Editor-toolbar" key="toolbar">
-              {toolbars.map(item => (
-                <button
-                  key={item.id}
-                  type="button"
-                  draggable={item.draggable}
-                  onDragStart={item.onDragStart}
-                  data-id={item.id}
-                  data-tooltip={item.tooltip || undefined}
-                  data-position={item.placement || 'top'}
-                  onClick={item.onClick}
-                >
-                  {item.iconSvg ? (
-                    <Icon className="icon" icon={item.iconSvg} />
-                  ) : ~item.icon!.indexOf('<') ? (
-                    <span dangerouslySetInnerHTML={{__html: item.icon!}} />
-                  ) : (
-                    <i className={item.icon} />
-                  )}
-                </button>
-              ))}
-            </div>
+            {node.firstChild ? (
+              <div
+                className="ae-Editor-tip child"
+                onClick={() => onSwitch?.(node.firstChild.id)}
+              >
+                {node.firstChild.label}
+              </div>
+            ) : null}
           </div>
-        ) : null}
 
-        {isActive && secondaryToolbars.length ? (
-          <div
-            className="ae-Editor-toolbar sencondary"
-            key="sencondary-toolbar"
-          >
-            {secondaryToolbars.map(item => (
+          <div className="ae-Editor-toolbar" key="toolbar">
+            {toolbars.map(item => (
               <button
                 key={item.id}
                 type="button"
-                className={item.className}
+                draggable={item.draggable}
+                onDragStart={item.onDragStart}
                 data-id={item.id}
                 data-tooltip={item.tooltip || undefined}
                 data-position={item.placement || 'top'}
@@ -344,52 +301,76 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
               </button>
             ))}
           </div>
-        ) : null}
+        </div>
+      ) : null}
 
-        {isActive && specialToolbars.length ? (
-          <div className="ae-Editor-toolbar special" key="special-toolbar">
-            {specialToolbars.map(item => (
-              <button
-                key={item.id}
-                type="button"
-                className={item.className}
-                data-id={item.id}
-                data-tooltip={item.tooltip || undefined}
-                data-position={item.placement || 'top'}
-                onClick={item.onClick}
-              >
-                {item.iconSvg ? (
-                  <Icon className="icon" icon={item.iconSvg} />
-                ) : ~item.icon!.indexOf('<') ? (
-                  <span dangerouslySetInnerHTML={{__html: item.icon!}} />
-                ) : (
-                  <i className={item.icon} />
-                )}
-              </button>
-            ))}
-          </div>
-        ) : null}
+      {isActive && secondaryToolbars.length ? (
+        <div className="ae-Editor-toolbar sencondary" key="sencondary-toolbar">
+          {secondaryToolbars.map(item => (
+            <button
+              key={item.id}
+              type="button"
+              className={item.className}
+              data-id={item.id}
+              data-tooltip={item.tooltip || undefined}
+              data-position={item.placement || 'top'}
+              onClick={item.onClick}
+            >
+              {item.iconSvg ? (
+                <Icon className="icon" icon={item.iconSvg} />
+              ) : ~item.icon!.indexOf('<') ? (
+                <span dangerouslySetInnerHTML={{__html: item.icon!}} />
+              ) : (
+                <i className={item.icon} />
+              )}
+            </button>
+          ))}
+        </div>
+      ) : null}
 
-        {children}
+      {isActive && specialToolbars.length ? (
+        <div className="ae-Editor-toolbar special" key="special-toolbar">
+          {specialToolbars.map(item => (
+            <button
+              key={item.id}
+              type="button"
+              className={item.className}
+              data-id={item.id}
+              data-tooltip={item.tooltip || undefined}
+              data-position={item.placement || 'top'}
+              onClick={item.onClick}
+            >
+              {item.iconSvg ? (
+                <Icon className="icon" icon={item.iconSvg} />
+              ) : ~item.icon!.indexOf('<') ? (
+                <span dangerouslySetInnerHTML={{__html: item.icon!}} />
+              ) : (
+                <i className={item.icon} />
+              )}
+            </button>
+          ))}
+        </div>
+      ) : null}
 
-        {node.widthMutable ? (
-          <>
-            <span className="ae-border-WResizer" ref={this.wResizerRef}></span>
-            <span className="ae-WResizer" ref={this.wResizerRef}></span>
-          </>
-        ) : null}
+      {children}
 
-        {node.heightMutable ? (
-          <>
-            <span className="ae-border-HResizer" ref={this.hResizerRef}></span>
-            <span className="ae-HResizer" ref={this.hResizerRef}></span>
-          </>
-        ) : null}
+      {node.widthMutable ? (
+        <>
+          <span className="ae-border-WResizer" ref={wResizerRef}></span>
+          <span className="ae-WResizer" ref={wResizerRef}></span>
+        </>
+      ) : null}
 
-        {node.widthMutable && node.heightMutable ? (
-          <span className="ae-Resizer" ref={this.resizerRef}></span>
-        ) : null}
-      </div>
-    );
-  }
-}
+      {node.heightMutable ? (
+        <>
+          <span className="ae-border-HResizer" ref={hResizerRef}></span>
+          <span className="ae-HResizer" ref={hResizerRef}></span>
+        </>
+      ) : null}
+
+      {node.widthMutable && node.heightMutable ? (
+        <span className="ae-Resizer" ref={resizerRef}></span>
+      ) : null}
+    </div>
+  );
+});

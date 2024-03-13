@@ -744,7 +744,7 @@
     min-width: px2rem(320px);
     max-width: px2rem(640px);
 
-    .#{$ns}Panel {
+    > .#{$ns}Panel {
       margin: 0;
     }
   }

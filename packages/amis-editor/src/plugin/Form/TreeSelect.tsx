@@ -90,7 +90,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value, items} = resolveOptionEventDataSchame(manager);
+        const {value, items, itemSchema} =
+          resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -101,6 +102,11 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 title: '数据',
                 properties: {
                   value,
+                  item: {
+                    type: 'object',
+                    title: '选中的项',
+                    properties: itemSchema
+                  },
                   items
                 }
               }
@@ -114,7 +120,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
       eventLabel: '失去焦点',
       description: '输入框失去焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value, items} = resolveOptionEventDataSchame(manager);
+        const {value, items, itemSchema} =
+          resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -125,6 +132,11 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 title: '数据',
                 properties: {
                   value,
+                  item: {
+                    type: 'object',
+                    title: '选中的项',
+                    properties: itemSchema
+                  },
                   items
                 }
               }

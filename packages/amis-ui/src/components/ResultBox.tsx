@@ -1,4 +1,4 @@
-import {ThemeProps, themeable} from 'amis-core';
+import {TestIdBuilder, ThemeProps, themeable} from 'amis-core';
 import React from 'react';
 import omit from 'lodash/omit';
 import isInteger from 'lodash/isInteger';
@@ -30,6 +30,7 @@ export interface ResultBoxProps
   showInvalidMatch?: boolean;
   popOverContainer?: any;
   showArrow?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -116,7 +117,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       itemRender,
       classnames: cx,
       showInvalidMatch,
-      popOverContainer
+      popOverContainer,
+      testIdBuilder
     } = this.props;
 
     if (
@@ -143,6 +145,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         {label: `+ ${tags.length - maxVisibleCount} ...`}
       ].map((item, index) => {
         const isShowInvalid = showInvalidMatch && item?.__unmatched;
+        const itemTIB = testIdBuilder?.getChild(item.value || index);
         return index === maxVisibleCount ? (
           <TooltipWrapper
             key={tags.length}
@@ -162,11 +165,16 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                             'is-invalid': showInvalidMatch && item?.__unmatched
                           })}
                           key={itemIndex}
+                          {...itemTIB?.getTestId()}
                         >
                           <span className={cx('ResultBox-valueLabel')}>
                             {itemRender(item)}
                           </span>
-                          <a data-index={itemIndex} onClick={this.removeItem}>
+                          <a
+                            data-index={itemIndex}
+                            onClick={this.removeItem}
+                            {...itemTIB?.getChild('close').getTestId()}
+                          >
                             <Icon icon="close" className="icon" />
                           </a>
                         </div>
@@ -197,11 +205,16 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               className={cx('ResultBox-value', {
                 'is-invalid': isShowInvalid
               })}
+              {...itemTIB?.getTestId()}
             >
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
               </span>
-              <a data-index={index} onClick={this.removeItem}>
+              <a
+                data-index={index}
+                onClick={this.removeItem}
+                {...itemTIB?.getChild('close').getTestId()}
+              >
                 <Icon icon="close" className="icon" />
               </a>
             </div>
@@ -210,26 +223,36 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       });
     }
 
-    return tags.map((item, index) => (
-      <TooltipWrapper
-        container={popOverContainer}
-        placement={'top'}
-        tooltip={item['label']}
-        trigger={'hover'}
-        key={index}
-      >
-        <div
-          className={cx('ResultBox-value', {
-            'is-invalid': showInvalidMatch && item?.__unmatched
-          })}
+    return tags.map((item, index) => {
+      const itemTIB = testIdBuilder?.getChild(index);
+      return (
+        <TooltipWrapper
+          container={popOverContainer}
+          placement={'top'}
+          tooltip={item['label']}
+          trigger={'hover'}
+          key={index}
         >
-          <span className={cx('ResultBox-valueLabel')}>{itemRender(item)}</span>
-          <a data-index={index} onClick={this.removeItem}>
-            <Icon icon="close" className="icon" />
-          </a>
-        </div>
-      </TooltipWrapper>
-    ));
+          <div
+            className={cx('ResultBox-value', {
+              'is-invalid': showInvalidMatch && item?.__unmatched
+            })}
+            {...itemTIB?.getTestId()}
+          >
+            <span className={cx('ResultBox-valueLabel')}>
+              {itemRender(item)}
+            </span>
+            <a
+              data-index={index}
+              onClick={this.removeItem}
+              {...itemTIB?.getChild('close').getTestId()}
+            >
+              <Icon icon="close" className="icon" />
+            </a>
+          </div>
+        </TooltipWrapper>
+      );
+    });
   }
 
   render() {
@@ -265,6 +288,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       overflowTagPopover,
       showArrow,
       popOverContainer,
+      testIdBuilder,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -286,6 +310,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         onKeyPress={allowInput ? undefined : onKeyPress}
         onFocus={allowInput ? undefined : onFocus}
         onBlur={allowInput ? undefined : onBlur}
+        {...testIdBuilder?.getTestId()}
       >
         <div className={cx('ResultBox-value-wrap')}>
           {Array.isArray(result) && result.length ? (
@@ -320,6 +345,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               )}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
+              testIdBuilder={testIdBuilder?.getChild('input')}
             />
           ) : null}
 
@@ -335,6 +361,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               className={cx('ResultBox-clear', {
                 'ResultBox-clear-with-arrow': hasDropDownArrow
               })}
+              {...testIdBuilder?.getChild('clear').getTestId()}
             >
               <div className={cx('ResultBox-clear-wrap')}>
                 <Icon icon="input-clear" className="icon" />

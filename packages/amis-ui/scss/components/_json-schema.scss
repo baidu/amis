@@ -8,6 +8,7 @@
     min-width: 80px;
     max-width: 150px;
     flex: 1;
+    display: flex;
 
     & > span {
       display: flex;
@@ -23,6 +24,10 @@
       align-items: center;
 
       color: var(--Form-input-color);
+    }
+
+    & > * {
+      flex: 1;
     }
 
     &.is-mobile {

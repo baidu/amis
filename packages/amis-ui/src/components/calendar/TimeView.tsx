@@ -14,6 +14,7 @@ import {PickerColumnItem} from '../PickerColumn';
 import Downshift from 'downshift';
 
 import type {Moment} from 'moment';
+import type {TestIdBuilder} from 'amis-core';
 
 interface CustomTimeViewProps extends LocaleProps {
   viewDate: moment.Moment;
@@ -52,6 +53,7 @@ interface CustomTimeViewProps extends LocaleProps {
   onChange: (value: moment.Moment) => void;
   timeConstraints?: any;
   timeRangeHeader?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface CustomTimeViewState {
@@ -689,7 +691,8 @@ export class CustomTimeView extends React.Component<
       isEndDate,
       classnames: cx,
       timeRangeHeader,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
 
     const __ = this.props.translate;
@@ -745,6 +748,7 @@ export class CustomTimeView extends React.Component<
                     )
                   )
               });
+              const itemTIB = testIdBuilder?.getChild(type);
               return (
                 <div className={cx('CalendarInputWrapper')}>
                   <div
@@ -767,6 +771,7 @@ export class CustomTimeView extends React.Component<
                               : option.value === options?.[0]?.value &&
                                 !mobileUI
                           })}
+                          {...itemTIB?.getChild(option.value).getTestId()}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
                             this.scrollToTop(
@@ -793,7 +798,11 @@ export class CustomTimeView extends React.Component<
     inputs.length && inputs.pop();
 
     const quickLists = [
-      <a key="select-now" onClick={this.selectNowTime}>
+      <a
+        key="select-now"
+        onClick={this.selectNowTime}
+        {...testIdBuilder?.getChild('select-now').getTestId()}
+      >
         {__('TimeNow')}
       </a>
     ];
@@ -809,6 +818,7 @@ export class CustomTimeView extends React.Component<
             <a
               className={cx('Button', 'Button--primary', 'Button--size-sm')}
               onClick={this.confirm}
+              {...testIdBuilder?.getChild('confirm').getTestId()}
             >
               {__('confirm')}
             </a>

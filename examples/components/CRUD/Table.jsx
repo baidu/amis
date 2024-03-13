@@ -303,7 +303,16 @@ export default {
               body: {
                 type: 'form',
                 name: 'sample-edit-form',
-                api: '/api/sample/$id',
+                data:{
+                  env: 'test'
+                },
+                api: {
+                  method:'post',
+                  url:'/api/sample/$id',
+                  messages:{
+                    success: '成功了-${env}'
+                  }
+                },
                 body: [
                   {
                     type: 'input-text',

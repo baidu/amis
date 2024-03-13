@@ -33,6 +33,7 @@ import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import type {TestIdBuilder} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -130,6 +131,7 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 是否为选项添加默认的Icon，默认值为true
    */
   enableDefaultIcon?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface TreeSelectProps
@@ -257,22 +259,28 @@ export default class TreeSelectControl extends React.Component<
       : options;
   }
 
+  resolveOption(options: any, value: string) {
+    return findTree(options, item => {
+      const valueAbility = this.props.valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      return itemValue === value;
+    });
+  }
+
   handleFocus(e: any) {
     const {dispatchEvent, value} = this.props;
-
-    dispatchEvent(
-      'focus',
-      resolveEventData(this.props, {value, items: this.resolveOptions()})
-    );
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
+    dispatchEvent('focus', resolveEventData(this.props, {value, item, items}));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value} = this.props;
-
-    dispatchEvent(
-      'blur',
-      resolveEventData(this.props, {value, items: this.resolveOptions()})
-    );
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
+    dispatchEvent('blur', resolveEventData(this.props, {value, item, items}));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -549,36 +557,28 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   editItemFromAction(item: Option, originValue: any) {
-    const {onEdit, options, valueField} = this.props;
-    const editItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
-      return value === originValue;
-    });
+    const {onEdit, options} = this.props;
+    const editItem = this.resolveOption(options, originValue);
     onEdit && editItem && onEdit({...item, originValue}, editItem, true);
   }
 
   @autobind
   deleteItemFromAction(value: any) {
-    const {onDelete, options, valueField} = this.props;
-    const deleteItem = findTree(options, item => {
-      const valueAbility = valueField || 'value';
-      const itemValue = hasAbility(item, valueAbility)
-        ? item[valueAbility]
-        : '';
-      return itemValue === value;
-    });
+    const {onDelete, options} = this.props;
+    const deleteItem = this.resolveOption(options, value);
     onDelete && deleteItem && onDelete(deleteItem);
   }
 
   @autobind
   async resultChangeEvent(value: any) {
     const {onChange, dispatchEvent} = this.props;
-
+    const items = this.resolveOptions();
+    const item = this.resolveOption(items, value);
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
         value,
+        item,
         items: this.resolveOptions()
       })
     );
@@ -679,7 +679,8 @@ export default class TreeSelectControl extends React.Component<
       itemHeight,
       menuTpl,
       enableDefaultIcon,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
 
     let filtedOptions =
@@ -743,6 +744,7 @@ export default class TreeSelectControl extends React.Component<
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder}
       />
     );
   }
@@ -770,7 +772,8 @@ export default class TreeSelectControl extends React.Component<
       overflowTagPopover,
       translate: __,
       env,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
     const {isOpened} = this.state;
     const resultValue = multiple
@@ -780,7 +783,11 @@ export default class TreeSelectControl extends React.Component<
       : '';
 
     return (
-      <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
+      <div
+        ref={this.container}
+        className={cx(`TreeSelectControl`, className)}
+        {...testIdBuilder?.getTestId()}
+      >
         <ResultBox
           popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
@@ -817,6 +824,7 @@ export default class TreeSelectControl extends React.Component<
           hasDropDownArrow
           readOnly={mobileUI}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('result-box')}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />

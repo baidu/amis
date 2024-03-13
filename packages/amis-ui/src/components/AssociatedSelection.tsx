@@ -128,7 +128,8 @@ export class AssociatedSelection extends BaseSelection<
       loadingConfig,
       checkAll,
       checkAllLabel,
-      deferField = 'defer'
+      deferField = 'defer',
+      testIdBuilder
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -152,6 +153,7 @@ export class AssociatedSelection extends BaseSelection<
               virtualThreshold={virtualThreshold}
               itemHeight={itemHeight}
               loadingConfig={loadingConfig}
+              testIdBuilder={testIdBuilder?.getChild('left-selection')}
             />
           ) : (
             <GroupedSelection
@@ -164,6 +166,7 @@ export class AssociatedSelection extends BaseSelection<
               clearable={false}
               virtualThreshold={virtualThreshold}
               itemHeight={itemHeight}
+              testIdBuilder={testIdBuilder?.getChild('left-selection')}
             />
           )}
         </div>
@@ -204,6 +207,7 @@ export class AssociatedSelection extends BaseSelection<
                   multiple={multiple}
                   virtualThreshold={virtualThreshold}
                   itemHeight={itemHeight}
+                  testIdBuilder={testIdBuilder?.getChild('right-selection')}
                 />
               ) : rightMode === 'tree' ? (
                 <Tree
@@ -218,6 +222,7 @@ export class AssociatedSelection extends BaseSelection<
                   loadingConfig={loadingConfig}
                   checkAllLabel={checkAllLabel}
                   checkAll={checkAll}
+                  testIdBuilder={testIdBuilder?.getChild('right-selection')}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -234,6 +239,7 @@ export class AssociatedSelection extends BaseSelection<
                   loadingConfig={loadingConfig}
                   checkAllLabel={checkAllLabel}
                   checkAll={checkAll}
+                  testIdBuilder={testIdBuilder?.getChild('right-selection')}
                 />
               ) : (
                 <GroupedSelection
@@ -249,6 +255,7 @@ export class AssociatedSelection extends BaseSelection<
                   itemHeight={itemHeight}
                   checkAllLabel={checkAllLabel}
                   checkAll={checkAll}
+                  testIdBuilder={testIdBuilder?.getChild('right-selection')}
                 />
               )
             ) : (

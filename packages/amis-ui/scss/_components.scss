@@ -3177,6 +3177,12 @@
   --inputTime-active-color: var(--colors-neutral-text-2);
   --inputTime-active-bg-color: var(--colors-brand-10);
 
+  // Signature
+  --signature-tool-height: #{px2rem(40px)};
+  --signature-tool-margin-top: #{px2rem(8px)};
+  --signature-placeholder-gap: #{px2rem(10px)};
+  --signature-placeholder-color: var(--colors-neutral-line-6);
+
   --steps-base-color: var(--colors-neutral-text-2);
   --steps-base-fontSize: var(--fonts-size-7);
   --steps-base-fontWeight: var(--fonts-weight-6);

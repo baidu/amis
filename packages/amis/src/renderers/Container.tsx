@@ -195,7 +195,8 @@ export default class Container<T> extends React.Component<
       wrapperCustomStyle,
       env,
       themeCss,
-      baseControlClassName
+      baseControlClassName,
+      testid
     } = this.props;
     const finalDraggable: boolean = isPureVariable(draggable)
       ? resolveVariableAndFilter(draggable, data, '| raw')

@@ -2,6 +2,7 @@
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
+import type {TestIdBuilder} from './utils/helper';
 
 export interface Option {
   /**
@@ -572,6 +573,10 @@ export type SchemaClassName =
     };
 export interface BaseSchemaWithoutType {
   /**
+   * 组件唯一 id，主要用于页面设计器中定位 json 节点
+   */
+  $$id?: string;
+  /**
    * 容器 css 类名
    */
   className?: SchemaClassName;
@@ -689,6 +694,8 @@ export interface BaseSchemaWithoutType {
    * 可以组件级别用来关闭移动端样式
    */
   useMobileUI?: boolean;
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 export type OperatorType =

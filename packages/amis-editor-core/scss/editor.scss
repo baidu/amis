@@ -54,6 +54,7 @@
 @import './style-control/size';
 @import './style-control/style-common';
 @import './style-control/theme-css-code';
+@import './style-control/flex-layout';
 
 /* 组件样式 */
 @import './components/button';
@@ -1071,7 +1072,7 @@
 .ae-CodePanel {
   // 左侧面板Header
   .panel-header {
-    margin: 12px 0;
+    margin: 10px 0;
     flex: 0 0 22px;
     padding: 0 12px;
     font-family: PingFangSC-Medium;

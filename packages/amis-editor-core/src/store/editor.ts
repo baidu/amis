@@ -21,8 +21,8 @@ import {
   guid,
   appTranslate,
   JSONGetByPath,
-  getDialogActions,
-  getFixDialogType
+  addModal,
+  mergeDefinitions
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -56,6 +56,8 @@ import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
 import {matchSorter} from 'match-sorter';
 import debounce from 'lodash/debounce';
+import type {DialogSchema} from '../../../amis/src/renderers/Dialog';
+import type {DrawerSchema} from '../../../amis/src/renderers/Drawer';
 
 export interface SchemaHistory {
   versionId: number;
@@ -124,6 +126,16 @@ export interface TargetName {
   editorId: string;
 }
 
+export type EditorModalBody = (DialogSchema | DrawerSchema) & {
+  // 节点 ID
+  $$id?: string;
+  // 如果是公共弹窗，在 definitions 中的 key
+  $$ref?: string;
+
+  // 弹出方式
+  actionType?: string;
+};
+
 export const MainStore = types
   .model('EditorRoot', {
     isMobile: false,
@@ -138,8 +150,6 @@ export const MainStore = types
     hoverId: '',
     hoverRegion: '',
     activeId: '',
-    previewDialogId: '', // 选择要进行编辑的弹窗id
-    activeDialogPath: '', // 记录选中设计的弹窗path
     activeRegion: '', // 记录当前激活的子区域
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
@@ -236,15 +246,6 @@ export const MainStore = types
       // 给编辑状态时的
       get filteredSchema() {
         let schema = self.schema;
-        if (self.previewDialogId) {
-          let originDialogSchema = this.getSchema(self.previewDialogId);
-          schema = {
-            ...originDialogSchema,
-            type:
-              originDialogSchema.type ||
-              getFixDialogType(self.schema, self.previewDialogId)
-          };
-        }
         return filterSchemaForEditor(
           getEnv(self).schemaFilter?.(schema) ?? schema
         );
@@ -1011,10 +1012,53 @@ export const MainStore = types
       },
 
       // 获取弹窗大纲列表
-      get dialogOutlineList() {
+      get modals(): Array<EditorModalBody> {
         const schema = self.schema;
-        let actions = getDialogActions(schema, 'list');
-        return actions;
+        const modals: Array<DialogSchema | DrawerSchema> = [];
+        Object.keys(schema.definitions || {}).forEach(key => {
+          const definition = schema.definitions[key];
+          if (['dialog', 'drawer'].includes(definition.type)) {
+            modals.push({
+              ...definition,
+              $$ref: key
+            });
+          }
+        });
+        JSONTraverse(schema, (value: any, key: string, host: any) => {
+          if (
+            key === 'actionType' &&
+            ['dialog', 'drawer', 'confirmDialog'].includes(value)
+          ) {
+            const key = value === 'drawer' ? 'drawer' : 'dialog';
+            const body = host[key] || host['args'];
+            if (body && !body.$ref) {
+              modals.push({
+                ...body,
+                actionType: value
+              });
+            }
+          }
+          return value;
+        });
+        return modals;
+      },
+
+      get modalOptions() {
+        return this.modals.map((modal: EditorModalBody) => {
+          return {
+            label: `${
+              modal.editorSetting?.displayName || modal.title || '未命名弹窗'
+            }`,
+            tip:
+              modal.actionType === 'confirmDialog'
+                ? '确认框'
+                : modal.type === 'drawer'
+                ? '抽屉弹窗'
+                : '弹窗',
+            value: modal.$$id,
+            $$ref: modal.$$ref
+          };
+        });
       }
     };
   })
@@ -1235,14 +1279,6 @@ export const MainStore = types
         // }
       },
 
-      setActiveDialogPath(path: string) {
-        self.activeDialogPath = path;
-      },
-
-      setPreviewDialogId(id?: string) {
-        self.previewDialogId = id ? id : '';
-      },
-
       setSelections(ids: Array<string>) {
         self.activeId = '';
         self.activeRegion = '';
@@ -1400,11 +1436,23 @@ export const MainStore = types
         this.changeLeftPanelOpenStatus(true);
       },
 
-      changeValue(value: Schema, diff?: any) {
-        if (!self.activeId) {
+      changeValue(
+        value: Schema,
+        diff?: any,
+        changeFilter?: (schema: any, value: any, id: string, diff?: any) => any,
+        id = self.activeId
+      ) {
+        if (!id) {
           return;
         }
-        this.changeValueById(self.activeId, value, diff);
+        this.changeValueById(
+          id,
+          value,
+          diff,
+          undefined,
+          undefined,
+          changeFilter
+        );
       },
 
       definitionOnchangeValue(value: Schema, diff?: any) {
@@ -1416,7 +1464,8 @@ export const MainStore = types
         value: Schema,
         diff?: any,
         replace?: boolean,
-        noTrace?: boolean
+        noTrace?: boolean,
+        changeFilter?: (schema: any, value: any, id: string, diff?: any) => any
       ) {
         const origin = JSONGetById(self.schema, id);
 
@@ -1427,11 +1476,12 @@ export const MainStore = types
         // 通常 Panel 和 codeEditor 过来都有 diff 信息
         if (diff) {
           const result = patchDiff(origin, diff);
-          this.traceableSetSchema(
-            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
-            noTrace
-          );
+          let schema = JSONUpdate(self.schema, id, JSONPipeIn(result), true);
+          schema = changeFilter?.(schema, value, id, diff) || schema;
+          this.traceableSetSchema(schema, noTrace);
         } else {
+          let schema = JSONUpdate(self.schema, id, JSONPipeIn(value), replace);
+          schema = changeFilter?.(schema, value, id) || schema;
           this.traceableSetSchema(
             JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
             noTrace
@@ -1625,6 +1675,132 @@ export const MainStore = types
 
       setJSONSchemaUri(schemaUri: string) {
         self.jsonSchemaUri = schemaUri;
+      },
+
+      addModal(modal?: DialogSchema | DrawerSchema, definitions?: any) {
+        const [schema] = addModal(self.schema, modal, definitions);
+        this.traceableSetSchema(schema);
+      },
+
+      /**
+       * 计算具有指定ID的模态动作引用的数量
+       *
+       * @param id 模态动作的ID
+       * @returns 返回模态动作引用的数量
+       */
+      countModalActionRefs(id: string) {
+        let count = 0;
+        const host = JSONGetParentById(self.schema, id);
+
+        if (host?.actionType) {
+          // 有 type 说明是旧的动作按钮，按钮本身就是某种动作，不需要再计算
+          // 没有 type 说明是 onEvent 里面的动作，引用的数量也就是自己是 1
+          return host.type ? 0 : 1;
+        } else if (host !== self.schema.definitions) {
+          return count;
+        }
+
+        const modalKey = Object.keys(host).find(key => host[key]?.$$id === id);
+        JSONTraverse(self.schema, (value: any, key: string, host: any) => {
+          if (
+            key === 'actionType' &&
+            ['dialog', 'drawer', 'confirmDialog'].includes(value) &&
+            host[value === 'drawer' ? 'drawer' : 'dialog']?.$ref === modalKey
+          ) {
+            count++;
+          }
+          return value;
+        });
+
+        return count;
+      },
+
+      removeModal(id: string) {
+        let schema = self.schema;
+        const host = JSONGetParentById(schema, id);
+        if (host === schema.definitions) {
+          const modalKey = Object.keys(host).find(
+            key => host[key]?.$$id === id
+          );
+          JSONTraverse(schema, (value: any, key: string, host: any) => {
+            if (
+              key === 'actionType' &&
+              ['dialog', 'drawer', 'confirmDialog'].includes(value) &&
+              host[value === 'drawer' ? 'drawer' : 'dialog']?.$ref === modalKey
+            ) {
+              schema = JSONDelete(schema, host.$$id);
+            }
+            return value;
+          });
+          schema = JSONDelete(schema, id);
+        } else {
+          schema = JSONDelete(schema, host.$$id);
+        }
+        this.traceableSetSchema(schema);
+      },
+
+      updateModal(
+        id: string,
+        modal: DialogSchema | DrawerSchema,
+        definitions?: any
+      ) {
+        let schema = self.schema;
+        const parent = JSONGetParentById(schema, id);
+
+        if (!parent) {
+          throw new Error('modal not found');
+        }
+
+        if (definitions && isPlainObject(definitions)) {
+          schema = mergeDefinitions(schema, definitions, modal);
+        }
+
+        const newHostKey =
+          ((modal as any).actionType || modal.type) === 'drawer'
+            ? 'drawer'
+            : 'dialog';
+
+        schema = JSONUpdate(schema, id, modal);
+
+        // 如果编辑的是公共弹窗
+        if (!parent.actionType) {
+          const modalKey = Object.keys(parent).find(
+            key => parent[key]?.$$id === id
+          );
+
+          // 所有引用的地方都要更新
+          JSONTraverse(schema, (value: any, key: string, host: any) => {
+            if (
+              key === 'actionType' &&
+              ['dialog', 'drawer', 'confirmDialog'].includes(value) &&
+              host[value === 'drawer' ? 'drawer' : 'dialog']?.$ref ===
+                modalKey &&
+              newHostKey !== (value === 'drawer' ? 'drawer' : 'dialog')
+            ) {
+              schema = JSONUpdate(schema, host.$$id, {
+                actionType: (modal as any).actionType || modal.type,
+                args: undefined,
+                dialog: undefined,
+                drawer: undefined,
+                [newHostKey]: host[value === 'drawer' ? 'drawer' : 'dialog']
+              });
+            }
+            return value;
+          });
+        } else {
+          // 内嵌弹窗只用改自己就行了
+          schema = JSONUpdate(schema, parent.$$id, {
+            actionType: (modal as any).actionType || modal.type,
+            args: undefined,
+            dialog: undefined,
+            drawer: undefined,
+            [newHostKey]: JSONPipeIn(modal)
+          });
+        }
+
+        this.traceableSetSchema(schema);
+
+        // todo 更新弹出方式的配置
       },
 
       openSubEditor(context: SubEditorContext) {

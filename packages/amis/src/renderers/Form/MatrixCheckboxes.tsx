@@ -17,6 +17,8 @@ import {ApiObject, ActionObject, isMobile} from 'amis-core';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
+import type {TestIdBuilder} from 'amis-core';
+
 /**
  * Matrix 选择控件。适合做权限勾选。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
@@ -88,6 +90,7 @@ export interface MatrixProps extends FormControlProps, SpinnerExtraProps {
    * 横向选择所有能力
    */
   xCheckAll?: boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface MatrixState {
@@ -111,6 +114,7 @@ export default class MatrixCheckbox extends React.Component<
 
   state: MatrixState;
   mounted: boolean = false;
+  toDispose: Array<() => void> = [];
 
   constructor(props: MatrixProps) {
     super(props);
@@ -128,9 +132,14 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   componentDidMount() {
-    const {formInited, addHook} = this.props;
+    const {formInited, addHook, formItem} = this.props;
 
-    formInited || !addHook ? this.reload() : addHook(this.initOptions, 'init');
+    formItem &&
+      this.toDispose.push(
+        formInited || !addHook
+          ? formItem.addInitHook(this.initOptions)
+          : addHook(this.initOptions, 'init')
+      );
   }
 
   componentDidUpdate(prevProps: MatrixProps) {
@@ -164,8 +173,8 @@ export default class MatrixCheckbox extends React.Component<
 
   componentWillUnmount() {
     this.mounted = false;
-    const {removeHook} = this.props;
-    removeHook?.(this.initOptions, 'init');
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
@@ -405,7 +414,8 @@ export default class MatrixCheckbox extends React.Component<
       multiple,
       textAlign,
       xCheckAll,
-      yCheckAll
+      yCheckAll,
+      testIdBuilder
     } = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
@@ -453,6 +463,7 @@ export default class MatrixCheckbox extends React.Component<
                         onChange={(checked: boolean) =>
                           this.toggleRowCheckAll(checked, value, y)
                         }
+                        testIdBuilder={testIdBuilder?.getChild(y)}
                       />
                     ) : null}
                     {row.label}
@@ -478,6 +489,7 @@ export default class MatrixCheckbox extends React.Component<
                         onChange={(checked: boolean) =>
                           this.toggleItem(checked, x, y)
                         }
+                        testIdBuilder={testIdBuilder?.getChild(`${x}-${y}`)}
                       />
                     </td>
                   ))}
