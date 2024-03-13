@@ -45,6 +45,7 @@ export * from './Form/InputRange'; // 滑块
 export * from './Form/InputRating'; // 评分
 export * from './Form/InputCity'; // 城市选择
 export * from './Form/Transfer'; // 穿梭器
+export * from './Form/TransferPicker'; // 穿梭选择器
 export * from './Form/TabsTransfer'; // 组合穿梭器
 export * from './Form/InputColor'; // 颜色框
 export * from './Form/ConditionBuilder'; // 条件组合
