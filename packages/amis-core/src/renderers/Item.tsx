@@ -2,6 +2,7 @@ import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../store/form';
 import {reaction} from 'mobx';
+import {isAlive} from 'mobx-state-tree';
 
 import {
   renderersMap,
@@ -637,12 +638,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     let onInit = () => {
       this.initedOptionFilled = true;
       initAutoFill !== false &&
+        isAlive(model) &&
         this.syncOptionAutoFill(
           model.getSelectedOptions(model.tmpValue),
           initAutoFill === 'fillIfNotSet'
         );
       this.initedApiFilled = true;
       initAutoFill !== false &&
+        isAlive(model) &&
         this.syncApiAutoFill(
           model.tmpValue ?? '',
           false,
