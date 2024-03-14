@@ -209,7 +209,7 @@ export function calculatePosition(
           ) {
             parentElement = parentElement.offsetParent;
           }
-          const parentRect = parentElement.getBoundingClientRect?.();
+          const parentRect = parentElement?.getBoundingClientRect?.();
           const parentTransformed = {
             x: parentRect?.x || 0,
             y: parentRect?.y || 0
