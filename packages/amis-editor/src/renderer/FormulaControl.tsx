@@ -363,7 +363,7 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   handleConfirm(value: any) {
-    value = value.replace(/\r\n|\r|\n/g, ' ');
+    // value = value.replace(/\r\n|\r|\n/g, ' ');
     const val = !value
       ? undefined
       : isExpression(value) || this.hasDateShortcutkey(value)

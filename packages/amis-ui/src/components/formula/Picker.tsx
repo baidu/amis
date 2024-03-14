@@ -249,7 +249,7 @@ export class FormulaPicker extends React.Component<
     if (props.mixedMode) {
       if (
         typeof props.value === 'string' &&
-        /^\s*\$\{(.+?)\}\s*$/.test(props.value)
+        /^\s*\$\{([\s\S]+?)\}\s*$/.test(props.value)
       ) {
         return RegExp.$1;
       } else {
