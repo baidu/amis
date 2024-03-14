@@ -201,9 +201,28 @@ export function calculatePosition(
         if (visibleX && visibleY) {
           break;
         } else if (isAuto && tests.length === 0) {
-          // 如果是 auto 模式，且最后一个方向都不可见，则直接平移到可见区域
-          visibleY || (positionTop = window.innerHeight - transformed.height);
-          visibleX || (positionLeft = window.innerWidth - transformed.width);
+          // 获取相对定位的父元素位置
+          let parentElement = overlayNode.offsetParent;
+          while (
+            parentElement &&
+            window.getComputedStyle(parentElement).position === 'static'
+          ) {
+            parentElement = parentElement.offsetParent;
+          }
+          const parentRect = parentElement.getBoundingClientRect?.();
+          const parentTransformed = {
+            x: parentRect?.x || 0,
+            y: parentRect?.y || 0
+          };
+          // 如果是 auto 模式，且最后一个方向都不可见，则直接平移到可见区域，考虑相对定位的父元素位置，保留10px的边距
+          visibleY ||
+            (positionTop =
+              Math.max(10, window.innerHeight - transformed.height) -
+              parentTransformed.y);
+          visibleX ||
+            (positionLeft =
+              Math.max(10, window.innerWidth - transformed.width) -
+              parentTransformed.x);
         }
       }
     }
