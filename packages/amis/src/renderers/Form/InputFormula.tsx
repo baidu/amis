@@ -50,6 +50,15 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   functions: Array<FuncGroup>;
 
   /**
+   * 过滤函数，返回一个过滤后的函数集合，默认不需要传，即  amis-formula 里面那个函数
+   * 如果有扩充，则需要传。
+   */
+  functionsFilter?: (
+    functions: Array<FuncGroup>,
+    data: any
+  ) => Array<FuncGroup>;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -208,7 +217,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       inputSettings,
       mobileUI
     } = this.props;
-    let {variables, functions} = this.props;
+    let {variables, functions, functionsFilter} = this.props;
 
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
@@ -233,6 +242,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variables={variables}
         variableMode={variableMode}
         functions={functions}
+        functionsFilter={functionsFilter}
         header={header || label || ''}
         borderMode={borderMode}
         placeholder={placeholder}
