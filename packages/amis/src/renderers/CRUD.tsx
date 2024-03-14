@@ -1814,6 +1814,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+    if (action.actionType === 'submitQuickEdit') {
+      return this.control?.doAction(action, data, throwErrors);
+    }
+
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
@@ -2742,38 +2746,9 @@ export class CRUDRenderer extends CRUD {
     condition?: any
   ) {
     const {store} = this.props;
-    const len = store.data.items?.length;
 
-    if (index !== undefined) {
-      // TODO 修复以下逻辑
-      // store.data.items 可能没值
-      // crud 可能 table 也可能可能是 list 或者 cards，应该交给 body 子组件自己去处理
-      // 修改完数据应该是类似 quickEdit 修改后的效果，目前界面上无交互出现
-      // @hsm-lv
-      let items = [...store.data.items];
-      const indexs = String(index).split(',');
-      indexs.forEach(i => {
-        const intIndex = Number(i);
-        items.splice(intIndex, 1, values);
-      });
-      // 更新指定行记录，只需要提供行记录即可
-      return store.updateData({...values, items}, undefined, replace);
-    } else if (condition !== undefined) {
-      let items = [...store.data.items];
-      for (let i = 0; i < len; i++) {
-        const item = items[i];
-        const isUpdate = await evalExpressionWithConditionBuilder(
-          condition,
-          item
-        );
-
-        if (isUpdate) {
-          items.splice(i, 1, values);
-        }
-      }
-
-      // 更新指定行记录，只需要提供行记录即可
-      return store.updateData({...values, items}, undefined, replace);
+    if (index !== undefined || condition !== undefined) {
+      return this.control?.setData?.(values, replace, index, condition);
     } else {
       const total = values?.total || values?.count;
       if (total !== undefined) {
