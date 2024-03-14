@@ -1547,9 +1547,9 @@ export const TableStore = iRendererStore
     function updateSelected(
       selected: Array<any>,
       valueField?: string,
-      replaceData = true
+      replaceSelected = true
     ) {
-      if (replaceData) {
+      if (replaceSelected) {
         self.selectedRows.clear();
       }
 
