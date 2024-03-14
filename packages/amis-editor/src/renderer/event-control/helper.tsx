@@ -320,6 +320,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 e.preventDefault();
                 e.stopPropagation();
 
+                const modalId = modal.$$id;
                 store.openSubEditor({
                   title: '编辑弹窗',
                   value: {
@@ -328,7 +329,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     definitions: modalsToDefinitions(store.modals)
                   },
                   onChange: ({definitions, ...modal}: any, diff: any) => {
-                    store.updateModal(modal.$$id!, modal, definitions);
+                    store.updateModal(modalId, modal, definitions);
                   }
                 });
               }}
@@ -344,6 +345,21 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           </div>
         </>
       );
+    } else if (Array.isArray(info.__actionModals)) {
+      const modal = info.__actionModals.find((item: any) => item.isActive);
+      if (modal) {
+        // 这个时候还不能打开弹窗，schema 还没插入进去不知道 $$id，无法定位
+        return (
+          <>
+            <div>
+              打开
+              <span className="variable-left">{modal.label}</span>
+              &nbsp;
+              {modal.tip}
+            </div>
+          </>
+        );
+      }
     }
 
     return null;

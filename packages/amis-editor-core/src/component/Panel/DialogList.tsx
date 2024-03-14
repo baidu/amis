@@ -40,16 +40,17 @@ export default observer(function DialogList({
 
   const handleEditDialog = React.useCallback((event: React.UIEvent<any>) => {
     const index = parseInt(event.currentTarget.getAttribute('data-index')!, 10);
-    const dialog = store.modals[index];
+    const modal = store.modals[index];
+    const modalId = modal.$$id!;
     store.openSubEditor({
       title: '编辑弹窗',
       value: {
         type: 'dialog',
-        ...(dialog as any),
+        ...(modal as any),
         definitions: modalsToDefinitions(store.modals)
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {
-        store.updateModal(dialog.$$id!, modal, definitions);
+        store.updateModal(modalId, modal, definitions);
       }
     });
   }, []);
