@@ -665,19 +665,34 @@ export class CRUDPlugin extends BasePlugin {
         if (value.filter) {
           __features.push('filter');
         }
-        // 收集 列操作
-        const lastIndex = findLastIndex(
-          value.columns || [],
-          (item: any) => item.type === 'operation'
-        );
-        if (lastIndex !== -1) {
-          const operBtns: Array<string> = ['update', 'view', 'delete'];
-          (value.columns[lastIndex].buttons || []).forEach((btn: any) => {
-            if (operBtns.includes(btn.editorSetting?.behavior || '')) {
-              __features.push(btn.editorSetting?.behavior);
-            }
-          });
+
+        let actions = [];
+        if (value.mode === 'cards' && Array.isArray(value.card?.body)) {
+          actions = Array.isArray(value.card.actions)
+            ? value.card.actions.concat()
+            : [];
+        } else if (
+          value.mode === 'list' &&
+          Array.isArray(value.listItem?.body)
+        ) {
+          actions = Array.isArray(value.listItem.actions)
+            ? value.listItem.actions.concat()
+            : [];
+        } else if (Array.isArray(value.columns)) {
+          actions =
+            value.columns
+              .find((value: any) => value?.type === 'operation')
+              ?.buttons?.concat() || [];
         }
+
+        // 收集 列操作
+        const operBtns: Array<string> = ['update', 'view', 'delete'];
+        actions.forEach((btn: any) => {
+          if (operBtns.includes(btn.editorSetting?.behavior || '')) {
+            __features.push(btn.editorSetting?.behavior);
+          }
+        });
+
         // 收集批量操作
         if (Array.isArray(value.bulkActions)) {
           value.bulkActions.forEach((item: any) => {
