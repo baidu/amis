@@ -609,6 +609,18 @@ function DialogActionPanel({
             renderMenu={renderMenu}
           />
 
+          {currentModal &&
+          modals.some(
+            modal =>
+              modal.isCurrentActionModal &&
+              !modal.isNew &&
+              currentModal !== modal
+          ) ? (
+            <div className={cx('Alert Alert--warning mt-3')}>
+              切换弹窗后原来的内嵌弹窗将会被删除
+            </div>
+          ) : null}
+
           {currentModal ? (
             <div className="m-t-sm">
               <Button size="sm" level="enhance" onClick={handleDialogEdit}>
