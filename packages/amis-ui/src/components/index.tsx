@@ -74,7 +74,8 @@ import SchemaVariableList from './schema-editor/SchemaVariableList';
 import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
 import {FormulaEditor} from './formula/Editor';
-import type {VariableItem} from './formula/Editor';
+import FormulaCodeEditor from './formula/CodeEditor';
+import type {VariableItem} from './formula/CodeEditor';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
@@ -203,6 +204,7 @@ export {
   PickerContainer,
   ConfirmBox,
   FormulaPicker,
+  FormulaCodeEditor,
   VariableItem,
   FormulaEditor,
   InputJSONSchema,
