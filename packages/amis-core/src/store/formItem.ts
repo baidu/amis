@@ -804,6 +804,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data?.options ||
         json.data?.items ||
         json.data?.rows ||
+        json.data?.records ||
         json.data ||
         [];
 
@@ -906,7 +907,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return;
       }
 
-      const result = json.data?.items || json.data?.rows;
+      const result = json.data?.items || json.data?.rows || json.data?.records;
       // 只处理仅有一个结果的数据
       if (result?.length === 1) {
         return result[0];
@@ -997,6 +998,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data?.options ||
         json.data.items ||
         json.data.rows ||
+        json.data.records ||
         json.data ||
         [];
       const newLeftOptions = spliceTree(topOption.leftOptions, leftIndexes, 1, {
@@ -1142,6 +1144,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data?.options ||
         json.data.items ||
         json.data.rows ||
+        json.data.records ||
         json.data ||
         [];
 
@@ -1241,6 +1244,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             json.data?.options ||
             json.data.items ||
             json.data.rows ||
+            json.data.records ||
             json.data ||
             [];
 

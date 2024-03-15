@@ -419,7 +419,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       const location = props.location;
       let tab: TabSource | null = null;
 
-      if (location && Array.isArray(localTabs)) {
+      if (location && Array.isArray(localTabs) && location.hash) {
         const hash = location.hash.substring(1);
         tab = find(localTabs, tab => tab.hash === hash) as TabSource;
       }
