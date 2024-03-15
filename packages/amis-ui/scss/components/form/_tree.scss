@@ -22,6 +22,7 @@
   }
 
   & > .#{$ns}Tree {
+    max-height: var(--Tree-max-height);
     overflow: auto;
   }
 
