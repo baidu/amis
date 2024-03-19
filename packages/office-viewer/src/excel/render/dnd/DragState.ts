@@ -1,5 +1,5 @@
 import type {Workbook} from '../../Workbook';
-import {Region} from 'src/excel/sheet/ViewRange';
+import {Region} from '../../sheet/ViewRange';
 import {SheetSelection} from '../selection/SheetSelection';
 import {HitTestResult} from '../selection/hitTest';
 

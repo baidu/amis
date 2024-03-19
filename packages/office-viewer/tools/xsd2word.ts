@@ -2,7 +2,7 @@
  * 自动生成类型定义及解析所需数据
  */
 import * as fs from 'fs';
-import {Type, simpilyUnionOne, generateCodes, parse} from './xsd2Types';
+import {Type, generateCodes, parse, simplifyUnionOne} from './xsd2Types';
 
 async function main() {
   const types: Type[] = [];
@@ -20,7 +20,7 @@ async function main() {
     ))
   );
 
-  simpilyUnionOne(types);
+  simplifyUnionOne(types);
   fs.writeFileSync('../src/openxml/Types.ts', generateCodes(types, false));
 }
 

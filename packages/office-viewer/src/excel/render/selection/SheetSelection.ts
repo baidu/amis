@@ -1,4 +1,4 @@
-import {Region} from 'src/excel/sheet/ViewRange';
+import {Region} from '../../sheet/ViewRange';
 import {RangeRef} from '../../types/RangeRef';
 import {HitTestResult} from './hitTest';
 

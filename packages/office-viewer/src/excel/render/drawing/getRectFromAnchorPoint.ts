@@ -1,8 +1,8 @@
 import {CT_Marker} from '../../../openxml/ExcelTypes';
 import {Sheet} from '../../sheet/Sheet';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
 import {emuToPx} from '../../../util/emuToPx';
 import {findPositionInViewRange} from './findPositionInViewRange';
+import {ViewRange} from '../../sheet/ViewRange';
 
 export function getRectFromOneAnchorPoint(
   currentSheet: Sheet,

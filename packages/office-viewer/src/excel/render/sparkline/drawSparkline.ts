@@ -8,10 +8,11 @@ import {
   viewRangeToRangeRef
 } from '../../io/excel/util/Range';
 import {Sheet} from '../../sheet/Sheet';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
+
 import {SheetCanvas} from '../SheetCanvas';
 import {renderSparkline} from './renderSparkline';
 import {getRangePosition} from '../selection/getRangePosition';
+import {ViewRange} from '../../sheet/ViewRange';
 
 export function drawSparkline(
   currentSheet: Sheet,

@@ -1,4 +1,4 @@
-import {ViewRange} from 'src/excel/sheet/ViewRange';
+import {ViewRange} from '../../sheet/ViewRange';
 import {findInViewRangeX} from './findInViewRangeX';
 import {findInViewRangeY} from './findInViewRangeY';
 

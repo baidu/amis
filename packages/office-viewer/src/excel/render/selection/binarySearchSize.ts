@@ -1,4 +1,4 @@
-import {Size} from 'src/excel/sheet/ViewRange';
+import {Size} from '../../sheet/ViewRange';
 
 /**
  * 二分查找到到 hitTest 的位置

@@ -1,5 +1,5 @@
+import {Size} from '../../../sheet/ViewRange';
 import {RangeInfo} from '../../../sheet/getViewRange';
-import {Size} from 'src/excel/sheet/ViewRange';
 
 /**
  * 获取冻结区域的数据范围

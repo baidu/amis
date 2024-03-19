@@ -1,4 +1,3 @@
-import {Region, ViewRange} from 'src/excel/sheet/ViewRange';
 import {RangeRef} from '../../types/RangeRef';
 import {FrozenViewRange} from '../cell/frozen/drawFrozen';
 import {Position} from './Position';
@@ -9,6 +8,7 @@ import {
   IOneCellAnchor,
   ITwoCellAnchor
 } from '../../types/IDrawing';
+import {Region, ViewRange} from '../../sheet/ViewRange';
 
 export type HitTestCommon = Position & RangeRef;
 

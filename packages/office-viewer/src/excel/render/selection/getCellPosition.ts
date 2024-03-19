@@ -3,11 +3,10 @@
  */
 
 import {binarySearch} from '../../../util/binarySearch';
-import {Workbook} from '../../Workbook';
-import {Region, ViewRange} from 'src/excel/sheet/ViewRange';
-import {HitTestResult} from './hitTest';
+
 import {Position} from './Position';
 import {Sheet} from '../../sheet/Sheet';
+import {Region, ViewRange} from '../../sheet/ViewRange';
 
 /**
  * 在 viewRange 内查找到 col 的位置

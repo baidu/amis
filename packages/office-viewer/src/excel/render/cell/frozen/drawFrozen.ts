@@ -1,13 +1,13 @@
 import {ExcelRenderOptions} from '../../../sheet/ExcelRenderOptions';
 import {Sheet} from '../../../sheet/Sheet';
 import {SheetCanvas} from '../../SheetCanvas';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
 import {IDataProvider} from '../../../types/IDataProvider';
 import {drawTopFrozen} from './drawTopFrozen';
 import {drawLeftFrozen} from './drawLeftFrozen';
 import {drawTopLeftFrozen} from './drawTopLeftFrozen';
 import {LinkPosition} from '../LinkPosition';
 import {ExcelRender} from '../../ExcelRender';
+import {ViewRange} from '../../../sheet/ViewRange';
 
 export type FrozenViewRange = {
   topViewRange: ViewRange | null;

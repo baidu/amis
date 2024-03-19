@@ -1,5 +1,5 @@
+import {ViewRange} from '../../../sheet/ViewRange';
 import {IndexInfo, getRange} from '../../../sheet/getViewRange';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
 import {getFrozenRange} from './getFrozenRange';
 
 /**

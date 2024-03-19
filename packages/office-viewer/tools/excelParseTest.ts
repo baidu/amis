@@ -14,7 +14,7 @@ import {resolve} from 'path';
 import {readFileSync} from 'fs';
 import {createOfficeViewer} from '../src';
 
-async function* getFiles(dir: string) {
+async function* getFiles(dir: string): AsyncGenerator<string> {
   const dirs = await readdir(dir, {withFileTypes: true});
   for (const dirent of dirs) {
     const res = resolve(dir, dirent.name);

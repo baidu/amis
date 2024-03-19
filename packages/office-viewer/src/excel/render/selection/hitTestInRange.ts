@@ -1,4 +1,4 @@
-import {Region, ViewRange} from 'src/excel/sheet/ViewRange';
+import {Region, ViewRange} from '../../sheet/ViewRange';
 import {RangeRef} from '../../types/RangeRef';
 import {MAX_COL, MAX_ROW} from '../Consts';
 import {findCell} from './findCell';

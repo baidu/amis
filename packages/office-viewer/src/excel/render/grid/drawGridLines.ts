@@ -1,6 +1,6 @@
 import {GridLineOptions} from '../../sheet/ExcelRenderOptions';
 import {Sheet} from '../../sheet/Sheet';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
+import {ViewRange} from '../../sheet/ViewRange';
 import {SheetCanvas, Line} from '../SheetCanvas';
 
 /**

@@ -266,7 +266,13 @@ function collectGroup(xmlNode: XMLNode) {
  * 生成简化类型，比如有些最终是字符串或字符串数组，就直接用 string | string[] 表示
  * 只支持一层数组，层次多会有问题，但好像没这种场景
  */
-function simplifyType(type: Type, typeMap: Record<string, Type>) {
+function simplifyType(
+  type: Type,
+  typeMap: Record<string, Type>
+): {
+  type: string;
+  isArray?: boolean;
+} | null {
   const typeName = type.type;
 
   if (

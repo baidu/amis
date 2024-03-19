@@ -2,7 +2,7 @@
  * 处理选区相关的工具函数
  */
 
-import {ViewRange} from 'src/excel/sheet/ViewRange';
+import {ViewRange} from '../../../sheet/ViewRange';
 import {RangeRef} from '../../../types/RangeRef';
 import {decodeAddress} from './decodeAddress';
 import {numberToLetters} from './numberToLetters';

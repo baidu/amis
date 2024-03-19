@@ -5,13 +5,13 @@ import {rectIntersect} from '../Rect';
 import {drawPic} from './drawPic';
 import {drawShape} from './drawShape';
 import {drawChart} from './drawChart';
-import {ViewRange} from 'src/excel/sheet/ViewRange';
 import {
   getRectFromOneAnchorPoint,
   getRectFromTwoAnchorPoint
 } from './getRectFromAnchorPoint';
 import {getAbsoluteAnchorPosition} from './getAbsoluteAnchorPosition';
 import {ExcelRender} from '../ExcelRender';
+import {ViewRange} from '../../sheet/ViewRange';
 
 /**
  * 绘制 sheet 里的图片及文本框
