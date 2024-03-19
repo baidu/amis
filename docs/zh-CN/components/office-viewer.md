@@ -10,7 +10,7 @@ order: 23
 
 > 2.9.0 及以上版本
 
-用于渲染 office 文档，目前只支持 docx 格式
+用于渲染 office 文档，目前只支持 docx 和 xlsx 格式，本文档只介绍 docx 的配置，xlsx 的配置请参考 [office-viewer-excel](office-viewer-excel)
 
 ## 基本用法
 

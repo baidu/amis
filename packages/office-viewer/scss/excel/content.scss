@@ -1,0 +1,23 @@
+/* Excel 内容区域，这个包含表头 */
+.ov-excel-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  z-index: $content-z-index;
+}
+
+/** Excel 数据区域，不包含表头，目前这个区域主要是给 drawing 用 */
+.ov-excel-data {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  user-select: none;
+  z-index: $data-z-index;
+}
+
+.ov-excel-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

@@ -3,7 +3,7 @@
  */
 
 import Word from '../../Word';
-import {parseShape} from '../../parse/parseShape';
+import {parseShape} from '../../word/parse/parseShape';
 import {Shape} from './Shape';
 
 export class CustomGeom {

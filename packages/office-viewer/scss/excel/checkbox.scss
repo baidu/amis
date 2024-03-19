@@ -1,0 +1,21 @@
+.excel-checkbox-list-wrapper .excel-checkbox-list {
+  margin-top: 4px;
+}
+
+.excel-checkbox-container label {
+  cursor: pointer;
+  padding: 4px 0;
+  display: block;
+}
+
+.excel-checkbox-container label:hover {
+  background-color: #f6f6f6;
+}
+
+.excel-checkbox-container input {
+  vertical-align: middle;
+}
+
+.excel-checkbox-container span {
+  vertical-align: middle;
+}

@@ -3,40 +3,42 @@ import {FontTable} from './openxml/word/FontTable';
  * 总入口，它将包括所有 word 文档信息，后续渲染的时候依赖它来获取关联信息
  */
 
-import {parseRelationships, Relationship} from './parse/parseRelationship';
+import {parseRelationships, Relationship} from './word/parse/parseRelationship';
 import {ContentTypes, parseContentType} from './openxml/ContentType';
 import {parseStyles, Styles} from './openxml/Style';
 import {parseTheme, Theme} from './openxml/Theme';
 
-import renderDocument from './render/renderDocument';
+import renderDocument from './word/render/renderDocument';
 import {blobToDataURL, downloadBlob} from './util/blob';
 import {Numbering} from './openxml/word/numbering/Numbering';
 import {appendChild, createElement} from './util/dom';
-import {renderStyle} from './render/renderStyle';
+import {renderStyle} from './word/render/renderStyle';
 import {mergeRun} from './util/mergeRun';
 import {WDocument} from './openxml/word/WDocument';
 import {PackageParser} from './package/PackageParser';
-import {updateVariableText} from './render/renderRun';
+import {updateVariableText} from './word/render/renderRun';
 import ZipPackageParser from './package/ZipPackageParser';
 import {buildXML} from './util/xml';
 import {Paragraph} from './openxml/word/Paragraph';
 import {deobfuscate} from './openxml/word/Font';
-import {renderFont} from './render/renderFont';
+import {renderFont} from './word/render/renderFont';
 import {replaceT, replaceVar} from './util/replaceVar';
 import {Note} from './openxml/word/Note';
-import {parseFootnotes} from './parse/Footnotes';
-import {parseEndnotes} from './parse/parseEndnotes';
-import {renderNotes} from './render/renderNotes';
+import {parseFootnotes} from './word/parse/Footnotes';
+import {parseEndnotes} from './word/parse/parseEndnotes';
+import {renderNotes} from './word/render/renderNotes';
 import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
 import {Settings} from './openxml/Settings';
 import {get} from './util/get';
 import {fileTypeFromBuffer} from './util/fileType';
+import {OfficeViewer} from './OfficeViewer';
+import {RenderOptions} from './RenderOptions';
 
 /**
  * 渲染配置
  */
-export interface WordRenderOptions {
+export interface WordRenderOptions extends RenderOptions {
   /**
    * css 类前缀
    */
@@ -66,34 +68,6 @@ export interface WordRenderOptions {
    * 最小行高
    */
   minLineHeight?: number;
-
-  /**
-   * 是否开启变量替换功能
-   */
-  enableVar?: boolean;
-
-  /**
-   * 上下文数据，用于替换变量
-   */
-  data?: any;
-
-  /**
-   * 进行表达式计算的函数，第一个参数是文本变量，第二个参数是上下文数据
-   */
-  evalVar: (
-    text: string,
-    data?: Object
-  ) => Object | string | number | boolean | null | undefined;
-
-  /**
-   * 是否开启调试模式
-   */
-  debug?: boolean;
-
-  /**
-   * 字体映射，用于替换文档中的字体
-   */
-  fontMapping?: Record<string, string>;
 
   /**
    * 强制行高，设置之后所有文本都使用这个行高，可以优化排版效果
@@ -192,7 +166,7 @@ const defaultRenderOptions: WordRenderOptions = {
   }
 };
 
-export default class Word {
+export default class Word implements OfficeViewer {
   /**
    * 全局 id，用于一个页面渲染多个 word 文档
    */
@@ -211,7 +185,7 @@ export default class Word {
   /**
    * 解析 [Content_Types].xml 里的数据
    */
-  conentTypes: ContentTypes;
+  contentTypes: ContentTypes;
 
   /**
    * 解析 theme 目录里的数据
@@ -303,11 +277,7 @@ export default class Word {
     parser.load(docFile);
     this.id = Word.globalId++;
     this.parser = parser;
-    this.renderOptions = {...defaultRenderOptions, ...renderOptions};
-    if (this.renderOptions.page) {
-      this.renderOptions.ignoreHeight = false;
-      this.renderOptions.ignoreWidth = false;
-    }
+    this.updateOptions(renderOptions);
   }
 
   inited = false;
@@ -349,11 +319,19 @@ export default class Word {
     this.inited = true;
   }
 
+  updateOptions(options: any) {
+    this.renderOptions = {...defaultRenderOptions, ...options};
+    if (this.renderOptions.page) {
+      this.renderOptions.ignoreHeight = false;
+      this.renderOptions.ignoreWidth = false;
+    }
+  }
+
   /**
    * 解析全局主题配置
    */
   initTheme() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/theme')) {
         const theme = this.parser.getXML(override.partName);
         this.themes.push(parseTheme(theme));
@@ -365,7 +343,7 @@ export default class Word {
    * 解析全局样式
    */
   initStyle() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/styles.xml')) {
         this.styles = parseStyles(this, this.parser.getXML('/word/styles.xml'));
       }
@@ -376,7 +354,7 @@ export default class Word {
    * 解析全局配置
    */
   initSettings() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/settings.xml')) {
         this.settings = Settings.parse(
           this,
@@ -390,7 +368,7 @@ export default class Word {
    * 解析字体表
    */
   initFontTable() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/fontTable.xml')) {
         this.fontTable = FontTable.fromXML(
           this,
@@ -435,14 +413,14 @@ export default class Word {
    */
   initContentType() {
     const contentType = this.parser.getXML('[Content_Types].xml');
-    this.conentTypes = parseContentType(contentType);
+    this.contentTypes = parseContentType(contentType);
   }
 
   /**
    * 解析 numbering
    */
   initNumbering() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/numbering')) {
         const numberingData = this.parser.getXML(override.partName);
         this.numbering = Numbering.fromXML(this, numberingData);
@@ -451,7 +429,7 @@ export default class Word {
   }
 
   initNotes() {
-    for (const override of this.conentTypes.overrides) {
+    for (const override of this.contentTypes.overrides) {
       if (override.partName.startsWith('/word/footnotes.xml')) {
         const notesData = this.parser.getXML(override.partName);
         this.footNotes = parseFootnotes(this, notesData);

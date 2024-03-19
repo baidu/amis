@@ -3,7 +3,7 @@
  */
 
 import {getVal} from '../../OpenXML';
-import {parsePr} from '../../parse/parsePr';
+import {parsePr} from '../../word/parse/parsePr';
 import Word from '../../Word';
 import {BookmarkStart} from './Bookmark';
 import {Hyperlink} from './Hyperlink';
@@ -13,7 +13,7 @@ import {Run, RunPr} from './Run';
 import {Tab} from './Tab';
 import {FldSimple} from './FldSimple';
 import {OMath} from '../math/OMath';
-import {mergeSdt} from '../../parse/mergeSdt';
+import {mergeSdt} from '../../word/parse/mergeSdt';
 
 /**
  * 这里简化了很多，如果能用 CSS 表示就直接用 CSS 表示

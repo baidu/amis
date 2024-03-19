@@ -1,5 +1,5 @@
-import {mergeSdt} from '../../parse/mergeSdt';
-import {parseTable} from '../../parse/parseTable';
+import {mergeSdt} from '../../word/parse/mergeSdt';
+import {parseTable} from '../../word/parse/parseTable';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
 import {Section, SectionChild, SectionPr} from './Section';

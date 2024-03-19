@@ -1,3 +1,5 @@
-/coverage
-/lib
-/esm
+coverage
+lib
+esm
+.rollup.cache
+~$*

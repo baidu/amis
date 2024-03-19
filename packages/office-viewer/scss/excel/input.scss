@@ -1,0 +1,20 @@
+.excel-input {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  padding: 4px 12px;
+  border: $input-border;
+}
+
+.excel-input-border-less {
+  display: block;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 2px;
+}
+
+.excel-input-border-less:focus {
+  outline: none;
+}

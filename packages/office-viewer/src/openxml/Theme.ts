@@ -2,7 +2,7 @@
  * 主要参考 14.2.7 Theme Part
  */
 
-import {convertAngle} from '../parse/parseSize';
+import {convertAngle} from '../word/parse/parseSize';
 import {getAttrNumber, getAttrPercent, getVal} from '../OpenXML';
 import {Color} from '../util/color';
 

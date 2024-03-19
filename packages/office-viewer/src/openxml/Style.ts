@@ -2,7 +2,7 @@
  * 解析共享样式 Style
  */
 
-import {parseTcPr} from '../parse/parseTcPr';
+import {parseTcPr} from '../word/parse/parseTcPr';
 import {getVal} from '../OpenXML';
 import Word from '../Word';
 import {ST_StyleType, ST_TblStyleOverrideType} from './Types';
@@ -11,8 +11,8 @@ import {Run, RunPr} from './word/Run';
 import {TablePr} from './word/Table';
 import {TcPr} from './word/table/Tc';
 import {Tr, TrPr} from './word/table/Tr';
-import {parseTablePr} from '../parse/parseTablePr';
-import {parseTrPr} from '../parse/parseTrPr';
+import {parseTablePr} from '../word/parse/parseTablePr';
+import {parseTrPr} from '../word/parse/parseTrPr';
 
 export interface CSSStyle {
   [key: string]: string | number;

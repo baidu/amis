@@ -1,0 +1,61 @@
+/* 默认 CSS 样式，目前主要是 Excel 使用 */
+
+.ov-excel {
+  /* 从 office 365 中复制的默认字体 */
+  font-family: 'Aptos Narrow', 'Segoe UI', 'Segoe UI Web (West European)',
+    'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue',
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  --bar-bg-color: #f5f5f5;
+  --bar-input-bg-color: #ffffff;
+  --active-sheet-color: #217346;
+}
+
+$content-z-index: 1;
+$data-z-index: 2;
+$filter-icon-z-index: 3;
+$filter-menu-z-index: 4;
+$scroll-bar-z-index: 3;
+$resize-box-z-index: 4;
+$resize-box-control-z-index: 5;
+$cell-editor-z-index: 6;
+
+$chart-z-index: 10;
+$pic-z-index: 10;
+
+$sheet-tab-menu-index: 15;
+
+$hover-bg-color: #e1dfdd;
+
+$input-border: 1px solid rgb(209, 209, 209);
+
+@import './button.scss';
+
+@import './toolbar.scss';
+
+@import './checkbox.scss';
+
+@import './divider.scss';
+
+@import './input.scss';
+
+@import './select.scss';
+
+@import './formula-bar.scss';
+
+@import './sheet-tab-bar.scss';
+
+@import './content.scss';
+
+@import './scroll-bar.scss';
+
+@import './resize-box.scss';
+
+@import './auto-filter.scss';
+
+@import './cell-editor.scss';
+
+@import './chart.scss';
+
+@import './pic.scss';

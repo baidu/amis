@@ -245,3 +245,118 @@ export class Color {
     return `rgba(${this.r}, ${this.g}, ${this.b}, ${alpha})`;
   }
 }
+
+// 下面是来自 xlsx 的代码，先放着有没用
+
+function hex2RGB(h: string) {
+  var o = h.slice(h[0] === '#' ? 1 : 0).slice(0, 6);
+  return [
+    parseInt(o.slice(0, 2), 16),
+    parseInt(o.slice(2, 4), 16),
+    parseInt(o.slice(4, 6), 16)
+  ];
+}
+function rgb2Hex(rgb: number[]) {
+  for (var i = 0, o = 1; i != 3; ++i)
+    o = o * 256 + (rgb[i] > 255 ? 255 : rgb[i] < 0 ? 0 : rgb[i]);
+  return o.toString(16).toUpperCase().slice(1);
+}
+
+function rgb2HSL(rgb: number[]) {
+  var R = rgb[0] / 255,
+    G = rgb[1] / 255,
+    B = rgb[2] / 255;
+  var M = Math.max(R, G, B),
+    m = Math.min(R, G, B),
+    C = M - m;
+  if (C === 0) return [0, 0, R];
+
+  var H6 = 0,
+    S = 0,
+    L2 = M + m;
+  S = C / (L2 > 1 ? 2 - L2 : L2);
+  switch (M) {
+    case R:
+      H6 = ((G - B) / C + 6) % 6;
+      break;
+    case G:
+      H6 = (B - R) / C + 2;
+      break;
+    case B:
+      H6 = (R - G) / C + 4;
+      break;
+  }
+  return [H6 / 6, S, L2 / 2];
+}
+
+function hsl2RGB(hsl: number[]) {
+  var H = hsl[0],
+    S = hsl[1],
+    L = hsl[2];
+  var C = S * 2 * (L < 0.5 ? L : 1 - L),
+    m = L - C / 2;
+  var rgb = [m, m, m],
+    h6 = 6 * H;
+
+  var X;
+  if (S !== 0)
+    switch (h6 | 0) {
+      case 0:
+      case 6:
+        X = C * h6;
+        rgb[0] += C;
+        rgb[1] += X;
+        break;
+      case 1:
+        X = C * (2 - h6);
+        rgb[0] += X;
+        rgb[1] += C;
+        break;
+      case 2:
+        X = C * (h6 - 2);
+        rgb[1] += C;
+        rgb[2] += X;
+        break;
+      case 3:
+        X = C * (4 - h6);
+        rgb[1] += X;
+        rgb[2] += C;
+        break;
+      case 4:
+        X = C * (h6 - 4);
+        rgb[2] += C;
+        rgb[0] += X;
+        break;
+      case 5:
+        X = C * (6 - h6);
+        rgb[2] += X;
+        rgb[0] += C;
+        break;
+    }
+  for (var i = 0; i != 3; ++i) rgb[i] = Math.round(rgb[i] * 255);
+  return rgb;
+}
+
+/* 18.8.3 bgColor tint algorithm */
+export const rgbTint = function (hex: string, tint: number) {
+  if (tint === 0) {
+    return hex;
+  }
+  const hsl = rgb2HSL(hex2RGB(hex));
+  if (tint < 0) {
+    hsl[2] = hsl[2] * (1 + tint);
+  } else {
+    hsl[2] = 1 - (1 - hsl[2]) * (1 - tint);
+  }
+  return rgb2Hex(hsl2RGB(hsl));
+};
+
+/**
+ * 计算两个颜色之间的渐变色
+ */
+export function interpolateColor(start: Color, end: Color, percent: number) {
+  const r = Math.min(255, start.r + (end.r - start.r) * percent);
+  const g = Math.min(255, start.g + (end.g - start.g) * percent);
+  const b = Math.min(255, start.b + (end.b - start.b) * percent);
+  return `${rgbToHex(r, g, b)}`;
+}
