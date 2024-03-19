@@ -116,10 +116,10 @@ exports[`doAction:page reload 2`] = `
           role="page-body"
         >
           <div
-            class="cxd-Spinner-overlay in"
+            class="cxd-Spinner-overlay ing"
           />
           <div
-            class="cxd-Spinner cxd-Spinner--overlay in"
+            class="cxd-Spinner cxd-Spinner--overlay ing"
             data-testid="spinner"
           >
             <div
@@ -327,10 +327,10 @@ exports[`doAction:page reload with data 2`] = `
           role="page-body"
         >
           <div
-            class="cxd-Spinner-overlay in"
+            class="cxd-Spinner-overlay ing"
           />
           <div
-            class="cxd-Spinner cxd-Spinner--overlay in"
+            class="cxd-Spinner cxd-Spinner--overlay ing"
             data-testid="spinner"
           >
             <div
