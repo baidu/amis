@@ -37,7 +37,7 @@ const defaultFont: FontStyle = {
 };
 
 test('breakline', () => {
-  expect(autoWrapText(mockCtx, '中\nabc', 30, defaultFont, {})).toEqual([
+  expect(autoWrapText(mockCtx, '中\nabc', 30, defaultFont)).toEqual([
     {
       maxHeight: 12,
       tokens: [
@@ -62,7 +62,7 @@ test('breakline', () => {
 });
 
 test('breaklineBefore', () => {
-  expect(autoWrapText(mockCtx, '\nabc', 30, defaultFont, {})).toEqual([
+  expect(autoWrapText(mockCtx, '\nabc', 30, defaultFont)).toEqual([
     {
       maxHeight: 12,
       tokens: []
@@ -81,7 +81,7 @@ test('breaklineBefore', () => {
 });
 
 test('wrapTwoLine', () => {
-  expect(autoWrapText(mockCtx, '中abc', 30, defaultFont, {})).toEqual([
+  expect(autoWrapText(mockCtx, '中abc', 30, defaultFont)).toEqual([
     {
       maxHeight: 12,
       tokens: [
@@ -107,7 +107,7 @@ test('wrapTwoLine', () => {
 
 test('wrapTwoLineMore', () => {
   // 虽然是一个单词但太长了也得折行
-  expect(autoWrapText(mockCtx, 'abcd', 30, defaultFont, {})).toEqual([
+  expect(autoWrapText(mockCtx, 'abcd', 30, defaultFont)).toEqual([
     {
       maxHeight: 12,
       tokens: [
@@ -133,7 +133,7 @@ test('wrapTwoLineMore', () => {
 
 test('wrapTwoLineMoreMerge', () => {
   // 虽然是一个单词但太长了也得折行
-  expect(autoWrapText(mockCtx, '中abcdef文', 30, defaultFont, {})).toEqual([
+  expect(autoWrapText(mockCtx, '中abcdef文', 30, defaultFont)).toEqual([
     {
       maxHeight: 12,
       tokens: [
@@ -201,8 +201,7 @@ test('richText', () => {
         }
       ],
       30,
-      defaultFont,
-      {}
+      defaultFont
     )
   ).toEqual([
     {

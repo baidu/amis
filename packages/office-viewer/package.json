@@ -27,7 +27,8 @@
     "genPresetIcons": "cd tools && ts-node --transpileOnly genPresetIcons.ts",
     "genIcons": "ts-node --transpileOnly tools/genIcons.ts",
     "emptyExcel": "ts-node --transpileOnly tools/convertFileToBase64.ts src/excel/io/csv/empty.xlsx src/excel/io/csv/emptyXLSX.ts",
-    "genExampleFileList": "ts-node --transpileOnly tools/genExampleFileList.ts"
+    "genExampleFileList": "ts-node --transpileOnly tools/genExampleFileList.ts",
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": {

@@ -728,7 +728,9 @@ export class LocalDataProvider implements IDataProvider {
       return this.defaultFontSize;
     }
     const offscreen = new OffscreenCanvas(256, 256);
-    const ctx = offscreen.getContext('2d')!;
+    const ctx = offscreen.getContext(
+      '2d'
+    )! as OffscreenCanvasRenderingContext2D;
     const defaultFont = genFontStr(this.defaultFontStyle);
     ctx.font = defaultFont;
     const size = measureTextWithCache(ctx, defaultFont, '1');

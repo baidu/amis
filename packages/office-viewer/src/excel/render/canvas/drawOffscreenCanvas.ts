@@ -10,7 +10,9 @@ export function drawOffscreenCanvas(
   func: (ctx: OffscreenCanvasRenderingContext2D) => void
 ) {
   const cacheCanvas = new OffscreenCanvas(width * ratio, height * ratio);
-  const cacheCtx = cacheCanvas.getContext('2d')!;
+  const cacheCtx = cacheCanvas.getContext(
+    '2d'
+  )! as OffscreenCanvasRenderingContext2D;
   cacheCtx.scale(ratio, ratio);
   func(cacheCtx);
   return cacheCanvas;
