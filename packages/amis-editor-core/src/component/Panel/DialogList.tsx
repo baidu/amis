@@ -47,7 +47,9 @@ export default observer(function DialogList({
       value: {
         type: 'dialog',
         ...(modal as any),
-        definitions: modalsToDefinitions(store.modals)
+        definitions: modalsToDefinitions(
+          store.modals.filter((m: any) => m.$$id !== modalId)
+        )
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {
         store.updateModal(modalId, modal, definitions);
@@ -83,6 +85,27 @@ export default observer(function DialogList({
     []
   );
 
+  const handleCopyDialog = React.useCallback((event: React.UIEvent<any>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const index = parseInt(
+      event.currentTarget.closest('[data-index]')!.getAttribute('data-index')!,
+      10
+    );
+    const dialog = store.modals[index];
+    store.addModal({
+      ...dialog,
+      title: `${dialog.title} - 复制`,
+      editorSetting: {
+        ...dialog.editorSetting,
+        displayName: dialog.editorSetting?.displayName
+          ? `${dialog.editorSetting?.displayName} - 复制`
+          : ''
+      }
+    });
+  }, []);
+
   return (
     <div className={cx('ae-DialogList-wrap', 'hoverShowScrollBar')}>
       <Button size="sm" level="enhance" block onClick={handleAddDialog}>
@@ -104,8 +127,11 @@ export default observer(function DialogList({
                   '未命名弹窗'
                 }`}
               </span>
+              <a onClick={handleCopyDialog} className="ae-DialogList-iconBtn">
+                <Icon className="icon" icon="copy" />
+              </a>
               <a onClick={handleDelDialog} className="ae-DialogList-iconBtn">
-                <Icon className="icon" icon="delete-bold-btn" />
+                <Icon className="icon" icon="trash" />
               </a>
             </li>
           ))}

@@ -740,13 +740,17 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       trigger === type &&
       (mode === 'dialog' || mode === 'drawer')
     ) {
-      formItem?.openDialog(this.buildAutoFillSchema(), data, result => {
-        if (!result?.selectedItems) {
-          return;
-        }
+      formItem?.openDialog(
+        this.buildAutoFillSchema(),
+        data,
+        (confirmed, result) => {
+          if (!result?.selectedItems) {
+            return;
+          }
 
-        this.updateAutoFillData(result.selectedItems);
-      });
+          this.updateAutoFillData(result.selectedItems);
+        }
+      );
     }
   }
 
@@ -1086,7 +1090,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
 
     return new Promise(resolve =>
-      model.openDialog(schema, data, (result?: any) => resolve(result))
+      model.openDialog(schema, data, (confirmed: any, value: any) =>
+        resolve(confirmed ? value : false)
+      )
     );
   }
 
@@ -1097,7 +1103,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return;
     }
 
-    model.closeDialog(values);
+    model.closeDialog(true, values);
   }
 
   @autobind

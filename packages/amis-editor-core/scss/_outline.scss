@@ -242,6 +242,7 @@
 
     display: flex;
     justify-content: space-between;
+    gap: px2rem(5px);
     align-items: center;
 
     white-space: nowrap;
@@ -249,11 +250,28 @@
     text-overflow: ellipsis;
     color: var(--colors-neutral-text-2);
 
-    a {
+    > span {
+      flex: 1;
+      min-width: 0;
+    }
+
+    a.ae-DialogList-iconBtn {
       font-size: inherit;
       color: var(--icon-color);
       text-decoration: none;
       cursor: pointer;
+
+      > svg {
+        top: px2rem(1px);
+        width: px2rem(16px);
+        height: px2rem(16px);
+      }
+
+      > svg.icon-copy {
+        top: 0;
+        width: px2rem(12px);
+        height: px2rem(12px);
+      }
 
       &:hover {
         color: var(--icon-onHover-color);

@@ -1258,14 +1258,34 @@ export default class Form extends React.Component<FormProps, object> {
             action.target &&
               this.reloadTarget(filterTarget(action.target, values), values);
           } else if (action.actionType === 'dialog') {
-            store.openDialog(
-              data,
-              undefined,
-              action.callback,
-              delegate || (this.context as any)
-            );
+            return new Promise<any>(resolve => {
+              store.openDialog(
+                data,
+                undefined,
+                (confirmed: any, value: any) => {
+                  action.callback?.(confirmed, value);
+                  resolve({
+                    confirmed,
+                    value
+                  });
+                },
+                delegate || (this.context as any)
+              );
+            });
           } else if (action.actionType === 'drawer') {
-            store.openDrawer(data);
+            return new Promise<any>(resolve => {
+              store.openDrawer(
+                data,
+                undefined,
+                (confirmed: any, value: any) => {
+                  action.callback?.(confirmed, value);
+                  resolve({
+                    confirmed,
+                    value
+                  });
+                }
+              );
+            });
           } else if (isEffectiveApi(action.api || api, values)) {
             let finnalAsyncApi = action.asyncApi || asyncApi;
             isEffectiveApi(finnalAsyncApi, store.data) &&
@@ -1406,15 +1426,31 @@ export default class Form extends React.Component<FormProps, object> {
       return this.validate(true, throwErrors, true, true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.openDialog(
-        data,
-        undefined,
-        action.callback,
-        delegate || (this.context as any)
-      );
+      return new Promise<any>(resolve => {
+        store.openDialog(
+          data,
+          undefined,
+          (confirmed: any, value: any) => {
+            action.callback?.(confirmed, value);
+            resolve({
+              confirmed,
+              value
+            });
+          },
+          delegate || (this.context as any)
+        );
+      });
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.openDrawer(data);
+      return new Promise<any>(resolve => {
+        store.openDrawer(data, undefined, (confirmed: any, value: any) => {
+          action.callback?.(confirmed, value);
+          resolve({
+            confirmed,
+            value
+          });
+        });
+      });
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
       if (!isEffectiveApi(action.api)) {
@@ -1528,7 +1564,7 @@ export default class Form extends React.Component<FormProps, object> {
       this.handleBulkChange(values[0], false);
     }
 
-    store.closeDialog(true);
+    store.closeDialog(true, values);
   }
 
   handleDialogClose(confirmed = false) {
@@ -1559,7 +1595,7 @@ export default class Form extends React.Component<FormProps, object> {
         );
     }
 
-    store.closeDrawer(true);
+    store.closeDrawer(true, values);
   }
 
   handleDrawerClose() {

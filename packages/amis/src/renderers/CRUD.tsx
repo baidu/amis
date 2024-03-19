@@ -770,18 +770,26 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const idx: number = (ctx as any).index;
       const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-      store.openDialog(
-        ctx,
-        {
-          hasNext: idx < length - 1,
-          nextIndex: idx + 1,
-          hasPrev: idx > 0,
-          prevIndex: idx - 1,
-          index: idx
-        },
-        action.callback,
-        delegate || (this.context as any)
-      );
+      return new Promise<any>(resolve => {
+        store.openDialog(
+          ctx,
+          {
+            hasNext: idx < length - 1,
+            nextIndex: idx + 1,
+            hasPrev: idx > 0,
+            prevIndex: idx - 1,
+            index: idx
+          },
+          (confirmed: any, value: any) => {
+            action.callback?.(confirmed, value);
+            resolve({
+              confirmed,
+              value
+            });
+          },
+          delegate || (this.context as any)
+        );
+      });
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
       const data = ctx;
@@ -1116,7 +1124,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env
     } = this.props;
 
-    store.closeDialog(true);
+    store.closeDialog(true, values);
     const dialogAction = store.action as ActionObject;
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
