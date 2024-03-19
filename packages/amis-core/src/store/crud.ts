@@ -517,6 +517,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         self.markFetching(false);
 
+        self.updateMessage(e.message || e, true);
+
         if (env.isCancel(e)) {
           return;
         }

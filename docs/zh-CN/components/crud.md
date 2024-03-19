@@ -3926,17 +3926,66 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                        | 说明                                                           |
-| -------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行         | 手动选择表格项时触发                                           |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                    | 点击列排序时触发                                               |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值 | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据            | 点击列搜索时触发                                               |
-| orderChange    | `movedItems: item[]` 已排序数据                                                 | 手动拖拽行排序时触发                                           |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                          | 点击自定义列时触发                                             |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                            | 点击整行时触发                                                 |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                            | 移入整行时触发                                                 |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                            | 移出整行时触发                                                 |
+| 事件名称       | 事件参数                                                                                                                                                                                   | 说明                                                           |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| fetchInited    | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | api 接口请求完成时触发                                         |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                                                                                                                    | 手动选择表格项时触发                                           |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                                                                                                                               | 点击列排序时触发                                               |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值                                                                                                            | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据                                                                                                                       | 点击列搜索时触发                                               |
+| orderChange    | `movedItems: item[]` 已排序数据                                                                                                                                                            | 手动拖拽行排序时触发                                           |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                                                                                                                     | 点击自定义列时触发                                             |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                                                       | 点击整行时触发                                                 |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                                                                                                                                       | 移入整行时触发                                                 |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                                                                                                                                       | 移出整行时触发                                                 |
+
+### fetchInited
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "fetchInited": {
+        "actions": [
+          {
+            "actionType": "toast",
+            "args": {
+              "msg": "count:${event.data.responseData.count}，status:${event.data.responseStatus}"
+            }
+          }
+        ]
+      }
+    },
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID"
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine"
+      },
+      {
+        "name": "browser",
+        "label": "Browser"
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+```
 
 ### selectedChange
 

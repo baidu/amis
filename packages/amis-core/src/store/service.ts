@@ -155,6 +155,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         console.error(e);
         let message = e.message || e;
+        updateMessage(message, true);
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
@@ -263,6 +264,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         console.error(e);
         let message = e.message || e;
+        updateMessage(message, true);
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
@@ -359,6 +361,8 @@ export const ServiceStore = iRendererStore
         }
 
         console.error(e);
+
+        updateMessage(e.message || e, true);
 
         if (!(api as ApiObject).silent) {
           if (e.type === 'ServerError') {
@@ -503,6 +507,7 @@ export const ServiceStore = iRendererStore
 
         console.error(e);
         let message = e.message || e;
+        updateMessage(message, true);
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
