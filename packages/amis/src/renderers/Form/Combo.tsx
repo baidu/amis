@@ -291,7 +291,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   testIdBuilder?: TestIdBuilder;
 }
 
-export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
+export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange' | 'dragEnd';
 
 function pickVars(vars: any, fields: Array<string>) {
   return fields.reduce((data: any, key: string) => {
@@ -1050,6 +1050,17 @@ export default class ComboControl extends React.Component<ComboProps> {
           newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
           this.keys.splice(e.newIndex, 0, this.keys.splice(e.oldIndex, 1)[0]);
           this.props.onChange(newValue, submitOnChange, true);
+
+          this.props.dispatchEvent(
+            'dragEnd',
+            resolveEventData(this.props, {
+              item: newValue[e.newIndex],
+              value: newValue,
+              index: e.newIndex,
+              oldValue: value,
+              oldIndex: e.oldIndex
+            })
+          );
         }
       }
     );
