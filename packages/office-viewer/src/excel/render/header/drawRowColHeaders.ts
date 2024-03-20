@@ -18,6 +18,9 @@ export function drawRowColHeaders(
   defaultFontSize: FontSize,
   defaultFontStyle: FontStyle
 ) {
+  if (currentSheet.showRowColHeaders() === false) {
+    return;
+  }
   const {rows, startRowOffset, height, width, cols, startColOffset} = viewRange;
 
   const {rowHeaderWidth, colHeaderHeight} = currentSheet.getRowColSize();

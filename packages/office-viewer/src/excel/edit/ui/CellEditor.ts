@@ -1,9 +1,11 @@
-import {onClickOutside} from '../../../util/onClickOutside';
+import {onClickOutsideOnce} from '../../../util/onClickOutsideOnce';
 import {Workbook} from '../../Workbook';
 import {HitTestResult} from '../../render/selection/hitTest';
 import {Input} from '../../render/ui/Input';
 import {Sheet} from '../../sheet/Sheet';
 import {CellData, updateValue} from '../../types/worksheet/CellData';
+
+let lastCellEditor: CellEditor | undefined;
 
 /**
  * 单元格编辑
@@ -30,11 +32,16 @@ export class CellEditor {
 
   col: number;
 
+  removeOnClickOutside: () => void;
+
   constructor(
     dataContainer: HTMLElement,
     workbook: Workbook,
     hitTest: HitTestResult
   ) {
+    if (lastCellEditor) {
+      lastCellEditor.close();
+    }
     this.workbook = workbook;
     this.editorContainer = document.createElement('div');
     this.editorContainer.className = 'excel-cell-editor';
@@ -72,15 +79,17 @@ export class CellEditor {
     this.initValue = cellInfo.value;
     this.value = cellInfo.value;
 
-    const input = new Input(
-      this.editorContainer,
-      '',
-      cellInfo.value,
-      value => {
+    const input = new Input({
+      container: this.editorContainer,
+      value: cellInfo.value,
+      onChange: value => {
         this.handleInput(value);
       },
-      'borderLess'
-    );
+      onEnter: value => {
+        this.close();
+      },
+      style: 'borderLess'
+    });
 
     input.force();
 
@@ -89,9 +98,11 @@ export class CellEditor {
     this.editorContainer.style.width = `${width}px`;
     this.editorContainer.style.height = `${height}px`;
 
-    onClickOutside(this.editorContainer, () => {
+    onClickOutsideOnce(this.editorContainer, () => {
       this.close();
     });
+
+    lastCellEditor = this;
   }
 
   handleInput(value: string) {

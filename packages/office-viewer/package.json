@@ -65,6 +65,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^14.2.0",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",

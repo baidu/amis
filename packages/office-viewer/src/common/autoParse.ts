@@ -2,11 +2,20 @@ import {ANY_KEY, Attributes} from '../openxml/Attributes';
 import {normalizeBoolean} from '../OpenXML';
 import {XMLNode} from '../util/xml';
 
+const removeNameSpace = new RegExp('a:|xdr:|c:');
+
+const replaceCache: Map<string, string> = new Map();
+
 /**
  * 目前不支持这两种 name space
  */
 function removeNamespace(tag: string) {
-  return tag.replace('a:', '').replace('xdr:', '').replace('c:', '');
+  if (replaceCache.has(tag)) {
+    return replaceCache.get(tag)!;
+  }
+  const result = tag.replace('a:', '').replace('xdr:', '').replace('c:', '');
+  replaceCache.set(tag, result);
+  return result;
 }
 
 /**

@@ -173,16 +173,15 @@ export class CustomFiltersUI {
       }
     );
 
-    const input = new Input(
-      customFilterItemInput,
-      '',
+    const input = new Input({
+      container: customFilterItemInput,
       value,
-      () => {
+      onChange: () => {
         this.syncCustomFilters();
       },
-      'normal',
-      this.texts
-    );
+      style: 'normal',
+      options: this.texts
+    });
 
     this.customFilterItems.push({input, select});
   }
