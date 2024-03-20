@@ -212,7 +212,7 @@ export function isExpression(expression: any): boolean {
   // 备注1: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
 
   // 备注2: safari 不支持 /(?<!\\)(\${).+(\})/.test(expression)
-  return /(^|[^\\])\$\{.+\}/.test(expression);
+  return /(^|[^\\])\$\{[\s\S]+\}/.test(expression);
 }
 
 // 用于判断是否需要执行表达式:

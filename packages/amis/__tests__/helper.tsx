@@ -131,3 +131,13 @@ Object.defineProperty(global, 'IntersectionObserver', {
   configurable: true,
   value: IntersectionObserver
 });
+
+(global as any).document.createRange = () => ({
+  selectNodeContents: jest.fn(),
+  getBoundingClientRect: jest.fn(() => ({
+    width: 500
+  })),
+  getClientRects: jest.fn(() => []),
+  setStart: jest.fn(),
+  setEnd: jest.fn()
+});

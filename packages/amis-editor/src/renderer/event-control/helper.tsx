@@ -2957,8 +2957,10 @@ export const getEventControlConfig = (
 
   return {
     showOldEntry:
-      !!context.schema.actionType ||
-      ['submit', 'reset'].includes(context.schema.type),
+      !!(
+        context.schema.actionType &&
+        !['dialog', 'drawer'].includes(context.schema.type)
+      ) || ['submit', 'reset'].includes(context.schema.type),
     actions: manager?.pluginActions,
     events: manager?.pluginEvents,
     actionTree,
