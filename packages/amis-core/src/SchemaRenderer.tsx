@@ -44,6 +44,7 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'children',
   'ref',
   'visible',
+  'loading',
   'visibleOn',
   'hidden',
   'hiddenOn',
