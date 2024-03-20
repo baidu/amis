@@ -13,7 +13,8 @@ import {
   evalExpressionWithConditionBuilder,
   IFormStore,
   getVariable,
-  IFormItemStore
+  IFormItemStore,
+  deleteVariable
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -723,11 +724,30 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleChange(values: any, diff: any, {index}: any) {
-    const {flat, store, joinValues, delimiter, disabled, submitOnChange, type} =
-      this.props;
+    const {
+      flat,
+      store,
+      joinValues,
+      delimiter,
+      disabled,
+      submitOnChange,
+      type,
+      syncFields,
+      name
+    } = this.props;
 
     if (disabled) {
       return;
+    }
+
+    // 不要递归更新自己
+    if (Array.isArray(syncFields)) {
+      syncFields.forEach(field => {
+        if (name?.startsWith(field)) {
+          values = {...values};
+          deleteVariable(values, name);
+        }
+      });
     }
 
     let value = this.getValueAsArray();
@@ -834,8 +854,20 @@ export default class ComboControl extends React.Component<ComboProps> {
       onChange,
       submitOnChange,
       setPrinstineValue,
-      formItem
+      formItem,
+      name,
+      syncFields
     } = this.props;
+
+    // 不要递归更新自己
+    if (Array.isArray(syncFields)) {
+      syncFields.forEach(field => {
+        if (name?.startsWith(field)) {
+          values = {...values};
+          deleteVariable(values, name);
+        }
+      });
+    }
 
     // 已经开始验证了，那么打开成员的时候，就要验证一下。
     if (formItem?.validated) {
