@@ -11,7 +11,14 @@ import {
 import React from 'react';
 import {observer} from 'mobx-react';
 import {JSONTraverse, JSONValueMap, RendererProps} from 'amis-core';
-import {Button, FormField, InputJSONSchema, Select, Switch} from 'amis-ui';
+import {
+  Button,
+  FormField,
+  InputBox,
+  InputJSONSchema,
+  Select,
+  Switch
+} from 'amis-ui';
 import type {EditorModalBody} from '../../../../amis-editor-core/src/store/editor';
 
 export interface DialogActionPanelProps extends RendererProps {
@@ -79,6 +86,10 @@ function DialogActionPanel({
             : actionIndex
         ];
       const modals: Array<LocalModal> = actionSchema.__actionModals;
+      if (!Array.isArray(modals)) {
+        return schema;
+      }
+
       const currentModal = modals.find(item => item.isActive)!;
 
       schema = {...schema, definitions: {...schema.definitions}};
@@ -307,7 +318,12 @@ function DialogActionPanel({
     }
 
     // 初始化有问题的情况
-    const newData: any = {};
+    const newData: any = {
+      // 目的是提到当前层，而不是在原型链上
+      // 当前面板中要设置的值，都要初始来一下，否则可能会丢失
+      waitForAction: data.waitForAction,
+      outputVar: data.outputVar
+    };
     // if (!dialogId) {
     //   dialogId = guid();
     //   const placeholder = {
@@ -506,7 +522,9 @@ function DialogActionPanel({
           }
         ],
         ...(currentModal.modal as any),
-        definitions: modalsToDefinitions(modals.map(item => item.modal))
+        definitions: modalsToDefinitions(
+          modals.filter(item => !item.isActive).map(item => item.modal)
+        )
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {
         // 编辑的时候不要修改 $$id
@@ -564,6 +582,13 @@ function DialogActionPanel({
     },
     [modals]
   );
+  const handleWaitForActionChange = React.useCallback((value: any) => {
+    onBulkChange({waitForAction: !!value});
+  }, []);
+
+  const handleOutputVarChange = React.useCallback((value: string) => {
+    onBulkChange({outputVar: value});
+  }, []);
 
   const hasRequired =
     Array.isArray(currentModal?.modal.inputParams?.required) &&
@@ -663,6 +688,49 @@ function DialogActionPanel({
                 addButtonText="添加参数"
               />
             ) : null}
+          </div>
+        </FormField>
+      ) : null}
+
+      <FormField
+        label="等待弹窗"
+        mode="horizontal"
+        description={
+          '是否等待弹窗响应，开启则当前操作会等待弹窗响应后再执行，同时弹窗被取消则中断后续动作'
+        }
+      >
+        <div
+          className={cx(
+            'Form-control Form-control--withSize Form-control--sizeLg'
+          )}
+        >
+          <Switch
+            className="mt-2 m-b-xs"
+            value={!!data.waitForAction}
+            onChange={handleWaitForActionChange}
+            disabled={hasRequired}
+          />
+        </div>
+      </FormField>
+
+      {data.waitForAction ? (
+        <FormField
+          label="响应结果"
+          mode="horizontal"
+          description={
+            '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果'
+          }
+        >
+          <div
+            className={cx(
+              'Form-control Form-control--withSize Form-control--sizeLg'
+            )}
+          >
+            <InputBox
+              onChange={handleOutputVarChange}
+              value={data.outputVar || ''}
+              placeholder="请输入存储响应结果的变量名称"
+            />
           </div>
         </FormField>
       ) : null}

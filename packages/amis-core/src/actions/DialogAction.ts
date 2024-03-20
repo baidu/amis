@@ -1,4 +1,5 @@
 import {Schema, SchemaNode} from '../types';
+import {extendObject} from '../utils';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
@@ -34,11 +35,22 @@ export interface IDialogAction extends ListenerAction {
     dialog: SchemaNode;
   };
   dialog?: SchemaNode;
+
+  /**
+   * 是否等待确认结果
+   */
+  waitForAction?: boolean;
+
+  /**
+   * 如果等待结果，将弹窗结果保存到此处变量
+   */
+  outputVar?: string;
 }
 
 export interface IConfirmDialogAction extends ListenerAction {
   actionType: 'confirmDialog';
   dialog?: Schema;
+
   // 兼容历史，保留。不建议用args
   args: {
     msg: string;
@@ -71,7 +83,7 @@ export class DialogAction implements RendererAction {
       return;
     }
 
-    renderer.props.onAction?.(
+    let ret = renderer.props.onAction?.(
       event,
       {
         actionType: 'dialog',
@@ -81,6 +93,19 @@ export class DialogAction implements RendererAction {
       },
       action.data
     );
+
+    if (action.waitForAction) {
+      const {confirmed, value} = await ret;
+
+      event.setData(
+        extendObject(event.data, {
+          [action.outputVar || 'dialogResponse']: {
+            confirmed,
+            value
+          }
+        })
+      );
+    }
   }
 }
 

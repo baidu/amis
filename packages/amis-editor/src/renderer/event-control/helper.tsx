@@ -326,7 +326,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: {
                     type: 'dialog',
                     ...modal,
-                    definitions: modalsToDefinitions(store.modals)
+                    definitions: modalsToDefinitions(
+                      store.modals.filter((m: any) => m.$$id !== modalId)
+                    )
                   },
                   onChange: ({definitions, ...modal}: any, diff: any) => {
                     store.updateModal(modalId, modal, definitions);

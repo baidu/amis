@@ -1378,6 +1378,7 @@ export class EventControl extends React.Component<
           }
         )}
         <ActionDialog
+          closeOnEsc={false}
           show={showAcionDialog}
           type={type}
           actionTree={actionTree}

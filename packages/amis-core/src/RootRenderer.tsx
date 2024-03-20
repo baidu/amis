@@ -119,7 +119,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
-  ) {
+  ): any {
     const {env, messages, onAction, mobileUI, render} = this.props;
     const store = this.store;
 
@@ -176,15 +176,36 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.openDialog(
-        ctx,
-        undefined,
-        action.callback,
-        delegate || (this.context as any)
-      );
+      return new Promise<any>(resolve => {
+        store.openDialog(
+          ctx,
+          undefined,
+          (confirmed: any, value: any) => {
+            action.callback?.(confirmed, value);
+            resolve({
+              confirmed,
+              value
+            });
+          },
+          delegate || (this.context as any)
+        );
+      });
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.openDrawer(ctx, undefined, undefined, delegate);
+      return new Promise<any>(resolve => {
+        store.openDrawer(
+          ctx,
+          undefined,
+          (confirmed: any, value: any) => {
+            action.callback?.(confirmed, value);
+            resolve({
+              confirmed,
+              value
+            });
+          },
+          delegate
+        );
+      });
     } else if (action.actionType === 'toast') {
       action.toast?.items?.forEach((item: any) => {
         env.notify(
@@ -287,7 +308,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     const reload = action.reload ?? dialogAction.reload;
     const scoped = store.getDialogScoped() || (this.context as IScopedContext);
 
-    store.closeDialog(true);
+    store.closeDialog(true, values);
 
     if (reload) {
       scoped.reload(reload, store.data);
@@ -323,7 +344,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     const reload = action.reload ?? drawerAction.reload;
     const scoped = store.getDrawerScoped() || (this.context as IScopedContext);
 
-    store.closeDrawer();
+    store.closeDrawer(true, values);
 
     // 稍等会，等动画结束。
     setTimeout(() => {
@@ -335,7 +356,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
   handleDrawerClose() {
     const store = this.store;
-    store.closeDrawer();
+    store.closeDrawer(false);
   }
 
   openFeedback(dialog: any, ctx: any) {
