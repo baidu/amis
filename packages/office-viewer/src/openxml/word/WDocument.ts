@@ -5,7 +5,7 @@
  */
 
 import {Color} from '../../util/color';
-import {parseColorAttr} from '../../parse/parseColor';
+import {parseColorAttr} from '../../word/parse/parseColor';
 import Word from '../../Word';
 import {DocumentBackground} from './Background';
 import {Body} from './Body';

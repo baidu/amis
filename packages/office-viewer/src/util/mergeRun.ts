@@ -2,7 +2,7 @@
  * 合并 p 下相同的文本，主要是为了方便替换变量
  */
 
-import {parsePr} from '../parse/parsePr';
+import {parsePr} from '../word/parse/parsePr';
 import Word from '../Word';
 
 /**

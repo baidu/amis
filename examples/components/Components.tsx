@@ -991,10 +991,19 @@ export const components = [
         )
       },
       {
-        label: 'OfficeViewer 文档渲染',
+        label: 'OfficeViewer Word 渲染',
         path: '/zh-CN/components/office-viewer',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/office-viewer.md').then(wrapDoc)
+        )
+      },
+      {
+        label: 'OfficeViewer Excel 渲染',
+        path: '/zh-CN/components/office-viewer-excel',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/office-viewer-excel.md').then(
+            wrapDoc
+          )
         )
       },
       {

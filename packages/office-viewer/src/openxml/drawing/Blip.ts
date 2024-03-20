@@ -1,4 +1,4 @@
-import {Relationship} from '../../parse/parseRelationship';
+import {Relationship} from '../../word/parse/parseRelationship';
 import Word from '../../Word';
 
 export class Blip {
