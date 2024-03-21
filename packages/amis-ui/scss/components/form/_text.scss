@@ -1,10 +1,6 @@
 .#{$ns}TextControl {
   @include input-text();
 
-  .InputText-clear {
-    content: var(--input-clearable-icon);
-  }
-
   &-clear {
     padding: 0 var(--Form-input-clearBtn-padding);
   }
@@ -494,6 +490,10 @@
       height: var(--input-password-invisible-icon-size);
     }
   }
+}
+
+.InputText-clear.icon {
+  content: var(--input-clearable-icon);
 }
 
 // 特殊处理 input-password。否则 form 内联模式，icon 会换行

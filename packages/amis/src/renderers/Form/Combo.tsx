@@ -13,7 +13,8 @@ import {
   evalExpressionWithConditionBuilder,
   IFormStore,
   getVariable,
-  IFormItemStore
+  IFormItemStore,
+  deleteVariable
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -291,7 +292,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   testIdBuilder?: TestIdBuilder;
 }
 
-export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
+export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange' | 'dragEnd';
 
 function pickVars(vars: any, fields: Array<string>) {
   return fields.reduce((data: any, key: string) => {
@@ -723,11 +724,30 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleChange(values: any, diff: any, {index}: any) {
-    const {flat, store, joinValues, delimiter, disabled, submitOnChange, type} =
-      this.props;
+    const {
+      flat,
+      store,
+      joinValues,
+      delimiter,
+      disabled,
+      submitOnChange,
+      type,
+      syncFields,
+      name
+    } = this.props;
 
     if (disabled) {
       return;
+    }
+
+    // 不要递归更新自己
+    if (Array.isArray(syncFields)) {
+      syncFields.forEach(field => {
+        if (name?.startsWith(field)) {
+          values = {...values};
+          deleteVariable(values, name);
+        }
+      });
     }
 
     let value = this.getValueAsArray();
@@ -834,8 +854,20 @@ export default class ComboControl extends React.Component<ComboProps> {
       onChange,
       submitOnChange,
       setPrinstineValue,
-      formItem
+      formItem,
+      name,
+      syncFields
     } = this.props;
+
+    // 不要递归更新自己
+    if (Array.isArray(syncFields)) {
+      syncFields.forEach(field => {
+        if (name?.startsWith(field)) {
+          values = {...values};
+          deleteVariable(values, name);
+        }
+      });
+    }
 
     // 已经开始验证了，那么打开成员的时候，就要验证一下。
     if (formItem?.validated) {
@@ -1050,6 +1082,17 @@ export default class ComboControl extends React.Component<ComboProps> {
           newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
           this.keys.splice(e.newIndex, 0, this.keys.splice(e.oldIndex, 1)[0]);
           this.props.onChange(newValue, submitOnChange, true);
+
+          this.props.dispatchEvent(
+            'dragEnd',
+            resolveEventData(this.props, {
+              item: newValue[e.newIndex],
+              value: newValue,
+              index: e.newIndex,
+              oldValue: value,
+              oldIndex: e.oldIndex
+            })
+          );
         }
       }
     );

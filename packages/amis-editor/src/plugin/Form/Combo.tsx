@@ -162,6 +162,51 @@ export class ComboControlPlugin extends BasePlugin {
       }
     },
     {
+      eventName: 'dragEnd',
+      eventLabel: '拖拽结束',
+      description: '当组合项拖拽结束且位置发生变化时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  index: {
+                    type: 'number',
+                    title: '拖拽后的索引'
+                  },
+                  oldIndex: {
+                    type: 'number',
+                    title: '拖拽前的索引'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '被拖拽的项'
+                  },
+                  value: {
+                    type: 'string',
+                    ...value,
+                    title: '拖拽前组合项的值'
+                  },
+                  oldValue: {
+                    type: 'string',
+                    ...value,
+                    title: '拖拽后组合项的值'
+                  }
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    {
       eventName: 'tabsChange',
       eventLabel: '切换tab',
       description: '当设置 tabsMode 为 true 时，切换选项卡时触发',

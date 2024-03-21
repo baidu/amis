@@ -5442,6 +5442,85 @@ value 结构说明：
 }
 ```
 
+#### 提交数据更改
+
+通过表达式或者行号更新数据后，并不会提交到后端，需要添加 `submitQuickEdit` 动作来提交。
+
+```schema
+{
+  type: 'page',
+  data: {
+    i: '3,5'
+  },
+  body: [
+    [
+      {
+        "type": "button",
+        "label": "更新index为3和5的行记录并提交",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "index": "${i}"
+                }
+              },
+
+              {
+                "actionType": "submitQuickEdit",
+                "componentId": "crud_setvalue_item"
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "type": "crud",
+        "id": "crud_setvalue_item",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+        "headerToolbar": [
+          {
+            "type": "tpl",
+            "tpl": "记录总数：${count}"
+          }
+        ],
+        "columns": [
+          {
+            "name": "id",
+            "label": "ID",
+            "id": "u:3db3f2b1b99e"
+          },
+          {
+            "name": "engine",
+            "label": "engine",
+            "id": "u:0b9be99f3403"
+          },
+          {
+            "name": "version",
+            "label": "version",
+            "id": "u:4868d7db0139"
+          }
+        ]
+      }
+  ]
+  ]
+}
+```
+
 #### 行记录中字段赋值
 
 需要通过表达式配置动态`id`和`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。

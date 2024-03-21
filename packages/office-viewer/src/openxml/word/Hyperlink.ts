@@ -2,7 +2,7 @@
  * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/hyperlink_2.html
  */
 
-import {Relationship} from '../../parse/parseRelationship';
+import {Relationship} from '../../word/parse/parseRelationship';
 import Word from '../../Word';
 import {Run} from './Run';
 

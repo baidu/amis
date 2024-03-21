@@ -1,0 +1,613 @@
+/* 从 office 365 抄来的，目前主要作为参考，由于版权问题只下载了等线做测试 */
+
+@font-face {
+  font-family: msofp;
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fs.microsoft.com/fs/4.9/flat_officeFontsPreview.ttf)
+    format('truetype');
+}
+@font-face {
+  font-family: Aharoni;
+  src: local('Aharoni'),
+    url(https://fs.microsoft.com/fs/4.9/rawguids/27490885900);
+}
+@font-face {
+  font-family: 'Aptos Display';
+  src: local('Aptos Display'),
+    url(https://fs.microsoft.com/fs/4.35/rawguids/23001069669);
+}
+@font-face {
+  font-family: 'Aptos Narrow';
+  src: local('Aptos Narrow'),
+    url(https://fs.microsoft.com/fs/4.35/rawguids/31558910439);
+}
+@font-face {
+  font-family: 'Angsana New';
+  src: local('Angsana New'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/289217233594);
+}
+@font-face {
+  font-family: 'Arial Black';
+  src: local('Arial Black'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/36152637550);
+}
+@font-face {
+  font-family: Batang;
+  src: local('Batang'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: '\ubc14\ud0d5';
+  src: local('\ubc14\ud0d5'), local('Batang'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: BatangChe;
+  src: local('BatangChe'), local('\ubc14\ud0d5\uccb4'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: '\ubc14\ud0d5';
+  src: local('\ubc14\ud0d5\uccb4'), local('BatangChe'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: 'Book Antiqua';
+  src: local('Book Antiqua'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/40122424405);
+}
+@font-face {
+  font-family: 'Browallia New';
+  src: local('Browallia New'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/291604924610);
+}
+@font-face {
+  font-family: Cambria;
+  src: local('Cambria'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/87548952391);
+}
+@font-face {
+  font-family: Candara;
+  src: local('Candara'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/38835860617);
+}
+@font-face {
+  font-family: Century;
+  src: local('Century'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/38027012730);
+}
+@font-face {
+  font-family: 'Comic Sans MS';
+  src: local('Comic Sans MS'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/34621977852);
+}
+@font-face {
+  font-family: Consolas;
+  src: local('Consolas'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/33167468773);
+}
+@font-face {
+  font-family: Constantia;
+  src: local('Constantia'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/31448377222);
+}
+@font-face {
+  font-family: Corbel;
+  src: local('Corbel'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/35115404204);
+}
+@font-face {
+  font-family: 'Cordia New';
+  src: local('Cordia New'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/298741729875);
+}
+@font-face {
+  font-family: 'Courier New';
+  src: local('Courier New'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/39673202522);
+}
+@font-face {
+  font-family: DengXian;
+  src: local('DengXian'),
+    url(https://fs.microsoft.com/fs/4.9/rawguids/53665963276);
+}
+@font-face {
+  font-family: '\u7b49\u7ebf';
+  src: local('\u7b49\u7ebf'), local('DengXian'),
+    url(https://fs.microsoft.com/fs/4.9/rawguids/53665963276);
+}
+@font-face {
+  font-family: DilleniaUPC;
+  src: local('DilleniaUPC'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/31371064924);
+}
+@font-face {
+  font-family: Dotum;
+  src: local('Dotum'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: '\ub3cb\uc6c0';
+  src: local('\ub3cb\uc6c0'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: DotumChe;
+  src: local('DotumChe'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: '\ub3cb\uc6c0\uccb4';
+  src: local('\ub3cb\uc6c0\uccb4'), local('DotumChe'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: FangSong;
+  src: local('FangSong'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/29400494812);
+}
+@font-face {
+  font-family: '\u4eff\u5b8b';
+  src: local('\u4eff\u5b8b'), local('FangSong'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/29400494812);
+}
+@font-face {
+  font-family: Garamond;
+  src: local('Garamond'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/36480320667);
+}
+@font-face {
+  font-family: Georgia;
+  src: local('Georgia'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/35602463917);
+}
+@font-face {
+  font-family: Gulim;
+  src: local('Gulim'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: '\uad74\ub9bc';
+  src: local('\uad74\ub9bc'), local('Gulim'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/156326683380);
+}
+@font-face {
+  font-family: Gungsuh;
+  src: local('Gungsuh'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: '\uad81\uc11c';
+  src: local('\uad81\uc11c'), local('Gungsuh'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/161036472418);
+}
+@font-face {
+  font-family: KaiTi;
+  src: local('KaiTi'), url(https://fs.microsoft.com/fs/4.7/rawguids/28214366148);
+}
+@font-face {
+  font-family: '\u6977\u4f53';
+  src: local('\u6977\u4f53'), local('KaiTi'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/28214366148);
+}
+@font-face {
+  font-family: JasmineUPC;
+  src: local('JasmineUPC'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/29339734237);
+}
+@font-face {
+  font-family: 'Malgun Gothic';
+  src: local('Malgun Gothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/41226677490);
+}
+@font-face {
+  font-family: '\ub9d1\uc740 \uace0\ub515';
+  src: local('\ub9d1\uc740 \uace0\ub515'), local('Malgun Gothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/41226677490);
+}
+@font-face {
+  font-family: Mangal;
+  src: local('Mangal'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/41732083461);
+}
+@font-face {
+  font-family: Meiryo;
+  src: local('Meiryo'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/128117683827);
+}
+@font-face {
+  font-family: '\u30e1\u30a4\u30ea\u30aa';
+  src: local('\u30e1\u30a4\u30ea\u30aa'), local('Meiryo'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/128117683827);
+}
+@font-face {
+  font-family: 'Microsoft JhengHei';
+  src: local('Microsoft JhengHei'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/78992571833);
+}
+@font-face {
+  font-family: 'Microsoft YaHei';
+  src: local('Microsoft YaHei'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/91766082489);
+}
+@font-face {
+  font-family: MingLiU;
+  src: local('MingLiU'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: '\u7d30\u660e\u9ad4';
+  src: local('MingLiU'), local('\u7d30\u660e\u9ad4'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: MingLiU_HKSCS;
+  src: local('MingLiU_HKSCS'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: '\u7d30\u660e\u9ad4_HKSCS';
+  src: local('MingLiU_HKSCS'), local('\u7d30\u660e\u9ad4_HKSCS'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: 'MS Gothic';
+  src: local('MS Gothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/126469790770);
+}
+@font-face {
+  font-family: '\uff2d\uff33 \u30b4\u30b7\u30c3\u30af';
+  src: local('\uff2d\uff33 \u30b4\u30b7\u30c3\u30af'), local('MS Gothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/126469790770);
+}
+@font-face {
+  font-family: 'MS Mincho';
+  src: local('MS Mincho'), local('\uff2d\uff33 \u660e\u671d'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/79832647984);
+}
+@font-face {
+  font-family: '\uff2d\uff33 \u660e\u671d';
+  src: local('MS Mincho'), local('\uff2d\uff33 \u660e\u671d'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/79832647984);
+}
+@font-face {
+  font-family: 'MS PGothic';
+  src: local('MS PGothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/126469790770);
+}
+@font-face {
+  font-family: '\uff2d\uff33 \uff30\u30b4\u30b7\u30c3\u30af';
+  src: local('\uff2d\uff33 \uff30\u30b4\u30b7\u30c3\u30af'), local('MS PGothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/126469790770);
+}
+@font-face {
+  font-family: 'MS PMincho';
+  src: local('MS PMincho'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/79832647984);
+}
+@font-face {
+  font-family: '\uff2d\uff33 \uff30\u660e\u671d';
+  src: local('MS PMincho'), local('\uff2d\uff33 \uff30\u660e\u671d'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/79832647984);
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: local('Open Sans'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/24492784331);
+}
+@font-face {
+  font-family: PMingLiU;
+  src: local('PMingLiU'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: '\u65b0\u7d30\u660e\u9ad4';
+  src: local('\u65b0\u7d30\u660e\u9ad4'), local('PMingLiU'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/107373335009);
+}
+@font-face {
+  font-family: PMingLiU-ExtB;
+  src: local('PMingLiU-ExtB'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/100045330013);
+}
+@font-face {
+  font-family: '\u65b0\u7d30\u660e\u9ad4-ExtB';
+  src: local('\u65b0\u7d30\u660e\u9ad4-ExtB'), local('PMingLiU-ExtB'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/100045330013);
+}
+@font-face {
+  font-family: Roboto;
+  src: local('Roboto'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/26892287593);
+}
+@font-face {
+  font-family: SimHei;
+  src: local('SimHei'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/32980441079);
+}
+@font-face {
+  font-family: '\u9ed1\u4f53';
+  src: local('\u9ed1\u4f53'), local('SimHei'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/32980441079);
+}
+@font-face {
+  font-family: SimSun;
+  src: local('SimSun'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/88761586021);
+}
+@font-face {
+  font-family: '\u5b8b\u4f53';
+  src: local('\u5b8b\u4f53'), local('SimSun'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/88761586021);
+}
+@font-face {
+  font-family: SimSun-ExtB;
+  src: local('SimSun-ExtB'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/27824684633);
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: local('Source Sans Pro'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/35021733747);
+}
+@font-face {
+  font-family: Tahoma;
+  src: local('Tahoma'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/50941620409);
+}
+@font-face {
+  font-family: 'TH SarabunPSK';
+  src: local('TH SarabunPSK'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/40796829544);
+}
+@font-face {
+  font-family: 'Trebuchet MS';
+  src: local('Trebuchet MS'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/34633337668);
+}
+@font-face {
+  font-family: Verdana;
+  src: local('Verdana'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/31984381249);
+}
+@font-face {
+  font-family: 'Yu Gothic';
+  src: local('Yu Gothic'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/59386888943);
+}
+@font-face {
+  font-family: '\u6e38\u30b4\u30b7\u30c3\u30af';
+  src: local('Yu Gothic'), local('\u6e38\u30b4\u30b7\u30c3\u30af'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/59386888943);
+}
+@font-face {
+  font-family: 'Yu Mincho';
+  src: local('Yu Mincho'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/31515951246);
+}
+@font-face {
+  font-family: '\u6e38\u660e\u671d';
+  src: local('\u6e38\u660e\u671d'), local('Yu Mincho'),
+    url(https://fs.microsoft.com/fs/4.7/rawguids/31515951246);
+}
+@font-face {
+  font-family: HGGothicE;
+  src: local('HGGothicE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: 'HG\uff7a\uff9e\uff7c\uff6f\uff78E';
+  src: local('HG\uff7a\uff9e\uff7c\uff6f\uff78E'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: HGMaruGothicMPRO;
+  src: local('HGGothicE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/28193954534);
+}
+@font-face {
+  font-family: 'HG\u4e38\uff7a\uff9e\uff7c\uff6f\uff78M-PRO';
+  src: local('HG\u4e38\uff7a\uff9e\uff7c\uff6f\uff78M-PRO'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/28193954534);
+}
+@font-face {
+  font-family: HGMinchoE;
+  src: local('HGMinchoE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: 'HG\u660e\u671dE';
+  src: local('HG\u660e\u671dE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: HGPGothicE;
+  src: local('HGPGothicE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: 'HGP\uff7a\uff9e\uff7c\uff6f\uff78E';
+  src: local('HGP\uff7a\uff9e\uff7c\uff6f\uff78E'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: HGPMinchoE;
+  src: local('HGPMinchoE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: 'HGP\u660e\u671dE';
+  src: local('HGP\u660e\u671dE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: HGPSoeiKakugothicUB;
+  src: local('HGPSoeiKakugothicUB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: 'HGP\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB';
+  src: local('HGP\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: HGSGothicE;
+  src: local('HGSGothicE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: 'HGS\uff7a\uff9e\uff7c\uff6f\uff78E';
+  src: local('HGS\uff7a\uff9e\uff7c\uff6f\uff78E'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/83208183430);
+}
+@font-face {
+  font-family: HGSMinchoE;
+  src: local('HGSMinchoE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: 'HGS\u660e\u671dE';
+  src: local('HGS\u660e\u671dE'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/67824027433);
+}
+@font-face {
+  font-family: HGSSoeiKakugothicUB;
+  src: local('HGSSoeiKakugothicUB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: 'HGS\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB';
+  src: local('HGS\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: HGSoeiKakugothicUB;
+  src: local('HGSoeiKakugothicUB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: 'HG\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB';
+  src: local('HG\u5275\u82f1\u89d2\uff7a\uff9e\uff7c\uff6f\uff78UB'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/81181548348);
+}
+@font-face {
+  font-family: 'MS UI Gothic';
+  src: local('MS UI Gothic'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/126469790770);
+}
+@font-face {
+  font-family: 'Meiryo UI';
+  src: local('Meiryo UI'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/128117683827);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho N-B';
+  src: local('UD Digi Kyokasho N-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho N-R';
+  src: local('UD Digi Kyokasho N-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-R';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho NK-B';
+  src: local('UD Digi Kyokasho NK-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NK-B';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NK-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho NK-R';
+  src: local('UD Digi Kyokasho NK-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NK-R';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NK-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho NP-B';
+  src: local('UD Digi Kyokasho NP-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NP-B';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NP-B'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/80295677972);
+}
+@font-face {
+  font-family: 'UD Digi Kyokasho NP-R';
+  src: local('UD Digi Kyokasho NP-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NP-R';
+  src: local('UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 NP-R'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/72819386698);
+}
+@font-face {
+  font-family: 'Yu Gothic Light';
+  src: local('Yu Gothic Light'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/63234296555);
+}
+@font-face {
+  font-family: '\u6e38\u30b4\u30b7\u30c3\u30af';
+  src: local('Yu Gothic Light'), local('\u6e38\u30b4\u30b7\u30c3\u30af'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/63234296555);
+}
+@font-face {
+  font-family: 'Yu Gothic Medium';
+  src: local('Yu Gothic Medium'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/79019533632);
+}
+@font-face {
+  font-family: 'Yu Gothic UI Light';
+  src: local('Yu Gothic UI Light'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/63234296555);
+}
+@font-face {
+  font-family: 'Yu Gothic UI';
+  src: local('Yu Gothic UI'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/118823493255);
+}
+@font-face {
+  font-family: 'Yu Gothic UI Semibold';
+  src: local('Yu Gothic UI Semibold'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/71559817051);
+}
+@font-face {
+  font-family: 'Yu Gothic UI Semilight';
+  src: local('Yu Gothic UI Semilight'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/71559817051);
+}
+@font-face {
+  font-family: 'Yu Mincho Demibold';
+  src: local('Yu Mincho Demibold'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/32128654173);
+}
+@font-face {
+  font-family: '\u6e38\u660e\u671d';
+  src: local('\u6e38\u660e\u671d'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/32128654173);
+}
+@font-face {
+  font-family: 'Yu Mincho Light';
+  src: local('Yu Mincho Light'),
+    url(https://fs.microsoft.com/fs/4.16/rawguids/32976986095);
+}

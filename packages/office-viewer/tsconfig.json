@@ -5,6 +5,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
     "typeRoots": [
       "../../types",
       "./node_modules/@types",

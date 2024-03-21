@@ -224,8 +224,7 @@ export class StatusControl extends React.Component<
                 label: '表达式',
                 name: 'expression',
                 placeholder: `请输入${label}条件`,
-                visibleOn: 'this.statusType === 2',
-                onChange: (value: any) => {}
+                visibleOn: 'this.statusType === 2'
               })
             ]
           },

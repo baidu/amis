@@ -317,7 +317,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
   .actions(self => {
     const form = self.form as IFormStore;
-    const dialogCallbacks = new SimpleMap<(result?: any) => void>();
+    const dialogCallbacks = new SimpleMap<
+      (confirmed?: any, result?: any) => void
+    >();
     let loadAutoUpdateCancel: Function | null = null;
 
     const initHooks: Array<(store: any) => any> = [];
@@ -1441,7 +1443,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearError();
     }
 
-    function openDialog(schema: any, ctx: any, callback?: (ret?: any) => void) {
+    function openDialog(
+      schema: any,
+      ctx: any,
+      callback?: (confirmed?: any, value?: any) => void
+    ) {
       if (schema.data) {
         self.dialogData = dataMapping(schema.data, ctx);
       } else {
@@ -1453,13 +1459,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       callback && dialogCallbacks.set(self.dialogData, callback);
     }
 
-    function closeDialog(result?: any) {
+    function closeDialog(confirmed?: any, result?: any) {
       const callback = dialogCallbacks.get(self.dialogData);
       self.dialogOpen = false;
 
       if (callback) {
         dialogCallbacks.delete(self.dialogData);
-        setTimeout(() => callback(result), 200);
+        setTimeout(() => callback(confirmed, result), 200);
       }
     }
 

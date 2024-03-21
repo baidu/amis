@@ -37,7 +37,9 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     }
   }))
   .actions(self => {
-    const dialogCallbacks = new SimpleMap<(result?: any) => void>();
+    const dialogCallbacks = new SimpleMap<
+      (confirmed?: any, value?: any) => void
+    >();
     let dialogScoped: IScopedContext | null = null;
     let drawerScoped: IScopedContext | null = null;
     let top: IRootStore | null = null;
@@ -178,7 +180,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
       openDialog(
         ctx: any,
         additonal?: object,
-        callback?: (ret: any) => void,
+        callback?: (confirmed: boolean, values: any) => void,
         scoped?: IScopedContext
       ) {
         const chain = extractObjectChain(ctx);
@@ -211,7 +213,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         dialogScoped = scoped || null;
       },
 
-      closeDialog(result?: any) {
+      closeDialog(confirmed?: any, data?: any) {
         const callback = dialogCallbacks.get(self.dialogData);
 
         self.dialogOpen = false;
@@ -219,14 +221,14 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         if (callback) {
           dialogCallbacks.delete(self.dialogData);
-          setTimeout(() => callback(result), 200);
+          setTimeout(() => callback(confirmed, data), 200);
         }
       },
 
       openDrawer(
         ctx: any,
         additonal?: object,
-        callback?: (ret: any) => void,
+        callback?: (confirmed: boolean, ret: any) => void,
         scoped?: IScopedContext
       ) {
         const chain = extractObjectChain(ctx);
@@ -264,14 +266,14 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         drawerScoped = scoped || null;
       },
 
-      closeDrawer(result?: any) {
+      closeDrawer(confirmed?: any, data?: any) {
         const callback = dialogCallbacks.get(self.drawerData);
         self.drawerOpen = false;
         drawerScoped = null;
 
         if (callback) {
           dialogCallbacks.delete(self.drawerData);
-          setTimeout(() => callback(result), 200);
+          setTimeout(() => callback(confirmed, data), 200);
         }
       },
 

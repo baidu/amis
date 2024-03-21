@@ -4,7 +4,8 @@ import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {escapeFormula} from '../util';
-import {set} from 'lodash';
+import merge from 'lodash/merge';
+import set from 'lodash/set';
 
 export class EachPlugin extends BasePlugin {
   static id = 'EachPlugin';
@@ -362,10 +363,13 @@ export class EachPlugin extends BasePlugin {
     props.value = [{}, {}];
 
     props.className = `${props.className || ''} ae-Editor-list`;
-    if (props.items && !props.items.className?.includes('listItem')) {
-      props.items.className = `${
-        props.items.className || ''
-      } ae-Editor-eachItem`;
+    if (props.items && !props.items.className?.includes('eachItem')) {
+      props.items = merge(
+        {
+          className: `${props.items.className || ''} ae-Editor-eachItem`
+        },
+        props.items
+      );
     }
 
     return props;

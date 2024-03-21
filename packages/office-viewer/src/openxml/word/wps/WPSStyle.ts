@@ -3,7 +3,7 @@
  */
 
 import Word from '../../../Word';
-import {parseChildColor} from '../../../parse/parseChildColor';
+import {parseChildColor} from '../../../word/parse/parseChildColor';
 
 export class WPSStyle {
   lineColor?: string;
@@ -19,15 +19,24 @@ export class WPSStyle {
       const tagName = child.tagName;
       switch (tagName) {
         case 'a:fillRef':
-          wpsStyle.fillColor = parseChildColor(word, child);
+          wpsStyle.fillColor = parseChildColor(
+            c => word.getThemeColor(c),
+            child
+          );
           break;
 
         case 'a:lnRef':
-          wpsStyle.lineColor = parseChildColor(word, child);
+          wpsStyle.lineColor = parseChildColor(
+            c => word.getThemeColor(c),
+            child
+          );
           break;
 
         case 'a:fontRef':
-          wpsStyle.fontColor = parseChildColor(word, child);
+          wpsStyle.fontColor = parseChildColor(
+            c => word.getThemeColor(c),
+            child
+          );
           break;
       }
     }

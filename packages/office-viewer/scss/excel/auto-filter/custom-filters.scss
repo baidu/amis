@@ -1,0 +1,21 @@
+.ov-excel-auto-filter-menu__custom-filters {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+/** 单个规则 */
+.ov-excel-auto-filter-menu__custom-filters-item-input {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4px;
+}
+
+.ov-excel-auto-filter-menu__custom-filters-item-input > select {
+  margin-right: 4px;
+}
+
+.ov-excel-auto-filter-menu__custom-filters .excel-radio-wrapper {
+  margin: 4px 0;
+  text-align: center;
+}

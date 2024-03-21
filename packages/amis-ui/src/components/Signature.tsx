@@ -136,22 +136,30 @@ const Signature: React.FC<ISignatureProps> = props => {
               onClick={clear}
               tooltip={clearBtnLabel || __('Signature.clear')}
             >
-              {clearBtnLabel ? clearBtnLabel : <Icon icon="fas fa-close" />}
+              {clearBtnLabel ? (
+                clearBtnLabel
+              ) : (
+                <Icon icon="close" className="icon" />
+              )}
             </Button>
             <Button
               onClick={undo}
               tooltip={undoBtnLabel || __('Signature.undo')}
             >
-              {undoBtnLabel ? undoBtnLabel : <Icon icon="fas fa-undo" />}
+              {undoBtnLabel ? (
+                undoBtnLabel
+              ) : (
+                <Icon icon="undo-normal" className="icon" />
+              )}
             </Button>
 
             {fullScreen ? (
               <Button onClick={handleUnFullScreen}>
-                <Icon icon="fas fa-compress" />
+                <Icon icon="un-fullscreen" className="icon" />
               </Button>
             ) : (
               <Button onClick={handleFullScreen}>
-                <Icon icon="fas fa-expand" />
+                <Icon icon="full-screen" className="icon" />
               </Button>
             )}
           </div>

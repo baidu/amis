@@ -1,0 +1,24 @@
+.ov-excel-scrollbar-y {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $scroll-bar-z-index;
+}
+
+.ov-excel-scrollbar-x {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $scroll-bar-z-index;
+}
+
+.ov-excel-scrollbar-content-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.ov-excel-scrollbar-content-y {
+  overflow-x: hidden;
+}

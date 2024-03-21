@@ -20,37 +20,27 @@ const external = id =>
       .join('|')})`
   ).test(id);
 
+function outputFile(fileName, format) {
+  return {
+    input: [fileName],
+    output: [
+      {
+        ...settings,
+        dir: format === 'cjs' ? path.dirname(main) : path.dirname(module),
+        format: format,
+        exports: 'named',
+        preserveModulesRoot: './src',
+        preserveModules: true // Keep directory structure and files
+      }
+    ],
+    external: external,
+    plugins: getPlugins(format)
+  };
+}
+
 export default [
-  {
-    input: ['./src/index.ts'],
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(main),
-        format: 'cjs',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: true // Keep directory structure and files
-      }
-    ],
-    external: external,
-    plugins: getPlugins('cjs')
-  },
-  {
-    input: ['./src/index.ts'],
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(module),
-        format: 'esm',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: true // Keep directory structure and files
-      }
-    ],
-    external: external,
-    plugins: getPlugins('esm')
-  }
+  outputFile('./src/index.ts', 'cjs'),
+  outputFile('./src/index.ts', 'esm')
 ];
 
 function getPlugins(format = 'esm') {

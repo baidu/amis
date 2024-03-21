@@ -1,0 +1,34 @@
+/* Excel sheet 标签页 */
+.ov-excel-sheet-tab-bar {
+  height: 32px;
+  line-height: 32px;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--bar-bg-color);
+}
+
+@import './sheet-tab/tab-list.scss';
+
+.ov-excel-sheet-tab-bar__status {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.ov-excel-sheet-tab-bar__status-text {
+  margin-right: 16px;
+}
+
+.ov-excel-sheet-tab-bar__zoom-level {
+  display: flex;
+  flex-direction: row;
+  padding: 0 8px;
+}
+
+.ov-excel-sheet-tab-bar__zoom-value {
+  margin: 0 8px;
+}
+
+.ov-excel-sheet-tab-bar__zoom-in,
+.ov-excel-sheet-tab-bar__zoom-out {
+  cursor: pointer;
+}

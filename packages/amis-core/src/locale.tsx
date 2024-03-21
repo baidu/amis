@@ -162,9 +162,12 @@ export function localeable<
           translate: translate!
         };
         moment.locale(momentLocaleMap?.[locale] ?? locale);
-        const refConfig = ComposedComponent.prototype?.isReactComponent
-          ? {ref: this.childRef}
-          : {forwardedRef: this.childRef};
+        const refConfig =
+          ComposedComponent.prototype?.isReactComponent ||
+          (ComposedComponent as any).$$typeof ===
+            Symbol.for('react.forward_ref')
+            ? {ref: this.childRef}
+            : {forwardedRef: this.childRef};
 
         const body = (
           <ComposedComponent

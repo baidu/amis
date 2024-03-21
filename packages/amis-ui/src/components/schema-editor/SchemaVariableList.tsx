@@ -8,7 +8,7 @@ import {
   themeable,
   ThemeProps
 } from 'amis-core';
-import {VariableItem} from '../formula/Editor';
+import {VariableItem} from '../formula/CodeEditor';
 import VariableList from '../formula/VariableList';
 import TooltipWrapper from '../TooltipWrapper';
 

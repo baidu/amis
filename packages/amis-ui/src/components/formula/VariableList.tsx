@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 
-import {themeable, ThemeProps, filterTree} from 'amis-core';
+import {themeable, ThemeProps, filterTree, mapTree} from 'amis-core';
 import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
 
-import type {VariableItem} from './Editor';
+import type {VariableItem} from './CodeEditor';
 import type {ItemRenderStates} from '../Selection';
 import type {Option} from '../Select';
 import type {TabsMode} from '../Tabs';
@@ -85,7 +85,6 @@ export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
 function VariableList(props: VariableListProps) {
   const variableListRef = React.useRef<HTMLDivElement>(null);
   const {
-    data: list,
     className,
     classnames: cx,
     tabsMode = 'line',
@@ -97,14 +96,37 @@ function VariableList(props: VariableListProps) {
     selfVariableName,
     expandTree
   } = props;
-  const [filterVars, setFilterVars] = React.useState(list);
+  const [variables, setVariables] = React.useState<Array<VariableItem>>([]);
+  const [filterVars, setFilterVars] = React.useState<Array<VariableItem>>([]);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
 
-  useEffect(() => {
-    const {data} = props;
-    if (data) {
-      setFilterVars(data);
-    }
+  React.useEffect(() => {
+    // 追加path，用于分级高亮
+    const list = mapTree(
+      props.data,
+      (item: any, key: number, level: number, paths: any[]) => {
+        const path = paths?.reduce((prev, item) => {
+          return !item.value
+            ? prev
+            : `${prev}${prev ? '.' : ''}${item.label ?? item.value}`;
+        }, '');
+
+        return {
+          ...item,
+          path: `${path}${path ? '.' : ''}${item.label}`,
+          // 自己是数组成员或者父级有数组成员
+          ...(item.isMember || paths.some(item => item.isMember)
+            ? {
+                memberDepth: paths?.filter((item: any) => item.type === 'array')
+                  ?.length
+              }
+            : {})
+        };
+      }
+    );
+
+    setVariables(list);
+    setFilterVars(list);
   }, [props.data]);
 
   const itemRender =
@@ -217,7 +239,7 @@ function VariableList(props: VariableListProps) {
 
   function onSearch(term: string) {
     const tree = filterTree(
-      list,
+      variables,
       (i: any, key: number, level: number, paths: any[]) => {
         return !!(
           (Array.isArray(i.children) && i.children.length) ||
@@ -231,7 +253,7 @@ function VariableList(props: VariableListProps) {
       true
     );
 
-    setFilterVars(!term ? list : tree);
+    setFilterVars(!term ? variables : tree);
   }
 
   function renderSearchBox() {

@@ -2,6 +2,8 @@
  * 拷贝自 amis 里的方法，避免依赖
  */
 
+import {isObject} from './isObject';
+
 export function createObject(
   superProps?: {[propName: string]: any},
   props?: {[propName: string]: any},
@@ -44,16 +46,4 @@ export function cloneObject(target: any, persistOwnProps: boolean = true) {
     target &&
     Object.keys(target).forEach(key => (obj[key] = target[key]));
   return obj;
-}
-
-export function isObject(obj: any) {
-  const typename = typeof obj;
-  return (
-    obj &&
-    typename !== 'string' &&
-    typename !== 'number' &&
-    typename !== 'boolean' &&
-    typename !== 'function' &&
-    !Array.isArray(obj)
-  );
 }

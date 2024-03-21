@@ -1,5 +1,5 @@
 import {getVal} from '../../OpenXML';
-import {parseSize} from '../../parse/parseSize';
+import {parseSize} from '../../word/parse/parseSize';
 import Word from '../../Word';
 import {ST_TabJc, ST_TabTlc} from '../Types';
 

@@ -12,6 +12,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {repeatArray} from 'amis-editor-core';
 import set from 'lodash/set';
 import {escapeFormula, resolveArrayDatasource} from '../util';
+import merge from 'lodash/merge';
 
 export class List2Plugin extends BasePlugin {
   static id = 'List2Plugin';
@@ -450,7 +451,12 @@ export class List2Plugin extends BasePlugin {
     props.className = `${props.className || ''} ae-Editor-list`;
     props.itemsClassName = `${props.itemsClassName || ''} cards-items`;
     if (props.card && !props.card.className?.includes('listItem')) {
-      props.card.className = `${props.card.className || ''} ae-Editor-listItem`;
+      props.card = merge(
+        {
+          className: `${props.card.className || ''} ae-Editor-listItem`
+        },
+        props.card
+      );
     }
 
     // 列表类型内的文本元素显示原始公式

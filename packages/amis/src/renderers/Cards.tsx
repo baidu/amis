@@ -1,6 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps, buildStyle, getPropValue} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  buildStyle,
+  evalExpressionWithConditionBuilder,
+  getPropValue
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
@@ -1108,4 +1114,38 @@ export class CardsRenderer extends Cards {
   avatarClassName?: string;
   body?: SchemaNode;
   actions?: Array<ActionObject>;
+
+  async setData(
+    values: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
+    const {store} = this.props;
+
+    if (index !== undefined) {
+      let items = store.items;
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items[intIndex]?.updateData(values);
+      });
+    } else if (condition !== undefined) {
+      let items = store.items;
+      const len = items.length;
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item.data
+        );
+
+        if (isUpdate) {
+          item.updateData(values);
+        }
+      }
+    } else {
+      return store.updateData(values, undefined, replace);
+    }
+  }
 }

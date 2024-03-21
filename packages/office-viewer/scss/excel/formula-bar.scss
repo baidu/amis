@@ -1,0 +1,32 @@
+/* Excel 公式栏 */
+.ov-excel-formula-bar {
+  height: 34px;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--bar-bg-color);
+}
+
+.ov-excel-formula-bar__name-box {
+  text-align: center;
+  width: 64px;
+  margin: 4px 0 4px 4px;
+  padding: 0 4px;
+  line-height: 26px;
+  border: 1px solid #e1dfdd;
+  background-color: var(--bar-input-bg-color);
+}
+
+/* fx 按钮 */
+.ov-excel-formula-bar__function-button {
+  width: 30px;
+}
+
+/* fx 按钮右边的输入框 */
+.ov-excel-formula-bar__text-box {
+  margin: 4px;
+  line-height: 26px;
+  border: 1px solid #e1dfdd;
+  flex: 1;
+  padding: 0 4px;
+  background-color: var(--bar-input-bg-color);
+}

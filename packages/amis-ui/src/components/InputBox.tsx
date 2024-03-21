@@ -22,6 +22,7 @@ export interface InputBoxProps
   children?: React.ReactNode | Array<React.ReactNode>;
   borderMode?: 'full' | 'half' | 'none';
   testIdBuilder?: TestIdBuilder;
+  inputRender?: (props: any, ref?: any) => JSX.Element;
 }
 
 export interface InputBoxState {
@@ -52,7 +53,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const onChange = this.props.onChange;
-    onChange && onChange(e.currentTarget.value);
+    onChange && onChange(e.currentTarget ? e.currentTarget.value : (e as any));
   }
 
   @autobind
@@ -89,6 +90,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       onClick,
       mobileUI,
       testIdBuilder,
+      inputRender,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -107,17 +109,30 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       >
         {result}
 
-        <Input
-          {...rest}
-          value={value ?? ''}
-          onChange={this.handleChange}
-          placeholder={placeholder}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          size={12}
-          disabled={disabled}
-          {...testIdBuilder?.getTestId()}
-        />
+        {typeof inputRender === 'function' ? (
+          inputRender({
+            ...rest,
+            value: value ?? '',
+            onChange: this.handleChange as any,
+            placeholder,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+            disabled,
+            ...testIdBuilder?.getTestId()
+          })
+        ) : (
+          <Input
+            {...rest}
+            value={value ?? ''}
+            onChange={this.handleChange}
+            placeholder={placeholder}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            size={12}
+            disabled={disabled}
+            {...testIdBuilder?.getTestId()}
+          />
+        )}
 
         {children}
 

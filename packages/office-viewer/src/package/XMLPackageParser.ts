@@ -101,6 +101,13 @@ export default class XMLPackageParser implements PackageParser {
     return null;
   }
 
+  /**
+   * 读取文本内容
+   */
+  getString(filePath: string): string {
+    return this.getFileByType(filePath, 'string') as string;
+  }
+
   saveFile(filePath: string, content: Uint8Array | string): void {
     this.files[filePath] = content;
   }
