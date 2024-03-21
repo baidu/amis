@@ -2701,12 +2701,6 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <>
-        {renderItemActions({
-          store,
-          classnames: cx,
-          render,
-          itemActions
-        })}
         <TableContent
           testIdBuilder={testIdBuilder}
           tableClassName={cx(
@@ -2761,7 +2755,14 @@ export default class Table extends React.Component<TableProps, object> {
           dispatchEvent={dispatchEvent}
           onEvent={onEvent}
           loading={store.loading} // store 的同步较慢，所以统一用 store 来下发，否则会出现 props 和 store 变化触发子节点两次 re-rerender
-        />
+        >
+          {renderItemActions({
+            store,
+            classnames: cx,
+            render,
+            itemActions
+          })}
+        </TableContent>
 
         <Spinner loadingConfig={loadingConfig} overlay show={store.loading} />
       </>
