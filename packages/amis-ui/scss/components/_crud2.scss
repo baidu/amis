@@ -7,6 +7,10 @@
     margin-bottom: var(--gap-base);
   }
 
+  .#{$ns}Table-render-wrapper {
+    position: relative;
+  }
+
   &-selectionLabel {
     display: inline-block;
     vertical-align: top;
