@@ -32,6 +32,8 @@ export class AutoFilterIconUI {
 
   autoFilter: CT_AutoFilter;
 
+  removeClickOutsideEvent: () => void;
+
   constructor(
     sheet: Sheet,
     dataContainer: HTMLElement,
@@ -72,7 +74,7 @@ export class AutoFilterIconUI {
     );
 
     filterIcon.addEventListener('click', this.handleClick.bind(this));
-    onClickOutside(filterIconContainer, () => {
+    this.removeClickOutsideEvent = onClickOutside(filterIconContainer, () => {
       this.hideMenu();
     });
   }
@@ -135,5 +137,10 @@ export class AutoFilterIconUI {
 
   hide() {
     this.filterIconContainer.style.display = 'none';
+  }
+
+  destroy() {
+    this.filterIconContainer.remove();
+    this.removeClickOutsideEvent();
   }
 }

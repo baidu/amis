@@ -63,15 +63,13 @@ export class FormulaBar {
     });
     this.textBox = textBox;
 
-    const textInput = new Input(
-      textBox,
-      '',
-      '',
-      value => {
+    const textInput = new Input({
+      container: textBox,
+      onChange: value => {
         this.changeCellValue(value);
       },
-      'borderLess'
-    );
+      style: 'borderLess'
+    });
     this.textInput = textInput;
   }
 

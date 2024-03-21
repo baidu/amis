@@ -34,14 +34,13 @@ export class CheckBoxList {
       parent: container
     });
 
-    const searchInput = new Input(
-      wrapper,
-      searchPlaceholder,
-      '',
-      (text: string) => {
+    const searchInput = new Input({
+      container: wrapper,
+      placeholder: searchPlaceholder,
+      onChange: text => {
         this.handleSearch(text);
       }
-    );
+    });
 
     this.searchInput = searchInput;
 

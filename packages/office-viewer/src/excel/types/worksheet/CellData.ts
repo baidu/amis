@@ -92,6 +92,17 @@ export function updateValue(value: string = '', cellData?: CellData): CellData {
     return value;
   }
 
+  if ('type' in cellData && cellData.type === 'blank') {
+    if (cellData.s !== undefined) {
+      return {
+        type: 'style',
+        value,
+        s: cellData.s
+      };
+    }
+    return value;
+  }
+
   if ('value' in cellData) {
     return {
       ...cellData,
