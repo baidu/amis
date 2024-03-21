@@ -1056,6 +1056,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         if (!!link.disabled) {
           return false;
         }
+        // 如果是mount的时候，使用用户配置的active
+        if (motivation === 'mount' && link.active) {
+          return link.active;
+        }
         return (
           motivation !== 'location-change' &&
           ((depth === level
