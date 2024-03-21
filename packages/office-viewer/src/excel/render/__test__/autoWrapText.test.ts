@@ -7,8 +7,8 @@ import {autoWrapText} from '../cell/autoWrapText';
  * canvas 在不同操作系统下表现不一致，所以这里 mock 一下来保证测试的稳定性
  */
 const mockCtx = {
-  save: jest.fn(),
-  restore: jest.fn(),
+  save: () => {},
+  restore: () => {},
   measureText: (text: string) => {
     const width = stringToArray(text).length * 10;
     return {

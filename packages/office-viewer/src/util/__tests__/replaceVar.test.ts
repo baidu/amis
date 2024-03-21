@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import Word from '../../Word';
+import {Word} from '../../index';
 import {replaceVar} from '../replaceVar';
 import {buildXML} from '../xml';
 import {mergeRun} from '../mergeRun';

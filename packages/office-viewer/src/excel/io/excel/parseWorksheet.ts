@@ -1,4 +1,4 @@
-import {xml2json} from '../../../util/xml';
+import {parseXML, xml2json} from '../../../util/xml';
 import {IWorksheet} from '../../types/IWorksheet';
 
 import {StringItem} from '../../types/StringItem';
@@ -24,6 +24,7 @@ import {initValueForContainsBlanks} from './initValueForContainsBlanks';
 import {parseTableParts} from './parseTableParts';
 import {initValueForTable} from './initValueForTable';
 import {IWorkbook} from '../../types/IWorkbook';
+import {xmlToNode} from '../../../util/xmlToNode';
 
 /**
  * 解析 xl/worksheets/sheet*.xml 文件
@@ -39,7 +40,9 @@ export async function parseWorksheet(
   if (!xml) {
     return null;
   }
+
   const node = await xml2json(xml);
+
   const worksheet: IWorksheet = {
     cols: [],
     rows: [],
