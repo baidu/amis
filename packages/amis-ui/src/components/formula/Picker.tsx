@@ -5,12 +5,7 @@ import {
   uncontrollable
 } from 'amis-core';
 import React from 'react';
-import {
-  FormulaEditor,
-  FormulaEditorProps,
-  FuncGroup,
-  VariableItem
-} from './Editor';
+import {FormulaEditor, FormulaEditorProps} from './Editor';
 import {
   autobind,
   noop,
@@ -28,6 +23,8 @@ import {Icon} from '../icons';
 import Modal from '../Modal';
 import PopUp from '../PopUp';
 import FormulaInput from './Input';
+import {FuncGroup, VariableItem} from './CodeEditor';
+import {functionDocs} from 'amis-formula';
 
 export const InputSchemaType = [
   'text',
@@ -180,6 +177,8 @@ export interface FormulaPickerProps
    */
   onPickerOpen?: (props: FormulaPickerProps) => any;
 
+  functionsFilter?: (functions: Array<FuncGroup>) => Array<FuncGroup>;
+
   children?: (props: {
     onClick: (e: React.MouseEvent) => void;
     setState: (state: any) => void;
@@ -218,6 +217,7 @@ export class FormulaPicker extends React.Component<
     evalMode: true
   };
 
+  unmounted = false;
   constructor(props: FormulaPickerProps) {
     super(props);
     this.props.onRef && this.props.onRef(this);
@@ -249,6 +249,7 @@ export class FormulaPicker extends React.Component<
         this.setState({variables: result});
       }
     }
+    this.buildFunctions();
   }
 
   async componentDidUpdate(prevProps: FormulaPickerProps) {
@@ -274,12 +275,47 @@ export class FormulaPicker extends React.Component<
         this.setState({variables: result});
       }
     }
+
+    if (prevProps.functions !== this.props.functions) {
+      this.buildFunctions();
+    }
+  }
+
+  componentWillUnmount(): void {
+    this.unmounted = true;
+  }
+
+  async buildFunctions(
+    functions = this.props.functions,
+    setState = true
+  ): Promise<any> {
+    const functionList = await FormulaEditor.buildFunctions(
+      functions,
+      this.props.functionsFilter
+    );
+    if (this.unmounted) {
+      return;
+    }
+
+    if (!setState) {
+      return functionList;
+    }
+
+    this.setState({
+      functions: functionList
+    });
   }
 
   value2EditorValue(props: FormulaPickerProps) {
-    const {value} = props;
+    const {value, mixedMode, inputSettings} = props;
 
-    if (!this.isTextInput()) {
+    if (
+      mixedMode &&
+      typeof value === 'string' &&
+      /^\s*\$\{([\s\S]+)\}\s*$/.test(value)
+    ) {
+      return RegExp.$1;
+    } else if (typeof value !== 'string') {
       let editorValue = '';
 
       try {
@@ -287,20 +323,9 @@ export class FormulaPicker extends React.Component<
       } catch (error) {}
 
       return editorValue;
+    } else {
+      return value ? (mixedMode ? `\`${value}\`` : value) : '';
     }
-
-    if (props.mixedMode) {
-      if (
-        typeof props.value === 'string' &&
-        /^\s*\$\{(.+?)\}\s*$/.test(props.value)
-      ) {
-        return RegExp.$1;
-      } else {
-        return '';
-      }
-    }
-
-    return String(props.value || '');
   }
 
   isTextInput() {
@@ -322,22 +347,6 @@ export class FormulaPicker extends React.Component<
     } else {
       this.props.onChange?.(value);
     }
-  }
-
-  @autobind
-  renderFormulaValue(item: any) {
-    const {allowInput, classnames: cx} = this.props;
-    const html = {__html: item.html};
-    if (allowInput) {
-      return '';
-    }
-
-    return (
-      <div
-        className={cx('FormulaPicker-ResultBox')}
-        dangerouslySetInnerHTML={html}
-      ></div>
-    );
   }
 
   @autobind
@@ -364,22 +373,17 @@ export class FormulaPicker extends React.Component<
     const {translate: __, inputSettings} = this.props;
     const {editorValue} = this.state;
 
-    if (this.isTextInput()) {
-      return this.confirm(editorValue);
-    } else if (inputSettings) {
+    if (
+      inputSettings?.type &&
+      ['boolean', 'number'].includes(inputSettings?.type)
+    ) {
       let result = editorValue;
-      const schemaType = inputSettings?.type;
+      // const schemaType = inputSettings?.type;
 
       try {
         const ast = parse(editorValue, {evalMode: true, allowFilter: false});
 
-        if (
-          schemaType === 'select' &&
-          inputSettings.multiple &&
-          ast.type === 'array'
-        ) {
-          result = ast.members.map((i: any) => i.value);
-        } else if (ast.type === 'literal' || ast.type === 'string') {
+        if (ast.type === 'literal' || ast.type === 'string') {
           result = ast.value ?? '';
         }
       } catch (error) {
@@ -390,19 +394,28 @@ export class FormulaPicker extends React.Component<
       this.setState({isError: false});
       return this.confirm(result);
     }
+    return this.confirm(editorValue);
   }
 
-  confirm(value: string) {
+  confirm(value: any) {
     const {mixedMode} = this.props;
     const validate = this.validate(value);
 
     if (validate === true) {
-      this.setState(
-        {value: mixedMode && value ? `\${${value}}` : value},
-        () => {
-          this.close(undefined, () => this.handleConfirm());
-        }
-      );
+      let result = value;
+
+      if (mixedMode && typeof value === 'string') {
+        result =
+          !value.includes('$') &&
+          value[0] === '`' &&
+          value[value.length - 1] === '`'
+            ? value.substring(1, value.length - 1)
+            : `\${${value}}`;
+      }
+
+      this.setState({value: result}, () => {
+        this.close(undefined, () => this.handleConfirm());
+      });
     } else {
       this.setState({isError: validate});
     }
@@ -452,6 +465,9 @@ export class FormulaPicker extends React.Component<
       isOpened: true
     };
 
+    if (state.functions) {
+      state.functions = await this.buildFunctions(state.functions, false);
+    }
     this.setState(state);
   }
 
@@ -508,7 +524,7 @@ export class FormulaPicker extends React.Component<
     try {
       value &&
         parse(value, {
-          evalMode: this.props.mixedMode ? true : this.props.evalMode,
+          evalMode: this.props.mixedMode ? false : this.props.evalMode,
           allowFilter: false
         });
 
@@ -609,31 +625,25 @@ export class FormulaPicker extends React.Component<
             )}
             {mode === 'input-button' && (
               <>
-                <ResultBox
+                <FormulaInput
                   className={cx(
                     'FormulaPicker-input',
                     isOpened ? 'is-active' : '',
                     !!isError ? 'is-error' : ''
                   )}
+                  inputSettings={inputSettings}
                   allowInput={allowInput}
                   clearable={clearable}
+                  evalMode={mixedMode ? false : evalMode}
+                  variables={this.state.variables!}
+                  functions={this.state.functions ?? functions}
                   value={value}
-                  result={
-                    allowInput
-                      ? void 0
-                      : FormulaEditor.highlightValue(
-                          value,
-                          this.state.variables!,
-                          this.props.evalMode
-                        )
-                  }
-                  itemRender={this.renderFormulaValue}
-                  onResultChange={noop}
                   onChange={this.handleInputChange}
                   disabled={disabled}
                   borderMode={borderMode}
                   placeholder={placeholder}
                 />
+
                 <Button
                   className={cx('FormulaPicker-action')}
                   onClick={this.handleClick}
@@ -658,11 +668,10 @@ export class FormulaPicker extends React.Component<
                   inputSettings={inputSettings}
                   allowInput={allowInput}
                   clearable={clearable}
-                  evalMode={evalMode}
-                  mixedMode={mixedMode}
+                  evalMode={mixedMode ? false : evalMode}
                   variables={this.state.variables!}
+                  functions={this.state.functions ?? functions}
                   value={value}
-                  itemRender={this.renderFormulaValue}
                   onChange={this.handleInputChange}
                   disabled={disabled}
                   borderMode={borderMode}

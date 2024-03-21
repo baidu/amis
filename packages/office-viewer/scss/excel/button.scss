@@ -1,0 +1,22 @@
+.excel-button {
+  height: 32px;
+  color: rgb(255, 255, 255);
+  padding: 0px 11px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: top;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  margin-right: 4px;
+  width: 64px;
+}
+
+.excel-button-primary {
+  background-color: rgb(0, 120, 212);
+}

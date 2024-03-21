@@ -33,9 +33,9 @@
       & > .CodeMirror {
         height: 100%;
         font-family: inherit;
-        span[class^='cm-'] {
-          color: var(--input-default-default-color);
-        }
+        // span[class^='cm-'] {
+        //   color: var(--input-default-default-color);
+        // }
 
         // 解决上下 pre标签中表达式浮层遮挡问题
         .CodeMirror-measure + div {

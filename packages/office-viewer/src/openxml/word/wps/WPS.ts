@@ -7,13 +7,13 @@ import {ShapePr} from '../../drawing/ShapeProperties';
 
 import Word from '../../../Word';
 import {Table} from '../Table';
-import {parseTable} from '../../../parse/parseTable';
+import {parseTable} from '../../../word/parse/parseTable';
 import {CSSStyle} from '../../../openxml/Style';
 import {
   ST_TextAnchoringType,
   ST_TextVerticalType
 } from '../../../openxml/Types';
-import {convertAngle} from '../../../parse/parseSize';
+import {convertAngle} from '../../../word/parse/parseSize';
 import {WPSStyle} from './WPSStyle';
 
 export type TxbxContentChild = Paragraph | Table;

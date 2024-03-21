@@ -2,15 +2,15 @@
  * http://officeopenxml.com/WPtable.php
  */
 
-import {parseSize} from '../../parse/parseSize';
+import {parseSize} from '../../word/parse/parseSize';
 import Word from '../../Word';
 import {CSSStyle} from '../Style';
 
 import {Properties} from './properties/Properties';
 import type {Tr} from './table/Tr';
-import {parseTablePr} from '../../parse/parseTablePr';
+import {parseTablePr} from '../../word/parse/parseTablePr';
 import {Tc} from './table/Tc';
-import {parseTr} from '../../parse/parseTr';
+import {parseTr} from '../../word/parse/parseTr';
 
 export type TblLookKey =
   | 'firstRow'

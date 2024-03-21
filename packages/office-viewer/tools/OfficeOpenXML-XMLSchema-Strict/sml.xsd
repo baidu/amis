@@ -3425,6 +3425,9 @@
     <xsd:sequence>
       <xsd:element name="start" type="CT_BorderPr" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="end" type="CT_BorderPr" minOccurs="0" maxOccurs="1"/>
+      <!-- 这个是自己加的，原本定义漏了 -->
+      <xsd:element name="left" type="CT_BorderPr" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="right" type="CT_BorderPr" minOccurs="0" maxOccurs="1" />
       <xsd:element name="top" type="CT_BorderPr" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="bottom" type="CT_BorderPr" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="diagonal" type="CT_BorderPr" minOccurs="0" maxOccurs="1"/>

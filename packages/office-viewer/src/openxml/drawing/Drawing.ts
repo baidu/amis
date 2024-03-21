@@ -2,13 +2,13 @@
  * 目前图片和 textbox 都会依赖这个
  */
 
-import {LengthUsage, convertLength} from '../../parse/parseSize';
+import {LengthUsage, convertLength} from '../../word/parse/parseSize';
 import {CSSStyle} from './../Style';
 
 import {getAttrBoolean, getAttrNumber, getValBoolean} from '../../OpenXML';
 import Word from '../../Word';
 import {Pic} from './Pic';
-import {parseSize} from '../../parse/parseSize';
+import {parseSize} from '../../word/parse/parseSize';
 import {ST_RelFromH, ST_RelFromV} from '../Types';
 import {WPS} from '../word/wps/WPS';
 import {Diagram} from './diagram/Diagram';

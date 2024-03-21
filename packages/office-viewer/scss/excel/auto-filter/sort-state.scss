@@ -1,0 +1,38 @@
+.excel-auto-filter__menu-sort {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  padding: 8px;
+}
+
+.ov-excel-auto-filter__sort-button {
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  line-height: 24px;
+  height: 24px;
+  padding: 2px;
+}
+
+.ov-excel-auto-filter__sort-button-text {
+  flex: 1;
+}
+
+.ov-excel-auto-filter__sort-button-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.ov-excel-auto-filter__sort-button-icon svg {
+  height: 100%;
+  width: 100%;
+}
+
+.ov-excel-auto-filter__sort-button:hover {
+  background-color: #f5f5f5;
+}
+
+.ov-excel-auto-filter__sort-button-active {
+  background-color: #f5f5f5;
+}

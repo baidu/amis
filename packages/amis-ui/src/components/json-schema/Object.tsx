@@ -97,12 +97,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
 
   const emitChange = () => {
     const members: Array<JSONSchemaObjectMember> = membersRef.current!;
-    const value =
-      props.schema.additionalProperties === false
-        ? {}
-        : {
-            ...props.value
-          };
+    const value: any = {};
 
     members.forEach(member => {
       if (

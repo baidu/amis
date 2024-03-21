@@ -2,6 +2,7 @@ import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../store/form';
 import {reaction} from 'mobx';
+import {isAlive} from 'mobx-state-tree';
 
 import {
   renderersMap,
@@ -637,12 +638,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     let onInit = () => {
       this.initedOptionFilled = true;
       initAutoFill !== false &&
+        isAlive(model) &&
         this.syncOptionAutoFill(
           model.getSelectedOptions(model.tmpValue),
           initAutoFill === 'fillIfNotSet'
         );
       this.initedApiFilled = true;
       initAutoFill !== false &&
+        isAlive(model) &&
         this.syncApiAutoFill(
           model.tmpValue ?? '',
           false,
@@ -740,13 +743,17 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       trigger === type &&
       (mode === 'dialog' || mode === 'drawer')
     ) {
-      formItem?.openDialog(this.buildAutoFillSchema(), data, result => {
-        if (!result?.selectedItems) {
-          return;
-        }
+      formItem?.openDialog(
+        this.buildAutoFillSchema(),
+        data,
+        (confirmed, result) => {
+          if (!result?.selectedItems) {
+            return;
+          }
 
-        this.updateAutoFillData(result.selectedItems);
-      });
+          this.updateAutoFillData(result.selectedItems);
+        }
+      );
     }
   }
 
@@ -1086,7 +1093,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
 
     return new Promise(resolve =>
-      model.openDialog(schema, data, (result?: any) => resolve(result))
+      model.openDialog(schema, data, (confirmed: any, value: any) =>
+        resolve(confirmed ? value : false)
+      )
     );
   }
 
@@ -1097,7 +1106,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return;
     }
 
-    model.closeDialog(values);
+    model.closeDialog(true, values);
   }
 
   @autobind

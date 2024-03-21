@@ -19,7 +19,7 @@ import {
   TooltipWrapper
 } from 'amis';
 import {FormulaExec, isExpression} from 'amis';
-import {FormulaEditor} from 'amis-ui';
+import {FormulaCodeEditor, FormulaEditor} from 'amis-ui';
 
 import FormulaPicker, {
   CustomFormulaPickerProps
@@ -29,7 +29,7 @@ import {JSONPipeOut, autobind, translateSchema} from 'amis-editor-core';
 import type {
   VariableItem,
   FuncGroup
-} from 'amis-ui/lib/components/formula/Editor';
+} from 'amis-ui/lib/components/formula/CodeEditor';
 import {FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
@@ -42,6 +42,11 @@ export enum FormulaDateType {
   IsRange // 日期时间范围类
 }
 
+/**
+ * @deprecated 废弃，直接用 codemirror 渲染输入框即可，自带高亮
+ * @param item
+ * @returns
+ */
 export function renderFormulaValue(item: any) {
   const html = {__html: typeof item === 'string' ? item : item?.html};
   // bca-disable-next-line
@@ -189,6 +194,9 @@ export default class FormulaControl extends React.Component<
         this.appCorpusData = editorStore?.appCorpusData;
       }
     );
+
+    const variables = await getVariables(this);
+    this.setState({variables});
   }
 
   componentWillUnmount() {
@@ -346,8 +354,8 @@ export default class FormulaControl extends React.Component<
   transExpr(str: string) {
     if (
       typeof str === 'string' &&
-      str?.slice(0, 2) === '${' &&
-      str?.slice(-1) === '}'
+      str.slice(0, 2) === '${' &&
+      str.slice(-1) === '}'
     ) {
       // 非最外层内容还存在表达式情况
       if (isExpression(str.slice(2, -1))) {
@@ -363,7 +371,7 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   handleConfirm(value: any) {
-    value = value.replace(/\r\n|\r|\n/g, ' ');
+    // value = value.replace(/\r\n|\r|\n/g, ' ');
     const val = !value
       ? undefined
       : isExpression(value) || this.hasDateShortcutkey(value)
@@ -580,12 +588,6 @@ export default class FormulaControl extends React.Component<
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
 
-    const highlightValue = isExpression(value)
-      ? FormulaEditor.highlightValue(exprValue, variables) || {
-          html: exprValue
-        }
-      : value;
-
     // 公式表达式弹窗内容过滤
     const filterValue = isExpression(value)
       ? exprValue
@@ -651,40 +653,38 @@ export default class FormulaControl extends React.Component<
               tooltipTheme: 'dark',
               mouseLeaveDelay: 20,
               content: exprValue,
-              children: () => renderFormulaValue(highlightValue)
+              tooltipClassName: 'btn-configured-tooltip',
+              children: () => (
+                <FormulaCodeEditor
+                  readOnly
+                  value={value}
+                  variables={variables}
+                  evalMode={false}
+                  editorTheme="dark"
+                />
+              )
             }}
           >
-            <div className="ae-editor-FormulaControl-tooltipBox">
-              <div
-                className="ae-editor-FormulaControl-ResultBox-wrapper"
+            <div className={cx('ae-editor-FormulaControl-tooltipBox')}>
+              <InputBox
                 onClick={this.handleFormulaClick}
-              >
-                <ResultBox
-                  className={cx(
-                    'ae-editor-FormulaControl-ResultBox',
-                    isError ? 'is-error' : ''
-                  )}
-                  allowInput={false}
-                  value={value}
-                  result={{
-                    html: this.hasDateShortcutkey(value)
-                      ? value
-                      : highlightValue?.html
-                  }}
-                  itemRender={renderFormulaValue}
-                  onChange={this.handleInputChange}
-                  onResultChange={() => {
-                    this.handleInputChange(undefined);
-                  }}
-                />
-              </div>
-              {value && (
-                <Icon
-                  icon="input-clear"
-                  className="input-clear-icon"
-                  onClick={() => this.handleInputChange('')}
-                />
-              )}
+                hasError={isError}
+                inputRender={({value, onChange, onFocus, onBlur}: any) => (
+                  <FormulaCodeEditor
+                    singleLine
+                    value={value}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    functions={[]}
+                    variables={variables}
+                    evalMode={false}
+                    readOnly
+                  />
+                )}
+                value={value}
+                onChange={this.handleInputChange}
+              />
             </div>
           </TooltipWrapper>
         )}

@@ -22,6 +22,7 @@ interface ActionDialogProp {
   show: boolean;
   type: string;
   data: any;
+  closeOnEsc?: boolean;
   pluginActions: PluginActions; // 组件的动作列表
   actionTree: RendererPluginAction[]; // 动作树
   commonActions?: {[propName: string]: RendererPluginAction}; // 公共动作Map
@@ -223,7 +224,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       getComponents,
       commonActions,
       onClose,
-      render
+      render,
+      closeOnEsc
     } = this.props;
     const commonUseActionSchema = this.getCommonUseActionSchema();
 
@@ -235,7 +237,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         headerClassName: 'font-bold',
         className: 'action-config-dialog',
         bodyClassName: 'action-config-dialog-body',
-        closeOnEsc: true,
+        closeOnEsc: closeOnEsc,
         closeOnOutside: false,
         show,
         showCloseButton: true,

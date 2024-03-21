@@ -2,8 +2,8 @@
  * header 的定义，footer 也是用这个，因为结构是一样的
  */
 
-import {mergeSdt} from '../../parse/mergeSdt';
-import {parseTable} from '../../parse/parseTable';
+import {mergeSdt} from '../../word/parse/mergeSdt';
+import {parseTable} from '../../word/parse/parseTable';
 import Word from '../../Word';
 import {Paragraph} from './Paragraph';
 import {Table} from './Table';

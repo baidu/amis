@@ -5,7 +5,7 @@
  */
 
 import Word from '../../Word';
-import {parseSize} from '../../parse/parseSize';
+import {parseSize} from '../../word/parse/parseSize';
 import {ST_PageOrientation} from '../Types';
 import {Hyperlink} from './Hyperlink';
 import {Paragraph} from './Paragraph';

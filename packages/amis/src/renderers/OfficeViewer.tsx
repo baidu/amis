@@ -16,7 +16,7 @@ import {
   resolveVariableAndFilter,
   ScopedContext
 } from 'amis-core';
-import type {Word} from 'office-viewer';
+import type {Word, Excel} from 'office-viewer';
 import {Spinner} from 'amis-ui';
 import {Payload} from '../types';
 
@@ -55,12 +55,14 @@ export default class OfficeViewer extends React.Component<
 > {
   rootElement: React.RefObject<HTMLDivElement>;
 
-  word: Word;
+  office: Word | Excel;
 
   fileName?: string;
 
   // 文档数据，避免 update 参数的时候重复加载
   document?: any;
+
+  finalSrc?: string;
 
   constructor(props: OfficeViewerProps) {
     super(props);
@@ -112,7 +114,7 @@ export default class OfficeViewer extends React.Component<
         this.renderWord();
       } else {
         // 默认只更新变量提升性能
-        this.word?.updateVariable();
+        this.office?.updateVariable();
       }
     }
   }
@@ -124,11 +126,11 @@ export default class OfficeViewer extends React.Component<
     const actionType = action?.actionType as string;
 
     if (actionType === 'saveAs') {
-      this.word?.download(args?.name || this.fileName);
+      this.office?.download(args?.name || this.fileName);
     }
 
     if (actionType === 'print') {
-      this.word?.print();
+      this.office?.print();
     }
   }
 
@@ -171,6 +173,9 @@ export default class OfficeViewer extends React.Component<
       console.warn('file src is empty');
       return;
     }
+
+    this.finalSrc = finalSrc;
+
     let response: Payload;
 
     this.setState({
@@ -195,32 +200,69 @@ export default class OfficeViewer extends React.Component<
     }
   }
 
+  async initOffice(officeViewer: any, file?: ArrayBuffer) {
+    const {
+      wordOptions,
+      excelOptions,
+      env,
+      src,
+      data,
+      translate: __
+    } = this.props;
+    const createOfficeViewer = officeViewer.createOfficeViewer;
+    const office = await createOfficeViewer(
+      file || this.document,
+      {},
+      this.finalSrc
+    );
+
+    if (office instanceof officeViewer.Word) {
+      office.updateOptions({
+        ...wordOptions,
+        data,
+        evalVar: this.evalVar.bind(this)
+      });
+    } else if (office instanceof officeViewer.Excel) {
+      office.updateOptions({
+        ...excelOptions,
+        data,
+        evalVar: this.evalVar.bind(this)
+      });
+      await office.loadExcel();
+    }
+
+    return office;
+  }
+
   /**
    * 渲染远端文件
    */
   async renderRemoteWord() {
-    const {wordOptions, env, src, data, display, translate: __} = this.props;
+    const {
+      wordOptions,
+      excelOptions,
+      env,
+      src,
+      data,
+      display,
+      translate: __
+    } = this.props;
 
     if (!this.document) {
       return;
     }
 
     import('office-viewer').then(async (officeViewer: any) => {
-      const Word = officeViewer.Word;
-      const word = new Word(this.document, {
-        ...wordOptions,
-        data,
-        evalVar: this.evalVar.bind(this)
-      });
+      const office = await this.initOffice(officeViewer);
 
       if (display !== false) {
-        word.render(this.rootElement?.current!);
+        office.render(this.rootElement?.current!);
       } else if (display === false && this.rootElement?.current) {
         // 设置为 false 后清空
         this.rootElement.current.innerHTML = '';
       }
 
-      this.word = word;
+      this.office = office;
     });
   }
 
@@ -236,18 +278,14 @@ export default class OfficeViewer extends React.Component<
         const data = reader.result as ArrayBuffer;
 
         import('office-viewer').then(async (officeViewer: any) => {
-          const Word = officeViewer.Word;
-          const word = new Word(data, {
-            ...wordOptions,
-            evalVar: this.evalVar.bind(this)
-          });
+          const office = await this.initOffice(officeViewer, data);
           if (display !== false) {
-            word.render(this.rootElement?.current!);
+            office.render(this.rootElement?.current!);
           } else if (display === false && this.rootElement?.current) {
             // 设置为 false 后清空
             this.rootElement.current.innerHTML = '';
           }
-          this.word = word;
+          this.office = office;
         });
       };
       reader.readAsArrayBuffer(file);

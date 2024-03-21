@@ -42,6 +42,12 @@ function checkString(
   return check(buffer, stringToBytes(string), options);
 }
 
+export function fileTypeFromArrayBuffer(
+  arrayBuffer: ArrayBuffer
+): FileType | null {
+  return fileTypeFromBuffer(new Uint8Array(arrayBuffer.slice(0, 20)));
+}
+
 export function fileTypeFromBuffer(buffer: Uint8Array): FileType | null {
   if (check(buffer, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) {
     return {ext: 'png', mime: 'image/png'};
@@ -69,6 +75,21 @@ export function fileTypeFromBuffer(buffer: Uint8Array): FileType | null {
 
   if (checkString(buffer, '%PDF')) {
     return {ext: 'pdf', mime: 'application/pdf'};
+  }
+
+  if (check(buffer, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])) {
+    // Detected Microsoft Compound File Binary File (MS-CFB) Format.
+    return {
+      ext: 'cfb',
+      mime: 'application/x-cfb'
+    };
+  }
+
+  if (check(buffer, [0x50, 0x4b, 0x3, 0x4])) {
+    return {
+      ext: 'zip',
+      mime: 'application/zip'
+    };
   }
 
   return null;

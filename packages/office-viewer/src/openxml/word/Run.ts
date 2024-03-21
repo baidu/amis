@@ -1,5 +1,5 @@
 import {getVal} from '../../OpenXML';
-import {parsePr} from '../../parse/parsePr';
+import {parsePr} from '../../word/parse/parsePr';
 import Word from '../../Word';
 import {ST_FldCharType, ST_VerticalAlignRun} from '../Types';
 import {Break} from './Break';

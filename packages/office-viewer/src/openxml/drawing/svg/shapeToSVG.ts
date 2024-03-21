@@ -7,16 +7,33 @@
 import {Color} from '../../../util/color';
 import {createSVGElement} from '../../../util/dom';
 import {WPSStyle} from '../../word/wps/WPSStyle';
+import {CustomGeom} from '../CustomGeom';
+import {Geom} from '../Geom';
 import {Shape, ShapeGuide} from '../Shape';
-import {ShapePr} from '../ShapeProperties';
+import {OutLine, ShapePr} from '../ShapeProperties';
+import {Transform} from '../Transform';
 import {evalFmla} from './formulas';
 import {Point, Var, generateDefines} from './generateDefines';
 import {presetVal} from './presetVal';
 
+/**
+ * 通用 shape 属性，用于统一 Word 和 Excel
+ */
+type CommonShapePr = {
+  // 边框样式
+  outline?: OutLine;
+
+  // 填充颜色
+  fillColor?: string;
+
+  // 不填充
+  noFill?: boolean;
+};
+
 export function shapeToSVG(
   shape: Shape,
   avLst: ShapeGuide[],
-  shapePr: ShapePr,
+  shapePr: CommonShapePr,
   width: number,
   height: number,
   wpsStyle?: WPSStyle

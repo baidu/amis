@@ -5,9 +5,9 @@
 import {ST_PresetLineDashVal, ST_ShapeType} from '../Types';
 import Word from '../../Word';
 import {Transform} from './Transform';
-import {parseSize, LengthUsage} from '../../parse/parseSize';
+import {parseSize, LengthUsage} from '../../word/parse/parseSize';
 import {Geom} from './Geom';
-import {parseChildColor} from '../../parse/parseChildColor';
+import {parseChildColor} from '../../word/parse/parseChildColor';
 import {CustomGeom} from './CustomGeom';
 
 function prstDashToCSSBorderType(prstDash: ST_PresetLineDashVal) {
@@ -39,7 +39,10 @@ export type OutLine = {
   radius?: string;
 };
 
-function parseOutline(word: Word, element: Element) {
+export function parseOutline(
+  getThemeColor: (c: string) => string,
+  element: Element
+) {
   const borderWidth = parseSize(element, 'w', LengthUsage.Emu);
   const outline: OutLine = {
     width: borderWidth
@@ -51,8 +54,7 @@ function parseOutline(word: Word, element: Element) {
     const tagName = child.tagName;
     switch (tagName) {
       case 'a:solidFill':
-        outline.color = parseChildColor(word, child);
-
+        outline.color = parseChildColor(getThemeColor, child);
         break;
 
       case 'a:noFill':
@@ -117,7 +119,7 @@ export class ShapePr {
 
           case 'a:ln':
             // http://officeopenxml.com/drwSp-outline.php
-            shapePr.outline = parseOutline(word, child);
+            shapePr.outline = parseOutline(c => word.getThemeColor(c), child);
             break;
 
           case 'a:noFill':
@@ -125,7 +127,10 @@ export class ShapePr {
             break;
 
           case 'a:solidFill':
-            shapePr.fillColor = parseChildColor(word, child);
+            shapePr.fillColor = parseChildColor(
+              c => word.getThemeColor(c),
+              child
+            );
             break;
 
           default:

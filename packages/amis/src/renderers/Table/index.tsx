@@ -2796,6 +2796,9 @@ export default class Table extends React.Component<TableProps, object> {
         store.stopDragging();
         store.toggleDragging();
         break;
+      case 'submitQuickEdit':
+        this.handleSave();
+        break;
       default:
         this.handleAction(undefined, action, data);
         break;
@@ -2902,31 +2905,26 @@ export class TableRenderer extends Table {
     const {store} = this.props;
 
     if (index !== undefined) {
-      let items = [...store.data.rows];
+      let items = store.rows;
       const indexs = String(index).split(',');
       indexs.forEach(i => {
         const intIndex = Number(i);
-        items.splice(intIndex, 1, values);
+        items[intIndex]?.updateData(values);
       });
-      // 更新指定行记录，只需要提供行记录即可
-      return store.updateData({rows: items}, undefined, replace);
     } else if (condition !== undefined) {
-      let items = [...store.data.rows];
+      let items = store.rows;
       const len = items.length;
       for (let i = 0; i < len; i++) {
         const item = items[i];
         const isUpdate = await evalExpressionWithConditionBuilder(
           condition,
-          item
+          item.data
         );
 
         if (isUpdate) {
-          items.splice(i, 1, values);
+          item.updateData(values);
         }
       }
-
-      // 更新指定行记录，只需要提供行记录即可
-      return store.updateData({rows: items}, undefined, replace);
     } else {
       const data = {
         ...values,
