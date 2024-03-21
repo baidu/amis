@@ -1056,33 +1056,31 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         if (!!link.disabled) {
           return false;
         }
-        // 如果是mount的时候，使用用户配置的active
-        if (motivation === 'mount' && link.active) {
-          return link.active;
-        }
-        return (
-          motivation !== 'location-change' &&
-          ((depth === level
-            ? !!findTree(
-                link.children || [],
-                l =>
-                  !!(
-                    l.hasOwnProperty('to') &&
+
+        return motivation &&
+          !['location-change', 'data-change'].includes(motivation) &&
+          typeof link.active !== 'undefined'
+          ? link.active
+          : (depth === level
+              ? !!findTree(
+                  link.children || [],
+                  l =>
+                    !!(
+                      l.hasOwnProperty('to') &&
+                      env &&
+                      env.isCurrentUrl(filter(l.to as string, data), link)
+                    )
+                )
+              : false) ||
+              (link.activeOn
+                ? evalExpression(link.activeOn as string, data) ||
+                  evalExpression(link.activeOn as string, location)
+                : !!(
+                    link.hasOwnProperty('to') &&
+                    link.to !== null && // 也可能出现{to: null}的情况（独立应用）filter会把null处理成'' 那默认首页会选中很多菜单项 {to: ''}认为是有效配置
                     env &&
-                    env.isCurrentUrl(filter(l.to as string, data), link)
-                  )
-              )
-            : false) ||
-            (link.activeOn
-              ? evalExpression(link.activeOn as string, data) ||
-                evalExpression(link.activeOn as string, location)
-              : !!(
-                  link.hasOwnProperty('to') &&
-                  link.to !== null && // 也可能出现{to: null}的情况（独立应用）filter会把null处理成'' 那默认首页会选中很多菜单项 {to: ''}认为是有效配置
-                  env &&
-                  env.isCurrentUrl(filter(link.to as string, data), link)
-                )))
-        );
+                    env.isCurrentUrl(filter(link.to as string, data), link)
+                  ));
       };
 
       links = mapTree(
