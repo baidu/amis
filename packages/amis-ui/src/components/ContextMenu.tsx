@@ -8,6 +8,7 @@ import Transition, {
   EXITING
 } from 'react-transition-group/Transition';
 import debounce from 'lodash/debounce';
+import type {DebouncedFunc} from 'lodash';
 // import {createRoot} from 'react-dom/client';
 const fadeStyles: {
   [propName: string]: string;
@@ -55,7 +56,7 @@ export class ContextMenu extends React.Component<
   ContextMenuState
 > {
   static instance: any = null;
-  debounceCalculatePosition: (menu: HTMLElement) => void;
+  debounceCalculatePosition: DebouncedFunc<(menu: HTMLElement) => void>;
   static async getInstance() {
     if (!ContextMenu.instance || ContextMenu.instance.unmount) {
       const container = document.body;
@@ -113,6 +114,7 @@ export class ContextMenu extends React.Component<
 
   componentWillUnmount() {
     this.unmount = true;
+    this.debounceCalculatePosition.cancel();
     ContextMenu.instance = this.originInstance;
     document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
@@ -254,9 +256,7 @@ export class ContextMenu extends React.Component<
     }
     // 监听菜单大小变化，并自动重新计算位置
     this.resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        this.debounceCalculatePosition(menu);
-      }
+      entries.length && this.debounceCalculatePosition(menu);
     });
     this.resizeObserver.observe(this.contentRef.current);
   }
