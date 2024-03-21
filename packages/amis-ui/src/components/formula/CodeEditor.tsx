@@ -97,7 +97,7 @@ function CodeEditor(props: CodeEditorProps, ref: any) {
       (editorTheme ??
         ((defaultTheme || '').includes('dark') ? 'dark' : 'light')) === 'dark'
         ? 'base16-dark'
-        : 'default';
+        : 'idea';
     let options: any = {
       autoFocus,
       indentUnit: 2,
