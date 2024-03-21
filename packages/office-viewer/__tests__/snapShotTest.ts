@@ -16,7 +16,7 @@ export function createWord(fileName: string, data: any) {
 
 export async function snapShotTest(filePath: string) {
   // jsdom 不支持这个函数
-  global.URL.createObjectURL = jest.fn(x => 'blob:http://localhost/mock');
+  global.URL.createObjectURL = () => 'blob:http://localhost/mock';
   document.body.innerHTML = `
     <div id="root"></div>
   `;

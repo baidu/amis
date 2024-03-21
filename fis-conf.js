@@ -92,6 +92,7 @@ fis.set('project.files', [
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
   '/examples/static/*.docx',
+  '/examples/static/*.xlsx',
   '/examples/static/photo/*.jpeg',
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
@@ -699,7 +700,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
   const ghPages = fis.media('gh-pages');
   ghPages.set('project.files', [
     'examples/index.html',
-    '/examples/static/*.docx'
+    '/examples/static/*.docx',
+    '/examples/static/*.xlsx'
   ]);
 
   ghPages.match('*.scss', {
@@ -1022,7 +1024,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     useHash: true
   });
 
-  ghPages.match('*.docx', {
+  ghPages.match('*.{docx,xlsx}', {
     useHash: false
   });
 
