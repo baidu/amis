@@ -197,7 +197,7 @@ exports[`Renderer:input-formula button 1`] = `
                     class="cxd-FormulaPicker cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action w-full"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default is-active cxd-FormulaPicker-action w-full"
                       type="button"
                     >
                       <span
@@ -438,7 +438,7 @@ exports[`Renderer:input-formula input-group 1`] = `
                         style="position: relative;"
                       >
                         <div
-                          class="CodeMirror cm-s-default"
+                          class="CodeMirror cm-s-idea"
                           translate="no"
                         >
                           <div
