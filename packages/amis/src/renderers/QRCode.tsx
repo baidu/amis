@@ -145,7 +145,12 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   /**
    * 接收动作事件
    */
-  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    data: any,
+    throwErrors: boolean,
+    args?: any
+  ): any {
     const codeSize = this.props.codeSize;
     const actionType = action?.actionType as string;
     if (actionType === 'saveAs') {

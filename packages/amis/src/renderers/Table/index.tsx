@@ -41,7 +41,10 @@ import {
   resizeSensor,
   offset,
   getStyleNumber,
-  getPropValue
+  getPropValue,
+  isExpression,
+  getTree,
+  resolveVariableAndFilterForAsync
 } from 'amis-core';
 import {
   Button,
@@ -2768,43 +2771,6 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
-    const {store, valueField, data} = this.props;
-
-    const actionType = action?.actionType as string;
-
-    switch (actionType) {
-      case 'selectAll':
-        store.clear();
-        store.toggleAll();
-        break;
-      case 'clearAll':
-        store.clear();
-        break;
-      case 'select':
-        const selected: Array<any> = [];
-        store.falttenedRows.forEach((item: any, rowIndex: number) => {
-          const record = item.data;
-          const flag = evalExpression(args?.selected, {record, rowIndex});
-          if (flag) {
-            selected.push(record);
-          }
-        });
-        store.updateSelected(selected, valueField);
-        break;
-      case 'initDrag':
-        store.stopDragging();
-        store.toggleDragging();
-        break;
-      case 'submitQuickEdit':
-        this.handleSave();
-        break;
-      default:
-        this.handleAction(undefined, action, data);
-        break;
-    }
-  }
-
   render() {
     const {
       className,
@@ -2880,7 +2846,67 @@ export class TableRenderer extends Table {
     }
   }
 
-  reload(subPath?: string, query?: any, ctx?: any) {
+  /**
+   * 通过 index 或者 condition 获取需要处理的目标
+   *
+   * - index 支持数字
+   * - index 支持逗号分隔的数字列表
+   * - index 支持路径比如 0.1.2,0.1.3
+   * - index 支持表达式，比如 0.1.2,${index}
+   *
+   * - condition 上下文为当前行的数据
+   *
+   * @param ctx
+   * @param index
+   * @param condition
+   * @returns
+   */
+  async getEventTargets(ctx: any, index?: string | number, condition?: string) {
+    const {store} = this.props;
+    const targets: Array<IRow> = [];
+    if (typeof index === 'number') {
+      const row = store.rows[index];
+      row && targets.push(row);
+    } else if (typeof index === 'string') {
+      index = isExpression(index)
+        ? await resolveVariableAndFilterForAsync(index, ctx || this.props.data)
+        : index;
+      (index as string).split(',').forEach(i => {
+        i = i.trim();
+        if (i) {
+          const indexes = i.split('.').map(ii => parseInt(ii, 10));
+          const row: any = getTree(store.rows, indexes);
+          row && targets.push(row);
+        }
+      });
+    } else if (condition) {
+      const promies: Array<() => Promise<void>> = [];
+      eachTree(store.rows, item =>
+        promies.push(async () => {
+          const result = await evalExpressionWithConditionBuilder(
+            condition,
+            createObject(ctx, item.data)
+          );
+          result && targets.push(item as IRow);
+        })
+      );
+      await Promise.all(promies.map(fn => fn()));
+    }
+    return targets;
+  }
+
+  async reload(subPath?: string, query?: any, ctx?: any, args?: any) {
+    if (args?.index || args?.condition) {
+      // 局部刷新
+      const targets = await this.getEventTargets(
+        ctx || this.props.data,
+        args.index,
+        args?.condition
+      );
+      await Promise.all(targets.map(target => this.loadDeferredRow(target)));
+      return;
+    }
+
     const scoped = this.context as IScopedContext;
     const parents = scoped?.parent?.getComponents();
 
@@ -2904,27 +2930,15 @@ export class TableRenderer extends Table {
   ) {
     const {store} = this.props;
 
-    if (index !== undefined) {
-      let items = store.rows;
-      const indexs = String(index).split(',');
-      indexs.forEach(i => {
-        const intIndex = Number(i);
-        items[intIndex]?.updateData(values);
+    if (index !== undefined || condition !== undefined) {
+      const targets = await this.getEventTargets(
+        this.props.data,
+        index,
+        condition
+      );
+      targets.forEach(target => {
+        target.updateData(values);
       });
-    } else if (condition !== undefined) {
-      let items = store.rows;
-      const len = items.length;
-      for (let i = 0; i < len; i++) {
-        const item = items[i];
-        const isUpdate = await evalExpressionWithConditionBuilder(
-          condition,
-          item.data
-        );
-
-        if (isUpdate) {
-          item.updateData(values);
-        }
-      }
     } else {
       const data = {
         ...values,
@@ -2937,6 +2951,57 @@ export class TableRenderer extends Table {
   getData() {
     const {store, data} = this.props;
     return store.getData(data);
+  }
+
+  async doAction(
+    action: ActionObject,
+    ctx: any,
+    throwErrors: boolean,
+    args: any
+  ) {
+    const {store, valueField, data} = this.props;
+
+    const actionType = action?.actionType as string;
+
+    switch (actionType) {
+      case 'selectAll':
+        store.clear();
+        store.toggleAll();
+        break;
+      case 'clearAll':
+        store.clear();
+        break;
+      case 'select':
+        const selected: Array<any> = [];
+        store.falttenedRows.forEach((item: any, rowIndex: number) => {
+          const record = item.data;
+          const flag = evalExpression(args?.selected, {record, rowIndex});
+          if (flag) {
+            selected.push(record);
+          }
+        });
+        store.updateSelected(selected, valueField);
+        break;
+      case 'initDrag':
+        store.stopDragging();
+        store.toggleDragging();
+        break;
+      case 'submitQuickEdit':
+        this.handleSave();
+        break;
+      case 'toggleExpanded':
+        const targets = await this.getEventTargets(
+          ctx,
+          args.index,
+          args.condition
+        );
+        targets.forEach(target => {
+          store.toggleExpanded(target);
+        });
+        break;
+      default:
+        return this.handleAction(undefined, action, data);
+    }
   }
 }
 

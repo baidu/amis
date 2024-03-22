@@ -182,7 +182,12 @@ export class SearchBoxRenderer extends React.Component<
     );
   }
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
