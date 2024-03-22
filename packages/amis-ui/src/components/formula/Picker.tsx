@@ -281,7 +281,13 @@ export class FormulaPicker extends React.Component<
 
       return editorValue;
     } else {
-      return value ? (mixedMode ? `\`${value}\`` : value) : '';
+      return value
+        ? mixedMode
+          ? isExpression(value)
+            ? `\`${value.replace(/`/g, '\\`')}\``
+            : JSON.stringify(value)
+          : value
+        : '';
     }
   }
 
@@ -330,6 +336,14 @@ export class FormulaPicker extends React.Component<
     const {translate: __, inputSettings} = this.props;
     const {editorValue} = this.state;
 
+    let ast: any;
+    try {
+      ast = parse(editorValue, {evalMode: true, allowFilter: false});
+    } catch (error) {
+      this.setState({isError: error?.message ?? true});
+      return;
+    }
+
     if (
       inputSettings?.type &&
       ['boolean', 'number'].includes(inputSettings?.type)
@@ -337,24 +351,17 @@ export class FormulaPicker extends React.Component<
       let result = editorValue;
       // const schemaType = inputSettings?.type;
 
-      try {
-        const ast = parse(editorValue, {evalMode: true, allowFilter: false});
-
-        if (ast.type === 'literal' || ast.type === 'string') {
-          result = ast.value ?? '';
-        }
-      } catch (error) {
-        this.setState({isError: error?.message ?? true});
-        return;
+      if (ast.type === 'literal' || ast.type === 'string') {
+        result = ast.value ?? '';
       }
 
       this.setState({isError: false});
       return this.confirm(result);
     }
-    return this.confirm(editorValue);
+    return this.confirm(editorValue, ast);
   }
 
-  confirm(value: any) {
+  confirm(value: any, ast?: any) {
     const {mixedMode} = this.props;
     const validate = this.validate(value);
 
@@ -363,10 +370,12 @@ export class FormulaPicker extends React.Component<
 
       if (mixedMode && typeof value === 'string') {
         result =
-          !value.includes('$') &&
-          value[0] === '`' &&
-          value[value.length - 1] === '`'
-            ? value.substring(1, value.length - 1)
+          ast?.type === 'string'
+            ? ast.value
+            : ast?.type === 'template' &&
+              ast.body.length === 1 &&
+              ast.body[0].type === 'template_raw'
+            ? ast.body[0].value
             : `\${${value}}`;
       }
 
@@ -518,6 +527,7 @@ export class FormulaPicker extends React.Component<
                 className={cx('FormulaPicker-action', 'w-full')}
                 level={level}
                 size={btnSize}
+                active={!!value}
                 onClick={this.handleClick}
               >
                 {iconElement ? (
