@@ -44,7 +44,8 @@ function initChildren(
   depth: number,
   pindex: number,
   parentId: string,
-  path: string = ''
+  path: string = '',
+  getEntryId?: (entry: any, index: number) => string
 ): any {
   depth += 1;
   return children.map((item, index) => {
@@ -53,7 +54,9 @@ function initChildren(
       : {
           item
         };
-    const id = item.__id ?? guid();
+    const id = String(
+      getEntryId ? getEntryId(item, index) : item.__id ?? guid()
+    );
 
     return {
       // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
@@ -72,7 +75,14 @@ function initChildren(
       rowSpans: {},
       children:
         item && Array.isArray(item.children)
-          ? initChildren(item.children, depth, index, id, `${path}${index}.`)
+          ? initChildren(
+              item.children,
+              depth,
+              index,
+              id,
+              `${path}${index}.`,
+              getEntryId
+            )
           : []
     };
   });
@@ -384,6 +394,13 @@ export const Row = types
     toggleExpanded() {
       (getParent(self, self.depth * 2) as ITableStore).toggleExpanded(
         self as IRow
+      );
+    },
+
+    setExpanded(expanded: boolean) {
+      (getParent(self, self.depth * 2) as ITableStore).setExpanded(
+        self as IRow,
+        expanded
       );
     },
 
@@ -1450,7 +1467,14 @@ export const TableStore = iRendererStore
           loading: false,
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, 1, index, id, `${index}.`)
+              ? initChildren(
+                  item.children,
+                  1,
+                  index,
+                  id,
+                  `${index}.`,
+                  getEntryId
+                )
               : []
         };
       });
@@ -1767,6 +1791,19 @@ export const TableStore = iRendererStore
       }
     }
 
+    function setExpanded(row: IRow | string, expanded: boolean) {
+      const id = typeof row === 'string' ? row : row.id;
+      const idx = self.expandedRows.indexOf(id);
+
+      if (expanded) {
+        if (!~idx) {
+          self.expandedRows.push(id);
+        }
+      } else {
+        ~idx && self.expandedRows.splice(idx, 1);
+      }
+    }
+
     function collapseAllAtDepth(depth: number) {
       let rows = self.getExpandedRows().filter(item => item.depth !== depth);
       self.expandedRows.replace(rows.map(item => item.id));
@@ -1928,6 +1965,7 @@ export const TableStore = iRendererStore
       getToggleShiftRows,
       toggleExpandAll,
       toggleExpanded,
+      setExpanded,
       collapseAllAtDepth,
       clear,
       setOrderByInfo,
