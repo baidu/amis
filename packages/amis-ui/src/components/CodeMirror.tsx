@@ -4,10 +4,6 @@ import type CodeMirror from 'codemirror';
 import {autobind, changedEffect} from 'amis-core';
 import {resizeSensor} from 'amis-core';
 
-import 'codemirror/theme/idea.css';
-import 'codemirror/theme/base16-dark.css';
-// import 'codemirror/theme/base16-light.css';
-
 export interface CodeMirrorEditorProps {
   className?: string;
   style?: any;

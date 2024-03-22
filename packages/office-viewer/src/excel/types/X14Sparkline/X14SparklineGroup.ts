@@ -4,8 +4,7 @@
 
 import {Attributes} from '../../../openxml/Attributes';
 import {CT_Color, CT_Color_Attributes} from '../CT_Color';
-import {X14Sparkline, X14Sparkline_Attributes} from './X14Sparkline';
-import {X14Sparklines, X14Sparklines_Attributes} from './x14:sparklines';
+import {X14Sparklines, X14Sparklines_Attributes} from './x14Sparklines';
 
 export type ST_SparklineAxisMinMax = 'individual' | 'groupMax' | 'group';
 
