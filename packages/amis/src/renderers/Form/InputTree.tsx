@@ -474,7 +474,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       searchConfig = {},
       heightAuto,
       mobileUI,
-      testIdBuilder
+      testIdBuilder,
+      popOverContainer,
+      env
     } = this.props;
     let {highlightTxt} = this.props;
     const {filteredOptions, keyword} = this.state;
