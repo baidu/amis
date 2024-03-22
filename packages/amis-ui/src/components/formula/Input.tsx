@@ -15,7 +15,7 @@ import {
 
 import {FormulaEditor} from './Editor';
 import ResultBox from '../ResultBox';
-import Select from '../Select';
+import {SelectWithRemoteOptions as Select} from '../Select';
 import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
 import Tag from '../Tag';
@@ -91,7 +91,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
   } = props;
   const schemaType = inputSettings.type;
   /** 自上层共享的属性 */
-  const sharedProps = pick(props, ['disabled', 'clearable']);
+  const sharedProps = pick(props, ['disabled', 'clearable', 'data']);
   const pipInValue = useCallback(
     (value?: any) => {
       /** 数据来源可能是从 query中下发的（CRUD查询表头），导致数字或者布尔值被转为 string 格式，这里预处理一下 */
@@ -118,7 +118,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
         result = origin.value;
       } else if (schemaType === 'select') {
         const {
-          joinValues,
+          joinValues = true,
           extractValue,
           delimiter,
           multiple,
@@ -223,7 +223,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
   } else if (!isExpr && (schemaType === 'select' || schemaType === 'boolean')) {
     return (
       <Select
-        {...sharedProps}
+        {...(sharedProps as any)}
         className={cx(className, `FormulaPicker-input-${schemaType}`)}
         borderMode="none"
         multiple={schemaType === 'boolean' ? false : inputSettings.multiple}
@@ -241,6 +241,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
               ]
             : inputSettings.options ?? []
         }
+        source={inputSettings.source}
         value={pipInValue(value)}
         renderValueLabel={option => {
           const label = option.label?.toString() ?? '';
