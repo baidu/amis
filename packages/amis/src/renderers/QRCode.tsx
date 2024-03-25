@@ -153,7 +153,9 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       if (this.ref?.current) {
         const svgElement = this.ref.current.querySelector('svg');
         if (svgElement) {
-          const contentWithSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" height="${codeSize}" width="${codeSize}" viewBox="0 0 37 37">
+          const contentWithSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" height="${codeSize}" width="${codeSize}" viewBox="${
+            svgElement.getAttribute('viewBox') || '0 0 37 37'
+          }">
          ${svgElement.innerHTML}
          </svg>`;
           const blob = new Blob([contentWithSvg], {type: 'image/svg+xml'});
