@@ -20,6 +20,7 @@ import {
   RootClose,
   uuid
 } from '../utils';
+import {EnvContext} from '../env';
 
 export const SubPopoverDisplayedID = 'data-sub-popover-displayed';
 
@@ -240,6 +241,8 @@ export default class Overlay extends React.Component<
   static defaultProps = {
     placement: 'auto'
   };
+  static contextType = EnvContext;
+  declare context: React.ContextType<typeof EnvContext>;
   constructor(props: OverlayProps) {
     super(props as any);
 
@@ -301,9 +304,10 @@ export default class Overlay extends React.Component<
       offset,
       ...props
     } = this.props;
-    const container = this.getContainerSelector()
-      ? this.getContainerSelector
-      : this.props.container;
+    const container =
+      (this.getContainerSelector()
+        ? this.getContainerSelector
+        : this.props.container) || this.context?.getModalContainer;
     const mountOverlay = props.show || (Transition && !this.state.exited);
     if (!mountOverlay) {
       // Don't bother showing anything if we don't have to.
