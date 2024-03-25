@@ -221,7 +221,8 @@ export function HocStoreFactory(renderer: {
                 ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
               }),
-              props.updatePristineAfterStoreDataReInit === false
+              (props.updatePristineAfterStoreDataReInit ??
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
           }
         } else if (
@@ -249,7 +250,8 @@ export function HocStoreFactory(renderer: {
                       props.syncSuperStore === true
                     )
               ),
-              props.updatePristineAfterStoreDataReInit === false
+              (props.updatePristineAfterStoreDataReInit ??
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
           } else if (props.data && (props.data as any).__super) {
             store.initData(
@@ -274,12 +276,14 @@ export function HocStoreFactory(renderer: {
                       false
                     )
               ),
-              props.updatePristineAfterStoreDataReInit === false
+              (props.updatePristineAfterStoreDataReInit ??
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
           } else {
             store.initData(
               createObject(props.scope, props.data),
-              props.updatePristineAfterStoreDataReInit === false
+              (props.updatePristineAfterStoreDataReInit ??
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
           }
         } else if (
@@ -303,7 +307,8 @@ export function HocStoreFactory(renderer: {
                 ...store.data
               }),
 
-              props.updatePristineAfterStoreDataReInit === false ||
+              (props.updatePristineAfterStoreDataReInit ??
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false ||
                 (store.storeType === 'FormStore' &&
                   prevProps.store?.storeType === 'CRUDStore')
             );
@@ -322,7 +327,8 @@ export function HocStoreFactory(renderer: {
               // ...nextProps.data,
               ...store.data
             }),
-            props.updatePristineAfterStoreDataReInit === false
+            (props.updatePristineAfterStoreDataReInit ??
+              props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
           );
         }
       }
