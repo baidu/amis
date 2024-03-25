@@ -582,6 +582,19 @@
       padding-left: 0;
     }
 
+    &-custom {
+      border: 0;
+      flex: 1;
+      min-width: 0;
+
+      > div {
+        border: 0;
+        padding: 0 0 0 var(--Form-input-paddingX);
+        align-items: center;
+        height: var(--InputFormula-input-schema-height);
+      }
+    }
+
     &-variable {
       border: none;
       min-height: unset;
@@ -653,6 +666,7 @@
 
       .CodeMirror-sizer {
         min-height: 21px !important;
+        border-right-width: 0 !important;
       }
       .CodeMirror-scroll {
         height: 21px;
