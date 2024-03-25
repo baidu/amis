@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import getOffset from './offset';
 import getPosition from './position';
+import {getScrollParent} from './helper';
 
 export function getContainer(container: any, defaultContainer: any) {
   container = typeof container === 'function' ? container() : container;
@@ -84,6 +85,7 @@ export function calculatePosition(
   padding: any = 0,
   customOffset: [number, number] = [0, 0]
 ) {
+  const scrollParent: HTMLElement = getScrollParent(container)!;
   const childOffset: any =
     container.tagName === 'BODY'
       ? getOffset(target)
@@ -182,7 +184,8 @@ export function calculatePosition(
 
         if (
           transformed.x > 0 &&
-          transformed.x + transformed.width < window.innerWidth
+          transformed.x + transformed.width <
+            window.innerWidth + scrollParent.scrollLeft
         ) {
           visibleX = true;
           !visiblePlacement.atX && (visiblePlacement.atX = atX);
@@ -191,7 +194,8 @@ export function calculatePosition(
 
         if (
           transformed.y > 0 &&
-          transformed.y + transformed.height < window.innerHeight
+          transformed.y + transformed.height <
+            window.innerHeight + scrollParent.scrollTop
         ) {
           visibleY = true;
           !visiblePlacement.atY && (visiblePlacement.atY = atY);
@@ -202,14 +206,14 @@ export function calculatePosition(
           break;
         } else if (isAuto && tests.length === 0) {
           // 获取相对定位的父元素位置
-          let parentElement = overlayNode.offsetParent;
+          let offsetParent = overlayNode.offsetParent;
           while (
-            parentElement &&
-            window.getComputedStyle(parentElement).position === 'static'
+            offsetParent &&
+            window.getComputedStyle(offsetParent).position === 'static'
           ) {
-            parentElement = parentElement.offsetParent;
+            offsetParent = offsetParent.offsetParent;
           }
-          const parentRect = parentElement?.getBoundingClientRect?.();
+          const parentRect = offsetParent?.getBoundingClientRect?.();
           const parentTransformed = {
             x: parentRect?.x || 0,
             y: parentRect?.y || 0
@@ -217,11 +221,14 @@ export function calculatePosition(
           // 如果是 auto 模式，且最后一个方向都不可见，则直接平移到可见区域，考虑相对定位的父元素位置，保留10px的边距
           visibleY ||
             (positionTop =
-              Math.max(10, window.innerHeight - transformed.height) -
-              parentTransformed.y);
+              Math.max(10, window.innerHeight - transformed.height) +
+              scrollParent.scrollTop -
+              parentTransformed.y -
+              10);
           visibleX ||
             (positionLeft =
-              Math.max(10, window.innerWidth - transformed.width) -
+              Math.max(10, window.innerWidth - transformed.width) +
+              scrollParent.scrollLeft -
               parentTransformed.x);
         }
       }
