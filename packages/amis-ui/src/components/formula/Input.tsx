@@ -20,7 +20,7 @@ import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
 import Tag from '../Tag';
 
-import type {FormulaPickerProps} from './Picker';
+import type {FormulaPickerInputSettings, FormulaPickerProps} from './Picker';
 import CodeEditor, {FuncGroup, VariableItem} from './CodeEditor';
 import InputBox from '../InputBox';
 
@@ -30,7 +30,6 @@ export interface FormulaInputProps
       | 'className'
       | 'disabled'
       | 'evalMode'
-      | 'allowInput'
       | 'placeholder'
       | 'clearable'
       | 'borderMode'
@@ -66,9 +65,14 @@ export interface FormulaInputProps
   onChange?: (value: string | any[]) => void;
 
   /**
-   * 子元素渲染
+   * 其他类型渲染器
    */
-  itemRender?: (value: any) => JSX.Element | string;
+  customInputRender?: (props: {
+    value: any;
+    onChange: (value: any) => void;
+    className?: string;
+    inputSettings: FormulaPickerInputSettings;
+  }) => JSX.Element;
 }
 
 const FormulaInput = (props: FormulaInputProps, ref: any) => {
@@ -76,7 +80,6 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
     translate: __,
     className,
     classnames: cx,
-    allowInput,
     placeholder,
     borderMode,
     evalMode,
@@ -87,7 +90,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
     inputSettings = {type: 'text'},
     popOverContainer,
     onChange,
-    itemRender
+    customInputRender
   } = props;
   const schemaType = inputSettings.type;
   /** 自上层共享的属性 */
@@ -149,7 +152,7 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
       }
       onChange?.(result);
     },
-    ['onChange']
+    [schemaType, onChange, inputSettings]
   );
 
   let cmptValue = pipInValue(value ?? inputSettings.defaultValue);
@@ -255,6 +258,13 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
         onChange={pipOutValue}
       />
     );
+  } else if (!isExpr && schemaType === 'custom' && customInputRender) {
+    return customInputRender({
+      value: cmptValue,
+      onChange: pipOutValue,
+      inputSettings,
+      className: `FormulaPicker-input-custom`
+    });
   } else {
     return (
       <InputBox

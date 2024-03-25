@@ -33,7 +33,8 @@ export const InputSchemaType = [
   'date',
   'time',
   'datetime',
-  'select'
+  'select',
+  'custom'
 ] as const;
 
 export type FormulaPickerInputSettingType = (typeof InputSchemaType)[number];
@@ -105,11 +106,6 @@ export interface FormulaPickerProps
   disabled?: boolean;
 
   /**
-   * 是否允许输入，否需要点击fx在弹窗中输入
-   */
-  allowInput?: boolean;
-
-  /**
    * 占位文本
    */
   placeholder?: string;
@@ -133,6 +129,16 @@ export interface FormulaPickerProps
    * 输入框的展示类型
    */
   inputSettings?: FormulaPickerInputSettings;
+
+  /**
+   * 其他类型渲染器
+   */
+  customInputRender?: (props: {
+    value: any;
+    onChange: (value: any) => void;
+    className?: string;
+    inputSettings: FormulaPickerInputSettings;
+  }) => JSX.Element;
 
   /**
    * 公式弹出的时候，可以外部设置 variables 和 functions
@@ -475,7 +481,6 @@ export class FormulaPicker extends React.Component<
       classnames: cx,
       translate: __,
       disabled,
-      allowInput = true,
       className,
       style,
       onChange,
@@ -497,6 +502,7 @@ export class FormulaPicker extends React.Component<
       popOverContainer,
       mobileUI,
       inputSettings,
+      customInputRender,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -562,7 +568,7 @@ export class FormulaPicker extends React.Component<
                     !!isError ? 'is-error' : ''
                   )}
                   inputSettings={inputSettings}
-                  allowInput={allowInput}
+                  customInputRender={customInputRender}
                   clearable={clearable}
                   evalMode={mixedMode ? false : evalMode}
                   variables={this.state.variables!}
@@ -596,7 +602,7 @@ export class FormulaPicker extends React.Component<
                     !!isError ? 'is-error' : ''
                   )}
                   inputSettings={inputSettings}
-                  allowInput={allowInput}
+                  customInputRender={customInputRender}
                   clearable={clearable}
                   evalMode={mixedMode ? false : evalMode}
                   variables={this.state.variables!}
