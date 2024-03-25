@@ -1,9 +1,9 @@
 ---
-title: JSONSchema Editor Map
+title: JSONSchema Editor
 description:
 type: 0
 group: null
-menuName: JSONSchema Editor Map
+menuName: JSONSchema Editor
 icon:
 order: 61
 ---
@@ -38,7 +38,7 @@ order: 61
     debug: true,
     "body": [
         {
-            "type": "json-schema-editor",
+            "type": "json-schema-editor-map",
             "name": "schema",
             "label": "字段类型"
         }
@@ -54,7 +54,7 @@ order: 61
     "api": "/api/mock2/form/saveForm",
     "body": [
         {
-            "type": "json-schema-editor",
+            "type": "json-schema-editor-map",
             "name": "schema",
             "label": "字段类型",
             "rootTypeMutable": true,
@@ -74,7 +74,7 @@ order: 61
     name: 'schema',
     // showRootInfo: true,
     // rootTypeMutable: true,
-    type: 'json-schema-editor',
+    type: 'json-schema-editor-map',
     disabledTypes: ['null', 'interger', 'boolean'],
     definitions: {
         user: {
@@ -117,7 +117,7 @@ order: 61
     "debug": true,
     "body": [
         {
-            "type": "json-schema-editor",
+            "type": "json-schema-editor-map",
             "name": "schema",
             "label": "字段类型",
             "enableAdvancedSetting": true,
@@ -153,7 +153,7 @@ order: 61
     "debug": true,
     "body": [
         {
-            "type": "json-schema-editor",
+            "type": "json-schema-editor-map",
             "name": "schema",
             "label": "字段类型",
             "mini": true,
@@ -194,7 +194,7 @@ order: 61
     "debug": true,
     "body": [
         {
-            "type": "json-schema-editor",
+            "type": "json-schema-editor-map",
             "name": "schema",
             "label": "字段类型",
             "enableAdvancedSetting": true,

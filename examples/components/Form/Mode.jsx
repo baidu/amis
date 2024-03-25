@@ -10,7 +10,86 @@ export default {
           api: '/api/mock2/form/saveForm?waitSeconds=2',
           title: '常规模式',
           mode: 'normal',
+          debug: true,
           body: [
+            {
+              type: 'json-schema-editor-map',
+              name: 'schema',
+              label: '数据映射',
+              formulaForIf: {
+                variables: [
+                  {
+                    label: '表单字段',
+                    children: [
+                      {
+                        label: '文章名',
+                        value: 'name',
+                        tag: '文本'
+                      },
+                      {
+                        label: '作者',
+                        value: 'author',
+                        tag: '文本'
+                      },
+                      {
+                        label: '售价',
+                        value: 'price',
+                        tag: '数字'
+                      },
+                      {
+                        label: '出版时间',
+                        value: 'time',
+                        tag: '时间'
+                      },
+                      {
+                        label: '版本号',
+                        value: 'version',
+                        tag: '数字'
+                      },
+                      {
+                        label: '出版社',
+                        value: 'publisher',
+                        tag: '文本'
+                      }
+                    ]
+                  },
+                  {
+                    label: '流程字段',
+                    children: [
+                      {
+                        label: '联系电话',
+                        value: 'telphone'
+                      },
+                      {
+                        label: '地址',
+                        value: 'addr'
+                      }
+                    ]
+                  },
+                  {
+                    label:
+                      '长文本测试分类长文本测试分类长文本测试分类长文本测试分类',
+                    children: [
+                      {
+                        label:
+                          '这是一段测试长文本这是一段测试长文本这是一段测试长文本',
+                        value: 'longtext',
+                        tag: '文本'
+                      }
+                    ]
+                  }
+                ]
+              },
+
+              enableAdvancedSetting: true,
+              placeholder: {
+                key: '请输入字段名称',
+                title: '请输入名称',
+                description: '请输入描述信息',
+                default: '',
+                empty: '暂无字段'
+              }
+            },
             {
               type: 'input-email',
               name: 'email',

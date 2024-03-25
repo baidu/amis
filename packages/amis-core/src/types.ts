@@ -411,6 +411,10 @@ export type JSONSchema = JSONSchema7 & {
   typeLabel?: string; // 类型说明
 };
 
+export type JSONSchemaMap = JSONSchema & {
+  target?: string; //目标
+};
+
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
 // export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
 // export type ExtractProps<

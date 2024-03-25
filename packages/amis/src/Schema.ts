@@ -121,6 +121,7 @@ import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {JSONSchemaEditorControlMapSchema} from './renderers/Form/JSONSchemaEditorMap';
 import {InputSignatureSchema} from './renderers/Form/InputSignature';
 import {TableSchema2} from './renderers/Table2';
 import {
@@ -184,6 +185,7 @@ export type SchemaType =
   | 'static-images' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'json-schema'
   | 'json-schema-editor'
+  | 'json-schema-editor-map'
   | 'json'
   | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'link'
@@ -463,6 +465,7 @@ export type SchemaObject =
   | InputGroupControlSchema
   | ListControlSchema
   | JSONSchemaEditorControlSchema
+  | JSONSchemaEditorControlMapSchema
   | InputSignatureSchema
   | LocationControlSchema
   | UUIDControlSchema

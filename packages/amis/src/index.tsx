@@ -52,6 +52,7 @@ import './renderers/Form/Radios';
 import './renderers/Form/Radio';
 import './renderers/Form/JSONSchema';
 import './renderers/Form/JSONSchemaEditor';
+import './renderers/Form/JSONSchemaEditorMap';
 import './renderers/Form/ListSelect';
 import './renderers/Form/LocationPicker';
 import './renderers/Form/Select';
