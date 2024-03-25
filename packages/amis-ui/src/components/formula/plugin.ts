@@ -212,11 +212,18 @@ export class FormulaPlugin {
     from: CodeMirror.Position,
     to: CodeMirror.Position,
     label: string,
-    className = 'cm-func'
+    className = 'cm-func',
+    rawString?: string
   ) {
     const text = document.createElement('span');
     text.className = className;
     text.innerText = label;
+
+    if (rawString) {
+      text.setAttribute('data-tooltip', rawString);
+      text.setAttribute('data-position', 'bottom');
+    }
+
     return this.editor.markText(from, to, {
       atomic: true,
       replacedWith: text
@@ -289,7 +296,8 @@ export class FormulaPlugin {
                   ch: host.end.column - 1
                 },
                 variable.label,
-                'cm-field'
+                'cm-field',
+                host.name
               );
 
               // 再标记子对象
@@ -317,7 +325,8 @@ export class FormulaPlugin {
                         ch: item.end.column - 1
                       },
                       variable.label,
-                      'cm-field'
+                      'cm-field',
+                      item.name
                     );
                     path += item.name + '.';
                     vars = variable.children || [];
@@ -343,7 +352,8 @@ export class FormulaPlugin {
                 ch: ast.end.column - 1
               },
               variable.label,
-              'cm-field'
+              'cm-field',
+              ast.name
             );
           }
           return false;

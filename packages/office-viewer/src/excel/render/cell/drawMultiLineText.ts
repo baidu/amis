@@ -38,8 +38,6 @@ export function drawMultiLineText(
 
   const defaultFontHeight = dataProvider.getDefaultFontSize().height;
 
-  const latterSpace = defaultFontHeight * 0.1;
-
   const textPositions: Rect[] = [];
 
   const totalLineHeight = lines.reduce((acc, line) => {
@@ -64,9 +62,6 @@ export function drawMultiLineText(
     let totalLineWidth = tokens.reduce((acc, token) => {
       return acc + (token.w || 0);
     }, 0);
-
-    // 加上字母间距
-    totalLineWidth += latterSpace * (tokens.length - 1);
 
     if (horizontal === 'center') {
       currentX = x + (width - totalLineWidth) / 2;
@@ -97,7 +92,7 @@ export function drawMultiLineText(
         height: fontHeight
       });
       // 这里其实不大可能为零
-      currentX = currentX + (token.w || 0) + latterSpace;
+      currentX = currentX + (token.w || 0);
     }
     const lineHeight = line.maxHeight || defaultFontHeight;
     textHeight += lineHeight;

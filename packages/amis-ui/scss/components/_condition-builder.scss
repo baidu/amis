@@ -439,6 +439,7 @@
   display: flex;
   flex: 1;
   min-width: 0;
+  flex-wrap: wrap;
 
   > * {
     flex-shrink: 0;
@@ -451,7 +452,7 @@
   vertical-align: middle;
   margin: px2rem(3px);
   flex: 1;
-  min-width: 0;
+  min-width: px2rem(100px);
 }
 
 .#{$ns}CBFormula {

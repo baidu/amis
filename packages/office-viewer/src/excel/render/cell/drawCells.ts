@@ -3,8 +3,6 @@ import {DisplayData, Sheet} from '../../sheet/Sheet';
 import {SheetCanvas} from '../SheetCanvas';
 import {PADDING_SIZE} from '../Consts';
 import {LinkPosition} from './LinkPosition';
-import {CellInfo} from '../../types/CellInfo';
-import {autoClip} from './autoClip';
 import {CellInfoWithSize} from './CellInfoWithSize';
 import type {ExcelRender} from '../ExcelRender';
 
@@ -27,7 +25,11 @@ export function drawCells(
     }
     const cellInfo = currentSheet.getCellInfo(row, col);
     if (cellInfo) {
-      cellInfoMap.set(`${row},${col}`, {...cellInfo, width, height});
+      cellInfoMap.set(`${row},${col}`, {
+        ...JSON.parse(JSON.stringify(cellInfo)),
+        width,
+        height
+      });
     }
   }
 
