@@ -448,6 +448,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     statusStore && isAlive(statusStore) && statusStore.resetAll();
     if (isAlive(store)) {
       store.reset();
+      store.clearMessage();
       store.setEntered(false);
       if (typeof lazySchema === 'function') {
         store.setSchema('');
@@ -891,12 +892,13 @@ export class DrawerRenderer extends Drawer {
           store.updateMessage(reason.message, true);
           store.markBusying(false);
 
-          if (reason.constructor?.name === ValidateError.name) {
-            clearTimeout(this.clearErrorTimer);
-            this.clearErrorTimer = setTimeout(() => {
-              store.updateMessage('');
-            }, 3000);
-          }
+          // 通常都是数据错误，过 3 秒自动清理错误信息
+          // if (reason.constructor?.name === ValidateError.name) {
+          clearTimeout(this.clearErrorTimer);
+          this.clearErrorTimer = setTimeout(() => {
+            store.updateMessage('');
+          }, 3000);
+          // }
         });
 
       return true;
