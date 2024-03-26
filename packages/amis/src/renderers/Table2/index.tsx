@@ -818,10 +818,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
               text: string,
               record: any,
               rowIndex: number,
-              colIndex: number
+              colIndex: number,
+              levels: Array<string>
             ) => {
               const props: RenderProps = {};
-              const item = store.getRowByIndex(rowIndex) || {};
+              const item = store.getRowByIndex(rowIndex, levels) || {};
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: item.locals,

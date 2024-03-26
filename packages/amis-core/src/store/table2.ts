@@ -282,8 +282,10 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
     function getRowByIndex(rowIndex: number, levels?: Array<string>): IRow2 {
       if (levels && levels.length > 0) {
+        levels = levels.concat();
         const index = +(levels.shift() || 0);
-        return getRowByIndex(index, levels);
+        const host = getRowByIndex(index, levels)?.children;
+        return host?.[rowIndex];
       }
       return self.rows[rowIndex];
     }

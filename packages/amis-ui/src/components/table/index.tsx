@@ -1384,7 +1384,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       // 但直接使用amis-ui的table，render方法一般直接返回ReactElement
       const render =
         item.render && typeof item.render === 'function'
-          ? item.render(data[item.name], data, rowIndex, i)
+          ? item.render(data[item.name], data, rowIndex, i, levels)
           : null;
       let props = {rowSpan: 1, colSpan: 1};
       let children = render;
