@@ -1,13 +1,18 @@
 import React from 'react';
 // import 'codemirror/lib/codemirror.css';
 import type CodeMirror from 'codemirror';
-import {autobind} from 'amis-core';
+import {autobind, changedEffect} from 'amis-core';
 import {resizeSensor} from 'amis-core';
+
+import 'codemirror/theme/idea.css';
+import 'codemirror/theme/base16-dark.css';
+// import 'codemirror/theme/base16-light.css';
 
 export interface CodeMirrorEditorProps {
   className?: string;
   style?: any;
   value?: string;
+  readOnly?: boolean;
   onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
   onBlur?: (e: any) => void;
@@ -37,20 +42,25 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
     await import('codemirror/mode/htmlmixed/htmlmixed');
     await import('codemirror/addon/mode/simple');
     await import('codemirror/addon/mode/multiplex');
+    await import('codemirror/addon/display/placeholder');
     if (this.unmounted) {
       return;
     }
 
+    this.dom.current!.innerHTML = '';
     this.editor =
       this.props.editorFactory?.(this.dom.current!, cm, this.props) ??
       cm(this.dom.current!, {
-        value: this.props.value || ''
+        value: this.props.value || '',
+        readOnly: this.props.readOnly ? 'nocursor' : false
       });
 
     this.props.editorDidMount?.(cm, this.editor);
     this.editor.on('change', this.handleChange);
     this.editor.on('blur', this.handleBlur);
     this.editor.on('focus', this.handleFocus);
+
+    this.setValue(this.props.value);
 
     this.toDispose.push(
       resizeSensor(this.dom.current as HTMLElement, () =>
@@ -70,6 +80,10 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
     if (props.value !== prevProps.value) {
       this.editor && this.setValue(props.value);
     }
+
+    changedEffect(['readOnly'], prevProps, this.props, (changes: any) => {
+      this.editor?.setOption('readOnly', changes.readOnly ? 'nocursor' : false);
+    });
   }
 
   componentWillUnmount() {
@@ -97,9 +111,9 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
 
   setValue(value?: string) {
     const doc = this.editor!.getDoc();
-    if (value && value !== doc.getValue()) {
+    if (value !== doc.getValue()) {
       const cursor = doc.getCursor();
-      doc.setValue(value);
+      doc.setValue(value || '');
       doc.setCursor(cursor);
     }
   }

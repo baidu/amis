@@ -3,8 +3,10 @@
  */
 
 import type CodeMirror from 'codemirror';
-import {eachTree} from 'amis-core';
-import {FormulaEditorProps, VariableItem, FormulaEditor} from './Editor';
+import {findTree} from 'amis-core';
+import {FuncGroup, VariableItem} from './CodeEditor';
+import {parse} from 'amis-formula';
+import debounce from 'lodash/debounce';
 
 export function editorFactory(
   dom: HTMLElement,
@@ -16,30 +18,88 @@ export function editorFactory(
 
   return cm(dom, {
     value: props.value || '',
-    autofocus: true,
+    autofocus: false,
     mode: props.evalMode ? 'text/formula' : 'text/formula-template',
+    readOnly: props.readOnly ? 'nocursor' : false,
     ...options
   });
 }
 
-export class FormulaPlugin {
-  constructor(
-    readonly editor: CodeMirror.Editor,
-    readonly cm: typeof CodeMirror,
-    readonly getProps: () => FormulaEditorProps
-  ) {
-    // editor.on('change', this.autoMarkText);
-    this.autoMarkText();
+function traverseAst(ast: any, iterator: (ast: any) => void | false) {
+  if (!ast || !ast.type) {
+    return;
   }
 
-  autoMarkText() {
-    const {functions, variables, value} = this.getProps();
+  const ret = iterator(ast);
+  if (ret === false) {
+    return;
+  }
 
-    if (value) {
-      // todo functions 也需要自动替换
-      this.autoMark(variables!);
-      this.focus(value);
+  Object.keys(ast).forEach(key => {
+    const value = ast[key];
+
+    if (Array.isArray(value)) {
+      value.forEach(child => traverseAst(child, iterator));
+    } else {
+      traverseAst(value, iterator);
     }
+  });
+}
+
+export class FormulaPlugin {
+  /**
+   * 用于提示的变量集合，默认为空
+   */
+  variables: Array<VariableItem> = [];
+
+  /**
+   * 函数集合，默认不需要传，即  amis-formula 里面那个函数
+   * 如果有扩充，则需要传。
+   */
+  functions: Array<FuncGroup> = [];
+
+  /**
+   * evalMode 即直接就是表达式，否则就是混合模式
+   */
+  evalMode: boolean = true;
+
+  disableAutoMark = false;
+
+  constructor(
+    readonly editor: CodeMirror.Editor,
+    readonly cm: typeof CodeMirror
+  ) {
+    // this.autoMarkText();
+    this.autoMarkText = debounce(this.autoMarkText.bind(this), 250, {
+      leading: false,
+      trailing: true
+    });
+
+    editor.on('blur', () => this.autoMarkText());
+  }
+
+  setVariables(variables: Array<VariableItem>) {
+    this.variables = Array.isArray(variables) ? variables : [];
+  }
+
+  setFunctions(functions: Array<FuncGroup>) {
+    this.functions = Array.isArray(functions) ? functions : [];
+  }
+
+  setEvalMode(evalMode: boolean) {
+    this.evalMode = evalMode;
+  }
+
+  setDisableAutoMark(disableAutoMark: boolean) {
+    this.disableAutoMark = disableAutoMark;
+    this.autoMarkText(true);
+  }
+
+  autoMarkText(forceClear = false) {
+    if (forceClear || !this.editor.hasFocus()) {
+      this.editor?.getAllMarks().forEach(mark => mark.clear());
+    }
+    this.disableAutoMark || this.autoMark();
   }
 
   // 计算 `${`、`}` 括号的位置，如 ${a}+${b}, 结果是 [ { from: 0, to: 3 }, { from: 5, to: 8 } ]
@@ -108,49 +168,18 @@ export class FormulaPlugin {
     }
   }
 
-  insertContent(
-    value: any,
-    type?: 'variable' | 'func',
-    className: string = 'cm-field',
-    toMark: boolean = true
-  ) {
+  insertContent(value: any, type?: 'variable' | 'func') {
     let from = this.editor.getCursor();
-    const {evalMode} = this.getProps();
+    const evalMode = this.evalMode;
 
     if (type === 'variable') {
       this.editor.replaceSelection(value.key);
       const to = this.editor.getCursor();
 
-      if (toMark) {
-        // 路径中每个变量分别进行标记
-        let markFrom = from.ch;
-        value.path.split('.').forEach((label: string, index: number) => {
-          const val = value.key.split('.')[index];
-          this.markText(
-            {line: from.line, ch: markFrom},
-            {line: to.line, ch: markFrom + val.length},
-            label,
-            className
-          );
-          markFrom += 1 + val.length;
-        });
-      }
-
       !evalMode && this.insertBraces(from, to);
     } else if (type === 'func') {
       this.editor.replaceSelection(`${value}()`);
       const to = this.editor.getCursor();
-
-      toMark &&
-        this.markText(
-          from,
-          {
-            line: to.line,
-            ch: to.ch - 2
-          },
-          value,
-          'cm-func'
-        );
 
       this.editor.setCursor({
         line: to.line,
@@ -167,7 +196,6 @@ export class FormulaPlugin {
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
       // 非变量、非函数，可能是组合模式，也需要标记
-      toMark && setTimeout(() => this.autoMarkText(), 0);
     }
 
     this.editor.focus();
@@ -185,93 +213,190 @@ export class FormulaPlugin {
     from: CodeMirror.Position,
     to: CodeMirror.Position,
     label: string,
-    className = 'cm-func'
+    className = 'cm-func',
+    rawString?: string
   ) {
     const text = document.createElement('span');
     text.className = className;
     text.innerText = label;
-    this.editor.markText(from, to, {
+
+    if (rawString) {
+      text.setAttribute('data-tooltip', rawString);
+      text.setAttribute('data-position', 'bottom');
+    }
+
+    return this.editor.markText(from, to, {
       atomic: true,
       replacedWith: text
     });
   }
 
-  autoMark(variables: Array<VariableItem>) {
-    if (!Array.isArray(variables) || !variables.length) {
-      return;
-    }
-
-    const varMap: {
-      [propname: string]: string;
-    } = {};
-
-    eachTree(variables, item => {
-      if (item.value) {
-        varMap[item.value] = item.path ?? item.label;
-      }
-    });
-
-    const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
+  widgets: any[] = [];
+  marks: any[] = [];
+  autoMark() {
     const editor = this.editor;
-    const lines = editor.lineCount();
-    const {evalMode = true} = this.getProps();
-    for (let line = 0; line < lines; line++) {
-      const content = editor.getLine(line);
+    const value = editor.getValue();
+    const functions = this.functions;
+    const variables = this.variables;
 
-      // 标记方法调用
-      content.replace(/([A-Z]+)\s*\(/g, (_, func, pos) => {
-        this.markText(
-          {
-            line: line,
-            ch: pos
-          },
-          {
-            line: line,
-            ch: pos + func.length
-          },
-          func,
-          'cm-func'
-        );
-        return _;
+    // 把旧的清掉
+    this.widgets.forEach(widget => editor.removeLineWidget(widget));
+    this.widgets = [];
+
+    this.marks.forEach(mark => mark.clear());
+    this.marks = [];
+
+    try {
+      const ast = parse(value, {
+        evalMode: this.evalMode,
+        variableMode: false
       });
-
-      const REPLACE_KEY = 'AMIS_FORMULA_REPLACE_KEY';
-      // 标记变量
-      vars.forEach(v => {
-        let from = 0;
-        let idx = -1;
-
-        while (~(idx = content.indexOf(v, from))) {
-          const encode = FormulaEditor.replaceStrByIndex(
-            content,
-            idx,
-            v,
-            REPLACE_KEY
+      traverseAst(ast, (ast: any): any => {
+        if (ast.type === 'func_call') {
+          const funName = ast.identifier;
+          const exists = functions.some(item =>
+            item.items.some(i => i.name === funName)
           );
-          const reg = FormulaEditor.getRegExpByMode(evalMode, REPLACE_KEY);
-
-          if (reg.test(encode)) {
-            let markFrom = idx;
-            v.split('.').forEach((val: string, index: number) => {
+          if (exists) {
+            this.markText(
+              {
+                line: ast.start.line - 1,
+                ch: ast.start.column - 1
+              },
+              {
+                line: ast.start.line - 1,
+                ch: ast.start.column + funName.length - 1
+              },
+              funName,
+              'cm-func'
+            );
+          }
+        } else if (ast.type === 'getter') {
+          // 获取对象中的变量
+          const list = [ast];
+          let current = ast;
+          while (current?.type === 'getter') {
+            current = current.host;
+            list.unshift(current);
+          }
+          const host = list.shift();
+          if (host?.type === 'variable') {
+            const variable = findTree(
+              variables,
+              item => item.value === host.name
+            );
+            if (variable) {
+              // 先标记顶层对象
               this.markText(
                 {
-                  line: line,
-                  ch: markFrom
+                  line: host.start.line - 1,
+                  ch: host.start.column - 1
                 },
                 {
-                  line: line,
-                  ch: markFrom + val.length
+                  line: host.end.line - 1,
+                  ch: host.end.column - 1
                 },
-                varMap[v].split('.')[index],
-                'cm-field'
+                variable.label,
+                'cm-field',
+                host.name
               );
-              markFrom += 1 + val.length;
-            });
-          }
 
-          from = idx + v.length;
+              // 再标记子对象
+              let path = host.name + '.';
+              let vars = variable.children || [];
+              for (let i = 0, len = list.length; i < len; i++) {
+                const item = list[i]?.key;
+
+                // 只能识别这种固定下标的情况
+                if (item?.type === 'identifier') {
+                  const variable =
+                    findTree(vars, v => v.value === path + item.name) ??
+                    findTree(
+                      vars,
+                      v => v.value === item.name // 兼容不带路径的情况
+                    );
+                  if (variable) {
+                    this.markText(
+                      {
+                        line: item.start.line - 1,
+                        ch: item.start.column - 1
+                      },
+                      {
+                        line: item.end.line - 1,
+                        ch: item.end.column - 1
+                      },
+                      variable.label,
+                      'cm-field',
+                      item.name
+                    );
+                    path += item.name + '.';
+                    vars = variable.children || [];
+                  } else {
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          return false;
+        } else if (ast.type === 'variable') {
+          // 直接就是变量
+          const variable = findTree(variables, item => item.value === ast.name);
+          if (variable) {
+            this.markText(
+              {
+                line: ast.start.line - 1,
+                ch: ast.start.column - 1
+              },
+              {
+                line: ast.end.line - 1,
+                ch: ast.end.column - 1
+              },
+              variable.label,
+              'cm-field',
+              ast.name
+            );
+          }
+          return false;
         }
       });
+    } catch (e) {
+      const reg = /^Unexpected\stoken\s(.+)\sin\s(\d+):(\d+)$/.exec(e.message);
+      if (reg) {
+        const token = reg[1];
+        const line = parseInt(reg[2], 10);
+        const column = parseInt(reg[3], 10);
+        const msg = document.createElement('div');
+        const icon = msg.appendChild(document.createElement('span'));
+        icon.innerText = '!!';
+        icon.className = 'lint-error-icon';
+        msg.appendChild(
+          document.createTextNode(`Unexpected token \`${token}\``)
+        );
+        msg.className = 'lint-error';
+        this.widgets.push(
+          editor.addLineWidget(line - 1, msg, {
+            coverGutter: false,
+            noHScroll: true
+          })
+        );
+
+        this.marks.push(
+          this.markText(
+            {
+              line: line - 1,
+              ch: column - 1
+            },
+            {
+              line: line - 1,
+              ch: column + token.length - 1
+            },
+            token,
+            'cm-error-token'
+          )
+        );
+      }
+      console.warn('synax error, ignore it');
     }
   }
 
@@ -283,7 +408,9 @@ export class FormulaPlugin {
     });
   }
 
-  dispose() {}
+  dispose() {
+    (this.autoMarkText as any).cancel();
+  }
 
   validate() {}
 }
@@ -294,6 +421,8 @@ function registerLaunguageMode(cm: typeof CodeMirror) {
     return;
   }
   modeRegisted = true;
+
+  // TODO 自定义语言规则
 
   // 对应 evalMode
   cm.defineMode('formula', (config: any, parserConfig: any) => {
@@ -306,7 +435,6 @@ function registerLaunguageMode(cm: typeof CodeMirror) {
       mode: formula
     });
   });
-
   cm.defineMIME('text/formula', {name: 'formula'});
   cm.defineMIME('text/formula-template', {name: 'formula', base: 'htmlmixed'});
 }

@@ -112,6 +112,7 @@
     position: relative;
     &-wrapper {
       flex: 1;
+      min-width: 0;
     }
 
     &-collapse {
@@ -139,6 +140,7 @@
 
   &-body-wrapper {
     flex: 1;
+    min-width: 0;
   }
 
   &-toolbar {
@@ -323,6 +325,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      flex: 1;
+      min-width: 0;
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(10px);
         position: absolute;
@@ -431,11 +435,24 @@
   }
 }
 
+.#{$ns}CBItem {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
 .#{$ns}CBValue {
   position: relative;
   display: inline-block;
   vertical-align: middle;
   margin: px2rem(3px);
+  flex: 1;
+  min-width: px2rem(100px);
 }
 
 .#{$ns}CBFormula {
@@ -461,6 +478,7 @@
   width: 20px;
   text-align: center;
   display: inline-block;
+  align-self: center;
   user-select: none;
 }
 

@@ -62,7 +62,7 @@ export function parse(input: string, options?: ParserOptions): ASTNode {
 
   function fatal() {
     throw TypeError(
-      `Unexpected token ${token!.value} in ${token!.start.line}:${
+      `Unexpected token ${token!.value || token.type} in ${token!.start.line}:${
         token!.start.column
       }`
     );

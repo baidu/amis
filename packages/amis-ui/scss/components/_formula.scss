@@ -2,6 +2,7 @@
   overflow: visible;
   max-width: 100%;
   box-sizing: content-box;
+  min-height: px2rem(450px);
 
   @mixin scrollbar {
     &::-webkit-scrollbar {
@@ -31,10 +32,59 @@
     flex: 1;
     height: 100%;
     max-width: #{px2rem(530px)};
+    min-width: 0;
     border-top: var(--Form-input-borderWidth) solid
       var(--Form-input-borderColor);
     border-bottom: var(--Form-input-borderWidth) solid
       var(--Form-input-borderColor);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-runPanel {
+    &.in {
+      height: 0;
+      overflow: hidden;
+    }
+    height: px2rem(200px);
+    transition: height 0.1s ease-out;
+    border-top: 1px solid var(--Form-input-borderColor);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+
+    &-context,
+    &-result {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+
+      > header {
+        @include panel-header();
+        margin: 0;
+      }
+
+      > div {
+        flex: 1;
+        min-height: 0;
+        font-size: 12px;
+      }
+    }
+
+    &-context {
+      border-right: 1px solid var(--Form-input-borderColor);
+    }
+
+    &-result {
+      > div {
+        padding: 0 px2rem(10px);
+      }
+
+      &.is-error {
+        color: var(--Form-input-onError-borderColor);
+      }
+    }
   }
 
   &-header {
@@ -51,8 +101,8 @@
 
   &-editor {
     @include scrollbar();
-    min-height: px2rem(200px);
-    height: calc(100% - 35px);
+    flex: 1;
+    min-height: 0;
     padding: #{px2rem(5px)};
     padding-right: 0;
 
@@ -418,27 +468,6 @@
     overflow: hidden;
     background: var(--InputFormula-code-bgColor);
   }
-
-  .cm-field,
-  .cm-func {
-    border-radius: 3px;
-    color: #fff;
-    margin: 0 1px;
-    padding: 0 2px;
-  }
-
-  .cm-field {
-    padding: 2px 5px;
-  }
-
-  .cm-field {
-    background: #007bff;
-  }
-  .cm-func {
-    color: #ae4597;
-    font-weight: bold;
-    line-height: 14px;
-  }
 }
 
 .#{$ns}FormulaPicker {
@@ -459,8 +488,9 @@
 
   &-input {
     flex: 1;
+    min-width: 0;
     margin-right: #{px2rem(10px)};
-    padding-right: 0;
+    padding-right: px2rem(4px);
     max-width: calc(100% - #{px2rem(42px)});
   }
 
@@ -515,7 +545,8 @@
   height: var(--Form-input-height);
 
   &.#{$ns}FormulaPicker--text {
-    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX)
+      var(--Form-input-paddingY) px2rem(5px);
   }
 
   .#{$ns}FormulaPicker-input {
@@ -534,8 +565,8 @@
       box-sizing: none;
     }
 
-    &-number,
     &-select,
+    &-number,
     &-boolean,
     &-date,
     &-time,
@@ -547,6 +578,20 @@
     &-number {
       .#{$ns}Number-handler-wrap {
         height: unset; /* 避免调节器超出Input框 */
+      }
+      padding-left: 0;
+    }
+
+    &-custom {
+      border: 0;
+      flex: 1;
+      min-width: 0;
+
+      > div {
+        border: 0;
+        padding: 0 0 0 var(--Form-input-paddingX);
+        align-items: center;
+        height: var(--InputFormula-input-schema-height);
       }
     }
 
@@ -574,4 +619,69 @@
       color: var(--colors-brand-5);
     }
   }
+}
+
+.#{$ns}FormulaCodeEditor {
+  .cm-field,
+  .cm-func {
+    border-radius: 3px;
+    color: #fff;
+  }
+
+  .cm-field {
+    padding: 2px 5px;
+  }
+
+  .cm-field {
+    background: #007bff;
+  }
+  .cm-func {
+    color: #ae4597;
+    font-weight: bold;
+    line-height: 14px;
+  }
+  .cm-error-token {
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==);
+  }
+
+  .CodeMirror-placeholder {
+    color: var(--Form-input-placeholderColor) !important;
+  }
+
+  .lint-error {
+    color: var(--Form-input-onError-borderColor);
+  }
+
+  &--singleLine {
+    max-width: 100%;
+    > .CodeMirror {
+      height: 21px;
+
+      .CodeMirror-hscrollbar,
+      .CodeMirror-vscrollbar {
+        display: none !important;
+      }
+
+      .CodeMirror-sizer {
+        min-height: 21px !important;
+        border-right-width: 0 !important;
+      }
+      .CodeMirror-scroll {
+        height: 21px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden !important;
+      }
+      .CodeMirror-lines {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.#{$ns}InputBox > .#{$ns}FormulaCodeEditor {
+  flex: 1;
+  min-width: 0;
 }

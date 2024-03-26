@@ -8,7 +8,7 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {
   FuncGroup,
   VariableItem
-} from 'amis-ui/lib/components/formula/Editor';
+} from 'amis-ui/src/components/formula/CodeEditor';
 import type {FormulaPickerInputSettings} from 'amis-ui/lib/components/formula/Picker';
 
 /**
@@ -227,7 +227,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         className={className}
         value={value}
         disabled={disabled}
-        allowInput={allowInput}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}

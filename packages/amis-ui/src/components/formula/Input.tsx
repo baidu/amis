@@ -13,14 +13,16 @@ import {
   isObject
 } from 'amis-core';
 
-import {FormulaEditor, VariableItem} from './Editor';
+import {FormulaEditor} from './Editor';
 import ResultBox from '../ResultBox';
-import Select from '../Select';
+import {SelectWithRemoteOptions as Select} from '../Select';
 import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
 import Tag from '../Tag';
 
-import type {FormulaPickerProps} from './Picker';
+import type {FormulaPickerInputSettings, FormulaPickerProps} from './Picker';
+import CodeEditor, {FuncGroup, VariableItem} from './CodeEditor';
+import InputBox from '../InputBox';
 
 export interface FormulaInputProps
   extends Pick<
@@ -28,7 +30,6 @@ export interface FormulaInputProps
       | 'className'
       | 'disabled'
       | 'evalMode'
-      | 'allowInput'
       | 'placeholder'
       | 'clearable'
       | 'borderMode'
@@ -42,9 +43,19 @@ export interface FormulaInputProps
    */
   value?: string;
 
+  /**
+   * 就是 evalMode 的反义词
+   * 混合模式，意味着这个输入框既可以输入不同文本
+   * 也可以输入公式。
+   * 当输入公式时，值格式为 ${公式内容}
+   * 其他内容当字符串。
+   */
   mixedMode?: boolean;
 
+  autoFoucs?: boolean;
+
   variables?: VariableItem[];
+  functions?: Array<FuncGroup>;
 
   popOverContainer?: any;
 
@@ -54,36 +65,48 @@ export interface FormulaInputProps
   onChange?: (value: string | any[]) => void;
 
   /**
-   * 子元素渲染
+   * 其他类型渲染器
    */
-  itemRender?: (value: any) => JSX.Element | string;
+  customInputRender?: (props: {
+    value: any;
+    onChange: (value: any) => void;
+    className?: string;
+    inputSettings: FormulaPickerInputSettings;
+  }) => JSX.Element;
 }
 
-const FormulaInput: React.FC<FormulaInputProps> = props => {
+const FormulaInput = (props: FormulaInputProps, ref: any) => {
   const {
     translate: __,
     className,
     classnames: cx,
-    allowInput,
     placeholder,
     borderMode,
     evalMode,
     mixedMode,
     value,
     variables,
+    functions,
     inputSettings = {type: 'text'},
     popOverContainer,
     onChange,
-    itemRender
+    customInputRender
   } = props;
   const schemaType = inputSettings.type;
   /** 自上层共享的属性 */
-  const sharedProps = pick(props, ['disabled', 'clearable']);
+  const sharedProps = pick(props, ['disabled', 'clearable', 'data']);
   const pipInValue = useCallback(
     (value?: any) => {
+      /** 数据来源可能是从 query中下发的（CRUD查询表头），导致数字或者布尔值被转为 string 格式，这里预处理一下 */
+      if (schemaType === 'number') {
+        value = isNaN(+value) ? value : +value;
+      } else if (schemaType === 'boolean') {
+        value = value === 'true' ? true : value === 'false' ? false : value;
+      }
+
       return value;
     },
-    ['value']
+    [schemaType]
   );
   const pipOutValue = useCallback(
     (origin: any) => {
@@ -98,7 +121,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         result = origin.value;
       } else if (schemaType === 'select') {
         const {
-          joinValues,
+          joinValues = true,
           extractValue,
           delimiter,
           multiple,
@@ -129,110 +152,13 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
       }
       onChange?.(result);
     },
-    ['onChange']
+    [schemaType, onChange, inputSettings]
   );
 
   let cmptValue = pipInValue(value ?? inputSettings.defaultValue);
+  const isExpr = isExpression(cmptValue);
 
-  /** 数据来源可能是从 query中下发的（CRUD查询表头），导致数字或者布尔值被转为 string 格式，这里预处理一下 */
-  if (schemaType === 'number') {
-    cmptValue = isNaN(+cmptValue) ? cmptValue : +cmptValue;
-  } else if (schemaType === 'boolean') {
-    cmptValue =
-      cmptValue === 'true' ? true : cmptValue === 'false' ? false : cmptValue;
-  }
-
-  const targetVariable =
-    variables && cmptValue != null && typeof cmptValue === 'string'
-      ? findTree(variables, item => {
-          return mixedMode
-            ? cmptValue.replace(/^\$\{/, '').replace(/\}$/, '') === item?.value
-            : cmptValue === item?.value;
-        })
-      : null;
-  let useVariable = !!(isExpression(cmptValue) || targetVariable);
-
-  /** 判断value是否为变量，如果是变量，使用ResultBox渲染 */
-  if (!useVariable) {
-    if (schemaType === 'number') {
-      useVariable = cmptValue != null && typeof cmptValue !== 'number';
-    } else if (['date', 'time', 'datetime'].includes(schemaType)) {
-      useVariable = !moment(cmptValue).isValid();
-    } else if (schemaType === 'select') {
-      const {
-        options,
-        joinValues,
-        extractValue,
-        delimiter,
-        multiple,
-        valueField = 'value'
-      } = inputSettings;
-      let selctedValue: any[] = [];
-
-      if (multiple) {
-        if (joinValues) {
-          selctedValue =
-            typeof cmptValue === 'string' ? cmptValue.split(delimiter) : [];
-        } else {
-          selctedValue = Array.isArray(cmptValue)
-            ? extractValue
-              ? cmptValue
-              : cmptValue.map(i => i?.[valueField])
-            : [];
-        }
-      } else {
-        if (joinValues) {
-          selctedValue = typeof cmptValue === 'string' ? [cmptValue] : [];
-        } else {
-          selctedValue = isObject(cmptValue) ? [cmptValue?.[valueField]] : [];
-        }
-      }
-
-      /** 选项类型清空后是空字符串， */
-      useVariable =
-        cmptValue &&
-        !(options ?? []).some((item: any) =>
-          selctedValue.includes(item?.value)
-        );
-    } else if (schemaType === 'boolean') {
-      useVariable = cmptValue != null && typeof cmptValue !== 'boolean';
-    }
-  }
-
-  if (useVariable) {
-    const varName =
-      typeof cmptValue === 'string' && cmptValue && mixedMode
-        ? cmptValue.replace(/^\$\{/, '').replace(/\}$/, '')
-        : cmptValue;
-    const resultValue = targetVariable?.value ?? varName;
-
-    return (
-      <ResultBox
-        className={cx(`FormulaPicker-input-variable`)}
-        allowInput={allowInput}
-        // value={resultValue}
-        result={
-          resultValue == null
-            ? void 0
-            : FormulaEditor.highlightValue(resultValue, variables!, evalMode)
-        }
-        itemRender={(item: any) => {
-          return (
-            <div
-              className={cx('FormulaPicker-ResultBox')}
-              dangerouslySetInnerHTML={{__html: item.html}}
-            />
-          );
-        }}
-        onResultChange={noop}
-        onChange={pipOutValue}
-        onClear={() => pipOutValue(undefined)}
-        clearable={true}
-      />
-    );
-  }
-
-  if (schemaType === 'number') {
+  if (!isExpr && schemaType === 'number') {
     return (
       <NumberInput
         {...sharedProps}
@@ -247,9 +173,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         onChange={pipOutValue}
       />
     );
-  } else if (schemaType === 'date') {
-    const cmptValue = pipInValue(value ?? inputSettings.defaultValue);
-
+  } else if (!isExpr && schemaType === 'date') {
     return (
       <DatePicker
         {...sharedProps}
@@ -265,7 +189,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         onChange={pipOutValue}
       />
     );
-  } else if (schemaType === 'time') {
+  } else if (!isExpr && schemaType === 'time') {
     return (
       <DatePicker
         {...sharedProps}
@@ -279,11 +203,11 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         dateFormat=""
         timeFormat={inputSettings.format || 'HH:mm'}
         popOverContainer={popOverContainer}
-        value={pipInValue(value ?? inputSettings.defaultValue)}
+        value={cmptValue}
         onChange={pipOutValue}
       />
     );
-  } else if (schemaType === 'datetime') {
+  } else if (!isExpr && schemaType === 'datetime') {
     return (
       <DatePicker
         {...sharedProps}
@@ -295,14 +219,14 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         inputFormat={inputSettings.inputFormat || 'YYYY-MM-DD HH:mm'}
         timeFormat={inputSettings.timeFormat || 'HH:mm'}
         popOverContainer={popOverContainer}
-        value={pipInValue(value ?? inputSettings.defaultValue)}
+        value={cmptValue}
         onChange={pipOutValue}
       />
     );
-  } else if (schemaType === 'select' || schemaType === 'boolean') {
+  } else if (!isExpr && (schemaType === 'select' || schemaType === 'boolean')) {
     return (
       <Select
-        {...sharedProps}
+        {...(sharedProps as any)}
         className={cx(className, `FormulaPicker-input-${schemaType}`)}
         borderMode="none"
         multiple={schemaType === 'boolean' ? false : inputSettings.multiple}
@@ -320,6 +244,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
               ]
             : inputSettings.options ?? []
         }
+        source={inputSettings.source}
         value={pipInValue(value)}
         renderValueLabel={option => {
           const label = option.label?.toString() ?? '';
@@ -333,23 +258,34 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
         onChange={pipOutValue}
       />
     );
+  } else if (!isExpr && schemaType === 'custom' && customInputRender) {
+    return customInputRender({
+      value: cmptValue,
+      onChange: pipOutValue,
+      inputSettings,
+      className: `FormulaPicker-input-custom`
+    });
   } else {
     return (
-      <ResultBox
-        {...sharedProps}
-        className={cx(className)}
-        allowInput={allowInput}
+      <InputBox
+        className={cx('FormulaPicker-input')}
+        inputRender={({value, onChange, onFocus, onBlur, placeholder}: any) => (
+          <CodeEditor
+            singleLine
+            value={value}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            functions={functions}
+            variables={variables}
+            evalMode={evalMode}
+            placeholder={placeholder}
+          />
+        )}
         borderMode={borderMode}
-        placeholder={placeholder}
-        value={pipInValue(value)}
-        result={
-          allowInput || !value
-            ? void 0
-            : FormulaEditor.highlightValue(value, variables!, evalMode)
-        }
-        itemRender={itemRender}
-        onResultChange={noop}
+        value={cmptValue}
         onChange={pipOutValue}
+        placeholder={__(placeholder ?? 'placeholder.enter')}
       />
     );
   }
@@ -357,7 +293,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
 
 export default themeable(
   localeable(
-    uncontrollable(FormulaInput, {
+    uncontrollable(React.forwardRef(FormulaInput), {
       value: 'onChange'
     })
   )

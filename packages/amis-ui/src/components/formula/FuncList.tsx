@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {themeable, ThemeProps} from 'amis-core';
+import {mapTree, themeable, ThemeProps} from 'amis-core';
 import Collapse from '../Collapse';
 import CollapseGroup from '../CollapseGroup';
 import SearchBox from '../SearchBox';
-import type {FuncGroup, FuncItem} from './Editor';
+import type {FuncGroup, FuncItem} from './CodeEditor';
 import TooltipWrapper from '../TooltipWrapper';
 import {Icon} from '../icons';
 
@@ -25,26 +25,32 @@ export function FuncList(props: FuncListProps) {
     descClassName,
     mobileUI
   } = props;
+  const [term, setTerm] = React.useState('');
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    setFiteredFuncs(props.data);
-  }, [props.data]);
+  const onSearch = React.useCallback(
+    (term: string) => {
+      const filtered = props.data
+        .map(item => {
+          return {
+            ...item,
+            items: term
+              ? item.items.filter(
+                  (item: any) => ~item.name.indexOf(term.toUpperCase())
+                )
+              : item.items
+          };
+        })
+        .filter(item => item.items.length);
+      setFiteredFuncs(filtered);
+    },
+    [props.data]
+  );
 
-  function onSearch(term: string) {
-    const filtered = props.data
-      .map(item => {
-        return {
-          ...item,
-          items: term
-            ? item.items.filter(item => ~item.name.indexOf(term.toUpperCase()))
-            : item.items
-        };
-      })
-      .filter(item => item.items.length);
-    setFiteredFuncs(filtered);
-  }
+  React.useEffect(() => {
+    onSearch(term);
+  }, [props.data]);
 
   return (
     <div className={cx('FormulaEditor-panel', 'left', className)}>
@@ -57,7 +63,13 @@ export function FuncList(props: FuncListProps) {
         <div className={cx('FormulaEditor-panel-header')}>{title}</div>
         <div className={cx('FormulaEditor-panel-body')}>
           <div className={cx('FormulaEditor-FuncList-searchBox')}>
-            <SearchBox mini={false} onSearch={onSearch} mobileUI={mobileUI} />
+            <SearchBox
+              value={term}
+              onChange={setTerm}
+              mini={false}
+              onSearch={onSearch}
+              mobileUI={mobileUI}
+            />
           </div>
           <div className={cx('FormulaEditor-FuncList-body', bodyClassName)}>
             <CollapseGroup
@@ -81,7 +93,7 @@ export function FuncList(props: FuncListProps) {
                   header={item.groupName}
                   key={item.groupName}
                 >
-                  {item.items.map(item => (
+                  {item.items.map((item: any) => (
                     <div
                       className={cx('FormulaEditor-FuncList-item', {
                         'is-active': item.name === activeFunc?.name

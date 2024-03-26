@@ -197,7 +197,7 @@ exports[`Renderer:input-formula button 1`] = `
                     class="cxd-FormulaPicker cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action w-full"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default is-active cxd-FormulaPicker-action w-full"
                       type="button"
                     >
                       <span
@@ -431,23 +431,143 @@ exports[`Renderer:input-formula input-group 1`] = `
                     class="cxd-FormulaPicker is-input-group cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <div
-                      class="cxd-ResultBox cxd-FormulaPicker-input cxd-ResultBox--borderFull"
-                      tabindex="-1"
+                      class="cxd-InputBox cxd-FormulaPicker-input cxd-InputBox--borderFull"
                     >
                       <div
-                        class="cxd-ResultBox-value-wrap"
+                        class="cxd-FormulaCodeEditor cxd-FormulaCodeEditor--singleLine"
+                        style="position: relative;"
                       >
-                        <input
-                          class="cxd-ResultBox-value-input"
-                          placeholder="暂无数据"
-                          theme="cxd"
-                          type="text"
-                          value="SUM(1 + 2)"
-                        />
+                        <div
+                          class="CodeMirror cm-s-idea"
+                          translate="no"
+                        >
+                          <div
+                            style="overflow: hidden; position: relative; width: 3px; height: 0px;"
+                          >
+                            <textarea
+                              autocapitalize="off"
+                              autocorrect="off"
+                              spellcheck="false"
+                              style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; min-height: 1em; outline: none;"
+                              tabindex="0"
+                            />
+                          </div>
+                          <div
+                            class="CodeMirror-scrollbar-filler"
+                            cm-not-content="true"
+                          />
+                          <div
+                            class="CodeMirror-gutter-filler"
+                            cm-not-content="true"
+                          />
+                          <div
+                            class="CodeMirror-scroll"
+                            tabindex="-1"
+                          >
+                            <div
+                              class="CodeMirror-sizer"
+                              style="margin-left: 0px; min-width: 3px;"
+                            >
+                              <div
+                                style="position: relative;"
+                              >
+                                <div
+                                  class="CodeMirror-lines"
+                                  role="presentation"
+                                >
+                                  <div
+                                    role="presentation"
+                                    style="position: relative; outline: none;"
+                                  >
+                                    <div
+                                      class="CodeMirror-measure"
+                                    />
+                                    <div
+                                      class="CodeMirror-measure"
+                                    >
+                                      <pre
+                                        class="CodeMirror-line"
+                                        role="presentation"
+                                      >
+                                        <span
+                                          role="presentation"
+                                          style="padding-right: .1px;"
+                                        >
+                                          SUM(1 + 2)
+                                        </span>
+                                      </pre>
+                                    </div>
+                                    <div
+                                      style="position: relative; z-index: 1;"
+                                    />
+                                    <div
+                                      class="CodeMirror-cursors"
+                                    />
+                                    <div
+                                      class="CodeMirror-code"
+                                      role="presentation"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              style="position: absolute; height: 50px; width: 1px;"
+                            />
+                            <div
+                              class="CodeMirror-gutters"
+                              style="display: none;"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
+                      <a
+                        class="cxd-InputBox-clear"
+                      >
+                        <icon-mock
+                          classname="icon icon-input-clear"
+                          icon="input-clear"
+                        />
+                      </a>
                     </div>
                     <a
                       class="cxd-FormulaPicker-toggler"
