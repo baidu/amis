@@ -115,6 +115,39 @@ export function calculatePosition(
     arrowOffsetTop: any = '',
     activePlacement: string = placement;
 
+  // 如果是作为菜单浮层，不再基于四个方向对齐，而是模拟原生右键菜单定位：
+  // 1.计算放右边，还是左边
+  // 2.计算能否放在下面，如果不能则贴底
+  // 3.由于是基于一个点此时不考虑 arrow
+  if (placement === 'asContextMenu') {
+    if (childOffset.left + 1 + overlayWidth <= clip.width) {
+      // 放右边
+      positionLeft = childOffset.left + 1;
+    } else if (childOffset.left - overlayWidth >= 0) {
+      // 放左边
+      positionLeft = childOffset.left - overlayWidth;
+    } else {
+      // 兜底贴右边
+      positionLeft = Math.max(clip.width - overlayWidth, 10);
+    }
+
+    if (childOffset.top + 1 + overlayHeight <= clip.height) {
+      // 放下面
+      positionTop = childOffset.top + 1;
+    } else {
+      // 贴底边，预留5px避免完全贴底
+      positionTop = Math.max(clip.height - overlayHeight - 5, 10);
+    }
+    const [offSetX = 0, offSetY = 0] = customOffset;
+    return {
+      positionLeft: (positionLeft + offSetX) / scaleX,
+      positionTop: (positionTop + offSetY) / scaleY,
+      arrowOffsetLeft,
+      arrowOffsetTop,
+      activePlacement
+    };
+  }
+
   if (~placement.indexOf('-')) {
     const tests = placement.split(/\s+/);
 
