@@ -44,8 +44,11 @@ export class KVControlPlugin extends BasePlugin {
   };
 
   patchSchema: any = (patched: any) => {
-    delete patched.pipeIn;
-    delete patched.pipeOut;
+    if (patched.pipeIn || patched.pipeOut) {
+      patched = {...patched};
+      delete patched.pipeIn;
+      delete patched.pipeOut;
+    }
     return patched;
   };
 
