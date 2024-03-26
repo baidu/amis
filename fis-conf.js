@@ -700,6 +700,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
   const ghPages = fis.media('gh-pages');
   ghPages.set('project.files', [
     'examples/index.html',
+    'examples/app/index.html',
     '/examples/static/*.docx',
     '/examples/static/*.xlsx'
   ]);
