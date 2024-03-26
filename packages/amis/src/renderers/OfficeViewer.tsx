@@ -122,7 +122,12 @@ export default class OfficeViewer extends React.Component<
   /**
    * 接收动作事件
    */
-  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    data: any,
+    throwErrors: boolean,
+    args?: any
+  ): any {
     const actionType = action?.actionType as string;
 
     if (actionType === 'saveAs') {

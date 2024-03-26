@@ -1791,8 +1791,9 @@ export class TableControlRenderer extends FormTable {
 
   async doAction(
     action: ListenerAction | ActionObject,
-    args: any,
-    ...rest: Array<any>
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
   ) {
     const {
       valueField,
@@ -1954,6 +1955,6 @@ export class TableControlRenderer extends FormTable {
       );
       return;
     }
-    return super.doAction(action as ActionObject, ctx, ...rest);
+    return super.doAction(action as ActionObject, data, throwErrors, ctx);
   }
 }

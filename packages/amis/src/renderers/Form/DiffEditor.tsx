@@ -112,7 +112,12 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.toDispose.forEach(fn => fn());
   }
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 

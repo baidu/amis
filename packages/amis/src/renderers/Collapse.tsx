@@ -153,7 +153,12 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     onCollapse?.(collapsed);
   }
 
-  doAction(action: ActionObject, args: object, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    data: object,
+    throwErrors: boolean,
+    args: object
+  ): any {
     if (this.props.disabled || this.props.collapsable === false) {
       return;
     }

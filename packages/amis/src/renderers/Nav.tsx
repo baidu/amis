@@ -1517,7 +1517,9 @@ export class NavigationRenderer extends React.Component<RendererProps> {
 
   doAction(
     action: ActionObject,
-    args: {
+    data: object,
+    throwErrors?: boolean,
+    args?: {
       value?: string | {[key: string]: string};
     }
   ) {

@@ -4810,7 +4810,7 @@ value 结构说明：
   "data": {
     "name": "amis",
     "age": 18,
-    "date": "2023-6-6"
+    "date": "${DATETOSTR(NOW())}"
   },
   "body": [
     {
@@ -4825,7 +4825,7 @@ value 结构说明：
               "componentId": "crud_reload2",
               "actionType": "reload",
               data: {
-                date: "${date}"
+                date: "${DATETOSTR(NOW())}"
               }
             }
           ]
@@ -4837,6 +4837,7 @@ value 结构说明：
       "api": "/api/mock2/sample",
       "id": "crud_reload2",
       "syncLocation": false,
+      "headerToolbar": ["Date is ${date}"],
       "columns": [
         {
           "name": "id",
@@ -5047,6 +5048,93 @@ value 结构说明：
   ]
 }
 ```
+
+#### 局部刷新（仅刷新指定行）
+
+> `6.3.0`及以上版本
+
+需要搭配 `deferApi` 属性使用，同时刷新动作指定 `args.index` 或者 `args.condition` 来指定刷新哪一行。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新 id 为 2 的行",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload1",
+              "actionType": "reload",
+              "args": {
+                "condition": "${id == 2}"
+              }
+            },
+
+            {
+              "componentId": "crud_reload1",
+              "actionType": "toggleExpanded",
+              "args": {
+                "condition": "${id == 2}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/crud/table6",
+      "deferApi": "/api/mock2/crud/table6?parentId=${id}&waitSeconds=2",
+      "id": "crud_reload1",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## toggleExpanded
+
+> `6.3.0`及以上版本
+
+切换展开状态。通过指定 `args.index` 或者 `args.condition` 来指定切换哪一行。
+
+参考局部刷新里面的示例。
 
 ### setValue
 
