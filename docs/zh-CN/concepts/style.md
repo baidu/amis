@@ -254,7 +254,7 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
 
 ## 布局
 
-水平布局可以考虑用 Bootstrap 的 [Grids](http://getbootstrap.com/css/#grid) 或者用 `hobx` 加 `col`
+水平布局可以考虑用 Bootstrap 的 [Grids](http://getbootstrap.com/css/#grid) 或者用 `hbox` 加 `col`
 
 ```html
 <div class="hbox b-a">
