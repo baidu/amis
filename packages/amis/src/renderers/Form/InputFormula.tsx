@@ -284,8 +284,6 @@ export class InputFormulaRenderer extends React.Component<
       // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
       functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
     }
-
-    console.log('DDDD', this.state.variableRaw);
     return (
       <FormulaPicker
         popOverContainer={env.getModalContainer}
