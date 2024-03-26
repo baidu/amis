@@ -687,6 +687,54 @@ order: 54
 }
 ```
 
+## 树形模式
+
+配置 `childrenAddable` 为 true，可以开启新增子节点功能。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "addable": true,
+      "childrenAddable": true,
+      "editable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a"
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 获取父级数据
 
 默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Table 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
@@ -869,6 +917,7 @@ order: 54
 | ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
 | type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
 | addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| childrenAddable              | `boolean`                                 | `false`         | 是否可增加子级节点                                                                                   |
 | editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
 | removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
 | showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮，前提是要开启可新增功能                                                   |
@@ -879,6 +928,8 @@ order: 54
 | deleteApi                    | [API](../../../docs/types/api)            | -               | 删除时提交的 API                                                                                     |
 | addBtnLabel                  | `string`                                  |                 | 增加按钮名称                                                                                         |
 | addBtnIcon                   | `string`                                  | `"plus"`        | 增加按钮图标                                                                                         |
+| subAddBtnLabel               | `string`                                  |                 | 子级增加按钮名称                                                                                     |
+| subAddBtnIcon                | `string`                                  | `"sub-plus"`    | 子级增加按钮图标                                                                                     |
 | copyBtnLabel                 | `string`                                  |                 | 复制按钮文字                                                                                         |
 | copyBtnIcon                  | `string`                                  | `"copy"`        | 复制按钮图标                                                                                         |
 | editBtnLabel                 | `string`                                  | `""`            | 编辑按钮名称                                                                                         |

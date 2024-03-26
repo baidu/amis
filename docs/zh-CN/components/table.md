@@ -1817,7 +1817,7 @@ popOver 的其它配置请参考 [popover](./popover)
 
 > 1.5.0 及以上版本
 
-通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../../examples/crud/auto-fill)。
+通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../examples/crud/auto-fill)。
 
 它的展现效果是整个内容区域高度自适应，表格内容较多时在内容区域内出滚动条，这样顶部筛选和底部翻页的位置都是固定的。
 
