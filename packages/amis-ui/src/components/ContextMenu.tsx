@@ -265,7 +265,7 @@ export class ContextMenu extends React.Component<
   autoCalculatePosition(menu: HTMLElement) {
     // 智能定位，选择一个合适的对齐方式。
     const info = calculatePosition(
-      'auto',
+      'asContextMenu',
       menu.lastChild,
       menu.children[1] as HTMLElement,
       menu.children[0]
