@@ -89,6 +89,8 @@ export interface SchemaEditorMapProps extends LocaleProps, ThemeProps {
    * 添加属性的按钮文本
    */
   addButtonText?: string;
+
+  store?: any;
 }
 
 let jsonSchemaValue: any;
@@ -252,6 +254,9 @@ export class SchemaEditorMap extends React.Component<
       formulaForIf
     } = this.props;
 
+    if (formulaForIf) {
+      formulaForIf.store = this.props.store;
+    }
     const {showJsonSchema, isJson} = this.state;
     const value: JSONSchema = this.props.value || {
       type: defaultType || 'object'

@@ -38,7 +38,6 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
 
   componentDidUpdate(prevProps: SchemaEditorItemCommonProps) {
     const props = this.props;
-    console.log('mpping start===========================', this.props);
     // 外部属性变化，更新 state
     if (
       props.value !== prevProps.value &&
@@ -256,6 +255,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       classnames: cx,
       translate: __
     } = this.props;
+
     return (
       <>
         <Controller
@@ -283,7 +283,6 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               evalMode={true}
               mixedMode={false}
               header="设置条件"
-              {...formulaForIf}
             ></FormulaPicker>
             // <Checkbox
             //   {...field}
@@ -319,7 +318,6 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       formulaForIf
     } = this.props;
     const members = this.state.members;
-
     return (
       <div
         className={cx('SchemaEditorProps', {

@@ -285,6 +285,7 @@ export class InputFormulaRenderer extends React.Component<
       functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
     }
 
+    console.log('DDDD', this.state.variableRaw);
     return (
       <FormulaPicker
         popOverContainer={env.getModalContainer}

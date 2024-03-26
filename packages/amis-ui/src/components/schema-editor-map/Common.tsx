@@ -45,7 +45,6 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   typeMutable?: boolean;
   showInfo?: boolean;
   addButtonText?: string;
-
   // 额外的渲染，控制 item 的渲染，而不是详情
   renderExtraProps?: (
     value: JSONSchema,
@@ -142,9 +141,9 @@ export class SchemaEditorItemCommon<
       mini,
       formPrefixRender,
       formAffixRender,
-      formulaForIf
+      formulaForIf,
+      stroe
     } = this.props;
-
     return (
       <>
         {prefix}

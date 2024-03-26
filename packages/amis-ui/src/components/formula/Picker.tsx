@@ -246,7 +246,10 @@ export class FormulaPicker extends React.Component<
         let resultArray = [...variablesDefault, ...result];
         this.setState({variables: resultArray});
       } else {
-        this.setState({variables: result});
+        if (result) {
+          console.log('result================', result);
+          this.setState({variables: result});
+        }
       }
     }
     this.buildFunctions();
@@ -272,7 +275,9 @@ export class FormulaPicker extends React.Component<
           data,
           '|raw'
         );
-        this.setState({variables: result});
+        if (result) {
+          this.setState({variables: result});
+        }
       }
     }
 
@@ -440,7 +445,6 @@ export class FormulaPicker extends React.Component<
       store,
       variablesDefault
     } = this.props;
-
     if (syncSuperData && variableRaw) {
       const variableRawData = variableRaw.replace(/\$\{|\}$/g, '');
       if (variableRawData) {
@@ -465,7 +469,9 @@ export class FormulaPicker extends React.Component<
         data,
         '|raw'
       );
-      this.setState({variables: result});
+      if (result) {
+        this.setState({variables: result});
+      }
     }
 
     const state = {
