@@ -20,6 +20,19 @@ import {
 import {dataMapping, tokenize} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
 
+/**
+ * 忽略静态数据中的 schema 属性
+ *
+ * 比如 https://github.com/baidu/amis/issues/8972 中的用法
+ */
+function ignoreSchemaProps(key: string, value: any) {
+  if (['clickAction'].includes(key) && typeof value !== 'string') {
+    return true;
+  }
+
+  return false;
+}
+
 export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean | ((props: any) => boolean);
@@ -86,7 +99,11 @@ export function HocStoreFactory(renderer: {
                 : null,
               {
                 ...this.formatData(
-                  dataMapping(this.props.defaultData, this.props.data)
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
                 ),
                 ...this.formatData(this.props.data)
               }
@@ -100,7 +117,11 @@ export function HocStoreFactory(renderer: {
             store.initData(
               createObject(this.props.store.data, {
                 ...this.formatData(
-                  dataMapping(this.props.defaultData, this.props.data)
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
                 )
               })
             );
@@ -110,7 +131,11 @@ export function HocStoreFactory(renderer: {
                 (this.props.data as any).__super || this.props.scope,
                 {
                   ...this.formatData(
-                    dataMapping(this.props.defaultData, this.props.data)
+                    dataMapping(
+                      this.props.defaultData,
+                      this.props.data,
+                      ignoreSchemaProps
+                    )
                   ),
                   ...this.formatData(this.props.data)
                 }
@@ -120,7 +145,11 @@ export function HocStoreFactory(renderer: {
         } else {
           store.initData({
             ...this.formatData(
-              dataMapping(this.props.defaultData, this.props.data)
+              dataMapping(
+                this.props.defaultData,
+                this.props.data,
+                ignoreSchemaProps
+              )
             ),
             ...this.formatData(this.props.data)
           });
