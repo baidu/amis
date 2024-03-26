@@ -294,7 +294,6 @@ export class InputFormulaRenderer extends React.Component<
         value={value}
         store={this.props.store}
         disabled={disabled}
-        allowInput={allowInput}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}

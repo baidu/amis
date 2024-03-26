@@ -141,8 +141,7 @@ export class SchemaEditorItemCommon<
       mini,
       formPrefixRender,
       formAffixRender,
-      formulaForIf,
-      stroe
+      formulaForIf
     } = this.props;
     return (
       <>

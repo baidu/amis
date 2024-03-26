@@ -412,7 +412,7 @@ export type JSONSchema = JSONSchema7 & {
 };
 
 export type JSONSchemaMap = JSONSchema & {
-  target?: string; //目标
+  formula?: string; //目标
 };
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;

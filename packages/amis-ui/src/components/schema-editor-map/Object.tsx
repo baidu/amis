@@ -222,13 +222,13 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
     this.setState({members}, this.pipeOut);
   }
 
-  handlePropFormulaChange(index: number, target: string) {
+  handlePropFormulaChange(index: number, formula: string) {
     const members = this.state.members.concat();
     members[index] = {
       ...members[index],
       schema: {
         ...members[index].schema,
-        target
+        formula
       }
     };
 
