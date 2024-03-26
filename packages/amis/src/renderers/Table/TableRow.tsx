@@ -355,15 +355,12 @@ export default observer((props: TableRowProps) => {
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
-      partial={item.partial}
       checked={item.checked}
       modified={item.modified}
       moved={item.moved}
       depth={item.depth}
       expandable={item.expandable}
       checkdisable={item.checkdisable}
-      loading={item.loading}
-      error={item.error}
       // data 在 TableRow 里面没有使用，这里写上是为了当列数据变化的时候 TableRow 重新渲染，
       // 不是 item.locals 的原因是 item.locals 会变化多次，比如父级上下文变化也会进来，但是 item.data 只会变化一次。
       data={canAccessSuperData ? item.locals : item.data}

@@ -242,6 +242,10 @@
         border-color: var(--Tabs-onActive-borderColor);
         border-bottom-color: transparent;
       }
+
+      &.has-error > a:first-child {
+        color: var(--Tabs-onError-color) !important;
+      }
     }
   }
 
