@@ -114,7 +114,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     if (
       url &&
       typeof url === 'string' &&
-      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(url)
+      !/^(\.\/|\.\.\/|\/|(blob\:)?https?\:\/\/|\/\/)/.test(url)
     ) {
       return false;
     }
