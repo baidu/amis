@@ -344,7 +344,11 @@ export class FormulaPicker extends React.Component<
 
     let ast: any;
     try {
-      ast = parse(editorValue, {evalMode: true, allowFilter: false});
+      ast = parse(editorValue, {
+        // mixedMode 弹窗中的一定是表达式
+        evalMode: this.props.mixedMode ? true : this.props.evalMode,
+        allowFilter: false
+      });
     } catch (error) {
       this.setState({isError: error?.message ?? true});
       return;
@@ -462,6 +466,7 @@ export class FormulaPicker extends React.Component<
     try {
       value &&
         parse(value, {
+          // mixedMode 值是模版， 要 ${} 包裹表达式
           evalMode: this.props.mixedMode ? false : this.props.evalMode,
           allowFilter: false
         });
