@@ -1811,7 +1811,12 @@ export default class Table2 extends React.Component<Table2Props, object> {
     onSaveOrder(movedItems, items);
   }
 
-  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    ctx: any,
+    throwErrors: boolean = false,
+    args?: any
+  ): any {
     const {store, data, keyField: key, expandable, primaryField} = this.props;
 
     const actionType = action?.actionType as string;

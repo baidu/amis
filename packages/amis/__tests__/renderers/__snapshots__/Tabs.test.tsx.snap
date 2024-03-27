@@ -54,7 +54,11 @@ exports[`Renderer:tabs as form item 1`] = `
                     <a
                       title="Tab 1"
                     >
-                      Tab 1
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        Tab 1
+                      </span>
                     </a>
                   </li>
                   <li
@@ -63,7 +67,11 @@ exports[`Renderer:tabs as form item 1`] = `
                     <a
                       title="Tab 2"
                     >
-                      Tab 2
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        Tab 2
+                      </span>
                     </a>
                   </li>
                 </ul>
@@ -183,7 +191,11 @@ exports[`Renderer:tabs change active tab 1`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
               <span
                 class="cxd-Tabs-link-close"
@@ -200,7 +212,11 @@ exports[`Renderer:tabs change active tab 1`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
               <span
                 class="cxd-Tabs-link-close"
@@ -300,7 +316,11 @@ exports[`Renderer:tabs change active tab 2`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
               <span
                 class="cxd-Tabs-link-close"
@@ -317,7 +337,11 @@ exports[`Renderer:tabs change active tab 2`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
               <span
                 class="cxd-Tabs-link-close"
@@ -491,7 +515,11 @@ exports[`Renderer:tabs tabsMode 1`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -500,7 +528,11 @@ exports[`Renderer:tabs tabsMode 1`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
           </ul>
@@ -592,7 +624,11 @@ exports[`Renderer:tabs tabsMode 2`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -601,7 +637,11 @@ exports[`Renderer:tabs tabsMode 2`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
           </ul>
@@ -726,7 +766,11 @@ exports[`Renderer:tabs tabsMode 3`] = `
           <a
             title="基本配置"
           >
-            基本配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
           </a>
         </li>
         <li
@@ -735,7 +779,11 @@ exports[`Renderer:tabs tabsMode 3`] = `
           <a
             title="其他配置"
           >
-            其他配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
           </a>
         </li>
       </ul>
@@ -819,7 +867,11 @@ exports[`Renderer:tabs tabsMode 4`] = `
           <a
             title="基本配置"
           >
-            基本配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
           </a>
           <div
             class="chrome-tab-background"
@@ -848,7 +900,11 @@ exports[`Renderer:tabs tabsMode 4`] = `
           <a
             title="其他配置"
           >
-            其他配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
           </a>
           <div
             class="chrome-tab-background"
@@ -958,7 +1014,11 @@ exports[`Renderer:tabs tabsMode 5`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -967,7 +1027,11 @@ exports[`Renderer:tabs tabsMode 5`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
           </ul>
@@ -1059,7 +1123,11 @@ exports[`Renderer:tabs tabsMode 6`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -1068,7 +1136,11 @@ exports[`Renderer:tabs tabsMode 6`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
           </ul>
@@ -1160,7 +1232,11 @@ exports[`Renderer:tabs tabsMode 7`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -1169,7 +1245,11 @@ exports[`Renderer:tabs tabsMode 7`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
           </ul>
@@ -1255,7 +1335,11 @@ exports[`Renderer:tabs tabsMode 8`] = `
           <a
             title="基本配置"
           >
-            基本配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
           </a>
         </li>
         <li
@@ -1264,7 +1348,11 @@ exports[`Renderer:tabs tabsMode 8`] = `
           <a
             title="其他配置"
           >
-            其他配置
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
           </a>
         </li>
       </ul>
@@ -1315,7 +1403,11 @@ exports[`Renderer:tabs toolbar 1`] = `
               <a
                 title="基本配置"
               >
-                基本配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
               </a>
             </li>
             <li
@@ -1324,7 +1416,11 @@ exports[`Renderer:tabs toolbar 1`] = `
               <a
                 title="其他配置"
               >
-                其他配置
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
               </a>
             </li>
             <div
@@ -1428,7 +1524,11 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
               <a
                 title="Tab 1"
               >
-                Tab 1
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  Tab 1
+                </span>
               </a>
             </li>
             <li
@@ -1437,7 +1537,11 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
               <a
                 title="Tab 2"
               >
-                Tab 2
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  Tab 2
+                </span>
               </a>
             </li>
             <li
@@ -1575,7 +1679,11 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
           <a
             title="Tab 3"
           >
-            Tab 3
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 3
+            </span>
           </a>
         </li>
         <li
@@ -1584,7 +1692,11 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
           <a
             title="Tab 4"
           >
-            Tab 4
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 4
+            </span>
           </a>
         </li>
         <li
@@ -1593,7 +1705,11 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
           <a
             title="Tab 5"
           >
-            Tab 5
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 5
+            </span>
           </a>
         </li>
       </ul>

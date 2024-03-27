@@ -154,7 +154,7 @@ export default class List extends React.Component<ListProps, object> {
       } else {
         action = item.clickAction!;
       }
-      handleAction(e, action as ActionSchema, this.props);
+      handleAction(e, action as ActionSchema, this.props, item);
     };
   }
 

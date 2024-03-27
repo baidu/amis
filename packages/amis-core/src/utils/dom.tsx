@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import getOffset from './offset';
 import getPosition from './position';
+import {getScrollParent} from './helper';
 
 export function getContainer(container: any, defaultContainer: any) {
   container = typeof container === 'function' ? container() : container;
@@ -84,6 +85,7 @@ export function calculatePosition(
   padding: any = 0,
   customOffset: [number, number] = [0, 0]
 ) {
+  const scrollParent: HTMLElement = getScrollParent(container)!;
   const childOffset: any =
     container.tagName === 'BODY'
       ? getOffset(target)
@@ -114,6 +116,39 @@ export function calculatePosition(
     arrowOffsetLeft: any = '',
     arrowOffsetTop: any = '',
     activePlacement: string = placement;
+
+  // 如果是作为菜单浮层，不再基于四个方向对齐，而是模拟原生右键菜单定位：
+  // 1.计算放右边，还是左边
+  // 2.计算能否放在下面，如果不能则贴底
+  // 3.由于是基于一个点此时不考虑 arrow
+  if (placement === 'asContextMenu') {
+    if (childOffset.left + 1 + overlayWidth <= clip.width) {
+      // 放右边
+      positionLeft = childOffset.left + 1;
+    } else if (childOffset.left - overlayWidth >= 0) {
+      // 放左边
+      positionLeft = childOffset.left - overlayWidth;
+    } else {
+      // 兜底贴右边
+      positionLeft = Math.max(clip.width - overlayWidth, 10);
+    }
+
+    if (childOffset.top + 1 + overlayHeight <= clip.height) {
+      // 放下面
+      positionTop = childOffset.top + 1;
+    } else {
+      // 贴底边，预留5px避免完全贴底
+      positionTop = Math.max(clip.height - overlayHeight - 5, 10);
+    }
+    const [offSetX = 0, offSetY = 0] = customOffset;
+    return {
+      positionLeft: (positionLeft + offSetX) / scaleX,
+      positionTop: (positionTop + offSetY) / scaleY,
+      arrowOffsetLeft,
+      arrowOffsetTop,
+      activePlacement
+    };
+  }
 
   if (~placement.indexOf('-')) {
     const tests = placement.split(/\s+/);
@@ -182,7 +217,8 @@ export function calculatePosition(
 
         if (
           transformed.x > 0 &&
-          transformed.x + transformed.width < window.innerWidth
+          transformed.x + transformed.width <
+            window.innerWidth + scrollParent.scrollLeft
         ) {
           visibleX = true;
           !visiblePlacement.atX && (visiblePlacement.atX = atX);
@@ -191,7 +227,8 @@ export function calculatePosition(
 
         if (
           transformed.y > 0 &&
-          transformed.y + transformed.height < window.innerHeight
+          transformed.y + transformed.height <
+            window.innerHeight + scrollParent.scrollTop
         ) {
           visibleY = true;
           !visiblePlacement.atY && (visiblePlacement.atY = atY);
@@ -202,14 +239,14 @@ export function calculatePosition(
           break;
         } else if (isAuto && tests.length === 0) {
           // 获取相对定位的父元素位置
-          let parentElement = overlayNode.offsetParent;
+          let offsetParent = overlayNode.offsetParent;
           while (
-            parentElement &&
-            window.getComputedStyle(parentElement).position === 'static'
+            offsetParent &&
+            window.getComputedStyle(offsetParent).position === 'static'
           ) {
-            parentElement = parentElement.offsetParent;
+            offsetParent = offsetParent.offsetParent;
           }
-          const parentRect = parentElement?.getBoundingClientRect?.();
+          const parentRect = offsetParent?.getBoundingClientRect?.();
           const parentTransformed = {
             x: parentRect?.x || 0,
             y: parentRect?.y || 0
@@ -217,11 +254,14 @@ export function calculatePosition(
           // 如果是 auto 模式，且最后一个方向都不可见，则直接平移到可见区域，考虑相对定位的父元素位置，保留10px的边距
           visibleY ||
             (positionTop =
-              Math.max(10, window.innerHeight - transformed.height) -
-              parentTransformed.y);
+              Math.max(10, window.innerHeight - transformed.height) +
+              scrollParent.scrollTop -
+              parentTransformed.y -
+              10);
           visibleX ||
             (positionLeft =
-              Math.max(10, window.innerWidth - transformed.width) -
+              Math.max(10, window.innerWidth - transformed.width) +
+              scrollParent.scrollLeft -
               parentTransformed.x);
         }
       }

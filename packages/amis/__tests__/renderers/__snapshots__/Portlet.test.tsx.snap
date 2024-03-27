@@ -28,7 +28,11 @@ exports[`Renderer:portlet 1`] = `
                 <a
                   title="Tab 1"
                 >
-                  Tab 1
+                  <span
+                    class="cxd-Tabs-link-text"
+                  >
+                    Tab 1
+                  </span>
                 </a>
               </li>
               <li
@@ -37,7 +41,11 @@ exports[`Renderer:portlet 1`] = `
                 <a
                   title="Tab 2"
                 >
-                  Tab 2
+                  <span
+                    class="cxd-Tabs-link-text"
+                  >
+                    Tab 2
+                  </span>
                 </a>
               </li>
               <div

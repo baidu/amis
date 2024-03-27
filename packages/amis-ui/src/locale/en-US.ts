@@ -227,6 +227,7 @@ register('en-US', {
   'System.requestError': 'Request error: ',
   'System.requestErrorStatus': 'Request error, status code: ',
   'Table.addRow': 'Add row',
+  'Table.subAddRow': 'Add sub row',
   'Table.copyRow': 'Copy row',
   'Table.columnsVisibility': 'Click to control columns visibility',
   'Table.deleteRow': 'Delete current row',

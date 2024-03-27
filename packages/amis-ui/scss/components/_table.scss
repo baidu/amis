@@ -643,6 +643,11 @@
       > .#{$ns}Spinner {
         vertical-align: middle;
       }
+
+      > [data-role='form-item'] {
+        display: inline-block;
+        min-width: px2rem(160px);
+      }
     }
   }
 

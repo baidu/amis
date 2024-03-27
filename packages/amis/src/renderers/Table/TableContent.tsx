@@ -90,6 +90,7 @@ export interface TableContentProps extends LocaleProps {
   isSelectionThresholdReached?: boolean;
   orderBy?: string;
   orderDir?: string;
+  children?: React.ReactNode;
 }
 
 export function renderItemActions(
@@ -175,7 +176,8 @@ export class TableContent extends React.PureComponent<TableContentProps> {
       dispatchEvent,
       onEvent,
       loading,
-      testIdBuilder
+      testIdBuilder,
+      children
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -309,6 +311,7 @@ export class TableContent extends React.PureComponent<TableContentProps> {
             />
           )}
         </table>
+        {children}
       </div>
     );
   }

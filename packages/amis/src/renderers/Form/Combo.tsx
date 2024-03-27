@@ -510,7 +510,12 @@ export default class ComboControl extends React.Component<ComboProps> {
     return value;
   }
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 

@@ -221,7 +221,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.clearAutoTimeout();
   }
 
-  doAction(action: ActionObject, args: object, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    ctx: object,
+    throwErrors: boolean,
+    args: object
+  ): any {
     const actionType = action?.actionType as string;
 
     if (!!~['next', 'prev'].indexOf(actionType)) {

@@ -3926,17 +3926,17 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                        | 说明                                                           |
-| -------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行         | 手动选择表格项时触发                                           |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                    | 点击列排序时触发                                               |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值 | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据            | 点击列搜索时触发                                               |
-| orderChange    | `movedItems: item[]` 已排序数据                                                 | 手动拖拽行排序时触发                                           |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                          | 点击自定义列时触发                                             |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                            | 点击整行时触发                                                 |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                            | 移入整行时触发                                                 |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                            | 移出整行时触发                                                 |
+| 事件名称       | 事件参数                                                                                  | 说明                                                           |
+| -------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                   | 手动选择表格项时触发                                           |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                              | 点击列排序时触发                                               |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值           | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据                      | 点击列搜索时触发                                               |
+| orderChange    | `movedItems: item[]` 已排序数据                                                           | 手动拖拽行排序时触发                                           |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                    | 点击自定义列时触发                                             |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 点击整行时触发                                                 |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移入整行时触发                                                 |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移出整行时触发                                                 |
 
 ### selectedChange
 
@@ -4810,7 +4810,7 @@ value 结构说明：
   "data": {
     "name": "amis",
     "age": 18,
-    "date": "2023-6-6"
+    "date": "${DATETOSTR(NOW())}"
   },
   "body": [
     {
@@ -4825,7 +4825,7 @@ value 结构说明：
               "componentId": "crud_reload2",
               "actionType": "reload",
               data: {
-                date: "${date}"
+                date: "${DATETOSTR(NOW())}"
               }
             }
           ]
@@ -4837,6 +4837,7 @@ value 结构说明：
       "api": "/api/mock2/sample",
       "id": "crud_reload2",
       "syncLocation": false,
+      "headerToolbar": ["Date is ${date}"],
       "columns": [
         {
           "name": "id",
@@ -5047,6 +5048,93 @@ value 结构说明：
   ]
 }
 ```
+
+#### 局部刷新（仅刷新指定行）
+
+> `6.3.0`及以上版本
+
+需要搭配 `deferApi` 属性使用，同时刷新动作指定 `args.index` 或者 `args.condition` 来指定刷新哪一行。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新 id 为 2 的行",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload1",
+              "actionType": "reload",
+              "args": {
+                "condition": "${id == 2}"
+              }
+            },
+
+            {
+              "componentId": "crud_reload1",
+              "actionType": "toggleExpanded",
+              "args": {
+                "condition": "${id == 2}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/crud/table6",
+      "deferApi": "/api/mock2/crud/table6?parentId=${id}&waitSeconds=2",
+      "id": "crud_reload1",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## toggleExpanded
+
+> `6.3.0`及以上版本
+
+切换展开状态。通过指定 `args.index` 或者 `args.condition` 来指定切换哪一行。
+
+参考局部刷新里面的示例。
 
 ### setValue
 

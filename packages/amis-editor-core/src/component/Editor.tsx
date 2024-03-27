@@ -418,8 +418,8 @@ export default class Editor extends Component<EditorProps> {
 
   // 右键菜单
   @autobind
-  handleContextMenu(e: React.MouseEvent<HTMLElement>) {
-    closeContextMenus();
+  async handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    await closeContextMenus();
     let targetId: string = '';
     let region = '';
 

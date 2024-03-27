@@ -274,7 +274,12 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     if (action?.actionType === 'rebuild') {
       const {
         schemaApi,

@@ -286,6 +286,19 @@ export default class App extends React.Component<AppProps, object> {
     this.reload();
   }
 
+  /**
+   * 支持页面层定义 definitions，并且优先取页面层的 definitions
+   * @param name
+   * @returns
+   */
+  @autobind
+  resolveDefinitions(name: string) {
+    const {resolveDefinitions, store} = this.props;
+    const definitions = store.schema?.definitions;
+
+    return definitions?.[name] || resolveDefinitions(name);
+  }
+
   @autobind
   handleNavClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -511,7 +524,8 @@ export default class App extends React.Component<AppProps, object> {
             <div className={cx('AppBody')}>
               {render('page', store.schema, {
                 key: `${store.activePage?.id}-${store.schemaKey}`,
-                data: store.pageData
+                data: store.pageData,
+                resolveDefinitions: this.resolveDefinitions
               })}
             </div>
           </>

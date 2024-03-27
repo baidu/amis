@@ -67,7 +67,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'renderLabel',
   'trackExpression',
   'editorSetting',
-  'updatePristineAfterStoreDataReInit'
+  'updatePristineAfterStoreDataReInit',
+  'source'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
