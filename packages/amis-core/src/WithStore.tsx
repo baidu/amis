@@ -96,7 +96,7 @@ export function HocStoreFactory(renderer: {
           this.props.scope ||
           (this.props.data && (this.props.data as any).__super)
         ) {
-          if (this.props.store && this.props.data === this.props.store.data) {
+          if (this.props.store && this.props.data === this.props.scope) {
             store.initData(
               createObject(this.props.store.data, {
                 ...this.formatData(
@@ -233,7 +233,7 @@ export function HocStoreFactory(renderer: {
               (props.syncSuperStore !== false &&
                 isSuperDataModified(props.data, prevProps.data, store)))
         ) {
-          if (props.store && props.store.data === props.data) {
+          if (props.store && props.scope === props.data) {
             store.initData(
               createObject(
                 props.store.data,
@@ -284,7 +284,7 @@ export function HocStoreFactory(renderer: {
           }
         } else if (
           !props.trackExpression &&
-          (!props.store || props.data !== props.store.data) &&
+          (!props.store || props.data !== props.scope) &&
           props.data &&
           props.data.__super
         ) {
