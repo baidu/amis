@@ -1,5 +1,11 @@
 import React from 'react';
-import {LocaleProps, ThemeProps, autobind, JSONSchema} from 'amis-core';
+import {
+  LocaleProps,
+  ThemeProps,
+  autobind,
+  JSONSchema,
+  JSONSchemaMap
+} from 'amis-core';
 import Button from '../Button';
 // import Checkbox from '../Checkbox';
 import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
@@ -18,7 +24,8 @@ export const schemaEditorItemPlaceholder = {
   title: 'JSONSchema.title',
   description: 'JSONSchema.description',
   default: 'JSONSchema.default',
-  empty: 'placeholder.empty'
+  empty: 'placeholder.empty',
+  formula: 'JSONSchema.formula'
 };
 
 export type SchemaEditorItemPlaceholder = Partial<
@@ -27,8 +34,8 @@ export type SchemaEditorItemPlaceholder = Partial<
 
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   label?: string;
-  value?: JSONSchema;
-  onChange: (value: JSONSchema) => void;
+  value?: JSONSchemaMap;
+  onChange: (value: JSONSchemaMap) => void;
   types: Array<{
     label: string;
     value: string;
@@ -36,9 +43,9 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   }>;
   onTypeChange?: (
     type: string,
-    value: JSONSchema,
-    origin?: JSONSchema
-  ) => JSONSchema | void;
+    value: JSONSchemaMap,
+    origin?: JSONSchemaMap
+  ) => JSONSchemaMap | void;
   disabled?: boolean;
   formula?: string;
   onFormulaChange?: (value: string) => void;
@@ -47,14 +54,14 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   addButtonText?: string;
   // 额外的渲染，控制 item 的渲染，而不是详情
   renderExtraProps?: (
-    value: JSONSchema,
-    onChange: (value: JSONSchema) => void
+    value: JSONSchemaMap,
+    onChange: (value: JSONSchemaMap) => void
   ) => JSX.Element;
 
   // 开启详情配置是，是否额外还要渲染其他东西
   renderModalProps?: (
-    value: JSONSchema,
-    onChange: (value: JSONSchema) => void
+    value: JSONSchemaMap,
+    onChange: (value: JSONSchemaMap) => void
   ) => JSX.Element;
 
   prefix?: JSX.Element;
@@ -186,6 +193,7 @@ export class SchemaEditorItemCommon<
             placeholder="请输入值"
             {...formulaForIf}
             onChange={onFormulaChange}
+            value={value?.formula || ''}
           ></FormulaPicker>
         ) : // <Checkbox
         //   className={cx('SchemaEditor-required')}

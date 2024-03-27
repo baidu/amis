@@ -281,6 +281,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
             <FormulaPicker
               {...formulaForIf}
               evalMode={true}
+              value={field.value || ''}
               mixedMode={false}
               header="设置条件"
             ></FormulaPicker>

@@ -10,6 +10,20 @@ export default {
           api: '/api/mock2/form/saveForm?waitSeconds=2',
           title: '常规模式',
           mode: 'normal',
+          data: {
+            schema: {
+              type: 'object',
+              properties: {
+                aa: {
+                  type: 'string',
+                  title: '字段名称',
+                  description: '字段描述',
+                  default: '',
+                  formula: 'bb'
+                }
+              }
+            }
+          },
           debug: true,
           body: [
             {
