@@ -262,14 +262,13 @@ export const Row = types
     },
 
     getDataWithModifiedChilden() {
-      let data = {
-        ...self.data
-      };
+      let data = self.data;
 
       if (data.children && self.children) {
-        data.children = self.children.map(item =>
-          item.getDataWithModifiedChilden()
-        );
+        data = {
+          ...data,
+          children: self.children.map(item => item.getDataWithModifiedChilden())
+        };
       }
 
       return data;
