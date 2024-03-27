@@ -36,7 +36,8 @@
     }
   }
 
-  &-title {
+  &-title,
+  &-caption {
     height: px2rem(18px);
     vertical-align: top;
     line-height: px2rem(18px);
@@ -44,6 +45,11 @@
     color: var(--white);
     text-align: center;
     margin-bottom: 18px;
+  }
+
+  &-caption {
+    text-align: left;
+    margin-bottom: 4px;
   }
 
   &-main {
