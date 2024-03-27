@@ -2790,12 +2790,13 @@ export class CRUDRenderer extends CRUD {
       return this.control?.setData?.(values, replace, index, condition);
     } else {
       const total = values?.total || values?.count;
+      const items = values.rows ?? values.items; // 兼容没传items的情况
       if (total !== undefined) {
         store.updateTotal(parseInt(total as any, 10));
       }
 
       return store.updateData(
-        {...values, items: values.rows ?? values.items}, // 做个兼容
+        {...values, ...(items ? {items} : {})}, // 做个兼容
         undefined,
         replace
       );
