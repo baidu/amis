@@ -154,7 +154,8 @@ export class AlertAction implements RendererAction {
   ) {
     event.context.env.alert?.(
       filter(action.dialog?.msg, event.data) ?? action.args?.msg,
-      filter(action.dialog?.title, event.data) ?? action.args?.title
+      filter(action.dialog?.title, event.data) ?? action.args?.title,
+      filter(action.dialog?.className, event.data) ?? ''
     );
   }
 }
@@ -199,7 +200,8 @@ export class ConfirmAction implements RendererAction {
             action.args?.confirmBtnLevel,
           cancelBtnLevel:
             filter(action.dialog?.cancelBtnLevel, event.data) ||
-            action.args?.cancelBtnLevel
+            action.args?.cancelBtnLevel,
+          className: filter(action.dialog?.className, event.data) || ''
         }
       );
 
