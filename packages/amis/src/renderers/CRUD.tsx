@@ -688,7 +688,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       )
     ) {
       dataInvalid = true;
-    } else if (!props.api && isPureVariable(props.source)) {
+    } else if (
+      !props.api &&
+      isPureVariable(props.source) &&
+      props.data !== prevProps.data
+    ) {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (!this.lastData || this.lastData !== next) {

@@ -51,7 +51,7 @@ export const ServiceStore = iRendererStore
       if (concatFields) {
         data = concatData(data, self.data, concatFields);
       }
-      const newData = extendObject(self.pristine, data, !replace);
+      const newData = extendObject(self.data, data, !replace);
       self.data = self.pristine = newData;
     }
 
