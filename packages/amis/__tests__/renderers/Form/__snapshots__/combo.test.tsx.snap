@@ -2127,7 +2127,11 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                   <a
                                     title="这是第3个"
                                   >
-                                    这是第3个
+                                    <span
+                                      class="cxd-Tabs-link-text"
+                                    >
+                                      这是第3个
+                                    </span>
                                     <div
                                       class="cxd-Combo-tab-delBtn "
                                       data-position="bottom"
@@ -2146,7 +2150,11 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                   <a
                                     title="这是第4个"
                                   >
-                                    这是第4个
+                                    <span
+                                      class="cxd-Tabs-link-text"
+                                    >
+                                      这是第4个
+                                    </span>
                                     <div
                                       class="cxd-Combo-tab-delBtn "
                                       data-position="bottom"

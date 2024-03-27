@@ -34,7 +34,7 @@ order: 21
       "name": "formula",
       "label": "公式",
       "evalMode": true,
-      "value": "SUM(1 , 2)",
+      "value": "SUM(1 , user.id)",
       "variables": [
         {
           "label": "表单字段",
@@ -82,6 +82,20 @@ order: 21
               "label": "地址",
               "value": "addr"
             }
+          ]
+        },
+        {
+          "label": "人员对象",
+          "value": "user",
+          "children": [
+            {
+              "label": "ID",
+              "value": "user.id"
+            },
+            {
+              "label": "用户名",
+              "value": "user.name"
+            },
           ]
         },
         {

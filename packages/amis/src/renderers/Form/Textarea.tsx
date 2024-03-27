@@ -89,7 +89,12 @@ export default class TextAreaControl extends React.Component<
 
   inputRef = React.createRef<any>();
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
     const onChange = this.props.onChange;
 

@@ -688,7 +688,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       )
     ) {
       dataInvalid = true;
-    } else if (!props.api && isPureVariable(props.source)) {
+    } else if (
+      !props.api &&
+      isPureVariable(props.source) &&
+      props.data !== prevProps.data
+    ) {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (!this.lastData || this.lastData !== next) {
@@ -1794,7 +1798,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     subpath?: string,
     query?: any,
     replace?: boolean,
-    resetPage?: boolean
+    resetPage?: boolean,
+    args?: any
   ) {
     if (query) {
       return this.receive(query, undefined, replace, resetPage, true);
@@ -1821,9 +1826,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // implement this.
   }
 
-  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
-    if (action.actionType === 'submitQuickEdit') {
-      return this.control?.doAction(action, data, throwErrors);
+  doAction(
+    action: ActionObject,
+    data: object,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
+    if (
+      action.actionType &&
+      ['submitQuickEdit', 'toggleExpanded'].includes(action.actionType)
+    ) {
+      return this.control?.doAction(action, data, throwErrors, args);
     }
 
     return this.handleAction(undefined, action, data, throwErrors);
@@ -2707,7 +2720,11 @@ export class CRUDRenderer extends CRUD {
     args?: any
   ) {
     const scoped = this.context as IScopedContext;
-    if (subpath) {
+    if (args?.index || args?.condition) {
+      // 局部刷新
+      // 由内容组件去实现
+      return this.control?.reload('', query, ctx, args);
+    } else if (subpath) {
       return scoped.reload(
         query ? `${subpath}?${qsstringify(query)}` : subpath,
         ctx

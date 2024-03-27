@@ -54,7 +54,11 @@ exports[`Renderer:tabs 1`] = `
                     <a
                       title="基本配置"
                     >
-                      基本配置
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        基本配置
+                      </span>
                     </a>
                   </li>
                   <li
@@ -63,7 +67,11 @@ exports[`Renderer:tabs 1`] = `
                     <a
                       title="其他配置"
                     >
-                      其他配置
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        其他配置
+                      </span>
                     </a>
                   </li>
                 </ul>

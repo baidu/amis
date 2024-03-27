@@ -296,7 +296,7 @@ export class TableControlPlugin extends BasePlugin {
       eventLabel: '添加行',
       description: '点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveInputTableEventDataSchame(manager, true);
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
 
         return [
           {
@@ -311,9 +311,18 @@ export class TableControlPlugin extends BasePlugin {
                     ...value,
                     title: '列表记录'
                   },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '新增行记录'
+                  },
                   index: {
                     type: 'number',
                     title: '新增索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -351,6 +360,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '新增索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -388,6 +401,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '新增索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -425,6 +442,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '新增索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   },
                   error: {
                     type: 'object',
@@ -465,6 +486,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -501,7 +526,11 @@ export class TableControlPlugin extends BasePlugin {
                   },
                   index: {
                     type: 'number',
-                    title: '所在行记录索引'
+                    title: '索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -539,6 +568,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -576,6 +609,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   },
                   error: {
                     type: 'object',
@@ -616,6 +653,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'object',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -652,6 +693,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'object',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -688,6 +733,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '所在行记录索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   },
                   error: {
                     type: 'object',
@@ -777,6 +826,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '当前行索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -808,6 +861,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '当前行索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -839,6 +896,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '当前行索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }
@@ -870,6 +931,10 @@ export class TableControlPlugin extends BasePlugin {
                   index: {
                     type: 'number',
                     title: '当前行索引'
+                  },
+                  indexPath: {
+                    type: 'string',
+                    title: '索引路径'
                   }
                 }
               }

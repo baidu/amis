@@ -262,7 +262,12 @@ export default class TextControl extends React.PureComponent<
     this.input = ref;
   }
 
-  doAction(action: ListenerAction, args: any) {
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
 
     if (!!~['clear', 'reset'].indexOf(actionType)) {

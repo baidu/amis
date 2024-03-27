@@ -138,7 +138,12 @@ export class CmptAction implements RendererAction {
 
     // 执行组件动作
     try {
-      const result = await component?.doAction?.(action, action.args, true);
+      const result = await component?.doAction?.(
+        action,
+        action.data,
+        true,
+        action.args
+      );
 
       if (['validate', 'submit'].includes(action.actionType)) {
         event.setData(

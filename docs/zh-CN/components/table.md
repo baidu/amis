@@ -1817,7 +1817,7 @@ popOver 的其它配置请参考 [popover](./popover)
 
 > 1.5.0 及以上版本
 
-通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../../examples/crud/auto-fill)。
+通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../examples/crud/auto-fill)。
 
 它的展现效果是整个内容区域高度自适应，表格内容较多时在内容区域内出滚动条，这样顶部筛选和底部翻页的位置都是固定的。
 
@@ -1876,18 +1876,18 @@ popOver 的其它配置请参考 [popover](./popover)
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                | 说明                 |
-| -------------- | ----------------------------------------------------------------------- | -------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值      | 点击列筛选时触发     |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据    | 点击列搜索时触发     |
-| orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 单击整行时触发       |
-| rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引                    | 双击整行时触发       |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+| 事件名称       | 事件参数                                                                                  | 说明                 |
+| -------------- | ----------------------------------------------------------------------------------------- | -------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                   | 手动选择表格项时触发 |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                              | 点击列排序时触发     |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值                        | 点击列筛选时触发     |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据                      | 点击列搜索时触发     |
+| orderChange    | `movedItems: item[]` 已排序数据                                                           | 手动拖拽行排序时触发 |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                    | 点击自定义列时触发   |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 单击整行时触发       |
+| rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 双击整行时触发       |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移入整行时触发       |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移出整行时触发       |
 
 ### selectedChange
 

@@ -27,6 +27,7 @@ export interface AlertProps extends ThemeProps, LocaleProps {
 }
 
 interface ConfirmOptions {
+  className?: string;
   closeOnEsc?: AlertProps['closeOnEsc'];
   size?: AlertProps['size'];
   confirmBtnLevel?: AlertProps['confirmBtnLevel'];
@@ -49,6 +50,7 @@ export interface AlertState {
   size?: AlertProps['size'];
   confirmBtnLevel?: AlertProps['confirmBtnLevel'];
   cancelBtnLevel?: AlertProps['cancelBtnLevel'];
+  className?: string;
 }
 
 export class Alert extends React.Component<AlertProps, AlertState> {
@@ -165,12 +167,13 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     );
   }
 
-  alert(content: string, title?: string) {
+  alert(content: string, title?: string, className?: string) {
     this.setState({
       title,
       content,
       show: true,
-      confirm: false
+      confirm: false,
+      className
     });
   }
 
@@ -198,6 +201,10 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         typeof optionsOrCofnrimText === 'string'
           ? false
           : optionsOrCofnrimText?.closeOnEsc,
+      className:
+        typeof optionsOrCofnrimText === 'string'
+          ? ''
+          : optionsOrCofnrimText?.className,
       confirmBtnLevel:
         typeof optionsOrCofnrimText === 'string'
           ? 'danger'
@@ -290,6 +297,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         ref={this.modalRef}
         closeOnEsc={this.state.closeOnEsc}
         size={this.state.size}
+        className={cx(this.state.className)}
       >
         {finalTitle ? (
           <div className={cx('Modal-header')}>
@@ -357,12 +365,13 @@ function renderForm(
   return renderSchemaFn?.(controls, value, callback, scopeRef, theme);
 }
 
-export const alert: (content: string, title?: string) => Promise<void> = async (
-  content,
-  title
-) => {
+export const alert: (
+  content: string,
+  title?: string,
+  className?: string
+) => Promise<void> = async (content, title, className) => {
   const instance = await Alert.getInstance();
-  return instance.alert(content, title);
+  return instance.alert(content, title, className);
 };
 export const confirm: (
   content: string | React.ReactNode,

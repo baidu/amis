@@ -677,7 +677,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   /**
    * 动作处理
    */
-  doAction(action: ActionObject, args: any) {
+  doAction(
+    action: ActionObject,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
     const actionType = action?.actionType as string;
     const tmpKey = Number(args?.activeKey);
     let activeKey = isNaN(tmpKey) ? args?.activeKey : tmpKey;

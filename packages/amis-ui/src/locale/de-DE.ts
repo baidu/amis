@@ -253,6 +253,7 @@ register('de-DE', {
   'Table.valueField': 'valueField muss vorhanden sein',
   'Table.index': 'Index',
   'Table.add': 'Neu',
+  'Table.subAddRow': 'Unterzeile hinzufügen',
   'Table.addButtonDisabledTip':
     'Reichen Sie bei der Inhaltsbearbeitung zuerst ein und erstellen Sie dann eine neue Option',
   'Table.toggleColumn': 'Spalten anzeigen',
