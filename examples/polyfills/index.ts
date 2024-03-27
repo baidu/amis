@@ -10,6 +10,7 @@ import 'core-js/es/number/is-nan';
 import 'core-js/es/promise';
 import 'core-js/es/object/assign';
 import 'core-js/es/object/keys';
+import 'core-js/es/object/has-own';
 import 'core-js/es/map';
 import 'core-js/es/set';
 import 'core-js/es/symbol';
