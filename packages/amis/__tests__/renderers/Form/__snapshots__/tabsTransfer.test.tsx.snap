@@ -93,7 +93,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     <a
                                       title="成员"
                                     >
-                                      成员
+                                      <span
+                                        class="cxd-Tabs-link-text"
+                                      >
+                                        成员
+                                      </span>
                                     </a>
                                   </li>
                                   <li
@@ -102,7 +106,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     <a
                                       title="用户"
                                     >
-                                      用户
+                                      <span
+                                        class="cxd-Tabs-link-text"
+                                      >
+                                        用户
+                                      </span>
                                     </a>
                                   </li>
                                 </ul>
@@ -735,7 +743,11 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                     <a
                                       title="成员"
                                     >
-                                      成员
+                                      <span
+                                        class="cxd-Tabs-link-text"
+                                      >
+                                        成员
+                                      </span>
                                     </a>
                                   </li>
                                   <li
@@ -744,7 +756,11 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                     <a
                                       title="用户"
                                     >
-                                      用户
+                                      <span
+                                        class="cxd-Tabs-link-text"
+                                      >
+                                        用户
+                                      </span>
                                     </a>
                                   </li>
                                 </ul>

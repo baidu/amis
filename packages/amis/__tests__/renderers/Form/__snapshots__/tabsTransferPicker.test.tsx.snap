@@ -315,7 +315,11 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         <a
                           title="成员"
                         >
-                          成员
+                          <span
+                            class="cxd-Tabs-link-text"
+                          >
+                            成员
+                          </span>
                         </a>
                       </li>
                       <li
@@ -324,7 +328,11 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         <a
                           title="角色"
                         >
-                          角色
+                          <span
+                            class="cxd-Tabs-link-text"
+                          >
+                            角色
+                          </span>
                         </a>
                       </li>
                       <li
@@ -333,7 +341,11 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         <a
                           title="部门"
                         >
-                          部门
+                          <span
+                            class="cxd-Tabs-link-text"
+                          >
+                            部门
+                          </span>
                         </a>
                       </li>
                     </ul>
