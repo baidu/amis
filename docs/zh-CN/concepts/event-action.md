@@ -2006,6 +2006,46 @@ run action ajax
 | ----------- | -------- | ------ | ------------------------------------ |
 | componentId | `string` | -      | 指定启用/禁用/显示/隐藏的目标组件 id |
 
+### 更新事件上下文数据
+
+> 6.3.0 及以上版本
+
+修改 `event.data` 对象中的数据，修改后后续的动作中可以引用，及时生效，不像更新组件上下文数据是个异步操作。可以用来临时存储数据。
+
+```schema
+{
+  type: 'page',
+  title: '获取页面标题并弹出',
+  body: [
+    {
+      type: 'button',
+      className: 'ml-2',
+      label: 'toast 页面标题',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setEventData',
+              args: {
+                key: 'title',
+                value: '页面标题：${window:document[title]}'
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '${title}'
+              }
+            },
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ### 更新组件数据
 
 > 1.8.0 及以上版本
@@ -2014,6 +2054,7 @@ run action ajax
 
 **注意事项**
 
+- 这个动作是异步的，所以不能直接通过`${xxx}`来获取更新后的数据，如果需要请更新事件上下文数据，然后通过`${event.data.xxx}`来获取。
 - 数据类型支持范围：`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型
 - 目标组件支持范围：`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件
 - < 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
@@ -2075,6 +2116,52 @@ run action ajax
           mode: 'horizontal'
         }
       ]
+    }
+  ]
+}
+```
+
+### 等待
+
+> 6.3.0 及以上版本
+
+`args.time` 毫秒数，等待指定时间后执行后续动作。
+
+```schema
+{
+  type: 'page',
+  title: '3 秒后 toast 页面标题',
+  body: [
+    {
+      type: 'button',
+      className: 'ml-2',
+      label: 'toast 页面标题',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'wait',
+              args: {
+                time: 3000
+              }
+            },
+            {
+              actionType: 'setEventData',
+              args: {
+                key: 'title',
+                value: '页面标题：${window:document[title]}'
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '${title}'
+              }
+            },
+          ]
+        }
+      }
     }
   ]
 }
@@ -3333,6 +3420,70 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+> 6.3.0 版本开始支持
+
+或者直接通过动作来阻止
+
+```json
+{
+  "actionType": "preventDefault",
+  "expression": "${command === 'Do not close'}"
+}
+```
+
+```schema
+{
+  type: 'page',
+  title: '弹窗确认后执行其他动作并阻止默认关闭',
+  body: [
+    {
+      type: 'button',
+      className: 'ml-2',
+      label: '打开弹窗',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'dialog',
+              dialog: {
+                type: 'dialog',
+                title: '提示',
+                id: 'dialog_001',
+                data: {
+                   myage: '22'
+                },
+                body: [
+                  {
+                    type: 'alert',
+                    body: '输入Do not close，确认后将不关闭弹窗',
+                    level: 'warning'
+                  },
+                  {
+                    type: 'input-text',
+                    name: 'command'
+                  }
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        "actionType": "preventDefault",
+                        "expression" : "${command === 'Do not close'}"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ## 停止后续动作执行
 
 通过`onEvent`可以对监听的事件配置一组动作，这些动作是顺序执行的，有时间设计者希望执行某个/些动作后就停止继续执行后面的动作，这时候可以通过`stopPropagation`来停止执行后面配置的所有动作。
@@ -3370,6 +3521,62 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
                 "msgType": 'info',
                 "msg": '动作3',
                 "position": 'top-right'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+> 6.3.0 版本开始支持
+
+或者直接通过动作来跳过后续逻辑
+
+```json
+{
+  "actionType": "stopPropagation",
+  "expression": "${command === 'Do not close'}"
+}
+```
+
+```schema
+{
+  "type": "page",
+  "title": "只执行第一个动作",
+  "body": [
+    {
+      "type": "button",
+      "label": "弹出一个提示",
+      level: 'primary',
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "toast",
+              args: {
+                "msgType": 'info',
+                "msg": '后续的动作将不会执行'
+              }
+            },
+            {
+              "actionType": "stopPropagation",
+              "expression": "${true}"
+            },
+            {
+              "actionType": "toast",
+              args: {
+                "msgType": 'info',
+                "msg": '动作2'
+              },
+            },
+            {
+              "actionType": "toast",
+              args: {
+                "msgType": 'info',
+                "msg": '动作3'
               }
             }
           ]

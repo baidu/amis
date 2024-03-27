@@ -1,8 +1,12 @@
 import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
+import {isExpression} from './formula';
+import {TreeItem, eachTree, getTree} from './helper';
 import {createObject, extendObject} from './object';
 import debounce from 'lodash/debounce';
+import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
+import {evalExpression, evalExpressionWithConditionBuilder} from './tpl';
 
 export interface debounceConfig {
   maxWait?: number;
@@ -322,5 +326,73 @@ export const resolveEventData = (
       : data
   );
 };
+
+/**
+ * 基于 index、condition、oldCondition 获取匹配的事件目标
+ * @param tree
+ * @param ctx
+ * @param index
+ * @param condition
+ * @param oldCondition
+ * @returns
+ */
+export async function getMatchedEventTargets<T extends TreeItem>(
+  tree: Array<T>,
+  ctx: any,
+  index?: string | number,
+  condition?: string,
+  oldCondition?: string
+) {
+  const targets: Array<T> = [];
+  if (typeof index === 'number') {
+    const row = tree[index];
+    row && targets.push(row);
+  } else if (typeof index === 'string') {
+    index = isExpression(index)
+      ? await resolveVariableAndFilterForAsync(index, ctx)
+      : index;
+    (index as string).split(',').forEach(i => {
+      i = i.trim();
+      if (i) {
+        const indexes = i.split('.').map(ii => parseInt(ii, 10));
+        const row: any = getTree(tree, indexes);
+        row && targets.push(row);
+      }
+    });
+  } else if (condition) {
+    const promies: Array<() => Promise<void>> = [];
+    eachTree(tree, item => {
+      const data = item.storeType ? item.data : item;
+      promies.push(async () => {
+        const result = await evalExpressionWithConditionBuilder(
+          condition,
+          createObject(ctx, data)
+        );
+        result && targets.push(item);
+      });
+    });
+    await Promise.all(promies.map(fn => fn()));
+  } else if (oldCondition) {
+    const promies: Array<() => Promise<void>> = [];
+    eachTree(tree, (item, rowIndex) => {
+      const record = item.storeType ? item.data : item;
+      promies.push(async () => {
+        const result = evalExpression(
+          oldCondition,
+          createObject(ctx, {
+            record,
+            rowIndex,
+            item: record,
+            index: rowIndex,
+            indexPath: item.path
+          })
+        );
+        result && targets.push(item);
+      });
+    });
+    await Promise.all(promies.map(fn => fn()));
+  }
+  return targets;
+}
 
 export default {};
