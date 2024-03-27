@@ -644,7 +644,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         // 派发add事件
         const isPrevented = await this.dispatchEvent('add', {
           index: next[next.length - 1],
-          value: getTree(items, next)
+          indexPath: next.join('.'),
+          item: getTree(items, next)
         });
         if (isPrevented) {
           return;
@@ -743,6 +744,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           // todo: add 无法阻止, state 状态也要还原
           await this.dispatchEvent('add', {
             index: next[next.length - 1],
+            indexPath: next.join('.'),
             value
           });
         }
@@ -779,6 +781,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const item = getTree(items, indexes);
     const isPrevented = await this.dispatchEvent('edit', {
       index: indexes[indexes.length - 1],
+      indexPath: indexes.join('.'),
       item
     });
     !isPrevented && this.startEdit(index, true);
@@ -853,6 +856,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
     let isPrevented = await this.dispatchEvent(confirmEventName, {
       index: indexes[indexes.length - 1],
+      indexPath: indexes.join('.'),
       item
     });
     if (isPrevented) {
@@ -875,6 +879,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const failEventName = isNew ? 'addFail' : 'editFail';
       this.dispatchEvent(failEventName, {
         index: indexes[indexes.length - 1],
+        indexPath: indexes.join('.'),
         item,
         error: remote
       });
@@ -906,6 +911,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         const successEventName = isNew ? 'addSuccess' : 'editSuccess';
         this.dispatchEvent(successEventName, {
           index: indexes[indexes.length - 1],
+          indexPath: indexes.join('.'),
           item
         });
       }
@@ -974,6 +980,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     let isPrevented = await this.dispatchEvent('delete', {
       index: indexes[indexes.length - 1],
+      indexPath: indexes.join('.'),
       item
     });
     if (isPrevented) {
@@ -1000,6 +1007,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           );
         this.dispatchEvent('deleteFail', {
           index: indexes[indexes.length - 1],
+          indexPath: indexes.join('.'),
           item,
           error: result
         });
@@ -1015,6 +1023,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.dispatchEvent('deleteSuccess', {
       value: newValue,
       index: indexes[indexes.length - 1],
+      indexPath: indexes.join('.'),
       item
     });
   }
@@ -1529,7 +1538,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         label: __('Table.index'),
         width: 50,
         children: (props: any) => {
-          return <td>{props.offset + props.data.index + 1}</td>;
+          const indexes = (props.rowIndexPath as string)
+            .split('.')
+            .map(item => parseInt(item, 10) + 1);
+          indexes[0] += props.offset;
+          return (
+            <td className={props.className}>
+              {props.cellPrefix}
+              <span>{indexes.join('.')}</span>
+              {props.cellAffix}
+            </td>
+          );
         }
       });
     }
@@ -2063,43 +2082,36 @@ export class TableControlRenderer extends FormTable {
         return this.addItem(`${items.length - 1}`, false);
       }
     } else if (actionType === 'deleteItem') {
-      const items = [...this.state.items];
-      let rawItems: any = [];
+      let items = [...this.state.items];
       const deletedItems: any = [];
-      // 过滤掉无意义的索引
-      const indexArr = String(args?.index)
-        .split(',')
-        .map(i => String(i).trim())
-        .filter(
-          i =>
-            i !== 'undefined' &&
-            i !== '' &&
-            parseInt(i, 10) >= 0 &&
-            parseInt(i, 10) < items.length
-        );
 
-      if (!indexArr.length && !args?.condition) {
-        return;
+      if (args?.index !== undefined) {
+        const indexs = String(args.index).split(',');
+        indexs.forEach(i => {
+          const indexes = i.split('.').map(item => parseInt(item, 10));
+          deletedItems.push(getTree(items, indexes));
+          items = spliceTree(items, indexes, 1);
+        });
+      } else if (args?.condition !== undefined) {
+        const promises: Array<() => Promise<any>> = [];
+        everyTree(items, (item, index, paths, indexes) => {
+          promises.unshift(async () => {
+            const result = await evalExpressionWithConditionBuilder(
+              args?.condition,
+              item
+            );
+
+            if (result) {
+              deletedItems.push(item);
+              items = spliceTree(items, indexes, 1);
+            }
+          });
+
+          return true;
+        });
+        await promises.reduce((p, fn) => p.then(fn), Promise.resolve());
       }
 
-      if (indexArr.length) {
-        rawItems = items.filter(
-          (item, index) => !indexArr.includes(String(index))
-        );
-      } else if (args?.condition) {
-        const itemsLength = items.length;
-        for (let i = 0; i < itemsLength; i++) {
-          const flag = await evalExpressionWithConditionBuilder(
-            args.condition,
-            {...items[i], rowIndex: i}
-          );
-          if (!flag) {
-            rawItems.push(items[i]);
-          } else {
-            deletedItems.push(items[i]);
-          }
-        }
-      }
       // 删除api
       if (isEffectiveApi(deleteApi, createObject(ctx, {deletedItems}))) {
         const payload = await env.fetcher(
@@ -2118,10 +2130,10 @@ export class TableControlRenderer extends FormTable {
       }
       this.setState(
         {
-          items: rawItems
+          items: items
         },
         () => {
-          onChange?.(rawItems);
+          onChange?.(items);
         }
       );
       return;

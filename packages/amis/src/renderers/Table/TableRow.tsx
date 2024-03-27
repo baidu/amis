@@ -75,13 +75,13 @@ export class TableRow extends React.PureComponent<
   @autobind
   handleMouseEnter(e: React.MouseEvent<HTMLTableRowElement>) {
     const {item, itemIndex, onRowMouseEnter} = this.props;
-    onRowMouseEnter?.(item?.data, itemIndex);
+    onRowMouseEnter?.(item, itemIndex);
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<HTMLTableRowElement>) {
     const {item, itemIndex, onRowMouseLeave} = this.props;
-    onRowMouseLeave?.(item?.data, itemIndex);
+    onRowMouseLeave?.(item, itemIndex);
   }
 
   // 定义点击一行的行为，通过 itemAction配置
@@ -106,7 +106,7 @@ export class TableRow extends React.PureComponent<
       checkOnItemClick
     } = this.props;
 
-    const rendererEvent = await onRowClick?.(item?.data, itemIndex);
+    const rendererEvent = await onRowClick?.(item, itemIndex);
 
     if (rendererEvent?.prevented) {
       return;
@@ -125,7 +125,7 @@ export class TableRow extends React.PureComponent<
   @autobind
   handleDbClick(e: React.MouseEvent<HTMLTableRowElement>) {
     const {item, itemIndex, onRowDbClick} = this.props;
-    onRowDbClick?.(item?.data, itemIndex);
+    onRowDbClick?.(item, itemIndex);
   }
 
   @autobind

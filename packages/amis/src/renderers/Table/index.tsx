@@ -978,6 +978,12 @@ export default class Table extends React.Component<TableProps, object> {
     scoped.unRegisterComponent(this);
   }
 
+  rowPathPlusOffset(path: string, offset = 0) {
+    const list = path.split('.').map((item: any) => parseInt(item, 10));
+    list[0] += offset;
+    return list.join('.');
+  }
+
   subFormRef(form: any, x: number, y: number) {
     const {quickEditFormRef} = this.props;
 
@@ -1031,46 +1037,50 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   handleRowClick(item: IRow, index: number) {
-    const {dispatchEvent, store, data} = this.props;
+    const {dispatchEvent, offset = 0, store, data} = this.props;
     return dispatchEvent(
       'rowClick',
       createObject(data, {
-        rowItem: item, // 保留rowItem 可能有用户已经在用 兼容之前的版本
-        item,
-        index
+        rowItem: item.data, // 保留rowItem 可能有用户已经在用 兼容之前的版本
+        item: item.data,
+        index: index + offset,
+        indexPath: this.rowPathPlusOffset(item.path, offset)
       })
     );
   }
 
   handleRowDbClick(item: IRow, index: number) {
-    const {dispatchEvent, store, data} = this.props;
+    const {dispatchEvent, offset = 0, store, data} = this.props;
     return dispatchEvent(
       'rowDbClick',
       createObject(data, {
-        item,
-        index
+        item: item.data,
+        index: index + offset,
+        indexPath: this.rowPathPlusOffset(item.path, offset)
       })
     );
   }
 
   handleRowMouseEnter(item: IRow, index: number) {
-    const {dispatchEvent, store, data} = this.props;
+    const {dispatchEvent, offset = 0, store, data} = this.props;
     return dispatchEvent(
       'rowMouseEnter',
       createObject(data, {
-        item,
-        index
+        item: item.data,
+        index: index + offset,
+        indexPath: this.rowPathPlusOffset(item.path, offset)
       })
     );
   }
 
   handleRowMouseLeave(item: IRow, index: number) {
-    const {dispatchEvent, store, data} = this.props;
+    const {dispatchEvent, offset = 0, store, data} = this.props;
     return dispatchEvent(
       'rowMouseLeave',
       createObject(data, {
-        item,
-        index
+        item: item.data,
+        index: index + offset,
+        indexPath: this.rowPathPlusOffset(item.path, offset)
       })
     );
   }
