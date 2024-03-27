@@ -175,7 +175,6 @@ export class FormulaPlugin {
     if (type === 'variable') {
       this.editor.replaceSelection(value.key);
       const to = this.editor.getCursor();
-
       !evalMode && this.insertBraces(from, to);
     } else if (type === 'func') {
       this.editor.replaceSelection(`${value}()`);

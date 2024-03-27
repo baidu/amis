@@ -141,7 +141,6 @@ export const HocQuickEdit =
         this.handleChange = this.handleChange.bind(this);
         this.handleFormItemChange = this.handleFormItemChange.bind(this);
         this.handleBulkChange = this.handleBulkChange.bind(this);
-
         this.state = {
           isOpened: false
         };
@@ -316,10 +315,6 @@ export const HocQuickEdit =
           }
         }
       }
-
-      // handleClickOutside() {
-      //     this.closeQuickEdit();
-      // }
 
       overlayRef(ref: any) {
         this.overlay = ref;

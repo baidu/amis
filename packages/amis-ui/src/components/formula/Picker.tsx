@@ -82,6 +82,7 @@ export interface FormulaPickerProps
    */
   btnLabel?: string;
 
+  store?: any;
   /**
    * 按钮样式
    */
@@ -116,6 +117,17 @@ export interface FormulaPickerProps
   clearable?: boolean;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula?: boolean;
+
+  /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree?: boolean;
+
+  /**
    * 支持通过上下文变量配置value
    */
   source?: string;
@@ -131,6 +143,32 @@ export interface FormulaPickerProps
   inputSettings?: FormulaPickerInputSettings;
 
   /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
+   * 是否同步父级数据
+   */
+  syncSuperData?: boolean;
+
+  /**
+   * 数据源是变量情况下
+   */
+  variableRaw?: string;
+
+  /**
+   * 内置默认变量
+   */
+  variablesDefault?: [];
+
+  /**
    * 其他类型渲染器
    */
   customInputRender?: (props: {
@@ -139,7 +177,6 @@ export interface FormulaPickerProps
     className?: string;
     inputSettings: FormulaPickerInputSettings;
   }) => JSX.Element;
-
   /**
    * 公式弹出的时候，可以外部设置 variables 和 functions
    */
@@ -199,7 +236,7 @@ export class FormulaPicker extends React.Component<
   }
 
   async componentDidMount() {
-    const {variables, data} = this.props;
+    const {variables, data, variablesDefault} = this.props;
     if (typeof variables === 'function') {
       const list = await variables(this.props);
       this.setState({variables: list});
@@ -209,14 +246,21 @@ export class FormulaPicker extends React.Component<
         data,
         '|raw'
       );
-      this.setState({variables: result});
+
+      if (variablesDefault && variablesDefault.length > 0) {
+        let resultArray = [...variablesDefault, ...result];
+        this.setState({variables: resultArray});
+      } else {
+        if (result) {
+          this.setState({variables: result});
+        }
+      }
     }
     this.buildFunctions();
   }
 
   async componentDidUpdate(prevProps: FormulaPickerProps) {
     const {value} = this.props;
-
     if (value !== prevProps.value) {
       this.setState({
         value: typeof value === 'string' || !this.isTextInput() ? value : '',
@@ -235,7 +279,9 @@ export class FormulaPicker extends React.Component<
           data,
           '|raw'
         );
-        this.setState({variables: result});
+        if (result) {
+          this.setState({variables: result});
+        }
       }
     }
 
@@ -399,7 +445,42 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   async handleClick() {
-    const {variables, data} = this.props;
+    const {
+      variables,
+      data,
+      syncSuperData,
+      variableRaw,
+      store,
+      variablesDefault
+    } = this.props;
+    if (syncSuperData && variableRaw) {
+      const variableRawData = variableRaw.replace(/\$\{|\}$/g, '');
+      if (variableRawData) {
+        const formVariable = store.data[variableRawData];
+        if (formVariable) {
+          if (variablesDefault && variablesDefault?.length > 0) {
+            let variable = [...variablesDefault, ...formVariable];
+            this.setState({variables: variable});
+          } else {
+            this.setState({variables: formVariable});
+          }
+        }
+      }
+    }
+
+    if (typeof variables === 'function') {
+      const list = await variables(this.props);
+      this.setState({variables: list});
+    } else if (typeof variables === 'string' && isExpression(variables)) {
+      const result = await resolveVariableAndFilterForAsync(
+        variables,
+        data,
+        '|raw'
+      );
+      if (result) {
+        this.setState({variables: result});
+      }
+    }
 
     const state = {
       ...(await this.props.onPickerOpen?.(this.props)),
@@ -500,6 +581,8 @@ export class FormulaPicker extends React.Component<
       title,
       clearable,
       functions,
+      clearDefaultFormula,
+      isOpenExpandTree,
       children,
       variableMode,
       mixedMode,
@@ -507,12 +590,13 @@ export class FormulaPicker extends React.Component<
       popOverContainer,
       mobileUI,
       inputSettings,
+      labelField,
+      valueField,
       customInputRender,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
     const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
-
     return (
       <>
         {children ? (
@@ -644,6 +728,9 @@ export class FormulaPicker extends React.Component<
                 evalMode={mixedMode ? true : evalMode}
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
+                clearDefaultFormula={clearDefaultFormula}
+                labelField={labelField}
+                valueField={valueField}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}
@@ -675,6 +762,10 @@ export class FormulaPicker extends React.Component<
                 evalMode={mixedMode ? true : evalMode}
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
+                clearDefaultFormula={clearDefaultFormula}
+                labelField={labelField}
+                valueField={valueField}
+                isOpenExpandTree={isOpenExpandTree}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}

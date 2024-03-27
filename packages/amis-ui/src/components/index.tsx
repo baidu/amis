@@ -94,6 +94,7 @@ import type {PresetColor} from './ColorPicker';
 import ListMenu from './ListMenu';
 import Input from './Input';
 import JSONSchemaEditor from './schema-editor';
+import JSONSchemaEditorMap from './schema-editor-map';
 import LocationPicker from './LocationPicker';
 import PopUp from './PopUp';
 import Cascader from './Cascader';
@@ -222,6 +223,7 @@ export {
   ListMenu,
   Input,
   JSONSchemaEditor,
+  JSONSchemaEditorMap,
   LocationPicker,
   PopUp,
   Cascader,

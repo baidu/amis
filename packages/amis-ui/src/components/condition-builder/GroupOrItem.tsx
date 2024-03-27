@@ -7,7 +7,7 @@ import ConditionGroup from './Group';
 import ConditionItem from './Item';
 import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
 import Button from '../Button';
-import type {ConditionGroupValue, ConditionValue} from 'amis-core';
+import type {ConditionGroupValue, ConditionValue, Options} from 'amis-core';
 import TooltipWrapper from '../TooltipWrapper';
 
 export interface CBGroupOrItemProps extends ThemeProps {
@@ -36,6 +36,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   showIf?: boolean;
   formulaForIf?: FormulaPickerProps;
+  conditionExtend?: Options;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -103,7 +104,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       isAddGroupBtnVisibleOn,
       showIf,
       formulaForIf,
-      mobileUI
+      mobileUI,
+      conditionExtend
     } = this.props;
 
     return (
@@ -155,6 +157,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                 showIf={showIf}
                 formulaForIf={formulaForIf}
+                conditionExtend={conditionExtend}
               />
             </div>
           ) : (

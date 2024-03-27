@@ -786,7 +786,15 @@ export const components = [
           )
         )
       },
-
+      {
+        label: 'JsonSchema Editor Map',
+        path: '/zh-CN/components/form/json-schema-editor-map',
+        component: React.lazy(() =>
+          import(
+            '../../docs/zh-CN/components/form/json-schema-editor-map.md'
+          ).then(wrapDoc)
+        )
+      },
       {
         label: 'InputSignature 签名面板',
         path: '/zh-CN/components/form/input-signature',
