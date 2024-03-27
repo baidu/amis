@@ -642,15 +642,17 @@ export class Tabs extends React.Component<TabsProps, any> {
             {icon ? (
               iconPosition === 'right' ? (
                 <>
-                  {title} {iconElement}
+                  <span className={cx('Tabs-link-text mr-1')}>{title}</span>
+                  {iconElement}
                 </>
               ) : (
                 <>
-                  {iconElement} {title}
+                  {iconElement}
+                  <span className={cx('Tabs-link-text ml-1')}>{title}</span>
                 </>
               )
             ) : (
-              title
+              <span className={cx('Tabs-link-text')}>{title}</span>
             )}
             {React.isValidElement(toolbar) ? toolbar : null}
           </>

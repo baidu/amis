@@ -238,7 +238,12 @@ export class ProgressFieldRenderer extends ProgressField {
     scoped.unRegisterComponent(this as unknown as ScopedComponentType);
   }
 
-  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+  doAction(
+    action: ActionObject,
+    data: any,
+    throwErrors: boolean,
+    args?: any
+  ): any {
     const actionType = action?.actionType as string;
 
     if (actionType === 'reset') {

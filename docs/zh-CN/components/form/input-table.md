@@ -687,6 +687,54 @@ order: 54
 }
 ```
 
+## 树形模式
+
+配置 `childrenAddable` 为 true，可以开启新增子节点功能。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "addable": true,
+      "childrenAddable": true,
+      "editable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a"
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 获取父级数据
 
 默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Table 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
@@ -869,6 +917,7 @@ order: 54
 | ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
 | type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
 | addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| childrenAddable              | `boolean`                                 | `false`         | 是否可增加子级节点                                                                                   |
 | editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
 | removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
 | showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮，前提是要开启可新增功能                                                   |
@@ -879,6 +928,8 @@ order: 54
 | deleteApi                    | [API](../../../docs/types/api)            | -               | 删除时提交的 API                                                                                     |
 | addBtnLabel                  | `string`                                  |                 | 增加按钮名称                                                                                         |
 | addBtnIcon                   | `string`                                  | `"plus"`        | 增加按钮图标                                                                                         |
+| subAddBtnLabel               | `string`                                  |                 | 子级增加按钮名称                                                                                     |
+| subAddBtnIcon                | `string`                                  | `"sub-plus"`    | 子级增加按钮图标                                                                                     |
 | copyBtnLabel                 | `string`                                  |                 | 复制按钮文字                                                                                         |
 | copyBtnIcon                  | `string`                                  | `"copy"`        | 复制按钮图标                                                                                         |
 | editBtnLabel                 | `string`                                  | `""`            | 编辑按钮名称                                                                                         |
@@ -903,25 +954,25 @@ order: 54
 
 当前组件会对外派发以下事件，可以通过 onEvent 来监听这些事件，并通过 actions 来配置执行的动作，在 actions 中可以通过${事件参数名}或${event.data.[事件参数名]}来获取事件产生的数据，详细查看事件动作。
 
-| 事件名称      | 事件参数                                                                                                                                                  | 说明                                                                 |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| add           | `index: number` 新增行记录索引 <br /> `[name]: object[]` 列表记录                                                                                         | 点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发                 |
-| addConfirm    | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/> `[name]: object[]`列表记录                                                          | 开启`needConfirm`，点击添加按钮，填入数据后点击“保存”按钮后触发      |
-| addSuccess    | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/> `[name]: object[]`列表记录                                                          | 开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口成功时触发    |
-| addFail       | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/> `[name]: object[]`列表记录<br />`error: object` `addApi`请求失败后返回的错误信息    | 开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口失败时触发    |
-| edit          | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 点击某一行右侧操作栏“编辑”按钮时触发                                 |
-| editConfirm   | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 开启`needConfirm`，点击“编辑”按钮，填入数据后点击“保存”按钮后触发    |
-| editSuccess   | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发 |
-| editFail      | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录<br />`error: object` `updateApi`请求失败后返回的错误信息 | 开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口失败时触发 |
-| delete        | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 点击某一行右侧操作栏“删除”按钮时触发                                 |
-| deleteSuccess | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 配置了`deleteApi`，调用接口成功时触发                                |
-| deleteFail    | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录<br />`error: object` `deleteApi`请求失败后返回的错误信息 | 配置了`deleteApi`，调用接口失败时触发                                |
-| change        | `[name]: object[]` 列表记录                                                                                                                               | 组件数据发生改变时触发                                               |
-| orderChange   | `movedItems: item[]` 已排序数据                                                                                                                           | 手动拖拽行排序时触发                                                 |
-| rowClick      | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 单击整行时触发                                                       |
-| rowDbClick    | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 双击整行时触发                                                       |
-| rowMouseEnter | `item: object` 行移入数据<br/>`index: number` 行索引                                                                                                      | 移入整行时触发                                                       |
-| rowMouseLeave | `item: object` 行移出数据<br/>`index: number` 行索引                                                                                                      | 移出整行时触发                                                       |
+| 事件名称      | 事件参数                                                                                                                                                                                              | 说明                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| add           | `index: number` 新增行记录索引 <br />`indexPath: string` 新增行记录索引路径 <br /> `item: object` 新增行记录 <br/> `value: object[]` 列表记录                                                         | 点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发                 |
+| addConfirm    | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/>`indexPath: string` 新增行记录索引路径 <br /> `value: object[]`列表记录                                                          | 开启`needConfirm`，点击添加按钮，填入数据后点击“保存”按钮后触发      |
+| addSuccess    | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/>`indexPath: string` 新增行记录索引路径 <br /> `value: object[]`列表记录                                                          | 开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口成功时触发    |
+| addFail       | `index: number` 新增行记录索引 <br /> `item: object` 新增行记录 <br/>`indexPath: string` 新增行记录索引路径 <br /> `value: object[]`列表记录<br />`error: object` `addApi`请求失败后返回的错误信息    | 开启`needConfirm`并且配置`addApi`，点击“保存”后调用接口失败时触发    |
+| edit          | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录                                                          | 点击某一行右侧操作栏“编辑”按钮时触发                                 |
+| editConfirm   | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录                                                          | 开启`needConfirm`，点击“编辑”按钮，填入数据后点击“保存”按钮后触发    |
+| editSuccess   | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录                                                          | 开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发 |
+| editFail      | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录<br />`error: object` `updateApi`请求失败后返回的错误信息 | 开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口失败时触发 |
+| delete        | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录                                                          | 点击某一行右侧操作栏“删除”按钮时触发                                 |
+| deleteSuccess | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录                                                          | 配置了`deleteApi`，调用接口成功时触发                                |
+| deleteFail    | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/>`indexPath: string` 所在行记录索引路径 <br /> `value: object[]`列表记录<br />`error: object` `deleteApi`请求失败后返回的错误信息 | 配置了`deleteApi`，调用接口失败时触发                                |
+| change        | `value: object[]` 列表记录                                                                                                                                                                            | 组件数据发生改变时触发                                               |
+| orderChange   | `movedItems: item[]` 已排序数据                                                                                                                                                                       | 手动拖拽行排序时触发                                                 |
+| rowClick      | `item: object` 行点击数据<br/>`index: number` 行索引 <br/>`indexPath: string` 行索引路径                                                                                                              | 单击整行时触发                                                       |
+| rowDbClick    | `item: object` 行点击数据<br/>`index: number` 行索引 <br/>`indexPath: string` 行索引路径                                                                                                              | 双击整行时触发                                                       |
+| rowMouseEnter | `item: object` 行移入数据<br/>`index: number` 行索引 <br/>`indexPath: string` 行索引路径                                                                                                              | 移入整行时触发                                                       |
+| rowMouseLeave | `item: object` 行移出数据<br/>`index: number` 行索引 <br/>`indexPath: string` 行索引路径                                                                                                              | 移出整行时触发                                                       |
 
 ### add
 
@@ -942,6 +993,8 @@ order: 54
   "body": [
     {
       "showIndex": true,
+      "perPage": 5,
+      "childrenAddable": true,
       "type": "input-table",
       "name": "table",
       "columns": [
@@ -965,7 +1018,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "add事件",
-                "msg": "value: ${event.data.value | json}, index: ${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1018,7 +1071,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "addConfirm事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1072,7 +1125,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "addSuccess事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1126,7 +1179,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "addFail事件",
-                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1179,7 +1232,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "edit事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1231,7 +1284,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "editConfirm事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1286,7 +1339,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "editSuccess事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1341,7 +1394,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "editFail事件",
-                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1394,7 +1447,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "delete事件",
-                "msg": "item: ${event.data.item | json}, index: ${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1449,7 +1502,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "deleteSuccess事件",
-                "msg": "value: ${event.data.value | json}, item: ${event.data.item | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1504,7 +1557,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "deleteFail事件",
-                "msg": "value: ${event.data.value | json}, error: ${event.data.error | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1557,7 +1610,7 @@ order: 54
                 "msgType": "info",
                 "position": "top-right",
                 "title": "change事件",
-                "msg": "value: ${event.data.value | json}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1614,7 +1667,7 @@ order: 54
                       "actionType": "toast",
                       "args": {
                           "msgType": "info",
-                          "msg": "${event.data.movedItems.length|json}行发生移动"
+                          "msg": "上下文 ${event.data | json:0}"
                       }
                   }
               ]
@@ -1670,7 +1723,7 @@ order: 54
               "actionType": "toast",
               "args": {
                 "msgType": "info",
-                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1726,7 +1779,7 @@ order: 54
               "actionType": "toast",
               "args": {
                 "msgType": "info",
-                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1782,7 +1835,7 @@ order: 54
               "actionType": "toast",
               "args": {
                 "msgType": "info",
-                "msg": "行索引：${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]
@@ -1838,7 +1891,7 @@ order: 54
               "actionType": "toast",
               "args": {
                 "msgType": "info",
-                "msg": "行索引：${event.data.index}"
+                "msg": "上下文 ${event.data | json:0}"
               }
             }
           ]

@@ -85,7 +85,8 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
   doAction?: (
     action: ActionObject,
     data: RendererData,
-    throwErrors?: boolean
+    throwErrors?: boolean,
+    args?: any
   ) => void;
   receive?: (values: RendererData, subPath?: string, replace?: boolean) => void;
   reload?: (

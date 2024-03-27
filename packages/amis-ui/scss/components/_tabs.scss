@@ -191,11 +191,16 @@
         padding: var(--Tabs-linkPadding);
         text-decoration: none;
         cursor: pointer;
-        display: block;
-
-        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+        max-width: 100%;
         overflow: hidden;
-        white-space: nowrap;
+
+        .#{$ns}Tabs-link-text {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
 
         > .#{$ns}Icon {
           margin-right: var(--Tabs-icon-gap);

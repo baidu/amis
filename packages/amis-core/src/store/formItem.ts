@@ -1514,7 +1514,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           yield hook(self);
         }
       } finally {
-        self.inited = true;
+        if (isAlive(self)) {
+          self.inited = true;
+        }
       }
     });
 

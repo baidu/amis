@@ -891,7 +891,10 @@ export class Navigation extends React.Component<
         classNameId = cx(`Nav-PopupClassName-${id}`);
         if (!document.getElementById(classNameId)) {
           // rc-menu的浮层只支持配置popupClassName 因此需要将配置的style插入到页面 然后将className赋值给浮层
-          insertStyle(`.${classNameId} ${styleText}`, classNameId);
+          insertStyle({
+            style: `.${classNameId} ${styleText}`,
+            classId: classNameId
+          });
         }
       } catch (e) {}
     }
@@ -1517,7 +1520,9 @@ export class NavigationRenderer extends React.Component<RendererProps> {
 
   doAction(
     action: ActionObject,
-    args: {
+    data: object,
+    throwErrors?: boolean,
+    args?: {
       value?: string | {[key: string]: string};
     }
   ) {
