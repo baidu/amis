@@ -140,7 +140,7 @@ export class CmptAction implements RendererAction {
     try {
       const result = await component?.doAction?.(
         action,
-        action.data,
+        event.data,
         true,
         action.args
       );

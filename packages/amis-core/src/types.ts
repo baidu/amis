@@ -353,11 +353,14 @@ export interface ActionObject extends ButtonObject {
     | 'expand'
     | 'collapse'
     | 'step-submit'
+    | 'select'
     | 'selectAll'
+    | 'clearAll'
     | 'changeTabKey'
     | 'clearSearch'
     | 'submitQuickEdit'
-    | 'toggleExpanded';
+    | 'toggleExpanded'
+    | 'setExpanded';
 
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;

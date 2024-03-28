@@ -10,7 +10,7 @@ import {
   mapTree
 } from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
-import {CRUDStore, ICRUDStore} from 'amis-core';
+import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {
   createObject,
   extendObject,
@@ -960,7 +960,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterInit(values: object) {
-    const {defaultParams, data, store, orderBy, orderDir} = this.props;
+    const {defaultParams, data, store, orderBy, orderDir, dispatchEvent} =
+      this.props;
     const params = {...defaultParams};
 
     if (orderBy) {
@@ -1826,17 +1827,35 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // implement this.
   }
 
-  doAction(
+  async doAction(
     action: ActionObject,
     data: object,
     throwErrors: boolean = false,
     args?: any
   ) {
+    const {store} = this.props;
     if (
       action.actionType &&
-      ['submitQuickEdit', 'toggleExpanded'].includes(action.actionType)
+      ['submitQuickEdit', 'toggleExpanded', 'setExpanded', 'initDrag'].includes(
+        action.actionType
+      )
     ) {
       return this.control?.doAction(action, data, throwErrors, args);
+    } else if (action.actionType === 'selectAll') {
+      return this.handleSelect(store.items.concat(), []);
+    } else if (action.actionType === 'clearAll') {
+      return this.handleSelect([], store.items.concat());
+    } else if (action.actionType === 'select') {
+      const selectedItems = await getMatchedEventTargets(
+        store.items,
+        data,
+        args?.index,
+        args?.condition
+      );
+      const unSelectedItems = store.items.filter(
+        item => !selectedItems.includes(item)
+      );
+      return this.handleSelect(selectedItems, unSelectedItems);
     }
 
     return this.handleAction(undefined, action, data, throwErrors);
@@ -2636,12 +2655,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   ? true
                   : false
                 : multiple,
-            selected:
-              pickerMode ||
-              keepItemSelectionOnPageChange ||
-              maxItemSelectionLength
-                ? store.selectedItemsAsArray
-                : undefined,
+            selected: store.selectedItemsAsArray,
             strictMode,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
