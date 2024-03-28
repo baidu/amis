@@ -127,6 +127,9 @@ export class TplFormulaControl extends React.Component<
         true
       );
     }
+
+    const variables = await getVariables(this);
+    this.setState({variables});
   }
 
   componentWillUnmount() {
@@ -436,7 +439,7 @@ export class TplFormulaControl extends React.Component<
 
         <TooltipWrapper
           trigger="hover"
-          placement="auto"
+          placement="left"
           style={{fontSize: '12px'}}
           tooltip={{
             tooltipTheme: 'dark',
@@ -448,6 +451,9 @@ export class TplFormulaControl extends React.Component<
                 variables={variables}
                 evalMode={true}
                 editorTheme="dark"
+                editorOptions={{
+                  lineNumbers: false
+                }}
               />
             )
           }}
