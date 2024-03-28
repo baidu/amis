@@ -134,13 +134,13 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           />
         )}
 
-        {children}
-
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={cx('InputBox-clear')}>
             <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
+
+        {children}
       </div>
     );
   }
