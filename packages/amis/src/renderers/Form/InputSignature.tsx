@@ -41,16 +41,30 @@ export interface InputSignatureSchema extends FormBaseControlSchema {
    */
   clearBtnLabel?: string;
   /**
+   * 清空按钮图标
+   * @default 清空
+   */
+  clearBtnIcon?: string;
+  /**
    * 撤销按钮名称
    * @default 撤销
    */
   undoBtnLabel?: string;
   /**
+   * 清空按钮图标
+   * @default 清空
+   */
+  undoBtnIcon?: string;
+  /**
    * 确认按钮名称
    * @default 确认
    */
   confirmBtnLabel?: string;
-
+  /**
+   * 确认按钮图标
+   * @default 确认
+   */
+  confirmBtnIcon?: string;
   /**
    * 是否内嵌
    */
@@ -61,9 +75,17 @@ export interface InputSignatureSchema extends FormBaseControlSchema {
    */
   embedConfirmLabel?: string;
   /**
+   * 弹窗确认按钮图标
+   */
+  embedConfirmIcon?: string;
+  /**
    * 弹窗取消按钮名称
    */
   ebmedCancelLabel?: string;
+  /**
+   * 弹窗取消按钮图标
+   */
+  ebmedCancelIcon?: string;
   /**
    * 弹窗按钮图标
    */
@@ -95,10 +117,15 @@ export default class InputSignatureComp extends React.Component<
       'color',
       'bgColor',
       'clearBtnLabel',
+      'clearBtnIcon',
       'undoBtnLabel',
+      'undoBtnIcon',
       'confirmBtnLabel',
+      'confirmBtnIcon',
       'embedConfirmLabel',
+      'embedConfirmIcon',
       'ebmedCancelLabel',
+      'ebmedCancelIcon',
       'embedBtnIcon',
       'embedBtnLabel'
     ]);
