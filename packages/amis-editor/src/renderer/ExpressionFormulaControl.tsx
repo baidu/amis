@@ -175,7 +175,7 @@ export default class ExpressionFormulaControl extends React.Component<
               <Button
                 className="btn-configured"
                 tooltip={{
-                  placement: 'top',
+                  placement: 'left',
                   tooltipTheme: 'dark',
                   mouseLeaveDelay: 20,
                   content: value,
@@ -183,10 +183,17 @@ export default class ExpressionFormulaControl extends React.Component<
                   children: () => (
                     <FormulaCodeEditor
                       readOnly
-                      value={value}
+                      value={
+                        typeof value === 'string'
+                          ? value.substring(2, value.length - 1)
+                          : ''
+                      }
                       variables={variables}
-                      evalMode={false}
+                      evalMode={true}
                       editorTheme="dark"
+                      editorOptions={{
+                        lineNumbers: false
+                      }}
                     />
                   )
                 }}

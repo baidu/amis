@@ -647,7 +647,7 @@ export default class FormulaControl extends React.Component<
         {isFx && (
           <TooltipWrapper
             trigger="hover"
-            placement="top"
+            placement="left"
             style={{fontSize: '12px'}}
             tooltip={{
               tooltipTheme: 'dark',
@@ -661,6 +661,9 @@ export default class FormulaControl extends React.Component<
                   variables={variables}
                   evalMode={false}
                   editorTheme="dark"
+                  editorOptions={{
+                    lineNumbers: false
+                  }}
                 />
               )
             }}
