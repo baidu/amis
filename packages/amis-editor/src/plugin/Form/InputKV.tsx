@@ -43,6 +43,15 @@ export class KVControlPlugin extends BasePlugin {
     ]
   };
 
+  patchSchema: any = (patched: any) => {
+    if (patched.pipeIn || patched.pipeOut) {
+      patched = {...patched};
+      delete patched.pipeIn;
+      delete patched.pipeOut;
+    }
+    return patched;
+  };
+
   // 事件定义，定义了而已，配置面板还没升级，未暴露入口
   events: RendererPluginEvent[] = [
     {
