@@ -789,7 +789,7 @@ function ImageInput(props: ThemeColorProps) {
             }
           ]}
           onChange={(res: {label: string; value: string}) => {
-            if (image && res?.value) {
+            if (res?.value) {
               onChange(
                 `url(${image}) ${POSITION_MAP[position]} / ${res.value} ${color}`
               );
