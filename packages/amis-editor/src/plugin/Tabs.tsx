@@ -48,7 +48,8 @@ export class TabsPlugin extends BasePlugin {
         title: '选项卡2',
         body: []
       }
-    ]
+    ],
+    mountOnEnter: true
   };
   previewSchema = {
     ...this.scaffold
