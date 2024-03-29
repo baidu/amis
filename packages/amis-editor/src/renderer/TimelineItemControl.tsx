@@ -10,6 +10,7 @@ import {render as amisRender, FormItem, Icon} from 'amis';
 import {getI18nEnabled} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
+import {isExpression} from 'amis-core';
 import type {FormControlProps} from 'amis-core';
 import type {SchemaApi} from 'amis';
 
@@ -48,8 +49,7 @@ export default class TimelineItemControl extends React.Component<
       items: props.value,
       api: props.data.source,
       source: props.data.source
-        ? typeof props.data.source === 'string' &&
-          props.data.source.match(/^\$\{.*\}$/)
+        ? isExpression(props.data.source)
           ? 'variable'
           : 'api'
         : 'custom'
