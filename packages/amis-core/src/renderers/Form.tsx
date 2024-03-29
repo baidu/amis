@@ -52,6 +52,7 @@ import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
+import isEqual from 'lodash/isEqual';
 
 export interface FormHorizontal {
   left?: number;
@@ -1053,6 +1054,7 @@ export default class Form extends React.Component<FormProps, object> {
     return dispatchEvent(type, data);
   }
 
+  emittedData: any = null;
   async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
@@ -1061,10 +1063,14 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     const diff = difference(store.data, store.pristine);
-    if (skipIfNothingChanges && !Object.keys(diff).length) {
+    if (
+      skipIfNothingChanges &&
+      (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
+    ) {
       return;
     }
 
+    this.emittedData = store.data;
     // 提前准备好 onChange 的参数。
     // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
     const changeProps = [store.data, diff, this.props];
