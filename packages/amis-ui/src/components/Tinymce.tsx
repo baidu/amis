@@ -175,8 +175,12 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         help: {title: 'Help', items: 'help'}
       },
       paste_data_images: true,
-      // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
-      content_style: '[data-mce-bogus] video {display:none;}',
+      content_style: [
+        // 支持图片调整大小
+        '.mce-content-body div.mce-resizehandle { background-color: #4099ff; border-color: #4099ff; border-style: solid; border-width: 1px; box-sizing: border-box; height: 10px; position: absolute; width: 10px; z-index: 1298 } .mce-content-body .mce-clonedresizable { cursor: default; opacity: .5; outline: 1px dashed #000; position: absolute; z-index: 10001 }',
+        // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
+        '[data-mce-bogus] video {display:none;}'
+      ].join('\n'),
       ...rest,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
