@@ -623,6 +623,7 @@ setSchemaTpl(
   'layout:flex-basis',
   (config?: {
     label?: string;
+    tooltip?: string;
     name?: string;
     value?: string;
     visibleOn?: string;
@@ -634,7 +635,8 @@ setSchemaTpl(
       type: 'input-number',
       label: tipedLabel(
         config?.label || '默认宽度',
-        '在分配多余空间之前，其默认占据的主轴空间（main size）'
+        config?.tooltip ||
+          '在分配多余空间之前，其默认占据的主轴空间（main size）'
       ),
       name: config?.name || 'style.flexBasis',
       value: config?.value || 'auto',
@@ -1498,6 +1500,7 @@ setSchemaTpl(
     name?: string;
     label?: string;
     visibleOn?: string;
+    flexDirection?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
@@ -1507,6 +1510,7 @@ setSchemaTpl(
       name: config?.name || 'layout',
       label: config?.label ?? false,
       visibleOn: config?.visibleOn,
+      flexDirection: config?.flexDirection,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut
     };
