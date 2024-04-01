@@ -1390,7 +1390,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                 "type": "switch",
                 "onText": "开启",
                 "offText": "关闭",
-                "saveImmediately": true
+                "saveImmediately": true,
+                "resetOnFailed": true
             }
         }
     ]
@@ -3899,6 +3900,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | mode            | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |         |
 | icon            | `string`                  | -           | 自定义快速编辑按钮的图标                                                                                | `6.1.0` |
 | saveImmediately | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |         |
+| resetOnFailed   | `boolean`                 | -           | 接口请求失败时，是否重置数据                                                                            |         |
 
 ### columns-toggler 属性表
 
