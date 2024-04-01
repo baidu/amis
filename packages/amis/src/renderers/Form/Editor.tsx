@@ -390,7 +390,7 @@ export const EditorControls: Array<typeof EditorControl> =
     })
     class EditorControlRenderer extends EditorControl {
       static lang = lang;
-      static displayName = `${lang[0].toUpperCase()}${lang.substring(
+      static displayName: string = `${lang[0].toUpperCase()}${lang.substring(
         1
       )}EditorControlRenderer`;
       static defaultProps = {

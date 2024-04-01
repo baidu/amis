@@ -123,7 +123,7 @@ export function localeable<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `I18N(${
+      static displayName: string = `I18N(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = LocaleContext;

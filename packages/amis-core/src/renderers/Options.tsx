@@ -284,7 +284,7 @@ export function registerOptionsControl(config: OptionsConfig) {
   const Control = config.component;
 
   class FormOptionsItem extends React.Component<OptionsProps, any> {
-    static displayName = `OptionsControl(${config.type})`;
+    static displayName: string = `OptionsControl(${config.type})`;
     static defaultProps = {
       delimiter: ',',
       labelField: 'label',

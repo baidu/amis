@@ -195,7 +195,7 @@ export function withRemoteConfig<P = any>(
             store: IStore;
           }
         > {
-          static displayName = `WithRemoteConfig(${
+          static displayName: string = `WithRemoteConfig(${
             ComposedComponent.displayName || ComposedComponent.name
           })`;
           static ComposedComponent =

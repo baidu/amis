@@ -41,7 +41,7 @@ export function HocStoreFactory(renderer: {
 
     @observer
     class StoreFactory extends React.Component<Props> {
-      static displayName = `WithStore(${
+      static displayName: string = `WithStore(${
         Component.displayName || Component.name
       })`;
       static ComposedComponent = Component;

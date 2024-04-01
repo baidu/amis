@@ -1660,7 +1660,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
     return wrapControl(
       hoistNonReactStatic(
         class extends FormItemWrap {
-          static defaultProps = {
+          static defaultProps: any = {
             className: '',
             renderLabel: config.renderLabel,
             renderDescription: config.renderDescription,
@@ -1679,7 +1679,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             ...((Control as any).propsList || [])
           ];
 
-          static displayName = `FormItem${
+          static displayName: string = `FormItem${
             config.type ? `(${config.type})` : ''
           }`;
           static ComposedComponent = Control;
