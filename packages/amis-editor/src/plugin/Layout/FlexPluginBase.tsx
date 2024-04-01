@@ -109,9 +109,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
     if (/^[\d:]+$/.test(value) && isAlive(node)) {
       let list = value.trim().split(':');
       let children = node.children || [];
-      const isColumn = String(node.schema?.style?.flexDirection).includes(
-        'column'
-      );
+      const isColumn = this.manager?.isFlexColumnItem(node.id);
 
       // 更新flex布局
       for (let i = 0; i < children.length; i++) {

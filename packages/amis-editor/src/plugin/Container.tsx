@@ -142,10 +142,10 @@ export class ContainerPlugin extends LayoutBasePlugin {
     const node = context.node!;
     const isFlexItem = this.manager?.isFlexItem(node.id);
     if (isFlexItem) {
-      let isColumnFlex = String(
-        node.parent?.schema?.style?.flexDirection
-      ).includes('column');
-      context?.node.setHeightMutable(false);
+      let isColumnFlex = this.manager.isFlexColumnItem(node.id);
+      context?.node.setHeightMutable(
+        node?.schema?.isFixedHeight && !isColumnFlex
+      );
       context?.node.setWidthMutable(
         (!isColumnFlex && context.node.parent?.children?.length > 1) ||
           node.schema?.style?.flex === '0 0 150px'
@@ -178,9 +178,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
     const frameRect = parent.getBoundingClientRect();
     const rect = dom.getBoundingClientRect();
     const isFlexItem = this.manager?.isFlexItem(node.id);
-    const isColumnFlex = String(host?.schema?.style?.flexDirection).includes(
-      'column'
-    );
+    const isColumnFlex = this.manager?.isFlexColumnItem(node.id);
     const schema = node.schema;
     const index = node.index;
     const isFlexSize =
