@@ -214,7 +214,8 @@ export class NumberControlPlugin extends BasePlugin {
                   label: '步长',
                   min: 0,
                   value: 1,
-                  precision: '${precision}'
+                  precision: '${precision}',
+                  strictMode: false
                 },
                 {
                   type: 'input-number',
