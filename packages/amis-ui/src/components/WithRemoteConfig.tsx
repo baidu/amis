@@ -230,6 +230,7 @@ export function withRemoteConfig<P = any>(
             super(props);
 
             this.setConfig = this.setConfig.bind(this);
+            this.childRef = this.childRef.bind(this);
             props.store.setComponent(this);
             this.deferLoadConfig = this.deferLoadConfig.bind(this);
             props.remoteConfigRef?.(this);
@@ -401,6 +402,20 @@ export function withRemoteConfig<P = any>(
             ret2 && store.setConfig(ret2, config, 'after-defer-load');
           }
 
+          ref: any;
+
+          childRef(ref: any) {
+            while (ref && ref.getWrappedInstance) {
+              ref = ref.getWrappedInstance();
+            }
+
+            this.ref = ref;
+          }
+
+          getWrappedInstance() {
+            return this.ref;
+          }
+
           render() {
             const store = this.props.store;
             const env: RendererEnv =
@@ -412,6 +427,12 @@ export function withRemoteConfig<P = any>(
               updateConfig: this.setConfig
             };
             const {remoteConfigRef, autoComplete, ...rest} = this.props;
+            const refConfig =
+              ComposedComponent.prototype?.isReactComponent ||
+              (ComposedComponent as any).$$typeof ===
+                Symbol.for('react.forward_ref')
+                ? {ref: this.childRef}
+                : {forwardedRef: this.childRef};
 
             return (
               <ComposedComponent
@@ -425,6 +446,7 @@ export function withRemoteConfig<P = any>(
                 {...(config.injectedPropsFilter
                   ? config.injectedPropsFilter(injectedProps, this.props)
                   : injectedProps)}
+                {...refConfig}
               />
             );
           }

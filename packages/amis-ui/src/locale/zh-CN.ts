@@ -409,6 +409,7 @@ register('zh-CN', {
   'JSONSchema.array_items': '成员类型',
   'JSONSchema.members': '成员',
   'JSONSchema.key_duplicated': '字段名已经存在',
+  'JSONSchema.key_invalid': '字段名格式错误',
   'Required': '必填',
   'TimeNow': '此刻',
   'IconSelect.all': '全部',

@@ -6,6 +6,7 @@ import {
   JSONPipeOut,
   JSONUpdate,
   addModal,
+  getVariables,
   modalsToDefinitions
 } from 'amis-editor-core';
 import React from 'react';
@@ -57,7 +58,9 @@ function DialogActionPanel({
   onBulkChange,
   node,
   addHook,
-  subscribeSchemaSubmit
+  subscribeSchemaSubmit,
+  appLocale,
+  appCorpusData
 }: DialogActionPanelProps) {
   const eventKey = data.eventKey;
 
@@ -609,6 +612,17 @@ function DialogActionPanel({
     );
   }, []);
 
+  const formula: any = React.useMemo(() => {
+    return {
+      variables: () =>
+        getVariables({
+          props: {node, manager},
+          appLocale,
+          appCorpusData
+        })
+    };
+  }, [node, manager]);
+
   return (
     <div className={cx('ae-DialogActionPanel')}>
       <FormField
@@ -686,6 +700,7 @@ function DialogActionPanel({
                 onChange={handleDataChange}
                 schema={JSONPipeOut(currentModal.modal.inputParams)}
                 addButtonText="添加参数"
+                formula={formula}
               />
             ) : null}
           </div>
