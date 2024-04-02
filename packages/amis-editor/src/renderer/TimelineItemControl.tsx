@@ -212,7 +212,7 @@ export default class TimelineItemControl extends React.Component<
             body: [
               {
                 type: 'tpl',
-                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置time和title,例："2022-06-23 期末补考"'
+                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每个数据单独一行，时间与标题用空格分隔，例：“2024-01-01 提交申请”'
               }
             ],
             showIcon: true,
@@ -252,7 +252,7 @@ export default class TimelineItemControl extends React.Component<
     return {
       type: 'action',
       actionType: 'dialog',
-      label: '添加选项',
+      label: '添加一项',
       active: true,
       dialog: {
         title: '节点配置',

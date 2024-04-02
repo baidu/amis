@@ -42,10 +42,6 @@ export class TimelinePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              getSchemaTpl('formItemName', {
-                required: true
-              }),
-              getSchemaTpl('label'),
               {
                 label: '排序',
                 name: 'reverse',
@@ -95,7 +91,7 @@ export class TimelinePlugin extends BasePlugin {
               {
                 type: 'ae-switch-more',
                 mode: 'normal',
-                label: '自定义标题显示模板',
+                label: '自定义标题显示',
                 bulk: false,
                 name: 'itemTitleSchema',
                 formType: 'extend',
@@ -107,7 +103,7 @@ export class TimelinePlugin extends BasePlugin {
                       size: 'sm',
                       block: true,
                       onClick: this.editDetail.bind(this, context),
-                      label: '配置标题显示模板'
+                      label: '配置标题显示模版'
                     }
                   ]
                 },
@@ -171,7 +167,7 @@ export class TimelinePlugin extends BasePlugin {
     node &&
       value &&
       this.manager.openSubEditor({
-        title: '配置标题显示模板',
+        title: '配置标题显示',
         value: schemaToArray(value.itemTitleSchema ?? defaultItemSchema),
         slot: {
           type: 'container',
