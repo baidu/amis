@@ -49,6 +49,11 @@ interface MatchFunc {
 
 class ServerError extends Error {
   type = 'ServerError';
+  readonly response: any;
+  constructor(msg: string, response?: any) {
+    super(msg);
+    this.response = response;
+  }
 }
 
 export const CRUDStore = ServiceStore.named('CRUDStore')
@@ -595,7 +600,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                   }
                 : undefined
             );
-          throw new ServerError(self.msg);
+          throw new ServerError(self.msg, json);
         } else {
           self.updateMessage(
             (api as ApiObject)?.messages?.success ??
@@ -615,11 +620,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 : undefined
             );
         }
-        return json.data;
+        // 补一个空对象是为了区别于被取消的请求
+        // 请求被取消时会返回 undefined
+        return json.data || {};
       } catch (e) {
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         self.markSaving(false);
 
-        if (!isAlive(self) || self.disposed) {
+        if (getEnv(self).isCancel(e)) {
           return;
         }
 
