@@ -49,7 +49,7 @@ npm start
 
 ### 测试
 
-> 注意：本地修改代码后，执行测试用例（`npm test --workspaces`）之前需要先执行`npm run build`完成编译，因为 jest 并不支持支持 TypeScript
+> 注意：本地修改代码后，执行测试用例（`npm test --workspaces`）之前需要先执行`npm run build`完成编译，因为 jest 并不支持 TypeScript
 
 ```bash
 # 安装依赖
