@@ -62,6 +62,8 @@ export type RendererEvent<T, P = any> = {
   preventDefault: () => void;
   stopPropagation: () => void;
   setData: (data: P) => void;
+  pendingPromise: Promise<any>[];
+  allDone: () => Promise<any>;
 };
 
 export interface RendererEventContext {
@@ -100,6 +102,13 @@ export function createRendererEvent<T extends RendererEventContext>(
 
       setData(data: any) {
         rendererEvent.context.data = data;
+      },
+
+      // 用来记录那些还没完的动作
+      // 有时候要等所有完成了才进行下一步
+      pendingPromise: [],
+      allDone() {
+        return Promise.all(rendererEvent.pendingPromise);
       }
     },
     {
@@ -116,6 +125,12 @@ export function createRendererEvent<T extends RendererEventContext>(
         enumerable: false
       },
       setData: {
+        enumerable: false
+      },
+      pendingPromise: {
+        enumerable: false
+      },
+      allDone: {
         enumerable: false
       }
     }
