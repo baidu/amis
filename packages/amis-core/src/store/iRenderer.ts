@@ -12,7 +12,12 @@ import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
 import {IScopedContext} from '../Scoped';
 import {IRootStore} from './root';
-import {concatData, createObjectFromChain, extractObjectChain} from '../utils';
+import {
+  concatData,
+  createObjectFromChain,
+  extractObjectChain,
+  injectObjectChain
+} from '../utils';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -52,6 +57,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
       initData(data: object = {}, skipSetPristine = false) {
         self.initedAt = Date.now();
 
+        if (self.data.__tag) {
+          data = injectObjectChain(data, self.data.__tag);
+        }
+
         !skipSetPristine && (self.pristine = data);
         self.data = data;
       },
@@ -73,7 +82,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         const prev = self.data;
         let newData;
         if (tag) {
-          let proto = createObject((self.data as any).__super || null, tag);
+          let proto = createObject((self.data as any).__super || null, {
+            ...tag,
+            __tag: tag
+          });
           newData = createObject(proto, {
             ...(replace ? {} : self.data),
             ...data
