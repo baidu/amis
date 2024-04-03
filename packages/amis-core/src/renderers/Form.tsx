@@ -2255,7 +2255,6 @@ export class FormRenderer extends Form {
   }
 
   getData() {
-    const {store} = this.props;
-    return store.data;
+    return this.getValues();
   }
 }
