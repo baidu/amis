@@ -137,7 +137,7 @@ export function getViewPointData(
                   yOffset += getRowHeight(i);
                 }
 
-                y == yOffset;
+                y -= yOffset;
 
                 const value = getSheetRowData(startRow)[startCol];
 
