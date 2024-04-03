@@ -1465,7 +1465,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       env,
       messages,
-      reload
+      reload,
+      dispatchEvent
     } = this.props;
 
     if (Array.isArray(rows)) {
@@ -1491,18 +1492,41 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         data.unModifiedItems = unModifiedItems;
       }
 
-      store
+      return store
         .saveRemote(quickSaveApi, data, {
           successMessage: messages && messages.saveFailed,
           errorMessage: messages && messages.saveSuccess
         })
-        .then(() => {
+        .then(async result => {
+          // 如果请求 cancel 了，会来到这里
+          if (!result) {
+            return;
+          }
+
+          const event = await dispatchEvent?.(
+            'quickSaveSucc',
+            extendObject(data, {
+              result: result
+            })
+          );
+
+          if (event?.prevented) {
+            return;
+          }
+
           const finalReload = options?.reload ?? reload;
-          finalReload
+          return finalReload
             ? this.reloadTarget(filterTarget(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(async err => {
+          await dispatchEvent?.(
+            'quickSaveFail',
+            createObject(this.props.data, {
+              error: err
+            })
+          );
+        });
     } else {
       if (!isEffectiveApi(quickSaveItemApi)) {
         env && env.alert('CRUD quickSaveItemApi is required!');
@@ -1516,23 +1540,52 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
 
       const sendData = createObject(data, rows);
-      store
+      return store
         .saveRemote(quickSaveItemApi, sendData)
-        .then(() => {
+        .then(async (result: any) => {
+          // 如果请求 cancel 了，会来到这里
+          if (!result) {
+            return;
+          }
+          const event = await dispatchEvent?.(
+            'quickSaveItemSucc',
+            extendObject(data, {
+              result: result
+            })
+          );
+
+          if (event?.prevented) {
+            return;
+          }
+
           const finalReload = options?.reload ?? reload;
-          finalReload
+          return finalReload
             ? this.reloadTarget(filterTarget(finalReload, data), data)
             : this.search(undefined, undefined, true, true);
         })
-        .catch(() => {
+        .catch(async err => {
           options?.resetOnFailed && this.control.reset();
+
+          await dispatchEvent?.(
+            'quickSaveItemFail',
+            createObject(this.props.data, {
+              error: err
+            })
+          );
         });
     }
   }
 
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
-    const {store, saveOrderApi, orderField, primaryField, env, reload} =
-      this.props;
+    const {
+      store,
+      saveOrderApi,
+      orderField,
+      primaryField,
+      env,
+      reload,
+      dispatchEvent
+    } = this.props;
 
     if (!saveOrderApi) {
       env && env.alert('CRUD saveOrderApi is required!');
@@ -1632,14 +1685,38 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         ));
     }
 
-    isEffectiveApi(saveOrderApi, model) &&
+    return (
+      isEffectiveApi(saveOrderApi, model) &&
       store
         .saveRemote(saveOrderApi, model)
-        .then(() => {
+        .then(async result => {
+          // 如果请求 cancel 了，会来到这里
+          if (!result) {
+            return;
+          }
+          const event = await dispatchEvent?.(
+            'saveOrderSucc',
+            extendObject(model, {
+              result: result
+            })
+          );
+
+          if (event?.prevented) {
+            return;
+          }
+
           reload && this.reloadTarget(filterTarget(reload, model), model);
           this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(async err => {
+          await dispatchEvent?.(
+            'saveOrderFail',
+            createObject(this.props.data, {
+              error: err
+            })
+          );
+        })
+    );
   }
 
   handleSelect(items: Array<any>, unSelectedItems: Array<any>) {
