@@ -1,8 +1,9 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {FormItem, FormControlProps, FormBaseControl, autobind} from 'amis-core';
 import {InputJSONSchema} from 'amis-ui';
 import {withRemoteConfig} from 'amis-ui';
 import {FormBaseControlSchema} from '../../Schema';
+import {InputFormulaControlSchema} from './InputFormula';
 
 /**
  * JSON Schema
@@ -18,6 +19,11 @@ export interface JSONSchemaControlSchema extends FormBaseControlSchema {
    * json-schema 详情，支持关联上下文数据
    */
   schema?: any;
+
+  /**
+   * 将字段输入控件变成公式编辑器。
+   */
+  formula?: Omit<InputFormulaControlSchema, 'type'>;
 }
 
 export interface JSONSchemaProps
@@ -37,10 +43,24 @@ const EnhancedInputJSONSchema = withRemoteConfig({
   }
 })(InputJSONSchema as any);
 export default class JSONSchemaControl extends React.PureComponent<JSONSchemaProps> {
+  control: any;
+
+  @autobind
+  controlRef(ref: any) {
+    while (ref?.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.control = ref;
+  }
+
+  validate() {
+    return this.control?.validate();
+  }
+
   render() {
     const {...rest} = this.props;
 
-    return <EnhancedInputJSONSchema {...rest} />;
+    return <EnhancedInputJSONSchema {...rest} ref={this.controlRef} />;
   }
 }
 

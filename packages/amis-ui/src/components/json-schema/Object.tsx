@@ -6,7 +6,7 @@ import InputBox from '../InputBox';
 import InputBoxWithSuggestion from '../InputBoxWithSuggestion';
 import Select from '../Select';
 import type {InputJSONSchemaItemProps} from './index';
-import {InputJSONSchemaItem} from './Item';
+import InputJSONSchemaItem from './Item';
 import isEqual from 'lodash/isEqual';
 
 type JSONSchemaObjectMember = {
@@ -18,7 +18,10 @@ type JSONSchemaObjectMember = {
   required?: boolean;
   value?: any;
 };
-export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
+export function InputJSONSchemaObject(
+  props: InputJSONSchemaItemProps,
+  ref: any
+) {
   const {
     classnames: cx,
     value,
@@ -224,6 +227,16 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   );
   const allowInput = props.schema.additionalProperties !== false;
 
+  React.useImperativeHandle(ref, () => {
+    return {
+      validate(): any {
+        if (membersRef.current?.some(m => m.invalid)) {
+          return __('JSONSchema.key_invalid');
+        }
+      }
+    };
+  });
+
   return (
     <>
       {collapsable ? (
@@ -382,3 +395,5 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     </>
   );
 }
+
+export default React.forwardRef(InputJSONSchemaObject);
