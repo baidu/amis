@@ -47,7 +47,12 @@ export default class TimelineItemControl extends React.Component<
     this.state = {
       items: props.value,
       api: props.data.source,
-      source: props.data.source ? 'api' : 'custom'
+      source: props.data.source
+        ? typeof props.data.source === 'string' &&
+          props.data.source.match(/^\$\{.*\}$/)
+          ? 'variable'
+          : 'api'
+        : 'custom'
     };
   }
   /**
