@@ -1662,7 +1662,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
       </div>
     </div>
     <div
-      class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerTopCenterBottom cxd-PopOver--v-bottom"
+      class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerBottomCenterTop cxd-PopOver--v-top"
       role="popover"
       style="display: block; min-width: auto; left: 0px; top: 0px; position: relative;"
       theme="cxd"

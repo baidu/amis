@@ -216,7 +216,7 @@ export function calculatePosition(
         let visibleY = false;
 
         if (
-          transformed.x > 0 &&
+          transformed.x >= 0 &&
           transformed.x + transformed.width <
             window.innerWidth + scrollParent.scrollLeft
         ) {
@@ -226,7 +226,7 @@ export function calculatePosition(
         }
 
         if (
-          transformed.y > 0 &&
+          transformed.y >= 0 &&
           transformed.y + transformed.height <
             window.innerHeight + scrollParent.scrollTop
         ) {
