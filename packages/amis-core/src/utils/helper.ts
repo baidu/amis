@@ -202,15 +202,7 @@ export function anyChanged(
     typeof attrs === 'string'
       ? attrs.split(',').map(item => item.trim())
       : attrs
-  ).some(key => {
-    if (strictMode) {
-      if (isObject(from[key]) || isObject(to[key])) {
-        return !isEqual(from[key], to[key]);
-      }
-      return from[key] !== to[key];
-    }
-    return from[key] != to[key];
-  });
+  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
 }
 
 type Mutable<T> = {
