@@ -94,6 +94,7 @@ export class DialogAction implements RendererAction {
       action.data
     );
 
+    event.pendingPromise.push(ret);
     if (action.waitForAction) {
       const {confirmed, value} = await ret;
 

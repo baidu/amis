@@ -7,7 +7,8 @@ import {
   resolveVariableAndFilter,
   setVariable,
   setThemeClassName,
-  ValidateError
+  ValidateError,
+  RendererEvent
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -974,7 +975,8 @@ export class DialogRenderer extends Dialog {
     action: ActionObject,
     data: object,
     throwErrors: boolean = false,
-    delegate?: IScopedContext
+    delegate?: IScopedContext,
+    rendererEvent?: RendererEvent<any>
   ) {
     const {onAction, store, onConfirm, env, dispatchEvent, onClose} =
       this.props;
@@ -983,6 +985,10 @@ export class DialogRenderer extends Dialog {
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
         : false;
+    }
+
+    if (rendererEvent?.pendingPromise.length) {
+      await rendererEvent.allDone();
     }
 
     const scoped = this.context as IScopedContext;
@@ -1091,7 +1097,7 @@ export class DialogRenderer extends Dialog {
       // do nothing
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store
+      return store
         .saveRemote(action.api as string, data, {
           successMessage: action.messages && action.messages.success,
           errorMessage: action.messages && action.messages.failed
