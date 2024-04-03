@@ -1,8 +1,17 @@
-import {EditorManager, EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  defaultValue,
+  getSchemaTpl
+} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  RendererPluginAction,
+  RendererPluginEvent,
+  undefinedPipeOut
+} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
@@ -373,7 +382,59 @@ export class TransferPlugin extends BasePlugin {
               label: 'AddOn',
               visibleOn: 'this.addOn && this.addOn.type === "text"'
             })
-          ])
+          ]),
+          ...(this.rendererName === 'transfer-picker'
+            ? [
+                {
+                  title: '边框',
+                  key: 'borderMode',
+                  body: [getSchemaTpl('borderMode')]
+                },
+                {
+                  title: '弹窗',
+                  key: 'picker',
+                  body: [
+                    {
+                      name: 'pickerSize',
+                      type: 'select',
+                      pipeIn: defaultValue(''),
+                      pipeOut: undefinedPipeOut,
+                      label: '弹窗大小',
+                      options: [
+                        {
+                          label: '默认',
+                          value: ''
+                        },
+                        {
+                          value: 'sm',
+                          label: '小'
+                        },
+
+                        {
+                          label: '中',
+                          value: 'md'
+                        },
+
+                        {
+                          label: '大',
+                          value: 'lg'
+                        },
+
+                        {
+                          label: '特大',
+                          value: 'xl'
+                        },
+
+                        {
+                          label: '全屏',
+                          value: 'full'
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            : [])
         ])
       },
       {
