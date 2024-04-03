@@ -418,7 +418,7 @@ export default class Dialog extends React.Component<DialogProps> {
   handleFormInit(data: any) {
     const {store} = this.props;
 
-    store.setFormData(data);
+    store.updateData(data);
   }
 
   handleFormChange(data: any, name?: string) {
@@ -426,20 +426,17 @@ export default class Dialog extends React.Component<DialogProps> {
 
     // 如果 dialog 里面不放 form，而是直接放表单项就会进到这里来。
     if (typeof name === 'string') {
-      const mergedData = {
-        ...store.form
-      };
-      setVariable(mergedData, name, data);
-      data = mergedData;
+      store.changeValue(name, data);
+      return;
     }
 
-    store.setFormData(data);
+    store.updateData(data);
   }
 
   handleFormSaved(data: any, response: any) {
     const {store} = this.props;
 
-    store.setFormData({
+    store.updateData({
       ...data,
       ...response
     });
@@ -551,7 +548,7 @@ export default class Dialog extends React.Component<DialogProps> {
         ) : null}
         {actions.map((action, key) =>
           render(`action/${key}`, action, {
-            data: store.formData,
+            data: store.data,
             onAction: this.handleAction,
             key,
             disabled: action.disabled || store.loading || !show
@@ -682,7 +679,7 @@ export default class Dialog extends React.Component<DialogProps> {
                 })
               )}
             >
-              {filter(__(title), store.formData)}
+              {filter(__(title), store.data)}
             </div>
           </div>
         ) : title ? (
@@ -712,7 +709,7 @@ export default class Dialog extends React.Component<DialogProps> {
               </a>
             ) : null}
             {render('title', title, {
-              data: store.formData,
+              data: store.data,
               onAction: this.handleAction
             })}
           </div>
@@ -728,7 +725,6 @@ export default class Dialog extends React.Component<DialogProps> {
 
         {header
           ? render('header', header, {
-              data: store.formData,
               onAction: this.handleAction
             })
           : null}
