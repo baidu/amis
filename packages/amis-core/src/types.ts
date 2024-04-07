@@ -359,6 +359,8 @@ export interface ActionObject extends ButtonObject {
     | 'changeTabKey'
     | 'clearSearch'
     | 'submitQuickEdit'
+    | 'initDrag'
+    | 'cancelDrag'
     | 'toggleExpanded'
     | 'setExpanded';
 

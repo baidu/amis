@@ -305,7 +305,9 @@ export const runAction = async (
       'table': ['condition'],
       'table2': ['condition'],
       'crud': ['condition'],
-      'combo': ['condition']
+      'combo': ['condition'],
+      'list': ['condition'],
+      'cards': ['condition']
     };
     const curCmptType: string = targetComponent?.props?.type;
     const curActionType: string = action.actionType;

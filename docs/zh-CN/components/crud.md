@@ -4681,6 +4681,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | selectAll       | 转 table 组件动作说明 | 设置表格全部项选中         |
 | clearAll        | 转 table 组件动作说明 | 清空表格所有选中项         |
 | initDrag        | 转 table 组件动作说明 | 开启表格拖拽排序功能       |
+| cancelDrag        | 转 table 组件动作说明 | 取消表格拖拽排序功能       |
 | submitQuickEdit | 转 table 组件动作说明 | 快速编辑数据提交           |
 | toggleExpanded  | 转 table 组件动作说明 | 切换某行数据是展开还是收起 |
 | setExpanded     | 转 table 组件动作说明 | 展开或收起某行数据         |

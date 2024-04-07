@@ -2629,6 +2629,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectAll       | -                                                                                                                                                                                                                                                                                                                                                                                                       | 设置表格全部项选中         |
 | clearAll        | -                                                                                                                                                                                                                                                                                                                                                                                                       | 清空表格所有选中项         |
 | initDrag        | -                                                                                                                                                                                                                                                                                                                                                                                                       | 开启表格拖拽排序功能       |
+| cancelDrag      | -                                                                                                                                                                                                                                                                                                                                                                                                       | 放弃表格拖拽排序功能       |
 | setValue        | `args.value`: object <br />`args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用） <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合                                                                                                                                                                                                                         | 更新列表记录               |
 | submitQuickEdit |                                                                                                                                                                                                                                                                                                                                                                                                         | 快速编辑数据提交           |
 | toggleExpanded  | `args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用） <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合                                                                                                                                                                                                                                                    | 切换某行数据是展开还是收起 |
@@ -2821,7 +2822,7 @@ value 结构说明：
 ]
 ```
 
-### initDrag
+### initDrag & cancelDrag
 
 ```schema: scope="body"
 [
@@ -2845,6 +2846,23 @@ value 结构说明：
             ]
         }
         }
+    },
+    {
+        "name": "trigger5",
+        "id": "trigger5",
+        "type": "action",
+        "label": "取消表格行排序",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "cancelDrag",
+                "componentId": "table-select",
+                "description": "点击取消表格行排序功能"
+            }
+            ]
+        }
+        }
     }
     ]
 },
@@ -2856,8 +2874,6 @@ value 结构说明：
         "id": "table-select",
         "type": "table",
         "source": "$rows",
-        "selectable": true,
-        "multiple": true,
         "columns": [
         {
             "name": "id",
@@ -2969,9 +2985,7 @@ value 结构说明：
               "inline": true,
               "tpl": "v${version}"
             }
-          ],
-          "selectable": true,
-          "multiple": true
+          ]
         }
       ]
     }
@@ -3128,9 +3142,7 @@ value 结构说明：
               "inline": true,
               "tpl": "${version}"
             }
-          ],
-          "selectable": true,
-          "multiple": true
+          ]
         }
       ]
     }
