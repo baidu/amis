@@ -113,7 +113,7 @@ export class Button extends React.Component<ButtonProps> {
         title={title}
         disabled={disabled}
       >
-        {loading && !disabled && (
+        {loading && (
           <Spinner
             loadingConfig={loadingConfig}
             size="sm"

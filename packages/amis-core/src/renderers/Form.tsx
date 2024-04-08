@@ -1143,7 +1143,7 @@ export default class Form extends React.Component<FormProps, object> {
     const {onReset} = this.props;
 
     return (data: any) => {
-      onReset && onReset(data, action);
+      return onReset?.(data, action);
     };
   }
 
@@ -1238,9 +1238,9 @@ export default class Form extends React.Component<FormProps, object> {
       store.setCurrentAction(action, this.props.resolveDefinitions);
 
       if (action.actionType === 'reset-and-submit') {
-        store.reset(this.handleReset(action));
+        await store.reset(this.handleReset(action));
       } else if (action.actionType === 'clear-and-submit') {
-        store.clear(this.handleReset(action));
+        await store.clear(this.handleReset(action));
       }
 
       return this.submit(
@@ -1423,10 +1423,10 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.reset(onReset);
+      await store.reset(onReset);
     } else if (action.actionType === 'clear') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store.clear(onReset);
+      await store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
       return this.validate(true, throwErrors, true, true);
@@ -1803,6 +1803,7 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
+      loading,
       formLazyChange,
       dispatchEvent,
       labelAlign,
@@ -1832,7 +1833,7 @@ export default class Form extends React.Component<FormProps, object> {
         disabled ||
         (control as Schema).disabled ||
         (form.loading ? true : undefined),
-      btnDisabled: disabled || form.loading || form.validating,
+      btnDisabled: disabled || loading || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
       onChange: this.handleChange,
@@ -1992,6 +1993,7 @@ export default class Form extends React.Component<FormProps, object> {
       render,
       title,
       store,
+      loading,
       panelClassName,
       headerClassName,
       footerClassName,
@@ -2023,8 +2025,8 @@ export default class Form extends React.Component<FormProps, object> {
           actions: this.buildActions(),
           onAction: this.handleAction,
           onQuery: this.handleQuery,
-          disabled: store.loading,
-          btnDisabled: store.loading || store.validating,
+          disabled: loading || store.loading,
+          btnDisabled: loading || store.loading || store.validating,
           headerClassName,
           footer,
           footerClassName,

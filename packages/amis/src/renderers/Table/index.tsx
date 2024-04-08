@@ -1691,7 +1691,8 @@ export default class Table extends React.Component<TableProps, object> {
       query,
       data,
       autoGenerateFilter,
-      testIdBuilder
+      testIdBuilder,
+      loading
     } = this.props;
 
     const searchableColumns = store.searchableColumns;
@@ -1712,6 +1713,7 @@ export default class Table extends React.Component<TableProps, object> {
         onSearchableFromInit={onSearchableFromInit}
         popOverContainer={this.getPopOverContainer}
         testIdBuilder={testIdBuilder?.getChild('filter')}
+        loading={loading}
       />
     );
   }

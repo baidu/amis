@@ -721,7 +721,8 @@ export const FormStore = ServiceStore.named('FormStore')
       self.validated = false;
       self.submited = false;
       self.items.forEach(item => item.reset());
-      cb && cb(self.data);
+
+      return cb && cb(self.data);
     }
 
     function clear(cb?: (data: any) => void) {
@@ -738,7 +739,7 @@ export const FormStore = ServiceStore.named('FormStore')
       self.validated = false;
       self.submited = false;
       self.items.forEach(item => item.reset());
-      cb && cb(self.data);
+      return cb && cb(self.data);
     }
 
     function setCanAccessSuperData(value: boolean = true) {

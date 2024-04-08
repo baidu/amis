@@ -548,6 +548,7 @@ interface ActionState {
   inCountDown: boolean; // 是否在倒计时
   countDownEnd: number; // 倒计时结束的精确时间
   timeLeft: number; // 倒计时剩余时间
+  loading: boolean; // 是否正在加载
 }
 
 export class Action extends React.Component<ActionProps, ActionState> {
@@ -563,10 +564,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
   state: ActionState = {
     inCountDown: false,
     countDownEnd: 0,
-    timeLeft: 0
+    timeLeft: 0,
+    loading: false
   };
 
   localStorageKey: string;
+  unmounted = false;
 
   dom: any;
 
@@ -582,6 +585,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     if (countDownEnd && this.props.countDown) {
       if (Date.now() < countDownEnd) {
         this.state = {
+          loading: false,
           inCountDown: true,
           countDownEnd,
           timeLeft: Math.floor((countDownEnd - Date.now()) / 1000)
@@ -682,6 +686,25 @@ export class Action extends React.Component<ActionProps, ActionState> {
   }
 
   @autobind
+  async handleClick(e: React.MouseEvent<any>) {
+    if (this.state.loading) {
+      // 动作还没处理完不让点，避免重复提交
+      return;
+    }
+    try {
+      this.setState({
+        loading: true
+      });
+      await this.handleAction(e);
+    } finally {
+      this.unmounted ||
+        this.setState({
+          loading: false
+        });
+    }
+  }
+
+  @autobind
   componentDidMount() {
     const {hotKey} = this.props;
     if (hotKey) {
@@ -702,6 +725,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     if (hotKey) {
       hotkeys.unbind(hotKey);
     }
+    this.unmounted = true;
   }
 
   render() {
@@ -735,7 +759,6 @@ export class Action extends React.Component<ActionProps, ActionState> {
       tooltipTrigger,
       tooltipContainer,
       tooltipRootClose,
-      loading,
       body,
       render,
       onMouseEnter,
@@ -750,6 +773,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       testIdBuilder,
       env
     } = this.props;
+    const loading = this.props.loading || this.state.loading;
 
     if (actionType !== 'email' && body) {
       return (
@@ -857,7 +881,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
           }
           loadingClassName={loadingClassName}
           loading={loading}
-          onClick={this.handleAction}
+          onClick={this.handleClick}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           type={type && ~allowedType.indexOf(type) ? type : 'button'}
@@ -1009,7 +1033,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         }
 
         // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
-        onAction(
+        await onAction(
           e,
           {...action, ignoreConfirm: !!hasOnEvent},
           mergedData,
@@ -1032,7 +1056,14 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         return;
       }
 
-      onAction(e, action, mergedData, undefined, undefined, rendererEvent);
+      await onAction(
+        e,
+        action,
+        mergedData,
+        undefined,
+        undefined,
+        rendererEvent
+      );
     }
   }
 

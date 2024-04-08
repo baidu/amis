@@ -1021,7 +1021,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return;
     }
 
-    this.search();
+    return this.search();
   }
 
   handleFilterSubmit(
@@ -1069,14 +1069,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
     this.lastQuery = store.query;
 
-    search &&
+    return (
+      search &&
       this.search(
         undefined,
         undefined,
         undefined,
         loadDataOnceFetchOnFilter !== false,
         isInit
-      );
+      )
+    );
   }
 
   handleBulkGo(
@@ -1306,7 +1308,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             'options'
           ) as any)
         : undefined;
-    isEffectiveApi(api, data)
+    return isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
             successMessage: messages && messages.fetchSuccess,
@@ -1394,10 +1396,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             return value;
           })
       : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns,
-          matchFunc
-        });
+          store.initFromScope(data, source, {
+            columns: store.columns ?? columns,
+            matchFunc
+          });
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
@@ -2696,7 +2698,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 onSubmit: this.handleFilterSubmit,
                 onInit: this.handleFilterInit,
                 formStore: undefined,
-                canAccessSuperData: false
+                canAccessSuperData: false,
+                loading: store.loading
               }
             )
           : null}

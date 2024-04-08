@@ -40,6 +40,7 @@ export function AutoFilterForm({
   onSearchableFromSubmit,
   onSearchableFromInit,
   popOverContainer,
+  loading,
   testIdBuilder
 }: AutoFilterFormProps) {
   const schema = React.useMemo(() => {
@@ -213,6 +214,7 @@ export function AutoFilterForm({
     onInit: onSearchableFromInit,
     formStore: undefined,
     data,
+    loading,
     popOverContainer
   });
 }
