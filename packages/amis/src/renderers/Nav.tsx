@@ -14,7 +14,8 @@ import {
   buildStyle,
   filter,
   evalExpression,
-  insertStyle
+  insertStyle,
+  isObjectShallowModified
 } from 'amis-core';
 import {
   guid,
@@ -1219,7 +1220,16 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         this.props.updateConfig(this.props.config, 'location-change');
       } else if (!isEqual(this.props.links, prevProps.links)) {
         this.props.updateConfig(this.props.links, 'update');
-      } else if (!isEqual(this.props.data, prevProps.data)) {
+      } else if (
+        isObjectShallowModified(
+          this.props.data,
+          prevProps.data,
+          false,
+          undefined,
+          undefined,
+          10
+        )
+      ) {
         this.props.updateConfig(this.props.config, 'data-change');
       }
 
