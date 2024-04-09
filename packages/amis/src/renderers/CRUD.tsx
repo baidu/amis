@@ -1913,9 +1913,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store} = this.props;
     if (
       action.actionType &&
-      ['submitQuickEdit', 'toggleExpanded', 'setExpanded', 'initDrag'].includes(
-        action.actionType
-      )
+      [
+        'submitQuickEdit',
+        'toggleExpanded',
+        'setExpanded',
+        'initDrag',
+        'cancelDrag'
+      ].includes(action.actionType)
     ) {
       return this.control?.doAction(action, data, throwErrors, args);
     } else if (action.actionType === 'selectAll') {
