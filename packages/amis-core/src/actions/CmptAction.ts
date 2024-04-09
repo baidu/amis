@@ -59,8 +59,7 @@ export class CmptAction implements RendererAction {
       : renderer;
     // 如果key指定了，但是没找到组件，则报错
     if (key && !component) {
-      const msg =
-        '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
+      const msg = `尝试执行一个不存在的目标组件动作（${key}），请检查目标组件非隐藏状态，且正确指定了componentId或componentName`;
       if (action.ignoreError === false) {
         throw Error(msg);
       } else {
