@@ -818,7 +818,10 @@ export default class Page extends React.Component<PageProps> {
 
     const subProps = {
       onAction: this.handleAction,
-      onQuery: initApi ? this.handleQuery : undefined
+      onQuery: initApi ? this.handleQuery : undefined,
+      onChange: this.handleChange,
+      onBulkChange: this.handleBulkChange,
+      pageLoading: store.loading
     };
     let header, right;
 
