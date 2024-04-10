@@ -114,7 +114,8 @@ export interface RegionConfig {
     | 'default'
     | 'position-h'
     | 'position-v'
-    | (new (dnd: EditorDNDManager) => DNDModeInterface);
+    // | (new (dnd: EditorDNDManager) => DNDModeInterface)
+    | ((node: any) => string | undefined);
 
   /**
    * 可以用来判断是否允许拖入当前节点。
@@ -534,6 +535,7 @@ export interface InsertEventContext extends BaseEventContext {
     id: string;
     type: string;
     data: any;
+    position?: string;
   };
 }
 
@@ -819,6 +821,11 @@ export interface PluginInterface
    * panelBodyAsyncCreator设置后异步加载层的配置项
    */
   async?: AsyncLayerOptions;
+
+  /**
+   * 拖拽模式
+   */
+  dragMode?: string;
 
   /**
    * 有数据域的容器，可以为子组件提供读取的字段绑定页面

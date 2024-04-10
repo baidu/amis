@@ -48,7 +48,7 @@ import CustomStyle from '../components/CustomStyle';
 import classNames from 'classnames';
 import isPlainObject from 'lodash/isPlainObject';
 
-export type LabelAlign = 'right' | 'left';
+export type LabelAlign = 'right' | 'left' | 'top';
 
 export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
@@ -1699,6 +1699,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         themeCss,
         id
       } = props;
+      const labelAlign = props.labelAlign || props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
@@ -1723,11 +1724,20 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           )}
           style={style}
         >
-          <div className={cx('Form-rowInner')}>
+          <div
+            className={cx(
+              'Form-rowInner',
+              labelAlign && `Form-rowInner--label-${labelAlign}`
+            )}
+          >
             {label && renderLabel !== false ? (
               <label
                 className={cx(`Form-label`, getItemLabelClassName(props))}
-                style={labelWidth != null ? {width: labelWidth} : undefined}
+                style={
+                  labelWidth != null
+                    ? {width: labelAlign === 'top' ? '100%' : labelWidth}
+                    : undefined
+                }
               >
                 <span>
                   {render('label', label)}

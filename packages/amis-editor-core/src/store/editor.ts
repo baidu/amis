@@ -1213,6 +1213,7 @@ export const MainStore = types
         );
 
         event.context.data = child;
+        event.context.regionList = arr;
         return child;
       },
 
@@ -1239,11 +1240,10 @@ export const MainStore = types
           : [];
 
         if (context.beforeId) {
-          const idx = findIndex(
+          let idx = findIndex(
             origin,
             (item: any) => item.$$id === context.beforeId
           );
-
           if (!~idx) {
             throw new Error('位置错误，目标位置没有找到');
           }
@@ -1252,9 +1252,26 @@ export const MainStore = types
           origin.push(source);
         }
 
+        event.context.regionList = origin;
+
         this.traceableSetSchema(
           JSONUpdate(schema, context.id, {
             [region]: origin
+          })
+        );
+      },
+
+      updateSchema(event: PluginEvent<InsertEventContext>, isParent?: boolean) {
+        if (!event.context.regionList) {
+          return;
+        }
+        const id = isParent ? event.context.parentId : event.context.id;
+        const region = isParent
+          ? event.context.parentRegion
+          : event.context.region;
+        this.traceableSetSchema(
+          JSONUpdate(self.schema, id, {
+            [region]: event.context.regionList
           })
         );
       },

@@ -375,17 +375,14 @@
     margin-left: calc(var(--Form-row-gutterWidth) / -2);
     margin-right: calc(var(--Form-row-gutterWidth) / -2);
     align-items: flex-start;
-
-    > * {
-      padding-left: calc(var(--Form-row-gutterWidth) / 2);
-      padding-right: calc(var(--Form-row-gutterWidth) / 2);
-    }
+    width: 100%;
   }
 
   .#{$ns}Form-col {
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 1;
+    padding: calc(var(--Form-item-gap) / 2);
   }
 
   .#{$ns}Form-rowInner {
@@ -406,6 +403,19 @@
       // &:not(.#{$ns}Form-control--withSize) {
       //   width: var(--Form-control-widthBase);
       // }
+    }
+  }
+  .#{$ns}Form-rowInner--label-top {
+    flex-direction: column;
+  }
+  .#{$ns}Form-rowInner--label-left {
+    > .#{$ns}Form-label {
+      text-align: left;
+    }
+  }
+  .#{$ns}Form-rowInner--label-right {
+    > .#{$ns}Form-label {
+      text-align: right;
     }
   }
 }

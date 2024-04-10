@@ -17,4 +17,6 @@ export interface DNDModeInterface {
   getDropBeforeId: () => string | undefined;
 
   dispose: () => void;
+
+  getDropPosition?: () => string | undefined;
 }

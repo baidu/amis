@@ -56,7 +56,8 @@ import {
   isLayoutPlugin,
   JSONPipeOut,
   scrollToActive,
-  JSONPipeIn
+  JSONPipeIn,
+  JSONGetById
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -1497,8 +1498,15 @@ export class EditorManager {
       Array.isArray(context.data) && context.data.length
         ? this.store.delMulti(context.data)
         : this.store.del(id);
-
-      this.trigger('after-delete', context);
+      const parent = JSONGetById(this.store.schema, context.node.parentId);
+      if (parent) {
+        context.regionList = parent[context.node.parentRegion];
+        context.parentRegion = context.node.parentRegion;
+        context.parent = parent;
+        context.parentId = parent.$$id;
+      }
+      const res = this.trigger('after-delete', context);
+      this.store.updateSchema(res as any, true);
     }
   }
 
@@ -1590,6 +1598,7 @@ export class EditorManager {
       id: string;
       type: string;
       data: any;
+      position?: string;
     },
     reGenerateId?: boolean
   ): any | null {
@@ -1620,7 +1629,8 @@ export class EditorManager {
     const event = this.trigger('before-insert', context);
     if (!event.prevented) {
       const child = store.insertSchema(event);
-      this.trigger('after-insert', context);
+      const res = this.trigger('after-insert', context);
+      store.updateSchema(res);
       return child;
     }
 
@@ -1638,7 +1648,8 @@ export class EditorManager {
     id: string,
     region: string,
     sourceId: string,
-    beforeId?: string
+    beforeId?: string,
+    dragInfo?: any
   ): boolean {
     const store = this.store;
 
@@ -1646,14 +1657,16 @@ export class EditorManager {
       ...this.buildEventContext(id),
       beforeId,
       region: region,
-      sourceId
+      sourceId,
+      dragInfo
     };
 
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
       store.moveSchema(event);
 
-      this.trigger('after-move', context);
+      const res = this.trigger('after-move', context);
+      store.updateSchema(res as any);
       return true;
     }
 

@@ -1747,25 +1747,55 @@ export default class Form extends React.Component<FormProps, object> {
 
       const {classnames: cx} = this.props;
 
+      let rows: any = [];
+      children.forEach(child => {
+        if (typeof child.row === 'number') {
+          if (rows[child.row]) {
+            rows[child.row].push(child);
+          } else {
+            rows[child.row] = [child];
+          }
+        } else {
+          if (rows[rows.length]) {
+            rows[rows.length].push(child);
+          } else {
+            rows[rows.length] = [child];
+          }
+        }
+      });
+
       return (
-        <div className={cx('Form-row')}>
-          {children.map((control, key) =>
-            ~['hidden', 'formula'].indexOf((control as any).type) ||
-            (control as any).mode === 'inline' ? (
-              this.renderChild(control, key, otherProps)
-            ) : (
-              <div
-                key={key}
-                className={cx(`Form-col`, (control as Schema).columnClassName)}
-              >
-                {this.renderChild(control, '', {
-                  ...otherProps,
-                  mode: 'row'
-                })}
+        <>
+          {rows.map((children: any, index: number) => {
+            return (
+              <div className={cx('Form-row')} role="form-row" key={index}>
+                {children.map((control: any, key: number) =>
+                  ~['hidden', 'formula'].indexOf((control as any).type) ||
+                  (control as any).mode === 'inline' ? (
+                    this.renderChild(control, key, otherProps)
+                  ) : (
+                    <div
+                      key={key}
+                      className={cx(
+                        `Form-col`,
+                        (control as Schema).columnClassName
+                      )}
+                      style={{
+                        flex: control.colSize ? `0 0 ${control.colSize}` : ''
+                      }}
+                      role="form-col"
+                    >
+                      {this.renderChild(control, '', {
+                        ...otherProps,
+                        mode: 'row'
+                      })}
+                    </div>
+                  )
+                )}
               </div>
-            )
-          )}
-        </div>
+            );
+          })}
+        </>
       );
     }
 
@@ -1821,7 +1851,10 @@ export default class Form extends React.Component<FormProps, object> {
       formSubmited: form.submited,
       formMode: mode,
       formHorizontal: horizontal,
-      formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
+      formLabelAlign:
+        !labelAlign || !['left', 'right', 'top'].includes(labelAlign)
+          ? 'right'
+          : labelAlign,
       formLabelWidth: labelWidth,
       controlWidth,
       /**
