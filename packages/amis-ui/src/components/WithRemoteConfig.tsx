@@ -242,7 +242,25 @@ export function withRemoteConfig<P = any>(
               this.props.env || (this.context as RendererEnv);
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
-
+            if (!source || source.autoRefresh !== false) {
+              this.toDispose.push(
+                reaction(
+                  () => {
+                    const source = (this.props as any)[
+                      config.sourceField || 'source'
+                    ];
+                    !source && this.setConfig(undefined); //如果source为空，则清空配置
+                    const api = normalizeApi(source as string);
+                    return api.trackExpression
+                      ? tokenize(api.trackExpression, store.data)
+                      : buildApi(api, store.data, {
+                          ignoreData: true
+                        }).url;
+                  },
+                  () => this.loadConfig()
+                )
+              );
+            }
             if (isPureVariable(source)) {
               this.toDispose.push(
                 reaction(
@@ -261,20 +279,6 @@ export function withRemoteConfig<P = any>(
               );
             } else if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
-              (source as ApiObject).autoRefresh !== false &&
-                this.toDispose.push(
-                  reaction(
-                    () => {
-                      const api = normalizeApi(source as string);
-                      return api.trackExpression
-                        ? tokenize(api.trackExpression, store.data)
-                        : buildApi(api, store.data, {
-                            ignoreData: true
-                          }).url;
-                    },
-                    () => this.loadConfig()
-                  )
-                );
             }
           }
 

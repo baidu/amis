@@ -167,7 +167,7 @@ export class TimelinePlugin extends BasePlugin {
     node &&
       value &&
       this.manager.openSubEditor({
-        title: '配置标题显示',
+        title: '配置标题显示模版',
         value: schemaToArray(value.itemTitleSchema ?? defaultItemSchema),
         slot: {
           type: 'container',

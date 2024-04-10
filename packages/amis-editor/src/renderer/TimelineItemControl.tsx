@@ -28,9 +28,10 @@ export interface TimelineItemProps extends FormControlProps {
   className?: string;
 }
 
+export type SourceType = 'custom' | 'api' | 'apicenter' | 'variable';
 export interface TimelineItemState {
   items: Array<Partial<TimelineItem>>;
-  source: 'custom' | 'api' | 'variable';
+  source: SourceType;
   api: SchemaApi;
 }
 
@@ -44,53 +45,45 @@ export default class TimelineItemControl extends React.Component<
 
   constructor(props: TimelineItemProps) {
     super(props);
-
+    const {source} = props.data || {};
     this.state = {
       items: props.value,
-      api: props.data.source,
-      source: props.data.source
-        ? isExpression(props.data.source)
-          ? 'variable'
-          : 'api'
-        : 'custom'
+      api: source,
+      source: source ? (isExpression(source) ? 'variable' : 'api') : 'custom'
     };
   }
   /**
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api' | 'variable') {
-    this.setState({source: source}, this.onChange);
+  handleSourceChange(source: SourceType) {
+    //取消无效切换
+    if (source === this.state.source) {
+      return;
+    }
+    this.setState({source: source, api: ''}, this.onChange);
   }
 
   @autobind
   handleAPIChange(source: SchemaApi) {
     this.setState({api: source}, this.onChange);
   }
-
   onChange() {
-    const {source} = this.state;
+    const {source, items, api} = this.state;
     const {onBulkChange} = this.props;
     const data: Partial<TimelineItemProps> = {
       source: undefined,
       items: undefined
     };
-
     if (source === 'custom') {
-      const {items} = this.state;
       data.items = items.map(item => ({...item}));
     }
-    if (source === 'api') {
-      const {items, api} = this.state;
-      data.items = items.map(item => ({...item}));
-      data.source = api;
-    }
-    if (source === 'variable') {
-      const {items, api} = this.state;
-      data.items = items.map(item => ({...item}));
+    if (source === 'api' || source === 'apicenter' || source === 'variable') {
+      data.items = [];
       data.source = api;
     }
     onBulkChange && onBulkChange(data);
+    return;
   }
 
   @autobind
@@ -335,8 +328,15 @@ export default class TimelineItemControl extends React.Component<
   }
 
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
-      this.props;
+    const {
+      render,
+      label,
+      labelRemark,
+      useMobileUI,
+      env,
+      popOverContainer,
+      hasApiCenter
+    } = this.props;
 
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
@@ -350,6 +350,7 @@ export default class TimelineItemControl extends React.Component<
           label: '接口获取',
           value: 'api'
         },
+        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : []),
         {
           label: '上下文变量',
           value: 'variable'
@@ -530,10 +531,6 @@ export default class TimelineItemControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api} = this.state;
-    if (source !== 'api') {
-      return null;
-    }
-
     return render(
       'api',
       getSchemaTpl('apiControl', {
@@ -542,7 +539,8 @@ export default class TimelineItemControl extends React.Component<
         className: 'ae-ExtendMore',
         visibleOn: 'data.autoComplete !== false',
         value: api,
-        onChange: this.handleAPIChange
+        onChange: this.handleAPIChange,
+        sourceType: source
       })
     );
   }
@@ -576,7 +574,9 @@ export default class TimelineItemControl extends React.Component<
             </div>
           </div>
         ) : null}
-
+        {source === 'api' || source === 'apicenter'
+          ? this.renderApiPanel()
+          : null}
         {source === 'variable'
           ? render(
               'variable',
@@ -589,7 +589,6 @@ export default class TimelineItemControl extends React.Component<
               }
             )
           : null}
-        {this.renderApiPanel()}
       </div>
     );
   }

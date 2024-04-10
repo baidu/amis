@@ -573,7 +573,8 @@ export default class APIControl extends React.Component<
                   mode: 'horizontal',
                   size: 'lg',
                   placeholder: 'http://',
-                  required: true
+                  required: true,
+                  description: '接口示例：http://example.com/api'
                 },
                 {
                   label: '发送条件',
