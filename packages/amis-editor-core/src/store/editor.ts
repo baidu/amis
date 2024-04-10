@@ -555,8 +555,7 @@ export const MainStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__' ||
-              key === 'editorState') // 样式不需要出现做json中,
+              key.substring(0, 2) === '__')
         );
       },
 

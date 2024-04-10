@@ -479,7 +479,7 @@ export class ImageControlPlugin extends BasePlugin {
               body: [
                 {
                   type: 'select',
-                  name: 'editorState',
+                  name: '__editorState',
                   label: '状态',
                   selectFirst: true,
                   options: [
@@ -498,11 +498,11 @@ export class ImageControlPlugin extends BasePlugin {
                   ]
                 },
                 ...inputStateFunc(
-                  "${editorState == 'default' || !editorState}",
+                  "${__editorState == 'default' || !__editorState}",
                   'default'
                 ),
-                ...inputStateFunc("${editorState == 'hover'}", 'hover'),
-                ...inputStateFunc("${editorState == 'active'}", 'active'),
+                ...inputStateFunc("${__editorState == 'hover'}", 'hover'),
+                ...inputStateFunc("${__editorState == 'active'}", 'active'),
                 getSchemaTpl('theme:radius', {
                   name: `${addBtnCssClassName}.border-radius`,
                   label: '圆角',

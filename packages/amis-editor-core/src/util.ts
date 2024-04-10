@@ -1249,6 +1249,9 @@ export function clearDirtyCssKey(data: any) {
     if (key.startsWith('.') || key.startsWith('#')) {
       delete temp[key];
     }
+    if (key === 'editorState') {
+      delete temp[key];
+    }
   });
   return temp;
 }

@@ -368,7 +368,7 @@ export class ButtonPlugin extends BasePlugin {
             body: [
               {
                 type: 'select',
-                name: 'editorState',
+                name: '__editorState',
                 label: '状态',
                 selectFirst: true,
                 options: [
@@ -387,11 +387,11 @@ export class ButtonPlugin extends BasePlugin {
                 ]
               },
               ...buttonStateFunc(
-                "${editorState == 'default' || !editorState}",
+                "${__editorState == 'default' || !__editorState}",
                 'default'
               ),
-              ...buttonStateFunc("${editorState == 'hover'}", 'hover'),
-              ...buttonStateFunc("${editorState == 'active'}", 'active')
+              ...buttonStateFunc("${__editorState == 'hover'}", 'hover'),
+              ...buttonStateFunc("${__editorState == 'active'}", 'active')
             ]
           },
           getSchemaTpl('theme:cssCode', {
