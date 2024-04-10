@@ -945,7 +945,6 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
                       "type": "input-text",
                       "name": "name",
                       "id": "u:00ef9e3fe9db",
-                      "editorState": "default",
                       "mode": "horizontal",
                       "size": "md",
                       "value": "Amis"
