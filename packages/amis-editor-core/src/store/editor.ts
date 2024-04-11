@@ -5,7 +5,8 @@ import {
   mapTree,
   eachTree,
   extendObject,
-  createObject
+  createObject,
+  extractObjectChain
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -1104,6 +1105,15 @@ export const MainStore = types
       },
 
       setCtx(value: any) {
+        if (value?.__super) {
+          // context 不支持链式，如果这样下发了，需要转成普通对象。
+          // 目前平台会下发这种数据，为了防止数据丢失做个处理
+          value = extractObjectChain(value).reduce(
+            (obj, item) => Object.assign(obj, item),
+            {}
+          );
+        }
+
         self.ctx = value;
       },
 
