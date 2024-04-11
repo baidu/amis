@@ -29,8 +29,9 @@ export function calcCellDisplaySize(
   let mergeCellId = '';
   for (const mergeCell of mergeCells) {
     const {startRow, endRow, startCol, endCol} = mergeCell;
-    mergeCellId = `${startRow}-${endRow}-${startCol}-${endCol}`;
+
     if (row >= startRow && row <= endRow && col >= startCol && col <= endCol) {
+      mergeCellId = `${startRow}-${endRow}-${startCol}-${endCol}`;
       isMergeCell = true;
       matchMergeCell = mergeCell;
       // 补上合并单元格的高宽
