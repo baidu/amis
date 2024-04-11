@@ -1769,9 +1769,15 @@ export default class Form extends React.Component<FormProps, object> {
           {rows.map((children: any, index: number) => {
             return (
               <div className={cx('Form-row')} role="form-row" key={index}>
-                {children.map((control: any, key: number) =>
-                  ~['hidden', 'formula'].indexOf((control as any).type) ||
-                  (control as any).mode === 'inline' ? (
+                {children.map((control: any, key: number) => {
+                  const split = control.colSize?.split('/');
+                  const colSize =
+                    split?.[0] && split?.[1]
+                      ? (split[0] / split[1]) * 100 + '%'
+                      : control.colSize;
+                  return ~['hidden', 'formula'].indexOf(
+                    (control as any).type
+                  ) || (control as any).mode === 'inline' ? (
                     this.renderChild(control, key, otherProps)
                   ) : (
                     <div
@@ -1781,7 +1787,7 @@ export default class Form extends React.Component<FormProps, object> {
                         (control as Schema).columnClassName
                       )}
                       style={{
-                        flex: control.colSize ? `0 0 ${control.colSize}` : ''
+                        flex: colSize ? `0 0 ${colSize}` : ''
                       }}
                       role="form-col"
                     >
@@ -1790,8 +1796,8 @@ export default class Form extends React.Component<FormProps, object> {
                         mode: 'row'
                       })}
                     </div>
-                  )
-                )}
+                  );
+                })}
               </div>
             );
           })}

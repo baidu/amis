@@ -118,6 +118,10 @@ setSchemaTpl(
         label: '垂直',
         value: 'normal'
       },
+      {
+        label: 'row',
+        value: 'row'
+      },
       config?.isForm
         ? null
         : {

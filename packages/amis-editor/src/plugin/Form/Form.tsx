@@ -20,7 +20,10 @@ import {
   ScaffoldForm,
   RegionConfig,
   registerEditorPlugin,
-  JSONPipeOut
+  JSONPipeOut,
+  InsertEventContext,
+  MoveEventContext,
+  DeleteEventContext
 } from 'amis-editor-core';
 import {
   DSFeatureType,
@@ -120,7 +123,12 @@ export class FormPlugin extends BasePlugin {
       label: '表单集合',
       matchRegion: (elem: JSX.Element) => !!elem?.props.noValidate,
       renderMethod: 'renderBody',
-      preferTag: '表单项'
+      preferTag: '表单项',
+      dndMode: (node: any) => {
+        if (node.mode === 'row') {
+          return 'form-row';
+        }
+      }
     },
 
     {
@@ -1095,9 +1103,81 @@ export class FormPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('horizontal'),
                 {
+                  type: 'select',
+                  name: '__rolCount',
+                  label: '列数',
+                  options: [1, 2, 3, 4],
+                  visibleOn: 'data.mode === "row"',
+                  onChange: (
+                    value: number,
+                    oldValue: number,
+                    model: IFormItemStore,
+                    form: IFormStore
+                  ) => {
+                    const body = [...form.data.body];
+                    let row = 0;
+                    let count = value;
+                    for (let i = 0; i < body.length; i++) {
+                      // 需要独占一行的组件
+                      if (body[i].$$dragMode === 'hv') {
+                        count = value;
+                        body[i] = {
+                          ...body[i],
+                          row: ++row
+                        };
+                        row++;
+                      } else {
+                        count--;
+                        body[i] = {
+                          ...body[i],
+                          row
+                        };
+                        if (count === 0) {
+                          row++;
+                          count = value;
+                        }
+                      }
+                    }
+                    form.setValueByName('body', body);
+                  }
+                },
+                {
+                  type: 'select',
+                  name: 'labelAlign',
+                  visibleOn: 'data.mode === "row"',
+                  label: '标签对齐方式',
+                  options: [
+                    {
+                      label: '左对齐',
+                      value: 'left'
+                    },
+                    {
+                      label: '右对齐',
+                      value: 'right'
+                    },
+                    {
+                      label: '顶部对齐',
+                      value: 'top'
+                    }
+                  ]
+                },
+                {
+                  type: 'input-number',
+                  name: 'labelWidth',
+                  label: '标签宽度',
+                  visibleOn: 'data.mode === "row"',
+                  unitOptions: ['px'],
+                  pipeOut: (value: string) => {
+                    return value === 'px' || value === '0px'
+                      ? undefined
+                      : value;
+                  }
+                },
+                {
                   label: '列数',
                   name: 'columnCount',
                   type: 'input-number',
+                  hiddenOn: 'data.mode === "row"',
                   step: 1,
                   min: 0,
                   precision: 0,
@@ -1399,6 +1479,161 @@ export class FormPlugin extends BasePlugin {
           target
         );
       }
+    }
+  }
+
+  beforeInsert(event: PluginEvent<InsertEventContext>) {
+    const context = event.context;
+    if (context.info.plugin === this && context.region === 'body') {
+      const body = context.schema.body;
+      let row = 0;
+      if (body?.length) {
+        const beforeId = context.beforeId;
+        const beforeNodeIndex = body.findIndex(
+          (item: any) => item.$$id === beforeId
+        );
+        const beforeNode = body[beforeNodeIndex] || body[body.length - 1];
+        const beforeRow = beforeNode?.row;
+        const position = context.dragInfo?.position;
+        row = beforeRow; // left、bottom、top使用beforeRow，bottom、top后续行需要加1
+
+        if (position === 'right') {
+          const preNode = body[beforeNodeIndex - 1];
+          // 如果前一个节点的row和beforeRow不一样，需要减1
+          if (preNode && preNode.row !== beforeRow) {
+            row = beforeRow - 1;
+          }
+        }
+        if (position === 'bottom') {
+          if (beforeNodeIndex < 0) {
+            row = beforeRow + 1;
+          }
+        }
+      }
+
+      context.data = {
+        ...context.data,
+        row
+      };
+    }
+  }
+  afterInsert(event: PluginEvent<InsertEventContext>) {
+    const context = event.context;
+    if (context.info.plugin === this && context.region === 'body') {
+      const position = context.dragInfo?.position;
+      const currentIndex = context.regionList.findIndex(
+        (item: any) => item.$$id === context.data.$$id
+      );
+      const regionList = [...context.regionList];
+      if (position === 'top' || position === 'bottom') {
+        for (let i = currentIndex + 1; i < regionList.length; i++) {
+          regionList[i] = {
+            ...regionList[i],
+            row: regionList[i].row + 1
+          };
+        }
+      }
+      context.regionList = regionList;
+    }
+  }
+  afterMove(event: PluginEvent<MoveEventContext>) {
+    const context = event.context;
+    if (context.info.plugin === this && context.region === 'body') {
+      const position = context.dragInfo?.position;
+      const body = context.schema.body;
+      const preCurrentIndex = body.findIndex(
+        (item: any) => item.$$id === context.sourceId
+      );
+
+      // 如果是最后一个元素往自己的上边移动，不做处理
+      if (
+        position === 'top' &&
+        preCurrentIndex === body.length - 1 &&
+        !context.beforeId
+      ) {
+        return;
+      }
+
+      const regionList = [...context.regionList];
+      const currentIndex = regionList.findIndex(
+        (item: any) => item.$$id === context.sourceId
+      );
+      // 如果移动的元素是整行，则需要将后续的元素的row减1
+      const preCurrentRow = body[preCurrentIndex].row;
+      if (body.filter((item: any) => item.row === preCurrentRow).length === 1) {
+        for (let i = preCurrentIndex; i < regionList.length; i++) {
+          if (regionList[i].row > preCurrentRow) {
+            regionList[i] = {
+              ...regionList[i],
+              row: regionList[i].row - 1
+            };
+          }
+        }
+      }
+
+      const beforeIndex = regionList.findIndex(
+        (item: any) => item.$$id === context.beforeId
+      );
+      const beforeNode =
+        regionList[beforeIndex] || regionList[regionList.length - 2];
+      const beforeRow = beforeNode?.row;
+
+      let row = beforeRow;
+
+      if (position === 'right') {
+        const preNode = regionList[beforeIndex - 2];
+        if (preNode && preNode.row !== beforeRow) {
+          row = beforeRow - 1;
+        }
+      }
+      if (position === 'top') {
+        for (let i = currentIndex + 1; i < regionList.length; i++) {
+          regionList[i] = {
+            ...regionList[i],
+            row: regionList[i].row + 1
+          };
+        }
+      }
+      if (position === 'bottom') {
+        if (beforeIndex < 0) {
+          row = beforeRow + 1;
+        }
+        for (let i = currentIndex + 1; i < regionList.length; i++) {
+          regionList[i] = {
+            ...regionList[i],
+            row: regionList[i].row + 1
+          };
+        }
+      }
+      regionList[currentIndex] = {
+        ...regionList[currentIndex],
+        row
+      };
+
+      context.regionList = regionList;
+    }
+  }
+  afterDelete(event: PluginEvent<DeleteEventContext>) {
+    const context = event.context;
+    if (
+      context.parent.type === 'form' &&
+      event.context.node.parentRegion === 'body'
+    ) {
+      const regionList = [...context.regionList];
+      let preRow = -1;
+      for (let i = 0; i < regionList.length; i++) {
+        const row = regionList[i].row;
+        if (row - preRow >= 2) {
+          regionList[i] = {
+            ...regionList[i],
+            row: row - 1
+          };
+        }
+        if (regionList[i + 1]?.row !== row) {
+          preRow = regionList[i].row;
+        }
+      }
+      context.regionList = regionList;
     }
   }
 }
