@@ -14,7 +14,7 @@ type JSONSchemaObjectMember = {
   name: string;
   nameMutable?: boolean;
   schema?: any;
-  invalid?: boolean;
+  invalid?: 'key' | 'value';
   required?: boolean;
   value?: any;
 };
@@ -60,9 +60,10 @@ export function InputJSONSchemaObject(
           name: key,
           nameMutable: true,
           schema: {
-            type: 'string'
+            type: 'string',
+            default: ''
           },
-          value: value[key]
+          value: value[key] ?? ''
         });
       }
     }
@@ -73,8 +74,10 @@ export function InputJSONSchemaObject(
         name: '',
         nameMutable: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+          default: ''
+        },
+        value: ''
       });
     }
 
@@ -141,16 +144,32 @@ export function InputJSONSchemaObject(
       throw new Error('member object not found');
     }
 
+    const originSchema = members[idx].schema;
+    const schema: any = props.schema?.properties?.[memberKey] || {
+      type: 'string',
+      default: ''
+    };
+
     const arr = members.concat();
-    arr.splice(idx, 1, {
+    const item: JSONSchemaObjectMember = {
       ...member,
-      schema: props.schema?.properties?.[memberKey] || {
-        type: 'string'
-      },
+      schema: schema,
       name: memberKey,
       invalid:
         !memberKey || members.some((a, b) => a.name === memberKey && b !== idx)
-    });
+          ? 'key'
+          : undefined
+    };
+
+    if (
+      item.value === originSchema.default &&
+      originSchema !== schema &&
+      originSchema.default !== schema.default
+    ) {
+      item.value = schema.default;
+    }
+
+    arr.splice(idx, 1, item);
 
     setMembers(arr);
     emitChange();
@@ -186,9 +205,10 @@ export function InputJSONSchemaObject(
           name: key,
           nameMutable: true,
           schema: {
-            type: 'string'
+            type: 'string',
+            default: ''
           },
-          value: value?.[key]
+          value: value?.[key] ?? ''
         });
       } else {
         arr.splice(idx, 1, {
@@ -205,8 +225,13 @@ export function InputJSONSchemaObject(
     arr.push({
       key: guid(),
       name: '',
-      invalid: true,
-      nameMutable: true
+      invalid: 'key',
+      nameMutable: true,
+      schema: {
+        type: 'string',
+        default: ''
+      },
+      value: ''
     });
     setMembers(arr);
     emitChange();
@@ -230,7 +255,7 @@ export function InputJSONSchemaObject(
   React.useImperativeHandle(ref, () => {
     return {
       validate(): any {
-        if (membersRef.current?.some(m => m.invalid)) {
+        if (membersRef.current?.some(m => m.invalid === 'key')) {
           return __('JSONSchema.key_invalid');
         }
       }
@@ -294,7 +319,7 @@ export function InputJSONSchemaObject(
                         allowInput ? (
                           <InputBoxWithSuggestion
                             value={member.name}
-                            hasError={member.invalid}
+                            hasError={member.invalid === 'key'}
                             onChange={onMemberKeyChange.bind(null, member)}
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
@@ -306,7 +331,7 @@ export function InputJSONSchemaObject(
                             simpleValue
                             block
                             value={member.name}
-                            hasError={member.invalid}
+                            hasError={member.invalid === 'key'}
                             onChange={onMemberKeyChange.bind(null, member)}
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
@@ -317,7 +342,7 @@ export function InputJSONSchemaObject(
                       ) : (
                         <InputBox
                           value={member.name}
-                          hasError={member.invalid}
+                          hasError={member.invalid === 'key'}
                           onChange={onMemberKeyChange.bind(null, member)}
                           clearable={false}
                           placeholder={__('JSONSchema.key')}
