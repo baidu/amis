@@ -652,7 +652,7 @@ export class Navigation extends React.Component<
                   <Icon
                     key={`icon-${i}`}
                     cx={cx}
-                    icon={item['icon']}
+                    icon={item['icon'] || item}
                     className={isCollapsedNode ? '' : isAfter ? 'ml-2' : 'mr-2'}
                   />
                 );
