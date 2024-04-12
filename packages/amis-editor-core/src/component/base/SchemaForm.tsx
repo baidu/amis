@@ -101,8 +101,6 @@ export function SchemaFrom({
     return schema;
   }, [body, controls, submitOnChange]);
 
-  value = value || {};
-  const finalValue = pipeIn ? pipeIn(value) : value;
   const themeConfig = React.useMemo(() => getThemeConfig(), []);
   const submitSubscribers = React.useRef<Array<Function>>([]);
   const subscribeSubmit = React.useCallback(
@@ -131,19 +129,31 @@ export function SchemaFrom({
     []
   );
 
+  const data = React.useMemo(() => {
+    value = value || {};
+    const finalValue = pipeIn ? pipeIn(value) : value;
+
+    return createObjectFromChain([ctx, themeConfig, finalValue]);
+  }, [value, themeConfig, ctx]);
+
   return render(
     schema,
     {
       onFinished: async (newValue: any) => {
         newValue = pipeOut ? await pipeOut(newValue, value) : newValue;
         const diffValue = diff(value, newValue);
+        // 没有变化时不触发onChange
+        if (!diffValue) {
+          return;
+        }
+
         onChange(newValue, diffValue, (schema, value, id, diff) => {
           return submitSubscribers.current.reduce((schema, fn) => {
             return fn(schema, value, id, diff);
           }, schema);
         });
       },
-      data: createObjectFromChain([ctx, themeConfig, finalValue]),
+      data: data,
       node: node,
       manager: manager,
       popOverContainer,
