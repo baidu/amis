@@ -629,9 +629,9 @@ export function wrapControl<
             }
 
             const valid = !result.some(item => item === false);
-            formItemDispatchEvent?.(
+            (formItemDispatchEvent ?? this.props.dispatchEvent)?.(
               valid ? 'formItemValidateSucc' : 'formItemValidateError',
-              data
+              form?.data ?? this.props.data // form里的一定是最新的数据
             );
             return valid;
           }
