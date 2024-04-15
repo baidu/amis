@@ -52,6 +52,12 @@ export interface CodeEditorProps
   editorOptions?: any;
 
   /**
+   * expression 即高亮表达式整体
+   * formula 即高亮表达式内部
+   */
+  highlightMode?: 'expression' | 'formula';
+
+  /**
    * 用于提示的变量集合，默认为空
    */
   variables?: Array<VariableItem>;
@@ -88,7 +94,8 @@ function CodeEditor(props: CodeEditorProps, ref: any) {
     editorTheme,
     theme: defaultTheme,
     editorOptions,
-    placeholder
+    placeholder,
+    highlightMode
   } = props;
   const pluginRef = React.useRef<FormulaPlugin>();
 
@@ -165,6 +172,7 @@ function CodeEditor(props: CodeEditorProps, ref: any) {
       plugin.setEvalMode(!!evalMode);
       plugin.setFunctions(functions || []);
       plugin.setVariables(variables || []);
+      plugin.setHighlightMode(highlightMode || 'formula');
       editorDidMount?.(cm, editor, plugin);
       plugin.autoMarkText();
 
