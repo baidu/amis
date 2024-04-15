@@ -80,6 +80,8 @@ export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
   onSelect?: (item: VariableItem) => void;
   selfVariableName?: string;
   expandTree?: boolean;
+  labelField?: string;
+  valueField?: string;
 }
 
 function VariableList(props: VariableListProps) {
@@ -94,7 +96,9 @@ function VariableList(props: VariableListProps) {
     onSelect,
     placeholderRender,
     selfVariableName,
-    expandTree
+    expandTree,
+    labelField = 'label',
+    valueField = 'value'
   } = props;
   const [variables, setVariables] = React.useState<Array<VariableItem>>([]);
   const [filterVars, setFilterVars] = React.useState<Array<VariableItem>>([]);
@@ -136,9 +140,9 @@ function VariableList(props: VariableListProps) {
           return (
             <div key={states.index}>
               <div className={cx(`${classPrefix}-item`, itemClassName)}>
-                {option.label &&
+                {option[labelField || 'label'] &&
                   selfVariableName &&
-                  option.value === selfVariableName && (
+                  option[valueField || 'value'] === selfVariableName && (
                     <Badge
                       classnames={cx}
                       badge={{
@@ -147,23 +151,27 @@ function VariableList(props: VariableListProps) {
                         offset: [15, 2]
                       }}
                     >
-                      <label>{option.label}</label>
+                      <label>{option[labelField || 'label']}</label>
                     </Badge>
                   )}
                 {option.memberDepth === undefined &&
-                  option.label &&
-                  (!selfVariableName || option.value !== selfVariableName) && (
+                  option[labelField || 'label'] &&
+                  (!selfVariableName ||
+                    option[valueField || 'value'] !== selfVariableName) && (
                     <TooltipWrapper
-                      tooltip={option.description ?? option.label}
+                      tooltip={
+                        option.description ?? option[labelField || 'label']
+                      }
                       tooltipTheme="dark"
                     >
-                      <label>{option.label}</label>
+                      <label>{option[labelField || 'label']}</label>
                     </TooltipWrapper>
                   )}
                 {/* 控制只对第一层数组成员展示快捷操作入口 */}
                 {option.memberDepth !== undefined &&
-                option.label &&
-                (!selfVariableName || option.value !== selfVariableName) ? (
+                option[labelField || 'label'] &&
+                (!selfVariableName ||
+                  option[valueField || 'value'] !== selfVariableName) ? (
                   option.memberDepth < 2 ? (
                     <PopOverContainer
                       popOverContainer={() =>
@@ -198,15 +206,19 @@ function VariableList(props: VariableListProps) {
                     >
                       {({onClick, ref, isOpened}) => (
                         <TooltipWrapper
-                          tooltip={option.description ?? option.label}
+                          tooltip={
+                            option.description ?? option[labelField || 'label']
+                          }
                           tooltipTheme="dark"
                         >
-                          <label onClick={onClick}>{option.label}</label>
+                          <label onClick={onClick}>
+                            {option[labelField || 'label']}
+                          </label>
                         </TooltipWrapper>
                       )}
                     </PopOverContainer>
                   ) : (
-                    <label>{option.label}</label>
+                    <label>{option[labelField || 'label']}</label>
                   )
                 ) : null}
                 {option?.tag ? (
@@ -244,7 +256,7 @@ function VariableList(props: VariableListProps) {
         return !!(
           (Array.isArray(i.children) && i.children.length) ||
           !!matchSorter([i].concat(paths), term, {
-            keys: ['label', 'value'],
+            keys: ['label', 'value', labelField, valueField],
             threshold: matchSorter.rankings.CONTAINS
           }).length
         );
@@ -274,7 +286,6 @@ function VariableList(props: VariableListProps) {
   return (
     <div
       className={cx(
-        className,
         'FormulaEditor-VariableList',
         selectMode && `FormulaEditor-VariableList-${selectMode}`
       )}
@@ -290,7 +301,7 @@ function VariableList(props: VariableListProps) {
               className={cx(`${classPrefix}-tab`)}
               eventKey={index}
               key={index}
-              title={item.label}
+              title={item?.labelField}
             >
               <VariableList
                 classnames={cx}
@@ -328,6 +339,7 @@ function VariableList(props: VariableListProps) {
             className={cx(`${classPrefix}-base`, 'is-scrollable')}
             multiple={false}
             options={filterVars}
+            labelField={labelField}
             onChange={(item: any) => handleChange(item)}
           />
         </div>

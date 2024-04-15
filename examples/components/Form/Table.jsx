@@ -2,6 +2,7 @@ export default {
   title: '表格编辑',
   body: {
     type: 'form',
+    debug: true,
     mode: 'horizontal',
     api: '/api/mock2/form/saveForm?waitSeconds=2',
     actions: [
@@ -16,27 +17,115 @@ export default {
         type: 'input-table',
         name: 'tableAffixHeader',
         label: '头部固定',
+        multiple: true,
+        addable: true,
         affixHeader: true,
         columns: [
           {
-            name: 'aa',
+            name: 'labels',
             label: 'AA',
             type: 'input-text'
           },
           {
-            name: 'cc',
+            name: 'values',
             label: 'CC',
             type: 'select',
+            autoFill: {
+              id: '${id}'
+            },
             options: [
               {
                 label: 'AA',
-                value: 'aa'
+                value: 'aa',
+                id: 111
               },
               {
                 label: 'CC',
-                value: 'cc'
+                value: 'cc',
+                id: 1222
               }
             ]
+          }
+        ]
+      },
+      {
+        type: 'crud',
+        name: 'table',
+        source: '${crud}',
+        label: '头部固定',
+        affixHeader: true,
+        columns: [
+          {
+            name: 'a[0].aa',
+            label: 'AA',
+            quickEdit: {
+              mode: 'inline',
+              type: 'switch',
+              onText: '开启',
+              reload: 'none',
+              offText: '关闭',
+              id: 'u:56a3878ww05c4c',
+              falseValue: 0,
+              trueValue: 1
+            }
+          },
+          {
+            name: 'a[0].bb',
+            label: 'AA',
+            quickEdit: {
+              mode: 'inline',
+              type: 'switch',
+              onText: '开启',
+              reload: 'none',
+              offText: '关闭',
+              id: 'u:56a38780115c4c',
+              falseValue: 0,
+              trueValue: 1
+            }
+          }
+        ]
+      },
+      {
+        type: 'input-table',
+        name: 'tabletree',
+        label: '树',
+        expand: 'all',
+        isExpanded: true,
+        affixHeader: true,
+        expandable: {
+          expandAll: true
+        },
+
+        columns: [
+          {
+            name: 'label',
+            label: 'AA'
+          },
+          {
+            name: 'value',
+            label: 'BB',
+            type: 'input-text',
+            reload: 'none'
+          }
+        ]
+      },
+      {
+        type: 'input-formula',
+        name: 'formula',
+        labelField: 'label',
+        valueField: 'label',
+        syncSuperData: true,
+        // onPickerOpen: '${tableAffixHeader}',
+        label: '公式',
+        evalMode: true,
+        value: 'SUM(1 , 2)',
+        variables: '${tabletree}',
+        variablesDefault: [
+          {
+            label: 'hello'
+          },
+          {
+            label: 'goods'
           }
         ]
       },
@@ -201,13 +290,59 @@ export default {
       }
     ],
     data: {
+      crud: [
+        {
+          a: [
+            {
+              aa: 1,
+              bb: 0
+            }
+          ]
+        },
+        {
+          a: [
+            {
+              aa: 1,
+              bb: 0
+            }
+          ]
+        }
+      ],
+      tabletree: [
+        {
+          label: 'a',
+          value: 'aa',
+          children: [
+            {
+              label: 'a1',
+              value: 'bb',
+              children: [
+                {
+                  label: 'a11',
+                  value: 'aa',
+                  children: [
+                    {
+                      label: 'a111',
+                      value: 'bb'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'b',
+          value: 'b'
+        }
+      ],
       table5: Array.from({length: 20}, (_, index) => ({
         aa: index % 2 == 0 ? 'hello' : 'hi',
         cc: index % 2 == 0 ? 'aa' : 'cc'
       })),
       tableAffixHeader: Array.from({length: 5}, (_, index) => ({
-        aa: index % 2 == 0 ? 'hello' : 'hi',
-        cc: index % 2 == 0 ? 'aa' : 'cc'
+        labels: index % 2 == 0 ? 'hello' : 'hi',
+        values: index % 2 == 0 ? 'aa' : 'cc'
       }))
     }
   }

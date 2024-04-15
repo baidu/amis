@@ -50,6 +50,17 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   functions: Array<FuncGroup>;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula: boolean;
+
+  /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree: boolean;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -126,8 +137,32 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
    * 输入框的类型
    */
   inputSettings?: FormulaPickerInputSettings;
+
+  /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
+   * 是否同步父级数据
+   */
+  syncSuperData?: boolean;
+
+  /**
+   * 内置默认变量
+   */
+  variablesDefault?: [];
 }
 
+interface InputFormulaState {
+  variableRaw: string;
+}
 export interface InputFormulaProps
   extends FormControlProps,
     Omit<
@@ -138,14 +173,32 @@ export interface InputFormulaProps
 @FormItem({
   type: 'input-formula'
 })
-export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
+export class InputFormulaRenderer extends React.Component<
+  InputFormulaProps,
+  InputFormulaState
+> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode' | 'evalMode'
+    | 'inputMode'
+    | 'borderMode'
+    | 'evalMode'
+    | 'clearDefaultFormula'
+    | 'isOpenExpandTree'
+    | 'syncSuperData'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
-    evalMode: true
+    evalMode: true,
+    clearDefaultFormula: false,
+    isOpenExpandTree: false,
+    syncSuperData: false
+  };
+
+  state: InputFormulaState = {
+    //记录原始变量
+    variableRaw: isPureVariable(this.props.variables)
+      ? this.props.variables
+      : ''
   };
 
   ref: any;
@@ -180,6 +233,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       onChange,
       evalMode,
       mixedMode,
+      clearDefaultFormula,
+      isOpenExpandTree,
       variableMode,
       header,
       label,
@@ -206,12 +261,22 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       popOverContainer,
       env,
       inputSettings,
-      mobileUI
+      mobileUI,
+      labelField,
+      valueField,
+      syncSuperData,
+      variablesDefault
     } = this.props;
-    let {variables, functions} = this.props;
+
+    let {variables, functions, options} = this.props;
+
+    if (options && !variables) {
+      variables = options;
+    }
 
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      //需要监听this.props.data
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
     }
 
@@ -219,19 +284,23 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
       functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
     }
-
     return (
       <FormulaPicker
         popOverContainer={env.getModalContainer}
         ref={this.formulaRef}
         className={className}
         value={value}
+        store={this.props.store}
         disabled={disabled}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}
+        labelField={labelField}
+        valueField={valueField}
         variableMode={variableMode}
         functions={functions}
+        clearDefaultFormula={clearDefaultFormula}
+        isOpenExpandTree={isOpenExpandTree}
         header={header || label || ''}
         borderMode={borderMode}
         placeholder={placeholder}
@@ -250,6 +319,9 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         selfVariableName={selfVariableName}
         mixedMode={mixedMode}
         mobileUI={mobileUI}
+        syncSuperData={syncSuperData}
+        variableRaw={this.state.variableRaw}
+        variablesDefault={variablesDefault}
       />
     );
   }

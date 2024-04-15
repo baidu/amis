@@ -22,6 +22,7 @@ icon:
           "name": "conditions",
           "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
           "searchable": true,
+          "conditionExtend":[{"label":"分","value":"must"}],
           "fields": [
             {
               "label": "文本",

@@ -622,7 +622,7 @@ export const TableStore = iRendererStore
     }
 
     function isExpanded(row: IRow): boolean {
-      return self.expandedRows.includes(row.id);
+      return self.expandedRows.includes(row.key);
     }
 
     function getTogglable() {
@@ -949,7 +949,7 @@ export const TableStore = iRendererStore
         const list: Array<IRow> = [];
 
         eachTree(self.rows, i => {
-          if (self.expandedRows.includes(i.id)) {
+          if (self.expandedRows.includes(i.key)) {
             list.push(i as any);
           }
         });
@@ -1488,6 +1488,7 @@ export const TableStore = iRendererStore
       }
 
       replaceRow(arr, reUseRow);
+
       self.isNested = self.rows.some(
         item => item.children.length || (item.defer && !item.loaded)
       );
@@ -1512,7 +1513,7 @@ export const TableStore = iRendererStore
         expand === 'first' ||
         (self.expandConfig && self.expandConfig.expand === 'first')
       ) {
-        self.rows.length && self.expandedRows.push(self.rows[0].id);
+        self.rows.length && self.expandedRows.push(self.rows[0].key);
       } else if (
         (expand === 'all' && !self.footable.accordion) ||
         (self.expandConfig &&
@@ -1528,7 +1529,7 @@ export const TableStore = iRendererStore
     // 获取所有层级的子节点id
     function getExpandAllRows(arr: Array<SRow>): string[] {
       return arr.reduce((result: string[], current) => {
-        result.push(current.id);
+        result.push(current.key);
 
         if (current.children && current.children.length) {
           result = result.concat(getExpandAllRows(current.children));
@@ -1767,26 +1768,26 @@ export const TableStore = iRendererStore
         self.expandedRows.clear();
       } else {
         self.expandedRows.replace(
-          self.rows.filter(item => item.expandable).map(item => item.id)
+          self.rows.filter(item => item.expandable).map(item => item.key)
         );
       }
     }
 
     function toggleExpanded(row: IRow) {
-      const idx = self.expandedRows.indexOf(row.id);
+      const idx = self.expandedRows.indexOf(row.key);
 
       if (~idx) {
         self.expandedRows.splice(idx, 1);
       } else if (self.footable && self.footable.accordion) {
-        self.expandedRows.replace([row.id]);
+        self.expandedRows.replace([row.key]);
       } else if (self.expandConfig && self.expandConfig.accordion) {
         let rows = self
           .getExpandedRows()
           .filter(item => item.depth !== row.depth);
         rows.push(row);
-        self.expandedRows.replace(rows.map(item => item.id));
+        self.expandedRows.replace(rows.map(item => item.key));
       } else {
-        self.expandedRows.push(row.id);
+        self.expandedRows.push(row.key);
       }
     }
 
@@ -1805,7 +1806,7 @@ export const TableStore = iRendererStore
 
     function collapseAllAtDepth(depth: number) {
       let rows = self.getExpandedRows().filter(item => item.depth !== depth);
-      self.expandedRows.replace(rows.map(item => item.id));
+      self.expandedRows.replace(rows.map(item => item.key));
     }
 
     function setOrderByInfo(key: string, direction: 'asc' | 'desc' | '') {

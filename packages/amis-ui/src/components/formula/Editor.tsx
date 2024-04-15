@@ -22,7 +22,33 @@ import FuncList from './FuncList';
 import VariableList from './VariableList';
 import {toast} from '../Toast';
 import Switch from '../Switch';
-import CodeEditor, {FuncGroup, FuncItem, VariableItem} from './CodeEditor';
+
+export interface VariableItem {
+  labelField?: string;
+  valueField?: string;
+  label: string;
+  value?: string;
+  path?: string; // 路径（label）
+  children?: Array<VariableItem>;
+  type?: string;
+  tag?: string;
+  selectMode?: 'tree' | 'tabs';
+  isMember?: boolean; // 是否是数组成员
+  [propName: string]: any;
+}
+
+// export interface FuncGroup {
+//   groupName: string;
+//   items: Array<FuncItem>;
+// }
+
+// export interface FuncItem {
+//   name: string; // 函数名
+//   example?: string; // 示例
+//   description?: string; // 描述
+//   [propName: string]: any;
+// }
+import CodeEditor, {FuncGroup, FuncItem} from './CodeEditor';
 import {functionDocs} from 'amis-formula';
 import Transition, {
   EXITED,
@@ -67,6 +93,17 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   functions?: Array<FuncGroup>;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula?: boolean;
+
+  /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree?: boolean;
+
+  /**
    * 顶部标题，默认为表达式
    */
   header: string;
@@ -76,12 +113,24 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   functionClassName?: string;
 
   /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
    * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
    */
   selfVariableName?: string;
 
   /**
    * 编辑器配置
+   *
    */
   editorOptions?: any;
 }
@@ -116,8 +165,10 @@ export class FormulaEditor extends React.Component<
   state: FormulaState = {
     focused: false,
     isCodeMode: false,
+    expandTree: this.props.isOpenExpandTree
+      ? this.props.isOpenExpandTree
+      : false,
     showRunPanel: false,
-    expandTree: false,
     functions: this.props.functions,
     runContext: '{\n}',
     runResult: '',
@@ -177,9 +228,13 @@ export class FormulaEditor extends React.Component<
     return functionList;
   }
 
-  static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
+  static defaultProps: Pick<
+    FormulaEditorProps,
+    'variables' | 'evalMode' | 'isOpenExpandTree'
+  > = {
     variables: [],
-    evalMode: true
+    evalMode: true,
+    isOpenExpandTree: false
   };
 
   static replaceStrByIndex(
@@ -217,7 +272,6 @@ export class FormulaEditor extends React.Component<
     if (!Array.isArray(variables) || !variables.length || !value) {
       return;
     }
-
     if (typeof value !== 'string') {
       try {
         value = JSON.stringify(value);
@@ -313,6 +367,32 @@ export class FormulaEditor extends React.Component<
     (this.runCode as any).cancel();
   }
 
+  async buildFunctions() {
+    const {doc} = await import('amis-formula/lib/doc');
+    if (this.unmounted) {
+      return;
+    }
+
+    const customFunctions = Array.isArray(this.props.functions)
+      ? this.props.functions
+      : [];
+
+    const functionList = this.props.clearDefaultFormula
+      ? [
+          ...FormulaEditor.buildCustomFunctions(functionDocs),
+          ...customFunctions
+        ]
+      : [
+          ...FormulaEditor.buildDefaultFunctions(doc),
+          ...FormulaEditor.buildCustomFunctions(functionDocs),
+          ...customFunctions
+        ];
+
+    this.setState({
+      functions: functionList
+    });
+  }
+
   @autobind
   handleFocus() {
     this.setState({
@@ -364,28 +444,26 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleVariableSelect(item: VariableItem) {
-    const {selfVariableName} = this.props;
-
+    const {evalMode, selfVariableName, valueField, labelField} = this.props;
     if (
       item &&
-      item.value &&
+      item[valueField || 'value'] &&
       selfVariableName &&
-      selfVariableName === item.value
+      selfVariableName === item[valueField || 'value']
     ) {
       toast.warning('不能使用当前变量[self]，避免循环引用。');
       return;
     }
-
-    if (!item.value) {
+    if (!item[valueField || 'value']) {
       return;
     }
 
     this.getEditor()?.insertContent(
       item.isMember
-        ? item.value
+        ? item[valueField || 'value']
         : {
-            key: item.value,
-            name: item.label,
+            key: item[valueField || 'value'],
+            name: item[labelField || 'label'],
             path: item.path
             // chunks: item.chunks
           },
@@ -484,6 +562,8 @@ export class FormulaEditor extends React.Component<
       functionClassName,
       classPrefix,
       selfVariableName,
+      labelField,
+      valueField,
       evalMode
     } = this.props;
     const {
@@ -616,6 +696,8 @@ export class FormulaEditor extends React.Component<
                 data={variables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
+                labelField={labelField}
+                valueField={valueField}
               />
             </div>
           </div>

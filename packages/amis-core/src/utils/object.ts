@@ -131,7 +131,6 @@ export function setVariable(
     host: Record<string, any>;
     key: string;
   }> = [];
-
   while (parts.length) {
     let host = data;
     let key = parts.shift() as string;

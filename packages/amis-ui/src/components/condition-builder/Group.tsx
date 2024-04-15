@@ -9,7 +9,8 @@ import {
   guid,
   ConditionGroupValue,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  Options
 } from 'amis-core';
 import Button from '../Button';
 import GroupOrItem from './GroupOrItem';
@@ -21,6 +22,7 @@ import {DownArrowBoldIcon} from '../icons';
 
 interface ConditionGroupState {
   isCollapsed: boolean;
+  conditionExtendMerg: any[];
 }
 
 export interface ConditionGroupProps extends ThemeProps, LocaleProps {
@@ -50,6 +52,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   depth: number;
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  conditionExtend?: Options; //扩充类型，且，或，追加其他类型.
 }
 
 export class ConditionGroup extends React.Component<
@@ -58,9 +61,9 @@ export class ConditionGroup extends React.Component<
 > {
   constructor(props: ConditionGroupProps) {
     super(props);
-
     this.state = {
-      isCollapsed: false
+      isCollapsed: false,
+      conditionExtendMerg: []
     };
   }
 
@@ -71,6 +74,27 @@ export class ConditionGroup extends React.Component<
         isCollapsed: this.props.isCollapsed || false
       });
     }
+  }
+
+  extenCondition() {
+    let defaultConditionExtend = [
+      {label: '且', value: 'and'},
+      {label: '或', value: 'or'}
+    ];
+    let conditionExtendMerg: any[] = [];
+    if (this.props.conditionExtend && this.props.conditionExtend?.length > 0) {
+      conditionExtendMerg = [
+        ...defaultConditionExtend,
+        ...this.props.conditionExtend
+      ];
+      this.setState({
+        conditionExtendMerg: conditionExtendMerg
+      });
+    }
+  }
+
+  componentDidMount(): void {
+    this.extenCondition();
   }
 
   getValue() {
@@ -196,9 +220,10 @@ export class ConditionGroup extends React.Component<
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
       showIf,
-      formulaForIf
+      formulaForIf,
+      conditionExtend
     } = this.props;
-    const {isCollapsed} = this.state;
+    const {isCollapsed, conditionExtendMerg} = this.state;
 
     const body =
       Array.isArray(value?.children) && value!.children.length
@@ -242,16 +267,20 @@ export class ConditionGroup extends React.Component<
               </Button>
             ) : null}
             <Select
-              options={[
-                {
-                  label: __('Condition.and'),
-                  value: 'and'
-                },
-                {
-                  label: __('Condition.or'),
-                  value: 'or'
-                }
-              ]}
+              options={
+                conditionExtendMerg.length == 0
+                  ? [
+                      {
+                        label: __('Condition.and'),
+                        value: 'and'
+                      },
+                      {
+                        label: __('Condition.or'),
+                        value: 'or'
+                      }
+                    ]
+                  : conditionExtendMerg
+              }
               value={value?.conjunction || 'and'}
               disabled={disabled}
               onChange={this.handleConjunctionChange}
@@ -289,6 +318,7 @@ export class ConditionGroup extends React.Component<
                   isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                   showIf={showIf}
                   formulaForIf={formulaForIf}
+                  conditionExtend={conditionExtend}
                 />
               ))
             ) : (
