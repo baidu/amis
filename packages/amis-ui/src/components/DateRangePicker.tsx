@@ -74,6 +74,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   timeFormat?: string;
   resetValue?: any;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   dateFormat?: string;
   embed?: boolean;
   viewMode?: ViewMode;
@@ -1982,6 +1983,7 @@ export class DateRangePicker extends React.Component<
       startPlaceholder,
       endPlaceholder,
       popOverContainer,
+      popOverContainerSelector,
       inputFormat,
       displayFormat,
       joinValues,
@@ -2167,6 +2169,7 @@ export class DateRangePicker extends React.Component<
               target={() => this.dom.current}
               onHide={this.close}
               container={popOverContainer || (() => findDOMNode(this))}
+              containerSelector={popOverContainerSelector}
               rootClose={false}
               placement={overlayPlacement}
               show

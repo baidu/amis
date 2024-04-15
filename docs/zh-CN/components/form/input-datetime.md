@@ -411,21 +411,22 @@ order: 14
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型                                                           | 默认值                 | 说明                                                                                                            | 版本                    |
-| --------------- | -------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| value           | `string`                                                       |                        | [默认值](./datetime#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| valueFormat     | `string`                                                       | `X`                    | 日期时间选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 | 3.4.0 版本后支持        |
-| displayFormat   | `string`                                                       | `YYYY-MM-DD HH:mm:ss`  | 日期时间选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) | 3.4.0 版本后支持        |
-| placeholder     | `string`                                                       | `"请选择日期以及时间"` | 占位文本                                                                                                        |
-| shortcuts       | `string \| string[] \| Array<{"label": string; date: string}>` |                        | 日期时间快捷键                                                                                                  | `3.1.0`版本后支持表达式 |
-| minDate         | `string`                                                       |                        | 限制最小日期时间                                                                                                |
-| maxDate         | `string`                                                       |                        | 限制最大日期时间                                                                                                |
-| utc             | `boolean`                                                      | `false`                | 保存 utc 值                                                                                                     |
-| clearable       | `boolean`                                                      | `true`                 | 是否可清除                                                                                                      |
-| embed           | `boolean`                                                      | `false`                | 是否内联                                                                                                        |
-| timeConstraints | `object`                                                       | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
-| isEndDate       | `boolean`                                                      | `false`                | 如果配置为 true，会自动默认为 23:59:59 秒                                                                       |
-| disabledDate    | `string`                                                       |                        | 用字符函数来控制哪些天不可以被点选                                                                              |
+| 属性名                   | 类型                                                           | 默认值                 | 说明                                                                                                            | 版本                    |
+| ------------------------ | -------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| value                    | `string`                                                       |                        | [默认值](./datetime#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| valueFormat              | `string`                                                       | `X`                    | 日期时间选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 | 3.4.0 版本后支持        |
+| displayFormat            | `string`                                                       | `YYYY-MM-DD HH:mm:ss`  | 日期时间选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) | 3.4.0 版本后支持        |
+| placeholder              | `string`                                                       | `"请选择日期以及时间"` | 占位文本                                                                                                        |
+| shortcuts                | `string \| string[] \| Array<{"label": string; date: string}>` |                        | 日期时间快捷键                                                                                                  | `3.1.0`版本后支持表达式 |
+| minDate                  | `string`                                                       |                        | 限制最小日期时间                                                                                                |
+| maxDate                  | `string`                                                       |                        | 限制最大日期时间                                                                                                |
+| utc                      | `boolean`                                                      | `false`                | 保存 utc 值                                                                                                     |
+| clearable                | `boolean`                                                      | `true`                 | 是否可清除                                                                                                      |
+| embed                    | `boolean`                                                      | `false`                | 是否内联                                                                                                        |
+| timeConstraints          | `object`                                                       | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
+| isEndDate                | `boolean`                                                      | `false`                | 如果配置为 true，会自动默认为 23:59:59 秒                                                                       |
+| disabledDate             | `string`                                                       |                        | 用字符函数来控制哪些天不可以被点选                                                                              |
+| popOverContainerSelector | `string`                                                       |                        | 弹层挂载位置选择器，会通过`querySelector`获取                                                                   | `6.4.0`版本后支持       |
 
 ## 事件表
 
