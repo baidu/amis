@@ -657,9 +657,9 @@ export default class FormulaControl extends React.Component<
               children: () => (
                 <FormulaCodeEditor
                   readOnly
-                  value={value}
+                  value={exprValue}
                   variables={variables}
-                  evalMode={false}
+                  evalMode={true}
                   editorTheme="dark"
                 />
               )
@@ -679,6 +679,7 @@ export default class FormulaControl extends React.Component<
                     functions={[]}
                     variables={variables}
                     evalMode={false}
+                    highlightMode="expression"
                     readOnly
                   />
                 )}

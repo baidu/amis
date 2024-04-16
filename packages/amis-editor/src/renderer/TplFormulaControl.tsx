@@ -10,6 +10,7 @@ import type {VariableItem, CodeMirror} from 'amis-ui';
 import {Icon, Button, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps} from 'amis-core';
 import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
+import {renderFormulaValue} from './FormulaControl';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
@@ -381,6 +382,12 @@ export class TplFormulaControl extends React.Component<
     } = this.state;
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
+    const highlightValue = FormulaEditor.highlightValue(
+      formulaPickerValue,
+      variables
+    ) || {
+      html: formulaPickerValue
+    };
 
     return (
       <div
@@ -433,20 +440,11 @@ export class TplFormulaControl extends React.Component<
 
         <TooltipWrapper
           trigger="hover"
-          placement="auto"
+          placement="top"
           style={{fontSize: '12px'}}
           tooltip={{
             tooltipTheme: 'dark',
-            tooltipClassName: 'btn-configured-tooltip',
-            children: () => (
-              <FormulaCodeEditor
-                readOnly
-                value={formulaPickerValue}
-                variables={variables}
-                evalMode={true}
-                editorTheme="dark"
-              />
-            )
+            children: () => renderFormulaValue(highlightValue)
           }}
         >
           <div

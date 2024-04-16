@@ -1325,11 +1325,12 @@ setSchemaTpl('pageSubTitle', {
   type: 'textarea'
 });
 
-setSchemaTpl('textareaDefaultValue', () => {
+setSchemaTpl('textareaDefaultValue', (options: any) => {
   return getSchemaTpl('textareaFormulaControl', {
     label: '默认值',
     name: 'value',
-    mode: 'normal'
+    mode: 'normal',
+    ...options
   });
 });
 

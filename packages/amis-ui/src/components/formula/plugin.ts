@@ -63,6 +63,8 @@ export class FormulaPlugin {
    */
   evalMode: boolean = true;
 
+  highlightMode: 'expression' | 'formula' = 'formula';
+
   disableAutoMark = false;
 
   constructor(
@@ -88,6 +90,10 @@ export class FormulaPlugin {
 
   setEvalMode(evalMode: boolean) {
     this.evalMode = evalMode;
+  }
+
+  setHighlightMode(highlightMode: 'expression' | 'formula') {
+    this.highlightMode = highlightMode;
   }
 
   setDisableAutoMark(disableAutoMark: boolean) {
@@ -238,6 +244,7 @@ export class FormulaPlugin {
     const value = editor.getValue();
     const functions = this.functions;
     const variables = this.variables;
+    const highlightMode = this.highlightMode;
 
     // 把旧的清掉
     this.widgets.forEach(widget => editor.removeLineWidget(widget));
@@ -252,6 +259,25 @@ export class FormulaPlugin {
         variableMode: false
       });
       traverseAst(ast, (ast: any): any => {
+        if (highlightMode === 'expression') {
+          if (ast.type === 'script') {
+            this.markText(
+              {
+                line: ast.start.line - 1,
+                ch: ast.start.column - 1
+              },
+              {
+                line: ast.end.line - 1,
+                ch: ast.end.column - 1
+              },
+              value.substring(ast.start.index + 2, ast.end.index - 1),
+              'cm-expression',
+              value
+            );
+          }
+          return;
+        }
+
         if (ast.type === 'func_call') {
           const funName = ast.identifier;
           const exists = functions.some(item =>

@@ -633,13 +633,19 @@
   }
 
   .cm-field {
-    background: #007bff;
+    background: #28a745;
   }
   .cm-func {
     color: #ae4597;
     font-weight: bold;
     line-height: 14px;
   }
+  .cm-expression {
+    background-color: #007bff;
+    border-radius: 4px;
+    color: #fff;
+  }
+
   .cm-error-token {
     background-position: left bottom;
     background-repeat: repeat-x;
@@ -656,8 +662,9 @@
 
   &--singleLine {
     max-width: 100%;
+    line-height: 20px;
     > .CodeMirror {
-      height: 21px;
+      height: 20px;
 
       .CodeMirror-hscrollbar,
       .CodeMirror-vscrollbar {
@@ -665,14 +672,19 @@
       }
 
       .CodeMirror-sizer {
-        min-height: 21px !important;
+        min-height: 20px !important;
+        min-width: auto !important;
         border-right-width: 0 !important;
       }
       .CodeMirror-scroll {
-        height: 21px;
+        height: 20px;
         margin: 0;
         padding: 0;
         overflow: hidden !important;
+      }
+      .CodeMirror-sizer + div {
+        // 不设置可以用触摸板滚动，将代码滚不见了
+        height: 0 !important;
       }
       .CodeMirror-lines {
         padding: 0;
