@@ -41,16 +41,27 @@ export class DrawerAction implements RendererAction {
     if ((action as any).$$id !== undefined) {
       return;
     }
-    let ret = renderer.props.onAction?.(
-      event,
-      {
-        actionType: 'drawer',
-        drawer: action.drawer,
-        reload: 'none',
-        data: action.rawData
-      },
-      action.data
-    );
+    let ret = renderer.handleAction
+      ? renderer.handleAction(
+          event,
+          {
+            actionType: 'drawer',
+            drawer: action.drawer,
+            reload: 'none',
+            data: action.rawData
+          },
+          action.data
+        )
+      : renderer.props.onAction?.(
+          event,
+          {
+            actionType: 'drawer',
+            drawer: action.drawer,
+            reload: 'none',
+            data: action.rawData
+          },
+          action.data
+        );
 
     event.pendingPromise.push(ret);
     if (action.waitForAction) {
