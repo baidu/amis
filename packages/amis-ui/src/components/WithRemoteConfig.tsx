@@ -242,6 +242,7 @@ export function withRemoteConfig<P = any>(
               this.props.env || (this.context as RendererEnv);
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
+            //监听接口中的API变化
             if (!source || source.autoRefresh !== false) {
               this.toDispose.push(
                 reaction(
@@ -261,23 +262,27 @@ export function withRemoteConfig<P = any>(
                 )
               );
             }
-            if (isPureVariable(source)) {
-              this.toDispose.push(
-                reaction(
-                  () =>
-                    resolveVariableAndFilter(
-                      source as string,
-                      store.data,
-                      '| raw'
-                    ),
-                  () => this.syncConfig(),
-                  // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
-                  // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
-                  // 否则数据源重置 保存不了展开状态 就会始终是手风琴模式了
-                  {equals: comparer.structural}
-                )
-              );
-            } else if (env && isEffectiveApi(source, data)) {
+            //监听上下文变量变化
+            this.toDispose.push(
+              reaction(
+                () => {
+                  const source = (this.props as any)[
+                    config.sourceField || 'source'
+                  ];
+                  return resolveVariableAndFilter(
+                    source as string,
+                    store.data,
+                    '| raw'
+                  );
+                },
+                () => this.syncConfig(),
+                // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
+                // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
+                // 否则数据源重置 保存不了展开状态 就会始终是手风琴模式了
+                {equals: comparer.structural}
+              )
+            );
+            if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
             }
           }

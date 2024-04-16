@@ -144,12 +144,13 @@ export default class TimelineItemControl extends React.Component<
     const i18nEnabled = getI18nEnabled();
     return [
       {
-        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+        type: i18nEnabled ? 'input-date-i18n' : 'input-date',
         name: 'time',
         required: true,
-        placeholder: '请输入时间',
+        placeholder: '请选择时间',
         label: '时间',
-        value: props?.['time']
+        value: props?.['time'],
+        format: 'YYYY-MM-DD'
       },
       {
         type: i18nEnabled ? 'input-text-i18n' : 'input-text',
