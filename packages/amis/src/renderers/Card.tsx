@@ -18,6 +18,7 @@ import Copyable, {SchemaCopyable} from './Copyable';
 import {
   BaseSchema,
   SchemaClassName,
+  SchemaCollection,
   SchemaExpression,
   SchemaObject,
   SchemaTpl,
@@ -86,7 +87,7 @@ export interface CardSchema extends BaseSchema {
     /**
      * 副标题
      */
-    subTitle?: SchemaTpl | Schema;
+    subTitle?: SchemaCollection;
     subTitleClassName?: SchemaClassName;
     subTitlePlaceholder?: string;
 
