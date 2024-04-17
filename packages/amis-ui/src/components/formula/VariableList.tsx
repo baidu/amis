@@ -301,7 +301,7 @@ function VariableList(props: VariableListProps) {
               className={cx(`${classPrefix}-tab`)}
               eventKey={index}
               key={index}
-              title={item?.labelField}
+              title={item?.label}
             >
               <VariableList
                 classnames={cx}
