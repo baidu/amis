@@ -309,6 +309,9 @@ export default class Drawer extends React.Component<DrawerProps> {
     if (rendererEvent?.prevented) {
       return;
     }
+    if (rendererEvent?.pendingPromise.length) {
+      await rendererEvent.allDone();
+    }
     // clear error
     store.updateMessage();
     onClose();
@@ -954,6 +957,9 @@ export class DrawerRenderer extends Drawer {
       if (rendererEvent?.prevented) {
         return;
       }
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
+      }
       store.setCurrentAction(action, this.props.resolveDefinitions);
       onClose();
       if (action.close) {
@@ -968,6 +974,9 @@ export class DrawerRenderer extends Drawer {
       );
       if (rendererEvent?.prevented) {
         return;
+      }
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
       }
       store.setCurrentAction(action, this.props.resolveDefinitions);
       this.tryChildrenToHandle(action, data) || onClose();
