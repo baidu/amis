@@ -412,20 +412,21 @@ order: 13
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型                                                           | 默认值         | 说明                                                                                                        | 版本                    |
-| ------------- | -------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
-| value         | `string`                                                       |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| valueFormat   | `string`                                                       | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 | 3.4.0 版本后支持        |
-| displayFormat | `string`                                                       | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) | 3.4.0 版本后支持        |
-| closeOnSelect | `boolean`                                                      | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
-| placeholder   | `string`                                                       | `"请选择日期"` | 占位文本                                                                                                    |
-| shortcuts     | `string \| string[] \| Array<{"label": string; date: string}>` |                | 日期快捷键，字符串格式为预设值，对象格式支持写表达式                                                        | `3.1.0`版本后支持表达式 |
-| minDate       | `string`                                                       |                | 限制最小日期                                                                                                |
-| maxDate       | `string`                                                       |                | 限制最大日期                                                                                                |
-| utc           | `boolean`                                                      | `false`        | 保存 utc 值                                                                                                 |
-| clearable     | `boolean`                                                      | `true`         | 是否可清除                                                                                                  |
-| embed         | `boolean`                                                      | `false`        | 是否内联模式                                                                                                |
-| disabledDate  | `string`                                                       |                | 用字符函数来控制哪些天不可以被点选                                                                          |
+| 属性名                   | 类型                                                           | 默认值         | 说明                                                                                                        | 版本                    |
+| ------------------------ | -------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
+| value                    | `string`                                                       |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| valueFormat              | `string`                                                       | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 | 3.4.0 版本后支持        |
+| displayFormat            | `string`                                                       | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) | 3.4.0 版本后支持        |
+| closeOnSelect            | `boolean`                                                      | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
+| placeholder              | `string`                                                       | `"请选择日期"` | 占位文本                                                                                                    |
+| shortcuts                | `string \| string[] \| Array<{"label": string; date: string}>` |                | 日期快捷键，字符串格式为预设值，对象格式支持写表达式                                                        | `3.1.0`版本后支持表达式 |
+| minDate                  | `string`                                                       |                | 限制最小日期                                                                                                |
+| maxDate                  | `string`                                                       |                | 限制最大日期                                                                                                |
+| utc                      | `boolean`                                                      | `false`        | 保存 utc 值                                                                                                 |
+| clearable                | `boolean`                                                      | `true`         | 是否可清除                                                                                                  |
+| embed                    | `boolean`                                                      | `false`        | 是否内联模式                                                                                                |
+| disabledDate             | `string`                                                       |                | 用字符函数来控制哪些天不可以被点选                                                                          |
+| popOverContainerSelector | `string`                                                       |                | 弹层挂载位置选择器，会通过`querySelector`获取                                                               | `6.4.0`                 |
 
 ## 事件表
 

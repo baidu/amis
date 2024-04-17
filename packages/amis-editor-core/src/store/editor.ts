@@ -1031,7 +1031,12 @@ export const MainStore = types
           ) {
             const key = value === 'drawer' ? 'drawer' : 'dialog';
             const body = host[key] || host['args'];
-            if (body && !body.$ref) {
+            if (
+              body &&
+              !body.$ref &&
+              body.$$id &&
+              !modals.find(m => (m as any).$$originId === body.$$id)
+            ) {
               modals.push({
                 ...body,
                 actionType: value

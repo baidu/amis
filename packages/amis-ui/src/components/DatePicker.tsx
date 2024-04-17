@@ -307,6 +307,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
     };
   };
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   label?: string | false;
   borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
@@ -929,6 +930,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       viewMode,
       timeConstraints,
       popOverContainer,
+      popOverContainerSelector,
       clearable,
       shortcuts,
       utc,
@@ -1130,6 +1132,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           <Overlay
             target={this.getTarget}
             container={popOverContainer || this.getParent}
+            containerSelector={popOverContainerSelector}
             rootClose={false}
             placement={overlayPlacement}
             show

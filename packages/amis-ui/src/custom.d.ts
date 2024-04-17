@@ -4,7 +4,11 @@ declare module '*.svg' {
 }
 
 declare module '*.md' {
-  const content: any;
+  const content: {
+    toc: any;
+    html: string;
+    raw: string;
+  };
   export default content;
 }
 

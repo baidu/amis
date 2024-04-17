@@ -497,6 +497,7 @@ const TransferTableControl = BaseOptionControl(TransferTableOption);
 
 @FormItem({
   type: 'ae-transferTableControl',
+  strictMode: false,
   renderLabel: false
 })
 export class TransferTableControlRenderer extends TransferTableControl {}
