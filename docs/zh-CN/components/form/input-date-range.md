@@ -234,58 +234,58 @@ order: 15
 
 > `3.5.0`及以上版本
 
-默认情况下，日期范围选择器组件的绑定值的开始时间为所选时间当天的0点（使用`moment().startOf('day')`处理），结束时间为所选时间当天的23时59分59秒999毫秒（使用`moment().endOf('day')`处理）。如果设置了`timeFormat`（时间格式），则会基于`timeFormat`配置决定**最小时间单位**，举例：
+默认情况下，日期范围选择器组件的绑定值的开始时间为所选时间当天的 0 点（使用`moment().startOf('day')`处理），结束时间为所选时间当天的 23 时 59 分 59 秒 999 毫秒（使用`moment().endOf('day')`处理）。如果设置了`timeFormat`（时间格式），则会基于`timeFormat`配置决定**最小时间单位**，举例：
 
 - 不设置`timeFormat`（时间格式），默认按照天(day)级处理：
 
-    ```typescript
-    moment().startOf('day');  // 2008-08-08 00:00:00.000
-    moment().endOf('day');    // 2008-08-08 23:59:59.999
-    ```
+  ```typescript
+  moment().startOf('day'); // 2008-08-08 00:00:00.000
+  moment().endOf('day'); // 2008-08-08 23:59:59.999
+  ```
 
 - `timeFormat`（时间格式）为 `"HH:mm:ss"`，则会按照秒(second)级处理：
 
-    ```typescript
-    moment().startOf('second');  // 2008-08-08 08:08:08.000
-    moment().endOf('second');    // 2008-08-08 08:08:08.999
-    ```
+  ```typescript
+  moment().startOf('second'); // 2008-08-08 08:08:08.000
+  moment().endOf('second'); // 2008-08-08 08:08:08.999
+  ```
 
 - `timeFormat`（时间格式）为 `"HH:mm"`，则会按照分钟(minute)级处理：
 
-    ```typescript
-    moment().startOf('minute');  // 2008-08-08 08:08:00.000
-    moment().endOf('minute');    // 2008-08-08 08:08:59.999
-    ```
+  ```typescript
+  moment().startOf('minute'); // 2008-08-08 08:08:00.000
+  moment().endOf('minute'); // 2008-08-08 08:08:59.999
+  ```
 
 - `timeFormat`（时间格式）为 `"HH"`，则会按照小时(hour)级处理：
 
-    ```typescript
-    moment().startOf('hour');  // 2008-08-08 08:00:00.000
-    moment().endOf('hour');    // 2008-08-08 08:59:59.999
-    ```
+  ```typescript
+  moment().startOf('hour'); // 2008-08-08 08:00:00.000
+  moment().endOf('hour'); // 2008-08-08 08:59:59.999
+  ```
 
 部分情况下，即使配置`timeFormat`也无法满足需求，此时可以使用`transform`函数对时间值做进一步处理, 函数签名如下：
 
 ```typescript
 interface TransFormFunc {
-    (
-        /* 当前值，Moment对象 */
-        value: moment.Moment,
-        config: {
-            /* 操作类型，start：起始时间；end：结束时间 */
-            type: 'start' | 'end';
-            /* 初始值，最近一次选择的时间值 */
-            originValue: moment.Moment,
-            /* 时间格式 */
-            timeFormat: string
-        },
-        /* 当前组件的属性 */
-        props: any,
-        /* 当前组件数据域 */
-        data: any,
-        /* moment函数 */
-        moment: moment
-    ): moment.Moment;
+  (
+    /* 当前值，Moment对象 */
+    value: moment.Moment,
+    config: {
+      /* 操作类型，start：起始时间；end：结束时间 */
+      type: 'start' | 'end';
+      /* 初始值，最近一次选择的时间值 */
+      originValue: moment.Moment;
+      /* 时间格式 */
+      timeFormat: string;
+    },
+    /* 当前组件的属性 */
+    props: any,
+    /* 当前组件数据域 */
+    data: any,
+    /* moment函数 */
+    moment: moment
+  ): moment.Moment;
 }
 ```
 
@@ -316,46 +316,42 @@ interface TransFormFunc {
 
 ```typescript
 function transform(value, config, props, data) {
-    const now = moment();
+  const now = moment();
 
-    if (config.type === 'end') {
-        value.set({
-            hours: now.hours(),
-            minutes: now.minutes(),
-            seconds: now.seconds(),
-            milliseconds: now.milliseconds()
-        });
-    }
+  if (config.type === 'end') {
+    value.set({
+      hours: now.hours(),
+      minutes: now.minutes(),
+      seconds: now.seconds(),
+      milliseconds: now.milliseconds()
+    });
+  }
 
-    return value;
+  return value;
 }
 ```
-
-
-
 
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型                                                                               | 默认值                                                          | 说明                                                                         | 版本                    |
-| ------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------- |
-| valueFormat   | `string`                                                                           | `X`                                                             | [日期选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       | 3.4.0 版本后支持        |
-| displayFormat | `string`                                                                           | `YYYY-MM-DD`                                                    | [日期选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            | 3.4.0 版本后支持        |
-| placeholder   | `string`                                                                           | `"请选择日期范围"`                                              | 占位文本                                                                     |
-| shortcuts     | `string \| string[] \| Array<{label: string; startDate: string; endDate: string}>` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键                                                               | `3.1.0`版本后支持表达式 |
-| minDate       | `string`                                                                           |                                                                 | 限制最小日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
-| maxDate       | `string`                                                                           |                                                                 | 限制最大日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
-| minDuration   | `string`                                                                           |                                                                 | 限制最小跨度，如： 2days                                                     |
-| maxDuration   | `string`                                                                           |                                                                 | 限制最大跨度，如：1year                                                      |
-| utc           | `boolean`                                                                          | `false`                                                         | [保存 UTC 值](./date#utc)                                                    |
-| clearable     | `boolean`                                                                          | `true`                                                          | 是否可清除                                                                   |
-| embed         | `boolean`                                                                          | `false`                                                         | 是否内联模式                                                                 |
-| animation     | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                             | `2.2.0`                 |
-| extraName     | `string`                                                                           |                                                                 | 是否存成两个字段                                                             | `3.3.0`                 |
-| transform     | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的的值，返回值为 `Moment`对象                                                             | `3.5.0`                 |
-
-
+| 属性名                   | 类型                                                                               | 默认值                                                          | 说明                                                                         | 版本                    |
+| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------- |
+| valueFormat              | `string`                                                                           | `X`                                                             | [日期选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       | 3.4.0 版本后支持        |
+| displayFormat            | `string`                                                                           | `YYYY-MM-DD`                                                    | [日期选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            | 3.4.0 版本后支持        |
+| placeholder              | `string`                                                                           | `"请选择日期范围"`                                              | 占位文本                                                                     |
+| shortcuts                | `string \| string[] \| Array<{label: string; startDate: string; endDate: string}>` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键                                                               | `3.1.0`版本后支持表达式 |
+| minDate                  | `string`                                                                           |                                                                 | 限制最小日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
+| maxDate                  | `string`                                                                           |                                                                 | 限制最大日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
+| minDuration              | `string`                                                                           |                                                                 | 限制最小跨度，如： 2days                                                     |
+| maxDuration              | `string`                                                                           |                                                                 | 限制最大跨度，如：1year                                                      |
+| utc                      | `boolean`                                                                          | `false`                                                         | [保存 UTC 值](./date#utc)                                                    |
+| clearable                | `boolean`                                                                          | `true`                                                          | 是否可清除                                                                   |
+| embed                    | `boolean`                                                                          | `false`                                                         | 是否内联模式                                                                 |
+| animation                | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                             | `2.2.0`                 |
+| extraName                | `string`                                                                           |                                                                 | 是否存成两个字段                                                             | `3.3.0`                 |
+| transform                | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的的值，返回值为 `Moment`对象          | `3.5.0`                 |
+| popOverContainerSelector | `string`                                                                           |                                                                 | 弹层挂载位置选择器，会通过`querySelector`获取                                | `6.4.0`                 |
 
 ## 事件表
 

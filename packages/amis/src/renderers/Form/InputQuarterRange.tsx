@@ -49,6 +49,7 @@ export default class QuarterRangeControl extends InputDateRange {
               ? env?.getModalContainer
               : rest.popOverContainer || env.getModalContainer
           }
+          popOverContainerSelector={rest.popOverContainerSelector}
           onRef={this.getRef}
           data={data}
           {...rest}

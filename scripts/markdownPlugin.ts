@@ -81,6 +81,7 @@ renderer.link = function (href: string, title: string, text: string) {
 };
 
 function markdown2js(content: string, file: string) {
+  var raw = content;
   var m = rYml.exec(content);
   var info: any = {};
   if (m && m[1]) {
@@ -214,6 +215,7 @@ function markdown2js(content: string, file: string) {
       }
     ) +
     '</div>';
+  info.raw = raw;
   info.toc = toc;
 
   return 'export default ' + JSON.stringify(info, null, 2) + ';';

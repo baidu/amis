@@ -39,6 +39,12 @@ test('parser:string', () => {
       evalMode: true
     })
   ).toMatchSnapshot();
+
+  expect(
+    parse('"string literall, escape \\" \\\\ \\/ \\b \\f \\n \\r \\t"', {
+      evalMode: true
+    })
+  ).toMatchSnapshot();
 });
 
 test('parser:number', () => {

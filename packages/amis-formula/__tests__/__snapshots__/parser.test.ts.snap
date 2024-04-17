@@ -1708,6 +1708,25 @@ exports[`parser:string 1`] = `
 }
 `;
 
+exports[`parser:string 2`] = `
+{
+  "end": {
+    "column": 50,
+    "index": 49,
+    "line": 1,
+  },
+  "start": {
+    "column": 1,
+    "index": 0,
+    "line": 1,
+  },
+  "type": "string",
+  "value": "string literall, escape " \\ /   
+ 
+ 	",
+}
+`;
+
 exports[`parser:template 1`] = `
 {
   "body": [

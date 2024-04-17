@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import moment, {unitOfTime} from 'moment';
+import moment, {locale, unitOfTime} from 'moment';
 import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
 import {
@@ -74,6 +74,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   timeFormat?: string;
   resetValue?: any;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   dateFormat?: string;
   embed?: boolean;
   viewMode?: ViewMode;
@@ -1957,6 +1958,21 @@ export class DateRangePicker extends React.Component<
     );
   }
 
+  getDefaultDate() {
+    let {value, data, valueFormat, format, delimiter} = this.props;
+    if (value) {
+      let startDate = filterDate(
+        Array.isArray(value)
+          ? value[0] || value[1]
+          : String(value).split(delimiter)?.[0],
+        data,
+        valueFormat || (format as string)
+      );
+      return startDate;
+    }
+    return undefined;
+  }
+
   render() {
     const {
       className,
@@ -1967,6 +1983,7 @@ export class DateRangePicker extends React.Component<
       startPlaceholder,
       endPlaceholder,
       popOverContainer,
+      popOverContainerSelector,
       inputFormat,
       displayFormat,
       joinValues,
@@ -1988,7 +2005,8 @@ export class DateRangePicker extends React.Component<
       shortcuts,
       label,
       animation,
-      testIdBuilder
+      testIdBuilder,
+      locale
     } = this.props;
     const useCalendarMobile =
       mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
@@ -2004,8 +2022,10 @@ export class DateRangePicker extends React.Component<
     const __ = this.props.translate;
     const calendarMobile = (
       <CalendarMobile
+        popOverContainer={popOverContainer}
         timeFormat={curTimeFormat}
         displayForamt={displayFormat || inputFormat}
+        defaultDate={this.getDefaultDate()}
         startDate={startDate}
         endDate={endDate}
         minDate={minDate}
@@ -2019,6 +2039,7 @@ export class DateRangePicker extends React.Component<
         confirm={this.confirm}
         onChange={this.handleMobileChange}
         footerExtra={this.renderShortcuts(ranges || shortcuts)}
+        locale={locale}
         showViewMode={
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
@@ -2148,6 +2169,7 @@ export class DateRangePicker extends React.Component<
               target={() => this.dom.current}
               onHide={this.close}
               container={popOverContainer || (() => findDOMNode(this))}
+              containerSelector={popOverContainerSelector}
               rootClose={false}
               placement={overlayPlacement}
               show

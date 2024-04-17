@@ -483,7 +483,10 @@ export default class TreeSelectControl extends React.Component<
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
         if (
-          !find(combinedOptions, (item: Option) => item.value == option.value)
+          !findTree(
+            combinedOptions,
+            (item: Option) => item.value == option.value
+          )
         ) {
           combinedOptions.push({
             ...option

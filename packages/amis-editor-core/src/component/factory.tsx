@@ -20,6 +20,7 @@ import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
 import {SchemaFrom} from './base/SchemaForm';
+import memoize from 'lodash/memoize';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -237,6 +238,9 @@ export function makeSchemaFormRender(
   }
 ) {
   const env = {...manager.env, session: 'schema-form'};
+  const filterBody = memoize(body =>
+    body ? flatten(Array.isArray(body) ? body : [body]) : undefined
+  );
 
   return ({value, onChange, popOverContainer, id, store, node}: PanelProps) => {
     const ctx = {...manager.store.ctx};
@@ -260,26 +264,17 @@ export function makeSchemaFormRender(
       schema.formKey ? schema.formKey : ''
     }`;
 
+    const body = filterBody(schema.body);
+    const controls = filterBody(schema.controls);
+
     return (
       <SchemaFrom
         key={curFormKey}
         propKey={curFormKey}
         api={schema.api}
         definitions={schema.definitions}
-        body={
-          schema.body
-            ? flatten(Array.isArray(schema.body) ? schema.body : [schema.body])
-            : undefined
-        }
-        controls={
-          schema.controls
-            ? flatten(
-                Array.isArray(schema.controls)
-                  ? schema.controls
-                  : [schema.controls]
-              )
-            : undefined
-        }
+        body={body}
+        controls={controls}
         value={value}
         ctx={ctx}
         pipeIn={schema.pipeIn}

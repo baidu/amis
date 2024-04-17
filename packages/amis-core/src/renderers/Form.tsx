@@ -52,6 +52,7 @@ import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
+import isEqual from 'lodash/isEqual';
 
 export interface FormHorizontal {
   left?: number;
@@ -640,7 +641,6 @@ export default class Form extends React.Component<FormProps, object> {
             );
           }
         })
-        .then(this.dispatchInited)
         .then(this.initInterval)
         .then(this.onInit);
     } else {
@@ -675,8 +675,8 @@ export default class Form extends React.Component<FormProps, object> {
           errorMessage: fetchFailed
         }
       )
-        .then(this.dispatchInited)
-        .then(this.initInterval);
+        .then(this.initInterval)
+        .then(this.dispatchInited);
     }
   }
 
@@ -718,7 +718,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     // 派发init事件，参数为初始化数据
-    await dispatchEvent(
+    const result = await dispatchEvent(
       'inited',
       createObject(data, {
         ...value?.data, // 保留，兼容历史
@@ -728,7 +728,7 @@ export default class Form extends React.Component<FormProps, object> {
       })
     );
 
-    return value;
+    return result;
   }
 
   blockRouting(): any {
@@ -804,6 +804,15 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     onInit && onInit(data, this.props);
+
+    // 派发初始化事件
+    const dispatch = await this.dispatchInited({data});
+
+    if (dispatch?.prevented) {
+      return;
+    }
+
+    // submitOnInit
     submitOnInit &&
       this.handleAction(
         undefined,
@@ -837,8 +846,10 @@ export default class Form extends React.Component<FormProps, object> {
         [initFinishedField || 'finished']: false
       });
 
+    let result: Payload | undefined = undefined;
+
     if (isEffectiveApi(initApi, store.data)) {
-      const result: Payload = await store.fetchInitData(initApi, store.data, {
+      result = await store.fetchInitData(initApi, store.data, {
         successMessage: fetchSuccess,
         errorMessage: fetchFailed,
         silent,
@@ -860,9 +871,6 @@ export default class Form extends React.Component<FormProps, object> {
         }
       });
 
-      // 派发初始化接口请求完成事件
-      await this.dispatchInited(result);
-
       if (result?.ok) {
         this.initInterval(result);
         store.reset(undefined, false);
@@ -870,6 +878,9 @@ export default class Form extends React.Component<FormProps, object> {
     } else {
       store.reset(undefined, false);
     }
+
+    // 派发初始化接口请求完成事件
+    this.dispatchInited(result);
   }
 
   receive(values: object, name?: string, replace?: boolean) {
@@ -1053,6 +1064,7 @@ export default class Form extends React.Component<FormProps, object> {
     return dispatchEvent(type, data);
   }
 
+  emittedData: any = null;
   async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
@@ -1061,10 +1073,14 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     const diff = difference(store.data, store.pristine);
-    if (skipIfNothingChanges && !Object.keys(diff).length) {
+    if (
+      skipIfNothingChanges &&
+      (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
+    ) {
       return;
     }
 
+    this.emittedData = store.data;
     // 提前准备好 onChange 的参数。
     // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
     const changeProps = [store.data, diff, this.props];
@@ -2249,7 +2265,6 @@ export class FormRenderer extends Form {
   }
 
   getData() {
-    const {store} = this.props;
-    return store.data;
+    return this.getValues();
   }
 }

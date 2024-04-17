@@ -467,7 +467,8 @@ export class ImageField extends React.Component<
       toolbarActions,
       imageGallaryClassName,
       id,
-      themeCss
+      themeCss,
+      enlargeWithGallary
     } = this.props;
 
     onImageEnlarge &&
@@ -481,6 +482,7 @@ export class ImageField extends React.Component<
           thumbRatio,
           showToolbar,
           toolbarActions,
+          enlargeWithGallary,
           imageGallaryClassName: `${imageGallaryClassName} ${setThemeClassName({
             ...this.props,
             name: 'imageGallaryClassName',
@@ -586,6 +588,7 @@ export class ImageField extends React.Component<
       placeholder,
       originalSrc,
       enlargeAble,
+      enlargeWithGallary,
       imageMode,
       wrapperCustomStyle,
       id,
@@ -636,6 +639,7 @@ export class ImageField extends React.Component<
             thumbRatio={thumbRatio}
             originalSrc={filter(originalSrc, data, '| raw') ?? value}
             enlargeAble={enlargeAble && value && value !== defaultValue}
+            enlargeWithGallary={enlargeWithGallary}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
             imageControlClassName={setThemeClassName({

@@ -18,6 +18,15 @@
     },
     {
       "path": "./packages/office-viewer"
+    },
+    {
+      "path": "./packages/amis-editor-core"
+    },
+    {
+      "path": "./packages/amis-editor"
+    },
+    {
+      "path": "./packages/amis-theme-editor-helper"
     }
   ]
 }

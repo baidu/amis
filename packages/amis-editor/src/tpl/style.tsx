@@ -634,7 +634,7 @@ setSchemaTpl(
     const styles = [
       {
         type: 'select',
-        name: 'editorState',
+        name: '__editorState',
         label: '状态',
         selectFirst: true,
         options: [
@@ -653,11 +653,11 @@ setSchemaTpl(
         ]
       },
       ...styleStateFunc(
-        "${editorState == 'default' || !editorState}",
+        "${__editorState == 'default' || !__editorState}",
         'default'
       ),
-      ...styleStateFunc("${editorState == 'hover'}", 'hover'),
-      ...styleStateFunc("${editorState == 'active'}", 'active')
+      ...styleStateFunc("${__editorState == 'hover'}", 'hover'),
+      ...styleStateFunc("${__editorState == 'active'}", 'active')
     ];
 
     return {

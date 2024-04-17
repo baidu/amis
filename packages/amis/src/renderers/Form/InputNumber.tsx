@@ -325,7 +325,6 @@ export default class NumberControl extends React.Component<
     if (rendererEvent?.prevented) {
       return;
     }
-
     onChange(resultValue);
 
     setTimeout(() => {

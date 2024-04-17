@@ -3,10 +3,10 @@
  */
 
 import React from 'react';
-import {autobind, FormControlProps} from 'amis-core';
+import {autobind, FormControlProps, isExpression} from 'amis-core';
 import cx from 'classnames';
 import {FormItem, Button, Icon, PickerContainer} from 'amis';
-import {FormulaCodeEditor, FormulaEditor} from 'amis-ui';
+import {FormulaCodeEditor, FormulaEditor, InputBox} from 'amis-ui';
 import type {VariableItem} from 'amis-ui';
 import {reaction} from 'mobx';
 import {getVariables} from 'amis-editor-core';
@@ -139,6 +139,7 @@ export default class ExpressionFormulaControl extends React.Component<
   render() {
     const {value, className, variableMode, header, size, ...rest} = this.props;
     const {formulaPickerValue, variables} = this.state;
+    const isNewExpression = isExpression(value);
 
     // 自身字段
     const selfName = this.props?.data?.name;
@@ -171,11 +172,13 @@ export default class ExpressionFormulaControl extends React.Component<
           size={size ?? 'lg'}
         >
           {({onClick}: {onClick: (e: React.MouseEvent) => any}) =>
-            formulaPickerValue ? (
+            value && !isNewExpression ? (
+              <InputBox value={value} onChange={rest.onChange} />
+            ) : formulaPickerValue ? (
               <Button
                 className="btn-configured"
                 tooltip={{
-                  placement: 'top',
+                  placement: 'left',
                   tooltipTheme: 'dark',
                   mouseLeaveDelay: 20,
                   content: value,
@@ -183,10 +186,17 @@ export default class ExpressionFormulaControl extends React.Component<
                   children: () => (
                     <FormulaCodeEditor
                       readOnly
-                      value={value}
+                      value={
+                        typeof value === 'string'
+                          ? value.substring(2, value.length - 1)
+                          : ''
+                      }
                       variables={variables}
-                      evalMode={false}
+                      evalMode={true}
                       editorTheme="dark"
+                      editorOptions={{
+                        lineNumbers: false
+                      }}
                     />
                   )
                 }}
@@ -195,6 +205,7 @@ export default class ExpressionFormulaControl extends React.Component<
                 <FormulaCodeEditor
                   singleLine
                   readOnly
+                  highlightMode="expression"
                   value={value}
                   variables={variables}
                   evalMode={false}
@@ -208,6 +219,7 @@ export default class ExpressionFormulaControl extends React.Component<
             ) : (
               <>
                 <Button
+                  size="sm"
                   className="btn-set-expression"
                   onClick={e => this.handleOnClick(e, onClick)}
                 >

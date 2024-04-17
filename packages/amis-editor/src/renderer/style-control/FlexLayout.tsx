@@ -2,7 +2,7 @@
  * @file flex 快捷分栏布局设置
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {InputBox, TooltipWrapper} from 'amis-ui';
 import {FormControlProps, FormItem} from 'amis-core';
 import cx from 'classnames';
@@ -11,12 +11,14 @@ function LayoutItem({
   value,
   onSelect,
   active,
-  tip
+  tip,
+  flexDirection
 }: {
   value: string;
   onSelect: () => void;
   active?: boolean;
   tip?: string;
+  flexDirection?: React.CSSProperties['flexDirection'];
 }) {
   const items = String(value).split(':');
   return (
@@ -25,7 +27,10 @@ function LayoutItem({
         className={cx('ae-FlexLayout-item', {
           active
         })}
-        style={{flex: value}}
+        style={{
+          flex: value,
+          flexDirection: flexDirection || 'row'
+        }}
         onClick={onSelect}
       >
         {items.map(val => (
@@ -38,10 +43,12 @@ function LayoutItem({
 
 function FlexLayouts({
   onChange,
-  value
+  value,
+  flexDirection
 }: {
   onChange: (value: string) => void;
   value?: string;
+  flexDirection?: React.CSSProperties['flexDirection'];
 }) {
   const presetLayouts = [
     '1',
@@ -53,14 +60,27 @@ function FlexLayouts({
     '1:2:1',
     '1:1:1:1'
   ];
-  let currentLayout = value;
-  if (value) {
-    // 转换成1:x格式
-    let items = String(value).split(':');
-    const min = Math.min.apply(null, items);
-    if (items.every(item => +item % min === 0)) {
-      items = items.map(item => String(+item / min));
-      currentLayout = items.join(':');
+  const [currentLayout, setCurrentLayout] = useState<string>('');
+  useEffect(() => {
+    if (value) {
+      // 转换成1:x格式
+      let items = String(value).split(':');
+      const min = Math.min.apply(null, items);
+      if (items.every(item => +item % min === 0)) {
+        items = items.map(item => String(+item / min));
+        let layout = items.join(':');
+        if (layout !== currentLayout) {
+          setCurrentLayout(items.join(':'));
+        }
+      } else if (value !== currentLayout) {
+        setCurrentLayout(value);
+      }
+    }
+  }, []);
+
+  function onChangeLayout() {
+    if (/\d[\d:]+\d$/.test(currentLayout)) {
+      onChange(currentLayout);
     }
   }
 
@@ -72,7 +92,11 @@ function FlexLayouts({
             key={item}
             value={item}
             tip={`排列${item}`}
-            onSelect={() => onChange(item)}
+            flexDirection={flexDirection}
+            onSelect={() => {
+              setCurrentLayout(item);
+              onChange(item);
+            }}
             active={item === currentLayout}
           />
         ))}
@@ -83,10 +107,16 @@ function FlexLayouts({
         <InputBox
           className="ae-FlexLayout-input"
           clearable={false}
-          value={value}
+          value={currentLayout}
           placeholder="例如 1:3:2"
-          onChange={val => (currentLayout = val)}
-          onBlur={() => currentLayout && onChange(currentLayout)}
+          onChange={val => setCurrentLayout(val)}
+          onBlur={() => currentLayout && onChangeLayout()}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              onChangeLayout();
+            }
+          }}
         />
       </div>
     </div>

@@ -6,7 +6,8 @@ import {
   JSONPipeOut,
   LayoutBasePlugin,
   PluginEvent,
-  reGenerateID
+  reGenerateID,
+  tipedLabel
 } from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {Button, PlainObject} from 'amis';
@@ -108,13 +109,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
     if (/^[\d:]+$/.test(value) && isAlive(node)) {
       let list = value.trim().split(':');
       let children = node.children || [];
-
-      if (String(node.schema?.style?.flexDirection).includes('column')) {
-        list = list.reverse();
-        node.updateSchemaStyle({
-          flexDirection: 'row'
-        });
-      }
+      const isColumn = this.manager?.isFlexColumnItem(node.id);
 
       // 更新flex布局
       for (let i = 0; i < children.length; i++) {
@@ -122,7 +117,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
         child.updateSchemaStyle({
           flexGrow: +list[i],
           width: undefined,
-          flexBasis: 0,
+          flexBasis: isColumn ? 'auto' : 0,
           flex: '1 1 auto'
         });
       }
@@ -130,7 +125,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
       // 增加或删除列
       if (children.length < list.length) {
         for (let i = 0; i < list.length - children.length; i++) {
-          let newColumnSchema = defaultFlexColumnSchema();
+          let newColumnSchema = defaultFlexColumnSchema('', !isColumn);
           newColumnSchema.style.flexGrow = +list[i];
           this.manager.addElem(newColumnSchema, true, false);
         }
@@ -214,6 +209,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
     const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
     // 判断是否为吸附容器
     const isSorptionContainer = curRendererSchema?.isSorptionContainer || false;
+    const flexDirection = context.node?.schema?.style?.flexDirection || 'row';
 
     const positionTpl = [
       getSchemaTpl('layout:position', {
@@ -239,6 +235,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                     getSchemaTpl('layout:flex-layout', {
                       name: 'layout',
                       label: '快捷版式设置',
+                      flexDirection,
                       pipeIn: () => {
                         if (isAlive(context.node)) {
                           let children = context.node?.children || [];
@@ -323,10 +320,12 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
                   getSchemaTpl('layout:flex-basis', {
                     label: '行间隔',
+                    tooltip: '垂直排布时，内部容器之间的间隔',
                     name: 'style.rowGap'
                   }),
                   getSchemaTpl('layout:flex-basis', {
                     label: '列间隔',
+                    tooltip: '水平排布时，内部容器之间的间隔',
                     name: 'style.columnGap'
                   }),
 

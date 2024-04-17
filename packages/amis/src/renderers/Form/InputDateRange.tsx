@@ -122,6 +122,11 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
    * (value: moment.Moment, config: {type: 'start' | 'end'; originValue: moment.Moment, timeFormat: string}, props: any, data: any, moment: moment) => moment.Moment;
    */
   transform?: string;
+
+  /**
+   * 弹窗容器选择器
+   */
+  popOverContainerSelector?: string;
 }
 
 export interface DateRangeProps
@@ -326,6 +331,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
               ? env?.getModalContainer
               : rest.popOverContainer || env.getModalContainer
           }
+          popOverContainerSelector={rest.popOverContainerSelector}
           onRef={this.getRef}
           data={data}
           valueFormat={valueFormat || format}

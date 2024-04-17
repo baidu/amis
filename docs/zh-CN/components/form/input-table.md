@@ -1914,6 +1914,7 @@ order: 54
 | clear      | -                                                                                                                                  | 清空表格数据                                                         |
 | reset      | -                                                                                                                                  | 将表格数据重置为`resetValue`，若没有配置`resetValue`，则清空表格数据 |
 | initDrag   | -                                                                                                                                  | 开启表格拖拽排序功能                                                 |
+| cancelDrag | -                                                                                                                                  | 取消表格拖拽排序功能                                                 |
 
 ### addItem
 
@@ -2612,7 +2613,9 @@ order: 54
 }
 ```
 
-### initDrag
+### initDrag & cancelDrag
+
+> 6.4.0 版本开始支持
 
 ```schema: scope="body"
 {
@@ -2628,6 +2631,21 @@ order: 54
             {
               "componentId": "drag-input-table",
               "actionType": "initDrag"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "放弃表格排序",
+      "className": "ml-1",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "drag-input-table",
+              "actionType": "cancelDrag"
             }
           ]
         }

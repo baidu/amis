@@ -141,22 +141,19 @@ export class ContainerPlugin extends LayoutBasePlugin {
 
     const node = context.node!;
     const isFlexItem = this.manager?.isFlexItem(node.id);
-    if (isFlexItem && context.node.parent?.children?.length > 1) {
-      let isColumnFlex = String(node.schema?.style?.flexDirection).includes(
-        'column'
+    if (isFlexItem) {
+      let isColumnFlex = this.manager.isFlexColumnItem(node.id);
+      context?.node.setHeightMutable(
+        node?.schema?.isFixedHeight && !isColumnFlex
       );
-      console.log(
-        'isColumnFlex',
-        isColumnFlex,
-        node.schema?.style?.flexDirection
+      context?.node.setWidthMutable(
+        (!isColumnFlex && context.node.parent?.children?.length > 1) ||
+          node.schema?.style?.flex === '0 0 150px'
       );
-      // context?.node.setHeightMutable(isColumnFlex);
-      context?.node.setWidthMutable(!isColumnFlex);
+    } else {
+      context?.node.setHeightMutable(node.schema?.isFixedHeight);
+      context?.node.setWidthMutable(node.schema?.isFixedWidth);
     }
-  }
-
-  afterUpdate(event: PluginEvent<ActiveEventContext>) {
-    const node = event.context?.node;
   }
 
   onWidthChangeStart(
@@ -177,11 +174,11 @@ export class ContainerPlugin extends LayoutBasePlugin {
     if (!parent) {
       return;
     }
-    console.log('on width change start');
     const resizer = context.resizer;
     const frameRect = parent.getBoundingClientRect();
     const rect = dom.getBoundingClientRect();
     const isFlexItem = this.manager?.isFlexItem(node.id);
+    const isColumnFlex = this.manager?.isFlexColumnItem(node.id);
     const schema = node.schema;
     const index = node.index;
     const isFlexSize =
@@ -234,7 +231,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
             }
           }
         } else {
-          if (isFlexItem) {
+          if (isFlexItem && !isColumnFlex) {
             node.updateState({
               style: {
                 ...node.schema.style,
@@ -270,7 +267,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
             item.updateState({}, true);
           });
         } else {
-          if (isFlexItem) {
+          if (isFlexItem && !isColumnFlex) {
             node.updateSchema({
               style: {
                 ...node.schema.style,
@@ -296,18 +293,18 @@ export class ContainerPlugin extends LayoutBasePlugin {
     });
   }
 
-  onHeightChangeStart(
-    event: PluginEvent<
-      ResizeMoveEventContext,
-      {
-        onMove(e: MouseEvent): void;
-        onEnd(e: MouseEvent): void;
-      }
-    >
-  ) {
-    console.log('on height change start');
-    // return this.onSizeChangeStart(event, 'vertical');
-  }
+  // onHeightChangeStart(
+  //   event: PluginEvent<
+  //     ResizeMoveEventContext,
+  //     {
+  //       onMove(e: MouseEvent): void;
+  //       onEnd(e: MouseEvent): void;
+  //     }
+  //   >
+  // ) {
+  //   // console.log('on height change start');
+  //   // return this.onSizeChangeStart(event, 'vertical');
+  // }
 
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;

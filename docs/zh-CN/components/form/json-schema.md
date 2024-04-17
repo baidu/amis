@@ -115,6 +115,139 @@ order: 61
 }
 ```
 
+## 搭配公式使用
+
+> 6.4.0 及以上版本
+
+通过配置 `formula` 属性，可以配合公式使用。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    debug: true,
+    "body": [
+        {
+          "type": "json-schema",
+          "name": "value",
+          "label": "字段值",
+          "schema": {
+            type: 'object',
+            additionalProperties: false,
+            required: ['id', 'name'],
+            properties: {
+              id: {
+                type: 'number',
+                title: 'ID'
+              },
+              name: {
+                type: 'string',
+                title: '名称'
+              },
+              description: {
+                type: 'string',
+                title: '描述'
+              },
+              date: {
+                type: 'object',
+                title: '日期',
+                additionalProperties: false,
+                required: ['year', 'month', 'day'],
+                properties: {
+                  year: {
+                    type: 'number',
+                    title: '年'
+                  },
+                  month: {
+                    type: 'number',
+                    title: '月'
+                  },
+                  day: {
+                    type: 'number',
+                    title: '日'
+                  }
+                }
+              },
+              tag: {
+                type: 'array',
+                title: '个人标签',
+                items: {
+                  type: 'string'
+                },
+                minContains: 2,
+                maxContains: 10
+              }
+            }
+          },
+          "formula": {
+            "mode":"input-group",
+            "mixedMode": true,
+            "variables": [
+              {
+                "label": "表单字段",
+                "children": [
+                  {
+                    "label": "文章名",
+                    "value": "name",
+                    "tag": "文本"
+                  },
+                  {
+                    "label": "作者",
+                    "value": "author",
+                    "tag": "文本"
+                  },
+                  {
+                    "label": "售价",
+                    "value": "price",
+                    "tag": "数字"
+                  },
+                  {
+                    "label": "出版时间",
+                    "value": "time",
+                    "tag": "时间"
+                  },
+                  {
+                    "label": "版本号",
+                    "value": "version",
+                    "tag": "数字"
+                  },
+                  {
+                    "label": "出版社",
+                    "value": "publisher",
+                    "tag": "文本"
+                  }
+                ]
+              },
+              {
+                "label": "流程字段",
+                "children": [
+                  {
+                    "label": "联系电话",
+                    "value": "telphone"
+                  },
+                  {
+                    "label": "地址",
+                    "value": "addr"
+                  }
+                ]
+              },
+              {
+                "label": "长文本测试分类长文本测试分类长文本测试分类长文本测试分类",
+                "children": [
+                  {
+                    "label": "这是一段测试长文本这是一段测试长文本这是一段测试长文本",
+                    "value": "longtext",
+                    "tag": "文本"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+    ]
+}
+```
+
 ## 远程获取 schema
 
 ```schema: scope="body"

@@ -41,7 +41,7 @@ import Radios from './Radios';
 import Range from './Range';
 import Rating from './Rating';
 // import RichText from './RichText';
-import Select from './Select';
+import Select, {value2array} from './Select';
 import SparkLine from './SparkLine';
 import {default as Spinner, type SpinnerExtraProps} from './Spinner';
 import Switch from './Switch';
@@ -170,6 +170,7 @@ export {
   Rating,
   // RichText,
   Select,
+  value2array,
   SparkLine,
   Spinner,
   SpinnerExtraProps,

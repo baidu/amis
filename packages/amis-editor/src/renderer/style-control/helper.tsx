@@ -4,7 +4,7 @@ export const inputStateTpl = (className: string, path: string = '') => {
   return [
     {
       type: 'select',
-      name: 'editorState',
+      name: '__editorState',
       label: '状态',
       selectFirst: true,
       options: [
@@ -23,13 +23,13 @@ export const inputStateTpl = (className: string, path: string = '') => {
       ]
     },
     ...inputStateFunc(
-      "${editorState == 'default' || !editorState}",
+      "${__editorState == 'default' || !__editorState}",
       'default',
       className,
       path
     ),
-    ...inputStateFunc("${editorState == 'hover'}", 'hover', className, path),
-    ...inputStateFunc("${editorState == 'active'}", 'active', className, path)
+    ...inputStateFunc("${__editorState == 'hover'}", 'hover', className, path),
+    ...inputStateFunc("${__editorState == 'active'}", 'active', className, path)
   ];
 };
 

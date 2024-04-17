@@ -114,7 +114,8 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
               ...rest,
               key: editable ? 'edit-mode' : 'preview-mode',
               theme: env.theme,
-              data: data ?? store.ctx,
+              data: data,
+              context: store.ctx,
               locale: appLocale,
               editorDialogMountNode: this.getDialogMountRef
             },

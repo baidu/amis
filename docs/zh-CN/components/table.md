@@ -2623,13 +2623,17 @@ popOver 的其它配置请参考 [popover](./popover)
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称  | 动作配置                                                                                                         | 说明                 |
-| --------- | ---------------------------------------------------------------------------------------------------------------- | -------------------- |
-| select    | `selected: string` 条件表达式，表达式中可以访问变量`record:行数据`和`rowIndex:行索引`，例如: data.rowIndex === 1 | 设置表格的选中项     |
-| selectAll | -                                                                                                                | 设置表格全部项选中   |
-| clearAll  | -                                                                                                                | 清空表格所有选中项   |
-| initDrag  | -                                                                                                                | 开启表格拖拽排序功能 |
-| setValue  | `value: object`                                                                                                  | 更新列表记录         |
+| 动作名称        | 动作配置                                                                                                                                                                                                                                                                                                                                                                                                | 说明                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| select          | `args.selected`: string 条件表达式，**不推荐，建议用 `args.index` 或者 `args.condition`** 表达式中可以访问变量`record:行数据`和`rowIndex:行索引`，例如: data.rowIndex === 1 <br /> `args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用）表达式上下文为对应行数据，跟 `args.select` 的上下文不同。 <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合 index` | 设置表格的选中项           |
+| selectAll       | -                                                                                                                                                                                                                                                                                                                                                                                                       | 设置表格全部项选中         |
+| clearAll        | -                                                                                                                                                                                                                                                                                                                                                                                                       | 清空表格所有选中项         |
+| initDrag        | -                                                                                                                                                                                                                                                                                                                                                                                                       | 开启表格拖拽排序功能       |
+| cancelDrag      | -                                                                                                                                                                                                                                                                                                                                                                                                       | 放弃表格拖拽排序功能       |
+| setValue        | `args.value`: object <br />`args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用） <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合                                                                                                                                                                                                                         | 更新列表记录               |
+| submitQuickEdit |                                                                                                                                                                                                                                                                                                                                                                                                         | 快速编辑数据提交           |
+| toggleExpanded  | `args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用） <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合                                                                                                                                                                                                                                                    | 切换某行数据是展开还是收起 |
+| setExpanded     | `args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用） <br /> `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合 <br /> `args.value` 展开还是收起                                                                                                                                                                                                                   | 设置某行数据展开还是收起   |
 
 value 结构说明：
 
@@ -2638,6 +2642,14 @@ value 结构说明：
 | items 或 rows | `item[]` |        | 列表记录 |
 
 ### select
+
+> 6.3.0 或更高版本
+
+- `args.index` 可选，指定行数，支持表达式，支持树形路径（当为树形表格的时候使用）
+- `args.condition` 可选，通过表达式指定更新哪些行，支持条件组合
+- `args.selected` 不推荐使用，请使用以上两者替代
+
+> 注意 6.3.0 版本开始用法变动，通过 `args.index` 和 `args.condition` 来代替 `args.selected`, 同时表达式上下文为对应行数据，跟 `args.select` 的上下文不同。
 
 ```schema: scope="body"
 [
@@ -2649,16 +2661,15 @@ value 结构说明：
         "name": "trigger1",
         "id": "trigger1",
         "type": "action",
-        "label": "设置表格第一项选中",
+        "label": "选中前两个",
         "onEvent": {
         "click": {
             "actions": [
             {
                 "actionType": "select",
                 "componentId": "table-select",
-                "description": "点击设置指定表格第一项内容选中",
                 "args": {
-                "selected": "data.rowIndex === 0"
+                    "index": "0,1"
                 }
             }
             ]
@@ -2811,7 +2822,7 @@ value 结构说明：
 ]
 ```
 
-### initDrag
+### initDrag & cancelDrag
 
 ```schema: scope="body"
 [
@@ -2835,6 +2846,23 @@ value 结构说明：
             ]
         }
         }
+    },
+    {
+        "name": "trigger5",
+        "id": "trigger5",
+        "type": "action",
+        "label": "取消表格行排序",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "cancelDrag",
+                "componentId": "table-select",
+                "description": "点击取消表格行排序功能"
+            }
+            ]
+        }
+        }
     }
     ]
 },
@@ -2846,8 +2874,6 @@ value 结构说明：
         "id": "table-select",
         "type": "table",
         "source": "$rows",
-        "selectable": true,
-        "multiple": true,
         "columns": [
         {
             "name": "id",
@@ -2959,9 +2985,7 @@ value 结构说明：
               "inline": true,
               "tpl": "v${version}"
             }
-          ],
-          "selectable": true,
-          "multiple": true
+          ]
         }
       ]
     }
@@ -3118,9 +3142,7 @@ value 结构说明：
               "inline": true,
               "tpl": "${version}"
             }
-          ],
-          "selectable": true,
-          "multiple": true
+          ]
         }
       ]
     }
