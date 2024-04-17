@@ -86,7 +86,7 @@ export interface CardSchema extends BaseSchema {
     /**
      * 副标题
      */
-    subTitle?: SchemaTpl;
+    subTitle?: SchemaTpl | Schema;
     subTitleClassName?: SchemaClassName;
     subTitlePlaceholder?: string;
 
@@ -594,7 +594,7 @@ export class CardRenderer extends React.Component<CardProps> {
       const {subTitle: subTitleTpl} = header || {};
 
       // const subTitle = filter(subTitleTpl, data);
-      return render('sub-title', subTitleTpl!, data);
+      return subTitleTpl ? render('sub-title', subTitleTpl, data) : null;
     }
     return;
   }
