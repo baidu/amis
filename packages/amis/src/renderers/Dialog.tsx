@@ -278,6 +278,10 @@ export default class Dialog extends React.Component<DialogProps> {
     if (rendererEvent?.prevented) {
       return;
     }
+
+    if (rendererEvent?.pendingPromise.length) {
+      await rendererEvent.allDone();
+    }
     // clear error
     store.updateMessage();
     onClose(confirmed);
@@ -1008,6 +1012,10 @@ export class DialogRenderer extends Dialog {
         return;
       }
 
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
+      }
+
       store.setCurrentAction(action, this.props.resolveDefinitions);
       // clear error
       store.updateMessage();
@@ -1022,8 +1030,13 @@ export class DialogRenderer extends Dialog {
         'confirm',
         createObject(this.props.data, data)
       );
+
       if (rendererEvent?.prevented) {
         return;
+      }
+
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
       }
 
       store.setCurrentAction(action, this.props.resolveDefinitions);

@@ -1013,7 +1013,7 @@ export const MainStore = types
 
       // 获取弹窗大纲列表
       get modals(): Array<EditorModalBody> {
-        const schema = self.schema;
+        const schema = {...self.schema};
         const modals: Array<DialogSchema | DrawerSchema> = [];
         Object.keys(schema.definitions || {}).forEach(key => {
           const definition = schema.definitions[key];
@@ -1024,6 +1024,7 @@ export const MainStore = types
             });
           }
         });
+        delete schema.definitions;
         JSONTraverse(schema, (value: any, key: string, host: any) => {
           if (
             key === 'actionType' &&
