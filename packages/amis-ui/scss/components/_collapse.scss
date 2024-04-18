@@ -223,7 +223,7 @@
   .#{$ns}Collapse {
     border: none;
     position: relative;
-
+    margin-bottom: var(--Collapse-mobile-marginBottom);
     &::before {
       @include hairline-bottom(var(--collapse-default-bottom-border-color));
     }
