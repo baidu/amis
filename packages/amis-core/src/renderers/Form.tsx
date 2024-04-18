@@ -994,7 +994,9 @@ export default class Form extends React.Component<FormProps, object> {
       this.flushing = true;
       const hooks = this.hooks['flush'] || [];
       await Promise.all(hooks.map(fn => fn()));
-      await this.lazyEmitChange.flush();
+      if (!this.emitting) {
+        await this.lazyEmitChange.flush();
+      }
     } finally {
       this.flushing = false;
     }
@@ -1065,46 +1067,53 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   emittedData: any = null;
+  emitting = false;
   async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
-    const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
+    try {
+      this.emitting = true;
 
-    if (!isAlive(store)) {
-      return;
-    }
+      const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
-    const diff = difference(store.data, store.pristine);
-    if (
-      skipIfNothingChanges &&
-      (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
-    ) {
-      return;
-    }
+      if (!isAlive(store)) {
+        return;
+      }
 
-    this.emittedData = store.data;
-    // 提前准备好 onChange 的参数。
-    // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
-    const changeProps = [store.data, diff, this.props];
-    const dispatcher = await dispatchEvent(
-      'change',
-      createObject(data, store.data)
-    );
-    if (!dispatcher?.prevented) {
-      onChange && onChange.apply(null, changeProps);
-    }
+      const diff = difference(store.data, store.pristine);
+      if (
+        skipIfNothingChanges &&
+        (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
+      ) {
+        return;
+      }
 
-    store.clearRestError();
-
-    if (submit || (submitOnChange && store.inited)) {
-      await this.handleAction(
-        undefined,
-        {
-          type: 'submit',
-          // 如果这里不跳过，会相互依赖死循环，flush 会 让 emiteChange 立即执行
-          // handleAction 里面又会调用 flush
-          skipFormFlush: true
-        },
-        store.data
+      this.emittedData = store.data;
+      // 提前准备好 onChange 的参数。
+      // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
+      const changeProps = [store.data, diff, this.props];
+      const dispatcher = await dispatchEvent(
+        'change',
+        createObject(data, store.data)
       );
+      if (!dispatcher?.prevented) {
+        onChange && onChange.apply(null, changeProps);
+      }
+
+      store.clearRestError();
+
+      if (submit || (submitOnChange && store.inited)) {
+        await this.handleAction(
+          undefined,
+          {
+            type: 'submit',
+            // 如果这里不跳过，会相互依赖死循环，flush 会 让 emiteChange 立即执行
+            // handleAction 里面又会调用 flush
+            skipFormFlush: true
+          },
+          store.data
+        );
+      }
+    } finally {
+      this.emitting = false;
     }
   }
 

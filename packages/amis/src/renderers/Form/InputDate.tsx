@@ -593,9 +593,11 @@ export default class DateControl extends React.PureComponent<
       'change',
       resolveEventData(this.props, {value: nextValue})
     );
-    if (dispatcher?.prevented) {
-      return;
-    }
+    // 因为前面没有 await，所以这里的 dispatcher.prevented 是不准确的。
+    // 为什么没写 onChange，我估计是不能让 onChange 太慢执行
+    // if (dispatcher?.prevented) {
+    //   return;
+    // }
     this.props.onChange(nextValue);
   }
 
