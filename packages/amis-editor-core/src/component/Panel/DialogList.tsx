@@ -2,7 +2,7 @@ import {ClassNamesFn} from 'amis-core';
 import {observer} from 'mobx-react';
 import React from 'react';
 import {EditorStoreType} from '../../store/editor';
-import {modalsToDefinitions, translateSchema} from '../../util';
+import {JSONGetById, modalsToDefinitions, translateSchema} from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
 
 export interface DialogListProps {
@@ -48,7 +48,12 @@ export default observer(function DialogList({
         type: 'dialog',
         ...(modal as any),
         definitions: modalsToDefinitions(
-          store.modals.filter((m: any) => m.$$id !== modalId)
+          store.modals.filter(
+            (m: any) =>
+              // 不要把自己下发，不允许弹窗自己再弹出自己
+              // 不要下发自己内容里面内嵌的弹窗，否则会导致子弹窗里面的弹窗列表重复
+              m.$$id !== modalId && !JSONGetById(modal, m.$$id)
+          )
         )
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {

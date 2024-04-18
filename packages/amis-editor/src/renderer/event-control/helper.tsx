@@ -327,7 +327,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     type: 'dialog',
                     ...modal,
                     definitions: modalsToDefinitions(
-                      store.modals.filter((m: any) => m.$$id !== modalId)
+                      store.modals.filter(
+                        (m: any) =>
+                          // 不要把自己下发，不允许弹窗自己再弹出自己
+                          // 不要下发自己内容里面内嵌的弹窗，否则会导致子弹窗里面的弹窗列表重复
+                          m.$$id !== modalId && !JSONGetById(modal, m.$$id)
+                      )
                     )
                   },
                   onChange: ({definitions, ...modal}: any, diff: any) => {
