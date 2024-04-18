@@ -175,7 +175,8 @@
   }
 }
 
-.#{$ns}PickerControl.is-inline {
+.#{$ns}PickerControl.is-inline,
+.#{$ns}Form-item--inline {
   .#{$ns}Picker {
     display: inline-block;
     min-width: px2rem(150px);
