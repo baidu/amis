@@ -12,7 +12,7 @@ export const AUTO_COLOR = '#000000';
 /**
  * 单元格的 padding
  */
-export const PADDING_SIZE = 4;
+export const PADDING_SIZE = 2;
 
 /**
  * 最长列数，从 0 开始
