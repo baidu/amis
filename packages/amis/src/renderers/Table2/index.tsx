@@ -1610,7 +1610,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     selectedRows: Array<any>,
     selectedRowKeys: Array<string | number>,
     unSelectedRows: Array<string | number>
-  ) {
+  ): Promise<any> {
     const {dispatchEvent, data, store} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1629,7 +1629,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  async handleSort(payload: SortProps) {
+  async handleSort(payload: SortProps): Promise<any> {
     const {dispatchEvent, data, onSort} = this.props;
     const rendererEvent = await dispatchEvent(
       'columnSort',
@@ -1647,7 +1647,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  async handleFilter(payload: {filterName: string; filterValue: string}) {
+  async handleFilter(payload: {
+    filterName: string;
+    filterValue: string;
+  }): Promise<any> {
     const {dispatchEvent, data, onSearch} = this.props;
 
     const rendererEvent = await dispatchEvent(
