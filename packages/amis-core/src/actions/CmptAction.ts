@@ -1,5 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {createObject} from '../utils/helper';
+import {createObject, keyToPath} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -7,6 +7,10 @@ import {
   registerAction
 } from './Action';
 import {getRendererByName} from '../factory';
+import isPlainObject from 'lodash/isPlainObject';
+import {dataMapping, getVariable, setVariable} from '../utils';
+import mergeWith from 'lodash/mergeWith';
+import type {PlainObject} from '../types';
 
 export interface ICmptAction extends ListenerAction {
   actionType: string;
@@ -68,15 +72,38 @@ export class CmptAction implements RendererAction {
     }
 
     if (action.actionType === 'setValue') {
+      let newData = action.args?.value;
+      const {data} = component.props || {};
+      if (dataMergeMode === 'merge' && newData && isPlainObject(newData)) {
+        // 由于这里需要特殊处理，传过来的data里需要包含路径
+        // 最终的result需要将路径还原成对象
+        const toSync = dataMapping(newData);
+        const tmpData = {...data};
+        const result = {...toSync};
+        Object.keys(newData as PlainObject).forEach(key => {
+          const keys = keyToPath(key);
+          let value = getVariable(toSync, key);
+          if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
+            // key是路径时，直接替换
+            // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
+            setVariable(tmpData, key, value);
+            result[keys[0]] = tmpData[keys[0]];
+          } else {
+            // 否则直接替换
+            result[keys[0]] = (newData as PlainObject)[key];
+          }
+        });
+        newData = {...result};
+      }
       if (component?.setData) {
         return component?.setData(
-          action.args?.value,
+          newData,
           dataMergeMode === 'override',
           action.args?.index,
           action.args?.condition
         );
       } else {
-        return component?.props.onChange?.(action.args?.value);
+        return component?.props.onChange?.(newData);
       }
     }
 

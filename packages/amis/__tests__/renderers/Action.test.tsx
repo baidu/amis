@@ -1,6 +1,6 @@
 /**
  * 组件名称：Action 行为按钮
- * 
+ *
  * 单测内容：
  1. 点击切换
  */
@@ -19,7 +19,6 @@ import {
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
 import '../../src';
-import hotkeys from 'hotkeys-js';
 
 afterEach(cleanup);
 

@@ -296,27 +296,35 @@ export const runAction = async (
       ](cmptFlag)
     : renderer;
   // 动作配置
-  const args = dataMapping(action.args, mergeData, (key: string) => {
-    const actionIgnoreKey: MappingIgnoreMap = {
-      ajax: ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData']
-    };
-    const cmptIgnoreMap: MappingIgnoreMap = {
-      'input-table': ['condition'],
-      'table': ['condition'],
-      'table2': ['condition'],
-      'crud': ['condition'],
-      'combo': ['condition'],
-      'list': ['condition'],
-      'cards': ['condition']
-    };
-    const curCmptType: string = targetComponent?.props?.type;
-    const curActionType: string = action.actionType;
-    const ignoreKey = [
-      ...(actionIgnoreKey[curActionType] || []),
-      ...(cmptIgnoreMap[curCmptType] || [])
-    ];
-    return ignoreKey.includes(key);
-  });
+  const args = dataMapping(
+    action.args,
+    mergeData,
+    (key: string) => {
+      const actionIgnoreKey: MappingIgnoreMap = {
+        ajax: ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData']
+      };
+      const cmptIgnoreMap: MappingIgnoreMap = {
+        'input-table': ['condition'],
+        'table': ['condition'],
+        'table2': ['condition'],
+        'crud': ['condition'],
+        'combo': ['condition'],
+        'list': ['condition'],
+        'cards': ['condition']
+      };
+      const curCmptType: string = targetComponent?.props?.type;
+      const curActionType: string = action.actionType;
+      const ignoreKey = [
+        ...(actionIgnoreKey[curActionType] || []),
+        ...(cmptIgnoreMap[curCmptType] || [])
+      ];
+      return ignoreKey.includes(key);
+    },
+    // 如果是setValue动作，且dataMergeMode不为override，则转换pathKey，
+    action.actionType === 'setValue' && action.dataMergeMode !== 'override'
+      ? false
+      : undefined
+  );
   const afterMappingData = dataMapping(action.data, mergeData);
 
   // 动作数据
