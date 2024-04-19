@@ -60,8 +60,17 @@ export default class Head extends React.PureComponent<Props> {
   tdColumns: Array<TdProps>;
 
   prependColumns(columns: Array<any>) {
-    const {rowSelectionFixed, expandableFixed, draggable} = this.props;
-    if (draggable) {
+    const {
+      rowSelectionFixed,
+      expandableFixed,
+      draggable,
+      selectable,
+      expandable
+    } = this.props;
+    if (expandable) {
+      columns.unshift({});
+    }
+    if (draggable || selectable) {
       columns.unshift({});
     } else {
       if (expandableFixed) {
