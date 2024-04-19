@@ -273,7 +273,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
 
   render() {
     const {curSearchElemKey} = this.state;
-    const {store} = this.props;
+    const {store, manager} = this.props;
     const outlineTabsKey = store.outlineTabsKey || 'component-outline';
     const options = store.outline;
 
@@ -341,7 +341,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
               eventKey={'dialog-outline'}
               title={'弹窗列表'}
             >
-              <DialogList store={store} classnames={cx} />
+              <DialogList manager={manager} store={store} classnames={cx} />
             </Tab>
           )}
         </Tabs>
