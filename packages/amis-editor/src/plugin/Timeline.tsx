@@ -117,7 +117,9 @@ export class TimelinePlugin extends BasePlugin {
                   if (value === true) {
                     return {
                       type: 'tpl',
-                      tpl: '请编辑标题内容'
+                      tpl: this.panelTitle,
+                      editorState: 'default',
+                      wrapperComponent: ''
                     };
                   }
                   return value ? value : undefined;
@@ -162,7 +164,9 @@ export class TimelinePlugin extends BasePlugin {
     const value = store.getValueOf(id);
     const defaultItemSchema = {
       type: 'tpl',
-      tpl: '请编辑标题内容'
+      tpl: this.panelTitle,
+      editorState: 'default',
+      wrapperComponent: ''
     };
     node &&
       value &&
@@ -176,8 +180,7 @@ export class TimelinePlugin extends BasePlugin {
         onChange: (newValue: any) => {
           newValue = {...value, itemTitleSchema: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
-        },
-        data: schema
+        }
       });
   }
 }
