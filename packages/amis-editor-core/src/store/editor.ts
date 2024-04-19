@@ -133,6 +133,10 @@ export type EditorModalBody = (DialogSchema | DrawerSchema) & {
   // 如果是公共弹窗，在 definitions 中的 key
   $$ref?: string;
 
+  // 内嵌弹窗会转成公共弹窗下发给子弹窗，否则子弹窗里面无法选择
+  // 这类会在 definition 里面标记原始位置
+  $$originId?: string;
+
   // 弹出方式
   actionType?: string;
 };
@@ -548,10 +552,14 @@ export const MainStore = types
           return undefined;
         }
 
+        const isSubEditor = self.isSubEditor;
+
         return JSONPipeOut(
           JSONGetById(self.schema, self.activeId),
           getEnv(self).isHiddenProps ||
             ((key, props) =>
+              // 如果是子弹窗，不显示 definitions，要是通过代码模式改了，就麻烦了
+              (isSubEditor && key === 'definitions') ||
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
@@ -1015,15 +1023,7 @@ export const MainStore = types
       get modals(): Array<EditorModalBody> {
         const schema = self.schema;
         const modals: Array<DialogSchema | DrawerSchema> = [];
-        Object.keys(schema.definitions || {}).forEach(key => {
-          const definition = schema.definitions[key];
-          if (['dialog', 'drawer'].includes(definition.type)) {
-            modals.push({
-              ...definition,
-              $$ref: key
-            });
-          }
-        });
+
         JSONTraverse(schema, (value: any, key: string, host: any) => {
           if (
             key === 'actionType' &&
@@ -1031,12 +1031,7 @@ export const MainStore = types
           ) {
             const key = value === 'drawer' ? 'drawer' : 'dialog';
             const body = host[key] || host['args'];
-            if (
-              body &&
-              !body.$ref &&
-              body.$$id &&
-              !modals.find(m => (m as any).$$originId === body.$$id)
-            ) {
+            if (body && !body.$ref) {
               modals.push({
                 ...body,
                 actionType: value
@@ -1045,6 +1040,37 @@ export const MainStore = types
           }
           return value;
         });
+
+        // 公共组件排在前面
+        Object.keys(schema.definitions || {})
+          .reverse()
+          .forEach(key => {
+            const definition = schema.definitions[key];
+            if (['dialog', 'drawer'].includes(definition.type)) {
+              // 不要把已经内嵌弹窗中的弹窗再放到外面
+              if (
+                definition.$$originId &&
+                modals.find(item => item.$$id === definition.$$originId)
+              ) {
+                return;
+              }
+
+              modals.unshift({
+                ...definition,
+                $$ref: key
+              });
+            }
+          });
+
+        // 子弹窗时，自己就是个弹窗
+        if (['dialog', 'drawer', 'confirmDialog'].includes(schema.type)) {
+          modals.unshift({
+            ...schema,
+            // 如果还包含这个，子弹窗里面收集弹窗的时候会出现多份内嵌弹窗
+            definitions: undefined
+          });
+        }
+
         return modals;
       },
 

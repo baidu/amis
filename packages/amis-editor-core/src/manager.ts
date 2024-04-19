@@ -215,7 +215,8 @@ export class EditorManager {
 
   constructor(
     readonly config: EditorManagerConfig,
-    readonly store: EditorStoreType
+    readonly store: EditorStoreType,
+    readonly parent?: EditorManager
   ) {
     // 传给 amis 渲染器的默认 env
     this.env = {
@@ -1358,6 +1359,20 @@ export class EditorManager {
    * @param config
    */
   openSubEditor(config: SubEditorContext) {
+    if (
+      ['dialog', 'drawer', 'confirmDialog'].includes(config.value.type) &&
+      this.parent
+    ) {
+      let parent: EditorManager | undefined = this.parent;
+      while (parent) {
+        if (parent.store.schema.$$id === config.value.$$id) {
+          toast.warning('所选弹窗已经被打开，不能多次打开');
+          return;
+        }
+
+        parent = parent.parent;
+      }
+    }
     this.store.openSubEditor(config);
   }
 
@@ -2212,6 +2227,7 @@ export class EditorManager {
     this.trigger('dispose', {
       data: this
     });
+    delete (this as any).parent;
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
     this.plugins.forEach(p => p.dispose?.());

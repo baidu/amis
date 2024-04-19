@@ -40,6 +40,7 @@ export interface EditorProps extends PluginEventListener {
   superEditorData?: any;
   withSuperDataSchema?: boolean;
   /** 当前 Editor 为 SubEditor 时触发的宿主节点 */
+  hostManager?: EditorManager;
   hostNode?: EditorNodeType;
   dataBindingChange?: (
     value: string,
@@ -154,6 +155,7 @@ export default class Editor extends Component<EditorProps> {
       onChange,
       showCustomRenderersPanel,
       superEditorData,
+      hostManager,
       ...rest
     } = props;
 
@@ -179,7 +181,7 @@ export default class Editor extends Component<EditorProps> {
       this.store.setShowCustomRenderersPanel(showCustomRenderersPanel);
     }
 
-    this.manager = new EditorManager(config, this.store);
+    this.manager = new EditorManager(config, this.store, hostManager);
 
     // 子编辑器不再重新设置 editorStore
     if (!(props.isSubEditor && (window as any).editorStore)) {
