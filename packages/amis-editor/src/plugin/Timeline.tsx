@@ -117,7 +117,7 @@ export class TimelinePlugin extends BasePlugin {
                   if (value === true) {
                     return {
                       type: 'tpl',
-                      tpl: this.panelTitle,
+                      tpl: this.scaffold.label,
                       editorState: 'default',
                       wrapperComponent: ''
                     };
@@ -164,7 +164,7 @@ export class TimelinePlugin extends BasePlugin {
     const value = store.getValueOf(id);
     const defaultItemSchema = {
       type: 'tpl',
-      tpl: this.panelTitle,
+      tpl: this.scaffold.label,
       editorState: 'default',
       wrapperComponent: ''
     };
@@ -181,6 +181,8 @@ export class TimelinePlugin extends BasePlugin {
           newValue = {...value, itemTitleSchema: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
+        //todo: data:schema 这样传存在错误，把该组件本身传过去了
+        //后面保存回显的时候，因为在数据域里面并不存在组件本身的属性，数据访问不到
       });
   }
 }
