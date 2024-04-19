@@ -79,7 +79,7 @@ function DialogActionPanel({
     subscribeSchemaSubmit((schema: any, nodeSchema: any, id: string) => {
       const rawActions = JSONGetById(schema, id)?.onEvent[eventKey]?.actions;
       if (!rawActions || !Array.isArray(rawActions)) {
-        throw new Error('动作配置错误');
+        return;
       }
 
       const actionSchema =
@@ -88,8 +88,9 @@ function DialogActionPanel({
             ? rawActions.length - 1
             : actionIndex
         ];
-      const modals: Array<LocalModal> = actionSchema.__actionModals;
+      const modals: Array<LocalModal> = actionSchema?.__actionModals;
       if (!Array.isArray(modals)) {
+        // 不是编辑确定触发的，直接返回
         return schema;
       }
 
@@ -288,6 +289,7 @@ function DialogActionPanel({
         actionSchema.actionType === 'drawer' ? 'drawer' : 'dialog'
       ] || actionSchema.args;
 
+    const schema = store.schema;
     const modals: Array<LocalModal> = store.modals.map(modal => {
       const isCurrentActionModal = modal.$$id === dialogBody?.$$id;
 
@@ -310,7 +312,11 @@ function DialogActionPanel({
         value: modal.$$id,
         modal: modal,
         isCurrentActionModal,
-        data: modal.data
+        data: modal.data,
+        // 当前编辑的弹窗不让再里面再次弹出
+        disabled: modal.$$ref
+          ? modal.$$ref === schema.$$ref
+          : modal.$$id === schema.$$id
       };
     });
 
@@ -458,7 +464,7 @@ function DialogActionPanel({
       skipForm?: boolean,
       closePopOver?: () => void
     ) => {
-      store.openSubEditor({
+      manager.openSubEditor({
         title: '新建弹窗',
         value: {
           type: 'dialog',
@@ -513,7 +519,7 @@ function DialogActionPanel({
     if (!currentModal) {
       return;
     }
-    store.openSubEditor({
+    manager.openSubEditor({
       title: '编辑弹窗',
       value: {
         type: 'dialog',
@@ -526,7 +532,9 @@ function DialogActionPanel({
         ],
         ...(currentModal.modal as any),
         definitions: modalsToDefinitions(
-          modals.filter(item => !item.isActive).map(item => item.modal)
+          modals.map(item => item.modal),
+          {},
+          currentModal.modal
         )
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {

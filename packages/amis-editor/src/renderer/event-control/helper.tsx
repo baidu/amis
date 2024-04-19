@@ -321,19 +321,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 e.stopPropagation();
 
                 const modalId = modal.$$id;
-                store.openSubEditor({
+                manager.openSubEditor({
                   title: '编辑弹窗',
                   value: {
                     type: 'dialog',
                     ...modal,
-                    definitions: modalsToDefinitions(
-                      store.modals.filter(
-                        (m: any) =>
-                          // 不要把自己下发，不允许弹窗自己再弹出自己
-                          // 不要下发自己内容里面内嵌的弹窗，否则会导致子弹窗里面的弹窗列表重复
-                          m.$$id !== modalId && !JSONGetById(modal, m.$$id)
-                      )
-                    )
+                    definitions: modalsToDefinitions(store.modals, {}, modal)
                   },
                   onChange: ({definitions, ...modal}: any, diff: any) => {
                     store.updateModal(modalId, modal, definitions);

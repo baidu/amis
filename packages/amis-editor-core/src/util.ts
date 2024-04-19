@@ -1397,7 +1397,12 @@ export const scrollToActive = debounce((selector: string) => {
   }
 }, 200);
 
-export function addModal(schema: any, modal: any, definitions?: any) {
+export function addModal(
+  schema: any,
+  modal: any,
+  definitions?: any,
+  isKeyValid?: (key: string) => boolean
+) {
   schema = {...schema, definitions: {...schema.definitions}};
 
   // 如果有传入definitions，则合并到schema中
@@ -1407,7 +1412,10 @@ export function addModal(schema: any, modal: any, definitions?: any) {
 
   let idx = 1;
   while (true) {
-    if (!schema.definitions[`modal-ref-${idx}`]) {
+    if (
+      !schema.definitions[`modal-ref-${idx}`] &&
+      (!isKeyValid || isKeyValid(`modal-ref-${idx}`))
+    ) {
       break;
     }
     idx++;
@@ -1435,16 +1443,42 @@ export function addModal(schema: any, modal: any, definitions?: any) {
  */
 export function modalsToDefinitions(
   modals: Array<EditorModalBody>,
-  definitions: any = {}
+  definitions: any = {},
+  edtingModal?: EditorModalBody
 ) {
   let schema = {
     definitions
   };
+
   modals.forEach((modal, idx) => {
+    if (
+      edtingModal &&
+      (edtingModal.$$ref
+        ? edtingModal.$$ref === modal.$$ref
+        : edtingModal.$$id === modal.$$id)
+    ) {
+      // 自己不需要转成 definitions
+      return;
+    } else if (
+      !modal.$$ref &&
+      modal.$$id &&
+      (JSONGetById(schema.definitions, modal.$$id) ||
+        (edtingModal && JSONGetById(edtingModal, modal.$$id)))
+    ) {
+      // 内嵌弹窗，已经包含在 definitions 里面了
+      // 不需要转成 definitions
+      return;
+    }
+
     if (modal.$$ref) {
       schema.definitions[modal.$$ref] = JSONPipeIn(modal);
     } else {
-      [schema] = addModal(schema, {...modal, $$originId: modal.$$id});
+      [schema] = addModal(
+        schema,
+        {...modal, $$originId: modal.$$id},
+        undefined,
+        key => !modals.find(m => m.$$ref && m.$$ref === key)
+      );
     }
   });
   return schema.definitions;
