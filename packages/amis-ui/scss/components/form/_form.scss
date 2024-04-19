@@ -681,6 +681,7 @@
         .#{$ns}ResultBox-value-wrap {
           justify-content: flex-end;
           text-align: right;
+          flex-wrap: nowrap; // 避免右侧下拉箭头换行
         }
       }
 
