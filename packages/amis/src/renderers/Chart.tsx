@@ -54,7 +54,7 @@ const DEFAULT_EVENT_PARAMS = [
 
 /**
  * Chart 图表渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/chart
  */
 export interface ChartSchema extends BaseSchema {
   /**

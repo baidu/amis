@@ -452,6 +452,7 @@
   display: inline-block;
   margin: px2rem(3px);
   vertical-align: middle;
+  max-width: 100%; // 避免超出父级容器显示
 
   &-caret {
     transition: transform var(--animation-duration) ease-out;
