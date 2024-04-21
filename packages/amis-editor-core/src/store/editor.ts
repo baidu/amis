@@ -1031,7 +1031,11 @@ export const MainStore = types
           ) {
             const key = value === 'drawer' ? 'drawer' : 'dialog';
             const body = host[key] || host['args'];
-            if (body && !body.$ref) {
+            if (
+              body &&
+              !body.$ref &&
+              !modals.find(item => item.$$id === body.$$id)
+            ) {
               modals.push({
                 ...body,
                 actionType: value
@@ -1064,6 +1068,11 @@ export const MainStore = types
 
         // 子弹窗时，自己就是个弹窗
         if (['dialog', 'drawer', 'confirmDialog'].includes(schema.type)) {
+          const idx = modals.findIndex(item => item.$$id === schema.$$id);
+          if (~idx) {
+            modals.splice(idx, 1);
+          }
+
           modals.unshift({
             ...schema,
             // 如果还包含这个，子弹窗里面收集弹窗的时候会出现多份内嵌弹窗
@@ -1163,7 +1172,9 @@ export const MainStore = types
       setSchema(json: any) {
         const newSchema = JSONPipeIn(json || {});
 
-        if (self.schema) {
+        // schema 里面始终有个 $$id
+        // 如果超过一个元素，说明不是个空配置了，就不要直接替换了。
+        if (self.schema && Object.keys(self.schema).length > 1) {
           // 不直接替换，主要是为了不要重新生成 $$id 什么的。
           const changes = diff(
             self.schema,
@@ -1791,6 +1802,7 @@ export const MainStore = types
           throw new Error('modal not found');
         }
 
+        modal = JSONPipeIn(modal);
         if (definitions && isPlainObject(definitions)) {
           schema = mergeDefinitions(schema, definitions, modal);
         }
@@ -1834,7 +1846,30 @@ export const MainStore = types
             args: undefined,
             dialog: undefined,
             drawer: undefined,
-            [newHostKey]: JSONPipeIn(modal)
+            [newHostKey]: modal
+          });
+        }
+
+        // 如果弹窗里面又弹窗指向自己，那么也要更新
+        let refIds: string[] = [];
+        JSONTraverse(modal, (value: any, key: string, host: any) => {
+          if (key === '$ref' && host.$$originId === id) {
+            refIds.push(host.$$id);
+          }
+        });
+        if (refIds.length) {
+          let refKey = '';
+          [schema, refKey] = addModal(schema, modal);
+          schema = JSONUpdate(schema, parent.$$id, {
+            [newHostKey]: JSONPipeIn({
+              $ref: refKey
+            })
+          });
+          refIds.forEach(refId => {
+            schema = JSONUpdate(schema, refId, {
+              $ref: refKey,
+              $$originId: undefined
+            });
           });
         }
 
