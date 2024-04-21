@@ -1518,7 +1518,9 @@ export function mergeDefinitions(
 
     const {$$originId, ...def} = definitions[key];
 
-    if ($$originId) {
+    if (schema.$$id === $$originId) {
+      schema = JSONUpdate(schema, $$originId, JSONPipeIn(def));
+    } else if ($$originId) {
       const parent = JSONGetParentById(schema, $$originId);
       if (!parent) {
         throw new Error('Can not find modal action.');

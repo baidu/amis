@@ -41,7 +41,8 @@ interface ActionDialogProp {
   ) => JSX.Element;
 
   subscribeSchemaSubmit: (
-    fn: (schema: any, value: any, id: string, diff?: any) => any
+    fn: (schema: any, value: any, id: string, diff?: any) => any,
+    once?: boolean
   ) => () => void;
   subscribeActionSubmit: (fn: (value: any) => any) => () => void;
 }

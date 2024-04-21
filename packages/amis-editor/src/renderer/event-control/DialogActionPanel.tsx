@@ -2,6 +2,7 @@ import {
   EditorManager,
   JSONGetById,
   JSONGetParentById,
+  JSONGetPathById,
   JSONPipeIn,
   JSONPipeOut,
   JSONUpdate,
@@ -186,6 +187,7 @@ function DialogActionPanel({
             // 没找到很可能是在主页面里面的弹窗
             // 还得继续把 originId 给到上一层去处理
             schema.definitions[currentModal.modal.$$ref].$$originId = originInd;
+            newActionSchema[modalType].$$originId = originInd;
           }
         }
       } else {
@@ -217,6 +219,21 @@ function DialogActionPanel({
         JSONPipeIn(newActionSchema),
         true
       );
+
+      // 自己就是个弹窗，可能有 definition 里面引用自己
+      if (['dialog', 'drawer', 'confirmDialog'].includes(schema.type)) {
+        const id = schema.$$originId || schema.$$id;
+        Object.keys(schema.definitions).forEach(key => {
+          const definition = schema.definitions[key];
+          const exits = JSONGetById(definition, id);
+          if (exits) {
+            schema.definitions[key] = JSONUpdate(schema.definitions[key], id, {
+              ...schema,
+              definitions: undefined
+            });
+          }
+        });
+      }
 
       // 原来的动作也要更新
       if (originActionId && newRefName) {
