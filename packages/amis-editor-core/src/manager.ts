@@ -1364,8 +1364,9 @@ export class EditorManager {
       this.parent
     ) {
       let parent: EditorManager | undefined = this.parent;
+      const id = config.value.$$originId || config.value.$$id;
       while (parent) {
-        if (parent.store.schema.$$id === config.value.$$id) {
+        if (parent.store.schema.$$id === id) {
           toast.warning('所选弹窗已经被打开，不能多次打开');
           return;
         }
