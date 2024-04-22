@@ -757,11 +757,63 @@ test('EventAction:ajax silent', async () => {
 
   await waitFor(() => {
     expect(fetcher).toHaveBeenCalledTimes(4);
-    debugger;
     expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx1');
     expect(fetcher.mock.calls[1][0].url).toEqual('/api/xxx2');
     expect(fetcher.mock.calls[2][0].url).toEqual('/api/xxx3');
     expect(fetcher.mock.calls[3][0].url).toEqual('/api/xxx4');
     expect(notify).toBeCalledTimes(2);
   });
+});
+
+test('EventAction:ajax sendOn', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          age: 18
+        }
+      }
+    })
+  );
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: '发送请求',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    api: {
+                      url: '/api/xxx',
+                      method: 'get',
+                      sendOn: '${1 !== 1}'
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        fetcher
+      })
+    )
+  );
+
+  fireEvent.click(getByText('发送请求'));
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalledTimes(0);
+  });
+
+  expect(container).toMatchSnapshot();
 });
