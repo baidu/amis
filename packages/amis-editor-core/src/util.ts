@@ -1506,11 +1506,6 @@ export function mergeDefinitions(
 
   let schema = originSchema;
   Object.keys(definitions).forEach(key => {
-    // 弹窗里面用到了才更新
-    if (!refs.includes(key)) {
-      return;
-    }
-
     // 要修改就复制一份，避免污染原始数据
     if (schema === originSchema) {
       schema = {...schema, definitions: {...schema.definitions}};
@@ -1518,28 +1513,50 @@ export function mergeDefinitions(
 
     const {$$originId, ...def} = definitions[key];
 
-    if (schema.$$id === $$originId) {
-      schema = JSONUpdate(schema, $$originId, JSONPipeIn(def));
-    } else if ($$originId) {
+    if ($$originId) {
       const parent = JSONGetParentById(schema, $$originId);
-      if (!parent) {
-        throw new Error('Can not find modal action.');
-      }
 
-      const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-      schema = JSONUpdate(schema, parent.$$id, {
-        ...parent,
-        __actionModals: undefined,
-        args: undefined,
-        dialog: undefined,
-        drawer: undefined,
-        actionType: def.actionType ?? modalType,
-        [modalType]: JSONPipeIn({
-          $ref: key
-        })
-      });
-      schema.definitions[key] = JSONPipeIn(def);
-    } else {
+      // 当前更新弹窗里面用到了需要转成 ref
+      if (refs.includes(key)) {
+        if (schema.$$id === $$originId) {
+          schema = JSONUpdate(schema, $$originId, JSONPipeIn(def));
+          return;
+        }
+
+        if (!parent) {
+          throw new Error('Can not find modal action.');
+        }
+
+        const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+        schema = JSONUpdate(schema, parent.$$id, {
+          ...parent,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: def.actionType ?? modalType,
+          [modalType]: JSONPipeIn({
+            $ref: key
+          })
+        });
+        schema.definitions[key] = JSONPipeIn(def);
+      } else if (parent) {
+        // 没用到，可能修改了弹窗的内容为引用其他弹窗，同样需要更新，但是不会提取为 definitions
+        const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+        schema = JSONUpdate(schema, parent.$$id, {
+          ...parent,
+          __actionModals: undefined,
+          args: undefined,
+          dialog: undefined,
+          drawer: undefined,
+          actionType: def.actionType ?? modalType,
+          [modalType]: JSONPipeIn({
+            ...def,
+            $$originId: undefined
+          })
+        });
+      }
+    } else if (refs.includes(key)) {
       schema.definitions[key] = JSONPipeIn(def);
     }
   });
