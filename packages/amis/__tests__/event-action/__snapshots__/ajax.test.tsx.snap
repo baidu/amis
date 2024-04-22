@@ -103,3 +103,33 @@ exports[`EventAction:ajax args 1`] = `
   </div>
 </div>
 `;
+
+exports[`EventAction:ajax sendOn 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              发送请求
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
