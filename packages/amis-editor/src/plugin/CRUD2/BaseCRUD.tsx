@@ -756,7 +756,7 @@ export class BaseCRUDPlugin extends BasePlugin {
             return data;
           },
           onChange: (value: string, oldValue: any, model: any, form: any) => {
-            const schema = form.data;
+            const schema = cloneDeep(form.data);
             if (oldValue) {
               deepRemove(schema, item => {
                 return oldValue === 'more'
@@ -796,6 +796,10 @@ export class BaseCRUDPlugin extends BasePlugin {
 
               this.addFeatToToolbar(schema, newCompSchema, 'footer', 'right');
             }
+            form.setValues({
+              footerToolbar: schema.footerToolbar,
+              headerToolbar: schema.headerToolbar
+            });
           }
         },
         getSchemaTpl('switch', {
@@ -831,7 +835,7 @@ export class BaseCRUDPlugin extends BasePlugin {
           type: 'input-number',
           label: tipedLabel(
             '每页数量',
-            '无限加载时，根据此项设置其每页加载数量，留空即不限制'
+            '无限加载时，根据此项设置其每页加载数量，留空则默认10条'
           ),
           clearValueOnEmpty: true,
           clearable: true,
