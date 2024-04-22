@@ -59,15 +59,17 @@ export class AjaxAction implements RendererAction {
     const messages = (action?.api as ApiObject)?.messages;
     let api = normalizeApi(action.api);
 
-    // 发送请求前，判断是否需要发送
-    const sendOn = await evalExpressionWithConditionBuilder(
-      api.sendOn,
-      action.data ?? {},
-      false
-    );
+    if (api.sendOn !== undefined) {
+      // 发送请求前，判断是否需要发送
+      const sendOn = await evalExpressionWithConditionBuilder(
+        api.sendOn,
+        action.data ?? {},
+        false
+      );
 
-    if (!sendOn) {
-      return;
+      if (!sendOn) {
+        return;
+      }
     }
 
     // 如果没配置data数据映射，则给一个空对象，避免将当前数据域作为接口请求参数
