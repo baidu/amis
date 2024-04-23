@@ -8,6 +8,7 @@ import React from 'react';
 import {ThemeProps, ClassNamesFn} from 'amis-core';
 
 import {ColumnProps} from './index';
+import type {TestIdBuilder} from 'amis-core';
 
 const zIndex = 1;
 
@@ -26,6 +27,7 @@ export interface Props extends ThemeProps {
   col?: string;
   index?: number;
   classnames: ClassNamesFn;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class BodyCell extends React.PureComponent<Props> {
@@ -48,7 +50,8 @@ export default class BodyCell extends React.PureComponent<Props> {
       depth,
       col,
       wrapperComponent: Component,
-      classnames: cx
+      classnames: cx,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -62,6 +65,7 @@ export default class BodyCell extends React.PureComponent<Props> {
         style={fixed ? {position: 'sticky', zIndex, ...style} : {...style}}
         data-depth={depth || null}
         data-col={col}
+        {...testIdBuilder?.getTestId()}
       >
         {children}
       </Component>

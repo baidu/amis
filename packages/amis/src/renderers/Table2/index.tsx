@@ -57,6 +57,8 @@ import './TableCell';
 import './ColumnToggler';
 import {SchemaQuickEdit} from '../QuickEdit';
 
+import type {TestIdBuilder} from 'amis-core';
+
 /**
  * Table 表格2渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table2
@@ -877,7 +879,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       itemBadge,
       data,
       classnames: cx,
-      env
+      env,
+      testIdBuilder
     } = this.props;
 
     const cols: Array<any> = [];
@@ -950,6 +953,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
               const item =
                 store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
+              const itemIDBuilder = testIdBuilder?.getChild(
+                `row-${rowIndex}-cell-${colIndex}`
+              );
 
               const obj = {
                 children: this.renderCellSchema(column, {
@@ -982,7 +988,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
                   },
                   row: item,
                   showBadge,
-                  itemBadge
+                  itemBadge,
+                  testIdBuilder: itemIDBuilder
                 }),
                 props
               };

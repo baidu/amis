@@ -1313,7 +1313,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       columnsTogglable,
       headerToolbarClassName,
       footerToolbarClassName,
-      testid,
       ...rest
     } = this.props;
 
