@@ -713,7 +713,7 @@ export default class Form extends React.Component<FormProps, object> {
   async dispatchInited(value: any) {
     const {data, store, dispatchEvent} = this.props;
 
-    if (store.fetching) {
+    if (!isAlive(store) || store.fetching) {
       return value;
     }
 
