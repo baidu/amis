@@ -13,7 +13,6 @@ export interface DocProps {
 
 export function mdComment(fun: Function) {
   const txt = fun.toString();
-  debugger;
   return txt;
 }
 
