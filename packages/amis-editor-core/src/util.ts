@@ -1519,7 +1519,7 @@ export function mergeDefinitions(
       // 当前更新弹窗里面用到了需要转成 ref
       if (refs.includes(key)) {
         if (schema.$$id === $$originId) {
-          schema = JSONUpdate(schema, $$originId, JSONPipeIn(def));
+          schema = JSONUpdate(schema, $$originId, JSONPipeIn(def), true);
           return;
         }
 
@@ -1528,17 +1528,22 @@ export function mergeDefinitions(
         }
 
         const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-        schema = JSONUpdate(schema, parent.$$id, {
-          ...parent,
-          __actionModals: undefined,
-          args: undefined,
-          dialog: undefined,
-          drawer: undefined,
-          actionType: def.actionType ?? modalType,
-          [modalType]: JSONPipeIn({
-            $ref: key
-          })
-        });
+        schema = JSONUpdate(
+          schema,
+          parent.$$id,
+          {
+            ...parent,
+            __actionModals: undefined,
+            args: undefined,
+            dialog: undefined,
+            drawer: undefined,
+            actionType: def.actionType ?? modalType,
+            [modalType]: JSONPipeIn({
+              $ref: key
+            })
+          },
+          true
+        );
         schema.definitions[key] = JSONPipeIn(def);
       } else if (parent) {
         // 没用到，可能修改了弹窗的内容为引用其他弹窗，同样需要更新，但是不会提取为 definitions
@@ -1550,15 +1555,20 @@ export function mergeDefinitions(
         if (changes) {
           const newModal = patchDiff(origin, changes);
           delete newModal.$$originId;
-          schema = JSONUpdate(schema, parent.$$id, {
-            ...parent,
-            __actionModals: undefined,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            actionType: def.actionType ?? modalType,
-            [modalType]: newModal
-          });
+          schema = JSONUpdate(
+            schema,
+            parent.$$id,
+            {
+              ...parent,
+              __actionModals: undefined,
+              args: undefined,
+              dialog: undefined,
+              drawer: undefined,
+              actionType: def.actionType ?? modalType,
+              [modalType]: newModal
+            },
+            true
+          );
         }
       }
     } else if (refs.includes(key)) {
