@@ -4,12 +4,17 @@ import {createObject} from '../utils/helper';
 
 export const ModalStore = ServiceStore.named('ModalStore')
   .props({
+    form: types.frozen(),
     entered: false,
     resizeCoord: 0,
     schema: types.frozen()
   })
   .views(self => {
-    return {};
+    return {
+      get formData() {
+        return createObject(self.data, self.form);
+      }
+    };
   })
   .actions(self => {
     return {
@@ -17,7 +22,11 @@ export const ModalStore = ServiceStore.named('ModalStore')
         self.entered = value;
       },
 
+      setFormData(obj: any) {
+        self.form = obj;
+      },
       reset() {
+        self.form = {};
         self.reInitData({}, true);
       },
 
