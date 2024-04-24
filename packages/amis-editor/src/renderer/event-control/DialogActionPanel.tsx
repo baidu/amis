@@ -7,8 +7,10 @@ import {
   JSONPipeOut,
   JSONUpdate,
   addModal,
+  diff,
   getVariables,
-  modalsToDefinitions
+  modalsToDefinitions,
+  patchDiff
 } from 'amis-editor-core';
 import React from 'react';
 import {observer} from 'mobx-react';
@@ -118,19 +120,29 @@ function DialogActionPanel({
               def.$$originId = originId;
             } else if (isRefered === false) {
               const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-              schema = JSONUpdate(schema, parent.$$id, {
-                ...parent,
-                __actionModals: undefined,
-                args: undefined,
-                dialog: undefined,
-                drawer: undefined,
-                actionType: def.actionType ?? modalType,
-                [modalType]: JSONPipeIn({
-                  ...modal,
-                  $$originId: undefined,
-                  $$ref: undefined
-                })
-              });
+
+              // 这样处理是为了不要修改原来的 $$id
+              const origin = parent[modalType] || {};
+              const changes = diff(
+                origin,
+                modal,
+                (path, key) => key === '$$id'
+              );
+              if (changes) {
+                const newModal = patchDiff(origin, changes);
+                delete newModal.$$originId;
+                delete newModal.$$ref;
+                schema = JSONUpdate(schema, parent.$$id, {
+                  ...parent,
+                  __actionModals: undefined,
+                  args: undefined,
+                  dialog: undefined,
+                  drawer: undefined,
+                  actionType: def.actionType ?? modalType,
+                  [modalType]: newModal
+                });
+              }
+
               // 不要写下面的 defintions 了
               return;
             } else {
