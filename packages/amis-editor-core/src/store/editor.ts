@@ -553,18 +553,27 @@ export const MainStore = types
         }
 
         const isSubEditor = self.isSubEditor;
+        const isHiddenProps = getEnv(self).isHiddenProps;
 
         return JSONPipeOut(
           JSONGetById(self.schema, self.activeId),
-          getEnv(self).isHiddenProps ||
-            ((key, props) =>
-              // 如果是子弹窗，不显示 definitions，要是通过代码模式改了，就麻烦了
-              (isSubEditor && key === 'definitions') ||
+          (key, props) => {
+            if (isSubEditor && key === 'definitions') {
+              return true;
+            }
+
+            if (typeof isHiddenProps === 'function') {
+              return isHiddenProps(key, props);
+            }
+
+            return (
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__')
+              key.substring(0, 2) === '__'
+            );
+          }
         );
       },
 
@@ -1812,7 +1821,7 @@ export const MainStore = types
             ? 'drawer'
             : 'dialog';
 
-        schema = JSONUpdate(schema, id, modal);
+        schema = JSONUpdate(schema, id, modal, true);
 
         // 如果编辑的是公共弹窗
         if (!parent.actionType) {
@@ -1829,25 +1838,35 @@ export const MainStore = types
                 modalKey &&
               newHostKey !== (value === 'drawer' ? 'drawer' : 'dialog')
             ) {
-              schema = JSONUpdate(schema, host.$$id, {
-                actionType: (modal as any).actionType || modal.type,
-                args: undefined,
-                dialog: undefined,
-                drawer: undefined,
-                [newHostKey]: host[value === 'drawer' ? 'drawer' : 'dialog']
-              });
+              schema = JSONUpdate(
+                schema,
+                host.$$id,
+                {
+                  actionType: (modal as any).actionType || modal.type,
+                  args: undefined,
+                  dialog: undefined,
+                  drawer: undefined,
+                  [newHostKey]: host[value === 'drawer' ? 'drawer' : 'dialog']
+                },
+                true
+              );
             }
             return value;
           });
         } else {
           // 内嵌弹窗只用改自己就行了
-          schema = JSONUpdate(schema, parent.$$id, {
-            actionType: (modal as any).actionType || modal.type,
-            args: undefined,
-            dialog: undefined,
-            drawer: undefined,
-            [newHostKey]: modal
-          });
+          schema = JSONUpdate(
+            schema,
+            parent.$$id,
+            {
+              actionType: (modal as any).actionType || modal.type,
+              args: undefined,
+              dialog: undefined,
+              drawer: undefined,
+              [newHostKey]: modal
+            },
+            true
+          );
         }
 
         // 如果弹窗里面又弹窗指向自己，那么也要更新
@@ -1860,16 +1879,26 @@ export const MainStore = types
         if (refIds.length) {
           let refKey = '';
           [schema, refKey] = addModal(schema, modal);
-          schema = JSONUpdate(schema, parent.$$id, {
-            [newHostKey]: JSONPipeIn({
-              $ref: refKey
-            })
-          });
+          schema = JSONUpdate(
+            schema,
+            parent.$$id,
+            {
+              [newHostKey]: JSONPipeIn({
+                $ref: refKey
+              })
+            },
+            true
+          );
           refIds.forEach(refId => {
-            schema = JSONUpdate(schema, refId, {
-              $ref: refKey,
-              $$originId: undefined
-            });
+            schema = JSONUpdate(
+              schema,
+              refId,
+              {
+                $ref: refKey,
+                $$originId: undefined
+              },
+              true
+            );
           });
         }
 
