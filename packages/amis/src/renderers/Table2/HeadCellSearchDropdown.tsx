@@ -46,7 +46,14 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   buildSchema() {
-    const {searchable, sortable, name, label, translate: __} = this.props;
+    const {
+      searchable,
+      sortable,
+      name,
+      label,
+      translate: __,
+      testIdBuilder
+    } = this.props;
 
     let schema: any;
 
@@ -58,7 +65,8 @@ export class HeadCellSearchDropDown extends React.Component<
             type: 'text',
             name,
             placeholder: label,
-            clearable: true
+            clearable: true,
+            testid: testIdBuilder?.getChild(name)?.getTestIdValue()
           }
         ]
       };
@@ -81,6 +89,9 @@ export class HeadCellSearchDropDown extends React.Component<
             {
               type: searchable.type || 'text',
               name: searchable.name || name,
+              testid: testIdBuilder
+                ?.getChild(searchable.name || name)
+                ?.getTestIdValue(),
               placeholder: label,
               ...searchable
             }
@@ -132,23 +143,27 @@ export class HeadCellSearchDropDown extends React.Component<
         wrapperComponent: 'div',
         wrapWithPanel: true,
         title: false,
+        testid: testIdBuilder?.getChild('form')?.getTestIdValue(),
         actions: [
           {
             type: 'button',
             label: __('reset'),
-            actionType: 'clear-and-submit'
+            actionType: 'clear-and-submit',
+            testid: testIdBuilder?.getChild('btn-reset')?.getTestIdValue()
           },
 
           {
             type: 'button',
             label: __('cancel'),
-            actionType: 'cancel'
+            actionType: 'cancel',
+            testid: testIdBuilder?.getChild('btn-cancel')?.getTestIdValue()
           },
 
           {
             label: __('search'),
             type: 'submit',
-            primary: true
+            primary: true,
+            testid: testIdBuilder?.getChild('btn-search')?.getTestIdValue()
           }
         ]
       };
@@ -242,7 +257,8 @@ export class HeadCellSearchDropDown extends React.Component<
       orderBy,
       popOverContainer,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      testIdBuilder
     } = this.props;
 
     const formSchema = this.buildSchema();
@@ -261,6 +277,7 @@ export class HeadCellSearchDropDown extends React.Component<
             icon="search"
             className="icon"
             iconContent="table-search-icon"
+            testIdBuilder={testIdBuilder?.getChild('search-icon')}
           />
         }
         popOverContainer={
@@ -284,6 +301,7 @@ export class HeadCellSearchDropDown extends React.Component<
             }
           }) as JSX.Element;
         }}
+        testIdBuilder={testIdBuilder}
       ></HeadCellDropDown>
     );
   }
