@@ -627,7 +627,12 @@ export class TableViewPlugin extends BasePlugin {
     }
 
     const rows = tableData.trs; // 获取表格中的行
-    const actualRowColMap: any = {}; // 用来存储每个单元格的实际行和列以及最大列数
+    const actualRowColMap: {
+      [key: string]: {
+        rowIndex: number;
+        colIndex: number;
+      };
+    } = {}; // 用来存储每个单元格的实际行和列以及最大列数
 
     // 遍历表格中的行
     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
