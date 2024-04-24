@@ -110,6 +110,7 @@ import ScaleOrigin from '../icons/scale-origin.svg';
 import If from '../icons/if.svg';
 
 import isObject from 'lodash/isObject';
+import type {TestIdBuilder} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -284,10 +285,12 @@ export function Icon({
   onTouchMove,
   onTouchEnd,
   onTouchCancel,
-  style
+  style,
+  testIdBuilder
 }: {
   icon: string;
   iconContent?: string;
+  testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
 
@@ -356,6 +359,7 @@ export function Icon({
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
         style={style}
+        {...testIdBuilder?.getTestId()}
       ></div>
     );
   }
@@ -370,6 +374,7 @@ export function Icon({
         // @ts-ignore
         icon={icon}
         style={style}
+        {...testIdBuilder?.getTestId()}
       />
     );
   }

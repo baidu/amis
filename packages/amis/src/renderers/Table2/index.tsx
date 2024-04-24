@@ -1054,6 +1054,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               searchable={column.searchable}
               onSearch={this.handleSearch}
               key={'th-search-' + col}
+              testIdBuilder={testIdBuilder?.getChild(`head-search-${col}`)}
             />
           );
         }

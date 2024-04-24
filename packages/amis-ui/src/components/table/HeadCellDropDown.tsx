@@ -16,6 +16,8 @@ import {
   PopOver
 } from 'amis-core';
 
+import type {TestIdBuilder} from 'amis-core';
+
 export interface FilterPayload {
   closeDropdown?: boolean;
 }
@@ -38,6 +40,7 @@ export interface Props extends ThemeProps, LocaleProps {
   setSelectedKeys?: (keys: Array<string | number> | string) => void;
   classnames: ClassNamesFn;
   classPrefix: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface State {

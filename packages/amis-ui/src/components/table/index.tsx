@@ -685,9 +685,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       dataSource,
       onSort,
       onSelectAll,
-      onFilter
+      onFilter,
+      testIdBuilder
     } = this.props;
 
+    console.log(testIdBuilder);
     const rowSelectionKeyField = this.getRowSelectionKeyField();
     const dataList =
       rowSelection && rowSelection.getCheckboxProps
@@ -754,6 +756,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         }}
         onFilter={onFilter}
         onResizeMouseDown={this.onResizeMouseDown.bind(this)}
+        testIdBuilder={testIdBuilder?.getChild('head')}
       ></Head>
     );
   }
