@@ -1543,18 +1543,23 @@ export function mergeDefinitions(
       } else if (parent) {
         // 没用到，可能修改了弹窗的内容为引用其他弹窗，同样需要更新，但是不会提取为 definitions
         const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-        schema = JSONUpdate(schema, parent.$$id, {
-          ...parent,
-          __actionModals: undefined,
-          args: undefined,
-          dialog: undefined,
-          drawer: undefined,
-          actionType: def.actionType ?? modalType,
-          [modalType]: JSONPipeIn({
-            ...def,
-            $$originId: undefined
-          })
-        });
+        const origin = parent[modalType] || {};
+
+        // 这样处理是为了不要修改原来的 $$id
+        const changes = diff(origin, def, (path, key) => key === '$$id');
+        if (changes) {
+          const newModal = patchDiff(origin, changes);
+          delete newModal.$$originId;
+          schema = JSONUpdate(schema, parent.$$id, {
+            ...parent,
+            __actionModals: undefined,
+            args: undefined,
+            dialog: undefined,
+            drawer: undefined,
+            actionType: def.actionType ?? modalType,
+            [modalType]: newModal
+          });
+        }
       }
     } else if (refs.includes(key)) {
       schema.definitions[key] = JSONPipeIn(def);
