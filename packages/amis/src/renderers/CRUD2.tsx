@@ -1382,7 +1382,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             onSort: this.handleQuerySearch,
             onSelect: this.handleSelect,
             data: store.mergedData,
-            loading: store.loading
+            loading: store.loading,
+            host: this
           }
         )}
         {/* spinner可以交给孩子处理 */}

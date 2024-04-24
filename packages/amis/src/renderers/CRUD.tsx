@@ -2762,7 +2762,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData,
-            loading: store.loading
+            loading: store.loading,
+            host: this
           }
         )}
         {render(
