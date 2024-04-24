@@ -578,7 +578,7 @@ export class TableViewPlugin extends BasePlugin {
     }
 
     // 获取最大的列数
-    let colSize = this.calculateCellActualRowColWithMaxColCount(table);
+    let colSize = this.calculateCellActualMaxCol(table);
     let insertIndex = table.trs.length;
     for (let trIndex = 0; trIndex < table.trs.length; trIndex++) {
       for (const td of table.trs[trIndex].tds || []) {
@@ -619,7 +619,7 @@ export class TableViewPlugin extends BasePlugin {
    *		+---+---+---+
    *  return 3;
    */
-  calculateCellActualRowColWithMaxColCount(tableData: TableViewSchema) {
+  calculateCellActualMaxCol(tableData: TableViewSchema) {
     let maxColCount = 0;
 
     if (!tableData?.trs) {
