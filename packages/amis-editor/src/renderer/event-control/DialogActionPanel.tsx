@@ -132,32 +132,42 @@ function DialogActionPanel({
                 const newModal = patchDiff(origin, changes);
                 delete newModal.$$originId;
                 delete newModal.$$ref;
-                schema = JSONUpdate(schema, parent.$$id, {
-                  ...parent,
-                  __actionModals: undefined,
-                  args: undefined,
-                  dialog: undefined,
-                  drawer: undefined,
-                  actionType: def.actionType ?? modalType,
-                  [modalType]: newModal
-                });
+                schema = JSONUpdate(
+                  schema,
+                  parent.$$id,
+                  {
+                    ...parent,
+                    __actionModals: undefined,
+                    args: undefined,
+                    dialog: undefined,
+                    drawer: undefined,
+                    actionType: def.actionType ?? modalType,
+                    [modalType]: newModal
+                  },
+                  true
+                );
               }
 
               // 不要写下面的 defintions 了
               return;
             } else {
               const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-              schema = JSONUpdate(schema, parent.$$id, {
-                ...parent,
-                __actionModals: undefined,
-                args: undefined,
-                dialog: undefined,
-                drawer: undefined,
-                actionType: def.actionType ?? modalType,
-                [modalType]: JSONPipeIn({
-                  $ref: modal.$$ref!
-                })
-              });
+              schema = JSONUpdate(
+                schema,
+                parent.$$id,
+                {
+                  ...parent,
+                  __actionModals: undefined,
+                  args: undefined,
+                  dialog: undefined,
+                  drawer: undefined,
+                  actionType: def.actionType ?? modalType,
+                  [modalType]: JSONPipeIn({
+                    $ref: modal.$$ref!
+                  })
+                },
+                true
+              );
             }
           }
           schema.definitions[modal.$$ref!] = JSONPipeIn(def);
@@ -261,10 +271,15 @@ function DialogActionPanel({
           const definition = schema.definitions[key];
           const exits = JSONGetById(definition, id);
           if (exits) {
-            schema.definitions[key] = JSONUpdate(schema.definitions[key], id, {
-              ...schema,
-              definitions: undefined
-            });
+            schema.definitions[key] = JSONUpdate(
+              schema.definitions[key],
+              id,
+              {
+                ...schema,
+                definitions: undefined
+              },
+              true
+            );
           }
         });
       }
@@ -280,16 +295,26 @@ function DialogActionPanel({
       if (refIds.length) {
         let refKey = '';
         [schema, refKey] = addModal(schema, currentModal.modal);
-        schema = JSONUpdate(schema, actionSchema.$$id, {
-          [modalType]: JSONPipeIn({
-            $ref: refKey
-          })
-        });
+        schema = JSONUpdate(
+          schema,
+          actionSchema.$$id,
+          {
+            [modalType]: JSONPipeIn({
+              $ref: refKey
+            })
+          },
+          true
+        );
         refIds.forEach(refId => {
-          schema = JSONUpdate(schema, refId, {
-            $ref: refKey,
-            $$originId: undefined
-          });
+          schema = JSONUpdate(
+            schema,
+            refId,
+            {
+              $ref: refKey,
+              $$originId: undefined
+            },
+            true
+          );
         });
       }
 
