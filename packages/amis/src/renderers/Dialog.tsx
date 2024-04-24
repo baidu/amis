@@ -423,7 +423,7 @@ export default class Dialog extends React.Component<DialogProps> {
   handleFormInit(data: any) {
     const {store} = this.props;
 
-    store.updateData(data);
+    store.setFormData(data);
   }
 
   handleFormChange(data: any, name?: string) {
@@ -435,13 +435,13 @@ export default class Dialog extends React.Component<DialogProps> {
       return;
     }
 
-    store.updateData(data);
+    store.setFormData(data);
   }
 
   handleFormSaved(data: any, response: any) {
     const {store} = this.props;
 
-    store.updateData({
+    store.setFormData({
       ...data,
       ...response
     });
@@ -553,7 +553,7 @@ export default class Dialog extends React.Component<DialogProps> {
         ) : null}
         {actions.map((action, key) =>
           render(`action/${key}`, action, {
-            data: store.data,
+            data: store.formData,
             onAction: this.handleAction,
             key,
             disabled: action.disabled || store.loading || !show
@@ -684,7 +684,7 @@ export default class Dialog extends React.Component<DialogProps> {
                 })
               )}
             >
-              {filter(__(title), store.data)}
+              {filter(__(title), store.formData)}
             </div>
           </div>
         ) : title ? (
@@ -714,7 +714,7 @@ export default class Dialog extends React.Component<DialogProps> {
               </a>
             ) : null}
             {render('title', title, {
-              data: store.data,
+              data: store.formData,
               onAction: this.handleAction
             })}
           </div>
@@ -730,6 +730,7 @@ export default class Dialog extends React.Component<DialogProps> {
 
         {header
           ? render('header', header, {
+              data: store.formData,
               onAction: this.handleAction
             })
           : null}

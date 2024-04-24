@@ -423,25 +423,24 @@ export default class Drawer extends React.Component<DrawerProps> {
   handleFormInit(data: any) {
     const {store} = this.props;
 
-    store.updateData(data);
+    store.setFormData(data);
   }
 
   handleFormChange(data: any, name?: string) {
     const {store} = this.props;
 
+    // 如果 drawer 里面不放 form，而是直接放表单项就会进到这里来。
     if (typeof name === 'string') {
-      data = {
-        [name]: data
-      };
+      store.changeValue(name, data);
+      return;
     }
-
-    store.updateData(data);
+    store.setFormData(data);
   }
 
   handleFormSaved(data: any, response: any) {
     const {store} = this.props;
 
-    store.updateData({
+    store.setFormData({
       ...data,
       ...response
     });
@@ -551,6 +550,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         {actions.map((action, key) =>
           render(`action/${key}`, action, {
             onAction: this.handleAction,
+            data: store.formData,
             key,
             disabled: action.disabled || store.loading
           })
@@ -681,6 +681,7 @@ export default class Drawer extends React.Component<DrawerProps> {
                 )}
               >
                 {render('title', title, {
+                  data: store.formData,
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction
@@ -689,6 +690,7 @@ export default class Drawer extends React.Component<DrawerProps> {
             ) : null}
             {header
               ? render('header', header, {
+                  data: store.formData,
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction
