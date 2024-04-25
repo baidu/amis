@@ -14,6 +14,7 @@ test('EventAction:inputRange', async () => {
             type: 'input-range',
             name: 'range',
             value: 10,
+            min: 0,
             showInput: true,
             clearabled: true,
             onEvent: {
@@ -117,7 +118,7 @@ test('EventAction:inputRange', async () => {
   });
 
   // 滑动 change
-  const slider = container.querySelector('.cxd-InputRange-handle-icon')!;
+  const slider = container.querySelector('.cxd-InputRange-handle-drage')!;
   fireEvent.mouseDown(slider);
   fireEvent.mouseMove(slider, {
     clientX: 0,
