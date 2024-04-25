@@ -194,7 +194,7 @@ export function JSONPipeOut(
     });
     return flag ? ret : obj;
   }
-  if (!isObject(obj) || isObservable(obj)) {
+  if (!isPlainObject(obj)) {
     return obj;
   }
 
