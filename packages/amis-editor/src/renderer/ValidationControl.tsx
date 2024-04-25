@@ -406,6 +406,7 @@ export default class ValidationControl extends React.Component<
 
 @FormItem({
   type: 'ae-validationControl',
-  renderLabel: false
+  renderLabel: false,
+  strictMode: false
 })
 export class ValidationControlRenderer extends ValidationControl {}
