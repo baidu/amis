@@ -1068,7 +1068,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   emittedData: any = null;
   emitting = false;
-  async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
+  async emitChange(submit: boolean, emitedFromWatch: boolean = false) {
     try {
       this.emitting = true;
 
@@ -1080,7 +1080,7 @@ export default class Form extends React.Component<FormProps, object> {
 
       const diff = difference(store.data, store.pristine);
       if (
-        skipIfNothingChanges &&
+        emitedFromWatch &&
         (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
       ) {
         return;
@@ -1100,7 +1100,8 @@ export default class Form extends React.Component<FormProps, object> {
 
       store.clearRestError();
 
-      if (submit || (submitOnChange && store.inited)) {
+      // 只有主动修改表单项触发的 change 才会触发 submit
+      if (!emitedFromWatch && (submit || (submitOnChange && store.inited))) {
         await this.handleAction(
           undefined,
           {
