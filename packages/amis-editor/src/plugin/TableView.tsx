@@ -571,7 +571,7 @@ export class TableViewPlugin extends BasePlugin {
     if (position === 'below') {
       // 如果有rowspan，则插入行数需要加上 rowspan
       if (td.rowspan) {
-        insertRow = insertRow + td.rowspan + 1;
+        insertRow = insertRow + td.rowspan;
       } else {
         insertRow = insertRow + 1;
       }
