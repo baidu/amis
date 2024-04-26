@@ -148,62 +148,6 @@ export default class FlexLayout implements LayoutInterface {
         row = beforeRow - 1;
       }
     }
-    // if (position === 'top') {
-    //   if (isMobile) {
-    //     // 独占一行
-    //     if (beforeRow !== body[beforeIndex - 1]?.row) {
-    //       for (let i = currentIndex + 1; i < regionList.length; i++) {
-    //         regionList[i] = {
-    //           ...regionList[i],
-    //           row: regionList[i].row + 1
-    //         };
-    //       }
-    //     } else {
-    //       const lastIndex = findLastIndex(
-    //         regionList,
-    //         (item: any) => item.row === beforeRow
-    //       );
-    //       for (let i = lastIndex; i < regionList.length; i++) {
-    //         regionList[i] = {
-    //           ...regionList[i],
-    //           row: regionList[i].row + 1
-    //         };
-    //       }
-    //     }
-    //   } else {
-    //     for (let i = currentIndex + 1; i < regionList.length; i++) {
-    //       regionList[i] = {
-    //         ...regionList[i],
-    //         row: regionList[i].row + 1
-    //       };
-    //     }
-    //   }
-    // }
-    // if (position === 'bottom') {
-    //   if (beforeIndex < 0) {
-    //     row = beforeRow + 1;
-    //   }
-    //   if (isMobile) {
-    //     if (beforeRow !== body[beforeIndex - 1]?.row) {
-    //       for (let i = currentIndex + 1; i < regionList.length; i++) {
-    //         regionList[i] = {
-    //           ...regionList[i],
-    //           row: regionList[i].row + 1
-    //         };
-    //       }
-    //     } else {
-
-    //     }
-    //   } else {
-    //     for (let i = currentIndex + 1; i < regionList.length; i++) {
-    //       regionList[i] = {
-    //         ...regionList[i],
-    //         row: regionList[i].row + 1
-    //       };
-    //     }
-    //   }
-
-    // }
     if (position === 'bottom') {
       if (beforeIndex < 0) {
         row = beforeRow + 1;
