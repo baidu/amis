@@ -5,7 +5,8 @@ import {
   ThemeProps,
   Overlay,
   PopOver,
-  autobind
+  autobind,
+  getVariable
 } from 'amis-core';
 import {
   FormItem,
@@ -121,14 +122,18 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean): any {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
     switch (actionType) {
       case 'clear':
         onChange('');
         break;
       case 'reset':
-        onChange?.(resetValue ?? {});
+        onChange?.(
+          getVariable(formStore?.pristine ?? store?.pristine, name) ??
+            resetValue ??
+            ''
+        );
         break;
     }
   }

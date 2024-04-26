@@ -1134,8 +1134,112 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | addItem  | `item: object` 新增项的值                                                                                 | 只有开启`multiple`模式才能使用, `multiple`模式下，给新增项添加默认值                              |
 | clear    | -                                                                                                         | 清空                                                                                              |
-| reset    | -                                                                                                         | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                            |
+| reset    | -                                                                                                         | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                  |
 | setValue | `value: object \| Array<object>` 更新的值<br/>`index?: number` 指定更新的数据索引， 1.10.1 及以上版本引入 | 更新数据，对象数组针对开启`multiple`模式, `multiple`模式下可以通过指定`index`来更新指定索引的数据 |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "combo",
+        "name": "type",
+        "id": "clear_type",
+        "label": "用户",
+        "items": [
+          {
+            "name": "text",
+            "label": "名字",
+            "type": "input-text"
+          },
+          {
+            "name": "gender",
+            "label": "性别",
+            "type": "select",
+            "options": [
+              "男",
+              "女"
+            ]
+          }
+        ],
+        "value": {
+          "text": "amis",
+          "gender": "男"
+        }
+      },
+      {
+        "type": "button",
+        "label": "清空",
+        "onEvent": {
+            "click": {
+                "actions": [
+                    {
+                      "actionType": "clear",
+                      "componentId": "clear_type"
+                    }
+                ]
+            }
+        }
+      }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "combo",
+        "name": "type",
+        "id": "reset_type",
+        "label": "用户",
+        "items": [
+          {
+            "name": "text",
+            "label": "名字",
+            "type": "input-text"
+          },
+          {
+            "name": "gender",
+            "label": "性别",
+            "type": "select",
+            "options": [
+              "男",
+              "女"
+            ]
+          }
+        ],
+        "value": {
+          "text": "amis",
+          "gender": "男"
+        }
+      },
+      {
+        "type": "button",
+        "label": "重置",
+        "onEvent": {
+            "click": {
+                "actions": [
+                    {
+                      "actionType": "reset",
+                      "componentId": "reset_type"
+                    }
+                ]
+            }
+        }
+      }
+    ]
+}
+```
 
 ### setValue
 
@@ -1145,12 +1249,12 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 此示例主要用来演示如何通过已有数据快速填充 combo 某条数据。点击 copy 按钮会弹出一个 crud 列表，点击对应行上的复制按钮，将选中数据填充到外层的 combo.
 
-注意事项：
-
-1. 需要给 combo 设置个 id 属性，用来给事件动作指定目标用。
-2. 弹窗按钮配置了数据映射 `{comboIndex: "${index}"}` 因为 crud 的行数据上也有 index 变量，派送动作时获取 index 变量是 crud 所在行的序号。所以弹出弹窗的时候，先把 combo 的序号赋值给 comboIndex
-3. crud 操作栏里面添加了个按钮，close: true 设置是让动作完成后关闭弹窗。
-4. 按钮里面添加了 onEvent 配置，click 时做 `setValue` 动作，并设置参数 index 为 '${comboIndex}' 值为 `${&}`。其中 `${&}` 是特殊语法，用来取整个上下数据。
+> 注意事项：
+>
+> 1. 需要给 combo 设置个 id 属性，用来给事件动作指定目标用。
+> 2. 弹窗按钮配置了数据映射 `{comboIndex: "${index}"}` 因为 crud 的行数据上也有 index 变量，派送动作时获取 index 变量是 crud 所在行的序号。所以弹出弹窗的时候，先把 combo 的序号赋值给 comboIndex
+> 3. crud 操作栏里面添加了个按钮，close: true 设置是让动作完成后关闭弹窗。
+> 4. 按钮里面添加了 onEvent 配置，click 时做 `setValue` 动作，并设置参数 index 为 '${comboIndex}' 值为 `${&}`。其中 `${&}` 是特殊语法，用来取整个上下数据。
 
 ```schema: scope="body"
 {

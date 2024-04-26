@@ -632,9 +632,7 @@ extendLocale('en-US', {
   '528609917710d813a55e5a6cecf1e458': 'Selected value',
   '288f0c404c4e546aa3683ff5054e85e2': 'Clear',
   'c374a44713fa5ff5da2565beb398c7d3': 'Delete selected value',
-  '8db57ba01ffb9bf29c1656de5f0208f5':
-    'Reset the value to resetValue. If the resetValue is not configured, the value is cleared.',
-  '8f40db3b25528063f1b6a59602a05cd5': 'Value assignment',
+  '8db57ba01ffb9bf29c1656de5f0208f5': 'Reset the value to the initial value.',
   '944908c981a86bfa0cfab9360ab38184':
     'Allow the button to occupy the parent container fully. The width of individual buttons is adaptive.',
   'ac3880323853de9adc4f66bc06d438ff': 'Button style',

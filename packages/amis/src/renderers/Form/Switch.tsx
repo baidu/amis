@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  getVariable,
+  ListenerAction
 } from 'amis-core';
 import {Icon, Switch} from 'amis-ui';
 import {autobind, isObject} from 'amis-core';
@@ -128,6 +130,24 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {on = '开', off = '关'} = this.getResult();
     const body = <span>{value === trueValue ? on : off}</span>;
     return this.renderBody(body);
+  }
+
+  doAction(
+    action: ListenerAction,
+    data: any,
+    throwErrors: boolean = false,
+    args?: any
+  ) {
+    const actionType = action?.actionType as string;
+    const {onChange, formStore, store, name, resetValue} = this.props;
+
+    if (actionType === 'clear') {
+      onChange?.(''); // switch的value可能是任何类型，空值可能是'' or null，但因为form的clear的清空现在是''，则这里为了保持一致也用''
+    } else if (actionType === 'reset') {
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal);
+    }
   }
 
   @supportStatic()

@@ -232,7 +232,7 @@ order: 38
 
 ## 显示单位
 
-在打开`showInput`输入框且设置了`unit`单位的前提下，开启`showInputUnit`可在input框中显示已配置的单位。
+在打开`showInput`输入框且设置了`unit`单位的前提下，开启`showInputUnit`可在 input 框中显示已配置的单位。
 
 ```schema: scope="body"
 {
@@ -311,18 +311,18 @@ order: 38
 | showSteps        | `boolean`                                                                                                                                                             | `false` | 是否显示步长                                                                                                                             |
 | parts            | `number` or `number[]`                                                                                                                                                | `1`     | 分割的块数<br/>主持数组传入分块的节点                                                                                                    |
 | marks            | <code>{ [number &#124; string]: string &#124; number &#124; SchemaObject }</code> or <code>{ [number &#124; string]: { style: CSSProperties, label: string } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比                                                                                           |
-| tooltipVisible   | `boolean`                                                                                                                                 | `false` | 是否显示滑块标签                                                                                                                         |
-| tooltipPlacement | `auto` or `bottom` or `left` or `right`                                                                                                   | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效                                                    |
-| tipFormatter     | `function`                                                                                                                                |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效                                                                      |
-| multiple         | `boolean`                                                                                                                                 | `false` | 支持选择范围                                                                                                                             |
-| joinValues       | `boolean`                                                                                                                                 | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
-| delimiter        | `string`                                                                                                                                  | `,`     | 分隔符                                                                                                                                   |
-| unit             | `string`                                                                                                                                  |         | 单位                                                                                                                                     |
-| clearable        | `boolean`                                                                                                                                 | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
-| showInput        | `boolean`                                                                                                                                 | `false` | 是否显示输入框                                                                                                                           |
-| showInputUnit    | `boolean`                                                                                                                                 | `false` | 是否显示输入框单位<br/>前置条件：开启`showInput`且配置了`unit`单位时有效                |`6.0.0`后支持变量
-| onChange         | `function`                                                                                                                                |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
-| onAfterChange    | `function`                                                                                                                                |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
+| tooltipVisible   | `boolean`                                                                                                                                                             | `false` | 是否显示滑块标签                                                                                                                         |
+| tooltipPlacement | `auto` or `bottom` or `left` or `right`                                                                                                                               | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效                                                    |
+| tipFormatter     | `function`                                                                                                                                                            |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效                                                                      |
+| multiple         | `boolean`                                                                                                                                                             | `false` | 支持选择范围                                                                                                                             |
+| joinValues       | `boolean`                                                                                                                                                             | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
+| delimiter        | `string`                                                                                                                                                              | `,`     | 分隔符                                                                                                                                   |
+| unit             | `string`                                                                                                                                                              |         | 单位                                                                                                                                     |
+| clearable        | `boolean`                                                                                                                                                             | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
+| showInput        | `boolean`                                                                                                                                                             | `false` | 是否显示输入框                                                                                                                           |
+| showInputUnit    | `boolean`                                                                                                                                                             | `false` | 是否显示输入框单位<br/>前置条件：开启`showInput`且配置了`unit`单位时有效                                                                 | `6.0.0`后支持变量 |
+| onChange         | `function`                                                                                                                                                            |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
+| onAfterChange    | `function`                                                                                                                                                            |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
 
 ## 事件表
 
@@ -433,8 +433,109 @@ order: 38
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                                                         | 说明                                                       |
-| -------- | ---------------------------------------------------------------- | ---------------------------------------------------------- |
-| clear    | -                                                                | 清除输入框<br />前置条件：showInput 和 clearable 都为 true |
-| reset    | -                                                                | 将值重置为`resetValue`，若没有配置`resetValue`，则清空     |
-| setValue | `value: number \| string \| {min: number, max: number}` 更新的值 | 更新数据                                                   |
+| 动作名称 | 动作配置                                                         | 说明                                             |
+| -------- | ---------------------------------------------------------------- | ------------------------------------------------ |
+| clear    | -                                                                | 清除输入框                                       |
+| reset    | -                                                                | 将值重置为初始值。6.3.0 及以下版本为`resetValue` |
+| setValue | `value: number \| string \| {min: number, max: number}` 更新的值 | 更新数据                                         |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-range",
+            "label": "滑块",
+            "name": "range",
+            "value": 20,
+            "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-range",
+            "label": "滑块",
+            "name": "range",
+            "value": 20,
+            "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-range",
+            "label": "滑块",
+            "name": "range",
+            "value": 20,
+            "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": 30
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   resolveEventData,
-  autobind
+  autobind,
+  getVariable
 } from 'amis-core';
 import {Textarea} from 'amis-ui';
 import type {ListenerAction} from 'amis-core';
@@ -96,10 +97,15 @@ export default class TextAreaControl extends React.Component<
     args?: any
   ) {
     const actionType = action?.actionType as string;
-    const onChange = this.props.onChange;
+    const {onChange, formStore, store, name, resetValue} = this.props;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange?.(this.props.resetValue);
+    if (actionType === 'clear') {
+      onChange?.('');
+      this.focus();
+    } else if (actionType === 'reset') {
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal);
       this.focus();
     } else if (actionType === 'focus') {
       this.focus();
