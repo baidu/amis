@@ -375,14 +375,17 @@
     margin-left: calc(var(--Form-row-gutterWidth) / -2);
     margin-right: calc(var(--Form-row-gutterWidth) / -2);
     align-items: flex-start;
-    width: 100%;
+
+    > * {
+      padding-left: calc(var(--Form-row-gutterWidth) / 2);
+      padding-right: calc(var(--Form-row-gutterWidth) / 2);
+    }
   }
 
   .#{$ns}Form-col {
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 1;
-    padding: calc(var(--Form-item-gap) / 2);
   }
 
   .#{$ns}Form-rowInner {
@@ -405,15 +408,49 @@
       // }
     }
   }
-  .#{$ns}Form-rowInner--label-top {
+
+  .#{$ns}Form-flex {
+    display: flex;
+    // flex-wrap: wrap;
+    margin-left: calc(var(--Form-row-gutterWidth) / -2);
+    margin-right: calc(var(--Form-row-gutterWidth) / -2);
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .#{$ns}Form-flex-col {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: calc(var(--Form-item-gap) / 2);
+  }
+
+  .#{$ns}Form-flexInner {
+    display: flex;
+    flex-wrap: nowrap;
+
+    > .#{$ns}Form-label {
+      display: inline-block;
+      vertical-align: top;
+      padding-top: var(--Form-label-paddingTop);
+      padding-right: var(--Form-row-gutterWidth);
+    }
+
+    > .#{$ns}Form-control {
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+  }
+
+  .#{$ns}Form-flexInner--label-top {
     flex-direction: column;
   }
-  .#{$ns}Form-rowInner--label-left {
+  .#{$ns}Form-flexInner--label-left {
     > .#{$ns}Form-label {
       text-align: left;
     }
   }
-  .#{$ns}Form-rowInner--label-right {
+  .#{$ns}Form-flexInner--label-right {
     > .#{$ns}Form-label {
       text-align: right;
     }

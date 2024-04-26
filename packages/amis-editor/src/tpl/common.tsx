@@ -119,8 +119,8 @@ setSchemaTpl(
         value: 'normal'
       },
       {
-        label: 'row',
-        value: 'row'
+        label: '网格',
+        value: 'flex'
       },
       config?.isForm
         ? null

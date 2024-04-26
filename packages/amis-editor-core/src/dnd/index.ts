@@ -18,7 +18,7 @@ import {
 import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
 import {PositionHDNDMode} from './position-h';
-import {FormRowDNDMode} from './formRow';
+import {FlexDNDMode} from './flex';
 
 const toastWarning = debounce(msg => {
   toast.warning(msg);
@@ -192,8 +192,8 @@ export class EditorDNDManager {
       Klass = PositionHDNDMode;
     }
     if (typeof mode === 'function') {
-      if (mode(regionNode) === 'form-row') {
-        Klass = FormRowDNDMode;
+      if (mode(regionNode) === 'flex') {
+        Klass = FlexDNDMode;
       }
     }
 
@@ -515,12 +515,20 @@ export class EditorDNDManager {
         }
       }
 
-      this.manager.addChild(dropId, dropRegion, schema, beforeId, subRenderer, {
-        id: store.dragId,
-        type: store.dragType,
-        data: store.dragSchema,
-        position: position
-      });
+      this.manager.addChild(
+        dropId,
+        dropRegion,
+        schema,
+        beforeId,
+        subRenderer,
+        {
+          id: store.dragId,
+          type: store.dragType,
+          data: store.dragSchema,
+          position: position
+        },
+        false
+      );
     }
   }
 

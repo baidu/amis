@@ -1,7 +1,7 @@
+import {isMobile} from 'amis-core';
 /**
- * 零代码表单拖拽模式实现。
+ * 支持上下左右拖拽模式
  */
-import {animation} from 'amis';
 import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from '.';
 import {renderThumbToGhost} from '../component/factory';
@@ -9,9 +9,8 @@ import {EditorNodeType} from '../store/node';
 import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
 import {find, findLastIndex} from 'lodash';
-import {PluginInterface} from '../plugin';
 
-export class FormRowDNDMode implements DNDModeInterface {
+export class FlexDNDMode implements DNDModeInterface {
   readonly dndContainer: HTMLElement; // 记录当前拖拽区域
   dropBeforeId?: string;
   position?: 'top' | 'bottom' | 'left' | 'right';
@@ -83,7 +82,8 @@ export class FormRowDNDMode implements DNDModeInterface {
   }
 
   over(e: DragEvent, ghost: HTMLElement) {
-    const colTarget = (e.target as HTMLElement).closest('[role="form-col"]');
+    const {isMobile} = this.store;
+    const colTarget = (e.target as HTMLElement).closest('[role="flex-col"]');
     const wrapper = this.dndContainer;
     const elemSchema = this.region.schema;
     const {x: wx, y: wy} = wrapper.getBoundingClientRect();
@@ -107,13 +107,14 @@ export class FormRowDNDMode implements DNDModeInterface {
       const targetRowLen = list.filter(
         (item: any) => item.row === targetRow
       ).length;
-
       // 是否可以插入到左右
       const canRL =
         this.dragId !== targetId && // 拖拽和目标不能是同一个元素，才能插入到左右
         this.dragNode?.$$dragMode !== 'hv' &&
         list[targetIndex]?.$$dragMode !== 'hv' && // 如果拖拽元素和目标元素的拖拽模式不能是垂直，才能插入到左右
-        (targetRowLen < this.maxRolLength || this.dragNode?.row === targetRow); // 如果当前行的元素个数小于最大行长度，或者拖拽的元素就在当前行，才能插入到当前行
+        (targetRowLen < this.maxRolLength ||
+          this.dragNode?.row === targetRow) && // 如果当前行的元素个数小于最大行长度，或者拖拽的元素就在当前行，才能插入到当前行
+        !isMobile; // 移动端不支持左右拖拽
 
       if (cx < x + w && canRL) {
         ghost.classList.add(`ae-${className}-left`);
@@ -138,35 +139,44 @@ export class FormRowDNDMode implements DNDModeInterface {
         ghost.classList.add(`ae-${className}-top`);
         ghost.style.width = '100%';
         ghost.style.top = y - wy + 'px';
-        const beforeIndex = findIndex(
-          list,
-          (item: any) => item.row === targetRow
-        );
-        const index =
-          list[beforeIndex]?.$$id === this.dragId
-            ? beforeIndex + 1
-            : beforeIndex;
-        this.dropBeforeId = list[index]?.$$id;
+        if (this.store.isMobile) {
+          this.dropBeforeId = targetId;
+        } else {
+          const beforeIndex = findIndex(
+            list,
+            (item: any) => item.row === targetRow
+          );
+          const index =
+            list[beforeIndex]?.$$id === this.dragId
+              ? beforeIndex + 1
+              : beforeIndex;
+          this.dropBeforeId = list[index]?.$$id;
+        }
+
         this.position = 'top';
       } else {
         ghost.classList.add(`ae-${className}-bottom`);
         ghost.style.width = '100%';
         ghost.style.top = y - wy + height + 'px';
-        const lastIndex = findLastIndex(
-          list,
-          (item: any) => item.row === targetRow
-        );
-        const index =
-          list[lastIndex + 1]?.$$id === this.dragId
-            ? lastIndex + 2
-            : lastIndex + 1;
-        this.dropBeforeId = list[index]?.$$id;
+        if (this.store.isMobile) {
+          this.dropBeforeId = list[targetIndex + 1]?.$$id;
+        } else {
+          const lastIndex = findLastIndex(
+            list,
+            (item: any) => item.row === targetRow
+          );
+          const index =
+            list[lastIndex + 1]?.$$id === this.dragId
+              ? lastIndex + 2
+              : lastIndex + 1;
+          this.dropBeforeId = list[index]?.$$id;
+        }
         this.position = 'bottom';
       }
     } else {
       this.dropBeforeId = undefined;
       if (list.length) {
-        const rows = wrapper.querySelectorAll('[role="form-row"]');
+        const rows = wrapper.querySelectorAll('[role="flex-row"]');
         const lastRow = rows[rows.length - 1];
         const {y, height} = lastRow.getBoundingClientRect();
         ghost.classList.add(`ae-${className}-bottom`);

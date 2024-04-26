@@ -1436,12 +1436,13 @@ export class EditorManager {
       sourceId: node.id,
       direction: 'up',
       beforeId: node.prevSibling?.id,
-      region: regionNode.region
+      region: regionNode.region,
+      regionNode: regionNode
     };
 
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
-      store.moveUp(node.id);
+      store.moveUp(context);
       // this.buildToolbars();
       this.trigger('after-move', context);
       this.trigger('after-update', context);
@@ -1467,12 +1468,13 @@ export class EditorManager {
       sourceId: node.id,
       direction: 'down',
       beforeId: node.nextSibling?.nextSibling?.id,
-      region: regionNode.region
+      region: regionNode.region,
+      regionNode: regionNode
     };
 
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
-      store.moveDown(node.id);
+      store.moveDown(context);
       // this.buildToolbars();
       this.trigger('after-move', context);
       this.trigger('after-update', context);
@@ -1497,16 +1499,8 @@ export class EditorManager {
     if (!event.prevented) {
       Array.isArray(context.data) && context.data.length
         ? this.store.delMulti(context.data)
-        : this.store.del(id);
-      const parent = JSONGetById(this.store.schema, context.node.parentId);
-      if (parent) {
-        context.regionList = parent[context.node.parentRegion];
-        context.parentRegion = context.node.parentRegion;
-        context.parent = parent;
-        context.parentId = parent.$$id;
-      }
-      const res = this.trigger('after-delete', context);
-      this.store.updateSchema(res as any, true);
+        : this.store.del(context);
+      this.trigger('after-delete', context);
     }
   }
 
@@ -1629,8 +1623,7 @@ export class EditorManager {
     const event = this.trigger('before-insert', context);
     if (!event.prevented) {
       const child = store.insertSchema(event);
-      const res = this.trigger('after-insert', context);
-      store.updateSchema(res);
+      this.trigger('after-insert', context);
       return child;
     }
 
@@ -1665,8 +1658,7 @@ export class EditorManager {
     if (!event.prevented) {
       store.moveSchema(event);
 
-      const res = this.trigger('after-move', context);
-      store.updateSchema(res as any);
+      this.trigger('after-move', context);
       return true;
     }
 

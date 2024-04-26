@@ -114,6 +114,7 @@ export interface RegionConfig {
     | 'default'
     | 'position-h'
     | 'position-v'
+    | 'flex'
     // | (new (dnd: EditorDNDManager) => DNDModeInterface)
     | ((node: any) => string | undefined);
 

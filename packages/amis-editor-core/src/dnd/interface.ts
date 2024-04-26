@@ -1,3 +1,8 @@
+import {
+  DeleteEventContext,
+  InsertEventContext,
+  MoveEventContext
+} from '../plugin';
 import {EditorNodeType} from '../store/node';
 import {EditorDNDManager} from './index';
 

@@ -232,7 +232,7 @@ export interface FormSchemaBase {
   /**
    * 配置表单项默认的展示方式。
    */
-  mode?: 'normal' | 'inline' | 'horizontal';
+  mode?: 'normal' | 'inline' | 'horizontal' | 'flex';
 
   /**
    * 表单项显示为几列
@@ -1715,6 +1715,7 @@ export default class Form extends React.Component<FormProps, object> {
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
     children = children || [];
+    const {classnames: cx} = this.props;
 
     if (!Array.isArray(children)) {
       children = [children];
@@ -1745,8 +1746,29 @@ export default class Form extends React.Component<FormProps, object> {
         return null;
       }
 
-      const {classnames: cx} = this.props;
+      return (
+        <div className={cx('Form-row')}>
+          {children.map((control, key) =>
+            ~['hidden', 'formula'].indexOf((control as any).type) ||
+            (control as any).mode === 'inline' ? (
+              this.renderChild(control, key, otherProps)
+            ) : (
+              <div
+                key={key}
+                className={cx(`Form-col`, (control as Schema).columnClassName)}
+              >
+                {this.renderChild(control, '', {
+                  ...otherProps,
+                  mode: 'row'
+                })}
+              </div>
+            )
+          )}
+        </div>
+      );
+    }
 
+    if (this.props.mode === 'flex') {
       let rows: any = [];
       children.forEach(child => {
         if (typeof child.row === 'number') {
@@ -1763,37 +1785,36 @@ export default class Form extends React.Component<FormProps, object> {
           }
         }
       });
-
       return (
         <>
           {rows.map((children: any, index: number) => {
             return (
-              <div className={cx('Form-row')} role="form-row" key={index}>
+              <div className={cx('Form-flex')} role="flex-row" key={index}>
                 {children.map((control: any, key: number) => {
-                  const split = control.colSize?.split('/');
+                  const split = control.size?.split('/');
                   const colSize =
                     split?.[0] && split?.[1]
                       ? (split[0] / split[1]) * 100 + '%'
-                      : control.colSize;
+                      : control.size;
                   return ~['hidden', 'formula'].indexOf(
                     (control as any).type
-                  ) || (control as any).mode === 'inline' ? (
+                  ) ? (
                     this.renderChild(control, key, otherProps)
                   ) : (
                     <div
                       key={key}
                       className={cx(
-                        `Form-col`,
+                        `Form-flex-col`,
                         (control as Schema).columnClassName
                       )}
                       style={{
                         flex: colSize ? `0 0 ${colSize}` : ''
                       }}
-                      role="form-col"
+                      role="flex-col"
                     >
                       {this.renderChild(control, '', {
                         ...otherProps,
-                        mode: 'row'
+                        mode: 'flex'
                       })}
                     </div>
                   );
@@ -1804,7 +1825,6 @@ export default class Form extends React.Component<FormProps, object> {
         </>
       );
     }
-
     return children.map((control, key) =>
       this.renderChild(control, key, otherProps, region)
     );
