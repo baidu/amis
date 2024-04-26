@@ -1452,7 +1452,9 @@ run action ajax
 
 > 6.2.0 及以后版本
 
-打印页面中的某个组件，对应的组件需要配置 `testid`，如果要打印多个，可以使用 `"testids": ["x", "y"]` 来打印多个组件
+打印页面中的某个组件，对应的组件需要配置 `id`，如果要打印多个，可以使用 `"id": ["x", "y"]` 来打印多个组件
+
+在 6.2.0 版本中配置是 testid，但这个配置会导致性能问题，所以新版使用 id 作为标识，目前只支持少量组件，主要是容器类组件 `crud`、`crud2`、`form`、`table`、`wrapper`、`container`、`flex`、`grid`、`grid2d`、`tableview`
 
 ```schema
 {
@@ -1469,7 +1471,7 @@ run action ajax
             {
               actionType: 'print',
               args: {
-                testid: 'mycrud'
+                id: 'mycrud'
               }
             }
           ]
@@ -1479,7 +1481,7 @@ run action ajax
     {
       "type": "crud",
       "api": "/api/mock2/sample",
-      "testid": "mycrud",
+      "id": "mycrud",
       "syncLocation": false,
       "columns": [
         {

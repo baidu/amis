@@ -2796,7 +2796,8 @@ export default class Table extends React.Component<TableProps, object> {
       autoFillHeight,
       autoGenerateFilter,
       mobileUI,
-      testIdBuilder
+      testIdBuilder,
+      id
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2815,6 +2816,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--autoFillHeight': autoFillHeight
         })}
         style={store.buildStyles(style)}
+        data-id={id}
         {...testIdBuilder?.getTestId()}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
