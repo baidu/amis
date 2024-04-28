@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {StrictMode} from 'react';
 import get from 'lodash/get';
 import flattenDeep from 'lodash/flattenDeep';
 import {Button, Icon} from 'amis';
-import {getVariable, isObject} from 'amis-core';
+import {dataMapping, getVariable, isObject} from 'amis-core';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -610,6 +610,7 @@ export class TableCell2Plugin extends BasePlugin {
               body: [
                 {
                   type: 'ae-feature-control',
+                  strictMode: false, // 注意需要添加这个才能及时获取表单data变更
                   label: false,
                   manager,
                   addable: true,
@@ -652,8 +653,8 @@ export class TableCell2Plugin extends BasePlugin {
                         schema.buttons.push({
                           label: '新增按钮',
                           level: 'link'
-                        }),
-                          onBulkChange(schema);
+                        });
+                        onBulkChange(schema);
                       }
                     };
                   }
