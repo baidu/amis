@@ -6,7 +6,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import cx from 'classnames';
-import clone from 'lodash/clone';
+import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import isPlainObject from 'lodash/isPlainObject';
 import {FormItem, Button, Icon, FormControlProps, autobind} from 'amis';
@@ -106,21 +106,23 @@ export default class FeatureControl extends React.Component<
   @autobind
   handleRemove(item: FeatureOption, index: number) {
     const {removeFeature, data, onBulkChange} = this.props;
+    const schema = cloneDeep(data);
     const {inUseFeat, unUseFeat} = this.state;
-    item.remove?.(data);
-    removeFeature?.(item, data);
-    onBulkChange?.(data);
+    item.remove?.(schema);
+    removeFeature?.(item, schema);
 
     remove(inUseFeat, item);
     item.add && unUseFeat.push(item);
+    onBulkChange?.(schema);
 
     this.setState({inUseFeat, unUseFeat});
   }
 
   handleSort(e: any) {
     const {data, onBulkChange, onSort} = this.props;
-    onSort?.(data, e);
-    onBulkChange?.(data);
+    let schema = cloneDeep(data);
+    onSort?.(schema, e);
+    onBulkChange?.(schema);
   }
 
   @autobind
@@ -131,7 +133,7 @@ export default class FeatureControl extends React.Component<
     inUseFeat.push(item);
     remove(unUseFeat, item);
 
-    const schema = clone(data);
+    const schema = cloneDeep(data);
     item.add?.(schema);
     addFeature?.(item, schema);
     onBulkChange?.(schema);
@@ -187,6 +189,7 @@ export default class FeatureControl extends React.Component<
 
           const value = this.state.inUseFeat.concat();
           value[e.oldIndex] = value.splice(e.newIndex, 1, value[e.oldIndex])[0];
+
           this.setState({inUseFeat: value}, () => {
             this.handleSort({
               oldIndex: e.oldIndex,
@@ -208,7 +211,7 @@ export default class FeatureControl extends React.Component<
   @autobind
   handleCheck(res: boolean, index: number) {
     const {data, onBulkChange, onItemCheck} = this.props;
-    const schema = clone(data);
+    const schema = cloneDeep(data);
     onItemCheck?.(res, index, schema);
     onBulkChange?.(schema);
   }
@@ -282,7 +285,7 @@ export default class FeatureControl extends React.Component<
     }
 
     if (customAction && typeof customAction === 'function') {
-      const schema = customAction({onBulkChange, schema: clone(data)});
+      const schema = customAction({onBulkChange, schema: cloneDeep(data)});
 
       if (isPlainObject(schema) && typeof schema.type === 'string') {
         return render('custom-action', schema);
