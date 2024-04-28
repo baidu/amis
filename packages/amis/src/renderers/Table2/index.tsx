@@ -1525,15 +1525,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     // todo
     onAction && onAction(e, action, ctx);
-
-    /**
-     * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
-     * 这里先做兼容处理，把动作交给上层的CRUD处理
-     */
-    const scoped = this.context as IScopedContext;
-    if (scoped?.parent?.component?.props?.type === 'crud2') {
-      return scoped.parent.component.doAction?.(action, ctx);
-    }
   }
 
   renderActions(region: string) {
