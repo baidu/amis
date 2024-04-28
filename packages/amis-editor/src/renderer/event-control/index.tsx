@@ -1261,10 +1261,7 @@ export class EventControl extends React.Component<
                                       }
                                     )}
                                   >
-                                    <Icon
-                                      className="icon"
-                                      icon="edit-full-btn"
-                                    />
+                                    <Icon className="icon" icon="setting" />
                                   </div>
                                   <div
                                     onClick={this.delAction.bind(
