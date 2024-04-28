@@ -24,4 +24,6 @@ export interface DNDModeInterface {
   dispose: () => void;
 
   getDropPosition?: () => string | undefined;
+
+  interruptionDrop?: () => boolean; // 是否中断 drop 事件
 }

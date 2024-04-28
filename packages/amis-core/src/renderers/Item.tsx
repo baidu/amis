@@ -501,7 +501,7 @@ export interface FormItemProps extends RendererProps {
   formLabelAlign: LabelAlign;
   formLabelWidth?: number | string;
   defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full' | string;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   labelAlign?: LabelAlign;
   labelWidth?: number | string;
   disabled?: boolean;
@@ -1138,10 +1138,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     } = this.props;
 
     if (renderControl) {
-      const controlSize =
-        size && ['xs', 'sm', 'md', 'lg', 'full'].includes(size)
-          ? size
-          : defaultSize;
+      const controlSize = size || defaultSize;
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,

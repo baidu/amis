@@ -1791,11 +1791,11 @@ export default class Form extends React.Component<FormProps, object> {
             return (
               <div className={cx('Form-flex')} role="flex-row" key={index}>
                 {children.map((control: any, key: number) => {
-                  const split = control.size?.split('/');
+                  const split = control.colSize?.split('/');
                   const colSize =
                     split?.[0] && split?.[1]
                       ? (split[0] / split[1]) * 100 + '%'
-                      : control.size;
+                      : control.colSize;
                   return ~['hidden', 'formula'].indexOf(
                     (control as any).type
                   ) ? (

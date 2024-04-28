@@ -491,6 +491,10 @@ export class EditorDNDManager {
     const beforeId = this.dndMode?.getDropBeforeId();
     const position = this.dndMode?.getDropPosition?.();
 
+    // 如果中断 drop 事件，则直接返回
+    if (this.dndMode?.interruptionDrop?.()) {
+      return;
+    }
     if (store.dragMode === 'move') {
       this.manager.move(
         store.dropId,

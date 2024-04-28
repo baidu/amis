@@ -136,9 +136,22 @@ export class FlexDNDMode implements DNDModeInterface {
           ]?.$$id;
         this.position = 'right';
       } else if (cy < y + h) {
+        // 移动端，独占一行的元素不能插入到一行的中间
+        if (
+          this.store.isMobile &&
+          (this.dragNode?.$$dragMode !== 'hv' ||
+            list[targetIndex]?.$$dragMode !== 'hv') &&
+          list[targetIndex].row === list[targetIndex - 1]?.row
+        ) {
+          this.position = undefined;
+          this.dropBeforeId = undefined;
+          return;
+        }
+
         ghost.classList.add(`ae-${className}-top`);
         ghost.style.width = '100%';
         ghost.style.top = y - wy + 'px';
+
         if (this.store.isMobile) {
           this.dropBeforeId = targetId;
         } else {
@@ -152,9 +165,19 @@ export class FlexDNDMode implements DNDModeInterface {
               : beforeIndex;
           this.dropBeforeId = list[index]?.$$id;
         }
-
         this.position = 'top';
       } else {
+        // 移动端，独占一行的元素不能插入到一行的中间
+        if (
+          this.store.isMobile &&
+          (this.dragNode?.$$dragMode !== 'hv' ||
+            list[targetIndex]?.$$dragMode !== 'hv') &&
+          list[targetIndex].row === list[targetIndex + 1]?.row
+        ) {
+          this.position = undefined;
+          this.dropBeforeId = undefined;
+          return;
+        }
         ghost.classList.add(`ae-${className}-bottom`);
         ghost.style.width = '100%';
         ghost.style.top = y - wy + height + 'px';
@@ -246,5 +269,14 @@ export class FlexDNDMode implements DNDModeInterface {
 
   getDropPosition() {
     return this.position;
+  }
+
+  // 是否中断 drop 事件
+  interruptionDrop() {
+    // 如果没有 dropBeforeId 和 position，说明没有拖拽到任何元素上，中断 drop 事件
+    if (!this.dropBeforeId && !this.position) {
+      return true;
+    }
+    return false;
   }
 }
