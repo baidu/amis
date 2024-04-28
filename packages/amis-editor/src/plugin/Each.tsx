@@ -363,7 +363,11 @@ export class EachPlugin extends BasePlugin {
     props.value = [{}, {}];
 
     props.className = `${props.className || ''} ae-Editor-list`;
-    if (props.items && !props.items.className?.includes('eachItem')) {
+    if (
+      props.items &&
+      !props.items.className?.includes('eachItem') &&
+      !Array.isArray(props.items)
+    ) {
       props.items = merge(
         {
           className: `${props.items.className || ''} ae-Editor-eachItem`
