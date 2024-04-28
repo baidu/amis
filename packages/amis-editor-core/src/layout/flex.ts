@@ -8,8 +8,8 @@ import {LayoutInterface} from './interface';
 
 export default class FlexLayout implements LayoutInterface {
   beforeInsert(context: InsertEventContext, store: any) {
-    const {isMobile} = store;
-    const body = [...context.schema.body];
+    const region = context.region;
+    const body = [...(context.schema?.[region] || [])];
     let row = 0;
     if (body?.length) {
       const beforeId = context.beforeId;
@@ -43,13 +43,15 @@ export default class FlexLayout implements LayoutInterface {
       },
       schema: {
         ...context.schema,
-        body
+        [region]: body
       }
     };
   }
 
   afterInsert(context: InsertEventContext, store: any) {
     const {isMobile} = store;
+    const region = context.region;
+    const body = [...(context.schema?.[region] || [])];
     const position = context.dragInfo?.position || 'bottom';
     const currentIndex = context.regionList.findIndex(
       (item: any) => item.$$id === context.data.$$id
@@ -57,7 +59,6 @@ export default class FlexLayout implements LayoutInterface {
     const regionList = [...context.regionList];
     if (position === 'top' || position === 'bottom') {
       if (isMobile) {
-        const body = context.schema.body;
         //  const currentRow = regionList[currentIndex].row;
         const preBeforeIndex = body.findIndex(
           (item: any) => item.$$id === context.beforeId
@@ -102,7 +103,8 @@ export default class FlexLayout implements LayoutInterface {
   afterMove(context: MoveEventContext, store: any) {
     const {isMobile} = store;
     const position = context.dragInfo?.position;
-    const body = context.schema.body;
+    const region = context.region;
+    const body = [...(context.schema?.[region] || [])];
     const preCurrentIndex = body.findIndex(
       (item: any) => item.$$id === context.sourceId
     );

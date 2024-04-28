@@ -264,6 +264,10 @@ export default class Breadcrumb extends React.Component<
             <Icon icon="editor-double-arrow" className="icon" />
           </div>
         )}
+        <div
+          id="aeBreadcrumbRightContainer"
+          className="ae-Breadcrumb-right-container"
+        ></div>
       </div>
     );
   }
