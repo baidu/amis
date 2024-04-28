@@ -143,8 +143,8 @@ export class FlexDNDMode implements DNDModeInterface {
             list[targetIndex]?.$$dragMode !== 'hv') &&
           list[targetIndex].row === list[targetIndex - 1]?.row
         ) {
-          this.position = undefined;
-          this.dropBeforeId = undefined;
+          delete this.position;
+          delete this.dropBeforeId;
           return;
         }
 
@@ -174,8 +174,8 @@ export class FlexDNDMode implements DNDModeInterface {
             list[targetIndex]?.$$dragMode !== 'hv') &&
           list[targetIndex].row === list[targetIndex + 1]?.row
         ) {
-          this.position = undefined;
-          this.dropBeforeId = undefined;
+          delete this.position;
+          delete this.dropBeforeId;
           return;
         }
         ghost.classList.add(`ae-${className}-bottom`);

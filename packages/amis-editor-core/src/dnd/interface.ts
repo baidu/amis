@@ -23,7 +23,7 @@ export interface DNDModeInterface {
 
   dispose: () => void;
 
-  getDropPosition?: () => 'top' | 'bottom' | 'left' | 'right';
+  getDropPosition?: () => 'top' | 'bottom' | 'left' | 'right' | undefined;
 
   interruptionDrop?: () => boolean; // 是否中断 drop 事件
 }
