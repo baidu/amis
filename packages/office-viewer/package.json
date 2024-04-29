@@ -1,6 +1,6 @@
 {
   "name": "office-viewer",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "office 文档在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
