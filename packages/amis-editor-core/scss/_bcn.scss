@@ -4,15 +4,14 @@
   padding: 0;
   background: #fff;
   box-sizing: border-box;
-  border-bottom: 1px solid $editor-border-color;
   z-index: 1000;
+  padding: 0 16px;
 
   .ae-Breadcrumb-content {
     position: relative;
     left: 0;
     height: 100%;
     width: max-content;
-    padding: 0 16px;
 
     white-space: nowrap;
     height: 42px;

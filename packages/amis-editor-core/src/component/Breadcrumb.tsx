@@ -152,7 +152,8 @@ export default class Breadcrumb extends React.Component<
     }
 
     const scrollLeft = this.toNumber(this.getScrollLeft());
-    const maxScrollLeft = scrollElem.offsetWidth - scrollContainer.offsetWidth;
+    const maxScrollLeft =
+      scrollElem.offsetWidth - scrollContainer.offsetWidth + 32;
 
     if (scrollLeft - 50 > -maxScrollLeft) {
       scrollElem.style.left = `${scrollLeft - 50}px`;
@@ -264,10 +265,6 @@ export default class Breadcrumb extends React.Component<
             <Icon icon="editor-double-arrow" className="icon" />
           </div>
         )}
-        <div
-          id="aeBreadcrumbRightContainer"
-          className="ae-Breadcrumb-right-container"
-        ></div>
       </div>
     );
   }

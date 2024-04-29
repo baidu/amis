@@ -1888,3 +1888,19 @@ div.ae-DragImage {
 div[class*='Form-group']:empty {
   margin-bottom: 0 !important;
 }
+.ae-Header {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  align-items: center;
+  border-bottom: 1px solid $editor-border-color;
+  .ae-Breadcrumb {
+    flex: 1;
+    max-width: 100%;
+    min-width: 0;
+  }
+  &-Right-Container {
+    z-index: 1001;
+    background-color: #fff;
+  }
+}

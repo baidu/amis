@@ -589,7 +589,13 @@ export default class Editor extends Component<EditorProps> {
 
           <div className="ae-Main">
             {!preview && (
-              <Breadcrumb store={this.store} manager={this.manager} />
+              <div className="ae-Header">
+                <Breadcrumb store={this.store} manager={this.manager} />
+                <div
+                  id="aeHeaderRightContainer"
+                  className="ae-Header-Right-Container"
+                ></div>
+              </div>
             )}
             <Preview
               {...previewProps}

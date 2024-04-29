@@ -1177,7 +1177,7 @@ export class FormPlugin extends BasePlugin {
                   label: '列数',
                   name: 'columnCount',
                   type: 'input-number',
-                  hiddenOn: 'data.mode === "flex"',
+                  hiddenOn: 'data.mode !== "flex"',
                   step: 1,
                   min: 0,
                   precision: 0,
