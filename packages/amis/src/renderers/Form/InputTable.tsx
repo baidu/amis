@@ -496,8 +496,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return msg;
   }
 
-  async emitValue() {
-    const items = this.state.items.filter(item => !item.__isPlaceholder);
+  async emitValue(value?: any[]) {
+    const items =
+      value ?? this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
     isPrevented || onChange?.(items);
@@ -1019,7 +1020,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const originItems = newValue;
     newValue = spliceTree(newValue, indexes, 1);
     this.reUseRowId(newValue, originItems, indexes);
-    onChange(newValue);
+
+    // change value
+    const prevented = await this.emitValue(newValue);
+    if (prevented) {
+      return;
+    }
+
     this.dispatchEvent('deleteSuccess', {
       value: newValue,
       index: indexes[indexes.length - 1],
