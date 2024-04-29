@@ -145,11 +145,13 @@ export class TabsPlugin extends BasePlugin {
                 minLength: 1,
                 scaffold: {
                   title: '选项卡',
-                  body: {
-                    type: 'tpl',
-                    tpl: '内容',
-                    inline: false
-                  }
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '内容',
+                      inline: false
+                    }
+                  ]
                 },
                 items: [
                   getSchemaTpl('title', {

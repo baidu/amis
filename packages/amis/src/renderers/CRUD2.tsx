@@ -1066,6 +1066,15 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     // );
   }
 
+  @autobind
+  handleAction(
+    e: React.UIEvent<any> | undefined,
+    action: ActionObject,
+    ctx: object
+  ) {
+    return this.doAction(action, ctx);
+  }
+
   unSelectItem(item: any, index: number) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
@@ -1380,6 +1389,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             onSearch: this.handleQuerySearch,
             onSort: this.handleQuerySearch,
             onSelect: this.handleSelect,
+            onAction: this.handleAction,
             data: store.mergedData,
             loading: store.loading,
             host: this
