@@ -2549,7 +2549,7 @@ order: 54
       "label": "表格表单",
       "id": "reset-input-table",
       "name": "table",
-      "resetValue": [
+      "value": [
         {
           "a": "a-resetValue1",
           "b": "b-resetValue1"

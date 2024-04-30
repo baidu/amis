@@ -2015,7 +2015,10 @@ export class TableControlRenderer extends FormTable {
       deleteApi,
       resetValue,
       translate: __,
-      onChange
+      onChange,
+      formStore,
+      store,
+      name
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -2155,7 +2158,9 @@ export class TableControlRenderer extends FormTable {
       );
       return;
     } else if (actionType === 'reset') {
-      const newItems = Array.isArray(resetValue) ? resetValue : [];
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      const newItems = Array.isArray(pristineVal) ? pristineVal : [];
       this.setState(
         {
           items: newItems

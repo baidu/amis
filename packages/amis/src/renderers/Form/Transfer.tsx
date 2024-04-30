@@ -25,7 +25,8 @@ import {
   resolveVariable,
   ActionObject,
   toNumber,
-  evalExpression
+  evalExpression,
+  getVariable
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer, Spinner, ResultList} from 'amis-ui';
 import {
@@ -576,13 +577,17 @@ export class BaseTransferRenderer<
 
   // 动作
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     switch (action.actionType) {
       case 'clear':
         onChange?.('');
         break;
       case 'reset':
-        onChange?.(resetValue ?? '');
+        onChange?.(
+          getVariable(formStore?.pristine ?? store?.pristine, name) ??
+            resetValue ??
+            ''
+        );
         break;
       case 'selectAll':
         this.tranferRef?.selectAll();

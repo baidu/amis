@@ -1446,9 +1446,8 @@ export class DateRangePicker extends React.Component<
   }
 
   // 重置
-  reset() {
+  reset(resetValue?: any) {
     const {
-      resetValue,
       onChange,
       format,
       valueFormat,
@@ -1458,17 +1457,16 @@ export class DateRangePicker extends React.Component<
       displayFormat,
       data
     } = this.props;
-    if (!resetValue) {
-      return;
-    }
+
+    const tmpResetValue = resetValue ?? this.props.resetValue;
     const {startDate, endDate} = DateRangePicker.unFormatValue(
-      resetValue,
+      tmpResetValue,
       valueFormat || (format as string),
       joinValues,
       delimiter,
       data
     );
-    onChange(resetValue);
+    onChange?.(tmpResetValue);
     this.setState({
       startInputValue: startDate?.format(displayFormat || inputFormat),
       endInputValue: endDate?.format(displayFormat || inputFormat)

@@ -1101,7 +1101,189 @@ icon:
 | 动作名称    | 动作配置                                          | 说明                                                                                                      |
 | ----------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | clear       | -                                                 | 清空                                                                                                      |
-| reset       | -                                                 | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                                    |
+| reset       | -                                                 | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                          |
 | clearSearch | `left: boolean` 左侧搜索、`right:boolean`右侧搜索 | 默认清除所有搜索态，可以单独配置`left`、`right`为`true`来清空对应左侧或者右侧面板(`3.4.0`及以上版本支持） |
 | selectAll   | -                                                 | 全选                                                                                                      |
 | setValue    | `value: string` \| `string[]` 更新的值            | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                   |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "label": "默认",
+          "type": "transfer",
+          "name": "transfer",
+          "value": "zhugeliang,libai",
+          "options": [
+            {
+              "label": "诸葛亮",
+              "value": "zhugeliang"
+            },
+            {
+              "label": "曹操",
+              "value": "caocao"
+            },
+            {
+              "label": "钟无艳",
+              "value": "zhongwuyan"
+            },
+            {
+              "label": "李白",
+              "value": "libai"
+            },
+            {
+              "label": "韩信",
+              "value": "hanxin"
+            },
+            {
+              "label": "云中君",
+              "value": "yunzhongjun"
+            }
+          ],
+          "value": "zhugeliang",
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "label": "默认",
+          "type": "transfer",
+          "name": "transfer",
+          "value": "zhugeliang,libai",
+          "options": [
+            {
+              "label": "诸葛亮",
+              "value": "zhugeliang"
+            },
+            {
+              "label": "曹操",
+              "value": "caocao"
+            },
+            {
+              "label": "钟无艳",
+              "value": "zhongwuyan"
+            },
+            {
+              "label": "李白",
+              "value": "libai"
+            },
+            {
+              "label": "韩信",
+              "value": "hanxin"
+            },
+            {
+              "label": "云中君",
+              "value": "yunzhongjun"
+            }
+          ],
+          "value": "zhugeliang",
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "label": "默认",
+          "type": "transfer",
+          "name": "transfer",
+          "value": "zhugeliang,libai",
+          "options": [
+            {
+              "label": "诸葛亮",
+              "value": "zhugeliang"
+            },
+            {
+              "label": "曹操",
+              "value": "caocao"
+            },
+            {
+              "label": "钟无艳",
+              "value": "zhongwuyan"
+            },
+            {
+              "label": "李白",
+              "value": "libai"
+            },
+            {
+              "label": "韩信",
+              "value": "hanxin"
+            },
+            {
+              "label": "云中君",
+              "value": "yunzhongjun"
+            }
+          ],
+          "value": "zhugeliang",
+          "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": "yunzhongjun"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

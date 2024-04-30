@@ -372,5 +372,106 @@ function transform(value, config, props, data) {
 | 动作名称 | 动作配置                                    | 说明                                                        |
 | -------- | ------------------------------------------- | ----------------------------------------------------------- |
 | clear    | -                                           | 清空                                                        |
-| reset    | -                                           | 将值重置为`resetValue`，若没有配置`resetValue`，则清空      |
+| reset    | -                                           | 将值重置为初始值。6.3.0 及以下版本为`resetValue`            |
 | setValue | `value: string` 更新的时间区间值，用`,`隔开 | 更新数据，，依赖格式`format`，例如：'1650556800,1652889599' |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期",
+            "id": "clear_text",
+            "value": "1714060800,1714319999"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期",
+            "id": "reset_text",
+            "value": "1714060800,1714319999"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期",
+            "id": "setvalue_text",
+            "value": "1714060800,1714319999"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": "1714060800,1714492799"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

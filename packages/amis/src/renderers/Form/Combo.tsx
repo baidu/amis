@@ -516,14 +516,19 @@ export default class ComboControl extends React.Component<ComboProps> {
     args?: any
   ) {
     const actionType = action?.actionType as string;
-    const {onChange, resetValue} = this.props;
+    const {onChange, resetValue, formStore, store, name} = this.props;
 
     if (actionType === 'addItem') {
       this.addItemValue(args?.item ?? {});
     } else if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
-      onChange(resetValue ?? '');
+      const pristineVal =
+        getVariable(
+          formStore?.pristine ?? store?.parentStore?.pristine,
+          name
+        ) ?? resetValue;
+      onChange(pristineVal ?? '');
     }
   }
 
