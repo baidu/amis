@@ -1020,8 +1020,6 @@ test('Renderer:input-table canAccessSuperData', async () => {
   expect(inputs).toEqual(['a1', '']);
 });
 
-
-
 // 对应 github issue: https://github.com/baidu/amis/issues/9537
 test('Renderer:input-table item confirm validate', async () => {
   const onSubmit = jest.fn();
@@ -1084,4 +1082,75 @@ test('Renderer:input-table item confirm validate', async () => {
   await wait(200);
 
   expect(container.querySelector('.has-error--isRequired')).toBeInTheDocument();
+});
+
+// 问题：分页切换后，新行数据中不存在原始行中的某个数据，但是切换后，表单项还是展示的原来的值
+// 比如下面的例子，新行 c 字段不存在，但是切过去后，c 显示 c1
+test('Renderer:input-table pagination data issue', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            table: [
+              {
+                a: 'a1',
+                b: 'b1',
+                c: 'c1'
+              },
+              {
+                a: 'a2',
+                b: 'b2'
+              }
+            ]
+          },
+          body: [
+            {
+              showIndex: true,
+              type: 'input-table',
+              needConfirm: false,
+              perPage: 1,
+              name: 'table',
+              columns: [
+                {
+                  name: 'a',
+                  label: 'A'
+                },
+                {
+                  name: 'b',
+                  label: 'B',
+                  quickEdit: {
+                    type: 'form',
+                    body: [
+                      {
+                        type: 'input-text',
+                        name: 'b'
+                      },
+                      {
+                        type: 'input-text',
+                        name: 'c'
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const nextBtn = container.querySelector('.cxd-Pagination-next');
+  fireEvent.click(nextBtn!);
+  await wait(200);
+
+  const c = container.querySelector('input[name="c"]');
+  expect(c).toHaveValue('');
 });

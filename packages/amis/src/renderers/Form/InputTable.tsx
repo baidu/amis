@@ -1869,6 +1869,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             draggable: draggable && !this.state.editIndex,
             items: items,
             getEntryId: this.getEntryId,
+            reUseRow: false, // 这个会导致 getEntryId 无效，因为复用的话，row 的 id 不会更新
             onSave: this.handleTableSave,
             onRadioChange: this.handleRadioChange,
             onSaveOrder: this.handleSaveTableOrder,
