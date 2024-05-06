@@ -195,8 +195,7 @@ export default class Container<T> extends React.Component<
       wrapperCustomStyle,
       env,
       themeCss,
-      baseControlClassName,
-      testid
+      baseControlClassName
     } = this.props;
     const finalDraggable: boolean = isPureVariable(draggable)
       ? resolveVariableAndFilter(draggable, data, '| raw')
@@ -232,6 +231,7 @@ export default class Container<T> extends React.Component<
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={buildStyle(style, data)}
+        data-id={id}
       >
         {this.renderBody()}
         <CustomStyle

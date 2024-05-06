@@ -1322,6 +1322,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       columnsTogglable,
       headerToolbarClassName,
       footerToolbarClassName,
+      id,
       ...rest
     } = this.props;
 
@@ -1331,6 +1332,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'is-loading': store.loading
         })}
         style={style}
+        data-id={id}
       >
         <div className={cx('Crud2-filter')}>
           {this.renderFilter(filterSchema)}
