@@ -626,3 +626,173 @@ order: 56
 | focus    | -                        | 获取焦点                                           |
 | reload   | -                        | 刷新（重新加载），只针对配置了`source`的输入框有效 |
 | setValue | `value: string` 更新的值 | 更新数据，开启`multiple`多选时用`,`分隔            |
+
+### clear
+
+如果配置了`clearValueOnEmpty: true`，则清空时将置为`undefined`，否则置为空字符串。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "text",
+            "id": "clear_text",
+            "type": "input-text",
+            "label": "text",
+            "value": "清空我"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "text",
+            "id": "reset_text",
+            "type": "input-text",
+            "label": "text",
+            "value": "重置我"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### focus
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "text",
+            "id": "focus_text",
+            "type": "input-text",
+            "label": "text",
+            "value": "聚焦我"
+        },
+        {
+            "type": "button",
+            "label": "聚焦",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "focus",
+                            "componentId": "focus_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reload
+
+只有选择器模式支持，即配置`source`，用于重新加载选择器的数据源。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "text",
+            "id": "reload_text",
+            "type": "input-text",
+            "label": "text",
+            "value": "a",
+            "source": "/api/mock2/form/getOptions?waitSeconds=1"
+        },
+        {
+            "type": "button",
+            "label": "重新加载",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reload",
+                            "componentId": "reload_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "text",
+            "id": "setvalue_text",
+            "type": "input-text",
+            "label": "text",
+            "value": "amis"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": "amis go go go!"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

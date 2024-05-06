@@ -185,7 +185,7 @@ order: 21
 
 ## 作为表单项上传
 
-如果不希望 InputFile 组件在提交Form之前上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
+如果不希望 InputFile 组件在提交 Form 之前上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
 
 ```schema: scope="body"
 {
@@ -435,7 +435,6 @@ order: 21
 }
 ```
 
-
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -502,3 +501,36 @@ order: 21
 | 动作名称 | 动作配置 | 说明 |
 | -------- | -------- | ---- |
 | clear    | -        | 清空 |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-file",
+            "name": "file",
+            "label": "File",
+            "accept": "*",
+            "receiver": "/api/upload/file",
+            "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

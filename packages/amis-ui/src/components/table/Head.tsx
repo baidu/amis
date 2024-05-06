@@ -23,6 +23,7 @@ import Cell from './Cell';
 import HeadCellSort from './HeadCellSort';
 import HeadCellFilter from './HeadCellFilter';
 import HeadCellSelect from './HeadCellSelect';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface Props extends ThemeProps {
   draggable: boolean;
@@ -48,6 +49,7 @@ export interface Props extends ThemeProps {
   onSelectAll: Function;
   onFilter?: Function;
   onResizeMouseDown: Function;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export default class Head extends React.PureComponent<Props> {
@@ -130,7 +132,8 @@ export default class Head extends React.PureComponent<Props> {
       onSort,
       onSelectAll,
       onFilter,
-      onResizeMouseDown
+      onResizeMouseDown,
+      testIdBuilder
     } = this.props;
 
     const {thColumns, tdColumns} = getBuildColumns(columns);
@@ -186,6 +189,7 @@ export default class Head extends React.PureComponent<Props> {
                   col="drag"
                   classnames={cx}
                   classPrefix={classPrefix}
+                  testIdBuilder={testIdBuilder?.getChild(`drag-${index}`)}
                 ></Cell>
               ) : null}
               {!draggable && selectable && index === 0 ? (
@@ -198,6 +202,7 @@ export default class Head extends React.PureComponent<Props> {
                   col="select"
                   classnames={cx}
                   classPrefix={classPrefix}
+                  testIdBuilder={testIdBuilder?.getChild(`select-${index}`)}
                 >
                   {rowSelectionType !== 'radio'
                     ? [
@@ -243,6 +248,9 @@ export default class Head extends React.PureComponent<Props> {
                       onSort={(payload: SortProps) => {
                         onSort && onSort(payload, item);
                       }}
+                      testIdBuilder={testIdBuilder?.getChild(
+                        `sort-${colIndex}`
+                      )}
                     ></HeadCellSort>
                   );
                 }
@@ -256,6 +264,9 @@ export default class Head extends React.PureComponent<Props> {
                       column={item}
                       popOverContainer={popOverContainer}
                       onFilter={onFilter}
+                      testIdBuilder={testIdBuilder?.getChild(
+                        `filter-${colIndex}`
+                      )}
                     ></HeadCellFilter>
                   );
                 }
@@ -310,6 +321,7 @@ export default class Head extends React.PureComponent<Props> {
                     })}
                     depth={item.depth}
                     col={String(colIndex)}
+                    testIdBuilder={testIdBuilder?.getChild(`cell-${colIndex}`)}
                   >
                     {typeof item.title === 'function'
                       ? item.title(children)

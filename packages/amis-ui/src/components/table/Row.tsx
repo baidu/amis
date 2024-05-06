@@ -18,6 +18,7 @@ import {
   hasFixedColumn,
   levelsSplit
 } from './util';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface Props extends ThemeProps {
   data: any;
@@ -53,6 +54,7 @@ export interface Props extends ThemeProps {
   expandedRowClassName: string;
   expandedRowRender?: Function;
   isExpanded: boolean;
+  testIdBuilder?: TestIdBuilder;
   [propName: string]: any; // 对应checkbox属性
 }
 
@@ -204,6 +206,7 @@ class BodyRow extends React.PureComponent<Props> {
       onMouseLeave,
       onClick,
       onChange,
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -223,6 +226,7 @@ class BodyRow extends React.PureComponent<Props> {
     const cells = tdColumns.map((item, i) => {
       // 为了支持灵活合并单元格，renderers层的Table2传递的render方法，返回{children: <ReactElement>, props: {rowSpan, colSpan}}
       // 但直接使用amis-ui的table，render方法一般直接返回ReactElement
+      const cellIDBuilder = testIdBuilder?.getChild(`cell-${i}`);
       const render =
         item.render && typeof item.render === 'function'
           ? item.render(data[item.name], data, rowIndex, i, levelsSplit(levels))
@@ -256,6 +260,7 @@ class BodyRow extends React.PureComponent<Props> {
             [`${className}`]: !!className
           })}
           col={i > -1 ? i.toString() : undefined}
+          testIdBuilder={cellIDBuilder}
         >
           <div
             className={cx('Table-cell-wrapper', {
@@ -272,7 +277,6 @@ class BodyRow extends React.PureComponent<Props> {
         </Cell>
       );
     });
-
     const rowClassNameClass =
       rowClassName && typeof rowClassName === 'function'
         ? rowClassName(data, rowIndex)

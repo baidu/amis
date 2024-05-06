@@ -126,18 +126,19 @@ order: 16
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型                                                                               | 默认值                                                          | 说明                                                                                       | 版本                    |
-| ------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------- |
-| valueFormat   | `string`                                                                           | `X`                                                             | [日期时间选择器值格式](./input-datetime#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       | 3.4.0 版本后支持        |
-| displayFormat | `string`                                                                           | `YYYY-MM-DD`                                                    | [日期时间选择器显示格式](./input-datetime#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            | 3.4.0 版本后支持        |
-| placeholder   | `string`                                                                           | `"请选择日期范围"`                                              | 占位文本                                                                                   |
-| shortcuts     | `string \| string[] \| Array<{label: string; startDate: string; endDate: string}>` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键，详情参考[快捷键](./input-date-range#快捷键)                                | `3.1.0`版本后支持表达式 |
-| minDate       | `string`                                                                           |                                                                 | 限制最小日期时间，用法同 [限制范围](./input-datetime#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
-| maxDate       | `string`                                                                           |                                                                 | 限制最大日期时间，用法同 [限制范围](./input-datetime#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
-| utc           | `boolean`                                                                          | `false`                                                         | [保存 UTC 值](./input-datetime#utc)                                                        |
-| clearable     | `boolean`                                                                          | `true`                                                          | 是否可清除                                                                                 |
-| animation     | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                                           | `2.2.0`                 |
-| extraName     | `string`                                                                           |                                                                 | 是否存成两个字段                                                                           | `3.3.0`                 |
+| 属性名                   | 类型                                                                               | 默认值                                                          | 说明                                                                                       | 版本                    |
+| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------- |
+| valueFormat              | `string`                                                                           | `X`                                                             | [日期时间选择器值格式](./input-datetime#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       | 3.4.0 版本后支持        |
+| displayFormat            | `string`                                                                           | `YYYY-MM-DD`                                                    | [日期时间选择器显示格式](./input-datetime#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            | 3.4.0 版本后支持        |
+| placeholder              | `string`                                                                           | `"请选择日期范围"`                                              | 占位文本                                                                                   |
+| shortcuts                | `string \| string[] \| Array<{label: string; startDate: string; endDate: string}>` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键，详情参考[快捷键](./input-date-range#快捷键)                                | `3.1.0`版本后支持表达式 |
+| minDate                  | `string`                                                                           |                                                                 | 限制最小日期时间，用法同 [限制范围](./input-datetime#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
+| maxDate                  | `string`                                                                           |                                                                 | 限制最大日期时间，用法同 [限制范围](./input-datetime#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
+| utc                      | `boolean`                                                                          | `false`                                                         | [保存 UTC 值](./input-datetime#utc)                                                        |
+| clearable                | `boolean`                                                                          | `true`                                                          | 是否可清除                                                                                 |
+| animation                | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                                           | `2.2.0`                 |
+| extraName                | `string`                                                                           |                                                                 | 是否存成两个字段                                                                           | `3.3.0`                 |
+| popOverContainerSelector | `string`                                                                           |                                                                 | 弹层挂载位置选择器，会通过`querySelector`获取                                              | `6.4.0`                 |
 
 ## 事件表
 
@@ -158,5 +159,5 @@ order: 16
 | 动作名称 | 动作配置                                    | 说明                                                     |
 | -------- | ------------------------------------------- | -------------------------------------------------------- |
 | clear    | -                                           | 清空                                                     |
-| reset    | -                                           | 将值重置为`resetValue`，若没有配置`resetValue`，则清空   |
+| reset    | -                                           | 将值重置为初始值。6.3.0 及以下版本为`resetValue`         |
 | setValue | `value: string` 更新的时间区间值，用`,`隔开 | 更新数据，依赖格式`format`，例如 '1650556800,1652889599' |

@@ -823,5 +823,139 @@ order: 60
 | delete   | value: ` any`                          | 删除数据项的 value，（如果配置了 valueField，以 valueField 的字段值为准）                                  |
 | reload   | -                                      | 刷新                                                                                                       |
 | clear    | -                                      | 清空                                                                                                       |
-| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                                     |
+| reset    | -                                      | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                           |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                    |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "tree-select",
+        "name": "tree",
+        "label": "Tree",
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "Folder B",
+                "value": 3,
+                "children": [
+                  {
+                    "label": "file b1",
+                    "value": 3.1
+                  },
+                  {
+                    "label": "file b2",
+                    "value": 3.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ],
+          "value": 5,
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "tree-select",
+        "name": "tree",
+        "label": "Tree",
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "Folder B",
+                "value": 3,
+                "children": [
+                  {
+                    "label": "file b1",
+                    "value": 3.1
+                  },
+                  {
+                    "label": "file b2",
+                    "value": 3.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ],
+          "value": 5,
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

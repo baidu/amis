@@ -496,8 +496,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return msg;
   }
 
-  async emitValue() {
-    const items = this.state.items.filter(item => !item.__isPlaceholder);
+  async emitValue(value?: any[]) {
+    const items =
+      value ?? this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
     isPrevented || onChange?.(items);
@@ -1019,7 +1020,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const originItems = newValue;
     newValue = spliceTree(newValue, indexes, 1);
     this.reUseRowId(newValue, originItems, indexes);
-    onChange(newValue);
+
+    // change value
+    const prevented = await this.emitValue(newValue);
+    if (prevented) {
+      return;
+    }
+
     this.dispatchEvent('deleteSuccess', {
       value: newValue,
       index: indexes[indexes.length - 1],
@@ -1869,6 +1876,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             draggable: draggable && !this.state.editIndex,
             items: items,
             getEntryId: this.getEntryId,
+            reUseRow: false, // 这个会导致 getEntryId 无效，因为复用的话，row 的 id 不会更新
             onSave: this.handleTableSave,
             onRadioChange: this.handleRadioChange,
             onSaveOrder: this.handleSaveTableOrder,
@@ -2008,7 +2016,10 @@ export class TableControlRenderer extends FormTable {
       deleteApi,
       resetValue,
       translate: __,
-      onChange
+      onChange,
+      formStore,
+      store,
+      name
     } = this.props;
 
     const actionType = action.actionType as string;
@@ -2148,7 +2159,9 @@ export class TableControlRenderer extends FormTable {
       );
       return;
     } else if (actionType === 'reset') {
-      const newItems = Array.isArray(resetValue) ? resetValue : [];
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      const newItems = Array.isArray(pristineVal) ? pristineVal : [];
       this.setState(
         {
           items: newItems

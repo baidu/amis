@@ -636,8 +636,7 @@ extendLocale('zh-CN', {
   '528609917710d813a55e5a6cecf1e458': '选中值',
   '288f0c404c4e546aa3683ff5054e85e2': '清空',
   'c374a44713fa5ff5da2565beb398c7d3': '清除选中值',
-  '8db57ba01ffb9bf29c1656de5f0208f5':
-    '将值重置为resetValue，若没有配置resetValue，则清空',
+  '8db57ba01ffb9bf29c1656de5f0208f5': '将值重置为初始值',
   '8f40db3b25528063f1b6a59602a05cd5': '赋值',
   '944908c981a86bfa0cfab9360ab38184': '使按钮宽度占满父容器，各按钮宽度自适应',
   '0b98b0bea3db6ae5b67a09c7bb2d032b': '按钮选中样式',

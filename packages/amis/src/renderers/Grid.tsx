@@ -212,8 +212,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      testid
+      themeCss
     } = this.props;
     const styleVar = buildStyle(style, data);
     return (
@@ -240,6 +239,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           })
         )}
         style={styleVar}
+        data-id={id}
       >
         {this.renderColumns(this.props.columns)}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />

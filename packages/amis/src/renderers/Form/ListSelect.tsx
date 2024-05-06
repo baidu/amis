@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  getVariable
 } from 'amis-core';
 import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
@@ -68,13 +69,15 @@ export default class ListControl extends React.Component<ListProps, any> {
   };
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      onChange?.(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal ?? '');
     }
   }
 

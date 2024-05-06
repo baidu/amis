@@ -102,7 +102,7 @@ order: 51
 }
 ```
 
-### 使用Schema配置文本
+### 使用 Schema 配置文本
 
 > `3.6.0` 版本之后支持
 
@@ -141,7 +141,6 @@ order: 51
     ]
 }
 ```
-
 
 ## 默认值
 
@@ -294,15 +293,15 @@ order: 51
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名     | 类型                        | 默认值  | 说明                 | 版本 |
-| ---------- | --------------------------- | ------- | -------------------- | --- |
-| option     | `string`                    |         | 选项说明             |
-| onText     | `string \| IconSchema \| SchemaCollection`       |         | 开启时开关显示的内容 | `3.6.0`支持Schema |
-| offText    | `string \| IconSchema \| SchemaCollection`       |         | 关闭时开关显示的内容 | `3.6.0`支持Schema |
-| trueValue  | `boolean \| string \| number` | `true`  | 标识真值             |
-| falseValue | `boolean \| string \| number` | `false` | 标识假值             |
-| size       | `"sm" \| "md"`              | `"md"`  | 开关大小             |
-| loading    | `boolean`                   | `false`  | 是否处于加载状态     | `3.6.0` |
+| 属性名     | 类型                                       | 默认值  | 说明                 | 版本               |
+| ---------- | ------------------------------------------ | ------- | -------------------- | ------------------ |
+| option     | `string`                                   |         | 选项说明             |
+| onText     | `string \| IconSchema \| SchemaCollection` |         | 开启时开关显示的内容 | `3.6.0`支持 Schema |
+| offText    | `string \| IconSchema \| SchemaCollection` |         | 关闭时开关显示的内容 | `3.6.0`支持 Schema |
+| trueValue  | `boolean \| string \| number`              | `true`  | 标识真值             |
+| falseValue | `boolean \| string \| number`              | `false` | 标识假值             |
+| size       | `"sm" \| "md"`                             | `"md"`  | 开关大小             |
+| loading    | `boolean`                                  | `false` | 是否处于加载状态     | `3.6.0`            |
 
 IconSchema 配置
 | 属性名 | 类型 | 默认值 | 说明 |
@@ -420,9 +419,76 @@ switch 值更新时弹出确认提示，确认后发送请求。
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                              | 说明     |
-| -------- | ------------------------------------- | -------- |
-| setValue | `value: string \| boolean` 更新的数据 | 更新数据 |
+| 动作名称 | 动作配置                              | 说明                                                                   |
+| -------- | ------------------------------------- | ---------------------------------------------------------------------- | --- |
+| clear    | -                                     | 清空，6.3.1 及以上版本支持                                             |
+| reset    | -                                     | 将值重置为初始值。6.3.0 及以下版本为`resetValue`，6.3.1 及以上版本支持 |     |
+| setValue | `value: string \| boolean` 更新的数据 | 更新数据                                                               |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "switch",
+            "label": "开关",
+            "type": "switch",
+            "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "switch",
+            "label": "开关",
+            "type": "switch",
+            "id": "reset_text",
+            "value": true
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
 
 ### setValue
 

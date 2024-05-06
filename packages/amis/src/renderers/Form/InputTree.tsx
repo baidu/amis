@@ -19,7 +19,8 @@ import {
   hasAbility,
   findTree,
   isEffectiveApi,
-  BaseApiObject
+  BaseApiObject,
+  getVariable
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -242,12 +243,14 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
     const actionType = action?.actionType as string;
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      onChange?.(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal ?? '');
     } else if (action.actionType === 'expand') {
       this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
     } else if (action.actionType === 'collapse') {

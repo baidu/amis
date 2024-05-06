@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -30,11 +30,26 @@ jobs:
           cd packages/office-viewer
           npm i --legacy-peer-deps
           cd ../../
+      - name: build amis-formula
+        run: |
           npm run build --workspace amis-formula
+      - name: build amis-core
+        run: |
           npm run build --workspace amis-core
+      - name: build amis-ui
+        run: |
           npm run build --workspace amis-ui
+      - name: build amis
+        run: |
           npm run build --workspace amis
+      - name: check schema.json
+        run: |
+          cp ./packages/amis/schema.json .
+      - name: build amis-editor-core
+        run: |
           npm run build --workspace amis-editor-core
+      - name: build amis-editor
+        run: |
           npm run build --workspace amis-editor
       - name: typescript check
         env:
