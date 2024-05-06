@@ -118,7 +118,7 @@ test('EventAction:inputRange', async () => {
   });
 
   // 滑动 change
-  const slider = container.querySelector('.cxd-InputRange-handle')!;
+  const slider = container.querySelector('.cxd-InputRange-handle-icon')!;
   fireEvent.mouseDown(slider);
   fireEvent.mouseMove(slider, {
     clientX: 0,

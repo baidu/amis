@@ -382,11 +382,12 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   getStepValue(value: number, step: number) {
     const surplus = value % step;
-    let curValue = value - surplus;
+    let curValue = 0;
+    const closeNum = value - surplus;
     // 余数 >= 步长一半 -> 向上取，value为正值的时候，使用 safeAdd，否则使用 safeSub
-    // 余数 <  步长一半 -> 向下取，使用 curValue
+    // 余数 <  步长一半 -> 向下取，使用 closeNum
     if (Math.abs(surplus) >= step / 2) {
-      curValue = value >= 0 ? safeAdd(curValue, step) : safeSub(curValue, step);
+      curValue = value >= 0 ? safeAdd(closeNum, step) : safeSub(closeNum, step);
     }
     /*
     let result = 0;
