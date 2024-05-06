@@ -88,15 +88,16 @@ order: 15
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型      | 默认值             | 说明                                                                  | 版本    |
-| ------------- | --------- | ------------------ | --------------------------------------------------------------------- | ------- |
-| valueFormat   | `string`  | `HH:mm`            | [时间范围选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)            | `3.4.0` |
-| displayFormat | `string`  | `HH:mm`            | [时间范围选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F) | `3.4.0` |
-| placeholder   | `string`  | `"请选择时间范围"` | 占位文本                                                              |
-| clearable     | `boolean` | `true`             | 是否可清除                                                            |
-| embed         | `boolean` | `false`            | 是否内联模式                                                          |
-| animation     | `boolean` | `true`             | 是否启用游标动画                                                      | `2.2.0` |
-| extraName     | `string`  |                    | 是否存成两个字段                                                      | `3.3.0` |
+| 属性名                   | 类型      | 默认值             | 说明                                                                  | 版本    |
+| ------------------------ | --------- | ------------------ | --------------------------------------------------------------------- | ------- |
+| valueFormat              | `string`  | `HH:mm`            | [时间范围选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)            | `3.4.0` |
+| displayFormat            | `string`  | `HH:mm`            | [时间范围选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F) | `3.4.0` |
+| placeholder              | `string`  | `"请选择时间范围"` | 占位文本                                                              |
+| clearable                | `boolean` | `true`             | 是否可清除                                                            |
+| embed                    | `boolean` | `false`            | 是否内联模式                                                          |
+| animation                | `boolean` | `true`             | 是否启用游标动画                                                      | `2.2.0` |
+| extraName                | `string`  |                    | 是否存成两个字段                                                      | `3.3.0` |
+| popOverContainerSelector | `string`  |                    | 弹层挂载位置选择器，会通过`querySelector`获取                         | `6.4.0` |
 
 ## 事件表
 
@@ -117,5 +118,5 @@ order: 15
 | 动作名称 | 动作配置                                    | 说明                                                     |
 | -------- | ------------------------------------------- | -------------------------------------------------------- |
 | clear    | -                                           | 清空                                                     |
-| reset    | -                                           | 将值重置为`resetValue`，若没有配置`resetValue`，则清空   |
+| reset    | -                                           | 将值重置为初始值。6.3.0 及以下版本为`resetValue`         |
 | setValue | `value: string` 更新的时间区间值，用`,`隔开 | 更新数据，依赖格式`format`，例如 '1617206400,1743436800' |

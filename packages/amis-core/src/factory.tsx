@@ -85,6 +85,11 @@ export interface RendererProps
     [propName: string]: any;
   };
   onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
+  dispatchEvent: (
+    e: React.UIEvent<any> | React.BaseSyntheticEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>
+  ) => Promise<RendererEvent<any>>;
   mobileUI?: boolean;
   [propName: string]: any;
 }

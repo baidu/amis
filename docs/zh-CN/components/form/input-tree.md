@@ -1144,17 +1144,17 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称                             | 事件参数                                                                                                                     | 说明                         |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| change                               | `items: object[]`选项集合（3.6.0 及以上版本）<br/>`item: object`选中的节点（6.2.0 及以上版本）<br/>`[name]: string` 组件的值 | 选中值变化时触发             |
-| addConfirm (3.6.4 及以上版本)        | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合                                    | 新增节点提交时触发           |
-| editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                    | 编辑节点提交时触发           |
-| deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                    | 删除节点提交时触发           |
-| deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合        | 懒加载接口远程请求成功时触发 |
-| add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                              | 新增节点提交时触发           |
-| edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                              | 编辑节点提交时触发           |
-| delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                              | 删除节点提交时触发           |
-| loadFinished（不推荐）               | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                                                     | 懒加载接口远程请求成功时触发 |
+| 事件名称                             | 事件参数                                                                                                                                                                                                                                                                                       | 说明                         |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| change                               | `value: any`表单项的值，值格式取决于具体配置<br/>`items: object[]`选项集合（3.6.0 及以上版本）<br/>`item: object`选中的节点（6.2.0 及以上版本）单选时才有值<br/> `selectedItems: object[]` 当前选中的项，单选多选都值，且值格式始终是数组（6.4.0 及以上版本） <br /> `[name]: string` 组件的值 | 选中值变化时触发             |
+| addConfirm (3.6.4 及以上版本)        | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 新增节点提交时触发           |
+| editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 编辑节点提交时触发           |
+| deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 删除节点提交时触发           |
+| deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合                                                                                                                                                                          | 懒加载接口远程请求成功时触发 |
+| add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 新增节点提交时触发           |
+| edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 编辑节点提交时触发           |
+| delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 删除节点提交时触发           |
+| loadFinished（不推荐）               | `[name]: object` deferApi 懒加载远程请求成功后返回的数据                                                                                                                                                                                                                                       | 懒加载接口远程请求成功时触发 |
 
 ### change
 
@@ -1453,5 +1453,139 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | delete   | value: ` any`                          | 删除数据项的 value，（如果配置了 valueField，以 valueField 的字段值为准）                                  |
 | reload   | -                                      | 刷新                                                                                                       |
 | clear    | -                                      | 清空                                                                                                       |
-| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                                     |
+| reset    | -                                      | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                           |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                    |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "Folder B",
+                "value": 3,
+                "children": [
+                  {
+                    "label": "file b1",
+                    "value": 3.1
+                  },
+                  {
+                    "label": "file b2",
+                    "value": 3.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ],
+          "value": 5,
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "Folder B",
+                "value": 3,
+                "children": [
+                  {
+                    "label": "file b1",
+                    "value": 3.1
+                  },
+                  {
+                    "label": "file b2",
+                    "value": 3.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ],
+          "value": 5,
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

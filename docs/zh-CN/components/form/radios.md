@@ -313,6 +313,196 @@ api 返回内容需要包含 options 字段
 | 动作名称 | 动作配置                 | 说明                                                    |
 | -------- | ------------------------ | ------------------------------------------------------- |
 | clear    | -                        | 清空                                                    |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reset    | -                        | 将值重置为初始值。6.3.0 及以下版本为`resetValue`        |
 | reload   | -                        | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
 | setValue | `value: string` 更新的值 | 更新数据                                                |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "name": "radios",
+          "type": "radios",
+          "label": "radios",
+          "options": [
+            {
+              "label": "OptionA",
+              "value": "a"
+            },
+            {
+              "label": "OptionB",
+              "value": "b"
+            },
+            {
+              "label": "OptionC",
+              "value": "c"
+            },
+            {
+              "label": "OptionD",
+              "value": "d"
+            }
+          ],
+          "value": "a",
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "name": "radios",
+          "type": "radios",
+          "label": "radios",
+          "options": [
+            {
+              "label": "OptionA",
+              "value": "a"
+            },
+            {
+              "label": "OptionB",
+              "value": "b"
+            },
+            {
+              "label": "OptionC",
+              "value": "c"
+            },
+            {
+              "label": "OptionD",
+              "value": "d"
+            }
+          ],
+          "value": "a",
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reload
+
+只有选择器模式支持，即配置`source`，用于重新加载选择器的数据源。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "name": "radios",
+          "type": "radios",
+          "label": "radios",
+          "id": "reload_type",
+          "source": "/api/mock2/form/getOptions",
+          "value": "a"
+        },
+        {
+            "type": "button",
+            "label": "重新加载",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reload",
+                            "componentId": "reload_type"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "name": "radios",
+          "type": "radios",
+          "label": "radios",
+          "options": [
+            {
+              "label": "OptionA",
+              "value": "a"
+            },
+            {
+              "label": "OptionB",
+              "value": "b"
+            },
+            {
+              "label": "OptionC",
+              "value": "c"
+            },
+            {
+              "label": "OptionD",
+              "value": "d"
+            }
+          ],
+          "value": "a",
+          "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": "b"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

@@ -234,7 +234,9 @@ function getAfterRightWidth(
   for (let i = doms.length - 0; i > index; i--) {
     if (columns && columns[i] && isFixedRightColumn(columns[i].fixed)) {
       const dom = doms[i] as HTMLElement;
-      width += dom.offsetWidth;
+      if (dom) {
+        width += dom.offsetWidth;
+      }
     }
   }
   return width;

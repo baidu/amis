@@ -1,4 +1,9 @@
-import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
+import {
+  OptionsControlProps,
+  OptionsControl,
+  resolveEventData,
+  getVariable
+} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
@@ -267,14 +272,18 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     throwErrors: boolean = false,
     args?: any
   ) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     const activeKey = args?.activeKey as number;
     switch (action.actionType) {
       case 'clear':
         onChange?.('');
         break;
       case 'reset':
-        onChange?.(resetValue ?? '');
+        onChange?.(
+          getVariable(formStore?.pristine ?? store?.pristine, name) ??
+            resetValue ??
+            ''
+        );
         break;
       case 'changeTabKey':
         this.setState({

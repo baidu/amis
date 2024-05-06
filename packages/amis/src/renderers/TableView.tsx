@@ -300,6 +300,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
           })
         )}
         style={{width: width, borderCollapse: 'collapse'}}
+        data-id={id}
       >
         {this.renderCaption()}
         {this.renderCols()}

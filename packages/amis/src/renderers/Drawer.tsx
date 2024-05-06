@@ -6,7 +6,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   setThemeClassName,
-  ValidateError
+  ValidateError,
+  RendererEvent
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -308,6 +309,9 @@ export default class Drawer extends React.Component<DrawerProps> {
     if (rendererEvent?.prevented) {
       return;
     }
+    if (rendererEvent?.pendingPromise.length) {
+      await rendererEvent.allDone();
+    }
     // clear error
     store.updateMessage();
     onClose();
@@ -425,12 +429,11 @@ export default class Drawer extends React.Component<DrawerProps> {
   handleFormChange(data: any, name?: string) {
     const {store} = this.props;
 
+    // 如果 drawer 里面不放 form，而是直接放表单项就会进到这里来。
     if (typeof name === 'string') {
-      data = {
-        [name]: data
-      };
+      store.changeValue(name, data);
+      return;
     }
-
     store.setFormData(data);
   }
 
@@ -930,7 +933,8 @@ export class DrawerRenderer extends Drawer {
     action: ActionObject,
     data: object,
     throwErrors: boolean = false,
-    delegate?: IScopedContext
+    delegate?: IScopedContext,
+    rendererEvent?: RendererEvent<any>
   ) {
     const {onClose, onAction, store, env, dispatchEvent} = this.props;
 
@@ -939,6 +943,10 @@ export class DrawerRenderer extends Drawer {
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
         : false;
+    }
+
+    if (rendererEvent?.pendingPromise.length) {
+      await rendererEvent.allDone();
     }
 
     const scoped = this.context as IScopedContext;
@@ -950,6 +958,9 @@ export class DrawerRenderer extends Drawer {
       );
       if (rendererEvent?.prevented) {
         return;
+      }
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
       }
       store.setCurrentAction(action, this.props.resolveDefinitions);
       onClose();
@@ -965,6 +976,9 @@ export class DrawerRenderer extends Drawer {
       );
       if (rendererEvent?.prevented) {
         return;
+      }
+      if (rendererEvent?.pendingPromise.length) {
+        await rendererEvent.allDone();
       }
       store.setCurrentAction(action, this.props.resolveDefinitions);
       this.tryChildrenToHandle(action, data) || onClose();

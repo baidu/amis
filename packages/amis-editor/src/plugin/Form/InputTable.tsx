@@ -1094,7 +1094,7 @@ export class TableControlPlugin extends BasePlugin {
     // {
     //   actionType: 'reset',
     //   actionLabel: '重置',
-    //   description: '将值重置为resetValue，若没有配置resetValue，则清空'
+    //   description: '将值重置为初始值'
     // },
     {
       actionType: 'clear',
@@ -1105,6 +1105,11 @@ export class TableControlPlugin extends BasePlugin {
       actionType: 'initDrag',
       actionLabel: '开启排序',
       description: '开启表格拖拽排序功能'
+    },
+    {
+      actionType: 'cancelDrag',
+      actionLabel: '取消排序',
+      description: '取消表格拖拽排序功能'
     }
   ];
 

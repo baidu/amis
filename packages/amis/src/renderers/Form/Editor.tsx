@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  getVariable
 } from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {Editor} from 'amis-ui';
@@ -167,12 +168,14 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     args?: any
   ) {
     const actionType = action?.actionType as string;
-    const {onChange, resetValue} = this.props;
+    const {onChange, resetValue, formStore, store, name} = this.props;
 
     if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
-      onChange(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange(pristineVal ?? '');
     } else if (actionType === 'focus') {
       this.focus();
     }

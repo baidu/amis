@@ -6,7 +6,7 @@ import InputBox from '../InputBox';
 import InputBoxWithSuggestion from '../InputBoxWithSuggestion';
 import Select from '../Select';
 import type {InputJSONSchemaItemProps} from './index';
-import {InputJSONSchemaItem} from './Item';
+import InputJSONSchemaItem from './Item';
 import isEqual from 'lodash/isEqual';
 
 type JSONSchemaObjectMember = {
@@ -14,11 +14,14 @@ type JSONSchemaObjectMember = {
   name: string;
   nameMutable?: boolean;
   schema?: any;
-  invalid?: boolean;
+  invalid?: 'key' | 'value';
   required?: boolean;
   value?: any;
 };
-export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
+export function InputJSONSchemaObject(
+  props: InputJSONSchemaItemProps,
+  ref: any
+) {
   const {
     classnames: cx,
     value,
@@ -57,9 +60,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           name: key,
           nameMutable: true,
           schema: {
-            type: 'string'
+            type: 'string',
+            default: ''
           },
-          value: value[key]
+          value: value[key] ?? ''
         });
       }
     }
@@ -70,8 +74,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
         name: '',
         nameMutable: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+          default: ''
+        },
+        value: ''
       });
     }
 
@@ -138,16 +144,32 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       throw new Error('member object not found');
     }
 
+    const originSchema = members[idx].schema;
+    const schema: any = props.schema?.properties?.[memberKey] || {
+      type: 'string',
+      default: ''
+    };
+
     const arr = members.concat();
-    arr.splice(idx, 1, {
+    const item: JSONSchemaObjectMember = {
       ...member,
-      schema: props.schema?.properties?.[memberKey] || {
-        type: 'string'
-      },
+      schema: schema,
       name: memberKey,
       invalid:
         !memberKey || members.some((a, b) => a.name === memberKey && b !== idx)
-    });
+          ? 'key'
+          : undefined
+    };
+
+    if (
+      item.value === originSchema.default &&
+      originSchema !== schema &&
+      originSchema.default !== schema.default
+    ) {
+      item.value = schema.default;
+    }
+
+    arr.splice(idx, 1, item);
 
     setMembers(arr);
     emitChange();
@@ -183,9 +205,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           name: key,
           nameMutable: true,
           schema: {
-            type: 'string'
+            type: 'string',
+            default: ''
           },
-          value: value?.[key]
+          value: value?.[key] ?? ''
         });
       } else {
         arr.splice(idx, 1, {
@@ -202,8 +225,13 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     arr.push({
       key: guid(),
       name: '',
-      invalid: true,
-      nameMutable: true
+      invalid: 'key',
+      nameMutable: true,
+      schema: {
+        type: 'string',
+        default: ''
+      },
+      value: ''
     });
     setMembers(arr);
     emitChange();
@@ -223,6 +251,16 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     options.every(o => members.find(m => m.name === o.value))
   );
   const allowInput = props.schema.additionalProperties !== false;
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      validate(): any {
+        if (membersRef.current?.some(m => m.invalid === 'key')) {
+          return __('JSONSchema.key_invalid');
+        }
+      }
+    };
+  });
 
   return (
     <>
@@ -281,7 +319,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                         allowInput ? (
                           <InputBoxWithSuggestion
                             value={member.name}
-                            hasError={member.invalid}
+                            hasError={member.invalid === 'key'}
                             onChange={onMemberKeyChange.bind(null, member)}
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
@@ -293,7 +331,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                             simpleValue
                             block
                             value={member.name}
-                            hasError={member.invalid}
+                            hasError={member.invalid === 'key'}
                             onChange={onMemberKeyChange.bind(null, member)}
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
@@ -304,7 +342,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                       ) : (
                         <InputBox
                           value={member.name}
-                          hasError={member.invalid}
+                          hasError={member.invalid === 'key'}
                           onChange={onMemberKeyChange.bind(null, member)}
                           clearable={false}
                           placeholder={__('JSONSchema.key')}
@@ -382,3 +420,5 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     </>
   );
 }
+
+export default React.forwardRef(InputJSONSchemaObject);

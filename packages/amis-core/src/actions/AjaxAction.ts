@@ -3,6 +3,7 @@ import {normalizeApi, normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
 import {createObject, isEmpty} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
+import {evalExpressionWithConditionBuilder} from '../utils/tpl';
 import {
   RendererAction,
   ListenerAction,
@@ -57,6 +58,19 @@ export class AjaxAction implements RendererAction {
     const silent = action?.options?.silent || (action?.api as ApiObject).silent;
     const messages = (action?.api as ApiObject)?.messages;
     let api = normalizeApi(action.api);
+
+    if (api.sendOn !== undefined) {
+      // 发送请求前，判断是否需要发送
+      const sendOn = await evalExpressionWithConditionBuilder(
+        api.sendOn,
+        action.data ?? {},
+        false
+      );
+
+      if (!sendOn) {
+        return;
+      }
+    }
 
     // 如果没配置data数据映射，则给一个空对象，避免将当前数据域作为接口请求参数
     if ((api as any)?.data == undefined) {

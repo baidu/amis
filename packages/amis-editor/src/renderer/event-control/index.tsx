@@ -78,7 +78,8 @@ interface EventControlProps extends FormControlProps {
   // 监听面板提交事件
   // 更改后写入 store 前触发
   subscribeSchemaSubmit: (
-    fn: (schema: any, value: any, id: string, diff?: any) => any
+    fn: (schema: any, value: any, id: string, diff?: any) => any,
+    once?: boolean
   ) => () => void;
 }
 
@@ -978,6 +979,18 @@ export class EventControl extends React.Component<
   onClose() {
     this.removeDataSchema();
     this.setState({showAcionDialog: false});
+    this.unSubscribeSchemaSubmit?.();
+    delete this.unSubscribeSchemaSubmit;
+  }
+
+  unSubscribeSchemaSubmit?: () => void;
+  @autobind
+  subscribeSchemaSubmit(
+    fn: (schema: any, value: any, id: string, diff?: any) => any,
+    once?: boolean
+  ) {
+    this.unSubscribeSchemaSubmit = this.props.subscribeSchemaSubmit(fn, once);
+    return this.unSubscribeSchemaSubmit;
   }
 
   removeDataSchema() {
@@ -1248,10 +1261,7 @@ export class EventControl extends React.Component<
                                       }
                                     )}
                                   >
-                                    <Icon
-                                      className="icon"
-                                      icon="edit-full-btn"
-                                    />
+                                    <Icon className="icon" icon="setting" />
                                   </div>
                                   <div
                                     onClick={this.delAction.bind(
@@ -1389,7 +1399,7 @@ export class EventControl extends React.Component<
           onSubmit={this.onSubmit}
           onClose={this.onClose}
           render={this.props.render}
-          subscribeSchemaSubmit={subscribeSchemaSubmit}
+          subscribeSchemaSubmit={this.subscribeSchemaSubmit}
           subscribeActionSubmit={this.subscribeSubmit}
         />
       </div>

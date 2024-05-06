@@ -21,6 +21,7 @@ export const ModalStore = ServiceStore.named('ModalStore')
       setEntered(value: boolean) {
         self.entered = value;
       },
+
       setFormData(obj: any) {
         self.form = obj;
       },

@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  resolveEventData
+  resolveEventData,
+  getVariable
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
@@ -142,13 +143,15 @@ export default class TagControl extends React.PureComponent<
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      onChange?.(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal ?? '');
     }
   }
 

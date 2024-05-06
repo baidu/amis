@@ -275,17 +275,16 @@ interface InputExcelData {
 }
 ```
 
-
 ## 属性表
 
-| 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
-| ------------ | ----------------------- | ------------------------------- | ------------------ | ------- |
-| allSheets    | `boolean`               | false                           | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'` | 'object'                        | 解析模式           |
-| includeEmpty | `boolean`               | true                            | 是否包含空值       |
-| plainText    | `boolean`               | true                            | 是否解析为纯文本   |
-| placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
-| autoFill  | `Record<string, string>`    |  | 自动填充       | `3.5.0` |
+| 属性名       | 类型                     | 默认值                          | 说明               | 版本    |
+| ------------ | ------------------------ | ------------------------------- | ------------------ | ------- |
+| allSheets    | `boolean`                | false                           | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'`  | 'object'                        | 解析模式           |
+| includeEmpty | `boolean`                | true                            | 是否包含空值       |
+| plainText    | `boolean`                | true                            | 是否解析为纯文本   |
+| placeholder  | `string`                 | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
+| autoFill     | `Record<string, string>` |                                 | 自动填充           | `3.5.0` |
 
 ## 事件表
 
@@ -301,8 +300,117 @@ interface InputExcelData {
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                                       | 说明                                                   |
-| -------- | ---------------------------------------------- | ------------------------------------------------------ |
-| clear    | -                                              | 清空                                                   |
-| reset    | -                                              | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| setValue | `value: Array<object>` 更新的 excel 解析后数据 | 更新数据                                               |
+| 动作名称 | 动作配置                                       | 说明                                             |
+| -------- | ---------------------------------------------- | ------------------------------------------------ |
+| clear    | -                                              | 清空                                             |
+| reset    | -                                              | 将值重置为初始值。6.3.0 及以下版本为`resetValue` |
+| setValue | `value: Array<object>` 更新的 excel 解析后数据 | 更新数据                                         |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "label": "上传 Excel",
+            "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "label": "上传 Excel",
+            "id": "reset_text",
+            "value": [
+              {
+                "ID": "1",
+                "NAME": "amis"
+              }
+            ]
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "label": "上传 Excel",
+            "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": [
+                                  {
+                                    "ID": "1",
+                                    "NAME": "amis"
+                                  }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

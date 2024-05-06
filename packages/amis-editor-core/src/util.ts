@@ -194,7 +194,7 @@ export function JSONPipeOut(
     });
     return flag ? ret : obj;
   }
-  if (!isObject(obj) || isObservable(obj)) {
+  if (!isPlainObject(obj)) {
     return obj;
   }
 
@@ -1249,6 +1249,9 @@ export function clearDirtyCssKey(data: any) {
     if (key.startsWith('.') || key.startsWith('#')) {
       delete temp[key];
     }
+    if (key === 'editorState') {
+      delete temp[key];
+    }
   });
   return temp;
 }
@@ -1394,7 +1397,12 @@ export const scrollToActive = debounce((selector: string) => {
   }
 }, 200);
 
-export function addModal(schema: any, modal: any, definitions?: any) {
+export function addModal(
+  schema: any,
+  modal: any,
+  definitions?: any,
+  isKeyValid?: (key: string) => boolean
+) {
   schema = {...schema, definitions: {...schema.definitions}};
 
   // 如果有传入definitions，则合并到schema中
@@ -1404,7 +1412,10 @@ export function addModal(schema: any, modal: any, definitions?: any) {
 
   let idx = 1;
   while (true) {
-    if (!schema.definitions[`modal-ref-${idx}`]) {
+    if (
+      !schema.definitions[`modal-ref-${idx}`] &&
+      (!isKeyValid || isKeyValid(`modal-ref-${idx}`))
+    ) {
       break;
     }
     idx++;
@@ -1432,16 +1443,42 @@ export function addModal(schema: any, modal: any, definitions?: any) {
  */
 export function modalsToDefinitions(
   modals: Array<EditorModalBody>,
-  definitions: any = {}
+  definitions: any = {},
+  edtingModal?: EditorModalBody
 ) {
   let schema = {
     definitions
   };
+
   modals.forEach((modal, idx) => {
+    if (
+      edtingModal &&
+      (edtingModal.$$ref
+        ? edtingModal.$$ref === modal.$$ref
+        : edtingModal.$$id === modal.$$id)
+    ) {
+      // 自己不需要转成 definitions
+      return;
+    } else if (
+      !modal.$$ref &&
+      modal.$$id &&
+      (JSONGetById(schema.definitions, modal.$$id) ||
+        (edtingModal && JSONGetById(edtingModal, modal.$$id)))
+    ) {
+      // 内嵌弹窗，已经包含在 definitions 里面了
+      // 不需要转成 definitions
+      return;
+    }
+
     if (modal.$$ref) {
       schema.definitions[modal.$$ref] = JSONPipeIn(modal);
     } else {
-      [schema] = addModal(schema, {...modal, $$originId: modal.$$id});
+      [schema] = addModal(
+        schema,
+        {...modal, $$originId: modal.$$id},
+        undefined,
+        key => !modals.find(m => m.$$ref && m.$$ref === key)
+      );
     }
   });
   return schema.definitions;
@@ -1469,11 +1506,6 @@ export function mergeDefinitions(
 
   let schema = originSchema;
   Object.keys(definitions).forEach(key => {
-    // 弹窗里面用到了才更新
-    if (!refs.includes(key)) {
-      return;
-    }
-
     // 要修改就复制一份，避免污染原始数据
     if (schema === originSchema) {
       schema = {...schema, definitions: {...schema.definitions}};
@@ -1483,24 +1515,63 @@ export function mergeDefinitions(
 
     if ($$originId) {
       const parent = JSONGetParentById(schema, $$originId);
-      if (!parent) {
-        throw new Error('Can not find modal action.');
-      }
 
-      const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
-      schema = JSONUpdate(schema, parent.$$id, {
-        ...parent,
-        __actionModals: undefined,
-        args: undefined,
-        dialog: undefined,
-        drawer: undefined,
-        actionType: def.actionType ?? modalType,
-        [modalType]: JSONPipeIn({
-          $ref: key
-        })
-      });
-      schema.definitions[key] = JSONPipeIn(def);
-    } else {
+      // 当前更新弹窗里面用到了需要转成 ref
+      if (refs.includes(key)) {
+        if (schema.$$id === $$originId) {
+          schema = JSONUpdate(schema, $$originId, JSONPipeIn(def), true);
+          return;
+        }
+
+        if (!parent) {
+          throw new Error('Can not find modal action.');
+        }
+
+        const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+        schema = JSONUpdate(
+          schema,
+          parent.$$id,
+          {
+            ...parent,
+            __actionModals: undefined,
+            args: undefined,
+            dialog: undefined,
+            drawer: undefined,
+            actionType: def.actionType ?? modalType,
+            [modalType]: JSONPipeIn({
+              $ref: key
+            })
+          },
+          true
+        );
+        schema.definitions[key] = JSONPipeIn(def);
+      } else if (parent) {
+        // 没用到，可能修改了弹窗的内容为引用其他弹窗，同样需要更新，但是不会提取为 definitions
+        const modalType = def.type === 'drawer' ? 'drawer' : 'dialog';
+        const origin = parent[modalType] || {};
+
+        // 这样处理是为了不要修改原来的 $$id
+        const changes = diff(origin, def, (path, key) => key === '$$id');
+        if (changes) {
+          const newModal = patchDiff(origin, changes);
+          delete newModal.$$originId;
+          schema = JSONUpdate(
+            schema,
+            parent.$$id,
+            {
+              ...parent,
+              __actionModals: undefined,
+              args: undefined,
+              dialog: undefined,
+              drawer: undefined,
+              actionType: def.actionType ?? modalType,
+              [modalType]: newModal
+            },
+            true
+          );
+        }
+      }
+    } else if (refs.includes(key)) {
       schema.definitions[key] = JSONPipeIn(def);
     }
   });

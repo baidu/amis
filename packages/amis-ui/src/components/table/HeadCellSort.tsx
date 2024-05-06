@@ -14,12 +14,14 @@ import {
 } from 'amis-core';
 import {Icon} from '../icons';
 import {ColumnProps} from './index';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface Props extends ThemeProps, LocaleProps {
   column: ColumnProps;
   onSort?: (payload: {orderBy: string; orderDir: string}) => any;
   active?: boolean;
   classnames: ClassNamesFn;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface State {
@@ -50,11 +52,12 @@ export class HeadCellSort extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const {active, column, onSort, classnames: cx} = this.props;
+    const {active, column, onSort, classnames: cx, testIdBuilder} = this.props;
 
     return (
       <span
         className={cx('TableCell-sortBtn', 'aaa')}
+        {...testIdBuilder?.getTestId()}
         onClick={async () => {
           let sortPayload: State = {
             orderBy: '',
@@ -97,6 +100,7 @@ export class HeadCellSort extends React.PureComponent<Props, State> {
             icon="sort-desc"
             className="icon"
             iconContent="table-sort-down"
+            testIdBuilder={testIdBuilder?.getChild('desc')}
           />
         </i>
         <i
@@ -105,7 +109,12 @@ export class HeadCellSort extends React.PureComponent<Props, State> {
             active && this.state.orderDir === 'asc' ? 'is-active' : ''
           )}
         >
-          <Icon icon="sort-asc" className="icon" iconContent="table-sort-up" />
+          <Icon
+            icon="sort-asc"
+            className="icon"
+            iconContent="table-sort-up"
+            testIdBuilder={testIdBuilder?.getChild('asc')}
+          />
         </i>
         <i
           className={cx(
@@ -117,6 +126,7 @@ export class HeadCellSort extends React.PureComponent<Props, State> {
             icon="sort-default"
             className="icon"
             iconContent="table-sort-default"
+            testIdBuilder={testIdBuilder?.getChild('default')}
           />
         </i>
       </span>

@@ -57,6 +57,8 @@ import './TableCell';
 import './ColumnToggler';
 import {SchemaQuickEdit} from '../QuickEdit';
 
+import type {TestIdBuilder} from 'amis-core';
+
 /**
  * Table 表格2渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table2
@@ -877,7 +879,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       itemBadge,
       data,
       classnames: cx,
-      env
+      env,
+      testIdBuilder
     } = this.props;
 
     const cols: Array<any> = [];
@@ -950,6 +953,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
               const item =
                 store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
+              const itemIDBuilder = testIdBuilder?.getChild(
+                `row-${rowIndex}-cell-${colIndex}`
+              );
 
               const obj = {
                 children: this.renderCellSchema(column, {
@@ -982,7 +988,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
                   },
                   row: item,
                   showBadge,
-                  itemBadge
+                  itemBadge,
+                  testIdBuilder: itemIDBuilder
                 }),
                 props
               };
@@ -1047,6 +1054,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               searchable={column.searchable}
               onSearch={this.handleSearch}
               key={'th-search-' + col}
+              testIdBuilder={testIdBuilder?.getChild(`head-search-${col}`)}
             />
           );
         }
@@ -1610,7 +1618,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     selectedRows: Array<any>,
     selectedRowKeys: Array<string | number>,
     unSelectedRows: Array<string | number>
-  ) {
+  ): Promise<any> {
     const {dispatchEvent, data, store} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1629,7 +1637,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  async handleSort(payload: SortProps) {
+  async handleSort(payload: SortProps): Promise<any> {
     const {dispatchEvent, data, onSort} = this.props;
     const rendererEvent = await dispatchEvent(
       'columnSort',
@@ -1647,7 +1655,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  async handleFilter(payload: {filterName: string; filterValue: string}) {
+  async handleFilter(payload: {
+    filterName: string;
+    filterValue: string;
+  }): Promise<any> {
     const {dispatchEvent, data, onSearch} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -2120,17 +2131,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
 export class TableRenderer extends Table2 {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
-    const parents = scoped?.parent?.getComponents();
 
     /**
      * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
      * 这里先做兼容处理，把动作交给上层的CRUD处理
      */
-    if (Array.isArray(parents) && parents.length) {
-      // CRUD的name会透传给Table，这样可以保证找到CRUD
-      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
-
-      return crud?.receive?.(values, subPath);
+    if (this.props?.host) {
+      // CRUD会把自己透传给Table，这样可以保证找到CRUD
+      return this.props.host.receive?.(values, subPath);
     }
 
     if (subPath) {
@@ -2142,11 +2150,9 @@ export class TableRenderer extends Table2 {
     const scoped = this.context as IScopedContext;
     const parents = scoped?.parent?.getComponents();
 
-    if (Array.isArray(parents) && parents.length) {
-      // CRUD的name会透传给Table，这样可以保证找到CRUD
-      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
-
-      return crud?.reload?.(subPath, query, ctx);
+    if (this.props?.host) {
+      // CRUD会把自己透传给Table，这样可以保证找到CRUD
+      return this.props.host.reload?.(subPath, query, ctx);
     }
 
     if (subPath) {

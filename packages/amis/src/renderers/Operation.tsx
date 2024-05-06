@@ -36,7 +36,14 @@ export class OperationField extends React.Component<OperationProps, object> {
   static defaultProps: Partial<OperationProps> = {};
 
   render() {
-    const {className, style, buttons, render, classnames: cx} = this.props;
+    const {
+      className,
+      style,
+      buttons,
+      render,
+      classnames: cx,
+      testIdBuilder
+    } = this.props;
 
     return (
       <div className={cx('OperationField', className)} style={style}>
@@ -53,7 +60,10 @@ export class OperationField extends React.Component<OperationProps, object> {
                   ...(button as any)
                 },
                 {
-                  key: index
+                  key: index,
+                  testIdBuilder: testIdBuilder?.getChild(
+                    `button-${button.testid || button.id || index}`
+                  )
                 }
               )
             )

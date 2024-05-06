@@ -2,19 +2,22 @@ import {ClassNamesFn} from 'amis-core';
 import {observer} from 'mobx-react';
 import React from 'react';
 import {EditorStoreType} from '../../store/editor';
-import {modalsToDefinitions, translateSchema} from '../../util';
+import {JSONGetById, modalsToDefinitions, translateSchema} from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
+import {EditorManager} from '../../manager';
 
 export interface DialogListProps {
   classnames: ClassNamesFn;
   store: EditorStoreType;
+  manager: EditorManager;
 }
 
 export default observer(function DialogList({
   classnames: cx,
-  store
+  store,
+  manager
 }: DialogListProps) {
-  const modals = store.modals;
+  const modals = store.modals.filter(item => !item.disabled);
 
   const handleAddDialog = React.useCallback(() => {
     const modal = {
@@ -29,7 +32,7 @@ export default observer(function DialogList({
       ]
     };
 
-    store.openSubEditor({
+    manager.openSubEditor({
       title: '编辑弹窗',
       value: modal,
       onChange: ({definitions, ...modal}: any, diff: any) => {
@@ -42,14 +45,12 @@ export default observer(function DialogList({
     const index = parseInt(event.currentTarget.getAttribute('data-index')!, 10);
     const modal = store.modals[index];
     const modalId = modal.$$id!;
-    store.openSubEditor({
+    manager.openSubEditor({
       title: '编辑弹窗',
       value: {
         type: 'dialog',
         ...(modal as any),
-        definitions: modalsToDefinitions(
-          store.modals.filter((m: any) => m.$$id !== modalId)
-        )
+        definitions: modalsToDefinitions(store.modals, {}, modal)
       },
       onChange: ({definitions, ...modal}: any, diff: any) => {
         store.updateModal(modalId, modal, definitions);

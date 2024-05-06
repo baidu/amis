@@ -463,7 +463,8 @@ export type TableRendererAction =
   | 'selectAll'
   | 'clearAll'
   | 'select'
-  | 'initDrag';
+  | 'initDrag'
+  | 'cancelDrag';
 
 export default class Table extends React.Component<TableProps, object> {
   static contextType = ScopedContext;
@@ -1229,7 +1230,8 @@ export default class Table extends React.Component<TableProps, object> {
     const unModifiedRows = store.rows
       .filter(item => !item.modified)
       .map(item => item.data);
-    onSave(
+
+    return onSave(
       rows,
       diff,
       rowIndexes,
@@ -2794,7 +2796,8 @@ export default class Table extends React.Component<TableProps, object> {
       autoFillHeight,
       autoGenerateFilter,
       mobileUI,
-      testIdBuilder
+      testIdBuilder,
+      id
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2813,6 +2816,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--autoFillHeight': autoFillHeight
         })}
         style={store.buildStyles(style)}
+        data-id={id}
         {...testIdBuilder?.getTestId()}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
@@ -2840,17 +2844,14 @@ export default class Table extends React.Component<TableProps, object> {
 export class TableRenderer extends Table {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
-    const parents = scoped?.parent?.getComponents();
 
     /**
      * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
      * 这里先做兼容处理，把动作交给上层的CRUD处理
      */
-    if (Array.isArray(parents) && parents.length) {
-      // CRUD的name会透传给Table，这样可以保证找到CRUD
-      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
-
-      return crud?.receive?.(values, subPath);
+    if (this.props?.host) {
+      // CRUD会把自己透传给Table，这样可以保证找到CRUD
+      return this.props.host.receive?.(values, subPath);
     }
 
     if (subPath) {
@@ -2902,13 +2903,10 @@ export class TableRenderer extends Table {
     }
 
     const scoped = this.context as IScopedContext;
-    const parents = scoped?.parent?.getComponents();
 
-    if (Array.isArray(parents) && parents.length) {
-      // CRUD的name会透传给Table，这样可以保证找到CRUD
-      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
-
-      return crud?.reload?.(subPath, query, ctx);
+    if (this.props?.host) {
+      // CRUD会把自己透传给Table，这样可以保证找到CRUD
+      return this.props.host.reload?.(subPath, query, ctx);
     }
 
     if (subPath) {
@@ -2955,8 +2953,7 @@ export class TableRenderer extends Table {
   ) {
     const {store, valueField, data} = this.props;
 
-    const actionType = action?.actionType as string;
-
+    const actionType = action?.actionType;
     switch (actionType) {
       case 'selectAll':
         store.clear();
@@ -2978,8 +2975,10 @@ export class TableRenderer extends Table {
         );
         break;
       case 'initDrag':
+        store.startDragging();
+        break;
+      case 'cancelDrag':
         store.stopDragging();
-        store.toggleDragging();
         break;
       case 'submitQuickEdit':
         this.handleSave();

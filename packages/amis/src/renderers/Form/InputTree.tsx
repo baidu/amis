@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import debounce from 'lodash/debounce';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
-import {SpinnerExtraProps, Tree as TreeSelector} from 'amis-ui';
+import {SpinnerExtraProps, Tree as TreeSelector, value2array} from 'amis-ui';
 import {
   Option,
   OptionsControl,
@@ -19,7 +19,8 @@ import {
   hasAbility,
   findTree,
   isEffectiveApi,
-  BaseApiObject
+  BaseApiObject,
+  getVariable
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -242,12 +243,14 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
     const actionType = action?.actionType as string;
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      onChange?.(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal ?? '');
     } else if (action.actionType === 'expand') {
       this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
     } else if (action.actionType === 'collapse') {
@@ -263,6 +266,12 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
   }
 
+  /**
+   * @deprecated 不推荐使用，没考虑 jointValues false，没考虑多选
+   * @param options
+   * @param value
+   * @returns
+   */
   resolveOption(options: Array<Option>, value: any) {
     return findTree(options, item => {
       const valueAbility = this.props.valueField || 'value';
@@ -326,16 +335,57 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, searchable, options, dispatchEvent} = this.props;
+    const {
+      onChange,
+      searchable,
+      options,
+      dispatchEvent,
+      multiple,
+      delimiter,
+      valueField,
+      selectedOptions: originSelectedItems,
+      joinValues,
+      extractValue
+    } = this.props;
     const {filteredOptions} = this.state;
     const items = searchable ? filteredOptions : options;
-    const item = this.resolveOption(items, value);
+
+    const selectedItems = value2array(value, {
+      multiple,
+      delimiter,
+      valueField,
+      options: filteredOptions
+    });
+    const item = multiple ? null : selectedItems[0];
+
+    // 如果是搜索模式，有可能已经选择的值被过滤掉了，如果值发生了变化
+    // 不应该让原来选中的值丢失
+    // https://github.com/baidu/amis/issues/9946
+    if (multiple && searchable && originSelectedItems.length) {
+      originSelectedItems.forEach(origin => {
+        const exists = findTree(
+          filteredOptions,
+          item => item[valueField || 'value'] === origin[valueField || 'value']
+        );
+        if (!exists) {
+          selectedItems.push(origin);
+        }
+      });
+      value = selectedItems.map(item =>
+        extractValue || joinValues ? item[valueField || 'value'] : item
+      );
+      if (joinValues) {
+        value = value.join(delimiter || ',');
+      }
+    }
+
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
         value,
         item,
-        items
+        items,
+        selectedItems
       })
     );
 

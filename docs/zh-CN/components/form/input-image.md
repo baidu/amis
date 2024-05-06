@@ -733,3 +733,35 @@ app.listen(8080, function () {});
 | 动作名称 | 动作配置 | 说明 |
 | -------- | -------- | ---- |
 | clear    | -        | 清空 |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "Image",
+            "receiver": "/api/upload/file",
+            "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

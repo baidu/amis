@@ -3,7 +3,7 @@ import {guid} from 'amis-core';
 import Button from '../Button';
 import {Icon} from '../icons';
 import type {InputJSONSchemaItemProps} from './index';
-import {InputJSONSchemaItem} from './Item';
+import InputJSONSchemaItem from './Item';
 
 type JSONSchemaArrayMember = {
   key: string;

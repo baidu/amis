@@ -3,6 +3,7 @@ import {
   Overlay,
   findTree,
   findTreeIndex,
+  getVariable,
   hasAbility,
   resolveEventData
 } from 'amis-core';
@@ -398,6 +399,13 @@ export default class TreeSelectControl extends React.Component<
     }
   }
 
+  resetValue() {
+    const {onChange, resetValue, formStore, store, name} = this.props;
+    const pristineVal =
+      getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+    onChange(pristineVal);
+  }
+
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -483,7 +491,10 @@ export default class TreeSelectControl extends React.Component<
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
         if (
-          !find(combinedOptions, (item: Option) => item.value == option.value)
+          !findTree(
+            combinedOptions,
+            (item: Option) => item.value == option.value
+          )
         ) {
           combinedOptions.push({
             ...option
@@ -530,8 +541,10 @@ export default class TreeSelectControl extends React.Component<
   }
 
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
-    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+    if (action.actionType === 'clear') {
       this.clearValue();
+    } else if (action.actionType === 'reset') {
+      this.resetValue();
     } else if (action.actionType === 'add') {
       this.addItemFromAction(action.args?.item, action.args?.parentValue);
     } else if (action.actionType === 'edit') {

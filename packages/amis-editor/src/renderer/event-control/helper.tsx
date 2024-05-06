@@ -321,14 +321,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 e.stopPropagation();
 
                 const modalId = modal.$$id;
-                store.openSubEditor({
+                manager.openSubEditor({
                   title: '编辑弹窗',
                   value: {
                     type: 'dialog',
                     ...modal,
-                    definitions: modalsToDefinitions(
-                      store.modals.filter((m: any) => m.$$id !== modalId)
-                    )
+                    definitions: modalsToDefinitions(store.modals, {}, modal)
                   },
                   onChange: ({definitions, ...modal}: any, diff: any) => {
                     store.updateModal(modalId, modal, definitions);

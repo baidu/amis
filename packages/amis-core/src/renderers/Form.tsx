@@ -641,7 +641,6 @@ export default class Form extends React.Component<FormProps, object> {
             );
           }
         })
-        .then(this.dispatchInited)
         .then(this.initInterval)
         .then(this.onInit);
     } else {
@@ -676,8 +675,8 @@ export default class Form extends React.Component<FormProps, object> {
           errorMessage: fetchFailed
         }
       )
-        .then(this.dispatchInited)
-        .then(this.initInterval);
+        .then(this.initInterval)
+        .then(this.dispatchInited);
     }
   }
 
@@ -719,7 +718,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     // 派发init事件，参数为初始化数据
-    await dispatchEvent(
+    const result = await dispatchEvent(
       'inited',
       createObject(data, {
         ...value?.data, // 保留，兼容历史
@@ -729,7 +728,7 @@ export default class Form extends React.Component<FormProps, object> {
       })
     );
 
-    return value;
+    return result;
   }
 
   blockRouting(): any {
@@ -805,6 +804,15 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     onInit && onInit(data, this.props);
+
+    // 派发初始化事件
+    const dispatch = await this.dispatchInited({data});
+
+    if (dispatch?.prevented) {
+      return;
+    }
+
+    // submitOnInit
     submitOnInit &&
       this.handleAction(
         undefined,
@@ -838,8 +846,10 @@ export default class Form extends React.Component<FormProps, object> {
         [initFinishedField || 'finished']: false
       });
 
+    let result: Payload | undefined = undefined;
+
     if (isEffectiveApi(initApi, store.data)) {
-      const result: Payload = await store.fetchInitData(initApi, store.data, {
+      result = await store.fetchInitData(initApi, store.data, {
         successMessage: fetchSuccess,
         errorMessage: fetchFailed,
         silent,
@@ -861,9 +871,6 @@ export default class Form extends React.Component<FormProps, object> {
         }
       });
 
-      // 派发初始化接口请求完成事件
-      await this.dispatchInited(result);
-
       if (result?.ok) {
         this.initInterval(result);
         store.reset(undefined, false);
@@ -871,6 +878,9 @@ export default class Form extends React.Component<FormProps, object> {
     } else {
       store.reset(undefined, false);
     }
+
+    // 派发初始化接口请求完成事件
+    this.dispatchInited(result);
   }
 
   receive(values: object, name?: string, replace?: boolean) {
@@ -984,7 +994,9 @@ export default class Form extends React.Component<FormProps, object> {
       this.flushing = true;
       const hooks = this.hooks['flush'] || [];
       await Promise.all(hooks.map(fn => fn()));
-      await this.lazyEmitChange.flush();
+      if (!this.emitting) {
+        await this.lazyEmitChange.flush();
+      }
     } finally {
       this.flushing = false;
     }
@@ -1055,46 +1067,54 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   emittedData: any = null;
-  async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
-    const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
+  emitting = false;
+  async emitChange(submit: boolean, emitedFromWatch: boolean = false) {
+    try {
+      this.emitting = true;
 
-    if (!isAlive(store)) {
-      return;
-    }
+      const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
-    const diff = difference(store.data, store.pristine);
-    if (
-      skipIfNothingChanges &&
-      (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
-    ) {
-      return;
-    }
+      if (!isAlive(store)) {
+        return;
+      }
 
-    this.emittedData = store.data;
-    // 提前准备好 onChange 的参数。
-    // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
-    const changeProps = [store.data, diff, this.props];
-    const dispatcher = await dispatchEvent(
-      'change',
-      createObject(data, store.data)
-    );
-    if (!dispatcher?.prevented) {
-      onChange && onChange.apply(null, changeProps);
-    }
+      const diff = difference(store.data, store.pristine);
+      if (
+        emitedFromWatch &&
+        (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
+      ) {
+        return;
+      }
 
-    store.clearRestError();
-
-    if (submit || (submitOnChange && store.inited)) {
-      await this.handleAction(
-        undefined,
-        {
-          type: 'submit',
-          // 如果这里不跳过，会相互依赖死循环，flush 会 让 emiteChange 立即执行
-          // handleAction 里面又会调用 flush
-          skipFormFlush: true
-        },
-        store.data
+      this.emittedData = store.data;
+      // 提前准备好 onChange 的参数。
+      // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
+      const changeProps = [store.data, diff, this.props];
+      const dispatcher = await dispatchEvent(
+        'change',
+        createObject(data, store.data)
       );
+      if (!dispatcher?.prevented) {
+        onChange && onChange.apply(null, changeProps);
+      }
+
+      store.clearRestError();
+
+      // 只有主动修改表单项触发的 change 才会触发 submit
+      if (!emitedFromWatch && (submit || (submitOnChange && store.inited))) {
+        await this.handleAction(
+          undefined,
+          {
+            type: 'submit',
+            // 如果这里不跳过，会相互依赖死循环，flush 会 让 emiteChange 立即执行
+            // handleAction 里面又会调用 flush
+            skipFormFlush: true
+          },
+          store.data
+        );
+      }
+    } finally {
+      this.emitting = false;
     }
   }
 
@@ -2255,7 +2275,6 @@ export class FormRenderer extends Form {
   }
 
   getData() {
-    const {store} = this.props;
-    return store.data;
+    return this.getValues();
   }
 }

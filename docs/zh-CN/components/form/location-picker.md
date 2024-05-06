@@ -123,8 +123,129 @@ order: 30
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置 | 说明                                                   |
-| -------- | -------- | ------------------------------------------------------ |
-| clear    | -        | 清空                                                   |
-| reset    | -        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| setValue | `value`  | 参考 [`LocationData`](#LocationData)                   |
+| 动作名称 | 动作配置 | 说明                                             |
+| -------- | -------- | ------------------------------------------------ |
+| clear    | -        | 清空                                             |
+| reset    | -        | 将值重置为初始值。6.3.0 及以下版本为`resetValue` |
+| setValue | `value`  | 参考 [`LocationData`](#LocationData)             |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "location-picker",
+          "name": "location",
+          "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+          "label": "地址",
+          "value": {
+            "address":"北京市西城区府右街131号",
+            "lat":39.916383659908185,
+            "lng":116.38854914523102,
+            "city":"北京市",
+            "vendor":"baidu"
+          },
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "location-picker",
+          "name": "location",
+          "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+          "label": "地址",
+          "value": {
+            "address":"北京市西城区府右街131号",
+            "lat":39.916383659908185,
+            "lng":116.38854914523102,
+            "city":"北京市",
+            "vendor":"baidu"
+          },
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "location-picker",
+          "name": "location",
+          "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+          "label": "地址",
+          "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": {
+                                  "address":"北京市西城区府右街131号",
+                                  "lat":39.916383659908185,
+                                  "lng":116.38854914523102,
+                                  "city":"北京市",
+                                  "vendor":"baidu"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

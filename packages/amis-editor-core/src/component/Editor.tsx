@@ -40,6 +40,7 @@ export interface EditorProps extends PluginEventListener {
   superEditorData?: any;
   withSuperDataSchema?: boolean;
   /** 当前 Editor 为 SubEditor 时触发的宿主节点 */
+  hostManager?: EditorManager;
   hostNode?: EditorNodeType;
   dataBindingChange?: (
     value: string,
@@ -154,6 +155,7 @@ export default class Editor extends Component<EditorProps> {
       onChange,
       showCustomRenderersPanel,
       superEditorData,
+      hostManager,
       ...rest
     } = props;
 
@@ -166,7 +168,6 @@ export default class Editor extends Component<EditorProps> {
         theme: props.theme,
         isSubEditor,
         amisDocHost: props.amisDocHost,
-        ctx: props.ctx,
         superEditorData,
         appLocale: props.appLocale,
         appCorpusData: props?.amisEnv?.replaceText,
@@ -174,12 +175,13 @@ export default class Editor extends Component<EditorProps> {
       },
       config
     );
+    this.store.setCtx(props.ctx);
     this.store.setSchema(value);
     if (showCustomRenderersPanel !== undefined) {
       this.store.setShowCustomRenderersPanel(showCustomRenderersPanel);
     }
 
-    this.manager = new EditorManager(config, this.store);
+    this.manager = new EditorManager(config, this.store, hostManager);
 
     // 子编辑器不再重新设置 editorStore
     if (!(props.isSubEditor && (window as any).editorStore)) {
@@ -419,6 +421,7 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   async handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    e.persist();
     await closeContextMenus();
     let targetId: string = '';
     let region = '';

@@ -208,15 +208,15 @@ export class NumberControlPlugin extends BasePlugin {
                   label: '最大值',
                   valueType: 'number'
                 }),
-
                 {
                   type: 'input-number',
                   name: 'step',
                   label: '步长',
                   min: 0,
-                  value: 1
+                  value: 1,
+                  precision: '${precision}',
+                  strictMode: false
                 },
-
                 {
                   type: 'input-number',
                   name: 'precision',

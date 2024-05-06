@@ -108,7 +108,7 @@ export class CheckboxControlPlugin extends BasePlugin {
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为resetValue，若没有配置resetValue，则清空'
+      description: '将值重置为初始值'
     },
     {
       actionType: 'setValue',

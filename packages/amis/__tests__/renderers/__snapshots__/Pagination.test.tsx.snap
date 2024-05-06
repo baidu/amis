@@ -903,7 +903,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   <div
     class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
     role="popover"
-    style="display: block; width: auto; left: 1024px; top: 758px; position: relative;"
+    style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
     theme="cxd"
   >
     <div

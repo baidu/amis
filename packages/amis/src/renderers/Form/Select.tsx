@@ -15,7 +15,8 @@ import {
   isApiOutdated,
   createObject,
   autobind,
-  TestIdBuilder
+  TestIdBuilder,
+  getVariable
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -300,6 +301,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     const {onChange, setOptions, options, data, dispatchEvent} = this.props;
 
     let additonalOptions: Array<any> = [];
+
     let newValue: string | Option | Array<Option> | void = this.getValue(
       value,
       additonalOptions
@@ -442,13 +444,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean): any {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name, valueField} =
+      this.props;
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      const value = this.getValue(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      const value = this.getValue({[valueField]: pristineVal ?? ''});
       onChange?.(value);
     }
   }
