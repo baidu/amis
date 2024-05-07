@@ -388,6 +388,8 @@ export class Range extends React.Component<RangeItemProps, any> {
     // 余数 <  步长一半 -> 向下取，使用 closeNum
     if (Math.abs(surplus) >= step / 2) {
       curValue = value >= 0 ? safeAdd(closeNum, step) : safeSub(closeNum, step);
+    } else {
+      curValue = closeNum;
     }
     /*
     let result = 0;
