@@ -2,7 +2,7 @@
  * openxml 默认是 zip 格式构造起来比较麻烦，这个格式可以方便文本编辑，word 也能直接打开
  */
 
-import {zipSync, Unzipped, strFromU8, strToU8} from 'fflate';
+import {zipSync, Unzipped, strFromU8, strToU8} from '../util/fflate';
 
 import {buildXML, parseXML} from '../util/xml';
 import {PackageParser} from './PackageParser';
@@ -125,7 +125,7 @@ export default class XMLPackageParser implements PackageParser {
   /**
    * 生成 zip 文件
    */
-  generateZip(docContent: string) {
+  generateZipBlob(docContent: string) {
     const zip: Unzipped = {};
 
     zip['[Content_Types].xml'] = strToU8(buildXML(this.contentTypesDoc));
@@ -143,5 +143,13 @@ export default class XMLPackageParser implements PackageParser {
     zip['word/document.xml'] = strToU8(docContent);
 
     return new Blob([zipSync(zip)]);
+  }
+
+  getZip(): Unzipped {
+    throw new Error('Method not implemented.');
+  }
+
+  generateZip(): Uint8Array {
+    throw new Error('Method not implemented.');
   }
 }

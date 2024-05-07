@@ -577,6 +577,8 @@ export class ExcelRender {
     if (needReDraw) {
       // 宽度可能变化
       inValidTextSizeCache();
+      const currentSheet = this.workbook.getActiveSheet();
+      currentSheet.clearFontCache();
       this.setNeedReDraw();
     }
   }

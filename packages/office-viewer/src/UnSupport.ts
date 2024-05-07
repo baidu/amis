@@ -23,4 +23,7 @@ export default class UnSupport implements OfficeViewer {
   print(): void {
     throw new Error('Method not implemented.');
   }
+  destroy(): void {
+    throw new Error('Method not implemented.');
+  }
 }

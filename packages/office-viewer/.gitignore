@@ -3,3 +3,4 @@ lib
 esm
 .rollup.cache
 ~$*
+.antlr

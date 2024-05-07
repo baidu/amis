@@ -9,7 +9,7 @@ export type CellValue = {
    */
   text: string;
 
-  value: string;
+  value: string | number | boolean | undefined;
 
   color?: string;
 

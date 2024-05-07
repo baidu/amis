@@ -1,5 +1,6 @@
 import {CT_CfRule} from '../../../openxml/ExcelTypes';
 import {gt, gte, lt, lte} from '../../../util/number';
+import {toNumber} from '../../data/toNumber';
 import {CellInfo} from '../../types/CellInfo';
 import {RangeRef} from '../../types/RangeRef';
 import {Sheet} from '../Sheet';
@@ -62,7 +63,7 @@ export function top10(
       if (value.text === '') {
         return;
       }
-      values.push(parseFloat(value.value));
+      values.push(toNumber(value.value));
     });
     rankValue = getRankValue(values, cfRule);
 

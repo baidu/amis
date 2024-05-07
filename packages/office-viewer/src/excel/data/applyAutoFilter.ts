@@ -6,6 +6,7 @@ import {customFilter} from './autoFilter/customFilter';
 import {filters} from './autoFilter/filters';
 import {IWorkbook} from '../types/IWorkbook';
 import {applySortState} from './autoFilter/applySortState';
+import {toNumber} from './toNumber';
 
 /**
  * 应用 autoFilter，将相关行隐藏
@@ -60,9 +61,12 @@ export function applyAutoFilter(
     const cellValuesBigNumber = cellValues.map(cellValue => {
       let num;
       try {
-        num = parseFloat(cellValue.value);
-      } catch (e) {}
-      return {row: cellValue.row, num, value: cellValue.value};
+        num = toNumber(cellValue.value);
+      } catch (e) {
+        console.error('toNumber error', cellValue.value);
+        num = 0;
+      }
+      return {row: cellValue.row, num, value: cellValue.value + ''};
     });
 
     const customFiltersHiddenRows = customFilter(

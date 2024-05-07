@@ -55,7 +55,10 @@ export async function parseWorkbook(
   };
 
   let sharedStrings: StringItem[] = [];
-  if (parser.fileExists('xl/sharedStrings.xml')) {
+
+  if (parser.fileExists('xl/sharedStrings.xml.json')) {
+    sharedStrings = JSON.parse(parser.getString('xl/sharedStrings.xml.json'));
+  } else if (parser.fileExists('xl/sharedStrings.xml')) {
     sharedStrings = await parseSharedStrings(
       parser.getString('xl/sharedStrings.xml')
     );

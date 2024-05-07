@@ -710,7 +710,7 @@ export default class Word implements OfficeViewer {
       }
     }
 
-    const blob = this.parser.generateZip(buildXML(documentData));
+    const blob = this.parser.generateZipBlob(buildXML(documentData));
     downloadBlob(blob, fileName);
   }
 
@@ -799,4 +799,6 @@ export default class Word implements OfficeViewer {
 
     appendChild(root, renderNotes(this));
   }
+
+  destroy(): void {}
 }

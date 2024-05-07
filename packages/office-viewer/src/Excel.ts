@@ -208,6 +208,12 @@ export default class Excel implements OfficeViewer {
     throw new Error('must implement this method');
   }
 
+  destroy() {
+    if (this.workbook) {
+      this.workbook.destroy();
+    }
+  }
+
   async print(): Promise<void> {
     if (!this.workbook) {
       return;

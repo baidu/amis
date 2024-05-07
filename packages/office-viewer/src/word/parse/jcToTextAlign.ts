@@ -16,7 +16,6 @@ export function jcToTextAlign(jc: string) {
     case 'distribute':
       return 'justify';
     default:
-      'left';
+      return 'left';
   }
-  return jc;
 }

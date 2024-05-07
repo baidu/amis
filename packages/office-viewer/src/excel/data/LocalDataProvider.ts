@@ -16,7 +16,7 @@ import {FontSize} from '../types/FontSize';
 import {FontStyle} from '../types/FontStyle';
 import {CellInfo} from '../types/CellInfo';
 import {IWorkbook} from '../types/IWorkbook';
-import {CellData, hasValue} from '../types/worksheet/CellData';
+import {CellData, FormulaData, hasValue} from '../types/worksheet/CellData';
 import defaultFont from './defaultFont';
 // @ts-ignore 这个没类型定义
 import numfmt from 'numfmt';
@@ -34,12 +34,8 @@ import {IDrawing} from '../types/IDrawing';
 import {RangeRef} from '../types/RangeRef';
 import {CellValue} from '../types/CellValue';
 import {applyAutoFilter} from './applyAutoFilter';
-import {fromExcelDate} from '../io/excel/util/fromExcelDate';
-import {getChineseDay} from '../../util/getChineseDay';
 import {numfmtExtend} from './numfmtExtend';
 import {getThemeColor} from './getThemeColor';
-import {emuToPx} from '../../util/emuToPx';
-import {getAbsoluteAnchorPosition} from '../render/drawing/getAbsoluteAnchorPosition';
 import {sortByRange} from './autoFilter/sortByRange';
 import {px2pt} from '../../util/px2pt';
 
@@ -512,7 +508,7 @@ export class LocalDataProvider implements IDataProvider {
       const cell = sheet.worksheet?.cellData[row]?.[col];
       if (cell) {
         text = cellValue.text;
-        value = cellValue.value;
+        value = cellValue.value + '';
         cellData = cell;
         if (typeof cell === 'object' && 's' in cell) {
           const cellXfxIndex = cell.s || 0;
@@ -736,6 +732,10 @@ export class LocalDataProvider implements IDataProvider {
     const size = measureTextWithCache(ctx, defaultFont, '1');
     this.defaultFontSize = size;
     return this.defaultFontSize;
+  }
+
+  clearDefaultFontSizeCache() {
+    this.defaultFontSize = undefined;
   }
 
   getDefaultFontStyle(): FontStyle {
