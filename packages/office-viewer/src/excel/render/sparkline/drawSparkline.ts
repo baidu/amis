@@ -61,7 +61,7 @@ export function drawSparkline(
               dataRange,
               displayHidden
             );
-            const data = dataInRange.map(val => val.value);
+            const data = dataInRange.map(val => val.value + '');
             const cacheKey = `${sheetName}!${JSON.stringify(sparkline)}`;
             const padding = 3;
             canvas.customDrawWithCache(

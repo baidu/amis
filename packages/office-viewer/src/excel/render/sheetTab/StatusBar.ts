@@ -56,7 +56,7 @@ export class StatusBar {
         if (data.isDate) {
           continue;
         }
-        const numberVal = parseFloat((data.value || data.text).trim());
+        const numberVal = parseFloat((data.value || data.text) + ''.trim());
         if (isNaN(numberVal)) {
           continue;
         }

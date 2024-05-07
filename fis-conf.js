@@ -526,7 +526,6 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!office-viewer/**',
-        '!fflate/**',
         '!numfmt/**',
         '!amis-formula/lib/doc.js'
       ],
@@ -581,7 +580,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'echarts-wordcloud/**'
       ],
 
-      'office-viewer.js': ['office-viewer/**', 'fflate/**', 'numfmt/**'],
+      'office-viewer.js': ['office-viewer/**', 'numfmt/**'],
       'json-view.js': 'react-json-view/**',
       'fomula-doc.js': 'amis-formula/lib/doc.js',
 
@@ -610,7 +609,6 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
         '!office-viewer/**',
-        '!fflate/**',
         '!numfmt/**'
       ]
     }),
@@ -846,7 +844,6 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!amis-formula/**',
-        '!fflate/**',
         '!numfmt/**',
         '!office-viewer/**',
         '!amis-core/**',
@@ -914,7 +911,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
-      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**', 'numfmt/**'],
+      'pkg/office-viewer.js': ['office-viewer/**', 'numfmt/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
@@ -939,7 +936,6 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!fflate/**',
         '!numfmt/**'
       ],
 

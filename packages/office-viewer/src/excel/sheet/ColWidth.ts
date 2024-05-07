@@ -1,5 +1,6 @@
 /**
  * col 宽度相关的工具函数
+ * https://learn.microsoft.com/en-US/office/troubleshoot/excel/determine-column-widths
  */
 
 /**

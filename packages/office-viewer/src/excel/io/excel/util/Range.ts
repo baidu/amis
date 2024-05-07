@@ -2,13 +2,15 @@
  * 处理选区相关的工具函数
  */
 
+import {MAX_ROW} from '../../../render/Consts';
 import {ViewRange} from '../../../sheet/ViewRange';
 import {RangeRef} from '../../../types/RangeRef';
-import {decodeAddress} from './decodeAddress';
+import {columnNameToNumber, decodeAddress} from './decodeAddress';
 import {numberToLetters} from './numberToLetters';
 
 /**
  * 解析选区字符串，比如 A1:B2
+ * 还支持 A 或者 A:B 这种整列选择
  */
 export function parseRange(range: string): RangeRef {
   if (range.indexOf(':') !== -1) {
@@ -17,6 +19,16 @@ export function parseRange(range: string): RangeRef {
       throw new Error('range 格式错误');
     }
     const [start, end] = parts;
+    if (start.match(/^[A-Z]{1,3}$/) && end.match(/^[A-Z]{1,3}$/)) {
+      const startCol = columnNameToNumber(start);
+      const endCol = columnNameToNumber(end);
+      return {
+        startRow: 0,
+        startCol,
+        endRow: MAX_ROW,
+        endCol
+      };
+    }
     const startRange = decodeAddress(start);
     const endRange = decodeAddress(end);
     return {
@@ -26,6 +38,16 @@ export function parseRange(range: string): RangeRef {
       endCol: endRange.col
     };
   } else {
+    if (range.match(/^[A-Z]{1,3}$/)) {
+      const col = columnNameToNumber(range);
+      return {
+        startRow: 0,
+        startCol: col,
+        endRow: MAX_ROW,
+        endCol: col
+      };
+    }
+
     const startRange = decodeAddress(range);
     return {
       startRow: startRange.row,
@@ -93,6 +115,42 @@ export function rangeEqual(range1: RangeRef, range2: RangeRef) {
 }
 
 /**
+ * 获取两个选区的交集
+ */
+export function getIntersectRange(
+  range1: RangeRef,
+  range2: RangeRef
+): RangeRef | null {
+  if (!rangeIntersect(range1, range2)) {
+    return null;
+  }
+  return {
+    startRow: Math.max(range1.startRow, range2.startRow),
+    startCol: Math.max(range1.startCol, range2.startCol),
+    endRow: Math.min(range1.endRow, range2.endRow),
+    endCol: Math.min(range1.endCol, range2.endCol)
+  };
+}
+
+/**
+ * 获取多个选区之间的交集
+ */
+export function getIntersectRanges(ranges: RangeRef[]): RangeRef | null {
+  if (ranges.length === 0) {
+    return null;
+  }
+  let result: RangeRef | null = ranges[0];
+  for (let i = 1; i < ranges.length; i++) {
+    const range = ranges[i];
+    result = getIntersectRange(result, range);
+    if (!result) {
+      return null;
+    }
+  }
+  return result;
+}
+
+/**
  * 判断两个选区是否相交
  */
 export function rangeIntersect(range1: RangeRef, range2: RangeRef) {
@@ -148,3 +206,7 @@ export function viewRangeToRangeRef(viewRange: ViewRange) {
     endCol: cols[cols.length - 1]
   };
 }
+
+/**
+ * 获取量选区
+ */

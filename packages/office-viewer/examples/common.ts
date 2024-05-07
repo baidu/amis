@@ -3,6 +3,8 @@ import {OfficeViewer} from '../src/OfficeViewer';
 import {createOfficeViewer} from '../src/createOfficeViewer';
 import XMLPackageParser from '../src/package/XMLPackageParser';
 
+let office: OfficeViewer;
+
 export class App {
   dir: string;
   fileLists: Record<string, string[]>;
@@ -48,6 +50,15 @@ export class App {
     this.initFile = initFile || '';
 
     this.renderFileList();
+
+    const uploadFile = document.getElementById('uploadFile')!;
+    uploadFile.addEventListener('change', e => {
+      const files = (e.target as HTMLInputElement).files;
+      if (files && files.length > 0) {
+        this.renderDrop(files[0]);
+      }
+      e.stopPropagation();
+    });
   }
 
   renderFileList() {
@@ -100,7 +111,9 @@ export class App {
    * 渲染
    */
   async renderOffice(data: ArrayBuffer, fileName: string) {
-    let office: OfficeViewer;
+    if (office) {
+      office.destroy();
+    }
     if (fileName.endsWith('.xml')) {
       office = await createOfficeViewer(
         data,

@@ -67,3 +67,21 @@ export function decodeAddress(value: string) {
 
   return address;
 }
+
+/**
+ * 将 A 转成 0
+ * @param columnName
+ * @returns
+ */
+export function columnNameToNumber(columnName: string) {
+  columnName = columnName.toUpperCase();
+  const len = columnName.length;
+  let number = 0;
+  for (let i = 0; i < len; i++) {
+    const code = columnName.charCodeAt(i);
+    if (!isNaN(code)) {
+      number += (code - 64) * 26 ** (len - i - 1);
+    }
+  }
+  return number - 1;
+}

@@ -10,12 +10,24 @@ export function getMinMax(rangeValues: CellValue[]) {
     if (val === '' || val === undefined) {
       continue;
     }
-    const num = parseFloat(val);
-    if (min === undefined || lt(num, min)) {
-      min = num;
+    let num: number;
+    if (typeof val === 'boolean') {
+      num = val ? 1 : 0;
     }
-    if (max === undefined || gt(num, max)) {
-      max = num;
+    if (typeof val === 'string') {
+      num = parseFloat(val);
+    }
+    if (typeof val === 'number') {
+      num = val;
+    }
+    if (val === undefined) {
+      continue;
+    }
+    if (min === undefined || lt(num!, min)) {
+      min = num!;
+    }
+    if (max === undefined || gt(num!, max)) {
+      max = num!;
     }
   }
 

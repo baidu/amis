@@ -28,6 +28,7 @@
     "genIcons": "ts-node --transpileOnly tools/genIcons.ts",
     "emptyExcel": "ts-node --transpileOnly tools/convertFileToBase64.ts src/excel/io/csv/empty.xlsx src/excel/io/csv/emptyXLSX.ts",
     "genExampleFileList": "ts-node --transpileOnly tools/genExampleFileList.ts",
+    "functionCount": "bun tools/functionCount.ts",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
@@ -58,10 +59,9 @@
   },
   "homepage": "https://github.com/baidu/amis#readme",
   "dependencies": {
-    "echarts": "^5.4.0",
-    "fflate": "^0.8.1",
     "numfmt": "^2.5.2",
     "papaparse": "^5.4.1",
+    "puppeteer": "^22.6.3",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
@@ -85,6 +85,9 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.3.5",
     "xml-formatter": "^3.3.2"
+  },
+  "peerDependencies": {
+    "echarts": "^5.4.0"
   },
   "jest": {
     "testEnvironment": "jsdom",

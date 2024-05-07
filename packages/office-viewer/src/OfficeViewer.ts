@@ -12,4 +12,6 @@ export interface OfficeViewer {
   print(): void;
 
   updateVariable(): void;
+
+  destroy(): void;
 }

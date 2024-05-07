@@ -845,4 +845,8 @@ export class Sheet {
   setColWidth(col: number, width: number) {
     this.dataProvider.setColWidth(this.sheetIndex, col, width);
   }
+
+  clearFontCache() {
+    this.dataProvider.clearDefaultFontSizeCache();
+  }
 }

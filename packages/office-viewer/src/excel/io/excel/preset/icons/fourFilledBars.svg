@@ -1,10 +1,1 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-	<rect x="1" y="10" width="3" height="5" fill="#84BDEC" />
-	<rect x="1.5" y="10.5" width="2" height="4" stroke="black" stroke-opacity="0.2" />
-	<rect x="5" y="7" width="3" height="8" fill="#84BDEC" />
-	<rect x="5.5" y="7.5" width="2" height="7" stroke="black" stroke-opacity="0.2" />
-	<rect x="9" y="4" width="3" height="11" fill="#84BDEC" />
-	<rect x="9.5" y="4.5" width="2" height="10" stroke="black" stroke-opacity="0.2" />
-	<rect x="13" y="1" width="3" height="14" fill="#84BDEC" />
-	<rect x="13.5" y="1.5" width="2" height="13" stroke="black" stroke-opacity="0.2" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"><path fill="#84BDEC" d="M1 10h3v5H1z"/><path stroke="#000" stroke-opacity=".2" d="M1.5 10.5h2v4h-2z"/><path fill="#84BDEC" d="M5 7h3v8H5z"/><path stroke="#000" stroke-opacity=".2" d="M5.5 7.5h2v7h-2z"/><path fill="#84BDEC" d="M9 4h3v11H9z"/><path stroke="#000" stroke-opacity=".2" d="M9.5 4.5h2v10h-2z"/><path fill="#84BDEC" d="M13 1h3v14h-3z"/><path stroke="#000" stroke-opacity=".2" d="M13.5 1.5h2v13h-2z"/></svg>

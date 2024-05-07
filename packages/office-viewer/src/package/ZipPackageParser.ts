@@ -2,7 +2,7 @@
  * zip 文件解析
  */
 
-import {zipSync, unzipSync, Unzipped, strFromU8, strToU8} from 'fflate';
+import {zipSync, unzipSync, Unzipped, strFromU8, strToU8} from '../util/fflate';
 
 import {PackageParser} from './PackageParser';
 
@@ -109,10 +109,20 @@ export default class ZipPackageParser implements PackageParser {
   /**
    * 生成新的 zip 文件
    */
-  generateZip(docContent: string) {
-    // 其实最好是生成个新的，后续再优化
-    this.zip['word/document.xml'] = strToU8(docContent);
+  generateZipBlob(docContent?: string) {
+    if (docContent) {
+      // 其实最好是生成个新的，后续再优化
+      this.zip['word/document.xml'] = strToU8(docContent);
+    }
 
     return new Blob([zipSync(this.zip)]);
+  }
+
+  generateZip() {
+    return zipSync(this.zip);
+  }
+
+  getZip() {
+    return this.zip;
   }
 }

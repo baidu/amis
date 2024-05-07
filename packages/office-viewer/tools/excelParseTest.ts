@@ -9,22 +9,9 @@ global.document = document;
 global.Blob = Blob;
 global.URL = URL;
 
-import {readdir} from 'node:fs/promises';
-import {resolve} from 'path';
 import {readFileSync} from 'fs';
 import {createOfficeViewer} from '../src';
-
-async function* getFiles(dir: string): AsyncGenerator<string> {
-  const dirs = await readdir(dir, {withFileTypes: true});
-  for (const dirent of dirs) {
-    const res = resolve(dir, dirent.name);
-    if (dirent.isDirectory()) {
-      yield* getFiles(res);
-    } else {
-      yield res;
-    }
-  }
-}
+import {getFiles} from './getFiles';
 
 const dir = process.argv[2];
 

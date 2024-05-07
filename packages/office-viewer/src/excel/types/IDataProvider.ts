@@ -209,4 +209,9 @@ export interface IDataProvider {
    * 修改列宽
    */
   setColWidth(sheetIndex: number, col: number, width: number): void;
+
+  /**
+   * 清理默认字体大小缓存
+   */
+  clearDefaultFontSizeCache(): void;
 }
