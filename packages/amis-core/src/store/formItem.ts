@@ -276,6 +276,17 @@ export const FormItemStore = StoreNode.named('FormItemStore')
               [labelField || 'label']: item,
               __unmatched: true
             };
+
+            // 某些特殊情况，如select的autocomplete时
+            // 关键字没匹配到的项会被隐藏，不在filteredOptions中，导致匹配不到
+            // 此时需要从原始数据中查找，避免label丢失
+            const origin: any = self.selectedOptions
+              ? find(self.selectedOptions, optionValueCompare(item, valueField))
+              : null;
+
+            if (origin) {
+              unMatched[labelField] = origin[labelField];
+            }
           } else if (unMatched && extractValue) {
             unMatched = {
               [valueField || 'value']: item,
