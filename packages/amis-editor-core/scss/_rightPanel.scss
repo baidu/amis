@@ -36,6 +36,11 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
   &.width-draggable {
     transition: none;
   }
+  
+  // 用于避免右侧配置面板被超长的valueLabel撑开，导致样式异常
+  .#{$ns}SubForm-valueLabel {
+    word-break: break-all;
+  }
 
   // 外层有多个tab面板
   &.mul-tabs-panel {
