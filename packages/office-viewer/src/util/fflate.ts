@@ -2160,7 +2160,7 @@ export function unzlibSync(data: Uint8Array, opts?: UnzlibOptions) {
 }
 
 // Default algorithm for compression (used because having a known output size allows faster decompression)
-export {gzip as compress, AsyncGzip as AsyncCompress};
+export {gzip as compress};
 export {gzipSync as compressSync, Gzip as Compress};
 
 /**
