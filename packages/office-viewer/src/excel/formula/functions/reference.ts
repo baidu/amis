@@ -217,6 +217,7 @@ regFunc(
             .toLowerCase()
             .replace(/\?/g, '.')
             .replace(/\*/g, '.*')
+            .replace(/\\/g, '\\')
             .replace(/~/g, '\\')
             .replace(/\+/g, '\\+')
             .replace(/\(/g, '\\(')
