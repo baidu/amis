@@ -1,6 +1,6 @@
 {
   "name": "office-viewer",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "office 文档在线预览",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -61,7 +61,6 @@
   "dependencies": {
     "numfmt": "^2.5.2",
     "papaparse": "^5.4.1",
-    "puppeteer": "^22.6.3",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
