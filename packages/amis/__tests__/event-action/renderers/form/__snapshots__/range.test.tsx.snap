@@ -45,7 +45,7 @@ exports[`EventAction:inputRange 1`] = `
                       />
                     </div>
                     <div
-                      class="cxd-InputRange-label pos-top cxd-InputRange-label-visible"
+                      class="cxd-InputRange-label pos-top"
                       style="position: relative;"
                     >
                       <span>
