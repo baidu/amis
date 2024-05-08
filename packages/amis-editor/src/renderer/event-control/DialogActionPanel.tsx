@@ -295,26 +295,16 @@ function DialogActionPanel({
       if (refIds.length) {
         let refKey = '';
         [schema, refKey] = addModal(schema, currentModal.modal);
-        schema = JSONUpdate(
-          schema,
-          actionSchema.$$id,
-          {
-            [modalType]: JSONPipeIn({
-              $ref: refKey
-            })
-          },
-          true
-        );
+        schema = JSONUpdate(schema, actionSchema.$$id, {
+          [modalType]: JSONPipeIn({
+            $ref: refKey
+          })
+        });
         refIds.forEach(refId => {
-          schema = JSONUpdate(
-            schema,
-            refId,
-            {
-              $ref: refKey,
-              $$originId: undefined
-            },
-            true
-          );
+          schema = JSONUpdate(schema, refId, {
+            $ref: refKey,
+            $$originId: undefined
+          });
         });
       }
 

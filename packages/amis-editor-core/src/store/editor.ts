@@ -1838,35 +1838,25 @@ export const MainStore = types
                 modalKey &&
               newHostKey !== (value === 'drawer' ? 'drawer' : 'dialog')
             ) {
-              schema = JSONUpdate(
-                schema,
-                host.$$id,
-                {
-                  actionType: (modal as any).actionType || modal.type,
-                  args: undefined,
-                  dialog: undefined,
-                  drawer: undefined,
-                  [newHostKey]: host[value === 'drawer' ? 'drawer' : 'dialog']
-                },
-                true
-              );
+              schema = JSONUpdate(schema, host.$$id, {
+                actionType: (modal as any).actionType || modal.type,
+                args: undefined,
+                dialog: undefined,
+                drawer: undefined,
+                [newHostKey]: host[value === 'drawer' ? 'drawer' : 'dialog']
+              });
             }
             return value;
           });
         } else {
           // 内嵌弹窗只用改自己就行了
-          schema = JSONUpdate(
-            schema,
-            parent.$$id,
-            {
-              actionType: (modal as any).actionType || modal.type,
-              args: undefined,
-              dialog: undefined,
-              drawer: undefined,
-              [newHostKey]: modal
-            },
-            true
-          );
+          schema = JSONUpdate(schema, parent.$$id, {
+            actionType: (modal as any).actionType || modal.type,
+            args: undefined,
+            dialog: undefined,
+            drawer: undefined,
+            [newHostKey]: modal
+          });
         }
 
         // 如果弹窗里面又弹窗指向自己，那么也要更新
@@ -1879,26 +1869,16 @@ export const MainStore = types
         if (refIds.length) {
           let refKey = '';
           [schema, refKey] = addModal(schema, modal);
-          schema = JSONUpdate(
-            schema,
-            parent.$$id,
-            {
-              [newHostKey]: JSONPipeIn({
-                $ref: refKey
-              })
-            },
-            true
-          );
+          schema = JSONUpdate(schema, parent.$$id, {
+            [newHostKey]: JSONPipeIn({
+              $ref: refKey
+            })
+          });
           refIds.forEach(refId => {
-            schema = JSONUpdate(
-              schema,
-              refId,
-              {
-                $ref: refKey,
-                $$originId: undefined
-              },
-              true
-            );
+            schema = JSONUpdate(schema, refId, {
+              $ref: refKey,
+              $$originId: undefined
+            });
           });
         }
 
