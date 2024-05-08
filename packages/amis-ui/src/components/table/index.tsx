@@ -689,7 +689,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       testIdBuilder
     } = this.props;
 
-    console.log(testIdBuilder);
     const rowSelectionKeyField = this.getRowSelectionKeyField();
     const dataList =
       rowSelection && rowSelection.getCheckboxProps

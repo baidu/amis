@@ -33,8 +33,12 @@ function LayoutItem({
         }}
         onClick={onSelect}
       >
-        {items.map(val => (
-          <div className="ae-FlexLayout-itemColumn" style={{flex: val}}></div>
+        {items.map((val, index) => (
+          <div
+            key={index}
+            className="ae-FlexLayout-itemColumn"
+            style={{flex: val}}
+          />
         ))}
       </div>
     </TooltipWrapper>
