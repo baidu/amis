@@ -15,7 +15,6 @@ test('EventAction:locationPicker', async () => {
             id: 'location-picker',
             ak: 'LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7',
             coordinatesType: 'bd09',
-            value: '',
             name: 'location',
             resetValue: {
               address: '北京市东城区天安门广场中央',

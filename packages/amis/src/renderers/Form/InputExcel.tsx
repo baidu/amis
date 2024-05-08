@@ -11,7 +11,8 @@ import {
   isObject,
   resolveEventData,
   dataMapping,
-  TestIdBuilder
+  TestIdBuilder,
+  getVariable
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellValue, CellRichTextValue} from 'exceljs';
@@ -388,12 +389,14 @@ export default class ExcelControl extends React.PureComponent<
 
   doAction(action: any, data: object, throwErrors: boolean) {
     const actionType = action?.actionType as string;
-    const {onChange, resetValue} = this.props;
+    const {onChange, resetValue, formStore, store, name} = this.props;
 
     if (actionType === 'clear') {
       onChange('');
     } else if (actionType === 'reset') {
-      onChange(resetValue ?? '');
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange(pristineVal ?? '');
     }
   }
 

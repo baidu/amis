@@ -2,7 +2,8 @@ import {
   OptionsControlProps,
   OptionsControl,
   resolveEventData,
-  evalExpression
+  evalExpression,
+  getVariable
 } from 'amis-core';
 import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
@@ -56,13 +57,17 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
 
   // 动作
   doAction(action: ActionObject) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     switch (action.actionType) {
       case 'clear':
         onChange?.('');
         break;
       case 'reset':
-        onChange?.(resetValue ?? '');
+        onChange?.(
+          getVariable(formStore?.pristine ?? store?.pristine, name) ??
+            resetValue ??
+            ''
+        );
         break;
     }
   }

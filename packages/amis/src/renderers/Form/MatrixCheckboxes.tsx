@@ -8,6 +8,7 @@ import {
   FormBaseControl,
   FormControlProps,
   FormItem,
+  getVariable,
   resolveEventData
 } from 'amis-core';
 import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
@@ -178,13 +179,16 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      onChange?.(resetValue ?? '');
+      // todo pristine被更新了，需要看看为啥
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange?.(pristineVal ?? '');
     }
   }
 

@@ -95,6 +95,16 @@ export class SwitchControlPlugin extends BasePlugin {
   // 动作定义
   actions: RendererPluginAction[] = [
     {
+      actionType: 'clear',
+      actionLabel: '清空',
+      description: '清除选中值'
+    },
+    {
+      actionType: 'reset',
+      actionLabel: '重置',
+      description: '将值重置为初始值'
+    },
+    {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'

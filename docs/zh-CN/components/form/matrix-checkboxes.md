@@ -383,6 +383,257 @@ row 模式，每行只能单选某个单元格
 | 动作名称 | 动作配置                | 说明                                                    |
 | -------- | ----------------------- | ------------------------------------------------------- |
 | clear    | -                       | 清空                                                    |
-| reset    | -                       | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reset    | -                       | 将值重置为初始值。6.3.0 及以下版本为`resetValue`        |
 | reload   | -                       | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
 | setValue | `value: Array` 更新的值 | 更新数据                                                |
+
+### clear
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "matrix-checkboxes",
+          "name": "matrix",
+          "label": "Matrix",
+          "rowLabel": "行标题说明",
+          "columns": [
+            {
+              "label": "列1"
+            },
+            {
+              "label": "列2"
+            }
+          ],
+          "rows": [
+            {
+              "label": "行1"
+            },
+            {
+              "label": "行2"
+            }
+          ],
+          "value": [
+            [
+              {
+                "label": "列1",
+                "checked": true
+              },
+              {
+                "label": "列1",
+                "checked": false
+              }
+            ],
+            [
+              {
+                "label": "列2",
+                "checked": false
+              },
+              {
+                "label": "列2",
+                "checked": true
+              }
+            ]
+          ],
+          "id": "clear_text"
+        },
+        {
+            "type": "button",
+            "label": "清空",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "clear",
+                            "componentId": "clear_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reset
+
+如果配置了`resetValue`，则重置时使用`resetValue`的值，否则使用初始值。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "matrix-checkboxes",
+          "name": "matrix",
+          "label": "Matrix",
+          "rowLabel": "行标题说明",
+          "columns": [
+            {
+              "label": "列1"
+            },
+            {
+              "label": "列2"
+            }
+          ],
+          "rows": [
+            {
+              "label": "行1"
+            },
+            {
+              "label": "行2"
+            }
+          ],
+          "value": [
+            [
+              {
+                "label": "列1",
+                "checked": true
+              },
+              {
+                "label": "列1",
+                "checked": false
+              }
+            ],
+            [
+              {
+                "label": "列2",
+                "checked": false
+              },
+              {
+                "label": "列2",
+                "checked": true
+              }
+            ]
+          ],
+          "id": "reset_text"
+        },
+        {
+            "type": "button",
+            "label": "重置",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reset",
+                            "componentId": "reset_text"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### reload
+
+只有选择器模式支持，即配置`source`，用于重新加载选择器的数据源。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "list-select",
+          "name": "select",
+          "label": "单选",
+          "clearable": true,
+          "id": "reload_type",
+          "source": "/api/mock2/form/getOptions?waitSeconds=1",
+          "value": "a"
+        },
+        {
+            "type": "button",
+            "label": "重新加载",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "reload",
+                            "componentId": "reload_type"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "matrix-checkboxes",
+          "name": "matrix",
+          "label": "Matrix",
+          "rowLabel": "行标题说明",
+          "columns": [
+            {
+              "label": "列1"
+            },
+            {
+              "label": "列2"
+            }
+          ],
+          "rows": [
+            {
+              "label": "行1"
+            },
+            {
+              "label": "行2"
+            }
+          ],
+          "value": "a",
+          "id": "setvalue_text"
+        },
+        {
+            "type": "button",
+            "label": "赋值",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "actionType": "setValue",
+                            "componentId": "setvalue_text",
+                            "args": {
+                                "value": [
+                                  [
+                                    {
+                                      "label": "列1",
+                                      "checked": true
+                                    },
+                                    {
+                                      "label": "列1",
+                                      "checked": true
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "label": "列2",
+                                      "checked": false
+                                    },
+                                    {
+                                      "label": "列2",
+                                      "checked": true
+                                    }
+                                  ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+```

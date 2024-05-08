@@ -10,8 +10,8 @@ import {
 export interface IPrintAction extends ListenerAction {
   actionType: 'copy';
   args: {
-    testid?: string;
-    testids?: string[];
+    id?: string;
+    ids?: string[];
   };
 }
 
@@ -28,17 +28,15 @@ export class PrintAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (action.args?.testid) {
-      const element = document.querySelector(
-        `[data-testid='${action.args.testid}']`
-      );
+    if (action.args?.id) {
+      const element = document.querySelector(`[data-id='${action.args.id}']`);
       if (element) {
         printElements([element]);
       }
-    } else if (action.args?.testids) {
+    } else if (action.args?.ids) {
       const elements: Element[] = [];
-      action.args.testids.forEach(testid => {
-        const element = document.querySelector(`[data-testid='${testid}']`);
+      action.args.ids.forEach(id => {
+        const element = document.querySelector(`[data-id='${id}']`);
         if (element) {
           elements.push(element);
         }

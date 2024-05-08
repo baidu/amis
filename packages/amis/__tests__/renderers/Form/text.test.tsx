@@ -1,5 +1,11 @@
 import React = require('react');
-import {render, cleanup, fireEvent, waitFor, screen} from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  fireEvent,
+  waitFor,
+  screen
+} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
@@ -354,36 +360,40 @@ describe('Renderer:text with options and multiple', () => {
   test('Renderer:text with options auto ellipsis', async () => {
     const longText = 'OptionB (with long suffix for testing ellipsis)';
     const {container} = await setup({
-      "name": "text",
-      "type": "input-text",
-      "label": "text",
-      "multiple": true,
-      "options": [
+      name: 'text',
+      type: 'input-text',
+      label: 'text',
+      multiple: true,
+      options: [
         {
-          "label": "OptionA",
-          "value": "a"
+          label: 'OptionA',
+          value: 'a'
         },
         {
-          "label": longText,
-          "value": "b"
+          label: longText,
+          value: 'b'
         },
         {
-          "label": "OptionC",
-          "value": "c"
+          label: 'OptionC',
+          value: 'c'
         },
         {
-          "label": "OptionD",
-          "value": "d"
+          label: 'OptionD',
+          value: 'd'
         }
       ]
     });
 
-    const textControl = container.querySelector('.cxd-TextControl-input') as HTMLElement;
+    const textControl = container.querySelector(
+      '.cxd-TextControl-input'
+    ) as HTMLElement;
 
     fireEvent.click(textControl);
     await wait(300);
     replaceReactAriaIds(container);
-    const listItems = container.querySelectorAll('.cxd-TextControl-sugs .cxd-TextControl-sugItem');
+    const listItems = container.querySelectorAll(
+      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+    );
     expect(listItems.length).toBe(4);
 
     // 选中长文本项
@@ -503,7 +513,7 @@ test('Renderer:text with resetValue and trimContents', async () => {
 
   await wait(500);
 
-  expect(input.value).toBe('reset-value');
+  expect(input.value).toBe('text-value');
 
   // trimContents
   const textControl = container.querySelector(

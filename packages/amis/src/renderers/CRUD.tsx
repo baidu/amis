@@ -2665,6 +2665,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       headerToolbarRender,
       footerToolbarRender,
       testIdBuilder,
+      id,
       ...rest
     } = this.props;
 
@@ -2675,6 +2676,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
+        data-id={id}
         {...testIdBuilder?.getChild('wrapper').getTestId()}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
