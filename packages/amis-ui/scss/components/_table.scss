@@ -434,6 +434,7 @@
       > td,
       > th {
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        position: relative;
 
         &:first-child {
           padding-left: var(--TableCell--edge-paddingX);
