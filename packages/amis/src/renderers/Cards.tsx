@@ -962,7 +962,8 @@ export default class Cards extends React.Component<GridProps, object> {
       env,
       id,
       wrapperCustomStyle,
-      themeCss
+      themeCss,
+      mobileUI
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1003,8 +1004,8 @@ export default class Cards extends React.Component<GridProps, object> {
     if (style?.gutterY >= 0) {
       itemStyles.marginBottom = style?.gutterY + 'px';
     }
-    // 修正grid多列计算错误
-    if (columnsCount && !masonryLayout) {
+    // 修正grid多列计算错误，另外移动端目前只显示一列
+    if (columnsCount && !masonryLayout && !mobileUI) {
       itemStyles.flex = `0 0 ${100 / columnsCount}%`;
       itemStyles.maxWidth = `${100 / columnsCount}%`;
     }
