@@ -17,6 +17,8 @@
     var(--collapse-default-bottom-left-border-radius);
   padding: 0;
   line-height: px2rem(20px);
+  // 很神奇，设计态弹窗里面放个字段级 fieldset 就会撑开好宽
+  min-width: 0;
   // overflow: hidden;
 
   &-header {
