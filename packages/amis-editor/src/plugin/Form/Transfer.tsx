@@ -198,7 +198,7 @@ export class TransferPlugin extends BasePlugin {
                   type: 'select',
                   multiple: true
                 }),
-                visibleOn: 'data.options.length > 0'
+                visibleOn: 'this.options.length > 0'
               }),
               getSchemaTpl('switch', {
                 label: '统计数据',
@@ -248,7 +248,7 @@ export class TransferPlugin extends BasePlugin {
               },
 
               getSchemaTpl('optionControl', {
-                visibleOn: 'data.selectMode === "list"',
+                visibleOn: 'this.selectMode === "list"',
                 multiple: true
               }),
 
@@ -263,7 +263,7 @@ export class TransferPlugin extends BasePlugin {
               {
                 type: 'ae-transferTableControl',
                 label: '数据',
-                visibleOn: 'data.selectMode === "table"',
+                visibleOn: 'this.selectMode === "table"',
                 mode: 'normal',
                 // 自定义change函数
                 onValueChange: (
@@ -284,7 +284,7 @@ export class TransferPlugin extends BasePlugin {
               },
 
               getSchemaTpl('treeOptionControl', {
-                visibleOn: 'data.selectMode === "tree"'
+                visibleOn: 'this.selectMode === "tree"'
               }),
 
               getSchemaTpl('switch', {
@@ -295,7 +295,7 @@ export class TransferPlugin extends BasePlugin {
               getSchemaTpl('optionsMenuTpl', {
                 manager: this.manager,
                 onChange: (value: any) => {},
-                visibleOn: 'data.selectMode !== "table"'
+                visibleOn: 'this.selectMode !== "table"'
               }),
 
               {
@@ -338,7 +338,7 @@ export class TransferPlugin extends BasePlugin {
                 },
                 inputClassName: 'is-inline',
                 visibleOn:
-                  'data.selectMode === "list" && !data.resultListModeFollowSelect'
+                  'this.selectMode === "list" && !this.resultListModeFollowSelect'
               }),
 
               getSchemaTpl('optionsMenuTpl', {
@@ -346,7 +346,7 @@ export class TransferPlugin extends BasePlugin {
                 manager: this.manager,
                 onChange: (value: any) => {},
                 visibleOn:
-                  '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
+                  '!(this.selectMode === "table" && this.resultListModeFollowSelect)'
               }),
               {
                 label: '标题',

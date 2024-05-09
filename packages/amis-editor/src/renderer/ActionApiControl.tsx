@@ -427,7 +427,7 @@ export default class APIControl extends React.Component<
                   name: 'dataType',
                   size: 'sm',
                   mode: 'horizontal',
-                  description: `${'发送体格式为'}：<%= data.dataType === "json" ? "application/json" : (data.dataType === "form-data" ? "multipart/form-data" : (data.dataType === "form" ? "application/x-www-form-urlencoded" : "")) %>，${'当发送内容中存在文件时会自动使用 form-data 格式。'}`,
+                  description: `${'发送体格式为'}：<%= this.dataType === "json" ? "application/json" : (this.dataType === "form-data" ? "multipart/form-data" : (this.dataType === "form" ? "application/x-www-form-urlencoded" : "")) %>，${'当发送内容中存在文件时会自动使用 form-data 格式。'}`,
                   options: [
                     {
                       label: 'JSON',
@@ -547,7 +547,7 @@ export default class APIControl extends React.Component<
                   name: 'interval',
                   type: 'switch',
                   mode: 'horizontal',
-                  visibleOn: 'data.initApi',
+                  visibleOn: 'this.initApi',
                   pipeIn: (value: any) => !!value,
                   pipeOut: (value: any) => (value ? 3000 : undefined)
                 },
@@ -566,7 +566,7 @@ export default class APIControl extends React.Component<
                   name: 'silentPolling',
                   type: 'switch',
                   mode: 'horizontal',
-                  visibleOn: '!!data.interval',
+                  visibleOn: '!!this.interval',
                   description: '设置自动定时刷新时是否显示loading'
                 },
                 {
@@ -581,7 +581,7 @@ export default class APIControl extends React.Component<
                     leftFixed: 'md'
                   },
                   size: 'lg',
-                  visibleOn: '!!data.interval',
+                  visibleOn: '!!this.interval',
                   placeholder: '停止定时刷新检测表达式'
                   // labelRemark: {
                   //   trigger: 'hover',

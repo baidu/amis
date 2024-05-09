@@ -180,14 +180,14 @@ export class PagePlugin extends BasePlugin {
                   getSchemaTpl('remark', {
                     label: '标题提示',
                     hiddenOn:
-                      'data.regions && !data.regions.includes("header") || !data.title'
+                      'this.regions && !this.regions.includes("header") || !this.title'
                   }),
                   {
                     type: 'ae-Switch-More',
                     name: 'asideResizor',
                     mode: 'normal',
                     label: '边栏宽度可调节',
-                    hiddenOn: 'data.regions && !data.regions.includes("aside")',
+                    hiddenOn: 'this.regions && !this.regions.includes("aside")',
                     value: false,
                     hiddenOnDefault: true,
                     formType: 'extend',
@@ -221,7 +221,7 @@ export class PagePlugin extends BasePlugin {
                     name: 'asideSticky',
                     inputClassName: 'is-inline',
                     pipeIn: defaultValue(true),
-                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                    hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   }
                 ]
               },
@@ -295,7 +295,7 @@ export class PagePlugin extends BasePlugin {
                   getSchemaTpl('theme:base', {
                     classname: 'bodyControlClassName',
                     title: '内容区样式',
-                    hiddenOn: 'data.regions && !data.regions.includes("body")'
+                    hiddenOn: 'this.regions && !this.regions.includes("body")'
                   }),
                   getSchemaTpl('theme:base', {
                     classname: 'headerControlClassName',
@@ -306,18 +306,18 @@ export class PagePlugin extends BasePlugin {
                         name: 'themeCss.titleControlClassName.font'
                       })
                     ],
-                    hiddenOn: 'data.regions && !data.regions.includes("header")'
+                    hiddenOn: 'this.regions && !this.regions.includes("header")'
                   }),
                   getSchemaTpl('theme:base', {
                     classname: 'toolbarControlClassName',
                     title: '工具栏样式',
                     hiddenOn:
-                      'data.regions && !data.regions.includes("toolbar")'
+                      'this.regions && !this.regions.includes("toolbar")'
                   }),
                   getSchemaTpl('theme:base', {
                     classname: 'asideControlClassName',
                     title: '边栏样式',
-                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                    hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   })
                 ]
               })

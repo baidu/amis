@@ -125,7 +125,7 @@ export class ExcelControlPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               name: 'includeEmpty',
               label: '是否包含空内容',
-              visibleOn: 'data.parseMode === "array"'
+              visibleOn: 'this.parseMode === "array"'
             })
           ]
         }

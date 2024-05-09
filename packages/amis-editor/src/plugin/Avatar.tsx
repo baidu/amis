@@ -175,7 +175,7 @@ export class AvatarPlugin extends BasePlugin {
                     getSchemaTpl('icon', {
                       name: 'icon',
                       label: '图标',
-                      visibleOn: 'data.showtype === "icon"'
+                      visibleOn: 'this.showtype === "icon"'
                     }),
                     // 图片
                     getSchemaTpl('valueFormula', {
@@ -184,13 +184,13 @@ export class AvatarPlugin extends BasePlugin {
                       },
                       name: 'src',
                       label: '头像地址',
-                      visibleOn: 'data.showtype === "image"'
+                      visibleOn: 'this.showtype === "image"'
                     }),
                     // 占位图片
                     getSchemaTpl('imageUrl', {
                       name: 'defaultAvatar',
                       label: '默认头像',
-                      visibleOn: 'data.showtype === "image"'
+                      visibleOn: 'this.showtype === "image"'
                     }),
                     {
                       label: tipedLabel(
@@ -218,7 +218,7 @@ export class AvatarPlugin extends BasePlugin {
                           value: 'none'
                         }
                       ],
-                      visibleOn: 'data.showtype === "image"'
+                      visibleOn: 'this.showtype === "image"'
                     },
 
                     // 文字
@@ -243,7 +243,7 @@ export class AvatarPlugin extends BasePlugin {
                           tpl: 'px'
                         }
                       ],
-                      visibleOn: 'data.showtype === "text"'
+                      visibleOn: 'this.showtype === "text"'
                     }
                   ]
                 },

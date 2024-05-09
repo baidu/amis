@@ -314,7 +314,7 @@ export class TreeControlPlugin extends BasePlugin {
                 },
                 value: false,
                 inputClassName: 'is-inline ',
-                visibleOn: 'data.type === "tree-select"'
+                visibleOn: 'this.type === "tree-select"'
               }),
               getSchemaTpl('switch', {
                 label: '可检索',
@@ -324,7 +324,7 @@ export class TreeControlPlugin extends BasePlugin {
                 name: 'searchApi',
                 label: '选项搜索接口',
                 labelClassName: 'none',
-                visibleOn: 'data.type === "input-tree" && data.searchable'
+                visibleOn: 'this.type === "input-tree" && this.searchable'
               }),
               getSchemaTpl('multiple', {
                 body: [
@@ -348,7 +348,7 @@ export class TreeControlPlugin extends BasePlugin {
                   '当选中父节点时级联选择子节点'
                 ),
                 name: 'autoCheckChildren',
-                hiddenOn: '!data.multiple',
+                hiddenOn: '!this.multiple',
                 value: true
               }),
               getSchemaTpl('switch', {
@@ -357,7 +357,7 @@ export class TreeControlPlugin extends BasePlugin {
                   '子节点可反选，值包含父子节点'
                 ),
                 name: 'cascade',
-                hiddenOn: '!data.multiple || !data.autoCheckChildren'
+                hiddenOn: '!this.multiple || !this.autoCheckChildren'
               }),
               getSchemaTpl('switch', {
                 label: tipedLabel(
@@ -366,7 +366,7 @@ export class TreeControlPlugin extends BasePlugin {
                 ),
                 name: 'withChildren',
                 hiddenOn:
-                  '!data.multiple || !data.autoCheckChildren && data.cascade'
+                  '!this.multiple || !this.autoCheckChildren && this.cascade'
               }),
               getSchemaTpl('switch', {
                 label: tipedLabel(
@@ -374,7 +374,7 @@ export class TreeControlPlugin extends BasePlugin {
                   'ui 行为级联选中子节点，子节点可反选，值只包含子节点的值'
                 ),
                 name: 'onlyChildren',
-                hiddenOn: '!data.multiple || !data.autoCheckChildren'
+                hiddenOn: '!this.multiple || !this.autoCheckChildren'
               }),
               getSchemaTpl('valueFormula', {
                 rendererSchema: (schema: Schema) => ({
@@ -433,7 +433,7 @@ export class TreeControlPlugin extends BasePlugin {
                     label: '根节点文案',
                     value: '添加一级节点',
                     name: 'rootCreateTip',
-                    hiddenOn: '!data.rootCreatable'
+                    hiddenOn: '!this.rootCreatable'
                   },
                   {
                     type: 'input-text',
@@ -475,7 +475,7 @@ export class TreeControlPlugin extends BasePlugin {
               getSchemaTpl('valueFormula', {
                 name: 'highlightTxt',
                 label: '高亮节点字符',
-                visibleOn: 'data.type === "input-tree"'
+                visibleOn: 'this.type === "input-tree"'
               }),
               {
                 type: 'ae-Switch-More',
@@ -519,7 +519,7 @@ export class TreeControlPlugin extends BasePlugin {
                     }
                   ]
                 },
-                visibleOn: 'data.type === "input-tree"'
+                visibleOn: 'this.type === "input-tree"'
               },
               getSchemaTpl('switch', {
                 label: tipedLabel(
@@ -527,7 +527,7 @@ export class TreeControlPlugin extends BasePlugin {
                   '隐藏选择框中已选中节点的祖先节点的文本信息'
                 ),
                 name: 'hideNodePathLabel',
-                visibleOn: 'data.type==="tree-select"'
+                visibleOn: 'this.type==="tree-select"'
               }),
               getSchemaTpl('switch', {
                 label: '显示节点图标',
@@ -540,7 +540,7 @@ export class TreeControlPlugin extends BasePlugin {
                   '单选情况下，也可显示树节点勾选框'
                 ),
                 name: 'showRadio',
-                hiddenOn: 'data.multiple'
+                hiddenOn: 'this.multiple'
               }),
               getSchemaTpl('switch', {
                 label: tipedLabel('显示层级展开线', '显示树层级展开线'),
@@ -549,15 +549,15 @@ export class TreeControlPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'withChildren',
                 label: '数值是否携带子节点',
-                visibleOn: 'data.cascade !== true && data.multiple',
-                disabledOn: 'data.onlyChildren'
+                visibleOn: 'this.cascade !== true && this.multiple',
+                disabledOn: 'this.onlyChildren'
               }),
 
               getSchemaTpl('switch', {
                 name: 'onlyChildren',
                 label: '数值是否只包含子节点',
-                visibleOn: 'data.cascade !== true && data.multiple',
-                disabledOn: 'data.withChildren'
+                visibleOn: 'this.cascade !== true && this.multiple',
+                disabledOn: 'this.withChildren'
               }),
               {
                 type: 'ae-Switch-More',
@@ -580,7 +580,7 @@ export class TreeControlPlugin extends BasePlugin {
                       name: 'unfoldedLevel',
                       value: 1,
                       min: 0,
-                      hiddenOn: 'data.initiallyOpen'
+                      hiddenOn: 'this.initiallyOpen'
                     }
                   ]
                 }

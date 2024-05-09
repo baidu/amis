@@ -224,7 +224,7 @@ export class TagPlugin extends BasePlugin {
                 }
               },
               getSchemaTpl('icon', {
-                visibleOn: 'data.displayMode === "status"',
+                visibleOn: 'this.displayMode === "status"',
                 label: '前置图标'
               }),
               getSchemaTpl('switch', {

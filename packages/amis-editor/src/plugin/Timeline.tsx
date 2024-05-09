@@ -75,7 +75,7 @@ export class TimelinePlugin extends BasePlugin {
                 name: 'mode',
                 value: 'right',
                 type: 'button-group-select',
-                visibleOn: 'data.direction === "vertical"',
+                visibleOn: 'this.direction === "vertical"',
                 size: 'sm',
                 options: [
                   {label: '左侧', value: 'right'},

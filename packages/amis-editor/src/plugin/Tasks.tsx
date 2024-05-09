@@ -98,7 +98,7 @@ export class TasksPlugin extends BasePlugin {
             type: 'input-number',
             min: 3000,
             step: 500,
-            visibleOn: 'data.checkApi',
+            visibleOn: 'this.checkApi',
             pipeIn: defaultValue(3000),
             label: '定时检测间隔'
           },

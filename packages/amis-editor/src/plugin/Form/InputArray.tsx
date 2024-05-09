@@ -89,7 +89,7 @@ export class ArrayControlPlugin extends BasePlugin {
         label: '新增按钮文字',
         name: 'addButtonText',
         type: 'input-text',
-        visibleOn: 'data.addable',
+        visibleOn: 'this.addable',
         pipeIn: defaultValue('新增')
       },
 
@@ -111,14 +111,14 @@ export class ArrayControlPlugin extends BasePlugin {
       getSchemaTpl('api', {
         name: 'deleteApi',
         label: '删除前的请求',
-        visibleOn: 'data.removable'
+        visibleOn: 'this.removable'
       }),
 
       {
         label: '删除确认提示',
         name: 'deleteConfirmText',
         type: 'input-text',
-        visibleOn: 'data.deleteApi',
+        visibleOn: 'this.deleteApi',
         pipeIn: defaultValue('确认要删除')
       },
 
@@ -129,7 +129,7 @@ export class ArrayControlPlugin extends BasePlugin {
 
       {
         name: 'draggableTip',
-        visibleOn: 'data.draggable',
+        visibleOn: 'this.draggable',
         type: 'input-text',
         label: '可拖拽排序提示文字',
         pipeIn: defaultValue('可通过拖动每行中的【交换】按钮进行顺序调整')
