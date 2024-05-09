@@ -74,10 +74,11 @@ export default class FlexLayout implements LayoutInterface {
           }
         } else {
           // 插入到了一行的中间，这一行的最后一个元素的row加1，后续元素的row都加1
-          const lastIndex = findLastIndex(
+          let lastIndex = findLastIndex(
             regionList,
             (item: any) => item.row === preBeforeRow
           );
+          lastIndex = lastIndex === -1 ? currentIndex + 1 : lastIndex;
           for (let i = lastIndex; i < regionList.length; i++) {
             regionList[i] = {
               ...regionList[i],
