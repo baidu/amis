@@ -34,6 +34,10 @@ import {get} from './util/get';
 import {fileTypeFromBuffer} from './util/fileType';
 import {OfficeViewer} from './OfficeViewer';
 import {RenderOptions} from './RenderOptions';
+import {parse} from 'zrender/lib/tool/color';
+import {stylesXML} from './word/parse/defaultXML/stylesXML';
+import {themeXML} from './word/parse/defaultXML/themeXML';
+import {settingsXML} from './word/parse/defaultXML/settingsXML';
 
 /**
  * 渲染配置
@@ -337,6 +341,9 @@ export default class Word implements OfficeViewer {
         this.themes.push(parseTheme(theme));
       }
     }
+    if (this.themes.length === 0) {
+      this.themes.push(parseTheme(themeXML));
+    }
   }
 
   /**
@@ -347,6 +354,10 @@ export default class Word implements OfficeViewer {
       if (override.partName.startsWith('/word/styles.xml')) {
         this.styles = parseStyles(this, this.parser.getXML('/word/styles.xml'));
       }
+    }
+    // 没有样式表的情况
+    if (!this.styles) {
+      this.styles = parseStyles(this, stylesXML);
     }
   }
 
@@ -361,6 +372,9 @@ export default class Word implements OfficeViewer {
           this.parser.getXML('/word/settings.xml')
         );
       }
+    }
+    if (!this.settings) {
+      this.settings = Settings.parse(this, settingsXML);
     }
   }
 
