@@ -69,6 +69,7 @@
     "react-textarea-autosize": "8.3.3",
     "react-transition-group": "4.4.2",
     "react-visibility-sensor": "5.1.1",
+    "smooth-signature": "^1.0.15",
     "sortablejs": "1.15.0",
     "tinymce": "^6.1.2",
     "tslib": "^2.3.1",
