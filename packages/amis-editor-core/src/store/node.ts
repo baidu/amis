@@ -495,12 +495,16 @@ export const EditorNode = types
       const arr = targets.concat();
       const first = arr.shift()!;
       const firstRect = first.getBoundingClientRect();
+      const firstMarginTop = parseInt(window.getComputedStyle(first).marginTop);
+      const firstMarginBottom = parseInt(
+        window.getComputedStyle(first).marginBottom
+      );
 
       const rect = {
         left: firstRect.left,
         top: firstRect.top,
         width: firstRect.width,
-        height: firstRect.height,
+        height: firstRect.height + firstMarginTop + firstMarginBottom,
         right: firstRect.right,
         bottom: firstRect.bottom
       };
@@ -560,7 +564,6 @@ export const EditorNode = types
       if (!height) {
         return;
       }
-
       self.x = position.left + 0;
       self.y = position.top + 0;
       self.w = targetRect.width;
