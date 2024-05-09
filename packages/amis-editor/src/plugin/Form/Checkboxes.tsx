@@ -147,7 +147,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                   label: '可全选',
                   name: 'checkAll',
                   value: false,
-                  visibleOn: 'data.multiple',
+                  visibleOn: 'this.multiple',
                   onChange: (value: any, origin: any, item: any, form: any) => {
                     if (!value) {
                       // 可全选关闭时，默认全选也需联动关闭
@@ -159,7 +159,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 {
                   type: 'container',
                   className: 'ae-ExtendMore mb-2',
-                  visibleOn: 'data.checkAll',
+                  visibleOn: 'this.checkAll',
                   body: [
                     getSchemaTpl('switch', {
                       label: '默认全选',
@@ -178,7 +178,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 visibleOn: true
               }),
               getSchemaTpl('delimiter', {
-                visibleOn: 'data.joinValues === true'
+                visibleOn: 'this.joinValues === true'
               }),
               getSchemaTpl('extractValue'),
               getSchemaTpl('labelRemark'),

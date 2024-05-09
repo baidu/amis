@@ -744,7 +744,7 @@ export default class OptionControl extends React.Component<
         name: 'source',
         mode: 'normal',
         className: 'ae-ExtendMore',
-        visibleOn: 'data.autoComplete !== false',
+        visibleOn: 'this.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
         sourceType: source,

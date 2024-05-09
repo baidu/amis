@@ -16,10 +16,10 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 import {resolveOptionType} from '../../util';
 
-const isText = 'data.type === "input-text"';
-const isPassword = 'data.type === "input-password"';
-const isEmail = 'data.type === "input-email"';
-const isUrl = 'data.type === "input-url"';
+const isText = 'this.type === "input-text"';
+const isPassword = 'this.type === "input-password"';
+const isEmail = 'this.type === "input-email"';
+const isUrl = 'this.type === "input-url"';
 function isTextShow(value: string, name: boolean): boolean {
   return ['input-text'].includes(value) ? !!name : false;
 }
@@ -334,7 +334,7 @@ export class TextControlPlugin extends BasePlugin {
             },
             {
               title: '选项',
-              visibleOn: `${isText} && (data.options  || data.autoComplete || data.source)`,
+              visibleOn: `${isText} && (this.options  || this.autoComplete || this.source)`,
               body: [
                 getSchemaTpl('optionControlV2'),
                 getSchemaTpl('multiple', {
@@ -361,7 +361,7 @@ export class TextControlPlugin extends BasePlugin {
                         name: 'autoComplete',
                         label: '接口',
                         description: '',
-                        visibleOn: 'data.autoComplete !== false'
+                        visibleOn: 'this.autoComplete !== false'
                       }),
                       {
                         label: tipedLabel(

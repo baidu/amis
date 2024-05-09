@@ -88,14 +88,14 @@ export class SubFormControlPlugin extends BasePlugin {
       }),
       {
         name: 'minLength',
-        visibleOn: 'data.multiple',
+        visibleOn: 'this.multiple',
         label: '允许最少个数',
         type: 'input-number'
       },
 
       {
         name: 'maxLength',
-        visibleOn: 'data.multiple',
+        visibleOn: 'this.multiple',
         label: '允许最多个数',
         type: 'input-number'
       }

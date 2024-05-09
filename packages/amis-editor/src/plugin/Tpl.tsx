@@ -14,7 +14,7 @@ setSchemaTpl(
   getSchemaTpl('textareaFormulaControl', {
     label: '文字内容',
     mode: 'normal',
-    visibleOn: 'data.wrapperComponent !== undefined',
+    visibleOn: 'this.wrapperComponent !== undefined',
     pipeIn: (value: any, data: any) => value || (data && data.html),
     name: 'tpl'
   })
@@ -49,7 +49,7 @@ setSchemaTpl('tpl:rich-text', {
   ],
   minRows: 5,
   language: 'html',
-  visibleOn: 'data.wrapperComponent === undefined',
+  visibleOn: 'this.wrapperComponent === undefined',
   pipeIn: (value: any, data: any) => value || (data && data.html),
   name: 'tpl'
 });
@@ -228,7 +228,7 @@ export class TplPlugin extends BasePlugin {
                 ),
                 name: 'inline',
                 pipeIn: defaultValue(true),
-                hiddenOn: 'data.wrapperComponent !== ""'
+                hiddenOn: 'this.wrapperComponent !== ""'
               }),
               {
                 type: 'input-number',

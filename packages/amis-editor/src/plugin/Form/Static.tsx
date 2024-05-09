@@ -38,7 +38,7 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         name: 'quickEdit.mode',
         type: 'button-group-select',
         inputClassName: 'items-center',
-        visibleOn: 'data.quickEdit',
+        visibleOn: 'this.quickEdit',
         pipeIn: defaultValue('popOver'),
         options: [
           {
@@ -60,7 +60,7 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
           '立即保存',
           '开启后修改即提交，而不是标记修改批量提交。'
         ),
-        visibleOn: 'data.quickEdit',
+        visibleOn: 'this.quickEdit',
         pipeIn: (value: any) => !!value
       }),
       getSchemaTpl('apiControl', {
@@ -74,7 +74,7 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
       {
         name: 'quickEdit',
         asFormItem: true,
-        visibleOn: 'data.quickEdit',
+        visibleOn: 'this.quickEdit',
         mode: 'row',
         children: ({value, onChange, data}: any) => {
           if (value === true) {
@@ -156,7 +156,7 @@ setSchemaTpl('morePopOver', (patch: any, manager: any) => ({
         label: '弹出模式',
         name: 'popOver.mode',
         type: 'button-group-select',
-        visibleOn: 'data.popOver',
+        visibleOn: 'this.popOver',
         pipeIn: defaultValue('popOver'),
         options: [
           {
@@ -180,7 +180,7 @@ setSchemaTpl('morePopOver', (patch: any, manager: any) => ({
         label: '浮层位置',
         type: 'select',
         visibleOn:
-          'data.popOver && (data.popOver.mode === "popOver" || !data.popOver.mode)',
+          'this.popOver && (this.popOver.mode === "popOver" || !this.popOver.mode)',
         pipeIn: defaultValue('center'),
         options: [
           {
@@ -222,7 +222,7 @@ setSchemaTpl('morePopOver', (patch: any, manager: any) => ({
         ]
       },
       {
-        visibleOn: 'data.popOver',
+        visibleOn: 'this.popOver',
         name: 'popOver',
         mode: 'row',
         asFormItem: true,
@@ -273,7 +273,7 @@ setSchemaTpl('copyable', {
         type: 'textarea',
         mode: 'row',
         maxRow: 2,
-        visibleOn: 'data.copyable',
+        visibleOn: 'this.copyable',
         description: '默认为当前字段值，可定制。'
       }
     ]

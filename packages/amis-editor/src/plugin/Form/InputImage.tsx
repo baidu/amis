@@ -238,7 +238,7 @@ export class ImageControlPlugin extends BasePlugin {
               },
 
               getSchemaTpl('uploadType', {
-                visibleOn: 'data.submitType === "asUpload" || !data.submitType',
+                visibleOn: 'this.submitType === "asUpload" || !this.submitType',
                 pipeIn: (value: any, form: any) => value || 'fileReceptor',
                 pipeOut: (value: any, form: any) => value || 'fileReceptor'
               }),
@@ -250,13 +250,13 @@ export class ImageControlPlugin extends BasePlugin {
                   '文件接收器',
                   '文件接收接口，默认不填则上传到 hiphoto'
                 ),
-                visibleOn: 'data.uploadType === "fileReceptor"',
+                visibleOn: 'this.uploadType === "fileReceptor"',
                 value: '/api/upload',
                 __isUpload: true
               }),
 
               getSchemaTpl('bos', {
-                visibleOn: 'data.uploadType === "bos"'
+                visibleOn: 'this.uploadType === "bos"'
               }),
 
               getSchemaTpl('proxy', {
@@ -267,7 +267,7 @@ export class ImageControlPlugin extends BasePlugin {
               getSchemaTpl('multiple', {
                 patch: {
                   value: false,
-                  visibleOn: '!data.crop',
+                  visibleOn: '!this.crop',
                   label: tipedLabel('可多选', '开启后，不能同时开启裁剪功能')
                 },
                 body: [
@@ -302,7 +302,7 @@ export class ImageControlPlugin extends BasePlugin {
               // {
               //   type: 'container',
               //   className: 'ae-ExtendMore mb-3',
-              //   visibleOn: 'data.compress',
+              //   visibleOn: 'this.compress',
               //   name: 'compressOptions',
               //   body: [
               //     {
@@ -326,7 +326,7 @@ export class ImageControlPlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'crop',
-                visibleOn: '!data.multiple',
+                visibleOn: '!this.multiple',
                 label: tipedLabel('开启裁剪', '开启后，不能同时开启多选模式'),
                 pipeIn: (value: any) => !!value
               }),
@@ -334,7 +334,7 @@ export class ImageControlPlugin extends BasePlugin {
               {
                 type: 'container',
                 className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.crop',
+                visibleOn: 'this.crop',
                 body: [
                   {
                     name: 'crop.aspectRatio',
@@ -390,7 +390,7 @@ export class ImageControlPlugin extends BasePlugin {
               {
                 type: 'container',
                 className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.limit',
+                visibleOn: 'this.limit',
                 body: [
                   {
                     name: 'maxSize',

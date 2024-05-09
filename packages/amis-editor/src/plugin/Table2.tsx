@@ -770,7 +770,7 @@ export class Table2Plugin extends BasePlugin {
     primaryField: context => {
       return getSchemaTpl('primaryField', {
         /** CRUD下，该项配置提升到CRUD中 */
-        hiddenOn: `data.type && (data.type === "crud" || data.type === "crud2")`
+        hiddenOn: `this.type && (this.type === "crud" || this.type === "crud2")`
       });
     },
     quickSaveApi: context => {
@@ -1160,7 +1160,7 @@ export class Table2Plugin extends BasePlugin {
                         },
                         getSchemaTpl('formulaControl', {
                           name: 'expandable.expandableOn',
-                          visibleOn: 'data.expandable',
+                          visibleOn: 'this.expandable',
                           label: '可展开条件'
                         }),
                         {
@@ -1270,13 +1270,13 @@ export class Table2Plugin extends BasePlugin {
                       '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
                     ),
                     /** 目前仅支持2种类型，默认是 pagination */
-                    visibleOn: '!data.loadType || data.loadType !== "more"'
+                    visibleOn: '!this.loadType || this.loadType !== "more"'
                   }),
                   {
                     name: 'maxKeepItemSelectionLength',
                     type: 'input-number',
                     label: '最大选择条数',
-                    visibleOn: 'data.keepItemSelectionOnPageChange'
+                    visibleOn: 'this.keepItemSelectionOnPageChange'
                   }
                 ]
               },
@@ -1375,7 +1375,7 @@ export class Table2Plugin extends BasePlugin {
                 },
                 {
                   type: 'input-group',
-                  visibleOn: 'data.scroll && data.scroll.y !== null',
+                  visibleOn: 'this.scroll && this.scroll.y !== null',
                   label: '高度值',
                   body: [
                     {
@@ -1413,7 +1413,7 @@ export class Table2Plugin extends BasePlugin {
                 },
                 {
                   type: 'input-group',
-                  visibleOn: 'data.scroll && data.scroll.x !== null',
+                  visibleOn: 'this.scroll && this.scroll.x !== null',
                   name: 'scroll.x',
                   label: '宽度值',
                   body: [
@@ -1430,7 +1430,7 @@ export class Table2Plugin extends BasePlugin {
                 },
                 {
                   name: 'indentSize',
-                  visibleOn: 'data.childrenColumnName',
+                  visibleOn: 'this.childrenColumnName',
                   type: 'input-number',
                   unitOptions: [{label: 'px', value: 'px'}],
                   label: tipedLabel(
@@ -1440,14 +1440,14 @@ export class Table2Plugin extends BasePlugin {
                 },
                 {
                   name: 'rowSelection.columnWidth',
-                  visibleOn: 'data.rowSelection',
+                  visibleOn: 'this.rowSelection',
                   type: 'input-number',
                   label: '选择列宽度',
                   description: '固定选择列的宽度'
                 },
                 {
                   name: 'expandable.columnWidth',
-                  visibleOn: 'data.expandable',
+                  visibleOn: 'this.expandable',
                   type: 'input-number',
                   label: '展开列宽度',
                   description: '固定展开列的宽度'
@@ -1468,7 +1468,7 @@ export class Table2Plugin extends BasePlugin {
                 }),
                 getSchemaTpl('formulaControl', {
                   name: 'expandable.expandedRowClassNameExpr',
-                  visibleOn: 'data.expandable',
+                  visibleOn: 'this.expandable',
                   label: '展开行样式'
                 })
               ]

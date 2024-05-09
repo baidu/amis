@@ -993,7 +993,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
-            visibleOn: 'data.api && data.api.url',
+            visibleOn: 'this.api && this.api.url',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -1020,14 +1020,14 @@ export class CRUDPlugin extends BasePlugin {
 
           {
             type: 'divider',
-            visibleOn: 'data.api && data.api.url'
+            visibleOn: 'this.api && this.api.url'
           },
 
           getSchemaTpl('combo-container', {
             label: '批量操作',
             name: 'bulkActions',
             type: 'combo',
-            hiddenOn: 'data.pickerMode && data.multiple',
+            hiddenOn: 'this.pickerMode && this.multiple',
             inputClassName: 'ae-BulkActions-control',
             multiple: true,
             draggable: true,
@@ -1066,7 +1066,7 @@ export class CRUDPlugin extends BasePlugin {
           // getSchemaTpl('switch', {
           //   name: 'defaultChecked',
           //   label: '默认是否全部勾选',
-          //   visibleOn: 'data.bulkActions && data.bulkActions.length',
+          //   visibleOn: 'this.bulkActions && this.bulkActions.length',
           //   pipeIn: defaultValue(false)
           // }),
 
@@ -1311,7 +1311,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             label: '开启定时刷新',
             name: 'interval',
-            visibleOn: 'data.api',
+            visibleOn: 'this.api',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any) => (value ? 3000 : undefined)
           }),
@@ -1319,7 +1319,7 @@ export class CRUDPlugin extends BasePlugin {
           {
             name: 'interval',
             type: 'input-number',
-            visibleOn: 'typeof data.interval === "number"',
+            visibleOn: 'typeof this.interval === "number"',
             step: 500,
             className: 'm-t-n-sm',
             description: '设置后将自动定时刷新，单位 ms'
@@ -1328,7 +1328,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'silentPolling',
             label: '静默刷新',
-            visibleOn: '!!data.interval',
+            visibleOn: '!!this.interval',
             description: '设置自动定时刷新时是否显示loading'
           }),
 
@@ -1336,7 +1336,7 @@ export class CRUDPlugin extends BasePlugin {
             name: 'stopAutoRefreshWhen',
             label: '停止定时刷新检测表达式',
             type: 'input-text',
-            visibleOn: '!!data.interval',
+            visibleOn: '!!this.interval',
             description:
               '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。'
           },
@@ -1344,7 +1344,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'stopAutoRefreshWhenModalIsOpen',
             label: '当有弹框时关闭自动刷新',
-            visibleOn: '!!data.interval',
+            visibleOn: '!!this.interval',
             description: '弹框打开关闭自动刷新，关闭弹框又恢复'
           }),
 
@@ -1365,7 +1365,7 @@ export class CRUDPlugin extends BasePlugin {
               <p><code>insetAfter</code> / <code>insertBefore</code>: <span>这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值</span></p>`
             ),
             name: 'saveOrderApi',
-            visibleOn: 'data.draggable'
+            visibleOn: 'this.draggable'
           }),
 
           {
@@ -1912,13 +1912,13 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filterTogglable',
             label: '是否可显隐查询条件',
-            visibleOn: 'data.filter'
+            visibleOn: 'this.filter'
           }),
 
           getSchemaTpl('switch', {
             name: 'filterDefaultVisible',
             label: '查询条件默认是否可见',
-            visibleOn: 'data.filter && data.filterTogglable',
+            visibleOn: 'this.filter && this.filterTogglable',
             pipeIn: defaultValue(true)
           }),
 
@@ -1940,7 +1940,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'hideCheckToggler',
             label: '隐藏选择按钮',
-            visibleOn: 'data.checkOnItemClick'
+            visibleOn: 'this.checkOnItemClick'
           }),
 
           getSchemaTpl('className'),
@@ -2028,7 +2028,7 @@ export class CRUDPlugin extends BasePlugin {
             name: 'perPageAvailable',
             label: '切换每页数',
             type: 'input-array',
-            hiddenOn: 'data.loadDataOnce',
+            hiddenOn: 'this.loadDataOnce',
             items: {
               type: 'input-number',
               required: true
@@ -2044,14 +2044,14 @@ export class CRUDPlugin extends BasePlugin {
             label: '配置单条可选中的表达式',
             description: '请使用 js 表达式，不设置的话每条都可选中。',
             visibleOn:
-              'data.bulkActions && data.bulkActions.length || data.pickerMode'
+              'this.bulkActions && this.bulkActions.length || this.pickerMode'
           },
 
           getSchemaTpl('switch', {
             name: 'checkOnItemClick',
             label: '开启单条点击整个区域选中',
             visibleOn:
-              'data.bulkActions && data.bulkActions.length || data.pickerMode'
+              'this.bulkActions && this.bulkActions.length || this.pickerMode'
           }),
 
           getSchemaTpl('switch', {

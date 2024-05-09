@@ -167,7 +167,7 @@ export class CityControlPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'allowDistrict',
                 label: '可选区域',
-                visibleOn: 'data.allowCity',
+                visibleOn: 'this.allowCity',
                 pipeIn: defaultValue(true),
                 onChange: (
                   value: string,
