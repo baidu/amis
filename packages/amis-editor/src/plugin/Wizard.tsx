@@ -383,7 +383,7 @@ export class WizardPlugin extends BasePlugin {
                     },
 
                     getSchemaTpl('horizontal', {
-                      visibleOn: 'data.mode == "horizontal"'
+                      visibleOn: 'this.mode == "horizontal"'
                     }),
 
                     getSchemaTpl('api', {
@@ -395,7 +395,7 @@ export class WizardPlugin extends BasePlugin {
                     getSchemaTpl('switch', {
                       label: '采用异步方式?',
                       name: 'asyncApi',
-                      visibleOn: 'data.api',
+                      visibleOn: 'this.api',
                       labelRemark: {
                         trigger: 'click',
                         rootClose: true,
@@ -411,7 +411,7 @@ export class WizardPlugin extends BasePlugin {
                     getSchemaTpl('api', {
                       name: 'asyncApi',
                       label: '异步检测接口',
-                      visibleOn: 'data.asyncApi != null',
+                      visibleOn: 'this.asyncApi != null',
                       description:
                         '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
                     }),
@@ -429,7 +429,7 @@ export class WizardPlugin extends BasePlugin {
                     getSchemaTpl('switch', {
                       label: '采用异步方式？',
                       name: 'initAsyncApi',
-                      visibleOn: 'data.initApi',
+                      visibleOn: 'this.initApi',
                       labelRemark: {
                         trigger: 'click',
                         rootClose: true,
@@ -445,7 +445,7 @@ export class WizardPlugin extends BasePlugin {
                     getSchemaTpl('api', {
                       name: 'initAsyncApi',
                       label: '异步检测接口',
-                      visibleOn: 'data.initAsyncApi != null',
+                      visibleOn: 'this.initAsyncApi != null',
                       description:
                         '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
                     }),
@@ -486,7 +486,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               label: '采用异步方式？',
               name: 'initAsyncApi',
-              visibleOn: 'data.initApi',
+              visibleOn: 'this.initApi',
               labelRemark: {
                 trigger: 'click',
                 rootClose: true,
@@ -503,7 +503,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('api', {
               name: 'initAsyncApi',
               label: '异步检测接口',
-              visibleOn: 'data.initAsyncApi != null',
+              visibleOn: 'this.initAsyncApi != null',
               description:
                 '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
             }),
@@ -554,7 +554,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               label: '采用异步方式?',
               name: 'asyncApi',
-              visibleOn: 'data.api',
+              visibleOn: 'this.api',
               labelRemark: {
                 trigger: 'click',
                 rootClose: true,
@@ -570,7 +570,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('api', {
               name: 'asyncApi',
               label: '异步检测接口',
-              visibleOn: 'data.asyncApi != null',
+              visibleOn: 'this.asyncApi != null',
               description:
                 '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
             }),
@@ -746,7 +746,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               label: '采用异步方式?',
               name: 'asyncApi',
-              visibleOn: 'data.api',
+              visibleOn: 'this.api',
               labelRemark: {
                 trigger: 'click',
                 rootClose: true,
@@ -762,7 +762,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('api', {
               name: 'asyncApi',
               label: '异步检测接口',
-              visibleOn: 'data.asyncApi != null',
+              visibleOn: 'this.asyncApi != null',
               description:
                 '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
             }),
@@ -778,7 +778,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               label: '采用异步方式？',
               name: 'initAsyncApi',
-              visibleOn: 'data.initApi',
+              visibleOn: 'this.initApi',
               labelRemark: {
                 trigger: 'click',
                 rootClose: true,
@@ -794,7 +794,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('api', {
               name: 'initAsyncApi',
               label: '异步检测接口',
-              visibleOn: 'data.initAsyncApi != null',
+              visibleOn: 'this.initAsyncApi != null',
               description:
                 '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
             }),
@@ -828,7 +828,7 @@ export class WizardPlugin extends BasePlugin {
               ]
             },
             getSchemaTpl('horizontal', {
-              visibleOn: 'data.mode == "horizontal"'
+              visibleOn: 'this.mode == "horizontal"'
             })
             // getSchemaTpl('className', {
             //   name: 'tabClassName',

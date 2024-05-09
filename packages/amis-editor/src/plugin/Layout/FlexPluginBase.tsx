@@ -213,7 +213,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
     const positionTpl = [
       getSchemaTpl('layout:position', {
-        visibleOn: '!data.stickyStatus'
+        visibleOn: '!this.stickyStatus'
       }),
       getSchemaTpl('layout:originPosition'),
       getSchemaTpl('layout:inset', {
@@ -335,21 +335,21 @@ export class FlexPluginBase extends LayoutBasePlugin {
                           isFlexColumnItem,
                           label: isFlexColumnItem ? '高度设置' : '宽度设置',
                           visibleOn:
-                            'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                            'this.style && (this.style.position === "static" || this.style.position === "relative")'
                         }),
                         getSchemaTpl('layout:flex-grow', {
                           visibleOn:
-                            'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                            'this.style && this.style.flex === "1 1 auto" && (this.style.position === "static" || this.style.position === "relative")'
                         }),
                         getSchemaTpl('layout:flex-basis', {
                           label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
                           visibleOn:
-                            'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                            'this.style && (this.style.position === "static" || this.style.position === "relative") && this.style.flex === "1 1 auto"'
                         }),
                         getSchemaTpl('layout:flex-basis', {
                           label: isFlexColumnItem ? '固定高度' : '固定宽度',
                           visibleOn:
-                            'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                            'this.style && (this.style.position === "static" || this.style.position === "relative") && this.style.flex === "0 0 150px"'
                         })
                       ]
                     : []),
@@ -357,7 +357,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
                       isFlexItem && !isFlexColumnItem
-                    } && data.style.flex === '0 0 150px'`
+                    } && this.style.flex === '0 0 150px'`
                   }),
 
                   getSchemaTpl('layout:isFixedHeight', {
@@ -379,9 +379,9 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   getSchemaTpl('layout:overflow-y', {
                     visibleOn: `${
                       !isFlexItem || !isFlexColumnItem
-                    } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
+                    } && (this.isFixedHeight || this.style && this.style.maxHeight) || (${
                       isFlexItem && isFlexColumnItem
-                    } && data.style.flex === '0 0 150px')`
+                    } && this.style.flex === '0 0 150px')`
                   }),
 
                   getSchemaTpl('layout:isFixedWidth', {
@@ -396,18 +396,18 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   getSchemaTpl('layout:max-width', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
-                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
+                    } || ${isFlexItem} && this.style.flex !== '0 0 150px'`
                   }),
                   getSchemaTpl('layout:min-width', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
-                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
+                    } || ${isFlexItem} && this.style.flex !== '0 0 150px'`
                   }),
 
                   getSchemaTpl('layout:overflow-x', {
                     visibleOn: `${
                       !isFlexItem || isFlexColumnItem
-                    } && (data.isFixedWidth || data.style && data.style.maxWidth)`
+                    } && (this.isFixedWidth || this.style && this.style.maxWidth)`
                   }),
 
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
@@ -415,7 +415,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   !isSorptionContainer &&
                     getSchemaTpl('layout:sticky', {
                       visibleOn:
-                        'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+                        'this.style && (this.style.position !== "fixed" && this.style.position !== "absolute")'
                     }),
                   getSchemaTpl('layout:stickyPosition')
                 ]

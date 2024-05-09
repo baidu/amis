@@ -665,7 +665,7 @@ export class TablePlugin extends BasePlugin {
                 name: 'footable.expand',
                 type: 'button-group-select',
                 size: 'sm',
-                visibleOn: 'data.footable',
+                visibleOn: 'this.footable',
                 label: '底部默认展开',
                 pipeIn: defaultValue('none'),
                 options: [
@@ -696,7 +696,7 @@ export class TablePlugin extends BasePlugin {
                 name: 'rowClassNameExpr',
                 type: 'input-text',
                 label: '行高亮规则',
-                placeholder: `支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>`
+                placeholder: `支持模板语法，如 <%= this.id % 2 ? 'bg-success' : '' %>`
               }
             ]
           },

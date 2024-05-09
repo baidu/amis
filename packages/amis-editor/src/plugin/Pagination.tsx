@@ -114,7 +114,7 @@ export class PaginationPlugin extends BasePlugin {
               //   mode: 'row',
               //   inputClassName: 'inline-flex justify-between flex-row-reverse',
               //   type: 'switch',
-              //   visibleOn: 'data.mode === "simple"'
+              //   visibleOn: 'this.mode === "simple"'
               // },
               // {
               //   name: 'activePage',
@@ -125,13 +125,13 @@ export class PaginationPlugin extends BasePlugin {
               //   name: 'lastPage',
               //   label: tipedLabel('最后页码', '支持使用 \\${xxx} 来获取变量'),
               //   type: 'input-text',
-              //   visibleOn: 'data.mode === "normal"'
+              //   visibleOn: 'this.mode === "normal"'
               // },
               // {
               //   name: 'total',
               //   label: tipedLabel('总条数', '支持使用 \\${xxx} 来获取变量'),
               //   type: 'input-text',
-              //   visibleOn: 'data.mode === "normal"'
+              //   visibleOn: 'this.mode === "normal"'
               // },
               getSchemaTpl('combo-container', {
                 name: 'layout',
@@ -140,7 +140,7 @@ export class PaginationPlugin extends BasePlugin {
                   '启用功能',
                   '选中表示启用该项，可以拖拽排序调整功能的顺序'
                 ),
-                visibleOn: '!data.mode || data.mode === "normal"',
+                visibleOn: '!this.mode || this.mode === "normal"',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -203,14 +203,14 @@ export class PaginationPlugin extends BasePlugin {
               //   mode: 'row',
               //   inputClassName: 'inline-flex justify-between flex-row-reverse',
               //   type: 'switch',
-              //   visibleOn: 'data.mode === "normal"'
+              //   visibleOn: 'this.mode === "normal"'
               // },
               getSchemaTpl('combo-container', {
                 name: 'perPageAvailable',
                 type: 'combo',
                 label: '每页条数选项',
                 visibleOn:
-                  '(!data.mode || data.mode === "normal") && data.layout && data.layout.includes("perPage")',
+                  '(!this.mode || this.mode === "normal") && this.layout && this.layout.includes("perPage")',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -243,7 +243,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'input-number',
                 label: '默认每页条数',
                 visibleOn:
-                  '(!data.mode || data.mode === "normal") && data.layout?.includes("perPage")'
+                  '(!this.mode || this.mode === "normal") && this.layout?.includes("perPage")'
               },
               {
                 name: 'maxButtons',
@@ -255,7 +255,7 @@ export class PaginationPlugin extends BasePlugin {
                 min: 5,
                 max: 20,
                 pipeOut: (value: any) => value || 5,
-                visibleOn: '!data.mode || data.mode === "normal"'
+                visibleOn: '!this.mode || this.mode === "normal"'
               },
               {
                 name: 'ellipsisPageGap',
@@ -264,7 +264,7 @@ export class PaginationPlugin extends BasePlugin {
                 min: 1,
                 pipeIn: (value: any) => value || 5,
                 pipeOut: (value: any) => value || 5,
-                visibleOn: 'data.mode && data.mode === "normal"'
+                visibleOn: 'this.mode && this.mode === "normal"'
               }
             ]
           },

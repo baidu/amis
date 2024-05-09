@@ -323,7 +323,7 @@ export const formItemControl: (
               getSchemaTpl('horizontal', {
                 label: '',
                 visibleOn:
-                  'data.mode == "horizontal" && data.label !== false && data.horizontal'
+                  'this.mode == "horizontal" && this.label !== false && this.horizontal'
               }),
               // renderer.sizeMutable !== false
               //   ? getSchemaTpl('formItemSize')

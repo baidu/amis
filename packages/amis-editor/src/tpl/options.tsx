@@ -78,14 +78,14 @@ setSchemaTpl('options', () => {
         type: 'input-number',
         name: 'value',
         placeholder: '值',
-        visibleOn: 'typeof data.value === "number"',
+        visibleOn: 'typeof this.value === "number"',
         unique: true
       },
       {
         type: 'switch',
         name: 'value',
         placeholder: '值',
-        visibleOn: 'typeof data.value === "boolean"',
+        visibleOn: 'typeof this.value === "boolean"',
         unique: true
       },
       {
@@ -93,7 +93,7 @@ setSchemaTpl('options', () => {
         name: 'value',
         placeholder: '值',
         visibleOn:
-          'typeof data.value === "undefined" || typeof data.value === "string"',
+          'typeof this.value === "undefined" || typeof this.value === "string"',
         unique: true
       }
     ]
@@ -181,12 +181,12 @@ setSchemaTpl('checkAll', () => {
       label: '可全选',
       name: 'checkAll',
       value: false,
-      visibleOn: 'data.multiple'
+      visibleOn: 'this.multiple'
     }),
     {
       type: 'container',
       className: 'ae-ExtendMore mb-2',
-      visibleOn: 'data.checkAll && data.multiple',
+      visibleOn: 'this.checkAll && this.multiple',
       body: [
         getSchemaTpl('switch', {
           label: '默认全选',
@@ -206,7 +206,7 @@ setSchemaTpl('joinValues', (schemaPatches: Record<string, any> = {}) =>
       '开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值'
     ),
     name: 'joinValues',
-    visibleOn: 'data.multiple',
+    visibleOn: 'this.multiple',
     value: true,
     ...schemaPatches
   })
@@ -216,7 +216,7 @@ setSchemaTpl('delimiter', {
   type: 'input-text',
   name: 'delimiter',
   label: tipedLabel('拼接符', '将多个值拼接成一个字符串的连接符号'),
-  visibleOn: 'data.multiple && data.joinValues',
+  visibleOn: 'this.multiple && this.joinValues',
   pipeIn: defaultValue(',')
 });
 
@@ -228,7 +228,7 @@ setSchemaTpl('extractValue', {
   ),
   name: 'extractValue',
   inputClassName: 'is-inline',
-  visibleOn: 'data.multiple && data.joinValues === false',
+  visibleOn: 'this.multiple && this.joinValues === false',
   pipeIn: defaultValue(false)
 });
 
@@ -247,7 +247,7 @@ setSchemaTpl('addApi', () => {
     label: '新增接口',
     name: 'addApi',
     mode: 'row',
-    visibleOn: 'data.creatable'
+    visibleOn: 'this.creatable'
   });
 });
 
@@ -273,7 +273,7 @@ setSchemaTpl('editApi', () =>
     label: '编辑接口',
     name: 'editApi',
     mode: 'row',
-    visibleOn: 'data.editable'
+    visibleOn: 'this.editable'
   })
 );
 
@@ -282,7 +282,7 @@ setSchemaTpl('editInitApi', () =>
     label: '编辑初始化接口',
     name: 'editInitApi',
     mode: 'row',
-    visibleOn: 'data.editable'
+    visibleOn: 'this.editable'
   })
 );
 
@@ -301,7 +301,7 @@ setSchemaTpl('deleteApi', () =>
     label: '删除接口',
     name: 'deleteApi',
     mode: 'row',
-    visibleOn: 'data.removable'
+    visibleOn: 'this.removable'
   })
 );
 

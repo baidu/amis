@@ -248,8 +248,8 @@ export class ChartPlugin extends BasePlugin {
                   getSchemaTpl('switch', {
                     label: '初始是否拉取',
                     name: 'initFetch',
-                    // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api.url',
+                    // visibleOn: 'chartDataType === "dataApi" && this.api',
+                    visibleOn: 'this.api.url',
                     pipeIn: defaultValue(true)
                   }),
                   {
@@ -261,8 +261,8 @@ export class ChartPlugin extends BasePlugin {
                     type: 'input-number',
                     step: 500,
                     min: 1000,
-                    // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api.url',
+                    // visibleOn: 'chartDataType === "dataApi" && this.api',
+                    visibleOn: 'this.api.url',
                     unitOptions: ['ms']
                   },
                   getSchemaTpl('expressionFormulaControl', {
