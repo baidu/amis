@@ -22,6 +22,11 @@
     white-space: nowrap;
   }
 
+  & > .#{$ns}Form-control {
+    flex: 1;
+    min-width: 0;
+  }
+
   &-addOn {
     background: var(--InputGroup-addOn-bg);
     border: var(--InputGroup-addOn-borderWidth) solid
@@ -80,6 +85,7 @@
   .#{$ns}SearchBox {
     flex-basis: 0;
     flex-grow: 1;
+    min-width: 0;
     display: inline-flex;
 
     &:not(:first-child) {
