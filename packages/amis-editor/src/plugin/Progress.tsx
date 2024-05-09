@@ -172,7 +172,7 @@ export class ProgressPlugin extends BasePlugin {
               {
                 type: 'input-number',
                 name: 'gapDegree',
-                visibleOn: 'data.mode === "dashboard"',
+                visibleOn: 'this.mode === "dashboard"',
                 label: '缺口角度',
                 value: 75,
                 min: 0,
@@ -182,7 +182,7 @@ export class ProgressPlugin extends BasePlugin {
                 label: '缺口位置',
                 name: 'gapPosition',
                 type: 'button-group-select',
-                visibleOn: 'data.mode === "dashboard"',
+                visibleOn: 'this.mode === "dashboard"',
                 value: defaultValue('bottom'),
                 tiled: true,
                 options: [
@@ -209,13 +209,13 @@ export class ProgressPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'animate',
                 label: '显示动画',
-                visibleOn: 'data.mode === "line"'
+                visibleOn: 'this.mode === "line"'
               }),
               {
                 type: 'button-group-select',
                 name: 'styleType',
                 label: '样式',
-                visibleOn: 'data.mode === "line"',
+                visibleOn: 'this.mode === "line"',
                 options: [
                   {
                     label: '纯色',
@@ -254,7 +254,7 @@ export class ProgressPlugin extends BasePlugin {
                     placeholder: 'value',
                     columnClassName: 'w-xs',
                     unique: true,
-                    requiredOn: 'data.map?.length > 1',
+                    requiredOn: 'this.map?.length > 1',
                     min: 0,
                     step: 10,
                     precision: 0

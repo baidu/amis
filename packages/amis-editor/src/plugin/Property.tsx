@@ -81,7 +81,7 @@ export class PropertyPlugin extends BasePlugin {
             label: '分隔符',
             type: 'input-text',
             name: 'separator',
-            visibleOn: 'data.mode === "simple"'
+            visibleOn: 'this.mode === "simple"'
           },
           {
             label: '属性取自变量',

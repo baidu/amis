@@ -163,7 +163,7 @@ export class ConditionBilderPlugin extends BasePlugin {
 
             {
               type: 'group',
-              visibleOn: 'data.type === "number"',
+              visibleOn: 'this.type === "number"',
               body: [
                 {
                   type: 'input-number',
@@ -186,7 +186,7 @@ export class ConditionBilderPlugin extends BasePlugin {
 
             {
               type: 'group',
-              visibleOn: '!!~["date", "datetime", "time"].indexOf(data.type)',
+              visibleOn: '!!~["date", "datetime", "time"].indexOf(this.type)',
               body: [
                 {
                   type: 'input-text',
@@ -202,14 +202,14 @@ export class ConditionBilderPlugin extends BasePlugin {
                   type: 'input-text',
                   name: 'timeFormat',
                   placeholder: '时间显示格式',
-                  visibleOn: 'data.type === "datetime"'
+                  visibleOn: 'this.type === "datetime"'
                 }
               ]
             },
 
             {
               type: 'group',
-              visibleOn: 'data.type === "select"',
+              visibleOn: 'this.type === "select"',
               body: [
                 {
                   type: 'input-text',

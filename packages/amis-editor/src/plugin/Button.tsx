@@ -266,13 +266,13 @@ export class ButtonPlugin extends BasePlugin {
                         '禁用状态下的提示内容，不填则弹出正常提示。可从数据域变量中取值。'
                       ),
                       clearValueOnHidden: true,
-                      visibleOn: 'data.tooltipTrigger !== "focus"'
+                      visibleOn: 'this.tooltipTrigger !== "focus"'
                     }),
                     {
                       type: 'button-group-select',
                       name: 'tooltipTrigger',
                       label: '触发方式',
-                      // visibleOn: 'data.tooltip || data.disabledTip',
+                      // visibleOn: 'this.tooltip || this.disabledTip',
                       size: 'sm',
                       options: [
                         {
@@ -289,7 +289,7 @@ export class ButtonPlugin extends BasePlugin {
                     {
                       type: 'button-group-select',
                       name: 'tooltipPlacement',
-                      // visibleOn: 'data.tooltip || data.disabledTip',
+                      // visibleOn: 'this.tooltip || this.disabledTip',
                       label: '提示位置',
                       size: 'sm',
                       options: [
@@ -348,7 +348,7 @@ export class ButtonPlugin extends BasePlugin {
                 label: '高亮样式',
                 name: 'activeLevel',
                 hidden: isInDropdown,
-                visibleOn: 'data.active'
+                visibleOn: 'this.active'
               }),
 
               getSchemaTpl('switch', {

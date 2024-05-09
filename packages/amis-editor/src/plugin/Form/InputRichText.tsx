@@ -281,7 +281,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   '查看 https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/ 文档'
                 ),
                 name: 'options.plugins',
-                visibleOn: 'data.vendor === "tinymce"',
+                visibleOn: 'this.vendor === "tinymce"',
                 value: [...tinymceOptions].join(','),
                 searchable: true,
                 maxTagCount: 5,
@@ -302,7 +302,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   title: '插件',
                   offset: [0, 5]
                 },
-                visibleOn: 'data.vendor === "tinymce"',
+                visibleOn: 'this.vendor === "tinymce"',
                 delimiter: tinymceToolbarsDelimiter,
                 value:
                   'undo redo formatselect bold italic backcolor alignleft aligncenter alignright alignjustify bullist numlist outdent indent removeformat help',
@@ -318,7 +318,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '显示菜单栏',
                 value: true,
                 name: 'options.menubar',
-                visibleOn: 'data.vendor === "tinymce"'
+                visibleOn: 'this.vendor === "tinymce"'
               }),
 
               // froala
@@ -326,7 +326,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 type: 'select',
                 name: 'options.toolbarButtons',
                 multiple: true,
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'this.vendor === "froala"',
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -346,7 +346,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 type: 'select',
                 name: 'options.toolbarButtonsMD',
                 multiple: true,
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'this.vendor === "froala"',
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -365,7 +365,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 type: 'select',
                 name: 'options.toolbarButtonsSM',
                 multiple: true,
-                visibleOn: 'data.vendor === "froala"',
+                visibleOn: 'this.vendor === "froala"',
                 maxTagCount: 5,
                 overflowTagPopover: {
                   title: '插件',
@@ -384,13 +384,13 @@ export class RichTextControlPlugin extends BasePlugin {
                 label: '快速插入',
                 value: true,
                 name: 'options.quickInsertEnabled',
-                visibleOn: 'data.vendor === "froala"'
+                visibleOn: 'this.vendor === "froala"'
               }),
               getSchemaTpl('switch', {
                 label: '字数统计',
                 value: true,
                 name: 'options.charCounterCount',
-                visibleOn: 'data.vendor === "froala"'
+                visibleOn: 'this.vendor === "froala"'
               }),
 
               // 公用部分
@@ -408,7 +408,7 @@ export class RichTextControlPlugin extends BasePlugin {
                 labelClassName: 'none',
                 name: 'receiver',
                 label: '图片接收接口',
-                visibleOn: 'data.vendor === "froala"'
+                visibleOn: 'this.vendor === "froala"'
               }),
 
               getSchemaTpl('apiControl', {
@@ -416,12 +416,12 @@ export class RichTextControlPlugin extends BasePlugin {
                 labelClassName: 'none',
                 name: 'videoReceiver',
                 label: '视频接收接口',
-                visibleOn: 'data.vendor === "froala"'
+                visibleOn: 'this.vendor === "froala"'
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder', {
-                visibleOn: 'data.vendor !== "tinymce"'
+                visibleOn: 'this.vendor !== "tinymce"'
               }),
               getSchemaTpl('description')
             ]
@@ -442,7 +442,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   label: '高度',
                   min: 0,
                   name: 'options.height',
-                  visibleOn: 'data.vendor === "tinymce"'
+                  visibleOn: 'this.vendor === "tinymce"'
                 },
                 {
                   type: 'input-number',
@@ -450,7 +450,7 @@ export class RichTextControlPlugin extends BasePlugin {
                   min: 150,
                   max: 400,
                   name: 'options.height',
-                  visibleOn: 'data.vendor === "froala"'
+                  visibleOn: 'this.vendor === "froala"'
                 }
               ]
             },

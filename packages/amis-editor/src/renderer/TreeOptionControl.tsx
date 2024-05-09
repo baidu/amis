@@ -589,7 +589,7 @@ export default class TreeOptionControl extends React.Component<
         label: '接口',
         name: 'source',
         className: 'ae-ExtendMore',
-        visibleOn: 'data.autoComplete !== false',
+        visibleOn: 'this.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
         sourceType: source,

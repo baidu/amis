@@ -171,7 +171,7 @@ setSchemaTpl('formItemInline', {
   type: 'switch',
   label: '表单项内联',
   name: 'inline',
-  visibleOn: 'data.mode != "inline"',
+  visibleOn: 'this.mode != "inline"',
   inputClassName: 'is-inline',
   pipeIn: defaultValue(false)
   // onChange: (value:any, origin:any, item:any, form:any) => form.getValueByName('size') === "full" && form.setValueByName('')
@@ -250,7 +250,7 @@ setSchemaTpl('labelHide', () =>
     pipeIn: (value: any) => value === false,
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
-      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal"'
+      'this.__props__ && this.__props__.formMode === "horizontal" || this.mode === "horizontal"'
   })
 );
 
@@ -1504,7 +1504,7 @@ setSchemaTpl('avatarText', {
   name: 'text',
   type: 'input-text',
   pipeOut: (value: any) => (value === '' ? undefined : value),
-  visibleOn: 'data.showtype === "text"'
+  visibleOn: 'this.showtype === "text"'
 });
 
 setSchemaTpl('cardTitle', {

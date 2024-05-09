@@ -22,7 +22,7 @@ setSchemaTpl('horizontal-align', {
 setSchemaTpl('leftFixed', {
   name: 'horizontal.leftFixed',
   type: 'button-group-select',
-  visibleOn: 'data.horizontal && data.horizontal.leftFixed',
+  visibleOn: 'this.horizontal && this.horizontal.leftFixed',
   label: '宽度',
   size: 'xs',
   options: [
@@ -46,7 +46,7 @@ setSchemaTpl('leftFixed', {
 setSchemaTpl('leftRate', {
   name: 'horizontal',
   type: 'input-range',
-  visibleOn: 'data.horizontal && !data.horizontal.leftFixed',
+  visibleOn: 'this.horizontal && !this.horizontal.leftFixed',
   min: 1,
   max: 11,
   step: 1,
@@ -62,7 +62,7 @@ setSchemaTpl('leftRate', {
 setSchemaTpl('labelAlign', {
   name: 'labelAlign',
   type: 'button-group-select',
-  visibleOn: 'data.horizontal && data.horizontal.leftFixed',
+  visibleOn: 'this.horizontal && this.horizontal.leftFixed',
   label: '排列方式',
   size: 'xs',
   options: [
@@ -226,7 +226,7 @@ setSchemaTpl('subFormHorizontalMode', {
 setSchemaTpl('subFormHorizontal', {
   type: 'combo',
   syncDefaultValue: false,
-  visibleOn: 'data.subFormMode == "horizontal" && data.subFormHorizontal',
+  visibleOn: 'this.subFormMode == "horizontal" && this.subFormHorizontal',
   name: 'subFormHorizontal',
   multiLine: true,
   pipeIn: (value: any) => {

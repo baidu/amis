@@ -137,12 +137,12 @@ export class ChainedSelectControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('delimiter', {
-                visibleOn: 'data.joinValues !== false',
+                visibleOn: 'this.joinValues !== false',
                 clearValueOnHidden: true
               }),
 
               getSchemaTpl('extractValue', {
-                visibleOn: 'data.joinValues === false',
+                visibleOn: 'this.joinValues === false',
                 clearValueOnHidden: true
               }),
 
