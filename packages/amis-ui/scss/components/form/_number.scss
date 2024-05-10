@@ -552,6 +552,8 @@
     border-bottom-right-radius: var(--Number-borderRadius);
   }
   .#{$ns}Number--enhance-input {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     border: 0;
     border-left: var(--Number-borderWidth) solid var(--Number-borderColor);

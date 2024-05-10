@@ -415,6 +415,8 @@
 
 .#{$ns}PopUp {
   .#{$ns}Tree {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
 
     .#{$ns}Tree-itemLabel {

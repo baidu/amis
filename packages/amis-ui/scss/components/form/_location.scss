@@ -89,6 +89,8 @@
     height: px2rem(460px);
 
     &-inner {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       padding: 0 px2rem(16px);
 
@@ -116,6 +118,8 @@
   }
 
   &.is-mobile {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     text-align: right;
     overflow: hidden;

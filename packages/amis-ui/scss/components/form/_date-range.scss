@@ -75,6 +75,8 @@
     outline: none;
     padding: 0;
     background: 0;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     width: 50%;
     line-height: px2rem(30px);
@@ -188,6 +190,8 @@
   padding: 0;
 
   &.is-mobile {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
 
     .#{$ns}DateRangePicker-end {
@@ -207,6 +211,8 @@
 .#{$ns}DateRangePicker-start,
 .#{$ns}DateRangePicker-end {
   display: flex;
+  min-width: 0;
+  min-height: 0;
   flex: 1;
 
   .rdtPicker {

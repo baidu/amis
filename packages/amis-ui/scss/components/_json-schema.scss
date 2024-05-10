@@ -27,6 +27,8 @@
     }
 
     & > * {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
     }
 
@@ -52,6 +54,8 @@
   }
 
   &-value {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     margin-left: auto;
     display: flex;
@@ -62,6 +66,8 @@
     }
 
     > div {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       flex-wrap: nowrap;
     }
