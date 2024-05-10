@@ -4,6 +4,8 @@
   padding: 0;
 
   .#{$ns}StepsItem {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     overflow: hidden;
     padding: 0 px2rem(8px);
@@ -198,6 +200,8 @@
     list-style: none;
     padding: 0;
     .#{$ns}StepsItem {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       padding: 0;
       overflow: visible;
@@ -441,6 +445,8 @@
     }
 
     &:last-child {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
 
       .#{$ns}StepsItem-container {

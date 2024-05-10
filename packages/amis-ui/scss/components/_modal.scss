@@ -252,6 +252,8 @@
       display: flex;
 
       > .#{$ns}Button {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         height: px2rem(44px);
 

@@ -193,6 +193,7 @@
 
     .weekday {
       flex: 1;
+      min-width: 0;
       line-height: px2rem(30px);
       text-align: center;
     }
@@ -214,6 +215,8 @@
 
   &-body {
     flex: 1;
+    min-width: 0;
+    min-height: 0;
     overflow-y: scroll;
 
     table {
