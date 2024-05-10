@@ -71,7 +71,7 @@ const codeErrorWarning = debounce(e => {
 export interface AMisCodeEditorProps {
   value: any;
   onChange: (value: any, diff: any) => void;
-  onPaste?: () => void;
+  onPaste?: (e: any) => void;
   disabled?: boolean;
   $schemaUrl?: string;
   $schema?: string;
