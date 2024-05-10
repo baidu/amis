@@ -892,6 +892,42 @@
       display: none;
     }
   }
+  .#{$ns}Form-flexInner {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+
+    > .#{$ns}Form-label {
+      display: inline-block;
+      vertical-align: top;
+      padding-top: var(--Form-label-paddingTop);
+      padding-right: var(--Form-row-gutterWidth);
+      flex: 1;
+      min-width: 0;
+      padding-top: 0;
+    }
+
+    > .#{$ns}Form-control {
+      flex: 1;
+    }
+  }
+
+  .#{$ns}Form-flexInner--label-top {
+    flex-direction: column;
+    > .#{$ns}Form-label {
+      margin-bottom: px2rem(10px);
+    }
+  }
+  .#{$ns}Form-flexInner--label-left {
+    > .#{$ns}Form-label {
+      text-align: left;
+    }
+  }
+  .#{$ns}Form-flexInner--label-right {
+    > .#{$ns}Form-label {
+      text-align: right;
+    }
+  }
 }
 
 .#{$ns}Autofill-popOver {
