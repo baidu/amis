@@ -33,13 +33,7 @@ export class PrintAction implements RendererAction {
       const targetComponent = event.context.scoped?.getComponentById(
         action.componentId
       );
-      targetComponent?.doAction(
-        {
-          ...action,
-          target: undefined
-        },
-        renderer
-      );
+      targetComponent?.doAction?.(action, event.data, true, action.args);
       return;
     }
 
