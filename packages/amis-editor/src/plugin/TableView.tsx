@@ -12,7 +12,9 @@ import {
   BuildPanelEventContext,
   RegionConfig,
   RendererInfo,
-  VRendererConfig
+  VRendererConfig,
+  ContextMenuEventContext,
+  ContextMenuItem
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
@@ -567,17 +569,16 @@ export class TableViewPlugin extends BasePlugin {
 
     let insertRow = td.$$row;
     if (position === 'below') {
-      insertRow = insertRow + 1;
+      // 如果有rowspan，则插入行数需要加上 rowspan
+      if (td.rowspan) {
+        insertRow = insertRow + td.rowspan;
+      } else {
+        insertRow = insertRow + 1;
+      }
     }
 
-    // 通过第一行来确认表格一共多少列
-    const firstRow = table.trs[0];
-    const firstRowLastTd = firstRow.tds[firstRow.tds.length - 1];
-    if (!firstRowLastTd) {
-      console.warn('第一列没内容');
-      return;
-    }
-    let colSize = firstRowLastTd.$$col + (firstRowLastTd.colspan || 1);
+    // 获取最大的列数
+    let colSize = this.calculateCellActualMaxCol(table);
     let insertIndex = table.trs.length;
     for (let trIndex = 0; trIndex < table.trs.length; trIndex++) {
       for (const td of table.trs[trIndex].tds || []) {
@@ -585,7 +586,7 @@ export class TableViewPlugin extends BasePlugin {
         const rowspan = td.rowspan || 1;
         const colspan = td.colspan || 1;
         // 如果覆盖到要插入的行，则增加 rowspan，并在这个插入的行中减去对应
-        if (rowspan > 1) {
+        if (rowspan > 1 && tdRow < insertRow) {
           const isOverlapping = tdRow + rowspan > insertRow;
           if (isOverlapping) {
             td.rowspan = rowspan + 1;
@@ -605,6 +606,115 @@ export class TableViewPlugin extends BasePlugin {
     }
     table.trs.splice(insertIndex, 0, {tds: insertTds});
     this.manager.store.changeValueById(tableId, table);
+  }
+
+  /**
+   * 计算最大列数
+   *    +---+---+---+
+   *		| a     | b |
+   *		+       +---+
+   *		|       | c |
+   *		+---+---+---+
+   *		| d | e | f |
+   *		+---+---+---+
+   *  return 3;
+   */
+  calculateCellActualMaxCol(tableData: TableViewSchema) {
+    let maxColCount = 0;
+
+    if (!tableData?.trs) {
+      return maxColCount;
+    }
+
+    const rows = tableData.trs; // 获取表格中的行
+    const actualRowColMap: {
+      [key: string]: {
+        rowIndex: number;
+        colIndex: number;
+      };
+    } = {}; // 用来存储每个单元格的实际行和列以及最大列数
+
+    // 遍历表格中的行
+    for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+      const row = rows[rowIndex]; // 获取当前行
+      let currentColIndex = 0; // 当前列索引
+
+      for (let cellIndex = 0; cellIndex < row.tds.length; cellIndex++) {
+        const cell = row.tds[cellIndex];
+        const colspan = cell.colspan || 1; // 获取单元格的跨列数，默认为 1
+        const rowspan = cell.rowspan || 1; // 获取单元格的跨行数，默认为 1
+
+        // 计算单元格的实际行和列
+        const actualRowIndex = rowIndex;
+        let actualColIndexStart = currentColIndex;
+
+        // 考虑跨列
+        for (let i = 0; i < colspan; i++) {
+          const key = `${actualRowIndex}-${actualColIndexStart + i}`;
+          if (actualRowColMap[key]) {
+            actualColIndexStart++;
+          } else {
+            actualRowColMap[key] = {
+              rowIndex: actualRowIndex,
+              colIndex: actualColIndexStart + i
+            };
+          }
+        }
+
+        currentColIndex += colspan;
+      }
+    }
+
+    for (const key in actualRowColMap) {
+      const {colIndex} = actualRowColMap[key];
+      maxColCount = Math.max(maxColCount, colIndex + 1);
+    }
+
+    return maxColCount;
+  }
+
+  /**
+   * 扩展contextmenu,方便操作
+   */
+  buildEditorContextMenu(
+    context: ContextMenuEventContext,
+    menus: Array<ContextMenuItem>
+  ) {
+    const {
+      info,
+      schema: {$$id: tdId, ...resetSchema}
+    } = context;
+
+    const colspan = resetSchema.colspan || 1;
+    const rowspan = resetSchema.rowspan || 1;
+    if (info.schemaPath.endsWith('/td')) {
+      menus.push('|');
+
+      menus.push({
+        label: '左侧新增列',
+        onSelect: this.insertCol.bind(this, tdId, 'left')
+      });
+      menus.push({
+        label: '下方新增行',
+        onSelect: this.insertRow.bind(this, tdId, 'below')
+      });
+      menus.push({
+        label: '上方新增行',
+        onSelect: this.insertRow.bind(this, tdId, 'above')
+      });
+      menus.push({
+        label: '右侧新增列',
+        onSelect: this.insertCol.bind(this, tdId, 'right')
+      });
+
+      menus.push('|');
+
+      menus.push({
+        label: '拆分单元格',
+        disabled: !(colspan > 1 || rowspan > 1) || false,
+        onSelect: this.splitCell.bind(this, tdId)
+      });
+    }
   }
 
   /**
