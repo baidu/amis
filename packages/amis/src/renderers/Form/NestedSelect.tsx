@@ -318,7 +318,11 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
-  async handleCheck(option: Option | Options, index?: number) {
+  async handleCheck(
+    option: Option | Options,
+    index?: number,
+    resetOptionStack?: boolean
+  ) {
     const {
       onChange,
       selectedOptions,
@@ -434,7 +438,7 @@ export default class NestedSelectControl extends React.Component<
     isPrevented || onChange(newValue);
     isPrevented || this.handleResultClear();
     /** 选项选择后需要重置下拉数据源：搜索结果 => 原始数据 */
-    this.setState({stack: [this.props.options]});
+    resetOptionStack && this.setState({stack: [this.props.options]});
   }
 
   allChecked(options: Options): boolean {
@@ -714,7 +718,12 @@ export default class NestedSelectControl extends React.Component<
                   {multiple ? (
                     <Checkbox
                       size="sm"
-                      onChange={this.handleCheck.bind(this, option, index)}
+                      onChange={this.handleCheck.bind(
+                        this,
+                        option,
+                        index,
+                        false
+                      )}
                       trueValue={option[valueField]}
                       checked={selfChecked || (!cascade && selfChildrenChecked)}
                       partial={!selfChecked}
@@ -835,7 +844,7 @@ export default class NestedSelectControl extends React.Component<
                   onClick={() => {
                     !isNodeDisabled &&
                       (multiple
-                        ? this.handleCheck(option, option.value)
+                        ? this.handleCheck(option, option.value, true)
                         : this.handleOptionClick(option));
                   }}
                 >
