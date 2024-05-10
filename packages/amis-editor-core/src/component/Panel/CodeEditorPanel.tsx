@@ -5,9 +5,20 @@ import AMisCodeEditor from './AMisCodeEditor';
 
 export default class CodeEditorPanel extends React.Component<PanelProps> {
   @autobind
-  handleCodePaste() {
+  handleCodePaste(e: any) {
     setTimeout(() => {
       this.props.manager.patchSchema(true);
+
+      // 检测是否整体粘贴组件，如果是的话强制替换ID避免样式bug
+      if (
+        e?.languageId === 'json' &&
+        e.range?.startColumn === 1 &&
+        e.range?.startLineNumber === 1 &&
+        e.range?.endColumn === 2 &&
+        e.range?.endLineNumber > 1
+      ) {
+        this.props.manager.reGenerateCurrentNodeID();
+      }
     }, 500);
   }
 

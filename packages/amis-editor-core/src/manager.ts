@@ -1571,6 +1571,17 @@ export class EditorManager {
   }
 
   /**
+   * 重新生成当前节点的 id
+   */
+  reGenerateCurrentNodeID() {
+    const node = this.store.getNodeById(this.store.activeId);
+    if (!node) {
+      return;
+    }
+    this.replaceChild(node.id, reGenerateID(node.schema));
+  }
+
+  /**
    * 清空区域
    * @param id
    * @param region
