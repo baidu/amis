@@ -92,7 +92,10 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
   reload?: (
     subPath?: string,
     query?: RendererData | null,
-    ctx?: RendererData
+    ctx?: RendererData,
+    silent?: boolean,
+    replace?: boolean,
+    args?: any
   ) => void;
   context: any;
   setData?: (value?: object, replace?: boolean, index?: number) => void;

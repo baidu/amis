@@ -85,7 +85,7 @@ export class CmptAction implements RendererAction {
       return component?.reload?.(
         undefined,
         action.data,
-        undefined,
+        event.data,
         undefined,
         dataMergeMode === 'override',
         action.args

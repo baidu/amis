@@ -2890,7 +2890,14 @@ export class TableRenderer extends Table {
     );
   }
 
-  async reload(subPath?: string, query?: any, ctx?: any, args?: any) {
+  async reload(
+    subPath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean,
+    args?: any
+  ) {
     if (args?.index || args?.condition) {
       // 局部刷新
       const targets = await this.getEventTargets(
