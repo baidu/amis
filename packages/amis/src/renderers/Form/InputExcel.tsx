@@ -160,7 +160,8 @@ export default class ExcelControl extends React.PureComponent<
 
   processExcelFile(excelData: ArrayBuffer | string, fileName: string) {
     const {allSheets, onChange, parseImage, autoFill} = this.props;
-    import('exceljs').then(async (ExcelJS: any) => {
+    import('exceljs').then(async (E: any) => {
+      const ExcelJS = E.default || E;
       this.ExcelJS = ExcelJS;
       const workbook = new ExcelJS.Workbook();
       await workbook.xlsx.load(excelData);
