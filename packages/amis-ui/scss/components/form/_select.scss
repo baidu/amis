@@ -454,6 +454,8 @@
       }
 
       .#{$ns}Select-option-item-check {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         text-align: left;
         border-bottom: px2rem(1px) solid var(--borderColor);

@@ -442,6 +442,8 @@
       display: inline-flex;
 
       & > .#{$ns}Form-value {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
 
         /* 如果size设置了full就占满剩余空间 */
@@ -605,6 +607,8 @@
 
     .#{$ns}NumberControl {
       .#{$ns}Number {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         border: none;
 
@@ -720,6 +724,8 @@
     }
 
     .#{$ns}Form-item-controlBox {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       max-width: -moz-available;
       max-width: -webkit-fill-available;

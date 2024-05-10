@@ -129,9 +129,13 @@
     overflow-y: auto;
     height: 100%;
     display: flex;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
 
     > div {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
     }
   }
