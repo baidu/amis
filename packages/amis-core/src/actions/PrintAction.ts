@@ -8,7 +8,7 @@ import {
 } from './Action';
 
 export interface IPrintAction extends ListenerAction {
-  actionType: 'copy';
+  actionType: 'print';
   args: {
     id?: string;
     ids?: string[];
@@ -28,6 +28,15 @@ export class PrintAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    // 兼容之前的 word 打印
+    if (action.componentId) {
+      const targetComponent = event.context.scoped?.getComponentById(
+        action.componentId
+      );
+      targetComponent?.doAction?.(action, event.data, true, action.args);
+      return;
+    }
+
     if (action.args?.id) {
       const element = document.querySelector(`[data-id='${action.args.id}']`);
       if (element) {
