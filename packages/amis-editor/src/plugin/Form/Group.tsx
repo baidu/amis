@@ -112,7 +112,7 @@ export class GroupControlPlugin extends BasePlugin {
           getSchemaTpl('horizontalMode'),
           getSchemaTpl('horizontal', {
             visibleOn:
-              '(data.$$formMode == "horizontal" || data.mode == "horizontal") && data.label !== false && data.horizontal',
+              '(this.$$formMode == "horizontal" || this.mode == "horizontal") && this.label !== false && this.horizontal',
             pipeIn: (value: any, data: any) => {
               value =
                 value ||
@@ -144,7 +144,7 @@ export class GroupControlPlugin extends BasePlugin {
             removable: false,
             addable: false,
             multiLine: true,
-            visibleOn: 'data.$$formMode != "inline"',
+            visibleOn: 'this.$$formMode != "inline"',
             items: [
               {
                 type: 'button-group-select',

@@ -1134,7 +1134,14 @@ export class CardsRenderer extends Cards {
     }
   }
 
-  async reload(subPath?: string, query?: any, ctx?: any, args?: any) {
+  async reload(
+    subPath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean,
+    args?: any
+  ) {
     const {store} = this.props;
     if (args?.index || args?.condition) {
       // 局部刷新
