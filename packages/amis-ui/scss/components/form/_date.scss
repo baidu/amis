@@ -266,13 +266,13 @@
     }
 
     .rdtTimePart {
-      width: #{px2rem(128px)};
       text-align: center;
+      flex: 1;
     }
 
     .rdtTimePartWithS {
-      width: #{px2rem(192px)};
       text-align: center;
+      flex: 1;
     }
 
     .rdtShowTime {
@@ -413,6 +413,7 @@
   height: 100%;
   .#{$ns}CalendarInputsWrapper {
     height: #{px2rem(248px)};
+    display: flex;
   }
 }
 
@@ -423,6 +424,7 @@
   width: #{px2rem(64px)};
   height: #{px2rem(248px)};
   overflow: auto;
+  flex: 1;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     background: var(--inputTime-default-bg-color);
