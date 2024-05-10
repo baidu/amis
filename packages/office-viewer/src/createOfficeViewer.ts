@@ -35,7 +35,7 @@ export async function createOfficeViewer(
 
   const fileType = fileTypeFromArrayBuffer(docFile);
 
-  if (fileType === null || fileType.ext !== 'zip') {
+  if (fileType === null || (fileType.ext !== 'zip' && fileType.ext !== 'xml')) {
     if (fileType?.ext === 'cfb') {
       return new UnSupport('不支持加密文件');
     }
@@ -69,6 +69,11 @@ export async function createOfficeViewer(
     } else if (fileName?.endsWith('.docx')) {
       isWord = true;
     }
+  }
+
+  // 目前只有支持 xml 格式
+  if (fileType?.ext === 'xml') {
+    isWord = true;
   }
 
   if (isWord) {

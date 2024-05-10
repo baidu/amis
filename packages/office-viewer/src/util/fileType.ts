@@ -77,6 +77,13 @@ export function fileTypeFromBuffer(buffer: Uint8Array): FileType | null {
     return {ext: 'pdf', mime: 'application/pdf'};
   }
 
+  if (checkString(buffer, '<?xml ')) {
+    return {
+      ext: 'xml',
+      mime: 'application/xml'
+    };
+  }
+
   if (check(buffer, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])) {
     // Detected Microsoft Compound File Binary File (MS-CFB) Format.
     return {
