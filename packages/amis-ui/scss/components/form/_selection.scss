@@ -148,6 +148,8 @@
       flex-direction: column;
 
       .#{$ns}Table-content-virtual {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         position: relative;
       }

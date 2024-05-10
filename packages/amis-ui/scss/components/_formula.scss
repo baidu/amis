@@ -154,6 +154,8 @@
 
     &-body {
       flex: 1;
+      min-width: 0;
+      min-height: 0;
       display: flex;
       flex-flow: column nowrap;
       max-height: calc(100% - 30px);
@@ -192,6 +194,8 @@
       --Form-input-fontSize: var(--fontSizeSm);
       --gap-sm: #{px2rem(10px)};
       flex: 1;
+      min-width: 0;
+      min-height: 0;
       max-height: 100%;
     }
 
@@ -210,6 +214,8 @@
 
       & > div {
         flex: 1;
+        min-width: 0;
+        min-height: 0;
         font-size: var(--fontSizeSm);
         height: var(--gap-xl);
       }
@@ -278,6 +284,8 @@
         overflow-x: hidden;
         overflow-y: auto;
         flex: 1;
+        min-width: 0;
+        min-height: 0;
         border-radius: var(--borderRadius);
       }
     }
@@ -366,6 +374,8 @@
 
       & > div {
         flex: 1;
+        min-width: 0;
+        min-height: 0;
         font-size: var(--fontSizeSm);
         height: var(--gap-xl);
       }
@@ -374,6 +384,8 @@
     &-body {
       @include scrollbar();
       flex: 1;
+      min-width: 0;
+      min-height: 0;
       overflow-x: hidden;
       overflow-y: auto;
     }
@@ -455,6 +467,8 @@
         overflow-x: hidden;
         overflow-y: auto;
         flex: 1;
+        min-width: 0;
+        min-height: 0;
       }
     }
   }

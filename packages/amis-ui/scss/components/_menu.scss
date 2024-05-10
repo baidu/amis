@@ -194,6 +194,8 @@
     text-overflow: ellipsis;
     color: inherit;
     font-size: inherit;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     cursor: inherit;
     font-weight: inherit;
@@ -290,6 +292,8 @@
       position: static;
       overflow: hidden;
       display: flex;
+      min-width: 0;
+      min-height: 0;
       flex: 1;
     }
     .#{$ns}Nav-Menu-item-wrap {
@@ -351,6 +355,8 @@
     justify-content: space-between;
 
     .#{$ns}Nav-Menu-item-wrap {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       overflow: hidden;
     }

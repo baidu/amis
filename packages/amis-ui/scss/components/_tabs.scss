@@ -658,6 +658,8 @@
       border-bottom: none;
 
       > .#{$ns}Tabs-linksContainer {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         align-items: stretch;
 
@@ -761,6 +763,8 @@
           margin: 0;
           border-radius: 0;
           padding: 0;
+          min-width: 0;
+          min-height: 0;
           flex: 1;
           border: none;
         }

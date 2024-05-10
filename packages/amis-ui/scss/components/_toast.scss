@@ -119,6 +119,8 @@
   }
 
   &-content {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     display: flex;
     flex-flow: column nowrap;

@@ -196,6 +196,8 @@
 
   &-progress {
     height: 5px;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     background: #ebebeb;
 

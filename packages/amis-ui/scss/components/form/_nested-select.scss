@@ -87,6 +87,8 @@
       background: var(--select-base-default-option-bg-color);
 
       > .#{$ns}NestedSelect-optionLabel {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
         height: px2rem(32px);
         overflow: hidden;

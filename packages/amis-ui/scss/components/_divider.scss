@@ -25,7 +25,8 @@
   &--horizontal {
     position: relative;
     height: px2rem(2px);
-    border-bottom: var(--Divider-width) var(--Divider-style) var(--Divider-color);
+    border-bottom: var(--Divider-width) var(--Divider-style)
+      var(--Divider-color);
     transform-origin: 0 center;
     clear: both;
   }
@@ -49,6 +50,8 @@
     content: '';
     height: 0;
     flex: 1;
+    min-width: 0;
+    min-height: 0;
     border-bottom: inherit;
     border-bottom-width: var(--Divider-width);
   }

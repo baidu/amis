@@ -26,11 +26,15 @@
 
   &-search {
     background: var(--UserSelect--content-bg);
+    min-width: 0;
+    min-height: 0;
     flex: 1;
   }
 
   &-searchResult {
     width: 100vw;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
@@ -118,6 +122,8 @@
     width: 100vw;
     overflow: hidden;
     position: relative;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     background: var(--UserSelect--content-bg);
     margin-top: px2rem(16px);
@@ -160,6 +166,8 @@
       border-bottom: px2rem(1px) solid var(--UserSelect--border-color);
 
       > span {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
       }
     }
@@ -175,6 +183,8 @@
 
   &-memberName {
     font-size: 14px;
+    min-width: 0;
+    min-height: 0;
     flex: 2 !important;
     text-align: left;
     user-select: none;
@@ -215,6 +225,8 @@
     }
 
     .option-fields {
+      min-width: 0;
+      min-height: 0;
       flex: 1;
       line-height: px2rem(18px);
 
@@ -333,6 +345,8 @@
 
   &-selectList {
     width: 100%;
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     padding: 0;
     overflow-x: scroll;
@@ -434,6 +448,8 @@
   }
 
   &-searchLoadingBox {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     width: 100vw;
     height: 100%;
@@ -456,6 +472,8 @@
     border-radius: 4px;
     padding: 0 px2rem(16px);
     margin: px2rem(16px);
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     overflow-y: auto;
     .#{$ns}UserSelect-noRecord {
@@ -552,6 +570,8 @@
   }
 
   &-tabs {
+    min-width: 0;
+    min-height: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -598,6 +618,8 @@
       }
 
       &:last-child {
+        min-width: 0;
+    min-height: 0;
         flex: 1;
 
         > div {

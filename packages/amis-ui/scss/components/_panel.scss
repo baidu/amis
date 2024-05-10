@@ -235,6 +235,8 @@
       padding: 0 var(--Panel-body-paddingLeft);
 
       > .#{$ns}Button {
+        min-width: 0;
+        min-height: 0;
         flex: 1;
 
         &:first-child {
