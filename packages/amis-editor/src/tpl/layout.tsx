@@ -1500,7 +1500,7 @@ setSchemaTpl(
     name?: string;
     label?: string;
     visibleOn?: string;
-    flexDirection?: string;
+    strictMode?: boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
@@ -1510,9 +1510,9 @@ setSchemaTpl(
       name: config?.name || 'layout',
       label: config?.label ?? false,
       visibleOn: config?.visibleOn,
-      flexDirection: config?.flexDirection,
       pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut
+      pipeOut: config?.pipeOut,
+      strictMode: config?.strictMode
     };
   }
 );
