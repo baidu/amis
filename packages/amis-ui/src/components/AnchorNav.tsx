@@ -78,54 +78,24 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
   // 后代节点观察器
   observer: MutationObserver;
 
+  sections: {
+    key: string | number;
+    element: HTMLDivElement;
+  }[] = [];
+
   componentDidMount() {
     // 初始化滚动标识
     this.setState({fromSelect: false});
 
     const sectionRootDom =
       this.contentDom && (this.contentDom.current as HTMLElement);
-    this.updateSectionOffset(sectionRootDom, false);
-    this.observer = new MutationObserver(() =>
-      // TODO: 牺牲性能
-      this.updateSectionOffset(sectionRootDom, true)
-    );
-    this.observer.observe(sectionRootDom, {childList: true, subtree: true});
+    sectionRootDom.addEventListener('scroll', this.scrollToNav);
   }
 
   componentWillUnmount() {
     if (this.contentDom && this.contentDom.current) {
       this.contentDom.current.removeEventListener('scroll', this.scrollToNav);
     }
-    this.observer && this.observer.disconnect();
-  }
-
-  updateSectionOffset(parentNode: HTMLElement, inited: boolean) {
-    const offsetArr: Array<SectionOffset> = [];
-    const {children, active} = this.props;
-
-    if (!inited) {
-      // add scroll event
-      parentNode.addEventListener('scroll', this.scrollToNav);
-    }
-
-    // 收集段落区域offsetTop
-    children &&
-      React.Children.forEach(
-        children,
-        (section: React.ReactNode, index: number) => {
-          offsetArr.push({
-            key: (section as JSX.Element).props.name,
-            offsetTop: (parentNode.children[index] as HTMLElement).offsetTop
-          });
-        }
-      );
-
-    this.setState(
-      {
-        offsetArr
-      },
-      !inited ? () => active && this.scrollToSection(active) : undefined
-    );
   }
 
   @autobind
@@ -141,25 +111,24 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     const isReachBottom = scrollTop + clientHeight >= scrollHeight;
 
     // 判断scrollTop所在区域
-    const offsetArr = this.state.offsetArr;
-    const firstSection = offsetArr[0];
-    const lastSection = offsetArr[offsetArr.length - 1];
+    const firstSection = this.sections[0];
+    const lastSection = this.sections[this.sections.length - 1];
     // 首层偏移
-    const offset = scrollTop + firstSection.offsetTop;
+    const offset = scrollTop + firstSection.element.offsetTop;
 
     // 首层
-    if (offset <= firstSection.offsetTop) {
+    if (offset <= firstSection.element.offsetTop) {
       this.fireSelect(firstSection.key);
     }
     // 最后一层
-    else if (isReachBottom || offset >= lastSection.offsetTop) {
+    else if (isReachBottom || offset >= lastSection.element.offsetTop) {
       this.fireSelect(lastSection.key);
     } else {
       // 段落区间判断
-      offsetArr.forEach((item, index) => {
+      this.sections.forEach((item, index) => {
         if (
-          offset >= item.offsetTop &&
-          offset < offsetArr[index + 1].offsetTop
+          offset >= item.element.offsetTop &&
+          offset < this.sections[index + 1].element.offsetTop
         ) {
           this.fireSelect(item.key);
         }
@@ -169,14 +138,14 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
 
   scrollToSection(key: string | number) {
     // 获取指定段落的offsettop
-    const offsetArr = this.state.offsetArr;
-    const section = find(offsetArr, item => item.key === key);
+    const node = find(this.sections, item => item.key === key);
     const sectionRootDom =
       this.contentDom && (this.contentDom.current as HTMLElement);
 
     // 滚动到指定段落
-    section &&
-      (sectionRootDom.scrollTop = section.offsetTop - offsetArr[0].offsetTop);
+    node &&
+      (sectionRootDom.scrollTop =
+        node.element.offsetTop - this.sections[0].element.offsetTop);
   }
 
   handleSelect(key: string | number) {
@@ -244,7 +213,13 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
       ...section.props,
       key,
       classnames,
-      active
+      active,
+      ref: (props: any) => {
+        if (props && !this.sections.find(item => item.key === key)) {
+          // 收集每个段落的真实dom节点
+          this.sections.push({key: name, element: props.ref.contentDom});
+        }
+      }
     });
   }
 
