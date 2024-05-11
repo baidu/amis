@@ -5,6 +5,13 @@ import {BaseSchema} from '../Schema';
 import isNumber from 'lodash/isNumber';
 import {getPropValue, Option, PlainObject, normalizeOptions} from 'amis-core';
 
+import getMiniDecimal, {
+  DecimalClass,
+  toFixed,
+  getNumberPrecision,
+  num2str
+} from '@rc-component/mini-decimal';
+
 /**
  * Number 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/number
@@ -111,7 +118,9 @@ export class NumberField extends React.Component<NumberProps> {
         viewValue = <span>{value}</span>;
       } else {
         if (typeof value === 'number' && precision) {
-          value = value.toFixed(precision);
+          value = getMiniDecimal(
+            toFixed(num2str(value), '.', precision)
+          ).toNumber();
         }
 
         if (kilobitSeparator) {
