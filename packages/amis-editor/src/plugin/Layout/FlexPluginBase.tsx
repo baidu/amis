@@ -109,7 +109,9 @@ export class FlexPluginBase extends LayoutBasePlugin {
     if (/^[\d:]+$/.test(value) && isAlive(node)) {
       let list = value.trim().split(':');
       let children = node.children || [];
-      const isColumn = this.manager?.isFlexColumnItem(node.id);
+      const isColumn = String(node.schema?.style?.flexDirection).includes(
+        'column'
+      );
 
       // 更新flex布局
       for (let i = 0; i < children.length; i++) {
@@ -236,6 +238,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                       name: 'layout',
                       label: '快捷版式设置',
                       flexDirection,
+                      strictMode: false,
                       pipeIn: () => {
                         if (isAlive(context.node)) {
                           let children = context.node?.children || [];
