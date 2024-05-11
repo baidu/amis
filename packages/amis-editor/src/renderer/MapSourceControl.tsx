@@ -248,7 +248,7 @@ export default class MapSourceControl extends React.Component<
         name: 'source',
         mode: 'normal',
         className: 'ae-ExtendMore',
-        visibleOn: 'data.autoComplete !== false',
+        visibleOn: 'this.autoComplete !== false',
         value: source,
         onChange: this.handleAPIChange,
         sourceType: mapType,
