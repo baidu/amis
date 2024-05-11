@@ -270,3 +270,47 @@ exports[`Renderer:tableview layout 1`] = `
   </div>
 </div>
 `;
+
+exports[`Renderer:tableview visibleOn 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <table
+            class="cxd-TableView"
+            style="width: 100%; border-collapse: collapse;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-weight: normal; width: auto; text-align: left; vertical-align: center; border-bottom-width: 0; border-left-width: 0;"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      <span
+                        class="text-muted"
+                      />
+                    </span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

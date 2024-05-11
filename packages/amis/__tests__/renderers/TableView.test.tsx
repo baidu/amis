@@ -200,3 +200,67 @@ test('Renderer:tableview layout', () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:tableview visibleOn', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'table-view',
+          trs: [
+            {
+              background: '#F7F7F7',
+              visibleOn: 'false',
+              tds: [
+                {
+                  body: {
+                    type: 'tpl',
+                    tpl: '地区'
+                  }
+                },
+                {
+                  body: {
+                    type: 'tpl',
+                    tpl: '城市'
+                  }
+                },
+                {
+                  body: {
+                    type: 'tpl',
+                    tpl: '销量'
+                  }
+                }
+              ]
+            },
+            {
+              tds: [
+                {
+                  body: {
+                    type: 'tpl',
+                    tpl: ''
+                  },
+                  style: {
+                    borderBottomWidth: 0,
+                    borderLeftWidth: 0
+                  }
+                },
+                {
+                  visibleOn: 'false',
+                  body: {
+                    type: 'tpl',
+                    tpl: '北京'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});

@@ -353,6 +353,94 @@ table-view 的所有属性都支持变量，比如下面的例子通过表达式
 }
 ```
 
+### tr 和 td 支持 visibleOn
+
+> 6.5 及以后版本
+
+可以在行和列上配置 visibleOn 或 hiddenOn 属性来实现根据数据动态渲染界面。
+
+```schema: scope="body"
+{
+  "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "name": "firstRow",
+        "type": "switch",
+        "label": "显示第一行",
+        "value": true,
+      },
+      {
+        "name": "displayBeijing",
+        "type": "switch",
+        "label": "显示北京",
+        "value": true,
+      },
+      {
+        "type": "table-view",
+        "trs": [
+          {
+            "background": "#F7F7F7",
+            "visibleOn": "firstRow",
+            "tds": [
+              {
+                "body": {
+                  "type": "tpl",
+                  "tpl": "地区"
+                }
+              },
+              {
+                "body": {
+                  "type": "tpl",
+                  "tpl": "城市"
+                }
+              },
+              {
+                "body": {
+                  "type": "tpl",
+                  "tpl": "销量"
+                }
+              }
+            ]
+          },
+          {
+            "tds": [
+              {
+                "body": {
+                  "type": "tpl",
+                  "tpl": ""
+                },
+                "style": {
+                  "borderBottomWidth": 0,
+                  "borderLeftWidth": 0
+                }
+              },
+              {
+                "visibleOn": "displayBeijing",
+                "body": {
+                  "type": "tpl",
+                  "tpl": "北京"
+                }
+              },
+              {
+                "body": {
+                  "type": "tpl",
+                  "tpl": ""
+                },
+                "style": {
+                  "borderBottomWidth": 0,
+                  "borderRightWidth": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+}
+
+```
+
 ## 作为布局方法
 
 table-view 除了可以用来展现表格类型的数据，还能用来实现复杂布局效果，只需要将 `border` 隐藏就行，除了拆分单元格还能通过嵌套的方式实现布局，比如：
