@@ -48,11 +48,11 @@ function LayoutItem({
 function FlexLayouts({
   onChange,
   value,
-  flexDirection
+  data
 }: {
   onChange: (value: string) => void;
   value?: string;
-  flexDirection?: React.CSSProperties['flexDirection'];
+  data: any;
 }) {
   const presetLayouts = [
     '1',
@@ -81,6 +81,8 @@ function FlexLayouts({
       }
     }
   }, []);
+
+  const flexDirection = data.style?.flexDirection || 'row';
 
   function onChangeLayout() {
     if (/\d[\d:]+\d$/.test(currentLayout)) {
