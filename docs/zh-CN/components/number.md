@@ -32,7 +32,7 @@ order: 39
     "type": "page",
     "body": {
         "type": "number",
-        "value": 123456.34343434343,
+        "value": 13525646.295,
         "precision": 2
     }
 }
