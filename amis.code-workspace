@@ -28,5 +28,38 @@
     {
       "path": "./packages/amis-theme-editor-helper"
     }
-  ]
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.exclude": {
+      "**/lib": true,
+      "**/esm": true,
+      "**/sdk": true,
+      "**/tsconfig.tsbuildinfo": true,
+      "**/schema.json": true,
+      "**/lerna-debug.log": true,
+      "**/package-lock.json": true,
+      "**/.rollup.cache": true,
+      "public/**": true
+    },
+    "search.exclude": {
+      "**/lib": true,
+      "**/esm": true,
+      "**/sdk": true,
+      "**/tsconfig.tsbuildinfo": true,
+      "**/schema.json": true,
+      "**/lerna-debug.log": true,
+      "**/package-lock.json": true,
+      "**/.rollup.cache": true,
+      "public/**": true,
+      "examples/docs.json": true,
+      "examples/components/EChartsEditor/option-parts/**/*": true
+    },
+    "[xml]": {
+      "editor.defaultFormatter": "redhat.vscode-xml"
+    }
+  }
 }
