@@ -8,7 +8,8 @@ import {
   RendererProps,
   resolveMappingObject,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  isVisible
 } from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
@@ -68,6 +69,10 @@ export type TdObject = {
    * 自定义样式
    */
   style?: object;
+
+  visibleOn?: string;
+
+  hiddenOn?: string;
 };
 
 /**
@@ -90,6 +95,10 @@ export type TrObject = {
   tds: TdObject[];
 
   style?: object;
+
+  visibleOn?: string;
+
+  hiddenOn?: string;
 };
 
 /**
@@ -177,13 +186,13 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   renderTd(td: TdObject, colIndex: number, rowIndex: number) {
-    const {border, borderColor, render, style, padding} = this.props;
+    const {border, borderColor, render, data, padding} = this.props;
     const key = `td-${colIndex}`;
     let styleBorder;
     if (border) {
       styleBorder = `1px solid ${borderColor}`;
     }
-    return (
+    return isVisible(td, data) ? (
       <td
         style={{
           border: styleBorder,
@@ -204,7 +213,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
       >
         {this.renderTdBody(td.body)}
       </td>
-    );
+    ) : null;
   }
 
   renderTdBody(body?: SchemaObject) {
@@ -221,14 +230,15 @@ export default class TableView extends React.Component<TableViewProps, object> {
 
   renderTr(tr: TrObject, rowIndex: number) {
     const key = `tr-${rowIndex}`;
-    return (
+    const {data} = this.props;
+    return isVisible(tr, data) ? (
       <tr
         style={{height: tr.height, background: tr.background, ...tr.style}}
         key={key}
       >
         {this.renderTds(tr.tds || [], rowIndex)}
       </tr>
-    );
+    ) : null;
   }
 
   renderTrs(trs: TrObject[]) {
@@ -276,8 +286,6 @@ export default class TableView extends React.Component<TableViewProps, object> {
       wrapperCustomStyle,
       env,
       themeCss,
-      testid,
-      baseControlClassName,
       style
     } = this.props;
 
