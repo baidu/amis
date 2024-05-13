@@ -343,7 +343,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       throw new Error('fetcher is required');
     }
 
-    if (!formInited) {
+    if (formInited === false && addHook) {
       this.unHook && this.unHook();
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
