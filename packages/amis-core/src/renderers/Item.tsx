@@ -48,7 +48,7 @@ import CustomStyle from '../components/CustomStyle';
 import classNames from 'classnames';
 import isPlainObject from 'lodash/isPlainObject';
 
-export type LabelAlign = 'right' | 'left' | 'top';
+export type LabelAlign = 'right' | 'left' | 'top' | 'inherit';
 
 export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
@@ -1835,7 +1835,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         themeCss,
         id
       } = props;
-      const labelAlign = props.labelAlign || props.formLabelAlign;
+      let labelAlign = props.labelAlign || props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
@@ -1863,7 +1863,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           <div
             className={cx(
               'Form-flexInner',
-              labelAlign && `Form-flexInner--label-${labelAlign}`
+              labelAlign &&
+                labelAlign !== 'inherit' &&
+                `Form-flexInner--label-${labelAlign}`
             )}
           >
             {label && renderLabel !== false ? (
