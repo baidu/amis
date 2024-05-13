@@ -252,6 +252,15 @@ test('Renderer:number with precision and default value', async () => {
   expect(container).toMatchSnapshot();
 });
 
+test('Renderer:number with precision and round', async () => {
+  const {input, wrap, container, getByText} = await setup({
+    precision: 2,
+    value: 6.295
+  });
+
+  expect(input.value).toBe('6.30');
+});
+
 test('Renderer:number with step & precision & displayMode & keyboard', async () => {
   const {input, wrap, container, getByText} = await setup({
     step: 3,
