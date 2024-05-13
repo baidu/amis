@@ -555,6 +555,10 @@ export default class Dialog extends React.Component<DialogProps> {
           render(`action/${key}`, action, {
             data: store.formData,
             onAction: this.handleAction,
+            // 以免调用上层弹窗的 onActionSensor 方法
+            // 弹窗观察内部的动作执行，不需要观察到子弹窗里面去
+            // 所以这里传递了 undefined
+            onActionSensor: undefined,
             key,
             disabled: action.disabled || store.loading || !show
           })
@@ -715,7 +719,8 @@ export default class Dialog extends React.Component<DialogProps> {
             ) : null}
             {render('title', title, {
               data: store.formData,
-              onAction: this.handleAction
+              onAction: this.handleAction,
+              onActionSensor: undefined
             })}
           </div>
         ) : showCloseButton !== false && !store.loading ? (
@@ -731,7 +736,8 @@ export default class Dialog extends React.Component<DialogProps> {
         {header
           ? render('header', header, {
               data: store.formData,
-              onAction: this.handleAction
+              onAction: this.handleAction,
+              onActionSensor: undefined
             })
           : null}
 
