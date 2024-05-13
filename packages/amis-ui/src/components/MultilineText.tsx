@@ -30,7 +30,10 @@ export interface MultilineTextState {
   showBtn: boolean;
 }
 
-export class MultilineText extends React.Component<MultilineTextProps, MultilineTextState> {
+export class MultilineText extends React.Component<
+  MultilineTextProps,
+  MultilineTextState
+> {
   static defaultProps = {
     maxRows: 5,
     expendButtonText: '展开',
@@ -59,14 +62,24 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
     }
   }
 
-  shouldComponentUpdate(nextProps: Readonly<MultilineTextProps>, nextState: Readonly<MultilineTextState>, nextContext: any): boolean {
+  shouldComponentUpdate(
+    nextProps: Readonly<MultilineTextProps>,
+    nextState: Readonly<MultilineTextState>,
+    nextContext: any
+  ): boolean {
     if (
       anyChanged(
-        ['text', 'maxRows', 'expendButtonText', 'collapseButtonText', 'className'],
+        [
+          'text',
+          'maxRows',
+          'expendButtonText',
+          'collapseButtonText',
+          'className'
+        ],
         this.props,
         nextProps
-      )
-      || anyChanged(['isExpend', 'showBtn'], this.state, nextState)
+      ) ||
+      anyChanged(['isExpend', 'showBtn'], this.state, nextState)
     ) {
       return true;
     }
@@ -75,7 +88,7 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
 
   componentDidUpdate(oldProps: any, oldState: any) {
     const {text, maxRows} = this.props;
-    if (text !== oldProps.text || maxRows !== oldProps) {
+    if (text !== oldProps.text || maxRows !== oldProps.maxRows) {
       if (this.ref && this.ref.current) {
         this.setState({
           showBtn: this.ref.current.scrollHeight > this.ref.current.clientHeight
@@ -83,7 +96,6 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
       }
     }
   }
-
 
   @autobind
   toggleExpend() {
@@ -107,16 +119,10 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
       return null;
     }
 
-    const {
-      showBtn,
-      isExpend
-    } = this.state;
+    const {showBtn, isExpend} = this.state;
 
     return (
-      <div
-        className={cx('MultilineText', className)}
-        style={style}
-      >
+      <div className={cx('MultilineText', className)} style={style}>
         {/* 用于计算高度 */}
         <div
           ref={this.ref}
@@ -124,23 +130,29 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
           style={{
             height: `${maxRows * 20}px`
           }}
-        >{text}</div>
+        >
+          {text}
+        </div>
         {/* 用于展示 */}
         <div
           className={cx('MultilineText-display')}
           style={{
-            height: (showBtn && !isExpend) ? `${maxRows * 20}px` : 'auto'
+            height: showBtn && !isExpend ? `${maxRows * 20}px` : 'auto'
           }}
-        >{text}</div>
-        {showBtn &&
+        >
+          {text}
+        </div>
+        {showBtn && (
           <div className={cx('MultilineText-button-wrapper')}>
             <Button
               className={cx('MultilineText-button')}
               level="link"
               onClick={this.toggleExpend}
-            >{!isExpend ? expendButtonText : collapseButtonText}</Button>
+            >
+              {!isExpend ? expendButtonText : collapseButtonText}
+            </Button>
           </div>
-        }
+        )}
       </div>
     );
   }
