@@ -2446,7 +2446,8 @@ export default class Table extends React.Component<TableProps, object> {
         loading: store.exportExcelLoading,
         onAction: () => {
           store.update({exportExcelLoading: true});
-          import('exceljs').then(async (ExcelJS: any) => {
+          import('exceljs').then(async (E: any) => {
+            const ExcelJS = E.default || E;
             try {
               await exportExcel(ExcelJS, this.props, toolbar);
             } catch (error) {
@@ -2480,7 +2481,8 @@ export default class Table extends React.Component<TableProps, object> {
       },
       {
         onAction: () => {
-          import('exceljs').then(async (ExcelJS: any) => {
+          import('exceljs').then(async (E: any) => {
+            const ExcelJS = E.default || E;
             try {
               await exportExcel(ExcelJS, this.props, toolbar, true);
             } catch (error) {
