@@ -9,10 +9,16 @@ import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
 import {EditorStoreType} from '../store/editor';
 import {EditorNodeType} from '../store/node';
-import {autobind, reactionWithOldValue, unitFormula} from '../util';
+import {
+  JSONGetById,
+  autobind,
+  reactionWithOldValue,
+  unitFormula
+} from '../util';
 import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
 import {PositionHDNDMode} from './position-h';
+import {FlexDNDMode} from './flex';
 
 const toastWarning = debounce(msg => {
   toast.warning(msg);
@@ -175,15 +181,23 @@ export class EditorDNDManager {
       return this.dndMode || null;
     }
     const mode = region.regionInfo?.dndMode;
+    const regionNode = JSONGetById(this.store.schema, region.id);
     let Klass: new (
       dnd: EditorDNDManager,
-      region: EditorNodeType
+      region: EditorNodeType,
+      config: any
     ) => DNDModeInterface = DefaultDNDMode; // todo 根据配置自动实例化不同的。
 
     if (mode === 'position-h') {
       Klass = PositionHDNDMode;
     }
-    this.dndMode = new Klass(this, region);
+    if (typeof mode === 'function') {
+      if (mode(regionNode) === 'flex') {
+        Klass = FlexDNDMode;
+      }
+    }
+
+    this.dndMode = new Klass(this, region, {regionNode});
     return this.dndMode;
   }
 
@@ -475,9 +489,20 @@ export class EditorDNDManager {
     }
 
     const beforeId = this.dndMode?.getDropBeforeId();
+    const position = this.dndMode?.getDropPosition?.();
 
+    // 如果中断 drop 事件，则直接返回
+    if (this.dndMode?.interruptionDrop?.()) {
+      return;
+    }
     if (store.dragMode === 'move') {
-      this.manager.move(store.dropId, store.dropRegion, store.dragId, beforeId);
+      this.manager.move(
+        store.dropId,
+        store.dropRegion,
+        store.dragId,
+        beforeId,
+        {position}
+      );
     } else if (store.dragMode === 'copy') {
       let schema = store.dragSchema;
       const dropId = store.dropId;
@@ -494,11 +519,20 @@ export class EditorDNDManager {
         }
       }
 
-      this.manager.addChild(dropId, dropRegion, schema, beforeId, subRenderer, {
-        id: store.dragId,
-        type: store.dragType,
-        data: store.dragSchema
-      });
+      this.manager.addChild(
+        dropId,
+        dropRegion,
+        schema,
+        beforeId,
+        subRenderer,
+        {
+          id: store.dragId,
+          type: store.dragType,
+          data: store.dragSchema,
+          position: position
+        },
+        false
+      );
     }
   }
 
