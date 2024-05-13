@@ -295,12 +295,21 @@ export class App extends React.PureComponent<{
             >
               示例
             </NavLink>
-            <a
-              href="https://github.com/fex-team/amis-editor-demo"
-              target="_blank"
-            >
-              编辑器
-            </a>
+            {process.env.NODE_ENV === 'development' ? (
+              <>
+                <a href={`/packages/amis-ui/#/basic/button`}>UI控件</a>
+                <a href={`/packages/amis-editor/`}>编辑器</a>
+              </>
+            ) : (
+              <>
+                <a
+                  href="https://github.com/fex-team/amis-editor-demo"
+                  target="_blank"
+                >
+                  编辑器
+                </a>
+              </>
+            )}
             {/* <a href="https://suda.bce.baidu.com" target="_blank">
               爱速搭
             </a> */}

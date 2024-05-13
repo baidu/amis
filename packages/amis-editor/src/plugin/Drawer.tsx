@@ -378,6 +378,13 @@ export class DrawerPlugin extends BasePlugin {
 
   buildSubRenderers() {}
 
+  /**
+   * drawer 高亮区域应该是里面的内容
+   */
+  wrapperResolve(dom: HTMLElement): HTMLElement | Array<HTMLElement> {
+    return dom.lastChild as HTMLElement;
+  }
+
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,

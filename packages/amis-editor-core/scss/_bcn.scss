@@ -1,22 +1,19 @@
 .ae-Breadcrumb {
-  flex: 0 0 42px;
-  position: relative;
+  flex: 0 0 22px;
   padding: 0;
   background: #fff;
   box-sizing: border-box;
   border-bottom: 1px solid $editor-border-color;
-  z-index: 1000;
 
   .ae-Breadcrumb-content {
-    position: relative;
     left: 0;
     height: 100%;
     width: max-content;
     padding: 0 16px;
 
     white-space: nowrap;
-    height: 42px;
-    line-height: 42px;
+    height: 22px;
+    line-height: 22px;
     background: #fff;
     letter-spacing: 0;
     font-family: PingFangSC-Regular;
@@ -26,7 +23,6 @@
     user-select: none;
 
     box-sizing: border-box;
-    z-index: 10000;
     transition: left ease-out 0.15s;
 
     > ul {
@@ -47,7 +43,7 @@
         > span {
           display: inline-block;
           padding-right: 8px;
-          line-height: 42px !important; // 避免被覆盖
+          line-height: 22px !important; // 避免被覆盖
           cursor: pointer;
 
           &:hover {
@@ -57,7 +53,7 @@
         // 同级元素选择弹层
         > ul {
           position: absolute;
-          top: 46px;
+          top: 26px;
           left: 0;
           min-width: 100px;
           max-height: 320px;

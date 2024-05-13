@@ -104,12 +104,19 @@ export default class Preview extends Component<PreviewProps> {
   @autobind
   contentsRef(ref: HTMLDivElement | null) {
     if (ref) {
-      this.scrollLayer = ref as HTMLDivElement;
-      this.scrollLayer.addEventListener('scroll', this.handlePanelChange);
-      this.layer = ref!.querySelector('.ae-Preview-widgets') as HTMLDivElement;
-      this.props.store.setLayer(this.layer);
+      this.layer = ref.parentElement!.querySelector(
+        '.ae-Preview-widgets'
+      ) as HTMLDivElement;
 
       this.unSensor = resizeSensor(ref, this.handlePanelChange);
+      if (this.props.isMobile) {
+        ref = ref.firstChild as HTMLDivElement;
+      }
+
+      this.scrollLayer = ref as HTMLDivElement;
+      this.scrollLayer.removeEventListener('scroll', this.handlePanelChange);
+      this.scrollLayer.addEventListener('scroll', this.handlePanelChange);
+      this.props.store.setLayer(this.layer);
     } else {
       delete this.scrollLayer;
       delete this.layer;
@@ -123,9 +130,9 @@ export default class Preview extends Component<PreviewProps> {
     () => [this.getHighlightNodes(), this.props.store.activeId],
     ([ids]: [Array<string>], oldValue: [Array<string>]) => {
       const store = this.props.store;
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.calculateHighlightBox(ids);
-      }, 50);
+      });
       let oldIds = oldValue?.[0];
 
       if (Array.isArray(oldIds)) {
@@ -137,8 +144,17 @@ export default class Preview extends Component<PreviewProps> {
 
   @autobind
   handlePanelChange() {
-    // 视图同步也需要时间啊
-    setTimeout(() => this.calculateHighlightBox(this.getHighlightNodes()), 50);
+    if (this.layer && this.scrollLayer) {
+      requestAnimationFrame(() => {
+        this.layer!.style.cssText += `transform: translate(0, -${
+          this.scrollLayer!.scrollTop
+        }px);`;
+      });
+    }
+
+    requestAnimationFrame(() =>
+      this.calculateHighlightBox(this.getHighlightNodes())
+    );
   }
 
   getHighlightNodes() {
@@ -498,10 +514,15 @@ export default class Preview extends Component<PreviewProps> {
           'ae-Preview',
           'AMISCSSWrapper',
           className,
-          isMobile ? 'is-mobile-body hoverShowScrollBar' : 'is-pc-body'
+          isMobile ? 'is-mobile-body' : 'is-pc-body'
         )}
       >
         <div
+          key={
+            /* contentsLayer 逻辑不一样需要更新一下 */ isMobile
+              ? 'mobile-body'
+              : 'pc-body'
+          }
           className={cx(
             'ae-Preview-body',
             className,
@@ -510,15 +531,6 @@ export default class Preview extends Component<PreviewProps> {
           )}
           ref={this.contentsRef}
         >
-          {isMobile && (
-            <React.Fragment>
-              <div className="mobile-sound"></div>
-              <div className="mobile-receiver"></div>
-              <div className="mobile-left-btn"></div>
-              <div className="mobile-right-btn"></div>
-              <div className="mobile-open-btn"></div>
-            </React.Fragment>
-          )}
           <div className="ae-Preview-inner">
             {isMobile ? (
               <IFramePreview
@@ -543,38 +555,6 @@ export default class Preview extends Component<PreviewProps> {
                 appLocale={appLocale}
               />
             )}
-
-            <div className="ae-Preview-widgets" id="aePreviewHighlightBox">
-              {store.highlightNodes.map(node => (
-                <HighlightBox
-                  node={node}
-                  key={node.id}
-                  store={store}
-                  id={node.id}
-                  title={node.label}
-                  toolbarContainer={toolbarContainer}
-                  onSwitch={this.handleNavSwitch}
-                  manager={manager}
-                >
-                  {node.childRegions.map(region =>
-                    !node.memberImmutable(region.region) &&
-                    store.isRegionActive(region.id, region.region) ? (
-                      <RegionHighlightBox
-                        manager={manager}
-                        key={region.region}
-                        store={store}
-                        node={region}
-                        id={region.id}
-                        name={region.region}
-                        title={region.label}
-                        preferTag={region.preferTag}
-                        isOnlyChildRegion={node.childRegions.length === 1}
-                      />
-                    ) : null
-                  )}
-                </HighlightBox>
-              ))}
-            </div>
           </div>
           {this.currentDom && (
             <BackTop
@@ -588,6 +568,38 @@ export default class Preview extends Component<PreviewProps> {
               <Icon icon="back-up" className="back-top-icon" />
             </BackTop>
           )}
+        </div>
+
+        <div className="ae-Preview-widgets" id="aePreviewHighlightBox">
+          {store.highlightNodes.map(node => (
+            <HighlightBox
+              node={node}
+              key={node.id}
+              store={store}
+              id={node.id}
+              title={node.label}
+              toolbarContainer={toolbarContainer}
+              onSwitch={this.handleNavSwitch}
+              manager={manager}
+            >
+              {node.childRegions.map(region =>
+                !node.memberImmutable(region.region) &&
+                store.isRegionActive(region.id, region.region) ? (
+                  <RegionHighlightBox
+                    manager={manager}
+                    key={region.region}
+                    store={store}
+                    node={region}
+                    id={region.id}
+                    name={region.region}
+                    title={region.label}
+                    preferTag={region.preferTag}
+                    isOnlyChildRegion={node.childRegions.length === 1}
+                  />
+                ) : null
+              )}
+            </HighlightBox>
+          ))}
         </div>
       </div>
     );
