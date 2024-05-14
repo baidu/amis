@@ -1052,6 +1052,10 @@ export function isLayoutPlugin(plugin: any) {
   return !!(plugin && plugin.type === 'flex');
 }
 
+export function isNocodeFormPlugin(plugin: any) {
+  return ['doc-entity', 'nocode-form'].includes(plugin.type);
+}
+
 /**
  * 单位数值运算
  * 备注：支持带单位的数值进行运算
