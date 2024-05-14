@@ -16,6 +16,7 @@ import isNumber from 'lodash/isNumber';
 import debounce from 'lodash/debounce';
 import merge from 'lodash/merge';
 import {EditorModalBody} from './store/editor';
+import {filter} from 'lodash';
 
 const {
   guid,
@@ -1581,4 +1582,29 @@ export function mergeDefinitions(
   });
 
   return schema;
+}
+
+export function setDefaultColSize(
+  regionList: any[],
+  row: number,
+  preRow: number
+) {
+  const tempList = [...regionList];
+  const preRowNodeLength = filter(tempList, n => n.row === preRow).length;
+  const currentRowNodeLength = filter(tempList, n => n.row === row).length;
+  for (let i = 0; i < tempList.length; i++) {
+    const item = tempList[i];
+    if (item.row === row) {
+      item.colSize = undefined;
+    }
+    // 原来的行只有一个节点，且有默认宽度，则设置默认宽度
+    if (
+      ((preRowNodeLength === 1 && item.row === preRow) ||
+        (currentRowNodeLength === 1 && item.row === row)) &&
+      item.$$defaultColSize
+    ) {
+      item.colSize = item.$$defaultColSize;
+    }
+  }
+  return tempList;
 }

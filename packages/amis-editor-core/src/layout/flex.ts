@@ -5,6 +5,7 @@ import {
   MoveEventContext
 } from '../plugin';
 import {LayoutInterface} from './interface';
+import {setDefaultColSize} from '../util';
 
 export default class FlexLayout implements LayoutInterface {
   beforeInsert(context: InsertEventContext, store: any) {
@@ -56,7 +57,7 @@ export default class FlexLayout implements LayoutInterface {
     const currentIndex = context.regionList.findIndex(
       (item: any) => item.$$id === context.data.$$id
     );
-    const regionList = [...context.regionList];
+    let regionList = [...context.regionList];
     if (position === 'top' || position === 'bottom') {
       if (isMobile) {
         //  const currentRow = regionList[currentIndex].row;
@@ -94,6 +95,15 @@ export default class FlexLayout implements LayoutInterface {
           };
         }
       }
+      context.data.$$defaultColSize &&
+        (regionList[currentIndex].colSize = context.data.$$defaultColSize);
+    } else {
+      regionList = regionList.map((item: any) => {
+        if (item.row === context.data.row) {
+          item.colSize = undefined;
+        }
+        return item;
+      });
     }
     return {
       ...context,
@@ -119,7 +129,7 @@ export default class FlexLayout implements LayoutInterface {
       return context;
     }
 
-    const regionList = [...context.regionList];
+    let regionList = [...context.regionList];
     const currentIndex = regionList.findIndex(
       (item: any) => item.$$id === context.sourceId
     );
@@ -196,13 +206,22 @@ export default class FlexLayout implements LayoutInterface {
       row
     };
 
+    regionList = regionList.map((item: any) => {
+      if (item.row === row) {
+        item.colSize = undefined;
+      }
+      return item;
+    });
+
+    regionList = setDefaultColSize(regionList, row, preCurrentRow);
+
     return {
       ...context,
       regionList
     };
   }
   afterDelete(context: BaseEventContext) {
-    const regionList = [...context.regionList];
+    let regionList = [...context.regionList];
     let preRow = -1;
     for (let i = 0; i < regionList.length; i++) {
       const row = regionList[i].row;
@@ -216,6 +235,7 @@ export default class FlexLayout implements LayoutInterface {
         preRow = regionList[i].row;
       }
     }
+    regionList = setDefaultColSize(regionList, -1, preRow);
     return {
       ...context,
       regionList
