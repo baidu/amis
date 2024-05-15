@@ -123,12 +123,7 @@ export class FormPlugin extends BasePlugin {
       label: '表单集合',
       matchRegion: (elem: JSX.Element) => !!elem?.props.noValidate,
       renderMethod: 'renderBody',
-      preferTag: '表单项',
-      dndMode: (node: any) => {
-        if (node.mode === 'flex') {
-          return 'flex';
-        }
-      }
+      preferTag: '表单项'
     },
 
     {
