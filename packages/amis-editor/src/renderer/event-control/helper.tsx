@@ -51,6 +51,18 @@ export const getArgsWrapper = (
   items: Array.isArray(items) ? items : [items]
 });
 
+const getRootManager = (manager: any) => {
+  let rootManager = manager;
+  while (rootManager) {
+    if (!rootManager.parent) {
+      break;
+    }
+    rootManager = manager.parent;
+  }
+
+  return rootManager;
+};
+
 // 数据容器范围
 export const DATA_CONTAINER = [
   'form',
@@ -1121,9 +1133,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 // 找到组件并设置相关的属性
                 let schema = JSONGetById(manager.store.schema, value, 'id');
                 if (schema) {
-                  let __isScopeContainer = !!manager.dataSchema.getScope(
-                    `${schema.$$id}-${schema.type}`
-                  );
+                  let __isScopeContainer = DATA_CONTAINER.includes(schema.type);
                   let __rendererName = schema.type;
                   form.setValues({
                     __isScopeContainer,
@@ -1361,11 +1371,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 },
                 renderCmptIdInput(
                   (value: string, oldVal: any, data: any, form: any) => {
+                    // 找到root再查询
+                    const root = getRootManager(manager);
+
                     // 找到组件并设置相关的属性
-                    let schema = JSONGetById(manager.store.schema, value, 'id');
+                    let schema = JSONGetById(root.store.schema, value, 'id');
                     if (schema) {
-                      let __isScopeContainer = !!manager.dataSchema.getScope(
-                        `${schema.$$id}-${schema.type}`
+                      let __isScopeContainer = DATA_CONTAINER.includes(
+                        schema.type
                       );
                       let __rendererName = schema.type;
                       form.setValues({
@@ -2939,9 +2952,8 @@ export const getEventControlConfig = (
     } else if (Array.isArray(action.supportComponents)) {
       isSupport = action.supportComponents.includes(node.type);
     }
-    node.isScopeContainer = !!manager.dataSchema.getScope(
-      `${node.id}-${node.type}`
-    );
+
+    node.isScopeContainer = DATA_CONTAINER.includes(node.type);
     if (actionType === 'component' && !actions?.length) {
       node.disabled = true;
     }
@@ -3157,11 +3169,10 @@ export const getEventControlConfig = (
         }
 
         if (['setValue'].includes(action.actionType)) {
-          let schema = JSONGetById(manager.store.schema, config.__cmptId, 'id');
+          const root = getRootManager(manager);
+          let schema = JSONGetById(root.store.schema, config.__cmptId, 'id');
           if (schema) {
-            let __isScopeContainer = !!manager.dataSchema.getScope(
-              `${schema.$$id}-${schema.type}`
-            );
+            let __isScopeContainer = DATA_CONTAINER.includes(schema.type);
             config.__isScopeContainer = __isScopeContainer;
             config.__rendererName = schema.type;
           }
