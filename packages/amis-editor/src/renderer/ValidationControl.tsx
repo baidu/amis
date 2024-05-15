@@ -6,9 +6,14 @@ import React, {ReactNode} from 'react';
 import groupBy from 'lodash/groupBy';
 import remove from 'lodash/remove';
 import cx from 'classnames';
-import {FormItem} from 'amis';
+import {ConditionBuilderFields, FormItem} from 'amis';
 
-import {autobind, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  autobind,
+  getSchemaTpl,
+  getVariables,
+  tipedLabel
+} from 'amis-editor-core';
 import ValidationItem, {ValidatorData} from './ValidationItem';
 
 import type {FormControlProps} from 'amis-core';
@@ -34,6 +39,7 @@ interface ValidationControlState {
     defaultValidators: Record<string, Validator>;
     builtInValidators: Record<string, Validator>;
   };
+  fields: ConditionBuilderFields;
 }
 
 export default class ValidationControl extends React.Component<
@@ -44,8 +50,16 @@ export default class ValidationControl extends React.Component<
     super(props);
 
     this.state = {
-      avaliableValids: this.getAvaliableValids(props)
+      avaliableValids: this.getAvaliableValids(props),
+      fields: []
     };
+  }
+
+  async componentDidMount() {
+    const fieldsArr = await this.buildFieldsData();
+    this.setState({
+      fields: fieldsArr
+    });
   }
 
   componentWillReceiveProps(nextProps: ValidationControlProps) {
@@ -57,6 +71,38 @@ export default class ValidationControl extends React.Component<
       this.updateValidation(validators);
     }
     // todo 删除不允许配置的值
+  }
+
+  @autobind
+  async buildFieldsData() {
+    const variablesArr = await getVariables(this);
+    // 自身字段
+    const selfName = this.props.data.name;
+    const vars =
+      variablesArr?.filter((item: any) => item?.label === '组件上下文')?.[0]
+        ?.children?.[0]?.children || [];
+
+    const arr: ConditionBuilderFields = vars
+      .map((item: any) => {
+        if (item && item.value) {
+          let obj: any = {
+            label: item.label,
+            value: item.value
+          };
+
+          if (selfName === item.value) {
+            obj = {
+              ...obj,
+              label: item.label + '（self）',
+              disabled: true
+            };
+          }
+          return obj;
+        }
+      })
+      ?.filter((item: any) => item);
+
+    return arr;
   }
 
   getAvaliableValids(props: ValidationControlProps) {
@@ -254,7 +300,8 @@ export default class ValidationControl extends React.Component<
   renderValidaton() {
     const classPrefix = this.props?.env?.theme?.classPrefix;
     let {
-      avaliableValids: {defaultValidators, moreValidators, builtInValidators}
+      avaliableValids: {defaultValidators, moreValidators, builtInValidators},
+      fields
     } = this.state;
     let validators = this.transformValid(this.props.data);
     const rules: ReactNode[] = [];
@@ -265,6 +312,7 @@ export default class ValidationControl extends React.Component<
       const data = remove(validators, v => v.name === validName);
       rules.push(
         <ValidationItem
+          fields={fields}
           key={validName}
           validator={defaultValidators[validName]}
           data={data.length ? data[0] : {name: validName}}
@@ -281,6 +329,7 @@ export default class ValidationControl extends React.Component<
       const data = remove(validators, v => v.name === validName);
       rules.push(
         <ValidationItem
+          fields={fields}
           key={validName}
           validator={builtInValidators[validName]}
           data={
@@ -307,6 +356,7 @@ export default class ValidationControl extends React.Component<
         }
         rules.push(
           <ValidationItem
+            fields={fields}
             key={valid.name}
             data={valid}
             classPrefix={classPrefix}
@@ -323,67 +373,6 @@ export default class ValidationControl extends React.Component<
     return (
       <div className="ae-ValidationControl-rules" key="rules">
         {rules}
-        {this.renderValidateApiControl()}
-      </div>
-    );
-  }
-
-  renderValidateApiControl() {
-    const {onBulkChange, render} = this.props;
-    return (
-      <div className="ae-ValidationControl-item">
-        {render('validate-api-control', {
-          type: 'form',
-          wrapWithPanel: false,
-          className: 'w-full mb-2',
-          bodyClassName: 'p-none',
-          wrapperComponent: 'div',
-          mode: 'horizontal',
-          data: {
-            switchStatus: this.props.data.validateApi !== undefined
-          },
-          preventEnterSubmit: true,
-          submitOnChange: true,
-          onSubmit: ({switchStatus, validateApi}: any) => {
-            onBulkChange &&
-              onBulkChange({
-                validateApi: !switchStatus ? undefined : validateApi
-              });
-          },
-          body: [
-            getSchemaTpl('switch', {
-              label: tipedLabel(
-                '接口校验',
-                `配置校验接口，对表单项进行远程校验，配置方式与普通接口一致<br />
-              1. 接口返回 <span class="ae-ValidationControl-label-code">{status: 0}</span> 表示校验通过<br />
-              2. 接口返回 <span class="ae-ValidationControl-label-code">{status: 422}</span> 表示校验不通过<br />
-              3. 若校验失败时需要显示错误提示信息，还需返回 errors 字段，示例<br />
-              <span class="ae-ValidationControl-label-code">{status: 422, errors: '错误提示消息'}</span>
-              `
-              ),
-              name: 'switchStatus'
-            }),
-            {
-              type: 'container',
-              className: 'ae-ExtendMore ae-ValidationControl-item-input',
-              bodyClassName: 'w-full',
-              visibleOn: 'this.switchStatus',
-              data: {
-                // 放在form中则包含的表达式会被求值
-                validateApi: this.props.data.validateApi
-              },
-              body: [
-                getSchemaTpl('apiControl', {
-                  name: 'validateApi',
-                  renderLabel: true,
-                  label: '',
-                  mode: 'normal',
-                  className: 'w-full'
-                })
-              ]
-            }
-          ]
-        })}
       </div>
     );
   }

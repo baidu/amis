@@ -9,7 +9,7 @@ import {render, Button, Switch} from 'amis';
 import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
-import type {SchemaCollection} from 'amis';
+import type {ConditionBuilderFields, SchemaCollection} from 'amis';
 
 export type ValidatorData = {
   name: string;
@@ -35,6 +35,8 @@ export interface ValidationItemProps {
   isDefault: boolean;
 
   validator: Validator;
+
+  fields?: ConditionBuilderFields;
 
   onEdit?: (data: ValidatorData) => void;
   onDelete?: (name: string) => void;
@@ -134,6 +136,7 @@ export default class ValidationItem extends React.Component<
 
   renderInputControl() {
     const {value, message, checked} = this.state;
+    const {fields} = this.props;
     const i18nEnabled = getI18nEnabled();
     let control: any = [];
 
@@ -186,6 +189,10 @@ export default class ValidationItem extends React.Component<
             data: {value, message}
           },
           {
+            data: {
+              ...this.props.data,
+              fields
+            },
             onSubmit: this.handleEdit
           }
         )}

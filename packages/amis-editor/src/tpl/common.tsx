@@ -148,6 +148,13 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
   };
 });
 
+setSchemaTpl('conditionFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-conditionFormulaControl',
+    ...schema
+  };
+});
+
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
@@ -868,7 +875,17 @@ setSchemaTpl('disabled', {
   label: '禁用',
   mode: 'normal',
   name: 'disabled',
-  expressionName: 'disabledOn'
+  expressionName: 'disabledOn',
+  options: [
+    {
+      label: '静态',
+      value: 1
+    },
+    {
+      label: '自定义条件',
+      value: 3
+    }
+  ]
 });
 
 setSchemaTpl('readonly', {
