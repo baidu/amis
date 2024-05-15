@@ -875,17 +875,7 @@ setSchemaTpl('disabled', {
   label: '禁用',
   mode: 'normal',
   name: 'disabled',
-  expressionName: 'disabledOn',
-  options: [
-    {
-      label: '静态',
-      value: 1
-    },
-    {
-      label: '自定义条件',
-      value: 3
-    }
-  ]
+  expressionName: 'disabledOn'
 });
 
 setSchemaTpl('readonly', {
