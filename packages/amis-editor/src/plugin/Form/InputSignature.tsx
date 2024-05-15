@@ -12,7 +12,7 @@ export class SignaturePlugin extends BasePlugin {
   $schema = '/schemas/InputSignatureSchema.json';
 
   // 组件名称
-  name = '签名面板';
+  name = '手写签';
   isBaseComponent = true;
   icon = 'fa fa-star-o';
   pluginIcon = 'input-signature-plugin';
