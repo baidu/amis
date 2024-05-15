@@ -75,12 +75,20 @@ export class StatusControl extends React.Component<
 
     if (ctx[expressionName] || ctx[expressionName] === '') {
       formData.statusType = 2;
+      if (
+        Object.prototype.toString.call(ctx[expressionName]) ===
+        '[object Object]'
+      ) {
+        formData.statusType = 3;
+      }
       formData.expression = ctx[expressionName];
     }
     return {
       checked:
         ctx[name] == trueValue ||
         typeof ctx[expressionName] === 'string' ||
+        Object.prototype.toString.call(ctx[expressionName]) ===
+          '[object Object]' ||
         (!!defaultTrue &&
           ctx[name] == undefined &&
           ctx[expressionName] == undefined),
@@ -113,6 +121,7 @@ export class StatusControl extends React.Component<
             newData[name] = trueValue;
             break;
           case 2:
+          case 3:
             newData[expressionName] = expression;
             break;
         }
@@ -138,6 +147,7 @@ export class StatusControl extends React.Component<
         data[name] = true;
         break;
       case 2:
+      case 3:
         data[expressionName] = values.expression;
         break;
     }
@@ -225,6 +235,11 @@ export class StatusControl extends React.Component<
                 name: 'expression',
                 placeholder: `请输入${label}条件`,
                 visibleOn: 'this.statusType === 2'
+              }),
+              getSchemaTpl('conditionFormulaControl', {
+                label: '表达式',
+                name: 'expression',
+                visibleOn: 'this.statusType === 3'
               })
             ]
           },
