@@ -462,7 +462,7 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
    */
   initAutoFill?: boolean | 'fillIfNotSet';
 
-  row: number; // flex模式下指定所在的行数
+  row?: number; // flex模式下指定所在的行数
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
