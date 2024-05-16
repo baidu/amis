@@ -34,7 +34,7 @@ export class CopyAction implements RendererAction {
 
     if (action.args?.content) {
       event.context.env?.copy?.(action.args.content, {
-        format: action.args?.copyFormat ?? 'text/html'
+        format: action.args?.copyFormat
       });
     }
   }
