@@ -1,6 +1,6 @@
 import {
   evalExpression,
-  evalExpressionWithConditionBuilderAsync,
+  evalExpressionWithConditionBuilderSync,
   filter
 } from './tpl';
 import {PlainObject} from '../types';
@@ -88,7 +88,7 @@ export function getExprProperties(
         if (type === 'On') {
           value =
             props?.[key] ||
-            evalExpressionWithConditionBuilderAsync(value, ctx || data);
+            evalExpressionWithConditionBuilderSync(value, ctx || data);
         } else {
           value = filter(value, ctx || data);
         }

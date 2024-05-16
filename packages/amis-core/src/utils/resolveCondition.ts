@@ -53,7 +53,7 @@ export async function resolveCondition(
   }
 }
 
-export function resolveConditionAsync(
+export function resolveConditionSync(
   conditions: any,
   data: any,
   defaultResult: boolean = true
@@ -68,7 +68,7 @@ export function resolveConditionAsync(
   }
 
   try {
-    return computeConditionsAsync(
+    return computeConditionsSync(
       conditions.children,
       conditions.conjunction,
       data
@@ -111,7 +111,7 @@ async function computeConditions(
   return computeResult;
 }
 
-function computeConditionsAsync(
+function computeConditionsSync(
   conditions: any[],
   conjunction: 'or' | 'and' = 'and',
   data: any
@@ -121,8 +121,8 @@ function computeConditionsAsync(
     const item = conditions[index];
     const result =
       item.conjunction && Array.isArray(item.children) && item.children.length
-        ? computeConditionsAsync(item.children, item.conjunction, data)
-        : computeConditionAsync(item, index, data);
+        ? computeConditionsSync(item.children, item.conjunction, data)
+        : computeConditionSync(item, index, data);
 
     computeResult = !!result;
 
@@ -164,7 +164,7 @@ async function computeCondition(
   return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
 }
 
-function computeConditionAsync(
+function computeConditionSync(
   rule: {
     op: string;
     left: {
