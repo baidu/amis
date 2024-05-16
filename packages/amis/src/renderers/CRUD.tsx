@@ -2666,6 +2666,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       footerToolbarRender,
       testIdBuilder,
       id,
+      filterCanAccessSuperData = true,
       ...rest
     } = this.props;
 
@@ -2702,7 +2703,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 onSubmit: this.handleFilterSubmit,
                 onInit: this.handleFilterInit,
                 formStore: undefined,
-                canAccessSuperData: false
+                canAccessSuperData: filterCanAccessSuperData
               }
             )
           : null}
@@ -2726,6 +2727,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
+            filterCanAccessSuperData,
             autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
