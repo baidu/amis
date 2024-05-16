@@ -149,7 +149,7 @@ export class FlexDNDMode implements DNDModeInterface {
         }
 
         ghost.classList.add(`ae-${className}-top`);
-        ghost.style.width = 'calc(100% - 2 * var(--gap-base))';
+        ghost.style.width = '100%';
         ghost.style.top = y - wy + 'px';
 
         if (this.store.isMobile) {
@@ -179,7 +179,7 @@ export class FlexDNDMode implements DNDModeInterface {
           return;
         }
         ghost.classList.add(`ae-${className}-bottom`);
-        ghost.style.width = 'calc(100% - 2 * var(--gap-base))';
+        ghost.style.width = '100%';
         ghost.style.top = y - wy + height + 'px';
         if (this.store.isMobile) {
           this.dropBeforeId = list[targetIndex + 1]?.$$id;
@@ -203,7 +203,7 @@ export class FlexDNDMode implements DNDModeInterface {
         const lastRow = rows[rows.length - 1];
         const {y, height} = lastRow.getBoundingClientRect();
         ghost.classList.add(`ae-${className}-bottom`);
-        ghost.style.width = 'calc(100% - 2 * var(--gap-base))';
+        ghost.style.width = '100%';
         ghost.style.top = y - wy + height + 'px';
       }
       this.position = 'bottom';
