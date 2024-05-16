@@ -100,7 +100,7 @@ export default class FlexLayout implements LayoutInterface {
     } else {
       regionList = regionList.map((item: any) => {
         if (item.row === context.data.row) {
-          item.colSize = undefined;
+          item.colSize = 'auto';
         }
         return item;
       });
@@ -205,13 +205,6 @@ export default class FlexLayout implements LayoutInterface {
       ...regionList[currentIndex],
       row
     };
-
-    regionList = regionList.map((item: any) => {
-      if (item.row === row) {
-        item.colSize = undefined;
-      }
-      return item;
-    });
 
     regionList = setDefaultColSize(regionList, row, preCurrentRow);
 

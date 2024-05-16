@@ -1828,7 +1828,10 @@ export default class Form extends React.Component<FormProps, object> {
                         (control as Schema).columnClassName
                       )}
                       style={{
-                        flex: colSize && colSize !== '1' ? `0 0 ${colSize}` : ''
+                        flex:
+                          colSize && !['1', 'auto'].includes(colSize)
+                            ? `0 0 ${colSize}`
+                            : ''
                       }}
                       role="flex-col"
                     >

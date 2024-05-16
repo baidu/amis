@@ -1591,7 +1591,7 @@ export function setDefaultColSize(
   for (let i = 0; i < tempList.length; i++) {
     const item = tempList[i];
     if (item.row === row) {
-      item.colSize = undefined;
+      item.colSize = 'auto';
     }
     // 原来的行只有一个节点，且有默认宽度，则设置默认宽度
     if (
