@@ -181,9 +181,19 @@ function computeConditionSync(
     ? resolveVariableAndFilter(rule.right, data)
     : rule.right;
 
-  const func =
-    conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
-    conditionResolverMap[rule.op];
+  let func = null;
+  // 应添加hasOwnProperty检查以验证方法名，避免从原型链获取方法
+  if (
+    conditionResolverMap.hasOwnProperty(
+      `${rule.op}For${capitalize(rule.left.type)}`
+    ) ||
+    conditionResolverMap.hasOwnProperty(rule.op)
+  ) {
+    func =
+      conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
+      conditionResolverMap[rule.op];
+  }
+
   return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
 }
 
