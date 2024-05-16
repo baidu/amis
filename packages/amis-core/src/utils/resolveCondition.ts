@@ -194,7 +194,9 @@ function computeConditionSync(
       conditionResolverMap[rule.op];
   }
 
-  return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
+  return func && typeof func === 'function'
+    ? func(leftValue, rightValue, rule.left.type)
+    : DEFAULT_RESULT;
 }
 
 function startsWithFunc(left: any, right: any) {
