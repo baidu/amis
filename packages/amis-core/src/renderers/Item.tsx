@@ -1835,7 +1835,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         themeCss,
         id
       } = props;
-      let labelAlign = props.labelAlign || props.formLabelAlign;
+
+      let labelAlign =
+        (props.labelAlign !== 'inherit' && props.labelAlign) ||
+        props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
@@ -1863,9 +1866,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           <div
             className={cx(
               'Form-flexInner',
-              labelAlign &&
-                labelAlign !== 'inherit' &&
-                `Form-flexInner--label-${labelAlign}`
+              labelAlign && `Form-flexInner--label-${labelAlign}`
             )}
           >
             {label && renderLabel !== false ? (
