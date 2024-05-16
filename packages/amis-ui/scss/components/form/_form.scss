@@ -412,8 +412,6 @@
   .#{$ns}Form-flex {
     display: flex;
     // flex-wrap: wrap;
-    margin-left: calc(var(--Form-row-gutterWidth) / -2);
-    margin-right: calc(var(--Form-row-gutterWidth) / -2);
     align-items: flex-start;
     width: 100%;
   }
@@ -433,12 +431,14 @@
       display: inline-block;
       vertical-align: top;
       padding-top: var(--Form-label-paddingTop);
-      padding-right: var(--Form-row-gutterWidth);
+      margin-right: var(--Form-row-gutterWidth);
+      width: px2rem(76px);
     }
 
     > .#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
+      max-width: px2rem(528px);
     }
   }
 
