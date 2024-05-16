@@ -1051,7 +1051,7 @@ export default class Form extends React.Component<FormProps, object> {
       return;
     }
     store.changeValue(name, value, changePristine);
-    if (!changePristine) {
+    if (!changePristine || typeof value !== 'undefined') {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
         submit
       );
