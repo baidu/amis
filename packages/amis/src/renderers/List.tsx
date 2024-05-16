@@ -4,7 +4,6 @@ import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
 import {
   ScopedContext,
-  evalExpressionWithConditionBuilder,
   filterClassNameObject,
   getMatchedEventTargets,
   getPropValue

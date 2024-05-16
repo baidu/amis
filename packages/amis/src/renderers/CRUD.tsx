@@ -2,13 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {
-  Renderer,
-  RendererProps,
-  evalExpressionWithConditionBuilder,
-  filterTarget,
-  mapTree
-} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {

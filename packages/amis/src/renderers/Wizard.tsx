@@ -31,7 +31,7 @@ import {
 
 import {ActionSchema} from './Action';
 
-import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
+import {tokenize, evalExpressionWithConditionBuilderAsync} from 'amis-core';
 import {StepSchema} from './Steps';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
@@ -413,7 +413,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const stepsLength = steps.length;
     // 这里有个bug，如果把第一个step隐藏，表单就不会渲染
     for (let i = 0; i < stepsLength; i++) {
-      const hiddenFlag = await evalExpressionWithConditionBuilder(
+      const hiddenFlag = await evalExpressionWithConditionBuilderAsync(
         steps[i].hiddenOn,
         values
       );

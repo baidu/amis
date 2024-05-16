@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {
-  resolveCondition,
+  resolveConditionAsync,
   guid,
   registerConditionComputer,
   setConditionComputeErrorHandler
@@ -283,13 +283,13 @@ const conditions7 = {
 };
 
 test(`condition`, async () => {
-  expect(await resolveCondition(conditions1, data)).toBe(false);
-  expect(await resolveCondition(conditions2, data)).toBe(true);
-  expect(await resolveCondition(conditions3, data)).toBe(false);
-  expect(await resolveCondition(conditions4, data)).toBe(false);
-  expect(await resolveCondition(conditions5, data)).toBe(false);
-  expect(await resolveCondition(conditions6, data)).toBe(false);
-  expect(await resolveCondition(conditions7, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions1, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions2, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions3, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions4, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions5, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions6, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions7, data)).toBe(false);
 });
 
 test(`condition date`, async () => {
@@ -381,7 +381,7 @@ test(`condition date`, async () => {
     ]
   };
 
-  expect(await resolveCondition(conditions, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions, data)).toBe(true);
 });
 
 test(`condition tree`, async () => {
@@ -466,9 +466,9 @@ test(`condition tree`, async () => {
     ]
   };
 
-  expect(await resolveCondition(conditions8, data)).toBe(false);
-  expect(await resolveCondition(conditions9, data)).toBe(true);
-  expect(await resolveCondition(conditions10, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions8, data)).toBe(false);
+  expect(await resolveConditionAsync(conditions9, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions10, data)).toBe(true);
 });
 
 test(`condition register`, async () => {
@@ -507,7 +507,7 @@ test(`condition register`, async () => {
     ]
   };
 
-  expect(await resolveCondition(conditions, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions, data)).toBe(true);
 });
 
 test(`condition conditionComputeHander`, async () => {
@@ -543,5 +543,5 @@ test(`condition conditionComputeHander`, async () => {
     ]
   };
 
-  expect(await resolveCondition(conditions, data)).toBe(true);
+  expect(await resolveConditionAsync(conditions, data)).toBe(true);
 });

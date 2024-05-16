@@ -27,7 +27,7 @@ export class SwitchAction implements RendererAction {
         continue;
       }
 
-      const isPass = await evalExpressionWithConditionBuilder(
+      const isPass = await evalExpressionWithConditionBuilderAsync(
         branch.expression,
         mergeData
       );
