@@ -1,5 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {evalExpressionWithConditionBuilder} from '../utils/tpl';
+import {evalExpressionWithConditionBuilderAsync} from '../utils/tpl';
 import {
   RendererAction,
   ListenerContext,

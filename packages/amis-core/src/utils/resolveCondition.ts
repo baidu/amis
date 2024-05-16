@@ -176,9 +176,16 @@ function computeCondition(
     ? resolveVariableAndFilter(rule.right, data)
     : rule.right;
 
-  const func =
-    conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
-    conditionResolverMap[rule.op];
+  let func = null;
+  if (
+    conditionResolverMap.hasOwnProperty(
+      `${rule.op}For${capitalize(rule.left.type)}`
+    )
+  ) {
+    func = conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`];
+  } else if (conditionResolverMap.hasOwnProperty(rule.op)) {
+    func = conditionResolverMap[rule.op];
+  }
 
   return func && typeof func === 'function'
     ? func(leftValue, rightValue, rule.left.type)
