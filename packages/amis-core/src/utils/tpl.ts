@@ -156,7 +156,7 @@ export function evalExpressionWithConditionBuilder(
   expression: any,
   data?: object,
   defaultResult?: boolean
-): boolean {
+) {
   // 支持ConditionBuilder
   if (Object.prototype.toString.call(expression) === '[object Object]') {
     return resolveCondition(expression, data, defaultResult);
