@@ -4,6 +4,7 @@ export * from 'amis-editor-core';
 export * from './builder';
 import './tpl/index';
 export * from './plugin';
+export * from './validator';
 
 import './renderer/OptionControl';
 import './renderer/ValueFormatControl';
