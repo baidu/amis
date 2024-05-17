@@ -21,6 +21,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
 import {evaluate} from 'amis-formula';
 import {memoryParse} from './memoryParse';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 const rSchema =
   /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp|js):/i;
@@ -155,6 +157,7 @@ export function buildApi(
     ctx: Record<string, any>,
     merge: boolean
   ) => {
+    apiObject.originUrl = apiObject.originUrl || apiObject.url;
     const idx = apiObject.url.indexOf('?');
     if (~idx) {
       const params = (apiObject.query = {
@@ -482,7 +485,22 @@ export function wrapFetcher(
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);
+      const originQuery = api.query;
+      const originQueryCopy = isPlainObject(api.query)
+        ? cloneDeep(api.query)
+        : api.query;
       api = (await api.requestAdaptor(api, data)) || api;
+
+      if (
+        api.query !== originQuery ||
+        (isPlainObject(api.query) && !isEqual(api.query, originQueryCopy))
+      ) {
+        // 如果 api.data 有变化，且是 get 请求，那么需要重新构建 url
+        const idx = api.url.indexOf('?');
+        api.url = `${~idx ? api.url.substring(0, idx) : api.url}?${qsstringify(
+          api.query
+        )}`;
+      }
       debug('api', 'after requestAdaptor', api);
     }
 
