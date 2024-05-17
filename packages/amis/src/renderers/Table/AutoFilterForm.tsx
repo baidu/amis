@@ -166,7 +166,8 @@ export function AutoFilterForm({
           type: 'reset',
           label: __('reset'),
           size: 'sm',
-          className: 'w-18'
+          className: 'w-18',
+          actionType: 'clear-and-submit'
         },
 
         {
