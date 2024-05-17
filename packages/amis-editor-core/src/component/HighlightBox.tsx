@@ -238,7 +238,8 @@ export default observer(function ({
       )}
       data-hlbox-id={id}
       style={{
-        display: node.w && node.h ? 'block' : 'none',
+        display:
+          node.w && node.h && !node.info.plugin.notHighlight ? 'block' : 'none',
         top: node.y,
         left: node.x,
         width: node.w,

@@ -1540,7 +1540,7 @@ div.ae-DragImage {
     left: 0;
     right: 0;
     display: block;
-    background: $Editor-hlbox--onActiveConfig-bg;
+    background: $Editor-theme-color;
     position: absolute;
     height: 2px;
   }
@@ -1554,7 +1554,7 @@ div.ae-DragImage {
     top: 0;
     bottom: 0;
     display: block;
-    background: $Editor-hlbox--onActiveConfig-bg;
+    background: $Editor-theme-color;
     position: absolute;
     width: 2px;
   }
