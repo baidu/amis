@@ -595,7 +595,11 @@ export class CardRenderer extends React.Component<CardProps> {
       const {subTitle: subTitleTpl} = header || {};
 
       // const subTitle = filter(subTitleTpl, data);
-      return subTitleTpl ? render('sub-title', subTitleTpl, data) : undefined;
+      return subTitleTpl
+        ? render('sub-title', subTitleTpl, {
+            data
+          })
+        : undefined;
     }
     return;
   }
