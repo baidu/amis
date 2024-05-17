@@ -268,6 +268,7 @@ export default class PickerControl extends React.PureComponent<
       type: 'crud',
       pickerMode: true,
       syncLocation: false,
+      filterCanAccessSuperData: false,
       api: isScopeData ? null : props.source,
       source: isScopeData ? props.source : null,
       keepItemSelectionOnPageChange: true,
