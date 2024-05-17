@@ -746,7 +746,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           await this.dispatchEvent('add', {
             index: next[next.length - 1],
             indexPath: next.join('.'),
-            value
+            item: value
           });
         }
         if (needConfirm === false) {
