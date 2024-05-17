@@ -3,7 +3,7 @@ import {RendererProps} from '../factory';
 import {ConditionGroupValue, Api, SchemaNode} from '../types';
 import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {evalExpressionWithConditionBuilder} from '../utils/tpl';
+import {evalExpressionWithConditionBuilderAsync} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
 import {IBreakAction} from './BreakAction';
 import {IContinueAction} from './ContinueAction';
@@ -247,7 +247,7 @@ export const runAction = async (
   let isStop = false;
 
   if (expression) {
-    isStop = !(await evalExpressionWithConditionBuilder(
+    isStop = !(await evalExpressionWithConditionBuilderAsync(
       expression,
       mergeData,
       true
@@ -261,7 +261,7 @@ export const runAction = async (
   // 支持表达式 >=1.10.0
   let preventDefault = false;
   if (action.preventDefault) {
-    preventDefault = await evalExpressionWithConditionBuilder(
+    preventDefault = await evalExpressionWithConditionBuilderAsync(
       action.preventDefault,
       mergeData,
       false
@@ -362,7 +362,7 @@ export const runAction = async (
 
   let stopPropagation = false;
   if (action.stopPropagation) {
-    stopPropagation = await evalExpressionWithConditionBuilder(
+    stopPropagation = await evalExpressionWithConditionBuilderAsync(
       action.stopPropagation,
       mergeData,
       false

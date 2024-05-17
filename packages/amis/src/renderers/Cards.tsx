@@ -5,7 +5,6 @@ import {
   RendererProps,
   ScopedContext,
   buildStyle,
-  evalExpressionWithConditionBuilder,
   getMatchedEventTargets,
   getPropValue
 } from 'amis-core';

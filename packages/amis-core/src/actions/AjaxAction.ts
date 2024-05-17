@@ -3,7 +3,7 @@ import {normalizeApi, normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
 import {createObject, isEmpty} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {evalExpressionWithConditionBuilder} from '../utils/tpl';
+import {evalExpressionWithConditionBuilderAsync} from '../utils/tpl';
 import {
   RendererAction,
   ListenerAction,
@@ -61,7 +61,7 @@ export class AjaxAction implements RendererAction {
 
     if (api.sendOn !== undefined) {
       // 发送请求前，判断是否需要发送
-      const sendOn = await evalExpressionWithConditionBuilder(
+      const sendOn = await evalExpressionWithConditionBuilderAsync(
         api.sendOn,
         action.data ?? {},
         false

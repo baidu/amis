@@ -6,6 +6,7 @@ import startsWith from 'lodash/startsWith';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import moment from 'moment';
 import capitalize from 'lodash/capitalize';
+import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
 
 const conditionResolverMap: {
   [op: string]: (left: any, right: any, fieldType?: string) => boolean;
@@ -18,7 +19,7 @@ let conditionComputeErrorHandler: (
   defaultResult: boolean
 ) => boolean | Promise<boolean>;
 
-export async function resolveCondition(
+export async function resolveConditionAsync(
   conditions: any,
   data: any,
   defaultResult: boolean = true
@@ -33,7 +34,7 @@ export async function resolveCondition(
   }
 
   try {
-    return await computeConditions(
+    return await computeConditionsAsync(
       conditions.children,
       conditions.conjunction,
       data
@@ -51,7 +52,36 @@ export async function resolveCondition(
   }
 }
 
-async function computeConditions(
+export function resolveCondition(
+  conditions: any,
+  data: any,
+  defaultResult: boolean = true
+) {
+  if (
+    !conditions ||
+    !conditions.conjunction ||
+    !Array.isArray(conditions.children) ||
+    !conditions.children.length
+  ) {
+    return defaultResult;
+  }
+
+  try {
+    return computeConditions(conditions.children, conditions.conjunction, data);
+  } catch (e) {
+    // 如果函数未定义，则交给handler
+    if (e.name === 'FormulaEvalError') {
+      return conditionComputeErrorHandler?.(
+        conditions.children,
+        conditions.conjunction,
+        data
+      );
+    }
+    return defaultResult;
+  }
+}
+
+async function computeConditionsAsync(
   conditions: any[],
   conjunction: 'or' | 'and' = 'and',
   data: any
@@ -61,8 +91,8 @@ async function computeConditions(
     const item = conditions[index];
     const result =
       item.conjunction && Array.isArray(item.children) && item.children.length
-        ? await computeConditions(item.children, item.conjunction, data)
-        : await computeCondition(item, index, data);
+        ? await computeConditionsAsync(item.children, item.conjunction, data)
+        : await computeConditionAsync(item, index, data);
 
     computeResult = !!result;
 
@@ -76,7 +106,32 @@ async function computeConditions(
   return computeResult;
 }
 
-async function computeCondition(
+function computeConditions(
+  conditions: any[],
+  conjunction: 'or' | 'and' = 'and',
+  data: any
+): boolean {
+  let computeResult = true;
+  for (let index = 0, len = conditions.length; index < len; index++) {
+    const item = conditions[index];
+    const result =
+      item.conjunction && Array.isArray(item.children) && item.children.length
+        ? computeConditions(item.children, item.conjunction, data)
+        : computeCondition(item, index, data);
+
+    computeResult = !!result;
+
+    if (
+      (result && conjunction === 'or') ||
+      (!result && conjunction === 'and')
+    ) {
+      break;
+    }
+  }
+  return computeResult;
+}
+
+async function computeConditionAsync(
   rule: {
     op: string;
     left: {
@@ -102,6 +157,32 @@ async function computeCondition(
     conditionResolverMap[rule.op];
 
   return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
+}
+
+function computeCondition(
+  rule: {
+    op: string;
+    left: {
+      type: string;
+      field: string;
+    };
+    right: any;
+  },
+  index: number,
+  data: any
+) {
+  const leftValue = get(data, rule.left.field);
+  const rightValue: any = isPureVariable(rule.right)
+    ? resolveVariableAndFilter(rule.right, data)
+    : rule.right;
+
+  const func =
+    conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
+    conditionResolverMap[rule.op];
+
+  return func && typeof func === 'function'
+    ? func(leftValue, rightValue, rule.left.type)
+    : DEFAULT_RESULT;
 }
 
 function startsWithFunc(left: any, right: any) {
