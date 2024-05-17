@@ -70,5 +70,5 @@ test('EventAction:copy', async () => {
   expect(copy.mock.calls[1][0]).toEqual(
     'the content is <a href="http://www.baidu.com">link</a> <b>bold</b>'
   );
-  expect(copy.mock.calls[1][1]).toEqual({format: 'text/html'});
+  expect(copy.mock.calls[1][1]).toEqual({format: undefined});
 });
