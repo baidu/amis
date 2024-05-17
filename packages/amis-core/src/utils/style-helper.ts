@@ -451,9 +451,12 @@ export function insertEditCustomStyle(params: {
 
   insertStyle({
     style: content,
-    classId: 'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid()) + index,
+    classId:
+      'wrapperCustomStyle-' +
+      ((typeof id === 'string' ? id.replace('u:', '') : '') || uuid()) +
+      index,
     doc,
-    id: id?.replace('u:', '').replace(/(-.*)/, '')
+    id: typeof id === 'string' ? id.replace('u:', '').replace(/(-.*)/, '') : ''
   });
 }
 
