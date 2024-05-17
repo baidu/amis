@@ -38,8 +38,6 @@ import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
-import merge from 'lodash/merge';
-import mergeWith from 'lodash/mergeWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
 
@@ -709,7 +707,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    value = merge({}, value, scaffold);
+    value = {
+      ...value,
+      ...scaffold
+    };
 
     if (needConfirm === false) {
       delete value.__isPlaceholder;
@@ -886,11 +887,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
       return;
     } else if (remote && remote.ok) {
-      item = merge(
-        {},
-        ((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
-        remote.data
-      );
+      item = {
+        ...(((isNew ? addApi : updateApi) as ApiObject).replaceData
+          ? {}
+          : item),
+        ...remote.data
+      };
     }
 
     delete item.__isPlaceholder;
@@ -1636,8 +1638,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             if (page && page > 1 && typeof perPage === 'number') {
               indexes[0] += (page - 1) * perPage;
             }
-            const origin = getTree(items, indexes);
-            const data = merge({}, origin, (diff as Array<object>)[index]);
+            // const origin = getTree(items, indexes);
+            const data = {
+              ...getTree(rows, indexes)
+            };
 
             items = spliceTree(items, indexes, 1, data);
           });
@@ -1650,35 +1654,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             indexes[0] += (page - 1) * perPage;
           }
 
-          const origin = getTree(items, indexes);
+          // const origin = getTree(items, indexes);
 
-          const comboNames: Array<string> = [];
-          (props.$schema.columns ?? []).forEach((e: any) => {
-            if (e.type === 'combo' && !Array.isArray(diff)) {
-              comboNames.push(e.name);
-            }
-          });
-
-          const data = mergeWith(
-            {},
-            origin,
-            diff,
-            (
-              objValue: any,
-              srcValue: any,
-              key: string,
-              object: any,
-              source: any,
-              stack: any
-            ) => {
-              if (Array.isArray(objValue) && Array.isArray(srcValue)) {
-                // 处理combo
-                return srcValue;
-              }
-              // 直接return，默认走的mergeWith自身的merge
-              return;
-            }
-          );
+          const data = {...rows};
 
           const originItems = items;
           items = spliceTree(items, indexes, 1, data);
