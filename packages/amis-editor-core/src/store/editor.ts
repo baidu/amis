@@ -1669,15 +1669,15 @@ export const MainStore = types
       del(context: DeleteEventContext) {
         const id = context.id;
         if (id === self.activeId) {
-          const host = self.getNodeById(id)?.host;
-          this.setActiveId(host ? host.id : '');
+          const node = self.getNodeById(id);
+          this.setActiveId(node?.parentId || '', node?.parentRegion);
         } else if (self.activeId) {
           const active = JSONGetById(self.schema, id);
 
           // 如果当前点选的是要删的节点里面的，则改成选中当前要删的上层
           if (JSONGetById(active, self.activeId)) {
-            const host = self.getNodeById(id)?.host;
-            this.setActiveId(host ? host.id : '');
+            const node = self.getNodeById(id);
+            this.setActiveId(node?.parentId || '', node?.parentRegion);
           }
         }
 
