@@ -1285,6 +1285,11 @@ export const MainStore = types
           })
         );
 
+        child?.$$id &&
+          setTimeout(() => {
+            this.setActiveId(child.$$id);
+          }, 0);
+
         return child;
       },
 
