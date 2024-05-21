@@ -349,7 +349,7 @@ export default class ValidationControl extends React.Component<
           validator={builtInValidators[validName]}
           data={
             data.length
-              ? data[0]
+              ? {...data[0], isBuiltIn: true}
               : {name: validName, value: true, isBuiltIn: true}
           }
           classPrefix={classPrefix}
