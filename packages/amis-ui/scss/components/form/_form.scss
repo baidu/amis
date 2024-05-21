@@ -432,13 +432,11 @@
       vertical-align: top;
       padding-top: var(--Form-label-paddingTop);
       margin-right: var(--Form-row-gutterWidth);
-      width: px2rem(76px);
     }
 
     > .#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
-      max-width: px2rem(528px);
     }
   }
 
@@ -448,11 +446,13 @@
   .#{$ns}Form-flexInner--label-left {
     > .#{$ns}Form-label {
       text-align: left;
+      width: px2rem(76px);
     }
   }
   .#{$ns}Form-flexInner--label-right {
     > .#{$ns}Form-label {
       text-align: right;
+      width: px2rem(76px);
     }
   }
 }

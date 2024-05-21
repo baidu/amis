@@ -2092,7 +2092,9 @@ export const detectProps = [
   'themeCss',
   'formLabelAlign',
   'formLabelWidth',
-  'formHorizontal'
+  'formHorizontal',
+  'labelAlign',
+  'colSize'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
