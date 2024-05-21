@@ -100,7 +100,10 @@ export default class FlexLayout implements LayoutInterface {
     } else {
       regionList = regionList.map((item: any) => {
         if (item.row === context.data.row) {
-          item.colSize = 'auto';
+          item = {
+            ...item,
+            colSize: 'auto'
+          };
         }
         return item;
       });
@@ -152,6 +155,10 @@ export default class FlexLayout implements LayoutInterface {
     const beforeNode =
       regionList[beforeIndex] || regionList[regionList.length - 2];
     const beforeRow = beforeNode?.row;
+
+    if (typeof beforeRow !== 'number') {
+      return context;
+    }
 
     let row = beforeRow;
 
