@@ -48,6 +48,7 @@
     "esm"
   ],
   "dependencies": {
+    "@rc-component/mini-decimal": "^1.0.1",
     "amis-formula": "^6.4.1",
     "classnames": "2.3.2",
     "file-saver": "^2.0.2",
