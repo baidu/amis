@@ -155,6 +155,7 @@ export const MainStore = types
       label: 'Root'
     }),
     theme: 'cxd', // 主题，默认cxd主题
+    toolbarMode: 'default', // 工具栏模式，默认default
     hoverId: '',
     hoverRegion: '',
     activeId: '',

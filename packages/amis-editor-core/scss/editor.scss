@@ -80,6 +80,7 @@
   min-height: 450px;
   min-width: 980px;
   overflow: hidden;
+  user-select: none;
 
   // 覆盖amis默认top值，避免导致未垂直居中
   .ae-Editor-toolbar svg.icon {
