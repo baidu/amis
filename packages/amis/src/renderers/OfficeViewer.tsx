@@ -166,12 +166,20 @@ export default class OfficeViewer extends React.Component<
 
   async fetchWord() {
     const {env, src, data, translate: __} = this.props;
-    const finalSrc = src
+    let finalSrc;
+    const resolveSrc = src
       ? resolveVariableAndFilter(src, data, '| raw')
       : undefined;
 
-    if (typeof finalSrc === 'string') {
+    if (typeof resolveSrc === 'string') {
+      finalSrc = resolveSrc;
       this.fileName = finalSrc.split('/').pop();
+    } else if (
+      typeof resolveSrc === 'object' &&
+      typeof resolveSrc.value === 'string'
+    ) {
+      finalSrc = resolveSrc.value;
+      this.fileName = resolveSrc.name || finalSrc.split('/').pop();
     }
 
     if (!finalSrc) {
@@ -198,7 +206,6 @@ export default class OfficeViewer extends React.Component<
         this.rootElement.current.innerHTML =
           __('loadingFailed') + ' url:' + finalSrc;
       }
-    } finally {
       this.setState({
         loading: false
       });
@@ -268,6 +275,9 @@ export default class OfficeViewer extends React.Component<
       }
 
       this.office = office;
+      this.setState({
+        loading: false
+      });
     });
   }
 
@@ -275,6 +285,10 @@ export default class OfficeViewer extends React.Component<
    * 渲染本地文件，用于预览 input-file
    */
   renderFormFile() {
+    this.setState({
+      loading: true
+    });
+
     const {wordOptions, name, data, display} = this.props;
     const file = data[name];
     if (file instanceof File) {
@@ -291,6 +305,9 @@ export default class OfficeViewer extends React.Component<
             this.rootElement.current.innerHTML = '';
           }
           this.office = office;
+          this.setState({
+            loading: false
+          });
         });
       };
       reader.readAsArrayBuffer(file);

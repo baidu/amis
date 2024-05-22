@@ -14,7 +14,7 @@ import {
 } from 'amis';
 import {eachTree} from 'amis-core';
 import 'amis-ui/lib/locale/en-US';
-import {withRouter} from 'react-router';
+import {withRouter} from 'react-router-dom';
 // @ts-ignore
 import DocSearch from './DocSearch';
 import Doc from './Doc';
@@ -142,6 +142,8 @@ class BackTop extends React.PureComponent {
   }
 }
 
+// @ts-ignore
+@withRouter
 export class App extends React.PureComponent<{
   location: Location;
 }> {
