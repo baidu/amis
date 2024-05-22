@@ -57,7 +57,7 @@ const getRootManager = (manager: any) => {
     if (!rootManager.parent) {
       break;
     }
-    rootManager = manager.parent;
+    rootManager = rootManager.parent;
   }
 
   return rootManager;
