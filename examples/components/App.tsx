@@ -141,8 +141,7 @@ class BackTop extends React.PureComponent {
     );
   }
 }
-// @ts-ignore
-@withRouter // @ts-ignore
+
 export class App extends React.PureComponent<{
   location: Location;
 }> {
@@ -864,7 +863,6 @@ export function navigations2route(
 
 export default function entry() {
   // PathPrefix = pathPrefix || DocPathPrefix;
-
   return (
     <Router>
       <Switch>
