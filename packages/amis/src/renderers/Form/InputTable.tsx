@@ -24,7 +24,7 @@ import {
   getRendererByName,
   resolveEventData,
   ListenerAction,
-  evalExpressionWithConditionBuilder,
+  evalExpressionWithConditionBuilderAsync,
   mapTree,
   isObject,
   eachTree,
@@ -1949,7 +1949,7 @@ export class TableControlRenderer extends FormTable {
       const promises: Array<() => Promise<any>> = [];
       everyTree(items, (item, index, paths, indexes) => {
         promises.unshift(async () => {
-          const isUpdate = await evalExpressionWithConditionBuilder(
+          const isUpdate = await evalExpressionWithConditionBuilderAsync(
             condition,
             item
           );
@@ -2085,7 +2085,7 @@ export class TableControlRenderer extends FormTable {
         const promises: Array<() => Promise<any>> = [];
         everyTree(items, (item, index, paths, indexes) => {
           promises.unshift(async () => {
-            const result = await evalExpressionWithConditionBuilder(
+            const result = await evalExpressionWithConditionBuilderAsync(
               args?.condition,
               item
             );

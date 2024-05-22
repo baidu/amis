@@ -1,4 +1,8 @@
-import {evalExpression, filter} from './tpl';
+import {
+  evalExpression,
+  evalExpressionWithConditionBuilder,
+  filter
+} from './tpl';
 import {PlainObject} from '../types';
 import {injectPropsToObject, mapObject} from './helper';
 import isPlainObject from 'lodash/isPlainObject';
@@ -62,7 +66,8 @@ export function getExprProperties(
 
     if (
       value &&
-      typeof value === 'string' &&
+      (typeof value === 'string' ||
+        Object.prototype.toString.call(value) === '[object Object]') &&
       parts?.[1] &&
       (type === 'On' || type === 'Expr')
     ) {
@@ -81,7 +86,9 @@ export function getExprProperties(
         }
 
         if (type === 'On') {
-          value = props?.[key] || evalExpression(value, ctx || data);
+          value =
+            props?.[key] ||
+            evalExpressionWithConditionBuilder(value, ctx || data);
         } else {
           value = filter(value, ctx || data);
         }

@@ -6,7 +6,7 @@ import {TreeItem, eachTree, getTree} from './helper';
 import {createObject, extendObject} from './object';
 import debounce from 'lodash/debounce';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
-import {evalExpression, evalExpressionWithConditionBuilder} from './tpl';
+import {evalExpression, evalExpressionWithConditionBuilderAsync} from './tpl';
 
 export interface debounceConfig {
   maxWait?: number;
@@ -379,7 +379,7 @@ export async function getMatchedEventTargets<T extends TreeItem>(
     eachTree(tree, item => {
       const data = item.storeType ? item.data : item;
       promies.push(async () => {
-        const result = await evalExpressionWithConditionBuilder(
+        const result = await evalExpressionWithConditionBuilderAsync(
           condition,
           createObject(ctx, data)
         );

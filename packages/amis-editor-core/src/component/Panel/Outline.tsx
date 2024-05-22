@@ -334,7 +334,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
               )}
             </div>
           </Tab>
-          {store.isSubEditor ? null : (
+          {store.isSubEditor || store.noDialog ? null : (
             <Tab
               className={'ae-outline-tabs-panel'}
               key={'dialog-outline'}

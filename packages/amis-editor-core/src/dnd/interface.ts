@@ -1,3 +1,8 @@
+import {
+  DeleteEventContext,
+  InsertEventContext,
+  MoveEventContext
+} from '../plugin';
 import {EditorNodeType} from '../store/node';
 import {EditorDNDManager} from './index';
 
@@ -17,4 +22,8 @@ export interface DNDModeInterface {
   getDropBeforeId: () => string | undefined;
 
   dispose: () => void;
+
+  getDropPosition?: () => 'top' | 'bottom' | 'left' | 'right' | undefined;
+
+  interruptionDrop?: () => boolean; // 是否中断 drop 事件
 }

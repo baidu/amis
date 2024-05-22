@@ -20,7 +20,10 @@ import {
   ScaffoldForm,
   RegionConfig,
   registerEditorPlugin,
-  JSONPipeOut
+  JSONPipeOut,
+  InsertEventContext,
+  MoveEventContext,
+  DeleteEventContext
 } from 'amis-editor-core';
 import {
   DSFeatureType,

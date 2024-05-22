@@ -635,8 +635,12 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
             store.outline,
             item => !item.isRegion && item.clickable
           );
-
-          first && isAlive(store) && store.setActiveId(first.id);
+          if (first && isAlive(store)) {
+            const region = first.childRegions.find(
+              (i: any) => i.region
+            )?.region;
+            store.setActiveId(first.id, region);
+          }
         }
       }, 350);
     } else {

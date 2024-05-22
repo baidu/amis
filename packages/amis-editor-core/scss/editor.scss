@@ -80,6 +80,7 @@
   min-height: 450px;
   min-width: 980px;
   overflow: hidden;
+  user-select: none;
 
   // 覆盖amis默认top值，避免导致未垂直居中
   .ae-Editor-toolbar svg.icon {
@@ -1199,7 +1200,7 @@
 
 [data-editor-id].ae-is-draging,
 .ae-is-draging {
-  display: none !important;
+  opacity: 0.6;
 }
 
 [data-editor-id][data-visible='false'] {
@@ -1529,6 +1530,34 @@ div.ae-DragImage {
     display: block;
     white-space: nowrap;
     box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.ae-PushHighlight-top,
+.ae-PushHighlight-bottom {
+  position: absolute;
+  &::after {
+    content: '';
+    left: 0;
+    right: 0;
+    display: block;
+    background: $Editor-theme-color;
+    position: absolute;
+    height: 2px;
+  }
+}
+
+.ae-PushHighlight-left,
+.ae-PushHighlight-right {
+  position: absolute;
+  &::after {
+    content: '';
+    top: 0;
+    bottom: 0;
+    display: block;
+    background: $Editor-theme-color;
+    position: absolute;
+    width: 2px;
   }
 }
 
@@ -1871,4 +1900,20 @@ div.ae-DragImage {
 // 空表单组样式优化
 div[class*='Form-group']:empty {
   margin-bottom: 0 !important;
+}
+.ae-Header {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  align-items: center;
+  border-bottom: 1px solid $editor-border-color;
+  .ae-Breadcrumb {
+    flex: 1;
+    max-width: 100%;
+    min-width: 0;
+  }
+  &-Right-Container {
+    z-index: 1001;
+    background-color: #fff;
+  }
 }

@@ -30,7 +30,7 @@ import {
   isArrayChildrenModified,
   filterTarget,
   changedEffect,
-  evalExpressionWithConditionBuilder,
+  evalExpressionWithConditionBuilderAsync,
   normalizeApi,
   getPropValue
 } from 'amis-core';
@@ -2182,7 +2182,7 @@ export class TableRenderer extends Table2 {
       let items = [...store.data.rows];
       for (let i = 0; i < len; i++) {
         const item = items[i];
-        const isUpdate = await evalExpressionWithConditionBuilder(
+        const isUpdate = await evalExpressionWithConditionBuilderAsync(
           condition,
           item
         );

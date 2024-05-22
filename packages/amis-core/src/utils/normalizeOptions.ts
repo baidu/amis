@@ -2,7 +2,11 @@ import {Options} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
 
 export function normalizeOptions(
-  options: string | {[propName: string]: string} | Array<string> | Options,
+  options:
+    | string
+    | {[propName: string]: string}
+    | Array<string | number>
+    | Options,
   share: {
     values: Array<any>;
     options: Array<any>;
@@ -32,8 +36,9 @@ export function normalizeOptions(
       return option;
     });
   } else if (
-    Array.isArray(options as Array<string>) &&
-    typeof (options as Array<string>)[0] === 'string'
+    Array.isArray(options as Array<string | number>) &&
+    (typeof (options as Array<string | number>)[0] === 'string' ||
+      typeof (options as Array<string | number>)[0] === 'number')
   ) {
     return (options as Array<string>).map(item => {
       const idx = share.values.indexOf(item);

@@ -144,6 +144,13 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
   };
 });
 
+setSchemaTpl('conditionFormulaControl', (schema: object = {}) => {
+  return {
+    type: 'ae-conditionFormulaControl',
+    ...schema
+  };
+});
+
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',

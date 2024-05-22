@@ -558,6 +558,9 @@ setSchemaTpl(
         {
           type: 'ae-validationControl',
           mode: 'normal',
+          style: {
+            marginBottom: '6px'
+          },
           ...config
           // pipeIn: (value: any, data: any) => {
           //   // return reduce(value, (arr: any, item) => {
@@ -586,12 +589,18 @@ setSchemaTpl(
           //   // }, []);
           // },
         },
+        getSchemaTpl('validationApiControl'),
         getSchemaTpl('validateOnChange')
       ]
     };
     return a;
   }
 );
+
+setSchemaTpl('validationApiControl', {
+  type: 'ae-validationApiControl',
+  label: false
+});
 
 setSchemaTpl('validationControl', (value: Array<ValidationOptions> = []) => ({
   type: 'ae-validationControl',

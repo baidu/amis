@@ -114,7 +114,9 @@ export interface RegionConfig {
     | 'default'
     | 'position-h'
     | 'position-v'
-    | (new (dnd: EditorDNDManager) => DNDModeInterface);
+    | 'flex'
+    // | (new (dnd: EditorDNDManager) => DNDModeInterface)
+    | ((node: any) => string | undefined);
 
   /**
    * 可以用来判断是否允许拖入当前节点。
@@ -212,6 +214,11 @@ export interface RendererInfo extends RendererScaffoldInfo {
    * 配置区域。
    */
   regions?: Array<RegionConfig>;
+
+  /**
+   *  选中不需要高亮
+   */
+  notHighlight?: boolean;
 
   /**
    * 哪些容器属性需要自动转成数组的。如果不配置默认就从 regions 里面读取。
@@ -534,6 +541,7 @@ export interface InsertEventContext extends BaseEventContext {
     id: string;
     type: string;
     data: any;
+    position?: string;
   };
 }
 
@@ -819,6 +827,11 @@ export interface PluginInterface
    * panelBodyAsyncCreator设置后异步加载层的配置项
    */
   async?: AsyncLayerOptions;
+
+  /**
+   * 拖拽模式
+   */
+  dragMode?: string;
 
   /**
    * 有数据域的容器，可以为子组件提供读取的字段绑定页面

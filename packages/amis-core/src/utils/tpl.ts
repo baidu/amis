@@ -1,7 +1,7 @@
 import {register as registerBulitin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
 import {parse, evaluate} from 'amis-formula';
-import {resolveCondition} from './resolveCondition';
+import {resolveCondition, resolveConditionAsync} from './resolveCondition';
 import {memoParse} from './tokenize';
 
 export interface Enginer {
@@ -133,14 +133,33 @@ export function evalExpression(expression: string, data?: object): boolean {
  * @param data 上下文
  * @returns
  */
-export async function evalExpressionWithConditionBuilder(
+export async function evalExpressionWithConditionBuilderAsync(
   expression: any,
   data?: object,
   defaultResult?: boolean
 ): Promise<boolean> {
   // 支持ConditionBuilder
   if (Object.prototype.toString.call(expression) === '[object Object]') {
-    return await resolveCondition(expression, data, defaultResult);
+    return await resolveConditionAsync(expression, data, defaultResult);
+  }
+
+  return evalExpression(String(expression), data);
+}
+
+/**
+ * 解析表达式（支持condition-builder）
+ * @param expression 表达式 or condition-builder对象
+ * @param data 上下文
+ * @returns
+ */
+export function evalExpressionWithConditionBuilder(
+  expression: any,
+  data?: object,
+  defaultResult?: boolean
+) {
+  // 支持ConditionBuilder
+  if (Object.prototype.toString.call(expression) === '[object Object]') {
+    return resolveCondition(expression, data, defaultResult);
   }
 
   return evalExpression(String(expression), data);

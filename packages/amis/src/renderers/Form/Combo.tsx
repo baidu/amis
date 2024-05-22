@@ -10,7 +10,7 @@ import {
   resolveEventData,
   ApiObject,
   FormHorizontal,
-  evalExpressionWithConditionBuilder,
+  evalExpressionWithConditionBuilderAsync,
   IFormStore,
   getVariable,
   IFormItemStore,
@@ -2033,7 +2033,7 @@ export class ComboControlRenderer extends ComboControl {
       } else if (condition !== undefined) {
         for (let i = 0; i < len; i++) {
           const item = items[i];
-          const isUpdate = await evalExpressionWithConditionBuilder(
+          const isUpdate = await evalExpressionWithConditionBuilderAsync(
             condition,
             item
           );

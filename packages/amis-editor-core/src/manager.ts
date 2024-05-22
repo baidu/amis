@@ -56,7 +56,8 @@ import {
   isLayoutPlugin,
   JSONPipeOut,
   scrollToActive,
-  JSONPipeIn
+  JSONPipeIn,
+  JSONGetById
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -961,10 +962,6 @@ export class EditorManager {
       // 当前节点是布局类容器节点
       regionNodeId = curActiveId;
       regionNodeRegion = 'items';
-    } else if (node.schema.fields && node.schema.type === 'doc-entity') {
-      // 当前节点是表单视图
-      regionNodeId = curActiveId;
-      regionNodeRegion = 'fields';
     } else if (node.schema.body) {
       // 当前节点是容器节点
       regionNodeId = curActiveId;
@@ -1451,12 +1448,13 @@ export class EditorManager {
       sourceId: node.id,
       direction: 'up',
       beforeId: node.prevSibling?.id,
-      region: regionNode.region
+      region: regionNode.region,
+      regionNode: regionNode
     };
 
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
-      store.moveUp(node.id);
+      store.moveUp(context);
       // this.buildToolbars();
       this.trigger('after-move', context);
       this.trigger('after-update', context);
@@ -1482,12 +1480,13 @@ export class EditorManager {
       sourceId: node.id,
       direction: 'down',
       beforeId: node.nextSibling?.nextSibling?.id,
-      region: regionNode.region
+      region: regionNode.region,
+      regionNode: regionNode
     };
 
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
-      store.moveDown(node.id);
+      store.moveDown(context);
       // this.buildToolbars();
       this.trigger('after-move', context);
       this.trigger('after-update', context);
@@ -1512,8 +1511,7 @@ export class EditorManager {
     if (!event.prevented) {
       Array.isArray(context.data) && context.data.length
         ? this.store.delMulti(context.data)
-        : this.store.del(id);
-
+        : this.store.del(context);
       this.trigger('after-delete', context);
     }
   }
@@ -1617,6 +1615,7 @@ export class EditorManager {
       id: string;
       type: string;
       data: any;
+      position?: string;
     },
     reGenerateId?: boolean
   ): any | null {
@@ -1665,7 +1664,8 @@ export class EditorManager {
     id: string,
     region: string,
     sourceId: string,
-    beforeId?: string
+    beforeId?: string,
+    dragInfo?: any
   ): boolean {
     const store = this.store;
 
@@ -1673,7 +1673,8 @@ export class EditorManager {
       ...this.buildEventContext(id),
       beforeId,
       region: region,
-      sourceId
+      sourceId,
+      dragInfo
     };
 
     const event = this.trigger('before-move', context);
