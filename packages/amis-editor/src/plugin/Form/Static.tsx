@@ -409,8 +409,10 @@ export class StaticControlPlugin extends BasePlugin {
   filterProps(props: any, node: EditorNodeType) {
     props.$$id = node.id;
 
-    if (typeof props.value === 'undefined') {
-      props.value = mockValue(props);
+    if (typeof props.value === 'undefined' && !node.state.value) {
+      node.updateState({
+        value: mockValue(props)
+      });
     }
     return props;
   }

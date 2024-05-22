@@ -745,27 +745,33 @@ export class TablePlugin extends BasePlugin {
     ]);
   };
 
-  filterProps(props: any) {
-    const arr = resolveArrayDatasource(props);
+  filterProps(props: any, node: EditorNodeType) {
+    if (!node.state.value) {
+      const arr = resolveArrayDatasource(props);
 
-    if (!Array.isArray(arr) || !arr.length) {
-      const mockedData: any = {};
+      if (!Array.isArray(arr) || !arr.length) {
+        const mockedData: any = {};
 
-      if (Array.isArray(props.columns)) {
-        props.columns.forEach((column: any) => {
-          if (column.name) {
-            setVariable(mockedData, column.name, mockValue(column));
-          }
+        if (Array.isArray(props.columns)) {
+          props.columns.forEach((column: any) => {
+            if (column.name) {
+              setVariable(mockedData, column.name, mockValue(column));
+            }
+          });
+        }
+
+        node.updateState({
+          value: repeatArray(mockedData, 1).map((item, index) => ({
+            ...item,
+            id: index + 1
+          }))
+        });
+      } else {
+        // 只取10条预览，否则太多卡顿
+        node.updateState({
+          value: arr.slice(0, 3)
         });
       }
-
-      props.value = repeatArray(mockedData, 1).map((item, index) => ({
-        ...item,
-        id: index + 1
-      }));
-    } else {
-      // 只取10条预览，否则太多卡顿
-      props.value = arr.slice(0, 3);
     }
 
     // 编辑模式，不允许表格调整宽度

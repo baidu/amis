@@ -356,11 +356,17 @@ export class EachPlugin extends BasePlugin {
     ]);
   };
 
-  filterProps(props: any) {
+  filterProps(props: any, node: EditorNodeType) {
     // 列表类型内的文本元素显示{{公式}}或者自定义展位，不显示实际值
     props = escapeFormula(props);
-    // 循环编辑态显示2个元素
-    props.value = [{}, {}];
+
+    if (!node.state.value) {
+      // 循环编辑态显示2个元素
+      // props.value = [{}, {}];
+      node.updateState({
+        value: [{}, {}]
+      });
+    }
 
     props.className = `${props.className || ''} ae-Editor-list`;
     if (
