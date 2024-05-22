@@ -1,5 +1,5 @@
 import {Button} from 'amis';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -147,12 +147,14 @@ export class ArrayControlPlugin extends BasePlugin {
     ];
   };
 
-  filterProps(props: any) {
+  filterProps(props: any, node: EditorNodeType) {
     props = JSONPipeOut(props);
 
     // 至少显示一个成员，否则啥都不显示。
-    if (!props.value) {
-      props.value = [''];
+    if (!node.state.value && !props.value) {
+      node.updateState({
+        value: ['']
+      });
     }
 
     return props;

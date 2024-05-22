@@ -707,18 +707,26 @@ export class ComboControlPlugin extends BasePlugin {
     ]);
   };
 
-  filterProps(props: any) {
-    // 至少显示一个成员，否则啥都不显示。
-    if (props.multiple && !props.value && !props.$schema.value && !props.$ref) {
-      const mockedData = {};
-      if (Array.isArray(props.items) && props.items.length === 0) {
-        props.items.forEach((control: any) => {
-          control.name &&
-            setVariable(mockedData, control.name, mockValue(control));
+  filterProps(props: any, node: EditorNodeType) {
+    if (!node.state.value) {
+      // 至少显示一个成员，否则啥都不显示。
+      if (
+        props.multiple &&
+        !props.value &&
+        !props.$schema.value &&
+        !props.$ref
+      ) {
+        const mockedData = {};
+        if (Array.isArray(props.items) && props.items.length === 0) {
+          props.items.forEach((control: any) => {
+            control.name &&
+              setVariable(mockedData, control.name, mockValue(control));
+          });
+        }
+        node.updateState({
+          value: [mockedData]
         });
       }
-      props.value = [mockedData];
-      return props;
     }
     return props;
   }

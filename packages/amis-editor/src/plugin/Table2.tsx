@@ -511,7 +511,7 @@ export class Table2Plugin extends BasePlugin {
     return super.getRendererInfo(context);
   }
 
-  filterProps(props: any) {
+  filterProps(props: any, node: EditorNodeType) {
     const arr = resolveArrayDatasource(props);
     const getFooterSummary = (text: string) => ({
       type: 'alert',
@@ -604,6 +604,16 @@ export class Table2Plugin extends BasePlugin {
 
       props.expandable.keyField = 'id';
       props.expandable.expandedRowKeys = [1];
+    }
+
+    if (props.value) {
+      if (!node.state.value) {
+        node.updateState({
+          value: props.value
+        });
+      }
+
+      delete props.value;
     }
 
     return props;
