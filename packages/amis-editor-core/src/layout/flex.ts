@@ -1,4 +1,4 @@
-import {findLastIndex} from 'lodash';
+import findLastIndex from 'lodash/findLastIndex';
 import {
   BaseEventContext,
   InsertEventContext,

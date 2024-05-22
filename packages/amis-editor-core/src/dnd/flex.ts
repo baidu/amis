@@ -8,7 +8,8 @@ import {renderThumbToGhost} from '../component/factory';
 import {EditorNodeType} from '../store/node';
 import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
-import {find, findLastIndex} from 'lodash';
+import findLastIndex from 'lodash/findLastIndex';
+import find from 'lodash/find';
 
 const className = 'PushHighlight';
 

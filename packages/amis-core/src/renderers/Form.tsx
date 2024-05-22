@@ -1798,11 +1798,8 @@ export default class Form extends React.Component<FormProps, object> {
             rows[child.row] = [child];
           }
         } else {
-          if (rows[rows.length]) {
-            rows[rows.length].push(child);
-          } else {
-            rows[rows.length] = [child];
-          }
+          // 没有 row 的，就单启一行
+          rows.push([child]);
         }
       });
       return (
