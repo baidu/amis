@@ -33,6 +33,8 @@ export interface EditorProps extends PluginEventListener {
   theme?: string;
   /** 工具栏模式 */
   toolbarMode?: 'default' | 'mini';
+  /** 是否需要弹框 */
+  noDialog?: boolean;
   /** 应用语言类型 */
   appLocale?: string;
   /** 是否开启多语言 */
@@ -169,6 +171,7 @@ export default class Editor extends Component<EditorProps> {
         isMobile: props.isMobile,
         theme: props.theme,
         toolbarMode: props.toolbarMode || 'default',
+        noDialog: props.noDialog,
         isSubEditor,
         amisDocHost: props.amisDocHost,
         superEditorData,
