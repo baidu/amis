@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, normalizeDate} from 'amis-core';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
@@ -78,17 +78,17 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
     let [startTime = '', endTime = ''] = value;
 
     if (valueFormat) {
-      startTime = moment(startTime, valueFormat);
-      endTime = moment(endTime, valueFormat);
+      startTime = normalizeDate(startTime, valueFormat);
+      endTime = normalizeDate(endTime, valueFormat);
     } else {
-      startTime = moment(startTime * 1000);
-      endTime = moment(endTime * 1000);
+      startTime = normalizeDate(startTime * 1000);
+      endTime = normalizeDate(endTime * 1000);
     }
 
-    startTime = startTime.isValid()
+    startTime = startTime?.isValid()
       ? startTime.format(displayFormat || format)
       : '';
-    endTime = endTime.isValid() ? endTime.format(displayFormat || format) : '';
+    endTime = endTime?.isValid() ? endTime.format(displayFormat || format) : '';
 
     return (
       <span className={cx('DateRangeField', className)} style={style}>
