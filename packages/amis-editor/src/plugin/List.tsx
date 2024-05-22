@@ -191,28 +191,34 @@ export class ListPlugin extends BasePlugin {
     ]);
   };
 
-  filterProps(props: any) {
-    if (props.isSlot) {
-      props.value = [props.data];
-      return props;
-    }
+  filterProps(props: any, node: EditorNodeType) {
+    if (!node.state.value) {
+      if (props.isSlot) {
+        node.updateState({
+          value: [props.data]
+        });
+        return;
+      }
 
-    const data = {
-      ...props.defaultData,
-      ...props.data
-    };
-    const arr = resolveArrayDatasource({
-      value: props.value,
-      data,
-      source: props.source
-    });
+      const data = {
+        ...props.defaultData,
+        ...props.data
+      };
+      const arr = resolveArrayDatasource({
+        value: props.value,
+        data,
+        source: props.source
+      });
 
-    if (!Array.isArray(arr) || !arr.length) {
-      const mockedData: any = this.buildMockData();
-      props.value = repeatArray(mockedData, 1).map((item, index) => ({
-        ...item,
-        id: index + 1
-      }));
+      if (!Array.isArray(arr) || !arr.length) {
+        const mockedData: any = this.buildMockData();
+        node.updateState({
+          value: repeatArray(mockedData, 1).map((item, index) => ({
+            ...item,
+            id: index + 1
+          }))
+        });
+      }
     }
 
     const {$schema, ...rest} = props;

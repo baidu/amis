@@ -562,15 +562,19 @@ export class CardsPlugin extends BasePlugin {
     return dataSchema;
   }
 
-  filterProps(props: any) {
+  filterProps(props: any, node: EditorNodeType) {
     // 编辑时显示两行假数据
     const count = (props.columnsCount || 3) * 2;
-    props.value = repeatArray({}, count).map((item, index) => {
-      return {
-        ...item,
-        id: index + 1
-      };
-    });
+    if (!node.state.value) {
+      node.updateState({
+        value: repeatArray({}, count).map((item, index) => {
+          return {
+            ...item,
+            id: index + 1
+          };
+        })
+      });
+    }
 
     props.className = `${props.className || ''} ae-Editor-list`;
     props.itemsClassName = `${props.itemsClassName || ''} cards-items`;
