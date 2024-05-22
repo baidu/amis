@@ -366,7 +366,7 @@
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
     background-color: var(--inputNumber-base-unit-bg-color);
-    min-width: var(--inputNumber-base-default-unit-width) !important;
+    min-width: var(--inputNumber-base-default-unit-width);
     padding: var(--inputNumber-base-default-unit-paddingTop)
       var(--inputNumber-base-default-unit-paddingRight)
       var(--inputNumber-base-default-unit-paddingBottom)

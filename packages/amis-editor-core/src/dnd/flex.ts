@@ -8,7 +8,10 @@ import {renderThumbToGhost} from '../component/factory';
 import {EditorNodeType} from '../store/node';
 import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
-import {find, findLastIndex} from 'lodash';
+import findLastIndex from 'lodash/findLastIndex';
+import find from 'lodash/find';
+
+const className = 'PushHighlight';
 
 export class FlexDNDMode implements DNDModeInterface {
   readonly dndContainer: HTMLElement; // 记录当前拖拽区域
@@ -89,7 +92,7 @@ export class FlexDNDMode implements DNDModeInterface {
     const {x: wx, y: wy} = wrapper.getBoundingClientRect();
     const list: Array<any> = Array.isArray(elemSchema) ? elemSchema : [];
     this.clearGhostStyle(ghost);
-    const className = 'PushHighlight';
+
     if (colTarget && list.length) {
       const {width, height, x, y} = colTarget.getBoundingClientRect();
       const cx = e.clientX;
@@ -218,10 +221,10 @@ export class FlexDNDMode implements DNDModeInterface {
     ghost.style.bottom = '';
     ghost.style.width = '';
     ghost.style.height = '';
-    ghost.classList.remove('ae-PushHighlight-left');
-    ghost.classList.remove('ae-PushHighlight-right');
-    ghost.classList.remove('ae-PushHighlight-top');
-    ghost.classList.remove('ae-PushHighlight-bottom');
+    ghost.classList.remove(`ae-${className}-left`);
+    ghost.classList.remove(`ae-${className}-right`);
+    ghost.classList.remove(`ae-${className}-top`);
+    ghost.classList.remove(`ae-${className}-bottom`);
   }
 
   /**

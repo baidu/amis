@@ -1,4 +1,4 @@
-import {findLastIndex} from 'lodash';
+import findLastIndex from 'lodash/findLastIndex';
 import {
   BaseEventContext,
   InsertEventContext,
@@ -100,7 +100,10 @@ export default class FlexLayout implements LayoutInterface {
     } else {
       regionList = regionList.map((item: any) => {
         if (item.row === context.data.row) {
-          item.colSize = undefined;
+          item = {
+            ...item,
+            colSize: 'auto'
+          };
         }
         return item;
       });
@@ -152,6 +155,10 @@ export default class FlexLayout implements LayoutInterface {
     const beforeNode =
       regionList[beforeIndex] || regionList[regionList.length - 2];
     const beforeRow = beforeNode?.row;
+
+    if (typeof beforeRow !== 'number') {
+      return context;
+    }
 
     let row = beforeRow;
 
@@ -205,13 +212,6 @@ export default class FlexLayout implements LayoutInterface {
       ...regionList[currentIndex],
       row
     };
-
-    regionList = regionList.map((item: any) => {
-      if (item.row === row) {
-        item.colSize = undefined;
-      }
-      return item;
-    });
 
     regionList = setDefaultColSize(regionList, row, preCurrentRow);
 

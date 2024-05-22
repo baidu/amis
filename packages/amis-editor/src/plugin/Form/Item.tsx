@@ -268,6 +268,9 @@ export class ItemPlugin extends BasePlugin {
     {id, schema, region, selections}: ContextMenuEventContext,
     menus: Array<ContextMenuItem>
   ) {
+    if (this.manager.store.toolbarMode === 'mini') {
+      return;
+    }
     if (!selections.length || selections.length > 3) {
       // 单选或者超过3个选中态时直接返回
       return;

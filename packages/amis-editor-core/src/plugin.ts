@@ -216,6 +216,11 @@ export interface RendererInfo extends RendererScaffoldInfo {
   regions?: Array<RegionConfig>;
 
   /**
+   *  选中不需要高亮
+   */
+  notHighlight?: boolean;
+
+  /**
    * 哪些容器属性需要自动转成数组的。如果不配置默认就从 regions 里面读取。
    */
   patchContainers?: Array<string>;

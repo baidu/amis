@@ -1798,11 +1798,8 @@ export default class Form extends React.Component<FormProps, object> {
             rows[child.row] = [child];
           }
         } else {
-          if (rows[rows.length]) {
-            rows[rows.length].push(child);
-          } else {
-            rows[rows.length] = [child];
-          }
+          // 没有 row 的，就单启一行
+          rows.push([child]);
         }
       });
       return (
@@ -1822,13 +1819,16 @@ export default class Form extends React.Component<FormProps, object> {
                     this.renderChild(control, key, otherProps)
                   ) : (
                     <div
-                      key={key}
+                      key={control.id || key}
                       className={cx(
                         `Form-flex-col`,
                         (control as Schema).columnClassName
                       )}
                       style={{
-                        flex: colSize && colSize !== '1' ? `0 0 ${colSize}` : ''
+                        flex:
+                          colSize && !['1', 'auto'].includes(colSize)
+                            ? `0 0 ${colSize}`
+                            : ''
                       }}
                       role="flex-col"
                     >

@@ -237,7 +237,7 @@ export class StatusControl extends React.Component<
                 visibleOn: 'this.statusType === 2'
               }),
               getSchemaTpl('conditionFormulaControl', {
-                label: '表达式',
+                label: '条件设置',
                 name: 'expression',
                 visibleOn: 'this.statusType === 3'
               })

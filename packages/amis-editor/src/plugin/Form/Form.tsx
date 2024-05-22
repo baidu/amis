@@ -1098,81 +1098,9 @@ export class FormPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('horizontal'),
                 {
-                  type: 'select',
-                  name: '__rolCount',
-                  label: '列数',
-                  options: [1, 2, 3, 4],
-                  visibleOn: 'data.mode === "flex"',
-                  onChange: (
-                    value: number,
-                    oldValue: number,
-                    model: IFormItemStore,
-                    form: IFormStore
-                  ) => {
-                    const body = [...form.data.body];
-                    let row = 0;
-                    let count = value;
-                    for (let i = 0; i < body.length; i++) {
-                      // 需要独占一行的组件
-                      if (body[i].$$dragMode === 'hv') {
-                        count = value;
-                        body[i] = {
-                          ...body[i],
-                          row: ++row
-                        };
-                        row++;
-                      } else {
-                        count--;
-                        body[i] = {
-                          ...body[i],
-                          row
-                        };
-                        if (count === 0) {
-                          row++;
-                          count = value;
-                        }
-                      }
-                    }
-                    form.setValueByName('body', body);
-                  }
-                },
-                {
-                  type: 'select',
-                  name: 'labelAlign',
-                  visibleOn: 'data.mode === "flex"',
-                  label: '标签对齐方式',
-                  options: [
-                    {
-                      label: '左对齐',
-                      value: 'left'
-                    },
-                    {
-                      label: '右对齐',
-                      value: 'right'
-                    },
-                    {
-                      label: '顶部对齐',
-                      value: 'top'
-                    }
-                  ]
-                },
-                {
-                  type: 'input-number',
-                  name: 'labelWidth',
-                  label: '标签宽度',
-                  visibleOn: 'data.mode === "flex"',
-                  unitOptions: ['px'],
-                  pipeOut: (value: string) => {
-                    return value === 'px' || value === '0px'
-                      ? undefined
-                      : value;
-                  }
-                },
-                {
                   label: '列数',
                   name: 'columnCount',
                   type: 'input-number',
-                  hiddenOn: 'data.mode !== "flex"',
                   step: 1,
                   min: 0,
                   precision: 0,

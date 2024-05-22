@@ -12,6 +12,7 @@ import {
   autobind,
   getSchemaTpl,
   getVariables,
+  isObjectShallowModified,
   tipedLabel
 } from 'amis-editor-core';
 import ValidationItem, {ValidatorData} from './ValidationItem';
@@ -46,6 +47,8 @@ export default class ValidationControl extends React.Component<
   ValidationControlProps,
   ValidationControlState
 > {
+  cache?: any;
+
   constructor(props: ValidationControlProps) {
     super(props);
 
@@ -63,12 +66,23 @@ export default class ValidationControl extends React.Component<
   }
 
   componentWillReceiveProps(nextProps: ValidationControlProps) {
-    if (this.props.data.type !== nextProps.data.type) {
+    if (
+      this.props.data.type !== nextProps.data.type ||
+      this.cache?.required !== nextProps.data.required ||
+      isObjectShallowModified(
+        this.cache?.validations,
+        nextProps.data.validations
+      ) ||
+      isObjectShallowModified(
+        this.cache?.validationErrors,
+        nextProps.data.validationErrors
+      )
+    ) {
       this.setState({
         avaliableValids: this.getAvaliableValids(nextProps)
       });
-      const validators = this.transformValid(this.props.data);
-      this.updateValidation(validators);
+      // const validators = this.transformValid(this.props.data);
+      // this.updateValidation(validators);
     }
     // todo 删除不允许配置的值
   }
@@ -142,6 +156,7 @@ export default class ValidationControl extends React.Component<
     const {onBulkChange} = this.props;
 
     if (!validators.length) {
+      this.cache = undefined;
       onBulkChange &&
         onBulkChange({
           required: undefined,
@@ -167,14 +182,15 @@ export default class ValidationControl extends React.Component<
       }
     });
 
-    onBulkChange &&
-      onBulkChange({
-        required,
-        validations: Object.keys(validations).length ? validations : undefined,
-        validationErrors: Object.keys(validationErrors).length
-          ? validationErrors
-          : undefined
-      });
+    this.cache = {
+      required,
+      validations: Object.keys(validations).length ? validations : undefined,
+      validationErrors: Object.keys(validationErrors).length
+        ? validationErrors
+        : undefined
+    };
+
+    onBulkChange && onBulkChange({...this.cache});
   }
 
   /**
@@ -306,7 +322,6 @@ export default class ValidationControl extends React.Component<
     let validators = this.transformValid(this.props.data);
     const rules: ReactNode[] = [];
     validators = validators.concat();
-
     // 优先渲染默认的顺序
     Object.keys(defaultValidators).forEach((validName: string) => {
       const data = remove(validators, v => v.name === validName);
@@ -334,7 +349,7 @@ export default class ValidationControl extends React.Component<
           validator={builtInValidators[validName]}
           data={
             data.length
-              ? data[0]
+              ? {...data[0], isBuiltIn: true}
               : {name: validName, value: true, isBuiltIn: true}
           }
           classPrefix={classPrefix}
