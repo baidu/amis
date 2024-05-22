@@ -74,9 +74,15 @@ export default class PdfViewer extends React.Component<
   componentDidUpdate(prevProps: PdfViewerProps) {
     const props = this.props;
 
-    if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
+    if (
+      isApiOutdated(prevProps.src, props.src, prevProps.data, props.data) ||
+      resolveVariableAndFilter(props.src, props.data, '| raw') !==
+        resolveVariableAndFilter(prevProps.src, prevProps.data, '| raw')
+    ) {
       this.abortLoad();
-      this.fetchPdf();
+      setTimeout(() => {
+        this.fetchPdf();
+      }, 0);
     }
 
     if (getVariable(props.data, props.name)) {
@@ -123,9 +129,19 @@ export default class PdfViewer extends React.Component<
   @autobind
   async fetchPdf() {
     const {env, src, data, translate: __} = this.props;
-    const finalSrc = src
-      ? resolveVariableAndFilter(src, data, '| raw')
-      : undefined;
+    let finalSrc;
+
+    if (src) {
+      const resolveSrc = resolveVariableAndFilter(src, data, '| raw');
+      if (typeof resolveSrc === 'string') {
+        finalSrc = resolveSrc;
+      } else if (
+        typeof resolveSrc === 'object' &&
+        typeof resolveSrc.value === 'string'
+      ) {
+        finalSrc = resolveSrc.value;
+      }
+    }
 
     if (!finalSrc) {
       console.warn('file src is empty');
@@ -134,7 +150,8 @@ export default class PdfViewer extends React.Component<
 
     this.setState({
       inited: true,
-      loading: true
+      loading: true,
+      error: false
     });
 
     try {
