@@ -1822,7 +1822,7 @@ export default class Form extends React.Component<FormProps, object> {
                     this.renderChild(control, key, otherProps)
                   ) : (
                     <div
-                      key={key}
+                      key={control.id || key}
                       className={cx(
                         `Form-flex-col`,
                         (control as Schema).columnClassName

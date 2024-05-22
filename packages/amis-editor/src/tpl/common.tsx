@@ -118,10 +118,6 @@ setSchemaTpl(
         label: '垂直',
         value: 'normal'
       },
-      {
-        label: '网格',
-        value: 'flex'
-      },
       config?.isForm
         ? null
         : {
