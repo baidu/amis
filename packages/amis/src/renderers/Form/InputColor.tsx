@@ -46,6 +46,10 @@ export interface InputColorControlSchema extends FormBaseControlSchema {
    * 是否允许用户输入颜色。
    */
   allowCustomColor?: boolean;
+  /**
+   * 弹窗容器选择器
+   */
+  popOverContainerSelector?: string;
 }
 
 export interface ColorProps
