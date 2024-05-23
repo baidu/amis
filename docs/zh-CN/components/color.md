@@ -84,11 +84,12 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名       | 类型      | 默认值 | 说明                                                                                   |
-| ------------ | --------- | ------ | -------------------------------------------------------------------------------------- |
-| type         | `string`  |        | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
-| className    | `string`  |        | 外层 CSS 类名                                                                          |
-| value        | `string`  |        | 显示的颜色值                                                                           |
-| name         | `string`  |        | 在其他组件中，时，用作变量映射                                                         |
-| defaultColor | `string`  |        | 默认颜色值                                                                             |
-| showValue    | `boolean` | `true` | 是否显示右边的颜色值                                                                   |
+| 属性名                   | 类型      | 默认值 | 说明                                                                                   |
+| ------------------------ | --------- | ------ | -------------------------------------------------------------------------------------- | ------- |
+| type                     | `string`  |        | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
+| className                | `string`  |        | 外层 CSS 类名                                                                          |
+| value                    | `string`  |        | 显示的颜色值                                                                           |
+| name                     | `string`  |        | 在其他组件中，时，用作变量映射                                                         |
+| defaultColor             | `string`  |        | 默认颜色值                                                                             |
+| showValue                | `boolean` | `true` | 是否显示右边的颜色值                                                                   |
+| popOverContainerSelector | `string`  |        | 弹层挂载位置选择器，会通过`querySelector`获取                                          | `6.4.2` |
