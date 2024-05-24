@@ -880,10 +880,10 @@ ${xxx | split[:delimiter]}
 ##### 基本用法
 
 ```
-${xxx | join[:glue]}
+${xxx | join[:separator]}
 ```
 
-- **glue**：连接符，默认为`空字符`
+- **separator**：连接符，默认为`逗号`
 
 ```schema
 {
@@ -893,12 +893,27 @@ ${xxx | join[:glue]}
   },
   "body": {
     "type": "tpl",
-    "tpl": "array is ${array|join}" // 输出: array is abc
+    "tpl": "array is ${array|join}"
   }
 }
 ```
 
-##### 配置连接符
+配置成空字符串
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "array": ["a", "b", "c"]
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "array is ${array|join:''}"
+  }
+}
+```
+
+配置成连接符
 
 ```schema
 {
