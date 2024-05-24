@@ -253,6 +253,7 @@ export function updateFixedRow(
     const dom = children[i] as HTMLElement;
 
     dom.style.removeProperty('left');
+    dom.style.removeProperty('right');
 
     const fixed = columns[i] ? columns[i].fixed || '' : '';
     if (isFixedLeftColumn(fixed)) {
