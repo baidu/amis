@@ -342,6 +342,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ? null
         : React.isValidElement(schema.children)
         ? schema.children
+        : typeof schema.children !== 'function'
+        ? null
         : (schema.children as Function)({
             ...rest,
             ...exprProps,

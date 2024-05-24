@@ -27,6 +27,7 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   popoverClassName?: string;
   disabled?: boolean;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   placement?: string;
   value?: any;
   onChange: (value: any) => void;
@@ -243,6 +244,7 @@ export class ColorControl extends React.PureComponent<
       placeholder,
       disabled,
       popOverContainer,
+      popOverContainerSelector,
       format,
       clearable,
       placement,
@@ -313,6 +315,7 @@ export class ColorControl extends React.PureComponent<
             target={() => findDOMNode(this)}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
+            containerSelector={popOverContainerSelector}
             rootClose={false}
             show
           >
