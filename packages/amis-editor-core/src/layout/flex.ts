@@ -13,6 +13,8 @@ export default class FlexLayout implements LayoutInterface {
     const body = [...(context.schema?.[region] || [])];
     let row = 0;
     let beforeId = context.beforeId;
+    let position = context.dragInfo?.position || 'bottom';
+
     if (body?.length) {
       const beforeNodeIndex = body.findIndex(
         (item: any) => item.$$id === beforeId
@@ -21,8 +23,6 @@ export default class FlexLayout implements LayoutInterface {
       let beforeRow = beforeNode?.row;
       const preNode = body[beforeNodeIndex - 1] || body[body.length - 1];
       const preRow = preNode?.row;
-
-      let position = context.dragInfo?.position || 'bottom';
 
       // 处理直接点击组件添加的情况
       if (!context.dragInfo) {
@@ -67,6 +67,7 @@ export default class FlexLayout implements LayoutInterface {
 
     return {
       ...context,
+      position,
       beforeId,
       data: {
         ...context.data,
@@ -83,7 +84,7 @@ export default class FlexLayout implements LayoutInterface {
     const {isMobile} = store;
     const region = context.region;
     const body = [...(context.schema?.[region] || [])];
-    const position = context.dragInfo?.position || 'bottom';
+    const position = context.dragInfo?.position || context.position || 'bottom';
     const currentIndex = context.regionList.findIndex(
       (item: any) => item.$$id === context.data.$$id
     );
