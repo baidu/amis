@@ -386,6 +386,8 @@
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 1;
+    min-width: 0;
+    min-height: 0;
   }
 
   .#{$ns}Form-rowInner {
@@ -402,6 +404,8 @@
     > .#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
+      min-width: 0;
+      min-height: 0;
 
       // &:not(.#{$ns}Form-control--withSize) {
       //   width: var(--Form-control-widthBase);
@@ -421,6 +425,8 @@
     flex-grow: 1;
     flex-shrink: 1;
     padding: calc(var(--Form-item-gap) / 2);
+    min-width: 0;
+    min-height: 0;
   }
 
   .#{$ns}Form-flexInner {
@@ -437,6 +443,8 @@
     > .#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
+      min-width: 0;
+      min-height: 0;
     }
   }
 
