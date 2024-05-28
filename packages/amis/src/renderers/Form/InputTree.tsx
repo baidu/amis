@@ -254,7 +254,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     } else if (action.actionType === 'expand') {
       this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
     } else if (action.actionType === 'collapse') {
-      this.treeRef.syncUnFolded(this.props, 1);
+      this.treeRef.syncUnFolded(this.props, 0);
     } else if (action.actionType === 'add') {
       this.addItemFromAction(action.args?.item, action.args?.parentValue);
     } else if (action.actionType === 'edit') {

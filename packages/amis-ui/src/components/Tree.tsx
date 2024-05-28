@@ -319,8 +319,9 @@ export class TreeSelector extends React.Component<
   syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
-    let expandLevel =
-      Number(initFoldedLevel ? unfoldedLevel : props.unfoldedLevel) - 1;
+    let expandLevel = Number(
+      initFoldedLevel ? unfoldedLevel : props.unfoldedLevel
+    );
 
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
@@ -360,7 +361,7 @@ export class TreeSelector extends React.Component<
     });
 
     initFoldedLevel && this.forceUpdate();
-
+    this.flattenOptions();
     return unfolded;
   }
 
