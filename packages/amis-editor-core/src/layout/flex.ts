@@ -21,7 +21,10 @@ export default class FlexLayout implements LayoutInterface {
       );
       let beforeNode = body[beforeNodeIndex];
       let beforeRow = beforeNode?.row;
-      const preNode = body[beforeNodeIndex - 1] || body[body.length - 1];
+      const preNode =
+        beforeNodeIndex > -1
+          ? body[beforeNodeIndex - 1]
+          : body[body.length - 1];
       const preRow = preNode?.row;
 
       // 处理直接点击组件添加的情况
@@ -54,10 +57,11 @@ export default class FlexLayout implements LayoutInterface {
           beforeRow = beforeNode?.row;
         }
       }
-
-      row = preRow;
-      if (position === 'left' && preNode.row !== beforeRow) {
-        row = preRow + 1;
+      if (position === 'left') {
+        row = beforeRow;
+      }
+      if (position === 'right') {
+        row = preRow;
       }
 
       if (position === 'bottom' || position === 'top') {
@@ -129,11 +133,14 @@ export default class FlexLayout implements LayoutInterface {
       context.data.$$defaultColSize &&
         (regionList[currentIndex].colSize = context.data.$$defaultColSize);
     } else {
+      const rows = regionList.filter(
+        (item: any) => item.row === context.data.row
+      );
       regionList = regionList.map((item: any) => {
         if (item.row === context.data.row) {
           item = {
             ...item,
-            colSize: 'auto'
+            colSize: `1/${rows.length}`
           };
         }
         return item;
@@ -266,7 +273,7 @@ export default class FlexLayout implements LayoutInterface {
         preRow = regionList[i].row;
       }
     }
-    regionList = setDefaultColSize(regionList, -1, preRow);
+    regionList = setDefaultColSize(regionList, context.schema.row);
     return {
       ...context,
       regionList

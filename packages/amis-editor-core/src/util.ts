@@ -1583,15 +1583,19 @@ export function mergeDefinitions(
 export function setDefaultColSize(
   regionList: any[],
   row: number,
-  preRow: number
+  preRow?: number
 ) {
   const tempList = [...regionList];
   const preRowNodeLength = filter(tempList, n => n.row === preRow).length;
   const currentRowNodeLength = filter(tempList, n => n.row === row).length;
   for (let i = 0; i < tempList.length; i++) {
     const item = tempList[i];
+    if (item.row === preRow) {
+      item.colSize = preRowNodeLength > 1 ? `1/${preRowNodeLength}` : '1';
+    }
     if (item.row === row) {
-      item.colSize = 'auto';
+      item.colSize =
+        currentRowNodeLength > 1 ? `1/${currentRowNodeLength}` : '1';
     }
     // 原来的行只有一个节点，且有默认宽度，则设置默认宽度
     if (
