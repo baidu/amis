@@ -555,6 +555,12 @@ export function wrapControl<
               control = control.getWrappedInstance();
             }
 
+            if (control && !control.props) {
+              Object.defineProperty(control, 'props', {
+                get: () => this.props
+              });
+            }
+
             if (control && control.validate && this.model) {
               const formItem = this.model as IFormItemStore;
               let validate = promisify(control.validate.bind(control));

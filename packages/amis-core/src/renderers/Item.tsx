@@ -2099,7 +2099,9 @@ export const detectProps = [
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
   return (Control: FormControlComponent) => {
-    const isSFC = !(Control.prototype instanceof React.Component);
+    const supportRef =
+      Control.prototype instanceof React.Component ||
+      (Control as any).$$typeof === Symbol.for('react.forward_ref');
 
     // 兼容老的 FormItem 用法。
     if (config.validate && !Control.prototype.validate) {
@@ -2232,8 +2234,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                   onBlur={this.handleBlur}
                   type={type}
                   classnames={cx}
-                  ref={isSFC ? undefined : this.refFn}
-                  forwardedRef={isSFC ? this.refFn : undefined}
+                  ref={supportRef ? this.refFn : undefined}
+                  forwardedRef={supportRef ? undefined : this.refFn}
                   formItem={model}
                   className={cx(
                     `Form-control`,

@@ -166,6 +166,9 @@ export interface ControllerProps
     [propName: string]: any;
   };
 
+  // combo 里面有用
+  columnClassName?: string;
+
   className?: string;
 
   /**

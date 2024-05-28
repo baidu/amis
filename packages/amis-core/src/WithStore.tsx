@@ -402,13 +402,19 @@ export function HocStoreFactory(renderer: {
           return null;
         }
 
+        const refConfig =
+          Component.prototype?.isReactComponent ||
+          (Component as any).$$typeof === Symbol.for('react.forward_ref')
+            ? {ref: this.refFn}
+            : {forwardedRef: this.refFn};
+
         return (
           <Component
             {
               ...(rest as any) /* todo */
             }
             {...this.state}
-            ref={this.refFn}
+            {...refConfig}
             data={this.store.data}
             dataUpdatedAt={this.store.updatedAt}
             store={this.store}

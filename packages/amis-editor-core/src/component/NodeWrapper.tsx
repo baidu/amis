@@ -98,6 +98,10 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
       );
     }
 
+    const supportRef =
+      renderer.component.prototype?.isReactComponent ||
+      (renderer.component as any).$$typeof === Symbol.for('react.forward_ref');
+
     return (
       <renderer.component
         {...rest}
@@ -105,7 +109,7 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
         {...$$node?.state}
         $$editor={$$editor}
         {...$$editor.wrapperProps}
-        ref={this.refFn}
+        ref={supportRef ? this.refFn : undefined}
       />
     );
   }

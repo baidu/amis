@@ -114,6 +114,8 @@ export interface ComboProps<T = any>
   scaffold?: Record<string, any>;
   addButtonClassName?: string;
   addButtonText?: string;
+  addButtonLevel?: string;
+  addButtonSize?: string;
   addable?: boolean;
   // draggable?: boolean;
   // draggableTip?: string;
@@ -138,6 +140,8 @@ export function Combo({
   itemsWrapperClassName,
   itemClassName,
   addButtonClassName,
+  addButtonLevel,
+  addButtonSize,
   itemRender,
   translate: __,
   classnames: cx,
@@ -272,7 +276,9 @@ export function Combo({
           <div className={cx(`Combo-toolbar`)}>
             <Button
               className={cx(`Combo-addBtn`, addButtonClassName)}
+              level={addButtonLevel ?? 'primary'}
               onClick={() => append({...scaffold})}
+              size={(addButtonSize as any) ?? 'sm'}
             >
               <Icon icon="plus" className="icon" />
               <span>{__(addButtonText || 'add')}</span>
@@ -349,7 +355,10 @@ export function ComboItem({
     child = (
       <div className={cx('Form-row')}>
         {child.map((child, index) => (
-          <div className={cx('Form-col')} key={child.key || index}>
+          <div
+            className={cx('Form-col', child?.props.columnClassName)}
+            key={child.key || index}
+          >
             {child}
           </div>
         ))}
