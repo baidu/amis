@@ -1335,6 +1335,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       headerToolbarClassName,
       footerToolbarClassName,
       id,
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -1345,8 +1346,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         })}
         style={style}
         data-id={id}
+        {...testIdBuilder?.getTestId()}
       >
-        <div className={cx('Crud2-filter')}>
+        <div
+          className={cx('Crud2-filter')}
+          {...testIdBuilder?.getChild('filter').getTestId()}
+        >
           {this.renderFilter(filterSchema)}
         </div>
 
@@ -1393,6 +1398,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             maxKeepItemSelectionLength,
             // valueField: valueField || primaryField,
             primaryField: primaryField,
+            testIdBuilder,
             items: store.data.items,
             query: store.query,
             orderBy: store.query.orderBy,
