@@ -1024,11 +1024,7 @@ export class EditorManager {
       value,
       nextId,
       subRenderer || node.info,
-      {
-        id: store.dragId,
-        type: store.dragType,
-        data: store.dragSchema
-      },
+      undefined, // 不是拖拽，不需要传递拖拽信息
       reGenerateId
     );
     if (child && activeChild) {

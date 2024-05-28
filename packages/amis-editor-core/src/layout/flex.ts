@@ -12,32 +12,67 @@ export default class FlexLayout implements LayoutInterface {
     const region = context.region;
     const body = [...(context.schema?.[region] || [])];
     let row = 0;
+    let beforeId = context.beforeId;
+    let position = context.dragInfo?.position || 'bottom';
+
     if (body?.length) {
-      const beforeId = context.beforeId;
       const beforeNodeIndex = body.findIndex(
         (item: any) => item.$$id === beforeId
       );
-      const beforeNode = body[beforeNodeIndex] || body[body.length - 1];
-      const beforeRow = beforeNode?.row;
-      const position = context.dragInfo?.position || 'bottom';
-      row = beforeRow; // left、bottom、top使用beforeRow，bottom、top后续行需要加1
+      let beforeNode = body[beforeNodeIndex];
+      let beforeRow = beforeNode?.row;
+      const preNode =
+        beforeNodeIndex > -1
+          ? body[beforeNodeIndex - 1]
+          : body[body.length - 1];
+      const preRow = preNode?.row;
 
-      if (position === 'right') {
-        const preNode = body[beforeNodeIndex - 1];
-        // 如果前一个节点的row和beforeRow不一样，需要减1
-        if (preNode && preNode.row !== beforeRow) {
-          row = beforeRow - 1;
+      // 处理直接点击组件添加的情况
+      if (!context.dragInfo) {
+        // 检查下插入的位置是否还有空间
+        const rowNodes = body.filter((item: any) => item.row === preRow);
+        if (rowNodes.find((item: any) => item.colSize === 'auto')) {
+          position = 'bottom';
+        } else {
+          const leftSize = rowNodes.reduce((size: number, item: any) => {
+            const split = item.colSize?.split('/');
+            const colSize =
+              split?.[0] && split?.[1] ? split[0] / split[1] : item.colSize;
+            return size - colSize;
+          }, 1);
+          if (leftSize >= eval(context.data.$$defaultColSize || 1)) {
+            position = 'right';
+          } else {
+            position = 'bottom';
+          }
+        }
+        // 如果需要插入到下边，但是前后的row是一样的，则需要找下一行的第一个元素作为beforeNode
+        if (position === 'bottom' && beforeRow === preRow) {
+          const lastIndex = findLastIndex(
+            body,
+            (item: any) => item.row === preRow
+          );
+          beforeNode = body[lastIndex + 1];
+          beforeId = beforeNode?.$$id;
+          beforeRow = beforeNode?.row;
         }
       }
-      if (position === 'bottom') {
-        if (beforeNodeIndex < 0) {
-          row = beforeRow + 1;
-        }
+      if (position === 'left') {
+        row = beforeRow;
+      }
+      if (position === 'right') {
+        row = preRow;
+      }
+
+      if (position === 'bottom' || position === 'top') {
+        row = preRow + 1;
       }
     }
 
     return {
       ...context,
+      position,
+      beforeId,
       data: {
         ...context.data,
         row
@@ -53,7 +88,7 @@ export default class FlexLayout implements LayoutInterface {
     const {isMobile} = store;
     const region = context.region;
     const body = [...(context.schema?.[region] || [])];
-    const position = context.dragInfo?.position || 'bottom';
+    const position = context.dragInfo?.position || context.position || 'bottom';
     const currentIndex = context.regionList.findIndex(
       (item: any) => item.$$id === context.data.$$id
     );
@@ -98,11 +133,14 @@ export default class FlexLayout implements LayoutInterface {
       context.data.$$defaultColSize &&
         (regionList[currentIndex].colSize = context.data.$$defaultColSize);
     } else {
+      const rows = regionList.filter(
+        (item: any) => item.row === context.data.row
+      );
       regionList = regionList.map((item: any) => {
         if (item.row === context.data.row) {
           item = {
             ...item,
-            colSize: 'auto'
+            colSize: `1/${rows.length}`
           };
         }
         return item;
@@ -235,7 +273,7 @@ export default class FlexLayout implements LayoutInterface {
         preRow = regionList[i].row;
       }
     }
-    regionList = setDefaultColSize(regionList, -1, preRow);
+    regionList = setDefaultColSize(regionList, context.schema.row);
     return {
       ...context,
       regionList
