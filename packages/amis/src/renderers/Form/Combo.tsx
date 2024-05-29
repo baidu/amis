@@ -1303,7 +1303,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       changeImmediately,
       addBtnText,
       static: isStatic,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
 
     let items = this.props.items;
@@ -1331,6 +1332,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         mode={tabsStyle}
         activeKey={store.activeKey}
         onSelect={this.handleTabSelect}
+        testIdBuilder={testIdBuilder}
         additionBtns={
           !disabled && addable !== false && store.addable ? (
             <li className={cx(`Tabs-link ComboTabs-addLink`)}>
@@ -1341,6 +1343,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       >
         {value.map((value: any, index: number) => {
           const data = this.formatValue(value, index);
+          const tabTIDBuilder = testIdBuilder?.getChild(`tab-${index}`);
           let condition: ComboCondition | null | undefined = null;
           let toolbar = undefined;
           if (
@@ -1357,6 +1360,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 )}
                 data-tooltip={__('delete')}
                 data-position="bottom"
+                {...tabTIDBuilder?.getChild('delBtn').getTestId()}
               >
                 {deleteIcon ? (
                   <i className={deleteIcon} />
@@ -1409,6 +1413,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               tabClassName={
                 store.memberValidMap[index] === false ? 'has-error' : ''
               }
+              testIdBuilder={tabTIDBuilder}
             >
               {condition && typeSwitchable !== false ? (
                 <div className={cx('Combo-itemTag')}>
