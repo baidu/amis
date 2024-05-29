@@ -241,7 +241,11 @@ export default class ChainedSelectControl extends React.Component<
       ? value.split(delimiter || ',')
       : [];
     arr.splice(index, arr.length - index);
-    arr.push(joinValues ? currentValue.value : currentValue);
+
+    const pushValue = joinValues ? currentValue.value : currentValue;
+    if (pushValue !== undefined) {
+      arr.push(pushValue);
+    }
 
     const valueRes = this.array2value(arr);
 
