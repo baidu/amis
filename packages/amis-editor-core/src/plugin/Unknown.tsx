@@ -6,7 +6,7 @@ import {
   RendererInfoResolveEventContext
 } from '../plugin';
 
-export class UnkownRendererPlugin extends BasePlugin {
+export class UnknownRendererPlugin extends BasePlugin {
   static scene = ['layout'];
   order = 9999;
 
@@ -36,4 +36,4 @@ export class UnkownRendererPlugin extends BasePlugin {
   }
 }
 
-registerEditorPlugin(UnkownRendererPlugin);
+registerEditorPlugin(UnknownRendererPlugin);
