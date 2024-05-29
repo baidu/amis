@@ -71,8 +71,8 @@ export const filterDate = (
     const date = new Date();
     return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    const result = mm(value);
-    return result.isValid() ? result : mm(value, format);
+    const result = mm(value).local();
+    return result.isValid() ? result : mm(value, format).local();
   }
 };
 
