@@ -99,12 +99,20 @@ export function parseDuration(str: string): moment.Duration | undefined {
  * @param format
  * @returns
  */
-export function normalizeDate(value: any, format?: string) {
+export function normalizeDate(
+  value: any,
+  format?: string,
+  options?: {
+    utc?: boolean; // utc还原成本地时间
+  }
+) {
   if (!value || value === '0') {
     return undefined;
   }
 
-  const v = moment(value, format, true);
+  const v = options?.utc
+    ? moment.utc(value, format).local()
+    : moment(value, format, true);
   if (v.isValid()) {
     return v;
   }
