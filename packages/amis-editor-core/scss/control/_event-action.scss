@@ -406,6 +406,19 @@
         margin-left: 0;
         margin-top: 5px;
       }
+
+      .event-action-combo-item {
+        .event-action-combo {
+          max-width: 380px;
+          .#{$ns}Form-row {
+            width: 380px;
+          }
+          .flex-1 {
+            max-width: 170px;
+          }
+        }
+        width: 380px;
+      }
     }
   }
 }
