@@ -75,7 +75,24 @@ export class ColumnToggler extends BasePlugin {
               }),
               getSchemaTpl('icon', {
                 label: '按钮图标'
-              })
+              }),
+              {
+                type: 'button-group-select',
+                label: '下拉菜单对齐',
+                size: 'xs',
+                name: 'align',
+                value: 'right',
+                options: [
+                  {
+                    label: '左侧',
+                    value: 'left'
+                  },
+                  {
+                    label: '右侧',
+                    value: 'right'
+                  }
+                ]
+              }
             ]
           },
           {
