@@ -485,7 +485,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     if (prevValue !== props.value) {
       const newState: any = {
-        value: normalizeDate(props.value, props.valueFormat || props.format)
+        value: normalizeDate(props.value, props.valueFormat || props.format, {
+          utc: props.utc
+        })
       };
 
       newState.inputValue =
@@ -706,9 +708,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const updatedValue = utc
       ? moment.utc(value).format(valueFormat || format)
       : value.format(valueFormat || format);
-    const updatedInputValue = utc
-      ? moment.utc(value).format(displayFormat || inputFormat)
-      : value.format(displayFormat || inputFormat);
+    const updatedInputValue = value.format(displayFormat || inputFormat);
 
     if (isConfirmMode) {
       this.setState({value, inputValue: updatedInputValue});

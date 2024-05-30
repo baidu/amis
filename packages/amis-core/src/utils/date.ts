@@ -71,8 +71,12 @@ export const filterDate = (
     const date = new Date();
     return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    const result = mm(value);
-    return result.isValid() ? result : mm(value, format);
+    const result = utc ? mm(value).local() : mm(value);
+    return result.isValid()
+      ? result
+      : utc
+      ? mm(value, format).local()
+      : mm(value, format);
   }
 };
 
@@ -99,12 +103,20 @@ export function parseDuration(str: string): moment.Duration | undefined {
  * @param format
  * @returns
  */
-export function normalizeDate(value: any, format?: string) {
+export function normalizeDate(
+  value: any,
+  format?: string,
+  options?: {
+    utc?: boolean; // utc还原成本地时间
+  }
+) {
   if (!value || value === '0') {
     return undefined;
   }
 
-  const v = moment(value, format, true);
+  const v = options?.utc
+    ? moment.utc(value, format).local()
+    : moment(value, format, true);
   if (v.isValid()) {
     return v;
   }

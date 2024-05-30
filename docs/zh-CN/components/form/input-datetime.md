@@ -343,14 +343,14 @@ order: 14
             "type": "input-datetime",
             "name": "datetime",
             "label": "普通日期时间",
-            "format": "YYYY-MM-DD"
+            "format": "YYYY-MM-DD HH:mm:ss"
         },
         {
             "type": "input-datetime",
             "name": "datetime-utc",
             "label": "UTC日期时间",
             "utc": true,
-            "format": "YYYY-MM-DD"
+            "format": "YYYY-MM-DD HH:mm:ss"
         }
     ]
 }
