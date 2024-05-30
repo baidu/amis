@@ -11,7 +11,7 @@ import {Document, Page, pdfjs} from 'react-pdf';
 import {Icon} from './icons';
 import Input from './Input';
 import Spinner from './Spinner';
-import pdfJSWorkerURL from 'pdfjs-dist/build/pdf.worker.min';
+import * as pdfJSWorkerURL from 'pdfjs-dist/build/pdf.worker.min';
 pdfjs.GlobalWorkerOptions.workerSrc = pdfJSWorkerURL;
 
 export interface PdfViewerProps extends ThemeProps {
