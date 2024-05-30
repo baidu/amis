@@ -416,6 +416,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   multiple: true,
                   mode: 'horizontal',
                   size: 'lg',
+                  formClassName: 'event-action-combo',
+                  itemClassName: 'event-action-combo-item',
                   items: [
                     {
                       name: 'key',
@@ -425,7 +427,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     getSchemaTpl('formulaControl', {
                       variables: '${variables}',
                       name: 'val',
-                      placeholder: '参数值'
+                      placeholder: '参数值',
+                      columnClassName: 'flex-1'
                     })
                   ]
                 },
@@ -1218,6 +1221,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               canAccessSuperData: true,
               size: 'lg',
               mode: 'horizontal',
+              formClassName: 'event-action-combo',
+              itemClassName: 'event-action-combo-item',
               items: [
                 {
                   name: 'key',
@@ -1230,7 +1235,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 getSchemaTpl('formulaControl', {
                   name: 'val',
                   variables: '${variables}',
-                  placeholder: '参数值'
+                  placeholder: '参数值',
+                  columnClassName: 'flex-1'
                 })
               ],
               visibleOn: `this.__addParam && this.__containerType === "appoint" && this.actionType === "reload" && this.__isScopeContainer`
@@ -1475,6 +1481,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       canAccessSuperData: true,
                       size: 'lg',
                       mode: 'horizontal',
+                      formClassName: 'event-action-combo',
+                      itemClassName: 'event-action-combo-item',
                       items: [
                         {
                           name: 'key',
@@ -1488,7 +1496,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         getSchemaTpl('formulaControl', {
                           name: 'val',
                           variables: '${variables}',
-                          placeholder: '字段值'
+                          placeholder: '字段值',
+                          columnClassName: 'flex-1'
                         })
                       ],
                       visibleOn: `this.__isScopeContainer && this.__containerType === 'appoint' || this.__comboType === 'appoint'`
@@ -1520,6 +1529,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           className: 'm-l',
                           size: 'lg',
                           mode: 'horizontal',
+                          formClassName: 'event-action-combo',
+                          itemClassName: 'event-action-combo-item',
                           items: [
                             {
                               name: 'key',
@@ -1532,7 +1543,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                             },
                             getSchemaTpl('formulaControl', {
                               name: 'val',
-                              variables: '${variables}'
+                              variables: '${variables}',
+                              columnClassName: 'flex-1'
                             })
                           ]
                         }
@@ -2194,6 +2206,8 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           canAccessSuperData: true,
           size: 'lg',
           mode: 'horizontal',
+          formClassName: 'event-action-combo',
+          itemClassName: 'event-action-combo-item',
           items: [
             {
               name: 'key',
@@ -2207,7 +2221,8 @@ export const COMMON_ACTION_SCHEMA_MAP: {
             getSchemaTpl('formulaControl', {
               name: 'val',
               variables: '${variables}',
-              placeholder: '字段值'
+              placeholder: '字段值',
+              columnClassName: 'flex-1'
             })
           ],
           visibleOn: `this.__isScopeContainer && this.__containerType === 'appoint' || this.__comboType === 'appoint'`
@@ -2239,6 +2254,8 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               className: 'm-l',
               size: 'lg',
               mode: 'horizontal',
+              formClassName: 'event-action-combo',
+              itemClassName: 'event-action-combo-item',
               items: [
                 {
                   name: 'key',
@@ -2251,7 +2268,8 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                 },
                 getSchemaTpl('formulaControl', {
                   name: 'val',
-                  variables: '${variables}'
+                  variables: '${variables}',
+                  columnClassName: 'flex-1'
                 })
               ]
             }
