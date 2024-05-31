@@ -173,6 +173,10 @@ export default class TextControl extends React.PureComponent<
     super(props);
 
     const value = props.value;
+
+    if (props.type === 'native-number' && typeof value !== 'number') {
+      props.setPrinstineValue(this.valueToNumber(value));
+    }
     this.state = {
       isOpen: false,
       inputValue:
@@ -281,7 +285,7 @@ export default class TextControl extends React.PureComponent<
   }
 
   focus() {
-    if (!this.input) {
+    if (!this.input || this.props.type === 'native-number') {
       return;
     }
 
@@ -302,10 +306,14 @@ export default class TextControl extends React.PureComponent<
   }
 
   async resetValue() {
-    const {onChange, dispatchEvent, resetValue, formStore, store, name} =
+    const {onChange, dispatchEvent, resetValue, formStore, store, name, type} =
       this.props;
-    const pristineVal =
+    let pristineVal =
       getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+
+    if (type === 'native-number') {
+      pristineVal = this.valueToNumber(pristineVal);
+    }
 
     const changeEvent = await dispatchEvent(
       'change',
@@ -330,8 +338,12 @@ export default class TextControl extends React.PureComponent<
   }
 
   async clearValue() {
-    const {onChange, dispatchEvent, clearValueOnEmpty} = this.props;
+    const {onChange, dispatchEvent, clearValueOnEmpty, type} = this.props;
     let resetValue = this.props.resetValue;
+
+    if (type === 'native-number') {
+      resetValue = this.valueToNumber(resetValue);
+    }
 
     if (clearValueOnEmpty && resetValue === '') {
       resetValue = undefined;
@@ -459,7 +471,12 @@ export default class TextControl extends React.PureComponent<
 
   async handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     let value = this.transformValue(evt.currentTarget.value);
-    const {creatable, multiple, onChange, dispatchEvent} = this.props;
+    const {creatable, multiple, onChange, dispatchEvent, type} = this.props;
+
+    if (type === 'native-number') {
+      value = this.valueToNumber(value);
+    }
+
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {value})
@@ -627,9 +644,11 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty} =
+    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty, type} =
       this.props;
-    let value: string | undefined = this.transformValue(e.currentTarget.value);
+    let value: string | number | undefined = this.transformValue(
+      e.currentTarget.value
+    );
     if (typeof value === 'string') {
       if (trimContents) {
         value = value.trim();
@@ -638,6 +657,10 @@ export default class TextControl extends React.PureComponent<
       if (clearValueOnEmpty && value === '') {
         value = undefined;
       }
+    }
+
+    if (type === 'native-number') {
+      value = this.valueToNumber(value);
     }
 
     const rendererEvent = await dispatchEvent(
@@ -722,6 +745,16 @@ export default class TextControl extends React.PureComponent<
       : value instanceof Date
       ? value.toISOString()
       : JSON.stringify(value);
+  }
+
+  valueToNumber(value: any) {
+    return typeof value === 'undefined' || value === null || value === ''
+      ? undefined
+      : typeof value === 'number'
+      ? value
+      : isNaN(Number(value))
+      ? value
+      : Number(value);
   }
 
   @autobind
