@@ -434,7 +434,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             formItem.loadOptionsFromDataScope(
               props.source as string,
               props.data,
-              this.changeOptionValue
+              this.changeOptionValue,
+              true
             );
 
             this.normalizeValue();
