@@ -1052,6 +1052,7 @@ export const MainStore = types
             ) {
               modals.push({
                 ...body,
+                type: key,
                 actionType: value
               });
             }
