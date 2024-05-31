@@ -13,7 +13,6 @@
     'classnames': __moduleId('classnames'),
     'axios': __moduleId('axios'),
     'exceljs': __moduleId('exceljs'),
-    'fflate': __moduleId('fflate'),
     'moment': __moduleId('moment'),
     'mobx': __moduleId('mobx'),
     'mobx-react': __moduleId('mobx-react'),
