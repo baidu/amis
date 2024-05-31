@@ -117,6 +117,7 @@
 
   &-value-wrap {
     flex-grow: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -169,6 +170,10 @@
     &-with-arrow {
       right: 33px;
     }
+  }
+
+  &-clear-wrap {
+    line-height: 1;
   }
 
   > svg {
