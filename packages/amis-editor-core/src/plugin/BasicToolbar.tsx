@@ -260,6 +260,7 @@ export class BasicToolbarPlugin extends BasePlugin {
     const node = store.getNodeById(id)!;
     const paths = store.getNodePathById(id);
     const first = paths.pop()!;
+    region = region || node.childRegions.find(i => i.region)?.region;
     const host = node.host as EditorNodeType;
     const regionNode = node.parent as EditorNodeType;
 
@@ -279,7 +280,7 @@ export class BasicToolbarPlugin extends BasePlugin {
         id: 'unselect',
         label: '取消多选',
         icon: 'cancel-icon',
-        onSelect: () => store.setActiveId(id)
+        onSelect: () => store.setActiveId(id, region)
       });
 
       menus.push({
