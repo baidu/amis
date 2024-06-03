@@ -49,7 +49,7 @@ interface ContextMenuState {
   align?: 'left' | 'right';
   onClose?: (ctx: ContextMenu) => void;
   contentClassName?: string;
-  preventClose?: (e: Event) => boolean;
+  preventClose?: (e?: Event) => boolean;
 }
 
 export class ContextMenu extends React.Component<
@@ -131,7 +131,7 @@ export class ContextMenu extends React.Component<
     onClose?: (ctx: ContextMenu) => void,
     options?: {
       contentClassName?: string;
-      preventClose?: (e: Event) => boolean;
+      preventClose?: (e?: Event) => boolean;
     }
   ) {
     if (this.state.isOpened) {
@@ -173,10 +173,11 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  close(e: Event) {
+  close(e?: Event) {
     if (this.state.preventClose?.(e)) {
       return;
     }
+    e?.preventDefault?.();
     this.menuEntered = false;
     this.resizeObserver?.disconnect();
     const onClose = this.state.onClose;
@@ -208,7 +209,6 @@ export class ContextMenu extends React.Component<
       return;
     }
     if (this.state.isOpened) {
-      e.preventDefault();
       this.close(e);
     }
   }
@@ -236,7 +236,6 @@ export class ContextMenu extends React.Component<
   @autobind
   handleKeyDown(e: KeyboardEvent) {
     if (e.keyCode === 27 && this.state.isOpened) {
-      e.preventDefault();
       this.close(e);
     }
   }
@@ -394,7 +393,7 @@ export async function openContextMenus(
   onClose?: (ctx: ContextMenu) => void,
   options?: {
     contentClassName?: string;
-    preventClose?: (e: Event) => boolean;
+    preventClose?: (e?: Event) => boolean;
   }
 ) {
   return ContextMenu.getInstance().then(instance =>
