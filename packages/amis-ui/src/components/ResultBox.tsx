@@ -378,7 +378,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           )}
           {!allowInput && mobileUI && showArrow ? (
             <span className={cx('ResultBox-arrow')}>
-              <Icon icon="caret" className="icon" />
+              <Icon icon="right-arrow-bold" className="icon" />
             </span>
           ) : null}
         </div>
