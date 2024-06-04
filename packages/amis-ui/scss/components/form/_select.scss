@@ -280,10 +280,10 @@
     min-height: var(--Form-select-height);
     border: none;
     padding: 0;
-    font-size: var(--fontSizeLg);
+    font-size: var(--select-base-default-fontSize);
 
     .#{$ns}Select-valueWrap {
-      text-align: right;
+      text-align: left;
       padding-right: 4px;
     }
     .#{$ns}Select-arrow {

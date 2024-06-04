@@ -394,8 +394,9 @@
 .ae-PreviewIFrame {
   pointer-events: all !important;
   border: 0 !important;
-  min-height: calc(100% - 46px);
+  min-height: 100%;
   width: 100%;
+  height: auto !important;
 }
 
 .ae-IFramePreview {

@@ -99,6 +99,12 @@
       padding-right: px2rem(6px);
       > svg {
         transform: scale(0.8);
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
       }
     }
 

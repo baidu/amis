@@ -737,8 +737,8 @@
         height: 100%;
 
         .#{$ns}ResultBox-value-wrap {
-          justify-content: flex-end;
-          text-align: right;
+          justify-content: flex-start;
+          text-align: left;
           flex-wrap: nowrap; // 避免右侧下拉箭头换行
         }
       }

@@ -319,10 +319,15 @@
     font-size: var(--fontSizeLg);
     border: none;
     justify-content: flex-end;
+    width: 100%;
 
     &.is-focused,
     &:hover {
       border: none !important;
+    }
+
+    .#{$ns}ResultBox-value-wrap {
+      text-align: left;
     }
 
     .#{$ns}ResultBox-clear {
@@ -357,7 +362,6 @@
         width: 10px;
         height: 10px;
         top: 0;
-        transform: rotate(-90deg);
       }
     }
   }
