@@ -1362,6 +1362,51 @@ export async function getVariables(that: any) {
   return variablesArr;
 }
 
+export async function getQuickVariables(
+  that: any,
+  resolver?: (vars: any[]) => any[]
+) {
+  const {node, manager} = that.props.formProps || that.props;
+  const selfName = that.props?.data?.name;
+  await manager?.getContextSchemas(node);
+  const options = await manager?.dataSchema?.getDataPropsAsOptions();
+  if (Array.isArray(options)) {
+    const vars = options.find(item => item.label === '组件上下文');
+    if (vars?.children?.length) {
+      // 获取当前层的变量
+      const current: any[] = vars.children[0].children || [];
+      const filterVars = current.filter(item => item.value !== selfName);
+
+      return resolver ? resolver(filterVars) : filterVars;
+    }
+  }
+
+  return [];
+}
+
+export function resolveQuickVariablesByType(
+  variables: VariableItem[],
+  quickVars?: VariableItem[]
+) {
+  if (quickVars?.length) {
+    const vars: VariableItem[] = [];
+    vars.push({
+      label: '快捷变量',
+      children: quickVars
+    });
+    if (variables.length) {
+      vars.push({
+        label: '表单变量',
+        children: variables
+      });
+    }
+
+    return vars;
+  }
+
+  return variables;
+}
+
 /**
  * 更新组件上下文中label为带层级说明
  * @param variables 变量列表

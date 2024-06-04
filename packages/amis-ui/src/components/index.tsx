@@ -75,7 +75,7 @@ import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
 import {FormulaEditor} from './formula/Editor';
 import FormulaCodeEditor from './formula/CodeEditor';
-import type {VariableItem} from './formula/CodeEditor';
+import type {VariableItem, FuncGroup} from './formula/CodeEditor';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, withBadge} from './Badge';
@@ -207,6 +207,7 @@ export {
   FormulaPicker,
   FormulaCodeEditor,
   VariableItem,
+  FuncGroup,
   FormulaEditor,
   InputJSONSchema,
   withBadge,
