@@ -363,7 +363,8 @@ export type SchemaType =
   | 'native-time'
   | 'native-number'
   | 'code'
-  | 'tooltip-wrapper';
+  | 'tooltip-wrapper'
+  | 'verificationCode';
 
 export type SchemaObject =
   | PageSchema

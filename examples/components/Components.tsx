@@ -795,6 +795,15 @@ export const components = [
             wrapDoc
           )
         )
+      },
+      {
+        label: 'VerificationCode 验证码',
+        path: '/zh-CN/components/form/verificationCode',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/verificationCode.md').then(
+            wrapDoc
+          )
+        )
       }
     ]
   },
