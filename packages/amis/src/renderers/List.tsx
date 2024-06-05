@@ -373,10 +373,10 @@ export default class List extends React.Component<ListProps, object> {
         ? resolveVariableAndFilter(source, prevProps.data, '| raw')
         : null;
 
-      if (prev && prev === resolved) {
+      if (prev === resolved) {
         updateItems = false;
-      } else if (Array.isArray(resolved)) {
-        items = resolved;
+      } else {
+        items = Array.isArray(resolved) ? resolved : [];
         updateItems = true;
       }
     }

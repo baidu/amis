@@ -26,6 +26,7 @@ exports[`store:ServiceStore 1`] = `
   "schema": null,
   "schemaKey": "",
   "storeType": "ServiceStore",
+  "upStreamData": {},
   "updatedAt": 0,
 }
 `;
@@ -57,6 +58,7 @@ exports[`store:ServiceStore fetchInitData failed 1`] = `
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "upStreamData": {},
     "updatedAt": 0,
   },
   {
@@ -84,6 +86,7 @@ exports[`store:ServiceStore fetchInitData failed 1`] = `
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "upStreamData": {},
     "updatedAt": 0,
   },
 ]
@@ -116,6 +119,7 @@ exports[`store:ServiceStore fetchInitData success 1`] = `
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "upStreamData": {},
   },
   {
     "action": undefined,
@@ -148,6 +152,7 @@ exports[`store:ServiceStore fetchInitData success 1`] = `
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "upStreamData": {},
   },
 ]
 `;
