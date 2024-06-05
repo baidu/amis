@@ -843,7 +843,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       } else if (clearValue && !self.selectFirst) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
-          onChange('', false, true);
+          onChange(
+            self.joinValues === false && self.multiple ? [] : '',
+            false,
+            true
+          );
       }
 
       return json;
