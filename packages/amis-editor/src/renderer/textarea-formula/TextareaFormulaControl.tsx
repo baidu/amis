@@ -474,7 +474,6 @@ export class TextareaFormulaControl extends React.Component<
                   className={cx('DropDown-menu-root', 'DropDown-menu', {
                     'is-mobile': isMobile()
                   })}
-                  onClick={this.closeQuickVariablesOuter}
                   ref={ref}
                 >
                   <VariableList
@@ -484,6 +483,7 @@ export class TextareaFormulaControl extends React.Component<
                     )}
                     data={quickVariables}
                     onSelect={this.handleQuickVariableSelect}
+                    popOverContainer={popOverContainer}
                   />
                 </ul>
               );
@@ -499,6 +499,7 @@ export class TextareaFormulaControl extends React.Component<
     const value = this.props.value || '';
     const newValue = value + '${' + item.value + '}';
     this.handleOnChange(newValue);
+    this.closeQuickVariablesOuter();
     setTimeout(() => {
       this.editorAutoMark();
     }, 100);

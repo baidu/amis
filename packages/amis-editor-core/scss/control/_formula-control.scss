@@ -5,8 +5,11 @@ div.ae-editor-FormulaControl {
   max-width: 100%;
 }
 .ae-editor-FormulaControl {
-  & > &-button {
+  & > &-buttonWrapper {
     height: auto;
+  }
+  & > &-buttonWrapper > &-button {
+    height: 100%;
     background-color: #f7f7f9;
     padding: 4px 8px;
     border-radius: 0 var(--button-size-sm-top-left-border-radius)

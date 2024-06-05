@@ -80,6 +80,7 @@ export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
   onSelect?: (item: VariableItem) => void;
   selfVariableName?: string;
   expandTree?: boolean;
+  popOverContainer?: () => HTMLElement;
 }
 
 function VariableList(props: VariableListProps) {
@@ -94,7 +95,8 @@ function VariableList(props: VariableListProps) {
     onSelect,
     placeholderRender,
     selfVariableName,
-    expandTree
+    expandTree,
+    popOverContainer
   } = props;
   const [variables, setVariables] = React.useState<Array<VariableItem>>([]);
   const [filterVars, setFilterVars] = React.useState<Array<VariableItem>>([]);
@@ -166,8 +168,12 @@ function VariableList(props: VariableListProps) {
                 (!selfVariableName || option.value !== selfVariableName) ? (
                   option.memberDepth < 2 ? (
                     <PopOverContainer
-                      popOverContainer={() =>
-                        document.querySelector(`.${cx('FormulaPicker-Modal')}`)
+                      popOverContainer={
+                        popOverContainer ||
+                        (() =>
+                          document.querySelector(
+                            `.${cx('FormulaPicker-Modal')}`
+                          ))
                       }
                       popOverRender={({onClose}) => (
                         <ul className={cx(`${classPrefix}-item-oper`)}>

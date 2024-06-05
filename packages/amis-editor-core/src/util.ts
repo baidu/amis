@@ -1375,7 +1375,23 @@ export async function getQuickVariables(
     if (vars?.children?.length) {
       // 获取当前层的变量
       const current: any[] = vars.children[0].children || [];
-      const filterVars = current.filter(item => item.value !== selfName);
+      const filterVars = current
+        .filter(item => item.value !== selfName && item.schemaType)
+        .map(item => {
+          // 子表过滤成员那层
+          if (item.type === 'array' && Array.isArray(item.children)) {
+            if (item.children.length === 1) {
+              const child = item.children[0];
+              if (child.type === 'object' && child.disabled) {
+                return {
+                  ...item,
+                  children: child.children
+                };
+              }
+            }
+          }
+          return item;
+        });
 
       return resolver ? resolver(filterVars) : filterVars;
     }
