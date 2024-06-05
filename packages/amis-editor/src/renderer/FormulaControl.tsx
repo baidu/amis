@@ -654,7 +654,6 @@ export default class FormulaControl extends React.Component<
                   className={cx('DropDown-menu-root', 'DropDown-menu', {
                     'is-mobile': isMobile()
                   })}
-                  onClick={this.closeQuickVariablesOuter}
                   ref={ref}
                 >
                   <VariableList
@@ -664,6 +663,7 @@ export default class FormulaControl extends React.Component<
                     )}
                     data={quickVariables}
                     onSelect={this.handleQuickVariableSelect}
+                    popOverContainer={popOverContainer}
                   />
                 </ul>
               );
@@ -679,9 +679,7 @@ export default class FormulaControl extends React.Component<
     const value = this.props.value || '';
     const newValue = value + '${' + item.value + '}';
     this.handleInputChange(newValue);
-    // setTimeout(() => {
-    //   this.editorAutoMark();
-    // }, 100);
+    this.closeQuickVariablesOuter();
   }
 
   @autobind
@@ -692,10 +690,13 @@ export default class FormulaControl extends React.Component<
     const isFx = !simple && (isExpr || this.hasDateShortcutkey(value));
 
     return (
-      <div className="ae-TplFormulaControl-buttonWrapper" ref={this.menuRef}>
+      <div
+        className="ae-editor-FormulaControl-buttonWrapper"
+        ref={this.menuRef}
+      >
         {quickVariables ? (
           <Button
-            className="ae-TplFormulaControl-buttonWrapper-button"
+            className="ae-editor-FormulaControl-button"
             size="sm"
             onClick={() => this.setState({menuIsOpened: true})}
           >
