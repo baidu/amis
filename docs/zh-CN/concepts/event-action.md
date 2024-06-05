@@ -221,7 +221,7 @@ run action ajax
 
 代表运行了 ajax 动作，第二行是传递的参数和数据，第三行是执行完动作之后的 `event` 值，可以用做后续动作的参数。
 
-## 事件与动作分类
+## 分类
 
 事件包含`渲染器事件`和`广播事件`。
 
@@ -230,11 +230,7 @@ run action ajax
 
 动作包含`通用动作`、`组件动作`、`广播动作`、`自定义动作`，可以通过配置`actionType`来指定具体执行什么动作。
 
-## 触发通用动作
-
-通用动作包含发送 http 请求、跳转链接、浏览器回退、浏览器刷新、打开/关闭弹窗、打开/关闭抽屉、打开对话框、弹出 Toast 提示、复制、发送邮件、刷新、控制显示隐藏、控制启用禁用状态、更新数据。
-
-### 发送 http 请求
+## 发送 http 请求
 
 通过配置`actionType: 'ajax'`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
 
@@ -286,7 +282,7 @@ run action ajax
 }
 ```
 
-#### 静默模式
+### 静默模式
 
 当配置`silent: true`时，请求完成后不会弹出提示信息。
 
@@ -337,7 +333,7 @@ run action ajax
 }
 ```
 
-#### 可读取的数据
+### 可读取的数据
 
 请求配置中可读取的数据包含事件源所在数据域和动作执行产生的数据。可以通过`api.data`配置数据映射来读取所需数据。例如：
 
@@ -465,6 +461,8 @@ run action ajax
   "responseMsg": "ok"
 }
 ```
+
+## 弹窗
 
 ### 打开弹窗（模态）
 
@@ -953,195 +951,6 @@ run action ajax
 | ------ | -------------------------------- | ---------------------------- | ---------- |
 | dialog | {title:`string`<br>msg:`string`} | {title: '系统提示', msg: ''} | 对话框配置 |
 
-### 跳转链接
-
-通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转，该动作需实现 env.jumpTo(to: string, action?: any) => void 方法。
-
-#### 打开页面
-
-```schema
-{
-  type: 'page',
-  data: {
-    myname: 'lvxj',
-    myjon: 'player'
-  },
-  body: [
-    {
-      type: 'button',
-      label: '百度一下',
-      level: 'primary',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'url',
-              args: {
-                url: 'http://www.baidu.com',
-                blank: true,
-                params: {
-                  name: 'jack',
-                  jon: '${myjon}'
-                },
-                name: '${myname}',
-                age: 18
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
-
-| 属性名 | 类型      | 默认值  | 说明                                                       |
-| ------ | --------- | ------- | ---------------------------------------------------------- |
-| url    | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值             |
-| blank  | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开                          |
-| params | `object`  | -       | 页面参数`{key:value}`，支持数据映射，`> 1.10.0 及以上版本` |
-
-#### 打开单页
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '跳转至「表达式」',
-      level: 'primary',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'link',
-              args: {
-                link: './expression'
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
-
-| 属性名     | 类型     | 默认值 | 说明                                                                                                                          |
-| ---------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| link       | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值             |
-| params     | `object` | -      | 页面参数`{key:value}`，支持数据映射，`> 1.9.0 及以上版本`                                                                     |
-| targetType | `string` | `page` | 默认为内容区打开`page`，可设置为新窗口打开`blank`，当前页签打开`self`，`blank\|self` 方式会重新渲染浏览器`> 6.1.0 及以上版本` |
-
-### 浏览器回退
-
-> 1.8.0 及以上版本
-
-通过配置`actionType: 'goBack'`实现页面回退。
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '回退',
-      level: 'primary',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'goBack'
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-### 前进/后退到指定页面
-
-> 1.8.0 及以上版本
-
-通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。只有当历史记录中存在目标页面时才会生效。
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '后退到上上个页面',
-      level: 'primary',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'goPage',
-              args: {
-                delta: -2
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
-
-| 属性名 | 类型     | 默认值 | 说明 |
-| ------ | -------- | ------ | ---- |
-| delta  | `string` | `0`    | 位置 |
-
-### 浏览器刷新
-
-> 1.8.0 及以上版本
-
-通过配置`actionType: 'refresh'`实现浏览器刷新。
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '刷新页面',
-      level: 'primary',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'refresh'
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
 ### toast 提示
 
 通过配置`actionType: 'toast'`实现弹出 toast 提示，该动作需实现 env.notify(type: ToastLevel, msg: string, conf?: ToastConf) => void 方法。
@@ -1391,7 +1200,198 @@ run action ajax
 | showIcon    | `boolean` | `true`                                  | 是否展示图标                                                                                     |
 | timeout     | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                         |
 
-### 复制
+## 跳转链接
+
+通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转，该动作需实现 env.jumpTo(to: string, action?: any) => void 方法。
+
+### 打开页面
+
+```schema
+{
+  type: 'page',
+  data: {
+    myname: 'lvxj',
+    myjon: 'player'
+  },
+  body: [
+    {
+      type: 'button',
+      label: '百度一下',
+      level: 'primary',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'url',
+              args: {
+                url: 'http://www.baidu.com',
+                blank: true,
+                params: {
+                  name: 'jack',
+                  jon: '${myjon}'
+                },
+                name: '${myname}',
+                age: 18
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性（args）**
+
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型      | 默认值  | 说明                                                       |
+| ------ | --------- | ------- | ---------------------------------------------------------- |
+| url    | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值             |
+| blank  | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开                          |
+| params | `object`  | -       | 页面参数`{key:value}`，支持数据映射，`> 1.10.0 及以上版本` |
+
+### 打开单页
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '跳转至「表达式」',
+      level: 'primary',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'link',
+              args: {
+                link: './expression'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性（args）**
+
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名     | 类型     | 默认值 | 说明                                                                                                                          |
+| ---------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| link       | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值             |
+| params     | `object` | -      | 页面参数`{key:value}`，支持数据映射，`> 1.9.0 及以上版本`                                                                     |
+| targetType | `string` | `page` | 默认为内容区打开`page`，可设置为新窗口打开`blank`，当前页签打开`self`，`blank\|self` 方式会重新渲染浏览器`> 6.1.0 及以上版本` |
+
+## 浏览器
+
+### 浏览器回退
+
+> 1.8.0 及以上版本
+
+通过配置`actionType: 'goBack'`实现页面回退。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '回退',
+      level: 'primary',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'goBack'
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### 前进/后退到指定页面
+
+> 1.8.0 及以上版本
+
+通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。只有当历史记录中存在目标页面时才会生效。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '后退到上上个页面',
+      level: 'primary',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'goPage',
+              args: {
+                delta: -2
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性（args）**
+
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明 |
+| ------ | -------- | ------ | ---- |
+| delta  | `string` | `0`    | 位置 |
+
+### 浏览器刷新
+
+> 1.8.0 及以上版本
+
+通过配置`actionType: 'refresh'`实现浏览器刷新。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '刷新页面',
+      level: 'primary',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'refresh'
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## 复制
 
 通过配置`actionType: 'copy'`和复制属性实现文本的复制操作，该动作需实现 env.copy(contents: string, options?: any) => void 方法。
 
@@ -1448,7 +1448,7 @@ run action ajax
 | copyFormat | `string`                             | -      | 复制格式                           |
 | content    | [模板](../../docs/concepts/template) | -      | 指定复制的内容。可用 `${xxx}` 取值 |
 
-### 打印
+## 打印
 
 > 6.2.0 及以后版本
 
@@ -1519,7 +1519,7 @@ run action ajax
 | testid  | `string`   |        | 组件的 testid     |
 | testids | `string[]` | -      | 多个组件的 testid |
 
-### 发送邮件
+## 发送邮件
 
 通过配置`actionType: 'email'`和邮件属性实现发送邮件操作。
 
@@ -1562,6 +1562,341 @@ run action ajax
 | bcc     | `string` | -      | 匿名抄送邮箱，可用 ${xxx} 取值 |
 | subject | `string` | -      | 邮件主题，可用 ${xxx} 取值     |
 | body    | `string` | -      | 邮件正文，可用 ${xxx} 取值     |
+
+## 更新事件上下文数据
+
+> 6.3.0 及以上版本
+
+修改 `event.data` 对象中的数据，修改后后续的动作中可以引用，及时生效，不像更新组件上下文数据是个异步操作。可以用来临时存储数据。
+
+```schema
+{
+  type: 'page',
+  title: '获取页面标题并弹出',
+  body: [
+    {
+      type: 'button',
+      className: 'ml-2',
+      label: 'toast 页面标题',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setEventData',
+              args: {
+                key: 'title',
+                value: '页面标题：${window:document[title]}'
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '${title}'
+              }
+            },
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## 等待
+
+> 6.3.0 及以上版本
+
+通过配置`actionType: 'wait'`，等待指定时间（`args.time` 毫秒数）后执行后续动作。
+
+```schema
+{
+  type: 'page',
+  title: '3 秒后 toast 页面标题',
+  body: [
+    {
+      type: 'button',
+      className: 'ml-2',
+      label: 'toast 页面标题',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'wait',
+              args: {
+                time: 3000
+              }
+            },
+            {
+              actionType: 'setEventData',
+              args: {
+                key: 'title',
+                value: '页面标题：${window:document[title]}'
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '${title}'
+              }
+            },
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性（args）**
+
+> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+
+| 属性名 | 类型     | 默认值 | 说明                 |
+| ------ | -------- | ------ | -------------------- |
+| time   | `number` | -      | 等待时间，单位是毫秒 |
+
+## 自定义 JS
+
+通过配置`actionType: 'custom'`实现自定义 JS。JS 中可以访问以下对象和方法：
+
+- context，渲染器上下文
+- doAction() 动作执行方法，用于调用任何 actionType 指定的动作
+- event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
+
+自定义函数签名： `script:(context,doAction,event)=>{}`
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '发送一个 http 请求',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'custom',
+              script:
+                "doAction({actionType: 'ajax', args: {api: '/api/mock2/form/saveForm'}});\n //event.stopPropagation();"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名 | 类型                | 默认值 | 说明                                                                                                                                            |
+| ------ | ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| script | `string`/`function` | -      | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
+
+### 支持异步
+
+> 2.0.3 及以上版本
+
+- 方式一：通过返回 Promise 实例的方式
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      "type": "form",
+      "title": "表单",
+      "body": [
+        {
+          "label": "编号",
+          "type": "input-text",
+          "name": "pId",
+          "id": "u:e47e2c8e6be8",
+          "mode": "horizontal",
+          "addOn": {
+            "label": "自动获取",
+            "type": "button",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "componentId": "u:52cd013e120f",
+                    "actionType": "disabled"
+                  },
+                  {
+                    "script": "return new Promise((resolve, reject) => {setTimeout(() => {event.setData({...event.data, pId: '01027359'});resolve();}, 3000)})",
+                    "actionType": "custom"
+                  },
+                  {
+                    "componentId": "u:e47e2c8e6be8",
+                    "args": {
+                      "value": "${pId}"
+                    },
+                    "actionType": "setValue"
+                  },
+                  {
+                    "componentId": "u:52cd013e120f",
+                    "actionType": "enabled"
+                  }
+                ],
+                "weight": 0
+              }
+            },
+            "id": "u:52cd013e120f"
+          }
+        }
+      ],
+      "apiFromAPICenter": false,
+      "id": "u:76203156676b"
+    }
+  ]
+}
+```
+
+- 方式二：通过返回 Thunk 的方式
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      "type": "form",
+      "title": "表单",
+      "body": [
+        {
+          "label": "编号",
+          "type": "input-text",
+          "name": "pId",
+          "id": "u:e47e2c8e6be7",
+          "mode": "horizontal",
+          "addOn": {
+            "label": "自动获取",
+            "type": "button",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "componentId": "u:52cd013e120e",
+                    "actionType": "disabled"
+                  },
+                  {
+                    "script": "return (callback) => { setTimeout(() => {event.setData({...event.data, pId: '01027359' });callback();}, 3000) };",
+                    "actionType": "custom"
+                  },
+                  {
+                    "componentId": "u:e47e2c8e6be7",
+                    "args": {
+                      "value": "${pId}"
+                    },
+                    "actionType": "setValue"
+                  },
+                  {
+                    "componentId": "u:52cd013e120e",
+                    "actionType": "enabled"
+                  }
+                ],
+                "weight": 0
+              }
+            },
+            "id": "u:52cd013e120e"
+          }
+        }
+      ],
+      "apiFromAPICenter": false,
+      "id": "u:76203156676a"
+    }
+  ]
+}
+```
+
+### 存储数据
+
+有时在执行自定义 JS 的时候，希望该过程中产生的数据可以分享给后面的动作使用，此时可以通过`event.setData()`来实现事件上下文的设置，这样后面动作都可以通过事件上下文来获取共享的数据。
+
+> 注意：直接调用`event.setData()`将修改事件的原有上下文，如果不希望覆盖可以通过`event.setData({...event.data, ...{xxx: xxx}})`来进行数据的合并。
+
+## 触发指定组件动作
+
+通过配置`componentId`或`componentName`来触发指定组件的动作（不配置将调用当前组件自己的动作），组件动作配置通过`args`传入`(> 1.9.0 及以上版本)`，动作参数请查看对应的组件的[动作表](../../components/form/index#动作表)，更多示例请查看[组件事件动作示例](../../../examples/event/form)。
+
+### 更新组件数据
+
+> 1.8.0 及以上版本
+
+更新数据即更新指定组件数据域中的数据（data），通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
+
+**注意事项**
+
+- 这个动作是异步的，所以不能直接通过`${xxx}`来获取更新后的数据，如果需要请更新事件上下文数据，然后通过`${event.data.xxx}`来获取。
+- 数据类型支持范围：`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型
+- 目标组件支持范围：`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件
+- < 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
+- 它的值通常都是对象形式，比如 form 传递的值应该是类似 `{"user": "amis"}`，这时就会更新表单里的 `user` 字段值为 `amis`
+
+```schema
+{
+  type: 'page',
+  title: '更新表单数据',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!'
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      level: 'primary',
+      className: 'mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'form_data',
+              args: {
+                value: '${globalData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'form',
+      id: 'form_data',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: '预言家',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    }
+  ]
+}
+```
 
 ### 刷新组件请求
 
@@ -2008,349 +2343,9 @@ run action ajax
 | ----------- | -------- | ------ | ------------------------------------ |
 | componentId | `string` | -      | 指定启用/禁用/显示/隐藏的目标组件 id |
 
-### 更新事件上下文数据
+### 执行目标组件的动作
 
-> 6.3.0 及以上版本
-
-修改 `event.data` 对象中的数据，修改后后续的动作中可以引用，及时生效，不像更新组件上下文数据是个异步操作。可以用来临时存储数据。
-
-```schema
-{
-  type: 'page',
-  title: '获取页面标题并弹出',
-  body: [
-    {
-      type: 'button',
-      className: 'ml-2',
-      label: 'toast 页面标题',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setEventData',
-              args: {
-                key: 'title',
-                value: '页面标题：${window:document[title]}'
-              }
-            },
-            {
-              actionType: 'toast',
-              args: {
-                msg: '${title}'
-              }
-            },
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-### 更新组件数据
-
-> 1.8.0 及以上版本
-
-更新数据即更新指定组件数据域中的数据（data），通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
-
-**注意事项**
-
-- 这个动作是异步的，所以不能直接通过`${xxx}`来获取更新后的数据，如果需要请更新事件上下文数据，然后通过`${event.data.xxx}`来获取。
-- 数据类型支持范围：`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型
-- 目标组件支持范围：`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件
-- < 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
-- 它的值通常都是对象形式，比如 form 传递的值应该是类似 `{"user": "amis"}`，这时就会更新表单里的 `user` 字段值为 `amis`
-
-```schema
-{
-  type: 'page',
-  title: '更新表单数据',
-  data: {
-    globalData: {
-      myrole: '法官',
-      mymsg: '该吃饭了!'
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'form_data',
-              args: {
-                value: '${globalData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'form',
-      id: 'form_data',
-      title: '表单',
-      debug: true,
-      data: {
-        myrole: '预言家',
-        age: '18'
-      },
-      "initApi": "/api/mock2/form/initData",
-      body: [
-        {
-          type: 'input-text',
-          label: '角色',
-          name: 'myrole',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '年龄',
-          name: 'age',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ]
-    }
-  ]
-}
-```
-
-### 等待
-
-> 6.3.0 及以上版本
-
-`args.time` 毫秒数，等待指定时间后执行后续动作。
-
-```schema
-{
-  type: 'page',
-  title: '3 秒后 toast 页面标题',
-  body: [
-    {
-      type: 'button',
-      className: 'ml-2',
-      label: 'toast 页面标题',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'wait',
-              args: {
-                time: 3000
-              }
-            },
-            {
-              actionType: 'setEventData',
-              args: {
-                key: 'title',
-                value: '页面标题：${window:document[title]}'
-              }
-            },
-            {
-              actionType: 'toast',
-              args: {
-                msg: '${title}'
-              }
-            },
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
-
-| 属性名 | 类型     | 默认值 | 说明                                                                |
-| ------ | -------- | ------ | ------------------------------------------------------------------- |
-| value  | `any`    | -      | 值                                                                  |
-| index  | `number` | -      | 当目标组件是`combo`时，可以指定更新的数据索引， `1.10.1 及以上版本` |
-
-**其他属性**
-
-| 属性名                       | 类型     | 默认值 | 说明                          |
-| ---------------------------- | -------- | ------ | ----------------------------- |
-| componentId 或 componentName | `string` | -      | 指定赋值的目标组件 id 或 name |
-
-> 备注：componentId 是全局定位指定的组件，而 componentName 是就近按照层级向上查找。
-
-### 自定义 JS
-
-通过配置`actionType: 'custom'`实现自定义 JS。JS 中可以访问以下对象和方法：
-
-- context，渲染器上下文
-- doAction() 动作执行方法，用于调用任何 actionType 指定的动作
-- event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
-
-自定义函数签名： `script:(context,doAction,event)=>{}`
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '发送一个 http 请求',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'custom',
-              script:
-                "doAction({actionType: 'ajax', args: {api: '/api/mock2/form/saveForm'}});\n //event.stopPropagation();"
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性**
-
-| 属性名 | 类型                | 默认值 | 说明                                                                                                                                            |
-| ------ | ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| script | `string`/`function` | -      | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
-
-#### 支持异步
-
-> 2.0.3 及以上版本
-
-- 方式一：通过返回 Promise 实例的方式
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      "type": "form",
-      "title": "表单",
-      "body": [
-        {
-          "label": "编号",
-          "type": "input-text",
-          "name": "pId",
-          "id": "u:e47e2c8e6be8",
-          "mode": "horizontal",
-          "addOn": {
-            "label": "自动获取",
-            "type": "button",
-            "onEvent": {
-              "click": {
-                "actions": [
-                  {
-                    "componentId": "u:52cd013e120f",
-                    "actionType": "disabled"
-                  },
-                  {
-                    "script": "return new Promise((resolve, reject) => {setTimeout(() => {event.setData({...event.data, pId: '01027359'});resolve();}, 3000)})",
-                    "actionType": "custom"
-                  },
-                  {
-                    "componentId": "u:e47e2c8e6be8",
-                    "args": {
-                      "value": "${pId}"
-                    },
-                    "actionType": "setValue"
-                  },
-                  {
-                    "componentId": "u:52cd013e120f",
-                    "actionType": "enabled"
-                  }
-                ],
-                "weight": 0
-              }
-            },
-            "id": "u:52cd013e120f"
-          }
-        }
-      ],
-      "apiFromAPICenter": false,
-      "id": "u:76203156676b"
-    }
-  ]
-}
-```
-
-- 方式二：通过返回 Thunk 的方式
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      "type": "form",
-      "title": "表单",
-      "body": [
-        {
-          "label": "编号",
-          "type": "input-text",
-          "name": "pId",
-          "id": "u:e47e2c8e6be7",
-          "mode": "horizontal",
-          "addOn": {
-            "label": "自动获取",
-            "type": "button",
-            "onEvent": {
-              "click": {
-                "actions": [
-                  {
-                    "componentId": "u:52cd013e120e",
-                    "actionType": "disabled"
-                  },
-                  {
-                    "script": "return (callback) => { setTimeout(() => {event.setData({...event.data, pId: '01027359' });callback();}, 3000) };",
-                    "actionType": "custom"
-                  },
-                  {
-                    "componentId": "u:e47e2c8e6be7",
-                    "args": {
-                      "value": "${pId}"
-                    },
-                    "actionType": "setValue"
-                  },
-                  {
-                    "componentId": "u:52cd013e120e",
-                    "actionType": "enabled"
-                  }
-                ],
-                "weight": 0
-              }
-            },
-            "id": "u:52cd013e120e"
-          }
-        }
-      ],
-      "apiFromAPICenter": false,
-      "id": "u:76203156676a"
-    }
-  ]
-}
-```
-
-#### 存储数据
-
-有时在执行自定义 JS 的时候，希望该过程中产生的数据可以分享给后面的动作使用，此时可以通过`event.setData()`来实现事件上下文的设置，这样后面动作都可以通过事件上下文来获取共享的数据。
-
-> 注意：直接调用`event.setData()`将修改事件的原有上下文，如果不希望覆盖可以通过`event.setData({...event.data, ...{xxx: xxx}})`来进行数据的合并。
-
-## 触发组件的动作
-
-通过配置`componentId`或`componentName`来触发指定组件的动作（不配置将调用当前组件自己的动作），组件动作配置通过`args`传入`(> 1.9.0 及以上版本)`，动作参数请查看对应的组件的[动作表](../../components/form/index#动作表)，更多示例请查看[组件事件动作示例](../../../examples/event/form)。
+例如，点击按钮后，切换选项卡。
 
 ```schema
 {
@@ -2398,7 +2393,7 @@ run action ajax
 }
 ```
 
-## 触发广播动作
+## 触发广播
 
 通过配置`actionType: 'broadcast'`实现触发一个广播。
 
@@ -2577,7 +2572,7 @@ run action ajax
 | ------ | -------- | ------ | -------------------------------------------------------- |
 | weight | `number` | 0      | 可以通过配置动作执行优先级来控制所有监听者的动作执行顺序 |
 
-## 自定义动作
+## 注册自定义动作
 
 除了以上内置动作，你还可以注册自己的动作。通过对`RendererAction`的`run`方法的实现可以定制自己的动作逻辑，最后通过`registerAction`注册到 amis 事件动作中。
 
