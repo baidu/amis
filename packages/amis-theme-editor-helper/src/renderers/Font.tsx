@@ -935,11 +935,15 @@ function FontEditor(props: FontEditorProps) {
   let fontToken;
   if (editorValueToken) {
     fontToken = {
-      color: `${editorValueToken}-font-color`,
+      color: `${editorValueToken}-color`,
       fontSize: `${editorValueToken}-fontSize`,
       fontWeight: `${editorValueToken}-fontWeight`,
       lineHeight: `${editorValueToken}-lineHeight`
     };
+    // 历史的坑，button单独处理
+    if (data.type === 'button') {
+      fontToken.color = `${editorValueToken}-font-color`;
+    }
   }
   const editorDefaultValue = getDefaultValue(editorThemePath, fontToken, data);
   const editorInheritValue = getInheritValue(editorThemePath, data);

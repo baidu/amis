@@ -25,7 +25,7 @@
 
     > .#{$ns}Panel-heading {
       background: var(--Panel-heading-bg-color);
-      color: var(--Panel-heading-font-color);
+      color: var(--Panel-heading-color);
 
       .badge {
         color: var(--Panel--default-badgeColor);
@@ -157,7 +157,7 @@
   &-title {
     margin: 0;
     font-size: var(--Panel-heading-fontSize);
-    color: var(--Panel-heading-font-color);
+    color: var(--Panel-heading-color);
     font-weight: var(--Panel-heading-fontWeight);
     line-height: var(--Panel-heading-lineHeight);
   }
