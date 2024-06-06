@@ -484,6 +484,7 @@ export class TextareaFormulaControl extends React.Component<
                     data={quickVariables}
                     onSelect={this.handleQuickVariableSelect}
                     popOverContainer={popOverContainer}
+                    simplifyMemberOprs
                   />
                 </ul>
               );

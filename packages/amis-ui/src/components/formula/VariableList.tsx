@@ -5,6 +5,7 @@ import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
+import {Icon} from '../icons';
 
 import type {VariableItem} from './CodeEditor';
 import type {ItemRenderStates} from '../Selection';
@@ -42,29 +43,34 @@ const memberOpers = [
       '即当前列表中所有符合该成员条件的记录总数，需补充成员条件，例如：item.xxx === 1'
   },
   {
-    label: '取该成员去重之后的总数',
+    label: '去重计数：取该成员去重之后的总数',
     value: 'COUNT(UNIQ(${arr}, item.${member}))',
-    description: '即对该成员记录进行去重，并统计总数'
+    description: '即对该成员记录进行去重，并统计总数',
+    simple: true
   },
   {
-    label: '取该成员的总和',
+    label: '求和：求当前列的所有值之和',
     value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型',
+    simple: true
   },
   {
-    label: '取该成员的平均值',
+    label: '平均值：求当前列的平均值',
     value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的平均值，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录的平均值，需确认该成员记录均为数字类型',
+    simple: true
   },
   {
-    label: '取该成员的最大值',
+    label: '最大值：取当前列的最大值',
     value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录中最大值，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录中最大值，需确认该成员记录均为数字类型',
+    simple: true
   },
   {
-    label: '取该成员的最小值',
+    label: '最小值：取当前列的最小值',
     value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录中最小值，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录中最小值，需确认该成员记录均为数字类型',
+    simple: true
   }
 ];
 
@@ -80,6 +86,7 @@ export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
   onSelect?: (item: VariableItem) => void;
   selfVariableName?: string;
   expandTree?: boolean;
+  simplifyMemberOprs?: boolean;
   popOverContainer?: () => HTMLElement;
 }
 
@@ -96,6 +103,7 @@ function VariableList(props: VariableListProps) {
     placeholderRender,
     selfVariableName,
     expandTree,
+    simplifyMemberOprs,
     popOverContainer
   } = props;
   const [variables, setVariables] = React.useState<Array<VariableItem>>([]);
@@ -177,28 +185,30 @@ function VariableList(props: VariableListProps) {
                       }
                       popOverRender={({onClose}) => (
                         <ul className={cx(`${classPrefix}-item-oper`)}>
-                          {memberOpers.map((item, i) => {
-                            return (
-                              <TooltipWrapper
-                                key={i}
-                                tooltip={item.description}
-                                tooltipTheme="dark"
-                              >
-                                <li
+                          {memberOpers
+                            .filter(item => !simplifyMemberOprs || item.simple)
+                            .map((item, i) => {
+                              return (
+                                <TooltipWrapper
                                   key={i}
-                                  onClick={() =>
-                                    handleMemberClick(
-                                      {...item, isMember: true},
-                                      option,
-                                      onClose
-                                    )
-                                  }
+                                  tooltip={item.description}
+                                  tooltipTheme="dark"
                                 >
-                                  <span>{item.label}</span>
-                                </li>
-                              </TooltipWrapper>
-                            );
-                          })}
+                                  <li
+                                    key={i}
+                                    onClick={() =>
+                                      handleMemberClick(
+                                        {...item, isMember: true},
+                                        option,
+                                        onClose
+                                      )
+                                    }
+                                  >
+                                    <span>{item.label}</span>
+                                  </li>
+                                </TooltipWrapper>
+                              );
+                            })}
                         </ul>
                       )}
                     >
@@ -207,7 +217,14 @@ function VariableList(props: VariableListProps) {
                           tooltip={option.description ?? option.label}
                           tooltipTheme="dark"
                         >
-                          <label onClick={onClick}>{option.label}</label>
+                          <>
+                            <label onClick={onClick}>{option.label}</label>
+                            <Icon
+                              onClick={onClick}
+                              icon="ellipsis-v"
+                              className="icon"
+                            />
+                          </>
                         </TooltipWrapper>
                       )}
                     </PopOverContainer>
