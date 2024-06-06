@@ -28,7 +28,8 @@ import {
   RootClose,
   ActionObject,
   renderTextByKeyword,
-  getVariable
+  getVariable,
+  TestIdBuilder
 } from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import xor from 'lodash/xor';
@@ -103,6 +104,7 @@ export interface NestedSelectProps
   mobileUI?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface NestedSelectState {
@@ -648,7 +650,8 @@ export default class NestedSelectControl extends React.Component<
       labelField,
       menuClassName,
       cascade,
-      onlyChildren
+      onlyChildren,
+      testIdBuilder
     } = this.props;
     const valueField = this.props.valueField || 'value';
     const stack = this.state.stack;
@@ -678,6 +681,9 @@ export default class NestedSelectControl extends React.Component<
             ) : null}
 
             {options.map((option: Option, idx: number) => {
+              const itemTIB = testIdBuilder
+                ?.getChild(`menu-${index}`)
+                .getChild(option.value || idx);
               const ancestors = getTreeAncestors(propOptions, option as any);
               const parentChecked = ancestors?.some(
                 item => !!~selectedOptions.indexOf(item)
@@ -728,6 +734,7 @@ export default class NestedSelectControl extends React.Component<
                       checked={selfChecked || (!cascade && selfChildrenChecked)}
                       partial={!selfChecked}
                       disabled={nodeDisabled}
+                      testIdBuilder={itemTIB?.getChild('checkbox')}
                     ></Checkbox>
                   ) : null}
 
@@ -742,6 +749,7 @@ export default class NestedSelectControl extends React.Component<
                         : this.handleOptionClick(option))
                     }
                     title={label}
+                    {...itemTIB?.getTestId()}
                   >
                     {label}
                   </div>
@@ -751,6 +759,7 @@ export default class NestedSelectControl extends React.Component<
                       className={cx('NestedSelect-optionArrowRight', {
                         'is-disabled': nodeDisabled
                       })}
+                      {...itemTIB?.getChild('arrow-right').getTestId()}
                     >
                       <Icon icon="right-arrow-bold" className="icon" />
                     </div>
@@ -951,6 +960,7 @@ export default class NestedSelectControl extends React.Component<
       mobileUI,
       popOverContainer,
       env,
+      testIdBuilder,
       loadingConfig,
       maxTagCount,
       overflowTagPopover
@@ -998,6 +1008,7 @@ export default class NestedSelectControl extends React.Component<
           clearable={clearable}
           hasDropDownArrow={true}
           allowInput={searchable && !mobileUI}
+          testIdBuilder={testIdBuilder}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />
