@@ -11,7 +11,7 @@ import {FormItem, resolveVariableAndFilter, highlight} from 'amis-core';
 import type {FormControlProps} from 'amis-core';
 import cx from 'classnames';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -37,6 +37,7 @@ interface ThemeSelectProps {
   inheritValue?: string;
   placeholder?: string;
   editorThemePath?: any;
+  editorValue?: string | {[key: string]: string};
   isEditorTpl?: boolean;
 }
 
@@ -60,6 +61,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     menuTpl,
     placeholder,
     editorThemePath,
+    editorValue,
     data,
     isEditorTpl
   } = props;
@@ -70,7 +72,11 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
   const [options, setOptions] = useState<Option[] | undefined>(originalOptions);
   const [showOptions, setShowOptions] = useState(false);
 
-  const editorDefaultValue = getValueByPath(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(
+    editorThemePath,
+    editorValue,
+    data
+  );
   const editorInheritValue = getInheritValue(editorThemePath, data);
 
   useEffect(() => {

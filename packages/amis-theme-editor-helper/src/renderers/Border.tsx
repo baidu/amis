@@ -13,7 +13,7 @@ import ColorPicker from './ColorPicker';
 import ThemeSelect from './ThemeSelect';
 import {i18n as _i18n} from 'i18n-runtime';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -104,7 +104,8 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     label,
     needColorCustom,
     state,
-    editorThemePath
+    editorThemePath,
+    editorValueToken
   } = props;
   const [borderWidthOptions, setBorderWidthOptions] = useState(
     cloneDeep(
@@ -122,7 +123,28 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     cloneDeep(props.colorOptions || data.colorOptions)
   );
   const [borderType, setBorderType] = useState<string>('all');
-  const editorDefaultValue = formatData(getValueByPath(editorThemePath, data));
+
+  let borderToken;
+
+  if (editorValueToken) {
+    borderToken = {
+      'top-border-color': `${editorValueToken}-top-border-color`,
+      'top-border-width': `${editorValueToken}-top-border-width`,
+      'top-border-style': `${editorValueToken}-top-border-style`,
+      'right-border-color': `${editorValueToken}-right-border-color`,
+      'right-border-width': `${editorValueToken}-right-border-width`,
+      'right-border-style': `${editorValueToken}-right-border-style`,
+      'bottom-border-color': `${editorValueToken}-bottom-border-color`,
+      'bottom-border-width': `${editorValueToken}-bottom-border-width`,
+      'bottom-border-style': `${editorValueToken}-bottom-border-style`,
+      'left-border-color': `${editorValueToken}-left-border-color`,
+      'left-border-width': `${editorValueToken}-left-border-width`,
+      'left-border-style': `${editorValueToken}-left-border-style`
+    };
+  }
+  const editorDefaultValue = formatData(
+    getDefaultValue(editorThemePath, borderToken, data)
+  );
   const editorInheritValue = getInheritValue(editorThemePath, data);
   const borderData = formatData(value || {});
 

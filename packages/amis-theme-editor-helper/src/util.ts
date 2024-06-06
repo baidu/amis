@@ -1,9 +1,27 @@
+import {PlainObject, filter} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * 根据路径获取默认值
  */
-export function getValueByPath(path: string | string[], data: any): any {
+export function getDefaultValue(
+  path?: string | string[],
+  editorValue?: string | {[key: string]: string},
+  data?: any
+): any {
+  if (editorValue) {
+    if (typeof editorValue === 'string') {
+      const key = filter(editorValue, data);
+      return data.cssVars[key];
+    } else {
+      const res: PlainObject = {};
+      Object.keys(editorValue).forEach(key => {
+        const value = filter(editorValue[key], data);
+        res[key] = data.cssVars[value];
+      });
+      return res;
+    }
+  }
   try {
     if (!path || !data) {
       return null;

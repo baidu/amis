@@ -10,7 +10,7 @@ import type {FormControlProps} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 import ThemeSelect from './ThemeSelect';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -48,7 +48,8 @@ function BoxRadius(props: RadiusProps & RendererProps) {
     label,
     borderRadiusOptions,
     state,
-    editorThemePath
+    editorThemePath,
+    editorValueToken
   } = props;
 
   let options = cloneDeep(borderRadiusOptions || data.borderRadiusOptions);
@@ -59,7 +60,20 @@ function BoxRadius(props: RadiusProps & RendererProps) {
   const [radiusType, setRadiusType] = useState<string>('all');
   const [isInherit, setIsInherit] = useState<boolean>(false);
 
-  const editorDefaultValue = formatData(getValueByPath(editorThemePath, data));
+  let radiusToken;
+
+  if (editorValueToken) {
+    radiusToken = {
+      'top-right-border-radius': `${editorValueToken}-top-right-border-radius`,
+      'top-left-border-radius': `${editorValueToken}-top-left-border-radius`,
+      'bottom-right-border-radius': `${editorValueToken}-bottom-right-border-radius`,
+      'bottom-left-border-radius': `${editorValueToken}-bottom-left-border-radius`
+    };
+  }
+
+  const editorDefaultValue = formatData(
+    getDefaultValue(editorThemePath, radiusToken, data)
+  );
   const editorInheritValue = getInheritValue(editorThemePath, data);
   const borderData = formatData(value || {});
 

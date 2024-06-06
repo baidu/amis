@@ -13,7 +13,7 @@ import {Button} from 'amis-ui';
 import ThemeSelect from './ThemeSelect';
 import {find} from 'lodash';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -35,6 +35,7 @@ function SizeEditor(props: SizeEditorProps) {
     hideHeight,
     hideMinWidth,
     editorThemePath,
+    editorValue,
     label
   } = props;
   const [lock, setLockValue] = React.useState(0);
@@ -48,7 +49,11 @@ function SizeEditor(props: SizeEditorProps) {
     minWidth: ''
   });
   const RULE = /[0-9\.]*/;
-  const editorDefaultValue = getValueByPath(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(
+    editorThemePath,
+    editorValue,
+    data
+  );
   const editorInheritValue = getInheritValue(editorThemePath, data);
 
   React.useEffect(() => {

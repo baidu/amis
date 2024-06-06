@@ -15,7 +15,7 @@ import assign from 'lodash/assign';
 import {ThemeWrapperHeader} from './ThemeWrapper';
 import ThemeSelect from './ThemeSelect';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -921,7 +921,8 @@ function FontEditor(props: FontEditorProps) {
     fontWeightOptions = data.fontWeightOptions || defaultFontWeight,
     lineHeightOptions = data.lineHeightOptions || defaultlineHeight,
     fontFamilyOptions = data.fontFamilyOptions || SYSTEM_FONT_FAMILY,
-    editorThemePath
+    editorThemePath,
+    editorValueToken
   } = props;
 
   const alignOptions = hasVertical
@@ -930,7 +931,17 @@ function FontEditor(props: FontEditorProps) {
 
   const [open, toggleOpen] = React.useState(true);
   const [senior, toggleSenior] = React.useState(false);
-  const editorDefaultValue = getValueByPath(editorThemePath, data);
+
+  let fontToken;
+  if (editorValueToken) {
+    fontToken = {
+      color: `${editorValueToken}-font-color`,
+      fontSize: `${editorValueToken}-fontSize`,
+      fontWeight: `${editorValueToken}-fontWeight`,
+      lineHeight: `${editorValueToken}-lineHeight`
+    };
+  }
+  const editorDefaultValue = getDefaultValue(editorThemePath, fontToken, data);
   const editorInheritValue = getInheritValue(editorThemePath, data);
 
   const [sizeData, setSizeData] = React.useState<SizeDataProps>(

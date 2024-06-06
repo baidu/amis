@@ -1633,8 +1633,7 @@
   // 表单
   --Form-item-gap: var(--sizes-base-12);
   --Form-item-mobile-gap: var(--sizes-base-4);
-  --Form-item-color: var(--colors-neutral-text-4);
-  --Form-item-fontColor: var(--Form-item-color);
+  --Form-item-font-color: var(--colors-neutral-text-4);
   --Form-item-fontSize: var(--fonts-size-7);
   --Form-item-fontWeight: var(--fonts-weight-6);
   --Form-item-lineHeight: var(--fonts-lineHeight-1);
@@ -2449,7 +2448,7 @@
   --Tabs--chrome-right-border-color: var(--colors-neutral-line-5);
 
   // 面板 Panel
-  --Panel-bg: var(--colors-neutral-fill-11);
+  --Panel-bg-color: var(--colors-neutral-fill-11);
   --Panel-marginTop: var(--sizes-size-0);
   --Panel-marginBottom: var(--sizes-base-10);
   --Panel-marginLeft: var(--sizes-size-0);
@@ -2476,13 +2475,13 @@
   --Panel-borderWidth: var(--Panel-top-border-width)
     var(--Panel-right-border-width) var(--Panel-bottom-border-width)
     var(--Panel-left-border-width);
-  --Panel-boxShadow: var(--shadows-shadow-sm);
+  --Panel-shadow: var(--shadows-shadow-sm);
   --Panel-heading-paddingTop: var(--sizes-size-5);
   --Panel-heading-paddingBottom: var(--sizes-size-5);
   --Panel-heading-paddingLeft: var(--sizes-size-7);
   --Panel-heading-paddingRight: var(--sizes-size-7);
-  --Panel-heading-bg: var(--colors-neutral-fill-10);
-  --Panel-heading-color: var(--colors-neutral-text-3);
+  --Panel-heading-bg-color: var(--colors-neutral-fill-10);
+  --Panel-heading-font-color: var(--colors-neutral-text-3);
   --Panel-heading-fontSize: var(--fonts-size-8);
   --Panel-heading-fontWeight: var(--fonts-weight-6);
   --Panel-heading-lineHeight: var(--fonts-lineHeight-2);
@@ -2514,7 +2513,7 @@
   --Panel-footer-paddingBottom: var(--sizes-size-5);
   --Panel-footer-paddingLeft: var(--sizes-size-7);
   --Panel-footer-paddingRight: var(--sizes-size-7);
-  --Panel-footer-bg: var(--colors-neutral-fill-11);
+  --Panel-footer-bg-color: var(--colors-neutral-fill-11);
   --Panel-footer-top-border-color: var(--colors-neutral-line-8);
   --Panel-footer-top-border-width: var(--borders-width-2);
   --Panel-footer-top-border-style: var(--borders-style-2);
@@ -2529,7 +2528,7 @@
   --Panel-footer-left-border-style: var(--borders-style-2);
   --Panel-footerBorderRadius: 0 0 var(--Panel-bottom-right-border-radius)
     var(--Panel-bottom-left-border-radius);
-  --Panel-footerBg: var(--Panel-footer-bg);
+  --Panel-footerBg: var(--Panel-footer-bg-color);
   --Panel-footerPadding: var(--Panel-footer-paddingTop)
     var(--Panel-footer-paddingRight) var(--Panel-footer-paddingBottom)
     var(--Panel-footer-paddingLeft);

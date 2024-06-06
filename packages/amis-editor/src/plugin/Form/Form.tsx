@@ -1144,6 +1144,92 @@ export class FormPlugin extends BasePlugin {
                 })
               ]
             },
+            getSchemaTpl('theme:base', {
+              classname: 'panelClassName',
+              title: '容器样式',
+              editorValueToken: '--Panel',
+              hideBackground: true,
+              hidePadding: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'headerControlClassName',
+              title: '标题区样式',
+              visibleOn: isWrapped,
+              editorValueToken: '--Panel-heading',
+              hideRadius: true,
+              hideShadow: true,
+              hideMargin: true,
+              needState: false,
+              extra: [
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.headerTitleControlClassName.font',
+                  editorValueToken: '--Panel-heading'
+                })
+              ]
+            }),
+
+            getSchemaTpl('theme:base', {
+              classname: 'bodyControlClassName',
+              title: '内容区样式',
+              editorValueToken: '--Panel-body',
+              hideRadius: true,
+              hideShadow: true,
+              hideBorder: true,
+              hideMargin: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'actionsControlClassName',
+              title: '操作区样式',
+              editorValueToken: '--Panel-footer',
+              hideRadius: true,
+              hideShadow: true,
+              hideMargin: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'formControlClassName',
+              title: '表单样式',
+              needState: false,
+              hiddenOn: isWrapped
+            }),
+            {
+              title: '表单项样式',
+              body: [
+                getSchemaTpl('theme:select', {
+                  label: '标题宽度',
+                  name: 'themeCss.itemLabelClassName.width'
+                }),
+                getSchemaTpl('theme:font', {
+                  label: '标题文字',
+                  editorValueToken: '--Form-item',
+                  name: 'themeCss.itemLabelClassName.font'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  label: '标题边距',
+                  hidePadding: true,
+                  name: 'themeCss.itemLabelClassName.padding-and-margin'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  label: '表单项边距',
+                  hidePadding: true,
+                  name: 'themeCss.itemClassName.padding-and-margin'
+                })
+              ]
+            },
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
+              ]
+            },
             /** */
             getSchemaTpl('style:classNames', {
               isFormItem: false,

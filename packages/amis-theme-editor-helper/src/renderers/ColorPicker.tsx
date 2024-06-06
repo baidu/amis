@@ -29,7 +29,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import {i18n as _i18n} from 'i18n-runtime';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -63,6 +63,7 @@ interface ColorPickerControlProps extends FormControlProps {
   needTheme?: boolean; // 主题色
   needCustom?: boolean; // 自定义颜色
   editorThemePath?: string;
+  editorValueToken?: string;
 }
 
 interface ColorSelectProps {
@@ -1472,10 +1473,12 @@ function ColorPicker(props: ColorPickerProps) {
 }
 
 function ColorPickerControl(props: ColorPickerControlProps) {
-  const editorDefaultValue = getValueByPath(
-    props.editorThemePath || '',
+  let editorDefaultValue = getDefaultValue(
+    props.editorThemePath,
+    props.editorValueToken,
     props.data
   );
+
   const value = formatInheritData(props.value) || editorDefaultValue;
 
   return (

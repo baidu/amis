@@ -1162,9 +1162,51 @@ export function setThemeConfig(config: any) {
   themeUselessPropKeys = Object.keys(getThemeConfig());
 }
 
+/**
+ * 获取组件的css变量
+ * @param id 组件id
+ * @param selectorText 选择器
+ * @returns css变量
+ */
+export function getCssVarById(id: string, selectorText: string) {
+  const styleSheets = document.styleSheets;
+  let cssVars: PlainObject = {};
+  for (const styleSheet of styleSheets) {
+    if ((styleSheet.ownerNode as Element)?.id === id) {
+      for (let i = 0; i < styleSheet.cssRules.length; i++) {
+        const cssRule = styleSheet.cssRules[i] as any;
+        if ((cssRule as any).selectorText?.includes(selectorText)) {
+          const cssText = cssRule.style.cssText;
+          const cssArr = cssText.split('; ');
+          cssArr.forEach((item: string) => {
+            if (item) {
+              const [key, value] = item.split(': ');
+              cssVars[key] = value;
+            }
+          });
+        }
+      }
+      break;
+    }
+  }
+  return cssVars;
+}
+
+export function getAllCssVar() {
+  const cssVars = getCssVarById('baseStyle', ':root, .AMISCSSWrapper');
+  const themeCssVars = getCssVarById(
+    'themeCss',
+    '.app-popover, #editor-preview-body'
+  );
+
+  return Object.assign({}, cssVars, themeCssVars);
+}
+
 // 获取主题数据和样式选择器数据
 export function getThemeConfig() {
-  return {themeConfig, ...themeOptionsData};
+  const cssVars = getAllCssVar();
+
+  return {themeConfig, ...themeOptionsData, cssVars};
 }
 
 const backgroundMap: PlainObject = {

@@ -10,7 +10,7 @@ import cx from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 import ThemeSelect from './ThemeSelect';
 import {
-  getValueByPath,
+  getDefaultValue,
   getInheritValue,
   formatInheritData,
   setInheritData
@@ -31,7 +31,8 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
     hideMargin,
     hidePadding,
     state,
-    editorThemePath
+    editorThemePath,
+    editorValueToken
   } = props;
   const [type, setType] = useState('all');
   const [customRef, setCustomRef] = useState<Element | null>(null);
@@ -60,7 +61,23 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
     }
   });
 
-  const editorDefaultValue = formatData(getValueByPath(editorThemePath, data));
+  let paddingAndMarginToken;
+  if (editorValueToken) {
+    paddingAndMarginToken = {
+      paddingTop: `${editorValueToken}-paddingTop`,
+      paddingBottom: `${editorValueToken}-paddingBottom`,
+      paddingLeft: `${editorValueToken}-paddingLeft`,
+      paddingRight: `${editorValueToken}-paddingRight`,
+      marginTop: `${editorValueToken}-marginTop`,
+      marginBottom: `${editorValueToken}-marginBottom`,
+      marginLeft: `${editorValueToken}-marginLeft`,
+      marginRight: `${editorValueToken}-marginRight`
+    };
+  }
+
+  const editorDefaultValue = formatData(
+    getDefaultValue(editorThemePath, paddingAndMarginToken, data)
+  );
   const editorInheritValue = getInheritValue(editorThemePath, data);
   const spaceData = formatData(value || {});
   const optionsData = options || data.sizesOptions || [];
