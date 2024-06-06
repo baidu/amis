@@ -302,6 +302,7 @@
       white-space: nowrap;
 
       & > label {
+        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -309,6 +310,10 @@
         width: 0;
         display: inline-block;
         min-width: #{px2rem(50px)};
+      }
+
+      & > .icon {
+        cursor: pointer;
       }
 
       .fa-ellipsis-h {
@@ -319,6 +324,7 @@
       }
 
       &-tag {
+        cursor: auto;
         vertical-align: middle;
         text-align: center;
         padding: 0 #{px2rem(8px)};

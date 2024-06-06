@@ -20,11 +20,7 @@ import FormulaPicker, {
 import {JSONPipeOut, autobind, translateSchema} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 import {reaction} from 'mobx';
-import {
-  getVariables,
-  getQuickVariables,
-  resolveQuickVariablesByType
-} from 'amis-editor-core';
+import {getVariables, getQuickVariables} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
 import type {VariableItem, FuncGroup} from 'amis-ui';
@@ -215,14 +211,11 @@ export default class FormulaControl extends React.Component<
       }
     );
 
-    const {valueType, quickVars} = this.props;
     const variables = await getVariables(this);
-    const quickVariables = await getQuickVariables(this, items =>
-      items.filter(item => item.schemaType === valueType)
-    );
+    const quickVariables = await getQuickVariables(this);
     this.setState({
       variables,
-      quickVariables: resolveQuickVariablesByType(quickVariables, quickVars)
+      quickVariables: this.filterQuickVariablesByType(quickVariables)
     });
   }
 
@@ -234,6 +227,26 @@ export default class FormulaControl extends React.Component<
   @autobind
   menuRef(ref: HTMLDivElement) {
     this.buttonTarget = ref;
+  }
+
+  @autobind
+  filterQuickVariablesByType(variables: any[]) {
+    const rendererSchema = this.getRendererSchemaFromProps();
+    const filterVars = variables
+      .map(item => {
+        if (item.children) {
+          item.children = item.children.filter(
+            (i: any) => i.schemaType === rendererSchema.type
+          );
+        }
+        return item;
+      })
+      .filter(
+        item =>
+          item.schemaType === rendererSchema.type ||
+          (item.children && item.children?.length)
+      );
+    return filterVars;
   }
 
   /**
@@ -664,6 +677,7 @@ export default class FormulaControl extends React.Component<
                     data={quickVariables}
                     onSelect={this.handleQuickVariableSelect}
                     popOverContainer={popOverContainer}
+                    simplifyMemberOprs
                   />
                 </ul>
               );
