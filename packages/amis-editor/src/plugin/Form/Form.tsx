@@ -1198,7 +1198,8 @@ export class FormPlugin extends BasePlugin {
 
   /** 重新构建 API */
   panelFormPipeOut = async (schema: any, oldSchema: any) => {
-    const entity = schema?.api?.entity;
+    // 查看场景下，没有api，只有initApi
+    const entity = schema?.api?.entity || schema?.initApi?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
       return schema;
@@ -1219,7 +1220,7 @@ export class FormPlugin extends BasePlugin {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'form',
-        sourceKey: 'api',
+        sourceKey: DSFeatureEnum.View === schema.feat ? 'initApi' : 'api',
         feat: schema.feat ?? 'Insert',
         apiSettings: {
           diffConfig: {
