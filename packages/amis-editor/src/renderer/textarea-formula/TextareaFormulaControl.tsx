@@ -202,8 +202,9 @@ export class TextareaFormulaControl extends React.Component<
       );
     }
 
+    const variables = await getVariables(this);
     const quickVariables = await getQuickVariables(this);
-    this.setState({quickVariables});
+    this.setState({variables, quickVariables});
   }
 
   async componentDidUpdate(prevProps: TextareaFormulaControlProps) {
@@ -310,7 +311,7 @@ export class TextareaFormulaControl extends React.Component<
   }
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    const variables = this.state.variables || this.props.variables || [];
+    const variables = this.state.variables || [];
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
       onExpressionMouseEnter: this.onExpressionMouseEnter,

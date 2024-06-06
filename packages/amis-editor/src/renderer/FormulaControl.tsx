@@ -234,7 +234,7 @@ export default class FormulaControl extends React.Component<
     const rendererSchema = this.getRendererSchemaFromProps();
     const filterVars = variables
       .map(item => {
-        if (item.children) {
+        if (item.children && item.type !== 'quickVars') {
           item.children = item.children.filter(
             (i: any) => i.schemaType === rendererSchema.type
           );
@@ -860,6 +860,7 @@ export default class FormulaControl extends React.Component<
                   variables={variables}
                   evalMode={true}
                   editorTheme="dark"
+                  highlightMode="expression"
                   editorOptions={{
                     lineNumbers: false
                   }}
@@ -881,7 +882,7 @@ export default class FormulaControl extends React.Component<
                     functions={[]}
                     variables={variables}
                     evalMode={false}
-                    highlightMode="expression"
+                    highlightMode="formula"
                     readOnly
                   />
                 )}

@@ -386,7 +386,7 @@ export class TplFormulaControl extends React.Component<
 
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    const variables = this.props.variables || this.state.variables;
+    const variables = this.state.variables;
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
       onExpressionMouseEnter: this.onExpressionMouseEnter,
