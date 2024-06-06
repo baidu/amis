@@ -212,7 +212,8 @@ export class FormulaEditor extends React.Component<
   static highlightValue(
     value: string,
     variables: Array<VariableItem>,
-    evalMode: boolean = true
+    evalMode: boolean = true,
+    sourceCode: boolean = true
   ) {
     if (!Array.isArray(variables) || !variables.length || !value) {
       return;
@@ -266,7 +267,7 @@ export class FormulaEditor extends React.Component<
         if (reg.test(encodeHtml)) {
           html = encodeHtml.replace(
             REPLACE_KEY,
-            `<span class="c-field">${v}</span>`
+            `<span class="c-field">${sourceCode ? v : varMap[v]}</span>`
           );
         } else {
           html = encodeHtml.replace(REPLACE_KEY, v);

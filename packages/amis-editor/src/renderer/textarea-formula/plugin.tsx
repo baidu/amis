@@ -228,7 +228,9 @@ export class FormulaPlugin {
     const variables = getProps()?.variables as VariableItem[];
     const highlightValue = FormulaEditor.highlightValue(
       expression,
-      variables
+      variables,
+      true,
+      false
     ) || {
       html: expression
     };

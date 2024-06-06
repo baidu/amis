@@ -1421,6 +1421,7 @@ export function resolveQuickVariables(
     const vars: VariableItem[] = [];
     vars.push({
       label: '快捷变量',
+      type: 'quickVars',
       children: quickVars
     });
     if (finalVars.length) {
