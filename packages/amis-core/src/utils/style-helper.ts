@@ -325,7 +325,7 @@ export function insertCustomStyle(prams: {
 
   let {value} = formatStyle(themeCss, classNames, id, defaultData, data);
   value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
-  let classId = id.replace('u:', '');
+  let classId = id?.replace?.('u:', '') || id + '';
   if (typeof data?.index === 'number') {
     classId += `-${data.index}`;
   }
@@ -385,7 +385,8 @@ export function insertEditCustomStyle(params: {
   doc?: Document;
   [propName: string]: any;
 }) {
-  const {customStyle, id, doc, data} = params;
+  const {customStyle, doc, data} = params;
+  const id = params.id?.replace?.('u:', '') || params.id + '';
   let styles: any = {};
   traverseStyle(customStyle, '', styles);
 
@@ -395,7 +396,7 @@ export function insertEditCustomStyle(params: {
     index = `-${data.index}`;
   }
   if (!isEmpty(styles)) {
-    const className = `wrapperCustomStyle-${id?.replace('u:', '')}${index}`;
+    const className = `wrapperCustomStyle-${id}${index}`;
     Object.keys(styles).forEach((key: string) => {
       if (!isObject(styles[key])) {
         content += `\n.${className} {\n  ${key}: ${
@@ -451,12 +452,9 @@ export function insertEditCustomStyle(params: {
 
   insertStyle({
     style: content,
-    classId:
-      'wrapperCustomStyle-' +
-      ((typeof id === 'string' ? id.replace('u:', '') : '') || uuid()) +
-      index,
+    classId: 'wrapperCustomStyle-' + (id || uuid()) + index,
     doc,
-    id: typeof id === 'string' ? id.replace('u:', '').replace(/(-.*)/, '') : ''
+    id: id.replace(/(-.*)/, '')
   });
 }
 
@@ -478,7 +476,8 @@ export function removeCustomStyle(
   doc?: Document,
   data?: any
 ) {
-  let styleId = 'amis-' + (type ? type + '-' : '') + id.replace('u:', '');
+  let styleId =
+    'amis-' + (type ? type + '-' : '') + (id.replace?.('u:', '') || id + '');
   if (typeof data?.index === 'number') {
     styleId += `-${data.index}`;
   }
@@ -523,5 +522,9 @@ export function setThemeClassName(params: {
     index = `-${data.index}`;
   }
 
-  return `${name}-${id.replace('u:', '')}` + (extra ? `-${extra}` : '') + index;
+  return (
+    `${name}-${id.replace?.('u:', '') || id}` +
+    (extra ? `-${extra}` : '') +
+    index
+  );
 }
