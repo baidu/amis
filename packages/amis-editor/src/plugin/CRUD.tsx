@@ -2033,7 +2033,7 @@ export class CRUDPlugin extends BasePlugin {
               type: 'input-number',
               required: true
             },
-            value: [10]
+            value: [5, 10, 20, 50, 100]
           },
 
           getSchemaTpl('name'),
