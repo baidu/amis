@@ -1784,3 +1784,115 @@ test('23. Nested CRUD change to normal CRUD', async () => {
   const newSpace = container.querySelectorAll('.cxd-Table-expandSpace');
   expect(newSpace.length).toEqual(0);
 });
+
+// CRUD 列中存在一列 List 组件，List 是带 store 的，crud 的行数据发生切换时，
+// 如果 list 关联的数组，从有有成员变成 undefined 时，会出现 List 的数据不更新的问题。
+// 原因是 withStore 里面同步逻辑有问题，保留了原来的 store.data
+test('25. CRUD Table Cell sync data to store', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'page',
+      id: 'page',
+      data: {
+        source: [
+          {
+            engine: 'Trident',
+            browser: 'Internet Explorer 5.0',
+            platform: 'Win 95+',
+            version: '5',
+            grade: 'C',
+            id: '1-1',
+            list: [{id: '1-1-1', name: '1-1-1'}]
+          },
+          {
+            engine: 'Trident',
+            browser: 'Internet Explorer 5.0',
+            platform: 'Win 95+',
+            version: '5',
+            grade: 'C',
+            id: '5'
+          }
+        ]
+      },
+      body: [
+        {
+          type: 'button',
+          label: '切换数据源',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'setValue',
+                  componentId: 'page',
+                  args: {
+                    value: {
+                      source: [
+                        {
+                          engine: 'Trident',
+                          browser: 'Internet Explorer 4.0',
+                          platform: 'Win 95+',
+                          version: '4',
+                          grade: 'X',
+                          id: '3'
+                        },
+                        {
+                          engine: 'Trident',
+                          browser: 'Internet Explorer 4.0',
+                          platform: 'Win 95+',
+                          version: '4',
+                          grade: 'X',
+                          id: '4'
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          type: 'crud',
+          name: 'crud',
+          syncLocation: false,
+          source: '${source}',
+          draggable: true,
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+            {
+              name: 'engine',
+              label: 'Rendering engine'
+            },
+            {
+              name: 'list',
+              label: 'List',
+              type: 'list',
+              source: '${list}',
+              listItem: {
+                title: '${id}-${name}'
+              }
+            }
+          ]
+        }
+      ]
+    })
+  );
+
+  await wait(300);
+
+  const button = container.querySelectorAll('.cxd-Button')[0];
+
+  // 刚开始存在 list 字段，所以是 1
+  const listDoms = container.querySelectorAll('.cxd-ListItem-title');
+  expect(listDoms.length).toEqual(1);
+
+  fireEvent.click(button);
+  await wait(300);
+
+  // 切换后 list 字段是 undefined 了，所以应该不显示了
+  const listDoms2 = container.querySelectorAll('.cxd-ListItem-title');
+  expect(listDoms2.length).toEqual(0);
+});
