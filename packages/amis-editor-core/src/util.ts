@@ -4,7 +4,7 @@
 import {hasIcon, mapObject, utils} from 'amis';
 import type {PlainObject, Schema, SchemaNode} from 'amis';
 import {getGlobalData} from 'amis-theme-editor-helper';
-import {filterTree, isExpression, resolveVariableAndFilter} from 'amis-core';
+import {mapTree, isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
@@ -1333,7 +1333,7 @@ export async function getVariables(that: any) {
     let vars = await resolveVariablesFromScope(node, manager);
     if (Array.isArray(vars)) {
       if (!that.isUnmount) {
-        variablesArr = vars;
+        variablesArr = filterVariablesOfScope(vars);
       }
     }
   }
@@ -1362,6 +1362,27 @@ export async function getVariables(that: any) {
   return variablesArr;
 }
 
+function filterVariablesOfScope(options: any[]) {
+  const curOptions = options.find(i => i.label === '组件上下文');
+  const arr = curOptions?.children || [];
+  const variables = mapTree(arr, (item: any) => {
+    // 子表过滤成员那层
+    if (item.type === 'array' && Array.isArray(item.children)) {
+      if (item.children.length === 1) {
+        const child = item.children[0];
+        if (child.type === 'object' && child.disabled) {
+          return {
+            ...item,
+            children: child.children
+          };
+        }
+      }
+    }
+    return item;
+  });
+  return variables;
+}
+
 export async function getQuickVariables(that: any) {
   const {node, manager} = that.props.formProps || that.props;
   const {quickVars, data} = that.props;
@@ -1369,7 +1390,8 @@ export async function getQuickVariables(that: any) {
   await manager?.getContextSchemas(node);
   const options = await manager?.dataSchema?.getDataPropsAsOptions();
   if (Array.isArray(options)) {
-    const curOptions = options.find(item => item.label === '组件上下文');
+    const curOptions = filterVariablesOfScope(options);
+    console.log(curOptions);
     return resolveQuickVariables(curOptions, quickVars, selfName);
   }
 
@@ -1377,16 +1399,16 @@ export async function getQuickVariables(that: any) {
 }
 
 export function resolveQuickVariables(
-  option: any,
+  options: any,
   quickVars?: VariableItem[],
   selfName?: string
 ) {
-  if (!option?.children?.length) {
+  if (!Array.isArray(options)) {
     return [];
   }
   const finalVars = [];
-  const curOption = option.children[0];
-  const superOption = option.children[1];
+  const curOption = options[0];
+  const superOption = options[1];
   const variables = (curOption.children || [])
     .filter((item: any) => item.value !== selfName && item.schemaType)
     .map((item: any) => {
