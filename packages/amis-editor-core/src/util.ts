@@ -49,6 +49,7 @@ export {
 
 export let themeConfig: any = {};
 export let themeOptionsData: any = {};
+export let cssVars: any = {};
 
 export function __uri(id: string) {
   return id;
@@ -1160,6 +1161,7 @@ export function setThemeConfig(config: any) {
   themeConfig = config;
   themeOptionsData = getGlobalData(themeConfig);
   themeUselessPropKeys = Object.keys(getThemeConfig());
+  cssVars = getAllCssVar();
 }
 
 /**
@@ -1204,8 +1206,6 @@ export function getAllCssVar() {
 
 // 获取主题数据和样式选择器数据
 export function getThemeConfig() {
-  const cssVars = getAllCssVar();
-
   return {themeConfig, ...themeOptionsData, cssVars};
 }
 
