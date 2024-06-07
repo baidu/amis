@@ -12,11 +12,13 @@ import omit from 'lodash/omit';
 import cx from 'classnames';
 import {FormItem, Button, InputBox, Icon, TooltipWrapper} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
+import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
 import {FormulaCodeEditor, Overlay, PopOver, VariableList} from 'amis-ui';
 import {FormControlProps, RootClose, isMobile} from 'amis-core';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
+import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
 import {JSONPipeOut, autobind, translateSchema} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 import {reaction} from 'mobx';
@@ -185,6 +187,7 @@ export default class FormulaControl extends React.Component<
   appCorpusData: any;
   wrapRef = React.createRef<HTMLDivElement>();
   buttonTarget: HTMLElement;
+  editorPlugin: FormulaPlugin;
 
   constructor(props: FormulaControlProps) {
     super(props);
@@ -193,6 +196,7 @@ export default class FormulaControl extends React.Component<
       quickVariables: [],
       variableMode: 'tree',
       formulaPickerOpen: false,
+
       loading: false,
       menuIsOpened: false,
       quickVariablesIsOpened: false
@@ -221,6 +225,7 @@ export default class FormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
+    this.editorPlugin?.dispose();
     this.unReaction?.();
   }
 
@@ -247,6 +252,24 @@ export default class FormulaControl extends React.Component<
           (item.children && item.children?.length)
       );
     return filterVars;
+  }
+
+  @autobind
+  editorFactory(dom: HTMLElement, cm: any) {
+    return editorFactory(dom, cm, this.props.value, {
+      lineWrapping: false,
+      cursorHeight: 0.85
+    });
+  }
+
+  @autobind
+  handleEditorMounted(cm: any, editor: any) {
+    const variables = this.state.variables;
+    this.editorPlugin = new FormulaPlugin(editor, {
+      getProps: () => ({...this.props, variables}),
+      showPopover: false,
+      showClearIcon: true
+    });
   }
 
   /**
@@ -868,28 +891,40 @@ export default class FormulaControl extends React.Component<
               )
             }}
           >
-            <div className={cx('ae-editor-FormulaControl-tooltipBox')}>
-              <InputBox
-                onClick={this.handleFormulaClick}
-                hasError={isError}
-                inputRender={({value, onChange, onFocus, onBlur}: any) => (
-                  <FormulaCodeEditor
-                    singleLine
+            <InputBox
+              className={cx('ae-editor-FormulaControl-ResultBox')}
+              onClick={this.handleFormulaClick}
+              hasError={isError}
+              inputRender={({value, onChange, onFocus, onBlur}: any) => (
+                <div
+                  className={cx('ae-editor-FormulaControl-ResultBox-wrapper')}
+                >
+                  <CodeMirrorEditor
+                    className="ae-editor-FormulaControl-ResultBox-editor"
                     value={value}
                     onChange={onChange}
-                    onFocus={onFocus}
+                    editorFactory={this.editorFactory}
+                    editorDidMount={this.handleEditorMounted}
                     onBlur={onBlur}
-                    functions={[]}
-                    variables={variables}
-                    evalMode={false}
-                    highlightMode="formula"
-                    readOnly
                   />
-                )}
-                value={value}
-                onChange={this.handleInputChange}
-              />
-            </div>
+                  {!this.props.value && (
+                    <div className="ae-TplFormulaControl-placeholder">
+                      {placeholder}
+                    </div>
+                  )}
+                  {clearable && this.props.value && (
+                    <Icon
+                      icon="input-clear"
+                      className="input-clear-icon"
+                      iconContent="InputText-clear"
+                      onClick={() => this.handleInputChange('')}
+                    />
+                  )}
+                </div>
+              )}
+              value={value}
+              onChange={this.handleInputChange}
+            />
           </TooltipWrapper>
         )}
         {this.renderButton()}

@@ -84,6 +84,8 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 编辑器配置
    */
   editorOptions?: any;
+
+  enableRunPanel?: boolean;
 }
 
 export interface FunctionsProps {
@@ -485,7 +487,8 @@ export class FormulaEditor extends React.Component<
       functionClassName,
       classPrefix,
       selfVariableName,
-      evalMode
+      evalMode,
+      enableRunPanel = true
     } = this.props;
     const {
       focused,
@@ -515,10 +518,12 @@ export class FormulaEditor extends React.Component<
           <div className={cx(`FormulaEditor-content`)}>
             <header className={cx(`FormulaEditor-header`)}>
               {__(header || 'FormulaEditor.title')}
-              <div className={cx(`FormulaEditor-header-toolbar m-l`)}>
-                <span>{__('FormulaEditor.run')}</span>
-                <Switch value={showRunPanel} onChange={this.toggleRunPanel} />
-              </div>
+              {enableRunPanel ? (
+                <div className={cx(`FormulaEditor-header-toolbar m-l`)}>
+                  <span>{__('FormulaEditor.run')}</span>
+                  <Switch value={showRunPanel} onChange={this.toggleRunPanel} />
+                </div>
+              ) : null}
               <div className={cx(`FormulaEditor-header-toolbar`)}>
                 <span>{__('FormulaEditor.sourceMode')}</span>
                 <Switch
