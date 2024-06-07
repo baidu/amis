@@ -922,7 +922,8 @@ function FontEditor(props: FontEditorProps) {
     lineHeightOptions = data.lineHeightOptions || defaultlineHeight,
     fontFamilyOptions = data.fontFamilyOptions || SYSTEM_FONT_FAMILY,
     editorThemePath,
-    editorValueToken
+    editorValueToken,
+    inheritValue
   } = props;
 
   const alignOptions = hasVertical
@@ -934,16 +935,25 @@ function FontEditor(props: FontEditorProps) {
 
   let fontToken;
   if (editorValueToken) {
-    fontToken = {
-      color: `${editorValueToken}-color`,
-      fontSize: `${editorValueToken}-fontSize`,
-      fontWeight: `${editorValueToken}-fontWeight`,
-      lineHeight: `${editorValueToken}-lineHeight`
-    };
-    // 历史的坑，button单独处理
-    if (data.type === 'button') {
-      fontToken.color = `${editorValueToken}-font-color`;
+    let color = `${editorValueToken}-color`;
+    let fontSize = `${editorValueToken}-fontSize`;
+    let fontWeight = `${editorValueToken}-fontWeight`;
+    let lineHeight = `${editorValueToken}-lineHeight`;
+    if (typeof editorValueToken === 'object') {
+      color = editorValueToken.color || `${editorValueToken['*']}-color`;
+      fontSize =
+        editorValueToken.fontSize || `${editorValueToken['*']}-fontSize`;
+      fontWeight =
+        editorValueToken.fontWeight || `${editorValueToken['*']}-fontWeight`;
+      lineHeight =
+        editorValueToken.lineHeight || `${editorValueToken['*']}-lineHeight`;
     }
+    fontToken = {
+      color,
+      fontSize,
+      fontWeight,
+      lineHeight
+    };
   }
   const editorDefaultValue = getDefaultValue(editorThemePath, fontToken, data);
   const editorInheritValue = getInheritValue(editorThemePath, data);
@@ -1033,7 +1043,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontSize"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontSize || '字体大小'}
                 />
               </div>
@@ -1052,7 +1062,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontWeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontWeight || '字体字重'}
                 />
                 {(!hideLineHeight || !hideFontFamily) && (
@@ -1072,7 +1082,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="lineHeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.lineHeight || '字体行高'}
                 />
                 <div className="Theme-FontEditor-item-label">行高</div>
@@ -1090,7 +1100,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontFamily"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                 />
                 <div className="Theme-FontEditor-item-label">字体</div>
               </div>

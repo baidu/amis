@@ -424,7 +424,7 @@ export class TextControlPlugin extends BasePlugin {
               body: [
                 ...inputStateTpl(
                   'themeCss.inputControlClassName',
-                  'input.base.default'
+                  '--input-default'
                 )
               ]
             },

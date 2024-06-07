@@ -180,7 +180,8 @@ export function formatStyle(
     default: '',
     hover: ':hover',
     active: ':hover:active',
-    disabled: '.is-disabled'
+    focused: '',
+    disabled: ''
   };
 
   for (let item of classNames) {
@@ -201,6 +202,7 @@ export function formatStyle(
       default: {},
       hover: {},
       active: {},
+      focused: {},
       disabled: {}
     };
     Object.keys(body).forEach(key => {
@@ -211,6 +213,8 @@ export function formatStyle(
           statusMap.hover[key.replace(':hover', '')] = body[key];
         } else if (!!~key.indexOf(':active')) {
           statusMap.active[key.replace(':active', '')] = body[key];
+        } else if (!!~key.indexOf(':focused')) {
+          statusMap.focused[key.replace(':focused', '')] = body[key];
         } else if (!!~key.indexOf(':disabled')) {
           statusMap.disabled[key.replace(':disabled', '')] = body[key];
         } else {
@@ -300,11 +304,12 @@ export interface CustomStyleClassName {
     default?: extra;
     hover?: extra;
     active?: extra;
+    focused?: extra;
     disabled?: extra;
   };
 }
 
-export function insertCustomStyle(prams: {
+export function insertCustomStyle(params: {
   themeCss: any;
   classNames: CustomStyleClassName[];
   id: string;
@@ -321,7 +326,7 @@ export function insertCustomStyle(prams: {
     customStyleClassPrefix,
     doc,
     data
-  } = prams;
+  } = params;
   if (!themeCss) {
     return;
   }

@@ -105,7 +105,8 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     needColorCustom,
     state,
     editorThemePath,
-    editorValueToken
+    editorValueToken,
+    inheritValue
   } = props;
   const [borderWidthOptions, setBorderWidthOptions] = useState(
     cloneDeep(
@@ -153,16 +154,18 @@ function BoxBorder(props: BorderProps & FormControlProps) {
       const type = borderType === 'all' ? 'top' : borderType;
       const styleOptions = cloneDeep(borderStyleOptions);
       if (styleOptions[0].parent) {
-        styleOptions[0].value = editorThemePath
-          ? 'inherit'
-          : `var(${data.default.token}${type}-border-style)`;
+        styleOptions[0].value =
+          editorThemePath || !data?.default
+            ? 'inherit'
+            : `var(${data?.default?.token}${type}-border-style)`;
         styleOptions[0].realValue = '继承常规';
       } else {
         styleOptions.unshift({
           label: '继承常规',
-          value: editorThemePath
-            ? 'inherit'
-            : `var(${data?.default?.token}${type}-border-style)`,
+          value:
+            editorThemePath || !data?.default
+              ? 'inherit'
+              : `var(${data?.default?.token}${type}-border-style)`,
           parent: true,
           realValue: '继承常规'
         });
@@ -291,7 +294,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
               borderType === 'all' ? 'top' : borderType
             }-border-width`}
             state={state}
-            inheritValue={editorThemePath ? 'inherit' : ''}
+            inheritValue={inheritValue}
             placeholder={editorDefaultValue?.[getKey('width')] || '边框粗细'}
           />
           <div className="Theme-Border-settings-style-color">

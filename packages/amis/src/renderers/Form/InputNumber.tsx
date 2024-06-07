@@ -573,11 +573,15 @@ export default class NumberControl extends React.Component<
               {
                 key: 'inputControlClassName',
                 weights: {
-                  active: {
-                    pre: `inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}.focused, `
+                  focused: {
+                    pre: `${ns}Number-${
+                      displayMode ? displayMode + '-' : ''
+                    }focused.`
+                  },
+                  disabled: {
+                    pre: `${ns}Number-${
+                      displayMode ? displayMode + '-' : ''
+                    }disabled.`
                   }
                 }
               }
@@ -600,11 +604,16 @@ export default class NumberControl extends React.Component<
                   hover: {
                     inner: 'input'
                   },
-                  active: {
-                    pre: `inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}.focused, `,
+                  focused: {
+                    pre: `${ns}Number-${
+                      displayMode ? displayMode + '-' : ''
+                    }focused.`,
+                    inner: 'input'
+                  },
+                  disabled: {
+                    pre: `${ns}Number-${
+                      displayMode ? displayMode + '-' : ''
+                    }disabled.`,
                     inner: 'input'
                   }
                 }

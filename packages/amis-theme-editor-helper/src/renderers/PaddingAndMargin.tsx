@@ -32,7 +32,8 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
     hidePadding,
     state,
     editorThemePath,
-    editorValueToken
+    editorValueToken,
+    inheritValue
   } = props;
   const [type, setType] = useState('all');
   const [customRef, setCustomRef] = useState<Element | null>(null);
@@ -121,7 +122,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
       if (position === 'margin-all') {
         if (value?.includes('all')) {
           const defaultToken = (key: string) =>
-            `var(${data.default.token}${key})`;
+            `var(${data?.default?.token}${key})`;
           res.marginTop = defaultToken('marginTop');
           res.marginRight = defaultToken('marginRight');
           res.marginBottom = defaultToken('marginBottom');
@@ -135,7 +136,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
       } else if (position === 'padding-all') {
         if (value?.includes('all')) {
           const defaultToken = (key: string) =>
-            `var(${data.default.token}${key})`;
+            `var(${data?.default?.token}${key})`;
           res.paddingTop = defaultToken('paddingTop');
           res.paddingRight = defaultToken('paddingRight');
           res.paddingBottom = defaultToken('paddingBottom');
@@ -241,13 +242,13 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   options={optionsData}
                   value={
                     isMarginInherit
-                      ? `var(${data.default.token}margin-all)`
+                      ? `var(${data?.default?.token}margin-all)`
                       : spaceData.margin
                   }
                   onChange={onSpaceChange('margin-all')}
                   itemName="margin-all"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.margin || '外边距'}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">外边距</div>
@@ -260,13 +261,13 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   options={optionsData}
                   value={
                     isPaddingInherit
-                      ? `var(${data.default.token}padding-all)`
+                      ? `var(${data?.default?.token}padding-all)`
                       : spaceData.padding
                   }
                   onChange={onSpaceChange('padding-all')}
                   itemName="padding-all"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.padding || '内边距'}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">内边距</div>
@@ -315,7 +316,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   onChange={onSpaceChange(customIndex)}
                   itemName={customKey}
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.[customKey]}
                 />
               </div>

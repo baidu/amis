@@ -37,7 +37,7 @@ interface ThemeSelectProps {
   inheritValue?: string;
   placeholder?: string;
   editorThemePath?: any;
-  editorValue?: string | {[key: string]: string};
+  editorValueToken?: string | {[key: string]: string};
   isEditorTpl?: boolean;
 }
 
@@ -61,7 +61,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     menuTpl,
     placeholder,
     editorThemePath,
-    editorValue,
+    editorValueToken,
     data,
     isEditorTpl
   } = props;
@@ -74,7 +74,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
 
   const editorDefaultValue = getDefaultValue(
     editorThemePath,
-    editorValue,
+    editorValueToken,
     data
   );
   const editorInheritValue = getInheritValue(editorThemePath, data);
@@ -239,9 +239,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
             onFocus={openOptions}
             ref={input}
             disabled={disabled}
-            placeholder={getRealValue(
-              isEditorTpl ? editorDefaultValue : placeholder
-            )}
+            placeholder={getRealValue(placeholder || editorDefaultValue)}
           />
         </div>
       )}

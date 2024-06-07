@@ -317,7 +317,7 @@ export class NumberControlPlugin extends BasePlugin {
                 body: [
                   ...inputStateTpl(
                     'themeCss.inputControlClassName',
-                    'inputNumber.base.base'
+                    '--inputNumber-${displayMode || "base"}'
                   )
                 ]
               },
