@@ -16,7 +16,7 @@ import isEqual from 'lodash/isEqual';
 import {ThemeWrapperHeader} from './ThemeWrapper';
 import ColorPicker from './ColorPicker';
 import {Icon as ThemeIcon} from '../icons/index';
-import {getDefaultValue, getInheritValue, setInheritData} from '../util';
+import {getDefaultValue} from '../util';
 
 interface ShadowEditorProps extends FormControlProps {}
 
@@ -81,7 +81,6 @@ function ShadowEditor(props: ShadowEditorProps) {
     colorOptions,
     state,
     itemName,
-    editorThemePath,
     editorValueToken
   } = props;
   const target = React.useRef<HTMLDivElement>(null);
@@ -108,32 +107,13 @@ function ShadowEditor(props: ShadowEditorProps) {
     ? [...options, customShadow]
     : [...cloneDeep(data.shadowOptions || []), customShadow];
 
-  if (state && state !== 'default') {
-    shadowOptions.unshift({
-      value:
-        editorThemePath || !data?.default
-          ? 'inherit'
-          : `var(${data?.default?.token}shadow)`,
-      label: '继承常规',
-      realValue:
-        editorThemePath || !data?.default
-          ? ['继承常规']
-          : [`var(${data?.default?.token}${itemName})`]
-    });
-  }
   let shadowToken;
   if (editorValueToken) {
     shadowToken = `${editorValueToken}-shadow`;
   }
-  const editorDefaultValue = getDefaultValue(
-    editorThemePath,
-    shadowToken,
-    data
-  );
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(shadowToken, data);
   const defaultValue = value
-    ? (value.indexOf('inherit:') > -1 && 'inherit') ||
-      find(cloneDeep(shadowOptions), item => item.value === value) ||
+    ? find(cloneDeep(shadowOptions), item => item.value === value) ||
       formateCustomValue(value)
     : null;
 
@@ -151,9 +131,6 @@ function ShadowEditor(props: ShadowEditorProps) {
   }, [defaultValue]);
 
   function getLabel(value?: string, option?: any) {
-    if (value === 'inherit') {
-      return '继承常规';
-    }
     const res = option?.find((item: any) => item.value === value);
     if (res) {
       return res.label;
@@ -216,7 +193,7 @@ function ShadowEditor(props: ShadowEditorProps) {
       const findItem = find(shadowOptions, item => item.value === value);
       if (findItem?.value) {
         setShadowData(findItem);
-        onChange(setInheritData(findItem.value, editorInheritValue));
+        onChange(findItem.value);
       }
     } else {
       setShadowData(undefined);

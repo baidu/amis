@@ -10,12 +10,7 @@ import debounce from 'lodash/debounce';
 import {FormItem, resolveVariableAndFilter, highlight} from 'amis-core';
 import type {FormControlProps} from 'amis-core';
 import cx from 'classnames';
-import {
-  getDefaultValue,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface Option {
   label: any;
@@ -34,11 +29,8 @@ interface ThemeSelectProps {
   state?: string;
   itemName?: string;
   menuTpl?: string;
-  inheritValue?: string;
   placeholder?: string;
-  editorThemePath?: any;
   editorValueToken?: string | {[key: string]: string};
-  isEditorTpl?: boolean;
 }
 
 interface ThemeSelectContentProps extends ThemeSelectProps {
@@ -60,24 +52,17 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     disabled,
     menuTpl,
     placeholder,
-    editorThemePath,
     editorValueToken,
-    data,
-    isEditorTpl
+    data
   } = props;
   // 期望value是string类型
-  const value = String(formatInheritData(props.value));
+  const value = props.value;
   const input = useRef<HTMLInputElement>(null);
   const [currentItem, setCurrentItem] = useState<Option | undefined>(undefined);
   const [options, setOptions] = useState<Option[] | undefined>(originalOptions);
   const [showOptions, setShowOptions] = useState(false);
 
-  const editorDefaultValue = getDefaultValue(
-    editorThemePath,
-    editorValueToken,
-    data
-  );
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(editorValueToken, data);
 
   useEffect(() => {
     const res = originalOptions?.find(item => item.value === value);
@@ -89,9 +74,6 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
   }, [value]);
 
   function getRealValue(value?: string) {
-    if (value === 'inherit') {
-      return '继承常规';
-    }
     const res = originalOptions?.find(item => item.value === value);
     if (res) {
       return res.label;
@@ -155,9 +137,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
   function valueOnChange(value: string) {
     return debounce(() => {
       if (value) {
-        onChange(
-          isEditorTpl ? setInheritData(value, editorInheritValue) : value
-        );
+        onChange(value);
       } else {
         onChange(undefined);
       }
@@ -171,9 +151,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
   }
 
   function onSelectValue(item: Option) {
-    onChange(
-      isEditorTpl ? setInheritData(item.value, editorInheritValue) : item.value
-    );
+    onChange(item.value);
     setShowOptions(false);
     input.current && (input.current.value = item.value);
   }
@@ -184,15 +162,11 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     }
   }
 
-  const tooltipLabel =
-    value === 'inherit' ? '继承常规' : currentItem?.label || '分别配置';
+  const tooltipLabel = currentItem?.label || '分别配置';
 
   return (
     <>
-      {currentItem ||
-      value === 'custom' ||
-      value?.includes('var') ||
-      value === 'inherit' ? (
+      {currentItem || value === 'custom' || value?.includes('var') ? (
         <div
           onClick={openOptions}
           className={cx(
@@ -283,11 +257,7 @@ function ThemeSelect(props: ThemeSelectProps) {
     value: originValue,
     options: originOptions,
     extraUnit = ['px', 'rem', '%'],
-    disabled,
-    state,
-    itemName,
-    inheritValue,
-    isEditorTpl
+    disabled
   } = props;
   const themeSelect = useRef<HTMLDivElement>(null);
   const [options, setOptions] = React.useState<Option[]>(getOptions());
@@ -295,26 +265,10 @@ function ThemeSelect(props: ThemeSelectProps) {
     const list = cloneDeep(
       typeof originOptions === 'string'
         ? resolveVariableAndFilter(originOptions, data, '| raw')
-        : isEditorTpl && !originOptions
+        : !originOptions
         ? data?.sizesOptions || []
         : originOptions || []
     );
-
-    if (
-      state &&
-      state !== 'default' &&
-      list[0] &&
-      list[0].value !== `var(${data?.default?.token}${itemName})`
-    ) {
-      const name = isEditorTpl
-        ? 'inherit'
-        : `var(${data?.default?.token}${itemName})`;
-      list.unshift({
-        label: '继承常规',
-        value: inheritValue || name,
-        realValue: '继承常规'
-      });
-    }
     return list;
   }
   useEffect(() => {

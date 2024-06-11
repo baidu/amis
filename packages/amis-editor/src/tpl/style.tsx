@@ -453,7 +453,7 @@ setSchemaTpl('theme:form-label', () => {
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.labelClassName.font:default',
-        editorThemePath: 'form.item.default.label.body.font'
+        editorValueToken: '--Form-item'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
         name: 'themeCss.labelClassName.padding-and-margin:default'
@@ -471,11 +471,15 @@ setSchemaTpl('theme:form-description', () => {
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.descriptionClassName.font:default',
-        editorThemePath: 'form.item.default.description.body.font'
+        editorValueToken: '--Form-description'
       }),
-      getSchemaTpl('theme:paddingAndMargin', {
-        name: 'themeCss.descriptionClassName.padding-and-margin:default'
-      })
+      {
+        label: '上间距',
+        type: 'amis-theme-select',
+        name: 'themeCss.descriptionClassName.margin-top:default',
+        options: '${sizesOptions}',
+        editorValueToken: '--Form-description-gap'
+      }
     ]
   };
 });
@@ -489,7 +493,6 @@ setSchemaTpl('theme:select', (option: any = {}) => {
     label: '大小',
     name: `themeCss.className.select:default`,
     options: '${sizesOptions}',
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -502,7 +505,6 @@ setSchemaTpl('theme:font', (option: any = {}) => {
     label: '文字',
     name: `themeCss.className.font:default`,
     needColorCustom: true,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -515,7 +517,6 @@ setSchemaTpl('theme:colorPicker', (option: any = {}) => {
     label: '颜色',
     name: `themeCss.className.color:default`,
     needCustom: true,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -528,7 +529,6 @@ setSchemaTpl('theme:border', (option: any = {}) => {
     label: '边框',
     name: `themeCss.className.border:default`,
     needColorCustom: true,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -540,7 +540,6 @@ setSchemaTpl('theme:paddingAndMargin', (option: any = {}) => {
     type: 'amis-theme-padding-and-margin',
     label: '边距',
     name: `themeCss.className.padding-and-margin:default`,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -552,7 +551,6 @@ setSchemaTpl('theme:radius', (option: any = {}) => {
     type: 'amis-theme-radius',
     label: '圆角',
     name: `themeCss.className.radius:default`,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -564,7 +562,6 @@ setSchemaTpl('theme:shadow', (option: any = {}) => {
     label: false,
     name: `themeCss.className.boxShadow:default`,
     hasSenior: true,
-    inheritValue: 'inherit',
     ...option
   };
 });
@@ -578,7 +575,6 @@ setSchemaTpl('theme:size', (option: any = {}) => {
     name: `themeCss.className.size:default`,
     options: '${sizesOptions}',
     hideMinWidth: true,
-    inheritValue: 'inherit',
     ...option
   };
 });

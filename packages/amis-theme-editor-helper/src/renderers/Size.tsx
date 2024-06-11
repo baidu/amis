@@ -12,12 +12,7 @@ import cx from 'classnames';
 import {Button} from 'amis-ui';
 import ThemeSelect from './ThemeSelect';
 import {find} from 'lodash';
-import {
-  getDefaultValue,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface SizeEditorProps extends FormControlProps {
   hideWidth?: boolean;
@@ -34,7 +29,6 @@ function SizeEditor(props: SizeEditorProps) {
     hideWidth,
     hideHeight,
     hideMinWidth,
-    editorThemePath,
     editorValue,
     label
   } = props;
@@ -49,17 +43,12 @@ function SizeEditor(props: SizeEditorProps) {
     minWidth: ''
   });
   const RULE = /[0-9\.]*/;
-  const editorDefaultValue = getDefaultValue(
-    editorThemePath,
-    editorValue,
-    data
-  );
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(editorValue, data);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
       if (defaultValue) {
-        setValue(formatInheritData(defaultValue));
+        setValue(defaultValue);
       }
     }, 100);
     return () => clearTimeout(timer);
@@ -81,7 +70,7 @@ function SizeEditor(props: SizeEditorProps) {
           value[key] = sizeFind ? sizeFind.value : valueTemp[key];
         }
       );
-      onChange(setInheritData(value, editorInheritValue));
+      onChange(value);
       return;
     }
     onChange(valueTemp);

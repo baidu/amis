@@ -14,12 +14,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import assign from 'lodash/assign';
 import {ThemeWrapperHeader} from './ThemeWrapper';
 import ThemeSelect from './ThemeSelect';
-import {
-  getDefaultValue,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface FontEditorProps extends FormControlProps {}
 
@@ -921,9 +916,7 @@ function FontEditor(props: FontEditorProps) {
     fontWeightOptions = data.fontWeightOptions || defaultFontWeight,
     lineHeightOptions = data.lineHeightOptions || defaultlineHeight,
     fontFamilyOptions = data.fontFamilyOptions || SYSTEM_FONT_FAMILY,
-    editorThemePath,
-    editorValueToken,
-    inheritValue
+    editorValueToken
   } = props;
 
   const alignOptions = hasVertical
@@ -955,17 +948,16 @@ function FontEditor(props: FontEditorProps) {
       lineHeight
     };
   }
-  const editorDefaultValue = getDefaultValue(editorThemePath, fontToken, data);
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(fontToken, data);
 
   const [sizeData, setSizeData] = React.useState<SizeDataProps>(
-    assign({}, formatInheritData(value))
+    assign({}, value)
   );
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (value) {
-        setSizeData(assign({}, formatInheritData(value)));
+        setSizeData(assign({}, value));
       }
     }, 100);
     return () => clearTimeout(timer);
@@ -987,13 +979,10 @@ function FontEditor(props: FontEditorProps) {
       data[type] = value;
     }
     setSizeData(data);
-    onChange(setInheritData(data, editorInheritValue));
+    onChange(data);
   }
 
   function getLabel(value?: string, option?: any) {
-    if (value === 'inherit') {
-      return '继承常规';
-    }
     const res = option?.find((item: any) => item.value === value);
     if (res) {
       return res.label;
@@ -1027,7 +1016,6 @@ function FontEditor(props: FontEditorProps) {
                   itemName="color"
                   state={state}
                   placeholder={editorDefaultValue?.color || '字体颜色'}
-                  editorInheritValue={editorInheritValue?.color}
                 />
               </div>
             )}
@@ -1043,7 +1031,6 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontSize"
                   menuTpl="label"
                   state={state}
-                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontSize || '字体大小'}
                 />
               </div>
@@ -1062,7 +1049,6 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontWeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontWeight || '字体字重'}
                 />
                 {(!hideLineHeight || !hideFontFamily) && (
@@ -1082,7 +1068,6 @@ function FontEditor(props: FontEditorProps) {
                   itemName="lineHeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.lineHeight || '字体行高'}
                 />
                 <div className="Theme-FontEditor-item-label">行高</div>
@@ -1100,7 +1085,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontFamily"
                   menuTpl="label"
                   state={state}
-                  inheritValue={inheritValue}
+                  placeholder={editorDefaultValue?.fontFamily || '字体'}
                 />
                 <div className="Theme-FontEditor-item-label">字体</div>
               </div>

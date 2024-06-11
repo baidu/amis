@@ -12,12 +12,7 @@ import {Select} from 'amis-ui';
 import ColorPicker from './ColorPicker';
 import ThemeSelect from './ThemeSelect';
 import {i18n as _i18n} from 'i18n-runtime';
-import {
-  getDefaultValue,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface BorderProps {
   custom?: boolean;
@@ -104,9 +99,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     label,
     needColorCustom,
     state,
-    editorThemePath,
-    editorValueToken,
-    inheritValue
+    editorValueToken
   } = props;
   const [borderWidthOptions, setBorderWidthOptions] = useState(
     cloneDeep(
@@ -143,43 +136,15 @@ function BoxBorder(props: BorderProps & FormControlProps) {
       'left-border-style': `${editorValueToken}-left-border-style`
     };
   }
-  const editorDefaultValue = formatData(
-    getDefaultValue(editorThemePath, borderToken, data)
-  );
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = formatData(getDefaultValue(borderToken, data));
   const borderData = formatData(value || {});
-
-  useEffect(() => {
-    if (state && state !== 'default') {
-      const type = borderType === 'all' ? 'top' : borderType;
-      const styleOptions = cloneDeep(borderStyleOptions);
-      if (styleOptions[0].parent) {
-        styleOptions[0].value =
-          editorThemePath || !data?.default
-            ? 'inherit'
-            : `var(${data?.default?.token}${type}-border-style)`;
-        styleOptions[0].realValue = '继承常规';
-      } else {
-        styleOptions.unshift({
-          label: '继承常规',
-          value:
-            editorThemePath || !data?.default
-              ? 'inherit'
-              : `var(${data?.default?.token}${type}-border-style)`,
-          parent: true,
-          realValue: '继承常规'
-        });
-      }
-      setBorderStyleOptions(styleOptions);
-    }
-  }, [borderType]);
 
   function formatData(sourceData: any) {
     if (!sourceData) {
       return null;
     }
 
-    const data = formatInheritData(cloneDeep(sourceData));
+    const data = cloneDeep(sourceData);
 
     const fn = (type: string) => {
       if (
@@ -199,9 +164,6 @@ function BoxBorder(props: BorderProps & FormControlProps) {
   }
 
   function getLabel(value?: string, option?: any) {
-    if (value === 'inherit') {
-      return '继承常规';
-    }
     const res = option?.find((item: any) => item.value === value);
     if (res) {
       return res.label;
@@ -247,7 +209,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
         };
       }
 
-      onChange(setInheritData(changeValue, editorInheritValue));
+      onChange(changeValue);
     };
   }
 
@@ -294,7 +256,6 @@ function BoxBorder(props: BorderProps & FormControlProps) {
               borderType === 'all' ? 'top' : borderType
             }-border-width`}
             state={state}
-            inheritValue={inheritValue}
             placeholder={editorDefaultValue?.[getKey('width')] || '边框粗细'}
           />
           <div className="Theme-Border-settings-style-color">
