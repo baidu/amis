@@ -82,13 +82,11 @@
 
     &-icon {
       &-show {
-        width: var(--IconSelect-preivew-icon-size);
-        height: var(--IconSelect-preivew-icon-size);
-        margin-right: var(--IconSelect-xs-margin);
-
         & > svg {
-          width: 100%;
-          height: 100%;
+          width: var(--IconSelect-preivew-icon-size);
+          height: var(--IconSelect-preivew-icon-size);
+          margin-right: var(--IconSelect-xs-margin);
+          top: px2rem(3px);
         }
       }
 
