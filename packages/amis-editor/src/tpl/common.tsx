@@ -118,12 +118,14 @@ setSchemaTpl(
         label: '垂直',
         value: 'normal'
       },
-      config?.isForm
-        ? null
-        : {
-            label: '继承',
-            value: ''
-          }
+      !config?.isForm && {
+        label: '继承',
+        value: ''
+      },
+      config?.isForm && {
+        label: '网格',
+        value: 'flex'
+      }
     ].filter(i => i),
     pipeOut: (v: string) => (v ? v : undefined)
   })

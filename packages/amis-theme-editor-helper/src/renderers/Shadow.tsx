@@ -130,6 +130,12 @@ function ShadowEditor(props: ShadowEditorProps) {
     }
   }, [defaultValue]);
 
+  React.useEffect(() => {
+    if (shadowData?.value === 'custom') {
+      toggleSenior(true);
+    }
+  }, []);
+
   function getLabel(value?: string, option?: any) {
     const res = option?.find((item: any) => item.value === value);
     if (res) {
@@ -332,7 +338,7 @@ function ShadowEditor(props: ShadowEditorProps) {
               />
             </div>
           </div>
-          {senior || shadowData?.value === 'custom' ? (
+          {senior ? (
             <div className="Theme-ShadowEditor-customContent">
               <div className="Theme-Wrapper-header Theme-ShadowEditor-sub-header">
                 <div className="Theme-Wrapper-header-left">阴影层</div>

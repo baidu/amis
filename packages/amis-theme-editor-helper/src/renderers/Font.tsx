@@ -18,7 +18,7 @@ import {getDefaultValue} from '../util';
 
 interface FontEditorProps extends FormControlProps {}
 
-interface SizeDataProps {
+interface FontDataProps {
   'font-family'?: string;
   'fontSize'?: string;
   'fontWeight'?: string;
@@ -32,7 +32,7 @@ interface SizeDataProps {
 
 interface OptionProps {
   label: string;
-  type: keyof SizeDataProps;
+  type: keyof FontDataProps;
   value: string;
 }
 
@@ -950,21 +950,29 @@ function FontEditor(props: FontEditorProps) {
   }
   const editorDefaultValue = getDefaultValue(fontToken, data);
 
-  const [sizeData, setSizeData] = React.useState<SizeDataProps>(
+  const [fontData, setFontData] = React.useState<FontDataProps>(
     assign({}, value)
   );
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (value) {
-        setSizeData(assign({}, value));
+        setFontData(assign({}, value));
+        if (
+          value['font-style'] ||
+          value['text-decoration'] ||
+          value['text-align'] ||
+          value['vertical-align']
+        ) {
+          toggleSenior(true);
+        }
       }
     }, 100);
     return () => clearTimeout(timer);
   }, [value]);
 
-  function handleEdit(value: string | undefined, type: keyof SizeDataProps) {
-    const data = cloneDeep(sizeData);
+  function handleEdit(value: string | undefined, type: keyof FontDataProps) {
+    const data = cloneDeep(fontData);
     if (
       [
         'font-style',
@@ -978,7 +986,7 @@ function FontEditor(props: FontEditorProps) {
     } else {
       data[type] = value;
     }
-    setSizeData(data);
+    setFontData(data);
     onChange(data);
   }
 
@@ -1008,7 +1016,7 @@ function FontEditor(props: FontEditorProps) {
                 <ColorPicker
                   {...props}
                   needCustom={needColorCustom ?? false}
-                  value={sizeData.color}
+                  value={fontData.color}
                   options={colorOptions}
                   onChange={(value: string) => {
                     handleEdit(value, 'color');
@@ -1024,7 +1032,7 @@ function FontEditor(props: FontEditorProps) {
                 <ThemeSelect
                   {...props}
                   options={fontSizeOptions}
-                  value={sizeData['fontSize']}
+                  value={fontData['fontSize']}
                   onChange={(value: string) => {
                     handleEdit(value, 'fontSize');
                   }}
@@ -1042,7 +1050,7 @@ function FontEditor(props: FontEditorProps) {
                 <ThemeSelect
                   {...props}
                   options={fontWeightOptions}
-                  value={sizeData['fontWeight']}
+                  value={fontData['fontWeight']}
                   onChange={(value: string) => {
                     handleEdit(value, 'fontWeight');
                   }}
@@ -1061,7 +1069,7 @@ function FontEditor(props: FontEditorProps) {
                 <ThemeSelect
                   {...props}
                   options={lineHeightOptions}
-                  value={sizeData['lineHeight']}
+                  value={fontData['lineHeight']}
                   onChange={(value: string) => {
                     handleEdit(value, 'lineHeight');
                   }}
@@ -1078,7 +1086,7 @@ function FontEditor(props: FontEditorProps) {
                 <ThemeSelect
                   {...props}
                   options={fontFamilyOptions}
-                  value={sizeData['font-family']}
+                  value={fontData['font-family']}
                   onChange={(value: string) => {
                     handleEdit(value, 'font-family');
                   }}
@@ -1102,7 +1110,7 @@ function FontEditor(props: FontEditorProps) {
                   <div
                     className={cx(
                       'Theme-FontEditor-font-style-icon',
-                      sizeData[item.type] === item.value &&
+                      fontData[item.type] === item.value &&
                         'Theme-FontEditor-font-style-selected'
                     )}
                   >
@@ -1128,7 +1136,7 @@ function FontEditor(props: FontEditorProps) {
                     className={cx(
                       'Theme-FontEditor-font-style-icon',
                       hasVertical && index === 3 && 'right-line',
-                      sizeData[item.type] === item.value &&
+                      fontData[item.type] === item.value &&
                         'Theme-FontEditor-font-style-selected'
                     )}
                   >

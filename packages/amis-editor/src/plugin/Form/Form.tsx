@@ -123,7 +123,13 @@ export class FormPlugin extends BasePlugin {
       label: '表单集合',
       matchRegion: (elem: JSX.Element) => !!elem?.props.noValidate,
       renderMethod: 'renderBody',
-      preferTag: '表单项'
+      preferTag: '表单项',
+      dndMode: (schema: any) => {
+        if (schema.mode === 'flex') {
+          return 'flex';
+        }
+        return 'default';
+      }
     },
 
     {
@@ -1096,7 +1102,6 @@ export class FormPlugin extends BasePlugin {
                   /** Form组件默认为normal模式 */
                   defaultValue: 'normal'
                 }),
-                getSchemaTpl('horizontal'),
                 {
                   label: '列数',
                   name: 'columnCount',
@@ -1120,12 +1125,7 @@ export class FormPlugin extends BasePlugin {
                       return undefined;
                     }
                   }
-                }
-              ]
-            },
-            {
-              title: '其他',
-              body: [
+                },
                 getSchemaTpl('switch', {
                   name: 'wrapWithPanel',
                   label: tipedLabel(
@@ -1145,10 +1145,15 @@ export class FormPlugin extends BasePlugin {
               ]
             },
             getSchemaTpl('theme:base', {
+              classname: 'formControlClassName',
+              title: '表单样式',
+              needState: false,
+              hiddenOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
               classname: 'panelClassName',
-              title: '容器样式',
+              title: 'Panel样式',
               editorValueToken: '--Panel',
-              hideBackground: true,
               hidePadding: true,
               needState: false,
               visibleOn: isWrapped
@@ -1165,6 +1170,7 @@ export class FormPlugin extends BasePlugin {
               extra: [
                 getSchemaTpl('theme:font', {
                   name: 'themeCss.headerTitleControlClassName.font',
+                  hasSenior: false,
                   editorValueToken: '--Panel-heading'
                 })
               ]
@@ -1178,24 +1184,9 @@ export class FormPlugin extends BasePlugin {
               hideShadow: true,
               hideBorder: true,
               hideMargin: true,
+              hideBackground: true,
               needState: false,
               visibleOn: isWrapped
-            }),
-            getSchemaTpl('theme:base', {
-              classname: 'actionsControlClassName',
-              title: '操作区样式',
-              editorValueToken: '--Panel-footer',
-              hideRadius: true,
-              hideShadow: true,
-              hideMargin: true,
-              needState: false,
-              visibleOn: isWrapped
-            }),
-            getSchemaTpl('theme:base', {
-              classname: 'formControlClassName',
-              title: '表单样式',
-              needState: false,
-              hiddenOn: isWrapped
             }),
             {
               title: '表单项样式',
@@ -1221,6 +1212,16 @@ export class FormPlugin extends BasePlugin {
                 })
               ]
             },
+            getSchemaTpl('theme:base', {
+              classname: 'actionsControlClassName',
+              title: '操作区样式',
+              editorValueToken: '--Panel-footer',
+              hideRadius: true,
+              hideShadow: true,
+              hideMargin: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
             {
               title: '自定义样式',
               body: [

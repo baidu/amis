@@ -49,7 +49,11 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
-import {injectObjectChain, setThemeClassName} from '../utils';
+import {
+  CustomStyleClassName,
+  injectObjectChain,
+  setThemeClassName
+} from '../utils';
 import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
 import isEqual from 'lodash/isEqual';
@@ -2095,10 +2099,10 @@ export default class Form extends React.Component<FormProps, object> {
           config={{
             themeCss,
             classNames: [
-              {
+              wrapWithPanel && {
                 key: 'panelClassName'
               },
-              {
+              !wrapWithPanel && {
                 key: 'formControlClassName'
               },
               {
@@ -2109,14 +2113,19 @@ export default class Form extends React.Component<FormProps, object> {
                   }
                 }
               },
-              {
+              wrapWithPanel && {
                 key: 'headerTitleControlClassName'
               },
-              {
+              wrapWithPanel && {
                 key: 'bodyControlClassName'
               },
-              {
-                key: 'actionsControlClassName'
+              wrapWithPanel && {
+                key: 'actionsControlClassName',
+                weights: {
+                  default: {
+                    parent: `.${cx('Panel--form')}`
+                  }
+                }
               },
               {
                 key: 'itemClassName',
@@ -2134,7 +2143,7 @@ export default class Form extends React.Component<FormProps, object> {
                   }
                 }
               }
-            ],
+            ].filter(n => n) as CustomStyleClassName[],
             wrapperCustomStyle,
             id
           }}

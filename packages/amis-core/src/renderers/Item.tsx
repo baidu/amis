@@ -1965,7 +1965,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       themeCss,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      classnames: cx
     } = this.props;
     const mode = this.props.mode || formMode;
 
@@ -2003,7 +2004,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             themeCss: themeCss || css,
             classNames: [
               {
-                key: 'labelClassName'
+                key: 'labelClassName',
+                weights: {
+                  default: {
+                    suf: `.${cx('Form-label')}`,
+                    parent: `.${cx('Form-item')}`
+                  }
+                }
               },
               {
                 key: 'descriptionClassName'
