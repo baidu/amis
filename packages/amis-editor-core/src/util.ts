@@ -4,7 +4,12 @@
 import {hasIcon, mapObject, utils} from 'amis';
 import type {PlainObject, Schema, SchemaNode} from 'amis';
 import {getGlobalData} from 'amis-theme-editor-helper';
-import {mapTree, isExpression, resolveVariableAndFilter} from 'amis-core';
+import {
+  mapTree,
+  isExpression,
+  resolveVariableAndFilter,
+  filterTree
+} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
@@ -1327,13 +1332,14 @@ export async function getVariables(that: any) {
   let variablesArr: any[] = [];
 
   const {variables, requiredDataPropsVariables} = that.props;
+  const selfName = that.props?.data?.name;
   if (!variables || requiredDataPropsVariables) {
     // 从amis数据域中取变量数据
     const {node, manager} = that.props.formProps || that.props;
     let vars = await resolveVariablesFromScope(node, manager);
     if (Array.isArray(vars)) {
       if (!that.isUnmount) {
-        variablesArr = filterVariablesOfScope(vars);
+        variablesArr = filterVariablesOfScope(vars, selfName);
       }
     }
   }
@@ -1362,7 +1368,7 @@ export async function getVariables(that: any) {
   return variablesArr;
 }
 
-function filterVariablesOfScope(options: any[]) {
+function filterVariablesOfScope(options: any[], selfName?: string) {
   const curOptions = options.find(i => i.label === '组件上下文');
   const arr = curOptions?.children || [];
   const variables = mapTree(arr, (item: any) => {
@@ -1380,10 +1386,20 @@ function filterVariablesOfScope(options: any[]) {
     }
     return item;
   });
-  return variables;
+  const finalVars = filterTree(variables, item => {
+    // 如果是子表 过滤掉当前自己 因为已经在当前层出现了
+    if (item.schemaType && item.type === 'array' && item.children) {
+      const idx = item.children.findIndex(
+        (i: any) => i.value === `${item.value}.${selfName}`
+      );
+      return !~idx;
+    }
+    return true;
+  });
+  return finalVars;
 }
 
-export async function getQuickVariables(that: any) {
+export async function getQuickVariables(that: any, filter?: Function) {
   const {node, manager} = that.props.formProps || that.props;
   const {quickVars, data} = that.props;
   const selfName = data?.name;
@@ -1391,8 +1407,7 @@ export async function getQuickVariables(that: any) {
   const options = await manager?.dataSchema?.getDataPropsAsOptions();
   if (Array.isArray(options)) {
     const curOptions = filterVariablesOfScope(options);
-    console.log(curOptions);
-    return resolveQuickVariables(curOptions, quickVars, selfName);
+    return resolveQuickVariables(curOptions, quickVars, selfName, filter);
   }
 
   return [];
@@ -1401,7 +1416,8 @@ export async function getQuickVariables(that: any) {
 export function resolveQuickVariables(
   options: any,
   quickVars?: VariableItem[],
-  selfName?: string
+  selfName?: string,
+  filter?: Function
 ) {
   if (!Array.isArray(options)) {
     return [];
@@ -1439,24 +1455,32 @@ export function resolveQuickVariables(
     finalVars.push(...variables);
   }
 
+  const filterVar = filter ? filter(finalVars) : finalVars;
+
   if (quickVars?.length) {
     const vars: VariableItem[] = [];
-    vars.push({
-      label: '快捷变量',
-      type: 'quickVars',
-      children: quickVars
-    });
-    if (finalVars.length) {
+
+    if (!filterVar.length) {
+      vars.push(...quickVars);
+    } else {
+      vars.push({
+        label: '快捷变量',
+        type: 'quickVars',
+        children: quickVars
+      });
+    }
+
+    if (filterVar.length) {
       vars.push({
         label: '表单变量',
-        children: finalVars
+        children: filterVar
       });
     }
 
     return vars;
   }
 
-  return finalVars;
+  return filterVar;
 }
 
 /**
@@ -1475,7 +1499,8 @@ export const updateComponentContext = (variables: any[]) => {
         label:
           index === 0
             ? `当前层${child.label ? '(' + child.label + ')' : ''}`
-            : `上${index}层${child.label ? '(' + child.label + ')' : ''}`
+            : child.title ||
+              `上${index}层${child.label ? '(' + child.label + ')' : ''}`
       }))
     });
   }

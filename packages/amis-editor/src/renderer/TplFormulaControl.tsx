@@ -52,6 +52,11 @@ export interface TplFormulaControlProps extends FormControlProps {
   header: string;
 
   /**
+   * 简化成员操作
+   */
+  simplifyMemberOprs?: boolean;
+
+  /**
    * 支付支持快捷变量
    */
   quickVariables?: boolean;
@@ -387,8 +392,12 @@ export class TplFormulaControl extends React.Component<
   @autobind
   handleEditorMounted(cm: any, editor: any) {
     const variables = this.state.variables;
+    const quickVariables = this.state.quickVariables;
     this.editorPlugin = new FormulaPlugin(editor, {
-      getProps: () => ({...this.props, variables}),
+      getProps: () => ({
+        ...this.props,
+        variables: [...variables, ...quickVariables]
+      }),
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       showPopover: false,
       showClearIcon: true
@@ -558,6 +567,7 @@ export class TplFormulaControl extends React.Component<
       customFormulaPicker,
       clearable,
       quickVariables,
+      simplifyMemberOprs,
       ...rest
     } = this.props;
     const {

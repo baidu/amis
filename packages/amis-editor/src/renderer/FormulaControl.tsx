@@ -150,6 +150,11 @@ export interface FormulaControlProps extends FormControlProps {
   customFormulaPicker?: React.FC<CustomFormulaPickerProps>;
 
   /**
+   * 简化成员操作
+   */
+  simplifyMemberOprs?: boolean;
+
+  /**
    * 是否支持快捷变量
    */
   quickVariables?: boolean;
@@ -221,10 +226,13 @@ export default class FormulaControl extends React.Component<
     );
 
     const variables = await getVariables(this);
-    const quickVariables = await getQuickVariables(this);
+    const quickVariables = await getQuickVariables(
+      this,
+      this.filterQuickVariablesByType
+    );
     this.setState({
       variables,
-      quickVariables: this.filterQuickVariablesByType(quickVariables)
+      quickVariables
     });
   }
 
@@ -270,8 +278,12 @@ export default class FormulaControl extends React.Component<
   @autobind
   handleEditorMounted(cm: any, editor: any) {
     const variables = this.state.variables;
+    const quickVariables = this.state.quickVariables;
     this.editorPlugin = new FormulaPlugin(editor, {
-      getProps: () => ({...this.props, variables}),
+      getProps: () => ({
+        ...this.props,
+        variables: [...variables, ...quickVariables]
+      }),
       showPopover: false,
       showClearIcon: true
     });
@@ -730,6 +742,7 @@ export default class FormulaControl extends React.Component<
       useExternalFormData = false,
       customFormulaPicker,
       clearable = true,
+      simplifyMemberOprs,
       render,
       ...rest
     } = this.props;
@@ -891,6 +904,7 @@ export default class FormulaControl extends React.Component<
             evalMode={true}
             onClose={this.closeFormulaPicker}
             onConfirm={this.handleConfirm}
+            simplifyMemberOprs={simplifyMemberOprs}
           />
         ) : null}
       </div>
