@@ -448,8 +448,9 @@ setSchemaTpl('theme:form-label', () => {
     body: [
       getSchemaTpl('theme:select', {
         label: '宽度',
-        name: 'themeCss.labelClassName.width:default'
+        name: 'labelWidth'
       }),
+
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.labelClassName.font:default',

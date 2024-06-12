@@ -1097,11 +1097,54 @@ export class FormPlugin extends BasePlugin {
             {
               title: '布局',
               body: [
-                getSchemaTpl('formItemMode', {
-                  isForm: true,
-                  /** Form组件默认为normal模式 */
-                  defaultValue: 'normal'
-                }),
+                {
+                  label: '布局',
+                  name: 'mode',
+                  type: 'select',
+                  pipeIn: defaultValue('flex'),
+                  options: [
+                    {
+                      label: '网格',
+                      value: 'flex'
+                    },
+                    {
+                      label: '内联',
+                      value: 'inline'
+                    },
+                    {
+                      label: '水平',
+                      value: 'horizontal'
+                    },
+                    {
+                      label: '垂直',
+                      value: 'normal'
+                    }
+                  ],
+                  pipeOut: (v: string) => (v ? v : undefined),
+                  onChange: (
+                    value: string,
+                    oldValue: string,
+                    model: any,
+                    form: any
+                  ) => {
+                    if (value === 'flex') {
+                      const body = [...form.data.body];
+                      const temp = body?.map((item: any, index: number) => {
+                        return {
+                          ...item,
+                          row: index
+                        };
+                      });
+                      form.setValueByName('body', temp);
+                    }
+                  }
+                },
+                {
+                  type: 'col-count',
+                  name: '__rolCount',
+                  label: tipedLabel('列数', '仅对PC页面生效'),
+                  visibleOn: 'this.mode === "flex"'
+                },
                 {
                   label: '列数',
                   name: 'columnCount',
@@ -1111,6 +1154,7 @@ export class FormPlugin extends BasePlugin {
                   precision: 0,
                   resetValue: '',
                   unitOptions: ['列'],
+                  hiddenOn: 'this.mode === "flex"',
                   pipeOut: (value: string) => {
                     if (value && typeof value === 'string') {
                       const count = Number.parseInt(
@@ -1170,7 +1214,6 @@ export class FormPlugin extends BasePlugin {
               extra: [
                 getSchemaTpl('theme:font', {
                   name: 'themeCss.headerTitleControlClassName.font',
-                  hasSenior: false,
                   editorValueToken: '--Panel-heading'
                 })
               ]
@@ -1191,17 +1234,61 @@ export class FormPlugin extends BasePlugin {
             {
               title: '表单项样式',
               body: [
+                {
+                  type: 'select',
+                  name: 'labelAlign',
+                  label: '标签位置',
+                  selectFirst: true,
+                  hiddenOn:
+                    'this.mode === "normal" || this.mode === "inline" || this.mode === "horizontal"',
+                  options: [
+                    {
+                      label: '上下布局',
+                      value: 'top'
+                    },
+                    {
+                      label: '水平居左',
+                      value: 'left'
+                    },
+                    {
+                      label: '水平居右',
+                      value: 'right'
+                    }
+                  ]
+                },
                 getSchemaTpl('theme:select', {
-                  label: '标题宽度',
-                  name: 'themeCss.itemLabelClassName.width'
+                  label: '标签宽度',
+                  name: 'labelWidth',
+                  hiddenOn:
+                    'this.mode === "normal" || this.labelAlign === "top"'
                 }),
+
+                {
+                  type: 'select',
+                  name: 'labelAlign',
+                  label: '标签位置',
+                  selectFirst: true,
+                  hiddenOn:
+                    'this.mode === "normal" || this.mode === "inline" || this.mode === "flex"',
+                  options: [
+                    {
+                      label: '水平居左',
+                      value: 'left'
+                    },
+                    {
+                      label: '水平居右',
+                      value: 'right'
+                    }
+                  ]
+                },
                 getSchemaTpl('theme:font', {
-                  label: '标题文字',
+                  label: '标签文字',
                   editorValueToken: '--Form-item',
+                  hasSenior: false,
                   name: 'themeCss.itemLabelClassName.font'
                 }),
                 getSchemaTpl('theme:paddingAndMargin', {
-                  label: '标题边距',
+                  label: '标签边距',
                   hidePadding: true,
                   name: 'themeCss.itemLabelClassName.padding-and-margin'
                 }),

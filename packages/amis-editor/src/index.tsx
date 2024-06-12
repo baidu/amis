@@ -45,6 +45,7 @@ import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
+import './renderer/style-control/ColCount';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
 import './renderer/FieldSetting';
