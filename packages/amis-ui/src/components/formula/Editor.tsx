@@ -86,6 +86,8 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   editorOptions?: any;
 
   enableRunPanel?: boolean;
+
+  simplifyMemberOprs?: boolean;
 }
 
 export interface FunctionsProps {
@@ -488,6 +490,7 @@ export class FormulaEditor extends React.Component<
       classPrefix,
       selfVariableName,
       evalMode,
+      simplifyMemberOprs,
       enableRunPanel = true
     } = this.props;
     const {
@@ -622,6 +625,7 @@ export class FormulaEditor extends React.Component<
                 data={variables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
+                simplifyMemberOprs={simplifyMemberOprs}
               />
             </div>
           </div>

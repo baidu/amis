@@ -16,6 +16,7 @@ export interface FormulaPickerProps extends FormControlProps {
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+  simplifyMemberOprs?: boolean;
 }
 
 export interface CustomFormulaPickerProps extends FormulaPickerProps {
