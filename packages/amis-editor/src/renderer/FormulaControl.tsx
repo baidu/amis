@@ -14,7 +14,12 @@ import {FormItem, Button, InputBox, Icon, TooltipWrapper} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
 import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
 import {FormulaCodeEditor, Overlay, PopOver, VariableList} from 'amis-ui';
-import {FormControlProps, RootClose, isMobile} from 'amis-core';
+import {
+  FormControlProps,
+  RootClose,
+  isMobile,
+  isObjectShallowModified
+} from 'amis-core';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
@@ -307,75 +312,16 @@ export default class FormulaControl extends React.Component<
 
   /**
    * 获取rendererSchema的值
-   * @returns
    */
-  @autobind
-  getRendererSchemaFromProps(rendererSchema?: any) {
-    if (!rendererSchema) {
-      rendererSchema = this.props.rendererSchema;
-    }
+  static getRendererSchemaFromProps(props: FormulaControlProps) {
+    let rendererSchema = props.rendererSchema;
 
     if (typeof rendererSchema === 'function') {
-      const schema = this.props.data ? {...this.props.data} : undefined;
+      const schema = props.data ? {...props.data} : undefined;
       return rendererSchema(schema);
     } else {
       return rendererSchema;
     }
-  }
-
-  // 判断是否是期望类型
-  @autobind
-  isExpectType(value: any): boolean {
-    if (value === null || value === undefined) {
-      return true; // 数值为空不进行类型识别
-    }
-
-    const rendererSchema = this.getRendererSchemaFromProps();
-    const expectType = this.props.valueType;
-
-    if (expectType === null || expectType === undefined) {
-      return true; // expectType为空，则不进行类型识别
-    }
-
-    // 当前数据域
-    const curData = this.getContextData();
-
-    if (
-      rendererSchema.type === 'switch' &&
-      (rendererSchema.trueValue !== undefined ||
-        rendererSchema.falseValue !== undefined)
-    ) {
-      // 开关类型组件单独处理
-      return (
-        rendererSchema.trueValue === value ||
-        rendererSchema.falseValue === value
-      );
-    } else if (
-      (expectType === 'number' && isNumber(value)) ||
-      (expectType === 'boolean' && isBoolean(value)) ||
-      (expectType === 'object' && isPlainObject(value)) ||
-      (expectType === 'array' && isArray(value))
-    ) {
-      return true;
-    } else if (isString(value)) {
-      if (isExpression(value)) {
-        // 根据公式运算结果判断类型
-        const formulaValue = FormulaExec.formula(value, curData);
-        if (
-          (expectType === 'number' && isNumber(formulaValue)) ||
-          (expectType === 'boolean' && isBoolean(formulaValue)) ||
-          (expectType === 'object' && isPlainObject(formulaValue)) ||
-          (expectType === 'array' && isArray(formulaValue)) ||
-          (expectType === 'string' && isString(formulaValue))
-        ) {
-          return true;
-        }
-      } else if (expectType === 'string') {
-        // 非公式字符串
-        return true;
-      }
-    }
-    return false;
   }
 
   matchDate(str: string): boolean {
@@ -788,7 +734,9 @@ export default class FormulaControl extends React.Component<
       ...rest
     } = this.props;
     const {formulaPickerOpen, variables, variableMode, loading} = this.state;
-    const rendererSchema = this.getRendererSchemaFromProps();
+    const rendererSchema = FormulaControl.getRendererSchemaFromProps(
+      this.props
+    );
 
     // 判断是否含有公式表达式
     const isExpr = isExpression(value);
@@ -801,8 +749,6 @@ export default class FormulaControl extends React.Component<
         : false;
     }
 
-    // 判断是否含有公式表达式
-    // const isTypeError = !this.isExpectType(value);
     const exprValue = this.transExpr(value);
 
     const isError = isLoop;
@@ -954,6 +900,14 @@ export default class FormulaControl extends React.Component<
 
 @FormItem({
   type: 'ae-formulaControl',
-  detectProps: ['rendererSchema']
+  shouldComponentUpdate: (
+    props: FormulaControlProps,
+    nextProps: FormulaControlProps
+  ) => {
+    const rendererSchema = FormulaControl.getRendererSchemaFromProps(props);
+    const newRendererSchema =
+      FormulaControl.getRendererSchemaFromProps(nextProps);
+    return isObjectShallowModified(rendererSchema, newRendererSchema);
+  }
 })
 export class FormulaControlRenderer extends FormulaControl {}
