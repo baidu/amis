@@ -249,7 +249,9 @@ export default class FormulaControl extends React.Component<
 
   @autobind
   filterQuickVariablesByType(variables: any[]) {
-    const rendererSchema = this.getRendererSchemaFromProps();
+    const rendererSchema = FormulaControl.getRendererSchemaFromProps(
+      this.props
+    );
     const filterVars = variables
       .map(item => {
         if (item.children && item.type !== 'quickVars') {
