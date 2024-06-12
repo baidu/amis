@@ -106,7 +106,7 @@ function findColor(value: string | undefined, tree: any) {
       res = {label: '继承常规', value: value};
     }
   }
-  if (value === 'transparent') {
+  if (value === 'transparent' || value?.includes('none')) {
     res = {label: '透明', value: 'transparent'};
   }
   if (value === 'custom') {
