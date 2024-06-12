@@ -621,7 +621,7 @@ export default class NumberControl extends React.Component<
 
 @FormItem({
   type: 'input-number',
-  detectProps: ['unitOptions']
+  detectProps: ['unitOptions', 'precision']
 })
 export class NumberControlRenderer extends NumberControl {
   static defaultProps: Partial<FormControlProps> = {
