@@ -239,8 +239,8 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
 
   @autobind
   handleBatchAdd(values: {batchOption: string}[], action: any) {
-    const {onChange, options: originOptions} = this.props;
-    const options = originOptions.concat();
+    const {onChange} = this.props;
+    const options = this.props.data.options || [];
     const addedOptions: Array<OptionControlItem> = values[0].batchOption
       .split('\n')
       .map(option => {
