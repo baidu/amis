@@ -55,7 +55,7 @@ setSchemaTpl(
               label: '表单项'
             }),
             getSchemaTpl('className', {
-              label: '标签',
+              label: '标题',
               name: 'labelClassName'
             }),
             getSchemaTpl('className', {
@@ -459,7 +459,7 @@ setSchemaTpl('theme:cssCode', () => {
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
-    title: '标签样式',
+    title: '标题样式',
     visibleOn: 'this.label !== false',
     body: [
       {

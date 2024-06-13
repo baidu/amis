@@ -1249,7 +1249,7 @@ export class FormPlugin extends BasePlugin {
                 {
                   type: 'select',
                   name: 'labelAlign',
-                  label: '标签位置',
+                  label: '标题位置',
                   selectFirst: true,
                   hiddenOn:
                     'this.mode === "normal" || this.mode === "inline" || this.mode === "horizontal"',
@@ -1271,7 +1271,7 @@ export class FormPlugin extends BasePlugin {
                 {
                   type: 'select',
                   name: 'labelAlign',
-                  label: '标签位置',
+                  label: '标题位置',
                   selectFirst: true,
                   hiddenOn:
                     'this.mode === "normal" || this.mode === "inline" || this.mode === "flex"',
@@ -1287,20 +1287,20 @@ export class FormPlugin extends BasePlugin {
                   ]
                 },
                 getSchemaTpl('theme:select', {
-                  label: '标签宽度',
+                  label: '标题宽度',
                   name: 'labelWidth',
                   hiddenOn:
                     'this.mode === "normal" || this.labelAlign === "top"'
                 }),
 
                 getSchemaTpl('theme:font', {
-                  label: '标签文字',
+                  label: '标题文字',
                   editorValueToken: '--Form-item',
                   hasSenior: false,
                   name: 'themeCss.itemLabelClassName.font'
                 }),
                 getSchemaTpl('theme:paddingAndMargin', {
-                  label: '标签边距',
+                  label: '标题边距',
                   hidePadding: true,
                   name: 'themeCss.itemLabelClassName.padding-and-margin'
                 }),
@@ -1308,6 +1308,12 @@ export class FormPlugin extends BasePlugin {
                   label: '表单项边距',
                   hidePadding: true,
                   name: 'themeCss.itemClassName.padding-and-margin'
+                }),
+                getSchemaTpl('theme:font', {
+                  label: '静态展示文字',
+                  editorValueToken: '--Form-static',
+                  name: 'themeCss.staticClassName.font',
+                  visibleOn: '!!this.static || !!this.staticOn'
                 })
               ]
             },

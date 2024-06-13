@@ -1998,19 +1998,12 @@ export default class Form extends React.Component<FormProps, object> {
           isStatic ? 'Form--isStatic' : null,
           setThemeClassName({
             ...this.props,
-            name: 'formControlClassName',
-            id,
-            themeCss
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'itemClassName',
-            id,
-            themeCss
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'itemLabelClassName',
+            name: [
+              'formControlClassName',
+              'itemClassName',
+              'staticClassName',
+              'itemLabelClassName'
+            ],
             id,
             themeCss
           }),
@@ -2132,6 +2125,14 @@ export default class Form extends React.Component<FormProps, object> {
                 weights: {
                   default: {
                     inner: `.${cx('Form-item')}`
+                  }
+                }
+              },
+              {
+                key: 'staticClassName',
+                weights: {
+                  default: {
+                    inner: `.${cx('Form-static')}`
                   }
                 }
               },

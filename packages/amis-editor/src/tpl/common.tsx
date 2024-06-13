@@ -266,7 +266,7 @@ setSchemaTpl('labelHide', () =>
 setSchemaTpl('theme:labelHide', () =>
   getSchemaTpl('switch', {
     name: '__label',
-    label: tipedLabel('隐藏标题', '隐藏后，水平布局时标题宽度为0'),
+    label: '隐藏标题',
     onChange: (value: any, origin: any, item: any, form: any) => {
       if (value) {
         form.setValueByName(

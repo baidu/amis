@@ -511,7 +511,7 @@ export function formatInputThemeCss(themeCss: any) {
 }
 
 export function setThemeClassName(params: {
-  name: string;
+  name: string | string[];
   id?: string;
   themeCss: any;
   extra?: string;
@@ -522,17 +522,25 @@ export function setThemeClassName(params: {
     return '';
   }
 
-  if (name !== 'wrapperCustomStyle' && !themeCss[name]) {
-    return '';
-  }
   let index = '';
   if (typeof data?.index === 'number') {
     index = `-${data.index}`;
   }
 
-  return (
-    `${name}-${id.replace?.('u:', '') || id}` +
-    (extra ? `-${extra}` : '') +
-    index
-  );
+  function setClassName(name: string, id: string) {
+    if (name !== 'wrapperCustomStyle' && !themeCss[name]) {
+      return '';
+    }
+    return (
+      `${name}-${id.replace?.('u:', '') || id}` +
+      (extra ? `-${extra}` : '') +
+      index
+    );
+  }
+
+  if (typeof name === 'string') {
+    return setClassName(name, id);
+  } else {
+    return name.map(n => setClassName(n, id)).join(' ');
+  }
 }
