@@ -449,6 +449,9 @@
 
   .#{$ns}Form-flexInner--label-top {
     flex-direction: column;
+    > .#{$ns}Form-control {
+      flex-basis: auto;
+    }
   }
   .#{$ns}Form-flexInner--label-left {
     > .#{$ns}Form-label {
