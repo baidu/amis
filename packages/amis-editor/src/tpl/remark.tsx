@@ -1,8 +1,7 @@
 import {setSchemaTpl} from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 
-setSchemaTpl(
-  'remark',
+setSchemaTpl('remark', () =>
   remarkTpl({
     name: 'remark',
     label: '控件提示',
@@ -11,8 +10,7 @@ setSchemaTpl(
   })
 );
 
-setSchemaTpl(
-  'labelRemark',
+setSchemaTpl('labelRemark', () =>
   remarkTpl({
     name: 'labelRemark',
     label: '标题提示',
