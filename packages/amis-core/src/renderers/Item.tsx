@@ -1898,23 +1898,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               </label>
             ) : null}
 
-            {renderControl()}
+            <div className={cx(`Form-value`)}>
+              {renderControl()}
 
-            {caption
-              ? render('caption', caption, {
-                  className: cx(`Form-caption`, captionClassName)
-                })
-              : null}
+              {caption
+                ? render('caption', caption, {
+                    className: cx(`Form-caption`, captionClassName)
+                  })
+                : null}
 
-            {remark
-              ? render('remark', {
-                  type: 'remark',
-                  icon: remark.icon || 'warning-mark',
-                  className: cx(`Form-remark`),
-                  tooltip: remark,
-                  container: props.popOverContainer || env.getModalContainer
-                })
-              : null}
+              {remark
+                ? render('remark', {
+                    type: 'remark',
+                    icon: remark.icon || 'warning-mark',
+                    className: cx(`Form-remark`),
+                    tooltip: remark,
+                    container: props.popOverContainer || env.getModalContainer
+                  })
+                : null}
+            </div>
           </div>
 
           {hint && model && model.isFocused
