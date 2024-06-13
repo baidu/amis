@@ -46,6 +46,8 @@ import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
 import './renderer/style-control/ColCount';
+import './renderer/style-control/ColSize';
+import './renderer/style-control/LabelAlign';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
 import './renderer/FieldSetting';

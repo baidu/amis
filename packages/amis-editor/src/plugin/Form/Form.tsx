@@ -1127,16 +1127,28 @@ export class FormPlugin extends BasePlugin {
                     model: any,
                     form: any
                   ) => {
+                    const body = [...form.data.body];
+                    let temp = body;
                     if (value === 'flex') {
-                      const body = [...form.data.body];
-                      const temp = body?.map((item: any, index: number) => {
+                      temp = body?.map((item: any, index: number) => {
                         return {
                           ...item,
-                          row: index
+                          row: index,
+                          mode: undefined
                         };
                       });
-                      form.setValueByName('body', temp);
+                    } else {
+                      temp = body?.map((item: any, index: number) => {
+                        return {
+                          ...item,
+                          row: undefined,
+                          colSize: undefined,
+                          labelAlign: undefined,
+                          mode: undefined
+                        };
+                      });
                     }
+                    form.setValueByName('body', temp);
                   }
                 },
                 {
@@ -1256,13 +1268,6 @@ export class FormPlugin extends BasePlugin {
                     }
                   ]
                 },
-                getSchemaTpl('theme:select', {
-                  label: '标签宽度',
-                  name: 'labelWidth',
-                  hiddenOn:
-                    'this.mode === "normal" || this.labelAlign === "top"'
-                }),
-
                 {
                   type: 'select',
                   name: 'labelAlign',
@@ -1281,6 +1286,13 @@ export class FormPlugin extends BasePlugin {
                     }
                   ]
                 },
+                getSchemaTpl('theme:select', {
+                  label: '标签宽度',
+                  name: 'labelWidth',
+                  hiddenOn:
+                    'this.mode === "normal" || this.labelAlign === "top"'
+                }),
+
                 getSchemaTpl('theme:font', {
                   label: '标签文字',
                   editorValueToken: '--Form-item',

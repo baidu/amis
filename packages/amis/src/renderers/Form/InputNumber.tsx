@@ -499,6 +499,7 @@ export default class NumberControl extends React.Component<
           },
           className
         )}
+        style={style}
       >
         <NumberInput
           name={name}

@@ -289,7 +289,7 @@ export class NumberControlPlugin extends BasePlugin {
           getSchemaTpl(
             'collapseGroup',
             [
-              getSchemaTpl('style:formItem', {
+              getSchemaTpl('theme:formItem', {
                 renderer: context.info.renderer,
                 schema: [
                   {

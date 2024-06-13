@@ -263,6 +263,27 @@ setSchemaTpl('labelHide', () =>
   })
 );
 
+setSchemaTpl('theme:labelHide', () =>
+  getSchemaTpl('switch', {
+    name: '__label',
+    label: tipedLabel('隐藏标题', '隐藏后，水平布局时标题宽度为0'),
+    onChange: (value: any, origin: any, item: any, form: any) => {
+      if (value) {
+        form.setValueByName(
+          '$$tempLabel',
+          form.getValueByName('label') || item.label
+        );
+        form.setValueByName('label', false);
+      } else {
+        form.setValueByName(
+          'label',
+          form.getValueByName('$$tempLabel') || item['$$tempLabel'] || ''
+        );
+      }
+    }
+  })
+);
+
 setSchemaTpl('placeholder', {
   label: '占位提示',
   name: 'placeholder',

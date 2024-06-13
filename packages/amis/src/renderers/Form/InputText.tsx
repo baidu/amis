@@ -1211,7 +1211,7 @@ export default class TextControl extends React.PureComponent<
         });
 
     return (
-      <div className={classNames}>
+      <div className={classNames} style={style}>
         {addOn && addOn.position === 'left' ? addOnDom : null}
         {body}
         {addOn && addOn.position !== 'left' ? addOnDom : null}

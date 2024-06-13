@@ -16,6 +16,21 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
   };
 });
 
+setSchemaTpl('theme:formItem', ({renderer, schema}: any) => {
+  return {
+    title: '表单项',
+    key: 'formItem',
+    body: [
+      getSchemaTpl('theme:labelHide'),
+      {
+        type: 'col-size',
+        name: '__size',
+        label: '宽度'
+      }
+    ].concat(schema)
+  };
+});
+
 setSchemaTpl(
   'style:classNames',
   (config: {
@@ -444,16 +459,24 @@ setSchemaTpl('theme:cssCode', () => {
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
-    title: 'Label样式',
+    title: '标签样式',
+    visibleOn: 'this.label !== false',
     body: [
+      {
+        type: 'label-align',
+        name: 'labelAlign',
+        label: '位置'
+      },
       getSchemaTpl('theme:select', {
         label: '宽度',
-        name: 'labelWidth'
+        name: 'labelWidth',
+        hiddenOn: 'this.labelAlign == "top"'
       }),
 
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.labelClassName.font:default',
+        hasSenior: false,
         editorValueToken: '--Form-item'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
