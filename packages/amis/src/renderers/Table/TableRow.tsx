@@ -7,6 +7,7 @@ import {
   RendererProps,
   TestIdBuilder,
   autobind,
+  keyToPath,
   setVariable,
   traceProps
 } from 'amis-core';
@@ -162,6 +163,11 @@ export class TableRow extends React.PureComponent<
 
     const {item, onQuickChange} = this.props;
     const data: any = {};
+    const keyPath = keyToPath(name);
+    // 如果是带路径的值变化，最好是能保留原来的对象的其他属性
+    if (keyPath.length > 1) {
+      data[keyPath[0]] = {...item.data[keyPath[0]]};
+    }
     setVariable(data, name, value);
 
     onQuickChange?.(item, data, submit, changePristine);
