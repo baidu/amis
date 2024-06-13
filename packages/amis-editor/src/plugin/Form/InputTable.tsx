@@ -1423,7 +1423,7 @@ export class TableControlPlugin extends BasePlugin {
         if (Array.isArray(props.columns)) {
           props.columns.forEach((column: any) => {
             /** 可编辑状态下不写入 Mock 数据，避免误导用户 */
-            if (column.name && !props.editable) {
+            if (column.name && !props.editable && !!props.needConfirm) {
               setVariable(mockedData, column.name, mockValue(column));
             }
           });
