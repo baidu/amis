@@ -1457,6 +1457,20 @@ export function resolveQuickVariables(
 
   const filterVar = filter ? filter(finalVars) : finalVars;
 
+  function sortVars(arr: any[]) {
+    const arrs = [...arr];
+    arrs.sort((obj1, obj2) => {
+      if ('children' in obj1 && !('children' in obj2)) {
+        return 1;
+      } else if (!('children' in obj1) && 'children' in obj2) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    return arrs;
+  }
+
   if (quickVars?.length) {
     const vars: VariableItem[] = [];
 
@@ -1477,10 +1491,10 @@ export function resolveQuickVariables(
       });
     }
 
-    return vars;
+    return sortVars(vars);
   }
 
-  return filterVar;
+  return sortVars(filterVar);
 }
 
 /**
