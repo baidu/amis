@@ -675,9 +675,9 @@ export default class FormulaControl extends React.Component<
   handleQuickVariableSelect(item: VariableItem) {
     this.handleInputChange('${' + item.value + '}');
     this.closeQuickVariablesOuter();
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.editorPlugin?.autoMark?.();
-    }, 0);
+    });
   }
 
   @autobind
