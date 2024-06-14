@@ -488,6 +488,7 @@ export default class SwitchMore extends React.Component<
 }
 
 @FormItem({
-  type: 'ae-switch-more'
+  type: 'ae-switch-more',
+  strictMode: false
 })
 export class SwitchMoreRenderer extends SwitchMore {}

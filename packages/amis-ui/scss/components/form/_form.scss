@@ -438,17 +438,27 @@
       vertical-align: top;
       padding-top: var(--Form-label-paddingTop);
       margin-right: var(--Form-row-gutterWidth);
+      .#{$ns}Remark {
+        vertical-align: initial;
+      }
     }
 
-    > .#{$ns}Form-control {
+    > .#{$ns}Form-value {
       flex-basis: 0;
       flex-grow: 1;
       min-width: 0;
+      .#{$ns}Remark {
+        vertical-align: initial;
+        margin-left: 0;
+      }
     }
   }
 
   .#{$ns}Form-flexInner--label-top {
     flex-direction: column;
+    > .#{$ns}Form-value {
+      flex-basis: auto;
+    }
   }
   .#{$ns}Form-flexInner--label-left {
     > .#{$ns}Form-label {
