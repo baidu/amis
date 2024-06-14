@@ -255,6 +255,7 @@ export class StatusControl extends React.Component<
               getSchemaTpl('conditionFormulaControl', {
                 label: '条件设置',
                 name: 'condition',
+                modalSize: 'xs',
                 visibleOn: 'this.statusType === 3'
               })
             ]
