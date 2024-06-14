@@ -1406,7 +1406,10 @@ export async function getQuickVariables(that: any, filter?: Function) {
   await manager?.getContextSchemas(node);
   const options = await manager?.dataSchema?.getDataPropsAsOptions();
   if (Array.isArray(options)) {
-    const curOptions = filterVariablesOfScope(options);
+    const curOptions = mapTree(filterVariablesOfScope(options), item => {
+      delete item.tag;
+      return item;
+    });
     return resolveQuickVariables(curOptions, quickVars, selfName, filter);
   }
 
