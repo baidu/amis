@@ -727,17 +727,21 @@ export function wrapControl<
 
             const model = this.model;
             const value = this.model.tmpValue;
-            const oldValue = model.extraName
-              ? [
-                  getVariable(data, model.name, false),
-                  getVariable(data, model.extraName, false)
-                ]
-              : getVariable(data, model.name, false);
+            let oldValue: any = undefined;
+            // 受控的因为没有记录上一次 props 下发的 value，所以不做比较
+            if (!model.isControlled) {
+              oldValue = model.extraName
+                ? [
+                    getVariable(data, model.name, false),
+                    getVariable(data, model.extraName, false)
+                  ]
+                : getVariable(data, model.name, false);
 
-            if (
-              model.extraName ? isEqual(oldValue, value) : oldValue === value
-            ) {
-              return;
+              if (
+                model.extraName ? isEqual(oldValue, value) : oldValue === value
+              ) {
+                return;
+              }
             }
 
             if (type !== 'input-password') {

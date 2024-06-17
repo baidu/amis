@@ -14,9 +14,7 @@ import {
   Button,
   Checkbox,
   Icon,
-  InputBox,
   RendererProps,
-  render as amisRender,
   normalizeApi
 } from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
@@ -210,10 +208,17 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
     const {onChange, options: originOptions} = this.props;
     const options = originOptions.concat();
     const {hiddenOn, ...option} = options[index];
-    options.splice(index, 1, {
-      ...option,
-      ...(!value ? {} : {hiddenOn: value})
-    });
+    const newOption = {
+      ...option
+    };
+
+    if (value) {
+      newOption.hiddenOn = value;
+    } else {
+      delete newOption.hiddenOn;
+    }
+
+    options.splice(index, 1, newOption);
     onChange({options});
   }
 
@@ -272,57 +277,109 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
 
     const editDom = editing ? (
       <div className="ae-OptionControlItem-extendMore">
-        {render('option', {
-          type: 'container',
-          className: 'ae-ExtendMore right mb-2',
-          body: [
-            {
-              type: 'button',
-              className: 'ae-OptionControlItem-closeBtn',
-              label: '×',
-              level: 'link',
-              value: checked,
-              onClick: () => this.toggleEdit(index)
-            },
-            {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              placeholder: '请输入显示文本',
-              label: '文本',
-              mode: 'horizontal',
-              value: props?.label,
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              onChange: (v: string) => this.handleEditLabel(index, v)
-            },
-            {
-              type: 'ae-valueFormat',
-              placeholder: '默认与文本一致',
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              label: '值',
-              value: props?.value,
-              onChange: (v: any) => this.handleValueChange(index, v)
-            },
-            getSchemaTpl('expressionFormulaControl', {
-              label: '隐藏',
-              value: hiddenOn,
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              onChange: (v: string) => this.handleHiddenValueChange(index, v)
-            }),
-            {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              placeholder: '请输入角标文本',
-              label: '角标',
-              mode: 'horizontal',
-              visible: showBadge,
-              value: props?.badge,
-              labelClassName: 'ae-OptionControlItem-EditLabel',
-              valueClassName: 'ae-OptionControlItem-EditValue',
-              onChange: (v: string) => this.toggleBadge(index, v)
+        {render(
+          'option',
+          {
+            type: 'container',
+            className: 'ae-ExtendMore right mb-2',
+            body: [
+              {
+                type: 'button',
+                className: 'ae-OptionControlItem-closeBtn',
+                label: '×',
+                level: 'link',
+                value: checked,
+                onClick: () => this.toggleEdit(index)
+              },
+              {
+                children: ({render, innerValue}: any) => {
+                  return render(
+                    'innerLabel',
+                    {
+                      name: 'label',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      placeholder: '请输入显示文本',
+                      label: '文本',
+                      mode: 'horizontal',
+                      labelClassName: 'ae-OptionControlItem-EditLabel',
+                      valueClassName: 'ae-OptionControlItem-EditValue'
+                    },
+                    {
+                      value: innerValue.label || '',
+                      onChange: (v: string) => this.handleEditLabel(index, v)
+                    }
+                  );
+                }
+              },
+              {
+                children: ({render, innerValue}: any) => {
+                  return render(
+                    'innerValue',
+                    {
+                      name: 'value',
+                      type: 'ae-valueFormat',
+                      placeholder: '默认与文本一致',
+                      labelClassName: 'ae-OptionControlItem-EditLabel',
+                      valueClassName: 'ae-OptionControlItem-EditValue',
+                      label: '值'
+                    },
+                    {
+                      value: innerValue?.value || '',
+                      onChange: (v: any) => this.handleValueChange(index, v)
+                    }
+                  );
+                }
+              },
+              {
+                children: ({render, innerValue}: any) => {
+                  return render(
+                    'innerHiddenOn',
+                    getSchemaTpl('expressionFormulaControl', {
+                      label: '隐藏',
+                      name: 'hiddenOn',
+                      labelClassName: 'ae-OptionControlItem-EditLabel',
+                      valueClassName: 'ae-OptionControlItem-EditValue'
+                    }),
+                    {
+                      value: innerValue.hiddenOn || '',
+                      onChange: (v: string) =>
+                        this.handleHiddenValueChange(index, v)
+                    }
+                  );
+                }
+              },
+              {
+                children: ({render, innerValue}: any) => {
+                  return render(
+                    'innerBadge',
+                    {
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      placeholder: '请输入角标文本',
+                      label: '角标',
+                      mode: 'horizontal',
+                      name: 'badge',
+                      visible: showBadge,
+                      labelClassName: 'ae-OptionControlItem-EditLabel',
+                      valueClassName: 'ae-OptionControlItem-EditValue'
+                    },
+                    {
+                      value: innerValue.badge || '',
+                      onChange: (v: string) => this.toggleBadge(index, v)
+                    }
+                  );
+                }
+              }
+            ]
+          },
+          {
+            innerValue: {
+              label: props.label,
+              value: props.value,
+              badge: props.badge,
+              hiddenOn
             }
-          ]
-        })}
+          }
+        )}
       </div>
     ) : null;
 
@@ -381,16 +438,24 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           /> */}
-          {amisRender({
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-            className: 'ae-OptionControlItem-input',
-            value: props?.label,
-            placeholder: '请输入文本/值',
-            clearable: false,
-            onChange: (value: string) => {
-              this.handleEditLabel(index, value);
+          {render(
+            'label',
+            {
+              name: 'label',
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              label: false,
+              className: 'ae-OptionControlItem-input',
+              placeholder: '请输入文本/值',
+              clearable: false
+            },
+            {
+              value: props?.label || '',
+              disabled: editing,
+              onChange: (value: string) => {
+                this.handleEditLabel(index, value);
+              }
             }
-          })}
+          )}
           {render(
             'dropdown',
             {
