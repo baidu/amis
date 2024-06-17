@@ -11,8 +11,6 @@ import {Document, Page, pdfjs} from 'react-pdf';
 import {Icon} from './icons';
 import Input from './Input';
 import Spinner from './Spinner';
-import * as pdfJSWorkerURL from 'pdfjs-dist/build/pdf.worker.min';
-pdfjs.GlobalWorkerOptions.workerSrc = pdfJSWorkerURL;
 
 export interface PdfViewerProps extends ThemeProps {
   file?: ArrayBuffer;
@@ -20,17 +18,36 @@ export interface PdfViewerProps extends ThemeProps {
   height?: number;
   background?: string;
   loading: boolean;
+  pdfjsWorkerSrc?: string;
 }
 
 const PdfViewer: React.FC<PdfViewerProps> = props => {
+  const pdfjsWorkerSrc = props.pdfjsWorkerSrc;
+
+  if (!pdfjsWorkerSrc) {
+    return (
+      <div>
+        <p>
+          [PdfViewer]: pdfjsWorkerSrc is required, Please set the
+          `pdfjsWorkerSrc` in env.
+        </p>
+      </div>
+    );
+  } else {
+    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorkerSrc;
+  }
+
   const {classnames: cx, className, loading, width = 300} = props;
   const [file, setFile] = React.useState(props.file);
   const [loaded, setLoaded] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [scale, setScale] = React.useState(1);
   const [total, setTotal] = React.useState(1);
-  const wrapper = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>();
+
+  const wrapper = React.useCallback(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorkerSrc;
+  }, []);
 
   React.useEffect(() => {
     if (props.file instanceof ArrayBuffer && props.file.byteLength > 0) {

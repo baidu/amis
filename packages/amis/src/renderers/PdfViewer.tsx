@@ -247,6 +247,7 @@ export default class PdfViewer extends React.Component<
       background,
       src
     } = this.props;
+    const pdfjs = this.props.env.pdfjsWorkerSrc;
     const {loading, inited, error} = this.state;
     const width = Math.max(this.props.width || this.state.width, 300);
 
@@ -256,6 +257,7 @@ export default class PdfViewer extends React.Component<
         <Suspense fallback={<div>...</div>}>
           {inited && !error ? (
             <PdfView
+              pdfjsWorkerSrc={pdfjs}
               file={this.file}
               loading={loading}
               className={className}
