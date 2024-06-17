@@ -6,7 +6,7 @@
 
   > textarea.#{$ns}TextareaControl-input--counter {
     // 23 px 是计数器 counter 的高度
-    padding-bottom: 23px;
+    padding-bottom: px2rem(23px);
     // 设置size时会把textarea设置成inline-block，导致高度异常，所以这里需要设置成block
     display: block !important;
   }
@@ -43,7 +43,6 @@
     bottom: 1px;
     right: var(--scrollbar-width);
     padding-bottom: var(--Form-input-paddingY);
-    background-color: var(--Form-input-bg);
     text-align: right;
     border-radius: 3px;
     color: var(--input-count-multi-color);
