@@ -2747,6 +2747,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
             popOverContainer,
+            reUseRow: false,
             onAction: this.handleAction,
             onSave: this.handleSave,
             onSaveOrder: this.handleSaveOrder,
