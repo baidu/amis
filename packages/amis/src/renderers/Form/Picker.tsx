@@ -263,6 +263,9 @@ export default class PickerControl extends React.PureComponent<
 
     return {
       checkOnItemClick: true,
+      listItem: {
+        title: `\${${props.labelField || 'label'}|raw}`
+      },
       ...props.pickerSchema,
       labelTpl: props.pickerSchema?.labelTpl ?? props.labelTpl,
       type: 'crud',
