@@ -184,11 +184,13 @@ export class Value extends React.Component<ValueProps> {
       );
     } else if (field.type === 'boolean') {
       input = (
-        <Switch
-          value={value ?? field.defaultValue}
-          onChange={onChange}
-          disabled={disabled}
-        />
+        <div className={cx(`SwitchControl`)}>
+          <Switch
+            value={value ?? field.defaultValue}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        </div>
       );
     } else if (field.type === 'custom') {
       input = this.renderCustomValue({
