@@ -6,7 +6,7 @@ import React, {ReactNode} from 'react';
 import groupBy from 'lodash/groupBy';
 import remove from 'lodash/remove';
 import cx from 'classnames';
-import {ConditionBuilderFields, FormItem} from 'amis';
+import {ConditionBuilderFields, FormItem, flattenTree} from 'amis';
 
 import {
   autobind,
@@ -92,13 +92,11 @@ export default class ValidationControl extends React.Component<
     const variablesArr = await getVariables(this);
     // 自身字段
     const selfName = this.props.data.name;
-    const vars =
-      variablesArr?.filter((item: any) => item?.label === '组件上下文')?.[0]
-        ?.children?.[0]?.children || [];
 
-    const arr: ConditionBuilderFields = vars
-      .map((item: any) => {
-        if (item && item.value) {
+    const arr: ConditionBuilderFields = flattenTree(
+      variablesArr,
+      (item: any) => {
+        if (item.value && item.type !== 'array' && !item.isMember) {
           let obj: any = {
             label: item.label,
             value: item.value
@@ -113,8 +111,8 @@ export default class ValidationControl extends React.Component<
           }
           return obj;
         }
-      })
-      ?.filter((item: any) => item);
+      }
+    )?.filter(item => item);
 
     return arr;
   }
