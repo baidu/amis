@@ -1369,8 +1369,9 @@ export async function getVariables(that: any) {
 }
 
 function filterVariablesOfScope(options: any[], selfName?: string) {
-  const curOptions = options.find(i => i.label === '组件上下文');
-  const arr = curOptions?.children || [];
+  const idx = options.findIndex(i => i.label === '组件上下文');
+  const arr = options[idx]?.children || [];
+  const restOptions = options.filter((_, i) => i !== idx);
   const variables = mapTree(arr, (item: any) => {
     // 子表过滤成员那层
     if (item.type === 'array' && Array.isArray(item.children)) {
@@ -1396,7 +1397,7 @@ function filterVariablesOfScope(options: any[], selfName?: string) {
     }
     return true;
   });
-  return finalVars;
+  return [...finalVars, ...restOptions];
 }
 
 export async function getQuickVariables(that: any, filter?: Function) {
