@@ -268,7 +268,8 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
       editing,
       multipleProps,
       closeDefaultCheck,
-      hiddenOn
+      hiddenOn,
+      customEdit = true
     } = props;
     const {render, data: ctx, node} = this.props;
     const isMultiple = ctx?.multiple === true || multipleProps;
@@ -456,23 +457,31 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
               }
             }
           )}
-          {render(
-            'dropdown',
-            {
-              type: 'dropdown-button',
-              className: 'ae-OptionControlItem-dropdown',
-              btnClassName: 'px-2',
-              icon: 'fa fa-ellipsis-h',
-              hideCaret: true,
-              closeOnClick: true,
-              align: 'right',
-              menuClassName: 'ae-OptionControlItem-ulmenu',
-              buttons: operationBtn
-            },
-            {
-              popOverContainer: null // amis 渲染挂载节点会使用 this.target
-            }
-          )}
+          {customEdit
+            ? render(
+                'dropdown',
+                {
+                  type: 'dropdown-button',
+                  className: 'ae-OptionControlItem-dropdown',
+                  btnClassName: 'px-2',
+                  icon: 'fa fa-ellipsis-h',
+                  hideCaret: true,
+                  closeOnClick: true,
+                  align: 'right',
+                  menuClassName: 'ae-OptionControlItem-ulmenu',
+                  buttons: operationBtn
+                },
+                {
+                  popOverContainer: null // amis 渲染挂载节点会使用 this.target
+                }
+              )
+            : render('delete', {
+                type: 'button',
+                className: 'ae-OptionControlItem-action-delete',
+                icon: 'fa fa-trash',
+                level: 'link',
+                onClick: () => this.handleDelete(index)
+              })}
         </div>
         {editDom}
       </li>
@@ -541,7 +550,12 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
         {Array.isArray(options) && options.length ? (
           <ul className="ae-OptionControl-content" ref={this.dragRef}>
             {options.map((option, index) =>
-              this.renderOption({...option, index, multipleProps})
+              this.renderOption({
+                ...this.props,
+                ...option,
+                index,
+                multipleProps
+              })
             )}
           </ul>
         ) : (
