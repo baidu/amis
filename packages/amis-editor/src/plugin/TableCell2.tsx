@@ -722,17 +722,17 @@ export class TableCell2Plugin extends BasePlugin {
             }
           ].filter(Boolean)
         )
-      },
-      {
-        title: '外观',
-        body: [
-          getSchemaTpl('className'),
-          getSchemaTpl('className', {
-            name: 'innerClassName',
-            label: '内部 CSS 类名'
-          })
-        ]
       }
+      // {
+      //   title: '外观',
+      //   body: [
+      //     getSchemaTpl('className'),
+      //     getSchemaTpl('className', {
+      //       name: 'innerClassName',
+      //       label: '内部 CSS 类名'
+      //     })
+      //   ]
+      // }
     ]);
   };
 }

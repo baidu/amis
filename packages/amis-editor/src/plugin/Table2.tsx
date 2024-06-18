@@ -1337,31 +1337,31 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'bordered',
-                  label: '边框',
-                  pipeIn: defaultValue(false)
-                }),
-                {
-                  name: 'size',
-                  label: '控件尺寸',
-                  type: 'select',
-                  pipeIn: defaultValue('default'),
-                  options: [
-                    {
-                      label: '小',
-                      value: 'small'
-                    },
-                    {
-                      label: '默认',
-                      value: 'default'
-                    },
-                    {
-                      label: '大',
-                      value: 'large'
-                    }
-                  ]
-                },
+                // getSchemaTpl('switch', {
+                //   name: 'bordered',
+                //   label: '边框',
+                //   pipeIn: defaultValue(false)
+                // }),
+                // {
+                //   name: 'size',
+                //   label: '控件尺寸',
+                //   type: 'select',
+                //   pipeIn: defaultValue('default'),
+                //   options: [
+                //     {
+                //       label: '小',
+                //       value: 'small'
+                //     },
+                //     {
+                //       label: '默认',
+                //       value: 'default'
+                //     },
+                //     {
+                //       label: '大',
+                //       value: 'large'
+                //     }
+                //   ]
+                // },
                 getSchemaTpl('switch', {
                   name: 'autoFillHeight',
                   label: '高度自适应'
@@ -1384,20 +1384,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
+                  type: 'amis-theme-select',
+                  name: 'scroll.y',
                   visibleOn: 'this.scroll && this.scroll.y !== null',
-                  label: '高度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.y'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  label: '高度值'
                 },
 
                 {
@@ -1422,21 +1412,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
-                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  type: 'amis-theme-select',
                   name: 'scroll.x',
-                  label: '宽度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.x'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  label: '宽度值'
                 },
                 {
                   name: 'indentSize',
@@ -1464,7 +1443,40 @@ export class Table2Plugin extends BasePlugin {
                 }
               ]
             },
-
+            getSchemaTpl('theme:base', {
+              classname: 'tableHeadClassname',
+              title: '表头',
+              needState: false,
+              hideMargin: true,
+              hideShadow: true,
+              hideRadius: true,
+              extra: [
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableHeadClassname.font'
+                })
+              ]
+            }),
+            getSchemaTpl('theme:base', {
+              title: '单元格',
+              classname: 'tableBodyClassname',
+              hideShadow: true,
+              hideRadius: true,
+              hideBorder: true,
+              hidePaddingAndMargin: true,
+              state: ['default', 'hover'],
+              extra: [
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableRowClassname.paddingAndMargin',
+                  hideMargin: true
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableRowClassname.border'
+                }),
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableBodyClassname.font'
+                })
+              ]
+            }),
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

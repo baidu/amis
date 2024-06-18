@@ -615,6 +615,7 @@ export class ApiDSBuilder extends DSBuilder<
       type: 'form',
       title: '表单',
       mode: 'flex',
+      labelAlign: 'top',
       dsType: this.key,
       feat: feat,
       body: fields.map((f, index) => {

@@ -621,6 +621,7 @@ setSchemaTpl(
     hidePadding?: boolean;
     needState?: boolean;
     editorValueToken?: string;
+    state?: string[];
   }) => {
     const {
       collapsed = false,
@@ -637,7 +638,8 @@ setSchemaTpl(
       hideMargin,
       hidePadding,
       needState = true,
-      editorValueToken
+      editorValueToken,
+      state = ['default', 'hover', 'active']
     } = option;
     const styleStateFunc = (visibleOn: string, state: string) => {
       return [
@@ -704,7 +706,7 @@ setSchemaTpl(
         mode: 'horizontal',
         labelAlign: 'left',
         labelWidth: 80,
-        name: '__editorState',
+        name: `__editorState${classname}`,
         label: '状态',
         selectFirst: true,
         options: [
@@ -720,14 +722,14 @@ setSchemaTpl(
             label: '点击',
             value: 'active'
           }
-        ]
+        ].filter(item => state.includes(item.value))
       },
       ...styleStateFunc(
-        "${__editorState == 'default' || !__editorState}",
+        `\${__editorState${classname} == 'default' || !__editorState${classname}}`,
         'default'
       ),
-      ...styleStateFunc("${__editorState == 'hover'}", 'hover'),
-      ...styleStateFunc("${__editorState == 'active'}", 'active')
+      ...styleStateFunc(`\${__editorState${classname} == 'hover'}`, 'hover'),
+      ...styleStateFunc(`\${__editorState${classname} == 'active'}`, 'active')
     ].filter(Boolean);
 
     return {

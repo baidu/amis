@@ -56,7 +56,7 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     data
   } = props;
   // 期望value是string类型
-  const value = props.value;
+  const value = props.value + '';
   const input = useRef<HTMLInputElement>(null);
   const [currentItem, setCurrentItem] = useState<Option | undefined>(undefined);
   const [options, setOptions] = useState<Option[] | undefined>(originalOptions);
