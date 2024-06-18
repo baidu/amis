@@ -51,9 +51,10 @@
 
   &-input {
     overflow: hidden;
+    height: px2rem(32px);
 
     &-area {
-      min-height: var(--IconSelect-preivew-icon-size);
+      min-height: var(--IconSelect-preview-icon-size);
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -83,8 +84,8 @@
     &-icon {
       &-show {
         & > svg {
-          width: var(--IconSelect-preivew-icon-size);
-          height: var(--IconSelect-preivew-icon-size);
+          width: var(--IconSelect-preview-icon-size);
+          height: var(--IconSelect-preview-icon-size);
           margin-right: var(--IconSelect-xs-margin);
           top: px2rem(3px);
         }
@@ -97,6 +98,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 12px;
       }
 
       &-placeholder {

@@ -1224,7 +1224,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       const horizontal = props.horizontal || props.formHorizontal || {};
       const left = getWidthRate(horizontal.left);
       const right = getWidthRate(horizontal.right);
-      const labelAlign = props.labelAlign || props.formLabelAlign;
+      const labelAlign =
+        (props.labelAlign !== 'inherit' && props.labelAlign) ||
+        props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
 
       return (
@@ -1967,7 +1969,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       themeCss,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      classnames: cx
     } = this.props;
     const mode = this.props.mode || formMode;
 
@@ -2005,7 +2008,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             themeCss: themeCss || css,
             classNames: [
               {
-                key: 'labelClassName'
+                key: 'labelClassName',
+                weights: {
+                  default: {
+                    suf: `.${cx('Form-label')}`,
+                    parent: `.${cx('Form-item')}`
+                  }
+                }
               },
               {
                 key: 'descriptionClassName'
@@ -2218,10 +2227,10 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               ...rest
             } = this.props;
 
-            const controlSize =
-              size && ['xs', 'sm', 'md', 'lg', 'full'].includes(size)
-                ? size
-                : defaultSize;
+            const isRuleSize =
+              size && ['xs', 'sm', 'md', 'lg', 'full'].includes(size);
+
+            const controlSize = isRuleSize ? size : defaultSize;
 
             //@ts-ignore
             const isOpened = this.state.isOpened;
@@ -2239,6 +2248,9 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                   ref={supportRef ? this.refFn : undefined}
                   forwardedRef={supportRef ? undefined : this.refFn}
                   formItem={model}
+                  style={{
+                    width: !isRuleSize && size ? size : undefined
+                  }}
                   className={cx(
                     `Form-control`,
                     {

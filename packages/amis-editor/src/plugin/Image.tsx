@@ -355,20 +355,22 @@ export class ImagePlugin extends BasePlugin {
               getSchemaTpl('theme:font', {
                 label: '标题文字',
                 name: 'themeCss.titleControlClassName.font',
-                editorThemePath: 'image.image.default.normal.body.font'
+                editorValueToken: '--image-image-normal'
               }),
               getSchemaTpl('theme:paddingAndMargin', {
                 label: '标题边距',
-                name: 'themeCss.titleControlClassName.padding-and-margin'
+                name: 'themeCss.titleControlClassName.padding-and-margin',
+                editorValueToken: '--image-image-normal-title'
               }),
               getSchemaTpl('theme:font', {
                 label: '描述文字',
                 name: 'themeCss.desControlClassName.font',
-                editorThemePath: 'image.image.default.description.body.font'
+                editorValueToken: '--image-image-description'
               }),
               getSchemaTpl('theme:paddingAndMargin', {
                 label: '描述边距',
-                name: 'themeCss.desControlClassName.padding-and-margin'
+                name: 'themeCss.desControlClassName.padding-and-margin',
+                editorValueToken: '--image-image-description'
               }),
               {
                 name: 'themeCss.iconControlClassName.--image-image-normal-icon',

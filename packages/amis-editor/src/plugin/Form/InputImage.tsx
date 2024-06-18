@@ -13,20 +13,20 @@ import {ValidatorTag} from '../../validator';
 
 const addBtnCssClassName = 'themeCss.addBtnControlClassName';
 const IconCssClassName = 'themeCss.iconControlClassName';
-const editorPath = 'inputImage.base';
+const editorPath = '--inputImage-base';
 const inputStateFunc = (visibleOn: string, state: string) => {
   return [
     getSchemaTpl('theme:border', {
       name: `${addBtnCssClassName}.border:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.border`
+      editorValueToken: `${editorPath}-${state}`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '文字',
       name: `${addBtnCssClassName}.color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.color`
+      editorValueToken: `${editorPath}-${state}-color`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '背景',
@@ -35,14 +35,14 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       needGradient: true,
       needImage: true,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.bg-color`
+      editorValueToken: `${editorPath}-${state}-bg-color`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '图标',
       name: `${addBtnCssClassName}.icon-color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.icon-color`
+      editorValueToken: `${editorPath}-${state}-icon-color`
     })
   ];
 };
@@ -506,7 +506,7 @@ export class ImageControlPlugin extends BasePlugin {
                 getSchemaTpl('theme:radius', {
                   name: `${addBtnCssClassName}.border-radius`,
                   label: '圆角',
-                  editorThemePath: `${editorPath}.default.body.border`
+                  editorValueToken: `${editorPath}-default`
                 }),
                 {
                   name: `${addBtnCssClassName}.--inputImage-base-default-icon`,
@@ -517,12 +517,12 @@ export class ImageControlPlugin extends BasePlugin {
                 getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.iconSize`,
                   label: '图标大小',
-                  editorThemePath: `${editorPath}.default.body.icon-size`
+                  editorValueToken: `${editorPath}-default-icon-size`
                 }),
                 getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.margin-bottom`,
                   label: '图标底边距',
-                  editorThemePath: `${editorPath}.default.body.icon-margin`
+                  editorValueToken: `${editorPath}-default-icon-margin`
                 })
               ]
             },

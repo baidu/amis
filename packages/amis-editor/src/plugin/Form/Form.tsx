@@ -123,7 +123,13 @@ export class FormPlugin extends BasePlugin {
       label: '表单集合',
       matchRegion: (elem: JSX.Element) => !!elem?.props.noValidate,
       renderMethod: 'renderBody',
-      preferTag: '表单项'
+      preferTag: '表单项',
+      dndMode: (schema: any) => {
+        if (schema.mode === 'flex') {
+          return 'flex';
+        }
+        return 'default';
+      }
     },
 
     {
@@ -1091,12 +1097,66 @@ export class FormPlugin extends BasePlugin {
             {
               title: '布局',
               body: [
-                getSchemaTpl('formItemMode', {
-                  isForm: true,
-                  /** Form组件默认为normal模式 */
-                  defaultValue: 'normal'
-                }),
-                getSchemaTpl('horizontal'),
+                {
+                  label: '布局',
+                  name: 'mode',
+                  type: 'select',
+                  pipeIn: defaultValue('flex'),
+                  options: [
+                    {
+                      label: '网格',
+                      value: 'flex'
+                    },
+                    {
+                      label: '内联',
+                      value: 'inline'
+                    },
+                    {
+                      label: '水平',
+                      value: 'horizontal'
+                    },
+                    {
+                      label: '垂直',
+                      value: 'normal'
+                    }
+                  ],
+                  pipeOut: (v: string) => (v ? v : undefined),
+                  onChange: (
+                    value: string,
+                    oldValue: string,
+                    model: any,
+                    form: any
+                  ) => {
+                    const body = [...form.data.body];
+                    let temp = body;
+                    if (value === 'flex') {
+                      temp = body?.map((item: any, index: number) => {
+                        return {
+                          ...item,
+                          row: index,
+                          mode: undefined
+                        };
+                      });
+                    } else {
+                      temp = body?.map((item: any, index: number) => {
+                        return {
+                          ...item,
+                          row: undefined,
+                          colSize: undefined,
+                          labelAlign: undefined,
+                          mode: undefined
+                        };
+                      });
+                    }
+                    form.setValueByName('body', temp);
+                  }
+                },
+                {
+                  type: 'col-count',
+                  name: '__rolCount',
+                  label: tipedLabel('列数', '仅对PC页面生效'),
+                  visibleOn: 'this.mode === "flex"'
+                },
                 {
                   label: '列数',
                   name: 'columnCount',
@@ -1106,6 +1166,7 @@ export class FormPlugin extends BasePlugin {
                   precision: 0,
                   resetValue: '',
                   unitOptions: ['列'],
+                  hiddenOn: 'this.mode === "flex"',
                   pipeOut: (value: string) => {
                     if (value && typeof value === 'string') {
                       const count = Number.parseInt(
@@ -1120,12 +1181,7 @@ export class FormPlugin extends BasePlugin {
                       return undefined;
                     }
                   }
-                }
-              ]
-            },
-            {
-              title: '其他',
-              body: [
+                },
                 getSchemaTpl('switch', {
                   name: 'wrapWithPanel',
                   label: tipedLabel(
@@ -1142,6 +1198,142 @@ export class FormPlugin extends BasePlugin {
                   ),
                   visibleOn: isWrapped
                 })
+              ]
+            },
+            getSchemaTpl('theme:base', {
+              classname: 'formControlClassName',
+              title: '表单样式',
+              needState: false,
+              hiddenOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'panelClassName',
+              title: 'Panel样式',
+              editorValueToken: '--Panel',
+              hidePadding: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'headerControlClassName',
+              title: '标题区样式',
+              visibleOn: isWrapped,
+              editorValueToken: '--Panel-heading',
+              hideRadius: true,
+              hideShadow: true,
+              hideMargin: true,
+              needState: false,
+              extra: [
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.headerTitleControlClassName.font',
+                  editorValueToken: '--Panel-heading'
+                })
+              ]
+            }),
+
+            getSchemaTpl('theme:base', {
+              classname: 'bodyControlClassName',
+              title: '内容区样式',
+              editorValueToken: '--Panel-body',
+              hideRadius: true,
+              hideShadow: true,
+              hideBorder: true,
+              hideMargin: true,
+              hideBackground: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            {
+              title: '表单项样式',
+              body: [
+                {
+                  type: 'select',
+                  name: 'labelAlign',
+                  label: '标题位置',
+                  selectFirst: true,
+                  hiddenOn:
+                    'this.mode === "normal" || this.mode === "inline" || this.mode === "horizontal"',
+                  options: [
+                    {
+                      label: '上下布局',
+                      value: 'top'
+                    },
+                    {
+                      label: '水平居左',
+                      value: 'left'
+                    },
+                    {
+                      label: '水平居右',
+                      value: 'right'
+                    }
+                  ]
+                },
+                {
+                  type: 'select',
+                  name: 'labelAlign',
+                  label: '标题位置',
+                  selectFirst: true,
+                  hiddenOn:
+                    'this.mode === "normal" || this.mode === "inline" || this.mode === "flex"',
+                  options: [
+                    {
+                      label: '水平居左',
+                      value: 'left'
+                    },
+                    {
+                      label: '水平居右',
+                      value: 'right'
+                    }
+                  ]
+                },
+                getSchemaTpl('theme:select', {
+                  label: '标题宽度',
+                  name: 'labelWidth',
+                  hiddenOn:
+                    'this.mode === "normal" || this.labelAlign === "top"'
+                }),
+
+                getSchemaTpl('theme:font', {
+                  label: '标题文字',
+                  editorValueToken: '--Form-item',
+                  hasSenior: false,
+                  name: 'themeCss.itemLabelClassName.font'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  label: '标题边距',
+                  hidePadding: true,
+                  name: 'themeCss.itemLabelClassName.padding-and-margin'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  label: '表单项边距',
+                  hidePadding: true,
+                  name: 'themeCss.itemClassName.padding-and-margin'
+                }),
+                getSchemaTpl('theme:font', {
+                  label: '静态展示文字',
+                  editorValueToken: '--Form-static',
+                  name: 'themeCss.staticClassName.font',
+                  visibleOn: '!!this.static || !!this.staticOn'
+                })
+              ]
+            },
+            getSchemaTpl('theme:base', {
+              classname: 'actionsControlClassName',
+              title: '操作区样式',
+              editorValueToken: '--Panel-footer',
+              hideRadius: true,
+              hideShadow: true,
+              hideMargin: true,
+              needState: false,
+              visibleOn: isWrapped
+            }),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
               ]
             },
             /** */

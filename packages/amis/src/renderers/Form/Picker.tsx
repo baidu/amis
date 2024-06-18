@@ -773,15 +773,11 @@ export default class PickerControl extends React.PureComponent<
               onClick={this.handleClick}
               className={cx(
                 'Picker-input',
+                disabled && 'is-disabled',
+                this.state.isFocused && 'is-focused',
                 setThemeClassName({
                   ...this.props,
                   name: 'pickControlClassName',
-                  id,
-                  themeCss: themeCss || css
-                }),
-                setThemeClassName({
-                  ...this.props,
-                  name: 'pickControlDisabledClassName',
                   id,
                   themeCss: themeCss || css
                 })
@@ -876,24 +872,13 @@ export default class PickerControl extends React.PureComponent<
                   hover: {
                     important: true
                   },
-                  active: {
-                    important: true
+                  focused: {
+                    important: true,
+                    parent: `.${ns}Picker.is-focused >`
                   },
                   disabled: {
-                    important: true
-                  }
-                }
-              },
-              {
-                key: 'pickControlDisabledClassName',
-                weights: {
-                  default: {
-                    pre: `${ns}Picker.is-disabled> .${setThemeClassName({
-                      ...this.props,
-                      name: 'pickControlDisabledClassName',
-                      id,
-                      themeCss: themeCss || css
-                    })}, `
+                    important: true,
+                    parent: `.${ns}Picker.is-disabled >`
                   }
                 }
               },

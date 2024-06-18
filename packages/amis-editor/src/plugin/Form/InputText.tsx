@@ -416,7 +416,7 @@ export class TextControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:formItem', {renderer}),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
             {
@@ -424,7 +424,7 @@ export class TextControlPlugin extends BasePlugin {
               body: [
                 ...inputStateTpl(
                   'themeCss.inputControlClassName',
-                  'input.base.default'
+                  '--input-default'
                 )
               ]
             },
