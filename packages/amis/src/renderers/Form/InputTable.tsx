@@ -1273,7 +1273,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                       saveImmediately: true,
                       mode: 'inline',
                       disabled,
-                      static: isStatic
+                      static: isStatic || column.static
                     }
                   })
             };
