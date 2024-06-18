@@ -1489,10 +1489,7 @@ export function resolveQuickVariables(
     }
 
     if (filterVar.length) {
-      vars.push({
-        label: '表单变量',
-        children: filterVar
-      });
+      vars.push(...filterVar);
     }
 
     return sortVars(vars);
