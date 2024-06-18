@@ -369,7 +369,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
     }
 
-    if (props.value !== prevProps.value) {
+    if (props.value !== prevProps.value && props.value !== this.emittedValue) {
       toUpdate = {
         ...toUpdate,
         items: Array.isArray(props.value) ? props.value.concat() : [],
@@ -494,12 +494,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return msg;
   }
 
+  emittedValue: any = null;
   async emitValue(value?: any[]) {
     const items =
       value ?? this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
-    isPrevented || onChange?.(items);
+    if (!isPrevented) {
+      this.emittedValue = items;
+      onChange?.(items);
+    }
+
     return isPrevented;
   }
 
