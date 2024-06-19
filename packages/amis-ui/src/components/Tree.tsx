@@ -257,7 +257,7 @@ export class TreeSelector extends React.Component<
       dropIndicator: undefined
     };
 
-    this.syncUnFolded(props);
+    this.syncUnFolded(props, undefined, true);
     this.flattenOptions(props, true);
   }
 
@@ -316,7 +316,11 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
+  syncUnFolded(
+    props: TreeSelectorProps,
+    unfoldedLevel?: number,
+    initial?: boolean
+  ) {
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
     let expandLevel = Number(
@@ -361,7 +365,7 @@ export class TreeSelector extends React.Component<
     });
 
     initFoldedLevel && this.forceUpdate();
-    this.flattenOptions();
+    this.flattenOptions(undefined, initial);
     return unfolded;
   }
 
