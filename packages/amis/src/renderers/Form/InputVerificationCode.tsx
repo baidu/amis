@@ -95,7 +95,7 @@ export default class VerificationCodeControl extends React.Component<Verificatio
 }
 
 @FormItem({
-  type: 'verificationCode'
+  type: 'input-verification-code'
 })
 export class VerificationCodeControlRenderer extends VerificationCodeControl {
   //

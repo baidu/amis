@@ -1,14 +1,14 @@
 ---
-title: 验证码输入 VerificationCode
+title: 验证码输入 InputVerificationCode
 description:
 type: 0
 group: null
-menuName: VerificationCode 验证码
+menuName: InputVerificationCode 验证码
 icon:
 order: 63
 ---
 
-注意 VerificationCode, 可通过<b>粘贴</b>完成填充数据。
+注意 InputVerificationCode, 可通过<b>粘贴</b>完成填充数据。
 
 ## 基本用法
 
@@ -21,7 +21,7 @@ order: 63
   "debug": true,
   "body": [
     {
-      "type": "verificationCode",
+      "type": "input-verification-code",
       "name": "verificationCode"
     },
   ]
@@ -39,7 +39,7 @@ order: 63
   "debug": true,
   "body": [
     {
-      "type": "verificationCode",
+      "type": "input-verification-code",
       "name": "verificationCode",
       "masked": true,
     }
@@ -58,7 +58,7 @@ order: 63
   "debug": true,
   "body": [
     {
-      "type": "verificationCode",
+      "type": "input-verification-code",
       "name": "verificationCode",
       "length": 9,
       "separator": "${((index + 1) % 3 || index > 7 ) ? null : '-'}",
@@ -79,13 +79,13 @@ order: 63
   "debug": true,
   "body": [
     {
-      "type": "verificationCode",
+      "type": "input-verification-code",
       "name": "verificationCodeDisabled",
       "value": "123456",
       "disabled": true,
     },
     {
-      "type": "verificationCode",
+      "type": "input-verification-code",
       "name": "verificationCodeReadOnly",
       "value": "987654",
       "readOnly": true,
@@ -121,7 +121,7 @@ finish 输入框都被填充。可以尝试通过`${event.data.value}`获取填�
 
 ```schema: scope="body"
 {
-  "type": "verificationCode",
+  "type": "input-verification-code",
   "onEvent": {
     "finish": {
       "actions": [
@@ -142,7 +142,7 @@ change 输入值改变。可以尝试通过`${event.data.value}`获取填写的�
 
 ```schema: scope="body"
 {
-  "type": "verificationCode",
+  "type": "input-verification-code",
   "onEvent": {
     "change": {
       "actions": [
