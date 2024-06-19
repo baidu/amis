@@ -244,9 +244,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
   handleChange(value: any) {
     const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
       this.props;
-    /*
-    // 备注1: 输入过程中不立即进行normalizeValue数值处理（比如 四舍五入）
-    // 备注2: rc-input-number自身会进行数据纠正操作
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
     const result = NumberInput.normalizeValue(
       value,
@@ -256,13 +253,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       resetValue,
       clearValueOnEmpty,
       this.isBig
-    );
-    onChange?.(result);
-    */
-    const result = NumberInput.normalizeValue2(
-      value,
-      resetValue,
-      clearValueOnEmpty
     );
     onChange?.(result);
   }
