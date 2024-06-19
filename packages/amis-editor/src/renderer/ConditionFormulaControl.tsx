@@ -101,10 +101,18 @@ export default class ConditionFormulaControl extends React.Component<
     if (requiredDataPropsFields) {
       const variablesArr = await getVariables(this);
 
+      // 过滤掉系统默认变量
+      const filterVariables = variablesArr.filter(
+        (item: any) =>
+          !['amisUser', 'amisApp', 'amisCompany', 'window:location'].includes(
+            item.value
+          )
+      );
+
       // 自身字段
       const selfName = this.props?.data?.name;
 
-      fieldsArr = flattenTree(variablesArr, (item: any) => {
+      fieldsArr = flattenTree(filterVariables, (item: any) => {
         if (
           item &&
           item.type &&

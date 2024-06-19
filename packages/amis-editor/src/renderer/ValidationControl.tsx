@@ -90,11 +90,20 @@ export default class ValidationControl extends React.Component<
   @autobind
   async buildFieldsData() {
     const variablesArr = await getVariables(this);
+
+    // 过滤掉系统默认变量
+    const filterVariables = variablesArr.filter(
+      (item: any) =>
+        !['amisUser', 'amisApp', 'amisCompany', 'window:location'].includes(
+          item.value
+        )
+    );
+
     // 自身字段
     const selfName = this.props.data.name;
 
     const arr: ConditionBuilderFields = flattenTree(
-      variablesArr,
+      filterVariables,
       (item: any) => {
         if (item.value && item.type !== 'array' && !item.isMember) {
           let obj: any = {
