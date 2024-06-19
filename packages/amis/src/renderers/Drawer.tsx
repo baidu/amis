@@ -493,6 +493,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
+      btnDisabled: store.loading,
       syncLocation: false
     };
 
@@ -551,6 +552,7 @@ export default class Drawer extends React.Component<DrawerProps> {
           render(`action/${key}`, action, {
             onAction: this.handleAction,
             onActionSensor: undefined,
+            btnDisabled: store.loading,
             data: store.formData,
             key,
             disabled: action.disabled || store.loading
@@ -686,7 +688,8 @@ export default class Drawer extends React.Component<DrawerProps> {
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction,
-                  onActionSensor: undefined
+                  onActionSensor: undefined,
+                  btnDisabled: store.loading
                 })}
               </div>
             ) : null}
@@ -696,7 +699,8 @@ export default class Drawer extends React.Component<DrawerProps> {
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction,
-                  onActionSensor: undefined
+                  onActionSensor: undefined,
+                  btnDisabled: store.loading
                 })
               : null}
           </div>

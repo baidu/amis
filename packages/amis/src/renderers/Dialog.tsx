@@ -497,6 +497,7 @@ export default class Dialog extends React.Component<DialogProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
+      btnDisabled: store.loading,
       syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
@@ -559,6 +560,7 @@ export default class Dialog extends React.Component<DialogProps> {
             // 弹窗观察内部的动作执行，不需要观察到子弹窗里面去
             // 所以这里传递了 undefined
             onActionSensor: undefined,
+            btnDisabled: store.loading,
             key,
             disabled: action.disabled || store.loading || !show
           })
@@ -720,7 +722,8 @@ export default class Dialog extends React.Component<DialogProps> {
             {render('title', title, {
               data: store.formData,
               onAction: this.handleAction,
-              onActionSensor: undefined
+              onActionSensor: undefined,
+              btnDisabled: store.loading
             })}
           </div>
         ) : showCloseButton !== false && !store.loading ? (
@@ -737,7 +740,8 @@ export default class Dialog extends React.Component<DialogProps> {
           ? render('header', header, {
               data: store.formData,
               onAction: this.handleAction,
-              onActionSensor: undefined
+              onActionSensor: undefined,
+              btnDisabled: store.loading
             })
           : null}
 
@@ -804,7 +808,7 @@ export default class Dialog extends React.Component<DialogProps> {
           </div>
         ) : null}
 
-        {this.renderFooter()}
+        {body ? this.renderFooter() : null}
 
         {body
           ? render(
