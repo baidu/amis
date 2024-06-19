@@ -488,6 +488,8 @@ export class TplFormulaControl extends React.Component<
                       'FormulaEditor-VariableList',
                       'FormulaEditor-VariableList-root'
                     )}
+                    selectMode="tree"
+                    expandTree
                     data={quickVariables}
                     onSelect={this.handleQuickVariableSelect}
                     popOverContainer={popOverContainer}

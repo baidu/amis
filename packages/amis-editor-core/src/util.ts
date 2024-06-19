@@ -1472,7 +1472,12 @@ export function resolveQuickVariables(
         return 0;
       }
     });
-    return arrs;
+    return arrs.map(arr => {
+      if (Array.isArray(arr.children)) {
+        arr.children = sortVars(arr.children);
+      }
+      return arr;
+    });
   }
 
   if (quickVars?.length) {
