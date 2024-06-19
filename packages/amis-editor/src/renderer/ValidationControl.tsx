@@ -10,10 +10,8 @@ import {ConditionBuilderFields, FormItem, flattenTree} from 'amis';
 
 import {
   autobind,
-  getSchemaTpl,
-  getVariables,
-  isObjectShallowModified,
-  tipedLabel
+  getQuickVariables,
+  isObjectShallowModified
 } from 'amis-editor-core';
 import ValidationItem, {ValidatorData} from './ValidationItem';
 
@@ -89,7 +87,7 @@ export default class ValidationControl extends React.Component<
 
   @autobind
   async buildFieldsData() {
-    const variablesArr = await getVariables(this);
+    const variablesArr = await getQuickVariables(this);
     // 自身字段
     const selfName = this.props.data.name;
 
