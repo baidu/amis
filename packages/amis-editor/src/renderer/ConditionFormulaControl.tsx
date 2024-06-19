@@ -12,7 +12,7 @@ import {
 import cx from 'classnames';
 import {FormItem, Button, PickerContainer, ConditionBuilderFields} from 'amis';
 import {reaction} from 'mobx';
-import {getVariables} from 'amis-editor-core';
+import {getQuickVariables} from 'amis-editor-core';
 
 interface ConditionFormulaControlProps extends FormControlProps {
   /**
@@ -99,7 +99,7 @@ export default class ConditionFormulaControl extends React.Component<
     let fieldsArr: ConditionBuilderFields = [];
     const {requiredDataPropsFields, fields} = this.props;
     if (requiredDataPropsFields) {
-      const variablesArr = await getVariables(this);
+      const variablesArr = await getQuickVariables(this);
 
       // 自身字段
       const selfName = this.props?.data?.name;
