@@ -191,32 +191,9 @@ export default class NumberControl extends React.Component<
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
-    const {formItem, setPrinstineValue, precision, step, value, big} = props;
-    const normalizedPrecision = NumberInput.normalizePrecision(
-      this.filterNum(precision),
-      this.filterNum(step)
-    );
+    const {formItem, value} = props;
 
-    /**
-     * 如果设置了precision需要处理入参value的精度
-     * 如果是带有单位的输入，则不支持精度处理
-     */
-    if (
-      formItem &&
-      value != null &&
-      normalizedPrecision != null &&
-      (!unit || unitOptions.length === 0) &&
-      // 大数下不需要进行精度处理，因为输入输出都是字符串
-      big !== true
-    ) {
-      const normalizedValue = parseFloat(
-        toFixed(value.toString(), '.', normalizedPrecision)
-      );
-
-      if (!isNaN(normalizedValue) && normalizedValue !== value) {
-        setPrinstineValue(normalizedValue);
-      }
-    }
+    formItem && this.formatNumber(value, true);
 
     this.state = {unit, unitOptions};
   }
@@ -266,6 +243,33 @@ export default class NumberControl extends React.Component<
 
       onChange?.(clearValueOnEmpty && value === '' ? undefined : value);
     }
+  }
+
+  formatNumber(value: any, setPrinstine = false) {
+    const {precision, step, big, setPrinstineValue} = this.props;
+    const unit = this.getUnit();
+    const unitOptions = normalizeOptions(this.props.unitOptions);
+    const normalizedPrecision = NumberInput.normalizePrecision(
+      this.filterNum(precision),
+      this.filterNum(step)
+    );
+    if (
+      value != null &&
+      normalizedPrecision != null &&
+      (!unit || unitOptions.length === 0) &&
+      // 大数下不需要进行精度处理，因为是字符串
+      big !== true
+    ) {
+      const normalizedValue = parseFloat(
+        toFixed(value.toString(), '.', normalizedPrecision)
+      );
+
+      if (!isNaN(normalizedValue) && normalizedValue !== value) {
+        value = normalizedValue;
+        setPrinstine && setPrinstineValue(normalizedValue);
+      }
+    }
+    return value;
   }
 
   // 解析出单位
@@ -323,7 +327,10 @@ export default class NumberControl extends React.Component<
   async handleChange(inputValue: any) {
     const {onChange, dispatchEvent, clearValueOnEmpty} = this.props;
     const value = this.getValue(inputValue);
-    const resultValue = clearValueOnEmpty && value === '' ? undefined : value;
+    let resultValue = clearValueOnEmpty && value === '' ? undefined : value;
+
+    // 精度处理
+    resultValue = this.formatNumber(resultValue);
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {value: resultValue})
@@ -333,9 +340,10 @@ export default class NumberControl extends React.Component<
     }
     onChange(resultValue);
 
-    setTimeout(() => {
-      this.changeCursorPos(+resultValue);
-    }, 0);
+    // 移动光标的方式会引发其他问题，暂不使用这种方式
+    // setTimeout(() => {
+    //   this.changeCursorPos(+resultValue);
+    // }, 0);
   }
 
   // 取真实用户输入的值去改变光标的位置
@@ -467,10 +475,21 @@ export default class NumberControl extends React.Component<
     // 数据格式化
     const formatter =
       kilobitSeparator || prefix || suffix
-        ? (value: string | number) => {
+        ? (
+            value: string | number,
+            {userTyping, input}: {userTyping: boolean; input: string}
+          ) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              value = numberFormatter(value, finalPrecision);
+              if (userTyping) {
+                // 如果是用户输入状态，则只进行千分隔处理，避免光标乱跳
+                let parts = value.toString().split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                value = parts.join('.');
+              } else {
+                // 如果是非用户输入状态（如 blur），则进行千分隔 + 精度处理
+                value = numberFormatter(value, finalPrecision);
+              }
             }
             return `${prefix || ''}${value}${suffix || ''}`;
           }
