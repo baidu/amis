@@ -95,6 +95,7 @@ import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Form/UserSelect';
 import './renderers/Form/InputSignature';
+import './renderers/Form/InputVerificationCode';
 import './renderers/Grid';
 import './renderers/Grid2D';
 import './renderers/HBox';

@@ -1,0 +1,33 @@
+.#{$ns}Verification-code {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  column-gap: 4px;
+  overflow: hidden;
+  input {
+    width: px2rem(35px);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    line-height: var(--Form-input-lineHeight);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+    font-size: var(--Form-input-fontSize);
+    text-align: center;
+
+    &:focus {
+      border-color: var(--Form-input-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+      background: var(--Form-input-onFocused-bg);
+    }
+
+    &:hover {
+      border-color: var(--Form-input-onFocused-borderColor);
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+  }
+}

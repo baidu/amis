@@ -132,6 +132,7 @@ import {CodeMirrorEditor} from './CodeMirror';
 import type CodeMirror from 'codemirror';
 import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
+import VerificationCode from './VerificationCode';
 
 export {
   NotFound,
@@ -269,5 +270,6 @@ export {
   CodeMirror,
   CodeMirrorEditor,
   OverflowTpl,
-  Signature
+  Signature,
+  VerificationCode
 };

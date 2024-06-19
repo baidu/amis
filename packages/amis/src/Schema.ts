@@ -256,6 +256,7 @@ export type SchemaType =
   | 'office-viewer'
   | 'pdf-viewer'
   | 'input-signature'
+  | 'input-verification-code'
 
   // editor 系列
   | 'editor'
