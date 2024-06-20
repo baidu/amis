@@ -2141,9 +2141,18 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     return (
       <div
-        className={cx('Table-render-wrapper', {
-          'Table--unsaved': !!store.modified || !!store.moved
-        })}
+        className={cx(
+          'Table-render-wrapper',
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          }),
+          {
+            'Table--unsaved': !!store.modified || !!store.moved
+          }
+        )}
         style={style}
       >
         {this.renderActions('header')}

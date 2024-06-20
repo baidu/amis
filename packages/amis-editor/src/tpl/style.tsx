@@ -677,7 +677,7 @@ setSchemaTpl(
             labelMode: 'input',
             state,
             editorValueToken: editorValueToken
-              ? `${editorValueToken}-bg-color`
+              ? `${editorValueToken}-\${__editorState${classname} || 'default'}-bg-color`
               : undefined
           }),
         !hideShadow &&

@@ -1443,22 +1443,43 @@ export class Table2Plugin extends BasePlugin {
                 }
               ]
             },
-            getSchemaTpl('theme:base', {
-              classname: 'tableHeadClassname',
+            {
               title: '表头',
-              needState: false,
-              hideMargin: true,
-              hideShadow: true,
-              hideRadius: true,
-              extra: [
+              body: [
+                getSchemaTpl('theme:colorPicker', {
+                  name: 'themeCss.tableHeadClassname.background',
+                  needCustom: true,
+                  needGradient: true,
+                  needImage: true,
+                  labelMode: 'input',
+                  label: '背景',
+                  editorValueToken: '--table-header-bg-color'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableHeadClassname.paddingAndMargin',
+                  hideMargin: true,
+                  editorValueToken: '--table'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableHeadClassname.border',
+                  label: '边框',
+                  editorValueToken: {
+                    'rightBorderColor': '--Table-thead-borderColor',
+                    'rightBorderWidth': '--Table-thead-borderWidth',
+                    '*': '--table-header'
+                  }
+                }),
                 getSchemaTpl('theme:font', {
-                  name: 'themeCss.tableHeadClassname.font'
+                  name: 'themeCss.tableHeadClassname.font',
+                  editorValueToken: '--table-header'
                 })
               ]
-            }),
+            },
+
             getSchemaTpl('theme:base', {
               title: '单元格',
               classname: 'tableBodyClassname',
+              editorValueToken: '--table-body',
               hideShadow: true,
               hideRadius: true,
               hideBorder: true,
@@ -1467,16 +1488,32 @@ export class Table2Plugin extends BasePlugin {
               extra: [
                 getSchemaTpl('theme:paddingAndMargin', {
                   name: 'themeCss.tableRowClassname.paddingAndMargin',
-                  hideMargin: true
+                  hideMargin: true,
+                  editorValueToken: '--table'
                 }),
                 getSchemaTpl('theme:border', {
-                  name: 'themeCss.tableRowClassname.border'
+                  name: 'themeCss.tableRowClassname.border',
+                  editorValueToken: {
+                    'bottomBorderColor': '--Table-borderColor',
+                    'bottomBorderWidth': '--Table-borderWidth',
+                    '*': '--table'
+                  }
                 }),
                 getSchemaTpl('theme:font', {
-                  name: 'themeCss.tableBodyClassname.font'
+                  name: 'themeCss.tableBodyClassname.font',
+                  editorValueToken: '--table-body'
                 })
               ]
             }),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
+              ]
+            },
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

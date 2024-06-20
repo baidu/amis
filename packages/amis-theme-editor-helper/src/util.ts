@@ -1,6 +1,22 @@
 import {PlainObject, filter} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 
+const THEME_CSS_VAR = [
+  '--colors',
+  '--sizes',
+  '--borders',
+  '--fonts',
+  '--shadows'
+];
+
+function getCssKey(key: string) {
+  return key?.replace('var(', '').replace(')', '');
+}
+
+function isThemeCssVar(key: string) {
+  // 是否以主题变量开头
+  return THEME_CSS_VAR.some(item => getCssKey(key)?.startsWith(item));
+}
 /**
  * 根据路径获取默认值
  */
@@ -11,12 +27,28 @@ export function getDefaultValue(
   if (editorValue) {
     if (typeof editorValue === 'string') {
       const key = filter(editorValue, data);
-      return data.cssVars[key];
+      const value = data.cssVars[key];
+      if (!value) {
+        return value;
+      }
+      if (isThemeCssVar(value)) {
+        return value;
+      } else {
+        return getDefaultValue(getCssKey(value), data);
+      }
     } else {
       const res: PlainObject = {};
-      Object.keys(editorValue).forEach(key => {
-        const value = filter(editorValue[key], data);
-        res[key] = data.cssVars[value];
+      Object.keys(editorValue).forEach(k => {
+        const key = filter(editorValue[k], data);
+        const value = data.cssVars[key];
+        if (!value) {
+          res[k] = value;
+        }
+        if (isThemeCssVar(value)) {
+          res[k] = value;
+        } else {
+          res[k] = getDefaultValue(getCssKey(value), data);
+        }
       });
       return res;
     }

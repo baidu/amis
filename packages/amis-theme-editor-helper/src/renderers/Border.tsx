@@ -118,7 +118,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
   );
   const [borderType, setBorderType] = useState<string>('all');
 
-  let borderToken;
+  let borderToken: any;
 
   if (editorValueToken) {
     borderToken = {
@@ -135,6 +135,16 @@ function BoxBorder(props: BorderProps & FormControlProps) {
       'left-border-width': `${editorValueToken}-left-border-width`,
       'left-border-style': `${editorValueToken}-left-border-style`
     };
+    if (typeof editorValueToken === 'object') {
+      Object.keys(borderToken).forEach(key => {
+        // 短横线转驼峰
+        const tokenKey = key.replace(/-([a-z])/g, function (all, letter) {
+          return letter.toUpperCase();
+        });
+        borderToken[key] =
+          editorValueToken[tokenKey] || `${editorValueToken['*']}-${key}`;
+      });
+    }
   }
   const editorDefaultValue = formatData(getDefaultValue(borderToken, data));
   const borderData = formatData(value || {});
