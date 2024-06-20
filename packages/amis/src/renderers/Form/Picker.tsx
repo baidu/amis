@@ -141,10 +141,7 @@ export default class PickerControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {
-      mode: 'list',
-      listItem: {
-        title: '${label|raw}'
-      }
+      mode: 'list'
     },
     embed: false,
     overflowConfig: {
