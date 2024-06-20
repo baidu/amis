@@ -249,10 +249,10 @@ exports[`doAction:crud reload 1`] = `
                   </table>
                 </div>
                 <div
-                  class="cxd-Spinner-overlay in"
+                  class="cxd-Spinner-overlay ing"
                 />
                 <div
-                  class="cxd-Spinner cxd-Spinner--overlay in"
+                  class="cxd-Spinner cxd-Spinner--overlay ing"
                   data-testid="spinner"
                 >
                   <div
@@ -557,10 +557,10 @@ exports[`doAction:crud reload with data1 1`] = `
                   </table>
                 </div>
                 <div
-                  class="cxd-Spinner-overlay in"
+                  class="cxd-Spinner-overlay ing"
                 />
                 <div
-                  class="cxd-Spinner cxd-Spinner--overlay in"
+                  class="cxd-Spinner cxd-Spinner--overlay ing"
                   data-testid="spinner"
                 >
                   <div
@@ -865,10 +865,10 @@ exports[`doAction:crud reload with data2 1`] = `
                   </table>
                 </div>
                 <div
-                  class="cxd-Spinner-overlay in"
+                  class="cxd-Spinner-overlay ing"
                 />
                 <div
-                  class="cxd-Spinner cxd-Spinner--overlay in"
+                  class="cxd-Spinner cxd-Spinner--overlay ing"
                   data-testid="spinner"
                 >
                   <div
