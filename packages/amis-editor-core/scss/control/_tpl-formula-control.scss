@@ -99,20 +99,20 @@
 
   &-buttonWrapper {
     height: auto;
-    &-button {
-      height: 100%;
-      background-color: #f7f7f9;
-      padding: 4px 8px;
-      border-radius: 0 var(--input-default-default-top-left-border-radius)
-        var(--input-default-default-bottom-left-border-radius) 0;
-      border-left: 0;
-      &:not(:disabled):not(.is-disabled) {
-        &:hover,
-        &:hover:active {
-          border-color: #e6f0ff;
-          background-color: #e6f0ff;
-          border-left-width: 0;
-        }
+  }
+  &-button {
+    height: 100%;
+    background-color: #f7f7f9;
+    padding: 4px 8px;
+    border-radius: 0 var(--input-default-default-top-left-border-radius)
+      var(--input-default-default-bottom-left-border-radius) 0;
+    border-left: 0;
+    &:not(:disabled):not(.is-disabled) {
+      &:hover,
+      &:hover:active {
+        border-color: #e6f0ff;
+        background-color: #e6f0ff;
+        border-left-width: 0;
       }
     }
   }
