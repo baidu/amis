@@ -184,9 +184,10 @@ export const bindEvent = (renderer: any) => {
       // eventName用来避免过滤广播事件
       rendererEventListeners = rendererEventListeners.filter(
         (item: RendererEventListener) =>
-          item.renderer === renderer && eventName !== undefined
-            ? item.type !== eventName
-            : true
+          // 如果 eventName 为 undefined，表示全部解绑，否则解绑指定事件
+          eventName === undefined
+            ? item.renderer !== renderer
+            : item.renderer !== renderer || item.type !== eventName
       );
     };
   }
