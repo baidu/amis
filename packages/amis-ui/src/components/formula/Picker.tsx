@@ -188,6 +188,9 @@ export interface FormulaPickerProps
     onClick: (e: React.MouseEvent) => void;
     setState: (state: any) => void;
     isOpened: boolean;
+    value: any;
+    onChange: (value: any) => void;
+    disabled?: boolean;
   }) => JSX.Element;
 
   onConfirm?: (value?: any) => void;
@@ -206,6 +209,7 @@ export interface FormulaPickerState {
   isOpened: boolean;
   value: any;
   editorValue: string;
+  onConfirm?: (value?: any) => void;
   isError: boolean | string;
   variables?: Array<VariableItem>;
   functions?: Array<FuncGroup>;
@@ -261,7 +265,8 @@ export class FormulaPicker extends React.Component<
 
   async componentDidUpdate(prevProps: FormulaPickerProps) {
     const {value} = this.props;
-    if (value !== prevProps.value) {
+
+    if (value !== prevProps.value && !this.state.isOpened) {
       this.setState({
         value: typeof value === 'string' || !this.isTextInput() ? value : '',
         editorValue: this.value2EditorValue(this.props)
@@ -419,6 +424,7 @@ export class FormulaPicker extends React.Component<
 
   confirm(value: any, ast?: any) {
     const {mixedMode} = this.props;
+    const stateOnConfirm = this.state.onConfirm;
     const validate = this.validate(value);
 
     if (validate === true) {
@@ -435,8 +441,12 @@ export class FormulaPicker extends React.Component<
             : `\${${value}}`;
       }
 
-      this.setState({value: result}, () => {
-        this.close(undefined, () => this.handleConfirm());
+      this.setState({value: result, onConfirm: undefined}, () => {
+        this.close(undefined, () => {
+          stateOnConfirm
+            ? stateOnConfirm(this.state.value)
+            : this.handleConfirm();
+        });
       });
     } else {
       this.setState({isError: validate});
@@ -481,11 +491,16 @@ export class FormulaPicker extends React.Component<
         this.setState({variables: result});
       }
     }
+    return this.openEditor(this.value2EditorValue(this.props));
+  }
 
+  @autobind
+  async openEditor(editorValue: string, onConfirm?: (value: any) => void) {
     const state = {
       ...(await this.props.onPickerOpen?.(this.props)),
-      editorValue: this.value2EditorValue(this.props),
-      isOpened: true
+      editorValue,
+      isOpened: true,
+      onConfirm
     };
 
     if (state.functions) {
@@ -603,7 +618,10 @@ export class FormulaPicker extends React.Component<
           children({
             isOpened: this.state.isOpened,
             onClick: this.handleClick,
-            setState: this.updateState
+            setState: this.updateState,
+            value,
+            onChange: this.handleInputChange,
+            disabled
           })
         ) : (
           <div

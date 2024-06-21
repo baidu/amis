@@ -433,6 +433,7 @@ register('de-DE', {
   'JSONSchema.array_items': 'Artikel',
   'JSONSchema.members': 'Mitglieder',
   'JSONSchema.key_duplicated': 'Schlüssel existiert bereits',
+  'JSONSchema.key_invalid': 'Schlüssel ungültig',
   'TimeNow': 'Jetzt',
   'Steps.step': 'Schritt {{index}}',
   'FormulaInput.True': 'Treu',

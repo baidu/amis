@@ -45,7 +45,7 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
       ? matchSorter(options, this.props.value, {
           keys: ['label', 'value'],
           threshold: matchSorter.rankings.CONTAINS
-        })
+        }).filter((item: any) => item.value !== this.props.value)
       : options;
   }
 
@@ -67,7 +67,8 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
       popOverContainer,
       clearable,
       hasError,
-      mobileUI
+      mobileUI,
+      className
     } = this.props;
     const options = this.filterOptions(
       Array.isArray(this.props.options) ? this.props.options : []
@@ -75,6 +76,7 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
 
     return (
       <PopOverContainer
+        show={!!options.length}
         popOverContainer={popOverContainer || (() => findDOMNode(this))}
         popOverRender={({onClose}) => (
           <>
@@ -96,7 +98,11 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
       >
         {({onClick, ref, isOpened}) => (
           <InputBox
-            className={cx('InputBox--sug', isOpened ? 'is-active' : '')}
+            className={cx(
+              'InputBox--sug',
+              className,
+              isOpened ? 'is-active' : ''
+            )}
             ref={ref}
             placeholder={placeholder}
             disabled={disabled}
@@ -107,9 +113,11 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
             hasError={hasError}
             mobileUI={mobileUI}
           >
-            <span className={cx('InputBox-caret')}>
-              <Icon icon="right-arrow-bold" className="icon" />
-            </span>
+            {options.length ? (
+              <span className={cx('InputBox-caret')}>
+                <Icon icon="right-arrow-bold" className="icon" />
+              </span>
+            ) : null}
           </InputBox>
         )}
       </PopOverContainer>

@@ -44,7 +44,8 @@ import {
   getPropValue,
   isExpression,
   getTree,
-  resolveVariableAndFilterForAsync
+  resolveVariableAndFilterForAsync,
+  getMatchedEventTargets
 } from 'amis-core';
 import {
   Button,
@@ -462,7 +463,8 @@ export type TableRendererAction =
   | 'selectAll'
   | 'clearAll'
   | 'select'
-  | 'initDrag';
+  | 'initDrag'
+  | 'cancelDrag';
 
 export default class Table extends React.Component<TableProps, object> {
   static contextType = ScopedContext;
@@ -1228,7 +1230,8 @@ export default class Table extends React.Component<TableProps, object> {
     const unModifiedRows = store.rows
       .filter(item => !item.modified)
       .map(item => item.data);
-    onSave(
+
+    return onSave(
       rows,
       diff,
       rowIndexes,
@@ -2872,38 +2875,20 @@ export class TableRenderer extends Table {
    * @param condition
    * @returns
    */
-  async getEventTargets(ctx: any, index?: string | number, condition?: string) {
+  async getEventTargets(
+    ctx: any,
+    index?: string | number,
+    condition?: string,
+    oldCondition?: string
+  ) {
     const {store} = this.props;
-    const targets: Array<IRow> = [];
-    if (typeof index === 'number') {
-      const row = store.rows[index];
-      row && targets.push(row);
-    } else if (typeof index === 'string') {
-      index = isExpression(index)
-        ? await resolveVariableAndFilterForAsync(index, ctx || this.props.data)
-        : index;
-      (index as string).split(',').forEach(i => {
-        i = i.trim();
-        if (i) {
-          const indexes = i.split('.').map(ii => parseInt(ii, 10));
-          const row: any = getTree(store.rows, indexes);
-          row && targets.push(row);
-        }
-      });
-    } else if (condition) {
-      const promies: Array<() => Promise<void>> = [];
-      eachTree(store.rows, item =>
-        promies.push(async () => {
-          const result = await evalExpressionWithConditionBuilder(
-            condition,
-            createObject(ctx, item.data)
-          );
-          result && targets.push(item as IRow);
-        })
-      );
-      await Promise.all(promies.map(fn => fn()));
-    }
-    return targets;
+    return getMatchedEventTargets<IRow>(
+      store.rows,
+      ctx || this.props.data,
+      index,
+      condition,
+      oldCondition
+    );
   }
 
   async reload(subPath?: string, query?: any, ctx?: any, args?: any) {
@@ -2972,8 +2957,7 @@ export class TableRenderer extends Table {
   ) {
     const {store, valueField, data} = this.props;
 
-    const actionType = action?.actionType as string;
-
+    const actionType = action?.actionType;
     switch (actionType) {
       case 'selectAll':
         store.clear();
@@ -2983,19 +2967,22 @@ export class TableRenderer extends Table {
         store.clear();
         break;
       case 'select':
-        const selected: Array<any> = [];
-        store.falttenedRows.forEach((item: any, rowIndex: number) => {
-          const record = item.data;
-          const flag = evalExpression(args?.selected, {record, rowIndex});
-          if (flag) {
-            selected.push(record);
-          }
-        });
-        store.updateSelected(selected, valueField);
+        const rows = await this.getEventTargets(
+          ctx,
+          args.index,
+          args.condition,
+          args.selected
+        );
+        store.updateSelected(
+          rows.map(item => item.data),
+          valueField
+        );
         break;
       case 'initDrag':
+        store.startDragging();
+        break;
+      case 'cancelDrag':
         store.stopDragging();
-        store.toggleDragging();
         break;
       case 'submitQuickEdit':
         this.handleSave();
@@ -3008,6 +2995,16 @@ export class TableRenderer extends Table {
         );
         targets.forEach(target => {
           store.toggleExpanded(target);
+        });
+        break;
+      case 'setExpanded':
+        const targets2 = await this.getEventTargets(
+          ctx,
+          args.index,
+          args.condition
+        );
+        targets2.forEach(target => {
+          store.setExpanded(target, !!args.value);
         });
         break;
       default:

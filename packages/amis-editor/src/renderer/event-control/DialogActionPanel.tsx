@@ -6,6 +6,7 @@ import {
   JSONPipeOut,
   JSONUpdate,
   addModal,
+  getVariables,
   modalsToDefinitions
 } from 'amis-editor-core';
 import React from 'react';
@@ -57,7 +58,9 @@ function DialogActionPanel({
   onBulkChange,
   node,
   addHook,
-  subscribeSchemaSubmit
+  subscribeSchemaSubmit,
+  appLocale,
+  appCorpusData
 }: DialogActionPanelProps) {
   const eventKey = data.eventKey;
 
@@ -609,6 +612,17 @@ function DialogActionPanel({
     );
   }, []);
 
+  const formula: any = React.useMemo(() => {
+    return {
+      variables: () =>
+        getVariables({
+          props: {node, manager},
+          appLocale,
+          appCorpusData
+        })
+    };
+  }, [node, manager]);
+
   return (
     <div className={cx('ae-DialogActionPanel')}>
       <FormField
@@ -663,7 +677,7 @@ function DialogActionPanel({
           errors={errors.data}
           description={
             !currentModal.data
-              ? '不设置参数，打开弹窗将自动传递所有上下文数据'
+              ? '弹窗内参数赋值将优先取此处配置，若关闭配置或无配置值则会透传上下文数据。'
               : ''
           }
         >
@@ -686,6 +700,7 @@ function DialogActionPanel({
                 onChange={handleDataChange}
                 schema={JSONPipeOut(currentModal.modal.inputParams)}
                 addButtonText="添加参数"
+                formula={formula}
               />
             ) : null}
           </div>
@@ -695,9 +710,7 @@ function DialogActionPanel({
       <FormField
         label="等待弹窗"
         mode="horizontal"
-        description={
-          '是否等待弹窗响应，开启则当前操作会等待弹窗响应后再执行，同时弹窗被取消则中断后续动作'
-        }
+        description={'当前打开弹窗动作结束后，才执行下一步动作'}
       >
         <div
           className={cx(
@@ -708,7 +721,6 @@ function DialogActionPanel({
             className="mt-2 m-b-xs"
             value={!!data.waitForAction}
             onChange={handleWaitForActionChange}
-            disabled={hasRequired}
           />
         </div>
       </FormField>
@@ -717,9 +729,7 @@ function DialogActionPanel({
         <FormField
           label="响应结果"
           mode="horizontal"
-          description={
-            '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果'
-          }
+          description={'弹窗动作结束后的出参变量名配置'}
         >
           <div
             className={cx(

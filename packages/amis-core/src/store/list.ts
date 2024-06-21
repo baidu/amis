@@ -13,6 +13,7 @@ import {evalExpression} from '../utils/tpl';
 
 export const Item = types
   .model('Item', {
+    storeType: 'Item',
     id: types.identifier,
     pristine: types.frozen(),
     data: types.frozen(),
@@ -297,6 +298,10 @@ export const ListStore = iRendererStore
       self.dragging = !self.dragging;
     }
 
+    function startDragging() {
+      self.dragging = true;
+    }
+
     function stopDragging() {
       self.dragging = false;
     }
@@ -312,7 +317,16 @@ export const ListStore = iRendererStore
       self.items.replace(newItems);
     }
 
+    function getData(superData: any): any {
+      return createObject(superData, {
+        items: self.items.map(item => item.data),
+        selectedItems: self.selectedItems.map(item => item.data),
+        unSelectedItems: self.unSelectedItems.map(item => item.data)
+      });
+    }
+
     return {
+      getData,
       update,
       initItems,
       updateSelected,
@@ -324,6 +338,7 @@ export const ListStore = iRendererStore
       setOrderByInfo,
       reset,
       toggleDragging,
+      startDragging,
       stopDragging,
       exchange
     };

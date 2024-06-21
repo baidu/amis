@@ -480,7 +480,7 @@ export class PickerControlPlugin extends BasePlugin {
               body: [
                 {
                   type: 'select',
-                  name: 'editorState',
+                  name: '__editorState',
                   label: '状态',
                   selectFirst: true,
                   options: [
@@ -503,13 +503,13 @@ export class PickerControlPlugin extends BasePlugin {
                   ]
                 },
                 ...pickStyleFunc(
-                  "${editorState == 'default' || !editorState}",
+                  "${__editorState == 'default' || !__editorState}",
                   'default'
                 ),
-                ...pickStyleStateFunc("${editorState == 'hover'}", 'hover'),
-                ...pickStyleStateFunc("${editorState == 'focus'}", 'active'),
+                ...pickStyleStateFunc("${__editorState == 'hover'}", 'hover'),
+                ...pickStyleStateFunc("${__editorState == 'focus'}", 'active'),
                 ...pickDisabledSateFunc(
-                  "${editorState == 'disabled'}",
+                  "${__editorState == 'disabled'}",
                   'disabled'
                 )
               ]

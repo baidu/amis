@@ -663,7 +663,8 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
             ...rest,
             key: editable ? 'edit-mode' : 'preview-mode',
             theme: env.theme,
-            data: data ?? store.ctx,
+            data: data,
+            context: store.ctx,
             locale: appLocale,
             editorDialogMountNode: this.getDialogMountRef
           },

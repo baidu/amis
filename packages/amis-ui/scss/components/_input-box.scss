@@ -39,7 +39,13 @@
   }
 
   &-clear {
+    visibility: hidden;
     @include input-clear();
+  }
+
+  &.is-focused &-clear,
+  &:hover &-clear {
+    visibility: visible;
   }
 
   > svg {

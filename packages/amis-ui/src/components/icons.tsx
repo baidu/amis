@@ -410,12 +410,13 @@ export function Icon({
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+    const viewBox = /viewBox="(.*?)"/.exec(icon);
     const svgHTML = createElement('svg', {
       ...events,
       className: cx('icon', className, classNameProp),
       style,
       dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
-      viewBox: '0 0 16 16'
+      viewBox: viewBox?.[1] || '0 0 16 16'
     });
     return svgHTML;
   }

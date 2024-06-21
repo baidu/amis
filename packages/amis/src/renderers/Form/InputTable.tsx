@@ -609,9 +609,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       return;
     } else if (actionType === 'initDrag') {
-      const tableStore = this.table?.props?.store;
-      tableStore?.stopDragging();
-      tableStore?.toggleDragging();
+      this.table.doAction(action, ctx, ...rest);
+    } else if (actionType === 'cancelDrag') {
+      this.table.doAction(action, ctx, ...rest);
     }
     return onAction && onAction(action, ctx, ...rest);
   }

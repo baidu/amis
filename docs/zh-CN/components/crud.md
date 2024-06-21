@@ -1390,7 +1390,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                 "type": "switch",
                 "onText": "开启",
                 "offText": "关闭",
-                "saveImmediately": true
+                "saveImmediately": true,
+                "resetOnFailed": true
             }
         }
     ]
@@ -3899,6 +3900,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | mode            | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |         |
 | icon            | `string`                  | -           | 自定义快速编辑按钮的图标                                                                                | `6.1.0` |
 | saveImmediately | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |         |
+| resetOnFailed   | `boolean`                 | -           | 接口请求失败时，是否重置数据                                                                            |         |
 
 ### columns-toggler 属性表
 
@@ -3926,17 +3928,24 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                                  | 说明                                                           |
-| -------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                   | 手动选择表格项时触发                                           |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                              | 点击列排序时触发                                               |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值           | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据                      | 点击列搜索时触发                                               |
-| orderChange    | `movedItems: item[]` 已排序数据                                                           | 手动拖拽行排序时触发                                           |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                    | 点击自定义列时触发                                             |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 点击整行时触发                                                 |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移入整行时触发                                                 |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移出整行时触发                                                 |
+| 事件名称          | 事件参数                                                                                                                                                                                                                                                                    | 说明                                                           |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| fetchInited       | `responseData` 接口数据返回 <br /> `responseStatus` 接口返回状态 <br /> `responseMsg` 响应消息                                                                                                                                                                              | 远程初始化数据接口请求完成时触发                               |
+| quickSaveSucc     | `result` 接口数据返回 <br /> `rows: object[]` 修改了的行集合 <br /> `rowsDiff: object[]` 与 rows 不同的地方时，对象中只有修改的部分和主键字段 <br /> `indexes: Array<string>` 修改的行索引，如果是树形模式，下标是字符串路劲如 `0.1` <br /> `rowsOrigin: object[]` 原始数据 | 快速编辑完后保存成功触发                                       |
+| quickSaveFail     | `error` 错误原因                                                                                                                                                                                                                                                            | 快速编辑完后保存失败                                           |
+| quickSaveItemSucc | `result` 接口数据返回 <br /> `item: object` 当亲修改的那行数据 <br /> `modified:object` 质只包含修改的部分 <br /> `origin: object` 原始数据                                                                                                                                 | 快速编辑单条保存成功后触发                                     |
+| quickSaveItemFail | `error` 错误原因                                                                                                                                                                                                                                                            | 快速编辑单条保存失败后触发                                     |
+| saveOrderSucc     | `result` 接口数据返回 <br /> `其他` 请参考 [拖拽排序](#拖拽排序) 章节说明                                                                                                                                                                                                   | 拖拽排序保存成功后触发                                         |
+| saveOrderFail     | `error` 错误原因                                                                                                                                                                                                                                                            | 拖拽排序保存失败后触发                                         |
+| selectedChange    | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                                                                                                                                                                                                     | 手动选择表格项时触发                                           |
+| columnSort        | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                                                                                                                                                                                                                | 点击列排序时触发                                               |
+| columnFilter      | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值                                                                                                                                                                                             | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
+| columnSearch      | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据                                                                                                                                                                                                        | 点击列搜索时触发                                               |
+| orderChange       | `movedItems: item[]` 已排序数据                                                                                                                                                                                                                                             | 手动拖拽行排序时触发                                           |
+| columnToggled     | `columns: item[]` 当前显示的列配置数据                                                                                                                                                                                                                                      | 点击自定义列时触发                                             |
+| rowClick          | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 点击整行时触发                                                 |
+| rowMouseEnter     | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 移入整行时触发                                                 |
+| rowMouseLeave     | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 移出整行时触发                                                 |
 
 ### selectedChange
 
@@ -4664,10 +4673,18 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置        | 说明         |
-| -------- | --------------- | ------------ |
-| reload   | -               | 刷新列表请求 |
-| setValue | `value: object` | 更新列表记录 |
+| 动作名称        | 动作配置              | 说明                       |
+| --------------- | --------------------- | -------------------------- |
+| reload          | -                     | 刷新列表请求               |
+| setValue        | `value: object`       | 更新列表记录               |
+| select          | 转 table 组件动作说明 | 设置选中项                 |
+| selectAll       | 转 table 组件动作说明 | 设置表格全部项选中         |
+| clearAll        | 转 table 组件动作说明 | 清空表格所有选中项         |
+| initDrag        | 转 table 组件动作说明 | 开启表格拖拽排序功能       |
+| cancelDrag        | 转 table 组件动作说明 | 取消表格拖拽排序功能       |
+| submitQuickEdit | 转 table 组件动作说明 | 快速编辑数据提交           |
+| toggleExpanded  | 转 table 组件动作说明 | 切换某行数据是展开还是收起 |
+| setExpanded     | 转 table 组件动作说明 | 展开或收起某行数据         |
 
 value 结构说明：
 
@@ -4675,6 +4692,104 @@ value 结构说明：
 | -------------- | -------- | ------ | -------- |
 | items 或 rows  | `item[]` |        | 列表记录 |
 | count 或 total | `number` |        | 记录总数 |
+
+### 初始选中行
+
+利用 `fetchInited` 事件和 `select` 动作可以完成初始选中行。
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "id": "crud_reload1",
+      "syncLocation": false,
+      "onEvent": {
+        "fetchInited": {
+          "actions": [
+            {
+              "actionType": "ajax",
+              "api": {
+                "method": "get",
+                "url": "/mock返回可以随便写",
+                "mockResponse": {
+                  "staus": 200,
+                  "data": {
+                    "status": 0,
+                    "data": {
+                      "selected": [1, 2, 3]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "actionType": "setEventData",
+              "args": {
+                "key": "selected",
+                "value": "${responseResult.responseData.selected}"
+              }
+            },
+            {
+              "actionType": "select",
+              "componentId": "crud_reload1",
+              "args": {
+                "condition": "${ARRAYINCLUDES(selected, id)}"
+              }
+            }
+          ]
+        }
+      },
+      "bulkActions": [
+        {
+          "label": "批量操作",
+          "type": "button",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "toast",
+                  "args": {
+                    "msg": "${ids}"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ### reload
 
@@ -5082,9 +5197,10 @@ value 结构说明：
 
             {
               "componentId": "crud_reload1",
-              "actionType": "toggleExpanded",
+              "actionType": "setExpanded",
               "args": {
-                "condition": "${id == 2}"
+                "condition": "${id == 2}",
+                "value": true
               }
             }
           ]
@@ -5128,11 +5244,19 @@ value 结构说明：
 }
 ```
 
-## toggleExpanded
+### toggleExpanded
 
 > `6.3.0`及以上版本
 
 切换展开状态。通过指定 `args.index` 或者 `args.condition` 来指定切换哪一行。
+
+参考局部刷新里面的示例。
+
+### setExpanded
+
+> `6.3.0`及以上版本
+
+设置展开状态。通过指定 `args.index` 或者 `args.condition` 来指定切换哪一行，通过 `args.value` 来设置是展开还是收起。
 
 参考局部刷新里面的示例。
 

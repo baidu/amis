@@ -4,6 +4,9 @@
   &-clear {
     position: absolute;
     right: var(--Form-input-paddingX);
+    svg {
+      top: 0;
+    }
   }
 
   &-Modal {

@@ -1430,19 +1430,511 @@ Form 支持轮询初始化接口，步骤如下：
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
-| inited                | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                                                                                                                |
-| change                | `event.data: object` 当前表单数据                                                                                                                                                          | 表单值变化时触发                                                                                                                          |
-| formItemValidateSucc  | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验成功时触发                                                                                                                      |
-| formItemValidateError | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验失败时触发                                                                                                                      |
-| validateSucc          | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验成功时触发                                                                                                                        |
-| validateError         | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验失败时触发                                                                                                                        |
-| submit                | `event.data: object` 当前表单数据                                                                                                                                                          | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置 |
-| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                               | 提交成功时触发                                                                                                                            |
-| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                | 提交失败时触发                                                                                                                            |
-| asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                     | asyncApi 远程请求轮训结束                                                                                                                 |
+| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                        |
+| inited                | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                                                                                                                  |
+| change                | `event.data: object` 当前表单数据                                                                                                                                                          | 表单值变化时触发                                                                                                                            |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验成功时触发（只有`validateOnChange`为`true`或者点击提交过表单又去修改表单项信息的时候才会触发）                                    |
+| formItemValidateError | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验失败时触发（只有`validateOnChange`为`true`或者点击提交过表单又去修改表单项信息的时候才会触发）                                    |
+| validateSucc          | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验成功时触发                                                                                                                          |
+| validateError         | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验失败时触发                                                                                                                          |
+| submit                | `event.data: object` 当前表单数据                                                                                                                                                          | 点击提交按钮或者触发表单提交动作的时候触发（配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置） |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                               | 提交成功时触发                                                                                                                              |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                | 提交失败时触发                                                                                                                              |
+| asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                     | asyncApi 远程请求轮训结束                                                                                                                   |
+
+### inited
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "initApi": "/api/mock2/form/initData",
+    "title": "初始化表单",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ],
+    "actions": [],
+    "onEvent": {
+      "inited": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "init_text",
+            "args": {
+              "value": "responseData: ${event.data.responseData|json},responseStatus: ${event.data.responseStatus},responseMsg: ${event.data.responseMsg}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "init_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### change
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试修改表单项",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ],
+    "actions": [],
+    "onEvent": {
+      "change": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "change_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "change_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### formItemValidateSucc
+
+只有`validateOnChange`为`true`或者点击提交过表单又去修改表单项信息的时候才会触发。
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试修改表单项",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "validateOnChange": true,
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis@baidu.com",
+        "validateOnChange": true,
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ],
+    "onEvent": {
+      "formItemValidateSucc": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "formitem_validate_succ_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "formitem_validate_succ_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### formItemValidateError
+
+只有`validateOnChange`为`true`或者点击提交过表单又去修改表单项信息的时候才会触发。
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试修改表单项email",
+    "api": "/api/mock2/form/x",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis",
+        "validateOnChange": true
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis",
+        "validateOnChange": true,
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ],
+    "onEvent": {
+      "formItemValidateError": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "formitem_validate_fail_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "formitem_validate_fail_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### validateSucc
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试修改表单项",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis@baidu.com",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ],
+    "onEvent": {
+      "validateSucc": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "validate_succ_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "validate_succ_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### validateError
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试修改表单项",
+    "api": "/api/mock2/form/x",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ],
+    "onEvent": {
+      "validateError": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "validate_fail_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "validate_fail_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### submit
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试提交表单",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis@baidu.com"
+      }
+    ],
+    "onEvent": {
+      "submit": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "submit_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "submit_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### submitSucc
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试提交表单",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis@baidu.com"
+      }
+    ],
+    "onEvent": {
+      "submitSucc": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "submit_succ_text",
+            "args": {
+              "value": "${event.data.result|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "submit_succ_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### submitFail
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试提交表单",
+    "api": "/api/mock2/form/x",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名",
+        "value": "amis"
+      },
+      {
+        "type": "input-text",
+        "name": "email",
+        "label": "邮箱",
+        "value": "amis@baidu.com"
+      }
+    ],
+    "onEvent": {
+      "submitFail": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "submit_fail_text",
+            "args": {
+              "value": "${event.data.error|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "submit_fail_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
+
+### asyncApiFinished
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试提交表单",
+    "api": "/api/mock2/form/saveForm",
+    "asyncApi": {
+      "url": "/api/mock2/page/initData",
+      "mockResponse": {
+        "status": 200,
+        "data": {
+          "status": 0,
+          "msg": 'ok',
+          "data": {
+            id: 2,
+            finished: true
+          }
+        }
+      }
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ],
+    "onEvent": {
+      "asyncApiFinished": {
+        "actions": [
+          {
+            "actionType": "setValue",
+            "componentId": "async_finished_text",
+            "args": {
+              "value": "${event.data|json}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "input-text",
+    "id": "async_finished_text",
+    "static": true,
+    "name": "tip",
+    "label": "上下文"
+  }
+]
+```
 
 ## 动作表
 

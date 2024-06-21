@@ -20,11 +20,16 @@ export interface ISignatureProps extends LocaleProps, ThemeProps {
   color?: string;
   bgColor?: string;
   clearBtnLabel?: string;
+  clearBtnIcon?: string;
   undoBtnLabel?: string;
+  undoBtnIcon?: string;
   confirmBtnLabel?: string;
+  confirmBtnIcon?: string;
   embed?: boolean;
   embedConfirmLabel?: string;
+  embedConfirmIcon?: string;
   ebmedCancelLabel?: string;
+  ebmedCancelIcon?: string;
   embedBtnIcon?: string;
   embedBtnLabel?: string;
   onChange?: (value?: string) => void;
@@ -101,7 +106,7 @@ const Signature: React.FC<ISignatureProps> = props => {
       const defaultWidth = width || clientWidth - (fullScreen ? 40 : 0);
       const defaultHeight = fullScreen
         ? clientHeight
-        : height || clientWidth / 2 - 40;
+        : Math.min(height || clientWidth / 2 - 40, clientHeight - 40);
       const signature = new SmoothSignature(element, {
         width: Math.max(defaultWidth, 200),
         height: Math.max(defaultHeight, 160),
@@ -126,8 +131,18 @@ const Signature: React.FC<ISignatureProps> = props => {
   }
 
   function renderTool(right: boolean = true) {
-    const {clearBtnLabel, undoBtnLabel, confirmBtnLabel} = props;
-    const {embedConfirmLabel, ebmedCancelLabel} = props;
+    const {
+      clearBtnLabel,
+      clearBtnIcon,
+      undoBtnLabel,
+      undoBtnIcon,
+      confirmBtnLabel,
+      confirmBtnIcon,
+      embedConfirmLabel,
+      embedConfirmIcon,
+      ebmedCancelLabel,
+      ebmedCancelIcon
+    } = props;
     return (
       <div className={cx('Signature-Tool')}>
         <div className="actions">
@@ -136,21 +151,21 @@ const Signature: React.FC<ISignatureProps> = props => {
               onClick={clear}
               tooltip={clearBtnLabel || __('Signature.clear')}
             >
-              {clearBtnLabel ? (
-                clearBtnLabel
-              ) : (
-                <Icon icon="close" className="icon" />
-              )}
+              {clearBtnLabel}
+              <Icon
+                icon={clearBtnIcon || 'close'}
+                className={cx('icon', {'ml-1': clearBtnLabel})}
+              />
             </Button>
             <Button
               onClick={undo}
               tooltip={undoBtnLabel || __('Signature.undo')}
             >
-              {undoBtnLabel ? (
-                undoBtnLabel
-              ) : (
-                <Icon icon="undo-normal" className="icon" />
-              )}
+              {undoBtnLabel}
+              <Icon
+                icon={undoBtnIcon || 'undo-normal'}
+                className={cx('icon', {'ml-1': undoBtnLabel})}
+              />
             </Button>
 
             {fullScreen ? (
@@ -169,14 +184,17 @@ const Signature: React.FC<ISignatureProps> = props => {
                 <>
                   <Button onClick={handleCloseModal}>
                     {ebmedCancelLabel || __('Signature.cancel')}
+                    <Icon icon={ebmedCancelIcon} className="icon ml-1" />
                   </Button>
                   <Button onClick={handleConfirmModal} level="primary">
                     {embedConfirmLabel || __('Signature.confirm')}
+                    <Icon icon={embedConfirmIcon} className="icon ml-1" />
                   </Button>
                 </>
               ) : (
                 <Button onClick={confirm} level="primary">
                   {confirmBtnLabel || __('Signature.confirm')}
+                  <Icon icon={confirmBtnIcon} className="icon ml-1" />
                 </Button>
               )}
             </div>
@@ -191,12 +209,14 @@ const Signature: React.FC<ISignatureProps> = props => {
       embedConfirmLabel,
       ebmedCancelLabel,
       embedBtnIcon: icon,
-      embedBtnLabel
+      embedBtnLabel,
+      embedConfirmIcon,
+      ebmedCancelIcon
     } = props;
     return (
       <div className={cx('Signature-Embed')}>
         <Button onClick={() => setOpen(true)}>
-          <Icon className="icon" icon={icon || 'fas fa-pen'}></Icon>
+          <Icon className="icon mr-1" icon={icon || 'fas fa-pen'}></Icon>
           {embedBtnLabel || __('Signature.embedLabel')}
         </Button>
         {data ? (
@@ -225,9 +245,11 @@ const Signature: React.FC<ISignatureProps> = props => {
             <Modal.Footer>
               <Button onClick={handleCloseModal}>
                 {ebmedCancelLabel || __('Signature.cancel')}
+                <Icon icon={ebmedCancelIcon} className="icon ml-1" />
               </Button>
               <Button onClick={handleConfirmModal} level="primary">
                 {embedConfirmLabel || __('Signature.confirm')}
+                <Icon icon={embedConfirmIcon} className="icon ml-1" />
               </Button>
             </Modal.Footer>
           )}

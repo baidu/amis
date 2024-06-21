@@ -62,51 +62,96 @@ export class SignaturePlugin extends BasePlugin {
               getSchemaTpl('label'),
               getSchemaTpl('labelRemark'),
               {
+                type: 'button-group-select',
+                label: '签字模式',
                 name: 'embed',
-                label: '弹窗展示',
-                type: 'ae-switch-more',
+                tiled: true,
+                value: false,
+                options: [
+                  {
+                    label: '内嵌',
+                    value: false
+                  },
+                  {
+                    label: '弹窗',
+                    value: true
+                  }
+                ]
+              },
+              {
+                type: 'control',
+                label: '功能按钮配置',
                 mode: 'normal',
-                formType: 'extend',
-                title: '弹窗展示',
-                bulk: true,
-                form: {
-                  body: [
-                    {
-                      label: '按钮文案',
-                      name: 'embedBtnLabel',
-                      type: 'input-text'
+                body: [
+                  {
+                    type: 'container',
+                    wrapperComponent: 'div',
+                    className: 'px-3 py-2',
+                    style: {
+                      backgroundColor: '#f7f7f9'
                     },
-                    getSchemaTpl('icon', {
-                      label: '按钮图标',
-                      name: 'embedBtnIcon'
-                    }),
-                    {
-                      label: '确认按钮',
-                      name: 'embedConfirmLabel',
-                      type: 'input-text'
-                    },
-                    {
-                      label: '确认按钮',
-                      name: 'ebmedCancelLabel',
-                      type: 'input-text'
-                    }
-                  ]
-                }
-              },
-              {
-                label: '确认按钮',
-                name: 'confirmBtnLabel',
-                type: 'input-text'
-              },
-              {
-                label: '撤销按钮',
-                name: 'undoBtnLabel',
-                type: 'input-text'
-              },
-              {
-                label: '清空按钮',
-                name: 'clearBtnLabel',
-                type: 'input-text'
+                    body: [
+                      {
+                        type: 'wrapper',
+                        size: 'none',
+                        visibleOn: 'this.embed === true',
+                        body: [
+                          getSchemaTpl('signBtn', {
+                            label: '确认签名',
+                            name: 'embedConfirmLabel',
+                            icon: 'embedConfirmIcon'
+                          })
+                        ]
+                      },
+                      {
+                        type: 'wrapper',
+                        size: 'none',
+                        visibleOn: 'this.embed === false',
+                        body: [
+                          getSchemaTpl('signBtn', {
+                            label: '确认签名',
+                            name: 'confirmBtnLabel',
+                            icon: 'confirmBtnIcon'
+                          })
+                        ]
+                      },
+                      {
+                        type: 'wrapper',
+                        size: 'none',
+                        visibleOn: 'this.embed === true',
+                        body: [
+                          getSchemaTpl('signBtn', {
+                            label: '取消签名',
+                            name: 'ebmedCancelLabel',
+                            icon: 'ebmedCancelIcon'
+                          })
+                        ]
+                      },
+                      getSchemaTpl('signBtn', {
+                        label: '撤销签名',
+                        name: 'undoBtnLabel',
+                        icon: 'undoBtnIcon'
+                      }),
+                      getSchemaTpl('signBtn', {
+                        label: '清空签名',
+                        name: 'clearBtnLabel',
+                        icon: 'clearBtnIcon'
+                      }),
+                      {
+                        type: 'wrapper',
+                        size: 'none',
+                        visibleOn: 'this.embed === true',
+                        body: [
+                          getSchemaTpl('signBtn', {
+                            label: '签名按钮',
+                            name: 'embedBtnLabel',
+                            icon: 'embedBtnIcon'
+                          })
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },

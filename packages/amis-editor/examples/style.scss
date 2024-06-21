@@ -286,3 +286,31 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
 #root > .a-Select-popover {
   z-index: 1500;
 }
+
+.schema-tpl-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  > *:first-child {
+    flex: 1;
+    min-width: 0;
+    background-color: rgb(43, 43, 43);
+  }
+}
+
+.PanelPreview {
+  background-color: #fff;
+  padding: 0 20px 20px 20px;
+  position: relative;
+  width: 400px;
+  flex-shrink: 0;
+
+  > .editor-right-panel {
+    margin-bottom: 20px;
+  }
+
+  > .react-json-view {
+    font-size: 12px;
+  }
+}

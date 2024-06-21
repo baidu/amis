@@ -206,6 +206,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                 <button
                   type="button"
                   data-tooltip="撤销"
+                  data-position="top"
                   disabled={!subEditorContext.canUndo}
                   onClick={store.undoSubEditor}
                 >
@@ -214,6 +215,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                 <button
                   type="button"
                   data-tooltip="重做"
+                  data-position="top"
                   disabled={!subEditorContext.canRedo}
                   onClick={store.redoSubEditor}
                 >

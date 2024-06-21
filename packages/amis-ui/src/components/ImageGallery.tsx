@@ -377,6 +377,11 @@ export class ImageGallery extends React.Component<
               <div className={cx('ImageGallery-title')}>
                 {items[index].title}
               </div>
+              {items[index].caption ? (
+                <div className={cx('ImageGallery-caption')}>
+                  {items[index].caption}
+                </div>
+              ) : null}
               <div
                 className={cx('ImageGallery-main')}
                 ref={this.galleryMainRef}

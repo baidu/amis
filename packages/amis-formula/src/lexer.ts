@@ -162,6 +162,10 @@ function escapeString(text: string, allowedLetter: Array<string> = []) {
       ? '\t'
       : text === 'v'
       ? '\v'
+      : text === '\\'
+      ? '\\'
+      : text === '/'
+      ? '/'
       : ~allowedLetter.indexOf(text)
       ? text
       : _;

@@ -415,6 +415,7 @@ register('en-US', {
   'JSONSchema.array_items': 'Items',
   'JSONSchema.members': 'Members',
   'JSONSchema.key_duplicated': 'Key already exists',
+  'JSONSchema.key_invalid': 'Key invalid',
   'TimeNow': 'Now',
   'IconSelect.all': 'All',
   'IconSelect.choice': 'Icon selection',

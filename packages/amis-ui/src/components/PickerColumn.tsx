@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import isObject from 'lodash/isObject';
 import cloneDeep from 'lodash/cloneDeep';
-import {uncontrollable} from 'amis-core';
+import {uncontrollable, highlight} from 'amis-core';
 
 import {useSetState, useUpdateEffect} from '../hooks';
 import {range} from 'amis-core';
@@ -28,6 +28,7 @@ export interface PickerColumnItem {
   visibleItemCount?: number;
   itemHeight?: number;
   options?: PickerOption[];
+  highlightTxt?: string;
   optionRender?: (...params: any) => React.ReactNode;
   onChange?: (
     value?: PickerOption | string,
@@ -74,6 +75,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     valueField = 'value',
     swipeDuration = 1000,
     labelField = 'text',
+    highlightTxt = '',
     options = [],
     classnames: cx
   } = props;
@@ -294,7 +296,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
       lineHeight: `${itemHeight}px`
     };
     return state.options.map((option, index: number) => {
-      const text: string | PickerOption = getOptionText(option);
+      const text: string = getOptionText(option);
       const disabled = isOptionDisabled(option);
 
       const data = {
@@ -313,7 +315,9 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
 
       const childData = {
         className: 'text-ellipsis',
-        children: text as React.ReactNode
+        children: (highlightTxt
+          ? highlight(text, highlightTxt, cx('Select-option-hl'))
+          : text) as React.ReactNode
       };
 
       return (

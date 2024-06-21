@@ -382,7 +382,6 @@ export default class ComboControl extends React.Component<ComboProps> {
     'itemsWrapperClassName'
   ];
 
-  subForms: Array<any> = [];
   subFormDefaultValues: Array<{
     index: number;
     values: any;
@@ -976,15 +975,17 @@ export default class ComboControl extends React.Component<ComboProps> {
     } else if (nullable && !rawValue) {
       return; // 不校验
     } else if (value.length) {
+      const subForms = this.subForms;
       return Promise.all(
         value.map(async (values: any, index: number) => {
-          const subForm = this.subForms[index];
+          const subForm = subForms[index];
           if (subForm) {
             return subForm.validate(true, false, false);
           } else {
             // 那些还没有渲染出来的数据
             // 因为有可能存在分页，有可能存在懒加载，所以没办法直接用 subForm 去校验了
-            const subForm = this.subForms[Object.keys(this.subForms)[0] as any];
+            // todo 唯一校验会失效，如果 combo 中某个字段是唯一的，这个校验方式有问题
+            const subForm = subForms[Object.keys(subForms)[0] as any];
             if (subForm) {
               const form: IFormStore = subForm.props.store;
               let valid = false;
@@ -1108,23 +1109,28 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   refsMap: {
-    [propName: number]: any;
+    [propName: string]: any;
   } = {};
 
   makeFormRef = memoize(
     (index: number) => (ref: any) => this.formRef(ref, index)
   );
 
+  get subForms() {
+    return Object.keys(this.refsMap)
+      .map(key => parseInt(key, 10))
+      .sort()
+      .map(key => this.refsMap[key]);
+  }
+
   formRef(ref: any, index: number = 0) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
         ref = ref.getWrappedInstance();
       }
-      this.subForms[index] = ref;
       this.refsMap[index] = ref;
     } else {
       const form = this.refsMap[index];
-      this.subForms = this.subForms.filter(item => item !== form);
       this.subFormDefaultValues = this.subFormDefaultValues.filter(
         ({index: dIndex}) => dIndex !== index
       );
@@ -1253,10 +1259,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {onChange} = this.props;
     onChange(null);
 
-    Array.isArray(this.subForms) &&
-      this.subForms.forEach(subForm => {
-        subForm.clearErrors();
-      });
+    this.subForms.forEach(subForm => {
+      subForm.clearErrors();
+    });
   }
 
   renderPlaceholder() {

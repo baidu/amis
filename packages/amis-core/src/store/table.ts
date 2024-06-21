@@ -1847,6 +1847,10 @@ export const TableStore = iRendererStore
       self.dragging = !self.dragging;
     }
 
+    function startDragging() {
+      self.dragging = true;
+    }
+
     function stopDragging() {
       self.dragging = false;
     }
@@ -1972,6 +1976,7 @@ export const TableStore = iRendererStore
       changeOrder,
       reset,
       toggleDragging,
+      startDragging,
       stopDragging,
       exchange,
       addForm,

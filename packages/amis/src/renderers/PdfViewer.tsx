@@ -42,6 +42,7 @@ interface PdfViewerState {
   loading: boolean;
   inited: boolean;
   width?: number;
+  error: boolean;
 }
 
 export default class PdfViewer extends React.Component<
@@ -56,7 +57,8 @@ export default class PdfViewer extends React.Component<
     super(props);
     this.state = {
       inited: false,
-      loading: false
+      loading: false,
+      error: false
     };
   }
 
@@ -107,6 +109,7 @@ export default class PdfViewer extends React.Component<
   @autobind
   async renderPdf() {
     const {src, name, data} = this.props;
+    this.setState({error: false});
     // src 优先级高于 name
     if (src) {
       if (!this.file) {
@@ -142,6 +145,7 @@ export default class PdfViewer extends React.Component<
       this.file = res.data;
       this.forceUpdate();
     } catch (error) {
+      this.setState({error: true});
       console.error(error);
     } finally {
       this.setState({
@@ -168,20 +172,72 @@ export default class PdfViewer extends React.Component<
         });
         this.forceUpdate();
       };
+      reader.onerror = _e => {
+        this.setState({error: true});
+      };
       reader.readAsArrayBuffer(file);
       this.reader = reader;
     }
   }
 
+  @autobind
+  renderEmpty() {
+    const {src, name} = this.props;
+    if (!src && !name) {
+      return (
+        <svg width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
+          <rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100"
+            style={{fill: '#F7F7F9'}}
+          />
+          <text
+            x="50%"
+            y="50%"
+            fontSize="18"
+            textAnchor="middle"
+            alignmentBaseline="middle"
+            fontFamily="monospace, sans-serif"
+            fill="#555555"
+          >
+            PDF viewer
+          </text>
+        </svg>
+      );
+    }
+    return null;
+  }
+
+  @autobind
+  renderError() {
+    const {src, translate: __} = this.props;
+    const {error} = this.state;
+    if (error && src) {
+      return <div>{__('loadingFailed') + ' url:' + src}</div>;
+    }
+
+    return null;
+  }
+
   render() {
-    const {className, classnames: cx, height, background} = this.props;
-    const {loading, inited} = this.state;
+    const {
+      className,
+      classnames: cx,
+      translate: __,
+      height,
+      background,
+      src
+    } = this.props;
+    const {loading, inited, error} = this.state;
     const width = Math.max(this.props.width || this.state.width, 300);
 
     return (
       <div ref={this.wrapper}>
+        {this.renderEmpty()}
         <Suspense fallback={<div>...</div>}>
-          {inited ? (
+          {inited && !error ? (
             <PdfView
               file={this.file}
               loading={loading}
@@ -193,6 +249,7 @@ export default class PdfViewer extends React.Component<
             />
           ) : null}
         </Suspense>
+        {this.renderError()}
       </div>
     );
   }

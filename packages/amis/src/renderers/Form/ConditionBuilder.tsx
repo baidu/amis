@@ -99,6 +99,11 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 将字段输入控件变成公式编辑器。
    */
   formula?: Omit<InputFormulaControlSchema, 'type'>;
+
+  /**
+   * if 里面公式编辑器配置
+   */
+  formulaForIf?: any;
 }
 
 export interface ConditionBuilderProps

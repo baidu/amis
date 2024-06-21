@@ -5,7 +5,8 @@ import {
   mapTree,
   eachTree,
   extendObject,
-  createObject
+  createObject,
+  extractObjectChain
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -555,8 +556,7 @@ export const MainStore = types
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
-              key.substring(0, 2) === '__' ||
-              key === 'editorState') // 样式不需要出现做json中,
+              key.substring(0, 2) === '__')
         );
       },
 
@@ -1013,7 +1013,7 @@ export const MainStore = types
 
       // 获取弹窗大纲列表
       get modals(): Array<EditorModalBody> {
-        const schema = self.schema;
+        const schema = {...self.schema};
         const modals: Array<DialogSchema | DrawerSchema> = [];
         Object.keys(schema.definitions || {}).forEach(key => {
           const definition = schema.definitions[key];
@@ -1024,6 +1024,7 @@ export const MainStore = types
             });
           }
         });
+        delete schema.definitions;
         JSONTraverse(schema, (value: any, key: string, host: any) => {
           if (
             key === 'actionType' &&
@@ -1104,6 +1105,15 @@ export const MainStore = types
       },
 
       setCtx(value: any) {
+        if (value?.__super) {
+          // context 不支持链式，如果这样下发了，需要转成普通对象。
+          // 目前平台会下发这种数据，为了防止数据丢失做个处理
+          value = extractObjectChain(value).reduce(
+            (obj, item) => Object.assign(obj, item),
+            {}
+          );
+        }
+
         self.ctx = value;
       },
 

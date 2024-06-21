@@ -3,8 +3,10 @@ import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
 import {
+  ScopedContext,
   evalExpressionWithConditionBuilder,
   filterClassNameObject,
+  getMatchedEventTargets,
   getPropValue
 } from 'amis-core';
 import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
@@ -47,7 +49,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem} from 'amis-core';
+import type {IItem, IScopedContext} from 'amis-core';
 import type {OnEventProps} from 'amis-core';
 import find from 'lodash/find';
 
@@ -441,7 +443,11 @@ export default class List extends React.Component<ListProps, object> {
     return findDOMNode(this);
   }
 
-  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
+  handleAction(
+    e: React.UIEvent<any> | undefined,
+    action: ActionObject,
+    ctx: object
+  ) {
     const {data, dispatchEvent, onAction, onEvent} = this.props;
     const hasClickActions =
       onEvent &&
@@ -543,7 +549,8 @@ export default class List extends React.Component<ListProps, object> {
     const unModifiedItems = store.items
       .filter(item => !item.modified)
       .map(item => item.data);
-    onSave(
+
+    return onSave(
       items,
       diff,
       itemIndexes,
@@ -1089,6 +1096,70 @@ export class ListRenderer extends List {
   actions?: Array<ActionObject>;
   onCheck: (item: IItem) => void;
 
+  static contextType = ScopedContext;
+  declare context: React.ContextType<typeof ScopedContext>;
+
+  constructor(props: ListProps, scoped: IScopedContext) {
+    super(props);
+
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount(): void {
+    super.componentWillUnmount?.();
+    this.context.unRegisterComponent(this);
+  }
+
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    /**
+     * 因为List在scope上注册，导致getComponentByName查询组件时会优先找到List，和CRUD联动的动作都会失效
+     * 这里先做兼容处理，把动作交给上层的CRUD处理
+     */
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给List，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.receive?.(values, subPath);
+    }
+
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+  }
+
+  async reload(subPath?: string, query?: any, ctx?: any, args?: any) {
+    const {store} = this.props;
+    if (args?.index || args?.condition) {
+      // 局部刷新
+      // todo 后续考虑添加局部刷新
+      // const targets = await getMatchedEventTargets<IItem>(
+      //   store.items,
+      //   ctx || this.props.data,
+      //   args.index,
+      //   args?.condition
+      // );
+      // await Promise.all(targets.map(target => this.loadDeferredRow(target)));
+      return;
+    }
+
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给List，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.reload?.(subPath, query, ctx);
+    }
+
+    if (subPath) {
+      return scoped.reload(subPath, ctx);
+    }
+  }
+
   async setData(
     values: any,
     replace?: boolean,
@@ -1097,29 +1168,67 @@ export class ListRenderer extends List {
   ) {
     const {store} = this.props;
 
-    if (index !== undefined) {
-      let items = store.items;
-      const indexs = String(index).split(',');
-      indexs.forEach(i => {
-        const intIndex = Number(i);
-        items[intIndex]?.updateData(values);
+    if (index !== undefined || condition !== undefined) {
+      const targets = await getMatchedEventTargets<IItem>(
+        store.items,
+        this.props.data,
+        index,
+        condition
+      );
+      targets.forEach(target => {
+        target.updateData(values);
       });
-    } else if (condition !== undefined) {
-      let items = store.items;
-      const len = items.length;
-      for (let i = 0; i < len; i++) {
-        const item = items[i];
-        const isUpdate = await evalExpressionWithConditionBuilder(
-          condition,
-          item.data
-        );
-
-        if (isUpdate) {
-          item.updateData(values);
-        }
-      }
     } else {
       return store.updateData(values, undefined, replace);
+    }
+  }
+
+  getData() {
+    const {store, data} = this.props;
+    return store.getData(data);
+  }
+
+  async doAction(
+    action: ActionObject,
+    ctx: any,
+    throwErrors: boolean,
+    args: any
+  ) {
+    const {store, valueField, data} = this.props;
+
+    const actionType = action?.actionType;
+    switch (actionType) {
+      case 'selectAll':
+        store.clear();
+        store.toggleAll();
+        break;
+      case 'clearAll':
+        store.clear();
+        break;
+      case 'select':
+        const rows = await getMatchedEventTargets<IItem>(
+          store.items,
+          ctx || this.props.data,
+          args.index,
+          args.condition,
+          args.selected
+        );
+        store.updateSelected(
+          rows.map(item => item.data),
+          valueField
+        );
+        break;
+      case 'initDrag':
+        store.startDragging();
+        break;
+      case 'cancelDrag':
+        store.stopDragging();
+        break;
+      case 'submitQuickEdit':
+        await this.handleSave();
+        break;
+      default:
+        return this.handleAction(undefined, action, data);
     }
   }
 }
