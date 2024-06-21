@@ -389,7 +389,7 @@ export class CRUDPlugin extends BasePlugin {
         title: '新增',
         body: {
           type: 'form',
-          api: 'xxx/create',
+          api: '',
           body: []
         }
       }
@@ -406,7 +406,8 @@ export class CRUDPlugin extends BasePlugin {
         title: '编辑',
         body: {
           type: 'form',
-          api: 'xxx/update',
+          api: '',
+          initApi: '',
           body: []
         }
       }
@@ -423,7 +424,7 @@ export class CRUDPlugin extends BasePlugin {
         title: '查看详情',
         body: {
           type: 'form',
-          api: 'xxx/update',
+          initApi: '',
           body: []
         }
       }
@@ -435,7 +436,7 @@ export class CRUDPlugin extends BasePlugin {
       level: 'link',
       className: 'text-danger',
       confirmText: '确定要删除？',
-      api: 'delete:/xxx/delete',
+      api: '',
       editorSetting: {
         behavior: 'delete'
       }
@@ -446,7 +447,7 @@ export class CRUDPlugin extends BasePlugin {
       label: '批量删除',
       actionType: 'ajax',
       confirmText: '确定要删除？',
-      api: '/xxx/batch-delete',
+      api: '',
       editorSetting: {
         behavior: 'bulkDelete'
       }
@@ -463,7 +464,7 @@ export class CRUDPlugin extends BasePlugin {
         size: 'md',
         body: {
           type: 'form',
-          api: '/xxx/bacth-edit',
+          api: '',
           body: [
             {
               label: '字段1',
@@ -478,7 +479,7 @@ export class CRUDPlugin extends BasePlugin {
     //   type: 'button',
     //   level: 'danger',
     //   label: '删除',
-    //   api: '/xxx/delete-one',
+    //   api: '',
     //   actionType: 'ajax',
     //   confirmText: '确定要删除？'
     // },
