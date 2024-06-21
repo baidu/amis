@@ -2,7 +2,15 @@
  * @file Words
  */
 import React, {Fragment} from 'react';
-import {autobind, Renderer, RendererProps, Option, getTreeAncestors, resolveVariableAndFilter} from 'amis-core';
+import {
+  autobind,
+  Renderer,
+  RendererProps,
+  Option,
+  getTreeAncestors,
+  resolveVariableAndFilter,
+  labelToString
+} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 import {Tag} from 'amis-ui';
 import {TagSchema} from './Tag';
@@ -15,8 +23,8 @@ export interface WordsSchema extends BaseSchema {
   type: 'words';
 
   /**
-  * 展示限制, 为0时也无限制
-  */
+   * 展示限制, 为0时也无限制
+   */
   limit?: number;
 
   /**
@@ -40,8 +48,8 @@ export interface WordsSchema extends BaseSchema {
   collapseButton?: SchemaObject;
 
   /**
-  * tags数据
-  */
+   * tags数据
+   */
   words: Words;
 
   /**
@@ -50,8 +58,8 @@ export interface WordsSchema extends BaseSchema {
   inTag?: boolean | TagSchema;
 
   /**
-     * 分割符
-     */
+   * 分割符
+   */
   delimiter?: string;
 }
 
@@ -59,22 +67,26 @@ export interface WordsProps
   extends RendererProps,
     Omit<WordsSchema, 'type' | 'className'> {}
 
-function getLabel(item: Option, index: number, {
-  type,
-  labelField = 'label',
-  options = [],
-  enableNodePath,
-  hideNodePathLabel,
-  pathSeparator = '/',
-}: any): string {
-  if (enableNodePath
-      || (type === 'nested-select' && !hideNodePathLabel)
-  ){
-      // 将所有祖先节点也展现出来
+function getLabel(
+  item: Option,
+  index: number,
+  {
+    type,
+    labelField = 'label',
+    options = [],
+    enableNodePath,
+    hideNodePathLabel,
+    pathSeparator = '/'
+  }: any
+): string {
+  if (enableNodePath || (type === 'nested-select' && !hideNodePathLabel)) {
+    // 将所有祖先节点也展现出来
     const ancestors = getTreeAncestors(options, item, true);
     return `${
       ancestors
-        ? ancestors.map(item => `${item[labelField || 'label']}`).join(` ${pathSeparator} `)
+        ? ancestors
+            .map(item => `${item[labelField || 'label']}`)
+            .join(` ${pathSeparator} `)
         : item[labelField || 'label']
     }`;
   }
@@ -104,11 +116,7 @@ export class WordsField extends React.Component<WordsProps, object> {
   }
 
   renderContent(words: Words) {
-    const {
-      delimiter,
-      inTag,
-      classnames: cx
-    } = this.props;
+    const {delimiter, inTag, classnames: cx} = this.props;
 
     // 纯文字展示
     if (!Array.isArray(words)) {
@@ -119,11 +127,13 @@ export class WordsField extends React.Component<WordsProps, object> {
     if (!inTag) {
       const lastIndex = words.length - 1;
       return words.map((item, index) => {
-        return <Fragment key={index}>
-          {item}
-          {index === lastIndex ? '' : delimiter ? delimiter : '， '}
-        </Fragment>
-      })
+        return (
+          <Fragment key={index}>
+            {labelToString(item)}
+            {index === lastIndex ? '' : delimiter ? delimiter : '， '}
+          </Fragment>
+        );
+      });
     }
 
     return words.map((label, key) => (
@@ -132,42 +142,40 @@ export class WordsField extends React.Component<WordsProps, object> {
         key={key}
         label={label}
         className={'mb-1'}
-        {...typeof inTag === 'object' ? {...inTag, className: cx(inTag.className)} : undefined}
+        {...(typeof inTag === 'object'
+          ? {...inTag, className: cx(inTag.className)}
+          : undefined)}
       />
     ));
   }
 
   renderAll(words: Words, hasBtn = false) {
-    const {
-      collapseButtonText = '收起',
-      collapseButton,
-      render
-    } = this.props;
+    const {collapseButtonText = '收起', collapseButton, render} = this.props;
 
     return (
       <>
         {this.renderContent(words)}
-        {!hasBtn ? null :
-          render('collapseBtn', {
-            type: 'button',
-            level: 'link',
-            className: 'ml-1 v-baseline'
-          }, {
-            onClick: this.toggleExpend,
-            ...collapseButton,
-            label: collapseButtonText
-          })
-        }
+        {!hasBtn
+          ? null
+          : render(
+              'collapseBtn',
+              {
+                type: 'button',
+                level: 'link',
+                className: 'ml-1 v-baseline'
+              },
+              {
+                onClick: this.toggleExpend,
+                ...collapseButton,
+                label: collapseButtonText
+              }
+            )}
       </>
     );
   }
 
   renderPart(words: Words) {
-    const {
-      expendButtonText = '展开',
-      expendButton,
-      render
-    } = this.props;
+    const {expendButtonText = '展开', expendButton, render} = this.props;
 
     const limit = this.getLimit(words);
     let partContent = Array.isArray(words)
@@ -178,25 +186,25 @@ export class WordsField extends React.Component<WordsProps, object> {
       <>
         {this.renderContent(partContent)}
         &nbsp;...
-        {render('collapseBtn', {
-          type: 'button',
-          level: 'link',
-          className: 'ml-1 v-baseline'
-        }, {
-          onClick: this.toggleExpend,
-          ...expendButton,
-          label: expendButtonText
-        })}
+        {render(
+          'collapseBtn',
+          {
+            type: 'button',
+            level: 'link',
+            className: 'ml-1 v-baseline'
+          },
+          {
+            onClick: this.toggleExpend,
+            ...expendButton,
+            label: expendButtonText
+          }
+        )}
       </>
-    )
+    );
   }
 
   getWords() {
-    const {
-      selectedOptions = [],
-      words: oldWords,
-      data
-    } = this.props;
+    const {selectedOptions = [], words: oldWords, data} = this.props;
 
     let words;
     if (typeof oldWords === 'string') {
@@ -208,19 +216,16 @@ export class WordsField extends React.Component<WordsProps, object> {
     }
 
     if (selectedOptions?.length > 0) {
-      return selectedOptions
-        .map((option: Option, index: number) => getLabel(option, index, this.props));
+      return selectedOptions.map((option: Option, index: number) =>
+        getLabel(option, index, this.props)
+      );
     }
 
     return null;
   }
 
   render() {
-    const {
-      classnames: cx,
-      className,
-      style
-    } = this.props;
+    const {classnames: cx, className, style} = this.props;
 
     const words = this.getWords();
 
@@ -231,20 +236,23 @@ export class WordsField extends React.Component<WordsProps, object> {
     const limit = this.getLimit(words);
     let body;
     if (
-      !limit
-      || (Array.isArray(words) && words.length <= limit)
-      || (!Array.isArray(words) && words.toString().length <= limit)
+      !limit ||
+      (Array.isArray(words) && words.length <= limit) ||
+      (!Array.isArray(words) && words.toString().length <= limit)
     ) {
       // 渲染全部，且无展开收起按钮
       body = this.renderAll(words);
-    }
-    else {
+    } else {
       body = this.state.isExpend
         ? this.renderAll(words, true)
         : this.renderPart(words);
     }
 
-    return <div className={cx('Words-field', className)} style={style}>{body}</div>
+    return (
+      <div className={cx('Words-field', className)} style={style}>
+        {body}
+      </div>
+    );
   }
 }
 
@@ -259,5 +267,5 @@ export class WordsRenderer extends WordsField {}
 export class TagsRenderer extends WordsField {
   static defaultProps = {
     inTag: true
-  }
+  };
 }
