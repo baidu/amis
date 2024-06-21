@@ -100,7 +100,8 @@
   &-buttonWrapper {
     height: auto;
   }
-  &-button {
+  &-button,
+  &-buttonWrapper-button {
     height: 100%;
     background-color: #f7f7f9;
     padding: 4px 8px;
