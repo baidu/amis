@@ -689,7 +689,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       onSort,
       onSelectAll,
       onFilter,
-      testIdBuilder
+      testIdBuilder,
+      headerClassName
     } = this.props;
 
     const rowSelectionKeyField = this.getRowSelectionKeyField();
@@ -724,6 +725,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         orderBy={this.state.sort?.orderBy}
         popOverContainer={this.getPopOverContainer}
         classnames={cx}
+        className={headerClassName}
         classPrefix={classPrefix}
         onSort={(payload: SortProps, column: ColumnProps) => {
           this.setState({

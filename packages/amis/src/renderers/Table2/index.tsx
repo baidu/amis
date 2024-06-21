@@ -2173,6 +2173,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 }
               },
               {
+                key: 'tableHeadClassname',
+                weights: {
+                  default: {
+                    inner: `> tr > th`,
+                    important: true
+                  }
+                }
+              },
+              {
                 key: 'tableBodyClassname',
                 weights: {
                   default: {
