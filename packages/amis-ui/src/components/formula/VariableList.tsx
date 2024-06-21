@@ -286,7 +286,7 @@ function VariableList(props: VariableListProps) {
   }
 
   function handleChange(item: any) {
-    if (item.isMember || item.memberDepth !== undefined) {
+    if (item.isMember || item.memberDepth !== undefined || !item.value) {
       return;
     }
     onSelect?.(item);
