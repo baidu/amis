@@ -222,18 +222,11 @@ export class ItemPlugin extends BasePlugin {
       context.info.renderer.isFormItem &&
       context.diff?.some(change => change.path?.join('.') === 'value')
     ) {
-      const change: any = find(
-        context.diff,
-        change => change.path?.join('.') === 'value'
-      )!;
-      const component = this.manager.store
-        .getNodeById(context.id)
-        ?.getComponent();
-
-      let value = change?.rhs;
+      let value = context.value.value;
+      const component = context.node?.getComponent();
 
       if (typeof value === 'string' && isExpression(value)) {
-        const data = event.context.node?.getComponent()?.props.data || {};
+        const data = component?.props.data || {};
         value = resolveVariableAndFilter(value, data, '| raw');
       }
       component?.props.onChange(value);
