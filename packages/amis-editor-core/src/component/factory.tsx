@@ -128,9 +128,21 @@ export function makeWrapper(
     }
 
     @autobind
-    wrapperRef(ref: any) {
+    wrapperRef(raw: any) {
+      let ref = raw;
       while (ref?.getWrappedInstance) {
         ref = ref.getWrappedInstance();
+      }
+
+      if (ref && !ref.props) {
+        Object.defineProperty(ref, 'props', {
+          get: () => this.props
+        });
+      } else if (!ref && raw) {
+        ref = {};
+        Object.defineProperty(ref, 'props', {
+          get: () => this.props
+        });
       }
 
       if (this.editorNode && isAlive(this.editorNode)) {
