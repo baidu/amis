@@ -16,7 +16,7 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
   };
 });
 
-setSchemaTpl('theme:formItem', ({renderer, schema}: any) => {
+setSchemaTpl('theme:formItem', ({schema}: any = {}) => {
   return {
     title: '表单项',
     key: 'formItem',

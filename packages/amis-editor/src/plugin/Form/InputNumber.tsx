@@ -290,7 +290,6 @@ export class NumberControlPlugin extends BasePlugin {
             'collapseGroup',
             [
               getSchemaTpl('theme:formItem', {
-                renderer: context.info.renderer,
                 schema: [
                   {
                     label: '快捷编辑',

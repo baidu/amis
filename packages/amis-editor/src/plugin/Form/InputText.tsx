@@ -416,7 +416,7 @@ export class TextControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('theme:formItem', {renderer}),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
             {
