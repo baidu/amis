@@ -2,6 +2,7 @@ import isPlainObject from 'lodash/isPlainObject';
 
 export function labelToString(label: any): string {
   const type = typeof label;
+  console.log(type);
   if (type === 'string') {
     return label;
   } else if (type === 'number') {
@@ -16,5 +17,6 @@ export function labelToString(label: any): string {
     }
   }
 
-  return 'invalid label';
+  // return 'invalid label';
+  return label;
 }
