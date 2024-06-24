@@ -1,10 +1,18 @@
 import {getSchemaTpl} from 'amis-editor-core';
 
-export const inputStateTpl = (className: string, token: string = '') => {
+export const inputStateTpl = (
+  className: string,
+  token: string = '',
+  options: {
+    state: string[];
+  } = {
+    state: ['default', 'hover', 'focused', 'disabled']
+  }
+) => {
   return [
     {
       type: 'select',
-      name: '__editorState',
+      name: `__editorState${className}`,
       label: '状态',
       selectFirst: true,
       options: [
@@ -24,23 +32,28 @@ export const inputStateTpl = (className: string, token: string = '') => {
           label: '禁用',
           value: 'disabled'
         }
-      ]
+      ].filter(item => options.state.includes(item.value))
     },
     ...inputStateFunc(
-      "${__editorState == 'default' || !__editorState}",
+      `\${__editorState${className} == 'default' || !__editorState${className}}`,
       'default',
       className,
       token
     ),
-    ...inputStateFunc("${__editorState == 'hover'}", 'hover', className, token),
     ...inputStateFunc(
-      "${__editorState == 'focused'}",
+      `\${__editorState${className} == 'hover'}`,
+      'hover',
+      className,
+      token
+    ),
+    ...inputStateFunc(
+      `\${__editorState${className} == 'focused'}`,
       'focused',
       className,
       token
     ),
     ...inputStateFunc(
-      "${__editorState == 'disabled'}",
+      `\${__editorState${className} == 'disabled'}`,
       'disabled',
       className,
       token
