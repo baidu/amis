@@ -926,6 +926,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 [`${column.className}`]: !!column.className,
                 [`${column.titleClassName}`]: !!column.titleClassName
               })}
+              style={{
+                justifyContent:
+                  (
+                    {
+                      right: 'flex-end',
+                      center: 'center'
+                    } as any
+                  )[column.align] || 'flex-start'
+              }}
             >
               {content}
               {remark}
