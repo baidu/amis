@@ -960,12 +960,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: item.locals,
-                  value: column.name
-                    ? resolveVariable(
-                        column.name,
-                        finalCanAccessSuperData ? item.locals : item.data
-                      )
-                    : column.name,
+                  // 不要下发 value，组件基本上都会自己取
+                  // 如果下发了表单项会认为是 controlled value
+                  // 就不会去跑 extraName 之类的逻辑了
+                  // value: column.name
+                  //   ? resolveVariable(
+                  //       column.name,
+                  //       finalCanAccessSuperData ? item.locals : item.data
+                  //     )
+                  //   : column.name,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
                   quickEditFormRef: this.subFormRef,
