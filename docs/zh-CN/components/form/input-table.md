@@ -146,21 +146,26 @@ order: 54
 
 还能通过 `copyable` 来增加一个复制按钮来复制当前行
 
+> 6.6.0 起支持配置 `copyData` 属性，来指定复制的数据。默认值为 `{&: "$$"}`
+
 ```schema: scope="body"
 {
   "type": "form",
   "api": "/api/mock2/form/saveForm",
+  "debug": true,
   "body": [
     {
     "type":"input-table",
     "name":"table",
     "addable": true,
     "copyable": true,
+    "copyData": {"&": "$$$$", "id": "$${'__undefined'}", "copyFrom": "$${id}"},
     "editable": true,
     "value": [
       {
         "a": "a1",
-        "b": "b1"
+        "b": "b1",
+        "id": 1
       }
     ],
     "columns":[
@@ -917,6 +922,8 @@ order: 54
 | ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
 | type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
 | addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| copyable                     | `boolean`                                 | `false`         | 是否可复制一行                                                                                       |
+| copyData                     | `PlainObject`                             |                 | 控制复制时的数据映射，不配置时复制整行数据                                                           |
 | childrenAddable              | `boolean`                                 | `false`         | 是否可增加子级节点                                                                                   |
 | editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
 | removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
