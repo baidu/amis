@@ -543,7 +543,7 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
               }
             ]
           }
-        ].filter(Boolean)
+        ]
       }
     };
   }
