@@ -77,6 +77,12 @@ export interface TableControlSchema
   copyAddBtn?: boolean;
 
   /**
+   * 复制的时候用来配置复制映射的数据。默认值是 {&:$$}，相当与复制整个行数据
+   * 通常有时候需要用来标记是复制过来的，也可能需要删掉一下主键字段。
+   */
+  copyData?: Record<string, any>;
+
+  /**
    * 是否可以拖拽排序
    */
   draggable?: boolean;
@@ -622,20 +628,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   async copyItem(index: string) {
-    const {needConfirm} = this.props;
+    const {needConfirm, data, copyData = {'&': '$$'}} = this.props;
     let items = this.state.items.concat();
     const indexes = index.split('.').map(item => parseInt(item, 10));
     const next = indexes.concat();
     next[next.length - 1] += 1;
 
     const originItems = items;
+    const src = getTree(items, indexes);
+    const item = dataMapping(copyData, createObject(data, src));
     if (needConfirm === false) {
-      items = spliceTree(items, next, 0, getTree(items, indexes));
+      items = spliceTree(items, next, 0, item);
     } else {
       // 复制相当于新增一行
       // 需要同addItem一致添加__placeholder属性
       items = spliceTree(items, next, 0, {
-        ...getTree(items, indexes),
+        ...item,
         __isPlaceholder: true
       });
     }
@@ -650,7 +658,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         const isPrevented = await this.dispatchEvent('add', {
           index: next[next.length - 1],
           indexPath: next.join('.'),
-          item: getTree(items, next)
+          item: item
         });
         if (isPrevented) {
           return;
