@@ -1916,41 +1916,40 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     container: props.popOverContainer || env.getModalContainer
                   })
                 : null}
+              {hint && model && model.isFocused
+                ? render('hint', hint, {
+                    className: cx(`Form-hint`)
+                  })
+                : null}
+
+              {model &&
+              !model.valid &&
+              showErrorMsg !== false &&
+              Array.isArray(model.errors) ? (
+                <ul className={cx('Form-feedback')}>
+                  {model.errors.map((msg: string, key: number) => (
+                    <li key={key}>{msg}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {description && renderDescription !== false
+                ? render('description', description, {
+                    className: cx(
+                      `Form-description`,
+                      descriptionClassName,
+                      setThemeClassName({
+                        ...props,
+                        name: 'descriptionClassName',
+                        id,
+                        themeCss,
+                        extra: 'item'
+                      })
+                    )
+                  })
+                : null}
             </div>
           </div>
-
-          {hint && model && model.isFocused
-            ? render('hint', hint, {
-                className: cx(`Form-hint`)
-              })
-            : null}
-
-          {model &&
-          !model.valid &&
-          showErrorMsg !== false &&
-          Array.isArray(model.errors) ? (
-            <ul className={cx('Form-feedback')}>
-              {model.errors.map((msg: string, key: number) => (
-                <li key={key}>{msg}</li>
-              ))}
-            </ul>
-          ) : null}
-
-          {description && renderDescription !== false
-            ? render('description', description, {
-                className: cx(
-                  `Form-description`,
-                  descriptionClassName,
-                  setThemeClassName({
-                    ...props,
-                    name: 'descriptionClassName',
-                    id,
-                    themeCss,
-                    extra: 'item'
-                  })
-                )
-              })
-            : null}
         </div>
       );
     }
