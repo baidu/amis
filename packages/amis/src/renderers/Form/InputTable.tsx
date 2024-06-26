@@ -1131,8 +1131,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
     const isStatic = this.props.static;
     const disabled = this.props.disabled;
-    const hidden = this.props.hidden;
-    const visible = this.props.visible;
 
     let btns = [];
     if (!isStatic && props.addable && props.showTableAddBtn !== false) {
@@ -1293,8 +1291,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                       saveImmediately: true,
                       mode: 'inline',
                       disabled,
-                      visible,
-                      hidden,
                       static: isStatic || column.static
                     }
                   })
