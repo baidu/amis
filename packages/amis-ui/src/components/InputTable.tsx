@@ -126,6 +126,9 @@ export function InputTable({
     },
     [subForms]
   );
+  const popOverContainer = React.useCallback(() => {
+    return tBodyRef.current;
+  }, [tBodyRef]);
   let finalRules: any = {...rules};
 
   if (isRequired) {
@@ -223,6 +226,7 @@ export function InputTable({
         <div
           className={cx(`Table-contentWrap`, {'is-fixed': enableScroll})}
           style={{maxHeight: enableScroll ? scroll.y : 'unset'}}
+          ref={tBodyRef}
         >
           <div className={cx('Table-content')}>
             <table className={cx(`Table-table`, tableClassName)} ref={tableRef}>
@@ -250,6 +254,7 @@ export function InputTable({
                         translate={__}
                         classnames={cx}
                         formRef={subFormRef}
+                        popOverContainer={popOverContainer}
                       />
                       <td key="operation">
                         <Button
@@ -330,6 +335,7 @@ export interface InputTableRowProps {
   translate: TranslateFn;
   classnames: ClassNamesFn;
   formRef: (form: UseFormReturn | null, id: string) => void;
+  popOverContainer?: any;
 }
 
 export const InputTableRow = React.memo(function InputTableRow({
@@ -339,7 +345,8 @@ export const InputTableRow = React.memo(function InputTableRow({
   translate,
   update,
   formRef,
-  classnames: cx
+  classnames: cx,
+  popOverContainer
 }: InputTableRowProps) {
   const indexRef = React.useRef(index);
   React.useEffect(() => {
@@ -360,7 +367,14 @@ export const InputTableRow = React.memo(function InputTableRow({
     <>
       {columns.map((item, colIndex) => (
         <td key={colIndex} className={item.className}>
-          {item.tdRender(methods, colIndex, index)}
+          {item.tdRender(
+            {
+              ...methods,
+              popOverContainer
+            },
+            colIndex,
+            index
+          )}
         </td>
       ))}
     </>
