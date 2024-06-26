@@ -244,13 +244,13 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
 
   @autobind
   handleBatchAdd(values: {batchOption: string}[], action: any) {
-    const {onChange} = this.props;
+    const {onChange, customEdit = true} = this.props;
     const options = this.props.data.options || [];
     const addedOptions: Array<OptionControlItem> = values[0].batchOption
       .split('\n')
       .map(option => {
         const item = option.trim();
-        if (~item.indexOf(' ')) {
+        if (~item.indexOf(' ') && customEdit) {
           let [label, value] = item.split(' ');
           return {label: label.trim(), value: value.trim(), checked: false};
         }
@@ -489,6 +489,7 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
   }
 
   buildBatchAddSchema() {
+    const {customEdit = true} = this.props;
     return {
       type: 'action',
       actionType: 'dialog',
@@ -507,7 +508,11 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
             body: [
               {
                 type: 'tpl',
-                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
+                tpl:
+                  '每个选项单列一行，将所有值不重复的项加为新的选项;' +
+                  (customEdit
+                    ? '<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
+                    : '')
               }
             ],
             showIcon: true,
