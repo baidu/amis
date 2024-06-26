@@ -408,6 +408,9 @@ export default class FormulaControl extends React.Component<
     this.props?.onChange?.(val);
 
     this.closeFormulaPicker();
+    requestAnimationFrame(() => {
+      this.editorPlugin?.autoMark?.();
+    });
   }
 
   /**
