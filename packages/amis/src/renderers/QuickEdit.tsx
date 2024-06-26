@@ -7,6 +7,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {
   RendererProps,
+  difference,
   getPropValue,
   getRendererByName,
   noop,
@@ -351,8 +352,10 @@ export const HocQuickEdit =
       }
 
       handleInit(values: object) {
-        const {onQuickChange} = this.props;
-        onQuickChange(values, false, true);
+        const {onQuickChange, data} = this.props;
+
+        const diff = difference(values, data);
+        Object.keys(diff).length && onQuickChange(diff, false, true);
       }
 
       handleChange(values: object, diff?: any) {
