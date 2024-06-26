@@ -42,6 +42,7 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'className',
   'style',
   'data',
+  'originData',
   'children',
   'ref',
   'visible',

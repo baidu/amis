@@ -1433,7 +1433,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               ) : null}
               <div className={cx(`Combo-itemInner`)}>
                 {finnalControls ? (
-                  this.renderItems(finnalControls, data, index)
+                  this.renderItems(finnalControls, data, index, value)
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
                     {__('Combo.invalidData')}
@@ -1754,7 +1754,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   ) : null}
                   <div className={cx(`Combo-itemInner`)}>
                     {finnalControls ? (
-                      this.renderItems(finnalControls, data, index)
+                      this.renderItems(finnalControls, data, index, value)
                     ) : (
                       <Alert2 level="warning" className="m-b-none">
                         {__('Combo.invalidData')}
@@ -1866,7 +1866,12 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   // 为了给 editor 重写使用
-  renderItems(finnalControls: ComboSubControl[], data: object, index?: number) {
+  renderItems(
+    finnalControls: ComboSubControl[],
+    data: object,
+    index?: number,
+    originData?: any
+  ) {
     const {
       classnames: cx,
       formClassName,
@@ -1914,6 +1919,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled: disabled,
           static: isStatic,
           data,
+          originData,
           onChange: this.handleSingleFormChange,
           ref: this.makeFormRef(0),
           onValidChange: this.handleSubFormValid,
@@ -1941,6 +1947,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled,
           static: isStatic,
           data,
+          originData,
           onChange: this.handleChange,
           onInit: this.handleFormInit,
           onAction: this.handleAction,

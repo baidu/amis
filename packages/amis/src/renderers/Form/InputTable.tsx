@@ -326,6 +326,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   constructor(props: TableProps) {
     super(props);
+    const {addHook} = props;
 
     this.state = {
       columns: this.buildColumns(props),
@@ -1286,6 +1287,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     quickEdit: {
                       ...this.columnToQuickEdit(column),
                       ...quickEdit,
+                      // 因为列本身已经做过显隐判断了，单元格不应该再处理
+                      visibleOn: '',
+                      hiddenOn: '',
+                      visible: true,
+                      hidden: false,
                       saveImmediately: true,
                       mode: 'inline',
                       disabled,
@@ -1314,6 +1320,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 quickEdit: {
                   ...this.columnToQuickEdit(column),
                   ...quickEdit,
+                  // 因为列本身已经做过显隐判断了，单元格不应该再处理
+                  visibleOn: '',
+                  hiddenOn: '',
+                  visible: true,
+                  hidden: false,
                   isQuickEditFormMode: !!render?.isFormItem,
                   saveImmediately: true,
                   mode: 'inline',
@@ -1480,6 +1491,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             ...column,
             quickEdit: {
               ...column,
+              // 因为列本身已经做过显隐判断了，单元格不应该再处理
+              visibleOn: '',
+              hiddenOn: '',
+              visible: true,
+              hidden: false,
               isFormMode: true
             }
           };

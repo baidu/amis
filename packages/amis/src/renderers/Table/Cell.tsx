@@ -263,6 +263,11 @@ export default function Cell({
     region,
     {
       ...column.pristine,
+      // 因为列本身已经做过显隐判断了，单元格不应该再处理
+      visibleOn: '',
+      hiddenOn: '',
+      visible: true,
+      hidden: false,
       column: column.pristine,
       type: 'cell'
     },

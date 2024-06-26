@@ -1072,13 +1072,14 @@ export default class Form extends React.Component<FormProps, object> {
     try {
       this.emitting = true;
 
-      const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
+      const {onChange, store, submitOnChange, dispatchEvent, data, originData} =
+        this.props;
 
       if (!isAlive(store)) {
         return;
       }
 
-      const diff = difference(store.data, store.pristine);
+      const diff = difference(store.data, originData ?? store.upStreamData);
       if (
         emitedFromWatch &&
         (!Object.keys(diff).length || isEqual(store.data, this.emittedData))
