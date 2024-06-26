@@ -80,6 +80,11 @@ export class TableCell extends React.Component<TableCellProps> {
 
     const schema = {
       ...column,
+      // 因为列本身已经做过显隐判断了，单元格不应该再处理
+      visibleOn: '',
+      hiddenOn: '',
+      visible: true,
+      hidden: false,
       style: column.innerStyle, // column的innerStyle配置 作为内部组件的style 覆盖column的style
       className: innerClassName,
       type: (column && column.type) || 'plain'
