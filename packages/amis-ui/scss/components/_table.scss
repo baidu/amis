@@ -253,6 +253,11 @@
       & .label {
         font-size: 90%;
       }
+
+      & > .#{$ns}Form,
+      & > .#{$ns}Form-item {
+        min-width: var(--Form-control-widthBase);
+      }
     }
 
     &.is-layout-fixed td {
