@@ -12,7 +12,7 @@ import {
 import cx from 'classnames';
 import {FormItem, Button, PickerContainer, ConditionBuilderFields} from 'amis';
 import {reaction} from 'mobx';
-import {getQuickVariables} from 'amis-editor-core';
+import {getConditionVariables} from 'amis-editor-core';
 
 interface ConditionFormulaControlProps extends FormControlProps {
   /**
@@ -99,31 +99,16 @@ export default class ConditionFormulaControl extends React.Component<
     let fieldsArr: ConditionBuilderFields = [];
     const {requiredDataPropsFields, fields} = this.props;
     if (requiredDataPropsFields) {
-      const variablesArr = await getQuickVariables(this);
-
-      // 自身字段
-      const selfName = this.props?.data?.name;
+      const variablesArr = await getConditionVariables(this);
 
       fieldsArr = flattenTree(variablesArr, (item: any) => {
-        if (
-          item &&
-          item.type &&
-          PropsFieldsMapping[item.type] &&
-          !item.isMember
-        ) {
+        if (PropsFieldsMapping[item.type]) {
           let obj: any = {
             label: item.label,
             type: PropsFieldsMapping[item.type],
             name: item.value
           };
 
-          if (selfName === item.value) {
-            obj = {
-              ...obj,
-              label: item.label + '（self）',
-              disabled: true
-            };
-          }
           return obj;
         }
       })?.filter(item => item);
