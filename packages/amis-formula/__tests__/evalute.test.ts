@@ -598,3 +598,12 @@ test('evalute:speical characters', () => {
   expect(evaluate('${1 | 2}', {})).toBe(3);
   expect(evaluate('${1 | abc}', {abc: 2})).toBe(3);
 });
+
+test('evalute:replace', () => {
+  const data = {};
+  expect(evaluate('${REPLACE("abcdefg", "abc", "cbd")}', data)).toBe('cbddefg');
+  expect(evaluate('${REPLACE("abcdefg", "efg", "efg")}', data)).toBe('abcdefg');
+  expect(evaluate('${REPLACE("abcdefg", "abc", "abcabc")}', data)).toBe(
+    'abcabcdefg'
+  );
+});

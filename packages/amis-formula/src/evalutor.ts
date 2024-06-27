@@ -1441,6 +1441,9 @@ export class Evaluator {
       return result;
     }
 
+    const shouldLoop = !(
+      typeof replace === 'string' && replace.includes(search)
+    );
     while (true) {
       const idx = result.indexOf(search);
 
@@ -1452,6 +1455,10 @@ export class Evaluator {
         result.substring(0, idx) +
         replace +
         result.substring(idx + search.length);
+
+      if (!shouldLoop) {
+        break;
+      }
     }
 
     return result;
