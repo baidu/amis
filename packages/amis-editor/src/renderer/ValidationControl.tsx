@@ -6,7 +6,7 @@ import React, {ReactNode} from 'react';
 import groupBy from 'lodash/groupBy';
 import remove from 'lodash/remove';
 import cx from 'classnames';
-import {FormItem, flattenTree} from 'amis';
+import {ConditionBuilderFields, FormItem, flattenTree} from 'amis';
 
 import {
   autobind,
@@ -32,18 +32,13 @@ export interface ValidationControlProps extends FormControlProps {
   tag: ValidatorTag | ((ctx: any) => ValidatorTag);
 }
 
-interface fieldItem {
-  label: string;
-  value: any;
-}
-
 interface ValidationControlState {
   avaliableValids: {
     moreValidators: Record<string, Validator>;
     defaultValidators: Record<string, Validator>;
     builtInValidators: Record<string, Validator>;
   };
-  fields: fieldItem[];
+  fields: ConditionBuilderFields;
 }
 
 export default class ValidationControl extends React.Component<
@@ -95,10 +90,11 @@ export default class ValidationControl extends React.Component<
     const variablesArr = await getConditionVariables(this);
 
     const arr = flattenTree(variablesArr, (item: any) => {
-      return {
+      let obj: any = {
         label: item.label,
         value: item.value
       };
+      return obj;
     });
 
     return arr;
