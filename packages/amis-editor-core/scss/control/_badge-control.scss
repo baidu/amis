@@ -26,6 +26,7 @@
 
       > div {
         flex-grow: 0 !important;
+        min-width: auto !important;
       }
     }
   }
