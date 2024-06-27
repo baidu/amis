@@ -6,11 +6,11 @@ import React, {ReactNode} from 'react';
 import groupBy from 'lodash/groupBy';
 import remove from 'lodash/remove';
 import cx from 'classnames';
-import {ConditionBuilderFields, FormItem, flattenTree} from 'amis';
+import {FormItem, flattenTree} from 'amis';
 
 import {
   autobind,
-  getQuickVariables,
+  getConditionVariables,
   isObjectShallowModified
 } from 'amis-editor-core';
 import ValidationItem, {ValidatorData} from './ValidationItem';
@@ -32,13 +32,18 @@ export interface ValidationControlProps extends FormControlProps {
   tag: ValidatorTag | ((ctx: any) => ValidatorTag);
 }
 
+interface fieldItem {
+  label: string;
+  value: any;
+}
+
 interface ValidationControlState {
   avaliableValids: {
     moreValidators: Record<string, Validator>;
     defaultValidators: Record<string, Validator>;
     builtInValidators: Record<string, Validator>;
   };
-  fields: ConditionBuilderFields;
+  fields: fieldItem[];
 }
 
 export default class ValidationControl extends React.Component<
@@ -87,30 +92,14 @@ export default class ValidationControl extends React.Component<
 
   @autobind
   async buildFieldsData() {
-    const variablesArr = await getQuickVariables(this);
-    // 自身字段
-    const selfName = this.props.data.name;
+    const variablesArr = await getConditionVariables(this);
 
-    const arr: ConditionBuilderFields = flattenTree(
-      variablesArr,
-      (item: any) => {
-        if (item.value && item.type !== 'array' && !item.isMember) {
-          let obj: any = {
-            label: item.label,
-            value: item.value
-          };
-
-          if (selfName === item.value) {
-            obj = {
-              ...obj,
-              label: item.label + '（self）',
-              disabled: true
-            };
-          }
-          return obj;
-        }
-      }
-    )?.filter(item => item);
+    const arr = flattenTree(variablesArr, (item: any) => {
+      return {
+        label: item.label,
+        value: item.value
+      };
+    });
 
     return arr;
   }

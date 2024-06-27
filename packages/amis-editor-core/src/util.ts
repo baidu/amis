@@ -1417,6 +1417,33 @@ export async function getQuickVariables(that: any, filter?: Function) {
   return [];
 }
 
+export async function getConditionVariables(that: any, filter?: Function) {
+  const {node, manager} = that.props.formProps || that.props;
+  const selfName = that.props?.data?.name;
+  await manager?.getContextSchemas(node);
+  const isCell = node.type === 'cell';
+  const options = await manager?.dataSchema?.getDataPropsAsOptions();
+  if (Array.isArray(options)) {
+    const finalVars = [];
+    const [curOption, superOption] = filterVariablesOfScope(options);
+    // 如果当前选中是子表列，则过滤掉当前层
+    const variables = (!isCell ? curOption.children || [] : []).filter(
+      (item: any) =>
+        item.value !== selfName && item.type && item.type !== 'array'
+    );
+    finalVars.push(...variables);
+    if (superOption?.children?.length) {
+      const superVars = superOption?.children.filter(
+        (item: any) => item.type && item.type !== 'array'
+      );
+      finalVars.push(...superVars);
+    }
+
+    return finalVars;
+  }
+  return [];
+}
+
 export function resolveQuickVariables(
   options: any,
   quickVars?: VariableItem[],
