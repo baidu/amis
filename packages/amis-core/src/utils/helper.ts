@@ -14,7 +14,11 @@ import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
-import {evalExpression, filter} from './tpl';
+import {
+  evalExpression,
+  evalExpressionWithConditionBuilder,
+  filter
+} from './tpl';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
@@ -433,8 +437,10 @@ export function isVisible(
   return !(
     schema.hidden ||
     schema.visible === false ||
-    (schema.hiddenOn && evalExpression(schema.hiddenOn, data)) ||
-    (schema.visibleOn && !evalExpression(schema.visibleOn, data))
+    (schema.hiddenOn &&
+      evalExpressionWithConditionBuilder(schema.hiddenOn, data)) ||
+    (schema.visibleOn &&
+      !evalExpressionWithConditionBuilder(schema.visibleOn, data))
   );
 }
 
@@ -479,7 +485,8 @@ export function isDisabled(
 ) {
   return (
     schema.disabled ||
-    (schema.disabledOn && evalExpression(schema.disabledOn, data))
+    (schema.disabledOn &&
+      evalExpressionWithConditionBuilder(schema.disabledOn, data))
   );
 }
 
@@ -492,7 +499,7 @@ export function hasAbility(
   return schema.hasOwnProperty(ability)
     ? schema[ability]
     : schema.hasOwnProperty(`${ability}On`)
-    ? evalExpression(schema[`${ability}On`], data || schema)
+    ? evalExpressionWithConditionBuilder(schema[`${ability}On`], data || schema)
     : defaultValue;
 }
 
