@@ -24,7 +24,9 @@ import type {ButtonProps} from './Button';
 
 export interface tdRenderFunc {
   (
-    methods: UseFormReturn,
+    methods: UseFormReturn & {
+      popOverContainer?: any;
+    },
     colIndex: number,
     rowIndex: number
   ): JSX.Element | null;
