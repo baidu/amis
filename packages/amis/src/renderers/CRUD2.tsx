@@ -1376,7 +1376,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             type: mode,
             columns: mode.startsWith('table')
               ? store.columns || columns
-              : undefined
+              : undefined,
+            id
           },
           {
             key: 'body',

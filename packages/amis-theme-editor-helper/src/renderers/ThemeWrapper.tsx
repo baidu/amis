@@ -45,7 +45,10 @@ export function ThemeWrapperHeader(props: ThemeWrapperProps) {
             >
               <ThemeIcon
                 icon="custom"
-                className="common-icon"
+                className={cx(
+                  'common-icon',
+                  senior ? 'common-icon--active' : ''
+                )}
                 onClick={() => toggleSenior && toggleSenior(!senior)}
               />
             </TooltipWrapper>

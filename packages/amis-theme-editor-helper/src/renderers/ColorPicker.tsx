@@ -28,12 +28,7 @@ import type {GlobalData} from '../helper/getGlobalData';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import {i18n as _i18n} from 'i18n-runtime';
-import {
-  getValueByPath,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 import {Icon as ThemeIcon} from '../icons/index';
 
 interface ColorPickerProps {
@@ -53,7 +48,6 @@ interface ColorPickerProps {
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;
-  editorInheritValue?: string;
 }
 
 interface ColorPickerControlProps extends FormControlProps {
@@ -62,7 +56,7 @@ interface ColorPickerControlProps extends FormControlProps {
   needImage?: boolean; // 图片
   needTheme?: boolean; // 主题色
   needCustom?: boolean; // 自定义颜色
-  editorThemePath?: string;
+  editorValueToken?: string;
 }
 
 interface ColorSelectProps {
@@ -112,33 +106,23 @@ function findColor(value: string | undefined, tree: any) {
       res = {label: '继承常规', value: value};
     }
   }
-  if (value === 'transparent') {
+  if (value === 'transparent' || value?.includes('none')) {
     res = {label: '透明', value: 'transparent'};
   }
   if (value === 'custom') {
     res = {label: '分别配置', value: 'transparent'};
   }
-  if (value === 'inherit') {
-    res = {label: '继承常规', value: value};
-  }
   return res;
 }
 
 function ThemeColorList(props: ThemeColorProps) {
-  const {themeList, onChange, value, data, itemName, state, editorThemePath} =
-    props;
-  const editorInheritValue =
-    props.editorInheritValue || getInheritValue(editorThemePath, data);
-  const defaultVar =
-    state && state !== 'default'
-      ? 'inherit'
-      : `var(${data?.default?.token}${itemName})`;
+  const {themeList, onChange, value, data, itemName, state} = props;
 
   const [colorList, setColorList] = useState(cloneDeep(themeList || []));
   const [showFlag, setShowFlag] = useState(true);
 
   function setColor(value: string | undefined) {
-    onChange(setInheritData(value, editorInheritValue));
+    onChange(value);
   }
 
   function searchColor(value: string) {
@@ -213,36 +197,6 @@ function ThemeColorList(props: ThemeColorProps) {
               </div>
             </div>
           </TooltipWrapper>
-          {(data?.state && data.state !== 'default') ||
-          (state && state !== 'default') ? (
-            <TooltipWrapper
-              trigger="hover"
-              placement="top"
-              tooltip={{
-                children: () => <div>继承常规</div>
-              }}
-            >
-              <div
-                className={cx(
-                  'ThemeColorList-content-label',
-                  value === defaultVar && 'ThemeColorList-content-label--active'
-                )}
-                onClick={() => setColor(defaultVar)}
-              >
-                <div
-                  className={cx(
-                    'ThemeColorList-content-label-inner',
-                    'ThemeColor--transparent'
-                  )}
-                >
-                  <div
-                    className="ThemeColorList-content-label-inner"
-                    style={{background: defaultVar}}
-                  ></div>
-                </div>
-              </div>
-            </TooltipWrapper>
-          ) : null}
         </div>
         <div className="ThemeColorList-content--search">
           <SearchBox placeholder="输入色值或名称搜索" onChange={searchColor} />
@@ -1472,11 +1426,9 @@ function ColorPicker(props: ColorPickerProps) {
 }
 
 function ColorPickerControl(props: ColorPickerControlProps) {
-  const editorDefaultValue = getValueByPath(
-    props.editorThemePath || '',
-    props.data
-  );
-  const value = formatInheritData(props.value) || editorDefaultValue;
+  let editorDefaultValue = getDefaultValue(props.editorValueToken, props.data);
+
+  const value = props.value || editorDefaultValue;
 
   return (
     <>

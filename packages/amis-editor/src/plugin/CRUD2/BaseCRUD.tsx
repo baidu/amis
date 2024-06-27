@@ -478,7 +478,7 @@ export class BaseCRUDPlugin extends BasePlugin {
   baseCRUDPanelBody = (context: BuildPanelEventContext) => {
     return getSchemaTpl('tabs', [
       this.renderPropsTab(context),
-      this.renderStylesTab(context),
+      // this.renderStylesTab(context),
       this.renderEventTab(context)
     ]);
   };

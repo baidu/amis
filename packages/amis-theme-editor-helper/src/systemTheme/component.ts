@@ -3912,7 +3912,7 @@ const component: ThemeDefinition['component'] = {
           paddingLeft: 'var(--sizes-size-7)',
           paddingRight: 'var(--sizes-size-7)'
         },
-        bg: 'var(--colors-neutral-fill-11)',
+        bg: 'var(--colors-neutral-fill-none)',
         border: {
           'top-border-color': 'var(--colors-neutral-line-8)',
           'top-border-width': 'var(--borders-width-2)',

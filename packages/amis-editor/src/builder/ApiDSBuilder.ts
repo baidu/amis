@@ -614,16 +614,18 @@ export class ApiDSBuilder extends DSBuilder<
       id,
       type: 'form',
       title: '表单',
-      mode: 'horizontal',
+      mode: 'flex',
+      labelAlign: 'top',
       dsType: this.key,
       feat: feat,
-      body: fields.map(f => {
+      body: fields.map((f, index) => {
         const type = f.inputType
           ? displayType2inputType(f.inputType) ?? 'input-text'
           : 'input-text';
 
         return {
           ...pick(f, ['name', 'label']),
+          row: index,
           type,
           ...this.appendSchema2InputControl(type)
         };

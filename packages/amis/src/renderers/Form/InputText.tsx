@@ -1211,7 +1211,7 @@ export default class TextControl extends React.PureComponent<
         });
 
     return (
-      <div className={classNames}>
+      <div className={classNames} style={style}>
         {addOn && addOn.position === 'left' ? addOnDom : null}
         {body}
         {addOn && addOn.position !== 'left' ? addOnDom : null}
@@ -1251,11 +1251,11 @@ export default class TextControl extends React.PureComponent<
               {
                 key: 'inputControlClassName',
                 weights: {
-                  active: {
-                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}, `
+                  focused: {
+                    parent: `.${ns}TextControl.is-focused`
+                  },
+                  disabled: {
+                    parent: `.${ns}TextControl.is-disabled`
                   }
                 }
               }
@@ -1278,11 +1278,12 @@ export default class TextControl extends React.PureComponent<
                   hover: {
                     inner: 'input'
                   },
-                  active: {
-                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}, `,
+                  focused: {
+                    parent: `.${ns}TextControl.is-focused`,
+                    inner: 'input'
+                  },
+                  disabled: {
+                    parent: `.${ns}TextControl.is-disabled`,
                     inner: 'input'
                   }
                 }

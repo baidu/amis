@@ -4,12 +4,15 @@ import {
   FormControlProps,
   resolveEventData,
   autobind,
-  getVariable
+  getVariable,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Textarea} from 'amis-ui';
 import type {ListenerAction} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import cx from 'classnames';
 
 /**
  * TextArea 多行文本输入框。
@@ -193,14 +196,55 @@ export default class TextAreaControl extends React.Component<
   @supportStatic()
   render() {
     const {...rest} = this.props;
+    const {id, themeCss, env, className, classPrefix: ns} = this.props;
     return (
-      <Textarea
-        {...rest}
-        forwardRef={this.inputRef}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onChange={this.handleChange}
-      />
+      <>
+        <Textarea
+          {...rest}
+          forwardRef={this.inputRef}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onChange={this.handleChange}
+          className={cx(
+            className,
+            setThemeClassName({
+              ...this.props,
+              name: 'inputControlClassName',
+              id,
+              themeCss: themeCss
+            })
+          )}
+        />
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'inputControlClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}TextareaControl-input`
+                  },
+                  hover: {
+                    inner: `.${ns}TextareaControl-input`
+                  },
+                  focused: {
+                    suf: '.is-focused',
+                    inner: `.${ns}TextareaControl-input`
+                  },
+                  disabled: {
+                    suf: '.is-disabled',
+                    inner: `.${ns}TextareaControl-input`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

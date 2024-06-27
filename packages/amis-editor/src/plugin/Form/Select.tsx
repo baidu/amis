@@ -28,6 +28,7 @@ import type {
   BaseEventContext,
   EditorManager
 } from 'amis-editor-core';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class SelectControlPlugin extends BasePlugin {
   static id = 'SelectControlPlugin';
@@ -301,7 +302,29 @@ export class SelectControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:formItem'),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '选择框样式',
+              body: [
+                ...inputStateTpl('themeCss.selectControlClassName', '--select')
+              ]
+            },
+            {
+              title: '下拉框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.selectPopoverClassName',
+                  '--select',
+                  {
+                    state: ['default', 'hover', 'focused']
+                  }
+                )
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames')
           ])
         ]

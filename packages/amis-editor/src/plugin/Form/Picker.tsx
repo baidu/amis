@@ -134,10 +134,14 @@ export class PickerControlPlugin extends BasePlugin {
   panelTitle = '列表选取';
   panelBodyCreator = (context: BaseEventContext) => {
     const pickStyleStateFunc = (visibleOn: string, state: string) => {
+      const cssToken =
+        state === 'default'
+          ? 'base'
+          : `status-${state === 'focused' ? 'focus' : state}`;
       return [
         getSchemaTpl('theme:border', {
           name: `themeCss.pickControlClassName.border:${state}`,
-          editorThemePath: `pick.status.body.${state}-border`,
+          editorValueToken: `--Pick-${cssToken}`,
           visibleOn: visibleOn
         }),
         getSchemaTpl('theme:colorPicker', {
@@ -146,43 +150,7 @@ export class PickerControlPlugin extends BasePlugin {
           needGradient: true,
           needImage: true,
           name: `themeCss.pickControlClassName.background:${state}`,
-          editorThemePath: `pick.status.body.${state}-bgColor`,
-          visibleOn: visibleOn
-        })
-      ];
-    };
-    const pickDisabledSateFunc = (visibleOn: string, state: string) => {
-      return [
-        getSchemaTpl('theme:border', {
-          name: `themeCss.pickControlDisabledClassName.border`,
-          editorThemePath: `pick.status.body.${state}-border`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          label: '背景',
-          labelMode: 'input',
-          needGradient: true,
-          needImage: true,
-          name: `themeCss.pickControlDisabledClassName.background`,
-          editorThemePath: `pick.status.body.${state}-bgColor`,
-          visibleOn: visibleOn
-        })
-      ];
-    };
-    const pickStyleFunc = (visibleOn: string, state: string) => {
-      return [
-        getSchemaTpl('theme:border', {
-          name: `themeCss.pickControlClassName.border:${state}`,
-          editorThemePath: `pick.base.body.border`,
-          visibleOn: visibleOn
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          label: '背景',
-          labelMode: 'input',
-          needGradient: true,
-          needImage: true,
-          name: `themeCss.pickControlClassName.background:${state}`,
-          editorThemePath: `pick.base.body.bgColor`,
+          editorValueToken: `--Pick-${cssToken}-bgColor`,
           visibleOn: visibleOn
         })
       ];
@@ -494,7 +462,7 @@ export class PickerControlPlugin extends BasePlugin {
                     },
                     {
                       label: '聚焦',
-                      value: 'focus'
+                      value: 'focused'
                     },
                     {
                       label: '禁用',
@@ -502,13 +470,16 @@ export class PickerControlPlugin extends BasePlugin {
                     }
                   ]
                 },
-                ...pickStyleFunc(
+                ...pickStyleStateFunc(
                   "${__editorState == 'default' || !__editorState}",
                   'default'
                 ),
                 ...pickStyleStateFunc("${__editorState == 'hover'}", 'hover'),
-                ...pickStyleStateFunc("${__editorState == 'focus'}", 'active'),
-                ...pickDisabledSateFunc(
+                ...pickStyleStateFunc(
+                  "${__editorState == 'focused'}",
+                  'focused'
+                ),
+                ...pickStyleStateFunc(
                   "${__editorState == 'disabled'}",
                   'disabled'
                 )
@@ -519,7 +490,7 @@ export class PickerControlPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('theme:font', {
                   name: 'themeCss.pickFontClassName.font:default',
-                  editorThemePath: 'pick.base.body.value-font'
+                  editorValueToken: '--Pick-base-value'
                 }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '背景',
@@ -527,15 +498,15 @@ export class PickerControlPlugin extends BasePlugin {
                   needGradient: true,
                   needImage: true,
                   name: 'themeCss.pickValueWrapClassName.background',
-                  editorThemePath: 'pick.base.body.value-bgColor'
+                  editorValueToken: '--Pick-base-value-bgColor'
                 }),
                 getSchemaTpl('theme:border', {
                   name: 'themeCss.pickValueWrapClassName.border:default',
-                  editorThemePath: 'pick.base.body.value-border'
+                  editorValueToken: '--Pick-base-value'
                 }),
                 getSchemaTpl('theme:radius', {
                   name: 'themeCss.pickValueWrapClassName.radius',
-                  editorThemePath: 'pick.base.body.value-radius'
+                  editorValueToken: '--Pick-base'
                 }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '图标颜色',
@@ -543,7 +514,7 @@ export class PickerControlPlugin extends BasePlugin {
                   needGradient: true,
                   needImage: true,
                   name: 'themeCss.pickValueIconClassName.color',
-                  editorThemePath: 'pick.base.body.value-icon-color'
+                  editorValueToken: '--Pick-base-value-icon-color'
                 }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '图标hover颜色',
@@ -551,7 +522,7 @@ export class PickerControlPlugin extends BasePlugin {
                   needGradient: true,
                   needImage: true,
                   name: 'themeCss.pickValueIconClassName.color:hover',
-                  editorThemePath: 'pick.base.body.value-hover-icon-color'
+                  editorValueToken: '--Pick-base-value-hover-icon-color'
                 })
               ]
             },
@@ -568,7 +539,7 @@ export class PickerControlPlugin extends BasePlugin {
                 // getSchemaTpl('theme:size', {
                 //   name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
                 //   label: '图标大小',
-                //   editorThemePath: `default.body.icon-size`
+                //   editorValueToken: `default.body.icon-size`
                 // }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '颜色',
@@ -576,7 +547,7 @@ export class PickerControlPlugin extends BasePlugin {
                   needGradient: true,
                   needImage: true,
                   name: 'themeCss.pickIconClassName.color',
-                  editorThemePath: 'pick.base.body.icon-color'
+                  editorValueToken: '--Pick-base-icon-color'
                 })
               ]
             },
