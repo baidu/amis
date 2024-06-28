@@ -19,7 +19,8 @@ export const styleIdCount = new Map();
 
 export default function (props: CustomStyleProps) {
   const {config, env, data} = props;
-  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} = config;
+  const {themeCss, classNames, defaultData, wrapperCustomStyle} = config;
+  const id = config.id ? `${config.id}` : config.id;
 
   useEffect(() => {
     if (styleIdCount.has(id)) {
