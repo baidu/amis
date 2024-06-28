@@ -357,28 +357,39 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       let loadOptions: boolean = initFetch !== false;
+      let setInitValue: Function | null = null;
 
       if (joinValues === false && defaultValue) {
-        const selectedOptions = extractValue
-          ? formItem
-              .getSelectedOptions(value)
-              .map(
-                (selectedOption: Option) =>
-                  selectedOption[valueField || 'value']
-              )
-          : formItem.getSelectedOptions(value);
-        setPrinstineValue(
-          multiple ? selectedOptions.concat() : selectedOptions[0]
-        );
+        setInitValue = () => {
+          const selectedOptions = extractValue
+            ? formItem
+                .getSelectedOptions(value)
+                .map(
+                  (selectedOption: Option) =>
+                    selectedOption[valueField || 'value']
+                )
+            : formItem.getSelectedOptions(value);
+          setPrinstineValue(
+            multiple ? selectedOptions.concat() : selectedOptions[0]
+          );
+        };
       }
 
-      loadOptions &&
-        config.autoLoadOptionsFromSource !== false &&
+      if (loadOptions && config.autoLoadOptionsFromSource !== false) {
         this.toDispose.push(
           formInited || !addHook
-            ? formItem.addInitHook(this.reload)
-            : addHook(this.initOptions, 'init')
+            ? formItem.addInitHook(async () => {
+                await this.reload();
+                setInitValue?.();
+              })
+            : addHook(async (data: any) => {
+                await this.initOptions(data);
+                setInitValue?.();
+              }, 'init')
         );
+      } else {
+        setInitValue?.();
+      }
     }
 
     componentDidMount() {

@@ -455,6 +455,10 @@
   margin: px2rem(3px);
   flex: 1;
   min-width: px2rem(100px);
+
+  > * {
+    width: 100%;
+  }
 }
 
 .#{$ns}CBFormula {
