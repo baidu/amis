@@ -9,6 +9,7 @@ import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
 import Button from '../Button';
 import type {ConditionGroupValue, ConditionValue} from 'amis-core';
 import TooltipWrapper from '../TooltipWrapper';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface CBGroupOrItemProps extends ThemeProps {
   builderMode?: 'simple' | 'full';
@@ -36,6 +37,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   showIf?: boolean;
   formulaForIf?: FormulaPickerProps;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -103,6 +105,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       isAddGroupBtnVisibleOn,
       showIf,
       formulaForIf,
+      testIdBuilder,
       mobileUI
     } = this.props;
 
@@ -155,6 +158,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                 showIf={showIf}
                 formulaForIf={formulaForIf}
+                testIdBuilder={testIdBuilder?.getChild(`sub-${depth}`)}
               />
             </div>
           ) : (
@@ -182,6 +186,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 popOverContainer={popOverContainer}
                 renderEtrValue={renderEtrValue}
                 selectMode={selectMode}
+                testIdBuilder={testIdBuilder?.getChild(`cItem`)}
               />
               {showIf ? (
                 <FormulaPicker
@@ -215,6 +220,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onClick={this.handleItemRemove}
                 disabled={disabled}
                 level="link"
+                testIdBuilder={testIdBuilder?.getChild(`delete`)}
               >
                 <Icon icon="remove" className="icon" />
               </Button>

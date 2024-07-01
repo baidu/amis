@@ -18,6 +18,7 @@ import {FormulaPickerProps} from '../formula/Picker';
 import Select from '../Select';
 
 import {DownArrowBoldIcon} from '../icons';
+import type {TestIdBuilder} from 'amis-core';
 
 interface ConditionGroupState {
   isCollapsed: boolean;
@@ -50,6 +51,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   depth: number;
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class ConditionGroup extends React.Component<
@@ -196,7 +198,8 @@ export class ConditionGroup extends React.Component<
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
       showIf,
-      formulaForIf
+      formulaForIf,
+      testIdBuilder
     } = this.props;
     const {isCollapsed} = this.state;
 
@@ -252,6 +255,9 @@ export class ConditionGroup extends React.Component<
                   value: 'or'
                 }
               ]}
+              testIdBuilder={testIdBuilder?.getChild(
+                value?.conjunction || 'and'
+              )}
               value={value?.conjunction || 'and'}
               disabled={disabled}
               onChange={this.handleConjunctionChange}
@@ -289,6 +295,7 @@ export class ConditionGroup extends React.Component<
                   isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                   showIf={showIf}
                   formulaForIf={formulaForIf}
+                  testIdBuilder={testIdBuilder?.getChild(`group-${index}`)}
                 />
               ))
             ) : (
@@ -331,6 +338,7 @@ export class ConditionGroup extends React.Component<
                       onClick={this.handleAdd}
                       size="xs"
                       disabled={disabled}
+                      testIdBuilder={testIdBuilder?.getChild('add')}
                     >
                       {__('Condition.add_cond')}
                     </Button>
@@ -341,6 +349,7 @@ export class ConditionGroup extends React.Component<
                       size="xs"
                       disabled={disabled}
                       level="link"
+                      testIdBuilder={testIdBuilder?.getChild('add-group')}
                     >
                       {__('Condition.add_cond_group')}
                     </Button>
@@ -351,6 +360,7 @@ export class ConditionGroup extends React.Component<
                       size="xs"
                       disabled={disabled}
                       level="link"
+                      testIdBuilder={testIdBuilder?.getChild('add-del')}
                     >
                       {__('Condition.delete_cond_group')}
                     </Button>

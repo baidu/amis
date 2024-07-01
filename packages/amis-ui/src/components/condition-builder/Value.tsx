@@ -13,7 +13,7 @@ import DatePicker from '../DatePicker';
 import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {FormulaPicker, FormulaPickerProps} from '../formula/Picker';
-import type {OperatorType} from 'amis-core';
+import type {OperatorType, TestIdBuilder} from 'amis-core';
 import omit from 'lodash/omit';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
@@ -26,6 +26,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class Value extends React.Component<ValueProps> {
@@ -60,7 +61,8 @@ export class Value extends React.Component<ValueProps> {
       disabled,
       formula,
       popOverContainer,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
     let input: JSX.Element | undefined = undefined;
     if (formula) {
@@ -101,6 +103,7 @@ export class Value extends React.Component<ValueProps> {
           placeholder={__(field.placeholder)}
           disabled={disabled}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('text')}
         />
       );
     } else if (field.type === 'number') {
@@ -115,6 +118,7 @@ export class Value extends React.Component<ValueProps> {
           onChange={onChange}
           disabled={disabled}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('number')}
         />
       );
     } else if (field.type === 'date') {
@@ -129,6 +133,7 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('date')}
         />
       );
     } else if (field.type === 'time') {
@@ -145,6 +150,7 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('time')}
         />
       );
     } else if (field.type === 'datetime') {
@@ -159,6 +165,7 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          testIdBuilder={testIdBuilder?.getChild('datetime')}
         />
       );
     } else if (field.type === 'select') {
@@ -181,6 +188,7 @@ export class Value extends React.Component<ValueProps> {
           mobileUI={mobileUI}
           maxTagCount={field.maxTagCount}
           overflowTagPopover={field.overflowTagPopover}
+          testIdBuilder={testIdBuilder?.getChild('select')}
         />
       );
     } else if (field.type === 'boolean') {
@@ -190,6 +198,7 @@ export class Value extends React.Component<ValueProps> {
             value={value ?? field.defaultValue}
             onChange={onChange}
             disabled={disabled}
+            testIdBuilder={testIdBuilder?.getChild('switch')}
           />
         </div>
       );
@@ -197,13 +206,15 @@ export class Value extends React.Component<ValueProps> {
       input = this.renderCustomValue({
         value: value ?? field.defaultValue,
         onChange,
-        inputSettings: field
+        inputSettings: field,
+        testIdBuilder: testIdBuilder?.getChild('custom')
       });
     } else {
       // 不支持的也转给自定义组件处理
       input = this.renderCustomValue({
         value: value ?? (field as any).defaultValue,
         onChange,
+        testIdBuilder: testIdBuilder?.getChild('custom'),
         inputSettings: {
           value: omit(field, [
             'label',
