@@ -295,6 +295,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       rootStore,
       statusStore,
       render,
+      key: propKey,
       ...rest
     } = this.props;
 
@@ -368,7 +369,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         data: defaultData,
         value: defaultValue, // render时的value改放defaultValue中
         activeKey: defaultActiveKey,
-        key: propKey,
         ...restSchema
       } = schema;
       return rest.invisible
@@ -428,7 +428,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {
       data: defaultData,
       value: defaultValue,
-      key: propKey,
       activeKey: defaultActiveKey,
       ...restSchema
     } = schema;

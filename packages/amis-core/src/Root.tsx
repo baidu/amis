@@ -219,6 +219,7 @@ export function renderChild(
       <StatusScopedSchemaRenderer
         render={renderChild as any}
         {...props}
+        key={props.key ?? schema.key}
         schema={schema}
         propKey={schema.key}
         $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
@@ -230,6 +231,7 @@ export function renderChild(
     <SchemaRenderer
       render={renderChild as any}
       {...props}
+      key={props.key ?? schema.key}
       schema={schema}
       propKey={schema.key}
       $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
