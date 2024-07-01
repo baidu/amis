@@ -1459,7 +1459,6 @@ export function resolveQuickVariables(
   const finalVars = [];
   const curOption = options[0];
   const superOption = options[1];
-  console.log('superOption', superOption);
   const variables = (curOption.children || [])
     .filter((item: any) => item.value !== selfName && item.schemaType)
     .map((item: any) => {
