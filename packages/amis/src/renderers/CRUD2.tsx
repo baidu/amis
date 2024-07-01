@@ -32,6 +32,7 @@ import {
   resolveVariableAndFilter,
   parsePrimitiveQueryString
 } from 'amis-core';
+import pickBy from 'lodash/pickBy';
 import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
@@ -512,7 +513,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 发起一次新的查询，查询条件不同，需要从第一页数据加载
    */
   handleSearch(data: {
-    query?: object; // 查询条件，没有将使用当前的
+    query?: Record<string, any>; // 查询条件，没有将使用当前的
     resetQuery?: boolean;
     replaceQuery?: boolean;
     loadMore?: boolean;
@@ -530,10 +531,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     const parseQueryOptions = this.getParseQueryOptions(this.props);
     let {query, resetQuery, replaceQuery, loadMore, resetPage} = data || {};
 
-    query =
-      syncLocation && query
-        ? qsparse(qsstringify(query, undefined, true))
-        : query || {};
+    /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
+    query = {
+      ...query,
+      ...pickBy(query?.__super?.diff ?? {}, value => value === undefined)
+    };
+    query = syncLocation ? qsparse(qsstringify(query, undefined, true)) : query;
 
     /** 把布尔值反解出来 */
     if (parsePrimitiveQuery) {
