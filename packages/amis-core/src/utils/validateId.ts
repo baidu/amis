@@ -133,8 +133,8 @@ function verifyRegion(province: string, city: string, country: string) {
     return false;
   }
   // 这里暂时不获取市和区的具体信息，因为调用CityDB会把校验函数传染为异步
-  // city位: 00表示省；01-20，51-70表示省直辖市；21-50表示地区（自治州、盟）
-  if (!/^(?:[0-6]\d|70)$/.test(city)) {
+  // city位: 00表示省；01-20，51-70表示省直辖市；21-50表示地区（自治州、盟）, 90 表示 直辖县级市
+  if (!/^(?:[0-6]\d|70|90)$/.test(city)) {
     return false;
   }
   if (!/^\d\d$/.test(country)) {
