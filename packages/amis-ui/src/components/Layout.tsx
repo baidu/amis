@@ -43,15 +43,15 @@ export function Layout({
   header,
   headerClassName,
   aside,
-  asideClassName,
+  asideClassName = '',
   children,
   className,
   contentClassName,
   folded,
-  asideFixed,
-  headerFixed,
-  footer,
-  offScreen,
+  asideFixed = true,
+  headerFixed = true,
+  footer = true,
+  offScreen = true,
   size,
   boxed,
   classnames: cx,
@@ -115,14 +115,5 @@ export function Layout({
     </div>
   );
 }
-
-Layout.defaultProps = {
-  // asideWide: false,
-  asideFixed: true,
-  asideClassName: '',
-  headerFixed: true,
-  offScreen: false,
-  footer: false
-};
 
 export default themeable(Layout);
