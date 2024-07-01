@@ -549,18 +549,14 @@ export default class Drawer extends React.Component<DrawerProps> {
           </div>
         ) : null}
         {actions.map((action, key) =>
-          render(
-            `action/${key}`,
-            {key, ...action},
-            {
-              onAction: this.handleAction,
-              onActionSensor: undefined,
-              btnDisabled: store.loading,
-              data: store.formData,
-              key,
-              disabled: action.disabled || store.loading
-            }
-          )
+          render(`action/${key}`, action, {
+            onAction: this.handleAction,
+            onActionSensor: undefined,
+            btnDisabled: store.loading,
+            data: store.formData,
+            key,
+            disabled: action.disabled || store.loading
+          })
         )}
       </div>
     );

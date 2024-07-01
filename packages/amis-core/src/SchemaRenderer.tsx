@@ -428,10 +428,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {
       data: defaultData,
       value: defaultValue,
-      key: propKey,
       activeKey: defaultActiveKey,
       ...restSchema
     } = schema;
+    const propKey = schema.key ?? this.props.key;
     const Component = renderer.component;
 
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
