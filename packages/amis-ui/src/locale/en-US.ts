@@ -426,5 +426,7 @@ register('en-US', {
   'Signature.undo': 'undo',
   'Signature.confirm': 'confirm',
   'Signature.cancel': 'cancel',
-  'Signature.embedLabel': 'Click to sign'
+  'Signature.embedLabel': 'Click to sign',
+  'QRCode.tooLong':
+    'The QR code value is too long, please set the text to be below {{max}} characters.'
 });

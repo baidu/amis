@@ -223,7 +223,7 @@ order: 61
               "actionType": "saveAs",
               "componentId": "qr-code-download",
               "args": {
-                "name": "download.svg"
+                "name": "download.png"
               }
             }
           ]
@@ -247,7 +247,7 @@ order: 61
 | ---------------------- | ------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | type                   | `string`                             | `"qr-code"`               | 指定为 QRCode 渲染器                                                                                                                  |
 | className              | `string`                             |                           | 外层 Dom 的类名                                                                                                                       |
-| qrcodeClassName        | `string`                             |                           | 二维码 SVG 的类名                                                                                                                     |
+| qrcodeClassName        | `string`                             |                           | 二维码的类名                                                                                                                          |
 | codeSize               | `number`                             | `128`                     | 二维码的宽高大小                                                                                                                      |
 | backgroundColor        | `string`                             | `"#fff"`                  | 二维码背景色                                                                                                                          |
 | foregroundColor        | `string`                             | `"#000"`                  | 二维码前景色                                                                                                                          |

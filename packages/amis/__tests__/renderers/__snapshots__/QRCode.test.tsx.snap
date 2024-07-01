@@ -43,7 +43,7 @@ exports[`Renderer:qr-code QRCode render with svg 1`] = `
 </div>
 `;
 
-exports[`Renderer:qr-code QRCode with background/foreground color 1`] = `
+exports[`Renderer:qr-code QRCode with background/foreground color in svg 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -86,7 +86,7 @@ exports[`Renderer:qr-code QRCode with background/foreground color 1`] = `
 </div>
 `;
 
-exports[`Renderer:qr-code QRCode with image 1`] = `
+exports[`Renderer:qr-code QRCode with image in svg 1`] = `
 <div>
   <div
     class="cxd-Page"
