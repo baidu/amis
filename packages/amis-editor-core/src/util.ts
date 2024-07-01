@@ -1429,12 +1429,15 @@ export async function getConditionVariables(that: any, filter?: Function) {
     // 如果当前选中是子表列，则过滤掉当前层
     const variables = (!isCell ? curOption.children || [] : []).filter(
       (item: any) =>
-        item.value !== selfName && item.type && item.type !== 'array'
+        item.value !== selfName &&
+        item.type &&
+        item.schemaType &&
+        item.type !== 'array'
     );
     finalVars.push(...variables);
     if (superOption?.children?.length) {
       const superVars = superOption?.children.filter(
-        (item: any) => item.type && item.type !== 'array'
+        (item: any) => item.type && item.schemaType && item.type !== 'array'
       );
       finalVars.push(...superVars);
     }
@@ -1456,6 +1459,7 @@ export function resolveQuickVariables(
   const finalVars = [];
   const curOption = options[0];
   const superOption = options[1];
+  console.log('superOption', superOption);
   const variables = (curOption.children || [])
     .filter((item: any) => item.value !== selfName && item.schemaType)
     .map((item: any) => {
