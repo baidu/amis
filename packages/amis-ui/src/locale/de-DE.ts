@@ -442,5 +442,7 @@ register('de-DE', {
   'Signature.undo': 'widerrufen',
   'Signature.confirm': 'bestätigen',
   'Signature.cancel': 'Abbrechen',
-  'Signature.embedLabel': 'Klicken Sie zum Signieren'
+  'Signature.embedLabel': 'Klicken Sie zum Signieren',
+  'QRCode.tooLong':
+    'Der QR-Code-Wert ist zu lang, bitte setzen Sie den Text auf weniger als {{max}} Zeichen.'
 });
