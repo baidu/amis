@@ -73,7 +73,8 @@ export const DATA_CONTAINER = [
   'crud',
   'page',
   'app',
-  'chart'
+  'chart',
+  'crud2'
 ];
 
 const MSG_TYPES: {[key: string]: string} = {
