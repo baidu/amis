@@ -3,6 +3,7 @@ import {ThemeProps, themeable, localeable, LocaleProps} from 'amis-core';
 import {SpinnerExtraProps} from '../Spinner';
 import DropDownSelection from '../DropDownSelection';
 import ChainedDropdownSelection from '../ChainedDropdownSelection';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface ConditionFieldProps
   extends ThemeProps,
@@ -16,6 +17,7 @@ export interface ConditionFieldProps
   searchable?: boolean;
   popOverContainer?: any;
   selectMode?: 'list' | 'tree' | 'chained';
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface FieldState {
@@ -38,7 +40,8 @@ export class ConditionField extends React.Component<
       searchable,
       selectMode = 'list',
       options,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
 
     return selectMode === 'chained' ? (
@@ -52,6 +55,7 @@ export class ConditionField extends React.Component<
         option2value={option2value}
         searchable={searchable}
         disabled={disabled}
+        testIdBuilder={testIdBuilder?.getChild('s-chained')}
         onChange={(value: any) => {
           onChange(Array.isArray(value) ? value[0] : value);
         }}
@@ -70,6 +74,7 @@ export class ConditionField extends React.Component<
         options={options}
         value={value}
         loadingConfig={loadingConfig}
+        testIdBuilder={testIdBuilder?.getChild('s-tree')}
         onChange={(value: any) => {
           onChange(value);
         }}
@@ -84,6 +89,7 @@ export class ConditionField extends React.Component<
         option2value={option2value}
         searchable={searchable}
         disabled={disabled}
+        testIdBuilder={testIdBuilder?.getChild('s-default')}
         onChange={(value: any) =>
           onChange(Array.isArray(value) ? value[0] : value)
         }

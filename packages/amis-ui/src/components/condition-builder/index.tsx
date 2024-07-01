@@ -20,7 +20,7 @@ import defaultConfig, {ConditionBuilderConfig} from './config';
 import {FormulaPickerProps} from '../formula/Picker';
 import PickerContainer from '../PickerContainer';
 import ResultBox from '../ResultBox';
-import type {ConditionGroupValue} from 'amis-core';
+import type {ConditionGroupValue, TestIdBuilder} from 'amis-core';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
@@ -48,6 +48,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   selectMode?: 'list' | 'tree' | 'chained';
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface ConditionBuilderState {
@@ -265,7 +266,8 @@ export class QueryBuilder extends React.Component<
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
       showIf,
-      formulaForIf
+      formulaForIf,
+      testIdBuilder
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -311,6 +313,7 @@ export class QueryBuilder extends React.Component<
         isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
         showIf={showIf}
         formulaForIf={formulaForIf}
+        testIdBuilder={testIdBuilder?.getChild('group')}
       />
     );
   }
@@ -329,6 +332,7 @@ export class QueryBuilder extends React.Component<
       title,
       disabled,
       popOverContainer,
+      testIdBuilder,
       mobileUI
     } = this.props;
 
@@ -388,6 +392,7 @@ export class QueryBuilder extends React.Component<
             }
             mobileUI={mobileUI}
             onResultClick={onClick}
+            testIdBuilder={testIdBuilder?.getChild('result-box')}
           ></ResultBox>
         )}
       </PickerContainer>

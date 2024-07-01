@@ -33,7 +33,8 @@ import type {
   OperatorType,
   ExpressionFunc,
   ExpressionField,
-  ExpressionComplex
+  ExpressionComplex,
+  TestIdBuilder
 } from 'amis-core';
 
 const option2value = (item: any) => item.value;
@@ -53,6 +54,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree' | 'chained';
+  testIdBuilder?: TestIdBuilder;
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -157,7 +159,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       fieldClassName,
       searchable,
       popOverContainer,
-      selectMode
+      selectMode,
+      testIdBuilder
     } = this.props;
     return (
       <Expression
@@ -171,6 +174,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         searchable={searchable}
         popOverContainer={popOverContainer}
         selectMode={selectMode}
+        testIdBuilder={testIdBuilder?.getChild('left')}
         allowedTypes={
           ['field', 'func'].filter(
             type => type === 'field' || type === 'func'
@@ -189,6 +193,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       classnames: cx,
       disabled,
       popOverContainer,
+      testIdBuilder,
       mobileUI
     } = this.props;
     const left = value?.left;
@@ -239,6 +244,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               options={options}
               value={value.op}
               multiple={false}
+              testIdBuilder={testIdBuilder?.getChild('operator-group')}
             />
           )}
         >
@@ -260,6 +266,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 disabled={disabled}
                 placeholder={__('Condition.cond_placeholder')}
                 mobileUI={mobileUI}
+                testIdBuilder={testIdBuilder?.getChild('operator-resbox')}
               >
                 {!mobileUI ? (
                   <span className={cx('CBGroup-operatorCaret')}>
@@ -324,7 +331,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       disabled,
       formula,
       popOverContainer,
-      renderEtrValue
+      renderEtrValue,
+      testIdBuilder
     } = this.props;
     let field = {
       ...config.types[type],
@@ -372,6 +380,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             formula={formula}
             popOverContainer={popOverContainer}
             renderEtrValue={renderEtrValue}
+            testIdBuilder={testIdBuilder?.getChild(
+              `right-${op}-${field.name}-exp-0`
+            )}
           />
 
           <span className={cx('CBSeprator')}>~</span>
@@ -393,6 +404,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             formula={formula}
             popOverContainer={popOverContainer}
             renderEtrValue={renderEtrValue}
+            testIdBuilder={testIdBuilder?.getChild(
+              `right-${op}-${field.name}-exp-1`
+            )}
           />
         </>
       );
@@ -418,6 +432,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               formula={formula}
               popOverContainer={popOverContainer}
               renderEtrValue={renderEtrValue}
+              testIdBuilder={testIdBuilder?.getChild(
+                `right-${op}-${field.name}-exp-${i}`
+              )}
             />
           </span>
         );
@@ -441,6 +458,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         formula={formula}
         popOverContainer={popOverContainer}
         renderEtrValue={renderEtrValue}
+        testIdBuilder={testIdBuilder?.getChild(`right-${op}-${field.name}-exp`)}
       />
     );
   }
