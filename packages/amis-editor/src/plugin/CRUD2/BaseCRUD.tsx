@@ -153,6 +153,11 @@ export class BaseCRUDPlugin extends BasePlugin {
           actionLabel: '停止自动刷新',
           description: '停止自动刷新'
         },
+        {
+          actionType: 'reload',
+          actionLabel: '重新加载',
+          description: '触发组件数据刷新并重新渲染'
+        },
         ...(actions || [])
       ],
       'actionType'
