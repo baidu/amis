@@ -613,7 +613,11 @@ export const HocQuickEdit =
             onChange: this.handleFormItemChange,
             onBulkChange: this.handleBulkChange,
             formItemRef: this.formItemRef,
-            defaultStatic: false
+            defaultStatic: false,
+            // 不下发下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
+            buildItemProps: null,
+            quickEditFormRef: null,
+            quickEditFormItemRef: null
           });
         }
 
@@ -629,7 +633,12 @@ export const HocQuickEdit =
           formLazyChange: false,
           canAccessSuperData,
           disabled,
-          defaultStatic: false
+          defaultStatic: false,
+          // 不下发这下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
+          buildItemProps: null,
+          // quickEditFormRef: null,
+          // ^ 不知道为什么，这里不能阻挡下发，否则单测 Renderer:input-table formula 过不了
+          quickEditFormItemRef: null
         });
       }
 
@@ -646,6 +655,13 @@ export const HocQuickEdit =
           disabled
         } = this.props;
 
+        // 静态渲染等情况也把 InputTable 相关的回调函数剔除，防止嵌套渲染表格时出问题
+        const {
+          buildItemProps,
+          quickEditFormRef,
+          quickEditFormItemRef,
+          ...restProps
+        } = this.props;
         if (
           !quickEdit ||
           !onQuickChange ||
@@ -655,7 +671,7 @@ export const HocQuickEdit =
           // 此处的readOnly会导致组件值无法传递出去，如 value: "${a + b}" 这样的 value 变化需要同步到数据域
           // || readOnly
         ) {
-          return <Component {...this.props} formItemRef={this.formItemRef} />;
+          return <Component {...restProps} formItemRef={this.formItemRef} />;
         }
 
         if (
@@ -663,12 +679,12 @@ export const HocQuickEdit =
           (quickEdit as QuickEditConfig).isFormMode
         ) {
           return (
-            <Component {...this.props}>{this.renderInlineForm()}</Component>
+            <Component {...restProps}>{this.renderInlineForm()}</Component>
           );
         } else {
           return (
             <Component
-              {...this.props}
+              {...restProps}
               className={cx(`Field--quickEditable`, className, {
                 in: this.state.isOpened
               })}
@@ -679,7 +695,7 @@ export const HocQuickEdit =
               }
               onKeyUp={disabled ? noop : this.handleKeyUp}
             >
-              <Component {...this.props} contentsOnly noHoc />
+              <Component {...restProps} contentsOnly noHoc />
               {disabled
                 ? null
                 : render('quick-edit-button', {
