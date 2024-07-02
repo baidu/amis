@@ -806,7 +806,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   renderCellSchema(schema: any, props: any) {
-    const {render} = this.props;
+    const {render, store} = this.props;
 
     // Table Cell SchemaObject转化成ReactNode
     if (schema && isObject(schema)) {
@@ -969,6 +969,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
                   //       finalCanAccessSuperData ? item.locals : item.data
                   //     )
                   //   : column.name,
+                  btnDisabled: store.dragging,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
                   quickEditFormRef: this.subFormRef,
