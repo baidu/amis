@@ -614,7 +614,7 @@ export const HocQuickEdit =
             onBulkChange: this.handleBulkChange,
             formItemRef: this.formItemRef,
             defaultStatic: false,
-            // 不下发这三个属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
+            // 不下发下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
             buildItemProps: null,
             quickEditFormRef: null,
             quickEditFormItemRef: null
@@ -634,9 +634,10 @@ export const HocQuickEdit =
           canAccessSuperData,
           disabled,
           defaultStatic: false,
-          // 不下发这三个属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
+          // 不下发这下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
           buildItemProps: null,
-          quickEditFormRef: null,
+          // quickEditFormRef: null,
+          // ^ 不知道为什么，这里不能阻挡下发，否则单测 Renderer:input-table formula 过不了
           quickEditFormItemRef: null
         });
       }
