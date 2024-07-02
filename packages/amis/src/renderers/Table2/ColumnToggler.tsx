@@ -67,7 +67,7 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
         tooltip={tooltip || __('Table.columnsVisibility')}
         tooltipContainer={popOverContainer || env.getModalContainer}
         isActived={cols.findIndex((column: any) => !column.toggled) !== -1}
-        align={align ?? 'right'}
+        align={align ?? 'left'}
         size={size || 'sm'}
         classnames={cx}
         classPrefix={ns}
