@@ -196,6 +196,11 @@ export interface FormOptionsControl extends FormBaseControl {
    * 选项删除提示文字。
    */
   deleteConfirmText?: string;
+
+  /**
+   * source从数据域取值时，数据域值变化后是否自动清空
+   */
+  clearValueOnSourceChange?: boolean;
 }
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
@@ -445,7 +450,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             formItem.loadOptionsFromDataScope(
               props.source as string,
               props.data,
-              this.changeOptionValue
+              this.changeOptionValue,
+              props.clearValueOnSourceChange
             );
 
             this.normalizeValue();
