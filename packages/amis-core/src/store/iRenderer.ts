@@ -26,6 +26,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     initedAt: 0, // 初始 init 的时刻
     updatedAt: 0, // 从服务端更新时刻
     pristine: types.optional(types.frozen(), {}), // pristine 的数据可能会被表单项的默认值，form 的 initApi 等修改
+    pristineRaw: types.optional(types.frozen(), {}), // pristine的原始值
     upStreamData: types.optional(types.frozen(), {}), // 最原始的数据，只有由上游同步下来时才更新。用来判断是否变化过
     action: types.optional(types.frozen(), undefined),
     dialogOpen: false,
@@ -45,7 +46,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     get pristineDiff() {
       const data: any = {};
       Object.keys(self.pristine).forEach(key => {
-        if (self.pristine[key] !== self.upStreamData[key]) {
+        if (self.pristine[key] !== self.pristineRaw[key]) {
           data[key] = self.pristine[key];
         }
       });
@@ -72,7 +73,11 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           data = injectObjectChain(data, self.data.__tag);
         }
 
-        !skipSetPristine && (self.pristine = data);
+        if (!skipSetPristine) {
+          self.pristine = data;
+          self.pristineRaw = data;
+        }
+
         self.data = data;
         self.upStreamData = data;
       },
