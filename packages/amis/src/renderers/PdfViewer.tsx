@@ -238,34 +238,52 @@ export default class PdfViewer extends React.Component<
     return null;
   }
 
+  @autobind
+  renderTip() {
+    return (
+      <div>
+        <p>
+          [PdfViewer]: pdfjsWorkerSrc is required, Please set the
+          `pdfjsWorkerSrc` in env.
+        </p>
+      </div>
+    );
+  }
+
   render() {
     const {
       className,
       classnames: cx,
       translate: __,
       height,
-      background,
-      src
+      background
     } = this.props;
+    const pdfjs = this.props.env.pdfjsWorkerSrc;
     const {loading, inited, error} = this.state;
     const width = Math.max(this.props.width || this.state.width, 300);
 
     return (
       <div ref={this.wrapper}>
         {this.renderEmpty()}
-        <Suspense fallback={<div>...</div>}>
-          {inited && !error ? (
-            <PdfView
-              file={this.file}
-              loading={loading}
-              className={className}
-              classnames={cx}
-              width={width}
-              height={height}
-              background={background}
-            />
-          ) : null}
-        </Suspense>
+        {!pdfjs ? (
+          this.renderTip()
+        ) : (
+          <Suspense fallback={<div>...</div>}>
+            {inited && !error ? (
+              <PdfView
+                pdfjsWorkerSrc={pdfjs}
+                file={this.file}
+                loading={loading}
+                className={className}
+                classnames={cx}
+                width={width}
+                height={height}
+                background={background}
+              />
+            ) : null}
+          </Suspense>
+        )}
+
         {this.renderError()}
       </div>
     );

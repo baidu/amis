@@ -147,7 +147,7 @@ fis.match('/node_modules/**.{js,cjs}', {
   rExt: 'js'
 });
 
-fis.match('pdfjs-dist/**.mjs', {
+fis.match('pdfjs-dist/**/pdf.mjs', {
   isMod: true,
   rExt: 'js',
   parser: fis.plugin('typescript', {
@@ -650,7 +650,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       // 如果 sdk 和 worker 不是部署在一个地方，请通过指定 MonacoEnvironment.getWorkerUrl
       if (
         file.subpath === '/node_modules/amis-ui/lib/components/Editor.js' ||
-        file.subpath === '/examples/loadMonacoEditor.ts'
+        file.subpath === '/examples/loadMonacoEditor.ts' ||
+        file.subpath === '/examples/loadPdfjsWorker.ts'
       ) {
         contents = contents.replace(
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,

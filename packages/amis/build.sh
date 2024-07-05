@@ -25,6 +25,9 @@ rm -rf sdk && ../../node_modules/.bin/fis3 release publish-sdk -c -f ../../fis-c
 
 cp -r ../../node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/min/vs/base
 
+#pdfjs worker js
+cp -r ../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs sdk/thirds/pdfjs-dist/build/pdf.worker.min.mjs
+
 echo "===postcss ie11==="
 # 生成去掉变量的 css，动画设置为零
 echo ':root { --animation-duration: 0s;}' >>sdk/ie11-patch.css

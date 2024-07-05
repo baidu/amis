@@ -141,6 +141,11 @@ export interface RendererEnv {
   enableTestid?: boolean;
 
   /**
+   * pdfjs worker 地址，用于渲染 pdf
+   */
+  pdfjsWorkerSrc?: string;
+
+  /**
    * 替换文本，用于实现 URL 替换、语言替换等
    */
   replaceText?: {[propName: string]: any};

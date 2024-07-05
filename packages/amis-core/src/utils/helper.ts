@@ -2336,3 +2336,12 @@ export class TestIdBuilder {
     return data ? filter(this.testId, data) : this.testId;
   }
 }
+
+export function supportsMjs() {
+  try {
+    new Function('import("")');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
