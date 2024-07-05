@@ -249,6 +249,7 @@ export function embed(
     richTextToken: '',
     affixOffsetBottom: 0,
     customStyleClassPrefix: '.amis-scope',
+    pdfjsWorkerSrc: '/sdk/thirds/pdfjs-dist/build/pdf.worker.min.mjs',
     ...env
   };
 

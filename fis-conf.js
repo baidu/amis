@@ -147,7 +147,7 @@ fis.match('/node_modules/**.{js,cjs}', {
   rExt: 'js'
 });
 
-fis.match('pdfjs-dist/**.mjs', {
+fis.match('pdfjs-dist/**/pdf.mjs', {
   isMod: true,
   rExt: 'js',
   parser: fis.plugin('typescript', {
