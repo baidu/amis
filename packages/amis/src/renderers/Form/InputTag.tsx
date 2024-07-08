@@ -174,16 +174,14 @@ export default class TagControl extends React.PureComponent<
 
   /** 处理输入的内容 */
   normalizeInputValue(inputValue: string): Option[] {
-    const {enableBatchAdd, separator, valueField, labelField, delimiter, max} =
+    const {enableBatchAdd, separator, valueField, labelField, delimiter} =
       this.props;
     let batchValues = [];
 
     if (enableBatchAdd && separator && typeof separator === 'string') {
       batchValues = inputValue.split(separator);
     } else {
-      const inputValueArr = uniq(
-        compact(inputValue.split(delimiter || ','))
-      ).slice(0, max);
+      const inputValueArr = uniq(compact(inputValue.split(delimiter || ',')));
       batchValues.push(...inputValueArr);
     }
 
