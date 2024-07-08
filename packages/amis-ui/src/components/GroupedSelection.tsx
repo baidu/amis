@@ -137,7 +137,6 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     } = this.props;
 
     const valueArray = this.valueArray;
-    console.log(option.value);
     const itemTIB = testIdBuilder?.getChild(`item-${index}`);
 
     return (
