@@ -375,11 +375,12 @@ export default class ColumnToggler extends React.Component<
       overlay,
       translate: __,
       footerBtnSize,
+      children,
       env
     } = this.props;
 
     const {enableSorting, tempColumns} = this.state;
-
+    const inDragging = enableSorting && draggable && tempColumns.length > 1;
     return (
       <>
         <Modal
@@ -403,7 +404,9 @@ export default class ColumnToggler extends React.Component<
               <Icon icon="close" className="icon" />
             </a>
           </header>
-
+          {!inDragging && (
+            <ul className={cx('ColumnToggler-modal-content')}>{children}</ul>
+          )}
           <ul className={cx('ColumnToggler-modal-content')} ref={this.dragRef}>
             {Array.isArray(tempColumns)
               ? tempColumns.map((column, index) => (
@@ -419,7 +422,7 @@ export default class ColumnToggler extends React.Component<
                       className={cx('ColumnToggler-menuItem')}
                       key={column.index}
                     >
-                      {enableSorting && draggable && tempColumns.length > 1 ? (
+                      {inDragging ? (
                         <>
                           <a className={cx('ColumnToggler-menuItem-dragBar')}>
                             <Icon icon="drag" className={cx('icon')} />

@@ -147,7 +147,7 @@ fis.match('/node_modules/**.{js,cjs}', {
   rExt: 'js'
 });
 
-fis.match('pdfjs-dist/**.mjs', {
+fis.match('pdfjs-dist/**/pdf.mjs', {
   isMod: true,
   rExt: 'js',
   parser: fis.plugin('typescript', {
@@ -650,7 +650,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       // 如果 sdk 和 worker 不是部署在一个地方，请通过指定 MonacoEnvironment.getWorkerUrl
       if (
         file.subpath === '/node_modules/amis-ui/lib/components/Editor.js' ||
-        file.subpath === '/examples/loadMonacoEditor.ts'
+        file.subpath === '/examples/loadMonacoEditor.ts' ||
+        file.subpath === '/examples/loadPdfjsWorker.ts'
       ) {
         contents = contents.replace(
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
@@ -713,6 +714,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     'examples/app/index.html',
     '/examples/static/*.docx',
     '/examples/static/*.xlsx'
+    // '/examples/map.json'
   ]);
 
   ghPages.match('*.scss', {
@@ -860,7 +862,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
-        '!amis/**'
+        '!amis/**',
+        '!react-pdf/**',
+        '!pdfjs-dist/**'
       ],
 
       'pkg/rich-text.js': [
@@ -891,6 +895,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'markdown-it/**',
         'markdown-it-html5-media/**',
         'punycode/**'
+      ],
+
+      'pkg/pdf-viewer.js': [
+        'amis-ui/lib/components/PdfViewer.js',
+        'react-pdf/**'
       ],
 
       'pkg/color-picker.js': [

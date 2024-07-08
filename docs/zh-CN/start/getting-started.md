@@ -870,3 +870,37 @@ Toast 提示弹出位置，默认为`'top-center'`。
 #### loadTinymcePlugin
 
 可以用来加载 tinymce 插件，每次渲染 tinymce 的时候执行，可以用来加载 tinymce 插件。
+
+#### pdfjsWorkerSrc
+
+渲染 pdf 时，需要加载 worker.js，可以使用 CND 地址，也可以使用本地文件。
+
+```javascript
+import {pdfjs} from 'react-pdf';
+
+// 本地文件
+const pdfJsUrl = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url
+).toString();
+
+// CDN 地址
+const pdfJsUrl1 = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'pdf-viewer',
+      id: 'pdf-viewer',
+      src: '/examples/static/simple.pdf',
+      width: 500
+    }
+  },
+  {},
+  {
+    pdfjsWorkerSrc: pdfJsUrl // pdfJsUrl1
+  }
+);
+```
