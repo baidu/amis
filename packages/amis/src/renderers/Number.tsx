@@ -118,9 +118,7 @@ export class NumberField extends React.Component<NumberProps> {
         viewValue = <span>{value}</span>;
       } else {
         if (typeof value === 'number' && precision) {
-          value = getMiniDecimal(
-            toFixed(num2str(value), '.', precision)
-          ).toNumber();
+          value = toFixed(num2str(value), '.', precision);
         }
 
         if (kilobitSeparator) {
