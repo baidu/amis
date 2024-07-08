@@ -9,7 +9,7 @@ import {render, Button, Switch} from 'amis';
 import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
-import type {ConditionBuilderFields, SchemaCollection} from 'amis';
+import type {ConditionBuilderFields, Schema, SchemaCollection} from 'amis';
 
 export type ValidatorData = {
   name: string;
@@ -37,6 +37,8 @@ export interface ValidationItemProps {
   validator: Validator;
 
   fields?: ConditionBuilderFields;
+
+  rendererSchema?: Schema | Schema[];
 
   onEdit?: (data: ValidatorData) => void;
   onDelete?: (name: string) => void;
@@ -136,7 +138,7 @@ export default class ValidationItem extends React.Component<
 
   renderInputControl() {
     const {value, message, checked} = this.state;
-    const {fields} = this.props;
+    const {fields, rendererSchema} = this.props;
     const i18nEnabled = getI18nEnabled();
     let control: any = [];
 
@@ -144,7 +146,16 @@ export default class ValidationItem extends React.Component<
       return null;
     }
 
-    if (this.validator.schema) {
+    if (rendererSchema) {
+      let rendererSchemaArr = Array.isArray(rendererSchema)
+        ? rendererSchema
+        : [rendererSchema];
+      rendererSchemaArr.forEach(item => {
+        if (item.validateName === this.validator.name) {
+          control = control.concat(item as SchemaCollection);
+        }
+      });
+    } else if (this.validator.schema) {
       control = control.concat(this.validator.schema as SchemaCollection);
     }
 

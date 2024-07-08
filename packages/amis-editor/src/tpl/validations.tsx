@@ -6,7 +6,7 @@ import {
   getI18nEnabled
 } from 'amis-editor-core';
 import {ValidationOptions} from '../component/BaseControl';
-import {str2rules} from 'amis';
+import {Schema, str2rules} from 'amis';
 import {ValidatorTag} from '../validator';
 
 import find from 'lodash/find';
@@ -551,7 +551,10 @@ setSchemaTpl('validateOnChange', {
 
 setSchemaTpl(
   'validation',
-  (config: {tag: ValidatorTag | ((ctx: any) => ValidatorTag)}) => {
+  (config: {
+    tag: ValidatorTag | ((ctx: any) => ValidatorTag);
+    rendererSchema?: (schema: Schema) => void | Schema | Schema[];
+  }) => {
     let a = {
       title: '校验',
       body: [
