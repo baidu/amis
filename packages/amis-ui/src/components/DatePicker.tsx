@@ -1142,6 +1142,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               className={cx(`DatePicker-popover`, popoverClassName)}
               onHide={this.close}
               overlay
+              testIdBuilder={testIdBuilder?.getChild('popover')}
               onClick={this.handlePopOverClick}
             >
               {this.renderShortCuts(shortcuts)}
