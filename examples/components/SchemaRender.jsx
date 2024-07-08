@@ -248,10 +248,10 @@ export default function (schema, schemaProps, showCode, envOverrides) {
           },
           // 是否开启测试 testid
           // enableTestid: true,
-          pdfjsWorkerSrc: new URL(
-            'pdfjs-dist/build/pdf.worker.min.mjs',
-            import.meta.url
-          ).toString(),
+          // pdfjsWorkerSrc: new URL(
+          //   'pdfjs-dist/build/pdf.worker.min.mjs',
+          //   import.meta.url
+          // ).toString(),
           ...envOverrides
         };
 

@@ -714,6 +714,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     'examples/app/index.html',
     '/examples/static/*.docx',
     '/examples/static/*.xlsx'
+    // '/examples/map.json'
   ]);
 
   ghPages.match('*.scss', {
@@ -861,7 +862,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
-        '!amis/**'
+        '!amis/**',
+        '!react-pdf/**',
+        '!pdfjs-dist/**'
       ],
 
       'pkg/rich-text.js': [
@@ -892,6 +895,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'markdown-it/**',
         'markdown-it-html5-media/**',
         'punycode/**'
+      ],
+
+      'pkg/pdf-viewer.js': [
+        'amis-ui/lib/components/PdfViewer.js',
+        'react-pdf/**'
       ],
 
       'pkg/color-picker.js': [
