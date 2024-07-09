@@ -166,7 +166,6 @@ export default class Editor extends Component<EditorProps> {
         theme: props.theme,
         isSubEditor,
         amisDocHost: props.amisDocHost,
-        ctx: props.ctx,
         superEditorData,
         appLocale: props.appLocale,
         appCorpusData: props?.amisEnv?.replaceText,
@@ -174,6 +173,7 @@ export default class Editor extends Component<EditorProps> {
       },
       config
     );
+    this.store.setCtx(props.ctx);
     this.store.setSchema(value);
     if (showCustomRenderersPanel !== undefined) {
       this.store.setShowCustomRenderersPanel(showCustomRenderersPanel);
