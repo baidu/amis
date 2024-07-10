@@ -9,7 +9,7 @@ import debounce from 'lodash/debounce';
 import findIndex from 'lodash/findIndex';
 import omit from 'lodash/omit';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
-import {getRenderers, RenderOptions, mapTree, isEmpty} from 'amis-core';
+import {getRenderers, RenderOptions, JSONTraverse} from 'amis-core';
 import {
   PluginInterface,
   BasicPanelItem,
@@ -57,7 +57,8 @@ import {
   JSONPipeOut,
   scrollToActive,
   JSONPipeIn,
-  JSONGetById
+  generateNodeId,
+  JSONGetNodesById
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -1565,14 +1566,56 @@ export class EditorManager {
   }
 
   /**
-   * 重新生成当前节点的 id
+   * 重新生成当前节点的重复的id
    */
-  reGenerateCurrentNodeID() {
+  reGenerateNodeDuplicateID(types: Array<string> = []) {
     const node = this.store.getNodeById(this.store.activeId);
     if (!node) {
       return;
     }
-    this.replaceChild(node.id, reGenerateID(node.schema));
+    let schema = node.schema;
+    let changed = false;
+
+    // 支持按照类型过滤某类型组件
+    let tags = node.info?.plugin?.tags || [];
+    if (!Array.isArray(tags)) {
+      tags = [tags];
+    }
+    if (types.length && !tags.some(tag => types.includes(tag))) {
+      return;
+    }
+
+    // 记录组件新旧ID映射关系方便当前组件内事件动作替换
+    let idRefs: {[propKey: string]: string} = {};
+
+    // 如果有多个重复组件，则重新生成ID
+    JSONTraverse(schema, (value: any, key: string, host: any) => {
+      const isNodeIdFormat =
+        typeof value === 'string' && value.indexOf('u:') === 0;
+      if (key === 'id' && isNodeIdFormat && host) {
+        let sameNodes = JSONGetNodesById(this.store.schema, value, 'id');
+        if (sameNodes && sameNodes.length > 1) {
+          let newId = generateNodeId();
+          idRefs[value] = newId;
+          host[key] = newId;
+          changed = true;
+        }
+      }
+      return value;
+    });
+
+    if (changed) {
+      // 替换当前组件内事件动作里面可能的ID
+      JSONTraverse(schema, (value: any, key: string, host: any) => {
+        const isNodeIdFormat =
+          typeof value === 'string' && value.indexOf('u:') === 0;
+        if (key === 'componentId' && isNodeIdFormat && idRefs[value]) {
+          host.componentId = idRefs[value];
+        }
+        return value;
+      });
+      this.replaceChild(node.id, schema);
+    }
   }
 
   /**
