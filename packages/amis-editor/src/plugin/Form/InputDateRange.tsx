@@ -506,7 +506,14 @@ export class DateRangeControlPlugin extends BasePlugin {
             },
             getSchemaTpl('status', {isFormItem: true}),
             getSchemaTpl('validation', {
-              tag: ValidatorTag.Date
+              tag: ValidatorTag.Date,
+              rendererSchema: (schema: Schema) => {
+                return {
+                  ...schema,
+                  label: '值内容',
+                  validateName: 'equals'
+                };
+              }
             })
           ],
           {...context?.schema, configTitle: 'props'}
