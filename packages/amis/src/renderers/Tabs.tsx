@@ -97,12 +97,6 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 是否禁用
    */
   disabled?: boolean;
-  /**
-   * host/#/a/b/c#d => d
-   * host/#/a=b#c = > c
-   * host/#/a/b/c?a=a#f => f
-   */
-  hashRouter?: boolean;
 }
 
 /**
@@ -220,6 +214,12 @@ export interface TabsSchema extends BaseSchema {
    * 是否滑动切换只在移动端生效
    */
   swipeable?: boolean;
+  /**
+   * host/#/a/b/c#d => d
+   * host/#/a=b#c = > c
+   * host/#/a/b/c?a=a#f => f
+   */
+  hashRouter?: boolean;
 }
 
 export interface TabsProps
