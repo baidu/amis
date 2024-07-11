@@ -30,6 +30,7 @@ import {str2AsyncFunction} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import type {TabsMode} from 'amis-ui/lib/components/Tabs';
 import isNaN from 'lodash/isNaN';
+import {string} from 'prop-types';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -96,6 +97,12 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 是否禁用
    */
   disabled?: boolean;
+  /**
+   * host/#/a/b/c#d => d
+   * host/#/a=b#c = > c
+   * host/#/a/b/c?a=a#f => f
+   */
+  hashRouter?: boolean;
 }
 
 /**
@@ -222,6 +229,12 @@ export interface TabsProps
   defaultKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
+  /**
+   * host/#/a/b/c#d => d
+   * host/#/a=b#c = > c
+   * host/#/a/b/c?a=a#f => f
+   */
+  hashRouter?: boolean;
 }
 
 interface TabSource extends TabSchema {
@@ -254,13 +267,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     super(props);
 
     const location = props.location || window.location;
-    const {tabs, source, data} = props;
+    const {tabs, source, data, hashRouter} = props;
     let activeKey: any = 0;
 
     if (typeof props.activeKey !== 'undefined') {
       activeKey = props.activeKey;
     } else if (location && Array.isArray(tabs)) {
-      const hash = location.hash.substring(1);
+      const hash = hashRouter
+        ? location.hash
+            .split('#')
+            .filter((itemHash: string) => !!itemHash)
+            .pop()
+        : location.hash.substring(1);
       const tab: TabSource = find(tabs, tab => tab.hash === hash) as TabSource;
 
       if (tab) {
