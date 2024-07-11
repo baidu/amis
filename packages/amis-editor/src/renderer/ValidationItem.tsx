@@ -147,14 +147,17 @@ export default class ValidationItem extends React.Component<
     }
 
     if (rendererSchema) {
-      let rendererSchemaArr = Array.isArray(rendererSchema)
+      const rendererSchemaArr = Array.isArray(rendererSchema)
         ? rendererSchema
         : [rendererSchema];
-      rendererSchemaArr.forEach(item => {
-        if (item.validateName === this.validator.name) {
-          control = control.concat(item as SchemaCollection);
-        }
-      });
+
+      let filteredControl = rendererSchemaArr.filter(
+        item => item.validateName === this.validator.name
+      );
+      if (!filteredControl.length && this.validator.schema) {
+        filteredControl = filteredControl.concat(this.validator.schema);
+      }
+      control = filteredControl;
     } else if (this.validator.schema) {
       control = control.concat(this.validator.schema as SchemaCollection);
     }
