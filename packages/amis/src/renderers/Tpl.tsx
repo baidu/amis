@@ -85,8 +85,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
   componentDidUpdate(prevProps: Readonly<TplProps>): void {
     const checkProps = ['tpl', 'html', 'text', 'raw', 'data', 'placeholder'];
     if (
-      checkProps.some(key => prevProps[key] !== this.props[key]) ||
-      getPropValue(prevProps) !== getPropValue(this.props)
+      checkProps.some(key => !Object.is(prevProps[key], this.props[key])) ||
+      !Object.is(getPropValue(prevProps), getPropValue(this.props))
     ) {
       this.updateContent();
     }
