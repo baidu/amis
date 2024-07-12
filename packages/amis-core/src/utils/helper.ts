@@ -118,7 +118,11 @@ export function syncDataFromSuper(
   let keys: Array<string> = [];
 
   // 如果是 form store，则从父级同步 formItem 种东西。
-  if (store && store.storeType === 'FormStore') {
+  if (
+    store &&
+    store.storeType === 'FormStore' &&
+    (store as any).canAccessSuperData !== false
+  ) {
     keys = uniq(
       (store as IFormStore).items
         .map(item => `${item.name}`.replace(/\..*$/, ''))
