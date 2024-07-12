@@ -306,6 +306,9 @@ export class TableBody extends React.Component<TableBodyProps> {
           if (item.align) {
             style.textAlign = item.align;
           }
+          if (item.vAlign) {
+            style.verticalAlign = item.vAlign;
+          }
           const [stickyStyle, stickyClassName] = store.getStickyStyles(
             lastColumn.fixed === 'right' ? lastColumn : firstColumn,
             store.filteredColumns
