@@ -905,6 +905,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
           titleSchema = {type: 'plain'};
         }
 
+        if (column.align) {
+          titleSchema.align = column.align;
+          titleSchema.className = 'flex-1';
+        }
+
         const titleRender = (children: any) => {
           const content = this.renderCellSchema(titleSchema, titleProps);
 

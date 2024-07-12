@@ -322,6 +322,21 @@ export function JSONGetById(json: any, id: string, idKey?: string): any {
   return JSONGetByPath(json, paths);
 }
 
+export function JSONGetNodesById(
+  json: any,
+  id: string,
+  idKey: string = '$$id'
+): Array<any> {
+  let result: Array<any> = [];
+
+  JSONTraverse(json, (value: any, key: string, host: any) => {
+    if (key === idKey && value == id) {
+      result.push(host);
+    }
+  });
+  return result;
+}
+
 export function JSONGetParentById(
   json: any,
   id: string,

@@ -269,6 +269,10 @@
         &:last-child {
           padding-right: var(--TableCell--edge-paddingX-default);
         }
+
+        .#{$ns}Form-static {
+          min-height: auto;
+        }
       }
 
       .#{$ns}Table-cell-wrapper-prefix {
