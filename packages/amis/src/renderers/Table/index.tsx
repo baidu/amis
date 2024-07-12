@@ -143,6 +143,16 @@ export type TableColumnObject = {
   align?: 'left' | 'right' | 'center' | 'justify';
 
   /**
+   * 列垂直对齐方式
+   */
+  vAlign?: 'top' | 'middle' | 'bottom';
+
+  /**
+   * 标题左右对齐方式
+   */
+  headerAlign?: 'left' | 'right' | 'center' | 'justify';
+
+  /**
    * 列样式表
    */
   className?: string;
@@ -1866,7 +1876,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (style?.width) {
       delete style.width;
     }
-    if (column.pristine.align) {
+
+    if (column.pristine.headerAlign) {
+      style.textAlign = column.pristine.headerAlign;
+    } else if (column.pristine.align) {
       style.textAlign = column.pristine.align;
     }
 

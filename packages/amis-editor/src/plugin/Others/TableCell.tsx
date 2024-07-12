@@ -322,13 +322,49 @@ export class TableCellPlugin extends BasePlugin {
           title: '外观',
           body: [
             {
+              type: 'select',
+              name: 'align',
+              label: '对齐方式',
+              pipeIn: defaultValue('left'),
+              options: [
+                {label: '左对齐', value: 'left'},
+                {label: '居中对齐', value: 'center'},
+                {label: '右对齐', value: 'right'},
+                {label: '两端对齐', value: 'justify'}
+              ]
+            },
+            {
+              type: 'select',
+              name: 'headerAlign',
+              label: '表头对齐方式',
+              pipeIn: defaultValue(''),
+              options: [
+                {label: '复用对齐方式', value: ''},
+                {label: '左对齐', value: 'left'},
+                {label: '居中对齐', value: 'center'},
+                {label: '右对齐', value: 'right'},
+                {label: '两端对齐', value: 'justify'}
+              ]
+            },
+            {
+              type: 'select',
+              name: 'vAlign',
+              label: '垂直对齐方式',
+              pipeIn: defaultValue('middle'),
+              options: [
+                {label: '顶部对齐', value: 'top'},
+                {label: '垂直居中', value: 'middle'},
+                {label: '底部对齐', value: 'bottom'}
+              ]
+            },
+            {
               name: 'fixed',
               type: 'button-group-select',
               label: '固定位置',
               pipeIn: defaultValue(''),
               size: 'xs',
               mode: 'inline',
-              className: 'w-full',
+              inputClassName: 'mt-1 w-full',
               options: [
                 {
                   value: '',

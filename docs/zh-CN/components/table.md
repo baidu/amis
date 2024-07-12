@@ -1860,17 +1860,20 @@ popOver 的其它配置请参考 [popover](./popover)
 
 ### 列配置属性表
 
-| 属性名     | 类型                                          | 默认值 | 说明                     | 版本    |
-| ---------- | --------------------------------------------- | ------ | ------------------------ | ------- |
-| label      | [模板](../../docs/concepts/template)          |        | 表头文本内容             |         |
-| name       | `string`                                      |        | 通过名称关联数据         |         |
-| width      | `number` \| `string`                          |        | 列宽                     |         |
-| remark     |                                               |        | 提示信息                 |         |
-| fixed      | `left` \| `right` \| `none`                   |        | 是否固定当前列           |         |
-| popOver    |                                               |        | 弹出框                   |         |
-| copyable   | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制               |         |
-| style      | `object`                                      |        | 单元格自定义样式         |         |
-| innerStyle | `object`                                      |        | 单元格内部组件自定义样式 | `2.8.1` |
+| 属性名      | 类型                                          | 默认值 | 说明                     | 版本     |
+| ----------- | --------------------------------------------- | ------ | ------------------------ | -------- |
+| label       | [模板](../../docs/concepts/template)          |        | 表头文本内容             |          |
+| name        | `string`                                      |        | 通过名称关联数据         |          |
+| width       | `number` \| `string`                          |        | 列宽                     |          |
+| remark      |                                               |        | 提示信息                 |          |
+| fixed       | `left` \| `right` \| `none`                   |        | 是否固定当前列           |          |
+| popOver     |                                               |        | 弹出框                   |          |
+| copyable    | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制               |          |
+| style       | `object`                                      |        | 单元格自定义样式         |          |
+| innerStyle  | `object`                                      |        | 单元格内部组件自定义样式 | `2.8.1`  |
+| align       | `left` \| `right` \| `center` \| `justify`    |        | 单元格对齐方式           | ` 1.4.0` |
+| headerAlign | `left` \| `right` \| `center` \| `justify`    |        | 表头单元格对齐方式       | `6.7.0`  |
+| vAlign      | `top` \| `middle` \| `bottom`                 |        | 单元格垂直对齐方式       | `6.7.0`  |
 
 ## 事件表
 
