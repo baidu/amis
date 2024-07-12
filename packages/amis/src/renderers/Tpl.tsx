@@ -14,6 +14,7 @@ import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {buildStyle} from 'amis-core';
+import isEqual from 'lodash/isEqual';
 
 /**
  * tpl 渲染器
@@ -85,8 +86,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
   componentDidUpdate(prevProps: Readonly<TplProps>): void {
     const checkProps = ['tpl', 'html', 'text', 'raw', 'data', 'placeholder'];
     if (
-      checkProps.some(key => prevProps[key] !== this.props[key]) ||
-      getPropValue(prevProps) !== getPropValue(this.props)
+      checkProps.some(key => !isEqual(prevProps[key], this.props[key])) ||
+      !isEqual(getPropValue(prevProps), getPropValue(this.props))
     ) {
       this.updateContent();
     }
