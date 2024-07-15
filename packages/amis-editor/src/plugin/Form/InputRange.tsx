@@ -233,7 +233,8 @@ export class RangeControlPlugin extends BasePlugin {
                 type: 'ae-input-range-value',
                 name: 'value',
                 label: '默认值',
-                visibleOn: 'this.multiple'
+                visibleOn: 'this.multiple',
+                precision: '${precision}'
               },
 
               getSchemaTpl('valueFormula', {
@@ -244,7 +245,8 @@ export class RangeControlPlugin extends BasePlugin {
                 },
                 valueType: 'number', // 期望数值类型
                 visibleOn: '!this.multiple',
-                pipeIn: defaultValue(0)
+                pipeIn: defaultValue(0),
+                precision: '${precision}'
               }),
 
               getSchemaTpl('valueFormula', {
@@ -256,7 +258,8 @@ export class RangeControlPlugin extends BasePlugin {
                 pipeIn: defaultValue(0),
                 needDeleteProps: ['min'], // 避免自我限制
                 label: '最小值',
-                valueType: 'number'
+                valueType: 'number',
+                precision: '${precision}'
               }),
               getSchemaTpl('valueFormula', {
                 name: 'max',
@@ -267,16 +270,28 @@ export class RangeControlPlugin extends BasePlugin {
                 pipeIn: defaultValue(100),
                 needDeleteProps: ['max'], // 避免自我限制
                 label: '最大值',
-                valueType: 'number'
+                valueType: 'number',
+                precision: '${precision}'
               }),
               {
                 label: '步长',
                 name: 'step',
                 type: 'input-number',
                 value: 1,
+                precision: '${precision}',
                 pipeOut: (value?: number) => {
                   return value || 1;
                 }
+              },
+              {
+                type: 'input-number',
+                name: 'precision',
+                label: tipedLabel(
+                  '小数位数',
+                  '根据四舍五入精确保留设置的小数位数'
+                ),
+                min: 1,
+                max: 100
               },
 
               getSchemaTpl('unit'),

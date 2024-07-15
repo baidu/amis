@@ -258,6 +258,10 @@
       & > .#{$ns}Form-item {
         min-width: var(--Form-control-widthBase);
       }
+
+      .#{$ns}Form-static {
+        min-height: auto;
+      }
     }
 
     &.is-layout-fixed td {

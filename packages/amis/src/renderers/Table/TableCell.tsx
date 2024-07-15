@@ -52,6 +52,7 @@ export class TableCell extends React.Component<TableCellProps> {
       children,
       width,
       align,
+      vAlign,
       innerClassName,
       label,
       tabIndex,
@@ -120,6 +121,13 @@ export class TableCell extends React.Component<TableCellProps> {
       style = {
         ...style,
         textAlign: align
+      };
+    }
+
+    if (vAlign) {
+      style = {
+        ...style,
+        verticalAlign: vAlign
       };
     }
 

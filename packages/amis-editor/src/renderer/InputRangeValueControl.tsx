@@ -24,7 +24,8 @@ const InputRangeValue: React.FC<InputRangeValueProps> = props => {
     name,
     onChange,
     value,
-    render
+    render,
+    precision
   } = props;
   const key = 'InputRangeValue';
   const joinValues = ctx?.joinValues ?? true;
@@ -105,6 +106,7 @@ const InputRangeValue: React.FC<InputRangeValueProps> = props => {
                   type: 'input-number',
                   validations: 'isNumeric',
                   name: minField,
+                  precision,
                   value: 0
                 },
                 {
@@ -116,6 +118,7 @@ const InputRangeValue: React.FC<InputRangeValueProps> = props => {
                   type: 'input-number',
                   validations: 'isNumeric',
                   name: maxField,
+                  precision,
                   value: 100
                 }
               ]

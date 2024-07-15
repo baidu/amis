@@ -9,7 +9,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
     setTimeout(() => {
       this.props.manager.patchSchema(true);
 
-      // 检测是否整体粘贴组件，如果是的话强制替换ID避免样式bug
+      // 检测是否整体粘贴组件，如果是的话对指定类型组件存在重复ID的重新生成
       if (
         e?.languageId === 'json' &&
         e.range?.startColumn === 1 &&
@@ -17,7 +17,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
         e.range?.endColumn === 2 &&
         e.range?.endLineNumber > 1
       ) {
-        this.props.manager.reGenerateCurrentNodeID();
+        this.props.manager.reGenerateNodeDuplicateID(['布局容器', '展示']);
       }
     }, 500);
   }
