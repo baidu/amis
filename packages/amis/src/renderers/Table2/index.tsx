@@ -2194,10 +2194,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 key: 'tableBodyClassname',
                 weights: {
                   default: {
-                    inner: `> tbody.${cx('cxd-Table-tbody')} > tr`
+                    inner: `> tbody.${cx('Table-tbody')} > tr  td`
                   },
                   hover: {
                     suf: '> tbody > tr',
+                    inner: `td`,
                     important: true
                   }
                 }
@@ -2207,13 +2208,13 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 weights: {
                   default: {
                     parent: `.${cx('Table-table')} > tbody.${cx(
-                      'cxd-Table-tbody'
+                      'Table-tbody'
                     )}`,
                     inner: `td.${cx('Table-cell')}`
                   },
                   hover: {
                     parent: `.${cx('Table-table')} > tbody.${cx(
-                      'cxd-Table-tbody'
+                      'Table-tbody'
                     )}`,
                     inner: `td.${cx('Table-cell')}`
                   }

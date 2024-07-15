@@ -219,6 +219,7 @@
     & th,
     & td {
       text-align: left;
+      border-color: transparent;
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       &.is-sticky {

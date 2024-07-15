@@ -6006,11 +6006,12 @@ const component: ThemeDefinition['component'] = {
         'border-width': 'var(--borders-width-2)',
         'border-color': 'var(--colors-neutral-line-8)',
         'padding-and-margin': {
-          paddingTop: 'var(--sizes-size-6)',
+          paddingTop: 'var(--sizes-size-3)',
           paddingRight: 'var(--sizes-size-6)',
-          paddingBottom: 'var(--sizes-size-6)',
+          paddingBottom: 'var(--sizes-size-3)',
           paddingLeft: 'var(--sizes-size-6)'
         },
+        'line-height': 'var(--sizes-base-20)',
         'paddingX': 'var(--sizes-size-7)',
         'header-font': {
           color: 'var(--colors-neutral-text-2)',

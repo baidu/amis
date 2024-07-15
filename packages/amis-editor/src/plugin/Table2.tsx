@@ -1001,19 +1001,6 @@ export class Table2Plugin extends BasePlugin {
                 title: '行设置',
                 body: [
                   {
-                    name: 'lineHeight',
-                    label: '行高度',
-                    type: 'select',
-                    placeholder: '请选择高度',
-                    options: [
-                      {label: '跟随内容', value: ''},
-                      {label: '高', value: 'large'},
-                      {label: '中', value: 'middle'}
-                    ],
-                    clearable: false,
-                    value: ''
-                  },
-                  {
                     type: 'ae-Switch-More',
                     mode: 'normal',
                     name: 'rowSelection',
@@ -1486,6 +1473,13 @@ export class Table2Plugin extends BasePlugin {
               hidePaddingAndMargin: true,
               state: ['default', 'hover'],
               extra: [
+                {
+                  type: 'amis-theme-select',
+                  label: '行高',
+                  name: 'themeCss.tableBodyClassname.height',
+                  editorValueToken: '--table-body-line-height',
+                  mode: 'default'
+                },
                 getSchemaTpl('theme:paddingAndMargin', {
                   name: 'themeCss.tableRowClassname.paddingAndMargin',
                   hideMargin: true,

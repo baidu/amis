@@ -3932,9 +3932,9 @@
 
   --table-border-width: var(--borders-width-2);
   --table-border-color: var(--colors-neutral-line-8);
-  --table-paddingTop: var(--sizes-size-6);
+  --table-paddingTop: var(--sizes-size-3);
   --table-paddingRight: var(--sizes-size-6);
-  --table-paddingBottom: var(--sizes-size-6);
+  --table-paddingBottom: var(--sizes-size-3);
   --table-paddingLeft: var(--sizes-size-6);
   --table-paddingX: var(--sizes-size-7);
   --table-header-color: var(--colors-neutral-text-2);
@@ -3947,6 +3947,7 @@
   --table-body-color: var(--colors-neutral-text-2);
   --table-body-fontSize: var(--fonts-size-8);
   --table-body-fontWeight: var(--fonts-weight-6);
+  --table-body-line-height: var(--sizes-base-20);
   --table-body-lineHeight: var(--fonts-lineHeight-2);
   --table-body-bg-color: var(--colors-neutral-fill-11);
   --table-body-default-bg-color: var(--table-body-bg-color);
