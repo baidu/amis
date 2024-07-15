@@ -234,10 +234,10 @@ export const runAction = async (
   // 注意：并行ajax请求结果必须通过event取值
   const mergeData = createObject(
     createObject(
-      renderer.props.data.__super
-        ? createObject(renderer.props.data.__super, additional)
+      renderer.props.store?.data.__super
+        ? createObject(renderer.props.store?.data.__super, additional)
         : additional,
-      renderer.props.data
+      renderer.props.store?.data
     ),
     event.data
   );
