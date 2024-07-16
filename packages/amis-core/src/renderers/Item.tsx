@@ -2161,6 +2161,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           constructor(props: FormControlProps) {
             super(props);
             this.refFn = this.refFn.bind(this);
+            this.getData = this.getData.bind(this);
 
             const {validations, formItem: model} = props;
 
@@ -2203,6 +2204,10 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             this.ref = ref;
           }
 
+          getData() {
+            return this.props.data;
+          }
+
           renderControl() {
             const {
               // 这里解构，不可轻易删除，避免被rest传到子组件
@@ -2228,6 +2233,9 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               <>
                 <Control
                   {...rest}
+                  // 因为 formItem 内部可能不会更新到最新的 data，所以暴露个方法可以获取到最新的
+                  // 获取不到最新的因为做了限制，只有表单项目 name 关联的数值变化才更新
+                  getData={this.getData}
                   mobileUI={mobileUI}
                   onOpenDialog={this.handleOpenDialog}
                   size={config.sizeMutable !== false ? undefined : size}
