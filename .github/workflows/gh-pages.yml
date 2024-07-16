@@ -14,14 +14,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: n1hility/cancel-previous-runs@v2
+      - uses: n1hility/cancel-previous-runs@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@master
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +46,7 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm run coverage
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           name: codecov-umbrella # optional
           fail_ci_if_error: false # optional (default = false)
