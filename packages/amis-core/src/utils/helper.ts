@@ -641,7 +641,7 @@ export function difference<
         }
 
         // isEquals 里面没有处理好递归引用对象的情况
-        if (!isObjectShallowModified(a, b, false, undefined, undefined, 10)) {
+        if (!isObjectShallowModified(a, b, true, undefined, undefined, 10)) {
           return;
         }
 
