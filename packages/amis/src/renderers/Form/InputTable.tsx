@@ -484,7 +484,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           });
         }
 
-        return msg;
+        if (msg) {
+          return msg;
+        }
       }
     }
 
