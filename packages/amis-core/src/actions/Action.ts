@@ -221,11 +221,13 @@ export const runAction = async (
   let action: ListenerAction = {...actionConfig};
   action.args = {...actionConfig.args};
 
+  const rendererProto = renderer.props.getData?.() ?? renderer.props.data;
+
   // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
   if (!event.data?.__rendererData) {
     additional = {
       event,
-      __rendererData: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
+      __rendererData: rendererProto // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
     };
   }
 
@@ -234,10 +236,10 @@ export const runAction = async (
   // 注意：并行ajax请求结果必须通过event取值
   const mergeData = createObject(
     createObject(
-      renderer.props.data.__super
-        ? createObject(renderer.props.data.__super, additional)
+      rendererProto.__super
+        ? createObject(rendererProto.__super, additional)
         : additional,
-      renderer.props.data
+      rendererProto
     ),
     event.data
   );

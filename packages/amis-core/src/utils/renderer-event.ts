@@ -328,14 +328,15 @@ export const resolveEventData = (
   data: any,
   valueKey: string = 'value'
 ) => {
+  const proto = props.getData?.() ?? props.data;
   return createObject(
-    props.data,
+    proto,
     props.name && valueKey
       ? {
           ...data,
           [props.name]: data[valueKey],
           __rendererData: {
-            ...props.data,
+            ...proto,
             [props.name]: data[valueKey]
           }
         }
