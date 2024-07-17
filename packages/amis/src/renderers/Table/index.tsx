@@ -548,6 +548,7 @@ export default class Table extends React.Component<TableProps, object> {
     resizable: true
   };
 
+  dom = React.createRef<HTMLDivElement>();
   table?: HTMLTableElement;
   sortable?: Sortable;
   dragTip?: HTMLElement;
@@ -987,6 +988,15 @@ export default class Table extends React.Component<TableProps, object> {
 
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+  }
+
+  scrollToTop() {
+    this.dom.current?.scrollIntoView();
+    if (this.props.autoFillHeight) {
+      this.table?.scrollIntoView();
+    }
+    const scrolledY = window.scrollY;
+    scrolledY && window.scroll(0, scrolledY);
   }
 
   rowPathPlusOffset(path: string, offset = 0) {
@@ -2830,6 +2840,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <div
+        ref={this.dom}
         className={cx('Table', {'is-mobile': mobileUI}, className, {
           'Table--unsaved': !!store.modified || !!store.moved,
           'Table--autoFillHeight': autoFillHeight
