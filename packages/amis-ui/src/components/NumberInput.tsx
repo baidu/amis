@@ -362,7 +362,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
         name={name}
         className={cx(
           className,
-          showSteps === false ? 'no-steps' : '',
+          showSteps === false || readOnly ? 'no-steps' : '',
           displayMode === 'enhance'
             ? 'Number--enhance-input'
             : inputControlClassName,
