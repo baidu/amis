@@ -11,7 +11,8 @@ body {
     }
 
     .markdown-body {
-      color: #fff;
+      color: rgb(100 116 139 / 1);
+      background-color: var(--colors-neutral-fill-11) !important;
     }
   }
 }
