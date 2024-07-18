@@ -511,7 +511,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           <Select
             {...rest}
             className={cx(
-              className,
               setThemeClassName({
                 ...this.props,
                 name: 'selectControlClassName',
