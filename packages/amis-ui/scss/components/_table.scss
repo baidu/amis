@@ -2,8 +2,9 @@
   position: relative;
 
   // 黑科技，让 scrollIntoView 能够跑正确的位置
-  margin-top: calc(var(--affix-offset-top) * -1);
-  padding-top: var(--affix-offset-top);
+  // margin-top: calc(var(--affix-offset-top) * -1);
+  // padding-top: var(--affix-offset-top);
+  scroll-margin-top: var(--affix-offset-top);
 
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
