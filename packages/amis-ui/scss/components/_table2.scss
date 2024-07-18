@@ -193,6 +193,8 @@
 
     > thead > tr {
       > th {
+        height: var(--table-body-line-height);
+        vertical-align: middle;
         background: var(--Table-thead-bg);
         padding: var(--table-paddingTop) var(--table-paddingRight)
           var(--table-paddingBottom) var(--table-paddingLeft);
@@ -259,6 +261,8 @@
 
       > td,
       > th {
+        height: px2rem(40px);
+        vertical-align: middle;
         padding: var(--table-paddingTop) var(--table-paddingRight)
           var(--table-paddingBottom) var(--table-paddingLeft);
 
@@ -281,6 +285,16 @@
         .#{$ns}Table-expandBtn {
           margin-right: 5px;
         }
+      }
+
+      .#{$ns}Form-static {
+        padding: 0;
+        margin: 0;
+        min-height: inherit;
+        line-height: inherit;
+        font-size: inherit;
+        color: inherit;
+        font-weight: inherit;
       }
 
       .#{$ns}Table-cell-height-large {

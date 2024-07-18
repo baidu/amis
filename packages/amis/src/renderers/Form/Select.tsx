@@ -16,7 +16,9 @@ import {
   createObject,
   autobind,
   TestIdBuilder,
-  getVariable
+  getVariable,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -466,6 +468,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showInvalidMatch,
       options,
       className,
+      popoverClassName,
       style,
       loading,
       value,
@@ -489,13 +492,17 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       filterOption,
       ...rest
     } = this.props;
+    const {classPrefix: ns, themeCss} = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
 
     return (
-      <div className={cx(`${classPrefix}SelectControl`, className)}>
+      <div
+        className={cx(`${classPrefix}SelectControl`, className)}
+        style={style}
+      >
         {['table', 'list', 'group', 'tree', 'chained', 'associated'].includes(
           selectMode
         ) ? (
@@ -503,6 +510,23 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            className={cx(
+              setThemeClassName({
+                ...this.props,
+                name: 'selectControlClassName',
+                id,
+                themeCss: themeCss
+              })
+            )}
+            popoverClassName={cx(
+              popoverClassName,
+              setThemeClassName({
+                ...this.props,
+                name: 'selectPopoverClassName',
+                id,
+                themeCss: themeCss
+              })
+            )}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -535,6 +559,38 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             overlay={overlay}
           />
         )}
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'selectControlClassName',
+                weights: {
+                  focused: {
+                    suf: '.is-opened:not(.is-mobile)'
+                  },
+                  disabled: {
+                    suf: '.is-disabled'
+                  }
+                }
+              },
+              {
+                key: 'selectPopoverClassName',
+                weights: {
+                  hover: {
+                    suf: ` .${ns}Select-option.is-highlight`
+                  },
+                  focused: {
+                    inner: `.${ns}Select-option.is-active`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }

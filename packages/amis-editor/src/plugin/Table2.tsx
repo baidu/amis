@@ -1001,19 +1001,6 @@ export class Table2Plugin extends BasePlugin {
                 title: '行设置',
                 body: [
                   {
-                    name: 'lineHeight',
-                    label: '行高度',
-                    type: 'select',
-                    placeholder: '请选择高度',
-                    options: [
-                      {label: '跟随内容', value: ''},
-                      {label: '高', value: 'large'},
-                      {label: '中', value: 'middle'}
-                    ],
-                    clearable: false,
-                    value: ''
-                  },
-                  {
                     type: 'ae-Switch-More',
                     mode: 'normal',
                     name: 'rowSelection',
@@ -1337,31 +1324,31 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'bordered',
-                  label: '边框',
-                  pipeIn: defaultValue(false)
-                }),
-                {
-                  name: 'size',
-                  label: '控件尺寸',
-                  type: 'select',
-                  pipeIn: defaultValue('default'),
-                  options: [
-                    {
-                      label: '小',
-                      value: 'small'
-                    },
-                    {
-                      label: '默认',
-                      value: 'default'
-                    },
-                    {
-                      label: '大',
-                      value: 'large'
-                    }
-                  ]
-                },
+                // getSchemaTpl('switch', {
+                //   name: 'bordered',
+                //   label: '边框',
+                //   pipeIn: defaultValue(false)
+                // }),
+                // {
+                //   name: 'size',
+                //   label: '控件尺寸',
+                //   type: 'select',
+                //   pipeIn: defaultValue('default'),
+                //   options: [
+                //     {
+                //       label: '小',
+                //       value: 'small'
+                //     },
+                //     {
+                //       label: '默认',
+                //       value: 'default'
+                //     },
+                //     {
+                //       label: '大',
+                //       value: 'large'
+                //     }
+                //   ]
+                // },
                 getSchemaTpl('switch', {
                   name: 'autoFillHeight',
                   label: '高度自适应'
@@ -1384,20 +1371,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
+                  type: 'amis-theme-select',
+                  name: 'scroll.y',
                   visibleOn: 'this.scroll && this.scroll.y !== null',
-                  label: '高度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.y'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  label: '高度值'
                 },
 
                 {
@@ -1422,21 +1399,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
-                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  type: 'amis-theme-select',
                   name: 'scroll.x',
-                  label: '宽度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.x'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  label: '宽度值'
                 },
                 {
                   name: 'indentSize',
@@ -1464,7 +1430,84 @@ export class Table2Plugin extends BasePlugin {
                 }
               ]
             },
+            {
+              title: '表头',
+              body: [
+                getSchemaTpl('theme:colorPicker', {
+                  name: 'themeCss.tableHeadClassname.background',
+                  needCustom: true,
+                  needGradient: true,
+                  needImage: true,
+                  labelMode: 'input',
+                  label: '背景',
+                  editorValueToken: '--table-header-bg-color'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableHeadClassname.paddingAndMargin',
+                  hideMargin: true,
+                  editorValueToken: '--table'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableHeadClassname.border',
+                  label: '边框',
+                  editorValueToken: {
+                    'rightBorderColor': '--Table-thead-borderColor',
+                    'rightBorderWidth': '--Table-thead-borderWidth',
+                    '*': '--table-header'
+                  }
+                }),
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableHeadClassname.font',
+                  editorValueToken: '--table-header'
+                })
+              ]
+            },
 
+            getSchemaTpl('theme:base', {
+              title: '单元格',
+              classname: 'tableBodyClassname',
+              editorValueToken: '--table-body',
+              hideShadow: true,
+              hideRadius: true,
+              hideBorder: true,
+              hidePaddingAndMargin: true,
+              state: ['default', 'hover'],
+              extra: [
+                {
+                  type: 'amis-theme-select',
+                  label: '行高',
+                  name: 'themeCss.tableBodyClassname.height',
+                  editorValueToken: '--table-body-line-height',
+                  mode: 'default'
+                },
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableRowClassname.paddingAndMargin',
+                  hideMargin: true,
+                  editorValueToken: '--table'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableRowClassname.border',
+                  editorValueToken: {
+                    'bottomBorderColor': '--Table-borderColor',
+                    'bottomBorderWidth': '--Table-borderWidth',
+                    '*': '--table'
+                  }
+                }),
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableBodyClassname.font',
+                  editorValueToken: '--table-body'
+                })
+              ]
+            }),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
+              ]
+            },
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

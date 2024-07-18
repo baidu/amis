@@ -118,12 +118,14 @@ setSchemaTpl(
         label: '垂直',
         value: 'normal'
       },
-      config?.isForm
-        ? null
-        : {
-            label: '继承',
-            value: ''
-          }
+      !config?.isForm && {
+        label: '继承',
+        value: ''
+      },
+      config?.isForm && {
+        label: '网格',
+        value: 'flex'
+      }
     ].filter(i => i),
     pipeOut: (v: string) => (v ? v : undefined)
   })
@@ -258,6 +260,27 @@ setSchemaTpl('labelHide', () =>
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
       'this.__props__ && this.__props__.formMode === "horizontal" || this.mode === "horizontal"'
+  })
+);
+
+setSchemaTpl('theme:labelHide', () =>
+  getSchemaTpl('switch', {
+    name: '__label',
+    label: '隐藏标题',
+    onChange: (value: any, origin: any, item: any, form: any) => {
+      if (value) {
+        form.setValueByName(
+          '$$tempLabel',
+          form.getValueByName('label') || item.label
+        );
+        form.setValueByName('label', false);
+      } else {
+        form.setValueByName(
+          'label',
+          form.getValueByName('$$tempLabel') || item['$$tempLabel'] || ''
+        );
+      }
+    }
   })
 );
 

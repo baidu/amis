@@ -79,23 +79,36 @@ export default class IconSelectControl extends React.PureComponent<
     );
   }
 
-  getValueBySvg(svg: string | undefined): IconSelectStore.SvgIcon | null {
-    if (!svg || typeof svg !== 'string') {
+  getSvgName(value: IconChecked | string) {
+    if (typeof value === 'string') {
+      return /data-name="(.*?)"/.exec(value)?.[1] || '';
+    } else {
+      return value?.name || value?.id || '';
+    }
+  }
+
+  getSvgId(value: IconChecked | string) {
+    if (typeof value === 'string') {
+      return /data-id="(.*?)"/.exec(value)?.[1] || '';
+    } else {
+      return value?.id || '';
+    }
+  }
+
+  getValueBySvg(
+    svg: string | IconSelectStore.SvgIcon
+  ): IconSelectStore.SvgIcon | null {
+    if (!svg) {
       return null;
     }
-    let findItem: IconSelectStore.SvgIcon | undefined = undefined;
-    if (IconSelectStore.svgIcons && IconSelectStore.svgIcons.length) {
-      for (let i = 0; i < IconSelectStore.svgIcons.length; i++) {
-        findItem = find(
-          IconSelectStore.svgIcons[i].children,
-          i => i.svg === svg
-        );
-        if (findItem) {
-          break;
-        }
-      }
+
+    if (typeof svg !== 'string') {
+      return svg;
     }
-    return findItem || {name: svg, id: '', svg: ''};
+
+    const svgName = this.getSvgName(svg);
+    const svgId = this.getSvgId(svg);
+    return {name: svgName, id: svgId, svg: svg.replace(/'/g, '')};
   }
 
   @autobind
@@ -124,18 +137,18 @@ export default class IconSelectControl extends React.PureComponent<
       clearable
     } = this.props;
 
-    const iconName = value?.name || value;
+    const svg = this.getValueBySvg(value);
 
     return (
       <div className={cx(`${ns}IconSelectControl-input-area`)}>
         <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
-          <Icon icon={value} className="icon" />
+          <Icon icon={svg?.svg} className="icon" />
         </div>
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
-          {iconName}
+          {svg?.name}
         </span>
 
-        {clearable && !disabled && value ? (
+        {clearable && !disabled && svg ? (
           <a
             onClick={this.handleClear}
             className={cx(`${ns}IconSelectControl-clear`)}
@@ -144,7 +157,7 @@ export default class IconSelectControl extends React.PureComponent<
           </a>
         ) : null}
 
-        {(!value && placeholder && (
+        {(!svg && placeholder && (
           <span className={cx(`${ns}IconSelectControl-input-icon-placeholder`)}>
             {placeholder}
           </span>
@@ -191,8 +204,12 @@ export default class IconSelectControl extends React.PureComponent<
   handleConfirm() {
     const checkedIcon = this.state.tmpCheckIconId;
     if (this.props.returnSvg) {
-      this.props.onChange &&
-        this.props.onChange((checkedIcon && checkedIcon.svg) || '');
+      let svg = (checkedIcon && checkedIcon.svg) || '';
+      svg = svg.replace(
+        /<svg/,
+        `<svg data-name="${checkedIcon?.name}" data-id="${checkedIcon?.id}"`
+      );
+      this.props.onChange && this.props.onChange(svg);
     } else {
       this.props.onChange &&
         this.props.onChange(

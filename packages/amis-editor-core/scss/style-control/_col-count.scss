@@ -1,0 +1,30 @@
+.ColCount {
+  display: flex;
+  background-color: #f7f7f9;
+  padding: 2px;
+  border-radius: 4px;
+  &-item {
+    text-align: center;
+    line-height: 30px;
+    flex: 1;
+    min-width: 0;
+    height: 30px;
+    cursor: pointer;
+    &:not(.is-disabled):hover {
+      background: #fff;
+      color: #2468f2;
+    }
+  }
+  .is-active {
+    background: #fff;
+    color: #2468f2;
+    border-radius: 4px;
+  }
+  .is-disabled {
+    cursor: not-allowed;
+    color: #ccc;
+  }
+}
+.LabelAlign {
+  width: 100%;
+}

@@ -16,28 +16,46 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
   };
 });
 
+setSchemaTpl('theme:formItem', ({schema}: any = {}) => {
+  return {
+    title: '表单项',
+    key: 'formItem',
+    body: [
+      getSchemaTpl('theme:labelHide'),
+      {
+        type: 'col-size',
+        name: '__size',
+        label: '宽度'
+      }
+    ].concat(schema)
+  };
+});
+
 setSchemaTpl(
   'style:classNames',
   (config: {
     schema: SchemaCollection;
     isFormItem: boolean;
     unsupportStatic?: boolean;
+    collapsed?: boolean;
   }) => {
     const {
       isFormItem = true,
       unsupportStatic = false,
-      schema = []
+      schema = [],
+      collapsed = true
     } = config || {};
 
     return {
       title: 'CSS 类名',
+      collapsed,
       body: (isFormItem
         ? [
             getSchemaTpl('className', {
               label: '表单项'
             }),
             getSchemaTpl('className', {
-              label: '标签',
+              label: '标题',
               name: 'labelClassName'
             }),
             getSchemaTpl('className', {
@@ -441,16 +459,25 @@ setSchemaTpl('theme:cssCode', () => {
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
-    title: 'Label样式',
+    title: '标题样式',
+    visibleOn: 'this.label !== false',
     body: [
+      {
+        type: 'label-align',
+        name: 'labelAlign',
+        label: '位置'
+      },
       getSchemaTpl('theme:select', {
         label: '宽度',
-        name: 'labelWidth'
+        name: 'labelWidth',
+        hiddenOn: 'this.labelAlign == "top"'
       }),
+
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.labelClassName.font:default',
-        editorThemePath: 'form.item.default.label.body.font'
+        hasSenior: false,
+        editorValueToken: '--Form-item'
       }),
       getSchemaTpl('theme:paddingAndMargin', {
         name: 'themeCss.labelClassName.padding-and-margin:default'
@@ -468,11 +495,15 @@ setSchemaTpl('theme:form-description', () => {
       getSchemaTpl('theme:font', {
         label: '文字',
         name: 'themeCss.descriptionClassName.font:default',
-        editorThemePath: 'form.item.default.description.body.font'
+        editorValueToken: '--Form-description'
       }),
-      getSchemaTpl('theme:paddingAndMargin', {
-        name: 'themeCss.descriptionClassName.padding-and-margin:default'
-      })
+      {
+        label: '上间距',
+        type: 'amis-theme-select',
+        name: 'themeCss.descriptionClassName.margin-top:default',
+        options: '${sizesOptions}',
+        editorValueToken: '--Form-description-gap'
+      }
     ]
   };
 });
@@ -481,6 +512,7 @@ setSchemaTpl('theme:form-description', () => {
 setSchemaTpl('theme:select', (option: any = {}) => {
   return {
     mode: 'horizontal',
+    labelAlign: 'left',
     type: 'amis-theme-select',
     label: '大小',
     name: `themeCss.className.select:default`,
@@ -579,7 +611,17 @@ setSchemaTpl(
     classname?: string;
     title?: string;
     hiddenOn?: string;
+    visibleOn?: string;
     hidePaddingAndMargin?: boolean;
+    hideBorder?: boolean;
+    hideRadius?: boolean;
+    hideBackground?: boolean;
+    hideShadow?: boolean;
+    hideMargin?: boolean;
+    hidePadding?: boolean;
+    needState?: boolean;
+    editorValueToken?: string;
+    state?: string[];
   }) => {
     const {
       collapsed = false,
@@ -587,38 +629,64 @@ setSchemaTpl(
       classname = 'baseControlClassName',
       title = '基本样式',
       hiddenOn,
-      hidePaddingAndMargin
+      visibleOn,
+      hidePaddingAndMargin,
+      hideBorder,
+      hideRadius,
+      hideBackground,
+      hideShadow,
+      hideMargin,
+      hidePadding,
+      needState = true,
+      editorValueToken,
+      state = ['default', 'hover', 'active']
     } = option;
-    const curHidePaddingAndMargin = hidePaddingAndMargin ?? false;
     const styleStateFunc = (visibleOn: string, state: string) => {
       return [
-        !curHidePaddingAndMargin
-          ? getSchemaTpl('theme:paddingAndMargin', {
-              visibleOn: visibleOn,
-              name: `themeCss.${classname}.padding-and-margin:${state}`
-            })
-          : null,
-        getSchemaTpl('theme:border', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.border:${state}`
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.background:${state}`,
-          label: '背景',
-          needCustom: true,
-          needGradient: true,
-          needImage: true,
-          labelMode: 'input'
-        }),
-        getSchemaTpl('theme:radius', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.radius:${state}`
-        }),
-        getSchemaTpl('theme:shadow', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.boxShadow:${state}`
-        })
+        !hideBorder &&
+          getSchemaTpl('theme:border', {
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.border:${state}`,
+            state,
+            editorValueToken
+          }),
+        !hideRadius &&
+          getSchemaTpl('theme:radius', {
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.radius:${state}`,
+            state,
+            editorValueToken
+          }),
+        !hidePaddingAndMargin &&
+          getSchemaTpl('theme:paddingAndMargin', {
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.padding-and-margin:${state}`,
+            hideMargin,
+            hidePadding,
+            state,
+            editorValueToken
+          }),
+        !hideBackground &&
+          getSchemaTpl('theme:colorPicker', {
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.background:${state}`,
+            label: '背景',
+            needCustom: true,
+            needGradient: true,
+            needImage: true,
+            labelMode: 'input',
+            state,
+            editorValueToken: editorValueToken
+              ? `${editorValueToken}-\${__editorState${classname} || 'default'}-bg-color`
+              : undefined
+          }),
+        !hideShadow &&
+          getSchemaTpl('theme:shadow', {
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.boxShadow:${state}`,
+            state,
+            editorValueToken
+          })
       ]
         .filter(item => item)
         .concat(
@@ -626,15 +694,19 @@ setSchemaTpl(
             return {
               ...item,
               visibleOn: visibleOn,
-              name: `${item.name}:${state}`
+              name: `${item.name}:${state}`,
+              state
             };
           })
         );
     };
     const styles = [
-      {
+      needState && {
         type: 'select',
-        name: '__editorState',
+        mode: 'horizontal',
+        labelAlign: 'left',
+        labelWidth: 80,
+        name: `__editorState${classname}`,
         label: '状态',
         selectFirst: true,
         options: [
@@ -650,21 +722,22 @@ setSchemaTpl(
             label: '点击',
             value: 'active'
           }
-        ]
+        ].filter(item => state.includes(item.value))
       },
       ...styleStateFunc(
-        "${__editorState == 'default' || !__editorState}",
+        `\${__editorState${classname} == 'default' || !__editorState${classname}}`,
         'default'
       ),
-      ...styleStateFunc("${__editorState == 'hover'}", 'hover'),
-      ...styleStateFunc("${__editorState == 'active'}", 'active')
-    ];
+      ...styleStateFunc(`\${__editorState${classname} == 'hover'}`, 'hover'),
+      ...styleStateFunc(`\${__editorState${classname} == 'active'}`, 'active')
+    ].filter(Boolean);
 
     return {
       title,
       collapsed,
       body: styles,
-      hiddenOn
+      hiddenOn,
+      visibleOn
     };
   }
 );
@@ -732,5 +805,37 @@ setSchemaTpl(
         ]
       }
     ].filter(item => !~exclude.indexOf(item.key || ''));
+  }
+);
+
+setSchemaTpl(
+  'theme:icon',
+  (option: {classname?: string; visibleOn?: string; title?: string}) => {
+    const {
+      classname = 'iconControlClassName',
+      visibleOn,
+      title = '图标样式'
+    } = option;
+    return {
+      title,
+      visibleOn,
+      body: [
+        getSchemaTpl('theme:select', {
+          label: '图标尺寸',
+          name: `themeCss.${classname}.iconSize`
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          name: `themeCss.${classname}.color`,
+          label: '图标颜色',
+          needCustom: true,
+          needGradient: true,
+          labelMode: 'input'
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          label: '图标边距',
+          name: `themeCss.${classname}.padding-and-margin`
+        })
+      ]
+    };
   }
 );
