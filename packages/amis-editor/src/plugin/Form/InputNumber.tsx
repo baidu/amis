@@ -289,8 +289,7 @@ export class NumberControlPlugin extends BasePlugin {
           getSchemaTpl(
             'collapseGroup',
             [
-              getSchemaTpl('style:formItem', {
-                renderer: context.info.renderer,
+              getSchemaTpl('theme:formItem', {
                 schema: [
                   {
                     label: '快捷编辑',
@@ -317,7 +316,7 @@ export class NumberControlPlugin extends BasePlugin {
                 body: [
                   ...inputStateTpl(
                     'themeCss.inputControlClassName',
-                    'inputNumber.base.base'
+                    '--inputNumber-${displayMode || "base"}'
                   )
                 ]
               },

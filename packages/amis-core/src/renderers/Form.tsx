@@ -49,10 +49,15 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
-import {injectObjectChain} from '../utils';
+import {
+  CustomStyleClassName,
+  injectObjectChain,
+  setThemeClassName
+} from '../utils';
 import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
 import isEqual from 'lodash/isEqual';
+import CustomStyle from '../components/CustomStyle';
 
 export interface FormHorizontal {
   left?: number;
@@ -1958,6 +1963,11 @@ export default class Form extends React.Component<FormProps, object> {
       staticClassName,
       static: isStatic = false,
       loadingConfig,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      env,
+      wrapWithPanel,
       testid
     } = this.props;
 
@@ -1986,7 +1996,25 @@ export default class Form extends React.Component<FormProps, object> {
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
           staticClassName && isStatic ? staticClassName : className,
-          isStatic ? 'Form--isStatic' : null
+          isStatic ? 'Form--isStatic' : null,
+          setThemeClassName({
+            ...this.props,
+            name: [
+              'formControlClassName',
+              'itemClassName',
+              'staticClassName',
+              'itemLabelClassName'
+            ],
+            id,
+            themeCss
+          }),
+          !wrapWithPanel &&
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -2060,6 +2088,69 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss,
+            classNames: [
+              wrapWithPanel && {
+                key: 'panelClassName'
+              },
+              !wrapWithPanel && {
+                key: 'formControlClassName'
+              },
+              {
+                key: 'headerControlClassName',
+                weights: {
+                  default: {
+                    parent: `.${cx('Panel')}`
+                  }
+                }
+              },
+              wrapWithPanel && {
+                key: 'headerTitleControlClassName'
+              },
+              wrapWithPanel && {
+                key: 'bodyControlClassName'
+              },
+              wrapWithPanel && {
+                key: 'actionsControlClassName',
+                weights: {
+                  default: {
+                    parent: `.${cx('Panel--form')}`
+                  }
+                }
+              },
+              {
+                key: 'itemClassName',
+                weights: {
+                  default: {
+                    inner: `.${cx('Form-item')}`
+                  }
+                }
+              },
+              {
+                key: 'staticClassName',
+                weights: {
+                  default: {
+                    inner: `.${cx('Form-static')}`
+                  }
+                }
+              },
+              {
+                key: 'itemLabelClassName',
+                weights: {
+                  default: {
+                    inner: `.${cx('Form-label')}`
+                  }
+                }
+              }
+            ].filter(n => n) as CustomStyleClassName[],
+            wrapperCustomStyle,
+            id
+          }}
+          env={env}
+        />
       </WrapperComponent>
     );
   }
@@ -2083,7 +2174,10 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      id,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -2096,7 +2190,22 @@ export default class Form extends React.Component<FormProps, object> {
           title: __(title)
         },
         {
-          className: cx(panelClassName, 'Panel--form'),
+          className: cx(
+            panelClassName,
+            'Panel--form',
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'panelClassName',
+              id,
+              themeCss
+            })
+          ),
           style: style,
           formStore: this.props.store,
           children: body,
@@ -2106,11 +2215,35 @@ export default class Form extends React.Component<FormProps, object> {
           disabled: store.loading,
           btnDisabled: store.loading || store.validating,
           headerClassName,
+          headerControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'headerControlClassName',
+            id,
+            themeCss
+          }),
+          headerTitleControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'headerTitleControlClassName',
+            id,
+            themeCss
+          }),
           footer,
           footerClassName,
           footerWrapClassName,
           actionsClassName,
+          actionsControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'actionsControlClassName',
+            id,
+            themeCss
+          }),
           bodyClassName,
+          bodyControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'bodyControlClassName',
+            id,
+            themeCss
+          }),
           affixFooter
         }
       ) as JSX.Element;

@@ -25,6 +25,10 @@
 
 .#{$ns}Form-static {
   min-height: var(--Form-input-height);
+  font-size: var(--Form-static-fontSize);
+  color: var(--Form-static-color);
+  line-height: var(--Form-static-lineHeight);
+  font-weight: var(--Form-static-fontWeight);
   &:not(.is-noPaddingY-static) {
     padding-top: var(--Form-label-paddingTop);
     padding-bottom: var(--Form-label-paddingTop);
@@ -57,7 +61,7 @@
   margin-bottom: var(--Form-mode-default-labelGap);
   position: relative;
   font-size: var(--Form-item-fontSize);
-  color: var(--Form-item-fontColor);
+  color: var(--Form-item-color);
 
   > span {
     position: relative;

@@ -32,7 +32,9 @@ import {
   changedEffect,
   evalExpressionWithConditionBuilderAsync,
   normalizeApi,
-  getPropValue
+  getPropValue,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Icon, Table, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
@@ -929,6 +931,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 [`${column.className}`]: !!column.className,
                 [`${column.titleClassName}`]: !!column.titleClassName
               })}
+              style={{
+                justifyContent:
+                  (
+                    {
+                      right: 'flex-end',
+                      center: 'center'
+                    } as any
+                  )[column.align] || 'flex-start'
+              }}
             >
               {content}
               {remark}
@@ -1161,7 +1172,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   @autobind
   rowClassName(record: any, rowIndex: number) {
-    const {rowClassNameExpr, store} = this.props;
+    const {rowClassNameExpr, store, themeCss, id} = this.props;
 
     const classnames = [];
     if (rowClassNameExpr) {
@@ -1176,6 +1187,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
     if (row?.moved) {
       classnames.push('is-moved');
     }
+    classnames.push(
+      setThemeClassName({
+        ...this.props,
+        name: 'tableRowClassname',
+        id,
+        themeCss
+      })
+    );
     return classnames.join(' ');
   }
 
@@ -1942,6 +1961,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       maxKeepItemSelectionLength,
       onRow,
       store,
+      id,
+      themeCss,
       ...rest
     } = this.props;
 
@@ -1983,6 +2004,18 @@ export default class Table2 extends React.Component<Table2Props, object> {
     return (
       <Table
         {...rest}
+        headerClassName={setThemeClassName({
+          ...this.props,
+          name: 'tableHeadClassname',
+          id,
+          themeCss
+        })}
+        bodyClassname={setThemeClassName({
+          ...this.props,
+          name: 'tableBodyClassname',
+          id,
+          themeCss
+        })}
         onRef={this.getRef}
         title={this.renderSchema('title', title, schemaProps)}
         footer={this.renderSchema('footer', footer, schemaProps)}
@@ -2110,7 +2143,15 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, style, store} = this.props;
+    const {
+      classnames: cx,
+      style,
+      store,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
+    } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
@@ -2118,14 +2159,82 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     return (
       <div
-        className={cx('Table-render-wrapper', {
-          'Table--unsaved': !!store.modified || !!store.moved
-        })}
+        className={cx(
+          'Table-render-wrapper',
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          }),
+          {
+            'Table--unsaved': !!store.modified || !!store.moved
+          }
+        )}
         style={style}
       >
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss,
+            classNames: [
+              {
+                key: 'tableHeadClassname',
+                weights: {
+                  default: {
+                    inner: `.${cx('Table-table')} > thead > tr > th`,
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'tableHeadClassname',
+                weights: {
+                  default: {
+                    inner: `> tr > th`,
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'tableBodyClassname',
+                weights: {
+                  default: {
+                    inner: `> tbody.${cx('Table-tbody')} > tr  td`
+                  },
+                  hover: {
+                    suf: '> tbody > tr',
+                    inner: `td`,
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'tableRowClassname',
+                weights: {
+                  default: {
+                    parent: `.${cx('Table-table')} > tbody.${cx(
+                      'Table-tbody'
+                    )}`,
+                    inner: `td.${cx('Table-cell')}`
+                  },
+                  hover: {
+                    parent: `.${cx('Table-table')} > tbody.${cx(
+                      'Table-tbody'
+                    )}`,
+                    inner: `td.${cx('Table-cell')}`
+                  }
+                }
+              }
+            ],
+            wrapperCustomStyle,
+            id
+          }}
+          env={env}
+        />
       </div>
     );
   }
