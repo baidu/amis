@@ -760,6 +760,23 @@ export const EditorNode = types
         return component;
       },
 
+      getTarget(): null | HTMLElement | Array<HTMLElement> {
+        const doc = (getRoot(self) as any).getDoc();
+
+        if (self.isRegion) {
+          const target = doc.querySelector(
+            `[data-region="${self.region}"][data-region-host="${self.id}"]`
+          ) as HTMLElement;
+          return target;
+        } else {
+          const target = [].slice.call(
+            doc.querySelectorAll(`[data-editor-id="${self.id}"]`)
+          );
+
+          return self.info?.renderer.name === 'button' ? target?.[0] : target;
+        }
+      },
+
       /**
        * 计算高亮区域信息。
        * @param layer
@@ -769,25 +786,13 @@ export const EditorNode = types
         if (!root.calculateStarted) {
           return;
         }
-        const doc = (getRoot(self) as any).getDoc();
-
-        if (self.isRegion) {
-          const target = doc.querySelector(
-            `[data-region="${self.region}"][data-region-host="${self.id}"]`
-          ) as HTMLElement;
-          calculateHighlightBox(target);
-        } else {
-          const target = [].slice.call(
-            doc.querySelectorAll(`[data-editor-id="${self.id}"]`)
-          );
-
-          // 按钮一般不会出现多份，所以先写死只展示一块。
-          calculateHighlightBox(
-            self.info?.renderer.name === 'button' ? target?.[0] : target
-          );
-
-          self.childRegions.forEach(child => child.calculateHighlightBox(root));
+        const target = this.getTarget();
+        if (!target) {
+          return;
         }
+
+        calculateHighlightBox(target);
+        self.childRegions.forEach(child => child.calculateHighlightBox(root));
       },
 
       resetHighlightBox(root: any) {
