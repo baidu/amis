@@ -203,7 +203,7 @@ page
 - Dialog
 - Drawer
 - List
-- Page
+- Form
 - PaginationWrapper
 - Service
 - Wizard
