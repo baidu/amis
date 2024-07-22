@@ -1488,13 +1488,13 @@ export async function getConditionVariables(that: any, filter?: Function) {
       (item: any) =>
         item.value !== selfName &&
         item.type &&
-        item.schemaType &&
+        item.conditionType &&
         item.type !== 'array'
     );
     finalVars.push(...variables);
     if (superOption?.children?.length) {
       const superVars = superOption?.children.filter(
-        (item: any) => item.type && item.schemaType && item.type !== 'array'
+        (item: any) => item.type && item.conditionType && item.type !== 'array'
       );
       finalVars.push(...superVars);
     }

@@ -418,6 +418,7 @@ export type JSONSchema = JSONSchema7 & {
   group?: string; // 分组
   typeLabel?: string; // 类型说明
   schemaType?: string; // 类型
+  conditionType?: string; // 条件类型
 };
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;

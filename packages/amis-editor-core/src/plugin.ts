@@ -1270,6 +1270,7 @@ export abstract class BasePlugin implements PluginInterface {
     return {
       type: 'string',
       schemaType: node.schema.type,
+      conditionType: node.schema.type,
       title:
         typeof node.schema.label === 'string'
           ? node.schema.label
