@@ -22,6 +22,7 @@ import debounce from 'lodash/debounce';
 import merge from 'lodash/merge';
 import {EditorModalBody} from './store/editor';
 import {filter} from 'lodash';
+import type {SchemaType} from 'amis/lib/Schema';
 
 const {
   guid,
@@ -1389,7 +1390,7 @@ function filterVariablesOfScope(options: any[], selfName?: string) {
   });
   const finalVars = filterTree(variables, item => {
     // 如果是子表 过滤掉当前自己 因为已经在当前层出现了
-    if (item.schemaType && item.type === 'array' && item.children) {
+    if (item.rawType && item.type === 'array' && item.children) {
       const idx = item.children.findIndex(
         (i: any) => i.value === `${item.value}.${selfName}`
       );
@@ -1431,13 +1432,13 @@ export async function getConditionVariables(that: any, filter?: Function) {
       (item: any) =>
         item.value !== selfName &&
         item.type &&
-        item.schemaType &&
+        item.rawType &&
         item.type !== 'array'
     );
     finalVars.push(...variables);
     if (superOption?.children?.length) {
       const superVars = superOption?.children.filter(
-        (item: any) => item.type && item.schemaType && item.type !== 'array'
+        (item: any) => item.type && item.rawType && item.type !== 'array'
       );
       finalVars.push(...superVars);
     }
@@ -1460,7 +1461,7 @@ export function resolveQuickVariables(
   const curOption = options[0];
   const superOption = options[1];
   const variables = (curOption.children || [])
-    .filter((item: any) => item.value !== selfName && item.schemaType)
+    .filter((item: any) => item.value !== selfName && item.rawType)
     .map((item: any) => {
       // 子表过滤成员那层
       if (item.type === 'array' && Array.isArray(item.children)) {
@@ -1478,7 +1479,7 @@ export function resolveQuickVariables(
     });
   if (superOption?.children?.length) {
     const superVars = superOption?.children.filter(
-      (item: any) => item.schemaType && item.type !== 'array'
+      (item: any) => item.rawType && item.type !== 'array'
     );
     finalVars.push(...superVars);
     finalVars.push({
@@ -1780,3 +1781,73 @@ export function setDefaultColSize(
   }
   return tempList;
 }
+
+export const RAW_TYPE_MAP: {
+  [k in SchemaType | 'user-select' | 'department-select']?:
+    | 'string'
+    | 'number'
+    | 'array'
+    | 'boolean'
+    | 'object'
+    | 'enum'
+    | 'date'
+    | 'datetime'
+    | 'time'
+    | 'quarter'
+    | 'year'
+    | 'month'
+    | 'user'
+    | 'department';
+} = {
+  'input-text': 'string',
+  'input-password': 'string',
+  'input-email': 'string',
+  'input-url': 'string',
+  'input-rich-text': 'string',
+  'textarea': 'string',
+  'input-formula': 'string',
+  'input-image': 'string',
+  'input-repeat': 'string',
+  'location-picker': 'string',
+
+  'input-number': 'number',
+  'input-range': 'number',
+  'input-rating': 'number',
+
+  'radio': 'boolean',
+  'switch': 'boolean',
+
+  'select': 'enum',
+  'multi-select': 'enum',
+  'tree-select': 'enum',
+  'nested-select': 'enum',
+  'list-select': 'enum',
+  'input-tree': 'enum',
+  'input-tag': 'enum',
+  'tabs-transfer': 'enum',
+  'transfer': 'enum',
+  'transfer-picker': 'enum',
+  'tabs-transfer-picker': 'enum',
+  'radios': 'enum',
+
+  'input-date': 'date',
+  'input-date-range': 'date',
+
+  'input-time': 'time',
+  'input-time-range': 'time',
+
+  'input-month': 'month',
+  'input-month-range': 'month',
+
+  'input-datetime': 'datetime',
+  'input-quarter': 'quarter',
+  'input-year': 'year',
+  'input-datetime-range': 'datetime',
+
+  'input-quarter-range': 'quarter',
+
+  'input-table': 'array',
+
+  'user-select': 'user',
+  'department-select': 'department'
+};

@@ -13,10 +13,12 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
+import {RAW_TYPE_MAP} from './util';
 import type {RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
+import type {SchemaType} from 'packages/amis/src/Schema';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -1269,7 +1271,7 @@ export abstract class BasePlugin implements PluginInterface {
   ) {
     return {
       type: 'string',
-      schemaType: node.schema.type,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       title:
         typeof node.schema.label === 'string'
           ? node.schema.label
