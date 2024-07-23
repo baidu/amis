@@ -105,9 +105,9 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   displayMode?: 'base' | 'enhance';
 
   /**
-   * 用来开启百分号的展示形式
+   * 用来开启百分号的展示形式，搭配suffix使用
    */
-  openPercentage?: boolean;
+  showPercent?: boolean;
 }
 
 export interface NumberProps extends FormControlProps {
@@ -169,9 +169,9 @@ export interface NumberProps extends FormControlProps {
   testIdBuilder?: TestIdBuilder;
 
   /**
-   * 用来开启百分号的展示形式
+   * 用来开启百分号的展示形式，搭配suffix使用
    */
-  openPercentage?: boolean;
+  showPercent?: boolean;
 }
 
 interface NumberState {
@@ -256,10 +256,10 @@ export default class NumberControl extends React.Component<
   }
 
   formatNumber(value: any, setPrinstine = false) {
-    const {openPercentage, suffix, step, big, setPrinstineValue} = this.props;
+    const {showPercent, suffix, step, big, setPrinstineValue} = this.props;
     let {precision} = this.props;
     //展示百分号情况下，需要精度加2后，才能保持跟配置一致
-    if (openPercentage && suffix === '%') {
+    if (showPercent && suffix === '%') {
       precision = (precision || 0) + 2;
     }
     const unit = this.getUnit();
@@ -483,7 +483,7 @@ export default class NumberControl extends React.Component<
       id,
       env,
       name,
-      openPercentage,
+      showPercent,
       testIdBuilder
     } = this.props;
     const {unit} = this.state;
@@ -572,7 +572,7 @@ export default class NumberControl extends React.Component<
           borderMode={borderMode}
           readOnly={readOnly}
           suffix={suffix}
-          openPercentage={openPercentage}
+          showPercent={showPercent}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
           keyboard={keyboard}
