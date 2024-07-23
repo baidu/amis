@@ -74,6 +74,16 @@ export interface NumberProps extends ThemeProps {
   resetValue?: any;
 
   /**
+   * 后缀
+   */
+  suffix?: string;
+
+  /**
+   * 用来开启百分号的展示形式
+   */
+  openPercentage?: boolean;
+
+  /**
    * 是否在清空内容时从数据域中删除该表单项对应的值
    */
   clearValueOnEmpty?: boolean;
@@ -242,8 +252,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
 
   @autobind
   handleChange(value: any) {
-    const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
+    const {min, max, step, resetValue, clearValueOnEmpty, onChange} =
       this.props;
+    let {suffix, precision, openPercentage} = this.props;
+    //在显示百分号情况下，需先将数值恢复到实际value值
+    if (openPercentage && suffix == '%') {
+      value = value / 100;
+      precision = (precision || 0) + 2;
+    }
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
     const result = NumberInput.normalizeValue(
       value,
@@ -333,7 +349,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       className,
       classPrefix: ns,
       classnames: cx,
-      value,
       step,
       precision,
       max,
@@ -342,6 +357,8 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       placeholder,
       showSteps,
       formatter,
+      suffix,
+      openPercentage,
       parser,
       borderMode,
       readOnly,
@@ -353,6 +370,12 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       name,
       testIdBuilder
     } = this.props;
+
+    let {value} = this.props;
+    //需要展示百分号的情况下，数值乘100显示
+    if (openPercentage && suffix == '%' && value) {
+      value = ((value as number) * 100)?.toFixed(precision);
+    }
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
     };
