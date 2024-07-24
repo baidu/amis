@@ -1267,6 +1267,8 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
 | overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.8.0 以上版本`                                                                                                                                                                          |
 | showInvalidMatch         | `boolean`                                                                         | `false`                                                                            | 选项值与选项组不匹配时选项值是否飘红                                                                                                                                                                         |
+| noResultsText            | `string`                                                                          | `"未找到任何结果"`                                                                 | 无结果时的文本                                                                              |
+
 
 ## 事件表
 
