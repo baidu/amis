@@ -358,15 +358,23 @@ test('Renderer:number with static', async () => {
 });
 
 test('Renderer:number with showAsPercent', async () => {
-  const {input, container} = await setup({
+  const {input} = await setup({
     suffix: '%',
     showAsPercent: true,
-    value: '1.123',
     precision: 3
   });
+  fireEvent.change(input, {target: {value: 1.123}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toBe('112.3%');
 
-  expect(input.value).toEqual('112.3%');
+  fireEvent.change(input, {target: {value: 0.2123}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toBe('21.2%');
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot();
+  fireEvent.change(input, {target: {value: '1.2'}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toBe('120%');
 });
