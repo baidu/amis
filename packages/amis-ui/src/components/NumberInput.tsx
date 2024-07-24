@@ -374,7 +374,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
     let {value} = this.props;
     //需要展示百分号的情况下,数值乘100显示,注意精度丢失问题
     if (showAsPercent && suffix == '%' && value) {
-      value = parseFloat((Number(value) * 100).toPrecision(16));
+      value = parseFloat((Number(value) * 100).toFixed(precision));
     }
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
