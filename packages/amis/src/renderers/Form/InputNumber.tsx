@@ -578,7 +578,8 @@ export default class NumberControl extends React.Component<
               className={cx(
                 `${ns}NumberControl-unit`,
                 `${ns}NumberControl-single-unit`,
-                `${ns}Select`
+                `${ns}Select`,
+                `${readOnly ? `${ns}NumberControl-readonly` : ''}`
               )}
             >
               {typeof unitOptions[0] === 'string'
