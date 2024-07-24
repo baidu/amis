@@ -361,20 +361,14 @@ test('Renderer:number with showAsPercent', async () => {
   const {input} = await setup({
     suffix: '%',
     showAsPercent: true,
+    value: 1.123,
     precision: 3
   });
-  fireEvent.change(input, {target: {value: 1.123}});
-  fireEvent.blur(input);
-  await wait(300);
-  expect(input.value).toBe('112.3%');
 
-  fireEvent.change(input, {target: {value: 0.2123}});
-  fireEvent.blur(input);
-  await wait(300);
-  expect(input.value).toBe('21.2%');
+  expect(input.value).toEqual('112.3%');
 
-  fireEvent.change(input, {target: {value: '1.2'}});
+  fireEvent.change(input, {target: {value: 23.1234}});
   fireEvent.blur(input);
   await wait(300);
-  expect(input.value).toBe('120%');
+  expect(input.value).toEqual('23.123%');
 });
