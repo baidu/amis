@@ -1172,9 +1172,12 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   @autobind
   rowClassName(record: any, rowIndex: number) {
-    const {rowClassNameExpr, store, themeCss, id} = this.props;
+    const {rowClassNameExpr, store, themeCss, id, rowClassName} = this.props;
 
     const classnames = [];
+    if (rowClassName) {
+      classnames.push(rowClassName);
+    }
     if (rowClassNameExpr) {
       classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
     }

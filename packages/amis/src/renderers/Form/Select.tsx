@@ -578,6 +578,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
               {
                 key: 'selectPopoverClassName',
                 weights: {
+                  default: {
+                    suf: ` .${ns}Select-option`
+                  },
                   hover: {
                     suf: ` .${ns}Select-option.is-highlight`
                   },
