@@ -220,13 +220,13 @@ export class EventControl extends React.Component<
       const pluginEvents =
         typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
 
-      pluginEvents.forEach((event: RendererPluginEvent) => {
-        eventPanelActive[event.eventName] = true;
-      });
+      // 事件配置面板不自动折叠
+      // pluginEvents.forEach((event: RendererPluginEvent) => {
+      //   eventPanelActive[event.eventName] = true;
+      // });
 
       this.setState({
-        events: pluginEvents,
-        eventPanelActive
+        events: pluginEvents
       });
     }
   }
