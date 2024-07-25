@@ -2108,7 +2108,12 @@ export default class Form extends React.Component<FormProps, object> {
                 }
               },
               wrapWithPanel && {
-                key: 'headerTitleControlClassName'
+                key: 'headerTitleControlClassName',
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
               },
               wrapWithPanel && {
                 key: 'bodyControlClassName'

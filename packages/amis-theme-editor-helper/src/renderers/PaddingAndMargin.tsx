@@ -199,7 +199,9 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
               <div className="Theme-PaddingAndMargin-input">
                 <ThemeSelect
                   {...props}
-                  options={optionsData}
+                  options={optionsData.filter(
+                    (item: any) => item.realValue !== 'auto'
+                  )}
                   value={spaceData.padding}
                   onChange={onSpaceChange('padding-all')}
                   itemName="padding-all"
@@ -247,7 +249,9 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
               <div className="Theme-PaddingAndMargin-custom-popover">
                 <ThemeSelect
                   {...props}
-                  options={optionsData}
+                  options={optionsData.filter((item: any) =>
+                    customIndex > 3 ? item.realValue !== 'auto' : true
+                  )}
                   value={spaceData[customKey]}
                   onChange={onSpaceChange(customIndex)}
                   itemName={customKey}

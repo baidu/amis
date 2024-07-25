@@ -1458,6 +1458,8 @@ export class Table2Plugin extends BasePlugin {
                 }),
                 getSchemaTpl('theme:font', {
                   name: 'themeCss.tableHeadClassname.font',
+                  hasVertical: false,
+                  textAlign: false,
                   editorValueToken: '--table-header'
                 })
               ]

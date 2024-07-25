@@ -190,13 +190,15 @@ export class TextareaControlPlugin extends BasePlugin {
                   type: 'input-number',
                   name: 'minRows',
                   value: 3,
-                  label: '最小展示行数'
+                  label: '最小展示行数',
+                  min: 1
                 },
                 {
                   type: 'input-number',
                   name: 'maxRows',
                   value: 20,
-                  label: '最大展示行数'
+                  label: '最大展示行数',
+                  min: 1
                 }
               ]
             }),
