@@ -30,7 +30,7 @@ export interface InputColorControlSchema extends FormBaseControlSchema {
   /**
    * 颜色格式
    */
-  format?: 'hex' | 'rgb' | 'rgba' | 'hsl';
+  format?: 'hex' | 'hexa' | 'rgb' | 'rgba' | 'hsl';
 
   /**
    * 选中颜色后是否关闭弹出层。
