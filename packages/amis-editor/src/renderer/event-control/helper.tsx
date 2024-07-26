@@ -3191,11 +3191,7 @@ export const getEventControlConfig = (
 
         if (['setValue'].includes(action.actionType)) {
           const root = getRootManager(manager);
-          let schema = JSONGetById(
-            root.store.schema,
-            config.__cmptId || action.componentId,
-            'id'
-          );
+          let schema = JSONGetById(root.store.schema, config.__cmptId, 'id');
           if (schema) {
             let __isScopeContainer = DATA_CONTAINER.includes(schema.type);
             config.__isScopeContainer = __isScopeContainer;
