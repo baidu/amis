@@ -1461,7 +1461,10 @@ export function resolveQuickVariables(
   const curOption = options[0];
   const superOption = options[1];
   const variables = (curOption.children || [])
-    .filter((item: any) => item.value !== selfName && item.rawType)
+    .filter(
+      (item: any) =>
+        item.value !== selfName && item.rawType && item.rawType !== 'boolean'
+    )
     .map((item: any) => {
       // 子表过滤成员那层
       if (item.type === 'array' && Array.isArray(item.children)) {
@@ -1479,7 +1482,8 @@ export function resolveQuickVariables(
     });
   if (superOption?.children?.length) {
     const superVars = superOption?.children.filter(
-      (item: any) => item.rawType && item.type !== 'array'
+      (item: any) =>
+        item.rawType && item.rawType !== 'boolean' && item.type !== 'array'
     );
     finalVars.push(...superVars);
     finalVars.push({
