@@ -160,7 +160,9 @@ export const FORMITEM_CMPTS = [
   'transfer',
   'transfer-picker',
   'tree-select',
-  'uuid'
+  'uuid',
+  'user-select',
+  'department-select'
 ];
 
 export const SUPPORT_STATIC_FORMITEM_CMPTS = without(

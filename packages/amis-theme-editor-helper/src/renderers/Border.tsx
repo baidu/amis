@@ -108,11 +108,17 @@ function BoxBorder(props: BorderProps & FormControlProps) {
         defaultBorderWidthOptions
     )
   );
-  const [borderStyleOptions, setBorderStyleOptions] = useState(
-    cloneDeep(
-      props.borderStyleOptions || data.borderStyleOptions || defaultStyleOptions
-    )
-  );
+  const [borderStyleOptions, setBorderStyleOptions] = useState([
+    ...(props.borderStyleOptions ||
+      data.borderStyleOptions ||
+      defaultStyleOptions),
+    {
+      label: '分别配置',
+      value: 'custom',
+      realValue: 'custom',
+      hidden: true
+    }
+  ]);
   const [colorOptions, setColorOptions] = useState(
     cloneDeep(props.colorOptions || data.colorOptions)
   );
@@ -296,18 +302,22 @@ function BoxBorder(props: BorderProps & FormControlProps) {
                 );
               }}
               renderValueLabel={(item: Options) => {
-                return item.realValue === 'none' ? (
-                  <span>无</span>
-                ) : item.parent ? (
-                  <span>{item.label}</span>
-                ) : (
-                  <div className="Theme-Border-style">
-                    <div
-                      className="Theme-Border-style-line"
-                      style={{borderStyle: item.realValue}}
-                    ></div>
-                  </div>
-                );
+                if (item?.realValue === 'none') {
+                  return <span>无</span>;
+                } else if (item.parent) {
+                  return <span>{item.label}</span>;
+                } else if (item.realValue === 'custom') {
+                  return <span>分别配置</span>;
+                } else {
+                  return (
+                    <div className="Theme-Border-style">
+                      <div
+                        className="Theme-Border-style-line"
+                        style={{borderStyle: item.realValue}}
+                      ></div>
+                    </div>
+                  );
+                }
               }}
             />
             <ColorPicker

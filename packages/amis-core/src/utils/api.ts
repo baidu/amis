@@ -742,7 +742,7 @@ export function isApiOutdated(
   }
 
   // 通常是编辑器里加了属性，一开始没值，后来有了
-  if (prevApi === undefined && !nextApi !== undefined) {
+  if (prevApi === undefined) {
     return true;
   }
 

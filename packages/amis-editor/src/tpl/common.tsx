@@ -267,6 +267,7 @@ setSchemaTpl('theme:labelHide', () =>
   getSchemaTpl('switch', {
     name: '__label',
     label: '隐藏标题',
+    value: '${label === false}',
     onChange: (value: any, origin: any, item: any, form: any) => {
       if (value) {
         form.setValueByName(

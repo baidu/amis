@@ -305,7 +305,6 @@ export class SelectControlPlugin extends BasePlugin {
             getSchemaTpl('theme:formItem'),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
-            getSchemaTpl('theme:form-description'),
             {
               title: '选择框样式',
               body: [

@@ -1162,7 +1162,7 @@ export class FormPlugin extends BasePlugin {
                   name: 'columnCount',
                   type: 'input-number',
                   step: 1,
-                  min: 0,
+                  min: 1,
                   precision: 0,
                   resetValue: '',
                   unitOptions: ['列'],

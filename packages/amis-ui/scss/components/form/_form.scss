@@ -523,6 +523,10 @@
   }
 }
 
+.#{$ns}Form--column-1 > .#{$ns}Form-item {
+  width: 100%;
+}
+
 .#{$ns}Form--column-2 > .#{$ns}Form-item {
   width: 50%;
 }
