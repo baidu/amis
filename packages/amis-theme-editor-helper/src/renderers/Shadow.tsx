@@ -262,7 +262,7 @@ function ShadowEditor(props: ShadowEditorProps) {
     if (type !== 'color') {
       value += 'px';
     }
-    (shadowData!.realValue[index][type] as string) = value;
+    shadowData!.realValue[index][type] = value as never;
     const newData = changeToCustom(shadowData!);
     setShadowData(newData);
     onChange(formatRealValue(newData.realValue).value);
