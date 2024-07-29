@@ -641,6 +641,9 @@ setSchemaTpl(
       editorValueToken,
       state = ['default', 'hover', 'active']
     } = option;
+
+    const classId = classname.replace(/\-/g, '_');
+
     const styleStateFunc = (visibleOn: string, state: string) => {
       return [
         !hideBorder &&
@@ -677,7 +680,7 @@ setSchemaTpl(
             labelMode: 'input',
             state,
             editorValueToken: editorValueToken
-              ? `${editorValueToken}-\${__editorState${classname} || 'default'}-bg-color`
+              ? `${editorValueToken}-\${__editorState${classId} || 'default'}-bg-color`
               : undefined
           }),
         !hideShadow &&
@@ -700,13 +703,14 @@ setSchemaTpl(
           })
         );
     };
+
     const styles = [
       needState && {
         type: 'select',
         mode: 'horizontal',
         labelAlign: 'left',
         labelWidth: 80,
-        name: `__editorState${classname}`,
+        name: `__editorState${classId}`,
         label: '状态',
         selectFirst: true,
         options: [
@@ -725,11 +729,11 @@ setSchemaTpl(
         ].filter(item => state.includes(item.value))
       },
       ...styleStateFunc(
-        `\${__editorState${classname} == 'default' || !__editorState${classname}}`,
+        `\${__editorState${classId} == 'default' || !__editorState${classId}}`,
         'default'
       ),
-      ...styleStateFunc(`\${__editorState${classname} == 'hover'}`, 'hover'),
-      ...styleStateFunc(`\${__editorState${classname} == 'active'}`, 'active')
+      ...styleStateFunc(`\${__editorState${classId} == 'hover'}`, 'hover'),
+      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active')
     ].filter(Boolean);
 
     return {
