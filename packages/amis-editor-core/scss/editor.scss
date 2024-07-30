@@ -109,13 +109,16 @@
 }
 
 // 公共组件专有样式
-.ae-Editor-common-config {
+.ae-Editor-common-config,
+.ae-Editor-form-config {
   outline: 2px solid rgba($Editor-hlbox--onActiveConfig-bg, 0.2);
 }
 
 // 公共组件占位样式
 .ae-Editor-common-config div[class*='Wrapper']:empty,
-.ae-Editor-common-config div[class*='Container']:empty {
+.ae-Editor-common-config div[class*='Container']:empty,
+.ae-Editor-form-config div[class*='Wrapper']:empty,
+.ae-Editor-form-config div[class*='Container']:empty {
   margin: 4px;
   min-height: 88px;
   background: #f7f7f8;

@@ -594,7 +594,7 @@ export class BasicToolbarPlugin extends BasePlugin {
       menus.push({
         id: 'build',
         label: `快速构建「${info.plugin.name}」`,
-        disabled: schema.$$commonSchema,
+        disabled: schema.$$commonSchema || schema.$$formSchema,
         onSelect: () =>
           this.manager.reScaffold(
             id,

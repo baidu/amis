@@ -181,6 +181,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
           data-node-id={option.id}
           data-node-region={option.region}
           data-node-common-config={option.schema?.$$commonSchema}
+          data-node-form-config={option.schema?.$$formSchema}
           draggable={option.draggable}
           onDragStart={this.handleDragStart}
         >
@@ -199,6 +200,8 @@ export class OutlinePanel extends React.Component<PanelProps> {
           <span className="ae-Outline-node-text">
             {option.isCommonConfig
               ? `${option.label}-[公共配置]`
+              : option.isFormConfig
+              ? `${option.label}-[表单配置]`
               : this.renderTitleByKeyword(
                   this.getDialogNodeLabel(option, type),
                   curSearchElemKey
