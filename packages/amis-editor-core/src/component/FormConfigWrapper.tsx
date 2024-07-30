@@ -4,7 +4,7 @@ import React from 'react';
 import {NodeWrapper} from './NodeWrapper';
 
 export class FormConfigWrapper extends NodeWrapper {
-  // 销毁的时候要把加的 aeEditor-common-config 干掉
+  // 销毁的时候要把加的 aeEditor-form-config 干掉
   componentWillUnmount() {
     const root = findDOMNode(this) as HTMLElement;
 
