@@ -574,7 +574,8 @@ export const MainStore = types
             return (
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
-                key !== '$$commonSchema') ||
+                key !== '$$commonSchema' &&
+                key !== '$$formSchema') ||
               typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__'
             );

@@ -26,6 +26,7 @@ export const EditorNode = types
     parentId: '',
     parentRegion: '',
     isCommonConfig: false,
+    isFormConfig: false,
 
     id: '',
     type: '',
@@ -618,16 +619,22 @@ export const EditorNode = types
       self.isCommonConfig = !!value;
     }
 
+    function updateIsFormConfig(value: boolean) {
+      self.isFormConfig = !!value;
+    }
+
     return {
       getClosestParentByType,
       getParentNodeByCB,
       updateIsCommonConfig,
+      updateIsFormConfig,
       addChild(props: {
         id: string;
         type: string;
         label: string;
         path: string;
         isCommonConfig?: boolean;
+        isFormConfig?: boolean;
         info?: RendererInfo;
         region?: string;
         getData?: () => any;

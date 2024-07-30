@@ -703,7 +703,10 @@ export function createElementFromHTML(htmlString: string): HTMLElement {
 }
 
 export function deepFind(schema: any, keyValue: any, result: any = {}): any {
-  if (schema?.$$commonSchema === keyValue) {
+  if (
+    schema?.$$commonSchema === keyValue ||
+    schema?.$$formSchema === keyValue
+  ) {
     result[keyValue] = schema;
   } else if (isPlainObject(schema)) {
     Object.keys(schema).forEach(key => {
@@ -732,7 +735,7 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
       const value = schema[key];
       const filtered = filterSchemaForConfig(value, valueWithConfig);
 
-      if (schema.$$commonSchema) {
+      if (schema.$$commonSchema || schema.$$formSchema) {
         mapped[key] && (mapped[key] = filtered);
       } else {
         mapped[key] = filtered;
@@ -744,6 +747,17 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
       if (key === '$$commonSchema' && !valueWithConfig) {
         schema = mapped = {$$commonSchema: value};
       } else if (key === '$$commonSchema' && valueWithConfig) {
+        let config: any = deepFind(valueWithConfig, value);
+        config[value] &&
+          (schema = mapped =
+            {
+              ...config[value]
+            });
+      }
+
+      if (key === '$$formSchema' && !valueWithConfig) {
+        schema = mapped = {$$formSchema: value};
+      } else if (key === '$$formSchema' && valueWithConfig) {
         let config: any = deepFind(valueWithConfig, value);
         config[value] &&
           (schema = mapped =
