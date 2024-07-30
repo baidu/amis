@@ -255,15 +255,15 @@ export class ColorControl extends React.PureComponent<
    * @param a - Alpha component (1-100)
    * @returns The hex color string in the format #RRGGBBAA
    */
-  rgbaToHex(r: number, g: number, b: number, a: number): string {
+  rgbaToHex(r: number, g: number, b: number, a: number | undefined): string {
     if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
       return `#00000000`;
     }
+    if (typeof a === 'undefined' || a > 1) {
+      a = 1;
+    }
     if (a < 0.01) {
       a = 0;
-    }
-    if (a > 1) {
-      a = 1;
     }
 
     const toHex = (n: number) => n.toString(16).padStart(2, '0').toUpperCase();
