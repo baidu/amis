@@ -250,7 +250,9 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                 <ThemeSelect
                   {...props}
                   options={optionsData.filter((item: any) =>
-                    customIndex > 3 ? item.realValue !== 'auto' : true
+                    customKey.includes('padding')
+                      ? item.realValue !== 'auto'
+                      : true
                   )}
                   value={spaceData[customKey]}
                   onChange={onSpaceChange(customIndex)}
