@@ -103,7 +103,10 @@ export default class IconSelectControl extends React.PureComponent<
     }
 
     if (typeof svg !== 'string') {
-      return svg;
+      return {
+        ...svg,
+        svg: svg.svg?.replace(/'/g, '')
+      };
     }
 
     const svgName = this.getSvgName(svg);
