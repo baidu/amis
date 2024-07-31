@@ -1,5 +1,6 @@
 {
-  "name": "aisuda",
+  "name": "jettycode_suda",
+  "version": "0.0.1",
   "workspaces": [
     "packages/amis-formula",
     "packages/amis-core",
@@ -154,5 +155,14 @@
       "escapeString": false,
       "printBasicPrototype": false
     }
-  }
+  },
+  "description": "<div align=\"center\">   <p>     <img width=\"284\" src=\"https://github.com/baidu/amis/raw/master/examples/static/logo.png\">   </p>",
+  "main": "fis-conf.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
