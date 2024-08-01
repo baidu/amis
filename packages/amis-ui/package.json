@@ -41,7 +41,7 @@
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
     "downshift": "6.1.12",
-    "echarts": "5.4.0",
+    "echarts": "5.5.1",
     "froala-editor": "3.1.1",
     "hoist-non-react-statics": "^3.3.2",
     "jsbarcode": "^3.11.5",

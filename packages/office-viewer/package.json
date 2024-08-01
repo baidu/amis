@@ -87,7 +87,7 @@
     "xml-formatter": "^3.3.2"
   },
   "peerDependencies": {
-    "echarts": "^5.4.0"
+    "echarts": "^5.5.1"
   },
   "jest": {
     "testEnvironment": "jsdom",
