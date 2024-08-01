@@ -215,6 +215,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
             {...testIdBuilder?.getTestId()}
+            href={link?.to}
           >
             {renderContent()}
           </a>
