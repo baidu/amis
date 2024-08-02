@@ -1007,7 +1007,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     );
                   },
                   row: item,
-                  showBadge,
+                  showBadge: showBadge && col === 0,
                   itemBadge,
                   testIdBuilder: itemIDBuilder
                 }),

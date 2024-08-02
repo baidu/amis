@@ -2,6 +2,11 @@
   position: relative;
   border-radius: var(--Table-borderRadius);
 
+  .#{$ns}Table-cell-wrapper .#{$ns}Table-badge {
+    width: 100%;
+    height: 100%;
+  }
+
   &.#{$ns}Table-bordered {
     border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0
       var(--Table-borderWidth);
