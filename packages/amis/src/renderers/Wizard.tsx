@@ -1100,7 +1100,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       actionFinishLabel,
       render,
       translate: __,
-      classnames: cx
+      classnames: cx,
+      testIdBuilder
     } = this.props;
     const steps = this.state.rawSteps;
 
@@ -1155,7 +1156,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             label: __(actionPrevLabel),
             actionType: 'prev',
             className: actionClassName,
-            hiddenOn: '${currentStep === 1}'
+            hiddenOn: '${currentStep === 1}',
+            id: testIdBuilder?.getChild('button-prev').getTestIdValue()
           },
           {
             disabled: waiting || !prevCanJump || disabled,
@@ -1176,7 +1178,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             actionType: 'next',
             primary: !nextStep || !!step.api,
             className: actionClassName,
-            level: 'primary'
+            level: 'primary',
+            id: testIdBuilder?.getChild('button-next').getTestIdValue()
           },
           {
             disabled:
