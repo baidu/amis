@@ -157,7 +157,8 @@ export default class Container<T> extends React.Component<
       classnames: cx,
       bodyClassName,
       disabled,
-      wrapperBody
+      wrapperBody,
+      testIdBuilder
     } = this.props;
 
     const isWrapperBody = wrapperBody ?? true;
@@ -172,7 +173,10 @@ export default class Container<T> extends React.Component<
 
     if (isWrapperBody) {
       return (
-        <div className={cx('Container-body', bodyClassName)}>
+        <div
+          className={cx('Container-body', bodyClassName)}
+          {...testIdBuilder?.getTestId()}
+        >
           {containerBody}
         </div>
       );

@@ -5,6 +5,7 @@ import {Icon} from 'amis-ui';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {setVariable, createObject} from 'amis-core';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -19,6 +20,7 @@ export interface HeadCellSearchProps extends RendererProps {
   searchable: boolean | QuickSearchConfig;
   classPrefix: string;
   onQuery: (values: object) => void;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export function HeadCellSearchDropDown({
@@ -33,7 +35,8 @@ export function HeadCellSearchDropDown({
   translate: __,
   classPrefix: ns,
   popOverContainer,
-  render
+  render,
+  testIdBuilder
 }: HeadCellSearchProps) {
   const ref = React.createRef<HTMLElement>();
   const [formSchema, formItems] = React.useMemo(() => {
@@ -183,6 +186,7 @@ export function HeadCellSearchDropDown({
         isActive ? 'is-active' : '',
         isOpened ? 'is-opened' : ''
       )}
+      {...testIdBuilder?.getTestId()}
     >
       <span onClick={open}>
         <Icon icon="search" className="icon" />

@@ -1851,12 +1851,14 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       autoGenerateFilter,
       dispatchEvent,
-      data
+      data,
+      testIdBuilder
     } = this.props;
 
     // 注意，这里用关了哪些 store 里面的东西，TableContent 里面得也用一下
     // 因为 renderHeadCell 是 TableContent 回调的，tableContent 不重新渲染，这里面也不会重新渲染
 
+    const tIdCell = testIdBuilder?.getChild(`head-cell-${column.name}`);
     const style = {...props.style};
     const [stickyStyle, stickyClassName] = store.getStickyStyles(
       column,
@@ -1989,6 +1991,7 @@ export default class Table extends React.Component<TableProps, object> {
           searchable={column.searchable}
           type={column.type}
           data={query}
+          testIdBuilder={tIdCell?.getChild('search')}
           popOverContainer={this.getPopOverContainer}
         />
       );
@@ -2079,6 +2082,7 @@ export default class Table extends React.Component<TableProps, object> {
           superData={createObject(data, query)}
           filterable={column.filterable}
           popOverContainer={this.getPopOverContainer}
+          testIdBuilder={tIdCell?.getChild('filter')}
         />
       );
     }
@@ -2093,6 +2097,7 @@ export default class Table extends React.Component<TableProps, object> {
           'TableCell--filterable': column.filterable,
           'Table-operationCell': column.type === 'operation'
         })}
+        {...tIdCell?.getTestId()}
       >
         {prefix}
         <div
