@@ -6,6 +6,7 @@ import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
 import Spinner from './Spinner';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
@@ -39,6 +40,7 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   headerClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export function ConfirmBox({
@@ -63,7 +65,8 @@ export function ConfirmBox({
   bodyClassName,
   footerClassName,
   mobileUI,
-  disabled
+  disabled,
+  testIdBuilder
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -156,13 +159,18 @@ export function ConfirmBox({
                 ) : null}
               </div>
             ) : null}
-            <Button disabled={loading} onClick={onCancel}>
+            <Button
+              disabled={loading}
+              onClick={onCancel}
+              testIdBuilder={testIdBuilder?.getChild('cancel')}
+            >
               {__('cancel')}
             </Button>
             <Button
               disabled={loading || disabled}
               onClick={handleConfirm}
               level="primary"
+              testIdBuilder={testIdBuilder?.getChild('confirm')}
             >
               {__('confirm')}
             </Button>
