@@ -30,6 +30,10 @@
     opacity: 1;
   }
 
+  &.ing {
+    opacity: 0;
+  }
+
   .#{$ns}Spinner-icon {
     width: var(--Spinner-width);
     height: var(--Spinner-height);

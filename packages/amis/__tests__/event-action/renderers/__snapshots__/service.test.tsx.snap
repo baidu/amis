@@ -405,10 +405,10 @@ exports[`doAction:service reload 2`] = `
               </div>
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div
@@ -624,10 +624,10 @@ exports[`doAction:service reload with data 2`] = `
               </div>
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div
@@ -843,10 +843,10 @@ exports[`doAction:service(schemaApi) reload 2`] = `
               </div>
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div
@@ -1062,10 +1062,10 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
               </div>
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div
@@ -1281,10 +1281,10 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
               </div>
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div
