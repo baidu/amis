@@ -1424,7 +1424,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       keyField,
       env,
       messages,
-      reload
+      reload,
+      dispatchEvent
     } = this.props;
 
     if (Array.isArray(rows)) {
@@ -1454,6 +1455,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
+          dispatchEvent('quickSaveSubmitted', data);
           reload && this.reloadTarget(filterTarget(reload, data), data);
         })
         .catch(() => {});
@@ -1473,6 +1475,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
+          dispatchEvent('quickSaveSubmitted', sendData);
           reload && this.reloadTarget(filterTarget(reload, data), data);
         })
         .catch(() => {

@@ -3558,6 +3558,7 @@ order: 67
   "body": {
     "type": "service",
     "api": "/api/sample?perPage=5",
+    "id": "service-container",
     "body": [
       {
         "type": "table2",
@@ -3565,6 +3566,25 @@ order: 67
         "quickSaveApi": {
           "url": "/api/mock2/sample/bulkUpdate",
           "method": "put"
+        },
+        "draggable": true,
+        "onEvent": {
+          "quickSaveSubmitted": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "service-container"
+              }
+            ]
+          },
+          "orderChange": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "service-container"
+              }
+            ]
+          }
         },
         "columns": [
           {
