@@ -338,6 +338,7 @@ export const MainStore = types
         return (
           this.isActive(id) ||
           id === self.dropId ||
+          id === self.planDropId || // 欲拖拽区域
           this.isRegionHighlighted(id, region) ||
           this.isRegionHighlightHover(id, region)
         );
@@ -388,6 +389,7 @@ export const MainStore = types
 
         self.insertOrigId && nodes.push(self.insertOrigId);
         self.dropId && nodes.push(self.dropId);
+        self.planDropId && nodes.push(self.planDropId);
         self.insertBeforeId && nodes.push(self.insertBeforeId);
 
         return nodes
@@ -1134,6 +1136,21 @@ export const MainStore = types
         trailing: true
       }
     );
+
+    const observer = new ResizeObserver(entries => {
+      (self as any).calculateHighlightBox([]);
+      for (let entry of entries) {
+        const target = entry.target as HTMLElement;
+        const id =
+          target.getAttribute('data-editor-id') ||
+          target.getAttribute('data-region-host');
+
+        if (id) {
+          const node = self.getNodeById(id);
+          node?.calculateHighlightBox();
+        }
+      }
+    });
 
     return {
       setLayer(value: any) {
@@ -2103,7 +2120,38 @@ export const MainStore = types
         self.popOverForm = undefined;
       },
 
-      calculateHighlightBox(ids: Array<string>) {
+      activeHighlightNodes(ids: Array<string>) {
+        ids.forEach(id => {
+          const node = self.getNodeById(id);
+          const target = node?.getTarget();
+
+          if (target) {
+            (Array.isArray(target) ? target : [target]).forEach(target =>
+              observer.observe(target)
+            );
+          }
+        });
+        setTimeout(() => {
+          this.calculateHighlightBox(ids);
+        }, 200);
+      },
+
+      deActiveHighlightNodes(ids: Array<string>) {
+        ids.forEach(id => {
+          const node = self.getNodeById(id);
+          const target = node?.getTarget();
+
+          if (target) {
+            (Array.isArray(target) ? target : [target]).forEach(target =>
+              observer.unobserve(target)
+            );
+          }
+        });
+      },
+
+      calculateHighlightBox(
+        ids: Array<string> = self.highlightNodes.map(item => item.id)
+      ) {
         self.calculateStarted = true;
         ids.forEach(id => {
           const node = self.getNodeById(id);

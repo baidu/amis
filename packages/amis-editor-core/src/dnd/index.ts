@@ -58,7 +58,6 @@ export class EditorDNDManager {
    */
   lastX: number = 0;
   lastY: number = 0;
-  lastMoveAt: number = 0;
   curDragId: string;
   startX: number = 0;
   startY: number = 0;
@@ -79,15 +78,15 @@ export class EditorDNDManager {
       reactionWithOldValue(
         () => ({id: store.dropId, region: store.dropRegion}),
         this.updateDropRegion
-      ),
-
-      /**
-       * 自动给即将激活的区域添加高亮。
-       */
-      reactionWithOldValue(
-        () => ({id: store.planDropId, region: store.planDropRegion}),
-        this.updatePlanDropRegion
       )
+
+      // /**
+      //  * 自动给即将激活的区域添加高亮。
+      //  */
+      // reactionWithOldValue(
+      //   () => ({id: store.planDropId, region: store.planDropRegion}),
+      //   this.updatePlanDropRegion
+      // )
     );
 
     this.dragGhost = document.createElement('div');
@@ -168,6 +167,7 @@ export class EditorDNDManager {
     store.setDropId(id, region);
     this.makeDNDModeInstance(node);
     this.dndMode?.enter(e, this.dragGhost!);
+    store.calculateHighlightBox([id]);
     return true;
   }
 
@@ -348,11 +348,6 @@ export class EditorDNDManager {
     const dx = e.clientX - this.lastX;
     const dy = e.clientY - this.lastY;
     const d = Math.max(Math.abs(dx), Math.abs(dy));
-    const now = Date.now();
-
-    const curElem = target.closest(`[data-region][data-region-host]`);
-    const hostId = curElem?.getAttribute('data-region-host');
-    const region = curElem?.getAttribute('data-region');
 
     if (
       d > 0 &&
@@ -433,35 +428,51 @@ export class EditorDNDManager {
       return;
     }
 
-    // 没移动还是不要处理，免得晃动个不停。
-    if (d < 5) {
-      if (!curElem || hostId === store.dropId) {
-        return;
-      }
+    const curRegion = target.closest(`[data-region][data-region-host]`);
+    const hostId = curRegion?.getAttribute('data-region-host');
+    const region = curRegion?.getAttribute('data-region');
+    const containerElem = target.closest('[data-editor-id][data-container]');
+    const containerId = containerElem?.getAttribute('data-editor-id');
 
-      // 跨容器组件切换，增加200毫秒的延迟
-      if (now - this.lastMoveAt > 200 && region && hostId) {
-        this.switchToRegion(e, hostId!, region!);
-      }
+    const isMetaPressed = e.ctrlKey || e.metaKey || e.altKey;
 
-      /*
-      else if (now - this.lastMoveAt > 200 && region && hostId) {
+    if (isMetaPressed) {
+      if (region && hostId && containerElem!.contains(curRegion)) {
         store.setPlanDropId(hostId, region);
+      } else if (containerId) {
+        store.setPlanDropId(containerId, '');
       }
-      */
       return;
     }
 
-    store.setPlanDropId('', '');
-    this.lastMoveAt = now;
+    // 没移动还是不要处理，免得晃动个不停。
+    if (d < 5) {
+      // if (!curRegion || hostId === store.dropId) {
+      //   return;
+      // }
+
+      // 通过左侧的导航来确定要拖入到哪儿容器里面。
+      // 跨容器组件切换，增加200毫秒的延迟
+      // if (now - this.lastMoveAt > 200 && region && hostId) {
+      //   this.switchToRegion(e, hostId!, region!);
+      // }
+
+      // if (now - this.lastMoveAt > 200 && region && hostId) {
+      //   store.setPlanDropId(hostId, region);
+      // }
+      return;
+    }
+
     this.lastX = e.clientX;
     this.lastY = e.clientY;
 
     // 同一个容器组件下面的区域可以快速切换。
     if (store.dropId === hostId && region && region !== store.dropRegion) {
       this.switchToRegion(e, store.dropId, region);
+      return;
     }
 
+    store.setPlanDropId('', '');
     this.dndMode?.over(e, this.dragGhost!);
   }
 
@@ -559,6 +570,7 @@ export class EditorDNDManager {
     this.dragGhost.innerHTML = '';
     this.store.setDragId('');
     this.store.setDropId('');
+    this.store.setPlanDropId('', '');
     this.disposeDragImage();
     this.dragEnterCount = 0;
   }
@@ -617,38 +629,38 @@ export class EditorDNDManager {
     }
   }
 
-  /**
-   * 自动给即将激活的区域添加高亮。
-   */
-  @autobind
-  updatePlanDropRegion(
-    value: {id: string; region: string},
-    oldValue?: {id: string; region: string}
-  ) {
-    if (
-      this.store.dragId &&
-      this.manager.draggableContainer(this.store.dragId)
-    ) {
-      return;
-    }
-    if (oldValue?.id && oldValue.region) {
-      this.store
-        .getDoc()
-        .querySelector(
-          `[data-region="${oldValue.region}"][data-region-host="${oldValue.id}"]`
-        )
-        ?.classList.remove('is-entering');
-    }
+  // /**
+  //  * 自动给即将激活的区域添加高亮。
+  //  */
+  // @autobind
+  // updatePlanDropRegion(
+  //   value: {id: string; region: string},
+  //   oldValue?: {id: string; region: string}
+  // ) {
+  //   if (
+  //     this.store.dragId &&
+  //     this.manager.draggableContainer(this.store.dragId)
+  //   ) {
+  //     return;
+  //   }
+  //   if (oldValue?.id && oldValue.region) {
+  //     this.store
+  //       .getDoc()
+  //       .querySelector(
+  //         `[data-region="${oldValue.region}"][data-region-host="${oldValue.id}"]`
+  //       )
+  //       ?.classList.remove('is-entering');
+  //   }
 
-    if (value.id && value.region) {
-      this.store
-        .getDoc()
-        .querySelector(
-          `[data-region="${value.region}"][data-region-host="${value.id}"]`
-        )
-        ?.classList.add('is-entering');
-    }
-  }
+  //   if (value.id && value.region) {
+  //     this.store
+  //       .getDoc()
+  //       .querySelector(
+  //         `[data-region="${value.region}"][data-region-host="${value.id}"]`
+  //       )
+  //       ?.classList.add('is-entering');
+  //   }
+  // }
 
   /**
    * 销毁函数。

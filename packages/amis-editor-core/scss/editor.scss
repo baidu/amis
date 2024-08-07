@@ -1206,7 +1206,8 @@
 
 [data-editor-id].ae-is-draging,
 .ae-is-draging {
-  opacity: 0.6;
+  // opacity: 0.6;
+  display: none; // 有 ghost 了，这个不应该显示
 }
 
 [data-editor-id][data-visible='false'] {
@@ -1320,6 +1321,9 @@
       z-index: 10;
       background: rgba($Editor-rgion-bg, 0.05);
       border: 1px solid rgba($Editor-rgion-bg, 0.2);
+      -webkit-backdrop-filter: blur(0.5px);
+      backdrop-filter: blur(0.5px);
+      filter: blur(0.5px);
     }
   }
 
@@ -1467,6 +1471,22 @@
     &:before,
     > .region-tip {
       visibility: visible;
+    }
+  }
+
+  &.region-can-be-drop {
+    &:before,
+    > .region-tip {
+      visibility: visible;
+    }
+
+    > .region-tip .region-text {
+      animation: growing 1s infinite linear;
+      margin: -3px -8px;
+      padding: 3px 8px;
+      // border: 1px solid #f39000;
+      background-color: #fff;
+      color: #333;
     }
   }
 

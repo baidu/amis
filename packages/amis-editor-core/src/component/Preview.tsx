@@ -130,14 +130,16 @@ export default class Preview extends Component<PreviewProps> {
     () => [this.getHighlightNodes(), this.props.store.activeId],
     ([ids]: [Array<string>], oldValue: [Array<string>]) => {
       const store = this.props.store;
-      requestAnimationFrame(() => {
-        this.calculateHighlightBox(ids);
-      });
+      // requestAnimationFrame(() => {
+      //   this.calculateHighlightBox(ids);
+      // });
+      store.activeHighlightNodes(ids);
       let oldIds = oldValue?.[0];
 
       if (Array.isArray(oldIds)) {
         oldIds = oldIds.filter(id => !~ids.indexOf(id));
-        store.resetHighlightBox(oldIds);
+        store.deActiveHighlightNodes(oldIds);
+        // store.resetHighlightBox(oldIds);
       }
     }
   );
@@ -445,6 +447,23 @@ export default class Preview extends Component<PreviewProps> {
   }
 
   @autobind
+  handleWidgetsDragEnter(e: React.DragEvent) {
+    const target = e.target as HTMLElement;
+    const dom = target.closest(`[data-node-id][data-node-region].region-tip`);
+
+    if (!dom) {
+      return;
+    }
+
+    e.preventDefault();
+    const manager = this.props.manager;
+    const id = dom.getAttribute('data-node-id')!;
+    const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
+
+    id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
+  }
+
+  @autobind
   getCurrentTarget() {
     const isMobile = this.props.isMobile;
     if (isMobile) {
@@ -570,7 +589,11 @@ export default class Preview extends Component<PreviewProps> {
           )}
         </div>
 
-        <div className="ae-Preview-widgets" id="aePreviewHighlightBox">
+        <div
+          onDragEnter={this.handleWidgetsDragEnter}
+          className="ae-Preview-widgets"
+          id="aePreviewHighlightBox"
+        >
           {store.highlightNodes.map(node => (
             <HighlightBox
               node={node}

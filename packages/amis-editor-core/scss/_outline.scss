@@ -56,7 +56,8 @@
 
 .ae-Outline {
   // margin-top: 16px;
-  padding: 12px 6px 6px 12px;
+  padding: 12px 10px 6px 10px;
+  --Tree-indent: 16px;
   // width: $Editor-aside-width;
 
   flex: 1 1 auto;
@@ -70,11 +71,11 @@
   }
 
   &-list {
-    margin-left: 16px;
+    // margin-left: 16px;
   }
 
   &-sublist {
-    margin-left: 16px;
+    // margin-left: 16px;
 
     > .ae-Outline-node {
       &::before,
@@ -88,21 +89,21 @@
       &::before {
         width: 8px;
         height: 1px;
-        left: -25px;
-        top: 13px;
+        left: calc(var(--indent) * var(--Tree-indent) - 9px);
+        top: 12px;
         visibility: hidden; // 隐藏左侧连线（横线）
       }
 
       &::after {
         width: 1px;
         height: 100%;
-        left: -25px;
+        left: calc(var(--indent) * var(--Tree-indent) - 9px);
         top: 0;
         visibility: hidden; // 隐藏左侧连线（竖线）
       }
 
       &:last-child::after {
-        height: 13px;
+        height: 12px;
       }
     }
   }
@@ -119,14 +120,14 @@
 
   &-node {
     position: relative;
+    padding: 0;
     margin: 0;
-    padding: 4px 0;
 
     > a {
-      margin-left: -8px;
-      display: inline-block;
-      min-width: 108px;
       padding: 0 8px;
+      padding-left: calc(var(--indent) * var(--Tree-indent));
+      min-width: 108px;
+
       font-family: PingFangSC-Regular;
       font-size: 12px;
       color: $editor-default-color;
@@ -135,14 +136,14 @@
       text-decoration: none;
       user-select: none;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
 
       &:hover {
-        color: $editor-default-color; // 避免被其他全局样式覆盖
-        background: $hover-bg-color;
+        // color: $editor-default-color; // 避免被其他全局样式覆盖
+        // background: $hover-bg-color;
       }
     }
 
@@ -150,24 +151,19 @@
       margin-left: 0;
     }
 
-    &.is-region {
-      > a {
-        // padding: 2px 5px;
-      }
-    }
-
-    &.is-hover {
-      > a {
-        background: $hover-bg-color;
-        border-radius: 2px;
-      }
+    > a:hover,
+    &.is-hover > a {
+      color: $editor-active-color;
+      // border-radius: 2px;
     }
 
     &.is-active {
+      background: $active-bg-color;
+
       > a {
         color: $editor-active-color;
-        background: $active-bg-color;
-        border-radius: 2px;
+
+        // border-radius: 2px;
       }
     }
 
@@ -181,10 +177,15 @@
     }
   }
 
+  &-textIndent {
+    display: inline-block;
+    width: 4px;
+  }
+
   &-expander {
-    position: absolute;
-    left: -16px;
-    top: 8px;
+    position: relative;
+    left: 0;
+    // top: 8px;
     cursor: pointer;
     z-index: 2;
     display: inline-flex;
@@ -222,6 +223,44 @@
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+
+  &-dropNode {
+    padding: 25px 0 0 15px;
+    margin-bottom: 5px;
+    position: relative;
+    background: #fff;
+
+    &:after {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px dashed $editor-border-color;
+    }
+
+    &.is-active {
+      &:after {
+        border: 1px dashed $editor-active-color;
+        z-index: 3;
+      }
+      color: $editor-default-color;
+      background: $active-bg-color;
+    }
+
+    > a {
+      color: $editor-default-color;
+      position: absolute;
+      display: block;
+      width: 100%;
+      left: 5px;
+      top: 2px;
+      font-size: 12px;
+    }
   }
 }
 

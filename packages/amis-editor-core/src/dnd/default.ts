@@ -84,6 +84,8 @@ export class DefaultDNDMode implements DNDModeInterface {
     const dx = e.clientX - this.exchangeX;
     const dy = e.clientY - this.exchangeY;
     const vertical = Math.abs(dy) > Math.abs(dx);
+    const manager = this.dnd.manager;
+    const store = manager.store;
 
     if (target && !animation.animating) {
       const targetId = target.getAttribute('data-editor-id')!;
@@ -99,10 +101,10 @@ export class DefaultDNDMode implements DNDModeInterface {
       if (
         ~originIdx &&
         originIdx > targetIdx &&
-        (!this.exchangeY || dy < 0 || dx < 0)
+        (!this.exchangeY || (vertical ? dy < 0 : dx < 0))
+        // (!this.exchangeY || dy < 0 || dx < 0)
       ) {
         // 原来在后面，移动到前面
-
         this.exchangeX = e.clientX;
         this.exchangeY = e.clientY;
         this.dropBeforeId = list[idx]?.$$id;
@@ -110,17 +112,18 @@ export class DefaultDNDMode implements DNDModeInterface {
         if (originIdx !== targetIdx - 1) {
           animation.capture(wrapper);
           wrapper.insertBefore(ghost, targetChild);
-          animation.animateAll();
+          animation.animateAll(store.calculateHighlightBox);
         }
       } else if (
         ~originIdx &&
         originIdx < targetIdx &&
-        (!this.exchangeY || dy > 0 || dx > 0)
+        // (!this.exchangeY || dy > 0 || dx > 0)
+        (!this.exchangeY || (vertical ? dy > 0 : dx > 0))
       ) {
         // 原来在前面，移动到后面
-
         this.exchangeX = e.clientX;
         this.exchangeY = e.clientY;
+
         if (list[idx + 1]) {
           this.dropBeforeId = list[idx + 1]?.$$id;
         } else {
@@ -130,7 +133,7 @@ export class DefaultDNDMode implements DNDModeInterface {
         if (originIdx !== targetIdx + 1) {
           animation.capture(wrapper);
           wrapper.insertBefore(ghost, targetChild.nextSibling);
-          animation.animateAll();
+          animation.animateAll(store.calculateHighlightBox);
         }
       }
     }
@@ -139,7 +142,7 @@ export class DefaultDNDMode implements DNDModeInterface {
       delete this.dropBeforeId;
       animation.capture(wrapper);
       wrapper.appendChild(ghost);
-      animation.animateAll();
+      animation.animateAll(store.calculateHighlightBox);
     }
   }
 
