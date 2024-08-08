@@ -295,6 +295,12 @@
   }
 }
 
+.#{$ns}ComboTabs {
+  border-left: var(--Form-input-borderWidth) solid var(--borderColor);
+  border-right: var(--Form-input-borderWidth) solid var(--borderColor);
+  border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+}
+
 .#{$ns}ComboTabs > .#{$ns}Tabs-links {
   @include clearfix();
   .#{$ns}Tabs-link {
