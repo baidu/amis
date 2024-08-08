@@ -361,7 +361,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       props.$schema.disabled !== prevProps.$schema.disabled ||
       props.$schema.static !== prevProps.$schema.static
     ) {
-      const items = this.state.items.filter(item => !item.__isPlaceholder);
+      const items = this.state.items.filter(
+        item => !item.hasOwnProperty('__isPlaceholder')
+      );
       toUpdate = {
         ...toUpdate,
         items,
@@ -507,7 +509,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   emittedValue: any = null;
   async emitValue(value?: any[]) {
     const items =
-      value ?? this.state.items.filter(item => !item.__isPlaceholder);
+      value ??
+      this.state.items.filter(item => !item.hasOwnProperty('__isPlaceholder'));
     const {onChange} = this.props;
     const isPrevented = await this.dispatchEvent('change');
     if (!isPrevented) {
@@ -871,7 +874,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let item = {
       ...getTree(items, indexes)
     };
-    const isNew = !!item.__isPlaceholder;
+    const isNew = item.hasOwnProperty('__isPlaceholder');
     const confirmEventName = isNew ? 'addConfirm' : 'editConfirm';
     let isPrevented = await this.dispatchEvent(confirmEventName, {
       index: indexes[indexes.length - 1],
@@ -948,7 +951,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let item = {
       ...getTree(items, indexes)
     };
-    const isNew = !!item.__isPlaceholder;
+    const isNew = item.hasOwnProperty('__isPlaceholder');
 
     const originItems = items;
     if (isNew) {
@@ -1359,7 +1362,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             data: any;
             offset: number;
           }) =>
-            this.state.editIndex || (data && data.__isPlaceholder) ? null : (
+            this.state.editIndex ||
+            (data && data.hasOwnProperty('__isPlaceholder')) ? null : (
               <Button
                 classPrefix={ns}
                 size="sm"
@@ -1521,7 +1525,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           data: any;
           offset: number;
         }) =>
-          ((this.state.editIndex || (data && data.__isPlaceholder)) &&
+          ((this.state.editIndex ||
+            (data && data.hasOwnProperty('__isPlaceholder'))) &&
             needConfirm !== false) ||
           minLength >= this.state.items.length ? null : (
             <Button
@@ -1659,7 +1664,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             ...(lastModifiedRow?.index === editIndex
               ? {}
               : {
-                  lastModifiedRow: origin.__isPlaceholder
+                  lastModifiedRow: origin.hasOwnProperty('__isPlaceholder')
                     ? undefined
                     : {index: editIndex, data: {...origin}}
                 })
