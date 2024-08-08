@@ -1063,7 +1063,7 @@ export class DialogRenderer extends Dialog {
       if (!handleResult) {
         // clear error
         store.updateMessage();
-        onClose(true);
+        action.close !== false && onClose(true);
       }
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
       store.setCurrentAction(action, this.props.resolveDefinitions);

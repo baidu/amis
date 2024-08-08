@@ -2,7 +2,7 @@ import React from 'react';
 import {EditorNodeType} from '../../store/node';
 import {EditorManager} from '../../manager';
 import {diff, getThemeConfig} from '../../util';
-import {createObjectFromChain, render} from 'amis';
+import {createObjectFromChain, extractObjectChain, render} from 'amis';
 import omit from 'lodash/omit';
 import cx from 'classnames';
 
@@ -133,7 +133,11 @@ export function SchemaFrom({
     value = value || {};
     const finalValue = pipeIn ? pipeIn(value) : value;
 
-    return createObjectFromChain([ctx, themeConfig, finalValue]);
+    return createObjectFromChain([
+      ctx,
+      themeConfig,
+      ...extractObjectChain(finalValue)
+    ]);
   }, [value, themeConfig, ctx]);
 
   return render(
