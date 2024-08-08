@@ -621,7 +621,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       scaffold,
       disabled,
       submitOnChange,
-      dispatchEvent
+      dispatchEvent,
+      store
     } = this.props;
 
     if (disabled) {
@@ -656,11 +657,14 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
+    let activeIndex = this.keys.length - 1;
     if (addattop === true) {
       this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
+      activeIndex = 0;
     }
 
+    store.setActiveKey(activeIndex);
     this.props.onChange(value, submitOnChange, true);
   }
 
