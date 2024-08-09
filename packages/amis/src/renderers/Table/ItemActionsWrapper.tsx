@@ -29,11 +29,13 @@ function ItemActionsWrapper(props: ItemActionsProps) {
       return;
     }
     const rect = dom.getBoundingClientRect();
+    let frameScrollTop = frame?.parentElement?.scrollTop || 0;
     const height = rect.height;
     const top =
       rect.top -
       frame.getBoundingClientRect().top +
-      parseInt(getComputedStyle(frame)['marginTop'], 10);
+      parseInt(getComputedStyle(frame)['marginTop'], 10) -
+      frameScrollTop;
     divRef.current!.style.cssText += `top: ${top}px;height: ${height}px;`;
   }, [store.hoverRow?.id]);
 
