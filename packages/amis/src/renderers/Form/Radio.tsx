@@ -170,6 +170,7 @@ export default class RadioControl extends React.Component<RadioProps, any> {
 @withBadge
 @FormItem({
   type: 'radio',
-  sizeMutable: false
+  sizeMutable: false,
+  thin: true
 })
 export class RadioControlRenderer extends RadioControl {}

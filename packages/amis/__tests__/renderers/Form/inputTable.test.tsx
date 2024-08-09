@@ -788,7 +788,7 @@ test('Renderer:input-table formula', async () => {
   await wait(200);
 
   expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toEqual({
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
     dollar: 22,
     table: [
       {

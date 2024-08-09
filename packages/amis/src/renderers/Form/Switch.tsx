@@ -195,6 +195,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
 
 @FormItem({
   type: 'switch',
-  sizeMutable: false
+  sizeMutable: false,
+  thin: true
 })
 export class SwitchControlRenderer extends SwitchControl {}

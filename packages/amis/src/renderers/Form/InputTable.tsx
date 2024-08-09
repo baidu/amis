@@ -37,6 +37,7 @@ import findIndex from 'lodash/findIndex';
 import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
+import debounce from 'lodash/debounce';
 import moment from 'moment';
 
 import type {SchemaTokenizeableString} from '../../Schema';
@@ -323,6 +324,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   rowPrinstine: Array<any> = [];
   editting: any = {};
   table: any;
+  toDispose: Array<() => void> = [];
+
+  lazyEmitValue = debounce(this.emitValue.bind(this), 50, {
+    trailing: true,
+    leading: false
+  });
 
   constructor(props: TableProps) {
     super(props);
@@ -346,6 +353,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.subFormItemRef = this.subFormItemRef.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.emitValue = this.emitValue.bind(this);
+    this.tableRef = this.tableRef.bind(this);
+    this.flush = this.flush.bind(this);
+
+    if (addHook) {
+      this.toDispose.push(addHook(this.flush, 'flush'));
+    }
   }
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
@@ -392,6 +405,25 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   componentWillUnmount() {
     this.entries.dispose();
+    this.lazyEmitValue.cancel();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+  }
+
+  async flush() {
+    const subForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(
+      key => this.subForms[key] && subForms.push(this.subForms[key])
+    );
+    await Promise.all(subForms.map(item => item.flush()));
+
+    const subFormItems: Array<any> = [];
+    Object.keys(this.subFormItems).forEach(
+      key => this.subFormItems[key] && subFormItems.push(this.subFormItems[key])
+    );
+    await Promise.all(subFormItems.map(item => item.props.onFlushChange?.()));
+
+    await this.lazyEmitValue.flush();
   }
 
   resolveVariableProps(props: TableProps, key: 'minLength' | 'maxLength') {
@@ -1710,7 +1742,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         Object.assign(newState, {
           items
         });
-        callback = this.emitValue;
+        callback = this.lazyEmitValue;
 
         return newState;
       },
@@ -1724,20 +1756,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     cxt: any,
     {name, row, trueValue = true, falseValue = false}: any
   ) {
-    const path: string = row.path;
-    const items = mapTree(
-      this.state.items,
-      (item: any, index, level, paths, indexes) => ({
-        ...item,
-        [name]: path === indexes.join('.') ? trueValue : falseValue
-      })
-    );
+    let callback: any;
 
+    // 这里有可能执行频率非常高，上次的变更还没结束就会再次进来，会拿不到最新的数据
+    // https://legacy.reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous
     this.setState(
-      {
-        items
+      (state, props) => {
+        const path: string = row.path;
+        const items = mapTree(
+          state.items,
+          (item: any, index, level, paths, indexes) => ({
+            ...item,
+            [name]: path === indexes.join('.') ? trueValue : falseValue
+          })
+        );
+        callback = state.editIndex == row.path ? undefined : this.lazyEmitValue;
+        return {
+          items
+        };
       },
-      this.state.editIndex == row.path ? undefined : this.emitValue
+      () => {
+        callback?.();
+      }
     );
 
     return false;
@@ -1891,14 +1931,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             onEvent
           },
           {
-            ref: this.tableRef.bind(this),
+            ref: this.tableRef,
             value: undefined,
             saveImmediately: true,
             disabled,
             draggable: draggable && !this.state.editIndex,
             items: items,
             getEntryId: this.getEntryId,
-            reUseRow: false, // 这个会导致 getEntryId 无效，因为复用的话，row 的 id 不会更新
+            reUseRow: 'match', // 寻找 id 相同的行，更新数据
             onSave: this.handleTableSave,
             onRadioChange: this.handleRadioChange,
             onSaveOrder: this.handleSaveTableOrder,

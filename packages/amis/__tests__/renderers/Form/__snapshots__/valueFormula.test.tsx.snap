@@ -211,7 +211,7 @@ exports[`Renderer:inputDate 1`] = `
           data-role="form-item"
         >
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch"

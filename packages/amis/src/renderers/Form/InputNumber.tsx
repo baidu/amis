@@ -433,7 +433,7 @@ export default class NumberControl extends React.Component<
     }
     // 匹配 数字 + ?字符
     const reg = /^([-+]?(([1-9]\d*\.?\d*)|(0\.\d*[1-9]))[^\d\.]*)$/;
-    if (reg.test(this.props.value) && this.props.value !== prevProps.value) {
+    if (this.props.value !== prevProps.value && reg.test(this.props.value)) {
       this.setState({unit: unit});
     }
 
