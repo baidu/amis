@@ -124,6 +124,10 @@ export class PopOverContainer extends React.Component<
         `calc(${targetWidth}px $1 $2)`
       );
     }
+    // 关键字
+    if (/^(auto|min-content|max-content|fit-content)$/.test(overlayWidth)) {
+      return overlayWidth;
+    }
 
     return;
   }
