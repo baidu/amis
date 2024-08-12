@@ -255,6 +255,7 @@ export default class UserSelectControl extends React.Component<
             selection={selectedOptions}
             tabOptions={tabOptions}
             multiple={multiple}
+            displayFields={displayFields}
             onChange={this.changeValue}
             onSearch={this.onSearch}
             deferLoad={this.deferLoad}

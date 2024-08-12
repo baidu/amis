@@ -33,6 +33,7 @@ export interface UserTabSelectProps extends ThemeProps, LocaleProps {
   valueField?: string;
   labelField?: string;
   selection?: Array<Option>;
+  displayFields: string[];
   data?: PlainObject;
   onChange: (value: Array<Option> | Option) => void;
   onSearch?: (
@@ -211,6 +212,7 @@ export class UserTabSelect extends React.Component<
       onSearch,
       deferLoad,
       data,
+      displayFields,
       mobileUI
     } = this.props;
     const {activeKey, isOpened} = this.state;
@@ -270,6 +272,7 @@ export class UserTabSelect extends React.Component<
                       }
                       multiple
                       controlled
+                      displayFields={displayFields}
                       onChange={this.handleSelectChange}
                       onSearch={(input: string, cancelExecutor: Function) =>
                         item.searchable && onSearch
