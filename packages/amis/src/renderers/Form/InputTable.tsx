@@ -1991,7 +1991,7 @@ export class TableControlRenderer extends FormTable {
       let items = [...this.state.items];
 
       const promises: Array<() => Promise<any>> = [];
-      everyTree(items, (item, index, paths, indexes) => {
+      everyTree(items, (item, index, level, paths, indexes) => {
         promises.unshift(async () => {
           const isUpdate = await evalExpressionWithConditionBuilderAsync(
             condition,
@@ -1999,7 +1999,7 @@ export class TableControlRenderer extends FormTable {
           );
 
           if (isUpdate) {
-            items = spliceTree(items, indexes, 1, value);
+            items = spliceTree(items, [...indexes, index], 1, value);
           }
         });
 
@@ -2127,7 +2127,8 @@ export class TableControlRenderer extends FormTable {
         });
       } else if (args?.condition !== undefined) {
         const promises: Array<() => Promise<any>> = [];
-        everyTree(items, (item, index, paths, indexes) => {
+        everyTree(items, (item, index, level, paths, indexes) => {
+          // 查看everyTree定义，indexes 是第五个参数才对
           promises.unshift(async () => {
             const result = await evalExpressionWithConditionBuilderAsync(
               args?.condition,
@@ -2136,7 +2137,8 @@ export class TableControlRenderer extends FormTable {
 
             if (result) {
               deletedItems.push(item);
-              items = spliceTree(items, indexes, 1);
+              // 进行splice时应该把自己这一层的index也传进去
+              items = spliceTree(items, [...indexes, index], 1);
             }
           });
 
