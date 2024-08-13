@@ -474,11 +474,18 @@ export function debug(cat: Category, msg: string, ext?: object) {
   console.debug(ext);
   console.groupEnd();
 
+  let extStr = '';
+  try {
+    extStr = JSON.stringify(ext);
+  } catch (e) {
+    console.error(e);
+  }
+
   const log = {
     cat,
     level: 'debug',
     msg: msg,
-    ext: JSON.stringify(ext)
+    ext: extStr
   };
   store.logs.push(log);
 }
@@ -492,11 +499,19 @@ export function warning(cat: Category, msg: string, ext?: object) {
   if (!isEnabled) {
     return;
   }
+
+  let extStr = '';
+  try {
+    extStr = JSON.stringify(ext);
+  } catch (e) {
+    console.error(e);
+  }
+
   const log = {
     cat,
     level: 'warn',
     msg: msg,
-    ext: JSON.stringify(ext)
+    ext: extStr
   };
 
   console.groupCollapsed('amis debug', msg);
