@@ -59,6 +59,7 @@
   font-weight: var(--Form-item-fontWeight);
   line-height: var(--Form-item-lineHeight);
   margin-bottom: var(--Form-mode-default-labelGap);
+  word-break: break-word;
   position: relative;
   font-size: var(--Form-item-fontSize);
   color: var(--Form-item-color);
@@ -162,6 +163,7 @@
     > .#{$ns}Form-label {
       display: block;
       width: var(--Form-mode-default-width);
+      word-break: break-word;
       .#{$ns}Form-star {
         position: absolute;
         left: px2rem(-6px);
