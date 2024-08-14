@@ -396,6 +396,8 @@ export default class Dialog extends React.Component<DialogProps> {
     const {lazySchema, store} = this.props;
 
     store.setEntered(true);
+    // 可能还没来得及关闭，事件动作又打开了这个弹窗，这时候需要重置 busying 状态
+    store.markBusying(false);
     if (typeof lazySchema === 'function') {
       store.setSchema(lazySchema(this.props));
     }
@@ -413,6 +415,7 @@ export default class Dialog extends React.Component<DialogProps> {
     if (isAlive(store)) {
       store.reset();
       store.clearMessage();
+      store.markBusying(false);
       store.setEntered(false);
       if (typeof lazySchema === 'function') {
         store.setSchema('');
@@ -993,10 +996,11 @@ export class DialogRenderer extends Dialog {
     delegate?: IScopedContext,
     rendererEvent?: RendererEvent<any>
   ) {
-    const {onAction, store, onConfirm, env, dispatchEvent, onClose} =
+    const {onAction, store, onConfirm, env, dispatchEvent, onClose, show} =
       this.props;
-    if (action.from === this.$$id) {
+    if (action.from === this.$$id || !show) {
       // 如果是从 children 里面委托过来的，那就直接向上冒泡。
+      // 或者当前弹框已经关闭了，那就不处理。
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
         : false;

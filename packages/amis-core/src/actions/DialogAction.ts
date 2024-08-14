@@ -138,6 +138,7 @@ export class CloseDialogAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    // todo 支持 waitForAction，等待弹窗关闭后再执行后续动作
     if (action.componentId) {
       // 关闭指定弹窗
       event.context.scoped.closeById(action.componentId);
