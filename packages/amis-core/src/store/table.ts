@@ -130,6 +130,10 @@ export const Column = types
           (column: any) => !column.type.startsWith('__')
         )?.id === self.id
       );
+    },
+
+    get columnKey() {
+      return self.pristine.uid || self.name || self.label || self.rawIndex;
     }
   }))
   .actions(self => ({
@@ -148,11 +152,13 @@ export const Column = types
       self.toggled = value;
     },
 
-    setEnableSearch(value: boolean) {
+    setEnableSearch(value: boolean, skipSave = false) {
       self.enableSearch = value;
 
-      const table = getParent(self, 2) as ITableStore;
-      table.persistSaveToggledColumns();
+      if (!skipSave) {
+        const table = getParent(self, 2) as ITableStore;
+        table.persistSaveToggledColumns();
+      }
     },
 
     setMinWidth(value: number) {
@@ -503,7 +509,6 @@ export const TableStore = iRendererStore
   .named('TableStore')
   .props({
     columns: types.array(Column),
-    columnsKey: '',
     rows: types.array(Row),
     selectedRows: types.array(types.reference(Row)),
     expandedRows: types.array(types.string),
@@ -804,6 +809,11 @@ export const TableStore = iRendererStore
 
     return {
       getSelectionUpperLimit,
+
+      get columnsKey() {
+        return location.pathname + self.path;
+      },
+
       get columnsData() {
         return getColumnsExceptBuiltinTypes();
       },
@@ -1122,7 +1132,6 @@ export const TableStore = iRendererStore
         (self.tableLayout = config.tableLayout);
 
       if (config.columns && Array.isArray(config.columns)) {
-        self.columnsKey = getPersistDataKey(config.columns);
         let columns: Array<SColumn> = config.columns
           .map(column => {
             if (
@@ -1153,9 +1162,12 @@ export const TableStore = iRendererStore
           const order = tableMetaData?.columnOrder;
 
           if (Array.isArray(order) && order.length != 0) {
-            columns = sortBy(columns, (item, index) =>
-              order.indexOf(item.name || item.label || index)
-            );
+            columns = sortBy(columns, (item, index) => {
+              const columnKey =
+                (item as any).uid || item.name || item.label || index;
+              const idx = order.indexOf(columnKey);
+              return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+            });
           }
         }
 
@@ -1884,20 +1896,25 @@ export const TableStore = iRendererStore
      */
     function persistSaveToggledColumns() {
       const key = self.columnsKey;
+      const toggledColumns = self.activeToggaleColumns;
+      const activedSearchableColumns = self.activedSearchableColumns;
 
       localStorage.setItem(
         key,
         JSON.stringify({
-          // 可显示列index
-          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 记录隐藏的字段，因为默认不设置是显示的，设置了隐藏才需要记录，这样新出来的字段才会默认显示
+          unToggledColumns: self.columnsData
+            .filter(item => !toggledColumns.includes(item))
+            .map(item => item.columnKey),
           // 列排序，name，label可能不存在
-          columnOrder: self.columnsData.map(
-            item => item.name || item.label || item.rawIndex
-          ),
-          // 已激活的可查询列
-          enabledSearchableColumn: self.activedSearchableColumns.map(
-            item => item.name
-          )
+          columnOrder: self.columnsData.map(item => item.columnKey),
+          // 同理只记录不启用的，因为默认是启用的
+          disabledSearchableColumn: self.columnsData
+            .filter(
+              item =>
+                item.searchable && !activedSearchableColumns.includes(item)
+            )
+            .map(item => item.columnKey)
         })
       );
     }
@@ -1930,17 +1947,6 @@ export const TableStore = iRendererStore
           self.toggableColumns[i]?.setToggled(true);
         }
       }
-    }
-
-    function getPersistDataKey(columns: any[]) {
-      // 这里的columns使用除了__开头的所有列
-      return (
-        location.pathname +
-        self.path +
-        // 不能 sort 因为原始列的顺序设计器是可能改变的，此时如果缓存了打开会失效
-        // 还是缓存的顺序，不符合用户调整列顺序的预期
-        columns.map((item, index) => item.name || item.label || index).join('-')
-      );
     }
 
     function setSearchFormExpanded(value: any) {
@@ -1996,19 +2002,25 @@ export const TableStore = iRendererStore
 
           if (data) {
             const tableMetaData = JSON.parse(data);
-            const toggledColumns = isObject(tableMetaData)
-              ? tableMetaData?.toggledColumnIndex
-              : tableMetaData; // 兼容之前的类型
+            const unToggledColumns = Array.isArray(
+              tableMetaData.unToggledColumns
+            )
+              ? tableMetaData.unToggledColumns
+              : [];
+            const disabledSearchableColumn = Array.isArray(
+              tableMetaData.disabledSearchableColumn
+            )
+              ? tableMetaData.disabledSearchableColumn
+              : [];
 
             self.toggableColumns.forEach(item =>
-              item.setToggled(!!~toggledColumns.indexOf(item.index))
+              item.setToggled(!unToggledColumns.includes(item.columnKey))
             );
 
             self.searchableColumns.forEach(item => {
               item.setEnableSearch(
-                !!~(tableMetaData?.enabledSearchableColumn ?? []).indexOf(
-                  item.name
-                )
+                !disabledSearchableColumn.includes(item.columnKey),
+                true
               );
             });
           }
