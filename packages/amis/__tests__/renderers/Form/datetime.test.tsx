@@ -95,25 +95,37 @@ test('Renderer:datetime displayFormat valueFormat', async () => {
  */
 test('Renderer:InputDateTime confirm mode', async () => {
   const {container} = render(
-    amisRender({
-      type: 'form',
-      body: [
-        {
-          "name": "datetime",
-          "label": "日期",
-          "type": "input-datetime",
-          "closeOnSelect": false
-        }
-      ],
-      title: 'The form',
-      actions: []
-    }, {}, makeEnv({}))
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            name: 'datetime',
+            label: '日期',
+            type: 'input-datetime',
+            closeOnSelect: false
+          }
+        ],
+        title: 'The form',
+        actions: []
+      },
+      {},
+      makeEnv({})
+    )
   );
 
   const trigger = container.querySelector('.cxd-DatePicker')!;
-  const inputEl = (container.querySelector(".cxd-DatePicker-input") as HTMLInputElement)!;
-  const getCancelBtn = () => (container.querySelector('.cxd-DateRangePicker-actions > button[type=button]')!);
-  const getConfirmBtn = () => (container.querySelector('.cxd-DateRangePicker-actions > .cxd-Button.cxd-Button--primary')!);
+  const inputEl = (container.querySelector(
+    '.cxd-DatePicker-input'
+  ) as HTMLInputElement)!;
+  const getCancelBtn = () =>
+    container.querySelector(
+      '.cxd-DateRangePicker-actions > button[type=button]'
+    )!;
+  const getConfirmBtn = () =>
+    container.querySelector(
+      '.cxd-DateRangePicker-actions > .cxd-Button.cxd-Button--primary'
+    )!;
   expect(trigger).toBeInTheDocument();
 
   fireEvent.click(trigger);
@@ -127,8 +139,7 @@ test('Renderer:InputDateTime confirm mode', async () => {
 
   if (yesterdayEl) {
     fireEvent.click(yesterdayEl);
-  }
-  else {
+  } else {
     fireEvent.click(tomorrowEl);
   }
   wait(200);
@@ -150,8 +161,7 @@ test('Renderer:InputDateTime confirm mode', async () => {
 
   if (yesterdayEl) {
     fireEvent.click(yesterdayEl);
-  }
-  else {
+  } else {
     fireEvent.click(tomorrowEl);
   }
   wait(200);
@@ -163,39 +173,48 @@ test('Renderer:InputDateTime confirm mode', async () => {
 }, 7000);
 
 /**
- * CASE: 日期时间选择器首次选择日期或时间后，时间自动设置为当前时间
+ * CASE: 日期时间选择器首次选择日期或时间后，时间为默认值
  * 前提条件：
  *   - 当前组件为input-datetime或者input-datetime-range类型
  *   - 当前组件未绑定值
  *   - 当前操作为首次编辑
  * 预期：
- *   1. 选择日期后，时间自动设置为当前时间
- *   2. 选择时间后（H、m、s），所选择时间为点选值，其他时间字段自动设置为当前时间
+ *   1. 选择日期后，时间为默认值00:00:00
+ *   2. 选择时间后（H、m、s），所选择时间为点选值，其他时间为默认值00:00:00
  *   3. 后续选择日期或者时间，不会改变点选值
  *   4. 如果为范围选择器，先选择结束时间，则开始时间不能超过结束时间
  */
 test('Renderer:InputDateTime Picker selects date or time for the first time', async () => {
   const {container} = render(
-    amisRender({
-      type: 'form',
-      body: [
-        {
-          "name": "datetime",
-          "label": "日期",
-          "type": "input-datetime",
-          "valueFormat": "YYYY-MM-DD HH:mm:ss",
-          "displayFormat": "YYYY-MM-DD HH:mm:ss",
-          "closeOnSelect": false
-        }
-      ],
-      title: 'The form',
-      actions: []
-    }, {}, makeEnv({}))
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            name: 'datetime',
+            label: '日期',
+            type: 'input-datetime',
+            valueFormat: 'YYYY-MM-DD HH:mm:ss',
+            displayFormat: 'YYYY-MM-DD HH:mm:ss',
+            closeOnSelect: false
+          }
+        ],
+        title: 'The form',
+        actions: []
+      },
+      {},
+      makeEnv({})
+    )
   );
 
   const trigger = container.querySelector('.cxd-DatePicker')!;
-  const inputEl = (container.querySelector(".cxd-DatePicker-input") as HTMLInputElement)!;
-  const getConfirmBtn = () => (container.querySelector('.cxd-DateRangePicker-actions > .cxd-Button.cxd-Button--primary')!);
+  const inputEl = (container.querySelector(
+    '.cxd-DatePicker-input'
+  ) as HTMLInputElement)!;
+  const getConfirmBtn = () =>
+    container.querySelector(
+      '.cxd-DateRangePicker-actions > .cxd-Button.cxd-Button--primary'
+    )!;
   expect(trigger).toBeInTheDocument();
 
   fireEvent.click(trigger);
@@ -215,14 +234,13 @@ test('Renderer:InputDateTime Picker selects date or time for the first time', as
 
   if (yesterdayEl) {
     fireEvent.click(yesterdayEl);
-  }
-  else {
+  } else {
     fireEvent.click(tomorrowEl);
   }
   wait(200);
   const timeStr = inputEl?.value?.split(/\s+/)?.[1];
-  /** 时间值设置为当前时间 */
-  expect(timeStr !== '00:00:00').toEqual(true);
+  /** 时间值设置为默认值 */
+  expect(timeStr === '00:00:00').toEqual(true);
 
   fireEvent.click(todayEl);
   wait(200);
