@@ -312,8 +312,10 @@ export class UserSelect extends React.Component<
         option.children = flatten(res);
       } else {
         // 只加载部门
-        const res = await deferLoad(option, false, deferParam);
-        option.children = res || [];
+        if (option.deferApi) {
+          const res = await deferLoad(option, false, deferParam);
+          option.children = res || [];
+        }
       }
     }
 
