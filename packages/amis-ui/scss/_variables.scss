@@ -423,8 +423,8 @@ $zindex-affix: 900 !default;
 $zindex-dropdown: 1000 !default;
 $zindex-sticky: 900 !default;
 $zindex-fixed: 1200 !default;
-$zindex-popover: 1300 !default;
 $zindex-modal: 1400 !default;
+$zindex-popover: $zindex-modal !default; // 防止popover被modal遮盖
 $zindex-contextmenu: 1500 !default;
 $zindex-tooltip: 1600 !default;
 $zindex-toast: 2000 !default;
