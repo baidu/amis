@@ -441,7 +441,6 @@ exports[`Renderer:Nav with defer 1`] = `
                       class="cxd-Nav-Menu-item-link"
                       data-depth="1"
                       data-id="3"
-                      href="?cat=3"
                     >
                       <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
@@ -1019,7 +1018,6 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       class="cxd-Nav-Menu-item-link"
                       data-depth="1"
                       data-id="3"
-                      href="?cat=3"
                     >
                       <span
                         class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
@@ -1420,7 +1418,6 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       class="cxd-Nav-Menu-item-link"
                       data-depth="1"
                       data-id="3"
-                      href="?cat=3"
                     >
                       <span
                         class="cxd-Nav-Menu-item-dragBar"
