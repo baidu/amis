@@ -25,6 +25,8 @@ export {
   extendsFilters
 };
 
+export * from './types';
+
 export function evaluate(
   astOrString: string | ASTNode,
   data: any,
