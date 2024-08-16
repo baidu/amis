@@ -174,6 +174,7 @@ export default class CheckboxControl extends React.Component<
 @withBadge
 @FormItem({
   type: 'checkbox',
-  sizeMutable: false
+  sizeMutable: false,
+  thin: true
 })
 export class CheckboxControlRenderer extends CheckboxControl {}

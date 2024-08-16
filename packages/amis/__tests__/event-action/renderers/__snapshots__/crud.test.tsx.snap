@@ -29,7 +29,7 @@ exports[`doAction:crud reload 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -259,45 +259,6 @@ exports[`doAction:crud reload 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -337,7 +298,7 @@ exports[`doAction:crud reload with data1 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -567,45 +528,6 @@ exports[`doAction:crud reload with data1 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -645,7 +567,7 @@ exports[`doAction:crud reload with data2 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -875,45 +797,6 @@ exports[`doAction:crud reload with data2 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>

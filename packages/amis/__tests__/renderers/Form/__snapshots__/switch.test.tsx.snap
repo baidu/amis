@@ -49,7 +49,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
             </span>
           </label>
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch is-checked"
@@ -131,7 +131,7 @@ exports[`Renderer:Switch Switch size 1`] = `
             </span>
           </label>
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch  cxd-Switch--sm"

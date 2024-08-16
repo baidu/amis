@@ -81,7 +81,7 @@ exports[`options:linkage 1`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
@@ -198,7 +198,7 @@ exports[`options:linkage 2`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
@@ -316,7 +316,7 @@ exports[`options:linkage 3`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
@@ -419,7 +419,7 @@ exports[`options:linkage 4`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
           class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"

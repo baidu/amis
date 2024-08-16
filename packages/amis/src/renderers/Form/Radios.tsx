@@ -165,7 +165,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
 @OptionsControl({
   type: 'radios',
-  sizeMutable: false
+  sizeMutable: false,
+  thin: true
 })
 export class RadiosControlRenderer extends RadiosControl {
   static defaultProps = {

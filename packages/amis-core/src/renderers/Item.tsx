@@ -482,6 +482,11 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   storeType?: string;
   validations?: string;
   strictMode?: boolean;
+
+  /**
+   * 是否是瘦子
+   */
+  thin?: boolean;
   /**
    * schema变化使视图更新的属性白名单
    */
@@ -2324,6 +2329,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                       'is-inline': !!rest.inline && !mobileUI,
                       'is-error': model && !model.valid,
                       'is-full': size === 'full',
+                      'is-thin': config.thin,
                       [`Form-control--withSize Form-control--size${ucFirst(
                         controlSize
                       )}`]:

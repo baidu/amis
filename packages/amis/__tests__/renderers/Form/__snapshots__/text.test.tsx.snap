@@ -1550,7 +1550,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -1579,7 +1578,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px;"
                 theme="cxd"
               >
                 <div
@@ -1616,84 +1615,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -1795,7 +1716,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
@@ -1811,7 +1731,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px;"
                 theme="cxd"
               >
                 <div
@@ -1858,84 +1778,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -2041,7 +1883,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2070,7 +1911,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px;"
                 theme="cxd"
               >
                 <div
@@ -2107,84 +1948,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -2286,7 +2049,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2328,7 +2090,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px;"
                 theme="cxd"
               >
                 <div
@@ -2355,84 +2117,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -2683,7 +2367,6 @@ exports[`Renderer:text with options: options is open 1`] = `
               aria-owns="downshift-0-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
@@ -2699,7 +2382,7 @@ exports[`Renderer:text with options: options is open 1`] = `
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px;"
                 theme="cxd"
               >
                 <div
@@ -2726,84 +2409,6 @@ exports[`Renderer:text with options: options is open 1`] = `
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>

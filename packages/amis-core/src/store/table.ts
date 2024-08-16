@@ -1444,7 +1444,7 @@ export const TableStore = iRendererStore
     function initRows(
       rows: Array<any>,
       getEntryId?: (entry: any, index: number) => string,
-      reUseRow?: boolean
+      reUseRow?: boolean | 'match'
     ) {
       self.selectedRows.clear();
       // self.expandedRows.clear();
@@ -1499,39 +1499,41 @@ export const TableStore = iRendererStore
         );
       }
 
-      replaceRow(arr, reUseRow);
+      let allMatched = replaceRow(arr, reUseRow);
       self.isNested = self.rows.some(
         item => item.children.length || (item.defer && !item.loaded)
       );
 
-      // 前 20 个直接渲染，后面的按需渲染
-      if (
-        self.lazyRenderAfter &&
-        self.falttenedRows.length > self.lazyRenderAfter
-      ) {
-        for (
-          let i = self.lazyRenderAfter, len = self.falttenedRows.length;
-          i < len;
-          i++
+      if (!allMatched) {
+        // 前 20 个直接渲染，后面的按需渲染
+        if (
+          self.lazyRenderAfter &&
+          self.falttenedRows.length > self.lazyRenderAfter
         ) {
-          self.falttenedRows[i].appeared = false;
-          self.falttenedRows[i].lazyRender = true;
+          for (
+            let i = self.lazyRenderAfter, len = self.falttenedRows.length;
+            i < len;
+            i++
+          ) {
+            self.falttenedRows[i].appeared = false;
+            self.falttenedRows[i].lazyRender = true;
+          }
         }
-      }
 
-      const expand = self.footable && self.footable.expand;
-      if (
-        expand === 'first' ||
-        (self.expandConfig && self.expandConfig.expand === 'first')
-      ) {
-        self.rows.length && self.expandedRows.push(self.rows[0].id);
-      } else if (
-        (expand === 'all' && !self.footable.accordion) ||
-        (self.expandConfig &&
-          self.expandConfig.expand === 'all' &&
-          !self.expandConfig.accordion)
-      ) {
-        self.expandedRows.replace(getExpandAllRows(self.rows));
+        const expand = self.footable && self.footable.expand;
+        if (
+          expand === 'first' ||
+          (self.expandConfig && self.expandConfig.expand === 'first')
+        ) {
+          self.rows.length && self.expandedRows.push(self.rows[0].id);
+        } else if (
+          (expand === 'all' && !self.footable.accordion) ||
+          (self.expandConfig &&
+            self.expandConfig.expand === 'all' &&
+            !self.expandConfig.accordion)
+        ) {
+          self.expandedRows.replace(getExpandAllRows(self.rows));
+        }
       }
 
       self.dragging = false;
@@ -1551,10 +1553,26 @@ export const TableStore = iRendererStore
     }
 
     // 尽可能的复用 row
-    function replaceRow(arr: Array<SRow>, reUseRow?: boolean) {
+    function replaceRow(arr: Array<SRow>, reUseRow?: boolean | 'match'): any {
       if (reUseRow === false) {
         self.rows.replace(arr.map(item => Row.create(item)));
-        return;
+        return false;
+      } else if (reUseRow === 'match') {
+        const rows = self.falttenedRows;
+        let allMatched = true;
+        self.rows.replace(
+          arr.map(item => {
+            const exist = rows.find(row => row.id === item.id);
+            if (exist) {
+              exist.replaceWith(item);
+              return exist;
+            }
+
+            allMatched = false;
+            return Row.create(item);
+          })
+        );
+        return allMatched;
       }
 
       const pool = arr.concat();
@@ -1577,6 +1595,8 @@ export const TableStore = iRendererStore
         }
         index++;
       }
+
+      return false;
     }
 
     function updateSelected(selected: Array<any>, valueField?: string) {

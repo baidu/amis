@@ -187,6 +187,39 @@ export function resizeSensor(
     return () => {};
   }
 
+  // 优先用 ResizeObserver
+  if (typeof ResizeObserver !== 'undefined') {
+    const rect = element.getBoundingClientRect();
+    let originWidth = rect.width;
+    let originHeight = rect.height;
+
+    const observer = new ResizeObserver(function (entries) {
+      if (once) {
+        observer.disconnect();
+      }
+
+      if (type === 'both') {
+        callback();
+      } else {
+        const entry = entries[0];
+        const cr = entry.contentRect;
+        if (
+          (type === 'width' && cr.width !== originWidth) ||
+          (type === 'height' && cr.height !== originHeight)
+        ) {
+          callback();
+          originWidth = cr.width;
+          originHeight = cr.height;
+        }
+      }
+    });
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+    };
+  }
+
+  // 不支持 ResizeObserver 的话，用 polyfill
   let disposeEvent: (() => void) | undefined = undefined;
 
   if (once) {

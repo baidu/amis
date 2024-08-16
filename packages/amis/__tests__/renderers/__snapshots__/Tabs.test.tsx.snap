@@ -36,7 +36,6 @@ exports[`Renderer:tabs as form item 1`] = `
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"
-            style="position: relative;"
           >
             <div
               class="cxd-Tabs-linksContainer"
@@ -76,45 +75,6 @@ exports[`Renderer:tabs as form item 1`] = `
                   </li>
                 </ul>
               </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
             </div>
           </div>
           <div
@@ -173,7 +133,6 @@ exports[`Renderer:tabs change active tab 1`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -229,45 +188,6 @@ exports[`Renderer:tabs change active tab 1`] = `
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
       </div>
     </div>
     <div
@@ -298,7 +218,6 @@ exports[`Renderer:tabs change active tab 2`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -354,45 +273,6 @@ exports[`Renderer:tabs change active tab 2`] = `
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
       </div>
     </div>
     <div
@@ -497,7 +377,6 @@ exports[`Renderer:tabs tabsMode 1`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -537,45 +416,6 @@ exports[`Renderer:tabs tabsMode 1`] = `
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
       </div>
     </div>
     <div
@@ -606,7 +446,6 @@ exports[`Renderer:tabs tabsMode 2`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -647,45 +486,6 @@ exports[`Renderer:tabs tabsMode 2`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -715,47 +515,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -816,47 +576,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -957,47 +677,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1066,47 +746,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1175,47 +815,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1284,47 +884,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -1385,7 +945,6 @@ exports[`Renderer:tabs toolbar 1`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -1438,45 +997,6 @@ exports[`Renderer:tabs toolbar 1`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -1506,7 +1026,6 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -1546,7 +1065,6 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
             </li>
             <li
               class="cxd-Tabs-link"
-              style="position: relative;"
             >
               <a
                 class="cxd-Tabs-togglor is-opened"
@@ -1563,87 +1081,9 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
                   />
                 </span>
               </a>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
       </div>
     </div>
     <div
@@ -1664,7 +1104,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
     <div
       class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerBottomCenterTop cxd-PopOver--v-top"
       role="popover"
-      style="display: block; min-width: auto; left: 0px; top: 0px; position: relative;"
+      style="display: block; min-width: auto; left: 0px; top: 0px;"
       theme="cxd"
     >
       <div
@@ -1713,45 +1153,6 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
           </a>
         </li>
       </ul>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
   </div>
 </div>

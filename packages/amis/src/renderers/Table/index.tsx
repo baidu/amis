@@ -1,5 +1,4 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import Sortable from 'sortablejs';
@@ -746,7 +745,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentDidMount() {
-    const currentNode = findDOMNode(this) as HTMLElement;
+    const currentNode = this.dom.current!;
 
     if (this.props.autoFillHeight) {
       this.toDispose.push(
@@ -760,9 +759,13 @@ export default class Table extends React.Component<TableProps, object> {
       this.updateAutoFillHeight();
     }
 
+    // todo 因为没有监控里面内容的宽度变化，所以单元格内容变化撑开时可能看不到 fixed 的阴影
+    // 应该加上 table 的宽度检测
     this.toDispose.push(
       resizeSensor(currentNode, this.updateTableInfoLazy, false, 'width')
     );
+    const table = this.table!;
+
     const {store, autoGenerateFilter, onSearchableFromInit} = this.props;
 
     // autoGenerateFilter 开启后
@@ -1370,10 +1373,18 @@ export default class Table extends React.Component<TableProps, object> {
     }
   }
 
+  tableUnWatchResize?: () => void;
   tableRef(ref: HTMLTableElement) {
     this.table = ref;
     isAlive(this.props.store) && this.props.store.setTable(ref);
-    ref && this.handleOutterScroll();
+
+    this.tableUnWatchResize?.();
+    if (ref) {
+      this.handleOutterScroll();
+      this.tableUnWatchResize = resizeSensor(ref, () => {
+        this.handleOutterScroll();
+      });
+    }
   }
 
   dragTipRef(ref: any) {
@@ -1430,7 +1441,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   getPopOverContainer() {
-    return findDOMNode(this);
+    return this.dom.current;
   }
 
   handleMouseMove(e: React.MouseEvent<any>) {
@@ -1895,10 +1906,13 @@ export default class Table extends React.Component<TableProps, object> {
       style.textAlign = column.pristine.align;
     }
 
+    const {key, ...restProps} = props;
+
     if (column.type === '__checkme') {
       return (
         <th
-          {...props}
+          {...restProps}
+          key={key}
           style={style}
           className={cx(column.pristine.className, stickyClassName)}
         >
@@ -1920,7 +1934,8 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (column.type === '__dragme') {
       return (
         <th
-          {...props}
+          {...restProps}
+          key={key}
           style={style}
           className={cx(column.pristine.className, stickyClassName)}
         />
@@ -1928,7 +1943,8 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (column.type === '__expandme') {
       return (
         <th
-          {...props}
+          {...restProps}
+          key={key}
           style={style}
           className={cx(column.pristine.className, stickyClassName)}
         >
@@ -1983,7 +1999,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
-          {...props}
+          {...restProps}
           key="table-head-search"
           {...this.props}
           onQuery={onQuery}
@@ -1999,7 +2015,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
-          {...props}
+          {...restProps}
           key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -2089,7 +2105,8 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <th
-        {...props}
+        {...restProps}
+        key={key}
         style={style}
         className={cx(props ? (props as any).className : '', stickyClassName, {
           'TableCell--sortable': column.sortable,

@@ -1002,7 +1002,10 @@ export default class Form extends React.Component<FormProps, object> {
 
       this.flushing = true;
       const hooks = this.hooks['flush'] || [];
-      await Promise.all(hooks.map(fn => fn()));
+      // 得有顺序，有些可能依赖上一个的结果
+      for (let hook of hooks) {
+        await hook();
+      }
       if (!this.emitting) {
         await this.lazyEmitChange.flush();
       }
