@@ -507,7 +507,8 @@ export default class Form extends React.Component<FormProps, object> {
     this.beforePageUnload = this.beforePageUnload.bind(this);
     this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
 
-    const {store, canAccessSuperData, persistData, simpleMode} = props;
+    const {store, canAccessSuperData, persistData, simpleMode, formLazyChange} =
+      props;
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
     store.setPersistData(persistData);
@@ -538,7 +539,10 @@ export default class Form extends React.Component<FormProps, object> {
         () => store.initedAt,
         () => {
           store.inited &&
-            this.lazyEmitChange(!!this.props.submitOnChange, true);
+            (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
+              !!this.props.submitOnChange,
+              true
+            );
         }
       )
     );
