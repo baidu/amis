@@ -266,9 +266,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           }
 
           let unMatched = (valueArray && valueArray[index]) || item;
+          let hasValue = unMatched || unMatched === 0;
 
           if (
-            unMatched &&
+            hasValue &&
             (typeof unMatched === 'string' || typeof unMatched === 'number')
           ) {
             unMatched = {
@@ -287,7 +288,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             if (origin) {
               unMatched[labelField] = origin[labelField];
             }
-          } else if (unMatched && extractValue) {
+          } else if (hasValue && extractValue) {
             unMatched = {
               [valueField || 'value']: item,
               [labelField || 'label']: 'UnKnown',
@@ -295,7 +296,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             };
           }
 
-          unMatched && selectedOptions.push(unMatched);
+          hasValue && selectedOptions.push(unMatched);
         });
 
         if (selectedOptions.length) {
@@ -1364,9 +1365,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           selectedOptions.push(flattened[idx]);
         } else {
           let unMatched = (value && value[index]) || item;
+          let hasValue = unMatched || unMatched === 0;
 
           if (
-            unMatched &&
+            hasValue &&
             (typeof unMatched === 'string' || typeof unMatched === 'number')
           ) {
             unMatched = {
@@ -1382,7 +1384,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             if (orgin) {
               unMatched[labelField] = orgin[labelField];
             }
-          } else if (unMatched && self.extractValue) {
+          } else if (hasValue && self.extractValue) {
             unMatched = {
               [valueField]: item,
               [labelField]: 'UnKnown',
@@ -1390,7 +1392,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             };
           }
 
-          unMatched && selectedOptions.push(unMatched);
+          hasValue && selectedOptions.push(unMatched);
         }
       });
 
