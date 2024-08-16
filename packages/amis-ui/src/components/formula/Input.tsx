@@ -52,7 +52,7 @@ export interface FormulaInputProps
    */
   mixedMode?: boolean;
 
-  autoFoucs?: boolean;
+  autoFocus?: boolean;
 
   variables?: VariableItem[];
   functions?: Array<FuncGroup>;
