@@ -129,7 +129,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       /** 总条数 */
       total: 0
     }),
-    accumulatedOptions: types.optional(types.frozen<Array<any>>(), [])
+    accumulatedOptions: types.optional(types.frozen<Array<any>>(), []),
+    popOverOpen: false,
+    popOverData: types.frozen(),
+    popOverSchema: types.frozen()
   })
   .views(self => {
     function getForm(): any {
@@ -1486,6 +1489,27 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function openPopOver(
+      schema: any,
+      ctx: any,
+      callback?: (confirmed?: any, value?: any) => void
+    ) {
+      self.popOverData = ctx || {};
+      self.popOverOpen = true;
+      self.popOverSchema = schema;
+      callback && dialogCallbacks.set(self.popOverData, callback);
+    }
+
+    function closePopOver(confirmed?: any, result?: any) {
+      const callback = dialogCallbacks.get(self.popOverData);
+      self.popOverOpen = false;
+
+      if (callback) {
+        dialogCallbacks.delete(self.popOverData);
+        setTimeout(() => callback(confirmed, result), 200);
+      }
+    }
+
     function changeTmpValue(
       value: any,
       changeReason?:
@@ -1560,6 +1584,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       resetValidationStatus,
       openDialog,
       closeDialog,
+      openPopOver,
+      closePopOver,
       changeTmpValue,
       changeEmitedValue,
       addSubFormItem,

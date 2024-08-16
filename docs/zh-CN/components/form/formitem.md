@@ -1674,6 +1674,8 @@ fillMapping 配置 支持变量取值和表达式；
 数据替换并去重：combo：'${UNIQ(ARRAYMAP(items, item => {platform: item.platform, version: item.version}))}'
 数据替换：combo: ${items}
 
+`autoFill.defaultSelection` 可以用来配置默认选中
+
 ```schema:scope="body"
 {
   "type": "form",
@@ -1685,6 +1687,7 @@ fillMapping 配置 支持变量取值和表达式；
       "autoFill": {
         "showSuggestion": true,
         "api": "/api/mock2/form/autoUpdate?items=1",
+        "defaultSelection": "${combo}",
         "multiple": true,
         "fillMapping": {
           "combo": "${UNIQ(CONCAT(combo, ARRAYMAP(items, item => {platform: item.platform, version: item.version})))}",

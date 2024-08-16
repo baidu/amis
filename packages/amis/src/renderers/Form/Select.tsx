@@ -228,7 +228,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input = ref;
   }
 
-  foucs() {
+  focus() {
     this.input && this.input.focus();
   }
 

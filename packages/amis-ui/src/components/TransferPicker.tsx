@@ -45,7 +45,7 @@ export class TransferPicker extends React.Component<
   }
 
   @autobind
-  onFoucs() {
+  onFocus() {
     this.props.onFocus?.();
   }
 
@@ -88,7 +88,7 @@ export class TransferPicker extends React.Component<
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        onFocus={this.onFoucs}
+        onFocus={this.onFocus}
         onClose={this.onBlur}
         mobileUI={mobileUI}
         popOverContainer={popOverContainer}
