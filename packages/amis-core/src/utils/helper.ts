@@ -641,7 +641,11 @@ export function difference<
         }
 
         // isEquals 里面没有处理好递归引用对象的情况
-        if (!isObjectShallowModified(a, b, true, undefined, undefined, 10)) {
+        if (
+          object.hasOwnProperty(key) && // 其中一个不是自己的属性，就不要比对了
+          base.hasOwnProperty(key) &&
+          !isObjectShallowModified(a, b, true, undefined, undefined, 10)
+        ) {
           return;
         }
 

@@ -607,18 +607,15 @@ export const HocQuickEdit =
           schema.body[0].type &&
           getRendererByName(schema.body[0].type)?.isFormItem
         ) {
-          return render('inline-form-item', schema.body[0], {
-            mode: 'normal',
-            value: getPropValue(this.props) ?? '',
-            onChange: this.handleFormItemChange,
-            onBulkChange: this.handleBulkChange,
-            formItemRef: this.formItemRef,
-            defaultStatic: false,
-            // 不下发下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
-            buildItemProps: null,
-            quickEditFormRef: null,
-            quickEditFormItemRef: null
-          });
+          return (
+            <InlineFormItem
+              {...this.props}
+              schema={schema.body[0]}
+              onChange={this.handleFormItemChange}
+              onBulkChange={this.handleBulkChange}
+              formItemRef={this.formItemRef}
+            />
+          );
         }
 
         return render('inline-form', schema, {
@@ -718,3 +715,47 @@ export const HocQuickEdit =
   };
 
 export default HocQuickEdit;
+
+export function InlineFormItem(
+  props: RendererProps & {
+    schema: any;
+    onChange: Function;
+    onBulkChange: Function;
+    formItemRef: Function;
+  }
+) {
+  const {
+    render,
+    schema,
+    data,
+    onChange,
+    onBulkChange,
+    formItemRef,
+    canAccessSuperData
+  } = props;
+
+  canAccessSuperData &&
+    React.useEffect(() => {
+      const value = getPropValue(props);
+
+      if (
+        value &&
+        value !== getPropValue({...props, canAccessSuperData: false})
+      ) {
+        onChange(value);
+      }
+    }, []);
+
+  return render('inline-form-item', schema, {
+    mode: 'normal',
+    value: getPropValue(props) ?? '',
+    onChange: onChange,
+    onBulkChange: onBulkChange,
+    formItemRef: formItemRef,
+    defaultStatic: false,
+    // 不下发下面的属性，否则当使用表格类型的 Picker 时（或其他会用到 Table 的自定义组件），会导致一些异常行为
+    buildItemProps: null,
+    quickEditFormRef: null,
+    quickEditFormItemRef: null
+  });
+}
