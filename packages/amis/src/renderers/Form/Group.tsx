@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {filter, Renderer, RendererProps} from 'amis-core';
 import {isVisible, getWidthRate, makeHorizontalDeeper} from 'amis-core';
 import {FormBaseControl, FormItemWrap} from 'amis-core';
 
@@ -9,6 +9,7 @@ import {
   SchemaObject
 } from '../../Schema';
 import {FormHorizontal} from 'amis-core';
+import {reaction} from 'mobx';
 
 export type GroupSubControl = SchemaObject & {
   /**
@@ -67,9 +68,35 @@ export interface InputGroupProps
   type: 'group'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
+  reaction: any;
   constructor(props: InputGroupProps) {
     super(props);
     this.renderInput = this.renderInput.bind(this);
+
+    const body = props.body;
+
+    if (Array.isArray(body)) {
+      // 监听statusStore更新
+      this.reaction = reaction(
+        () => {
+          return body
+            .map(item => {
+              const id = filter(item.id, props.data);
+              const name = filter(item.name, props.data);
+              return `${
+                props.statusStore.visibleState[id] ??
+                props.statusStore.visibleState[name]
+              }`;
+            })
+            .join('-');
+        },
+        () => this.forceUpdate()
+      );
+    }
+  }
+
+  componentWillUnmount(): void {
+    this.reaction?.();
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
@@ -100,7 +127,16 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderVertical(props = this.props) {
-    let {body, className, style, classnames: cx, mode, formMode, data} = props;
+    let {
+      body,
+      className,
+      style,
+      classnames: cx,
+      mode,
+      formMode,
+      data,
+      statusStore
+    } = props;
     formMode = mode || formMode;
 
     if (!Array.isArray(body)) {
@@ -115,7 +151,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
         )}
       >
         {body.map((control, index) => {
-          if (!isVisible(control, data)) {
+          if (!isVisible(control, data, statusStore)) {
             return null;
           }
 
@@ -141,7 +177,8 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       subFormMode,
       subFormHorizontal,
       data,
-      gap
+      gap,
+      statusStore
     } = props;
 
     if (!Array.isArray(body)) {
@@ -159,7 +196,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
             body.filter(
               item =>
                 (item as FormBaseControl)?.mode !== 'inline' &&
-                isVisible(item, data)
+                isVisible(item, data, statusStore)
             ).length
           )
         : undefined);
@@ -173,7 +210,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
         )}
       >
         {body.map((control, index) => {
-          if (!isVisible(control, data)) {
+          if (!isVisible(control, data, statusStore)) {
             return null;
           }
           const controlMode = (control as FormBaseControl)?.mode || formMode;
