@@ -1127,16 +1127,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   buildItemProps(item: any, index: number) {
+    const rowProps: any = {};
+
+    const minLength = this.resolveVariableProps(this.props, 'minLength');
+    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
+
+    rowProps.inputTableCanAddItem = maxLength
+      ? maxLength > this.state.items.length
+      : true;
+    rowProps.inputTableCanRemoveItem = minLength
+      ? minLength < this.state.items.length
+      : true;
+
     if (this.props.needConfirm === false) {
-      return {
-        quickEditEnabled: true
-      };
+      rowProps.quickEditEnabled = true;
+      return rowProps;
     } else if (
       !this.props.editable &&
       !this.props.addable &&
       !this.state.isCreateMode
     ) {
-      return null;
+      return rowProps;
     }
 
     const perPage = this.props.perPage;
@@ -1146,10 +1157,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
-    return {
-      quickEditEnabled:
-        this.state.editIndex === this.rowPathPlusOffset(item.path, offset)
-    };
+    rowProps.quickEditEnabled =
+      this.state.editIndex === this.rowPathPlusOffset(item.path, offset);
+    return rowProps;
   }
 
   buildColumns(
@@ -1165,8 +1175,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const __ = this.props.translate;
     const needConfirm = this.props.needConfirm;
     const showIndex = this.props.showIndex;
-    const minLength = this.resolveVariableProps(this.props, 'minLength');
-    const maxLength = this.resolveVariableProps(this.props, 'maxLength');
     const isStatic = this.props.static;
     const disabled = this.props.disabled;
 
@@ -1177,15 +1185,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           key,
           rowIndex,
           rowIndexPath,
-          offset
+          offset,
+          inputTableCanAddItem
         }: {
           key: any;
           rowIndex: number;
           rowIndexPath: string;
           offset: number;
+          inputTableCanAddItem: boolean;
+          inputTableCanRemoveItem: boolean;
         }) =>
           (this.state.editIndex && needConfirm !== false) ||
-          maxLength <= this.state.items.length ? null : (
+          !inputTableCanAddItem ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -1549,18 +1560,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           rowIndex,
           rowIndexPath,
           data,
-          offset
+          offset,
+          inputTableCanRemoveItem
         }: {
           key: any;
           rowIndex: number;
           rowIndexPath: string;
           data: any;
           offset: number;
+          inputTableCanRemoveItem: boolean;
         }) =>
           ((this.state.editIndex ||
             (data && data.hasOwnProperty('__isPlaceholder'))) &&
             needConfirm !== false) ||
-          minLength >= this.state.items.length ? null : (
+          !inputTableCanRemoveItem ? null : (
             <Button
               classPrefix={ns}
               size="sm"
