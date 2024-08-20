@@ -229,7 +229,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   focus() {
-    this.input && this.input.focus();
+    this.input && this.input?.focus();
   }
 
   getValue(
