@@ -175,6 +175,7 @@ import type {CRUD2Schema} from './renderers/CRUD2';
 import type {TabsSchema} from './renderers/Tabs';
 import {availableLanguages as EditorAvailableLanguages} from './renderers/Form/Editor';
 import type {Action} from './types';
+import type {SchemaType} from './Schema';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
 
@@ -193,5 +194,6 @@ export {
   TabsSchema,
   SchemaExpression,
   Action,
+  SchemaType,
   EditorAvailableLanguages
 };

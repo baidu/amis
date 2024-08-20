@@ -1,6 +1,7 @@
 import {
   EditorNodeType,
   getI18nEnabled,
+  RAW_TYPE_MAP,
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
@@ -20,6 +21,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 import {Schema} from 'amis-core';
+import type {SchemaType} from 'amis';
 
 export class NumberControlPlugin extends BasePlugin {
   static id = 'NumberControlPlugin';
@@ -353,6 +355,7 @@ export class NumberControlPlugin extends BasePlugin {
     return {
       type: 'number',
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
   }

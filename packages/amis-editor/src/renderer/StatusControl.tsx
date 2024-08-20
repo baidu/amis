@@ -242,6 +242,10 @@ export class StatusControl extends React.Component<
                   {
                     label: '表达式',
                     value: 2
+                  },
+                  {
+                    label: '自定义条件',
+                    value: 3
                   }
                 ]
               },
