@@ -71,6 +71,7 @@
     "@rollup/plugin-typescript": "^8.3.4",
     "@swc/jest": "^0.2.34",
     "@testing-library/jest-dom": "^5.17.0",
+    "@types/node": "^14.0.24",
     "@types/jest": "^28.1.0",
     "@types/prettier": "^2.7.3",
     "amis-formula": "^2.7.2",
@@ -87,7 +88,7 @@
     "xml-formatter": "^3.3.2"
   },
   "peerDependencies": {
-    "echarts": "^5.4.0"
+    "echarts": "^5.5.1"
   },
   "jest": {
     "testEnvironment": "jsdom",
