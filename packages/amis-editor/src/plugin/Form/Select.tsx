@@ -8,7 +8,8 @@ import {
   BasePlugin,
   tipedLabel,
   JSONPipeOut,
-  undefinedPipeOut
+  undefinedPipeOut,
+  RAW_TYPE_MAP
 } from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
@@ -20,7 +21,7 @@ import {
   resolveOptionType
 } from '../../util';
 
-import type {Schema} from 'amis';
+import type {Schema, SchemaType} from 'amis';
 import type {
   EditorNodeType,
   RendererPluginAction,
@@ -347,6 +348,7 @@ export class SelectControlPlugin extends BasePlugin {
     let dataSchema: any = {
       type,
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
 

@@ -15,7 +15,8 @@ import {
   repeatArray,
   mockValue,
   EditorNodeType,
-  EditorManager
+  EditorManager,
+  RAW_TYPE_MAP
 } from 'amis-editor-core';
 import {setVariable, someTree} from 'amis-core';
 import {DSBuilderManager} from '../../builder/DSBuilderManager';
@@ -29,6 +30,7 @@ import {
   resolveArrayDatasource,
   resolveInputTableEventDataSchame
 } from '../../util';
+import type {SchemaType} from 'amis';
 
 export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
@@ -1527,6 +1529,7 @@ export class TableControlPlugin extends BasePlugin {
     return {
       $id: `${node.id}-${node.type}-tableData`,
       type: 'array',
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       title: node.schema?.label || node.schema?.name,
       items: itemsSchema
     };

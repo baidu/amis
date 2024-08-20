@@ -1,6 +1,7 @@
 import {
   EditorManager,
   EditorNodeType,
+  RAW_TYPE_MAP,
   defaultValue,
   getSchemaTpl
 } from 'amis-editor-core';
@@ -11,7 +12,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
-import type {Schema} from 'amis';
+import type {Schema, SchemaType} from 'amis';
 
 export class RadiosControlPlugin extends BasePlugin {
   static id = 'RadiosControlPlugin';
@@ -206,6 +207,7 @@ export class RadiosControlPlugin extends BasePlugin {
     let dataSchema: any = {
       type,
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
 

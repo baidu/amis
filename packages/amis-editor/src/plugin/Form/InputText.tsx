@@ -1,6 +1,7 @@
 import {
   EditorManager,
   EditorNodeType,
+  RAW_TYPE_MAP,
   registerEditorPlugin
 } from 'amis-editor-core';
 import {
@@ -15,6 +16,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 import {resolveOptionType} from '../../util';
+import type {SchemaType} from 'amis';
 
 const isText = 'this.type === "input-text"';
 const isPassword = 'this.type === "input-password"';
@@ -480,6 +482,7 @@ export class TextControlPlugin extends BasePlugin {
     let dataSchema: any = {
       type,
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
 
