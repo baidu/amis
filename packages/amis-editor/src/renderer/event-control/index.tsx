@@ -422,10 +422,10 @@ export class EventControl extends React.Component<
     }
 
     onEventConfig[event] = {
+      ...onEventConfig[event],
       actions: onEventConfig[event].actions.filter(
         (item, actionIndex) => index !== actionIndex
-      ),
-      weight: onEvent[event].weight
+      )
     };
 
     if (onEventConfig[event].actions.length < 1) {
