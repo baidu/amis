@@ -351,8 +351,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       classnames: cx,
       step,
       precision,
-      max,
-      min,
       disabled,
       placeholder,
       showSteps,
@@ -371,10 +369,12 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       testIdBuilder
     } = this.props;
 
-    let {value} = this.props;
+    let {value, max, min} = this.props;
     //需要展示百分号的情况下,数值乘100显示,注意精度丢失问题
     if (showAsPercent && suffix == '%' && value) {
       value = parseFloat((Number(value) * 100).toFixed(precision));
+      max = max != null ? Math.round(Number(max) * 100) : max;
+      min = min != null ? Math.round(Number(min) * 100) : min;
     }
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
