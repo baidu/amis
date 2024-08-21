@@ -971,7 +971,7 @@ export const TableStore = iRendererStore
         return getFilteredColumns().every(column => column.realWidth);
       },
 
-      getStickyStyles(column: IColumn, columns: Array<IColumn>) {
+      getStickyStyles(column: IColumn, columns: Array<IColumn>, colSpan = 1) {
         let stickyClassName = '';
         const style: any = {};
         const autoFixLeftColumns = ['__checkme', '__dragme', '__expandme'];
@@ -985,7 +985,7 @@ export const TableStore = iRendererStore
 
           if (
             columns
-              .slice(index + 2)
+              .slice(index + (colSpan - 1) + 2)
               .every(
                 col =>
                   !(
