@@ -246,6 +246,13 @@ export function HocStoreFactory(renderer: {
           ) {
             store.initData(
               extendObject(props.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
                 ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
@@ -265,9 +272,15 @@ export function HocStoreFactory(renderer: {
         ) {
           if (props.store && props.scope === props.data) {
             store.initData(
-              createObject(
-                props.store.data,
-                props.syncSuperStore === false
+              createObject(props.store.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
+                ...(props.syncSuperStore === false
                   ? {
                       ...store.data
                     }
@@ -277,18 +290,24 @@ export function HocStoreFactory(renderer: {
                       prevProps.scope,
                       store,
                       props.syncSuperStore === true
-                    )
-              ),
+                    ))
+              }),
               (props.updatePristineAfterStoreDataReInit ??
                 props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
           } else if (props.data && (props.data as any).__super) {
             store.initData(
-              extendObject(
-                props.data,
-                // 有远程数据
+              extendObject(props.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
+                ...// 有远程数据
                 // 或者顶级 store
-                store.hasRemoteData || !store.path.includes('/')
+                (store.hasRemoteData || !store.path.includes('/')
                   ? {
                       ...store.data,
                       ...props.data
@@ -303,8 +322,8 @@ export function HocStoreFactory(renderer: {
                       (prevProps.data as any).__super,
                       store,
                       false
-                    )
-              ),
+                    ))
+              }),
               (props.updatePristineAfterStoreDataReInit ??
                 props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
             );
