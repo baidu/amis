@@ -119,11 +119,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     );
   }
 
-  componentDidMount() {
-    // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
-    this.unbindEvent = bindEvent(this.cRef);
-  }
-
   componentWillUnmount() {
     this.reaction?.();
     this.unbindEvent?.();
@@ -222,7 +217,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   @autobind
   childRef(ref: any) {
-    while (ref && ref.getWrappedInstance) {
+    // todo 这里有个问题，就是注意以下的这段注释
+    // > // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
+    // > 而 visibleOn 和 hiddenOn 是无效的，
+    // > 这个本来就是个bug，但是已经被广泛使用了
+    // > 我只能继续实现这个bug了
+    // 这样会让子组件去根据是 hidden 的情况去渲染个 null，这样会导致这里 ref 有值，但是 ref.getWrappedInstance() 为 null
+    // 这样会和直接渲染的组件时有些区别，至少 cRef 的指向是不一样的
+    while (ref?.getWrappedInstance?.()) {
       ref = ref.getWrappedInstance();
     }
 
@@ -232,6 +234,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       });
     }
 
+    if (ref) {
+      // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
+      this.unbindEvent = bindEvent(this.ref);
+    }
     this.cRef = ref;
   }
 

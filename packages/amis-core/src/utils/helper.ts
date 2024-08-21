@@ -40,6 +40,8 @@ import {string2regExp} from './string2regExp';
 import {getVariable} from './getVariable';
 import {keyToPath} from './keyToPath';
 import {isExpression, replaceExpression} from './formula';
+import type {IStatusStore} from '../store/status';
+import {isAlive} from 'mobx-state-tree';
 
 export {
   createObject,
@@ -435,13 +437,30 @@ export function hasVisibleExpression(schema: {
 
 export function isVisible(
   schema: {
+    id?: string;
+    name?: string;
     visibleOn?: string;
     hiddenOn?: string;
     visible?: boolean;
     hidden?: boolean;
   },
-  data?: object
+  data?: object,
+  statusStore?: IStatusStore
 ) {
+  // 有状态时，状态优先
+  if ((schema.id || schema.name) && statusStore) {
+    const id = filter(schema.id, data);
+    const name = filter(schema.name, data);
+
+    const visible = isAlive(statusStore)
+      ? statusStore.visibleState[id] ?? statusStore.visibleState[name]
+      : undefined;
+
+    if (typeof visible !== 'undefined') {
+      return visible;
+    }
+  }
+
   return !(
     schema.hidden ||
     schema.visible === false ||
