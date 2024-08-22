@@ -1929,6 +1929,10 @@ export default class ComboControl extends React.Component<ComboProps> {
           onValidChange: this.handleSubFormValid,
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
+          lazyChange: changeImmediately ? false : true,
+          formLazyChange: false,
+          value: undefined,
+          formItemValue: undefined,
           formStore: undefined,
           updatePristineAfterStoreDataReInit:
             updatePristineAfterStoreDataReInit ?? false
