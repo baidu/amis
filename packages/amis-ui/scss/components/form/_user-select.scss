@@ -635,3 +635,9 @@
     }
   }
 }
+
+@include media-breakpoint-down(sm) {
+  .#{$ns}UserSelect {
+    overflow: hidden;
+  }
+}
