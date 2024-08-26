@@ -101,6 +101,8 @@ export function SchemaFrom({
     return schema;
   }, [body, controls, submitOnChange]);
 
+  const [init, setInit] = React.useState(true);
+
   const themeConfig = React.useMemo(() => getThemeConfig(), []);
   const submitSubscribers = React.useRef<Array<Function>>([]);
   const subscribeSubmit = React.useCallback(
@@ -147,10 +149,10 @@ export function SchemaFrom({
         newValue = pipeOut ? await pipeOut(newValue, value) : newValue;
         const diffValue = diff(value, newValue);
         // 没有变化时不触发onChange
-        if (!diffValue) {
+        if (!diffValue || init) {
+          setInit(false);
           return;
         }
-
         onChange(newValue, diffValue, (schema, value, id, diff) => {
           return submitSubscribers.current.reduce((schema, fn) => {
             return fn(schema, value, id, diff);

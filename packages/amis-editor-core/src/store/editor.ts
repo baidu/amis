@@ -404,6 +404,9 @@ export const MainStore = types
       ): EditorNodeType | undefined {
         return self.root.getNodeById(id, regionOrType);
       },
+      getNodeByComponentId(id: string): EditorNodeType | undefined {
+        return self.root.getNodeByComponentId(id);
+      },
 
       get activeNodeInfo(): RendererInfo | null | undefined {
         return this.getNodeById(self.activeId)?.info;
@@ -1381,6 +1384,16 @@ export const MainStore = types
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
+        const schema = self.getSchema(id);
+
+        (window as any).onEditorActive?.(schema);
+      },
+
+      setActiveIdByComponentId(id: string) {
+        const node = self.getNodeByComponentId(id);
+        if (node) {
+          this.setActiveId(node.id, node.region);
+        }
       },
 
       setSelections(ids: Array<string>) {

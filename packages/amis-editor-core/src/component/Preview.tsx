@@ -39,6 +39,8 @@ export interface PreviewProps {
   autoFocus?: boolean;
 
   toolbarContainer?: () => any;
+
+  diffEditor?: boolean;
 }
 
 export interface PreviewState {
@@ -604,9 +606,11 @@ export default class Preview extends Component<PreviewProps> {
               toolbarContainer={toolbarContainer}
               onSwitch={this.handleNavSwitch}
               manager={manager}
+              diffEditor={this.props.diffEditor}
             >
               {node.childRegions.map(region =>
                 !node.memberImmutable(region.region) &&
+                !this.props.diffEditor &&
                 store.isRegionActive(region.id, region.region) ? (
                   <RegionHighlightBox
                     manager={manager}

@@ -73,7 +73,7 @@ export class LeftPanels extends React.Component<
   }
 
   render() {
-    const {store, manager, theme} = this.props;
+    const {store, manager, theme, showLeftSideBar} = this.props;
     const {isFixedStatus} = this.state;
     const leftPanelOpenStatus = store.leftPanelOpenStatus;
     const panels = store.getLeftPanels();
