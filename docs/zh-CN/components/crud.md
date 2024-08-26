@@ -3813,7 +3813,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | loadDataOnceFetchOnFilter             | `boolean`                                                                               | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                                            |
 | source                                | `string`                                                                                |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容                                    |
 | filter                                | [Form](./form/index)                                                                    |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                                                 |
-| filterTogglable                       | `boolean` \| `{label: string; icon: string; activeLabel: string; activeIcon?: stirng;}` | `false`                         | 是否可显隐过滤器                                                                                                                               |
+| filterTogglable                       | `boolean` \| `{label: string; icon: string; activeLabel: string; activeIcon?: string;}` | `false`                         | 是否可显隐过滤器                                                                                                                               |
 | filterDefaultVisible                  | `boolean`                                                                               | `true`                          | 设置过滤器默认是否可见。                                                                                                                       |
 | initFetch                             | `boolean`                                                                               | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                                                 |
 | interval                              | `number`                                                                                | `3000`                          | 刷新时间(最低 1000)                                                                                                                            |
@@ -4681,7 +4681,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | selectAll       | 转 table 组件动作说明 | 设置表格全部项选中         |
 | clearAll        | 转 table 组件动作说明 | 清空表格所有选中项         |
 | initDrag        | 转 table 组件动作说明 | 开启表格拖拽排序功能       |
-| cancelDrag        | 转 table 组件动作说明 | 取消表格拖拽排序功能       |
+| cancelDrag      | 转 table 组件动作说明 | 取消表格拖拽排序功能       |
 | submitQuickEdit | 转 table 组件动作说明 | 快速编辑数据提交           |
 | toggleExpanded  | 转 table 组件动作说明 | 切换某行数据是展开还是收起 |
 | setExpanded     | 转 table 组件动作说明 | 展开或收起某行数据         |
