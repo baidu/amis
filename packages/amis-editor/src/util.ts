@@ -484,3 +484,9 @@ export function _isModelComp(schema: Record<string, any>): boolean {
 
   return extraEvaluation;
 }
+
+export const getOwnValue = (obj: any, key: string) => {
+  if (obj && obj.hasOwnProperty(key)) {
+    return obj[key];
+  }
+};

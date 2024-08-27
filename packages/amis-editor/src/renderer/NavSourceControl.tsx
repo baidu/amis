@@ -19,6 +19,7 @@ import {getSchemaTpl} from 'amis-editor';
 import {autobind} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import type {SchemaApi} from 'amis';
+import {getOwnValue} from '../util';
 
 export type SourceType = 'custom' | 'api' | '';
 
@@ -60,10 +61,12 @@ export class NavSourceControl extends React.Component<
   constructor(props: NavControlProps) {
     super(props);
 
+    const source = getOwnValue(props.data, 'source');
+
     this.state = {
       links: this.transformOptions(props),
-      api: props.data.source,
-      source: this.transformSource(props.data.source),
+      api: source,
+      source: this.transformSource(source),
       showDialog: false,
       isEdit: false,
       modalName: '',
@@ -87,8 +90,8 @@ export class NavSourceControl extends React.Component<
   }
 
   transformOptions(props: NavControlProps) {
-    const {data} = props;
-    return Array.isArray(data.links) ? data.links : [];
+    const links = getOwnValue(props.data, 'links');
+    return Array.isArray(links) ? links : [];
   }
 
   /**

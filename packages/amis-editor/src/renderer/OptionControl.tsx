@@ -29,6 +29,7 @@ import type {OptionValue} from 'amis-core';
 import type {SchemaApi} from 'amis';
 import debounce from 'lodash/debounce';
 import {valueType} from './ValueFormatControl';
+import {getOwnValue} from '../util';
 
 export interface PopoverForm {
   optionLabel: string;
@@ -155,7 +156,8 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
   handleToggleDefaultValue(index: number, checked: any, shift?: boolean) {
     const {onChange, options: originOptions} = this.props;
     let options = originOptions.concat();
-    const isMultiple = this.props?.data?.multiple || this.props?.multiple;
+    const isMultiple =
+      getOwnValue(this.props.data, 'multiple') || this.props?.multiple;
 
     if (isMultiple) {
       options.splice(index, 1, {...options[index], checked});
@@ -245,7 +247,7 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
   @autobind
   handleBatchAdd(values: {batchOption: string}[], action: any) {
     const {onChange, customEdit = true} = this.props;
-    const options = this.props.data.options || [];
+    const options = getOwnValue(this.props.data, 'options') || [];
     const addedOptions: Array<OptionControlItem> = values[0].batchOption
       .split('\n')
       .map(option => {
@@ -271,7 +273,8 @@ class CustomOptionControl extends React.Component<OptionSourceControlProps> {
       hiddenOn,
       customEdit = true
     } = props;
-    const {render, data: ctx, node} = this.props;
+    const {render, node} = this.props;
+    const ctx = {...this.props.data};
     const isMultiple = ctx?.multiple === true || multipleProps;
     const i18nEnabled = getI18nEnabled();
     const showBadge = node.type === 'button-group-select';
@@ -807,7 +810,7 @@ export default class OptionControl extends React.Component<
     );
     const state = {
       options: this.transformOptions(props) || [],
-      api: props.data.source,
+      api: getOwnValue(props.data, 'source'),
       labelField: props.data.labelField,
       valueField: props.data.valueField
     };
@@ -856,7 +859,7 @@ export default class OptionControl extends React.Component<
   }
 
   transformOptions(props: OptionControlProps) {
-    const {data: ctx} = props;
+    const ctx = {...props.data};
     const options = ctx.options;
     let defaultValue: Array<OptionValue> | OptionValue = ctx.value;
 
@@ -881,7 +884,8 @@ export default class OptionControl extends React.Component<
    * 处理当前组件的默认值
    */
   normalizeValue() {
-    const {data: ctx = {}, multiple: multipleProps} = this.props;
+    const {multiple: multipleProps} = this.props;
+    const ctx = {...this.props.data};
     const {
       joinValues = true,
       extractValue,
