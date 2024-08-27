@@ -29,7 +29,8 @@ import {
   ActionObject,
   renderTextByKeyword,
   getVariable,
-  TestIdBuilder
+  TestIdBuilder,
+  labelToString
 } from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import xor from 'lodash/xor';
@@ -250,15 +251,17 @@ export default class NestedSelectControl extends React.Component<
     const regexp = string2regExp(inputValue);
 
     if (hideNodePathLabel) {
-      return option[labelField || 'label'];
+      return labelToString(option[labelField || 'label']);
     }
     const ancestors = getTreeAncestors(options, option, true);
 
-    const optionText = option[labelField || 'label'];
+    const optionText = labelToString(option[labelField || 'label']);
     const splitJoin = ' / ';
 
     const title = ancestors
-      ? ancestors.map(item => item[labelField || 'label']).join(splitJoin)
+      ? ancestors
+          .map(item => labelToString(item[labelField || 'label']))
+          .join(splitJoin)
       : optionText;
 
     return (
@@ -269,7 +272,7 @@ export default class NestedSelectControl extends React.Component<
       >
         {ancestors
           ? ancestors.map((item, index) => {
-              const label = item[labelField || 'label'];
+              const label = labelToString(item[labelField || 'label']);
               const value = item[valueField || 'value'];
               const isEnd = index === ancestors.length - 1;
               return (
@@ -709,7 +712,7 @@ export default class NestedSelectControl extends React.Component<
                 selfChecked = true;
               }
 
-              let label = option[labelField || 'label'];
+              let label = labelToString(option[labelField || 'label']);
 
               return (
                 <div
