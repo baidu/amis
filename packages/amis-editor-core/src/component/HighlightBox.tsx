@@ -19,7 +19,7 @@ export interface HighlightBoxProps {
   onSwitch?: (id: string) => void;
   manager: EditorManager;
   children?: React.ReactNode;
-  diffEditor?: boolean;
+  readonly?: boolean;
 }
 
 export default observer(function ({
@@ -32,7 +32,7 @@ export default observer(function ({
   toolbarContainer,
   onSwitch,
   manager,
-  diffEditor
+  readonly
 }: HighlightBoxProps) {
   const handleWResizerMouseDown = React.useCallback(
     (e: MouseEvent) => startResize(e, 'horizontal'),
@@ -252,7 +252,7 @@ export default observer(function ({
       draggable={!!curFreeContainerId || isDraggableContainer}
       onDragStart={handleDragStart}
     >
-      {isActive && !diffEditor ? (
+      {isActive && !readonly ? (
         <div
           className={`ae-Editor-toolbarPopover ${
             isRightElem ? 'is-right-elem' : ''

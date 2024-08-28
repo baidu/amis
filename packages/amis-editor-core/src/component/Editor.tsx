@@ -135,7 +135,7 @@ export interface EditorProps extends PluginEventListener {
   getHostNodeDataSchema?: () => Promise<any>;
 
   getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
-  diffEditor?: boolean;
+  readonly?: boolean;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -276,7 +276,7 @@ export default class Editor extends Component<EditorProps> {
       return;
     }
 
-    if (this.props.diffEditor) {
+    if (this.props.readonly) {
       return;
     }
 
@@ -579,7 +579,7 @@ export default class Editor extends Component<EditorProps> {
       autoFocus,
       isSubEditor,
       amisEnv,
-      diffEditor
+      readonly
     } = this.props;
 
     return (
@@ -594,7 +594,7 @@ export default class Editor extends Component<EditorProps> {
         )}
       >
         <div className="ae-Editor-inner" onContextMenu={this.handleContextMenu}>
-          {!preview && !diffEditor && (
+          {!preview && !readonly && (
             <LeftPanels
               store={this.store}
               manager={this.manager}
@@ -624,7 +624,7 @@ export default class Editor extends Component<EditorProps> {
               amisEnv={amisEnv}
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
-              diffEditor={diffEditor}
+              readonly={readonly}
             ></Preview>
           </div>
 
@@ -635,7 +635,7 @@ export default class Editor extends Component<EditorProps> {
               theme={theme}
               appLocale={appLocale}
               amisEnv={amisEnv}
-              diffEditor={diffEditor}
+              readonly={readonly}
             />
           )}
 
@@ -647,6 +647,7 @@ export default class Editor extends Component<EditorProps> {
           manager={this.manager}
           theme={theme}
           amisEnv={amisEnv}
+          readonly={readonly}
         />
         <ScaffoldModal
           store={this.store}

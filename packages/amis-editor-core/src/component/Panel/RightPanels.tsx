@@ -16,7 +16,7 @@ interface RightPanelsProps {
   theme?: string;
   appLocale?: string;
   amisEnv?: any;
-  diffEditor?: boolean;
+  readonly?: boolean;
 }
 
 interface RightPanelsStates {
@@ -67,9 +67,9 @@ export class RightPanels extends React.Component<
   handlePanelChangeValue(
     ...arg: Parameters<typeof this.props.manager.panelChangeValue>
   ) {
-    const {manager, diffEditor} = this.props;
+    const {manager, readonly} = this.props;
 
-    if (diffEditor) {
+    if (readonly) {
       const diff = arg[1];
       if (
         !diff?.find((item: any) =>
