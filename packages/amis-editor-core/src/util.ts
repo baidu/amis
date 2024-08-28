@@ -23,6 +23,8 @@ import merge from 'lodash/merge';
 import {EditorModalBody} from './store/editor';
 import {filter} from 'lodash';
 import type {SchemaType} from 'amis/lib/Schema';
+import type {DialogSchema} from '../../amis/src/renderers/Dialog';
+import type {DrawerSchema} from '../../amis/src/renderers/Drawer';
 
 const {
   guid,
@@ -1852,6 +1854,62 @@ export function setDefaultColSize(
   return tempList;
 }
 
+export function getModals(schema: any) {
+  const modals: Array<DialogSchema | DrawerSchema> = [];
+  JSONTraverse(schema, (value: any, key: string, host: any) => {
+    if (
+      key === 'actionType' &&
+      ['dialog', 'drawer', 'confirmDialog'].includes(value)
+    ) {
+      const key = value === 'drawer' ? 'drawer' : 'dialog';
+      const body = host[key] || host['args'];
+      if (body && !body.$ref && !modals.find(item => item.$$id === body.$$id)) {
+        modals.push({
+          ...body,
+          type: key,
+          actionType: value
+        });
+      }
+    }
+    return value;
+  });
+
+  // 公共组件排在前面
+  Object.keys(schema.definitions || {})
+    .reverse()
+    .forEach(key => {
+      const definition = schema.definitions[key];
+      if (['dialog', 'drawer'].includes(definition.type)) {
+        // 不要把已经内嵌弹窗中的弹窗再放到外面
+        if (
+          definition.$$originId &&
+          modals.find(item => item.$$id === definition.$$originId)
+        ) {
+          return;
+        }
+
+        modals.unshift({
+          ...definition,
+          $$ref: key
+        });
+      }
+    });
+
+  // 子弹窗时，自己就是个弹窗
+  if (['dialog', 'drawer', 'confirmDialog'].includes(schema.type)) {
+    const idx = modals.findIndex(item => item.$$id === schema.$$id);
+    if (~idx) {
+      modals.splice(idx, 1);
+    }
+
+    modals.unshift({
+      ...schema,
+      // 如果还包含这个，子弹窗里面收集弹窗的时候会出现多份内嵌弹窗
+      definitions: undefined
+    });
+  }
+  return modals;
+}
 export const RAW_TYPE_MAP: {
   [k in SchemaType | 'user-select' | 'department-select']?:
     | 'string'

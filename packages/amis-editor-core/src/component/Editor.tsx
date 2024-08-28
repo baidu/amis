@@ -135,6 +135,7 @@ export interface EditorProps extends PluginEventListener {
   getHostNodeDataSchema?: () => Promise<any>;
 
   getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
+  readonly?: boolean;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -272,6 +273,10 @@ export default class Editor extends Component<EditorProps> {
     // 弹窗模式不处理
     if (this.props.isSubEditor) {
       // e.defaultPrevented // 或者已经阻止不处理
+      return;
+    }
+
+    if (this.props.readonly) {
       return;
     }
 
@@ -573,7 +578,8 @@ export default class Editor extends Component<EditorProps> {
       previewProps,
       autoFocus,
       isSubEditor,
-      amisEnv
+      amisEnv,
+      readonly
     } = this.props;
 
     return (
@@ -588,7 +594,7 @@ export default class Editor extends Component<EditorProps> {
         )}
       >
         <div className="ae-Editor-inner" onContextMenu={this.handleContextMenu}>
-          {!preview && (
+          {!preview && !readonly && (
             <LeftPanels
               store={this.store}
               manager={this.manager}
@@ -618,6 +624,7 @@ export default class Editor extends Component<EditorProps> {
               amisEnv={amisEnv}
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
+              readonly={readonly}
             ></Preview>
           </div>
 
@@ -628,6 +635,7 @@ export default class Editor extends Component<EditorProps> {
               theme={theme}
               appLocale={appLocale}
               amisEnv={amisEnv}
+              readonly={readonly}
             />
           )}
 
@@ -639,6 +647,7 @@ export default class Editor extends Component<EditorProps> {
           manager={this.manager}
           theme={theme}
           amisEnv={amisEnv}
+          readonly={readonly}
         />
         <ScaffoldModal
           store={this.store}
