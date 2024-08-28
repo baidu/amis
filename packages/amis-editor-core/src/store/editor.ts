@@ -1314,7 +1314,8 @@ export const MainStore = types
       setActiveId(
         id: string,
         region: string = '',
-        selections: Array<string> = []
+        selections: Array<string> = [],
+        onEditorActive: boolean = true
       ) {
         const node = id ? self.getNodeById(id) : undefined;
 
@@ -1330,13 +1331,13 @@ export const MainStore = types
         // }
         const schema = self.getSchema(id);
 
-        (window as any).onEditorActive?.(schema);
+        onEditorActive && (window as any).onEditorActive?.(schema);
       },
 
       setActiveIdByComponentId(id: string) {
         const node = self.getNodeByComponentId(id);
         if (node) {
-          this.setActiveId(node.id, node.region);
+          this.setActiveId(node.id, node.region, [], false);
           this.closeSubEditor();
         } else {
           const modals = self.modals;
