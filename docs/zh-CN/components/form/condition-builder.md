@@ -1459,7 +1459,7 @@ interface InputSettings {
   /* 数字类型 - 精度 */
   precision?: number;
   /* 日期时间类型 - 格式 */
-  format?: stirng;
+  format?: string;
   /* 日期时间类型 - 输入框格式 */
   inputFormat?: string;
   /* 日期时间类型 - 时间格式 */
