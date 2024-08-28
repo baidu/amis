@@ -111,22 +111,23 @@ export class OutlinePanel extends React.Component<PanelProps> {
   //   this.dragEnterCount--;
   // }
 
-  // @autobind
-  // handleDragOver(e: React.DragEvent) {
-  //   const target = e.target as HTMLElement;
-  //   const dom = target.closest(`[data-node-id][data-node-region]`);
+  @autobind
+  handleDragOver(e: React.DragEvent) {
+    // const target = e.target as HTMLElement;
+    // const dom = target.closest(`[data-node-id][data-node-region]`);
 
-  //   if (!dom) {
-  //     return;
-  //   }
+    // if (!dom) {
+    //   return;
+    // }
 
-  //   const manager = this.props.manager;
-  //   const id = dom.getAttribute('data-node-id')!;
-  //   const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
+    // const manager = this.props.manager;
+    // const id = dom.getAttribute('data-node-id')!;
+    // const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
 
-  //   e.preventDefault();
-  //   id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
-  // }
+    // 这个得有，否则无法触发 drop 事件
+    e.preventDefault();
+    // id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
+  }
 
   @autobind
   handleDrop(e: React.DragEvent) {
@@ -385,7 +386,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
               className={cx('ae-Outline', 'hoverShowScrollBar', {
                 'ae-Outline--draging': store.dragging
               })}
-              // onDragOver={this.handleDragOver}
+              onDragOver={this.handleDragOver}
               onDragEnter={this.handleDragEnter}
               // onDragLeave={this.handleDragLeave}
               onDrop={this.handleDrop}
