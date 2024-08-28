@@ -206,6 +206,7 @@ export default class OfficeViewer extends React.Component<
         this.rootElement.current.innerHTML =
           __('loadingFailed') + ' url:' + finalSrc;
       }
+    } finally {
       this.setState({
         loading: false
       });
@@ -311,6 +312,10 @@ export default class OfficeViewer extends React.Component<
         });
       };
       reader.readAsArrayBuffer(file);
+    } else {
+      this.setState({
+        loading: false
+      });
     }
   }
 
