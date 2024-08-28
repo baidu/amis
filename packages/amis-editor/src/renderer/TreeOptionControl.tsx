@@ -60,8 +60,9 @@ export default class TreeOptionControl extends React.Component<
 
   constructor(props: OptionControlProps) {
     super(props);
-    const {source, labelField, valueField, showIconField, iconField} =
-      props.data || {};
+    const {source, labelField, valueField, showIconField, iconField} = {
+      ...props.data
+    } as any;
     this.state = {
       options: this.transformOptions(props),
       api: source,
