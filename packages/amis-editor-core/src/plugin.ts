@@ -1029,6 +1029,9 @@ export abstract class BasePlugin implements PluginInterface {
 
   static scene = ['global'];
 
+  name?: string;
+  rendererName?: string;
+
   /**
    * 如果配置里面有 rendererName 自动返回渲染器信息。
    * @param renderer
@@ -1278,6 +1281,13 @@ export abstract class BasePlugin implements PluginInterface {
           : node.schema.name,
       originalValue: node.schema.value // 记录原始值，循环引用检测需要
     } as any;
+  }
+
+  getKeyAndName() {
+    return {
+      key: this.rendererName,
+      name: this.name
+    };
   }
 }
 

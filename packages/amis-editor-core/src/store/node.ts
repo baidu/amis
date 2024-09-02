@@ -104,6 +104,28 @@ export const EditorNode = types
         return resolved;
       },
 
+      getNodeByComponentId(id: string) {
+        let pool = self.children.concat();
+        let resolved: any = undefined;
+
+        while (pool.length) {
+          const item = pool.shift();
+          const schema = item.schema;
+
+          if (schema && schema.id === id) {
+            resolved = item;
+            break;
+          }
+
+          // 将当前节点的子节点全部放置到 pool中
+          if (item.children.length) {
+            pool.push.apply(pool, item.uniqueChildren);
+          }
+        }
+
+        return resolved;
+      },
+
       setInfo(value: RendererInfo) {
         info = value;
       },

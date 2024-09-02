@@ -19,6 +19,7 @@ export interface SubEditorProps {
   manager: EditorManager;
   theme?: string;
   amisEnv?: RenderOptions;
+  readonly?: boolean;
 }
 
 @observer
@@ -97,7 +98,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
   }
 
   buildSchema() {
-    const {store, manager, amisEnv} = this.props;
+    const {store, manager, amisEnv, readonly} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
     let superEditorData: any = store.superEditorData;
@@ -118,6 +119,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
         ? {
             type: 'form',
             mode: 'normal',
+            wrapWithPanel: false,
             wrapperComponent: 'div',
             onValidate: async (value: any) => {
               const result = await store.subEditorContext?.validate?.(value);
@@ -190,6 +192,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     getAvaiableContextFields={node =>
                       manager.getAvailableContextFields(node)
                     }
+                    readonly={readonly}
                   />
                 )
               }
@@ -244,10 +247,14 @@ export class SubEditor extends React.Component<SubEditorProps> {
   }
 
   render() {
-    const {store, theme, manager} = this.props;
+    const {store, theme, manager, readonly} = this.props;
+    if (!store.subEditorContext) {
+      return null;
+    }
     return render(
       {
-        type: 'dialog',
+        type: readonly ? 'container' : 'dialog',
+        className: readonly ? 'subEditor-container' : 'subEditor-dialog',
         ...this.buildSchema()
       },
 

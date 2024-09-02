@@ -23,7 +23,8 @@ import {
   appTranslate,
   JSONGetByPath,
   addModal,
-  mergeDefinitions
+  mergeDefinitions,
+  getModals
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -403,6 +404,9 @@ export const MainStore = types
         regionOrType?: string
       ): EditorNodeType | undefined {
         return self.root.getNodeById(id, regionOrType);
+      },
+      getNodeByComponentId(id: string): EditorNodeType | undefined {
+        return self.root.getNodeByComponentId(id);
       },
 
       get activeNodeInfo(): RendererInfo | null | undefined {
@@ -1039,64 +1043,7 @@ export const MainStore = types
       // 获取弹窗大纲列表
       get modals(): Array<EditorModalBody> {
         const schema = self.schema;
-        const modals: Array<DialogSchema | DrawerSchema> = [];
-
-        JSONTraverse(schema, (value: any, key: string, host: any) => {
-          if (
-            key === 'actionType' &&
-            ['dialog', 'drawer', 'confirmDialog'].includes(value)
-          ) {
-            const key = value === 'drawer' ? 'drawer' : 'dialog';
-            const body = host[key] || host['args'];
-            if (
-              body &&
-              !body.$ref &&
-              !modals.find(item => item.$$id === body.$$id)
-            ) {
-              modals.push({
-                ...body,
-                type: key,
-                actionType: value
-              });
-            }
-          }
-          return value;
-        });
-
-        // 公共组件排在前面
-        Object.keys(schema.definitions || {})
-          .reverse()
-          .forEach(key => {
-            const definition = schema.definitions[key];
-            if (['dialog', 'drawer'].includes(definition.type)) {
-              // 不要把已经内嵌弹窗中的弹窗再放到外面
-              if (
-                definition.$$originId &&
-                modals.find(item => item.$$id === definition.$$originId)
-              ) {
-                return;
-              }
-
-              modals.unshift({
-                ...definition,
-                $$ref: key
-              });
-            }
-          });
-
-        // 子弹窗时，自己就是个弹窗
-        if (['dialog', 'drawer', 'confirmDialog'].includes(schema.type)) {
-          const idx = modals.findIndex(item => item.$$id === schema.$$id);
-          if (~idx) {
-            modals.splice(idx, 1);
-          }
-
-          modals.unshift({
-            ...schema,
-            // 如果还包含这个，子弹窗里面收集弹窗的时候会出现多份内嵌弹窗
-            definitions: undefined
-          });
-        }
+        const modals: Array<DialogSchema | DrawerSchema> = getModals(schema);
 
         return modals;
       },
@@ -1367,7 +1314,8 @@ export const MainStore = types
       setActiveId(
         id: string,
         region: string = '',
-        selections: Array<string> = []
+        selections: Array<string> = [],
+        onEditorActive: boolean = true
       ) {
         const node = id ? self.getNodeById(id) : undefined;
 
@@ -1381,6 +1329,39 @@ export const MainStore = types
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
+        const schema = self.getSchema(id);
+
+        onEditorActive && (window as any).onEditorActive?.(schema);
+      },
+
+      setActiveIdByComponentId(id: string) {
+        const node = self.getNodeByComponentId(id);
+        if (node) {
+          this.setActiveId(node.id, node.region, [], false);
+          this.closeSubEditor();
+        } else {
+          const modals = self.modals;
+          const modalSchema = find(modals, modal => modal.id === id);
+          if (modalSchema) {
+            this.openSubEditor({
+              value: modalSchema,
+              title: '弹窗预览',
+              onChange: (value: any) => {}
+            });
+          } else {
+            const subEditorRef = this.getSubEditorRef();
+            if (subEditorRef) {
+              subEditorRef.store.setActiveIdByComponentId(id);
+              const $$id = subEditorRef.props.value.$$id;
+              const modalSchema = find(modals, modal => modal.$$id === $$id);
+              this.openSubEditor({
+                value: modalSchema,
+                title: '弹窗预览',
+                onChange: (value: any) => {}
+              });
+            }
+          }
+        }
       },
 
       setSelections(ids: Array<string>) {

@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import {Tab, Tabs} from 'amis';
+import {Tab, Tabs, toast} from 'amis';
 import cx from 'classnames';
 import {EditorManager} from '../../manager';
 import {EditorStoreType} from '../../store/editor';
@@ -16,6 +16,7 @@ interface RightPanelsProps {
   theme?: string;
   appLocale?: string;
   amisEnv?: any;
+  readonly?: boolean;
 }
 
 interface RightPanelsStates {
@@ -62,6 +63,29 @@ export class RightPanels extends React.Component<
     return findDOMNode(this) as HTMLElement;
   }
 
+  @autobind
+  handlePanelChangeValue(
+    ...arg: Parameters<typeof this.props.manager.panelChangeValue>
+  ) {
+    const {manager, readonly} = this.props;
+
+    if (readonly) {
+      const diff = arg[1];
+      if (
+        !diff?.find((item: any) =>
+          item.path.find(
+            (p: string) => !p.startsWith('__') && p !== 'pullRefresh'
+          )
+        )
+      ) {
+        return;
+      }
+      toast.error('不支持编辑');
+    } else {
+      manager.panelChangeValue(...arg);
+    }
+  }
+
   render() {
     const {store, manager, theme} = this.props;
     const {isOpenStatus, isFixedStatus} = this.state;
@@ -77,7 +101,7 @@ export class RightPanels extends React.Component<
           path: node?.path,
           node: node,
           value: store.value,
-          onChange: manager.panelChangeValue,
+          onChange: this.handlePanelChangeValue,
           store: store,
           manager: manager,
           popOverContainer: this.getPopOverContainer
@@ -90,7 +114,7 @@ export class RightPanels extends React.Component<
           info={node?.info}
           path={node?.path}
           value={store.value}
-          onChange={manager.panelChangeValue}
+          onChange={this.handlePanelChangeValue}
           store={store}
           manager={manager}
           popOverContainer={this.getPopOverContainer}

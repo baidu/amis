@@ -83,6 +83,7 @@
   min-width: 980px;
   overflow: hidden;
   user-select: none;
+  position: relative;
 
   // 覆盖amis默认top值，避免导致未垂直居中
   .ae-Editor-toolbar svg.icon {
@@ -123,6 +124,18 @@
   min-height: 88px;
   background: #f7f7f8;
   border: 1px dashed rgb(206, 208, 211);
+}
+
+.subEditor-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  & .subEditor-dialog {
+    height: 100%;
+    margin: 0;
+  }
 }
 
 // 弹窗编辑器面板
