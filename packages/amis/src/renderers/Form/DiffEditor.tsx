@@ -68,7 +68,7 @@ function normalizeValue(value: any, language?: string) {
     } catch (e) {}
   }
 
-  return value;
+  return value || '';
 }
 
 export class DiffEditor extends React.Component<DiffEditorProps, any> {
