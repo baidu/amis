@@ -6006,9 +6006,9 @@ const component: ThemeDefinition['component'] = {
         'border-width': 'var(--borders-width-2)',
         'border-color': 'var(--colors-neutral-line-8)',
         'padding-and-margin': {
-          paddingTop: 'var(--sizes-size-3)',
+          paddingTop: 'var(--sizes-size-6)',
           paddingRight: 'var(--sizes-size-6)',
-          paddingBottom: 'var(--sizes-size-3)',
+          paddingBottom: 'var(--sizes-size-6)',
           paddingLeft: 'var(--sizes-size-6)'
         },
         'line-height': 'var(--sizes-base-20)',
