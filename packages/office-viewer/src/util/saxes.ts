@@ -827,7 +827,7 @@ export class SaxesParser<O extends SaxesOptions = {}> {
       this.closedRoot =
       this.sawRoot =
         fragmentOpt;
-    // An XML declaration is intially possible only when parsing whole
+    // An XML declaration is initially possible only when parsing whole
     // documents.
     this.xmlDeclPossible = !fragmentOpt;
 
