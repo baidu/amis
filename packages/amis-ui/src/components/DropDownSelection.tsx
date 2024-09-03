@@ -101,17 +101,20 @@ class DropDownSelection extends BaseSelection<
       loadingConfig,
       popOverContainer,
       testIdBuilder,
-      mobileUI
+      mobileUI,
+      classPrefix: ns
     } = this.props;
 
     return (
       <PopOverContainer
         mobileUI={mobileUI}
+        overlayWidthField="width"
         popOverContainer={popOverContainer || (() => findDOMNode(this))}
         popOverRender={({onClose}) => (
           <div>
             {searchable ? (
               <SearchBox
+                className={cx(`${ns}DropDownSelection-searchbox`)}
                 mini={false}
                 onSearch={this.onSearch}
                 testIdBuilder={testIdBuilder?.getChild('searchbox')}
