@@ -476,4 +476,8 @@
   &-input.is-active &-caret {
     transform: rotate(180deg);
   }
+
+  &-searchbox.is-active {
+    width: 100%;
+  }
 }
