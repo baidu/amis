@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "6.7.0",
+  "version": "6.8.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -49,7 +49,7 @@
   ],
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-formula": "^6.7.0",
+    "amis-formula": "^6.8.0",
     "classnames": "2.3.2",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
