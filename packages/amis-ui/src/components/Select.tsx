@@ -401,6 +401,8 @@ export interface SelectProps
    * 检索函数
    */
   filterOption?: FilterOption;
+
+  dataId?: string;
 }
 
 interface SelectState {
@@ -1375,6 +1377,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 },
                 className
               )}
+              data-id={this.props.dataId}
             >
               <div
                 className={cx(`Select-valueWrap`, {

@@ -27,6 +27,7 @@ export type SchemaEditorItemPlaceholder = Partial<
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   label?: string;
   value?: JSONSchema;
+  dataId?: string;
   onChange: (value: JSONSchema) => void;
   types: Array<{
     label: string;
@@ -141,7 +142,8 @@ export class SchemaEditorItemCommon<
       mobileUI,
       mini,
       formPrefixRender,
-      formAffixRender
+      formAffixRender,
+      showInfo
     } = this.props;
 
     return (
@@ -175,6 +177,11 @@ export class SchemaEditorItemCommon<
             simpleValue
             mobileUI={mobileUI}
             popOverContainer={popOverContainer}
+            dataId={
+              showInfo === false
+                ? `amis-schema-editor-${this.props.dataId}-type`
+                : ''
+            }
           />
         ) : null}
 
@@ -185,6 +192,7 @@ export class SchemaEditorItemCommon<
             value={required}
             onChange={onRequiredChange}
             disabled={disabled}
+            dataId={`amis-schema-editor-${this.props.dataId}-required`}
           />
         ) : null}
 
@@ -371,6 +379,7 @@ export class SchemaEditorItemCommon<
         className={cx('SchemaEditorItem', {
           'SchemaEditorItem--mini': mini
         })}
+        data-id={'amis-schema-editor-' + this.props.dataId}
       >
         {this.renderCommon()}
       </div>

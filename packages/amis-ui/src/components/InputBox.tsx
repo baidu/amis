@@ -23,6 +23,7 @@ export interface InputBoxProps
   borderMode?: 'full' | 'half' | 'none';
   testIdBuilder?: TestIdBuilder;
   inputRender?: (props: any, ref?: any) => JSX.Element;
+  dataId?: string;
 }
 
 export interface InputBoxState {
@@ -91,6 +92,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       mobileUI,
       testIdBuilder,
       inputRender,
+      dataId,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -106,6 +108,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           [`InputBox--border${ucFirst(borderMode)}`]: borderMode
         })}
         onClick={onClick}
+        data-id={dataId}
       >
         {result}
 

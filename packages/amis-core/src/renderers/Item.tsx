@@ -1266,10 +1266,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         (props.labelAlign !== 'inherit' && props.labelAlign) ||
         props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
-
+      const dataId = props.name
+        ? `amis-form-item-${props.name?.split('.').pop()}`
+        : undefined;
       return (
         <div
           data-role="form-item"
+          data-id={dataId}
           className={cx(
             `Form-item Form-item--horizontal`,
             isStatic && staticClassName ? staticClassName : className,
@@ -1421,10 +1424,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       } = props;
 
       description = description || desc;
-
+      const dataId = props.name
+        ? `amis-form-item-${props.name?.split('.').pop()}`
+        : undefined;
       return (
         <div
           data-role="form-item"
+          data-id={dataId}
           className={cx(
             `Form-item Form-item--normal`,
             isStatic && staticClassName ? staticClassName : className,
@@ -1609,9 +1615,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
+      const dataId = props.name
+        ? `amis-form-item-${props.name?.split('.').pop()}`
+        : undefined;
       return (
         <div
           data-role="form-item"
+          data-id={dataId}
           className={cx(
             `Form-item Form-item--inline`,
             isStatic && staticClassName ? staticClassName : className,
@@ -1743,9 +1753,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       } = props;
       description = description || desc;
       const labelWidth = props.labelWidth || props.formLabelWidth;
+      const dataId = props.name
+        ? `amis-form-item-${props.name?.split('.').pop()}`
+        : undefined;
       return (
         <div
           data-role="form-item"
+          data-id={dataId}
           className={cx(
             `Form-item Form-item--row`,
             isStatic && staticClassName ? staticClassName : className,
@@ -1882,9 +1896,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
+      const dataId = props.name
+        ? `amis-form-item-${props.name?.split('.').pop()}`
+        : undefined;
       return (
         <div
           data-role="form-item"
+          data-id={dataId}
           className={cx(
             `Form-item Form-item--flex`,
             isStatic && staticClassName ? staticClassName : className,

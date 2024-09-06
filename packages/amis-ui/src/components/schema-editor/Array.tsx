@@ -57,6 +57,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         })}
       >
         <SchemaEditorItem
+          dataId={this.props.dataId}
           types={types}
           onTypeChange={onTypeChange}
           label={
@@ -135,6 +136,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         className={cx('SchemaEditorItem SchemaEditorArray', {
           'SchemaEditorItem--mini': mini
         })}
+        data-id={'amis-schema-editor-' + this.props.dataId}
       >
         {showInfo !== false ? (
           <>
