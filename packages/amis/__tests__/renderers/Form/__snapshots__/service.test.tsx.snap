@@ -33,6 +33,7 @@ exports[`Renderer:service 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-required"
+          data-id="amis-form-item-tpl"
           data-role="form-item"
         >
           <label
@@ -88,6 +89,7 @@ exports[`Renderer:service 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-id="amis-form-item-dy_1"
             data-role="form-item"
           >
             <label
@@ -128,6 +130,7 @@ exports[`Renderer:service 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-dy_2"
             data-role="form-item"
           >
             <label
@@ -183,6 +186,7 @@ exports[`form:service:remoteData 1`] = `
     >
       <div
         class="cxd-Form-item cxd-Form-item--normal"
+        data-id="amis-form-item-child-a"
         data-role="form-item"
       >
         <div
@@ -206,6 +210,7 @@ exports[`form:service:remoteData 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-id="amis-form-item-undefined"
       data-role="form-item"
     >
       <button
@@ -236,6 +241,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
     >
       <div
         class="cxd-Form-item cxd-Form-item--normal"
+        data-id="amis-form-item-child-a"
         data-role="form-item"
       >
         <div
@@ -258,6 +264,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
       </div>
       <div
         class="cxd-Form-item cxd-Form-item--normal"
+        data-id="amis-form-item-child-b"
         data-role="form-item"
       >
         <div
@@ -281,6 +288,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-id="amis-form-item-undefined"
       data-role="form-item"
     >
       <button
@@ -311,6 +319,7 @@ exports[`form:service:super-remoteData 1`] = `
     >
       <div
         class="cxd-Form-item cxd-Form-item--normal"
+        data-id="amis-form-item-child-a"
         data-role="form-item"
       >
         <div
@@ -334,6 +343,7 @@ exports[`form:service:super-remoteData 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-id="amis-form-item-undefined"
       data-role="form-item"
     >
       <button

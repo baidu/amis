@@ -33,10 +33,12 @@ exports[`Renderer:button-toolbar 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-undefined"
             data-role="form-item"
           >
             <div
@@ -108,10 +110,12 @@ exports[`Renderer:button-toolbar 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-undefined"
             data-role="form-item"
           >
             <div

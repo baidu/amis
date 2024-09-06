@@ -178,7 +178,7 @@ export class SchemaEditorItemCommon<
             mobileUI={mobileUI}
             popOverContainer={popOverContainer}
             dataId={
-              showInfo === false
+              onRequiredChange
                 ? `amis-schema-editor-${this.props.dataId}-type`
                 : ''
             }

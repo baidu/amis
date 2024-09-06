@@ -33,6 +33,7 @@ exports[`Renderer:InputGroup 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal no-border"
+          data-id="amis-form-item-a"
           data-role="form-item"
         >
           <label

@@ -33,6 +33,7 @@ exports[`Renderer:button 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-test"
           data-role="form-item"
         >
           <button
@@ -49,6 +50,7 @@ exports[`Renderer:button 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button
@@ -62,6 +64,7 @@ exports[`Renderer:button 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button
@@ -75,6 +78,7 @@ exports[`Renderer:button 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal r-2x"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button
@@ -125,6 +129,7 @@ exports[`Renderer:button 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-test"
           data-role="form-item"
         >
           <button
@@ -141,6 +146,7 @@ exports[`Renderer:button 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button
@@ -154,6 +160,7 @@ exports[`Renderer:button 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button
@@ -167,6 +174,7 @@ exports[`Renderer:button 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal r-2x"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <button

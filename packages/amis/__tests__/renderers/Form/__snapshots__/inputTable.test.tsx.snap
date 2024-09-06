@@ -46,6 +46,7 @@ exports[`Renderer:input table 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-id="amis-form-item-table"
                   data-role="form-item"
                 >
                   <div
@@ -332,6 +333,7 @@ exports[`Renderer:input table add 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-table"
           data-role="form-item"
         >
           <div
@@ -440,6 +442,7 @@ exports[`Renderer:input table add 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-a"
                             data-role="form-item"
                           >
                             <div
@@ -466,6 +469,7 @@ exports[`Renderer:input table add 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-b"
                             data-role="form-item"
                           >
                             <div
@@ -592,6 +596,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-table"
           data-role="form-item"
         >
           <label
@@ -688,6 +693,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-select"
                             data-role="form-item"
                           >
                             <div
@@ -826,6 +832,7 @@ exports[`Renderer:input-table init display 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-aaa"
           data-role="form-item"
         >
           <label
@@ -893,6 +900,7 @@ exports[`Renderer:input-table init display 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-tableList"
           data-role="form-item"
         >
           <label
@@ -1035,6 +1043,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-name"
                             data-role="form-item"
                           >
                             <div
@@ -1061,6 +1070,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-score"
                             data-role="form-item"
                           >
                             <div
@@ -1172,6 +1182,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-level"
                             data-role="form-item"
                           >
                             <div
@@ -1236,6 +1247,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-name"
                             data-role="form-item"
                           >
                             <div
@@ -1262,6 +1274,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-score"
                             data-role="form-item"
                           >
                             <div
@@ -1373,6 +1386,7 @@ exports[`Renderer:input-table init display 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-level"
                             data-role="form-item"
                           >
                             <div
@@ -1489,6 +1503,7 @@ exports[`Renderer:input-table verifty 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-table"
           data-role="form-item"
         >
           <label
@@ -1560,6 +1575,7 @@ exports[`Renderer:input-table with combo column 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-table"
           data-role="form-item"
         >
           <div
@@ -1620,6 +1636,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-id="amis-form-item-q1"
                             data-role="form-item"
                           >
                             <div
@@ -1650,6 +1667,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
+                                            data-id="amis-form-item-score"
                                             data-role="form-item"
                                           >
                                             <div
@@ -1713,6 +1731,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
+                                            data-id="amis-form-item-comment"
                                             data-role="form-item"
                                           >
                                             <div

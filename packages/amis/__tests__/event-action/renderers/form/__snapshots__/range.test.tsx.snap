@@ -17,6 +17,7 @@ exports[`EventAction:inputRange 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-range"
             data-role="form-item"
           >
             <div
@@ -327,6 +328,7 @@ exports[`EventAction:inputRange 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal input-text-range-value"
+                  data-id="amis-form-item-rangeValue"
                   data-role="form-item"
                 >
                   <label
@@ -363,6 +365,7 @@ exports[`EventAction:inputRange 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal input-text-range-event"
+                  data-id="amis-form-item-rangeEvent"
                   data-role="form-item"
                 >
                   <label

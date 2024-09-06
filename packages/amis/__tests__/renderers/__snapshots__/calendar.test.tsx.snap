@@ -17,6 +17,7 @@ exports[`Renderer:calendar 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-undefined"
             data-role="form-item"
           >
             <div
@@ -526,6 +527,7 @@ exports[`Renderer:calendar largeMode 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-undefined"
             data-role="form-item"
           >
             <div
@@ -1183,6 +1185,7 @@ exports[`Renderer:calendar scheduleAction 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-id="amis-form-item-undefined"
             data-role="form-item"
           >
             <div

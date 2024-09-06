@@ -33,6 +33,7 @@ exports[`Renderer:usersselect 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-usersselect"
           data-role="form-item"
         >
           <label

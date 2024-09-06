@@ -33,6 +33,7 @@ exports[`Renderer:array 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-array"
           data-role="form-item"
         >
           <label

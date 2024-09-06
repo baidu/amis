@@ -33,6 +33,7 @@ exports[`Renderer:panel 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-id="amis-form-item-undefined"
           data-role="form-item"
         >
           <div
@@ -43,6 +44,7 @@ exports[`Renderer:panel 1`] = `
             >
               <div
                 class="cxd-Form-item cxd-Form-item--normal"
+                data-id="amis-form-item-undefined"
                 data-role="form-item"
               >
                 <div
@@ -101,6 +103,7 @@ exports[`Renderer:panel 1`] = `
             >
               <div
                 class="cxd-Form-item cxd-Form-item--normal"
+                data-id="amis-form-item-undefined"
                 data-role="form-item"
               >
                 <div
@@ -126,6 +129,7 @@ exports[`Renderer:panel 1`] = `
                   >
                     <div
                       class="cxd-Form-item cxd-Form-item--normal"
+                      data-id="amis-form-item-text"
                       data-role="form-item"
                     >
                       <div
@@ -148,6 +152,7 @@ exports[`Renderer:panel 1`] = `
                     </div>
                     <div
                       class="cxd-Form-item cxd-Form-item--normal"
+                      data-id="amis-form-item-text2"
                       data-role="form-item"
                     >
                       <div
