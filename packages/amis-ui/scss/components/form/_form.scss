@@ -468,12 +468,14 @@
     > .#{$ns}Form-label {
       text-align: left;
       width: px2rem(76px);
+      word-break: break-all;
     }
   }
   .#{$ns}Form-flexInner--label-right {
     > .#{$ns}Form-label {
       text-align: right;
       width: px2rem(76px);
+      word-break: break-all;
     }
   }
 }
