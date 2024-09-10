@@ -89,7 +89,7 @@ export interface OptionProps {
     idx?: number | Array<number>,
     value?: any,
     skipForm?: boolean,
-    closePopOver?: () => void
+    callback?: () => void
   ) => void;
   editable?: boolean;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
@@ -766,7 +766,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   handleAddClick() {
     const {onAdd} = this.props;
-    onAdd && onAdd(undefined, undefined, false, this.close);
+    onAdd && onAdd();
   }
 
   @autobind

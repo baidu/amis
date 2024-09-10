@@ -239,10 +239,16 @@ export interface OptionsControlProps
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
-    skipForm?: boolean
+    skipForm?: boolean,
+    callback?: (value: any) => any
   ) => void;
-  onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
-  onDelete?: (value: Option) => void;
+  onEdit?: (
+    value: Option,
+    origin?: Option,
+    skipForm?: boolean,
+    callback?: (value: any) => any
+  ) => void;
+  onDelete?: (value: Option, callback?: (value: any) => any) => void;
 }
 
 // 自己接收的属性。
@@ -899,7 +905,8 @@ export function registerOptionsControl(config: OptionsConfig) {
     async handleOptionAdd(
       idx: number | Array<number> = -1,
       value?: any,
-      skipForm: boolean = false
+      skipForm: boolean = false,
+      callback?: (value: any) => any
     ) {
       let {
         addControls,
@@ -1057,8 +1064,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      // 如果是懒加载的，只懒加载当前节点。
-      if (
+      const ret = await callback?.(result);
+
+      if (ret === false) {
+        // 如果回调里面返回 false，就不继续了。
+        return;
+      } else if (
+        // 如果是懒加载的，只懒加载当前节点。
         (parent?.hasOwnProperty(deferField) && parent[deferField]) ||
         parent?.defer
       ) {
@@ -1085,7 +1097,8 @@ export function registerOptionsControl(config: OptionsConfig) {
     async handleOptionEdit(
       value: any,
       origin: any = value,
-      skipForm: boolean = false
+      skipForm: boolean = false,
+      callback?: (value: any) => any
     ) {
       let {
         editControls,
@@ -1209,7 +1222,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      if (source && editApi) {
+      const ret = await callback?.(result);
+
+      if (ret === false) {
+        // 如果回调里面返回 false，就不继续了。
+        return;
+      } else if (source && editApi) {
         this.reload();
       } else {
         const indexes = findTreeIndex(model.options, item => item === origin);
@@ -1228,7 +1246,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    async handleOptionDelete(value: any) {
+    async handleOptionDelete(value: any, callback?: (value: any) => any) {
       let {
         deleteConfirmText,
         disabled,
@@ -1296,7 +1314,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           onDelete(ctx);
         }
 
-        if (source) {
+        const ret = callback?.(ctx);
+
+        if (ret === false) {
+          // 如果回调里面返回 false，就不继续了。
+          return;
+        } else if (source) {
           this.reload();
         } else {
           const options = model.options.concat();
