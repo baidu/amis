@@ -33,6 +33,7 @@ exports[`Renderer:Form 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -155,6 +156,7 @@ exports[`Renderer:Form initApi 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -190,6 +192,7 @@ exports[`Renderer:Form initApi 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -278,6 +281,7 @@ exports[`Renderer:Form reset 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="name"
           data-role="form-item"
         >
           <label
@@ -313,6 +317,7 @@ exports[`Renderer:Form reset 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="email"
           data-role="form-item"
         >
           <label
@@ -409,6 +414,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -444,6 +450,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -532,6 +539,7 @@ exports[`Renderer:Form:onValidate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -574,6 +582,7 @@ exports[`Renderer:Form:onValidate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -679,6 +688,7 @@ exports[`Renderer:Form:onValidate 3`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -714,6 +724,7 @@ exports[`Renderer:Form:onValidate 3`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -809,6 +820,7 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -904,6 +916,7 @@ exports[`Renderer:Form:valdiate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -1004,6 +1017,7 @@ exports[`Renderer:Form:valdiate 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label

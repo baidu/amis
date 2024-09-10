@@ -33,6 +33,7 @@ exports[`Renderer:formula 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -100,6 +101,7 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -167,6 +169,7 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum1"
           data-role="form-item"
         >
           <label
@@ -234,6 +237,7 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum2"
           data-role="form-item"
         >
           <label
@@ -301,6 +305,7 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum3"
           data-role="form-item"
         >
           <label
@@ -368,6 +373,7 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum4"
           data-role="form-item"
         >
           <label

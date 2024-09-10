@@ -25,6 +25,7 @@ exports[`doAction:page reload 1`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -60,6 +61,7 @@ exports[`doAction:page reload 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="age"
             data-role="form-item"
           >
             <label
@@ -136,6 +138,7 @@ exports[`doAction:page reload 2`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -171,6 +174,7 @@ exports[`doAction:page reload 2`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="age"
             data-role="form-item"
           >
             <label
@@ -236,6 +240,7 @@ exports[`doAction:page reload with data 1`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -271,6 +276,7 @@ exports[`doAction:page reload with data 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="age"
             data-role="form-item"
           >
             <label
@@ -347,6 +353,7 @@ exports[`doAction:page reload with data 2`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -382,6 +389,7 @@ exports[`doAction:page reload with data 2`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="age"
             data-role="form-item"
           >
             <label
@@ -447,6 +455,7 @@ exports[`doAction:page reload with data(same name) 1`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -482,6 +491,7 @@ exports[`doAction:page reload with data(same name) 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="date"
             data-role="form-item"
           >
             <label
@@ -558,6 +568,7 @@ exports[`doAction:page reload with data(same name) 2`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="title"
             data-role="form-item"
           >
             <label
@@ -593,6 +604,7 @@ exports[`doAction:page reload with data(same name) 2`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="date"
             data-role="form-item"
           >
             <label

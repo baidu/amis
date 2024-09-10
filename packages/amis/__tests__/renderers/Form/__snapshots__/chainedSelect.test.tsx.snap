@@ -165,6 +165,7 @@ exports[`Renderer:chained-select 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select3"
           data-role="form-item"
         >
           <label

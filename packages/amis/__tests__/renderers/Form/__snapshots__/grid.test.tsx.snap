@@ -43,6 +43,7 @@ exports[`Renderer:hbox 1`] = `
             >
               <div
                 class="cxd-Form-item cxd-Form-item--normal"
+                data-amis-name="text"
                 data-role="form-item"
               >
                 <div

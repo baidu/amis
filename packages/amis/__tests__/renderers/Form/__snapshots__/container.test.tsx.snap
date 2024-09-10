@@ -33,6 +33,7 @@ exports[`Renderer:container 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal no-border"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -59,6 +60,7 @@ exports[`Renderer:container 1`] = `
               >
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="text"
                   data-role="form-item"
                 >
                   <div

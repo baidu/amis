@@ -33,6 +33,7 @@ exports[`Renderer:radios 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -111,6 +112,7 @@ exports[`Renderer:radios 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -183,6 +185,7 @@ exports[`Renderer:radios 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -261,6 +264,7 @@ exports[`Renderer:radios 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -329,6 +333,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -409,6 +414,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label

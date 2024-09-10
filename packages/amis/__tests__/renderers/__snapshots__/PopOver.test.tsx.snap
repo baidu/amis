@@ -4,6 +4,7 @@ exports[`Renderer:PopOver with offset: default 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -48,6 +49,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -114,6 +116,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label

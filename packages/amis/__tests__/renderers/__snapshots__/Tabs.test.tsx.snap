@@ -296,6 +296,7 @@ exports[`Renderer:tabs change active tab 2`] = `
       >
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
           data-role="form-item"
         >
           <label
@@ -331,6 +332,7 @@ exports[`Renderer:tabs change active tab 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="d"
           data-role="form-item"
         >
           <label

@@ -33,6 +33,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -146,6 +147,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label

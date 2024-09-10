@@ -29,6 +29,7 @@ interface CheckboxProps extends ThemeProps {
   optionType?: 'default' | 'button';
   children?: React.ReactNode | Array<React.ReactNode>;
   testIdBuilder?: TestIdBuilder;
+  dataName?: string;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
@@ -99,6 +100,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         })}
         data-role="checkbox"
         {...testIdBuilder?.getTestId()}
+        data-amis-name={this.props.dataName}
       >
         <input
           type={type}

@@ -33,6 +33,7 @@ exports[`Renderer:button-group with btnActiveLevel 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="type"
           data-role="form-item"
         >
           <label
@@ -116,6 +117,7 @@ exports[`Renderer:button-group with tiled 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -191,6 +193,7 @@ exports[`Renderer:button-group with vertical 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -266,6 +269,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -304,6 +308,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -372,6 +377,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -410,6 +416,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -478,6 +485,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -516,6 +524,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -584,6 +593,7 @@ exports[`Renderer:button-group-select 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -622,6 +632,7 @@ exports[`Renderer:button-group-select 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label

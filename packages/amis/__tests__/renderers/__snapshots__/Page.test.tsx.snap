@@ -547,6 +547,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -835,6 +836,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -1213,6 +1215,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -1421,6 +1424,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -1563,6 +1567,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <div
@@ -1666,6 +1671,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <div

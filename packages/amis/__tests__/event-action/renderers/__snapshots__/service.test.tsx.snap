@@ -46,6 +46,7 @@ exports[`doAction:service reload 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -81,6 +82,7 @@ exports[`doAction:service reload 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
                   data-role="form-item"
                 >
                   <label
@@ -130,6 +132,7 @@ exports[`doAction:service reload 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -165,6 +168,7 @@ exports[`doAction:service reload 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -252,6 +256,7 @@ exports[`doAction:service reload 2`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -287,6 +292,7 @@ exports[`doAction:service reload 2`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
                   data-role="form-item"
                 >
                   <label
@@ -336,6 +342,7 @@ exports[`doAction:service reload 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -371,6 +378,7 @@ exports[`doAction:service reload 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -451,6 +459,7 @@ exports[`doAction:service reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -486,6 +495,7 @@ exports[`doAction:service reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -555,6 +565,7 @@ exports[`doAction:service reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -590,6 +601,7 @@ exports[`doAction:service reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -670,6 +682,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -705,6 +718,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -774,6 +788,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -809,6 +824,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -889,6 +905,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -924,6 +941,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -993,6 +1011,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1028,6 +1047,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -1108,6 +1128,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1143,6 +1164,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -1212,6 +1234,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1247,6 +1270,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label

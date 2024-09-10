@@ -46,6 +46,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo1"
                   data-role="form-item"
                 >
                   <label
@@ -95,6 +96,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -157,6 +159,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal addAtTopClass"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -206,6 +209,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -267,6 +271,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -325,6 +330,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal addableClass"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -374,6 +380,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -435,6 +442,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -554,6 +562,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal parentInput"
+                  data-amis-name="super_text"
                   data-role="form-item"
                 >
                   <label
@@ -593,6 +602,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo1"
                   data-role="form-item"
                 >
                   <label
@@ -648,6 +658,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo2"
                   data-role="form-item"
                 >
                   <label
@@ -703,6 +714,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo3"
                   data-role="form-item"
                 >
                   <label
@@ -828,6 +840,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo-conditions"
                   data-role="form-item"
                 >
                   <label
@@ -903,6 +916,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                 />
                                 <div
                                   class="cxd-Form-item cxd-Form-item--normal"
+                                  data-amis-name="number"
                                   data-role="form-item"
                                 >
                                   <label
@@ -1109,6 +1123,7 @@ exports[`Renderer:combo with draggable 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -1171,6 +1186,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1201,6 +1217,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="select"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1287,6 +1304,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1317,6 +1335,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="select"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1451,6 +1470,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal"
+          data-amis-name="combo1"
           data-role="form-item"
         >
           <label
@@ -1475,6 +1495,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal"
+          data-amis-name="combo2"
           data-role="form-item"
         >
           <label
@@ -1562,6 +1583,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal is-error"
+                  data-amis-name="combo1"
                   data-role="form-item"
                 >
                   <label
@@ -1694,6 +1716,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal removableFalse"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -1743,6 +1766,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1795,6 +1819,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal deleteBtn"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -1844,6 +1869,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -1904,6 +1930,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal superDeleteBtn"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -1953,6 +1980,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="text"
                                       data-role="form-item"
                                     >
                                       <div
@@ -2083,6 +2111,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="combo"
                   data-role="form-item"
                 >
                   <label
@@ -2202,6 +2231,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                 />
                                 <div
                                   class="cxd-Form-item cxd-Form-item--normal"
+                                  data-amis-name="a"
                                   data-role="form-item"
                                 >
                                   <label
