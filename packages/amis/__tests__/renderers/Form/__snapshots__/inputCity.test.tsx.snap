@@ -46,6 +46,7 @@ exports[`Renderer:inputCity 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="city"
                   data-role="form-item"
                 >
                   <label
@@ -241,6 +242,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="city"
                   data-role="form-item"
                 >
                   <label

@@ -12,6 +12,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="nestedSelect"
       data-role="form-item"
     >
       <label

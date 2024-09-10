@@ -50,6 +50,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                   />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="a"
                     data-role="form-item"
                   >
                     <label
@@ -186,6 +187,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                   />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="a"
                     data-role="form-item"
                   >
                     <label

@@ -33,6 +33,7 @@ exports[`Renderer:static 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal bg-white"
+          data-amis-name="static"
           data-role="form-item"
         >
           <label
@@ -71,6 +72,7 @@ exports[`Renderer:static 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="static 1"
           data-role="form-item"
         >
           <div
@@ -93,6 +95,7 @@ exports[`Renderer:static 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="static 2"
           data-role="form-item"
         >
           <div
@@ -123,6 +126,7 @@ exports[`Renderer:static-quickEdit-icon 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -197,6 +201,7 @@ exports[`Renderer:static2 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -220,6 +225,7 @@ exports[`Renderer:static2 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
           data-role="form-item"
         >
           <label
@@ -255,6 +261,7 @@ exports[`Renderer:static2 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
           data-role="form-item"
         >
           <label
@@ -284,6 +291,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
               data-role="form-item"
             >
               <label
@@ -311,6 +319,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
               data-role="form-item"
             >
               <label
@@ -350,6 +359,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="c"
               data-role="form-item"
             >
               <label
@@ -381,6 +391,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
               data-role="form-item"
             >
               <label
@@ -420,6 +431,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
               data-role="form-item"
             >
               <label
@@ -459,6 +471,7 @@ exports[`Renderer:static2 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="c"
               data-role="form-item"
             >
               <label

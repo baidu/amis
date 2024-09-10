@@ -33,6 +33,7 @@ exports[`Renderer:inputDate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test1"
           data-role="form-item"
         >
           <label
@@ -68,6 +69,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test"
           data-role="form-item"
         >
           <label
@@ -103,6 +105,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test1"
           data-role="form-item"
         >
           <label
@@ -138,6 +141,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test4"
           data-role="form-item"
         >
           <label
@@ -173,6 +177,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test5"
           data-role="form-item"
         >
           <label
@@ -208,6 +213,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="switch"
           data-role="form-item"
         >
           <div
@@ -238,6 +244,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test6"
           data-role="form-item"
         >
           <label
@@ -273,6 +280,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test7"
           data-role="form-item"
         >
           <label
@@ -308,6 +316,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test8"
           data-role="form-item"
         >
           <label

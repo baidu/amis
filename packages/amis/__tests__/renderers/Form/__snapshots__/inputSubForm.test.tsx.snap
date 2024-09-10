@@ -37,6 +37,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="form"
             data-role="form-item"
           >
             <label
@@ -149,6 +150,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -188,6 +190,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="b"
             data-role="form-item"
           >
             <label
@@ -285,6 +288,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form2"
           data-role="form-item"
         >
           <label
@@ -434,6 +438,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form"
           data-role="form-item"
         >
           <label
@@ -643,6 +648,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form"
           data-role="form-item"
         >
           <label

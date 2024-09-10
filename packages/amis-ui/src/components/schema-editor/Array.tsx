@@ -57,6 +57,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         })}
       >
         <SchemaEditorItem
+          dataName={this.props.dataName}
           types={types}
           onTypeChange={onTypeChange}
           label={
@@ -135,6 +136,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         className={cx('SchemaEditorItem SchemaEditorArray', {
           'SchemaEditorItem--mini': mini
         })}
+        data-amis-name={this.props.dataName}
       >
         {showInfo !== false ? (
           <>

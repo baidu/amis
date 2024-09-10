@@ -126,6 +126,7 @@ exports[`Renderer:panel 1`] = `
                   >
                     <div
                       class="cxd-Form-item cxd-Form-item--normal"
+                      data-amis-name="text"
                       data-role="form-item"
                     >
                       <div
@@ -148,6 +149,7 @@ exports[`Renderer:panel 1`] = `
                     </div>
                     <div
                       class="cxd-Form-item cxd-Form-item--normal"
+                      data-amis-name="text2"
                       data-role="form-item"
                     >
                       <div

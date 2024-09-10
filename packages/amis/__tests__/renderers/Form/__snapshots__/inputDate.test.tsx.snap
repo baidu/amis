@@ -33,6 +33,7 @@ exports[`Renderer:inputDate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -133,6 +134,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date1"
                   data-role="form-item"
                 >
                   <label
@@ -187,6 +189,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date1"
                   data-role="form-item"
                 >
                   <label
@@ -214,6 +217,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date2"
                   data-role="form-item"
                 >
                   <label
@@ -268,6 +272,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date2"
                   data-role="form-item"
                 >
                   <label
@@ -365,6 +370,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date"
                   data-role="form-item"
                 >
                   <label
@@ -481,6 +487,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date"
                   data-role="form-item"
                 >
                   <label
@@ -527,6 +534,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date"
                   data-role="form-item"
                 >
                   <label
@@ -628,6 +636,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date"
                   data-role="form-item"
                 >
                   <label
@@ -682,6 +691,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="date"
                   data-role="form-item"
                 >
                   <label

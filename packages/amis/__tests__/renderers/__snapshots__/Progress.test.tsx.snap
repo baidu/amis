@@ -66,6 +66,7 @@ exports[`Renderer:Progress as form item 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="progress"
           data-role="form-item"
         >
           <label

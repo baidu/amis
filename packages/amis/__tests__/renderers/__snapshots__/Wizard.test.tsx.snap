@@ -270,6 +270,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -305,6 +306,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -384,6 +386,7 @@ exports[`Renderer:Wizard default 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -424,6 +427,7 @@ exports[`Renderer:Wizard default 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -599,6 +603,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                   />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
                     data-role="form-item"
                   >
                     <label
@@ -634,6 +639,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                   </div>
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
                     data-role="form-item"
                   >
                     <label
@@ -744,6 +750,7 @@ exports[`Renderer:Wizard dialog 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -938,6 +945,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                   />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
                     data-role="form-item"
                   >
                     <label
@@ -973,6 +981,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                   </div>
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
                     data-role="form-item"
                   >
                     <label
@@ -1203,6 +1212,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -1243,6 +1253,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -1442,6 +1453,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                   />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
                     data-role="form-item"
                   >
                     <label
@@ -1477,6 +1489,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                   </div>
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
                     data-role="form-item"
                   >
                     <label
@@ -2068,6 +2081,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -2108,6 +2122,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -2192,6 +2207,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -2228,6 +2244,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label
@@ -2584,6 +2601,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="email"
             data-role="form-item"
           >
             <label
@@ -2871,6 +2889,7 @@ exports[`Renderer:Wizard target 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="website"
                   data-role="form-item"
                 >
                   <label
@@ -2906,6 +2925,7 @@ exports[`Renderer:Wizard target 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -3125,6 +3145,7 @@ exports[`Renderer:Wizard validate 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isUrl"
+            data-amis-name="website"
             data-role="form-item"
           >
             <label
@@ -3172,6 +3193,7 @@ exports[`Renderer:Wizard validate 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+            data-amis-name="name"
             data-role="form-item"
           >
             <label

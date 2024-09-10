@@ -33,6 +33,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label

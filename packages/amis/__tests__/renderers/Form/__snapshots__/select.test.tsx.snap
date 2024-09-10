@@ -46,6 +46,7 @@ exports[`Renderer: chained select 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <label
@@ -164,6 +165,7 @@ exports[`Renderer:select associated 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="b"
                   data-role="form-item"
                 >
                   <label
@@ -269,6 +271,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -621,6 +624,7 @@ exports[`Renderer:select chained 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <label
@@ -726,6 +730,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -970,6 +975,7 @@ exports[`Renderer:select group 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <label
@@ -1075,6 +1081,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -1283,6 +1290,7 @@ exports[`Renderer:select menutpl 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="select"
                   data-role="form-item"
                 >
                   <label
@@ -1400,6 +1408,7 @@ exports[`Renderer:select table 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <label
@@ -1505,6 +1514,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -1732,6 +1742,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -2115,6 +2126,7 @@ exports[`Renderer:select tree 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
                   data-role="form-item"
                 >
                   <label
@@ -2220,6 +2232,7 @@ exports[`Renderer:select virtual 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label

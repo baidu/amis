@@ -33,6 +33,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -133,6 +134,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -233,6 +235,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label

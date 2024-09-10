@@ -12,6 +12,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -127,6 +128,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -242,6 +244,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -338,6 +341,7 @@ exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -417,6 +421,7 @@ exports[`Renderer:InputTag InputTag input with single tag 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -498,6 +503,7 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label
@@ -612,6 +618,7 @@ exports[`Renderer:InputTag InputTag with placeholder 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="tag"
       data-role="form-item"
     >
       <label

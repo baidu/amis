@@ -33,6 +33,7 @@ exports[`Renderer:text 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -121,6 +122,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--isEmail"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -216,6 +218,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -304,6 +307,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -392,6 +396,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -488,6 +493,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -584,6 +590,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--isUrl"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -679,6 +686,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -767,6 +775,7 @@ exports[`Renderer:text with addOn 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -867,6 +876,7 @@ exports[`Renderer:text with clearable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -963,6 +973,7 @@ exports[`Renderer:text with counter 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1056,6 +1067,7 @@ exports[`Renderer:text with counter 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1149,6 +1161,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1243,6 +1256,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1337,6 +1351,7 @@ exports[`Renderer:text with minLength 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--maxLength"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1434,6 +1449,7 @@ exports[`Renderer:text with options 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1526,6 +1542,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1621,6 +1638,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -1692,6 +1710,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1784,6 +1803,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -1859,6 +1879,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1954,6 +1975,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2025,6 +2047,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2123,6 +2146,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2194,6 +2218,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2272,6 +2297,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2343,6 +2369,7 @@ exports[`Renderer:text with options: options is open 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2468,6 +2495,7 @@ exports[`Renderer:text with options: select first option 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2562,6 +2590,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label

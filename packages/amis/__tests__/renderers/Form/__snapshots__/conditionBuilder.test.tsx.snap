@@ -46,6 +46,7 @@ exports[`Renderer:condition-builder 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="conditions"
                   data-role="form-item"
                 >
                   <label

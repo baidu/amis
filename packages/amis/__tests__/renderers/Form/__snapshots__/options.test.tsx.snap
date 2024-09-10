@@ -12,6 +12,7 @@ exports[`options:linkage 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -65,6 +66,7 @@ exports[`options:linkage 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -129,6 +131,7 @@ exports[`options:linkage 2`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -182,6 +185,7 @@ exports[`options:linkage 2`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -247,6 +251,7 @@ exports[`options:linkage 3`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -300,6 +305,7 @@ exports[`options:linkage 3`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -350,6 +356,7 @@ exports[`options:linkage 4`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -403,6 +410,7 @@ exports[`options:linkage 4`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
