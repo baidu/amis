@@ -13,7 +13,10 @@
     return;
   }
 
-  var head = document.getElementsByTagName('head')[0];
+  // 无界微前端框架要在 iframe 中加载，否则不在同一个沙箱中
+  var head =
+    window.__WUJIE_RAW_DOCUMENT_HEAD__ ||
+    document.getElementsByTagName('head')[0];
   var loadingMap = {};
   var factoryMap = {};
   var modulesMap = {};
@@ -22,8 +25,6 @@
   var pkgMap = {};
 
   var createScripts = function (queues, onerror) {
-    var docFrag = document.createDocumentFragment();
-
     for (var i = 0, len = queues.length; i < len; i++) {
       var id = queues[i].id;
       var url = queues[i].url;
@@ -67,10 +68,10 @@
       script.type = 'text/javascript';
       script.src = url;
 
-      docFrag.appendChild(script);
+      // qiankun 微前端环境中只拦截了 append script 的情况，如果先插入一个 fragment 然后再 fragment 中添加 script 就不会被拦截
+      // 导致不在一个沙箱环境中
+      head.appendChild(script);
     }
-
-    head.appendChild(docFrag);
   };
 
   var loadScripts = function (ids, callback, onerror) {
@@ -307,6 +308,23 @@
   };
 
   require.timeout = 5000;
+
+  // 获取当前加载脚本的路径，从而推断 sdk 的目录，用于异步加载其他资源
+  // 仅用于 jssdk 场景
+  let host = '';
+  if (document.currentScript && document.currentScript.src) {
+    host = document.currentScript.src.replace(/\/[^\/]*$/, '');
+  } else {
+    try {
+      throw new Error();
+    } catch (e) {
+      host = (/((?:https?|file):.*?)\n/.test(e.stack) && RegExp.$1)?.replace(
+        /\/[^\/]*$/,
+        ''
+      );
+    }
+  }
+  amis.sdkBasePath = host;
 
   amis.require = require;
   amis.define = define;
