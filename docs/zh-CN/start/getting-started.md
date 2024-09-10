@@ -873,7 +873,7 @@ Toast 提示弹出位置，默认为`'top-center'`。
 
 #### pdfjsWorkerSrc
 
-渲染 pdf 时，需要加载 worker.js，可以使用 CND 地址，也可以使用本地文件。
+渲染 pdf 时，需要加载 worker.js，可以使用 CDN 地址，也可以使用本地文件。
 
 ```javascript
 import {pdfjs} from 'react-pdf';
