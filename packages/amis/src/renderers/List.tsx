@@ -1552,8 +1552,7 @@ export class ListItem extends React.Component<ListItemProps> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:list|list-group)\/(?:.*\/)?list-item$/,
-  name: 'list-item'
+  type: 'list-item'
 })
 export class ListItemRenderer extends ListItem {
   static propsList = ['multiple', ...ListItem.propsList];

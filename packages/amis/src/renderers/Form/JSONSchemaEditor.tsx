@@ -5,7 +5,7 @@ import {JSONSchemaEditor} from 'amis-ui';
 import {autobind, isObject} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 
-import {schemaEditorItemPlaceholder} from 'amis-ui';
+import {schemaEditorItemPlaceholder} from 'amis-ui/lib/components/schema-editor/Common';
 import type {SchemaEditorItemPlaceholder} from 'amis-ui';
 import {isMobile} from 'amis-core';
 
@@ -99,7 +99,9 @@ export interface JSONSchemaEditorProps
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
-export default class JSONSchemaEditorControl extends React.PureComponent<JSONSchemaEditorProps> {
+export default class JSONSchemaEditorControl extends React.PureComponent<
+  JSONSchemaEditorProps
+> {
   static defaultProps = {
     enableAdvancedSetting: false,
     placeholder: schemaEditorItemPlaceholder

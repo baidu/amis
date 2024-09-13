@@ -3,7 +3,8 @@ import omit from 'lodash/omit';
 import debounce from 'lodash/debounce';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
-import {SpinnerExtraProps, Tree as TreeSelector, value2array} from 'amis-ui';
+import {SpinnerExtraProps, Tree as TreeSelector} from 'amis-ui';
+import {value2array} from 'amis-ui/lib/components/Select';
 import {
   Option,
   OptionsControl,

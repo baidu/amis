@@ -324,7 +324,8 @@ export const MappingField = withStore(props =>
 );
 
 @Renderer({
-  test: /(^|\/)(?:map|mapping)$/,
+  type: 'mapping',
+  alias: ['map'],
   name: 'mapping'
 })
 export class MappingFieldRenderer extends React.Component<RendererProps> {

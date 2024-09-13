@@ -1,5 +1,6 @@
 import {waitFor} from '@testing-library/react';
 import {RenderOptions} from '../src';
+import '../src';
 
 // jest.useFakeTimers 会修改 global 的 setTimeout 所以需要把原始的记录下来。
 const timerFn = (global as any).originSetTimeout || setTimeout;

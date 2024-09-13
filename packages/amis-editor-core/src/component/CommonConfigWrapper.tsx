@@ -63,9 +63,10 @@ export class CommonConfigWrapper extends NodeWrapper {
         $$editor
       );
     }
+    const Component = renderer.component!;
 
     return (
-      <renderer.component
+      <Component
         {...rest}
         store={store}
         $schema={$schema}

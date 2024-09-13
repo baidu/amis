@@ -10,6 +10,9 @@ import {
   Renderer,
   getRendererByName,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
   registerRenderer,
   unRegisterRenderer,
   resolveRenderer,
@@ -21,7 +24,12 @@ import {
   addSchemaFilter,
   extendDefaultEnv
 } from './factory';
-import type {RenderOptions, RendererConfig, RendererProps} from './factory';
+import type {
+  RenderOptions,
+  RendererConfig,
+  RendererProps,
+  hasAsyncRenderers
+} from './factory';
 import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
@@ -137,6 +145,10 @@ export {
   registerRenderer,
   unRegisterRenderer,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
+  hasAsyncRenderers,
   registerFormItem,
   getFormItemByName,
   registerOptionsControl,

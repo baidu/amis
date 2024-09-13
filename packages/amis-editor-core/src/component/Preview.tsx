@@ -1,4 +1,12 @@
-import {render, toast, resolveRenderer, Modal, Icon, resizeSensor} from 'amis';
+import {
+  render,
+  toast,
+  resolveRenderer,
+  Modal,
+  Icon,
+  resizeSensor,
+  Spinner
+} from 'amis';
 import React, {Component} from 'react';
 import cx from 'classnames';
 import {autobind, guid, noop, reactionWithOldValue} from '../util';
@@ -553,7 +561,11 @@ export default class Preview extends Component<PreviewProps> {
           ref={this.contentsRef}
         >
           <div className="ae-Preview-inner">
-            {isMobile ? (
+            {!store.ready ? (
+              <div className="ae-Preview-loading">
+                <Spinner overlay size="lg" />
+              </div>
+            ) : isMobile ? (
               <IFramePreview
                 {...rest}
                 key="mobile"
