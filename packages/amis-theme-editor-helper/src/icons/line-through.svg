@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="11.1终稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="图标" transform="translate(-234.000000, -209.000000)">
-            <g id="编组-7备份" transform="translate(234.455199, 209.000000)">
-                <rect id="矩形备份-9" opacity="0.5" x="0" y="0" width="16" height="16"></rect>
-                <text id="S" font-family="PingFangSC-Medium, PingFang SC" font-size="14" font-weight="400" line-spacing="14" fill="currentColor">
-                    <tspan x="2.90740741" y="14">S</tspan>
-                </text>
-                <g id="编组-10" transform="translate(2.907407, 8.000000)" fill="currentColor">
-                    <rect id="矩形" x="0" y="0" width="10.1851852" height="1.546875"></rect>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="17" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path opacity=".5" d="M.455 0h16v16h-16z"/><text font-family="PingFangSC-Medium, PingFang SC" font-size="14" font-weight="400" fill="currentColor" transform="translate(.455)"> <tspan x="2.907" y="14">S</tspan> </text><path d="M3.363 8h10.185v1.547H3.363z" fill="currentColor"/></g></svg>

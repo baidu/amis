@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg  viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-     
-    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g >
-            <rect  opacity="0" x="0" y="0" width="16" height="16"></rect>
-            <polygon  fill="currentColor" points="12.233 5 7.993 9.24 3.753 5 3.04 5.713 7.99 10.663 7.993 10.66 7.996 10.663 12.946 5.713"></polygon>
-        </g>
-    </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m12.233 5-4.24 4.24L3.753 5l-.713.713 4.95 4.95.003-.003.003.003 4.95-4.95z" fill-rule="evenodd"/></svg>

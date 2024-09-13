@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="布局容器交互稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="图标" transform="translate(-271.000000, -143.000000)">
-            <g id="自由容器" transform="translate(271.250000, 143.000000)">
-                <rect id="矩形备份-4" x="0" y="0" width="16" height="16"></rect>
-                <rect id="矩形备份-3" stroke="currentColor" stroke-linejoin="round" x="1.5" y="2" width="13" height="12"></rect>
-                <line x1="2" y1="11.038287" x2="14" y2="11.038287" id="直线-2备份-8" stroke="currentColor" stroke-linecap="square"></line>
-                <line x1="11.3670115" y1="2" x2="11.3670115" y2="14" id="直线-2备份-10" stroke="currentColor" stroke-linecap="square"></line>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="17" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M.25 0h16v16h-16z"/><path stroke="currentColor" stroke-linejoin="round" d="M1.75 2h13v12h-13z"/><path stroke="currentColor" stroke-linecap="square" d="M2.25 11.038h12M11.617 2v12"/></g></svg>

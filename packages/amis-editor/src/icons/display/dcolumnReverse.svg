@@ -1,10 +1,1 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" preserveAspectRatio="xMidYMid meet"
-  width="20" height="20" viewBox="0 0 9 18" class="ve-svgicon vs-style-reverse-v"
-  style="vertical-align: middle;">
-  <g fill-rule="evenodd">
-    <path d="M0 6h9v5H0zm5 9v-3H4v3H2l2.5 3L7 15H5z"></path>
-    <path opacity=".4" d="M1 1h7v3H1z" data-spm-anchor-id="a2q5o.26736379.0.i51.35962a19sy6kFy"></path>
-    <path d="M1 1v3h7V1H1zM0 0h9v5H0V0z"></path>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 9 18" class="ve-svgicon vs-style-reverse-v" style="vertical-align:middle"><g fill-rule="evenodd"><path d="M0 6h9v5H0zm5 9v-3H4v3H2l2.5 3L7 15H5z"/><path opacity=".4" d="M1 1h7v3H1z" data-spm-anchor-id="a2q5o.26736379.0.i51.35962a19sy6kFy"/><path d="M1 1v3h7V1H1zM0 0h9v5H0V0z"/></g></svg>

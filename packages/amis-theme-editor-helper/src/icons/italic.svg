@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="11.1终稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="图标" transform="translate(-142.000000, -209.000000)">
-            <g id="字符斜体" transform="translate(142.000000, 209.000000)">
-                <rect id="矩形备份-9" opacity="0.5" x="0" y="0" width="16" height="16"></rect>
-                <g id="编组-9" transform="translate(4.000000, 2.000000)" fill="currentColor">
-                    <rect id="矩形" x="0" y="11.0710985" width="6.39371687" height="1.546875"></rect>
-                    <rect id="矩形备份-10" x="2.52648496" y="0" width="6.39371687" height="1.54579613"></rect>
-                    <polygon id="矩形备份-11" transform="translate(4.467389, 6.517991) rotate(-75.000000) translate(-4.467389, -6.517991) " points="-1.63309621 5.77231404 10.5726478 5.73461081 10.5678735 7.26366786 -1.63787052 7.30137109"></polygon>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path opacity=".5" d="M0 0h16v16H0z"/><g fill="currentColor"><path d="M4 13.071h6.394v1.547H4zM6.526 2h6.394v1.546H6.526z"/><path d="m6.168 14.218 3.123-11.8 1.476.4-3.123 11.8z"/></g></g></svg>

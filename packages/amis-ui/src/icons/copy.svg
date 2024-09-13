@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-		<polyline  stroke="currentColor" points="2.5 9.5 0.5 9.5 0.5 0.5 9.5 0.5 9.5 2.5">
-		</polyline>
-		<polygon  stroke="currentColor" points="2.5 11.5 11.5 11.5 11.5 2.5 2.5 2.5">
-		</polygon>
-	</g>
-</svg>
+<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor"><path d="M2.5 9.5h-2v-9h9v2"/><path d="M2.5 11.5h9v-9h-9z"/></g></svg>
