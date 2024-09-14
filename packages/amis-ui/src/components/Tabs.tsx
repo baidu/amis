@@ -279,6 +279,9 @@ export class Tabs extends React.Component<TabsProps, any> {
       editInputText: null,
       editOriginText: null
     };
+
+    // 全局注册方法，用于外部调用
+    (window as any).tabsSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
