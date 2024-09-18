@@ -112,6 +112,13 @@ export function replaceReactAriaIds(container: HTMLElement) {
         }
       });
     });
+
+  container.querySelectorAll('[data-id]').forEach(el => {
+    const val = el.getAttribute('data-id');
+    if (typeof val === 'string' && /^[a-z0-9]{12}$/.test(val)) {
+      el.removeAttribute('data-id');
+    }
+  });
 }
 
 // Mock IntersectionObserver

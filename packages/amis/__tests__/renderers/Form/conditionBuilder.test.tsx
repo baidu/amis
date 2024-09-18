@@ -24,7 +24,6 @@ import {
 import '../../../src';
 import {render as amisRender, clearStoresCache} from '../../../src';
 import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
-import {Select} from 'packages/amis-ui/lib/components/Select';
 
 afterEach(() => {
   cleanup();

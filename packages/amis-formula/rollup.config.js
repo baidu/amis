@@ -30,7 +30,7 @@ const external = id =>
 
 export default [
   {
-    input: ['./src/index.ts', './src/doc.ts'],
+    input: ['./src/index.ts'],
     output: [
       {
         ...settings,
@@ -45,7 +45,7 @@ export default [
     plugins: getPlugins('cjs')
   },
   {
-    input: ['./src/index.ts', './src/doc.ts'],
+    input: ['./src/index.ts'],
     output: [
       {
         ...settings,
@@ -60,6 +60,23 @@ export default [
     plugins: getPlugins('esm')
   }
 ];
+
+function transpileDynamicImportForCJS(options) {
+  return {
+    name: 'transpile-dynamic-import-for-cjs',
+    renderDynamicImport({format, targetModuleId}) {
+      if (format !== 'cjs') {
+        return null;
+      }
+
+      return {
+        left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
+        right:
+          ', "tslib"], function(mod, tslib) {fullfill(tslib.__importStar(mod))})})})'
+      };
+    }
+  };
+}
 
 function getPlugins(format = 'esm') {
   const typeScriptOptions = {
@@ -83,6 +100,7 @@ function getPlugins(format = 'esm') {
   };
 
   return [
+    transpileDynamicImportForCJS(),
     json(),
     resolve({
       jsnext: true,

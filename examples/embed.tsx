@@ -14,6 +14,14 @@ import {render as renderAmis, makeTranslator} from 'amis-core';
 import 'amis/lib/minimal';
 
 import 'amis-ui/lib/locale/en-US';
+import 'amis-ui/lib/locale/zh-CN';
+import 'amis-ui/lib/locale/en-US';
+import 'amis-ui/lib/locale/de-DE';
+import 'amis-ui/lib/themes/cxd';
+import 'amis-ui/lib/themes/ang';
+import 'amis-ui/lib/themes/antd';
+import 'amis-ui/lib/themes/dark';
+
 import 'history';
 import {attachmentAdpator} from 'amis-core';
 import {pdfUrlLoad} from './loadPdfjsWorker';
