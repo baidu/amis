@@ -15,15 +15,13 @@ import {
   localeable,
   LocaleProps
 } from 'amis-core';
-import type {FunctionDocMap} from 'amis-formula/lib/types';
-
 import {editorFactory} from './plugin';
 import FuncList from './FuncList';
 import VariableList from './VariableList';
 import {toast} from '../Toast';
 import Switch from '../Switch';
 import CodeEditor, {FuncGroup, FuncItem, VariableItem} from './CodeEditor';
-import {functionDocs} from 'amis-formula';
+import {getFunctionsDoc} from 'amis-formula';
 import Transition, {
   EXITED,
   ENTERING,
@@ -130,49 +128,13 @@ export class FormulaEditor extends React.Component<
   unmounted: boolean = false;
   editor = React.createRef<any>();
 
-  static buildDefaultFunctions(
-    doc: Array<{
-      namespace: string;
-      name: string;
-      [propName: string]: any;
-    }>
-  ) {
-    const funcs: Array<FuncGroup> = [];
-
-    doc.forEach(item => {
-      const namespace = item.namespace || 'Others';
-      let exists = funcs.find(item => item.groupName === namespace);
-      if (!exists) {
-        exists = {
-          groupName: namespace,
-          items: []
-        };
-        funcs.push(exists);
-      }
-      exists.items.push(item);
-    });
-
-    return funcs;
-  }
-
-  static buildCustomFunctions(map: FunctionDocMap = {}) {
-    return Object.entries(map).map(([k, items]) => ({
-      groupName: k,
-      items
-    }));
-  }
-
   static async buildFunctions(
     functions?: Array<any>,
     functionsFilter?: (functions: Array<FuncGroup>) => Array<FuncGroup>
   ): Promise<any> {
-    const {doc} = await import('amis-formula/lib/doc');
+    const builtInFunctions = await getFunctionsDoc();
     const customFunctions = Array.isArray(functions) ? functions : [];
-    const functionList = [
-      ...FormulaEditor.buildDefaultFunctions(doc),
-      ...FormulaEditor.buildCustomFunctions(functionDocs),
-      ...customFunctions
-    ];
+    const functionList = [...builtInFunctions, ...customFunctions];
 
     if (functionsFilter) {
       return functionsFilter(functionList);

@@ -8,6 +8,7 @@
 export * from 'amis-core';
 export * from 'amis-ui';
 import './minimal';
+import {registerFilter, registerFormula} from 'amis-formula';
 
 import type {
   BaseSchema,
@@ -44,5 +45,7 @@ export {
   SchemaExpression,
   Action,
   SchemaType,
-  EditorAvailableLanguages
+  EditorAvailableLanguages,
+  registerFilter,
+  registerFormula
 };

@@ -55,3 +55,10 @@ global.afterAll(() => {
   console.error = originalError;
   cleanup();
 });
+
+// expect.addSnapshotSerializer({
+//   test: val => typeof val === 'string' && /^[a-z0-9]{12}$/.test(val),
+//   print: val => {
+//     return JSON.stringify('__guid_dynamic_value__');
+//   }
+// });

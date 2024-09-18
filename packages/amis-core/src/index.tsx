@@ -39,7 +39,7 @@ export * from './store';
 import * as utils from './utils/helper';
 import {getEnv} from 'mobx-state-tree';
 
-import {RegisterStore, RendererStore} from './store';
+import {RegisterStore, registerStore, RendererStore} from './store';
 import type {IColumn, IColumn2, IRow, IRow2} from './store';
 import {
   setDefaultLocale,
@@ -133,6 +133,7 @@ export {
   RendererEnv,
   EnvContext,
   RegisterStore,
+  registerStore,
   FormItem,
   FormItemWrap,
   FormItemProps,

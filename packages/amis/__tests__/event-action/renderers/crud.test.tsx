@@ -3,7 +3,7 @@ import * as renderer from 'react-test-renderer';
 import {fireEvent, render, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 test('doAction:crud reload', async () => {
   const notify = jest.fn();
@@ -243,6 +243,8 @@ test('doAction:crud reload', async () => {
     );
   });
 
+  await wait(500);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -407,6 +409,7 @@ test('doAction:crud reload with data1', async () => {
     );
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -574,5 +577,6 @@ test('doAction:crud reload with data2', async () => {
     );
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

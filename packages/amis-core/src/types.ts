@@ -216,6 +216,18 @@ export type ClassName =
       [propName: string]: boolean | undefined | null | string;
     };
 
+export type RequestAdaptor = (
+  api: ApiObject,
+  context: any
+) => ApiObject | Promise<ApiObject>;
+
+export type ResponseAdaptor = (
+  payload: object,
+  response: fetcherResult,
+  api: ApiObject,
+  context: any
+) => any;
+
 export interface ApiObject extends BaseApiObject {
   config?: {
     withCredentials?: boolean;
@@ -228,16 +240,8 @@ export interface ApiObject extends BaseApiObject {
   body?: PlainObject;
   query?: PlainObject;
   mockResponse?: PlainObject;
-  adaptor?: (
-    payload: object,
-    response: fetcherResult,
-    api: ApiObject,
-    context: any
-  ) => any;
-  requestAdaptor?: (
-    api: ApiObject,
-    context: any
-  ) => ApiObject | Promise<ApiObject>;
+  adaptor?: ResponseAdaptor;
+  requestAdaptor?: RequestAdaptor;
   /**
    * api 发送上下文，可以用来传递一些数据给 api 的 adaptor
    * @readonly

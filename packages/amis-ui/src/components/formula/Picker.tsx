@@ -24,7 +24,6 @@ import Modal from '../Modal';
 import PopUp from '../PopUp';
 import FormulaInput from './Input';
 import {FuncGroup, VariableItem} from './CodeEditor';
-import {functionDocs} from 'amis-formula';
 
 export const InputSchemaType = [
   'text',

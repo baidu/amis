@@ -3,7 +3,12 @@ import {AsyncEvaluator} from './evalutorForAsync';
 import {parse} from './parser';
 import {lexer} from './lexer';
 import {registerFilter, filters, getFilters, extendsFilters} from './filter';
-import {registerFunction, registerFunctionDoc, functionDocs} from './function';
+import {
+  registerFunction,
+  registerFunctionDoc,
+  functionDocs,
+  registerFormula
+} from './function';
 import type {
   FilterContext,
   ASTNode,
@@ -19,9 +24,9 @@ export {
   filters,
   getFilters,
   registerFilter,
+  registerFormula,
   registerFunction,
   registerFunctionDoc,
-  functionDocs,
   extendsFilters
 };
 
@@ -53,5 +58,14 @@ export async function evaluateForAsync(
   return new AsyncEvaluator(data, options).evalute(ast);
 }
 
-Evaluator.setDefaultFilters(getFilters());
+Evaluator.extendDefaultFilters(getFilters());
 AsyncEvaluator.setDefaultFilters(getFilters());
+
+export async function getFunctionsDoc() {
+  await import('./doc');
+
+  return Object.entries(functionDocs).map(([k, items]) => ({
+    groupName: k,
+    items
+  }));
+}

@@ -7,9 +7,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
-import {autobind, camel, preventDefault} from '../utils';
+import {autobind, camel, preventDefault, TestIdBuilder} from '../utils';
 import {SubPopoverDisplayedID} from './Overlay';
-import type {TestIdBuilder} from 'amis-core';
 
 export interface Offset {
   x: number;

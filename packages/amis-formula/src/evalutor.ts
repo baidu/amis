@@ -26,14 +26,14 @@ export class Evaluator {
   contextStack: Array<(varname: string) => any> = [];
 
   static defaultFilters: FilterMap = {};
-  static setDefaultFilters(filters: FilterMap) {
+  static extendDefaultFilters(filters: FilterMap) {
     Evaluator.defaultFilters = {
       ...Evaluator.defaultFilters,
       ...filters
     };
   }
   static defaultFunctions: FunctionMap = {};
-  static setDefaultFunctions(funtions: FunctionMap) {
+  static extendDefaultFunctions(funtions: FunctionMap) {
     Evaluator.defaultFunctions = {
       ...Evaluator.defaultFunctions,
       ...funtions
@@ -2384,6 +2384,10 @@ export class Evaluator {
     return false;
   }
 }
+
+// 兼容
+(Evaluator as any).setDefaultFilters = Evaluator.extendDefaultFilters;
+(Evaluator as any).setDefaultFunctions = Evaluator.extendDefaultFunctions;
 
 export function getCookie(name: string) {
   const value = `; ${document.cookie}`;

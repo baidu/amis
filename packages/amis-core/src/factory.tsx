@@ -195,7 +195,8 @@ function rendererToComponent(
 export function registerRenderer(config: RendererConfig): RendererConfig {
   if (!config.test && !config.type) {
     throw new TypeError('please set config.type or config.test');
-  } else if (!config.type) {
+  } else if (!config.type && config.name !== 'static') {
+    // todo static 目前还没办法不用 test 来实现
     console.warn(
       `config.type is recommended for register renderer(${config.test})`
     );
