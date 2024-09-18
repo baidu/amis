@@ -33,12 +33,12 @@ export function registerFilter(
   fn: (input: any, ...args: any[]) => any
 ): void {
   filters[name] = fn;
-  Evaluator.setDefaultFilters(filters);
+  Evaluator.extendDefaultFilters(filters);
 }
 
 export function extendsFilters(value: FilterMap) {
   Object.assign(filters, value);
-  Evaluator.setDefaultFilters(filters);
+  Evaluator.extendDefaultFilters(filters);
 }
 
 export function getFilters() {

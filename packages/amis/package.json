@@ -226,7 +226,8 @@
       "\\.svg\\.js$": "<rootDir>/../../__mocks__/svgJsMock.js",
       "^amis\\-core$": "<rootDir>/../amis-core/src/index.tsx",
       "^amis\\-ui$": "<rootDir>/../amis-ui/src/index.tsx",
-      "^amis\\-ui/lib/(.*)$": "<rootDir>/../amis-ui/src/$1"
+      "^amis\\-ui/lib/(.*)$": "<rootDir>/../amis-ui/src/$1",
+      "^amis\\-formula$": "<rootDir>/../amis-formula/src/index.ts"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/../amis-core/__tests__/jest.setup.js"

@@ -1,21 +1,10 @@
 /**
  * 公式文档 请运行 `npm run genDoc` 自动生成
  */
-export const doc: {
-  name: string;
-  description: string;
-  example: string;
-  params: {
-    type: string;
-    name: string;
-    description: string | null;
-  }[];
-  returns: {
-    type: string;
-    description: string | null;
-  };
-  namespace: string;
-}[] = [
+
+import {bulkRegisterFunctionDoc} from './function';
+
+bulkRegisterFunctionDoc([
   {
     name: 'IF',
     description:
@@ -1982,4 +1971,4 @@ export const doc: {
     },
     namespace: '其他'
   }
-];
+]);

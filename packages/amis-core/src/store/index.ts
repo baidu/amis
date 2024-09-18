@@ -114,6 +114,7 @@ export {iRendererStore, IIRendererStore};
 export const RegisterStore = function (store: any) {
   allowedStoreList.push(store as any);
 };
+export const registerStore = RegisterStore;
 
 export {
   ServiceStore,
