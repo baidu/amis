@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="表单项-组合输入" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polyline id="路径" stroke="currentColor" stroke-linecap="round" points="4 2 14 2 14 12"></polyline>
-        <rect id="矩形" stroke="currentColor" x="2" y="4" width="10" height="10"></rect>
-        <line x1="6" y1="6.5" x2="8" y2="6.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-        <line x1="7" y1="6.5" x2="7" y2="11.5" id="直线-" stroke="currentColor" stroke-linecap="round"></line>
-        <line x1="6" y1="11.5" x2="8" y2="11.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-    </g>
-</svg>
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke-linejoin="round" stroke="currentColor"><path stroke-linecap="round" d="M4 2h10v10"/><path d="M2 4h10v10H2z"/><path stroke-linecap="round" d="M6 6.5h2m-1 0v5m-1 0h2"/></g></svg>

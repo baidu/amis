@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="映射" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="方形" stroke="currentColor" x="2" y="2" width="4.5" height="12"></rect>
-        <rect id="方形" stroke="currentColor" x="9.5" y="2" width="4.5" height="12"></rect>
-        <line x1="4.25" y1="7" x2="4.25" y2="9" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-        <line x1="11.75" y1="7" x2="11.75" y2="9" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-        <line x1="6.5" y1="8" x2="9.5" y2="8" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-    </g>
-</svg>
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke-linejoin="round" stroke="currentColor"><path d="M2 2h4.5v12H2zm7.5 0H14v12H9.5z"/><path stroke-linecap="round" d="M4.25 7v2m7.5-2v2M6.5 8h3"/></g></svg>

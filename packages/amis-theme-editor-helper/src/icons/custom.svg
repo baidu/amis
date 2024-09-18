@@ -1,18 +1,1 @@
-<svg viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
-    <rect x="7.11577461" y="2.95100764" width="6.91305466" height="1"
-        rx="0.5" fill="currentColor"> </rect>
-    <rect x="7.11577461" y="5.98938234" width="5.18768508"
-        height="1" rx="0.5" fill="currentColor"></rect>
-    <rect x="7.11577461" y="9.02775704" width="6.91305466"
-        height="1" rx="0.5" fill="currentColor"></rect>
-    <rect x="7.11577461" y="12.0661317" width="5.18768508"
-        fill="currentColor"
-        height="1" rx="0.5"></rect>
-    <path
-        d="M4.28402126,2.5 L4.28402126,3.98813377 M4.28402126,6.73009787 L4.28402126,8.87389474 M4.28402126,11.9388703 L4.28402126,13.5"
-        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="bevel"></path>
-    <path
-        d="M4.25,9.19464196 C4.98767176,9.19464196 5.58567287,9.79264308 5.58567287,10.5303148 C5.58567287,11.2679866 4.98767176,11.8659877 4.25,11.8659877 C3.51232824,11.8659877 2.91432713,11.2679866 2.91432713,10.5303148 C2.91432713,9.79264308 3.51232824,9.19464196 4.25,9.19464196 Z M4.25,4.04216118 C4.98767176,4.04216118 5.58567287,4.6401623 5.58567287,5.37783405 C5.58567287,6.11550581 4.98767176,6.71350693 4.25,6.71350693 C3.51232824,6.71350693 2.91432713,6.11550581 2.91432713,5.37783405 C2.91432713,4.6401623 3.51232824,4.04216118 4.25,4.04216118 Z"
-        stroke="currentColor" fill="none" stroke-linejoin="round"></path>
-</svg>
+<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect x="7.116" y="2.951" width="6.913" height="1" rx=".5" fill="currentColor"/><rect x="7.116" y="5.989" width="5.188" height="1" rx=".5" fill="currentColor"/><rect x="7.116" y="9.028" width="6.913" height="1" rx=".5" fill="currentColor"/><rect x="7.116" y="12.066" width="5.188" fill="currentColor" height="1" rx=".5"/><path d="M4.284 2.5v1.488m0 2.742v2.144m0 3.065V13.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="bevel"/><path d="M4.25 9.195a1.336 1.336 0 1 1 0 2.671 1.336 1.336 0 0 1 0-2.671Zm0-5.153a1.336 1.336 0 1 1 0 2.672 1.336 1.336 0 0 1 0-2.672Z" stroke="currentColor" fill="none" stroke-linejoin="round"/></svg>

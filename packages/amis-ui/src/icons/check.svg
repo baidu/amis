@@ -1,7 +1,1 @@
-<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g  transform="translate(1, 3)" fill="currentColor">
-    <polygon
-      points="12.9434208 0 14 1.05549618 5.46878781 9.59546203 0 4.11951273 1.0567286 3.06416613 5.46873994 7.48230751"></polygon>
-  </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M13.943 3 15 4.055l-8.531 8.54L1 7.12l1.057-1.056 4.412 4.418z" fill="currentColor"/></svg>

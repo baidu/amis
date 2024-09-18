@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="11.1终稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="图标" transform="translate(-329.000000, -209.000000)">
-            <g id="字符居中对齐" transform="translate(329.823018, 209.000000)">
-                <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
-                <g id="编组-11" transform="translate(2.000000, 2.000000)" fill="currentColor">
-                    <rect id="矩形" x="0" y="0" width="12" height="1.5"></rect>
-                    <rect id="矩形备份-13" x="1.71428571" y="10" width="8.57142857" height="1.5"></rect>
-                    <rect id="矩形备份-7" x="2.57142857" y="5" width="6.85714286" height="1.5"></rect>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="17" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M.823 0h16v16h-16z"/><path d="M2.823 2h12v1.5h-12zm1.714 10h8.571v1.5H4.537zm.857-5h6.857v1.5H5.394z" fill="currentColor"/></g></svg>

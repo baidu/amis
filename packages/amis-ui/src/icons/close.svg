@@ -1,7 +1,1 @@
-<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g  transform="translate(1.439340, 1.439340)" fill="currentColor" fill-rule="nonzero">
-    <polygon
-      points="12.0606602 5.80646642e-14 13.1213203 1.06066017 7.62066017 6.56066017 13.1213203 12.0606602 12.0606602 13.1213203 6.56066017 7.62066017 1.06066017 13.1213203 0 12.0606602 5.49966017 6.56066017 1.72084569e-13 1.06066017 1.06066017 0 6.56066017 5.49966017"></polygon>
-  </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m13.5 1.44 1.06 1.06L9.06 8l5.5 5.5-1.06 1.06L8 9.06l-5.5 5.5-1.06-1.06L6.938 8l-5.5-5.5L2.5 1.44 8 6.938z" fill="currentColor"/></svg>
