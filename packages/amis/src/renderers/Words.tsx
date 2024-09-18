@@ -91,7 +91,7 @@ function getLabel(
     }`;
   }
 
-  return item[labelField] || `选项${index}`;
+  return labelToString(item[labelField]) || `选项${index}`;
 }
 
 export class WordsField extends React.Component<WordsProps, object> {
