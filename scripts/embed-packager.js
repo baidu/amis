@@ -126,17 +126,12 @@ module.exports = function (ret, pack, settings, opt) {
 
           if (/_map\.js$/.test(file.subpath)) {
             contents = `(function() {
-    var d = '';
-    try {
-        throw new Error()
-    } catch (e) {
-        d = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
-    }
-    amis.host = d;
     ${contents.replace(
       /\"url\"\s*\:\s*('|")(\.\/.*?)\1/g,
       function (_, quote, value) {
-        return `"url": d + ${quote}${value.substring(1)}${quote}`;
+        return `"url": amis.sdkBasePath + ${quote}${value.substring(
+          1
+        )}${quote}`;
       }
     )}
         })()`;
