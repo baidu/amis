@@ -63,9 +63,10 @@ export class FormConfigWrapper extends NodeWrapper {
         $$editor
       );
     }
+    const Component = renderer.component!;
 
     return (
-      <renderer.component
+      <Component
         {...rest}
         store={store}
         $schema={$schema}

@@ -467,6 +467,8 @@ export function Icon({
   return <span className="text-danger">没有 icon {icon}</span>;
 }
 
+export default Icon;
+
 export {
   InputClearIcon,
   CloseIcon,

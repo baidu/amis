@@ -7,15 +7,11 @@ import copy from 'copy-to-clipboard';
 import {normalizeLink, supportsMjs} from 'amis-core';
 
 import qs from 'qs';
-import {
-  toast,
-  alert,
-  confirm,
-  ToastComponent,
-  AlertComponent,
-  render as renderAmis,
-  makeTranslator
-} from 'amis';
+import {alert, confirm} from 'amis-ui/lib/components/Alert';
+import {toast, default as ToastComponent} from 'amis-ui/lib/components/Toast';
+import AlertComponent from 'amis-ui/lib/components/Alert';
+import {render as renderAmis, makeTranslator} from 'amis-core';
+import 'amis/lib/minimal';
 
 import 'amis-ui/lib/locale/en-US';
 import 'history';

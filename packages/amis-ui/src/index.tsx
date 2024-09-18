@@ -11,5 +11,6 @@ import './themes/dark';
 import './themes/default';
 import type {SchemaEditorItemPlaceholder} from './components/schema-editor/Common';
 import {schemaEditorItemPlaceholder} from './components/schema-editor/Common';
+import withStore from './withStore';
 
-export {schemaEditorItemPlaceholder, SchemaEditorItemPlaceholder};
+export {schemaEditorItemPlaceholder, SchemaEditorItemPlaceholder, withStore};

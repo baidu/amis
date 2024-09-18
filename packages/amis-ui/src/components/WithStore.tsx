@@ -71,3 +71,5 @@ export function withStore<K extends IAnyStateTreeNode>(
     };
   };
 }
+
+export default withStore;

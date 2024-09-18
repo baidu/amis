@@ -45,8 +45,10 @@ export interface TestFunc {
 export interface RendererBasicConfig {
   test?: RegExp | TestFunc;
   type?: string;
+  alias?: Array<string>; // 别名, 可以绑定多个类型，命中其中一个即可。
   name?: string;
   storeType?: string;
+  defaultProps?: (type: string, schema: any) => any;
   shouldSyncSuperStore?: (
     store: any,
     props: any,
@@ -99,8 +101,16 @@ export type RendererComponent = React.ComponentType<RendererProps> & {
 };
 
 export interface RendererConfig extends RendererBasicConfig {
-  component: RendererComponent;
-  Renderer?: RendererComponent; // 原始组件
+  // 渲染器组件，与 Renderer 的区别是，这个可能是包裹了 store 的。
+  component?: RendererComponent;
+  // 异步渲染器
+  getComponent?: () => Promise<{default: RendererComponent} | any>;
+
+  // 如果要替换系统渲染器，则需要设置这个为 true
+  override?: boolean;
+
+  // 原始组件
+  Renderer?: RendererComponent;
 }
 
 export interface RenderSchemaFilter {
@@ -128,6 +138,10 @@ export interface RenderOptions
 }
 
 const renderers: Array<RendererConfig> = [];
+// type 与 RendererConfig 的映射关系
+const renderersTypeMap: {
+  [propName: string]: RendererConfig;
+} = {};
 export const renderersMap: {
   [propName: string]: boolean;
 } = {};
@@ -159,65 +173,111 @@ export function Renderer(config: RendererBasicConfig) {
   };
 }
 
+// 将 renderer 转成组件
+function rendererToComponent(
+  component: RendererComponent,
+  config: RendererConfig
+): RendererComponent {
+  if (config.storeType && config.component) {
+    component = HocStoreFactory({
+      storeType: config.storeType,
+      extendsData: config.storeExtendsData,
+      shouldSyncSuperStore: config.shouldSyncSuperStore
+    })(observer(component));
+  }
+
+  if (config.isolateScope) {
+    component = Scoped(component, config.type);
+  }
+  return component;
+}
+
 export function registerRenderer(config: RendererConfig): RendererConfig {
   if (!config.test && !config.type) {
-    throw new TypeError('please set config.test or config.type');
-  } else if (!config.component) {
-    throw new TypeError('config.component is required');
+    throw new TypeError('please set config.type or config.test');
+  } else if (!config.type) {
+    console.warn(
+      `config.type is recommended for register renderer(${config.test})`
+    );
   }
 
   if (typeof config.type === 'string' && config.type) {
     config.type = config.type.toLowerCase();
     config.test =
-      config.test || new RegExp(`(^|\/)${string2regExp(config.type)}$`, 'i');
+      config.test ||
+      new RegExp(
+        `(^|\/)(?:${(config.alias || [])
+          .concat(config.type)
+          .map(type => string2regExp(type))
+          .join('|')})$`,
+        'i'
+      );
   }
 
-  config.weight = config.weight || 0;
-  config.Renderer = config.component;
-  config.name = config.name || config.type || `anonymous-${anonymousIndex++}`;
-
-  if (renderersMap[config.name]) {
+  const exists = renderersTypeMap[config.type || ''];
+  let renderer = {...config};
+  if (
+    exists &&
+    exists.component &&
+    exists.component !== Placeholder &&
+    config.component &&
+    !config.override
+  ) {
     throw new Error(
-      `The renderer with name "${config.name}" has already exists, please try another name!`
+      `The renderer with type "${config.type}" has already exists, please try another type!`
     );
-  } else if (renderersMap.hasOwnProperty(config.name)) {
-    // 后面补充的
-    const idx = findIndex(renderers, item => item.name === config.name);
-    ~idx && renderers.splice(idx, 0, config);
+  } else if (exists) {
+    // 如果已经存在，合并配置，并用合并后的配置
+    Object.assign(exists, config);
+    renderer = exists;
   }
 
-  if (config.storeType && config.component) {
-    config.component = HocStoreFactory({
-      storeType: config.storeType,
-      extendsData: config.storeExtendsData,
-      shouldSyncSuperStore: config.shouldSyncSuperStore
-    })(observer(config.component));
+  renderer.weight = renderer.weight || 0;
+  renderer.name =
+    renderer.name || renderer.type || `anonymous-${anonymousIndex++}`;
+
+  if (config.component) {
+    renderer.Renderer = config.component;
+    renderer.component = rendererToComponent(config.component, renderer);
   }
 
-  if (config.isolateScope) {
-    config.component = Scoped(config.component, config.type);
+  if (!exists) {
+    const idx = findIndex(
+      renderers,
+      item => (config.weight as number) < item.weight
+    );
+    ~idx ? renderers.splice(idx, 0, renderer) : renderers.push(renderer);
   }
-
-  const idx = findIndex(
-    renderers,
-    item => (config.weight as number) < item.weight
+  renderersMap[renderer.name] = !!(
+    renderer.component && renderer.component !== Placeholder
   );
-  ~idx ? renderers.splice(idx, 0, config) : renderers.push(config);
-  renderersMap[config.name] = config.component !== Placeholder;
-  return config;
+  renderer.type && (renderersTypeMap[renderer.type] = renderer);
+  (renderer.alias || []).forEach(alias => (renderersTypeMap[alias] = renderer));
+  return renderer;
 }
 
 export function unRegisterRenderer(config: RendererConfig | string) {
   const name = (typeof config === 'string' ? config : config.name)!;
   const idx = renderers.findIndex(item => item.name === name);
-  ~idx && renderers.splice(idx, 1);
-  delete renderersMap[name];
+  if (~idx) {
+    const renderer = renderers[idx];
+    renderers.splice(idx, 1);
 
-  // 清空渲染器定位缓存
-  cache = {};
+    delete renderersMap[name];
+    delete renderersTypeMap[renderer.type || ''];
+    renderer.alias?.forEach(alias => delete renderersTypeMap[alias]);
+
+    // 清空渲染器定位缓存
+    Object.keys(cache).forEach(key => {
+      const value = cache[key];
+      if (value === renderer) {
+        delete cache[key];
+      }
+    });
+  }
 }
 
-export function loadRenderer(schema: Schema, path: string) {
+export function loadRendererError(schema: Schema, path: string) {
   return (
     <div className="RuntimeError">
       <p>Error: 找不到对应的渲染器</p>
@@ -229,6 +289,65 @@ export function loadRenderer(schema: Schema, path: string) {
   );
 }
 
+export async function loadAsyncRenderer(renderer: RendererConfig) {
+  if (!isAsyncRenderer(renderer)) {
+    // already loaded
+    return;
+  }
+
+  const result = await renderer.getComponent!();
+
+  // 如果异步加载的组件没有注册渲染器
+  // 同时默认导出了一个组件，则自动注册
+  if (!renderer.component && result.default) {
+    registerRenderer({
+      ...renderer,
+      component: result.default
+    });
+  }
+}
+
+export function isAsyncRenderer(item: RendererConfig) {
+  return (
+    (!item.component || item.component === Placeholder) && item.getComponent
+  );
+}
+
+export function hasAsyncRenderers() {
+  return renderers.some(isAsyncRenderer);
+}
+
+export async function loadAsyncRenderersByType(
+  type: string | Array<string>,
+  ignore = false
+) {
+  const types = Array.isArray(type) ? type : [type];
+  const asyncRenderers = types
+    .map(type => {
+      const renderer = renderersTypeMap[type];
+      if (!renderer && !ignore) {
+        throw new Error(`Can not find the renderer by type: ${type}`);
+      }
+      return renderer;
+    })
+    .filter(isAsyncRenderer);
+
+  if (asyncRenderers.length) {
+    await Promise.all(asyncRenderers.map(item => loadAsyncRenderer(item)));
+  }
+}
+
+export async function loadAllAsyncRenderers() {
+  const asyncRenderers = renderers.filter(isAsyncRenderer);
+  if (asyncRenderers.length) {
+    await Promise.all(
+      renderers.map(async renderer => {
+        await loadAsyncRenderer(renderer);
+      })
+    );
+  }
+}
+
 export const defaultOptions: RenderOptions = {
   session: 'global',
   richTextToken: '',
@@ -237,7 +356,7 @@ export const defaultOptions: RenderOptions = {
     (window as any).enableAMISDebug ??
     location.search.indexOf('amisDebug=1') !== -1 ??
     false,
-  loadRenderer,
+  loadRenderer: loadRendererError,
   fetcher() {
     return Promise.reject('fetcher is required');
   },
@@ -435,8 +554,9 @@ export function resolveRenderer(
 ): null | RendererConfig {
   const type = typeof schema?.type == 'string' ? schema.type.toLowerCase() : '';
 
-  if (type && cache[type]) {
-    return cache[type];
+  // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
+  if (type && renderersTypeMap[type]) {
+    return renderersTypeMap[type];
   } else if (cache[path]) {
     return cache[path];
   } else if (path && path.length > 3072) {
@@ -448,15 +568,7 @@ export function resolveRenderer(
   renderers.some(item => {
     let matched = false;
 
-    // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
-    if (item.type && type) {
-      matched = item.type === type;
-
-      // 如果是type来命中的，那么cache的key直接用 type 即可。
-      if (matched) {
-        cache[type] = item;
-      }
-    } else if (typeof item.test === 'function') {
+    if (typeof item.test === 'function') {
       // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
       matched = item.test(path, schema, resolveRenderer);
     } else if (item.test instanceof RegExp) {

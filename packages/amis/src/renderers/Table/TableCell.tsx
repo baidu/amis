@@ -196,7 +196,7 @@ export class TableCell extends React.Component<TableCellProps> {
 }
 
 @Renderer({
-  test: /(^|\/)table\/(?:.*\/)?cell$/,
+  type: 'cell',
   name: 'table-cell'
 })
 @QuickEdit()

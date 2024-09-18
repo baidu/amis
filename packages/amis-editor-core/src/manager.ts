@@ -70,6 +70,7 @@ import {VariableManager} from './variable';
 import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {RendererConfig} from 'amis-core';
+import {loadAsyncRenderer} from 'amis-core';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -1902,12 +1903,15 @@ export class EditorManager {
   /**
    * 把设置了特殊 region 的，hack 一下。
    */
-  hackRenderers(renderers = getRenderers()) {
+  async hackRenderers(renderers = getRenderers()) {
     const toHackList: Array<{
       renderer: RendererConfig;
       regions?: Array<RegionConfig>;
       overrides?: any;
     }> = [];
+
+    await Promise.all(renderers.map(renderer => loadAsyncRenderer(renderer)));
+
     renderers.forEach(renderer => {
       const plugins = this.plugins.filter(
         plugin =>
@@ -1950,6 +1954,8 @@ export class EditorManager {
     toHackList.forEach(({regions, renderer, overrides}) =>
       this.hackIn(renderer, regions, overrides)
     );
+
+    this.store.markReady();
   }
 
   /**

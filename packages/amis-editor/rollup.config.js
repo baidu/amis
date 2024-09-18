@@ -24,7 +24,9 @@ const i18nConfig = require('./i18nConfig');
 const settings = {
   globals: {},
   commonConfig: {
-    footer: `window.amisEditorVersionInfo={version:'${version}',buildTime:'${moment().format("YYYY-MM-DD")}'};`,
+    footer: `window.amisEditorVersionInfo={version:'${version}',buildTime:'${moment().format(
+      'YYYY-MM-DD'
+    )}'};`
   }
 };
 
@@ -87,7 +89,7 @@ function transpileDynamicImportForCJS(options) {
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
         right:
-          '], function(mod) {fullfill(require("tslib").__importStar(mod))})})})'
+          ', "tslib"], function(mod, tslib) {fullfill(tslib.__importStar(mod))})})})'
       };
 
       // return {

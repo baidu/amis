@@ -244,7 +244,8 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
 }
 
 @Renderer({
-  test: /(^|\/)qr\-?code$/,
+  type: 'qrcode',
+  alias: ['qr-code'],
   name: 'qrcode'
 })
 export class QRCodeRenderer extends QRCode {

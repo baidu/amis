@@ -5,7 +5,9 @@ import {isValidElementType} from 'react-is';
 import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
-  loadRenderer,
+  loadRendererError,
+  loadAsyncRenderer,
+  registerRenderer,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -268,7 +270,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const omitList = RENDERER_TRANSMISSION_OMIT_PROPS.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
-      Component.propsList &&
+      Component?.propsList &&
         omitList.push.apply(omitList, Component.propsList as Array<string>);
     }
 
@@ -402,8 +404,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } else if (!this.renderer) {
       return rest.invisible ? null : (
         <LazyComponent
-          {...rest}
-          {...exprProps}
+          defaultVisible={true}
           getComponent={async () => {
             const result = await rest.env.loadRenderer(
               schema,
@@ -417,14 +418,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             }
 
             this.reRender();
-            return () => loadRenderer(schema, $path);
+            return () => loadRendererError(schema, $path);
           }}
-          $path={$path}
-          $schema={schema}
-          retry={this.reRender}
-          rootStore={rootStore}
-          statusStore={statusStore}
-          dispatchEvent={this.dispatchEvent}
+        />
+      );
+    } else if (this.renderer.getComponent && !this.renderer.component) {
+      // 处理异步渲染器
+      return rest.invisible ? null : (
+        <LazyComponent
+          defaultVisible={true}
+          getComponent={async () => {
+            await loadAsyncRenderer(this.renderer as RendererConfig);
+            this.reRender();
+            return () => null;
+          }}
         />
       );
     }
@@ -437,7 +444,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       activeKey: defaultActiveKey,
       ...restSchema
     } = schema;
-    const Component = renderer.component;
+    const Component = renderer.component!;
 
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
@@ -463,6 +470,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       Component.prototype?.isReactComponent ||
       (Component as any).$$typeof === Symbol.for('react.forward_ref');
     let props: any = {
+      ...renderer.defaultProps?.(schema.type, schema),
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
       ...chainEvents(rest, restSchema),

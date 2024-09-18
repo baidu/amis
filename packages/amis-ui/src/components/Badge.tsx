@@ -279,6 +279,8 @@ export class Badge extends React.Component<BadgeProps, object> {
   }
 }
 
+export default Badge;
+
 export function withBadge<P extends object>(Component: React.ComponentType<P>) {
   return hoistNonReactStatic(
     class WithBadge extends React.Component<P & BadgeProps> {

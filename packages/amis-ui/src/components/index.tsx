@@ -27,7 +27,8 @@ import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
-import {default as Tabs, Tab} from './Tabs';
+import Tabs from './Tabs';
+import Tab from './Tab';
 import Editor from './Editor';
 import Html from './Html';
 export * from './icons';
@@ -60,7 +61,8 @@ import ListGroup from './ListGroup';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
-import AnchorNav, {AnchorNavSection} from './AnchorNav';
+import AnchorNav from './AnchorNav';
+import AnchorNavSection from './AnchorNavSection';
 import Selection from './Selection';
 import GroupedSelection from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
@@ -72,18 +74,20 @@ import Table from './table';
 import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
 import VariableList from './formula/VariableList';
-import FormulaPicker from './formula/Picker';
+import FormulaPicker from './FormulaPicker';
 import {FormulaEditor} from './formula/Editor';
 import FormulaCodeEditor from './formula/CodeEditor';
 import type {VariableItem, FuncGroup} from './formula/CodeEditor';
 import PickerContainer from './PickerContainer';
-import InputJSONSchema from './json-schema';
-import {Badge, withBadge} from './Badge';
+import InputJSONSchema from './InputJSONSchema';
+import Badge from './Badge';
+import withBadge from './withBadge';
 import type {BadgeObject} from './Badge';
-import {getIcon, getIconNames, Icon, registerIcon} from './icons';
+import {getIcon, getIconNames, registerIcon} from './icons';
+import Icon from './Icon';
 import {withRemoteConfig} from './WithRemoteConfig';
 import type {RemoteOptionsProps} from './WithRemoteConfig';
-import ConditionBuilder from './condition-builder';
+import ConditionBuilder from './ConditionBuilder';
 import type {
   ConditionBuilderFields,
   ConditionBuilderFuncs
@@ -93,7 +97,7 @@ import CityArea from './CityArea';
 import type {PresetColor} from './ColorPicker';
 import ListMenu from './ListMenu';
 import Input from './Input';
-import JSONSchemaEditor from './schema-editor';
+import JSONSchemaEditor from './JSONSchemaEditor';
 import LocationPicker from './LocationPicker';
 import PopUp from './PopUp';
 import Cascader from './Cascader';
@@ -103,13 +107,15 @@ import ResultList from './ResultList';
 import TransferPicker from './TransferPicker';
 import UserSelect from './UserSelect';
 import UserTabSelect from './UserTabSelect';
-import HeadCellDropDown from './table/HeadCellDropDown';
+import HeadCellDropDown from './HeadCellDropDown';
 import Card from './Card';
-import GridNav, {GridNavItem} from './GridNav';
+import GridNav from './GridNav';
+import GridNavItem from './GridNavItem';
 import type {GridNavDirection} from './GridNav';
 import Link from './Link';
-import VirtualList, {AutoSizer} from './virtual-list';
-import {withStore} from './WithStore';
+import VirtualList from './VirtualList';
+import AutoSizer from './AutoSizer';
+import withStore from './WithStore';
 import PopOverContainer from './PopOverContainer';
 import Pagination from './Pagination';
 import Progress from './Progress';
@@ -179,6 +185,7 @@ export {
   Textarea,
   TitleBar,
   ToastComponent,
+  ToastComponent as Toast,
   toast,
   Tooltip,
   TooltipWrapper,

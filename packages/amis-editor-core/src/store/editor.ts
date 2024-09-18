@@ -147,6 +147,7 @@ export type EditorModalBody = (DialogSchema | DrawerSchema) & {
 
 export const MainStore = types
   .model('EditorRoot', {
+    ready: false, // 异步组件加载前不可用
     isMobile: false,
     isSubEditor: false,
     // 用于自定义爱速搭中的 amis 文档路径
@@ -1100,6 +1101,9 @@ export const MainStore = types
     });
 
     return {
+      markReady() {
+        self.ready = true;
+      },
       setLayer(value: any) {
         layer = value;
       },
