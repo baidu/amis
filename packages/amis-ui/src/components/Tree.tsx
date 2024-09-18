@@ -1306,12 +1306,11 @@ export class TreeSelector extends React.Component<
                 : `${item[labelField]}`}
             </span>
 
-            {!disabled &&
-            !isAdding &&
-            !isEditing &&
-            !(item[deferField] && !item.loaded) ? (
+            {!disabled && !isAdding && !isEditing ? (
               <div className={cx('Tree-item-icons')}>
-                {creatable && hasAbility(item, 'creatable') ? (
+                {creatable &&
+                !(item[deferField] && !item.loaded) &&
+                hasAbility(item, 'creatable') ? (
                   <TooltipWrapper
                     placement={'bottom'}
                     tooltip={__(createTip)}
