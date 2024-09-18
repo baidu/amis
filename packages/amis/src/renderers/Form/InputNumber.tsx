@@ -484,7 +484,8 @@ export default class NumberControl extends React.Component<
       env,
       name,
       showAsPercent,
-      testIdBuilder
+      testIdBuilder,
+      popOverContainer
     } = this.props;
     const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
@@ -590,6 +591,7 @@ export default class NumberControl extends React.Component<
               onChange={this.handleChangeUnit}
               className={`${ns}NumberControl-unit`}
               disabled={disabled}
+              popOverContainer={popOverContainer}
             />
           ) : (
             <div
