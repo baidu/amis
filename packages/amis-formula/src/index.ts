@@ -53,5 +53,5 @@ export async function evaluateForAsync(
   return new AsyncEvaluator(data, options).evalute(ast);
 }
 
-Evaluator.setDefaultFilters(getFilters());
+Evaluator.extendDefaultFilters(getFilters());
 AsyncEvaluator.setDefaultFilters(getFilters());

@@ -1,17 +1,16 @@
 import {Evaluator} from './evalutor';
-import {FunctionMap, FunctionDocMap, FunctionDocItem} from './types';
-
-export const functions: FunctionMap = {};
+import {FunctionDocMap, FunctionDocItem} from './types';
 
 export function registerFunction(
   name: string,
   fn: (input: any, ...args: any[]) => any
 ): void {
-  functions[`fn${name}`] = fn;
-  Evaluator.setDefaultFunctions(functions);
+  Evaluator.extendDefaultFunctions({
+    [`fn${name}`]: fn
+  });
 }
 
-export let functionDocs: FunctionDocMap = {};
+export const functionDocs: FunctionDocMap = {};
 
 export function registerFunctionDoc(groupName: string, item: FunctionDocItem) {
   if (functionDocs[groupName]) {
