@@ -405,9 +405,38 @@ export interface PlainObject {
   [propsName: string]: any;
 }
 
+export interface DataChangeReason {
+  type:
+    | 'input' // 用户输入
+    | 'api' // api 接口返回触发
+    | 'formula' // 公式计算触发
+    | 'hide' // 隐藏属性变化触发
+    | 'init' // 表单项初始化触发
+    | 'action'; // 事件动作触发
+
+  // 变化的字段名
+  // 如果是整体变化，那么是 undefined
+  name?: string;
+
+  // 变化的值
+  value?: any;
+}
+
 export interface RendererData {
   [propsName: string]: any;
+  /**
+   * 记录变化前的数据
+   */
   __prev?: RendererDataAlias;
+
+  /**
+   * 记录变化的信息
+   */
+  __changeReason?: DataChangeReason;
+
+  /**
+   * 记录上层数据
+   */
   __super?: RendererData;
 }
 type RendererDataAlias = RendererData;

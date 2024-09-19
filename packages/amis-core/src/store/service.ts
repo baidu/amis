@@ -202,7 +202,10 @@ export const ServiceStore = iRendererStore
               normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData,
-              (api as ApiObject).concatDataFields
+              (api as ApiObject).concatDataFields,
+              {
+                type: 'api'
+              }
             );
 
           self.hasRemoteData = true;
@@ -301,7 +304,10 @@ export const ServiceStore = iRendererStore
               normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData,
-              (api as ApiObject).concatDataFields
+              (api as ApiObject).concatDataFields,
+              {
+                type: 'api'
+              }
             );
         }
 
@@ -471,7 +477,10 @@ export const ServiceStore = iRendererStore
                 json.data.data,
                 undefined,
                 !!(api as ApiObject).replaceData,
-                (api as ApiObject).concatDataFields
+                (api as ApiObject).concatDataFields,
+                {
+                  type: 'api'
+                }
               );
           }
 

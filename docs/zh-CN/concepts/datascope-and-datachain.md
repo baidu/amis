@@ -456,3 +456,78 @@ url 中的参数会进入顶层数据域，比如下面的例子，可以点击[
   "body": "${word}"
 }
 ```
+
+## 隐藏数据
+
+数据中还有以下字段不会被枚举到，但是可以读取：
+
+- `__prev` 修改前的值
+- `__changeReason` 修改原因
+- `__changeReason.type` 修改原因类型
+  - `input` 用户输入
+  - `api` api 接口返回触发
+  - `formula` 公式计算触发
+  - `hide` 隐藏属性变化触发
+  - `init` 表单项初始化触发
+  - `action` 事件动作触发
+- `__super` 数据链的上一级
+
+> `__changeReason` 字段在 amis 6.9.0 版本开始支持
+
+```schema
+{
+  "data": {
+    "name": "amis"
+  },
+  "type": "form",
+  id: "form_data",
+  "actions": [
+    {
+      type: "button",
+      label: "接口获取",
+      actionType: "ajax",
+      api: {
+        "method": "get",
+        url: "/api/mock2/form/saveForm",
+        mockResponse: {
+          status: 200,
+          data: {
+            name: "amis-demo"
+          }
+        }
+      }
+    },
+
+    {
+      type: "button",
+      label: "设置值",
+      onEvent: {
+        click: {
+          actions: [
+            {
+              "actionType": "setValue",
+              "componentId": "form_data",
+              "args": {
+                "value": {
+                  "name": "amis-demo2"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+  ],
+  "body": [
+    {
+      type: "input-text",
+      name: "name",
+      label: "姓名"
+    },
+    {
+      type: "tpl",
+      tpl: "当前值：${name}<br />修改前的值：${__prev.name}<br />变化原因：${__changeReason|json}"
+    }
+  ]
+}
+```

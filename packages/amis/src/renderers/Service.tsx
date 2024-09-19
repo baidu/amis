@@ -543,7 +543,9 @@ export default class Service extends React.Component<ServiceProps> {
     );
 
     if (!isEmpty(data) && onBulkChange && formStore) {
-      onBulkChange(data);
+      onBulkChange(data, false, {
+        type: 'api'
+      });
     }
 
     result?.ok && this.initInterval(data);

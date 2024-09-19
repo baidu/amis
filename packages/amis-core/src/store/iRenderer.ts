@@ -18,6 +18,7 @@ import {
   extractObjectChain,
   injectObjectChain
 } from '../utils';
+import {DataChangeReason} from '../types';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -66,7 +67,11 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         top = value;
       },
 
-      initData(data: object = {}, skipSetPristine = false) {
+      initData(
+        data: object = {},
+        skipSetPristine = false,
+        changeReason?: DataChangeReason
+      ) {
         self.initedAt = Date.now();
 
         if (self.data.__tag) {
@@ -77,6 +82,15 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           self.pristine = data;
           self.pristineRaw = data;
         }
+
+        changeReason &&
+          Object.isExtensible(data) &&
+          Object.defineProperty(data, '__changeReason', {
+            value: changeReason,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
 
         self.data = data;
         self.upStreamData = data;
@@ -90,7 +104,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         data: object = {},
         tag?: object,
         replace?: boolean,
-        concatFields?: string | string[]
+        concatFields?: string | string[],
+        changeReason?: DataChangeReason
       ) {
         if (concatFields) {
           data = concatData(data, self.data, concatFields);
@@ -118,6 +133,15 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           writable: false
         });
 
+        changeReason &&
+          Object.isExtensible(newData) &&
+          Object.defineProperty(newData, '__changeReason', {
+            value: changeReason,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
+
         self.data = newData;
       },
 
@@ -126,7 +150,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         value: any,
         changePristine?: boolean,
         force?: boolean,
-        otherModifier?: (data: Object) => void
+        otherModifier?: (data: Object) => void,
+        changeReason?: DataChangeReason
       ) {
         if (!name) {
           return;
@@ -182,6 +207,15 @@ export const iRendererStore = StoreNode.named('iRendererStore')
             writable: false
           });
         }
+
+        changeReason &&
+          Object.isExtensible(data) &&
+          Object.defineProperty(data, '__changeReason', {
+            value: changeReason,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
 
         self.data = data;
       },
