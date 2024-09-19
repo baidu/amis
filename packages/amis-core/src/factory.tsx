@@ -310,7 +310,9 @@ export async function loadAsyncRenderer(renderer: RendererConfig) {
 
 export function isAsyncRenderer(item: RendererConfig) {
   return (
-    (!item.component || item.component === Placeholder) && item.getComponent
+    item &&
+    (!item.component || item.component === Placeholder) &&
+    item.getComponent
   );
 }
 
