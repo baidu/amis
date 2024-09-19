@@ -27,6 +27,7 @@ import {
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
+  DataChangeReason,
   Schema
 } from '../types';
 import {HocStoreFactory} from '../WithStore';
@@ -530,7 +531,8 @@ export interface FormItemProps extends RendererProps {
   ) => void;
   onBulkChange?: (
     values: {[propName: string]: any},
-    submitOnChange?: boolean
+    submitOnChange?: boolean,
+    changeReason?: DataChangeReason
   ) => void;
   addHook: (
     fn: Function,

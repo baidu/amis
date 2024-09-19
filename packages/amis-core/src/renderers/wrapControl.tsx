@@ -28,7 +28,7 @@ import {observer} from 'mobx-react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
-import {Api} from '../types';
+import {Api, DataChangeReason} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
 import {
@@ -75,14 +75,19 @@ export interface ControlOutterProps extends RendererProps {
     value: any,
     name: string,
     submit?: boolean,
-    changePristine?: boolean
+    changePristine?: boolean,
+    changeReason?: DataChangeReason
   ) => void;
   formItemDispatchEvent: (type: string, data: any) => void;
   formItemRef?: (control: any) => void;
 }
 
 export interface ControlProps {
-  onBulkChange?: (values: Object) => void;
+  onBulkChange?: (
+    values: Object,
+    submitOnChange?: boolean,
+    changeReason?: DataChangeReason
+  ) => void;
   onChange?: (value: any, name: string, submit: boolean) => void;
   store: IIRendererStore;
 }
@@ -535,7 +540,9 @@ export function wrapControl<
                 formItem.removeSubFormItem(this.model);
 
               this.model.clearValueOnHidden &&
-                this.model.form?.deleteValueByName(this.model.name);
+                this.model.form?.deleteValueByName(this.model.name, {
+                  type: 'hide'
+                });
 
               isAlive(rootStore) && rootStore.removeStore(this.model);
             }
@@ -691,7 +698,10 @@ export function wrapControl<
               );
             }
 
-            this.model.changeTmpValue(value, 'input');
+            this.model.changeTmpValue(
+              value,
+              type === 'formula' ? 'formulaChanged' : 'input'
+            );
 
             if (changeImmediately || conrolChangeImmediately || !formInited) {
               this.emitChange(submitOnChange);
@@ -772,12 +782,44 @@ export function wrapControl<
               return;
             }
 
+            const changeReason: DataChangeReason = {
+              type: 'input'
+            };
+
+            if (model.changeMotivation === 'formulaChanged') {
+              changeReason.type = 'formula';
+            } else if (
+              model.changeMotivation === 'initialValue' ||
+              model.changeMotivation === 'formInited' ||
+              model.changeMotivation === 'defaultValue'
+            ) {
+              changeReason.type = 'init';
+            }
+
             if (model.extraName) {
               const values = model.splitExtraValue(value);
-              onChange?.(values[0], model.name);
-              onChange?.(values[1], model.extraName, submitOnChange === true);
+              onChange?.(
+                values[0],
+                model.name,
+                undefined,
+                undefined,
+                changeReason
+              );
+              onChange?.(
+                values[1],
+                model.extraName,
+                submitOnChange === true,
+                undefined,
+                changeReason
+              );
             } else {
-              onChange?.(value, model.name, submitOnChange === true);
+              onChange?.(
+                value,
+                model.name,
+                submitOnChange === true,
+                undefined,
+                changeReason
+              );
             }
             this.checkValidate();
           }

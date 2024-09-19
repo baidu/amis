@@ -47,7 +47,7 @@ import {
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
-import type {VariableItem} from 'amis-ui/src/components/formula/CodeEditor';
+import type {VariableItem} from 'amis-ui/lib/components/formula/CodeEditor';
 import {reaction} from 'mobx';
 import {updateComponentContext} from 'amis-editor-core';
 

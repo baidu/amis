@@ -5,7 +5,13 @@ import toPairs from 'lodash/toPairs';
 import pick from 'lodash/pick';
 import {ServiceStore} from './service';
 import type {IFormItemStore} from './formItem';
-import {Api, ApiObject, fetchOptions, Payload} from '../types';
+import {
+  Api,
+  ApiObject,
+  DataChangeReason,
+  fetchOptions,
+  Payload
+} from '../types';
 import {ServerError} from '../utils/errors';
 import {
   getVariable,
@@ -168,9 +174,10 @@ export const FormStore = ServiceStore.named('FormStore')
       values: object,
       tag?: object,
       replace?: boolean,
-      concatFields?: string | string[]
+      concatFields?: string | string[],
+      changeReason?: DataChangeReason
     ) {
-      self.updateData(values, tag, replace, concatFields);
+      self.updateData(values, tag, replace, concatFields, changeReason);
 
       // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
       self.items.forEach(item => {
@@ -209,7 +216,8 @@ export const FormStore = ServiceStore.named('FormStore')
       name: string,
       value: any,
       isPristine: boolean = false,
-      force: boolean = false
+      force: boolean = false,
+      changeReason?: DataChangeReason
     ) {
       // 没有变化就不跑了。
       const origin = getVariable(self.data, name, false);
@@ -257,13 +265,22 @@ export const FormStore = ServiceStore.named('FormStore')
         });
       }
 
+      changeReason &&
+        Object.isExtensible(data) &&
+        Object.defineProperty(data, '__changeReason', {
+          value: changeReason,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        });
+
       self.data = data;
 
       // 同步 options
       syncOptions();
     }
 
-    function deleteValueByName(name: string) {
+    function deleteValueByName(name: string, changeReason?: DataChangeReason) {
       const prev = self.data;
       const data = cloneObject(self.data);
 
@@ -287,6 +304,15 @@ export const FormStore = ServiceStore.named('FormStore')
       }
 
       deleteVariable(data, name);
+
+      changeReason &&
+        Object.isExtensible(data) &&
+        Object.defineProperty(data, '__changeReason', {
+          value: changeReason,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        });
       self.data = data;
     }
 
@@ -374,7 +400,10 @@ export const FormStore = ServiceStore.named('FormStore')
                 }
               : undefined,
             !!(api as ApiObject).replaceData,
-            (api as ApiObject).concatDataFields
+            (api as ApiObject).concatDataFields,
+            {
+              type: 'api'
+            }
           );
         }
 

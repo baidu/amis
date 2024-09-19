@@ -25,7 +25,7 @@ import {
   addModal,
   mergeDefinitions,
   getModals
-} from '../../src/util';
+} from '../util';
 import {
   InsertEventContext,
   PluginEvent,
@@ -60,8 +60,8 @@ import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
 import {matchSorter} from 'match-sorter';
 import debounce from 'lodash/debounce';
-import type {DialogSchema} from '../../../amis/src/renderers/Dialog';
-import type {DrawerSchema} from '../../../amis/src/renderers/Drawer';
+import type {DialogSchema} from 'amis/lib/renderers/Dialog';
+import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 import getLayoutInstance from '../layout';
 
 export interface SchemaHistory {

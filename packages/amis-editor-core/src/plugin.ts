@@ -18,7 +18,7 @@ import type {RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
-import type {SchemaType} from 'packages/amis/src/Schema';
+import type {SchemaType} from 'amis/lib/Schema';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。

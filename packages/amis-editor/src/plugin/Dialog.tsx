@@ -21,7 +21,7 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
 import type {RendererConfig, Schema} from 'amis-core';
-import {ModalProps} from 'amis-ui/src/components/Modal';
+import {ModalProps} from 'amis-ui/lib/components/Modal';
 import ModalSettingPanel from '../component/ModalSettingPanel';
 import find from 'lodash/find';
 

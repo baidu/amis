@@ -27,7 +27,7 @@ import {getVariables, getQuickVariables, utils} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
 import type {VariableItem, FuncGroup} from 'amis-ui';
-import {SchemaType} from 'packages/amis/src/Schema';
+import {SchemaType} from 'amis/lib/Schema';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
