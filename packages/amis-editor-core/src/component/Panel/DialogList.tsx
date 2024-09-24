@@ -10,6 +10,7 @@ import {
 } from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
 import {EditorManager} from '../../manager';
+import cloneDeep from 'lodash/cloneDeep';
 
 export interface DialogListProps {
   classnames: ClassNamesFn;
@@ -99,7 +100,7 @@ export default observer(function DialogList({
       event.currentTarget.closest('[data-index]')!.getAttribute('data-index')!,
       10
     );
-    let dialog = store.modals[index];
+    let dialog = cloneDeep(store.modals[index]);
     dialog = reGenerateID(dialog);
 
     store.addModal({
