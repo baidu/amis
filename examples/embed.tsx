@@ -23,10 +23,14 @@ import 'amis-ui/lib/themes/antd';
 import 'amis-ui/lib/themes/dark';
 
 import 'history';
-import {attachmentAdpator} from 'amis-core';
+import {attachmentAdpator, setGlobalOptions} from 'amis-core';
 import {pdfUrlLoad} from './loadPdfjsWorker';
 
 import type {ToastLevel, ToastConf} from 'amis-ui/lib/components/Toast';
+
+setGlobalOptions({
+  pdfjsWorkerSrc: supportsMjs() ? pdfUrlLoad() : ''
+});
 
 export function embed(
   container: string | HTMLElement,
@@ -254,7 +258,6 @@ export function embed(
     richTextToken: '',
     affixOffsetBottom: 0,
     customStyleClassPrefix: '.amis-scope',
-    pdfjsWorkerSrc: supportsMjs() ? pdfUrlLoad() : '',
     ...env
   };
 

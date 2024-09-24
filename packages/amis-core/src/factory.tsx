@@ -610,3 +610,19 @@ export function getRendererByName(name: string) {
 }
 
 export {RendererEnv};
+
+export interface IGlobalOptions {
+  pdfjsWorkerSrc: string;
+}
+
+const GlobalOptions: IGlobalOptions = {
+  pdfjsWorkerSrc: ''
+};
+
+export function setGlobalOptions(options: Partial<IGlobalOptions>) {
+  Object.assign(GlobalOptions, options);
+}
+
+export function getGlobalOptions() {
+  return GlobalOptions;
+}

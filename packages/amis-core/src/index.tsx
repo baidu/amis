@@ -22,7 +22,9 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  extendDefaultEnv
+  extendDefaultEnv,
+  getGlobalOptions,
+  setGlobalOptions
 } from './factory';
 import type {
   RenderOptions,
@@ -220,7 +222,9 @@ export {
   CustomStyle,
   enableDebug,
   disableDebug,
-  envOverwrite
+  envOverwrite,
+  getGlobalOptions,
+  setGlobalOptions
 };
 
 export function render(
