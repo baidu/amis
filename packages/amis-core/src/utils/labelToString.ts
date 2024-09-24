@@ -6,7 +6,7 @@ export function labelToString(label: any): string {
     return label;
   } else if (type === 'number') {
     return `${label}`;
-  } else if (label === 'boolean') {
+  } else if (type === 'boolean') {
     return String(label);
   }
 
