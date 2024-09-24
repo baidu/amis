@@ -2,7 +2,12 @@ import {ClassNamesFn} from 'amis-core';
 import {observer} from 'mobx-react';
 import React from 'react';
 import {EditorStoreType} from '../../store/editor';
-import {JSONGetById, modalsToDefinitions, translateSchema} from '../../util';
+import {
+  JSONGetById,
+  modalsToDefinitions,
+  reGenerateID,
+  translateSchema
+} from '../../util';
 import {Button, Icon, ListMenu, PopOverContainer, confirm} from 'amis';
 import {EditorManager} from '../../manager';
 
@@ -94,7 +99,9 @@ export default observer(function DialogList({
       event.currentTarget.closest('[data-index]')!.getAttribute('data-index')!,
       10
     );
-    const dialog = store.modals[index];
+    let dialog = store.modals[index];
+    dialog = reGenerateID(dialog);
+
     store.addModal({
       ...dialog,
       title: `${dialog.title} - 复制`,
