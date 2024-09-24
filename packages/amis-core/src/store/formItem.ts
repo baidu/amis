@@ -1410,14 +1410,16 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           group.items.forEach(item => {
             if (self !== item) {
               options.push(
-                ...item.selectedOptions.map((item: any) => item && item.value)
+                ...item.selectedOptions.map(
+                  (item: any) => item && item[valueField]
+                )
               );
             }
           });
 
         if (filteredOptions.length && options.length) {
           filteredOptions = mapTree(filteredOptions, item => {
-            if (~options.indexOf(item.value)) {
+            if (~options.indexOf(item[valueField])) {
               return {
                 ...item,
                 disabled: true
