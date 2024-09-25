@@ -47,6 +47,7 @@ export interface RendererBasicConfig {
   type?: string;
   alias?: Array<string>; // 别名, 可以绑定多个类型，命中其中一个即可。
   name?: string;
+  origin?: RendererBasicConfig;
   storeType?: string;
   defaultProps?: (type: string, schema: any) => any;
   shouldSyncSuperStore?: (
@@ -222,6 +223,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     exists.component &&
     exists.component !== Placeholder &&
     config.component &&
+    !exists.origin &&
     !config.override
   ) {
     throw new Error(
@@ -253,7 +255,24 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     renderer.component && renderer.component !== Placeholder
   );
   renderer.type && (renderersTypeMap[renderer.type] = renderer);
-  (renderer.alias || []).forEach(alias => (renderersTypeMap[alias] = renderer));
+  (renderer.alias || []).forEach(alias => {
+    const fork = {
+      ...renderer,
+      type: alias,
+      name: alias,
+      alias: undefined,
+      origin: renderer
+    };
+
+    const idx = renderers.findIndex(item => item.name === alias);
+    if (~idx) {
+      Object.assign(renderers[idx], fork);
+    } else {
+      renderers.push(fork);
+    }
+    renderersTypeMap[alias] = fork;
+    renderersMap[alias] = true;
+  });
   return renderer;
 }
 
@@ -266,7 +285,12 @@ export function unRegisterRenderer(config: RendererConfig | string) {
 
     delete renderersMap[name];
     delete renderersTypeMap[renderer.type || ''];
-    renderer.alias?.forEach(alias => delete renderersTypeMap[alias]);
+    renderer.alias?.forEach(alias => {
+      const idx = renderers.findIndex(item => item.name === alias);
+      idx > -1 && renderers.splice(idx, 1);
+      delete renderersTypeMap[alias];
+      delete renderersMap[alias];
+    });
 
     // 清空渲染器定位缓存
     Object.keys(cache).forEach(key => {
