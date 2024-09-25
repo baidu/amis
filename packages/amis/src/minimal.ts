@@ -174,15 +174,14 @@ registerRenderer({
 // import './renderers/Form/InputText';
 registerRenderer({
   type: 'input-text',
-  alias: ['input-password', 'native-date', 'native-time', 'native-number'],
-  getComponent: () => import('./renderers/Form/InputText')
-});
-registerRenderer({
-  type: 'input-email',
-  getComponent: () => import('./renderers/Form/InputText')
-});
-registerRenderer({
-  type: 'input-url',
+  alias: [
+    'input-password',
+    'native-date',
+    'native-time',
+    'native-number',
+    'input-email',
+    'input-url'
+  ],
   getComponent: () => import('./renderers/Form/InputText')
 });
 // import './renderers/Form/InputTag';
