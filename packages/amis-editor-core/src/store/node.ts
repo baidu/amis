@@ -699,7 +699,7 @@ export const EditorNode = types
         store: any,
         force = false,
         setPatchInfo?: (id: string, value: any) => void,
-        ids?: Map<string, boolean>
+        ids?: Map<string, string>
       ) {
         // 避免重复 patch
         if (self.patched && !force) {
@@ -722,7 +722,7 @@ export const EditorNode = types
         }
 
         // id重复了，重新生成一个
-        if (ids?.has(patched.id)) {
+        if (ids?.has(patched.id) && ids?.get(patched.id) !== self.schemaPath) {
           patched = {...patched, id: 'u:' + guid()};
         }
 
