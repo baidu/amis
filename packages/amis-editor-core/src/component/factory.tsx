@@ -33,7 +33,7 @@ export function makeWrapper(
     $$id: string;
   };
   const store = manager.store;
-  const renderer = rendererConfig.component;
+  const renderer = rendererConfig.component!;
 
   @observer
   class Wrapper extends React.Component<Props> {

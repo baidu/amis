@@ -266,7 +266,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:tpl|html)$/,
+  type: 'tpl',
+  alias: ['html'],
   name: 'tpl'
 })
 // @ts-ignore 类型没搞定

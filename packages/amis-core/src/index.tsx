@@ -10,6 +10,9 @@ import {
   Renderer,
   getRendererByName,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
   registerRenderer,
   unRegisterRenderer,
   resolveRenderer,
@@ -19,9 +22,16 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  extendDefaultEnv
+  extendDefaultEnv,
+  getGlobalOptions,
+  setGlobalOptions
 } from './factory';
-import type {RenderOptions, RendererConfig, RendererProps} from './factory';
+import type {
+  RenderOptions,
+  RendererConfig,
+  RendererProps,
+  hasAsyncRenderers
+} from './factory';
 import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
@@ -31,7 +41,7 @@ export * from './store';
 import * as utils from './utils/helper';
 import {getEnv} from 'mobx-state-tree';
 
-import {RegisterStore, RendererStore} from './store';
+import {RegisterStore, registerStore, RendererStore} from './store';
 import type {IColumn, IColumn2, IRow, IRow2} from './store';
 import {
   setDefaultLocale,
@@ -125,6 +135,7 @@ export {
   RendererEnv,
   EnvContext,
   RegisterStore,
+  registerStore,
   FormItem,
   FormItemWrap,
   FormItemProps,
@@ -137,6 +148,10 @@ export {
   registerRenderer,
   unRegisterRenderer,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
+  hasAsyncRenderers,
   registerFormItem,
   getFormItemByName,
   registerOptionsControl,
@@ -207,7 +222,9 @@ export {
   CustomStyle,
   enableDebug,
   disableDebug,
-  envOverwrite
+  envOverwrite,
+  getGlobalOptions,
+  setGlobalOptions
 };
 
 export function render(

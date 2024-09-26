@@ -1,5 +1,6 @@
 import {waitFor} from '@testing-library/react';
 import {RenderOptions} from '../src';
+import '../src';
 
 // jest.useFakeTimers 会修改 global 的 setTimeout 所以需要把原始的记录下来。
 const timerFn = (global as any).originSetTimeout || setTimeout;
@@ -111,6 +112,13 @@ export function replaceReactAriaIds(container: HTMLElement) {
         }
       });
     });
+
+  container.querySelectorAll('[data-id]').forEach(el => {
+    const val = el.getAttribute('data-id');
+    if (typeof val === 'string' && /^[a-z0-9]{12}$/.test(val)) {
+      el.removeAttribute('data-id');
+    }
+  });
 }
 
 // Mock IntersectionObserver

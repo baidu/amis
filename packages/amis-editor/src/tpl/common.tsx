@@ -10,7 +10,7 @@ import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
-import type {VariableItem} from 'amis-ui/src/components/formula/CodeEditor';
+import type {VariableItem} from 'amis-ui/lib/components/formula/CodeEditor';
 import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import omit from 'lodash/omit';

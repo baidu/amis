@@ -210,8 +210,14 @@ export default class TextControl extends React.PureComponent<
   };
 
   componentDidMount() {
-    const {formItem, autoComplete, addHook, formInited, data, name} =
-      this.props;
+    const {
+      formItem,
+      autoComplete,
+      addHook,
+      formInited,
+      data,
+      name
+    } = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -302,8 +308,14 @@ export default class TextControl extends React.PureComponent<
   }
 
   async resetValue() {
-    const {onChange, dispatchEvent, resetValue, formStore, store, name} =
-      this.props;
+    const {
+      onChange,
+      dispatchEvent,
+      resetValue,
+      formStore,
+      store,
+      name
+    } = this.props;
     const pristineVal =
       getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
 
@@ -484,8 +496,13 @@ export default class TextControl extends React.PureComponent<
   }
 
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {selectedOptions, onChange, multiple, creatable, dispatchEvent} =
-      this.props;
+    const {
+      selectedOptions,
+      onChange,
+      multiple,
+      creatable,
+      dispatchEvent
+    } = this.props;
     const valueField = this.props?.valueField || 'value';
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
@@ -627,8 +644,12 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty} =
-      this.props;
+    const {
+      onChange,
+      dispatchEvent,
+      trimContents,
+      clearValueOnEmpty
+    } = this.props;
     let value: string | undefined = this.transformValue(e.currentTarget.value);
     if (typeof value === 'string') {
       if (trimContents) {
@@ -653,8 +674,13 @@ export default class TextControl extends React.PureComponent<
   }
 
   normalizeValue(value: Option[] | Option | undefined | null) {
-    const {multiple, delimiter, joinValues, extractValue, valueField} =
-      this.props;
+    const {
+      multiple,
+      delimiter,
+      joinValues,
+      extractValue,
+      valueField
+    } = this.props;
     const selectedOptions = Array.isArray(value) ? value : value ? [value] : [];
 
     if (joinValues) {
@@ -837,8 +863,9 @@ export default class TextControl extends React.PureComponent<
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
-                  [`TextControl-input--border${ucFirst(borderMode)}`]:
+                  [`TextControl-input--border${ucFirst(
                     borderMode
+                  )}`]: borderMode
                 }
               )}
               onClick={this.handleClick}
@@ -1326,14 +1353,10 @@ export function mapItemIndex(
 }
 
 @OptionsControl({
-  type: 'input-text'
+  type: 'input-text',
+  alias: ['input-password', 'native-date', 'native-time', 'native-number']
 })
 export class TextControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'input-password'
-})
-export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-email',
@@ -1346,18 +1369,3 @@ export class EmailControlRenderer extends TextControl {}
   validations: 'isUrl'
 })
 export class UrlControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-date'
-})
-export class NativeDateControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-time'
-})
-export class NativeTimeControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-number'
-})
-export class NativeNumberControlRenderer extends TextControl {}

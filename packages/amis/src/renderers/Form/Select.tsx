@@ -229,7 +229,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   focus() {
-    this.input && this.input?.focus();
+    this.input && this.input?.focus?.();
   }
 
   getValue(
@@ -460,6 +460,64 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
   }
 
+  @autobind
+  handleOptionAdd(
+    idx: number | Array<number> = -1,
+    value?: any,
+    skipForm: boolean = false,
+    callback?: (value: any) => any
+  ) {
+    const {onAdd, autoComplete} = this.props;
+
+    onAdd?.(idx, value, skipForm, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
+  @autobind
+  handleOptionEdit(
+    value: Option,
+    origin?: Option,
+    skipForm?: boolean,
+    callback?: (value: any) => any
+  ) {
+    const {onEdit, autoComplete} = this.props;
+
+    onEdit?.(value, origin, skipForm, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
+  @autobind
+  handleOptionDelete(value: any, callback?: (value: any) => any) {
+    const {onDelete, autoComplete} = this.props;
+
+    onDelete?.(value, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
   @supportStatic()
   render() {
     let {
@@ -510,6 +568,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            onAdd={this.handleOptionAdd}
+            onEdit={this.handleOptionEdit}
+            onDelete={this.handleOptionDelete}
             className={cx(
               setThemeClassName({
                 ...this.props,

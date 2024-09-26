@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg  viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-     
-    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g >
-            <rect  stroke="#979797" fill="#D8D8D8" opacity="0" x="0.5" y="0.5" width="15" height="15"></rect>
-            <path d="M12.549,2.65 L13.256,3.357 L8.659,7.952 L13.2563,12.549 L12.5493,13.257 L7.953,8.659 L3.357,13.257 L2.65,12.549 L7.246,7.952 L2.6503,3.357 L3.3573,2.65 L7.953,7.245 L12.549,2.65 Z"  fill="currentColor" opacity="0.5"></path>
-        </g>
-    </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m12.549 2.65.707.707-4.597 4.595 4.597 4.597-.707.708-4.596-4.598-4.596 4.598-.707-.708 4.596-4.597L2.65 3.357l.707-.707 4.596 4.595 4.596-4.595Z" fill="currentColor" opacity=".5" fill-rule="evenodd"/></svg>

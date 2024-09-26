@@ -8,7 +8,8 @@ import {
   filter,
   getPropValue
 } from 'amis-core';
-import {Steps, StepStatus, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import {StepStatus} from 'amis-ui/lib/components/Steps';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import isPlainObject from 'lodash/isPlainObject';
 import type {SchemaExpression} from 'amis-core';

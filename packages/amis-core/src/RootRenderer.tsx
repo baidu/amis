@@ -4,7 +4,7 @@ import type {RootProps} from './Root';
 import {IScopedContext, ScopedContext, filterTarget} from './Scoped';
 import {IRootStore, RootStore} from './store/root';
 import {ActionObject} from './types';
-import {bulkBindFunctions, guid, isVisible} from './utils/helper';
+import {bulkBindFunctions, guid, isVisible, JSONTraverse} from './utils/helper';
 import {filter} from './utils/tpl';
 import qs from 'qs';
 import pick from 'lodash/pick';
@@ -12,6 +12,8 @@ import mapValues from 'lodash/mapValues';
 import {saveAs} from 'file-saver';
 import {normalizeApi} from './utils/api';
 import {findDOMNode} from 'react-dom';
+import LazyComponent from './components/LazyComponent';
+import {hasAsyncRenderers, loadAsyncRenderersByType} from './factory';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
@@ -46,6 +48,25 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       'handleDrawerClose',
       'handlePageVisibilityChange'
     ]);
+
+    this.store.init(() => {
+      if (!hasAsyncRenderers()) {
+        return;
+      }
+      const schema = props.schema;
+      const types: Array<string> = ['tpl', 'dialog', 'drawer'];
+      JSONTraverse(schema, (value: any, key: string) => {
+        if (key === 'type') {
+          types.push(value);
+
+          // form 依赖 panel
+          if (value === 'form') {
+            types.push('panel');
+          }
+        }
+      });
+      return loadAsyncRenderersByType(types, true);
+    });
   }
 
   componentDidMount() {
@@ -499,6 +520,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
     if (store.runtimeError) {
       return this.renderRuntimeError();
+    } else if (!store.ready) {
+      return <LazyComponent className="RootLoader" />;
     }
 
     return (

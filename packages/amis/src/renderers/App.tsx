@@ -163,7 +163,7 @@ export interface AppProps
   store: IAppStore;
 }
 
-export default class App extends React.Component<AppProps, object> {
+export class App extends React.Component<AppProps, object> {
   static propsList: Array<string> = [
     'brandName',
     'logo',
@@ -549,7 +549,7 @@ export default class App extends React.Component<AppProps, object> {
   type: 'app',
   storeType: AppStore.name
 })
-export class AppRenderer extends App {
+export default class AppRenderer extends App {
   static contextType = ScopedContext;
   constructor(props: AppProps, context: IScopedContext) {
     super(props);

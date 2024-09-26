@@ -113,7 +113,8 @@ function transpileDynamicImportForCJS(options) {
 
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
-        right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
+        right:
+          ', "tslib"], function(mod, tslib) {fullfill(tslib.__importStar(mod))})})})'
       };
 
       // return {

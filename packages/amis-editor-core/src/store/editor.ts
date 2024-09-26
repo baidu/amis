@@ -25,7 +25,7 @@ import {
   addModal,
   mergeDefinitions,
   getModals
-} from '../../src/util';
+} from '../util';
 import {
   InsertEventContext,
   PluginEvent,
@@ -60,8 +60,8 @@ import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
 import {matchSorter} from 'match-sorter';
 import debounce from 'lodash/debounce';
-import type {DialogSchema} from '../../../amis/src/renderers/Dialog';
-import type {DrawerSchema} from '../../../amis/src/renderers/Drawer';
+import type {DialogSchema} from 'amis/lib/renderers/Dialog';
+import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 import getLayoutInstance from '../layout';
 
 export interface SchemaHistory {
@@ -147,6 +147,7 @@ export type EditorModalBody = (DialogSchema | DrawerSchema) & {
 
 export const MainStore = types
   .model('EditorRoot', {
+    ready: false, // 异步组件加载前不可用
     isMobile: false,
     isSubEditor: false,
     // 用于自定义爱速搭中的 amis 文档路径
@@ -1100,6 +1101,9 @@ export const MainStore = types
     });
 
     return {
+      markReady() {
+        self.ready = true;
+      },
       setLayer(value: any) {
         layer = value;
       },

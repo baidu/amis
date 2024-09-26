@@ -500,6 +500,7 @@ export default class Table extends React.Component<TableProps, object> {
     'hideQuickSaveBtn',
     'itemCheckableOn',
     'itemDraggableOn',
+    'draggable',
     'checkOnItemClick',
     'hideCheckToggler',
     'itemAction',

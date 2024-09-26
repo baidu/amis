@@ -1415,8 +1415,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     async handleSelect(link: Link, depth: number) {
-      const {onSelect, env, data, level, dispatchEvent, updateConfig, config} =
-        this.props;
+      const {
+        onSelect,
+        env,
+        data,
+        level,
+        dispatchEvent,
+        updateConfig,
+        config
+      } = this.props;
 
       const rendererEvent = await dispatchEvent(
         'click',
@@ -1459,8 +1466,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     render() {
-      const {disabled, loading, config, deferLoad, updateConfig, ...rest} =
-        this.props;
+      const {
+        disabled,
+        loading,
+        config,
+        deferLoad,
+        updateConfig,
+        ...rest
+      } = this.props;
       const currentLink = this.getCurrentLink(this.state.currentKey);
 
       return (
@@ -1482,7 +1495,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
 export default ThemedNavigation;
 @Renderer({
-  test: /(^|\/)(?:nav|navigation)$/,
+  type: 'nav',
+  alias: ['navigation'],
   name: 'nav'
 })
 export class NavigationRenderer extends React.Component<RendererProps> {

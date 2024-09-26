@@ -23,7 +23,7 @@ import {
   Select,
   Switch
 } from 'amis-ui';
-import type {EditorModalBody} from '../../../../amis-editor-core/src/store/editor';
+import type {EditorModalBody} from 'amis-editor-core/lib/store/editor';
 
 export interface DialogActionPanelProps extends RendererProps {
   manager: EditorManager;

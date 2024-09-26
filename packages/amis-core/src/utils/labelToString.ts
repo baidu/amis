@@ -6,6 +6,8 @@ export function labelToString(label: any): string {
     return label;
   } else if (type === 'number') {
     return `${label}`;
+  } else if (type === 'boolean') {
+    return String(label);
   }
 
   if (isPlainObject(label)) {

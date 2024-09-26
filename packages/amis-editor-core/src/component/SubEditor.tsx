@@ -195,8 +195,14 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     readonly={readonly}
                   />
                 )
+              },
+              readonly && {
+                type: 'button',
+                label: '返回编辑器',
+                className: 'subEditor-container-back',
+                onClick: () => store.closeSubEditor()
               }
-            ]
+            ].filter(Boolean)
           }
         : {
             type: 'tpl',

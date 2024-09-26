@@ -698,7 +698,8 @@ export const EditorNode = types
       patch(
         store: any,
         force = false,
-        setPatchInfo?: (id: string, value: any) => void
+        setPatchInfo?: (id: string, value: any) => void,
+        ids?: Map<string, string>
       ) {
         // 避免重复 patch
         if (self.patched && !force) {
@@ -717,6 +718,11 @@ export const EditorNode = types
         let patched = schema;
 
         if (!patched?.id) {
+          patched = {...patched, id: 'u:' + guid()};
+        }
+
+        // id重复了，重新生成一个
+        if (ids?.has(patched.id) && ids?.get(patched.id) !== self.schemaPath) {
           patched = {...patched, id: 'u:' + guid()};
         }
 

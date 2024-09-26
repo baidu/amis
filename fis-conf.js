@@ -656,14 +656,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         contents = contents.replace(
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
           function () {
-            return `var _path = '';
-    try {
-      throw new Error()
-    } catch (e) {
-      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
-    }
-    function filterUrl(url) {
-      return _path + url.substring(1);`;
+            return `function filterUrl(url) {
+      return amis.sdkBasePath + url.substring(1);`;
           }
         );
 

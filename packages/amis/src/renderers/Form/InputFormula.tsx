@@ -8,7 +8,7 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {
   FuncGroup,
   VariableItem
-} from 'amis-ui/src/components/formula/CodeEditor';
+} from 'amis-ui/lib/components/formula/CodeEditor';
 import type {FormulaPickerInputSettings} from 'amis-ui/lib/components/formula/Picker';
 
 /**

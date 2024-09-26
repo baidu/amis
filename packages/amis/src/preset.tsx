@@ -6,8 +6,10 @@ import {
   themeable,
   ThemeProps
 } from 'amis-core';
-
-import {alert, confirm, setRenderSchemaFn, toast, ImageGallery} from 'amis-ui';
+import {ImageGallery} from 'amis-ui';
+import {setRenderSchemaFn} from 'amis-ui/lib/components/Alert';
+import {alert, confirm} from 'amis-ui/lib/components/Alert';
+import {toast} from 'amis-ui/lib/components/Toast';
 import React from 'react';
 
 extendDefaultEnv({
@@ -68,6 +70,7 @@ const SimpleSpinner = themeable(
           className={cx(
             `Spinner-icon`,
             'Spinner-icon--default',
+            'Spinner-icon--sm',
             props.spinnerClassName
           )}
         ></div>
@@ -76,4 +79,4 @@ const SimpleSpinner = themeable(
   }
 );
 
-LazyComponent.defaultProps.placeholder = <SimpleSpinner />;
+(LazyComponent as any).defaultProps.placeholder = <SimpleSpinner />;

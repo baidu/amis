@@ -46,6 +46,8 @@
     box-shadow: var(--DropDown-menu-boxShadow);
     min-width: var(--DropDown-menu-minWidth);
     text-align: left;
+    max-height: 500px;
+    overflow: auto;
   }
 
   &--alignRight &-menu {

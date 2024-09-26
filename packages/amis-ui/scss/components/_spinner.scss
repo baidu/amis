@@ -200,3 +200,15 @@
   z-index: -999;
   opacity: 0;
 }
+
+.#{$ns}RootLoader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .#{$ns}Spinner-icon {
+    width: var(--Spinner-width);
+    height: var(--Spinner-height);
+  }
+}

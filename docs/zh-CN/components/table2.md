@@ -4180,6 +4180,7 @@ order: 67
 | rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引                    | 双击整行时触发       |
 | rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
 | rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+| quickSaveSubmitted | `item: object` 快速编辑相关数据，包括源数据、修改后的数据、修改的行数索引、没有变动的数据 | 成功调用 `quickSaveApi` 之后触发  |
 
 ### selectedChange
 
@@ -4812,6 +4813,63 @@ order: 67
       ]
     }
   ]
+}
+```
+
+### quickSaveSubmitted
+
+快速编辑点击 `submit` , 成功调用 `quickSaveSubmitted`之后触发
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "page",
+    "body": {
+      "type": "service",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+      "id": "service-container",
+      "body": [
+        {
+          "type": "table2",
+          "source": "$rows",
+          "quickSaveApi": {
+            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/bulkUpdate",
+            "method": "put"
+          },
+          "onEvent": {
+            "quickSaveSubmitted": {
+              "actions": [
+                {
+                  "actionType": "reload",
+                  "componentId": "service-container"
+                }
+              ]
+            },
+          },
+          "columns": [
+            {
+              "title": "Engine",
+              "name": "engine",
+              "quickEdit": true
+            },
+            {
+              "title": "Version",
+              "name": "version"
+            },
+            {
+              "title": "Browser",
+              "name": "browser"
+            },
+            {
+              "title": "Badge",
+              "name": "badgeText"
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 ```
 

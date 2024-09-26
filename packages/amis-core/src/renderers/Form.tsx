@@ -11,7 +11,8 @@ import {
   ClassName,
   BaseApiObject,
   SchemaExpression,
-  SchemaClassName
+  SchemaClassName,
+  DataChangeReason
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
@@ -633,7 +634,9 @@ export default class Form extends React.Component<FormProps, object> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed,
           onSuccess: (json: Payload, data: any) => {
-            store.setValues(data);
+            store.setValues(data, undefined, undefined, undefined, {
+              type: 'api'
+            });
 
             if (
               !isEffectiveApi(initAsyncApi, store.data) ||
@@ -968,7 +971,9 @@ export default class Form extends React.Component<FormProps, object> {
   setValues(value: any, replace?: boolean) {
     const {store} = this.props;
     this.flush();
-    store.setValues(value, undefined, replace);
+    store.setValues(value, undefined, replace, undefined, {
+      type: 'action'
+    });
   }
 
   async submit(
@@ -1056,13 +1061,23 @@ export default class Form extends React.Component<FormProps, object> {
     value: any,
     name: string,
     submit: boolean,
-    changePristine = false
+    changePristine = false,
+    changeReason?: DataChangeReason
   ) {
     const {store, formLazyChange, persistDataKeys} = this.props;
     if (typeof name !== 'string') {
       return;
     }
-    store.changeValue(name, value, changePristine);
+    store.changeValue(
+      name,
+      value,
+      changePristine,
+      undefined,
+      undefined,
+      changeReason || {
+        type: 'input'
+      }
+    );
     if (!changePristine || typeof value !== 'undefined') {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
         submit
@@ -1131,9 +1146,21 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  handleBulkChange(values: Object, submit: boolean) {
+  handleBulkChange(
+    values: Object,
+    submit: boolean,
+    changeReason?: DataChangeReason
+  ) {
     const {onChange, store, formLazyChange} = this.props;
-    store.setValues(values);
+    store.setValues(
+      values,
+      undefined,
+      undefined,
+      undefined,
+      changeReason || {
+        type: 'input'
+      }
+    );
     // store.updateData(values);
 
     // store.items.forEach(formItem => {

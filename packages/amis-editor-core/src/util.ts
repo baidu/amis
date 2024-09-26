@@ -23,8 +23,8 @@ import merge from 'lodash/merge';
 import {EditorModalBody} from './store/editor';
 import {filter} from 'lodash';
 import type {SchemaType} from 'amis/lib/Schema';
-import type {DialogSchema} from '../../amis/src/renderers/Dialog';
-import type {DrawerSchema} from '../../amis/src/renderers/Drawer';
+import type {DialogSchema} from 'amis/lib/renderers/Dialog';
+import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 
 const {
   guid,

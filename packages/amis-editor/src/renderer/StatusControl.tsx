@@ -10,7 +10,7 @@ import {autobind, getSchemaTpl} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import type {FormSchema} from '../../../amis/src/Schema';
+import type {FormSchema} from 'amis/lib/Schema';
 
 export interface StatusControlProps extends FormControlProps {
   name: string;

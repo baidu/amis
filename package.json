@@ -139,6 +139,7 @@
       "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js",
       "\\.svg\\.js$": "<rootDir>/__mocks__/svgJsMock.js",
       "^amis\\-ui$": "<rootDir>/packages/amis-ui/src/index.tsx",
+      "^amis\\-ui/lib/(.*)$": "<rootDir>/packages/amis-ui/src/$1",
       "^amis\\-core$": "<rootDir>/packages/amis-core/src/index.tsx",
       "^amis\\-formula$": "<rootDir>/packages/amis-formula/src/index.ts",
       "^office\\-viewer$": "<rootDir>/packages/office-viewer/src/index.ts",

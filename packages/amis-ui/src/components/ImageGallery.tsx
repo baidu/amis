@@ -150,6 +150,12 @@ export class ImageGallery extends React.Component<
 
   @autobind
   onMouseDown(event: MouseEvent) {
+    const isLeftButton =
+      (event.button === 1 && window.event !== null) || event.button === 0;
+    if (!isLeftButton || event.defaultPrevented) return;
+
+    event.preventDefault();
+
     this.galleryMain?.classList.add('is-dragging');
     document.body.addEventListener('mousemove', this.onMouseMove);
     document.body.addEventListener('mouseup', this.onMouseUp);

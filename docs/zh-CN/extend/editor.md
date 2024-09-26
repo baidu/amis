@@ -410,7 +410,7 @@ regions: Array<RegionConfig> = [
 ];
 ```
 
-插件内部会根据这个这个信息，自动在 `render('body', body as any, {disabled})` 的地方包裹个 `RegionWrapper`。这种方式主要是通过篡改 `this.props.render` 方法实现的。
+插件内部会根据这个信息，自动在 `render('body', body as any, {disabled})` 的地方包裹个 `RegionWrapper`。这种方式主要是通过篡改 `this.props.render` 方法实现的。
 
 再看个复杂点的情况如 `Form` 的 `actions` 区块输出。
 

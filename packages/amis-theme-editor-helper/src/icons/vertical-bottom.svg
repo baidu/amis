@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="11.1终稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="图标" transform="translate(-513.000000, -209.000000)">
-            <g id="字符低对齐" transform="translate(521.728065, 217.000000) scale(1, -1) translate(-521.728065, -217.000000) translate(513.728065, 209.000000)">
-                <rect id="矩形" transform="translate(8.000000, 8.000000) scale(1, -1) translate(-8.000000, -8.000000) " x="0" y="0" width="16" height="16"></rect>
-                <rect id="矩形" fill="currentColor" x="2" y="3.77398484" width="12" height="1.5"></rect>
-                <polyline id="路径-5" stroke="currentColor" stroke-width="1.5" points="5.57080651 10.3385561 8 8 10.4291935 10.3385561"></polyline>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="17" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M.728 0h16v16h-16z"/><path fill="currentColor" d="M2.728 12.226h12v-1.5h-12z"/><path stroke="currentColor" stroke-width="1.5" d="M6.299 5.661 8.729 8l2.428-2.339"/></g></svg>

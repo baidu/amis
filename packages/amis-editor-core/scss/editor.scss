@@ -136,6 +136,11 @@
     height: 100%;
     margin: 0;
   }
+  &-back {
+    position: absolute;
+    bottom: 46px;
+    left: 20px;
+  }
 }
 
 // 弹窗编辑器面板

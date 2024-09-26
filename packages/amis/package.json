@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^6.8.0",
-    "amis-ui": "^6.8.0",
+    "amis-core": "*",
+    "amis-ui": "*",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -62,7 +62,7 @@
     "moment": "^2.19.4",
     "moment-timezone": "^0.5.34",
     "mpegts.js": "^1.6.10",
-    "office-viewer": "^0.3.14",
+    "office-viewer": "*",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
     "react-cropper": "^2.1.8",
@@ -110,6 +110,7 @@
     "@types/sortablejs": "^1.3.32",
     "@types/tinymce": "^4.5.24",
     "axios": "0.25.0",
+    "babel-plugin-import": "^1.13.8",
     "bce-sdk-js": "^0.2.9",
     "concurrently": "^7.3.0",
     "copy-to-clipboard": "3.3.1",
@@ -140,6 +141,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
     "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-license": "^2.7.0",
     "ts-jest": "^29.0.2",
     "ts-json-schema-generator": "0.96.0",
@@ -222,7 +224,10 @@
       "\\.(css|less|sass|scss)$": "<rootDir>/../../__mocks__/styleMock.js",
       "\\.(svg)$": "<rootDir>/../../__mocks__/svgMock.js",
       "\\.svg\\.js$": "<rootDir>/../../__mocks__/svgJsMock.js",
-      "^amis\\-ui$": "<rootDir>/../amis-ui/src/index.tsx"
+      "^amis\\-core$": "<rootDir>/../amis-core/src/index.tsx",
+      "^amis\\-ui$": "<rootDir>/../amis-ui/src/index.tsx",
+      "^amis\\-ui/lib/(.*)$": "<rootDir>/../amis-ui/src/$1",
+      "^amis\\-formula$": "<rootDir>/../amis-formula/src/index.ts"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/../amis-core/__tests__/jest.setup.js"

@@ -935,7 +935,8 @@ export type ActionRendererProps = RendererProps &
   };
 
 @Renderer({
-  type: 'action'
+  type: 'action',
+  alias: ['button', 'submit', 'reset']
 })
 // @ts-ignore 类型没搞定
 @withBadge
@@ -1089,18 +1090,3 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     );
   }
 }
-
-@Renderer({
-  type: 'button'
-})
-export class ButtonRenderer extends ActionRenderer {}
-
-@Renderer({
-  type: 'submit'
-})
-export class SubmitRenderer extends ActionRenderer {}
-
-@Renderer({
-  type: 'reset'
-})
-export class ResetRenderer extends ActionRenderer {}
