@@ -452,6 +452,7 @@ export interface PanelProps {
   store: EditorStoreType;
   manager: EditorManager;
   popOverContainer?: () => HTMLElement | void;
+  readonly?: boolean;
 }
 
 /**

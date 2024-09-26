@@ -741,6 +741,10 @@ export const FormStore = ServiceStore.named('FormStore')
       items.forEach(item => item.reset());
     }
 
+    function setPristine(data: object) {
+      self.pristine = data;
+    }
+
     function reset(cb?: (data: any) => void, resetData: boolean = true) {
       if (resetData) {
         self.data = self.pristine;
@@ -826,6 +830,7 @@ export const FormStore = ServiceStore.named('FormStore')
       getLocalPersistData,
       setLocalPersistData,
       clearLocalPersistData,
+      setPristine,
       setPersistData,
       clear,
       updateSavedData,

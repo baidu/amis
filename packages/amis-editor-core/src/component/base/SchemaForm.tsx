@@ -2,7 +2,13 @@ import React from 'react';
 import {EditorNodeType} from '../../store/node';
 import {EditorManager} from '../../manager';
 import {diff, getThemeConfig} from '../../util';
-import {createObjectFromChain, extractObjectChain, render} from 'amis';
+import {
+  createObjectFromChain,
+  extractObjectChain,
+  IFormStore,
+  render,
+  toast
+} from 'amis';
 import omit from 'lodash/omit';
 import cx from 'classnames';
 
@@ -22,7 +28,8 @@ export function SchemaFrom({
   justify,
   ctx,
   pipeIn,
-  pipeOut
+  pipeOut,
+  readonly
 }: {
   propKey?: string;
   env: any;
@@ -48,6 +55,7 @@ export function SchemaFrom({
   ctx?: any;
   pipeIn?: (value: any) => any;
   pipeOut?: (value: any, oldValue: any) => any;
+  readonly?: boolean;
 }) {
   const schema = React.useMemo(() => {
     let containerKey = 'body';
@@ -129,6 +137,8 @@ export function SchemaFrom({
     []
   );
 
+  const [init, setInit] = React.useState(true);
+
   const data = React.useMemo(() => {
     value = value || {};
     const finalValue = pipeIn ? pipeIn(value) : value;
@@ -143,13 +153,21 @@ export function SchemaFrom({
   return render(
     schema,
     {
-      onFinished: async (newValue: any) => {
+      onFinished: async (newValue: any, action: any, store: IFormStore) => {
         newValue = pipeOut ? await pipeOut(newValue, value) : newValue;
         const diffValue = diff(value, newValue);
         // 没有变化时不触发onChange
         if (!diffValue) {
           return;
         }
+
+        if (readonly && !init) {
+          toast.error('不支持修改');
+          store.setPristine(value);
+          store.reset();
+          return;
+        }
+        setInit(false);
         onChange(newValue, diffValue, (schema, value, id, diff) => {
           return submitSubscribers.current.reduce((schema, fn) => {
             return fn(schema, value, id, diff);
