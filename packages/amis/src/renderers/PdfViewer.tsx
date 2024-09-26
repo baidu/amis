@@ -13,7 +13,8 @@ import {
   Renderer,
   RendererProps,
   resolveVariableAndFilter,
-  ScopedContext
+  ScopedContext,
+  getGlobalOptions
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 
@@ -244,7 +245,7 @@ export default class PdfViewer extends React.Component<
       <div>
         <p>
           [PdfViewer]: pdfjsWorkerSrc is required, Please set the
-          `pdfjsWorkerSrc` in env.
+          `pdfjsWorkerSrc` in setGlobalOptions function.
         </p>
       </div>
     );
@@ -258,7 +259,7 @@ export default class PdfViewer extends React.Component<
       height,
       background
     } = this.props;
-    const pdfjs = this.props.env.pdfjsWorkerSrc;
+    const pdfjs = getGlobalOptions().pdfjsWorkerSrc;
     const {loading, inited, error} = this.state;
     const width = Math.max(this.props.width || this.state.width, 300);
 
@@ -271,7 +272,6 @@ export default class PdfViewer extends React.Component<
           <Suspense fallback={<div>...</div>}>
             {inited && !error ? (
               <PdfView
-                pdfjsWorkerSrc={pdfjs}
                 file={this.file}
                 loading={loading}
                 className={className}
