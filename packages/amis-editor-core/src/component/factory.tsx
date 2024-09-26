@@ -262,7 +262,15 @@ export function makeSchemaFormRender(
     body ? flatten(Array.isArray(body) ? body : [body]) : undefined
   );
 
-  return ({value, onChange, popOverContainer, id, store, node}: PanelProps) => {
+  return ({
+    value,
+    onChange,
+    popOverContainer,
+    id,
+    store,
+    node,
+    readonly
+  }: PanelProps) => {
     const ctx = {...manager.store.ctx};
 
     if (schema?.panelById && schema?.panelById !== node?.id) {
@@ -306,6 +314,7 @@ export function makeSchemaFormRender(
         node={node}
         manager={manager}
         justify={schema.justify}
+        readonly={readonly}
       />
     );
   };
