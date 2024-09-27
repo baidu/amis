@@ -123,6 +123,10 @@ import {StatusScoped} from './StatusScoped';
 
 // @ts-ignore
 export const version = '__buildVersion';
+(window as any).amisVersionInfo = {
+  version: '__buildVersion',
+  buildTime: '__buildTime'
+};
 
 export {
   clearStoresCache,

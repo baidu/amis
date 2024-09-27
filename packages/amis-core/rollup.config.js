@@ -15,6 +15,7 @@ import {
   dependencies
 } from './package.json';
 import path from 'path';
+import fs from 'fs';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -22,38 +23,30 @@ const settings = {
   globals: {}
 };
 
-const external = id => {
-  const result = new RegExp(
-    `^(?:${Object.keys(dependencies)
-      .concat([
-        'react',
-        'react-dom',
-        'react-overlays',
-        'warning',
-        'tslib',
-        'dom-helpers',
-        '@restart/hooks',
-        'entities',
-        'linkify-it',
-        'markdown-it',
-        'prop-types',
-        'markdown-it-html5-media',
-        'mdurl',
-        'uc.micro',
-        '@babel/runtime'
-      ])
-      .map(value =>
-        value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
-      )
-      .join('|')})`
-  ).test(id);
+const pkgs = [];
+// 读取所有的node_modules目录，获取所有的包名
+[
+  path.join(__dirname, './node_modules'),
+  path.join(__dirname, '../../node_modules')
+].forEach(dir => {
+  if (fs.existsSync(dir)) {
+    fs.readdirSync(dir).forEach(item => {
+      if (item.startsWith('.')) {
+        return;
+      }
 
-  if (!result && ~id.indexOf('node_modules')) {
-    console.log(id);
+      if (item.startsWith('@')) {
+        fs.readdirSync(path.join(dir, item)).forEach(subItem => {
+          pkgs.push(item + '/' + subItem);
+        });
+      }
+
+      return pkgs.push(item);
+    });
   }
-
-  return result;
-};
+});
+const external = id =>
+  pkgs.some(pkg => id.startsWith(pkg) || ~id.indexOf(`node_modules/${pkg}`));
 const input = './src/index.tsx';
 
 /** 获取子包编译后的入口路径，需要使用相对路径 */
@@ -200,7 +193,8 @@ function getPlugins(format = 'esm') {
     }),
     replace({
       preventAssignment: true,
-      __buildVersion: version
+      __buildVersion: version,
+      __buildTime: () => new Date().toISOString()
     }),
     typescript(typeScriptOptions),
     commonjs({
