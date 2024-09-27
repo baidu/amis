@@ -507,6 +507,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
     this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
+    this.flush = this.flush.bind(this);
 
     const {store, canAccessSuperData, persistData, simpleMode, formLazyChange} =
       props;
@@ -1960,7 +1961,8 @@ export default class Form extends React.Component<FormProps, object> {
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
       formItemDispatchEvent: this.formItemDispatchEvent,
-      formPristine: form.pristine
+      formPristine: form.pristine,
+      onFlushForm: this.flush
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
       //   : (control as any)?.value,
