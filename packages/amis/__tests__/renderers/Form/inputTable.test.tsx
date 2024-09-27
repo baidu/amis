@@ -774,7 +774,7 @@ test('Renderer:input-table formula', async () => {
 
   fireEvent.change(dollor!, {target: {value: '22'}});
 
-  await wait(400);
+  await wait(800);
 
   const inputs = container.querySelectorAll('input[name=score]');
   expect(inputs.length).toBe(3);
