@@ -67,27 +67,13 @@ export class RightPanels extends React.Component<
   handlePanelChangeValue(
     ...arg: Parameters<typeof this.props.manager.panelChangeValue>
   ) {
-    const {manager, readonly} = this.props;
+    const {manager} = this.props;
 
-    if (readonly) {
-      const diff = arg[1];
-      if (
-        !diff?.find((item: any) =>
-          item.path.find(
-            (p: string) => !p.startsWith('__') && p !== 'pullRefresh'
-          )
-        )
-      ) {
-        return;
-      }
-      toast.error('不支持编辑');
-    } else {
-      manager.panelChangeValue(...arg);
-    }
+    manager.panelChangeValue(...arg);
   }
 
   render() {
-    const {store, manager, theme} = this.props;
+    const {store, manager, theme, readonly} = this.props;
     const {isOpenStatus, isFixedStatus} = this.state;
     const panels = store.getPanels();
     const id = store.activeId;
@@ -104,7 +90,8 @@ export class RightPanels extends React.Component<
           onChange: this.handlePanelChangeValue,
           store: store,
           manager: manager,
-          popOverContainer: this.getPopOverContainer
+          popOverContainer: this.getPopOverContainer,
+          readonly
         })
       ) : panel.component ? (
         <panel.component
@@ -118,6 +105,7 @@ export class RightPanels extends React.Component<
           store={store}
           manager={manager}
           popOverContainer={this.getPopOverContainer}
+          readonly={readonly}
         />
       ) : null;
     };

@@ -238,7 +238,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     if (ref) {
       // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
-      this.unbindEvent = bindEvent(this.ref);
+      this.unbindEvent?.();
+      this.unbindEvent = bindEvent(ref);
     }
     this.cRef = ref;
   }

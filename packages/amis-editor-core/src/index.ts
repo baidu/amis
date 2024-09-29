@@ -44,6 +44,10 @@ import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 import {SchemaFrom} from './component/base/SchemaForm';
 
 export const version = '__buildVersion';
+(window as any).amisEditorVersionInfo = {
+  version: '__buildVersion',
+  buildTime: '__buildTime'
+};
 
 export default Editor;
 
