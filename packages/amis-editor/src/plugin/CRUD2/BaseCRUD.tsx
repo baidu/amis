@@ -802,6 +802,7 @@ export class BaseCRUDPlugin extends BasePlugin {
               this.addFeatToToolbar(schema, newCompSchema, 'footer', 'right');
             }
             form.setValues({
+              perPage: value !== 'more' ? undefined : schema.perPage,
               footerToolbar: schema.footerToolbar,
               headerToolbar: schema.headerToolbar
             });

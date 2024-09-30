@@ -30,7 +30,8 @@ import {
   isApiOutdated,
   isPureVariable,
   resolveVariableAndFilter,
-  parsePrimitiveQueryString
+  parsePrimitiveQueryString,
+  JSONTraverse
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
 import {Html, SpinnerExtraProps} from 'amis-ui';
@@ -285,7 +286,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     silentPolling: false,
     autoFillHeight: false,
     showSelection: true,
-    perPage: 10,
     primaryField: 'id',
     parsePrimitiveQuery: true
   };
@@ -350,12 +350,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   componentDidMount() {
-    const {store, pickerMode, loadType, loadDataOnce, perPage} = this.props;
+    const {store, pickerMode, loadType, loadDataOnce, maxLoadNum} = this.props;
 
     // 初始化分页
-    let pagination = loadType && !!loadDataOnce;
+    let pagination = loadType && !loadDataOnce;
     if (pagination) {
+      // crud2的翻页每页条数是翻页组件里单独配置的
+      let perPage =
+        loadType === 'more'
+          ? this.props.perPage || 10
+          : this.getPaginationPerPage();
       store.changePage(store.page, perPage);
+    } else if (!loadType) {
+      store.changePage(1, maxLoadNum || 500); // 不分页时默认一次最多查询500条(jsonql)
     }
 
     // 初始化筛选条件
@@ -446,6 +453,24 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     clearTimeout(this.timer);
   }
 
+  @autobind
+  getPaginationPerPage() {
+    let perPage = 10;
+    let {headerToolbar, footerToolbar} = this.props;
+    JSONTraverse(
+      {
+        headerToolbar,
+        footerToolbar
+      },
+      (value: any, key: string, host: any) => {
+        if (key === 'type' && value === 'pagination' && !isNaN(host?.perPage)) {
+          perPage = +host.perPage;
+        }
+      }
+    );
+    return perPage;
+  }
+
   getParseQueryOptions(props: CRUD2Props) {
     const {parsePrimitiveQuery} = props;
     type PrimitiveQueryObj = Exclude<
@@ -503,7 +528,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
-    const {store, perPage} = this.props;
+    const {store, perPage = 10} = this.props;
 
     store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
