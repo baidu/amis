@@ -15,8 +15,8 @@
 }
 
 .#{$ns}TreeSelect {
-  @include input-text();
   outline: none;
+  @include input-text();
 
   &.is-opened {
     border-color: var(--Form-input-onFocused-borderColor);

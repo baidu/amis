@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import './functions';
 @import './variables';
 $remFactor: 16px;
@@ -209,14 +210,17 @@ $Table-strip-bg: transparent;
   --Card-onChecked-bg: var(--colors-neutral-fill-11);
   --Card-onChecked-borderColor: var(--colors-brand-5);
   --Card-onChecked-color: var(--colors-brand-5);
-  --Card-onChecked-fieldLabel-color: #{lighten(darken(#d9f3fb, 40%), 20%)};
+  --Card-onChecked-fieldLabel-color: #{color.adjust(
+      color.adjust(#d9f3fb, $lightness: -40%),
+      $lightness: 20%
+    )};
   --Card-onDragging-opacity: 0.1;
   --Card-onModified-bg: var(--colors-neutral-fill-8);
   --Card-onModified-borderColor: var(--colors-brand-5);
   --Card-onModified-color: var(--colors-brand-6);
   --Card-onModified-fieldLabel-color: var(--colors-brand-8);
-  --Card-onModified-onHover-bg: #{darken(#e8f0fe, 5%)};
-  --Card-onModified-onHover-color: #{darken(#4285f4, 10%)};
+  --Card-onModified-onHover-bg: #{color.adjust(#e8f0fe, $lightness: -5%)};
+  --Card-onModified-onHover-color: #{color.adjust(#4285f4, $lightness: -10%)};
   --Cards--unsaved-heading-bg: #e8f0fe;
   --Cards--unsaved-heading-color: #4285f4;
   --Cards-fixedTop-boxShadow: var(--shadows-shadow-normal);
@@ -405,16 +409,28 @@ $Table-strip-bg: transparent;
   --Layout-aside--md-width: #{px2rem(250px)};
   --Layout-aside--sm-width: #{px2rem(150px)};
   --Layout-aside-bg: var(--colors-neutral-fill-2);
-  --Layout-aside-color: #{desaturate(lighten($dark, 40%), 10%)};
-  --Layout-aside-onAcitve-bg: #{saturate(darken($dark, 5%), 2.5%)};
-  --Layout-aside-onHover-bg: #{saturate(darken($dark, 3%), 2.5%)};
+  --Layout-aside-color: #{color.adjust(
+      color.adjust($dark, $lightness: 40%),
+      $saturation: -10%
+    )};
+  --Layout-aside-onAcitve-bg: #{color.adjust(
+      color.adjust($dark, $lightness: -5%),
+      $saturation: 2.5%
+    )};
+  --Layout-aside-onHover-bg: #{color.adjust(
+      color.adjust($dark, $lightness: -3%),
+      $saturation: 2.5%
+    )};
   --Layout-aside-subList-bg: var(--colors-neutral-fill-2);
   --Layout-aside-onAcitve-onHover-bg: var(--Layout-aside-onAcitve-bg);
   --Layout-aside-width: #{px2rem(180px)};
   --Layout-aside-width-collapsed: #{px2rem(60px)};
   --Layout-asideDivider-bg: var(--colors-neutral-line-3);
   --Layout-asideDivider-margin: 0 var(--sizes-size-6);
-  --Layout-asideLabel-color: #{darken(desaturate(lighten($dark, 40%), 10%), 10%)};
+  --Layout-asideLabel-color: #{color.adjust(
+      color.adjust(color.adjust($dark, $lightness: 40%), $saturation: -10%),
+      $lightness: -10%
+    )};
   --Layout-asideLink-color: var(--colors-neutral-text-11);
   --Layout-asideLink-fontSize: var(--fonts-size-8);
   --Layout-asideLink-arrowFontSize: var(--fonts-size-8);
@@ -430,7 +446,10 @@ $Table-strip-bg: transparent;
   --Layout-asideLink-onHover-arrowColor: var(--colors-neutral-text-11);
   --Layout-brand-bg: var(--colors-neutral-fill-2);
   --Layout-brand-color: var(--colors-neutral-text-11);
-  --Layout-brandBar-color: #{desaturate(lighten($dark, 40%), 10%)};
+  --Layout-brandBar-color: #{color.adjust(
+      color.adjust($dark, $lightness: 40%),
+      $saturation: -10%
+    )};
   --Layout-header-bg: var(--colors-neutral-fill-10);
   --Layout-header-boxShadow: none;
   --Layout-header-height: #{px2rem(50px)};
@@ -498,9 +517,12 @@ $Table-strip-bg: transparent;
   --ListItem-onChecked-fieldLabel-color: var(--colors-brand-4);
   --ListItem-onDragging-opacity: 0.1;
   --ListItem-onModified-bg: #e8f0fe;
-  --ListItem-onModified-borderColor: #{darken(#e8f0fe, 10%)};
+  --ListItem-onModified-borderColor: #{color.adjust(#e8f0fe, $lightness: -10%)};
   --ListItem-onModified-color: #4285f4;
-  --ListItem-onModified-fieldLabel-color: #{lighten(#4285f4, 20%)};
+  --ListItem-onModified-fieldLabel-color: #{color.adjust(
+      #4285f4,
+      $lightness: 20%
+    )};
   --ListItem-paddingX: var(--gap-base);
   --ListItem-paddingY: var(--gap-sm);
   --ListItem--onHover-bg: rgba(0, 126, 255, 0.08);
@@ -705,7 +727,7 @@ $Table-strip-bg: transparent;
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-arrow-height: #{px2rem(4px)};
-  --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
+  --Tooltip-arrow-outerColor: #{color.adjust($borderColor, $alpha: 0.05)};
   --Tooltip-arrow-width: #{px2rem(8px)};
   --Tooltip-bg: var(--background);
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
@@ -723,8 +745,11 @@ $Table-strip-bg: transparent;
   --Tooltip-maxWidth: #{px2rem(240px)};
   --Tooltip-minWidth: auto;
   --Tooltip-title-fontWeight: bold;
-  --Tooltip-title-bg: #{darken($white, 3%)};
-  --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
+  --Tooltip-title-bg: #{color.adjust($white, $lightness: -3%)};
+  --Tooltip-title-borderBottom-color: #{color.adjust(
+      color.adjust($white, $lightness: -3%),
+      $lightness: -5%
+    )};
   --Tooltip-title-color: var(--text--loud-color);
   --Tooltip-title-color--dark: #fff;
   --Tooltip-title-paddingX: var(--gap-base);

@@ -26,14 +26,13 @@
   }
 
   &--normal {
-    &--hasColor {
-      color: var(--white);
-    }
-
     border-width: var(--Tag-normal-borderWidth);
     border-radius: var(--Tag-normal-borderRadius);
     border-color: var(--Tag-normal-borderColor);
 
+    &--hasColor {
+      color: var(--white);
+    }
     &--inactive {
       color: var(--Tag-inactive-color);
       background: var(--Tag-inactive-bg-color);

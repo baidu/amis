@@ -1,6 +1,4 @@
 .#{$ns}ResultBox {
-  @include input-input();
-  @include input-border();
   flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
@@ -24,6 +22,8 @@
     var(--select-base-default-paddingBottom)
     var(--select-base-default-paddingLeft);
 
+  @include input-input();
+  @include input-border();
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
