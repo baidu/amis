@@ -1941,6 +1941,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
+    // 底部新增按钮是否显示
+    const footerAddBtnVisible =
+      !isStatic &&
+      addable &&
+      showFooterAddBtn !== false &&
+      (!maxLength || maxLength > this.state.items.length);
+
     return (
       <div className={cx('InputTable', className)}>
         {render(
@@ -1983,13 +1990,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             testIdBuilder: testIdBuilder?.getChild('table')
           }
         )}
-        {(!isStatic &&
-          addable &&
-          showFooterAddBtn !== false &&
-          (!maxLength || maxLength > items.length)) ||
-        showPager ? (
+        {footerAddBtnVisible || showPager ? (
           <div className={cx('InputTable-toolbar', toolbarClassName)}>
-            {addable && showFooterAddBtn !== false
+            {footerAddBtnVisible
               ? render(
                   'button',
                   {
