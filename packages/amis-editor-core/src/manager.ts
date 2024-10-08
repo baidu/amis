@@ -1895,7 +1895,7 @@ export class EditorManager {
             (id, value) => batch.unshift({id, value}),
             ids
           );
-          ids.set(schema.id, node.schemaPath);
+          node.schemaPath && ids.set(schema.id, node.schemaPath);
         }
       });
     };
