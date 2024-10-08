@@ -48,13 +48,13 @@
   &-toolbar {
     margin-top: var(--gap-sm);
 
-    &--dnd {
-      padding-left: 29px;
-    }
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    &--dnd {
+      padding-left: 29px;
+    }
   }
 
   &-sortTip {

@@ -1,8 +1,8 @@
 .#{$ns}TextareaControl {
-  @include input-text();
   --Form-input-clearBtn-padding: #{px2rem(2px)};
-
   position: relative;
+
+  @include input-text();
 
   > textarea.#{$ns}TextareaControl-input--counter {
     // 23 px 是计数器 counter 的高度
@@ -12,8 +12,6 @@
   }
 
   > textarea {
-    @include input-border();
-
     border: 1px solid var(--Form-input-borderColor);
     border-radius: var(--Form-input-borderRadius);
     color: var(--colors-neutral-text-2);
@@ -26,6 +24,8 @@
     line-height: var(--Form-input-lineHeight);
     outline: none;
     resize: vertical;
+
+    @include input-border();
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
