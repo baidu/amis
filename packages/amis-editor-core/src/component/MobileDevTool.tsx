@@ -111,16 +111,20 @@ export default function MobileDevTool(props: {
   const resizeObserver = new ResizeObserver(debounce(updateAutoSize, 300));
 
   useEffect(() => {
-    getPreviewInitialSize();
-    updateAutoSize();
-    const aeMain = document.getElementById('ae-Main');
-    if (aeMain) {
-      resizeObserver.observe(aeMain);
-    }
     onChange?.({
       width: dimension.width,
       height: dimension.height
     });
+    // 初始化时获取预览区域的尺寸
+    setTimeout(() => {
+      getPreviewInitialSize();
+      updateAutoSize();
+    }, 500);
+
+    const aeMain = document.getElementById('ae-Main');
+    if (aeMain) {
+      resizeObserver.observe(aeMain);
+    }
     return () => {
       if (aeMain) {
         resizeObserver.unobserve(aeMain);
