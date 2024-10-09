@@ -111,17 +111,9 @@ export default function MobileDevTool(props: {
   const resizeObserver = new ResizeObserver(debounce(updateAutoSize, 300));
 
   useEffect(() => {
-    const previewBody = document.getElementById('editor-preview-body');
-    const aeMain = document.getElementById('ae-Main');
-    if (previewBody) {
-      const previewBodyRect = previewBody.getBoundingClientRect();
-      const {width, height} = previewBodyRect;
-      initialSize.current = {
-        width,
-        height
-      };
-    }
+    getPreviewInitialSize();
     updateAutoSize();
+    const aeMain = document.getElementById('ae-Main');
     if (aeMain) {
       resizeObserver.observe(aeMain);
     }
@@ -131,6 +123,18 @@ export default function MobileDevTool(props: {
       }
     };
   }, []);
+
+  function getPreviewInitialSize() {
+    const previewBody = document.getElementById('editor-preview-body');
+    if (previewBody) {
+      const previewBodyRect = previewBody.getBoundingClientRect();
+      const {width, height} = previewBodyRect;
+      initialSize.current = {
+        width,
+        height
+      };
+    }
+  }
 
   function updateAutoSize() {
     const aeMain = document.getElementById('ae-Main');
@@ -180,6 +184,12 @@ export default function MobileDevTool(props: {
                 width: value.width,
                 height: value.height
               });
+              setSize(100);
+              onSizeChange?.(100);
+              setTimeout(() => {
+                getPreviewInitialSize();
+                updateAutoSize();
+              }, 500);
             }
           }}
           options={dimensions.map(n => ({
