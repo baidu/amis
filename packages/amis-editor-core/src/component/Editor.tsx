@@ -146,7 +146,7 @@ export default class Editor extends Component<
       width: number;
       height: number;
     };
-    mobileSize: number;
+    mobileScale: number;
   }
 > {
   readonly store: EditorStoreType;
@@ -229,7 +229,7 @@ export default class Editor extends Component<
 
     this.state = {
       mobileDimensions: dimensions[0],
-      mobileSize: 100
+      mobileScale: 100
     };
   }
 
@@ -596,7 +596,7 @@ export default class Editor extends Component<
       amisEnv,
       readonly
     } = this.props;
-    const {mobileDimensions, mobileSize} = this.state;
+    const {mobileDimensions, mobileScale} = this.state;
 
     return (
       <div
@@ -639,8 +639,8 @@ export default class Editor extends Component<
                 onChange={value => {
                   this.setState({mobileDimensions: value});
                 }}
-                onSizeChange={size => {
-                  this.setState({mobileSize: size});
+                onScaleChange={scale => {
+                  this.setState({mobileScale: scale});
                 }}
               />
             )}
@@ -658,7 +658,7 @@ export default class Editor extends Component<
               toolbarContainer={this.getToolbarContainer}
               readonly={readonly}
               mobileDimensions={mobileDimensions}
-              mobileSize={mobileSize}
+              mobileScale={mobileScale}
             ></Preview>
           </div>
 

@@ -91,22 +91,22 @@ export const dimensions = [
   }
 ];
 
-const sizeList = [50, 75, 100, 125, 150, 200];
+const scaleList = [50, 75, 100, 125, 150, 200];
 
 export default function MobileDevTool(props: {
   onChange: (dimension: {width: number; height: number}) => void;
-  onSizeChange?: (size: number) => void;
+  onScaleChange?: (scale: number) => void;
 }) {
   const [dimension, setDimension] = React.useState(dimensions[0]);
-  const [size, setSize] = React.useState(100);
-  const [autoSize, setAutoSize] = React.useState(100);
+  const [scale, setScale] = React.useState(100);
+  const [autoScale, setAutoScale] = React.useState(100);
   // 记录初始时100%的尺寸
   const initialSize = React.useRef({
     width: 0,
     height: 0
   });
 
-  const {onChange, onSizeChange} = props;
+  const {onChange, onScaleChange} = props;
 
   const resizeObserver = new ResizeObserver(debounce(updateAutoSizeFn, 300));
 
@@ -115,7 +115,7 @@ export default function MobileDevTool(props: {
       width: dimension.width,
       height: dimension.height
     });
-    onSizeChange?.(100);
+    onScaleChange?.(100);
     // 初始化时获取预览区域的尺寸
     getPreviewInitialSize();
 
@@ -143,7 +143,7 @@ export default function MobileDevTool(props: {
       (width - 50) / previewBodyWidth,
       (height - 50) / previewBodyHeight
     );
-    setAutoSize(Math.floor(scale * 100));
+    setAutoScale(Math.floor(scale * 100));
   }
 
   function getPreviewInitialSize() {
@@ -175,8 +175,8 @@ export default function MobileDevTool(props: {
   }
 
   function handleAutoSize() {
-    setSize(autoSize);
-    onSizeChange?.(autoSize);
+    setScale(autoScale);
+    onScaleChange?.(autoScale);
   }
 
   return (
@@ -194,8 +194,8 @@ export default function MobileDevTool(props: {
                 width: value.width,
                 height: value.height
               });
-              setSize(100);
-              onSizeChange?.(100);
+              setScale(100);
+              onScaleChange?.(100);
               getPreviewInitialSize();
             }
           }}
@@ -212,29 +212,29 @@ export default function MobileDevTool(props: {
         <span>{dimension.height}</span>
       </div>
       <div className="ae-MobileDevTool-right">
-        <div className="ae-MobileDevTool-right-size">
+        <div className="ae-MobileDevTool-right-scale">
           <Select
             className="ae-MobileDevTool-select"
             clearable={false}
-            value={size}
+            value={scale}
             options={[
-              ...sizeList.map(n => ({
+              ...scaleList.map(n => ({
                 label: `${n}%`,
                 value: n
               }))
             ]}
             onChange={(item: any) => {
-              setSize(item.value);
-              onSizeChange?.(item.value);
+              setScale(item.value);
+              onScaleChange?.(item.value);
             }}
           />
-          {!sizeList.includes(size) && (
-            <div className="ae-MobileDevTool-right-size-auto-value">
-              {size}%
+          {!scaleList.includes(scale) && (
+            <div className="ae-MobileDevTool-right-scale-auto-value">
+              {scale}%
             </div>
           )}
           <div
-            className="ae-MobileDevTool-right-size-auto"
+            className="ae-MobileDevTool-right-scale-auto"
             onClick={handleAutoSize}
           >
             自适应

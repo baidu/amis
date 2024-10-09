@@ -53,7 +53,7 @@ export interface PreviewProps {
     width: number;
     height: number;
   };
-  mobileSize?: number;
+  mobileScale?: number;
 }
 
 export interface PreviewState {
@@ -167,7 +167,7 @@ export default class Preview extends Component<PreviewProps> {
           this.scrollLayer!.scrollTop
         }px) ${
           this.props.isMobile
-            ? `scale(${(this.props.mobileSize || 100) / 100})`
+            ? `scale(${(this.props.mobileScale || 100) / 100})`
             : ''
         };`;
       });
@@ -573,7 +573,7 @@ export default class Preview extends Component<PreviewProps> {
               ? {
                   width: this.props.mobileDimensions?.width,
                   height: this.props.mobileDimensions?.height,
-                  transform: `scale(${(this.props.mobileSize || 100) / 100})`
+                  transform: `scale(${(this.props.mobileScale || 100) / 100})`
                 }
               : undefined
           }
@@ -628,7 +628,7 @@ export default class Preview extends Component<PreviewProps> {
           style={
             isMobile
               ? {
-                  transform: `scale(${(this.props.mobileSize || 100) / 100})`
+                  transform: `scale(${(this.props.mobileScale || 100) / 100})`
                 }
               : undefined
           }
