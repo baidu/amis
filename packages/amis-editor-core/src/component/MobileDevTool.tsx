@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Icon} from '../icons';
 import {Select} from 'amis-ui';
+import {debounce} from 'lodash';
 
 export const dimensions = [
   {
@@ -98,7 +99,54 @@ export default function MobileDevTool(props: {
 }) {
   const [dimension, setDimension] = React.useState(dimensions[0]);
   const [size, setSize] = React.useState(100);
+  const [autoSize, setAutoSize] = React.useState(100);
+  // 记录初始时100%的尺寸
+  const initialSize = React.useRef({
+    width: 0,
+    height: 0
+  });
+
   const {onChange, onSizeChange} = props;
+
+  const resizeObserver = new ResizeObserver(debounce(updateAutoSize, 300));
+
+  useEffect(() => {
+    const previewBody = document.getElementById('editor-preview-body');
+    const aeMain = document.getElementById('ae-Main');
+    if (previewBody) {
+      const previewBodyRect = previewBody.getBoundingClientRect();
+      const {width, height} = previewBodyRect;
+      initialSize.current = {
+        width,
+        height
+      };
+    }
+    updateAutoSize();
+    if (aeMain) {
+      resizeObserver.observe(aeMain);
+    }
+    return () => {
+      if (aeMain) {
+        resizeObserver.unobserve(aeMain);
+      }
+    };
+  }, []);
+
+  function updateAutoSize() {
+    const aeMain = document.getElementById('ae-Main');
+    if (!aeMain) {
+      return;
+    }
+    const aeMainRect = aeMain.getBoundingClientRect();
+    const {width, height} = aeMainRect;
+    const {width: previewBodyWidth, height: previewBodyHeight} =
+      initialSize.current;
+    const scale = Math.min(
+      (width - 50) / previewBodyWidth,
+      (height - 50) / previewBodyHeight
+    );
+    setAutoSize(Math.floor(scale * 100));
+  }
 
   function rotateScreen() {
     setDimension({
@@ -110,6 +158,11 @@ export default function MobileDevTool(props: {
       width: dimension.height,
       height: dimension.width
     });
+  }
+
+  function handleAutoSize() {
+    setSize(autoSize);
+    onSizeChange?.(autoSize);
   }
 
   return (
@@ -142,21 +195,34 @@ export default function MobileDevTool(props: {
         <span>{dimension.height}</span>
       </div>
       <div className="ae-MobileDevTool-right">
-        {/* <div className="ae-MobileDevTool-right-size">
+        <div className="ae-MobileDevTool-right-size">
           <Select
             className="ae-MobileDevTool-select"
             clearable={false}
             value={size}
-            options={sizeList.map(n => ({
-              label: `${n}%`,
-              value: n
-            }))}
+            options={[
+              ...sizeList.map(n => ({
+                label: `${n}%`,
+                value: n
+              }))
+            ]}
             onChange={(item: any) => {
               setSize(item.value);
               onSizeChange?.(item.value);
             }}
           />
-        </div> */}
+          {!sizeList.includes(size) && (
+            <div className="ae-MobileDevTool-right-size-auto-value">
+              {size}%
+            </div>
+          )}
+          <div
+            className="ae-MobileDevTool-right-size-auto"
+            onClick={handleAutoSize}
+          >
+            自适应
+          </div>
+        </div>
         <div onClick={rotateScreen}>
           <Icon
             icon="rotate-screen"

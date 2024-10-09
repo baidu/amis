@@ -2018,6 +2018,21 @@ div[class*='Form-group']:empty {
     height: 20px;
     &-size {
       margin-right: 10px;
+      display: flex;
+      position: relative;
+      &-auto-value {
+        position: absolute;
+        background-color: #fff;
+        width: 40px;
+        left: 10px;
+      }
+      &-auto {
+        cursor: pointer;
+        margin-left: 10px;
+        &:hover {
+          color: $editor-active-color;
+        }
+      }
     }
     &-rotate-screen {
       width: 16px;

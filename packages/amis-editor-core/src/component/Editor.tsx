@@ -624,7 +624,7 @@ export default class Editor extends Component<
             />
           )}
 
-          <div className="ae-Main">
+          <div className="ae-Main" id="ae-Main">
             {!preview && (
               <div className="ae-Header">
                 <Breadcrumb store={this.store} manager={this.manager} />
