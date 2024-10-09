@@ -117,6 +117,10 @@ export default function MobileDevTool(props: {
     if (aeMain) {
       resizeObserver.observe(aeMain);
     }
+    onChange?.({
+      width: dimension.width,
+      height: dimension.height
+    });
     return () => {
       if (aeMain) {
         resizeObserver.unobserve(aeMain);
