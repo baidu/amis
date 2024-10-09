@@ -19,6 +19,7 @@ import {RightPanels} from './Panel/RightPanels';
 import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
 import type {EditorNodeType} from '../store/node';
+import MobileDevTool, {dimensions} from './MobileDevTool';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -138,7 +139,16 @@ export interface EditorProps extends PluginEventListener {
   readonly?: boolean;
 }
 
-export default class Editor extends Component<EditorProps> {
+export default class Editor extends Component<
+  EditorProps,
+  {
+    mobileDimensions: {
+      width: number;
+      height: number;
+    };
+    mobileSize: number;
+  }
+> {
   readonly store: EditorStoreType;
   readonly manager: EditorManager;
   readonly mainRef = React.createRef<HTMLDivElement>();
@@ -216,6 +226,11 @@ export default class Editor extends Component<EditorProps> {
     this.toDispose.push(
       this.manager.on('preview2editor', () => this.manager.rebuild())
     );
+
+    this.state = {
+      mobileDimensions: dimensions[0],
+      mobileSize: 100
+    };
   }
 
   componentDidMount() {
@@ -581,6 +596,7 @@ export default class Editor extends Component<EditorProps> {
       amisEnv,
       readonly
     } = this.props;
+    const {mobileDimensions, mobileSize} = this.state;
 
     return (
       <div
@@ -593,7 +609,13 @@ export default class Editor extends Component<EditorProps> {
           className
         )}
       >
-        <div className="ae-Editor-inner" onContextMenu={this.handleContextMenu}>
+        <div
+          className={cx(
+            'ae-Editor-inner',
+            isMobile && 'ae-Editor-inner--mobile'
+          )}
+          onContextMenu={this.handleContextMenu}
+        >
           {!preview && !readonly && (
             <LeftPanels
               store={this.store}
@@ -612,6 +634,16 @@ export default class Editor extends Component<EditorProps> {
                 ></div>
               </div>
             )}
+            {isMobile && (
+              <MobileDevTool
+                onChange={value => {
+                  this.setState({mobileDimensions: value});
+                }}
+                onSizeChange={size => {
+                  this.setState({mobileSize: size});
+                }}
+              />
+            )}
             <Preview
               {...previewProps}
               editable={!preview}
@@ -625,6 +657,8 @@ export default class Editor extends Component<EditorProps> {
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
               readonly={readonly}
+              mobileDimensions={mobileDimensions}
+              mobileSize={mobileSize}
             ></Preview>
           </div>
 

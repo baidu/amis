@@ -1952,7 +1952,6 @@ div[class*='Form-group']:empty {
   justify-content: space-between;
   background: #fff;
   align-items: center;
-  border-bottom: 1px solid $editor-border-color;
   .ae-Breadcrumb {
     flex: 1;
     max-width: 100%;
@@ -1961,5 +1960,74 @@ div[class*='Form-group']:empty {
   &-Right-Container {
     z-index: 1001;
     background-color: #fff;
+  }
+}
+
+.ae-Editor-inner--mobile {
+  .ae-Main {
+    position: relative;
+    .ae-Preview {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 53%;
+      left: 50%;
+    }
+  }
+}
+
+.ae-MobileDevTool {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  background-color: #fff;
+  z-index: 1001;
+  border-bottom: 1px solid $editor-border-color;
+  height: 20px;
+  &-dimensions {
+    width: 40%;
+    display: flex;
+    justify-content: end;
+  }
+
+  &-select {
+    font-size: 12px;
+    padding: 0;
+    border: none !important;
+    min-height: initial;
+    margin-left: 10px;
+    vertical-align: initial;
+    span {
+      font-size: 12px !important;
+    }
+    .cxd-PopOver {
+      width: 180px !important;
+      z-index: 10000;
+    }
+  }
+  &-dimension {
+    span {
+      margin-right: 5px;
+    }
+  }
+  &-right {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 20px;
+    &-size {
+      margin-right: 10px;
+    }
+    &-rotate-screen {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      position: absolute;
+      top: 1px;
+      &:hover {
+        color: $editor-active-color;
+      }
+    }
   }
 }

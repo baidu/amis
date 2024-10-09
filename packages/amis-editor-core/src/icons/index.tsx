@@ -71,6 +71,8 @@ import EditorDoubleArrow from './v3/right-double-arrow.svg';
 import SearchClear from './v3/search-clear.svg';
 import Shortcut from './v3/shortcut.svg';
 
+import RotateScreen from './rotate-screen.svg';
+
 registerIcon('drag-btn', DragBtn);
 registerIcon('more-btn', MoreBtn);
 registerIcon('copy-btn', CopyBtn);
@@ -104,5 +106,7 @@ registerIcon('editor-code', EditorCode);
 registerIcon('editor-common-config', EditorCommonConfig);
 registerIcon('editor-double-arrow', EditorDoubleArrow);
 registerIcon('search-clear', SearchClear);
+
+registerIcon('rotate-screen', RotateScreen);
 
 export {registerIcon, Icon};
