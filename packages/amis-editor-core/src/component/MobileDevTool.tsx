@@ -108,18 +108,16 @@ export default function MobileDevTool(props: {
 
   const {onChange, onSizeChange} = props;
 
-  const resizeObserver = new ResizeObserver(debounce(updateAutoSize, 300));
+  const resizeObserver = new ResizeObserver(debounce(updateAutoSizeFn, 300));
 
   useEffect(() => {
     onChange?.({
       width: dimension.width,
       height: dimension.height
     });
+    onSizeChange?.(100);
     // 初始化时获取预览区域的尺寸
-    setTimeout(() => {
-      getPreviewInitialSize();
-      updateAutoSize();
-    }, 500);
+    getPreviewInitialSize();
 
     const aeMain = document.getElementById('ae-Main');
     if (aeMain) {
@@ -132,19 +130,7 @@ export default function MobileDevTool(props: {
     };
   }, []);
 
-  function getPreviewInitialSize() {
-    const previewBody = document.getElementById('editor-preview-body');
-    if (previewBody) {
-      const previewBodyRect = previewBody.getBoundingClientRect();
-      const {width, height} = previewBodyRect;
-      initialSize.current = {
-        width,
-        height
-      };
-    }
-  }
-
-  function updateAutoSize() {
+  function updateAutoSizeFn() {
     const aeMain = document.getElementById('ae-Main');
     if (!aeMain) {
       return;
@@ -160,6 +146,21 @@ export default function MobileDevTool(props: {
     setAutoSize(Math.floor(scale * 100));
   }
 
+  function getPreviewInitialSize() {
+    setTimeout(() => {
+      const previewBody = document.getElementById('editor-preview-body');
+      if (previewBody) {
+        const previewBodyRect = previewBody.getBoundingClientRect();
+        const {width, height} = previewBodyRect;
+        initialSize.current = {
+          width,
+          height
+        };
+      }
+      updateAutoSizeFn();
+    }, 500);
+  }
+
   function rotateScreen() {
     setDimension({
       name: dimension.name,
@@ -170,6 +171,7 @@ export default function MobileDevTool(props: {
       width: dimension.height,
       height: dimension.width
     });
+    getPreviewInitialSize();
   }
 
   function handleAutoSize() {
@@ -194,10 +196,7 @@ export default function MobileDevTool(props: {
               });
               setSize(100);
               onSizeChange?.(100);
-              setTimeout(() => {
-                getPreviewInitialSize();
-                updateAutoSize();
-              }, 500);
+              getPreviewInitialSize();
             }
           }}
           options={dimensions.map(n => ({
