@@ -49,6 +49,12 @@ export interface PreviewProps {
   toolbarContainer?: () => any;
 
   readonly?: boolean;
+  mobileDimensions?: {
+    width: number;
+    height: number;
+  };
+  mobileScale?: number;
+  ref?: any;
 }
 
 export interface PreviewState {
@@ -160,7 +166,11 @@ export default class Preview extends Component<PreviewProps> {
       requestAnimationFrame(() => {
         this.layer!.style.cssText += `transform: translate(0, -${
           this.scrollLayer!.scrollTop
-        }px);`;
+        }px) ${
+          this.props.isMobile
+            ? `scale(${(this.props.mobileScale || 100) / 100})`
+            : ''
+        };`;
       });
     }
 
@@ -524,6 +534,7 @@ export default class Preview extends Component<PreviewProps> {
       autoFocus,
       toolbarContainer,
       appLocale,
+      ref,
       ...rest
     } = this.props;
 
@@ -545,6 +556,7 @@ export default class Preview extends Component<PreviewProps> {
           className,
           isMobile ? 'is-mobile-body' : 'is-pc-body'
         )}
+        ref={ref}
       >
         <div
           key={
@@ -559,6 +571,15 @@ export default class Preview extends Component<PreviewProps> {
             isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
           )}
           ref={this.contentsRef}
+          style={
+            isMobile
+              ? {
+                  width: this.props.mobileDimensions?.width,
+                  height: this.props.mobileDimensions?.height,
+                  transform: `scale(${(this.props.mobileScale || 100) / 100})`
+                }
+              : undefined
+          }
         >
           <div className="ae-Preview-inner">
             {!store.ready ? (
@@ -607,6 +628,13 @@ export default class Preview extends Component<PreviewProps> {
           onDragEnter={this.handleWidgetsDragEnter}
           className="ae-Preview-widgets"
           id="aePreviewHighlightBox"
+          style={
+            isMobile
+              ? {
+                  transform: `scale(${(this.props.mobileScale || 100) / 100})`
+                }
+              : undefined
+          }
         >
           {store.highlightNodes.map(node => (
             <HighlightBox

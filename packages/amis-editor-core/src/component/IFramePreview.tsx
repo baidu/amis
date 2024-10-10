@@ -92,7 +92,9 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
 
   @autobind
   iframeContentDidMount() {
-    this.iframeRef.contentWindow?.document.body.classList.add(`is-modalOpened`);
+    const body = this.iframeRef.contentWindow?.document.body;
+    body?.classList.add('is-modalOpened');
+    body?.classList.add('ae-PreviewIFrameBody');
   }
 
   render() {
