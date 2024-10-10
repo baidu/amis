@@ -45,9 +45,6 @@
     }
   }
 
-  &--block {
-    display: flex;
-  }
   vertical-align: middle;
   text-align: left;
   align-items: center;
@@ -71,6 +68,10 @@
   cursor: pointer;
   color: var(--Form-select-color);
   transition: all var(--animation-duration) ease-in-out;
+
+  &--block {
+    display: flex;
+  }
 
   &:hover {
     background: var(--Form-select-onHover-bg);

@@ -13,20 +13,36 @@ import {
   dependencies
 } from './package.json';
 import path from 'path';
+import fs from 'fs';
 
 const settings = {
   globals: {}
 };
 
+const pkgs = [];
+// 读取所有的node_modules目录，获取所有的包名
+[
+  path.join(__dirname, './node_modules'),
+  path.join(__dirname, '../../node_modules')
+].forEach(dir => {
+  if (fs.existsSync(dir)) {
+    fs.readdirSync(dir).forEach(item => {
+      if (item.startsWith('.')) {
+        return;
+      }
+
+      if (item.startsWith('@')) {
+        fs.readdirSync(path.join(dir, item)).forEach(subItem => {
+          pkgs.push(item + '/' + subItem);
+        });
+      }
+
+      return pkgs.push(item);
+    });
+  }
+});
 const external = id =>
-  new RegExp(
-    `^(?:${Object.keys(dependencies)
-      .concat([])
-      .map(value =>
-        value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
-      )
-      .join('|')})`
-  ).test(id);
+  pkgs.some(pkg => id.startsWith(pkg) || ~id.indexOf(`node_modules/${pkg}`));
 
 export default [
   {

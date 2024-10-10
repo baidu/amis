@@ -378,7 +378,7 @@ export interface FormProps
   onSubmit?: (values: object, action: any) => any;
   onChange?: (values: object, diff: object, props: any) => any;
   onFailed?: (reason: string, errors: any) => any;
-  onFinished: (values: object, action: any) => any;
+  onFinished: (values: object, action: ActionObject, store: IFormStore) => any;
   onValidate: (values: object, form: any) => any;
   onValidChange?: (valid: boolean, props: any) => void; // 表单数据合法性变更
   messages: {
@@ -507,6 +507,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
     this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
+    this.flush = this.flush.bind(this);
 
     const {store, canAccessSuperData, persistData, simpleMode, formLazyChange} =
       props;
@@ -1450,7 +1451,7 @@ export default class Form extends React.Component<FormProps, object> {
             return store.data;
           }
 
-          if (onFinished && onFinished(values, action) === false) {
+          if (onFinished && onFinished(values, action, store) === false) {
             return values;
           }
 
@@ -1960,7 +1961,8 @@ export default class Form extends React.Component<FormProps, object> {
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
       formItemDispatchEvent: this.formItemDispatchEvent,
-      formPristine: form.pristine
+      formPristine: form.pristine,
+      onFlushForm: this.flush
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
       //   : (control as any)?.value,

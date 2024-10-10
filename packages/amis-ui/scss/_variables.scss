@@ -1,5 +1,6 @@
 // 这里只放 sass 里的变量，因为有很多颜色计算，为了保持和之前的兼容性所以还保留这些变量，但后续会通过新增 css 自定义属性的方式逐渐替换
 // 类名前缀
+@use 'sass:color';
 $ns: '' !default;
 $remFactor: 16px !default;
 
@@ -433,6 +434,6 @@ $zindex-debug: 4000 !default;
 $zindex-spinner-overlay: 11 !default;
 
 $Form--horizontal-columns: 12;
-$Table-strip-bg: lighten(#f6f8f8, 1%) !default;
+$Table-strip-bg: color.adjust(#f6f8f8, $lightness: 1%) !default;
 $Number-handler-mode: 'vertical';
 $Wizard-steps-liAfterBorder: px2rem(18px) solid transparent !default;

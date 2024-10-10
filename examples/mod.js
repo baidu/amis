@@ -13,10 +13,7 @@
     return;
   }
 
-  // 无界微前端框架要在 iframe 中加载，否则不在同一个沙箱中
-  var head =
-    window.__WUJIE_RAW_DOCUMENT_HEAD__ ||
-    document.getElementsByTagName('head')[0];
+  var head = document.getElementsByTagName('head')[0];
   var loadingMap = {};
   var factoryMap = {};
   var modulesMap = {};
@@ -68,7 +65,7 @@
       script.type = 'text/javascript';
       script.src = url;
 
-      // qiankun 微前端环境中只拦截了 append script 的情况，如果先插入一个 fragment 然后再 fragment 中添加 script 就不会被拦截
+      // 微前端环境中只拦截了 append script 的情况，如果先插入一个 fragment 然后再 fragment 中添加 script 就不会被拦截
       // 导致不在一个沙箱环境中
       head.appendChild(script);
     }

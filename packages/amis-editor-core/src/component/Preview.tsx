@@ -49,6 +49,7 @@ export interface PreviewProps {
   toolbarContainer?: () => any;
 
   readonly?: boolean;
+  ref?: any;
 }
 
 export interface PreviewState {
@@ -524,6 +525,7 @@ export default class Preview extends Component<PreviewProps> {
       autoFocus,
       toolbarContainer,
       appLocale,
+      ref,
       ...rest
     } = this.props;
 
@@ -545,6 +547,7 @@ export default class Preview extends Component<PreviewProps> {
           className,
           isMobile ? 'is-mobile-body' : 'is-pc-body'
         )}
+        ref={ref}
       >
         <div
           key={

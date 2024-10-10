@@ -140,6 +140,8 @@ import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
 
+import MobileDevTool from './MobileDevTool';
+
 export {
   NotFound,
   Alert as AlertComponent,
@@ -278,5 +280,6 @@ export {
   CodeMirrorEditor,
   OverflowTpl,
   Signature,
-  VerificationCode
+  VerificationCode,
+  MobileDevTool
 };

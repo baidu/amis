@@ -1,3 +1,4 @@
+import './locale/index';
 /**
  * @file 所有可用验证器
  */

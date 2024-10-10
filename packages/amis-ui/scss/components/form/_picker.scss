@@ -1,6 +1,6 @@
 .#{$ns}Picker {
-  @include input-text();
   outline: none;
+  @include input-text();
 
   &-input:hover {
     background: var(--Pick-status-hover-bgColor);

@@ -1910,6 +1910,50 @@ export function getModals(schema: any) {
   }
   return modals;
 }
+
+/**
+ * 深度 splice 数组，同时返回新的对象，按需拷贝，没有副作用
+ * @param target
+ * @param path
+ * @param numberToDelete
+ * @param items
+ * @returns
+ */
+export function deepSplice(
+  target: any,
+  path: string,
+  numberToDelete: number,
+  ...items: any[]
+) {
+  const paths = path.split('.');
+  const last = paths.pop()!;
+  let host = target;
+  const stack: Array<{
+    host: any;
+    key: string | number | undefined;
+  }> = [];
+  for (let i = 0; i < paths.length; i++) {
+    stack.unshift({
+      key: paths[i]!,
+      host: host
+    });
+    host = host[paths[i]];
+  }
+
+  if (!Array.isArray(host)) {
+    throw new Error('deepSplice: target is not an array');
+  }
+  host = host.concat();
+  host.splice.apply(host, [last, numberToDelete].concat(items));
+
+  return stack.reduce((prefix, {host, key}) => {
+    host = Array.isArray(host) ? host.concat() : {...host};
+    host[key!] = prefix;
+
+    return host;
+  }, host);
+}
+
 export const RAW_TYPE_MAP: {
   [k in SchemaType | 'user-select' | 'department-select']?:
     | 'string'

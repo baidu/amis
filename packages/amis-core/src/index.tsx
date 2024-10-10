@@ -22,7 +22,9 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  extendDefaultEnv
+  extendDefaultEnv,
+  getGlobalOptions,
+  setGlobalOptions
 } from './factory';
 import type {
   RenderOptions,
@@ -123,6 +125,10 @@ import {StatusScoped} from './StatusScoped';
 
 // @ts-ignore
 export const version = '__buildVersion';
+(window as any).amisVersionInfo = {
+  version: '__buildVersion',
+  buildTime: '__buildTime'
+};
 
 export {
   clearStoresCache,
@@ -220,7 +226,9 @@ export {
   CustomStyle,
   enableDebug,
   disableDebug,
-  envOverwrite
+  envOverwrite,
+  getGlobalOptions,
+  setGlobalOptions
 };
 
 export function render(

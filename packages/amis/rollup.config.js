@@ -14,42 +14,41 @@ import {
   dependencies
 } from './package.json';
 import path from 'path';
+import fs from 'fs';
 import svgr from '@svgr/rollup';
 import moment from 'moment';
 import babel from 'rollup-plugin-babel';
 
 const settings = {
   globals: {},
-  commonConfig: {
-    footer: `window.amisVersionInfo={version:'${version}',buildTime:'${moment().format(
-      'YYYY-MM-DD'
-    )}'};`
-  }
+  commonConfig: {}
 };
 
-const external = id => {
-  const result = new RegExp(
-    `^(?:${Object.keys(dependencies)
-      .concat([
-        'monaco-editor',
-        'react',
-        'react-dom',
-        'rc-input-number',
-        '@rc-component/mini-decimal',
-        '@babel/runtime'
-      ])
-      .map(value =>
-        value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
-      )
-      .join('|')})`
-  ).test(id);
+const pkgs = [];
+// 读取所有的node_modules目录，获取所有的包名
+[
+  path.join(__dirname, './node_modules'),
+  path.join(__dirname, '../../node_modules')
+].forEach(dir => {
+  if (fs.existsSync(dir)) {
+    fs.readdirSync(dir).forEach(item => {
+      if (item.startsWith('.')) {
+        return;
+      }
 
-  if (!result && ~id.indexOf('node_modules')) {
-    console.log(id);
+      if (item.startsWith('@')) {
+        fs.readdirSync(path.join(dir, item)).forEach(subItem => {
+          pkgs.push(item + '/' + subItem);
+        });
+      }
+
+      return pkgs.push(item);
+    });
   }
+});
+const external = id =>
+  pkgs.some(pkg => id.startsWith(pkg) || ~id.indexOf(`node_modules/${pkg}`));
 
-  return result;
-};
 const input = './src/index.tsx';
 
 /** 获取子包编译后的入口路径，需要使用相对路径 */

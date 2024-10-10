@@ -1,3 +1,4 @@
+@use 'sass:color';
 // 媒体查询最小阈值
 @mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
   $min: breakpoint-min($name, $breakpoints);
@@ -53,14 +54,16 @@
   }
 }
 
-// @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background: saturate(darken($bg-color, $percent), $sat-percent);
+  background: color.adjust(
+    color.adjust($bg-color, $lightness: -$percent),
+    $saturation: $sat-percent
+  );
 }
 
-// @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background: desaturate(lighten($bg-color, $percent), $sat-percent);
+  $lightened-color: color.adjust($bg-color, $lightness: $percent);
+  background: color.adjust($lightened-color, $saturation: $sat-percent);
 }
 
 // @deprecated 不建议用了
@@ -101,8 +104,14 @@
 
 // @deprecated 不建议用了
 @mixin font-variant($bg-color) {
-  $font-color: desaturate(lighten($bg-color, 40%), 10%);
-  $link-color: desaturate(lighten($bg-color, 50%), 10%);
+  $font-color: color.adjust(
+    color.adjust($bg-color, $lightness: 40%),
+    $saturation: -10%
+  );
+  $link-color: color.adjust(
+    color.adjust($bg-color, $lightness: 50%),
+    $saturation: -10%
+  );
   $hover-color: #fff;
   color: $font-color;
 
@@ -124,11 +133,11 @@
   }
 
   & .text-muted {
-    color: darken($text-color, 10%) !important;
+    color: color.adjust($text-color, $lightness: -10%) !important;
   }
 
   & .text-lt {
-    color: lighten($text-color, 25%) !important;
+    color: color.adjust($text-color, $lightness: 25%) !important;
   }
 
   // &.auto,
@@ -150,11 +159,11 @@
 // @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
-    background: darken($bg-color, 5%);
+    background: color.adjust($bg-color, $lightness: -5%);
   }
 
   a.text-#{'' + $name}:hover {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name} {
@@ -162,19 +171,19 @@
   }
 
   .text-#{'' + $name}-lt {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name}-lter {
-    color: darken($bg-color, 10%);
+    color: color.adjust($bg-color, $lightness: -10%);
   }
 
   .text-#{'' + $name}-dk {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name}-dker {
-    color: darken($bg-color, 10%);
+    color: color.adjust($bg-color, $lightness: -10%);
   }
 }
 

@@ -60,6 +60,8 @@ export interface RendererBasicConfig {
   isolateScope?: boolean;
   isFormItem?: boolean;
   autoVar?: boolean; // 自动解析变量
+  // 如果要替换系统渲染器，则需要设置这个为 true
+  override?: boolean;
   // [propName:string]:any;
 }
 
@@ -106,9 +108,6 @@ export interface RendererConfig extends RendererBasicConfig {
   component?: RendererComponent;
   // 异步渲染器
   getComponent?: () => Promise<{default: RendererComponent} | any>;
-
-  // 如果要替换系统渲染器，则需要设置这个为 true
-  override?: boolean;
 
   // 原始组件
   Renderer?: RendererComponent;
@@ -174,6 +173,29 @@ export function Renderer(config: RendererBasicConfig) {
   };
 }
 
+// mobx-react 的 observer 会修改原型链的 render 方法
+// 如果想继承覆盖组件的 render 方法，需要把原型链 render 还原回来
+// 否则无法调用 super.render 方法
+function fixMobxInjectRender<T extends Function>(klass: T): T {
+  const target = klass.prototype;
+
+  // mobx-react 篡改之前先记录原始 render
+  if (target?.render) {
+    target.__originRender = target.render;
+  }
+
+  // 将父级类上面被 mobx 篡改的 render 方法还原回来
+  // 而且当前类的 render 也是会被篡改的，所以父级上的其实不需要篡改
+  if (target?.__proto__?.hasOwnProperty('__originRender')) {
+    const originProto = target.__proto__;
+    target.__proto__ = Object.create(originProto.__proto__ || Object);
+    Object.assign(target.__proto__, originProto);
+    target.__proto__.render = originProto.__originRender;
+  }
+
+  return klass;
+}
+
 // 将 renderer 转成组件
 function rendererToComponent(
   component: RendererComponent,
@@ -184,7 +206,7 @@ function rendererToComponent(
       storeType: config.storeType,
       extendsData: config.storeExtendsData,
       shouldSyncSuperStore: config.shouldSyncSuperStore
-    })(observer(component));
+    })(observer(fixMobxInjectRender(component)));
   }
 
   if (config.isolateScope) {
@@ -634,3 +656,19 @@ export function getRendererByName(name: string) {
 }
 
 export {RendererEnv};
+
+export interface IGlobalOptions {
+  pdfjsWorkerSrc: string;
+}
+
+const GlobalOptions: IGlobalOptions = {
+  pdfjsWorkerSrc: ''
+};
+
+export function setGlobalOptions(options: Partial<IGlobalOptions>) {
+  Object.assign(GlobalOptions, options);
+}
+
+export function getGlobalOptions() {
+  return GlobalOptions;
+}

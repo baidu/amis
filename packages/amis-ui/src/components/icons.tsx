@@ -108,6 +108,7 @@ import RotateLeft from '../icons/rotate-left.svg';
 import RotateRight from '../icons/rotate-right.svg';
 import ScaleOrigin from '../icons/scale-origin.svg';
 import If from '../icons/if.svg';
+import RotateScreen from '../icons/rotate-screen.svg';
 
 import isObject from 'lodash/isObject';
 import type {TestIdBuilder} from 'amis-core';
@@ -251,6 +252,7 @@ registerIcon('rotate-left', RotateLeft);
 registerIcon('rotate-right', RotateRight);
 registerIcon('scale-origin', ScaleOrigin);
 registerIcon('if', If);
+registerIcon('rotate-screen', RotateScreen);
 
 export interface IconCheckedSchema {
   id: string;
