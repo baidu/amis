@@ -1967,8 +1967,9 @@ div[class*='Form-group']:empty {
     position: relative;
     .ae-Preview {
       position: absolute;
-      transform: translate(-50%, -50%);
-      top: 53%;
+      transform: translateX(-50%);
+      transform-origin: top;
+      top: 10%;
       left: 50%;
       width: 395px;
       height: 687px;
