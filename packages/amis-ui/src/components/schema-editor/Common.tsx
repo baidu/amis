@@ -381,3 +381,7 @@ export class SchemaEditorItemCommon<
     );
   }
 }
+
+export const ITEMMAP: {
+  [propsName: string]: typeof SchemaEditorItemCommon;
+} = {};

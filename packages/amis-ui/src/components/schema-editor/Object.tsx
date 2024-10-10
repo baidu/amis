@@ -3,7 +3,7 @@ import {autobind, guid, JSONSchema} from 'amis-core';
 import Button from '../Button';
 import {Icon} from '../icons';
 import InputBox from '../InputBox';
-import {SchemaEditorItemCommon} from './Common';
+import {ITEMMAP, SchemaEditorItemCommon} from './Common';
 import {SchemaEditorItem} from './Item';
 
 import type {SchemaEditorItemCommonProps} from './Common';
@@ -531,3 +531,5 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
     );
   }
 }
+
+ITEMMAP.object = SchemaEditorItemObject;
