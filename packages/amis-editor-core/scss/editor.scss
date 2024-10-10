@@ -2046,3 +2046,8 @@ div[class*='Form-group']:empty {
     }
   }
 }
+.ae-PreviewIFrameBody {
+  * {
+    cursor: url('../static/mobile-cursor.png'), auto !important;
+  }
+}

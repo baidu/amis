@@ -95,7 +95,9 @@ const scaleList = [50, 75, 100, 125, 150, 200];
 
 export default function MobileDevTool(props: {
   onChange: (dimension: {width: number; height: number}) => void;
-  onScaleChange?: (scale: number) => void;
+  onScaleChange: (scale: number) => void;
+  container: HTMLElement | null;
+  previewBody: HTMLElement | null;
 }) {
   const [dimension, setDimension] = React.useState(dimensions[0]);
   const [scale, setScale] = React.useState(100);
@@ -106,9 +108,9 @@ export default function MobileDevTool(props: {
     height: 0
   });
 
-  const {onChange, onScaleChange} = props;
+  const {onChange, onScaleChange, container, previewBody} = props;
 
-  const resizeObserver = new ResizeObserver(debounce(updateAutoSizeFn, 300));
+  const resizeObserver = new ResizeObserver(debounce(updateAutoScale, 300));
 
   useEffect(() => {
     onChange?.({
@@ -119,24 +121,22 @@ export default function MobileDevTool(props: {
     // 初始化时获取预览区域的尺寸
     getPreviewInitialSize();
 
-    const aeMain = document.getElementById('ae-Main');
-    if (aeMain) {
-      resizeObserver.observe(aeMain);
+    if (container) {
+      resizeObserver.observe(container);
     }
     return () => {
-      if (aeMain) {
-        resizeObserver.unobserve(aeMain);
+      if (container) {
+        resizeObserver.unobserve(container);
       }
     };
-  }, []);
+  }, [container, previewBody]);
 
-  function updateAutoSizeFn() {
-    const aeMain = document.getElementById('ae-Main');
-    if (!aeMain) {
+  function updateAutoScale() {
+    if (!container) {
       return;
     }
-    const aeMainRect = aeMain.getBoundingClientRect();
-    const {width, height} = aeMainRect;
+    const containerRect = container.getBoundingClientRect();
+    const {width, height} = containerRect;
     const {width: previewBodyWidth, height: previewBodyHeight} =
       initialSize.current;
     const scale = Math.min(
@@ -147,8 +147,8 @@ export default function MobileDevTool(props: {
   }
 
   function getPreviewInitialSize() {
+    // 延迟一会，等待previewBody 100%比例渲染完成后才能获取到正确的尺寸
     setTimeout(() => {
-      const previewBody = document.getElementById('editor-preview-body');
       if (previewBody) {
         const previewBodyRect = previewBody.getBoundingClientRect();
         const {width, height} = previewBodyRect;
@@ -157,7 +157,7 @@ export default function MobileDevTool(props: {
           height
         };
       }
-      updateAutoSizeFn();
+      updateAutoScale();
     }, 500);
   }
 
@@ -174,7 +174,7 @@ export default function MobileDevTool(props: {
     getPreviewInitialSize();
   }
 
-  function handleAutoSize() {
+  function handleAutoScale() {
     setScale(autoScale);
     onScaleChange?.(autoScale);
   }
@@ -235,7 +235,7 @@ export default function MobileDevTool(props: {
           )}
           <div
             className="ae-MobileDevTool-right-scale-auto"
-            onClick={handleAutoSize}
+            onClick={handleAutoScale}
           >
             自适应
           </div>

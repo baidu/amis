@@ -152,6 +152,8 @@ export default class Editor extends Component<
   readonly store: EditorStoreType;
   readonly manager: EditorManager;
   readonly mainRef = React.createRef<HTMLDivElement>();
+  readonly mainPreviewRef = React.createRef<HTMLDivElement>();
+  readonly mainPreviewBodyRef = React.createRef<any>();
   toDispose: Array<Function> = [];
   lastResult: any;
   curCopySchemaData: any; // 用于记录当前复制的元素
@@ -624,7 +626,7 @@ export default class Editor extends Component<
             />
           )}
 
-          <div className="ae-Main" id="ae-Main">
+          <div className="ae-Main" ref={this.mainPreviewRef}>
             {!preview && (
               <div className="ae-Header">
                 <Breadcrumb store={this.store} manager={this.manager} />
@@ -642,6 +644,8 @@ export default class Editor extends Component<
                 onScaleChange={scale => {
                   this.setState({mobileScale: scale});
                 }}
+                container={this.mainPreviewRef.current}
+                previewBody={this.mainPreviewBodyRef.current?.currentDom}
               />
             )}
             <Preview
@@ -659,6 +663,7 @@ export default class Editor extends Component<
               readonly={readonly}
               mobileDimensions={mobileDimensions}
               mobileScale={mobileScale}
+              ref={this.mainPreviewBodyRef}
             ></Preview>
           </div>
 
