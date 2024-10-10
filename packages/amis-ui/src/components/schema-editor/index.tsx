@@ -16,6 +16,8 @@ import {SchemaEditorItem} from './Item';
 import {schemaEditorItemPlaceholder} from './Common';
 import type {JSONSchema7TypeName} from 'json-schema';
 import type {SchemaEditorItemPlaceholder} from './Common';
+import './Array';
+import './Object';
 
 export interface SchemaEditorProps extends LocaleProps, ThemeProps {
   value?: JSONSchema;
