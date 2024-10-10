@@ -1,0 +1,206 @@
+// 为了提示用户这不是系统菜单。
+@keyframes contextMenuInSpecial {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes contextMenuIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes contextMenuOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.#{$ns}ContextMenu {
+  z-index: $zindex-contextmenu;
+  position: fixed;
+  left: 0;
+  top: 0;
+  // pointer-events: none;
+
+  &-menu {
+    position: absolute;
+    z-index: $zindex-contextmenu;
+
+    &.in,
+    &.out {
+      // opacity: 1;
+      // transform: translateY(0) scale(1);
+      animation-duration: var(--animation-duration);
+      animation-fill-mode: both;
+    }
+
+    &.in {
+      animation-name: contextMenuInSpecial;
+      animation-duration: var(--animation-duration);
+    }
+
+    &.out {
+      animation-name: contextMenuOut;
+    }
+
+    display: block;
+    position: absolute;
+
+    margin: 0;
+    padding: 4px 0;
+
+    background: var(--menu-background);
+    box-shadow: var(--menu-box-shadow);
+
+    color: var(--menu-font-color);
+    font-family: var(--menu-font-family);
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  &-divider {
+    border: none;
+    height: 1px;
+    background: var(--menu-border-color);
+    margin: 4px 1px;
+    padding: 0;
+  }
+
+  &-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: var(--menu-min-width);
+  }
+
+  &-item {
+    position: relative;
+
+    > a {
+      white-space: nowrap;
+      display: block;
+      padding: var(--default-padding);
+      color: inherit;
+      border-top: none;
+      border-bottom: none;
+    }
+
+    &:not(.is-disabled):hover > a {
+      text-decoration: none;
+      color: var(--menu-active-color);
+      background: var(--menu-hover-bg-color);
+      cursor: pointer;
+      border-top: none;
+      border-bottom: none;
+    }
+
+    &.is-disabled > a {
+      color: var(--menu-disabled-color);
+      pointer-events: none;
+    }
+
+    &.has-child > a::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-width: 4px 7px;
+      border-style: solid;
+      border-color: transparent transparent transparent
+        var(--default-icon-color);
+      text-shadow: var(--menu-box-shadow);
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+    }
+
+    &.has-child:hover > a::after {
+      border-color: transparent transparent transparent var(--menu-active-color);
+    }
+  }
+
+  &-itemIcon {
+    margin-right: 5px;
+  }
+
+  &-subList {
+    display: none;
+    list-style: none;
+    transition: display ease-out 0.25s;
+  }
+
+  &-item:hover > &-subList {
+    display: block;
+    animation-duration: var(--animation-duration);
+    animation-fill-mode: both;
+    animation-name: contextMenuIn;
+    position: absolute;
+    left: 100%; // calc(100% + 3px);
+    top: -3px;
+    min-width: var(--menu-sub-min-width);
+
+    margin: 0;
+    padding: 0;
+
+    background: var(--menu-background);
+    box-shadow: var(--menu-box-shadow);
+    border-radius: var(--menu-border-radius);
+
+    color: var(--menu-font-color);
+    font-family: var(--menu-font-family);
+    font-size: 12px;
+    line-height: 20px;
+
+    &:hover {
+      display: block;
+    }
+
+    // 附加的边框线
+    &::before {
+      display: block;
+      position: absolute;
+      content: '';
+      top: -1px;
+      left: -1px;
+      bottom: -1px;
+      right: -1px;
+
+      border-radius: var(--menu-border-radius);
+      border: 1px solid var(--menu-border-color);
+      z-index: -1;
+    }
+  }
+
+  &--left &-item:hover > &-subList {
+    left: auto;
+    right: 100%;
+  }
+
+  &-cursor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    z-index: -1;
+  }
+
+  &-overlay {
+    position: fixed !important;
+    z-index: $zindex-contextmenu - 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,53 @@
+.#{$ns}Field-quickEditBtn {
+  margin-left: var(--gap-xs);
+  height: auto;
+  padding: 0;
+  vertical-align: text-bottom;
+
+  .fa {
+    font-size: var(--QuickEdit-iconSize);
+  }
+
+  > svg {
+    width: var(--QuickEdit-iconSize);
+    height: var(--QuickEdit-iconSize);
+    color: currentColor;
+    fill: currentColor;
+  }
+}
+
+.#{$ns}Field--quickEditable {
+  outline: none;
+  position: relative;
+
+  &:focus {
+    position: relative;
+
+    &:after {
+      content: '';
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      border: var(--QuickEdit-onFocus-borderWidth) dashed
+        var(--QuickEdit-onFocus-borderColor);
+    }
+  }
+
+  &:hover .#{$ns}Field-quickEditBtn {
+    visibility: visible;
+  }
+}
+
+.#{$ns}QuickEdit-popover {
+  min-width: px2rem(320px);
+  max-width: px2rem(640px);
+
+  .#{$ns}Panel {
+    margin-bottom: 0;
+    border: none;
+  }
+}

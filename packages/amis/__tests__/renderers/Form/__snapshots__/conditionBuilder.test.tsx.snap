@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:condition-builder 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="conditions"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          条件组件
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-ConditionBuilderControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-CBGroup"
+                    >
+                      <div
+                        class="cxd-CBGroup-toolbarCondition"
+                        draggable="true"
+                      >
+                        <div
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          class="cxd-Select"
+                          role="combobox"
+                          tabindex="0"
+                        >
+                          <div
+                            class="cxd-Select-valueWrap"
+                          >
+                            <div
+                              class="cxd-Select-value"
+                            >
+                              且
+                            </div>
+                          </div>
+                          <span
+                            class="cxd-Select-arrow"
+                          >
+                            <icon-mock
+                              classname="icon icon-right-arrow-bold"
+                              icon="right-arrow-bold"
+                            />
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-CBGroup-body-wrapper"
+                      >
+                        <div
+                          class="cxd-CBGroup-body"
+                        >
+                          <div
+                            class="cxd-CBGroup-placeholder "
+                          >
+                            空
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-CBGroup-toolbar"
+                          draggable="true"
+                        >
+                          <div
+                            class="cxd-CBGroup-toolbarConditionAdd"
+                          >
+                            <div
+                              class="cxd-ButtonGroup"
+                            >
+                              <button
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
+                                type="button"
+                              >
+                                添加条件
+                              </button>
+                              <button
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
+                                type="button"
+                              >
+                                添加条件组
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="cxd-TplField cxd-Form-description"
+                  >
+                    <span>
+                      适合让用户自己拼查询条件，然后后端根据数据生成 query where
+                    </span>
+                  </span>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

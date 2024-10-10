@@ -11,9 +11,9 @@ export default {
       wrapWithPanel: false,
       target: 'service1',
       mode: 'inline',
-      controls: [
+      body: [
         {
-          type: 'text',
+          type: 'input-text',
           name: 'keywords',
           placeholder: '关键字',
           addOn: {

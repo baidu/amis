@@ -1,0 +1,458 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:radios 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
+          >
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option A
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option B
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option C
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option D
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:radios 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
+          >
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option A
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option B
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option C
+              </span>
+            </label>
+            <label
+              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              data-role="checkbox"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span
+                class=""
+              >
+                Option D
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:radios source & autoFill 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RadiosControl cxd-Form-control is-thin"
+          >
+            <div
+              class="cxd-Grid"
+            >
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    A
+                  </span>
+                </label>
+              </div>
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    B
+                  </span>
+                </label>
+              </div>
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  data-role="checkbox"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    C
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                aa
+              </span>
+            </div>
+          </div>
+        </div>
+        <span
+          class="cxd-TplField autoFillClass"
+        >
+          <span>
+            13
+          </span>
+        </span>
+      </form>
+    </div>
+  </div>
+</div>
+`;

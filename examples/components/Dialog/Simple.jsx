@@ -44,13 +44,30 @@ export default {
                   actions: [
                     {
                       type: 'button',
+                      actionType: 'close',
+                      label: '算了'
+                    },
+                    {
+                      type: 'button',
                       actionType: 'dialog',
                       label: '来吧',
                       level: 'info',
                       dialog: {
                         title: '弹框中的弹框',
                         closeOnEsc: true,
-                        body: '如果你想，可以无限弹下去',
+                        body: [
+                          {
+                            type: 'tpl',
+                            tpl: '如果你想，可以无限弹下去',
+                            inline: false
+                          },
+                          {
+                            type: 'button',
+                            actionType: 'submit',
+                            label: '算了，不弹了',
+                            close: true
+                          }
+                        ],
                         actions: [
                           {
                             type: 'button',
@@ -73,6 +90,7 @@ export default {
           label: '弹个表单',
           actionType: 'dialog',
           dialog: {
+            size: 'lg',
             title: '在弹框中的表单',
             closeOnEsc: true,
             actions: [
@@ -124,16 +142,16 @@ export default {
               api: '/api/mock2/form/saveForm?waitSeconds=2',
               title: '常规模式',
               mode: 'normal',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email',
                   required: true,
                   placeholder: '请输入邮箱',
                   label: '邮箱'
                 },
                 {
-                  type: 'password',
+                  type: 'input-password',
                   name: 'password',
                   label: '密码',
                   required: true,
@@ -175,7 +193,7 @@ export default {
               api: '/api/mock2/form/saveForm?waitSeconds=2',
               title: '常规模式',
               mode: 'normal',
-              controls: [
+              body: [
                 {
                   type: 'checkbox',
                   name: 'rememberMe',
@@ -204,7 +222,7 @@ export default {
           label: 'Feedback2',
           actionType: 'ajax',
           api: '/api/mock2/form/initData?waitSeconds=2',
-          tooltip: '可以根据条件弹出，比如这个栗子，看当前时间戳是否可以整除3',
+          tooltip: '可以根据条件弹出，比如这个例子，看当前时间戳是否可以整除3',
           feedback: {
             visibleOn: '!(this.date % 3)',
             title: '操作成功',

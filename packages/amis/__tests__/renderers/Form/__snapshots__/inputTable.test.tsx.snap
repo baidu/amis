@@ -1,0 +1,1796 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:input table 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="table"
+                  data-role="form-item"
+                >
+                  <div
+                    class="cxd-InputTable cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Table"
+                      style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
+                    >
+                      <div
+                        class="cxd-Table-contentWrap"
+                      >
+                        <div
+                          class="cxd-Table-content"
+                        >
+                          <table
+                            class="cxd-Table-table"
+                          >
+                            <colgroup>
+                              <col
+                                data-index="3"
+                              />
+                              <col
+                                data-index="4"
+                              />
+                            </colgroup>
+                            <thead>
+                              <tr
+                                class=""
+                              >
+                                <th
+                                  class=""
+                                  data-index="3"
+                                >
+                                  <div
+                                    class="cxd-TableCell--title"
+                                  >
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        A
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    class="cxd-Table-content-colDragLine"
+                                    data-index="3"
+                                  />
+                                </th>
+                                <th
+                                  class=""
+                                  data-index="4"
+                                >
+                                  <div
+                                    class="cxd-TableCell--title"
+                                  >
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        B
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    class="cxd-Table-content-colDragLine"
+                                    data-index="4"
+                                  />
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                                data-id="1"
+                                data-index="0"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a1
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b1
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                                data-id="2"
+                                data-index="1"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a2
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b2
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                                data-id="3"
+                                data-index="2"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a3
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b3
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input table add 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
+          >
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="collapsed-icon"
+                        >
+                          <svg
+                            fill="#2aa198"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
+                    >
+                      }
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        0
+                         item
+                        s
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-InputTable cxd-Form-control"
+          >
+            <div
+              class="cxd-Table"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px;"
+            >
+              <div
+                class="cxd-Table-contentWrap"
+              >
+                <div
+                  class="cxd-Table-content"
+                >
+                  <table
+                    class="cxd-Table-table"
+                  >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                        style="width: 150px; min-width: 150px;"
+                      />
+                    </colgroup>
+                    <thead>
+                      <tr
+                        class=""
+                      >
+                        <th
+                          class=""
+                          data-index="3"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                A
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="3"
+                          />
+                        </th>
+                        <th
+                          class=""
+                          data-index="4"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                B
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="4"
+                          />
+                        </th>
+                        <th
+                          class="is-sticky is-sticky-right is-sticky-first-right cxd-Table-operationCell"
+                          data-index="5"
+                          style="width: 150px; min-width: 150px;"
+                        >
+                          <div
+                            class="cxd-TableCell--title v-middle nowrap"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                操作
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine cxd-Table-content-colDragLine--disabled"
+                            data-index="5"
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-id="1"
+                        data-index="0"
+                      >
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="a"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-Form-control cxd-TextControl"
+                            >
+                              <div
+                                class="cxd-TextControl-input"
+                              >
+                                <input
+                                  autocomplete="off"
+                                  class=""
+                                  name="a"
+                                  placeholder=""
+                                  size="10"
+                                  type="text"
+                                  value="aa"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="b"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-Form-control cxd-TextControl"
+                            >
+                              <div
+                                class="cxd-TextControl-input"
+                              >
+                                <input
+                                  autocomplete="off"
+                                  class=""
+                                  name="b"
+                                  placeholder=""
+                                  size="10"
+                                  type="text"
+                                  value="bb"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="v-middle nowrap is-sticky is-sticky-right is-sticky-first-right"
+                          style="right: 0px;"
+                        >
+                          <div
+                            class="cxd-OperationField m-n"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <icon-mock
+                                classname="icon icon-check"
+                                icon="check"
+                              />
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <icon-mock
+                                classname="icon icon-close"
+                                icon="close"
+                              />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputTable-toolbar"
+            >
+              <div
+                class="cxd-Button cxd-Button--primary cxd-Button--size-sm is-disabled"
+                disabled=""
+              >
+                <i
+                  class="fa fa-plus cxd-Button-icon fa fa-plus"
+                />
+                <span>
+                  新增
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input-table cell selects delete 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Table
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-InputTable cxd-Form-control"
+          >
+            <div
+              class="cxd-Table"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
+            >
+              <div
+                class="cxd-Table-contentWrap"
+              >
+                <div
+                  class="cxd-Table-content"
+                >
+                  <table
+                    class="cxd-Table-table"
+                  >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                    </colgroup>
+                    <thead>
+                      <tr
+                        class=""
+                      >
+                        <th
+                          class=""
+                          data-index="3"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                选项
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="3"
+                          />
+                        </th>
+                        <th
+                          class=""
+                          data-index="4"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                普通文本
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="4"
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-id="1"
+                        data-index="0"
+                      >
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="select"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-SelectControl cxd-Form-control"
+                            >
+                              <div
+                                aria-expanded="false"
+                                aria-haspopup="listbox"
+                                class="cxd-Select cxd-Select--multi"
+                                role="combobox"
+                                tabindex="0"
+                              >
+                                <div
+                                  class="cxd-Select-valueWrap"
+                                >
+                                  <div
+                                    class="cxd-Select-value"
+                                  >
+                                    <span
+                                      class="cxd-Select-valueLabel"
+                                    >
+                                      s2
+                                    </span>
+                                    <span
+                                      class="cxd-Select-valueIcon"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-close"
+                                        icon="close"
+                                      />
+                                    </span>
+                                  </div>
+                                  <div
+                                    class="cxd-Select-value"
+                                  >
+                                    <span
+                                      class="cxd-Select-valueLabel"
+                                    >
+                                      s3
+                                    </span>
+                                    <span
+                                      class="cxd-Select-valueIcon"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-close"
+                                        icon="close"
+                                      />
+                                    </span>
+                                  </div>
+                                </div>
+                                <span
+                                  class="cxd-Select-arrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-right-arrow-bold"
+                                    icon="right-arrow-bold"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            <span
+                              class="text-muted"
+                            >
+                              -
+                            </span>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            submitBtn
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input-table init display 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="aaa"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  数字
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="0"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="aaa"
+                  role="spinbutton"
+                  step="1"
+                  value="0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="tableList"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  表格表单
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-InputTable cxd-Form-control"
+          >
+            <div
+              class="cxd-Table"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px;"
+            >
+              <div
+                class="cxd-Table-contentWrap"
+              >
+                <div
+                  class="cxd-Table-content"
+                >
+                  <table
+                    class="cxd-Table-table"
+                  >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                    </colgroup>
+                    <thead>
+                      <tr
+                        class=""
+                      >
+                        <th
+                          class=""
+                          data-index="3"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                名称
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="3"
+                          />
+                        </th>
+                        <th
+                          class=""
+                          data-index="4"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                分数
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="4"
+                          />
+                        </th>
+                        <th
+                          class=""
+                          data-index="5"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                分数(不在quickEdit里面)
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="5"
+                          />
+                        </th>
+                        <th
+                          class=""
+                          data-index="6"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                等级
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="6"
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-id="1"
+                        data-index="0"
+                      >
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="name"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-Form-control cxd-TextControl"
+                            >
+                              <div
+                                class="cxd-TextControl-input"
+                              >
+                                <input
+                                  autocomplete="off"
+                                  class=""
+                                  name="name"
+                                  placeholder=""
+                                  size="10"
+                                  type="text"
+                                  value="AAA"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="score"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-NumberControl cxd-Form-control"
+                            >
+                              <div
+                                class="cxd-Number no-steps cxd-Number--borderFull"
+                              >
+                                <div
+                                  class="cxd-Number-handler-wrap"
+                                >
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Increase Value"
+                                    class="cxd-Number-handler cxd-Number-handler-up"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-up-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Decrease Value"
+                                    class="cxd-Number-handler cxd-Number-handler-down"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-down-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                </div>
+                                <div
+                                  class="cxd-Number-input-wrap"
+                                >
+                                  <input
+                                    aria-valuenow="234"
+                                    autocomplete="off"
+                                    class="cxd-Number-input"
+                                    name="score"
+                                    role="spinbutton"
+                                    step="1"
+                                    value="234"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-NumberControl cxd-Form-control"
+                          >
+                            <div
+                              class="cxd-Number no-steps cxd-Number--borderFull"
+                            >
+                              <div
+                                class="cxd-Number-handler-wrap"
+                              >
+                                <span
+                                  aria-disabled="false"
+                                  aria-label="Increase Value"
+                                  class="cxd-Number-handler cxd-Number-handler-up"
+                                  role="button"
+                                  unselectable="on"
+                                >
+                                  <span
+                                    class="cxd-Number-handler-up-inner"
+                                    unselectable="on"
+                                  />
+                                </span>
+                                <span
+                                  aria-disabled="false"
+                                  aria-label="Decrease Value"
+                                  class="cxd-Number-handler cxd-Number-handler-down"
+                                  role="button"
+                                  unselectable="on"
+                                >
+                                  <span
+                                    class="cxd-Number-handler-down-inner"
+                                    unselectable="on"
+                                  />
+                                </span>
+                              </div>
+                              <div
+                                class="cxd-Number-input-wrap"
+                              >
+                                <input
+                                  aria-valuenow="234"
+                                  autocomplete="off"
+                                  class="cxd-Number-input"
+                                  name="score"
+                                  role="spinbutton"
+                                  step="1"
+                                  value="234"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="level"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-NumberControl cxd-Form-control"
+                            >
+                              <div
+                                class="cxd-Number no-steps cxd-Number--borderFull"
+                              >
+                                <div
+                                  class="cxd-Number-handler-wrap"
+                                >
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Increase Value"
+                                    class="cxd-Number-handler cxd-Number-handler-up"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-up-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Decrease Value"
+                                    class="cxd-Number-handler cxd-Number-handler-down"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-down-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                </div>
+                                <div
+                                  class="cxd-Number-input-wrap"
+                                >
+                                  <input
+                                    aria-valuenow="1"
+                                    autocomplete="off"
+                                    class="cxd-Number-input"
+                                    name="level"
+                                    role="spinbutton"
+                                    step="1"
+                                    value="1"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-id="2"
+                        data-index="1"
+                      >
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="name"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-Form-control cxd-TextControl"
+                            >
+                              <div
+                                class="cxd-TextControl-input"
+                              >
+                                <input
+                                  autocomplete="off"
+                                  class=""
+                                  name="name"
+                                  placeholder=""
+                                  size="10"
+                                  type="text"
+                                  value="BBB"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="score"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-NumberControl cxd-Form-control"
+                            >
+                              <div
+                                class="cxd-Number no-steps cxd-Number--borderFull"
+                              >
+                                <div
+                                  class="cxd-Number-handler-wrap"
+                                >
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Increase Value"
+                                    class="cxd-Number-handler cxd-Number-handler-up"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-up-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Decrease Value"
+                                    class="cxd-Number-handler cxd-Number-handler-down"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-down-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                </div>
+                                <div
+                                  class="cxd-Number-input-wrap"
+                                >
+                                  <input
+                                    aria-valuenow="0"
+                                    autocomplete="off"
+                                    class="cxd-Number-input"
+                                    name="score"
+                                    role="spinbutton"
+                                    step="1"
+                                    value="0"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-NumberControl cxd-Form-control"
+                          >
+                            <div
+                              class="cxd-Number no-steps cxd-Number--borderFull"
+                            >
+                              <div
+                                class="cxd-Number-handler-wrap"
+                              >
+                                <span
+                                  aria-disabled="false"
+                                  aria-label="Increase Value"
+                                  class="cxd-Number-handler cxd-Number-handler-up"
+                                  role="button"
+                                  unselectable="on"
+                                >
+                                  <span
+                                    class="cxd-Number-handler-up-inner"
+                                    unselectable="on"
+                                  />
+                                </span>
+                                <span
+                                  aria-disabled="false"
+                                  aria-label="Decrease Value"
+                                  class="cxd-Number-handler cxd-Number-handler-down"
+                                  role="button"
+                                  unselectable="on"
+                                >
+                                  <span
+                                    class="cxd-Number-handler-down-inner"
+                                    unselectable="on"
+                                  />
+                                </span>
+                              </div>
+                              <div
+                                class="cxd-Number-input-wrap"
+                              >
+                                <input
+                                  aria-valuenow="0"
+                                  autocomplete="off"
+                                  class="cxd-Number-input"
+                                  name="score"
+                                  role="spinbutton"
+                                  step="1"
+                                  value="0"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="level"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-NumberControl cxd-Form-control"
+                            >
+                              <div
+                                class="cxd-Number no-steps cxd-Number--borderFull"
+                              >
+                                <div
+                                  class="cxd-Number-handler-wrap"
+                                >
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Increase Value"
+                                    class="cxd-Number-handler cxd-Number-handler-up"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-up-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                  <span
+                                    aria-disabled="false"
+                                    aria-label="Decrease Value"
+                                    class="cxd-Number-handler cxd-Number-handler-down"
+                                    role="button"
+                                    unselectable="on"
+                                  >
+                                    <span
+                                      class="cxd-Number-handler-down-inner"
+                                      unselectable="on"
+                                    />
+                                  </span>
+                                </div>
+                                <div
+                                  class="cxd-Number-input-wrap"
+                                >
+                                  <input
+                                    aria-valuenow="0"
+                                    autocomplete="off"
+                                    class="cxd-Number-input"
+                                    name="level"
+                                    role="spinbutton"
+                                    step="1"
+                                    value="0"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input-table verifty 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Table
+                </span>
+              </span>
+            </span>
+          </label>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            submitBtn
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input-table with combo column 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-InputTable cxd-Form-control"
+          >
+            <div
+              class="cxd-Table"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px;"
+            >
+              <div
+                class="cxd-Table-contentWrap"
+              >
+                <div
+                  class="cxd-Table-content"
+                >
+                  <table
+                    class="cxd-Table-table"
+                  >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                    </colgroup>
+                    <thead>
+                      <tr
+                        class=""
+                      >
+                        <th
+                          class=""
+                          data-index="3"
+                        >
+                          <div
+                            class="cxd-TableCell--title"
+                          >
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                combo column
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="3"
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-id="1"
+                        data-index="0"
+                      >
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="q1"
+                            data-role="form-item"
+                          >
+                            <div
+                              class="cxd-ComboControl cxd-Form-control"
+                            >
+                              <div
+                                class="cxd-Combo cxd-Combo--single cxd-Combo--hor"
+                              >
+                                <div
+                                  class="cxd-Combo-item"
+                                >
+                                  <div
+                                    class="cxd-Combo-itemInner"
+                                  >
+                                    <div
+                                      class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                      novalidate=""
+                                    >
+                                      <input
+                                        style="display: none;"
+                                        type="submit"
+                                      />
+                                      <div
+                                        class="cxd-Form-row"
+                                      >
+                                        <div
+                                          class="cxd-Form-col"
+                                        >
+                                          <div
+                                            class="cxd-Form-item cxd-Form-item--row"
+                                            data-amis-name="score"
+                                            data-role="form-item"
+                                          >
+                                            <div
+                                              class="cxd-Form-rowInner"
+                                            >
+                                              <div
+                                                class="cxd-NumberControl cxd-Form-control"
+                                              >
+                                                <div
+                                                  class="cxd-Number cxd-Number--borderFull"
+                                                >
+                                                  <div
+                                                    class="cxd-Number-handler-wrap"
+                                                  >
+                                                    <span
+                                                      aria-disabled="false"
+                                                      aria-label="Increase Value"
+                                                      class="cxd-Number-handler cxd-Number-handler-up"
+                                                      role="button"
+                                                      unselectable="on"
+                                                    >
+                                                      <span
+                                                        class="cxd-Number-handler-up-inner"
+                                                        unselectable="on"
+                                                      />
+                                                    </span>
+                                                    <span
+                                                      aria-disabled="false"
+                                                      aria-label="Decrease Value"
+                                                      class="cxd-Number-handler cxd-Number-handler-down"
+                                                      role="button"
+                                                      unselectable="on"
+                                                    >
+                                                      <span
+                                                        class="cxd-Number-handler-down-inner"
+                                                        unselectable="on"
+                                                      />
+                                                    </span>
+                                                  </div>
+                                                  <div
+                                                    class="cxd-Number-input-wrap"
+                                                  >
+                                                    <input
+                                                      aria-valuenow="88"
+                                                      autocomplete="off"
+                                                      class="cxd-Number-input"
+                                                      name="score"
+                                                      placeholder="请手动输入分数"
+                                                      role="spinbutton"
+                                                      step="1"
+                                                      value="88"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="cxd-Form-col"
+                                        >
+                                          <div
+                                            class="cxd-Form-item cxd-Form-item--row"
+                                            data-amis-name="comment"
+                                            data-role="form-item"
+                                          >
+                                            <div
+                                              class="cxd-Form-rowInner"
+                                            >
+                                              <div
+                                                class="cxd-Form-control cxd-TextControl"
+                                              >
+                                                <div
+                                                  class="cxd-TextControl-input"
+                                                >
+                                                  <input
+                                                    autocomplete="off"
+                                                    class=""
+                                                    name="comment"
+                                                    placeholder="请手动输入意见"
+                                                    size="10"
+                                                    type="text"
+                                                    value="this is comment msg!!"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            SubmitBtn
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

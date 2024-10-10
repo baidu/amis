@@ -1,0 +1,29 @@
+.ae-FlexLayout {
+  &-wrap {
+    display: grid;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(4, auto);
+    margin-bottom: 10px;
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    height: 36px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &.active {
+      border-color: #528eff;
+    }
+  }
+
+  &-itemColumn {
+    height: 100%;
+    background-color: #ccc;
+  }
+}

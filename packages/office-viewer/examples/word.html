@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>word viewer</title>
+    <link rel="stylesheet" href="/examples/static/css/app.css" />
+    <link rel="stylesheet" href="../scss/office.scss" />
+  </head>
+  <body>
+    <div class="columns">
+      <div class="column file-list" id="fileList">
+        <button type="button" onclick="downloadDocx()">dl</button>
+        <button type="button" onclick="printDocx()">print</button>
+        <p id="page">
+          page
+          <label class="switch">
+            <input
+              type="checkbox"
+              onchange="switchPage(this.checked)"
+              id="switchPage"
+            />
+            <span class="slider round" id="pageSlider"></span>
+          </label>
+        </p>
+        <div id="files"></div>
+        <div id="upload">
+          <input
+            type="file"
+            id="uploadFile"
+            name="uploadFile"
+            accept=".docx, .xlsx"
+          />
+        </div>
+      </div>
+      <div class="column">
+        <div id="viewer"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/examples/word.ts"></script>
+  </body>
+</html>

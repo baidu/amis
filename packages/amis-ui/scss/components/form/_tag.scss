@@ -1,0 +1,146 @@
+.#{$ns}TagControl {
+  position: relative;
+
+  &-input.is-disabled {
+    border-style: dashed;
+    background: transparent;
+  }
+
+  &.is-inline {
+    display: inline-block;
+  }
+
+  > .#{$ns}TagControl-popover {
+    padding: 0;
+    width: 100%;
+    margin-top: px2rem(4px);
+
+    &.#{$ns}PopOver--leftBottomLeftTop {
+      top: 100% !important;
+    }
+
+    &.#{$ns}PopOver--leftTopLeftBottom {
+      top: auto !important;
+      bottom: 100% !important;
+    }
+  }
+
+  &-sug {
+    margin-top: var(--Form-input-marginBottom);
+
+    &Tip {
+      color: var(--TagControl-sugTip-color);
+      margin-bottom: var(--Form-input-marginBottom);
+    }
+
+    &Item {
+      margin-right: var(--gap-sm);
+      margin-bottom: var(--gap-sm);
+      display: inline-block;
+      font-size: var(--TagControl-sugBtn-fontSize);
+      cursor: pointer;
+      user-select: none;
+      border: var(--TagControl-sugBtn-borderWidth) solid transparent;
+
+      @include button-size(
+        var(--TagControl-sugBtn-fontSize),
+        var(--TagControl-sugBtn-fontWeight),
+        var(--TagControl-sugBtn-lineHeight),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-height),
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingX),
+        var(--TagControl-sugBtn-paddingX)
+      );
+
+      @include button-variant(
+        var(--TagControl-sugBtn-bg),
+        var(--TagControl-sugBtn-color),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        solid,
+        solid,
+        solid,
+        solid,
+        none,
+        var(--TagControl-sugBtn-onHover-bg),
+        var(--TagControl-sugBtn-onHover-color),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        var(--TagControl-sugBtn-borderWidth),
+        solid,
+        solid,
+        solid,
+        solid,
+        none,
+        var(--TagControl-sugBtn-onActive-bg),
+        var(--TagControl-sugBtn-onActive-color),
+        var(--TagControl-sugBtn-onActive-border),
+        var(--TagControl-sugBtn-onActive-border),
+        var(--TagControl-sugBtn-onActive-border),
+        var(--TagControl-sugBtn-onActive-border)
+      );
+
+      &.is-disabled {
+        pointer-events: none;
+        opacity: var(--Button-onDisabled-opacity);
+      }
+    }
+  }
+  &.is-error > .#{$ns}ResultBox {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+}
+
+.#{$ns}TagControl-popover,
+.#{$ns}ListMenu-popover {
+  &.#{$ns}PopOver--leftBottomLeftTop > .#{$ns}ListMenu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &.#{$ns}PopOver--leftTopLeftBottom > .#{$ns}ListMenu {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .#{$ns}ListMenu {
+    padding: px2rem(4px) 0;
+    max-height: var(--inputTag-popover-maxHeight);
+    overflow: auto;
+    user-select: none;
+  }
+
+  .#{$ns}ListMenu-item {
+    height: var(--inputTag-option-height);
+    color: var(--inputTag-option-color);
+    font-size: var(--inputTag-option-fontSize);
+    line-height: var(--inputTag-option-lineHeight);
+    font-weight: var(--inputTag-option-fontWeight);
+    padding: var(--inputTag-option-paddingTop)
+      var(--inputTag-option-paddingRight) var(--inputTag-option-paddingBottom)
+      var(--inputTag-option-paddingLeft);
+    background: var(--inputTag-option-bg-color);
+
+    &:hover {
+      color: var(--inputTag-option-hover-color);
+      background: var(--inputTag-option-hover-bg-color);
+    }
+  }
+}

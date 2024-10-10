@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '增删改查列类型汇总',
   body: {
     type: 'crud',
@@ -77,6 +76,7 @@ export default {
         type: 'list',
         label: 'List',
         placeholder: '-',
+        width: 400,
         size: 'sm',
         listItem: {
           title: '${title}',
@@ -86,6 +86,7 @@ export default {
 
       {
         name: 'json',
+        width: 200,
         type: 'json',
         label: 'Json'
       }

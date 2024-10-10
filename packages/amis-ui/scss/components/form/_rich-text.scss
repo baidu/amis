@@ -1,0 +1,163 @@
+.fr-popup {
+  z-index: $zindex-top !important;
+}
+
+.#{$ns}RichTextControl {
+  position: relative;
+  > .tox-tinymce {
+    border: 0;
+  }
+
+  > textarea {
+    width: 100%;
+  }
+
+  min-height: px2rem(200px);
+  height: auto;
+  border-width: var(--inputRichText-default-top-border-width)
+    var(--inputRichText-default-right-border-width)
+    var(--inputRichText-default-bottom-border-width)
+    var(--inputRichText-default-left-border-width);
+  border-style: var(--inputRichText-default-top-border-style)
+    var(--inputRichText-default-right-border-style)
+    var(--inputRichText-default-bottom-border-style)
+    var(--inputRichText-default-left-border-style);
+  border-color: var(--inputRichText-default-top-border-color)
+    var(--inputRichText-default-right-border-color)
+    var(--inputRichText-default-bottom-border-color)
+    var(--inputRichText-default-left-border-color);
+  border-radius: var(--inputRichText-default-top-left-border-radius)
+    var(--inputRichText-default-top-right-border-radius)
+    var(--inputRichText-default-bottom-right-border-radius)
+    var(--inputRichText-default-bottom-left-border-radius);
+  width: 100%;
+
+  @include input-border();
+
+  .fr-toolbar.fr-top {
+    box-shadow: none;
+    border: 0;
+    position: relative;
+  }
+
+  .fr-box.fr-basic.fr-top:not(.fr-fullscreen) .fr-wrapper {
+    min-height: 150px;
+    max-height: 400px;
+    box-shadow: none;
+    overflow: auto;
+    border: none;
+  }
+
+  .second-toolbar {
+    border: none;
+  }
+
+  &:hover {
+    border-width: var(--inputRichText-hover-top-border-width)
+      var(--inputRichText-hover-right-border-width)
+      var(--inputRichText-hover-bottom-border-width)
+      var(--inputRichText-hover-left-border-width);
+    border-style: var(--inputRichText-hover-top-border-style)
+      var(--inputRichText-hover-right-border-style)
+      var(--inputRichText-hover-bottom-border-style)
+      var(--inputRichText-hover-left-border-style);
+    border-color: var(--inputRichText-hover-top-border-color)
+      var(--inputRichText-hover-right-border-color)
+      var(--inputRichText-hover-bottom-border-color)
+      var(--inputRichText-hover-left-border-color);
+    border-radius: var(--inputRichText-hover-top-left-border-radius)
+      var(--inputRichText-hover-top-right-border-radius)
+      var(--inputRichText-hover-bottom-right-border-radius)
+      var(--inputRichText-hover-bottom-left-border-radius);
+  }
+
+  &.is-focused {
+    border-width: var(--inputRichText-active-top-border-width)
+      var(--inputRichText-active-right-border-width)
+      var(--inputRichText-active-bottom-border-width)
+      var(--inputRichText-active-left-border-width);
+    border-style: var(--inputRichText-active-top-border-style)
+      var(--inputRichText-active-right-border-style)
+      var(--inputRichText-active-bottom-border-style)
+      var(--inputRichText-active-left-border-style);
+    border-color: var(--inputRichText-active-top-border-color)
+      var(--inputRichText-active-right-border-color)
+      var(--inputRichText-active-bottom-border-color)
+      var(--inputRichText-active-left-border-color);
+    border-radius: var(--inputRichText-active-top-left-border-radius)
+      var(--inputRichText-active-top-right-border-radius)
+      var(--inputRichText-active-bottom-right-border-radius)
+      var(--inputRichText-active-bottom-left-border-radius);
+  }
+
+  .fr-box.fr-basic .fr-element {
+    min-height: 150px;
+  }
+
+  .fr-sticky-dummy {
+    position: absolute;
+  }
+
+  &.is-disabled {
+    border-width: var(--inputRichText-disabled-top-border-width)
+      var(--inputRichText-disabled-right-border-width)
+      var(--inputRichText-disabled-bottom-border-width)
+      var(--inputRichText-disabled-left-border-width);
+    border-style: var(--inputRichText-disabled-top-border-style)
+      var(--inputRichText-disabled-right-border-style)
+      var(--inputRichText-disabled-bottom-border-style)
+      var(--inputRichText-disabled-left-border-style);
+    border-color: var(--inputRichText-disabled-top-border-color)
+      var(--inputRichText-disabled-right-border-color)
+      var(--inputRichText-disabled-bottom-border-color)
+      var(--inputRichText-disabled-left-border-color);
+    border-radius: var(--inputRichText-disabled-top-left-border-radius)
+      var(--inputRichText-disabled-top-right-border-radius)
+      var(--inputRichText-disabled-bottom-right-border-radius)
+      var(--inputRichText-disabled-bottom-left-border-radius);
+    pointer-events: none;
+    opacity: 0.6;
+
+    .fr-box.fr-basic.fr-top .fr-wrapper {
+      border-width: var(--inputRichText-disabled-top-border-width)
+        var(--inputRichText-disabled-right-border-width)
+        var(--inputRichText-disabled-bottom-border-width)
+        var(--inputRichText-disabled-left-border-width);
+      border-style: var(--inputRichText-disabled-top-border-style)
+        var(--inputRichText-disabled-right-border-style)
+        var(--inputRichText-disabled-bottom-border-style)
+        var(--inputRichText-disabled-left-border-style);
+      border-color: var(--inputRichText-disabled-top-border-color)
+        var(--inputRichText-disabled-right-border-color)
+        var(--inputRichText-disabled-bottom-border-color)
+        var(--inputRichText-disabled-left-border-color);
+      border-radius: var(--inputRichText-disabled-top-left-border-radius)
+        var(--inputRichText-disabled-top-right-border-radius)
+        var(--inputRichText-disabled-bottom-right-border-radius)
+        var(--inputRichText-disabled-bottom-left-border-radius);
+    }
+  }
+
+  //   &.amis-rich-text-control-md {
+  //     .fr-box.fr-basic .fr-element,
+  //     .fr-box.fr-basic.fr-top .fr-wrapper {
+  //       min-height: 250px;
+  //     }
+  //   }
+
+  //   &.amis-rich-text-control-lg {
+  //     .fr-box.fr-basic .fr-element,
+  //     .fr-box.fr-basic.fr-top .fr-wrapper {
+  //       min-height: 300px;
+  //     }
+  //   }
+}
+
+// @media (min-width: 768px) {
+
+//   .amis-rich-text-control.form-contorl-inline,
+//   .form-group-inline .amis-rich-text-control {
+//     display: inline-block;
+//     width: 280px;
+//   }
+// }

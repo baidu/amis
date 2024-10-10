@@ -1,6 +1,6 @@
 import React from 'react';
-import TitleBar from '../../../src/components/TitleBar';
-import {render} from '../../../src/index';
+import {TitleBar} from 'amis';
+import {render} from 'amis';
 
 export default class SdkTest extends React.Component {
   state = {
@@ -16,21 +16,21 @@ export default class SdkTest extends React.Component {
       {
         title: '',
         type: 'form',
-        controls: [
+        body: [
           {
-            type: 'text',
+            type: 'input-text',
             name: 'name',
             label: 'Name'
           },
 
           {
-            type: 'text',
+            type: 'input-text',
             name: 'id',
             label: 'Id'
           },
 
           {
-            type: 'email',
+            type: 'input-email',
             name: 'email',
             label: 'Email'
           },

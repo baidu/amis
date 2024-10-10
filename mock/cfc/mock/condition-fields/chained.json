@@ -1,0 +1,44 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "fields": [
+      {
+        "label": "文本",
+        "type": "text",
+        "name": "text"
+      },
+      {
+        "label": "数字",
+        "type": "number",
+        "name": "number"
+      },
+      {
+        "label": "布尔",
+        "type": "boolean",
+        "name": "boolean"
+      },
+      {
+        "label": "日期",
+        "name": "date",
+        "children": [
+          {
+            "label": "日期1",
+            "type": "date",
+            "name": "date1"
+          },
+          {
+            "label": "时间2",
+            "type": "time",
+            "name": "time2"
+          },
+          {
+            "label": "日期时间3",
+            "type": "datetime",
+            "name": "datetime"
+          }
+        ]
+      }
+    ]
+  }
+}

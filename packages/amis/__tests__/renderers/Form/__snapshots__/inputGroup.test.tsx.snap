@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:InputGroup 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--horizontal no-border"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label cxd-Form-itemColumn--normal"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  input-group
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-value"
+          >
+            <div
+              class="cxd-InputGroup cxd-InputGroup-validation--full cxd-Form-control"
+            >
+              <div
+                class="cxd-TextControl-input cxd-Form-control"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="text"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

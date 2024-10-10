@@ -1,0 +1,113 @@
+.ThemeCssCode {
+  position: relative;
+  &-button {
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    z-index: 100;
+  }
+  &-icon {
+    cursor: pointer;
+    color: #5c5f66;
+    &:hover {
+      color: #151b26;
+    }
+  }
+  .is-group {
+    overflow: auto;
+  }
+}
+.icon-theme-css {
+  margin-right: 10px;
+}
+.ThemeCssCode-editor {
+  height: auto;
+  width: px2rem(460px);
+  padding: px2rem(16px);
+  position: relative;
+  &-title {
+    font-size: 14px;
+    margin-bottom: px2rem(16px);
+  }
+  &-close {
+    position: absolute;
+    top: px2rem(14px);
+    right: px2rem(16px);
+    button {
+      height: px2rem(16px);
+      padding: 0;
+      margin: 0;
+    }
+  }
+  &-content {
+    height: px2rem(500px);
+    width: 100%;
+    &-header {
+      display: flex;
+      margin-bottom: px2rem(10px);
+      border-bottom: 1px solid #e8e9eb;
+
+      &-title {
+        margin-right: px2rem(30px);
+        cursor: pointer;
+        padding-bottom: px2rem(10px);
+      }
+      &-title--active {
+        color: #2468f2;
+        border-bottom: 2px solid #2468f2;
+      }
+    }
+    &-main {
+      overflow: auto;
+      height: px2rem(460px);
+    }
+    &-body--hidden {
+      display: none;
+    }
+    &-body {
+      margin-bottom: px2rem(10px);
+      &-title {
+        margin-bottom: px2rem(10px);
+        margin-left: px2rem(16px);
+        font-size: 12px;
+      }
+      &-editor {
+        height: 200px;
+        margin-bottom: px2rem(10px);
+        border-bottom: 1px solid #e8e9eb;
+      }
+    }
+  }
+  &-wrap {
+    border: 1px solid #e8e9eb;
+    .cxd-MonacoEditor-placeholder {
+      left: 1rem;
+    }
+  }
+}
+.editorPanel-inner {
+  .Theme-FontEditor {
+    .Theme-Wrapper-header-left {
+      font-weight: 400;
+      color: #5c5f66;
+    }
+  }
+  .Theme-ShadowEditor {
+    .Theme-Wrapper-header-left {
+      font-weight: 400;
+      color: #5c5f66;
+    }
+  }
+}
+
+.cxd-ThemeCssCode-custom-editor {
+  .suggest-widget {
+    width: auto !important;
+    left: 16px !important;
+    right: 0 !important;
+
+    .monaco-sash:first-child {
+      display: none;
+    }
+  }
+}

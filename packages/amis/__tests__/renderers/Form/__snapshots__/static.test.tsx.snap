@@ -1,0 +1,502 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:static 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal bg-white"
+          data-amis-name="static"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  label
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control is-inline"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                static
+              </span>
+            </div>
+          </div>
+          <span
+            class="cxd-TplField cxd-Form-description"
+          >
+            <span>
+              static description
+            </span>
+          </span>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="static 1"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="static 2"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:static-quickEdit-icon 1`] = `
+<div>
+  <div
+    class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
+    data-role="form-item"
+  >
+    <label
+      class="cxd-Form-label"
+    >
+      <span>
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            label
+          </span>
+        </span>
+      </span>
+    </label>
+    <div
+      class="cxd-Form-static"
+    >
+      <div
+        class="cxd-Field--quickEditable cxd-Form-control"
+        tabindex="0"
+      >
+        <span
+          class="cxd-PlainField"
+        >
+          static
+        </span>
+        <button
+          class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+          type="button"
+        >
+          <i
+            class="fa fa-search cxd-Button-icon fa fa-search"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:static2 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal cxd-Form--isStatic"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  a
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static cxd-Form-control"
+          >
+            1
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  b
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="b"
+                placeholder=""
+                size="10"
+                type="text"
+                value="2"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  c
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static cxd-Form-control"
+          >
+            3
+          </div>
+        </div>
+        <div
+          class="cxd-Form-group cxd-Form-group--hor cxd-Form-group--normal"
+        >
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      a
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-static cxd-Form-control"
+              >
+                1
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      b
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="b"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="c"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      c
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-static cxd-Form-control"
+              >
+                3
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-group cxd-Form-group--hor cxd-Form-group--normal"
+        >
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      a
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      b
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="b"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-groupColumn"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="c"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      c
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-static cxd-Form-control"
+              >
+                3
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

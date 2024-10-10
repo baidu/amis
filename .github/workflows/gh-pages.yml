@@ -1,0 +1,53 @@
+name: gh-pages
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: n1hility/cancel-previous-runs@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@master
+        with:
+          persist-credentials: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: build gh-pages
+        run: |
+          npm i --legacy-peer-deps
+          cd packages/office-viewer
+          npm i --legacy-peer-deps
+          cd ../../
+          npm run build --workspaces
+          sh deploy-gh-pages.sh
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: gh-pages # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
+          SINGLE_COMMIT: true
+      - name: Generate coverage report
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm run coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false # optional (default = false)
+          verbose: true # optional (default = false)

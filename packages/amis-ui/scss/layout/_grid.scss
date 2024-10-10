@@ -1,0 +1,173 @@
+@use 'sass:math';
+
+@mixin make-grid($class) {
+  @for $i from 1 through $Grid-columns {
+    .#{$ns}Grid-col--#{$class}#{$i} {
+      flex: 0 0 percentage(math.div($i, $Grid-columns));
+      max-width: percentage(math.div($i, $Grid-columns));
+      min-height: 1px;
+      padding-left: (math.div($Grid-gutterWidth, 2));
+      padding-right: (math.div($Grid-gutterWidth, 2));
+    }
+  }
+
+  .#{$ns}Grid-col--#{$class} {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-height: 1px;
+    max-width: 100%;
+    width: 100%;
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
+  }
+
+  .#{$ns}Grid-col--#{$class}Auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
+  }
+}
+
+// Generate Grid row
+@mixin make-row($gutter: $Grid-gutterWidth) {
+  margin-left: math.div($gutter, -2);
+  margin-right: math.div($gutter, -2);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@include make-grid(xs);
+
+@include media-breakpoint-up(sm) {
+  .#{$ns}Grid {
+    min-width: 0;
+    min-height: 0;
+    @include make-row;
+    flex: 1;
+
+    &--hRight {
+      justify-content: flex-end;
+    }
+
+    &--hCenter {
+      justify-content: center;
+    }
+    &--hBetween {
+      justify-content: space-between;
+    }
+
+    &--vMiddle > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &--vBottom > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    &--vBetween > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    & > &-col--vTop {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    & > &-col--vMiddle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    & > &-col--vBottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    & > &-col--vBetween {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  @include make-grid(sm);
+}
+
+@include media-breakpoint-up(md) {
+  @include make-grid(md);
+}
+
+@include media-breakpoint-up(lg) {
+  @include make-grid(lg);
+}
+
+.#{$ns}Grid--none {
+  margin-left: 0;
+  margin-right: 0;
+
+  > div {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.#{$ns}Grid--xs {
+  margin-left: calc(var(--gap-xs) * -0.5);
+  margin-right: calc(var(--gap-xs) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-xs) * 0.5);
+    padding-right: calc(var(--gap-xs) * 0.5);
+  }
+}
+
+.#{$ns}Grid--sm {
+  margin-left: calc(var(--gap-sm) * -0.5);
+  margin-right: calc(var(--gap-sm) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-sm) * 0.5);
+    padding-right: calc(var(--gap-sm) * 0.5);
+  }
+}
+
+.#{$ns}Grid--base {
+  margin-left: calc(var(--gap-base) * -0.5);
+  margin-right: calc(var(--gap-base) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-base) * 0.5);
+    padding-right: calc(var(--gap-base) * 0.5);
+  }
+}
+
+.#{$ns}Grid--md {
+  margin-left: calc(var(--gap-md) * -0.5);
+  margin-right: calc(var(--gap-md) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-md) * 0.5);
+    padding-right: calc(var(--gap-md) * 0.5);
+  }
+}
+
+.#{$ns}Grid--lg {
+  margin-left: calc(var(--gap-lg) * -0.5);
+  margin-right: calc(var(--gap-lg) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-lg) * 0.5);
+    padding-right: calc(var(--gap-lg) * 0.5);
+  }
+}

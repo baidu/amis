@@ -1,13 +1,11 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Table 全键盘操作示例',
   remark: 'bla bla bla',
   body: [
     {
       type: 'plain',
       className: 'text-danger',
-      text:
-        '请通过上下左右键切换单元格，按 `Space` 键进入编辑模式，按 `Enter` 提交编辑，并最后点左上角的全部保存完成操作。'
+      text: '请通过上下左右键切换单元格，按 `Space` 键进入编辑模式，按 `Enter` 提交编辑，并最后点左上角的全部保存完成操作。'
     },
     {
       type: 'crud',
@@ -19,7 +17,7 @@ export default {
         {
           name: 'id',
           label: 'ID',
-          width: 20,
+          width: 30,
           sortable: true,
           type: 'text',
           toggled: true
@@ -29,7 +27,7 @@ export default {
           label: 'Rendering engine',
           sortable: true,
           quickEdit: {
-            type: 'text',
+            type: 'input-text',
             required: true,
             mode: 'inline'
           },
@@ -41,7 +39,7 @@ export default {
           label: 'Browser',
           sortable: true,
           quickEdit: {
-            type: 'text',
+            type: 'input-text',
             required: true
           },
           type: 'text',

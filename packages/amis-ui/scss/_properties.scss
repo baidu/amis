@@ -1,0 +1,856 @@
+@import './functions';
+@import './variables';
+$remFactor: 16px;
+
+/* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
+$Table-strip-bg: transparent;
+
+:root {
+  --affix-offset-top: 0px;
+  --affix-offset-bottom: 0px;
+}
+
+:root,
+.AMISCSSWrapper {
+  --white: var(--colors-neutral-text-11);
+  --primary: var(--colors-brand-5);
+  --primary-onHover: var(--colors-brand-6);
+  --primary-onActive: var(--colors-brand-4);
+
+  --secondary: var(--colors-neutral-text-4); /*  secondary 颜色需进一步确认 */
+  --secondary-onHover: var(--colors-neutral-text-6);
+  --secondary-onActive: var(--colors-neutral-text-4);
+
+  --success: var(--colors-success-5);
+  --success-onHover: var(--colors-success-6);
+  --success-onActive: var(--colors-success-4);
+
+  --info: var(--colors-info-5);
+  --info-onHover: var(--colors-info-6);
+  --info-onActive: var(--colors-info-4);
+
+  --warning: var(--colors-warning-5);
+  --warning-onHover: var(--colors-warning-6);
+  --warning-onActive: var(--colors-warning-4);
+
+  --danger: var(--colors-error-5);
+  --danger-onHover: var(--colors-error-6);
+  --danger-onActive: var(--colors-error-4);
+
+  --light: var(--colors-neutral-fill-11);
+  --dark: var(--colors-neutral-fill-3);
+
+  --fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  --fontFamilyBase: var(--fonts-base-family);
+
+  --fontSizeBase: var(--fonts-size-7);
+  --fontSizeMd: var(--fonts-size-7);
+  --fontSizeLg: var(--fonts-size-6);
+  --fontSizeXl: var(--fonts-size-5);
+  --fontSizeSm: var(--fonts-size-8);
+  --fontSizeXs: var(--fonts-size-8);
+
+  --text-color: var(--colors-neutral-text-2);
+  --button-color: var(--colors-neutral-text-11);
+
+  --animation-duration: 0.2s;
+
+  --text--muted-color: var(--colors-neutral-text-6);
+  --text--loud-color: var(--colors-neutral-text-2);
+
+  --pre-color: var(--text-color);
+
+  --borderColor: var(--colors-neutral-line-8);
+  --borderColorLight: var(--colors-neutral-line-10);
+  --borderColorDarken: var(--colors-neutral-line-8);
+  --borderRadius: var(--borders-radius-3);
+  --borderRadiusMd: var(--borders-radius-4);
+  --borderRadiusLg: var(--borders-radius-5);
+
+  --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
+    0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
+
+  --lineHeightBase: var(--fonts-lineHeight-2);
+
+  --body-lineHeight: var(--lineHeightBase);
+
+  --borderWidth: #{px2rem(1px)};
+
+  --fontWeightNormal: 400;
+  --fontWeightBase: var(--fontWeightNormal);
+  --fontWeightMd: 500;
+  --fontWeightBold: 700;
+
+  --background: var(--colors-neutral-fill-11);
+
+  --code-color: var(--danger);
+  --code-background: var(--background);
+  --pre-background: var(--background);
+
+  --body-bg: var(--light);
+  --body-size: var(--fontSizeBase);
+  --body-color: var(--text-color);
+  --body-weight: var(--fontWeightBase);
+
+  --gap-xs: var(--sizes-size-3);
+  --gap-sm: var(--sizes-size-5);
+  --gap-base: var(--sizes-size-7);
+  --gap-md: var(--sizes-size-9);
+  --gap-lg: var(--sizes-base-10);
+  --gap-xl: var(--sizes-base-12);
+
+  --icon-color: var(--colors-neutral-text-5);
+  --icon-onHover-color: var(--colors-brand-5);
+  --icon-onDisabled-color: var(--colors-neutral-text-10);
+
+  --label--default-bg: var(--colors-neutral-fill-3);
+  --label--primary-bg: var(--colors-brand-5);
+  --label--success-bg: var(--success);
+  --label--info-bg: var(--info);
+  --label--warning-bg: var(--warning);
+  --label--danger-bg: var(--danger);
+
+  --label-color: #fff;
+  --label-link--hover-color: #fff;
+
+  --scrollbar-width: #{px2rem(17px)};
+
+  --Audio-border: #{px2rem(1px)} solid #dee2e6;
+  --Audio-height: #{px2rem(50px)};
+  --Audio-input-width: #{px2rem(80px)};
+  --Audio-item-margin: #{px2rem(10px)};
+  --Audio-lineHeight: #{px2rem(50px)};
+  --Audio-play-top: var(--gap-xs);
+  --Audio-play-width: var(--gap-md);
+  --Audio-process-minWidth: #{px2rem(80px)};
+  --Audio-rate-bg: #dee2e6;
+  --Audio-rate-height: #{px2rem(50px)};
+  --Audio-rate-lineHeight: #{px2rem(50px)};
+  --Audio-rate-width: #{px2rem(40px)};
+  --Audio-rateControlItem-bg: #dee2e6;
+  --Audio-rateControlItem-borderRight: #{px2rem(1px)} solid #d3dae0;
+  --Audio-svg-height: var(--gap-md);
+  --Audio-svg-top: #{px2rem(6px)};
+  --Audio-svg-width: var(--gap-md);
+  --Audio-thumb-bg: #606670;
+  --Audio-thumb-height: #{px2rem(14px)};
+  --Audio-thumb-marginTop: #{px2rem(-5px)};
+  --Audio-thumb-width: #{px2rem(14px)};
+  --Audio-times-margin: 0 var(--gap-xs);
+  --Audio-times-width: #{px2rem(75px)};
+  --Audio-track-bg: #d7dbdd;
+  --Audio-track-border: #{px2rem(1px)} solid transparent;
+  --Audio-track-borderRadius: #{px2rem(3px)};
+  --Audio-track-height: #{px2rem(6px)};
+  --Audio-volume-height: #{px2rem(50px)};
+  --Audio-volume-lineHeight: #{px2rem(50px)};
+  --Audio-volume-width: var(--gap-md);
+  --Audio-volumeControl-width: #{px2rem(110px)};
+  --Avatar-bg: #d1d5db;
+  --Avatar-width: #{px2rem(40px)};
+  --Avatar-size-large: #{px2rem(48px)};
+  // 兼容旧的size大小写法
+  --Avatar-size-default: var(--Avatar-width);
+  --Avatar-size-small: #{px2rem(32px)};
+  --Avatar-icon-size-large: #{px2rem(20px)};
+  // 兼容旧的icon大小写法
+  --Avatar-icon-size-default: var(--fontSizeLg);
+  --Avatar-icon-size-small: #{px2rem(12px)};
+
+  --Badge-size: var(--gap-md);
+  --Badge-color: #fff;
+  --Badge--success-bg: var(--success);
+  --Badge--info-bg: var(--info);
+  --Badge--warning-bg: var(--warning);
+  --Badge--danger-bg: var(--danger);
+
+  --Button--sm-fontSize: var(--fontSizeSm);
+  --Button-transition: color var(--animation-duration) ease-in-out,
+    background-color var(--animation-duration) ease-in-out,
+    border-color var(--animation-duration) ease-in-out,
+    box-shadow var(--animation-duration) ease-in-out;
+
+  --ButtonGroup--primary-isActive-color: var(--colors-neutral-fill-11);
+  --ButtonGroup--primary-isActive-bg: var(--colors-brand-5);
+  --ButtonGroup-divider-width: #{px2rem(1px)};
+  --ButtonGroup-divider-color: #fff;
+  --ButtonGroup-borderWidth: var(--borders-width-2);
+
+  --Breadcrumb-item-fontSize: var(--fontSizeMd);
+  --Breadcrumb-item-default-color: var(--colors-neutral-text-5);
+  --Breadcrumb-item-hover-color: var(--colors-brand-5);
+  --Breadcrumb-item-active-color: var(--colors-brand-4);
+  --Breadcrumb-item-last-color: var(--colors-neutral-text-2);
+  --BreadcrumbDropdown-item-default-color: var(--colors-neutral-text-2);
+  --BreadcrumbDropdown-item-default-bg: var(--colors-neutral-text-11);
+  --BreadcrumbDropdown-item-hover-bg: var(--colors-brand-10);
+  --BreadcrumbDropdown-item-fontSize: var(--fontSizeSm);
+  --BreadcrumbDropdown-item-height: #{px2rem(32px)};
+  --BreadcrumbDropdown-item-paddingX: var(--gap-sm);
+  --BreadcrumbDropdown-item-paddingY: calc(
+    (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) / 2
+  );
+  --Breadcrumb-item-disabled-color: var(--colors-neutral-text-6);
+
+  --Card-actions-borderColor: var(--colors-neutral-line-10);
+  --Card-actions-fontSize: var(--fonts-size-8);
+  --Card-actions-onChecked-onHover-bg: var(--colors-neutral-fill-11);
+  --Card-actions-onChecked-onHover-color: var(--colors-neutral-fill-11);
+  --Card-actions-onHover-bg: var(--colors-neutral-fill-11);
+  --Card-actions-onHover-color: var(--colors-brand-5);
+  --Card-bg: var(--colors-neutral-fill-11);
+  --Card-borderColor: var(--borderColor);
+  --Card-borderRadius: var(--borderRadius);
+  --Card-borderWidth: var(--borderWidth);
+  --Card-secondary-color: var(--colors-neutral-fill-5);
+  --Card-onChecked-bg: var(--colors-neutral-fill-11);
+  --Card-onChecked-borderColor: var(--colors-brand-5);
+  --Card-onChecked-color: var(--colors-brand-5);
+  --Card-onChecked-fieldLabel-color: #{lighten(darken(#d9f3fb, 40%), 20%)};
+  --Card-onDragging-opacity: 0.1;
+  --Card-onModified-bg: var(--colors-neutral-fill-8);
+  --Card-onModified-borderColor: var(--colors-brand-5);
+  --Card-onModified-color: var(--colors-brand-6);
+  --Card-onModified-fieldLabel-color: var(--colors-brand-8);
+  --Card-onModified-onHover-bg: #{darken(#e8f0fe, 5%)};
+  --Card-onModified-onHover-color: #{darken(#4285f4, 10%)};
+  --Cards--unsaved-heading-bg: #e8f0fe;
+  --Cards--unsaved-heading-color: #4285f4;
+  --Cards-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --Cards-placeholder-height: #{px2rem(100px)};
+  --Cards-toolbar-marginX: 0;
+  --Cards-toolbar-marginY: var(--gap-base);
+
+  --Carousel--dark-control: black;
+  --Carousel--light-control: white;
+  --Carousel-arrowControl-height: var(--gap-lg);
+  --Carousel-arrowControl-width: var(--gap-lg);
+  --Carousel-bg: var(--colors-neutral-fill-10);
+  --Carousel-dot-borderRadius: #{px2rem(4px)};
+  --Carousel-dot-height: #{px2rem(8px)};
+  --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
+  --Carousel-dot-width: #{px2rem(8px)};
+  --Carousel-height: #{px2rem(200px)};
+  --Carousel-imageDescription-bottom: #{px2rem(25px)};
+  --Carousel-imageTitle-bottom: #{px2rem(45px)};
+  --Carousel-minWidth: #{px2rem(100px)};
+  --Carousel-svg-height: var(--gap-lg);
+  --Carousel-svg-width: var(--gap-lg);
+  --Carousel-transitionDuration: var(--animation-duration);
+
+  --ColorPicker-bg: var(--colors-neutral-fill-11);
+  --ColorPicker-borderColor: var(--Form-input-borderColor);
+  --ColorPicker-borderRadius: var(--borders-radius-3);
+  --ColorPicker-borderWidth: var(--borders-width-2);
+  --ColorPicker-color: var(--colors-neutral-text-2);
+  --ColorPicker-fontSize: var(--Form-input-fontSize);
+  --ColorPicker-height: var(--Form-input-height);
+  --ColorPicker-lineHeight: var(--Form-input-lineHeight);
+  --ColorPicker-height: var(--sizes-base-16);
+  --ColorPicker-onDisabled-bg: var(--colors-neutral-fill-8);
+  --ColorPicker-onDisabled-color: var(--text--muted-color);
+  --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
+  --ColorPicker-onHover-bg: var(--colors-neutral-fill-11);
+  --ColorPicker-onHover-borderColor: var(--colors-brand-5);
+  --ColorPicker-paddingX: var(--sizes-size-6);
+  --ColorPicker-paddingY: var(--sizes-size-3);
+  --ColorPicker-placeholderColor: var(--colors-neutral-text-6);
+  --ColorPicker-boxShadow: var(--shadows-shadow-normal);
+
+  --Copyable-iconColor: var(--icon-color);
+  --Copyable-onHover-iconColor: var(--icon-onHover-color);
+
+  --Crud-toolbar-gap: var(--sizes-size-6);
+  --Crud-toolbar-height: #{px2rem(30px)};
+  --Crud-toolbar-lineHeight: var(--lineHeightBase);
+
+  --LocationPicker-borderRadius: var(--borders-radius-3);
+
+  --DropDown-caret-marginLeft: var(--gap-sm);
+  --DropDown-menu-bg: var(--colors-neutral-fill-11);
+  --DropDown-menu-borderColor: var(--borderColor);
+  --DropDown-menu-borderRadius: var(--borderRadius);
+  --DropDown-menu-borderWidth: var(--borderWidth);
+  --DropDown-menu-boxShadow: var(--Form-select-outer-boxShadow);
+  --DropDown-menu-height: #{px2rem(32px)};
+  --DropDown-menu-minWidth: #{px2rem(160px)};
+  --DropDown-menu-paddingX: 0;
+  --DropDown-menu-paddingY: var(--gap-xs);
+  --DropDown-menuItem-onHover-bg: var(--Form-select-menu-onHover-bg);
+  --DropDown-group-color: #848b99;
+  --DropDown-menuItem-color: var(--colors-neutral-text-2);
+  --DropDown-menuItem-onHover-color: var(--Form-select-menu-onHover-color);
+  --DropDown-menuItem-onActive-color: var(--colors-brand-5);
+  --DropDown-menuItem-onDisabled-color: #b4b6ba;
+  --DropDown-menuItem-paddingX: var(--select-base-default-option-paddingRight);
+
+  --Fieldset-legend-bgColor: var(--colors-neutral-fill-11);
+
+  --Form--horizontal-gutterWidth: var(--gap-md);
+  --Form--horizontal-label-align: right;
+  --Form--horizontal-label-whiteSpace: normal;
+
+  --Form--horizontal-justify-label-align: left;
+  --Form--horizontal-justify-value-align: right;
+
+  --Form-control-widthBase: #{px2rem(200px)};
+  --Form-control-widthLg: #{px2rem(320px)};
+  --Form-control-widthMd: #{px2rem(240px)};
+  --Form-control-widthSm: #{px2rem(160px)};
+  --Form-control-widthXs: #{px2rem(80px)};
+
+  --Form-fontSize: var(--fontSizeBase);
+
+  --Form-group--lg-gutterWidth: #{px2rem(40px)};
+  --Form-group--md-gutterWidth: #{px2rem(30px)};
+  --Form-group--sm-gutterWidth: var(--gap-md);
+  --Form-group--xs-gutterWidth: #{px2rem(10px)};
+  --Form-group-gutterWidth: var(--Form--horizontal-gutterWidth);
+
+  --Form-input-addOnBg: var(--colors-neutral-fill-11);
+  --Form-input-addOnColor: var(--text-color);
+  --Form-input-addOnDividerBorderWidth: var(--borders-width-2);
+  --Form-input-bg: var(--colors-neutral-fill-11);
+  --Form-input-borderColor: var(--borderColor);
+  --Form-input-borderRadius: var(--borders-radius-3);
+  --Form-input-borderWidth: #{px2rem(1px)};
+  --Form-input-boxShadow: none;
+  --Form-input-color: var(--colors-neutral-text-2);
+  --Form-input-fontSize: var(--Form-fontSize);
+  --Form-input-height: var(--sizes-base-16);
+  --Form-input-iconColor: var(--colors-neutral-text-5);
+  --Form-input-lineHeight: var(--fonts-lineHeight-2);
+  --Form-input-marginBottom: var(--sizes-size-3);
+  --Form-input-onActive-color: var(--info);
+  --Form-input-onDisabled-bg: var(--colors-neutral-fill-10);
+  --Form-input-onDisabled-borderColor: var(--colors-neutral-line-8);
+  --Form-input-onError-bg: var(--colors-neutral-fill-11);
+  --Form-input-onError-borderColor: var(--colors-error-5);
+  --Form-input-onFocus-addOnColor: var(--colors-brand-5);
+  $Form-input-onFocused-bg: $white !default;
+  --Form-input-onFocused-bg: var(--colors-neutral-fill-11);
+  --Form-input-onFocused-borderColor: var(--colors-brand-4);
+  --Form-input-onHover-iconColor: var(--colors-neutral-text-4);
+  --Form-input-onHover-bg: #{rgba($white, 0.6)};
+  --Form-input-onHover-borderColor: var(--colors-brand-5);
+  --Form-input-paddingX: var(--sizes-size-6);
+
+  --Form-input-password-icon-size: var(--sizes-size-9);
+  --Form-input-password-icon-color: var(--colors-neutral-text-5);
+
+  --Form-input-paddingY: var(--sizes-size-3);
+  --Form-input-placeholderColor: var(--text--muted-color);
+  --Form-input-onDisabled-color: var(--colors-neutral-text-5);
+
+  --Form-input-clearBtn-size: var(--fontSizeMd);
+  --Form-input-clearBtn-padding: #{px2rem(3px)};
+  --Form-input-clearBtn-color: var(--colors-neutral-text-7);
+  --Form-input-clearBtn-color-onHover: var(--colors-neutral-text-4);
+  --Form-input-clearBtn-color-onActive: var(--colors-neutral-text-3);
+
+  --Form-label-paddingTop: calc(
+    (
+        var(--Form-input-height) - var(--Form-input-lineHeight) *
+          var(--Form-input-fontSize)
+      ) / 2
+  );
+  --Form-row-gutterWidth: #{px2rem(10px)};
+
+  --IconPicker-content-maxHeight: #{px2rem(350px)};
+  --IconPicker-padding: var(--gap-xs);
+  --IconPicker-selectedIcon-marginRight: var(--gap-xs);
+  --IconPicker-sugItem-height: #{px2rem(28px)};
+  --IconPicker-sugItem-lineHeight: #{px2rem(28px)};
+  --IconPicker-sugItem-width: #{px2rem(28px)};
+  --IconPicker-tab-height: #{px2rem(30px)};
+  --IconPicker-tab-lineHeight: #{px2rem(30px)};
+  --IconPicker-tab-onActive-bg: var(--colors-neutral-fill-11);
+  --IconPicker-tab-padding: 0 #{px2rem(10px)};
+  --IconPicker-tabs-bg: #f0f3f4;
+
+  --InputGroup-addOn-bg: var(--Form-input-addOnBg);
+  --InputGroup-addOn-borderColor: var(--Form-input-borderColor);
+  --InputGroup-addOn-borderRadius: var(--Form-input-borderRadius);
+  --InputGroup-addOn-borderWidth: var(--Form-input-borderWidth);
+  --InputGroup-addOn-onFocused-borderColor: var(
+    --Form-input-onFocused-borderColor
+  );
+  --InputGroup-button-borderColor: var(--Form-input-borderColor);
+  --InputGroup-button-borderRadius: var(--borders-radius-3);
+  --InputGroup-button-borderWidth: var(--borders-width-2);
+  --InputGroup-height: var(--Form-input-height);
+  --InputGroup-paddingX: #{px2rem(10px)};
+  --InputGroup-paddingY: calc(
+    (
+        var(--InputGroup-height) - var(--Form-input-lineHeight) *
+          var(--Form-input-fontSize) - #{px2rem(2px)}
+      ) / 2
+  );
+  --InputGroup-select-arrowColor: var(--colors-neutral-text-5);
+  --InputGroup-select-bg: var(--colors-neutral-fill-11);
+  --InputGroup-select-borderColor: var(--borderColor);
+  --InputGroup-select-borderRadius: var(--borders-radius-3);
+  --InputGroup-select-borderWidth: var(--borders-width-2);
+  --InputGroup-select-color: var(--colors-neutral-text-2);
+  --InputGroup-select-onFocused-arrowColor: var(--colors-brand-5);
+  --InputGroup-select-onFocused-bg: var(--colors-brand-10);
+  --InputGroup-select-onFocused-color: var(--colors-brand-5);
+
+  --Layout--offscreen-width: 75%;
+  --Layout-aside--folded-width: var(--sizes-base-30);
+  --Layout-aside--lg-width: #{px2rem(300px)};
+  --Layout-aside--md-width: #{px2rem(250px)};
+  --Layout-aside--sm-width: #{px2rem(150px)};
+  --Layout-aside-bg: var(--colors-neutral-fill-2);
+  --Layout-aside-color: #{desaturate(lighten($dark, 40%), 10%)};
+  --Layout-aside-onAcitve-bg: #{saturate(darken($dark, 5%), 2.5%)};
+  --Layout-aside-onHover-bg: #{saturate(darken($dark, 3%), 2.5%)};
+  --Layout-aside-subList-bg: var(--colors-neutral-fill-2);
+  --Layout-aside-onAcitve-onHover-bg: var(--Layout-aside-onAcitve-bg);
+  --Layout-aside-width: #{px2rem(180px)};
+  --Layout-aside-width-collapsed: #{px2rem(60px)};
+  --Layout-asideDivider-bg: var(--colors-neutral-line-3);
+  --Layout-asideDivider-margin: 0 var(--sizes-size-6);
+  --Layout-asideLabel-color: #{darken(desaturate(lighten($dark, 40%), 10%), 10%)};
+  --Layout-asideLink-color: var(--colors-neutral-text-11);
+  --Layout-asideLink-fontSize: var(--fonts-size-8);
+  --Layout-asideLink-arrowFontSize: var(--fonts-size-8);
+  --Layout-asideLink-arrowColor: var(--colors-neutral-text-5);
+  --Layout-asideLink-iconColor: inherit;
+  --Layout-asideLink-onActive-arrowColor: var(
+    --Layout-asideLink-onActive-color
+  );
+  --Layout-asideLink-onActive-color: var(--colors-brand-6);
+  --Layout-asideLink-onHover-color: var(--colors-brand-6);
+  --Layout-asideLink-onHover-iconColor: var(--colors-brand-6);
+  --Layout-asideLink-onHover-iconSize: var(--sizes-size-9);
+  --Layout-asideLink-onHover-arrowColor: var(--colors-neutral-text-11);
+  --Layout-brand-bg: var(--colors-neutral-fill-2);
+  --Layout-brand-color: var(--colors-neutral-text-11);
+  --Layout-brandBar-color: #{desaturate(lighten($dark, 40%), 10%)};
+  --Layout-header-bg: var(--colors-neutral-fill-10);
+  --Layout-header-boxShadow: none;
+  --Layout-header-height: #{px2rem(50px)};
+  --Layout-headerBar-borderBottom: none;
+  --Layout-footer-height: #{px2rem(50px)};
+  --Layout-nav--folded-height: var(--sizes-base-20);
+  --Layout-nav-height: #{px2rem(40px)};
+  --Layout-nav-lgHeight: #{px2rem(50px)};
+  --Layout-body-bg: var(--body-bg);
+  --Layout-paddingX: #{px2rem(25px)};
+  --Layout-icon-size: #{px2rem(14px)};
+  --Layout-light-backgroundColor: var(--colors-neutral-fill-11);
+  --Layout-light-bgColor-onHover: var(--colors-brand-10);
+  --Layout-light-fontColor: var(--colors-neutral-text-1);
+  --Layout-fontColor--onHover: var(--colors-brand-5);
+  --Layout-dark-fontColor: var(--colors-neutral-text-11);
+  --Layout-fontColor--onActive: var(--colors-brand-4);
+  --Layout-fontColor--info: var(--colors-brand-5);
+  --Layout-dark-backgroundColor: var(--colors-neutral-fill-2);
+  --Layout-dark-selected-color: var(--colors-brand-6);
+  --Layout-tooltip-fontSize: var(--fonts-size-8);
+  --Layout-dark-tooltip-backgroundColor: var(--colors-brand-1);
+
+  --List--unsaved-heading-bg: #e8f0fe;
+  --List--unsaved-heading-color: #4285f4;
+  --List-bg: var(--colors-neutral-fill-11);
+  --List-borderColor: var(--borderColor);
+  --List-borderRadius: var(--borderRadius);
+  --List-borderWidth: var(--borderWidth);
+  --List-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --List-placeholder-height: #{px2rem(30px)};
+  --List-toolbar-marginX: 0;
+  --List-toolbar-marginY: var(--gap-base);
+
+  --ListControl-fontSize: var(--Form-fontSize);
+  --ListControl-gutterWidth: #{px2rem(10px)};
+  --ListControl-item-bg: var(--colors-neutral-fill-11);
+  --ListControl-item-borderColor: var(--borderColor);
+  --ListControl-item-borderWidth: var(--borders-width-2);
+  --ListControl-item-borderRadius: var(--borders-radius-3);
+  --ListControl-item-color: var(--colors-neutral-text-2);
+  --ListControl-item-onActive-after-borderColor: #fff;
+  --ListControl-item-onActive-before-bg: var(--colors-brand-5);
+  --ListControl-item-onActive-bg: var(--colors-neutral-fill-11);
+  --ListControl-item-onActive-borderColor: var(--colors-brand-4);
+  --ListControl-item-onActive-color: var(--colors-brand-4);
+  --ListControl-item-onActive-onHover-bg: var(--colors-neutral-fill-11);
+  --ListControl-item-onDisabled-bg: var(--colors-neutral-fill-9);
+  --ListControl-item-onDisabled-borderColor: var(--colors-neutral-line-9);
+  --ListControl-item-onDisabled-color: var(--colors-neutral-text-6);
+  --ListControl-item-onDisabled-opacity: 1;
+  --ListControl-item-onHover-bg: var(--colors-neutral-fill-11);
+  --ListControl-item-onHover-borderColor: var(--colors-brand-5);
+  --ListControl-item-onHover-color: var(--colors-brand-5);
+  --ListControl-item-paddingX: var(--sizes-size-6);
+  --ListControl-item-paddingY: #{px2rem(6px)};
+  --ListControl-item-transition: none;
+
+  --ListItem--strip-bg: var(--colors-neutral-fill-10);
+  --ListItem-borderColor: var(--colors-neutral-line-10);
+  --ListItem-borderWidth: var(--List-borderWidth);
+  --ListItem-onChecked-bg: var(--colors-brand-10);
+  --ListItem-onChecked-borderColor: var(--colors-brand-4);
+  --ListItem-onChecked-color: var(--colors-brand-4);
+  --ListItem-onChecked-fieldLabel-color: var(--colors-brand-4);
+  --ListItem-onDragging-opacity: 0.1;
+  --ListItem-onModified-bg: #e8f0fe;
+  --ListItem-onModified-borderColor: #{darken(#e8f0fe, 10%)};
+  --ListItem-onModified-color: #4285f4;
+  --ListItem-onModified-fieldLabel-color: #{lighten(#4285f4, 20%)};
+  --ListItem-paddingX: var(--gap-base);
+  --ListItem-paddingY: var(--gap-sm);
+  --ListItem--onHover-bg: rgba(0, 126, 255, 0.08);
+  --ListItem--onHover-color: var(--info);
+
+  --listMenu--onActive-borderColor: var(--info);
+  --ListMenu-borderRadius: var(--borders-radius-1);
+  --ListMenu-borderWidth: var(--borders-width-1);
+  --ListMenu-bordrColor: var(--borderColor);
+  --ListMenu-divider-color: var(--borderColorLight);
+  --ListMenu-item--onActive-bg: transparent;
+  --ListMenu-item--onActive-color: var(--info);
+  --ListMenu-item--onDisabled-bg: transparent;
+  --ListMenu-item--onDisabled-color: var(--text--muted-color);
+  --ListMenu-item--onHover-bg: var(--colors-neutral-fill-8);
+  --ListMenu-item--onHover-color: var(--colors-neutral-text-2);
+  --ListMenu-item-bg: var(--colors-neutral-fill-11);
+  --ListMenu-item-color: var(--colors-neutral-text-2);
+  --ListMenu-item-height: var(--sizes-base-15);
+  --ListMenu-item-mobile-margin: #{px2rem(5px)};
+  --ListMenu-item-mobile-width: #{px2rem(90px)};
+  --ListMenu-item-mobile-bg: #f5f5f5;
+  --ListMenu-item-mobile-active-bg: #e7f1ff;
+
+  --Log-bg: #222;
+  --Log-padding: var(--gap-sm) 0;
+  --Log-line-padding: 0 var(--gap-sm);
+  --Log-color: #f1f1f1;
+  --Log-line--onHover-bg: #444;
+
+  --Nav-item-bg: transparent;
+  --Nav-item-borderRadius: var(--borders-radius-1);
+  --Nav-item-color: var(--text-color);
+  --Nav-item-fontSize: var(--fonts-size-7);
+  --Nav-item-collapsed-fontSize: var(--fonts-size-6);
+  --Nav-item-fontWeight: var(--fonts-weight-6);
+  --Nav-item-fontColor-onDisabled: var(--colors-neutral-fill-6);
+  --Nav-item-onActive-bg: var(--colors-neutral-fill-10);
+  --Nav-item-onActive-backgroundColor: var(--colors-neutral-fill-12);
+  --Nav-item-onActive-borderLeft: var(--borders-width-4) var(--borders-style-2)
+    var(--colors-brand-5);
+  --Nav-item-onActive-borderColor: var(--colors-link-5);
+  --Nav-item-onActive-color: var(--colors-brand-5);
+  --Nav-item-onDisabled-color: var(--text--muted-color);
+  --Nav-item-onHover-bg: rgba(0, 0, 0, 0.05);
+  --Nav-item-onHover-color: var(--text--loud-color);
+  // --Nav-subNav-bg: #fafafa;
+  --Nav-subItem-fontSize: var(--fonts-size-8);
+  --Nav-subItem-onActiveBeforeBg: var(--colors-brand-5);
+  --Nav-Item-maxWidth--tabs: #{px2rem(160px)};
+  --Nav-Item-height: #{px2rem(40px)};
+  --Nav-Item-height--horizontal: #{px2rem(50px)};
+  --Nav-Item-Badge-paddingRight: #{px2rem(10px)};
+  --Nav-Item-paddingX: #{px2rem(20px)};
+  --Nav-Item-Drag-color: var(--colors-neutral-text-5);
+
+  --Number-bg: var(--Form-input-bg);
+  --Number-borderColor: var(--colors-neutral-line-7);
+  --Number-borderRadius: var(--Form-input-borderRadius);
+  --Number-borderWidth: var(--borders-width-2);
+  --Number-handler--down-content: '\e6dd';
+  --Number-handler--up-content: '\e6dd';
+  --Number-handler--up-transform: rotate(180deg);
+  --Number-handler-bg: var(--colors-neutral-fill-11);
+  --Number-handler-borderBottom: var(--borders-width-1) solid
+    var(--Form-input-borderColor);
+  --Number-handler-color: var(--Form-input-color);
+  --Number-handler-fontFamily: 'iconfont';
+  --Number-handler-fontSize: var(--fonts-size-8);
+  --Number-handler-onActive-bg: var(--Number-handler-onHover-bg);
+  --Number-handler-onDisabled-bg: var(--Form-input-onDisabled-bg);
+  --Number-handler-onDisabled-color: var(--text--muted-color);
+  --Number-handler-onHover-bg: var(--colors-neutral-fill-11);
+  --Number-handler-onHover-color: var(--colors-brand-5);
+  --Number-handler-width: var(--sizes-base-12);
+  --Number-onDisabled-bg: var(--Form-input-bg);
+
+  --Page-aside-bg: var(--colors-neutral-fill-11);
+  --Page-aside-maxWidth: #{px2rem(300px)};
+  --Page-aside-width: #{px2rem(160px)};
+  --Page-body-padding: var(--gap-base);
+  --Page-content-paddingX: var(--sizes-size-0);
+  --Page-content-paddingY: var(--sizes-size-0);
+  --Page-header-paddingX: var(--sizes-size-9);
+  --Page-header-paddingY: var(--sizes-size-6);
+  --Page-header-bg: transparent;
+  --Page-main-bg: var(--colors-neutral-fill-11);
+  --Page-title-color: var(--colors-neutral-text-2);
+  --Page-title-fontSize: var(--fontSizeLg);
+  --Page-title-fontWeight: var(--fontWeightNormal);
+  --Page-title-lineHeight: 1.5;
+
+  --Pagination-fontSize: var(--fonts-size-8);
+  --Pagination-height: #{px2rem(32px)};
+  --Pagination-height-sm: #{px2rem(24px)};
+  --Pagination-minWidth: #{px2rem(32px)};
+  --Pagination-minWidth-sm: #{px2rem(24px)};
+  --Pagination-onActive-backgroundColor: var(--colors-neutral-fill-11);
+  --Pagination-onActive-border: var(--borders-width-2) var(--borders-style-2)
+    var(--colors-brand-5);
+  --Pagination-onActive-color: var(--colors-brand-5);
+  --Pagination-onDisabled-color: var(--colors-neutral-text-6);
+  --Pagination-onDisabled-backgroundColor: var(--colors-neutral-fill-10);
+  --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-padding-sm: 0 #{px2rem(4px)};
+  --Pagination-light-color: var(--colors-neutral-text-4);
+
+  --Panel--default-badgeBg: var(--colors-neutral-fill-3);
+  --Panel--default-badgeColor: var(--colors-neutral-fill-10);
+
+  --Picker-onHover-iconColor: var(--icon-onHover-color);
+
+  --PickerColumns-bg: white;
+  --PickerColumns-toolbar-height: #{px2rem(50px)};
+  --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-color: #222;
+  --PickerColumns-title-lineHeight: 1.5;
+  --PickerColumns-action-padding: 0 var(--gap-md);
+  --PickerColumns-action-fontSize: var(--fontSizeLg);
+  --PickerColumns-confirmAction-color: var(--colors-brand-5);
+  --PickerColumns-cancelAction-color: #666;
+  --PickerColumns-option-fontSize: var(--fontSizeLg);
+  --PickerColumns-optionText-color: var(--text-color);
+  --PickerColumns-optionDisabled-opacity: 0.3;
+  --PickerColumns-loadingIcon-color: var(--icon-color);
+  --PickerColumns-loadingMask-Color: rgba(255, 255, 255, 0.9);
+
+  --PopOver-bg: var(--colors-neutral-fill-11);
+  --PopOverAble-iconColor: inherit;
+  --PopOverAble-onHover-iconColor: inherit;
+
+  --PopUp-cancelAction-color: #666;
+  --PopUp-confirmAction-color: var(--primary);
+
+  --Property-title-bg: var(--colors-neutral-fill-10);
+  --Property-label-bg: var(--colors-neutral-fill-10);
+
+  --Portlet-borderColor: var(--borderColor);
+  --Portlet-borderStyle: solid;
+  --Portlet-borderWidth: var(--borderWidth);
+  --Portlet-borderRadius: var(--borderRadius);
+
+  --QuickEdit-iconSize: #{px2rem(14px)};
+  --QuickEdit-onFocus-borderColor: var(--info);
+  --QuickEdit-onFocus-borderWidth: var(--borderWidth);
+
+  --Remark-bg: var(--colors-neutral-text-11);
+  --Remark-borderColor: var(--colors-neutral-line-8);
+  --Remark-borderWidth: var(--borders-width-2);
+  --Remark-icon-fontSize: var(--fonts-size-8);
+  --Remark-iconColor: var(--colors-neutral-text-5);
+  --Remark-marginLeft: var(--gap-sm);
+  --Remark-onHover-bg: var(--colors-warning-5);
+  --Remark-onHover-borderColor: var(--colors-warning-5);
+  --Remark-onHover-iconColor: var(--colors-neutral-text-11);
+  --Remark-width: var(--sizes-size-9);
+
+  --Sparkline-line-color: var(--info);
+  --Sparkline-area-color: #{rgba($info, 0.1)};
+
+  --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
+  --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;
+  --Table-loading-padding: 30px 0px;
+
+  --TagControl-sugBtn-bg: transparent;
+  --TagControl-sugBtn-border: var(--colors-neutral-line-7);
+  --TagControl-sugBtn-borderRadius: var(--borders-radius-2);
+  --TagControl-sugBtn-borderWidth: var(--borders-width-2);
+  --TagControl-sugBtn-color: var(--colors-neutral-text-2);
+  --TagControl-sugBtn-fontSize: var(--fonts-size-8);
+  --TagControl-sugBtn-fontWeight: var(--fonts-weight-6);
+  --TagControl-sugBtn-height: var(--sizes-base-15);
+  --TagControl-sugBtn-lineHeight: var(--fonts-lineHeight-2);
+  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-fill-8);
+  --TagControl-sugBtn-onActive-border: var(--colors-neutral-line-5);
+  --TagControl-sugBtn-onActive-color: var(--TagControl-sugBtn-color);
+  --TagControl-sugBtn-onHover-bg: var(--colors-neutral-fill-8);
+  --TagControl-sugBtn-onHover-border: var(--colors-neutral-line-6);
+  --TagControl-sugBtn-onHover-color: var(--colors-neutral-text-2);
+  --TagControl-sugBtn-paddingX: var(--sizes-size-6);
+  --TagControl-sugBtn-paddingY: calc(
+    (
+        var(--TagControl-sugBtn-height) - var(--borders-width-2) * 2 -
+          var(--TagControl-sugBtn-lineHeight) *
+          var(--TagControl-sugBtn-fontSize)
+      ) / 2
+  );
+  --TagControl-sugTip-color: var(--colors-brand-5);
+
+  --Tooltip--attr-bg: rgba(0, 0, 0, 0.7);
+  --Tooltip--attr-borderColor: var(--borderColor);
+  --Tooltip--attr-borderRadius: var(--borderRadius);
+  --Tooltip--attr-borderWidth: 0;
+  --Tooltip--attr-boxShadow: var(--shadows-shadow-normal);
+  --Tooltip--attr-color: #fff;
+  --Tooltip--attr-fontSize: var(--fontSizeSm);
+  --Tooltip--attr-gap: var(--gap-sm);
+  --Tooltip--attr-lineHeigt: var(--lineHeightBase);
+  --Tooltip--attr-paddingX: #{px2rem(10px)};
+  --Tooltip--attr-paddingY: #{px2rem(2px)};
+  --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
+  --Tooltip-arrow-color: var(--Tooltip-bg);
+  --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
+  --Tooltip-arrow-height: #{px2rem(4px)};
+  --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
+  --Tooltip-arrow-width: #{px2rem(8px)};
+  --Tooltip-bg: var(--background);
+  --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
+  --Tooltip-body-color: var(--text-color);
+  --Tooltip-body-color--dark: #fff;
+  --Tooltip-body-paddingX: var(--gap-base);
+  --Tooltip-body-paddingY: var(--gap-sm);
+  --Tooltip-borderColor: var(--borderColor);
+  --Tooltip-borderRadius: var(--borderRadiusLg);
+  --Tooltip-borderWidth: var(--borderWidth);
+  --Tooltip-boxShadow: var(--boxTooltipShadow);
+  --Tooltip-boxShadow--dark: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --Tooltip-fontSize: var(--fontSizeSm);
+  --Tooltip-fontWeight: var(--fonts-weight-5);
+  --Tooltip-maxWidth: #{px2rem(240px)};
+  --Tooltip-minWidth: auto;
+  --Tooltip-title-fontWeight: bold;
+  --Tooltip-title-bg: #{darken($white, 3%)};
+  --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
+  --Tooltip-title-color: var(--text--loud-color);
+  --Tooltip-title-color--dark: #fff;
+  --Tooltip-title-paddingX: var(--gap-base);
+  --Tooltip-title-paddingY: var(--gap-sm);
+
+  --Transfer-title-bg: var(--colors-neutral-fill-10);
+  --Transfer-selection-maxHeight: #{px2rem(350px)};
+  --TransferSelect--table-heading-bg: var(--colors-neutral-fill-11);
+  --TransferSelect--normal-heading-bg: var(--colors-neutral-fill-10);
+  --TransferSelect-heading-borderBottom: var(--borders-width-1);
+
+  --TabsTransfer-title-bg: var(--colors-neutral-fill-10);
+  --TabsTransfer-border-color: var(--colors-neutral-fill-8);
+
+  --AnchorNav-links-container-borderRight: #{px2rem(2px)} solid #d3dae0;
+  --AnchorNav-onActive-borderWidth: 0 0 0 #{px2rem(2px)};
+
+  --ColumnToggler-backgroundColor: var(--colors-neutral-fill-11);
+  --ColumnToggler-borderRadius: #{px2rem(4px)};
+  --ColumnToggler-lineHeight: #{px2rem(24px)};
+  --ColumnToggler-title-fontColor: #080e1a;
+  --ColumnToggler-fontColor: #151a26;
+  --ColumnToggler-item-backgroundColor: #f6f7f8;
+  --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
+  --ColumnToggler-item-paddingX: #{px2rem(8px)};
+  --ColumnToggler-item-paddingY: #{px2rem(4px)};
+  --ColumnToggler-item-margin: #{px2rem(4px)};
+  --ColumnToggler-item-dragBar-color: #d8d8d8;
+
+  --InputFormula-header-bgColor: var(--colors-neutral-fill-10);
+  --InputFormula-icon-size: #{px2rem(18px)};
+  --InputFormula-icon-color-onActive: var(--colors-brand-5);
+  --InputFormula-code-bgColor: var(--colors-neutral-fill-10);
+  --InputFormula-input-schema-height: var(--sizes-base-12);
+
+  --UserSelect--post-bg: var(--colors-brand-6);
+  --UserSelect--department-bg: #ffab52;
+  --UserSelect--role-bg: #0bc286;
+  --UserSelect--border-color: #f7f7f9;
+  --UserSelect--content-bg: #f5f7f8;
+  --UserSelect--bread-color: #5e626a;
+
+  --Cascader-border-color: #f7f7f9;
+  --Cascader-border-active-bg-color: #f7f7f9;
+  --Cascader-option-disable-color: #b8babf;
+
+  // tag
+  --Tag-content-fontSize: var(--fontSizeSm);
+  --Tag-height: #{px2rem(24px)};
+  --Tag-borderRadius: #{px2rem(2px)};
+  --Tag-fontColor: #151a26;
+
+  --Tag-default-color: #f2f2f4;
+  --Tag-inactive-color: #b8babf;
+  --Tag-active-color: var(--colors-brand-5);
+  --Tag-processing-color: var(--colors-brand-6);
+  --Tag-success-color: var(--colors-success-5);
+  --Tag-error-color: var(--colors-error-5);
+  --Tag-warning-color: var(--colors-warning-5);
+
+  --Tag-checkable-bgColor: #f2f2f4;
+  --Tag-checkable-bgColor-onDisable: #e6e6e8;
+  --Tag-checkable-bgColor-onHover: #e6e6e8;
+  --Tag-checkable-bgColor-onActive: #e6e6e8;
+
+  --Tag-checkable-bgColor-onHover-onChecked: var(--colors-link-6);
+  --Tag-checkable-bgColor-onActive-onChecked: var(--colors-link-4);
+  --Tag-checkable-bgColor-onChecked: var(--colors-brand-5);
+
+  --Tag-checkable-fontColor-onDisable: #b4b6ba;
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: var(--colors-brand-5);
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
+  --menu-min-width: 150px; // 一级子项最小宽度
+  --menu-sub-min-width: 100px; // 二级子项最小宽度
+
+  --SearchBox-width: #{px2rem(150px)};
+  --SearchBox-history-dropdown-maxWidth: calc(var(--SearchBox-width) * 2);
+  --SearchBox-history-dropdown-maxHeight: #{px2rem(200px)};
+
+  --SearchBox-hover-color: var(--colors-brand-5);
+  --SearchBox-focus-color: var(--colors-brand-4);
+  --SearchBox-search-icon-color: var(--colors-neutral-text-5);
+  --SearchBox-enhonce-icon-color: var(--button-primary-default-font-color);
+  --SearchBox-clearable-icon-color: var(--colors-neutral-text-7);
+  --SearchBox-clearable-icon-size: var(--sizes-size-9);
+  --SearchBox-height: var(--sizes-base-15);
+  --SearchBox-disabled-color: var(--colors-neutral-text-10);
+  --SearchBox-enhonce-disabled-color: var(--colors-neutral-text-9);
+  --SearchBox-enhonce-disabled-search-color: var(--colors-neutral-text-6);
+  --SearchBox-enhonce-clearable-gap: var(--borders-radius-4);
+  --SearchBox-search-btn-color--disabled: var(--colors-neutral-fill-6);
+
+  --IconSelect-searchBox-width: #{px2rem(246px)};
+  --IconSelect-type-item-height: #{px2rem(48px)};
+  --IconSelect-dialog-height: #{50vh};
+  --IconSelect-base-margin: var(--gap-base);
+  --IconSelect-xs-margin: var(--gap-xs);
+  --IconSelect-sm-padding: #{px2rem(6px)};
+  --IconSelect-base-border-radius: var(--borderRadiusMd);
+  --IconSelect-border-color: var(--menu-border-color);
+  --IconSelect-preview-icon-size: #{px2rem(16px)};
+  --IconSelect-list-icon-size: #{px2rem(24px)};
+  --IconSelect-type-font-size: var(--fontSizeSm);
+  --IconSelect-active-badge-color: var(--colors-neutral-fill-11);
+  --IconSelect-active-bg-color: var(--colors-brand-5);
+  --IconSelect-icon-name-color: var(--colors-neutral-text-2);
+  --IconSelect-icon-id-color: var(--colors-neutral-text-5);
+  --IconSelect-icon-placeholder-color: var(--colors-neutral-text-6);
+  --IconSelect-type-width: #{px2rem(88px)};
+  --IconSelect-type-li-height: #{px2rem(32px)};
+  --IconSelect-type-li-padding: var(--gap-md);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fontSizeBase: var(--fontSizeLg);
+  }
+}

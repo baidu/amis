@@ -1,0 +1,17 @@
+.#{$ns}InputTable-UI {
+  .#{$ns}Table-contentWrap.is-fixed {
+    overflow: auto;
+  }
+
+  table {
+    text-align: left;
+    position: relative;
+    border-collapse: collapse;
+
+    & thead > tr > th {
+      position: sticky;
+      top: 0;
+      z-index: $zindex-sticky; /* 遮挡一下 tbody */
+    }
+  }
+}

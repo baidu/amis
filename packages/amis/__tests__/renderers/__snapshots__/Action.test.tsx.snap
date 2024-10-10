@@ -1,0 +1,525 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderers:Action [actionType = "link"] show active class 1`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;
+
+exports[`Renderers:Action [actionType = "link"] show active class 2`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a is-active"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;
+
+exports[`Renderers:Action MenuItem changes class when actived & disabled 1`] = `
+<a
+  className="a"
+  onClick={[Function]}
+>
+  <span>
+    123
+  </span>
+</a>
+`;
+
+exports[`Renderers:Action MenuItem changes class when actived & disabled 2`] = `
+<a
+  className="a is-active"
+  onClick={[Function]}
+>
+  <span>
+    233
+  </span>
+</a>
+`;
+
+exports[`Renderers:Action MenuItem changes class when actived & disabled 3`] = `
+<a
+  className="a is-active"
+  disabled={true}
+  onClick={[Function]}
+>
+  <span>
+    233
+  </span>
+</a>
+`;
+
+exports[`Renderers:Action MenuItem display icon 1`] = `
+<a
+  className="a"
+  onClick={[Function]}
+>
+  <span>
+    123
+  </span>
+</a>
+`;
+
+exports[`Renderers:Action MenuItem display icon 2`] = `
+<a
+  className="a"
+  onClick={[Function]}
+>
+  <i
+    className="fa fa-cloud cxd-Button-icon fa fa-cloud"
+  />
+  <span>
+    123
+  </span>
+</a>
+`;
+
+exports[`Renderers:Action all levels 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--link cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 link
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 primary
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--secondary cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 secondary
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--info cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 info
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--success cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 success
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--warning cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 warning
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--danger cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 danger
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--light cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 light
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--dark cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 dark
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              按钮 default
+            </span>
+          </button>
+          <div
+            class="cxd-Divider cxd-Divider--solid cxd-Divider--horizontal"
+          />
+          <div
+            class="cxd-Button cxd-Button--link cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮link
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮primary
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--secondary cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮secondary
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--info cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮info
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--success cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮success
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--warning cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮warning
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--danger cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮danger
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--light cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮light
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--dark cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮dark
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮default
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderers:Action as container 1`] = `
+<div>
+  <div
+    class="cxd-Action"
+  >
+    <div
+      class="cxd-ColorField"
+    >
+      <i
+        class="cxd-ColorField-previewIcon"
+        style="background-color: rgb(16, 140, 238);"
+      />
+      <span
+        class="cxd-ColorField-value"
+      >
+        #108cee
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderers:Action custom activeClass 1`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;
+
+exports[`Renderers:Action custom activeClass 2`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-default a custom-active"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 1`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-xs"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 2`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-sm"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 3`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-md"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 4`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-lg"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action download shortcut 1`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--size-default"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;
+
+exports[`Renderers:Action tooltip 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              top
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              bottom
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              left
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              right
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderers:Action with confirmText & actionType ajax 1`] = `
+<body
+  class="is-modalOpened"
+  style="width: calc(100% - 0px);"
+>
+  <div>
+    <div
+      class="cxd-Page"
+    >
+      <div
+        class="cxd-Page-content"
+      >
+        <div
+          class="cxd-Page-main"
+        >
+          <div
+            class="cxd-Page-body"
+            role="page-body"
+          >
+            <button
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
+              type="button"
+            >
+              <span>
+                ajax请求
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div />
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <div
+          class="cxd-Modal-title"
+        >
+          系统消息
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+      >
+        <span
+          class="cxd-Html"
+        >
+          确认要发出这个请求？
+        </span>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          取消
+        </button>
+        <button
+          class="cxd-Button cxd-Button--danger cxd-Button--size-default"
+          type="button"
+        >
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`Renderers:Action with disabledTip 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
+            disabled=""
+          >
+            <span>
+              弹框
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

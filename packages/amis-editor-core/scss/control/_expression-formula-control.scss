@@ -1,0 +1,51 @@
+.ae-ExpressionFormulaControl {
+  background-color: #fff;
+
+  .btn-configured,
+  .btn-set-expression {
+    width: 100%;
+    font-size: 12px;
+  }
+  .btn-configured {
+    position: relative;
+    justify-content: left;
+    padding: var(--button-size-sm-paddingTop) 32px
+      var(--button-size-sm-paddingBottom) 4px;
+    line-height: var(--button-size-sm-lineHeight);
+    height: var(--button-size-sm-height);
+
+    & > span {
+      max-width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      background-color: #007bff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: var(--button-size-default-paddingRight);
+      margin: auto 0 !important;
+      width: 12px;
+      height: 12px;
+      fill: var(--Form-input-clearBtn-color);
+      &:hover {
+        fill: var(--Form-input-clearBtn-color-onHover);
+      }
+    }
+  }
+}
+.btn-configured-tooltip {
+  font-size: 12px;
+  width: 200px;
+  min-height: 40px;
+
+  .CodeMirror {
+    height: auto;
+  }
+}

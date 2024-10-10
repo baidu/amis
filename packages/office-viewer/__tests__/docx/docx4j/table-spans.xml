@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Word.Document"?>
+<pkg:package xmlns:pkg="http://schemas.microsoft.com/office/2006/xmlPackage">
+    <pkg:part pkg:name="/_rels/.rels" pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="512">
+        <pkg:xmlData>
+            <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+            </Relationships>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:name="/word/_rels/document.xml.rels" pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="256">
+        <pkg:xmlData>
+            <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+            </Relationships>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:name="/word/document.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml">
+        <pkg:xmlData>
+            <w:document xmlns:ve="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml">
+                <w:body>
+                    <w:p>
+                        <w:r>
+                            <w:t>Simple table:</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:tbl>
+                        <w:tblPr>
+                            <w:tblStyle w:val="TableGrid"/>
+                            <w:tblW w:w="0" w:type="auto"/>
+                            <w:tblLook w:val="04A0"/>
+                        </w:tblPr>
+                        <w:tblGrid>
+                            <w:gridCol w:w="4788"/>
+                            <w:gridCol w:w="4788"/>
+                        </w:tblGrid>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="4788" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="4788" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="4788" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="4788" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                    </w:tbl>
+                    <w:p/>
+                    <w:p>
+                        <w:r>
+                            <w:t>Horizontal merge:</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:tbl>
+                        <w:tblPr>
+                            <w:tblStyle w:val="TableGrid"/>
+                            <w:tblW w:w="0" w:type="auto"/>
+                            <w:tblLook w:val="04A0"/>
+                        </w:tblPr>
+                        <w:tblGrid>
+                            <w:gridCol w:w="3192"/>
+                            <w:gridCol w:w="3192"/>
+                            <w:gridCol w:w="3192"/>
+                        </w:tblGrid>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="6384" w:type="dxa"/>
+                                    <w:gridSpan w:val="2"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1 c1 &amp; c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1 c3</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c3</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R3c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="6384" w:type="dxa"/>
+                                    <w:gridSpan w:val="2"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R3 c2 &amp; c3</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                    </w:tbl>
+                    <w:p/>
+                    <w:p>
+                        <w:r>
+                            <w:t>Vertical merge:</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:tbl>
+                        <w:tblPr>
+                            <w:tblStyle w:val="TableGrid"/>
+                            <w:tblW w:w="0" w:type="auto"/>
+                            <w:tblLook w:val="04A0"/>
+                        </w:tblPr>
+                        <w:tblGrid>
+                            <w:gridCol w:w="3192"/>
+                            <w:gridCol w:w="3192"/>
+                            <w:gridCol w:w="3192"/>
+                        </w:tblGrid>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                    <w:vMerge w:val="restart"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1 &amp; r2, c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R1c3</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                    <w:vMerge/>
+                                </w:tcPr>
+                                <w:p/>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                    <w:vMerge w:val="restart"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R2 &amp; r3, c3</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R3c1</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                </w:tcPr>
+                                <w:p>
+                                    <w:r>
+                                        <w:t>R3c2</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="3192" w:type="dxa"/>
+                                    <w:vMerge/>
+                                </w:tcPr>
+                                <w:p/>
+                            </w:tc>
+                        </w:tr>
+                    </w:tbl>
+                    <w:p/>
+                    <w:p/>
+                    <w:sectPr>
+                        <w:pgSz w:w="12240" w:h="15840"/>
+                        <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
+                        <w:cols w:space="708"/>
+                        <w:docGrid w:linePitch="360"/>
+                    </w:sectPr>
+                </w:body>
+            </w:document>
+        </pkg:xmlData>
+    </pkg:part>
+    <pkg:part pkg:name="/word/styles.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml">
+        <pkg:xmlData>
+            <w:styles xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+                <w:docDefaults>
+                    <w:rPrDefault>
+                        <w:rPr>
+                            <w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi"/>
+                            <w:sz w:val="22"/>
+                            <w:szCs w:val="22"/>
+                            <w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/>
+                        </w:rPr>
+                    </w:rPrDefault>
+                    <w:pPrDefault>
+                        <w:pPr>
+                            <w:spacing w:after="200" w:line="276" w:lineRule="auto"/>
+                        </w:pPr>
+                    </w:pPrDefault>
+                </w:docDefaults>
+                <w:latentStyles w:defLockedState="0" w:defUIPriority="99" w:defSemiHidden="1" w:defUnhideWhenUsed="1" w:defQFormat="0" w:count="267">
+                    <w:lsdException w:name="Normal" w:semiHidden="0" w:uiPriority="0" w:unhideWhenUsed="0" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 1" w:semiHidden="0" w:uiPriority="9" w:unhideWhenUsed="0" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 2" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 3" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 4" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 5" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 6" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 7" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 8" w:uiPriority="9" w:qFormat="1"/>
+                    <w:lsdException w:name="heading 9" w:uiPriority="9" w:qFormat="1"/>
+                </w:latentStyles>
+                <w:style w:type="paragraph" w:default="1" w:styleId="Normal">
+                    <w:name w:val="Normal"/>
+                    <w:qFormat/>
+                </w:style>
+                <w:style w:type="character" w:default="1" w:styleId="DefaultParagraphFont">
+                    <w:name w:val="Default Paragraph Font"/>
+                    <w:uiPriority w:val="1"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                </w:style>
+                <w:style w:type="table" w:default="1" w:styleId="TableNormal">
+                    <w:name w:val="Normal Table"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                    <w:qFormat/>
+                    <w:tblPr>
+                        <w:tblInd w:w="0" w:type="dxa"/>
+                        <w:tblCellMar>
+                            <w:top w:w="0" w:type="dxa"/>
+                            <w:left w:w="108" w:type="dxa"/>
+                            <w:bottom w:w="0" w:type="dxa"/>
+                            <w:right w:w="108" w:type="dxa"/>
+                        </w:tblCellMar>
+                    </w:tblPr>
+                </w:style>
+                <w:style w:type="numbering" w:default="1" w:styleId="NoList">
+                    <w:name w:val="No List"/>
+                    <w:uiPriority w:val="99"/>
+                    <w:semiHidden/>
+                    <w:unhideWhenUsed/>
+                </w:style>
+                <w:style w:type="table" w:styleId="TableGrid">
+                    <w:name w:val="Table Grid"/>
+                    <w:basedOn w:val="TableNormal"/>
+                    <w:uiPriority w:val="59"/>
+                    <w:pPr>
+                        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                    </w:pPr>
+                    <w:tblPr>
+                        <w:tblInd w:w="0" w:type="dxa"/>
+                        <w:tblBorders>
+                            <w:top w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                            <w:left w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                            <w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                            <w:right w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                            <w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                            <w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000" w:themeColor="text1"/>
+                        </w:tblBorders>
+                        <w:tblCellMar>
+                            <w:top w:w="0" w:type="dxa"/>
+                            <w:left w:w="108" w:type="dxa"/>
+                            <w:bottom w:w="0" w:type="dxa"/>
+                            <w:right w:w="108" w:type="dxa"/>
+                        </w:tblCellMar>
+                    </w:tblPr>
+                </w:style>
+            </w:styles>
+        </pkg:xmlData>
+    </pkg:part>
+</pkg:package>

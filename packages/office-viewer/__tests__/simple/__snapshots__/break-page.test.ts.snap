@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`break-page 1`] = `
+<article>
+  <section
+    style="position: relative; width: 407.99px; padding: 24.00px 24.00px 24.00px 24.00px; column-count: 2; column-gap: 28.33px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        Word 
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        分栏的好处主要有：
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
+    >
+      <span
+        style="font-family: Wingdings;"
+      >
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        提高文档的阅读性：将版面分成多栏，可以提高文档的可读性，使版面显得更加生动活泼。
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
+    >
+      <span
+        style="font-family: Wingdings;"
+      >
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        控制栏数、栏宽及栏间距：可以控制栏数、栏宽及栏间距，使版面更加美观。
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-ListParagraph"
+      style="position: relative; text-indent: -29.33px; margin-left: 29.33px;"
+    >
+      <span
+        style="font-family: Wingdings;"
+      >
+         
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        设置分栏长度：可以很方便地设置分栏长度，使版面更加灵活。
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        总之，
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        Word 
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        分栏可以提高文档的可读性和美观度，控制文档的页面布局和大小，方便用户查找和管理文档内容。
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="text-align: left; position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <br />
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <br />
+        <span>
+          第二页
+        </span>
+      </span>
+    </p>
+  </section>
+</article>
+`;

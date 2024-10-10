@@ -3,7 +3,17 @@
 var marked = require('marked');
 let prism = require('prismjs');
 let loadLanguages = require('prismjs/components/');
-loadLanguages(['bash', 'javascript', 'jsx', 'tsx', 'css', 'markup', 'json']);
+loadLanguages([
+  'bash',
+  'javascript',
+  'java',
+  'python',
+  'jsx',
+  'tsx',
+  'css',
+  'markup',
+  'json'
+]);
 var yaml = (yaml = require('js-yaml'));
 var rYml = /^\s*---([\s\S]*?)---\s/;
 var renderer = new marked.Renderer();
@@ -75,7 +85,7 @@ module.exports = function (content, file) {
   var m = rYml.exec(content);
   var info = {};
   if (m && m[1]) {
-    info = yaml.safeLoad(m[1]);
+    info = yaml.load(m[1]);
     content = content.substring(m[0].length);
   }
 
@@ -130,57 +140,80 @@ module.exports = function (content, file) {
   const placeholder = {};
   let index = 1;
 
-  content = content.replace(
-    /```(schema|html)(?::(.*?))?\n([\s\S]*?)```/g,
-    function (_, lang, attr, code) {
-      const setting = {};
-      attr &&
-        attr.split(/\s+/).forEach(function (item) {
-          var parts = item.split('=');
+  content = content
+    .replace(/\!\!\!include\s*\(([^\)]+?)\)\!\!\!/g, (_, val) => {
+      const result = fis.project.lookup(val, file);
 
-          if (parts[1] && /^('|").*\1/.test(parts[1])) {
-            parts[1] = parts[1].substring(1, parts[1].length - 1);
-          }
-
-          setting[parts[0]] = parts[1] ? decodeURIComponent(parts[1]) : '';
-
-          if (parts[0] === 'height') {
-            setting.height =
-              parseInt(setting.height, 10) + 200 /*编辑器的高度*/;
-            attr = attr.replace(item, `height="${setting.height}"`);
-          }
-        });
-
-      // placeholder[index] = `<iframe class="doc-iframe" width="100%" height="${setting.height || 200}px" frameBorder="0" src="/play?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(setting.scope)}"></iframe>`;
-      if (lang === 'html') {
-        if (~code.indexOf('<html')) {
-          return _;
-        }
-
-        placeholder[
-          index
-        ] = `<div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
-          code,
-          prism.languages[lang],
-          lang
-        )}</code></pre></div>`;
-      } else {
-        placeholder[
-          index
-        ] = `<div class="amis-preview" style="height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div>`;
+      if (result) {
+        // 暂时不支持嵌套 include
+        return result.file.getContent();
       }
 
-      return `[[${index++}]]`;
-    }
-  );
+      return _;
+    })
+    .replace(
+      /```(schema|html)(?::(.*?))?\n([\s\S]*?)```/g,
+      function (_, lang, attr, code) {
+        const setting = {};
+        attr &&
+          attr.split(/\s+/).forEach(function (item) {
+            var parts = item.split('=');
 
-  content = marked(content).replace(/<p>\[\[(\d+)\]\]<\/p>/g, function (_, id) {
-    return placeholder[id] || '';
-  });
+            if (parts[1] && /^('|").*\1/.test(parts[1])) {
+              parts[1] = parts[1].substring(1, parts[1].length - 1);
+            }
+
+            setting[parts[0]] = parts[1] ? decodeURIComponent(parts[1]) : '';
+
+            if (parts[0] === 'height') {
+              setting.height = parseInt(setting.height, 10) /*编辑器的高度*/;
+              attr = attr.replace(item, `height="${setting.height}"`);
+            }
+          });
+
+        // placeholder[index] = `<iframe class="doc-iframe" width="100%" height="${setting.height || 200}px" frameBorder="0" src="/play?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(setting.scope)}"></iframe>`;
+        if (lang === 'html') {
+          if (~code.indexOf('<html') || ~code.indexOf('<link')) {
+            return _;
+          }
+
+          placeholder[
+            index
+          ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
+            code
+              .replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."')
+              .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>')
+              .replace(/class="([^"]*?)\.\.\.([^"]*?)"/g, 'class="$1..."'),
+            prism.languages[lang],
+            lang
+          )}</code></pre></div><!--amis-preview-end-->`;
+        } else {
+          placeholder[
+            index
+          ] = `<!--amis-preview-start--><div class="amis-preview" style="min-height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div><!--amis-preview-end-->`;
+        }
+
+        return `[[${index++}]]`;
+      }
+    );
+
+  content = marked
+    .parse(content)
+    .replace(/<p>\[\[(\d+)\]\]<\/p>/g, function (_, id) {
+      return placeholder[id] || '';
+    });
 
   content = fis.compile.partial(content, file, 'html');
   // + `\n\n<div class="m-t-lg b-l b-info b-3x wrapper bg-light dk">文档内容有误？欢迎大家一起来编写，文档地址：<i class="fa fa-github"></i><a href="https://github.com/baidu/amis/tree/master${file.subpath}">${file.subpath}</a>。</div>`;
-  info.html = content;
+  info.html =
+    '<div class="markdown-body">' +
+    content.replace(
+      /<\!\-\-amis\-preview\-(start|end)\-\-\>/g,
+      function (_, type) {
+        return type === 'start' ? '</div>' : '<div class="markdown-body">';
+      }
+    ) +
+    '</div>';
   info.toc = toc;
 
   return 'module.exports = ' + JSON.stringify(info, null, 2) + ';';

@@ -1,21 +1,30 @@
 import React from 'react';
-import {render} from '../../src/index';
+import {render, toast, makeTranslator, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
-import {toast} from '../../src/components/Toast';
-import {alert, confirm} from '../../src/components/Alert';
-import Button from '../../src/components/Button';
-import LazyComponent from '../../src/components/LazyComponent';
-import {default as DrawerContainer} from '../../src/components/Drawer';
-import {Portal} from 'react-overlays';
-import {withRouter} from 'react-router';
+import Portal from 'react-overlays/Portal';
+import {normalizeLink} from 'amis-core';
+import {withRouter} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
+import {qsparse, parseQuery, attachmentAdpator} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
+
 function loadEditor() {
   return new Promise(resolve =>
-    require(['../../src/components/Editor'], component =>
-      resolve(component.default))
+    import('amis-ui').then(component => resolve(component.Editor))
   );
 }
-export default function (schema) {
+
+const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
+
+/**
+ *
+ * @param {*} schema schema配置
+ * @param {*} schemaProps props配置
+ * @param {*} showCode 是否展示代码
+ * @param {Object} envOverrides 覆写环境变量
+ * @returns
+ */
+export default function (schema, schemaProps, showCode, envOverrides) {
   if (!schema['$schema']) {
     schema = {
       ...schema
@@ -25,13 +34,15 @@ export default function (schema) {
   return withRouter(
     class extends React.Component {
       static displayName = 'SchemaRenderer';
-      state = {open: false};
+      iframeRef;
+      state = {open: false, schema: {}};
+      originalTitle = document.title;
       toggleCode = () =>
         this.setState({
           open: !this.state.open
         });
       copyCode = () => {
-        copy(JSON.stringify(schema));
+        copy(JSON.stringify(schema, null, 2));
         toast.success('页面配置JSON已复制到粘贴板');
       };
       close = () =>
@@ -40,79 +51,79 @@ export default function (schema) {
         });
       constructor(props) {
         super(props);
-        const {router} = props;
-        const normalizeLink = to => {
-          to = to || '';
-          const location = router.getCurrentLocation();
 
-          if (to && to[0] === '#') {
-            to = location.pathname + location.search + to;
-          } else if (to && to[0] === '?') {
-            to = location.pathname + to;
-          }
-
-          const idx = to.indexOf('?');
-          const idx2 = to.indexOf('#');
-          let pathname = ~idx
-            ? to.substring(0, idx)
-            : ~idx2
-            ? to.substring(0, idx2)
-            : to;
-          let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
-          let hash = ~idx2 ? to.substring(idx2) : location.hash;
-
-          if (!pathname) {
-            pathname = location.pathname;
-          } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
-            let relativeBase = location.pathname;
-            const paths = relativeBase.split('/');
-            paths.pop();
-            let m;
-            while ((m = /^\.\.?\//.exec(pathname))) {
-              if (m[0] === '../') {
-                paths.pop();
-              }
-              pathname = pathname.substring(m[0].length);
-            }
-            pathname = paths.concat(pathname).join('/');
-          }
-
-          return pathname + search + hash;
-        };
+        const __ = makeTranslator(props.locale);
+        const {history} = props;
         this.env = {
           updateLocation: (location, replace) => {
-            router[replace ? 'replace' : 'push'](normalizeLink(location));
-          },
-          isCurrentUrl: to => {
-            const link = normalizeLink(to);
-            return router.isActive(link);
+            history[replace ? 'replace' : 'push'](normalizeLink(location));
           },
           jumpTo: (to, action) => {
+            if (to === 'goBack') {
+              return history.location.goBack();
+            }
             to = normalizeLink(to);
-
             if (action && action.actionType === 'url') {
               action.blank === false
                 ? (window.location.href = to)
                 : window.open(to);
               return;
             }
-
+            if (action && to && action.target) {
+              window.open(to, action.target);
+              return;
+            }
             if (/^https?:\/\//.test(to)) {
               window.location.replace(to);
             } else {
-              router.push(to);
+              history.push(to);
             }
           },
-          fetcher: ({url, method, data, config, headers}) => {
+          isCurrentUrl: to => {
+            const history = this.props.history;
+            const link = normalizeLink(to);
+            const location = history.location;
+            let pathname = link;
+            let search = '';
+            const idx = link.indexOf('?');
+            if (~idx) {
+              pathname = link.substring(0, idx);
+              search = link.substring(idx);
+            }
+
+            if (search) {
+              if (pathname !== location.pathname || !location.search) {
+                return false;
+              }
+              const currentQuery = parseQuery(location);
+              const query = qsparse(search.substring(1));
+
+              return Object.keys(query).every(
+                key => query[key] === currentQuery[key]
+              );
+            } else if (pathname === location.pathname) {
+              return true;
+            }
+
+            return false;
+          },
+          fetcher: async api => {
+            let {url, method, data, responseType, config, headers} = api;
             config = config || {};
-            config.headers = headers || {};
+            config.url = url;
+            responseType && (config.responseType = responseType);
 
             if (config.cancelExecutor) {
               config.cancelToken = new axios.CancelToken(config.cancelExecutor);
             }
 
-            if (data && data instanceof FormData) {
-              // config.headers = config.headers || {};
+            config.headers = headers || {};
+            config.method = method;
+            config.data = data;
+
+            if (method === 'get' && data) {
+              config.params = data;
+            } else if (data && data instanceof FormData) {
               // config.headers['Content-Type'] = 'multipart/form-data';
             } else if (
               data &&
@@ -124,34 +135,131 @@ export default function (schema) {
               config.headers['Content-Type'] = 'application/json';
             }
 
-            if (method !== 'post' && method !== 'put' && method !== 'patch') {
-              if (data) {
-                if (method === 'delete') {
-                  config.data = data;
-                } else {
-                  config.params = data;
-                }
-              }
+            // 支持返回各种报错信息
+            config.validateStatus = function () {
+              return true;
+            };
 
-              return axios[method](url, config);
+            let response = await axios(config);
+            response = await attachmentAdpator(response, __, api);
+
+            if (response.status >= 400) {
+              if (response.data) {
+                // 主要用于 raw: 模式下，后端自己校验登录，
+                if (
+                  response.status === 401 &&
+                  response.data.location &&
+                  response.data.location.startsWith('http')
+                ) {
+                  location.href = response.data.location.replace(
+                    '{{redirect}}',
+                    encodeURIComponent(location.href)
+                  );
+                  return new Promise(() => {});
+                } else if (response.data.msg) {
+                  throw new Error(response.data.msg);
+                } else {
+                  throw new Error(JSON.stringify(response.data, null, 2));
+                }
+              } else {
+                throw new Error(`${response.status}`);
+              }
             }
 
-            return axios[method](url, data, config);
+            return response;
           },
           isCancel: value => axios.isCancel(value),
-          notify: (type, msg) =>
-            toast[type]
-              ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
-              : console.warn('[Notify]', type, msg),
-          alert,
-          confirm,
-          copy: content => {
-            copy(content);
+          copy: (content, options) => {
+            copy(content, options);
             toast.success('内容已复制到粘贴板');
-          }
+          },
+          blockRouting: fn => {
+            return history.block(fn);
+          },
+          tracker(eventTrack) {
+            console.debug('eventTrack', eventTrack);
+          },
+          loadTinymcePlugin: async tinymce => {
+            // 参考：https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+            /*
+              Note: We have included the plugin in the same JavaScript file as the TinyMCE
+              instance for display purposes only. Tiny recommends not maintaining the plugin
+              with the TinyMCE instance and using the `external_plugins` option.
+            */
+            tinymce.PluginManager.add('example', function (editor, url) {
+              var openDialog = function () {
+                return editor.windowManager.open({
+                  title: 'Example plugin',
+                  body: {
+                    type: 'panel',
+                    items: [
+                      {
+                        type: 'input',
+                        name: 'title',
+                        label: 'Title'
+                      }
+                    ]
+                  },
+                  buttons: [
+                    {
+                      type: 'cancel',
+                      text: 'Close'
+                    },
+                    {
+                      type: 'submit',
+                      text: 'Save',
+                      primary: true
+                    }
+                  ],
+                  onSubmit: function (api) {
+                    var data = api.getData();
+                    /* Insert content when the window form is submitted */
+                    editor.insertContent('Title: ' + data.title);
+                    api.close();
+                  }
+                });
+              };
+              /* Add a button that opens a window */
+              editor.ui.registry.addButton('example', {
+                text: 'My button',
+                onAction: function () {
+                  /* Open window */
+                  openDialog();
+                }
+              });
+              /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+              editor.ui.registry.addMenuItem('example', {
+                text: 'Example plugin',
+                onAction: function () {
+                  /* Open window */
+                  openDialog();
+                }
+              });
+              /* Return the metadata for the help plugin */
+              return {
+                getMetadata: function () {
+                  return {
+                    name: 'Example plugin',
+                    url: 'http://exampleplugindocsurl.com'
+                  };
+                }
+              };
+            });
+          },
+          // 是否开启测试 testid
+          // enableTestid: true,
+          // pdfjsWorkerSrc: new URL(
+          //   'pdfjs-dist/build/pdf.worker.min.mjs',
+          //   import.meta.url
+          // ).toString(),
+          ...envOverrides
         };
 
         this.handleEditorMount = this.handleEditorMount.bind(this);
+
+        this.iframeRef = React.createRef();
+        this.watchIframeReady = this.watchIframeReady.bind(this);
+        window.addEventListener('message', this.watchIframeReady, false);
       }
 
       handleEditorMount(editor, monaco) {
@@ -190,12 +298,70 @@ export default function (schema) {
         );
       }
 
+      watchIframeReady(event) {
+        // iframe 里面的 amis 初始化了就可以发数据
+        if (event.data && event.data === 'amisReady') {
+          this.updateIframe();
+        }
+      }
+
+      updateIframe() {
+        if (this.iframeRef && this.iframeRef.current) {
+          this.iframeRef.current.contentWindow.postMessage(
+            {
+              schema: schema,
+              props: {
+                ...(isPlainObject(schemaProps) ? schemaProps : {}),
+                location: this.props.location,
+                theme: this.props.theme,
+                locale: this.props.locale
+              }
+            },
+            '*'
+          );
+        }
+      }
+
+      componentWillUnmount() {
+        this.props.setAsideFolded && this.props.setAsideFolded(false);
+        window.removeEventListener('message', this.watchIframeReady, false);
+        document.title = this.originalTitle;
+      }
+
+      componentDidMount() {
+        if (schema.title) {
+          document.title = schema.title;
+        }
+      }
+
       renderSchema() {
-        const {router, location, theme, locale} = this.props;
+        const {location, theme, locale} = this.props;
+
+        if (viewMode === 'mobile') {
+          return (
+            <iframe
+              width="375"
+              height="100%"
+              frameBorder={0}
+              className="mobile-frame"
+              ref={this.iframeRef}
+              // @ts-ignore
+              src={__uri('../mobile.html')}
+            ></iframe>
+          );
+        }
 
         return render(
           schema,
           {
+            ...(isPlainObject(schemaProps) ? schemaProps : {}),
+            context: {
+              // 上下文信息，无论那层可以获取到这个
+              amisUser: {
+                id: 1,
+                name: 'AMIS User'
+              }
+            },
             location,
             theme,
             locale
@@ -206,12 +372,12 @@ export default function (schema) {
 
       render() {
         const ns = this.props.classPrefix;
-        const showCode = this.props.showCode;
+        const finalShowCode = this.props.showCode ?? showCode;
         return (
           <>
             <div className="schema-wrapper">
-              {showCode !== false ? (
-                <DrawerContainer
+              {finalShowCode !== false ? (
+                <Drawer
                   classPrefix={ns}
                   size="lg"
                   onHide={this.close}
@@ -221,11 +387,11 @@ export default function (schema) {
                   position="right"
                 >
                   {this.state.open ? this.renderCode() : null}
-                </DrawerContainer>
+                </Drawer>
               ) : null}
               {this.renderSchema()}
             </div>
-            {showCode !== false ? (
+            {finalShowCode !== false ? (
               // <div className="schema-toolbar-wrapper">
               //   <div onClick={this.toggleCode}>
               //     查看页面配置 <i className="fa fa-code p-l-xs"></i>
@@ -234,22 +400,26 @@ export default function (schema) {
               //     复制页面配置 <i className="fa fa-copy p-l-xs"></i>
               //   </div>
               // </div>
-              <div className="Doc-toc hidden-xs hidden-sm">
-                <div>
-                  <div className="Doc-headingList">
-                    <div className="Doc-headingList-item">
-                      <a onClick={this.toggleCode}>
-                        查看页面配置 <i className="fa fa-code p-l-xs"></i>
-                      </a>
-                    </div>
-                    <div className="Doc-headingList-item">
-                      <a onClick={this.copyCode}>
-                        复制页面配置 <i className="fa fa-copy p-l-xs"></i>
-                      </a>
+              <Portal
+                container={() => document.getElementById('Header-toolbar')}
+              >
+                <div className="hidden-xs hidden-sm ml-3">
+                  <div>
+                    <div className="Doc-headingList">
+                      <div className="Doc-headingList-item">
+                        <a onClick={this.toggleCode}>
+                          查看配置 <i className="fa fa-code p-l-xs"></i>
+                        </a>
+                      </div>
+                      <div className="Doc-headingList-item">
+                        <a onClick={this.copyCode}>
+                          复制配置 <i className="fa fa-copy p-l-xs"></i>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Portal>
             ) : null}
           </>
         );

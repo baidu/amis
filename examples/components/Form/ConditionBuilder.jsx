@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '条件生成器',
   body: [
     {
@@ -21,7 +20,7 @@ export default {
           }
         }
       ],
-      controls: [
+      body: [
         {
           type: 'condition-builder',
           label: '条件组件',
@@ -29,6 +28,46 @@ export default {
           description:
             '适合让用户自己拼查询条件，然后后端根据数据生成 query where',
           fields: [
+            {
+              name: 'switch',
+              type: 'custom',
+              label: '开关',
+              value: {
+                name: 'checkbox',
+                type: 'checkbox',
+                label: '勾选框',
+                option: '选项说明'
+              },
+              operators: [
+                'equal',
+                {
+                  label: '属于',
+                  value: 'belong'
+                },
+                {
+                  label: '不属于',
+                  value: 'not_belong',
+                  values: [
+                    {
+                      type: 'input-date',
+                      name: 'date1',
+                      label: '日期',
+                      inputFormat: 'YYYY年MM月DD日'
+                    },
+                    {
+                      type: 'tpl',
+                      tpl: '~'
+                    },
+                    {
+                      type: 'input-date',
+                      name: 'date2',
+                      label: '日期',
+                      inputFormat: 'YYYY年MM月DD日'
+                    }
+                  ]
+                }
+              ]
+            },
             {
               label: '文本',
               type: 'text',

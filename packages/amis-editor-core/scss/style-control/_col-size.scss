@@ -1,0 +1,28 @@
+.ColSize {
+  display: flex;
+  background-color: #f7f7f9;
+  padding: 2px;
+  border-radius: 4px;
+  &-item {
+    text-align: center;
+    line-height: 28px;
+    flex: 1;
+    min-width: 0;
+    width: 32px;
+    height: 28px;
+    cursor: pointer;
+    &:not(.is-disabled):hover {
+      background: #fff;
+      color: #2468f2;
+    }
+  }
+  .is-active {
+    background: #fff;
+    color: #2468f2;
+    border-radius: 4px;
+  }
+  .is-disabled {
+    cursor: not-allowed;
+    color: #ccc;
+  }
+}

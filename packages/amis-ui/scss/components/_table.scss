@@ -1,0 +1,1166 @@
+.#{$ns}Table {
+  position: relative;
+
+  // 黑科技，让 scrollIntoView 能够跑正确的位置
+  // margin-top: calc(var(--affix-offset-top) * -1);
+  // padding-top: var(--affix-offset-top);
+  scroll-margin-top: var(--affix-offset-top);
+
+  border-radius: var(--Table-borderRadius);
+  margin-bottom: var(--gap-md);
+
+  .#{$ns}Form-control > & {
+    margin-bottom: var(--gap-sm);
+  }
+
+  &-fixedTop {
+    position: sticky;
+    top: var(--affix-offset-top);
+    background: var(--Table-bg);
+    display: block;
+    opacity: 1;
+    z-index: $zindex-sticky;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      box-shadow: var(--Table-fixedTop-boxShadow);
+      z-index: 30;
+      height: 30px;
+      top: 100%;
+      pointer-events: none;
+      background-color: transparent;
+      margin-top: -2px;
+    }
+
+    // box-sizing: content-box;
+    // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
+    // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
+    //   calc(var(--gap-base) * -1);
+    // > * {
+    //   box-sizing: border-box;
+    // }
+
+    // &.in {
+    //   // position: fixed;
+    // }
+
+    &.is-fakeHide {
+      > .#{$ns}Table-wrapper {
+        visibility: hidden;
+        position: absolute;
+      }
+    }
+
+    .#{$ns}Table-table {
+      table-layout: fixed;
+    }
+  }
+
+  &-heading {
+    background: var(--Table-heading-bg);
+    padding: calc(
+        (
+            var(--Table-heading-height) - var(--Table-fontSize) *
+              var(--lineHeightBase)
+          ) / 2
+      )
+      var(--gap-sm);
+  }
+
+  &--unsaved &-heading {
+    background: var(--Table--unsaved-heading-bg);
+    color: var(--Table--unsaved-heading-color);
+  }
+
+  &-wrapper {
+    overflow: hidden;
+  }
+
+  &-placeholder {
+    color: var(--text--muted-color);
+    text-align: center;
+    height: var(--Table-placeholder-height);
+    background: transparent !important;
+
+    &:hover {
+      color: var(--text--muted-color);
+      background: transparent !important;
+    }
+
+    > td {
+      vertical-align: middle !important;
+      text-align: center;
+    }
+
+    &-empty-icon.icon {
+      display: block;
+      margin: 0 auto;
+      width: var(--Table-empty-icon-size);
+      height: var(--Table-empty-icon-size);
+    }
+  }
+
+  &-searchableForm {
+    background: var(--Table-searchableForm-backgroundColor);
+    border-radius: var(--Table-searchableForm-borderRadius);
+    margin-bottom: 0;
+
+    &-footer {
+      padding: var(--Panel-footerPadding);
+      clear: both;
+    }
+
+    &-checkbox {
+      &-inner {
+        /* 消除checkbox自身的padding top */
+        padding-top: 0 !important;
+      }
+    }
+  }
+
+  &-header {
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
+
+    > * + .#{$ns}Button,
+    > * + .#{$ns}ButtonGroup,
+    > * + .#{$ns}ButtonToolbar {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-toolbar {
+    @include clearfix();
+    display: flex;
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
+    flex-wrap: wrap;
+
+    .#{$ns}DropDown {
+      &-menuItem {
+        height: auto;
+
+        .#{$ns}Checkbox {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  &-footerToolbar--affix,
+  &-footer--affix {
+    position: sticky;
+    bottom: var(--affix-offset-bottom);
+    background: var(--Table-bg);
+    z-index: $zindex-sticky;
+  }
+
+  &.is-mobile {
+    .#{$ns}Table-toolbar {
+      .#{$ns}Form-item {
+        padding: 0;
+      }
+    }
+  }
+
+  &-header + &-toolbar {
+    padding-top: 0;
+  }
+
+  &-contentWrap {
+    position: relative;
+  }
+
+  &-actions {
+    display: inline-block;
+
+    > * {
+      margin-right: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-content {
+    min-height: 0.01%;
+    overflow-x: auto;
+    transform: translateZ(0);
+  }
+
+  &-content-colDragLine {
+    position: absolute;
+    width: 7px;
+    top: 0;
+    bottom: 0;
+    right: -4px;
+    cursor: col-resize;
+    user-select: none;
+    opacity: 0.5;
+    z-index: 15;
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+
+    &:hover,
+    &.is-resizing {
+      background: var(--primary);
+    }
+  }
+
+  &-table {
+    width: 100%;
+    min-width: 100%;
+    margin-bottom: 0;
+    font-size: var(--Table-fontSize);
+    color: var(--Table-color);
+    background: var(--Table-bg);
+    border-spacing: 0;
+    border-collapse: separate;
+
+    &.is-layout-fixed {
+      table-layout: fixed !important;
+    }
+
+    & th,
+    & td {
+      text-align: left;
+      border-color: transparent;
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+      &.is-sticky {
+        position: sticky !important;
+        z-index: 20;
+        background: inherit;
+      }
+
+      &.is-sticky-last-left:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: -1px;
+        width: 30px;
+        transform: translateX(100%);
+        transition: box-shadow 0.3s;
+        content: '';
+        pointer-events: none;
+      }
+
+      &.is-sticky-first-right:after {
+        position: absolute;
+        top: 0;
+        bottom: -1px;
+        left: 0;
+        width: 30px;
+        transform: translateX(-100%);
+        transition: box-shadow 0.3s;
+        content: '';
+        pointer-events: none;
+      }
+      & .label {
+        font-size: 90%;
+      }
+
+      & > .#{$ns}Form,
+      & > .#{$ns}Form-item > .#{$ns}Form-control:not(.is-thin) {
+        // todo 优化这个，有些表单项宽度其实是很小的比如 switch，button，checkbox，radio
+        min-width: var(--Form-control-widthBase);
+      }
+
+      .#{$ns}Form-static {
+        min-height: auto;
+      }
+    }
+
+    &.is-layout-fixed td {
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    &.table-fixed-left .is-sticky-last-left:after {
+      box-shadow: var(--Table-fixedLeft-boxShadow);
+    }
+
+    &.table-fixed-right .is-sticky-first-right:after {
+      box-shadow: var(--Table-fixedRight-boxShadow);
+    }
+
+    & th {
+      position: relative;
+    }
+
+    & th.text-center,
+    & td.text-center,
+    & th[colspan],
+    & td[colspan] {
+      text-align: center;
+    }
+
+    & th.text-right,
+    & td.text-right {
+      text-align: right;
+    }
+
+    & td .#{$ns}SwitchControl {
+      padding-top: 0;
+    }
+
+    &--affixHeader {
+      margin-top: calc(var(--Table-thead-height) * -1);
+
+      > thead {
+        visibility: hidden;
+      }
+    }
+
+    &--withCombine {
+      > thead > tr > th,
+      > tbody > tr > td {
+        &:first-child {
+          padding-left: var(--TableCell-paddingX) !important;
+        }
+
+        &:last-child {
+          padding-right: var(--TableCell-paddingX) !important;
+        }
+      }
+
+      // reset
+      > tbody > tr {
+        @if $Table-strip-bg != transparent {
+          &.#{$ns}Table-tr--odd {
+            background: transparent;
+          }
+        }
+
+        &:hover {
+          background: transparent;
+        }
+
+        > td {
+          vertical-align: middle;
+        }
+
+        > td:not(:last-child) {
+          border-right: var(--Table-borderWidth) solid var(--Table-borderColor);
+        }
+      }
+    }
+
+    &--checkOnItemClick {
+      > tbody > tr {
+        cursor: pointer;
+      }
+    }
+
+    > thead > tr {
+      background: var(--Table-thead-bg);
+      > th {
+        background: inherit;
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        text-align: left;
+
+        &:first-child {
+          padding-left: px2rem(12px);
+
+          &.#{$ns}Table-checkCell {
+            padding-left: var(--TableCell--edge-paddingX);
+          }
+        }
+
+        &:last-child {
+          padding-right: px2rem(12px);
+
+          .#{$ns}Table-content-colDragLine {
+            // 避免出现横向滚动条
+            width: 4px;
+            right: 0;
+          }
+        }
+
+        &:not(:last-child) {
+          border-right: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
+        }
+
+        border-bottom: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
+
+        font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+        white-space: nowrap;
+
+        // .#{$ns}TableCell--title {
+        //   display: flex;
+        //   align-items: center;
+        // }
+        .#{$ns}Remark {
+          margin-left: var(--gap-xs);
+        }
+
+        .#{$ns}TableCell--title {
+          min-width: fit-content;
+          display: inline-block;
+        }
+      }
+    }
+
+    > thead > tr > th:first-child {
+      border-top-left-radius: 4px;
+    }
+
+    > thead > tr > th:last-child {
+      border-top-right-radius: 4px;
+    }
+
+    > thead > tr + tr {
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
+
+    > thead > tr {
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
+    @at-root .#{$ns}Table-table-tr {
+      background: var(--Table-bg);
+    }
+
+    > tbody > tr {
+      position: relative;
+
+      & + tr {
+        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+        > th {
+          border-top: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
+        }
+      }
+
+      > th {
+        background: var(--Table-thead-bg);
+        // font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+        white-space: nowrap;
+
+        border-right: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
+      }
+
+      > td,
+      > th {
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        position: relative;
+
+        &:first-child {
+          padding-left: var(--TableCell--edge-paddingX);
+        }
+
+        &:last-child {
+          padding-right: var(--TableCell--edge-paddingX);
+        }
+      }
+
+      @if $Table-strip-bg != transparent {
+        background: transparent;
+
+        &.#{$ns}Table-tr--odd {
+          background: var(--Table-strip-bg);
+        }
+      }
+
+      &.#{$ns}Table-tr--hasItemAction:hover {
+        cursor: pointer;
+      }
+
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-onHover-bg);
+        border-color: var(--Table-onHover-borderColor);
+        color: var(--Table-onHover-color);
+
+        & + tr {
+          border-color: var(--Table-onHover-borderColor);
+        }
+      }
+
+      &:active {
+        background: var(--Table-onHover-bg);
+      }
+
+      &:hover.#{$ns}Table-placeholder {
+        color: var(--text--muted-color);
+      }
+
+      &.is-checked {
+        background: var(--Table-onChecked-bg);
+        border-color: var(--Table-onChecked-borderColor);
+        color: var(--Table-onChecked-color);
+
+        & + tr {
+          border-color: var(--Table-onChecked-borderColor);
+        }
+      }
+
+      &.is-moved,
+      &.is-modified {
+        background: var(--Table-onModified-bg);
+        border-color: var(--Table-onModified-borderColor);
+        color: var(--Table-onModified-color);
+
+        & + tr {
+          border-color: var(--Table-onModified-borderColor);
+        }
+      }
+
+      &.is-summary {
+        // font-weight: var(--fontWeightNormal);
+      }
+
+      &.bg-light {
+        @include color-variant($light, 2%, 3%, 3%, 5%);
+        color: $text-color;
+      }
+
+      &.bg-dark {
+        @include color-variant($dark, 5%, 10%, 5%, 10%);
+        @include font-variant($dark);
+      }
+
+      &.bg-black {
+        @include color-variant($black, 5%, 10%, 5%, 10%);
+        @include font-variant($black);
+      }
+
+      &.bg-primary {
+        @include color-variant($primary, 5%, 10%, 5%, 10%);
+        @include font-variant($primary);
+      }
+
+      &.bg-success {
+        @include color-variant($success, 5%, 10%, 5%, 10%);
+        @include font-variant($success);
+      }
+
+      &.bg-info {
+        @include color-variant($info, 5%, 10%, 5%, 10%);
+        @include font-variant($info);
+      }
+
+      &.bg-warning {
+        @include color-variant($warning, 5%, 10%, 5%, 10%);
+        @include font-variant($warning);
+      }
+
+      &.bg-danger {
+        @include color-variant($danger, 5%, 10%, 5%, 10%);
+        @include font-variant($danger);
+      }
+
+      &.is-dragging {
+        opacity: var(--Table-onDragging-opacity);
+        background-color: var(--Table-onDragging-bg);
+      }
+    }
+
+    > tbody.is-dragging > tr:not(.is-dragging) {
+      background: var(--Table-bg);
+      color: var(--Table-color);
+    }
+
+    > tbody.is-dragging > tr:not(.is-drop-allowed):not(.is-dragging) {
+      color: var(--table-body-disabled-color);
+      background-color: var(--table-body-disabled-bg-color);
+    }
+
+    .#{$ns}Table-divider2 {
+      content: '';
+      position: absolute;
+      height: px2rem(1px);
+      top: 50%;
+      width: px2rem(10px);
+      background: var(--Table-tree-borderColor);
+    }
+
+    .#{$ns}Table-divider3 {
+      position: absolute;
+      width: px2rem(1px);
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      background: var(--Table-tree-borderColor);
+    }
+
+    > thead > tr > th.#{$ns}Table-checkCell,
+    > tbody > tr > td.#{$ns}Table-checkCell {
+      width: px2rem(1px);
+      padding-right: var(--TableCell-paddingX);
+      white-space: nowrap;
+
+      .#{$ns}Checkbox {
+        margin: 0;
+      }
+    }
+
+    > tbody > tr > td.#{$ns}Table-checkCell {
+      border-right: 0;
+    }
+
+    > thead > tr > th.#{$ns}Table-expandCell,
+    > tbody > tr > td.#{$ns}Table-expandCell {
+      border-right: 0;
+      width: px2rem(1px);
+      padding-right: 0;
+    }
+
+    > thead > tr > th.#{$ns}Table-dragCell,
+    > tbody > tr > td.#{$ns}Table-dragCell {
+      border-right: 0;
+      width: px2rem(1px);
+      padding-right: 0;
+      cursor: move;
+
+      > svg {
+        vertical-align: middle;
+        top: 0;
+      }
+    }
+
+    > tbody > tr > td.#{$ns}Table-expandCell {
+      position: relative;
+    }
+
+    > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
+      // position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: px2rem(1px);
+        top: 50%;
+        bottom: 0;
+        left: px2rem(23px);
+        height: auto;
+        background: var(--Table-tree-borderColor);
+      }
+    }
+
+    > thead > tr > th.#{$ns}TableCell--sortable,
+    > thead > tr > th.#{$ns}TableCell--searchable,
+    > thead > tr > th.#{$ns}TableCell--filterable {
+      > .#{$ns}TableCell--title {
+        display: inline-block;
+      }
+    }
+
+    > thead > tr > th.#{$ns}Table-primayCell,
+    > tbody > tr > td.#{$ns}Table-primayCell {
+      white-space: nowrap; // 树形表格展示标题栏，不要换行
+
+      > .#{$ns}Spinner {
+        vertical-align: middle;
+      }
+
+      > [data-role='form-item'] {
+        display: inline-block;
+        min-width: px2rem(160px);
+      }
+    }
+  }
+
+  &.is-mobile {
+    .#{$ns}Table-table > tbody > tr {
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-bg);
+        border-color: var(--Table-borderColor);
+        color: var(--Table-color);
+
+        & + tr {
+          border-color: var(--Table-borderColor);
+        }
+      }
+    }
+  }
+
+  &Cell-sortBtn,
+  &Cell-searchBtn,
+  &Cell-filterBtn {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: var(--gap-sm);
+
+    &:hover {
+      color: var(--TableCell-searchBtn--onActive-color);
+    }
+  }
+
+  &Cell-sortBtn {
+    cursor: pointer;
+    width: var(--TableCell-sortBtn-width);
+    height: var(--gap-md);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--icon-color);
+
+    &--up > svg,
+    &--down > svg,
+    &--default > svg {
+      color: inherit;
+      width: 12px;
+      height: 12px;
+    }
+
+    &--up,
+    &--down,
+    &--default {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      font-style: normal;
+
+      &.is-active {
+        display: inline-block;
+      }
+    }
+
+    &--default {
+      &.is-active {
+        color: var(--text--muted-color);
+
+        &:hover {
+          color: var(--TableCell-searchBtn--onActive-color);
+        }
+      }
+    }
+
+    &--up,
+    &--down {
+      &.is-active {
+        color: var(--TableCell-sortBtn--onActive-color);
+      }
+    }
+  }
+
+  &Cell-searchBtn {
+    cursor: pointer;
+    color: var(--text--muted-color);
+
+    svg.icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    &.is-active {
+      color: var(--TableCell-searchBtn--onActive-color);
+    }
+
+    &.is-opened {
+      color: var(--Button--default-onActive-border);
+    }
+  }
+
+  &Cell-searchPopOver {
+    border: none;
+    min-width: px2rem(320px);
+    max-width: px2rem(640px);
+
+    > .#{$ns}Panel {
+      margin: 0;
+    }
+  }
+
+  &Cell-filterBtn {
+    cursor: pointer;
+    width: var(--TableCell-filterBtn-width);
+    color: var(--text--muted-color);
+
+    svg.icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    &.is-active {
+      color: var(--TableCell-filterBtn--onActive-color);
+    }
+
+    .#{$ns}Remark {
+      display: inline;
+    }
+  }
+
+  &Cell-filterPopOver {
+    border: none;
+    width: px2rem(160px);
+
+    .#{$ns}DropDown-menu {
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+
+      .#{$ns}DropDown-divider {
+        height: var(--TableCell-filterPopOver-dropDownItem-height);
+        line-height: var(--TableCell-filterPopOver-dropDownItem-height);
+        padding: var(--TableCell-filterPopOver-dropDownItem-padding);
+        background: var(--white);
+        margin: 0;
+
+        &:hover {
+          background: var(--light);
+          color: var(--primary);
+        }
+
+        &.is-selected {
+          background: var(--light);
+          color: var(--primary);
+        }
+
+        .#{$ns}Checkbox {
+          width: 100%;
+          margin: 0;
+        }
+      }
+    }
+
+    .#{$ns}SearchBox {
+      margin-left: var(--gap-xs);
+      margin-top: var(--gap-xs);
+    }
+  }
+
+  &-itemActions-wrap {
+    position: absolute;
+    width: 100%;
+    z-index: calc(var(--Table-fixed-zIndex) + 1);
+    left: 0;
+    top: 0;
+    min-height: 30px;
+    pointer-events: none;
+    box-shadow: var(--Table-onHover-boxShadow);
+  }
+
+  &-itemActions {
+    pointer-events: all;
+    position: absolute;
+    // background: var(--Table-onHover-bg);
+    background: linear-gradient(
+      90deg,
+      rgba(var(--Table-onHover-bg-rgb), 0) 0%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 20%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 100%
+    );
+    top: var(--Table-borderWidth);
+    bottom: 0;
+    right: 0;
+    padding-left: px2rem(80px);
+    padding-right: var(--TableCell-paddingX);
+    display: flex;
+    align-items: center;
+
+    a {
+      cursor: pointer;
+      padding: var(--gap-xs) var(--gap-sm);
+      color: var(--link-color);
+      text-decoration: var(--link-decoration);
+
+      &:hover {
+        color: var(--link-onHover-color);
+        text-decoration: var(--link-onHover-decoration);
+      }
+
+      &.is-disabled {
+        pointer-events: none;
+        opacity: var(--Button-onDisabled-opacity);
+        color: var(--text--muted-color);
+      }
+    }
+  }
+
+  &-dragTip {
+    color: var(--text--loud-color);
+    clear: both;
+    margin-top: var(--gap-xs);
+    width: 100%;
+    color: var(--info);
+  }
+
+  &-foot {
+    background: var(--Table-thead-bg);
+  }
+
+  &-footTable {
+    position: relative;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    background: transparent;
+
+    > tbody > tr > th {
+      width: px2rem(120px);
+      text-align: right;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+    }
+
+    > tbody > tr > td {
+      word-break: break-all;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+    }
+
+    > tbody > tr:not(:first-child) {
+      border-top: var(--Table-borderWidth) solid
+        var(--Table-tbody-borderTopColor);
+    }
+  }
+
+  &-retryBtn {
+    color: var(--Form-feedBack-color);
+    cursor: pointer;
+    &:hover {
+      color: var(--Form-feedBack-color);
+    }
+  }
+
+  &-expandBtn,
+  &-expandBtn2 {
+    position: relative;
+    z-index: 1;
+    color: var(--Table-expandBtn-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: px2rem(14px);
+    line-height: 1;
+    height: 16px;
+
+    > svg {
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      transition: transform ease-in-out var(--animation-duration),
+        top ease-in-out var(--animation-duration);
+      position: relative;
+      transform-origin: 50% 50%;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+      transform: rotate(90deg);
+    }
+
+    &.is-active > svg {
+      transform: rotate(-90deg);
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-expandBtn2 {
+    margin-right: var(--gap-sm);
+  }
+
+  &-expandBtn2 + * {
+    display: inline-block;
+  }
+
+  &-indent {
+    display: inline-block;
+  }
+
+  &-expandSpace {
+    display: inline-block;
+    width: px2rem(22px);
+  }
+
+  &-dragBtn {
+    margin-right: var(--gap-xs);
+    display: inline-block;
+    visibility: hidden;
+    cursor: move;
+    color: var(--icon-color);
+
+    &:hover {
+      text-decoration: none;
+      color: var(--icon-onHover-color);
+    }
+
+    > svg {
+      vertical-align: -2px;
+    }
+  }
+
+  &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
+  &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
+  &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
+    visibility: visible;
+  }
+
+  .fake-hide {
+    visibility: hidden;
+    position: absolute;
+  }
+
+  &-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 25; // 因为 sticky 的时候是 20
+  }
+
+  &--autoFillHeight {
+    margin-bottom: 0;
+
+    > .#{$ns}Table-contentWrap {
+      > .#{$ns}Table-content table {
+        border-top: none; // 不然会导致拖动时顶部露出内容
+      }
+
+      > .#{$ns}Table-content table thead {
+        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
+        top: 0;
+        z-index: 21; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
+      }
+    }
+
+    > .#{$ns}Table-footToolbar {
+      margin-bottom: 0;
+    }
+  }
+
+  &-SFToggler {
+    color: var(--text-color);
+    font-size: var(--Button--sm-fontSize);
+    margin-left: var(--gap-sm);
+    display: inline-flex;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--link-color);
+      font-size: var(--Button--sm-fontSize);
+    }
+
+    &-arrow {
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transform: rotate(90deg);
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+      }
+    }
+
+    &.is-expanded {
+      color: var(--Tabs-onActive-color);
+
+      .#{$ns}Table-SFToggler-arrow > svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // table 骨架样式
+  &-emptyBlock {
+    background-color: #eaebed;
+    border-radius: 5px;
+    line-height: 15px;
+  }
+}
+
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
+    }
+  }
+}
+
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
+    }
+  }
+}
+
+.#{$ns}InputTable-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.#{$ns}InputTable-pager {
+  margin-left: auto;
+}
+
+.#{$ns}OperationField {
+  margin: px2rem(-3px);
+
+  > .#{$ns}Button,
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
+    margin: px2rem(3px);
+    height: auto;
+  }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button--link {
+    padding: 0;
+  }
+
+  > .#{$ns}Button--link {
+    padding: 0;
+    margin-right: px2rem(10px);
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Table-table > thead > tr > th {
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-thead-borderColor));
+    }
+  }
+  .#{$ns}Table-table th,
+  .#{$ns}Table-table td {
+    position: relative;
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-borderColor));
+    }
+  }
+}
+
+.#{$ns}AutoFilterToolbar {
+  display: block;
+  text-align: right;
+  white-space: nowrap;
+
+  > .#{$ns}Button {
+    margin-top: 0;
+  }
+}

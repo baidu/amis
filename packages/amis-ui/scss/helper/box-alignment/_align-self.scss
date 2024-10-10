@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: Align Self
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| self-auto | align-self: auto |
+| self-start | align-self: flex-start |
+| self-end | align-self: flex-end |
+| self-center | align-self: center |
+| self-stretch | align-self: stretch |
+
+*/
+
+@mixin make-align-self($prefix: '.') {
+  #{$prefix}self-auto {
+    align-self: auto;
+  }
+  #{$prefix}self-start {
+    align-self: flex-start;
+  }
+  #{$prefix}self-end {
+    align-self: flex-end;
+  }
+  #{$prefix}self-center {
+    align-self: center;
+  }
+  #{$prefix}self-stretch {
+    align-self: stretch;
+  }
+}
+
+@include make-align-self();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-align-self('.' + selector-escape($deivce + ':'));
+  }
+}

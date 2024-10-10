@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '表格编辑',
   body: {
     type: 'form',
@@ -12,7 +11,36 @@ export default {
         primary: true
       }
     ],
-    controls: [
+    body: [
+      {
+        type: 'input-table',
+        name: 'tableAffixHeader',
+        label: '头部固定',
+        affixHeader: true,
+        columns: [
+          {
+            name: 'aa',
+            label: 'AA',
+            type: 'input-text'
+          },
+          {
+            name: 'cc',
+            label: 'CC',
+            type: 'select',
+            options: [
+              {
+                label: 'AA',
+                value: 'aa'
+              },
+              {
+                label: 'CC',
+                value: 'cc'
+              }
+            ]
+          }
+        ]
+      },
+
       {
         type: 'combo',
         name: 'colors',
@@ -26,13 +54,14 @@ export default {
             name: '颜色'
           }
         ],
-        controls: [
+        items: [
           {
-            type: 'color',
-            name: 'color'
+            type: 'input-color',
+            name: 'color',
+            clearable: false
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'name',
             placeholder: '说明文字'
           }
@@ -44,7 +73,7 @@ export default {
         tpl: '<pre>${colors|json}</pre>'
       },
       {
-        type: 'table',
+        type: 'input-table',
         name: 'colors',
         label: 'Table',
         draggable: true,
@@ -55,9 +84,8 @@ export default {
           {
             label: 'Color',
             name: 'color',
-            quickEdit: {
-              type: 'color'
-            }
+            type: 'input-color',
+            quickEdit: false
           },
           {
             label: '说明文字',
@@ -66,13 +94,16 @@ export default {
         ]
       },
       {
-        type: 'button',
-        label: 'Table2新增一行',
-        target: 'table2',
-        actionType: 'add'
+        type: 'control',
+        body: {
+          type: 'button',
+          label: 'Table2新增一行',
+          target: 'table2',
+          actionType: 'add'
+        }
       },
       {
-        type: 'table',
+        type: 'input-table',
         name: 'table2',
         label: 'Table2',
         editable: true,
@@ -105,7 +136,7 @@ export default {
       },
 
       {
-        type: 'table',
+        type: 'input-table',
         name: 'table3',
         label: 'Table3(指定第2列只有update时能编辑)',
         editable: true,
@@ -137,7 +168,47 @@ export default {
             }
           }
         ]
+      },
+
+      {
+        type: 'input-table',
+        name: 'table5',
+        label: '内容自适应',
+        autoFillHeight: true,
+        tableContentClassName: 'max-h-60',
+        columns: [
+          {
+            name: 'aa',
+            label: 'AA',
+            type: 'input-text'
+          },
+          {
+            name: 'cc',
+            label: 'CC',
+            type: 'select',
+            options: [
+              {
+                label: 'AA',
+                value: 'aa'
+              },
+              {
+                label: 'CC',
+                value: 'cc'
+              }
+            ]
+          }
+        ]
       }
-    ]
+    ],
+    data: {
+      table5: Array.from({length: 20}, (_, index) => ({
+        aa: index % 2 == 0 ? 'hello' : 'hi',
+        cc: index % 2 == 0 ? 'aa' : 'cc'
+      })),
+      tableAffixHeader: Array.from({length: 5}, (_, index) => ({
+        aa: index % 2 == 0 ? 'hello' : 'hi',
+        cc: index % 2 == 0 ? 'aa' : 'cc'
+      }))
+    }
   }
 };

@@ -1,0 +1,633 @@
+.#{$ns}Number {
+  margin: 0;
+  padding: 0;
+  line-height: var(--Form-input-height);
+  font-size: var(--Form-input-fontSize);
+  height: var(--Form-input-height);
+  display: inline-block;
+  vertical-align: middle;
+  background: var(--Number-bg);
+  border: var(--Number-borderWidth) solid var(--Form-input-borderColor);
+  border-radius: var(--Number-borderRadius);
+  overflow: hidden;
+  position: relative;
+
+  border-width: var(--inputNumber-base-default-top-border-width)
+    var(--inputNumber-base-default-right-border-width)
+    var(--inputNumber-base-default-bottom-border-width)
+    var(--inputNumber-base-default-left-border-width);
+  border-style: var(--inputNumber-base-default-top-border-style)
+    var(--inputNumber-base-default-right-border-style)
+    var(--inputNumber-base-default-bottom-border-style)
+    var(--inputNumber-base-default-left-border-style);
+  border-color: var(--inputNumber-base-default-top-border-color)
+    var(--inputNumber-base-default-right-border-color)
+    var(--inputNumber-base-default-bottom-border-color)
+    var(--inputNumber-base-default-left-border-color);
+  border-radius: var(--inputNumber-base-default-top-left-border-radius)
+    var(--inputNumber-base-default-top-right-border-radius)
+    var(--inputNumber-base-default-bottom-right-border-radius)
+    var(--inputNumber-base-default-bottom-left-border-radius);
+  background: var(--inputNumber-base-default-bg-color);
+
+  &:hover {
+    border-width: var(--inputNumber-base-hover-top-border-width)
+      var(--inputNumber-base-hover-right-border-width)
+      var(--inputNumber-base-hover-bottom-border-width)
+      var(--inputNumber-base-hover-left-border-width);
+    border-style: var(--inputNumber-base-hover-top-border-style)
+      var(--inputNumber-base-hover-right-border-style)
+      var(--inputNumber-base-hover-bottom-border-style)
+      var(--inputNumber-base-hover-left-border-style);
+    border-color: var(--inputNumber-base-hover-top-border-color)
+      var(--inputNumber-base-hover-right-border-color)
+      var(--inputNumber-base-hover-bottom-border-color)
+      var(--inputNumber-base-hover-left-border-color);
+    border-radius: var(--inputNumber-base-hover-top-left-border-radius)
+      var(--inputNumber-base-hover-top-right-border-radius)
+      var(--inputNumber-base-hover-bottom-right-border-radius)
+      var(--inputNumber-base-hover-bottom-left-border-radius);
+    background: var(--inputNumber-base-hover-bg-color);
+  }
+
+  &-focused {
+    border-width: var(--inputNumber-base-active-top-border-width)
+      var(--inputNumber-base-active-right-border-width)
+      var(--inputNumber-base-active-bottom-border-width)
+      var(--inputNumber-base-active-left-border-width);
+    border-style: var(--inputNumber-base-active-top-border-style)
+      var(--inputNumber-base-active-right-border-style)
+      var(--inputNumber-base-active-bottom-border-style)
+      var(--inputNumber-base-active-left-border-style);
+    border-color: var(--inputNumber-base-active-top-border-color)
+      var(--inputNumber-base-active-right-border-color)
+      var(--inputNumber-base-active-bottom-border-color)
+      var(--inputNumber-base-active-left-border-color);
+    border-radius: var(--inputNumber-base-active-top-left-border-radius)
+      var(--inputNumber-base-active-top-right-border-radius)
+      var(--inputNumber-base-active-bottom-right-border-radius)
+      var(--inputNumber-base-active-bottom-left-border-radius);
+    background: var(--inputNumber-base-active-bg-color);
+    box-shadow: var(--inputNumber-base-active-shadow);
+  }
+
+  &.is-mobile {
+    border: none;
+
+    &-focused {
+      border: none;
+    }
+  }
+
+  &-disabled {
+    border-width: var(--inputNumber-base-disabled-top-border-width)
+      var(--inputNumber-base-disabled-right-border-width)
+      var(--inputNumber-base-disabled-bottom-border-width)
+      var(--inputNumber-base-disabled-left-border-width);
+    border-style: var(--inputNumber-base-disabled-top-border-style)
+      var(--inputNumber-base-disabled-right-border-style)
+      var(--inputNumber-base-disabled-bottom-border-style)
+      var(--inputNumber-base-disabled-left-border-style);
+    border-color: var(--inputNumber-base-disabled-top-border-color)
+      var(--inputNumber-base-disabled-right-border-color)
+      var(--inputNumber-base-disabled-bottom-border-color)
+      var(--inputNumber-base-disabled-left-border-color);
+    border-radius: var(--inputNumber-base-disabled-top-left-border-radius)
+      var(--inputNumber-base-disabled-top-right-border-radius)
+      var(--inputNumber-base-disabled-bottom-right-border-radius)
+      var(--inputNumber-base-disabled-bottom-left-border-radius);
+    background: var(--inputNumber-base-disabled-bg-color);
+  }
+  &-readonly {
+    border-color: var(--inputNumber-base-default-top-border-color)
+      var(--inputNumber-base-default-right-border-color)
+      var(--inputNumber-base-default-bottom-border-color)
+      var(--inputNumber-base-default-left-border-color);
+  }
+  @include input-border();
+
+  &-handler {
+    text-align: center;
+    overflow: hidden;
+    display: block;
+    touch-action: none;
+
+    &-active {
+      background: #ddd;
+    }
+  }
+
+  &-handler-up-inner,
+  &-handler-down-inner {
+    user-select: none;
+    -webkit-user-select: none;
+    display: inline-block;
+  }
+
+  &:hover {
+    .#{$ns}Number-handler-wrap {
+      display: block;
+    }
+  }
+
+  &.no-steps > &-handler-wrap {
+    display: none;
+  }
+
+  &-readonly:hover,
+  &-disabled:hover {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+
+  &-input-wrap {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  &-input {
+    width: 100%;
+    background: transparent;
+    text-align: left;
+    vertical-align: top;
+    outline: 0;
+    -moz-appearance: textfield;
+    line-height: calc(var(--Form-input-height) - var(--Number-borderWidth) * 2);
+    height: 100%;
+    transition: all var(--animation-duration) ease;
+    border: 0;
+    border-radius: var(--Form-input-borderRadius);
+    color: var(--Form-input-color);
+    padding: 0 var(--inputNumber-base-default-paddingRight) 0
+      var(--inputNumber-base-default-paddingLeft);
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
+  }
+
+  &-handler {
+    background: var(--Number-handler-bg);
+    color: var(--Number-handler-color);
+    font-family: var(--Number-handler-fontFamily);
+    font-size: var(--Number-handler-fontSize);
+
+    &:hover {
+      background: var(--Number-handler-onHover-bg);
+      color: var(--Number-handler-onHover-color);
+      cursor: pointer;
+    }
+
+    &:hover:active {
+      background: var(--Number-handler-onActive-bg);
+      color: var(--inputNumber-base-active-icon-color);
+    }
+  }
+
+  &-handler-up {
+    &-inner {
+      transform: var(--Number-handler--up-transform);
+
+      &:after {
+        content: var(--Number-handler--up-content);
+      }
+    }
+  }
+
+  &-handler-down {
+    &-inner {
+      &:after {
+        content: var(--Number-handler--down-content);
+      }
+    }
+  }
+
+  @if $Number-handler-mode==vertical {
+    &-handler-wrap {
+      display: none;
+      position: absolute;
+      right: 0;
+      border-left: px2rem(1px) solid var(--Form-input-borderColor);
+      width: var(--Number-handler-width);
+      height: 100%;
+      // 为了实现handle出现后，不遮挡内容，自然的留出padding的位置的效果
+      outline: var(--inputNumber-base-default-paddingRight)
+        var(--inputNumber-base-default-bg-color)
+        solid;
+    }
+
+    &-handler {
+      line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
+      height: calc(
+        (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
+      );
+    }
+
+    &-handler-up {
+      border-bottom: var(--Number-handler-borderBottom);
+      padding-top: px2rem(1px);
+    }
+  } @else {
+    position: relative;
+
+    &-input {
+      text-align: center;
+    }
+
+    &-handler-up,
+    &-handler-down {
+      position: absolute;
+      width: var(--Number-handler-width);
+      height: 100%;
+      top: 0;
+    }
+
+    &-handler-down {
+      left: 0;
+    }
+
+    &-handler-up {
+      right: 0;
+    }
+  }
+
+  &-handler-down-disabled,
+  &-handler-up-disabled {
+    background: var(--Number-handler-onDisabled-bg);
+    pointer-events: none;
+    color: var(--Number-handler-onDisabled-color);
+  }
+
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
+  &-disabled {
+    border-color: var(--Form-input-onDisabled-borderColor);
+    .#{$ns}Number-input {
+      opacity: 0.72;
+      cursor: not-allowed;
+      color: var(--text--muted-color);
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+    .#{$ns}Number-handler-wrap {
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+    .#{$ns}Number-handler {
+      cursor: not-allowed;
+      color: var(--text--muted-color);
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
+      opacity: 0.72;
+
+      &:hover {
+        color: var(--text--muted-color);
+        border-color: var(--Form-input-borderColor);
+      }
+      &:hover:active {
+        background: var(--Form-input-onDisabled-bg);
+      }
+    }
+  }
+}
+
+.#{$ns}Form-control--sizeSm > .#{$ns}Number {
+  height: var(--inputNumber-size-sm-height);
+}
+
+.#{$ns}Form-control--sizeMd > .#{$ns}Number {
+  height: var(--inputNumber-size-md-height);
+}
+
+.#{$ns}Form-control--sizeLg > .#{$ns}Number {
+  height: var(--inputNumber-size-lg-height);
+}
+
+.#{$ns}NumberControl {
+  &:not(.is-inline) > .#{$ns}Number {
+    display: block;
+  }
+}
+
+.#{$ns}Number--borderHalf,
+.#{$ns}Number--borderNone {
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
+}
+
+.#{$ns}NumberControl--withUnit {
+  display: flex !important;
+
+  &:hover {
+    .#{$ns}Number,
+    .#{$ns}NumberControl-unit {
+      border-width: var(--inputNumber-base-hover-top-border-width)
+        var(--inputNumber-base-hover-right-border-width)
+        var(--inputNumber-base-hover-bottom-border-width)
+        var(--inputNumber-base-hover-left-border-width);
+      border-style: var(--inputNumber-base-hover-top-border-style)
+        var(--inputNumber-base-hover-right-border-style)
+        var(--inputNumber-base-hover-bottom-border-style)
+        var(--inputNumber-base-hover-left-border-style);
+      border-color: var(--inputNumber-base-hover-top-border-color)
+        var(--inputNumber-base-hover-right-border-color)
+        var(--inputNumber-base-hover-bottom-border-color)
+        var(--inputNumber-base-hover-left-border-color);
+      border-radius: var(--inputNumber-base-hover-top-left-border-radius)
+        var(--inputNumber-base-hover-top-right-border-radius)
+        var(--inputNumber-base-hover-bottom-right-border-radius)
+        var(--inputNumber-base-hover-bottom-left-border-radius);
+      &-readonly {
+        border-color: var(--Form-input-onDisabled-borderColor);
+      }
+    }
+    .#{$ns}NumberControl-readonly {
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+  }
+  .#{$ns}Number {
+    flex-grow: 1;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+  }
+
+  .#{$ns}Number-focused + .#{$ns}NumberControl-unit {
+    border-width: var(--inputNumber-base-active-top-border-width)
+      var(--inputNumber-base-active-right-border-width)
+      var(--inputNumber-base-active-bottom-border-width)
+      var(--inputNumber-base-active-left-border-width);
+    border-style: var(--inputNumber-base-active-top-border-style)
+      var(--inputNumber-base-active-right-border-style)
+      var(--inputNumber-base-active-bottom-border-style)
+      var(--inputNumber-base-active-left-border-style);
+    border-color: var(--inputNumber-base-active-top-border-color)
+      var(--inputNumber-base-active-right-border-color)
+      var(--inputNumber-base-active-bottom-border-color)
+      var(--inputNumber-base-active-left-border-color);
+    border-radius: var(--inputNumber-base-active-top-left-border-radius)
+      var(--inputNumber-base-active-top-right-border-radius)
+      var(--inputNumber-base-active-bottom-right-border-radius)
+      var(--inputNumber-base-active-bottom-left-border-radius);
+  }
+  .#{$ns}Number-focused + .#{$ns}NumberControl-readonly {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+
+  & .#{$ns}NumberControl-unit {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    background-color: var(--inputNumber-base-unit-bg-color);
+    min-width: var(--inputNumber-base-default-unit-width);
+    padding: var(--inputNumber-base-default-unit-paddingTop)
+      var(--inputNumber-base-default-unit-paddingRight)
+      var(--inputNumber-base-default-unit-paddingBottom)
+      var(--inputNumber-base-default-unit-paddingLeft);
+    .#{$ns}Select-valueWrap {
+      width: auto !important;
+    }
+  }
+  .#{$ns}NumberControl-single-unit {
+    cursor: default;
+    text-align: center;
+    min-width: unset;
+    padding: 0 var(--inputNumber-base-default-unit-paddingLeft);
+  }
+}
+.#{$ns}Number--enhance {
+  display: inline-flex;
+  align-items: center;
+  border: var(--Number-borderWidth) solid var(--Number-borderColor);
+  border-radius: var(--Number-borderRadius);
+  overflow: hidden;
+
+  border-width: var(--inputNumber-enhance-default-top-border-width)
+    var(--inputNumber-enhance-default-right-border-width)
+    var(--inputNumber-enhance-default-bottom-border-width)
+    var(--inputNumber-enhance-default-left-border-width);
+  border-style: var(--inputNumber-enhance-default-top-border-style)
+    var(--inputNumber-enhance-default-right-border-style)
+    var(--inputNumber-enhance-default-bottom-border-style)
+    var(--inputNumber-enhance-default-left-border-style);
+  border-color: var(--inputNumber-enhance-default-top-border-color)
+    var(--inputNumber-enhance-default-right-border-color)
+    var(--inputNumber-enhance-default-bottom-border-color)
+    var(--inputNumber-enhance-default-left-border-color);
+  border-radius: var(--inputNumber-enhance-default-top-left-border-radius)
+    var(--inputNumber-enhance-default-top-right-border-radius)
+    var(--inputNumber-enhance-default-bottom-right-border-radius)
+    var(--inputNumber-enhance-default-bottom-left-border-radius);
+  .#{$ns}Number--enhance-input {
+    background: var(--inputNumber-enhance-default-bg-color);
+  }
+
+  &:hover {
+    border-width: var(--inputNumber-enhance-hover-top-border-width)
+      var(--inputNumber-enhance-hover-right-border-width)
+      var(--inputNumber-enhance-hover-bottom-border-width)
+      var(--inputNumber-enhance-hover-left-border-width);
+    border-style: var(--inputNumber-enhance-hover-top-border-style)
+      var(--inputNumber-enhance-hover-right-border-style)
+      var(--inputNumber-enhance-hover-bottom-border-style)
+      var(--inputNumber-enhance-hover-left-border-style);
+    border-color: var(--inputNumber-enhance-hover-top-border-color)
+      var(--inputNumber-enhance-hover-right-border-color)
+      var(--inputNumber-enhance-hover-bottom-border-color)
+      var(--inputNumber-enhance-hover-left-border-color);
+    border-radius: var(--inputNumber-enhance-hover-top-left-border-radius)
+      var(--inputNumber-enhance-hover-top-right-border-radius)
+      var(--inputNumber-enhance-hover-bottom-right-border-radius)
+      var(--inputNumber-enhance-hover-bottom-left-border-radius);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-hover-bg-color);
+    }
+  }
+
+  &:focus-within {
+    border-width: var(--inputNumber-enhance-active-top-border-width)
+      var(--inputNumber-enhance-active-right-border-width)
+      var(--inputNumber-enhance-active-bottom-border-width)
+      var(--inputNumber-enhance-active-left-border-width);
+    border-style: var(--inputNumber-enhance-active-top-border-style)
+      var(--inputNumber-enhance-active-right-border-style)
+      var(--inputNumber-enhance-active-bottom-border-style)
+      var(--inputNumber-enhance-active-left-border-style);
+    border-color: var(--inputNumber-enhance-active-top-border-color)
+      var(--inputNumber-enhance-active-right-border-color)
+      var(--inputNumber-enhance-active-bottom-border-color)
+      var(--inputNumber-enhance-active-left-border-color);
+    border-radius: var(--inputNumber-enhance-active-top-left-border-radius)
+      var(--inputNumber-enhance-active-top-right-border-radius)
+      var(--inputNumber-enhance-active-bottom-right-border-radius)
+      var(--inputNumber-enhance-active-bottom-left-border-radius);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-active-bg-color);
+    }
+  }
+
+  &-disabled {
+    border-width: var(--inputNumber-enhance-disabled-top-border-width)
+      var(--inputNumber-enhance-disabled-right-border-width)
+      var(--inputNumber-enhance-disabled-bottom-border-width)
+      var(--inputNumber-enhance-disabled-left-border-width);
+    border-style: var(--inputNumber-enhance-disabled-top-border-style)
+      var(--inputNumber-enhance-disabled-right-border-style)
+      var(--inputNumber-enhance-disabled-bottom-border-style)
+      var(--inputNumber-enhance-disabled-left-border-style);
+    border-color: var(--inputNumber-enhance-disabled-top-border-color)
+      var(--inputNumber-enhance-disabled-right-border-color)
+      var(--inputNumber-enhance-disabled-bottom-border-color)
+      var(--inputNumber-enhance-disabled-left-border-color);
+    border-radius: var(--inputNumber-enhance-disabled-top-left-border-radius)
+      var(--inputNumber-enhance-disabled-top-right-border-radius)
+      var(--inputNumber-enhance-disabled-bottom-right-border-radius)
+      var(--inputNumber-enhance-disabled-bottom-left-border-radius);
+    .#{$ns}Number--enhance-input {
+      background: var(--inputNumber-enhance-disabled-bg-color);
+    }
+  }
+
+  .#{$ns}Number-input {
+    padding: var(--inputNumber-enhance-default-paddingTop)
+      var(--inputNumber-enhance-default-paddingRight)
+      var(--inputNumber-enhance-default-paddingBottom)
+      var(--inputNumber-enhance-default-paddingLeft);
+  }
+
+  .#{$ns}Number--enhance-left-icon,
+  .#{$ns}Number--enhance-right-icon {
+    display: inline-block;
+    width: var(--Form-inputNumber-base-width);
+    height: var(--Form-inputNumber-base-height);
+    line-height: var(--Form-inputNumber-base-height);
+    text-align: center;
+    color: var(--inputNumber-enhance-leftIcon-default-color);
+    & > svg {
+      width: var(--fontSizeSm);
+      height: var(--fontSizeSm);
+    }
+  }
+  .#{$ns}Number--enhance-left-icon {
+    background: var(--inputNumber-enhance-leftIcon-default-bg-color);
+    &:hover {
+      cursor: pointer;
+      background: var(--inputNumber-enhance-leftIcon-hover-bg-color);
+    }
+    &-focused {
+      background: var(--inputNumber-enhance-leftIcon-active-bg-color);
+    }
+    .InputNumber-enhance-minus {
+      content: var(--inputNumber-enhance-leftIcon-default-icon);
+    }
+    svg {
+      width: var(--inputNumber-enhance-leftIcon-default-width);
+      height: var(--inputNumber-enhance-leftIcon-default-height);
+      color: var(--inputNumber-enhance-leftIcon-default-color);
+      &:hover {
+        color: var(--inputNumber-enhance-leftIcon-hover-color);
+      }
+      &:active {
+        color: var(--inputNumber-enhance-leftIcon-active-color);
+      }
+    }
+  }
+  .#{$ns}Number--enhance-right-icon {
+    cursor: pointer;
+    background: var(--inputNumber-enhance-rightIcon-default-bg-color);
+    &:hover {
+      background: var(--inputNumber-enhance-rightIcon-hover-bg-color);
+    }
+    &:active {
+      background: var(--inputNumber-enhance-rightIcon-active-bg-color);
+    }
+    .InputNumber-enhance-plus {
+      content: var(--inputNumber-enhance-rightIcon-default-icon);
+    }
+    svg {
+      width: var(--inputNumber-enhance-rightIcon-default-height);
+      height: var(--inputNumber-enhance-rightIcon-default-width);
+      color: var(--inputNumber-enhance-rightIcon-default-color);
+      &:hover {
+        color: var(--inputNumber-enhance-rightIcon-hover-color);
+      }
+      &:active {
+        color: var(--inputNumber-enhance-rightIcon-active-color);
+      }
+    }
+  }
+  .#{$ns}Number--enhance-left-icon {
+    border-top-left-radius: var(--Number-borderRadius);
+    border-bottom-left-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number--enhance-right-icon {
+    border-top-right-radius: var(--Number-borderRadius);
+    border-bottom-right-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number--enhance-input {
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+    border: 0;
+    border-left: var(--Number-borderWidth) solid var(--Number-borderColor);
+    border-right: var(--Number-borderWidth) solid var(--Number-borderColor);
+    border-radius: 0;
+    .#{$ns}Number-handler-wrap {
+      display: none;
+    }
+  }
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+  .#{$ns}Number--enhance-border-min,
+  .#{$ns}Number--enhance-border-max {
+    background: var(--Number-handler-onDisabled-bg);
+    pointer-events: none;
+    color: var(--Number-handler-onDisabled-color);
+    &:hover {
+      background: var(--Number-handler-onDisabled-bg);
+      color: var(--Number-handler-onDisabled-color);
+    }
+  }
+  .#{$ns}Number--enhance-border-disabled {
+    background: var(--inputNumber-enhance-disabled-bg-color);
+    cursor: not-allowed;
+    &:hover {
+      cursor: not-allowed;
+      background: var(--inputNumber-enhance-disabled-bg-color);
+    }
+  }
+  .#{$ns}Number--enhance-border-readOnly,
+  .#{$ns}Number--enhance-border-readOnly {
+    &:hover {
+      color: var(--Number-handler-onHover-color);
+    }
+  }
+}
+
+.#{$ns}Number--enhance-no-steps {
+  .#{$ns}Number--enhance-left-icon,
+  .#{$ns}Number--enhance-right-icon {
+    display: none;
+  }
+  .#{$ns}Number--enhance-input {
+    border: none;
+    border-radius: var(--Number-borderRadius);
+  }
+}
+
+.#{$ns}Number--enhance-disabled {
+  .#{$ns}Number--enhance-input {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+  &:hover {
+    border-color: var(--Number-borderColor);
+  }
+}
+
+.#{$ns}Number--enhance-borderNone,
+.#{$ns}Number--enhance-borderHalf {
+  border: none;
+}

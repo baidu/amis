@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: Jsutify Self
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| justify-self-auto | justify-self: auto |
+| justify-self-start | justify-self: start |
+| justify-self-end | justify-self: end |
+| justify-self-center | justify-self: center |
+| justify-self-stretch | justify-self: stretch |
+
+
+*/
+@mixin make-justify-self($prefix: '.') {
+  #{$prefix}justify-self-auto {
+    justify-self: auto;
+  }
+  #{$prefix}justify-self-start {
+    justify-self: start;
+  }
+  #{$prefix}justify-self-end {
+    justify-self: end;
+  }
+  #{$prefix}justify-self-center {
+    justify-self: center;
+  }
+  #{$prefix}justify-self-stretch {
+    justify-self: stretch;
+  }
+}
+
+@include make-justify-self();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-justify-self('.' + selector-escape($deivce + ':'));
+  }
+}

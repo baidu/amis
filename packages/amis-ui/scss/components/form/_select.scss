@@ -1,0 +1,685 @@
+.#{$ns}Select {
+  display: inline-flex;
+
+  /* select 标签样式 */
+  @mixin select-value {
+    .#{$ns}Select-value {
+      position: static;
+      white-space: normal;
+      user-select: none;
+      line-height: calc(
+        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+            2px
+          )}
+      );
+      display: inline-block;
+      vertical-align: middle;
+      font-size: var(--Form-selectValue-fontSize);
+      font-weight: var(--select-multiple-fontWeight);
+      color: var(--select-multiple-color);
+      background: var(--Form-select-value-bgColor);
+      border: px2rem(1px) solid var(--Form-select-value-borderColor);
+      border-radius: var(--select-multiple-top-left-border-radius)
+        var(--select-multiple-top-right-border-radius)
+        var(--select-multiple-bottom-right-border-radius)
+        var(--select-multiple-bottom-left-border-radius);
+      padding: var(--select-multiple-paddingTop)
+        var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+        var(--select-multiple-paddingLeft);
+      margin: var(--select-multiple-marginTop)
+        var(--select-multiple-marginRight) var(--ResultBox-tag-marginBottom)
+        var(--select-multiple-marginLeft);
+
+      &:hover {
+        background-color: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+
+    .#{$ns}Select-valueLabel {
+      display: inline-block;
+      max-width: var(--Form-valueLabel-maxWidth);
+      overflow: hidden;
+      vertical-align: top;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &--block {
+    display: flex;
+  }
+  vertical-align: middle;
+  text-align: left;
+  align-items: center;
+  outline: none;
+  position: relative;
+  font-size: var(--select-base-default-fontSize);
+  font-weight: var(--select-base-default-fontWeight);
+  border-width: var(--Form-select-borderWidth);
+  border-style: var(--select-base-default-top-border-style)
+    var(--select-base-default-right-border-style)
+    var(--select-base-default-bottom-border-style)
+    var(--select-base-default-left-border-style);
+  border-color: var(--Form-select-borderColor);
+  background: var(--Form-select-bg);
+  border-radius: var(--Form-select-borderRadius);
+  min-height: var(--Form-selectOption-height);
+  padding: var(--select-base-default-paddingTop)
+    var(--select-base-default-paddingRight)
+    var(--select-base-default-paddingBottom)
+    var(--select-base-default-paddingLeft);
+  cursor: pointer;
+  color: var(--Form-select-color);
+  transition: all var(--animation-duration) ease-in-out;
+
+  &:hover {
+    background: var(--Form-select-onHover-bg);
+    border-width: var(--select-base-hover-top-border-width)
+      var(--select-base-hover-right-border-width)
+      var(--select-base-hover-bottom-border-width)
+      var(--select-base-hover-left-border-width);
+    border-style: var(--select-base-hover-top-border-style)
+      var(--select-base-hover-right-border-style)
+      var(--select-base-hover-bottom-border-style)
+      var(--select-base-hover-left-border-style);
+    border-color: var(--select-base-hover-top-border-color)
+      var(--select-base-hover-right-border-color)
+      var(--select-base-hover-bottom-border-color)
+      var(--select-base-hover-left-border-color);
+
+    .#{$ns}Select-arrow:before {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+  }
+
+  &:active {
+    border-width: var(--select-base-active-top-border-width)
+      var(--select-base-active-right-border-width)
+      var(--select-base-active-bottom-border-width)
+      var(--select-base-active-left-border-width);
+    border-style: var(--select-base-active-top-border-style)
+      var(--select-base-active-right-border-style)
+      var(--select-base-active-bottom-border-style)
+      var(--select-base-active-left-border-style);
+    border-color: var(--select-base-active-top-border-color)
+      var(--select-base-active-right-border-color)
+      var(--select-base-active-bottom-border-color)
+      var(--select-base-active-left-border-color);
+    box-shadow: var(--select-base-active-shadow);
+    background: var(--select-base-active-bg-color);
+  }
+
+  &.is-focused:not(.is-mobile),
+  &.is-opened:not(.is-mobile) {
+    border-width: var(--select-base-active-top-border-width)
+      var(--select-base-active-right-border-width)
+      var(--select-base-active-bottom-border-width)
+      var(--select-base-active-left-border-width);
+    border-style: var(--select-base-active-top-border-style)
+      var(--select-base-active-right-border-style)
+      var(--select-base-active-bottom-border-style)
+      var(--select-base-active-left-border-style);
+    border-color: var(--select-base-active-top-border-color)
+      var(--select-base-active-right-border-color)
+      var(--select-base-active-bottom-border-color)
+      var(--select-base-active-left-border-color);
+    box-shadow: var(--select-base-active-shadow);
+    background: var(--select-base-active-bg-color);
+    color: var(--Form-select-onFocused-color);
+  }
+
+  &.is-disabled {
+    border-width: var(--select-base-disabled-top-border-width)
+      var(--select-base-disabled-right-border-width)
+      var(--select-base-disabled-bottom-border-width)
+      var(--select-base-disabled-left-border-width);
+    border-style: var(--select-base-disabled-top-border-style)
+      var(--select-base-disabled-right-border-style)
+      var(--select-base-disabled-bottom-border-style)
+      var(--select-base-disabled-left-border-style);
+    border-color: var(--select-base-disabled-top-border-color)
+      var(--select-base-disabled-right-border-color)
+      var(--select-base-disabled-bottom-border-color)
+      var(--select-base-disabled-left-border-color);
+    background: var(--select-base-disabled-bg-color);
+  }
+
+  &:focus {
+    box-shadow: var(--Form-select-onFocus-boxShadow);
+  }
+
+  .#{$ns}PopOver.#{$ns}Select-popover {
+    &.#{$ns}PopOver--v-top {
+      margin-top: px2rem(4px);
+    }
+    &.#{$ns}PopOver--v-bottom {
+      margin-bottom: px2rem(4px);
+    }
+    .#{$ns}Select-menu {
+      .#{$ns}Checkbox span {
+        line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
+      }
+      .#{$ns}Select-option {
+        line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
+      }
+      .#{$ns}Select-addBtn {
+        line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
+      }
+    }
+  }
+
+  @include input-border();
+
+  &-valueWrap {
+    user-select: none;
+    position: relative;
+    flex-grow: 1;
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    padding-right: px2rem(4px);
+  }
+  &-valuesNoWrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: px2rem(20px);
+  }
+  &-placeholder {
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
+    user-select: none;
+    white-space: nowrap;
+    color: var(--Form-select-placeholderColor);
+  }
+
+  &-value {
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
+
+    &.is-disabled {
+      color: var(--Form-selectValue-onDisabled-color);
+    }
+  }
+  &--multi {
+    height: auto;
+    min-height: var(--Form-selectOption-height);
+    padding: var(--select-base-default-paddingTop)
+      var(--select-base-default-paddingRight)
+      var(--select-base-default-paddingBottom)
+      var(--select-base-default-paddingLeft);
+
+    .#{$ns}Select-valueWrap {
+      > input {
+        display: inline-block;
+        width: px2rem(100px);
+        margin-bottom: var(--gap-xs);
+      }
+    }
+    .#{$ns}Select-values + .#{$ns}Select-input {
+      transform: translateY(0);
+    }
+
+    @include select-value();
+  }
+  &-valueIcon {
+    cursor: pointer;
+    margin-left: px2rem(10px);
+    color: var(--Form-select-valueIcon-color);
+
+    &:hover {
+      color: var(--Form-select-valueIcon-onHover-color);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      display: none;
+      cursor: not-allowed;
+      background: var(--Form-selectValue-onDisable-bg);
+    }
+
+    svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+    }
+  }
+
+  &-arrow {
+    width: var(--gap-md);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transform: rotate(90deg);
+
+    > svg {
+      transition: transform var(--animation-duration);
+      display: inline-block;
+      color: var(--Form-select-caret-iconColor);
+      width: 10px;
+      height: 10px;
+      top: 0;
+    }
+  }
+
+  &.is-opened:not(.is-mobile) &-arrow > svg {
+    transform: rotate(180deg);
+  }
+
+  &.is-mobile {
+    min-height: var(--Form-select-height);
+    border: none;
+    padding: 0;
+    font-size: var(--select-base-default-fontSize);
+
+    .#{$ns}Select-valueWrap {
+      text-align: left;
+      padding-right: 4px;
+    }
+    .#{$ns}Select-arrow {
+      > svg {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  &-menu {
+    max-height: px2rem(300px);
+    padding-top: px2rem(4px);
+    padding-bottom: px2rem(4px);
+    overflow: auto;
+    user-select: none;
+    .#{$ns}Checkbox--sm > i {
+      margin-right: px2rem(4px);
+    }
+    &.is-mobile {
+      width: 100%;
+      text-align: center;
+      .#{$ns}Select-option {
+        line-height: px2rem(36px);
+      }
+    }
+  }
+  &--longlist {
+    overflow: hidden;
+    max-height: max-content;
+  }
+  &-input {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin: 0 var(--Form-select-paddingX);
+    height: var(--Form-select-search-height);
+    font-size: var(--Form-select-input-fontSize);
+    border-bottom: 1px solid var(--borderColor);
+    display: flex;
+    align-items: center;
+
+    // &.is-focused {
+    //   border-color: var(--Form-input-onFocused-borderColor);
+    // }
+
+    > svg {
+      fill: #999;
+      width: px2rem(14px);
+      min-width: px2rem(14px);
+      height: px2rem(14px);
+      margin-right: var(--gap-xs);
+    }
+
+    > input {
+      width: 100%;
+      outline: none;
+      border: none;
+      flex-grow: 1;
+      background: transparent;
+      position: relative;
+      top: 0.125em;
+    }
+  }
+
+  &-option {
+    cursor: pointer;
+    // min-width: px2rem(120px);
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
+    display: flex;
+    color: var(--select-base-default-option-color);
+    font-size: var(--select-base-default-option-fontSize);
+    font-weight: var(--select-base-default-option-fontWeight);
+    background: var(--select-base-default-option-bg-color);
+    line-height: var(--select-base-default-option-line-height);
+
+    &-checkbox {
+      width: 100%;
+      display: flex;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      align-items: center;
+      > label {
+        width: 100%;
+        display: flex;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        align-items: center;
+
+        > i {
+          flex-shrink: 0;
+        }
+
+        > span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          font-size: var(--select-base-default-option-fontSize);
+          font-weight: var(--select-base-default-option-fontWeight);
+          color: var(--select-base-default-option-color);
+        }
+      }
+    }
+
+    &.is-active {
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onActive-color);
+      }
+    }
+
+    &.is-highlight {
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onHover-color);
+      }
+    }
+
+    &.is-disabled {
+      color: var(--Form-select-menu-onDisabled-color);
+      background: var(--Form-select-menu-onDisabled-bg);
+
+      .#{$ns}Select-option-checkbox > label > span {
+        color: var(--Form-select-menu-onDisabled-color);
+      }
+    }
+
+    > label {
+      display: block;
+    }
+
+    > a {
+      float: right;
+      margin-left: var(--gap-xs);
+      display: none;
+    }
+
+    &.is-highlight > a {
+      display: block;
+    }
+
+    .#{$ns}Select-option-content,
+    .#{$ns}Select-option-content > span > div {
+      flex: auto;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      // display: inline-block;
+      max-width: 100%;
+    }
+
+    &.is-mobile {
+      position: relative;
+
+      & > a {
+        margin-right: calc(
+          20px + var(--select-base-default-option-paddingRight)
+        );
+      }
+
+      .#{$ns}Select-option-item-check {
+        min-width: 0;
+        min-height: 0;
+        flex: 1;
+        text-align: left;
+        border-bottom: px2rem(1px) solid var(--borderColor);
+      }
+
+      .#{$ns}Select-option-mcheck {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: var(--select-base-default-option-paddingRight);
+        flex: none;
+        width: px2rem(16px);
+        color: var(--Form-select-mobile-icon-check-color);
+      }
+
+      &:last-child {
+        .#{$ns}Select-option-item-check {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  &-noResult {
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-select-input-fontSize);
+    user-select: none;
+    padding: calc(
+        (
+            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
+  }
+
+  &-option-hl {
+    color: var(--info);
+  }
+
+  &-addBtn {
+    display: block;
+    cursor: pointer;
+    padding: var(--select-base-default-option-paddingTop)
+      var(--select-base-default-option-paddingRight)
+      var(--select-base-default-option-paddingBottom)
+      var(--select-base-default-option-paddingLeft);
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    > svg {
+      width: px2rem(14px);
+      height: px2rem(14px);
+      margin-right: var(--Checkbox-gap);
+    }
+  }
+
+  &-spinner {
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
+  }
+
+  &-clear {
+    padding: px2rem(3px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+
+    svg {
+      fill: var(--Form-input-clearBtn-color);
+      color: var(--Form-input-clearBtn-color);
+      width: var(--Form-input-clearBtn-size);
+      height: var(--Form-input-clearBtn-size);
+      top: 0;
+
+      &:hover {
+        fill: var(--Form-input-clearBtn-color-onHover);
+      }
+    }
+  }
+
+  &-popup {
+    height: px2rem(320px);
+  }
+
+  &-overflow {
+    &-wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: calc(
+        (
+            var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+                2px
+              )} + var(--gap-xs)
+          ) * 5
+      );
+
+      @include select-value();
+    }
+
+    &.#{$ns}Tooltip--dark {
+      .#{$ns}Select-overflow-wrapper {
+        .#{$ns}Select-value {
+          background-color: var(--Form-select-value-bgColor--dark);
+          border: none;
+
+          &:hover {
+            background-color: var(--ResultBox-value--onHover-bg--dark);
+          }
+
+          .#{$ns}Select-valueIcon {
+            color: var(--Form-select-valueIcon-color--dark);
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}Select-popover {
+  background: var(--Form-select-menu-bg);
+  color: var(--Form-select-menu-color);
+  border: var(--Form-select-outer-borderWidth) solid
+    var(--Form-select-outer-borderColor);
+  box-shadow: var(--Form-select-outer-boxShadow);
+  min-width: px2rem(120px);
+
+  // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
+  // z-index: 10;
+}
+.#{$ns}InputGroup:hover {
+  .#{$ns}Select-popover {
+    border-color: var(--Form-select-outer-borderColor) !important;
+  }
+}
+
+.#{$ns}SelectControl {
+  &:not(.is-inline) > .#{$ns}Select {
+    display: flex;
+  }
+
+  &.is-error > .#{$ns}Select {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
+  .#{$ns}TransferDropDown-popover {
+    .#{$ns}Tree-list {
+      .#{$ns}Tree-item {
+        .#{$ns}Tree-itemLabel,
+        .#{$ns}Tree-item--isLeaf {
+          &:hover {
+            background-color: transparent;
+            .#{$ns}Tree-itemText {
+              background: var(--select-tree-hover-bg-color);
+            }
+          }
+          &:active {
+            background-color: transparent;
+            .#{$ns}Tree-itemText {
+              background: var(--select-tree-active-bg-color);
+            }
+          }
+          &.is-checked {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}Select.is-error {
+  border-color: var(--Form-input-onError-borderColor);
+  background: var(--Form-input-onError-bg);
+}
+
+// 需要能撑开
+@include media-breakpoint-up(sm) {
+  .#{$ns}Form-control--sizeXs > .#{$ns}Select,
+  .#{$ns}Form-control--sizeSm > .#{$ns}Select,
+  .#{$ns}Form-control--sizeMd > .#{$ns}Select,
+  .#{$ns}Form-control--sizeLg > .#{$ns}Select {
+    min-width: 100%;
+    max-width: 100%;
+    display: inline-flex !important;
+
+    .#{$ns}Select-valueWrap {
+      width: 0; // ! 没有这个会撑开。
+    }
+  }
+}
+
+// 下拉框在弹框中的的时候没有select层，所以把这部分单独提出来
+.#{$ns}PopOver.#{$ns}Select-popover {
+  &.#{$ns}PopOver--v-top {
+    margin-top: px2rem(4px);
+  }
+  &.#{$ns}PopOver--v-bottom {
+    margin-bottom: px2rem(4px);
+  }
+  .#{$ns}Select-menu {
+    .#{$ns}Checkbox span {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+    .#{$ns}Select-option {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+    .#{$ns}Select-addBtn {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+  }
+}

@@ -1,0 +1,97 @@
+.#{$ns}Signature {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &-canvas {
+    border: 1px dashed #aaa;
+  }
+
+  &-Tool {
+    height: var(--signature-tool-height);
+    margin-top: var(--signature-tool-margin-top);
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      .left-actions {
+        button {
+          margin-right: 5px;
+        }
+      }
+      .right-actions {
+        button {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  &-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: var(--signature-tool-height);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--signature-placeholder-gap);
+    color: var(--signature-placeholder-color);
+  }
+
+  &-Embed {
+    display: flex;
+    gap: 10px;
+    &-Preview {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 10px;
+      height: 30px;
+      margin: 1px;
+      padding: 2px;
+      border: 1px dashed #aaa;
+      .preview-close {
+        cursor: pointer;
+        font-size: 14px;
+        color: #aaa;
+        &:hover {
+          color: #000;
+        }
+      }
+      img {
+        height: 24px;
+      }
+    }
+    &-Body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &.is-fullScreen,
+  &-Embed-Body.is-fullScreen {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: stretch;
+    .#{$ns}Signature-Tool {
+      width: calc(
+        var(--signature-tool-height) - var(--signature-tool-margin-top)
+      );
+      height: auto;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .actions {
+        white-space: nowrap;
+        transform: rotate(90deg);
+      }
+    }
+  }
+}

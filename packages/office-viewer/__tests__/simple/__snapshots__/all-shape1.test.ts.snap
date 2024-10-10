@@ -1,0 +1,1556 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`all-shape-1 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1502552246"
+          data-name="Curved Down Arrow 68"
+          style="z-index: 251725824; position: absolute; left: 641.81px; top: 863.98px; width: 55.85px; height: 36.78px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.78px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="55.85px"
+          >
+            <path
+              d="M 46.655 36.78 L 36.79224963538981 27.585 L 41.38974963538981 27.585 A 21.028750000000002 36.78 0 0 0 22.224662691393533,5.942762883813096 L 30.223750000000003 0 A 21.028750000000002 36.78 0 0 1 49.38883694399628,21.642237116186905 L 55.18224963538981 27.585 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 25.626250000000002 0.8897818566231734 A 21.028750000000002 36.78 0 0 0 7.26942813398659,37.371677772340234 L 0 36.78 A 21.028750000000002 36.78 0 0 1 23.700678133986585,0.2981040842829401 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 25.626250000000002 0.8897818566231734 A 21.028750000000002 36.78 0 0 0 7.26942813398659,37.371677772340234 L 0 36.78 A 21.028750000000002 36.78 0 0 1 21.02875,-7.105427357601002e-15 L 30.223750000000003 0 A 21.028750000000002 36.78 0 0 1 49.38883694399628,21.642237116186905 L 55.18224963538981 27.585 L 46.655 36.78 L 36.79224963538981 27.585 L 41.38974963538981 27.585 A 21.028750000000002 36.78 0 0 0 22.224662691393533,5.942762883813096"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1757919914"
+          data-name="Curved Up Arrow 67"
+          style="z-index: 251724800; position: absolute; left: 566.09px; top: 863.98px; width: 37.8px; height: 34.56px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="34.56px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="37.8px"
+          >
+            <path
+              d="M 29.159999999999997 0 L 37.40561328997403 8.64 L 33.08561328997403 8.64 A 12.419999999999998 34.56 0 0 1 21.35765545070595,22.731659522817562 A 12.419999999999998 34.56 0 0 0 29.802869715631285,8.640000000000008 L 20.125613289974027 8.64 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 12.419999999999998 34.56 A 12.419999999999998 34.56 0 0 1 0,4.232379337853253e-15 L 8.64 0 A 12.419999999999998 34.56 0 0 0 21.06,34.559999999999995 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 16.74 32.40204152358351 A 12.419999999999998 34.56 0 0 0 25.185214264925335,18.31038200076596 L 20.125613289974027 8.64 L 29.159999999999997 0 L 37.40561328997403 8.64 L 33.08561328997403 8.64 A 12.419999999999998 34.56 0 0 1 22.999027237877318,23.03478557527149 L 12.419999999999998 34.56 A 12.419999999999998 34.56 0 0 1 0,4.232379337853253e-15 L 8.64 0 A 12.419999999999998 34.56 0 0 0 21.06,34.559999999999995"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="339936263"
+          data-name="Curved Left Arrow 66"
+          style="z-index: 251723776; position: absolute; left: 484.59px; top: 865.31px; width: 30.39px; height: 35.72px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="35.72px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="30.39px"
+          >
+            <path
+              d="M 0 28.1225 L 7.5975 20.13880983341408 L 7.5975 23.937559833414078 A 30.39 12.161874999999998 0 0 0 21.252108043857355,15.304714287271885 A 30.39 12.161874999999998 0 0 1 7.5975,27.11080979673637 L 7.5975 35.33380983341408 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 30.39 19.759375 A 30.39 12.161874999999998 0 0 0 1.8608508113044033e-15,7.5975 L 0 0 A 30.39 12.161874999999998 0 0 1 30.390000000000008,12.161874999999995 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 30.39 19.759375 A 30.39 12.161874999999998 0 0 0 1.8608508113044033e-15,7.5975 L 0 0 A 30.39 12.161874999999998 0 0 1 30.390000000000008,12.161874999999995 L 30.39 19.759375 A 30.39 12.161874999999998 0 0 1 16.475670405031813,29.978845527803337 L 7.5975 35.33380983341408 L 0 28.1225 L 7.5975 20.13880983341408 L 7.5975 23.937559833414078 A 30.39 12.161874999999998 0 0 0 21.252108043857355,15.304714287271885"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="149505356"
+          data-name="Curved Right Arrow 65"
+          style="z-index: 251722752; position: absolute; left: 383.05px; top: 870.89px; width: 42.65px; height: 27.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="27.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.65px"
+          >
+            <path
+              d="M 0 8.71875 A 42.65 8.71875 0 0 0 15.786810430576736,15.490735110763296 L 35.675 13.83261624439584 L 42.65 20.924999999999997 L 35.675 27.782616244395843 L 35.675 24.295116244395842 A 42.65 8.71875 0 0 1 19.88818956942326,17.523131133632543 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 42.65 6.975 A 42.65 8.71875 0 0 0 0.16873951659963637,14.918952658949948 A 42.65 8.71875 0 0 1 42.65,5.425405317899898 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 8.71875 A 42.65 8.71875 0 0 0 15.786810430576736,15.490735110763296 L 35.675 13.83261624439584 L 42.65 20.924999999999997 L 35.675 27.782616244395843 L 35.675 24.295116244395842 A 42.65 8.71875 0 0 1 19.88818956942326,17.523131133632543 L 0 8.71875 A 42.65 8.71875 0 0 1 42.64999999999999,-1.7763568394002505e-15 L 42.65 6.975 A 42.65 8.71875 0 0 0 0.16873951659963637,14.918952658949948"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1108838948"
+          data-name="Bent-Up Arrow 64"
+          style="z-index: 251721728; position: absolute; left: 303.84px; top: 870.68px; width: 32.33px; height: 27.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="27.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="32.33px"
+          >
+            <path
+              d="M 0 20.924999999999997 L 21.867499999999996 20.924999999999997 L 21.867499999999996 6.975 L 18.38 6.975 L 25.354999999999997 0 L 32.33 6.975 L 28.842499999999998 6.975 L 28.842499999999998 27.9 L 0 27.9 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="508704421"
+          data-name="Left-Up Arrow 63"
+          style="z-index: 251720704; position: absolute; left: 206.51px; top: 863.98px; width: 35.88px; height: 34.6px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="34.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="35.88px"
+          >
+            <path
+              d="M 0 25.950000000000003 L 8.65 17.3 L 8.65 21.625000000000004 L 22.905000000000005 21.625000000000004 L 22.905000000000005 8.65 L 18.580000000000002 8.65 L 27.230000000000004 0 L 35.88 8.65 L 31.555000000000003 8.65 L 31.555000000000003 30.275000000000002 L 8.65 30.275000000000002 L 8.65 34.6 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="67061842"
+          data-name="U-Turn Arrow 62"
+          style="z-index: 251719680; position: absolute; left: 117.39px; top: 864.20px; width: 42.18px; height: 34.6px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="34.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.18px"
+          >
+            <path
+              d="M 0 34.6 L 0 15.1375 A 15.1375 15.1375 0 0 1 15.137499999999996,-1.7763568394002505e-15 L 22.717499999999998 0 A 15.1375 15.1375 0 0 1 37.855000000000004,15.137499999999996 L 37.855 17.299999999999997 L 42.18 17.299999999999997 L 33.53 25.95 L 24.880000000000003 17.299999999999997 L 29.205000000000002 17.299999999999997 L 29.205000000000002 15.1375 A 6.487499999999999 6.487499999999999 0 0 0 22.7175,8.65 L 15.1375 8.65 A 6.487499999999999 6.487499999999999 0 0 0 8.650000000000002,15.1375 L 8.65 34.6 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="87221314"
+          data-name="Bent Arrow 61"
+          style="z-index: 251718656; position: absolute; left: 13.40px; top: 863.98px; width: 32.36px; height: 34.6px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="34.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="32.36px"
+          >
+            <path
+              d="M 0 34.6 L 0 18.2025 A 14.1575 14.1575 0 0 1 14.157499999999999,4.045 L 24.27 4.045 L 24.27 0 L 32.36 8.09 L 24.27 16.18 L 24.27 12.135 L 14.1575 12.135 A 6.067500000000001 6.067500000000001 0 0 0 8.090000000000002,18.2025 L 8.09 34.6 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862409"
+          data-name="Left-Right-Up Arrow 60"
+          style="z-index: 251717632; position: absolute; left: 628.38px; top: 793.87px; width: 61.46px; height: 40.83px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="40.83px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="61.46px"
+          >
+            <path
+              d="M 0 30.6225 L 10.2075 20.415 L 10.2075 25.518749999999997 L 25.62625 25.518749999999997 L 25.62625 10.2075 L 20.5225 10.2075 L 30.73 0 L 40.9375 10.2075 L 35.83375 10.2075 L 35.83375 25.518749999999997 L 51.2525 25.518749999999997 L 51.2525 20.415 L 61.46 30.6225 L 51.2525 40.83 L 51.2525 35.72625 L 10.2075 35.72625 L 10.2075 40.83 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="309599346"
+          data-name="Quad Arrow 59"
+          style="z-index: 251716608; position: absolute; left: 543.61px; top: 793.87px; width: 60.28px; height: 41.05px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="41.05px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="60.28px"
+          >
+            <path
+              d="M 0 20.525 L 9.236249999999998 11.28875 L 9.236249999999998 15.906875 L 25.521875 15.906875 L 25.521875 9.236249999999998 L 20.903750000000002 9.236249999999998 L 30.14 0 L 39.37625 9.236249999999998 L 34.758125 9.236249999999998 L 34.758125 15.906875 L 51.04375 15.906875 L 51.04375 11.28875 L 60.28 20.525 L 51.04375 29.761249999999997 L 51.04375 25.143124999999998 L 34.758125 25.143124999999998 L 34.758125 31.81375 L 39.37625 31.81375 L 30.14 41.05 L 20.903750000000002 31.81375 L 25.521875 31.81375 L 25.521875 25.143124999999998 L 9.236249999999998 25.143124999999998 L 9.236249999999998 29.761249999999997 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1486993100"
+          data-name="Up-Down Arrow 58"
+          style="z-index: 251715584; position: absolute; left: 461.17px; top: 774.87px; width: 53.81px; height: 71.22px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="71.22px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="53.81px"
+          >
+            <path
+              d="M 0 26.905 L 26.905 0 L 53.81 26.905 L 40.3575 26.905 L 40.3575 44.315 L 53.81 44.315 L 26.905 71.22 L 0 44.315 L 13.4525 44.315 L 13.4525 26.905 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1815237652"
+          data-name="Left-Right Arrow 57"
+          style="z-index: 251714560; position: absolute; left: 373.94px; top: 793.65px; width: 51.56px; height: 41.05px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="41.05px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.56px"
+          >
+            <path
+              d="M 0 20.525 L 20.525 0 L 20.525 10.2625 L 31.035000000000004 10.2625 L 31.035000000000004 0 L 51.56 20.525 L 31.035000000000004 41.05 L 31.035000000000004 30.787499999999998 L 20.525 30.787499999999998 L 20.525 41.05 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="900168414"
+          data-name="Down Arrow 56"
+          style="z-index: 251713536; position: absolute; left: 303.62px; top: 786.06px; width: 32.37px; height: 48.87px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="48.87px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="32.37px"
+          >
+            <path
+              d="M 0 32.685 L 8.0925 32.685 L 8.0925 0 L 24.277499999999996 0 L 24.277499999999996 32.685 L 32.37 32.685 L 16.185 48.87 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="89343979"
+          data-name="Up Arrow 55"
+          style="z-index: 251712512; position: absolute; left: 206.56px; top: 786.06px; width: 35.67px; height: 36.8px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.8px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="35.67px"
+          >
+            <path
+              d="M 0 17.835 L 17.835 0 L 35.67 17.835 L 26.7525 17.835 L 26.7525 36.8 L 8.9175 36.8 L 8.9175 17.835 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1013481936"
+          data-name="Left Arrow 54"
+          style="z-index: 251711488; position: absolute; left: 105.14px; top: 786.06px; width: 63.41px; height: 48.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="48.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="63.41px"
+          >
+            <path
+              d="M 0 24.45 L 24.45 0 L 24.45 12.225 L 63.41 12.225 L 63.41 36.675 L 24.45 36.675 L 24.45 48.9 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="547283955"
+          data-name="Right Arrow 53"
+          style="z-index: 251710464; position: absolute; left: -9.83px; top: 785.84px; width: 62.29px; height: 36.84px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="62.29px"
+          >
+            <path
+              d="M 0 9.21 L 43.87 9.21 L 43.87 0 L 62.29 18.42 L 43.87 36.84 L 43.87 27.630000000000003 L 0 27.630000000000003 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="241653688"
+          data-name="Right Brace 52"
+          style="z-index: 251709440; position: absolute; left: 382.87px; top: 687.61px; width: 42.63px; height: 52.41px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="52.41px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.63px"
+          >
+            <path
+              d="M 0 0 A 21.315 3.5523579000000005 0 0 1 21.315000000000005,3.5523578999999996 L 21.315 22.652642099999998 A 21.315 3.5523579000000005 0 0 0 42.63,26.205 A 21.315 3.5523579000000005 0 0 0 21.31500000000001,29.7573579 L 21.315 48.85764209999999 A 21.315 3.5523579000000005 0 0 1 1.3051673261912917e-15,52.41 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 A 21.315 3.5523579000000005 0 0 1 21.315000000000005,3.5523578999999996 L 21.315 22.652642099999998 A 21.315 3.5523579000000005 0 0 0 42.63,26.205 A 21.315 3.5523579000000005 0 0 0 21.31500000000001,29.7573579 L 21.315 48.85764209999999 A 21.315 3.5523579000000005 0 0 1 1.3051673261912917e-15,52.41"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1001422582"
+          data-name="Left Brace 51"
+          style="z-index: 251708416; position: absolute; left: 294.90px; top: 687.61px; width: 33.33px; height: 45.77px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="45.77px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="33.33px"
+          >
+            <path
+              d="M 33.33 45.77 A 16.665 2.7773889 0 0 1 16.665,42.992611100000005 L 16.665 25.662388900000003 A 16.665 2.7773889 0 0 0 1.020436945389532e-15,22.885000000000005 A 16.665 2.7773889 0 0 0 16.665,20.107611100000007 L 16.665 2.7773889 A 16.665 2.7773889 0 0 1 33.33,-4.440892098500626e-16 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 33.33 45.77 A 16.665 2.7773889 0 0 1 16.665,42.992611100000005 L 16.665 25.662388900000003 A 16.665 2.7773889 0 0 0 1.020436945389532e-15,22.885000000000005 A 16.665 2.7773889 0 0 0 16.665,20.107611100000007 L 16.665 2.7773889 A 16.665 2.7773889 0 0 1 33.33,-4.440892098500626e-16"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2137715501"
+          data-name="Right Bracket 50"
+          style="z-index: 251707392; position: absolute; left: 206.56px; top: 695.42px; width: 43.64px; height: 44.6px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="44.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.64px"
+          >
+            <path
+              d="M 0 0 A 43.64 3.6365212 0 0 1 43.64000000000001,3.636521199999999 L 43.64 40.963478800000004 A 43.64 3.6365212 0 0 1 2.672179315739525e-15,44.6 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 A 43.64 3.6365212 0 0 1 43.64000000000001,3.636521199999999 L 43.64 40.963478800000004 A 43.64 3.6365212 0 0 1 2.672179315739525e-15,44.6"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1567632003"
+          data-name="Left Bracket 49"
+          style="z-index: 251706368; position: absolute; left: 105.14px; top: 695.42px; width: 35.6px; height: 44.6px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="44.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="35.6px"
+          >
+            <path
+              d="M 35.6 44.6 A 35.6 2.966548 0 0 1 0,41.633452 L 0 2.966548 A 35.6 2.966548 0 0 1 35.599999999999994,-4.440892098500626e-16 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 35.6 44.6 A 35.6 2.966548 0 0 1 0,41.633452 L 0 2.966548 A 35.6 2.966548 0 0 1 35.599999999999994,-4.440892098500626e-16"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1114054330"
+          data-name="Double Brace 48"
+          style="z-index: 251705344; position: absolute; left: -18.98px; top: 695.42px; width: 58.87px; height: 44.65px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="44.65px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.87px"
+          >
+            <path
+              d="M 7.441369 44.65 A 3.7206845 3.7206845 0 0 1 3.7206845,40.9293155 L 3.7206845 26.0456845 A 3.7206845 3.7206845 0 0 0 2.278262181781085e-16,22.325 A 3.7206845 3.7206845 0 0 0 3.7206845,18.6043155 L 3.7206845 3.7206845 A 3.7206845 3.7206845 0 0 1 7.441368999999999,-4.440892098500626e-16 L 51.428630999999996 0 A 3.7206845 3.7206845 0 0 1 55.14931549999999,3.720684499999999 L 55.1493155 18.6043155 A 3.7206845 3.7206845 0 0 0 58.87,22.325 A 3.7206845 3.7206845 0 0 0 55.1493155,26.0456845 L 55.1493155 40.9293155 A 3.7206845 3.7206845 0 0 1 51.428631,44.65 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 7.441369 44.65 A 3.7206845 3.7206845 0 0 1 3.7206845,40.9293155 L 3.7206845 26.0456845 A 3.7206845 3.7206845 0 0 0 2.278262181781085e-16,22.325 A 3.7206845 3.7206845 0 0 0 3.7206845,18.6043155 L 3.7206845 3.7206845 A 3.7206845 3.7206845 0 0 1 7.441368999999999,-4.440892098500626e-16 M 51.428630999999996 0 A 3.7206845 3.7206845 0 0 1 55.14931549999999,3.720684499999999 L 55.1493155 18.6043155 A 3.7206845 3.7206845 0 0 0 58.87,22.325 A 3.7206845 3.7206845 0 0 0 55.1493155,26.0456845 L 55.1493155 40.9293155 A 3.7206845 3.7206845 0 0 1 51.428631,44.65"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1459654195"
+          data-name="Double Bracket 47"
+          style="z-index: 251704320; position: absolute; left: 619.52px; top: 616.17px; width: 53.58px; height: 49.12px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="49.12px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="53.58px"
+          >
+            <path
+              d="M 0 8.1868304 A 8.1868304 8.1868304 0 0 1 8.186830399999998,-1.7763568394002505e-15 L 45.3931696 0 A 8.1868304 8.1868304 0 0 1 53.58,8.186830399999998 L 53.58 40.9331696 A 8.1868304 8.1868304 0 0 1 45.3931696,49.12 L 8.1868304 49.12 A 8.1868304 8.1868304 0 0 1 0,40.9331696 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 8.1868304 49.12 A 8.1868304 8.1868304 0 0 1 0,40.9331696 L 0 8.1868304 A 8.1868304 8.1868304 0 0 1 8.186830399999998,-1.7763568394002505e-15 M 45.3931696 0 A 8.1868304 8.1868304 0 0 1 53.58,8.186830399999998 L 53.58 40.9331696 A 8.1868304 8.1868304 0 0 1 45.3931696,49.12"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1882724835"
+          data-name="Arc 46"
+          style="z-index: 251703296; position: absolute; left: 509.23px; top: 616.17px; width: 49.98px; height: 41.45px; vertical-align: middle; color: rgb(0, 0, 0);"
+        >
+          <svg
+            height="41.45px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.98px"
+          >
+            <path
+              d="M 24.989999999999995 0 A 24.99 20.725 0 0 1 49.98,20.724999999999998 L 24.99 20.725 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 24.989999999999995 0 A 24.99 20.725 0 0 1 49.98,20.724999999999998"
+              fill="none"
+              stroke="#4472C4"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="99303336"
+          data-name="Cloud 45"
+          style="z-index: 251702272; position: absolute; left: 389.57px; top: 598.31px; width: 56.7px; height: 51.32px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="51.32px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="56.7px"
+          >
+            <path
+              d="M 5.11875 17.07102777777778 A 8.863312500000001 10.917379629629629 0 0 1 17.338854087417488,5.056286898501627 A 6.999562500000001 8.632926851851852 0 0 1 27.107654308669204,3.1200296892809423 A 5.7290625 7.062439814814814 0 0 1 35.820125716764686,2.0013445118361073 A 6.3748125 7.83461574074074 0 0 1 46.19348230326032,6.054028873930073 A 6.999562500000001 8.64005462962963 0 0 1 50.865288554885495,18.88834939517361 A 8.8921875 10.953018518518519 0 0 1 45.64737555552683,37.695746936717356 A 7.592812500000001 9.34570462962963 0 0 1 34.887243767299154,46.08728610517453 A 8.862 10.947078703703703 0 0 1 20.1502520995195,49.28479875536712 A 10.1325 12.524693518518518 0 0 1 8.088758963380211,45.54040452897103 A 5.7225 7.030364814814814 0 0 1 4.056419475885077,33.01181044929544 A 5.7028125 7.062439814814814 0 0 1 5.871841342769837,19.476618619335014 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M 6.159562500000001 31.097306481481482 A 5.7028125 7.062439814814814 0 0 1 3.5914899136065204,30.539002496462036 M 9.093 41.45871944444444 A 5.7225 7.030364814814814 0 0 1 7.971288207178699,41.7182578640014 M 21.627375 46.43747222222222 A 8.862 10.947078703703703 0 0 1 20.370909128703843,44.24823664995131 M 37.835437500000005 41.28290092592592 A 8.862 10.947078703703703 0 0 1 37.21986968772484,44.23325203267786 M 44.794312500000004 27.268501851851852 A 7.592812500000001 9.34570462962963 0 0 1 49.82621773341644,36.16873328915569 M 54.859875 18.23998333333333 A 6.999562500000001 8.64005462962963 0 0 1 52.519592157807054,21.21122233902857 M 50.300250000000005 6.4458870370370365 A 6.3748125 7.83461574074074 0 0 1 50.48158298515433,8.45970806418962 M 38.164875 4.69482962962963 A 6.3748125 7.83461574074074 0 0 1 39.45844160404614,2.7945594424338234 M 29.0600625 5.607185185185185 A 5.7290625 7.062439814814814 0 0 1 29.814196639012764,3.6448311596369027 M 18.375 6.167903703703703 A 8.863312500000001 10.917379629629629 0 0 1 20.031241442996574,7.319901190899579 M 5.4166875 18.75674722222222 A 8.863312500000001 10.917379629629629 0 0 1 4.8991799644388365,16.593223124035955"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="481219089"
+          data-name="Moon 44"
+          style="z-index: 251701248; position: absolute; left: 294.90px; top: 590.50px; width: 33.33px; height: 59.15px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="59.15px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="33.33px"
+          >
+            <path
+              d="M 33.33 59.15 A 33.33 29.575 0 0 1 33.32999999999999,0 A 41.66250000000001 36.96875 0 0 0 33.32999999999997,56.468756501067006 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1550082026"
+          data-name="Sun 43"
+          style="z-index: 251700224; position: absolute; left: 197.58px; top: 605.23px; width: 52.46px; height: 52.4px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="52.4px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="52.46px"
+          >
+            <path
+              d="M 52.46 26.2 L 41.87510475158692 29.959933471679687 L 41.87510475158692 22.440066528320312 Z M 44.77558148148148 7.673203703703703 L 39.95401955158692 17.808954528320314 L 34.63065353901367 12.491677001464843 Z M 26.23 0 L 29.99423873901367 10.572789001464844 L 22.465761260986326 10.572789001464844 Z M 7.681989814814815 7.673203703703703 L 17.82934646098633 12.491677001464843 L 12.505980448413085 17.808954528320314 Z M 0 26.2 L 10.584895248413085 22.440066528320312 L 10.584895248413085 29.959933471679687 Z M 7.681989814814815 44.72437037037037 L 12.505980448413085 34.591045471679685 L 17.82934646098633 39.908322998535155 Z M 26.23 52.4 L 22.465761260986326 41.82721099853516 L 29.99423873901367 41.82721099853516 Z M 44.77558148148148 44.72437037037037 L 34.63065353901367 39.908322998535155 L 39.95401955158692 34.591045471679685 Z M 13.115 26.2 A 13.115 13.1 0 1 1 13.115000065575,26.201309999997818 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="833191166"
+          data-name="Lightning Bolt 42"
+          style="z-index: 251699200; position: absolute; left: 104.93px; top: 605.01px; width: 35.62px; height: 52.46px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="52.46px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="35.62px"
+          >
+            <path
+              d="M 13.970955555555554 0 L 21.20709259259259 14.766518518518518 L 18.222268518518515 16.507899074074075 L 27.33670092592592 29.16144537037037 L 24.35187685185185 31.27441759259259 L 35.62 52.46 L 16.510529629629627 36.22411574074074 L 20.15498333333333 33.970278703703706 L 8.281649999999999 23.570569444444445 L 12.53626111111111 20.357394444444445 L 0 9.447657407407407 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="912097349"
+          data-name="Heart 41"
+          style="z-index: 251698176; position: absolute; left: -10.05px; top: 598.31px; width: 49.94px; height: 51.35px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="51.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.94px"
+          >
+            <path
+              d="M 24.97 12.8375 C 35.37416666666667,-17.116666666666667 75.95041666666665,12.8375 24.97,51.35 C -26.010416666666664,12.8375 14.565833333333332,-17.116666666666667 24.97,12.8375 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2062703487"
+          data-name="Smiley Face 40"
+          style="z-index: 251697152; position: absolute; left: 604.11px; top: 514.59px; width: 58px; height: 60.28px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="60.28px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58px"
+          >
+            <path
+              d="M 0 30.14 A 29 30.14 0 1 1 1.4499999778649908e-7,30.143013999994977 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 16.688425925925927 21.12590740740741 A 3.0208333333333335 3.1395833333333334 0 1 1 16.68842594103009,21.12622136574022 M 35.26990740740741 21.12590740740741 A 3.0208333333333335 3.1395833333333334 0 1 1 35.26990742251158,21.12622136574022"
+              fill="#335AA1"
+              stroke="#000044"
+            />
+            <path
+              d="M 13.281810221669202 43.28425493333334 Q 29,54.503568533333336 44.681481481481484,43.28425493333334"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 30.14 A 29 30.14 0 1 1 1.4499999778649908e-7,30.143013999994977 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1365874173"
+          data-name="Folded Corner 39"
+          style="z-index: 251696128; position: absolute; left: 495.83px; top: 514.59px; width: 63.6px; height: 46.87px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.87px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="63.6px"
+          >
+            <path
+              d="M 0 0 L 63.6 0 L 63.6 39.058177099999995 L 55.7881771 46.87 L 0 46.87 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 55.7881771 46.87 L 57.35054168 40.620541679999995 L 63.6 39.058177099999995 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 55.7881771 46.87 L 57.35054168 40.620541679999995 L 63.6 39.058177099999995 L 55.7881771 46.87 L 0 46.87 L 0 0 L 63.6 0 L 63.6 39.058177099999995"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="244365009"
+          data-name="Block Arc 38"
+          style="z-index: 251695104; position: absolute; left: 373.72px; top: 514.52px; width: 72.54px; height: 32.35px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="32.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="72.54px"
+          >
+            <path
+              d="M 0 16.175000000000004 A 36.27 16.175 0 0 1 72.54,16.174999999999997 L 64.45250000000001 16.175 A 28.182500000000005 8.0875 0 0 0 8.087500000000006,16.175 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2134537506"
+          data-name=""No" Symbol 37"
+          style="z-index: 251694080; position: absolute; left: 281.24px; top: 503.43px; width: 46.94px; height: 47.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="46.94px"
+          >
+            <path
+              d="M 0 23.965 A 23.47 23.965 0 0 1 23.469999999999995,-3.552713678800501e-15 A 23.47 23.965 0 0 1 46.94,23.96499999999999 A 23.47 23.965 0 0 1 23.47,47.92999999999999 A 23.47 23.965 0 0 1 0,23.964999999999996 Z M 36.37850086593588 31.167380534404472 A 14.66875 15.16375 0 0 0 16.690394974198004,10.385646181330506 Z M 10.561499134064123 16.762619465595527 A 14.66875 15.16375 0 0 0 30.24960502580199,37.5443538186695 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="390722238"
+          data-name="Donut 36"
+          style="z-index: 251693056; position: absolute; left: 187.53px; top: 503.43px; width: 42.84px; height: 47.97px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.97px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.84px"
+          >
+            <path
+              d="M 0 23.985 A 21.42 23.985 0 0 1 21.419999999999998,-3.552713678800501e-15 A 21.42 23.985 0 0 1 42.84,23.98499999999999 A 21.42 23.985 0 0 1 21.42,47.969999999999985 A 21.42 23.985 0 0 1 0,23.98499999999999 Z M 10.71 23.985 A 10.71 13.274999999999999 0 0 0 21.42,37.26 A 10.71 13.274999999999999 0 0 0 32.13,23.985 A 10.71 13.274999999999999 0 0 0 21.42,10.71 A 10.71 13.274999999999999 0 0 0 10.710000000000004,23.985 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1655779994"
+          data-name="Bevel 35"
+          style="z-index: 251692032; position: absolute; left: 85.95px; top: 496.73px; width: 54.62px; height: 64.74px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="64.74px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="54.62px"
+          >
+            <path
+              d="M 6.8275 6.8275 L 47.7925 6.8275 L 47.7925 57.912499999999994 L 6.8275 57.912499999999994 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 L 54.62 0 L 47.7925 6.8275 L 6.8275 6.8275 Z"
+              fill="#6C90D1"
+              stroke="none"
+            />
+            <path
+              d="M 0 64.74 L 6.8275 57.912499999999994 L 47.7925 57.912499999999994 L 54.62 64.74 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 L 6.8275 6.8275 L 6.8275 57.912499999999994 L 0 64.74 Z"
+              fill="#A8BEE4"
+              stroke="none"
+            />
+            <path
+              d="M 54.62 0 L 54.62 64.74 L 47.7925 57.912499999999994 L 47.7925 6.8275 Z"
+              fill="#203864"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 L 54.62 0 L 54.62 64.74 L 0 64.74 Z M 6.8275 6.8275 L 47.7925 6.8275 L 47.7925 57.912499999999994 L 6.8275 57.912499999999994 Z M 0 0 L 6.8275 6.8275 M 0 64.74 L 6.8275 57.912499999999994 M 54.62 0 L 47.7925 6.8275 M 54.62 64.74 L 47.7925 57.912499999999994"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="354686611"
+          data-name="Cube 34"
+          style="z-index: 251691008; position: absolute; left: -10.05px; top: 496.73px; width: 43.53px; height: 54.7px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="54.7px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.53px"
+          >
+            <path
+              d="M 0 10.8825 L 32.6475 10.8825 L 32.6475 54.7 L 0 54.7 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 32.6475 10.8825 L 43.53 0 L 43.53 43.8175 L 32.6475 54.7 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 10.8825 L 10.8825 0 L 43.53 0 L 32.6475 10.8825 Z"
+              fill="#6C90D1"
+              stroke="none"
+            />
+            <path
+              d="M 0 10.8825 L 10.8825 0 L 43.53 0 L 43.53 43.8175 L 32.6475 54.7 L 0 54.7 Z M 0 10.8825 L 32.6475 10.8825 L 43.53 0 M 32.6475 10.8825 L 32.6475 54.7"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1748906656"
+          data-name="Can 33"
+          style="z-index: 251689984; position: absolute; left: 611.71px; top: 424.18px; width: 50.4px; height: 52.46px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="52.46px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="50.4px"
+          >
+            <path
+              d="M 0 6.3 A 25.2 6.3 0 0 0 50.4,6.299999999999999 L 50.4 46.160000000000004 A 25.2 6.3 0 0 1 0,46.160000000000004 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 6.3 A 25.2 6.3 0 0 1 50.4,6.299999999999997 A 25.2 6.3 0 0 1 0,6.299999999999998 Z"
+              fill="#A8BEE4"
+              stroke="none"
+            />
+            <path
+              d="M 50.4 6.3 A 25.2 6.3 0 0 1 0,6.300000000000001 A 25.2 6.3 0 0 1 50.4,6.299999999999998 L 50.4 46.160000000000004 A 25.2 6.3 0 0 1 0,46.160000000000004 L 0 6.3"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1091713105"
+          data-name="Plaque 32"
+          style="z-index: 251688960; position: absolute; left: 509.23px; top: 424.18px; width: 50.2px; height: 41.29px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="41.29px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="50.2px"
+          >
+            <path
+              d="M 0 6.8818043 A 6.8818043 6.8818043 0 0 0 6.8818043,0 L 43.318195700000004 0 A 6.8818043 6.8818043 0 0 0 50.2,6.881804299999999 L 50.2 34.4081957 A 6.8818043 6.8818043 0 0 0 43.318195700000004,41.29 L 6.8818043 41.29 A 6.8818043 6.8818043 0 0 0 4.2138898041767455e-16,34.4081957 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="436015574"
+          data-name="Cross 31"
+          style="z-index: 251687936; position: absolute; left: 382.87px; top: 414.13px; width: 63.4px; height: 51.35px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="51.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="63.4px"
+          >
+            <path
+              d="M 0 12.8375 L 12.8375 12.8375 L 12.8375 0 L 50.5625 0 L 50.5625 12.8375 L 63.4 12.8375 L 63.4 38.5125 L 50.5625 38.5125 L 50.5625 51.35 L 12.8375 51.35 L 12.8375 38.5125 L 0 38.5125 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1782038160"
+          data-name="Diagonal Stripe 30"
+          style="z-index: 251686912; position: absolute; left: 271.25px; top: 405.20px; width: 49.33px; height: 46.8px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.8px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.33px"
+          >
+            <path
+              d="M 0 23.4 L 24.665 0 L 49.33 0 L 0 46.8 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="220982131"
+          data-name="L-Shape 29"
+          style="z-index: 251685888; position: absolute; left: 187.53px; top: 399.62px; width: 42.84px; height: 58.05px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="58.05px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.84px"
+          >
+            <path
+              d="M 0 0 L 21.42 0 L 21.42 36.629999999999995 L 42.84 36.629999999999995 L 42.84 58.05 L 0 58.05 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1193111113"
+          data-name="Half Frame 28"
+          style="z-index: 251684864; position: absolute; left: 85.95px; top: 405.20px; width: 44.42px; height: 46.82px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.82px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="44.42px"
+          >
+            <path
+              d="M 0 0 L 44.42 0 L 30.3724656938915 14.8065186 L 14.8065186 14.8065186 L 14.8065186 31.2134894 L 0 46.82 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1832196915"
+          data-name="Frame 27"
+          style="z-index: 251683840; position: absolute; left: -18.76px; top: 399.62px; width: 58.91px; height: 52.46px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="52.46px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.91px"
+          >
+            <path
+              d="M 0 0 L 58.91 0 L 58.91 52.46 L 0 52.46 Z M 6.5575 6.5575 L 6.5575 45.9025 L 52.3525 45.9025 L 52.3525 6.5575 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="715443549"
+          data-name="Teardrop 26"
+          style="z-index: 251682816; position: absolute; left: 596.08px; top: 347.15px; width: 45.77px; height: 43.53px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.53px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="45.77px"
+          >
+            <path
+              d="M 0 21.765 A 22.885 21.765 0 0 1 22.884999999999998,-3.552713678800501e-15 Q 34.32750000000001,0 45.77000000000001,0 Q 45.77,10.8825 45.77,21.765 A 22.885 21.765 0 0 1 22.885,43.53 A 22.885 21.765 0 0 1 0,21.765000000000004 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="921447424"
+          data-name="Chord 25"
+          style="z-index: 251681792; position: absolute; left: 495.62px; top: 335.99px; width: 63.63px; height: 49.05px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="49.05px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="63.63px"
+          >
+            <path
+              d="M 51.23877332825053 43.94877332825053 A 31.815 24.525 0 1 1 28.74217108480051,2.0819795196504565 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1372431541"
+          data-name="Pie 24"
+          style="z-index: 251680768; position: absolute; left: 383.05px; top: 328.18px; width: 63.45px; height: 56.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="56.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="63.45px"
+          >
+            <path
+              d="M 63.45 28.465 A 31.725 28.465 0 1 1 31.724999999999994,0 L 31.725 28.465 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="246056099"
+          data-name="Dodecagon 23"
+          style="z-index: 251679744; position: absolute; left: 257.79px; top: 320.49px; width: 87.07px; height: 55.81px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="55.81px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="87.07px"
+          >
+            <path
+              d="M 0 20.42749351851852 L 11.665767592592593 7.477506481481482 L 31.869232407407402 0 L 55.200767592592584 0 L 75.4042324074074 7.477506481481482 L 87.07 20.42749351851852 L 87.07 35.382506481481485 L 75.4042324074074 48.33249351851852 L 55.200767592592584 55.81 L 31.869232407407402 55.81 L 11.665767592592593 48.33249351851852 L 0 35.382506481481485 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="553955039"
+          data-name="Decagon 22"
+          style="z-index: 251678720; position: absolute; left: 159.62px; top: 328.18px; width: 70.54px; height: 41.28px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="41.28px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="70.54px"
+          >
+            <path
+              d="M 0 20.64 L 6.735970608395604 7.883805456410842 L 24.370970608395606 0.000043661366788683154 L 46.1690293916044 0.000043661366788683154 L 63.8040293916044 7.883805456410842 L 70.54 20.64 L 63.8040293916044 33.39619454358916 L 46.1690293916044 41.27995633863321 L 24.370970608395606 41.27995633863321 L 6.735970608395604 33.39619454358916 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="376924547"
+          data-name="Octagon 21"
+          style="z-index: 251677696; position: absolute; left: 71.66px; top: 322.60px; width: 58.94px; height: 46.88px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.88px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.94px"
+          >
+            <path
+              d="M 0 13.730683200000001 L 13.730683200000001 0 L 45.209316799999996 0 L 58.94 13.730683200000001 L 58.94 33.1493168 L 45.209316799999996 46.88 L 13.730683200000001 46.88 L 0 33.1493168 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="441999447"
+          data-name="Heptagon 20"
+          style="z-index: 251676672; position: absolute; left: -18.98px; top: 315.90px; width: 64.73px; height: 45.77px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="45.77px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="64.73px"
+          >
+            <path
+              d="M -0.00016828505400212634 29.43499118742 L 6.410255023126002 9.065347423335 L 32.365 0 L 58.319744976874006 9.065347423335 L 64.730168285054 29.43499118742 L 46.768699973864 45.770241139245 L 17.961300026136 45.770241139245 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="836361220"
+          data-name="Hexagon 19"
+          style="z-index: 251675648; position: absolute; left: 603.89px; top: 224.37px; width: 58.05px; height: 54.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="54.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.05px"
+          >
+            <path
+              d="M 0 27.45 L 13.725 0.000012798565482086133 L 44.324999999999996 0.000012798565482086133 L 58.05 27.45 L 44.324999999999996 54.89998720143451 L 13.725 54.89998720143451 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1290795887"
+          data-name="Regular Pentagon 18"
+          style="z-index: 251674624; position: absolute; left: 508.98px; top: 218.75px; width: 56.87px; height: 54.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="54.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="56.87px"
+          >
+            <path
+              d="M 0.00006015072503373631 20.969880737968012 L 28.435 0 L 56.869939849274964 20.969880737968012 L 46.00875929491073 54.899860512031985 L 10.861240705089262 54.899860512031985 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1327755517"
+          data-name="Diamond 17"
+          style="z-index: 251673600; position: absolute; left: 425.29px; top: 218.79px; width: 59.16px; height: 60.28px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="60.28px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="59.16px"
+          >
+            <path
+              d="M 0 30.14 L 29.58 0 L 59.16 30.14 L 29.58 60.28 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1489767464"
+          data-name="Trapezoid 16"
+          style="z-index: 251672576; position: absolute; left: 320.36px; top: 224.37px; width: 62.51px; height: 47.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="62.51px"
+          >
+            <path
+              d="M 0 47.93 L 11.9825 0 L 50.527499999999996 0 L 62.51 47.93 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="49021162"
+          data-name="Parallelogram 15"
+          style="z-index: 251671552; position: absolute; left: 229.95px; top: 224.58px; width: 64.74px; height: 47.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="64.74px"
+          >
+            <path
+              d="M 0 47.93 L 11.9825 0 L 64.74 0 L 52.75749999999999 47.93 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="965899848"
+          data-name="Right Triangle 14"
+          style="z-index: 251670528; position: absolute; left: 159.57px; top: 224.58px; width: 46.94px; height: 47.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="46.94px"
+          >
+            <path
+              d="M 0 47.93 L 0 0 L 46.94 47.93 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="499253068"
+          data-name="Triangle 13"
+          style="z-index: 251669504; position: absolute; left: 71.44px; top: 224.37px; width: 45.77px; height: 47.95px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.95px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="45.77px"
+          >
+            <path
+              d="M 0 47.95 L 22.885 0 L 45.77 47.95 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="642907980"
+          data-name="Oval 12"
+          style="z-index: 251668480; position: absolute; left: -18.98px; top: 218.79px; width: 64.74px; height: 53.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="53.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="64.74px"
+          >
+            <path
+              d="M 0 26.79 A 32.37 26.79 0 0 1 32.36999999999999,-3.552713678800501e-15 A 32.37 26.79 0 0 1 64.74,26.78999999999999 A 32.37 26.79 0 0 1 32.37,53.579999999999984 A 32.37 26.79 0 0 1 0,26.78999999999999 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="581228696"
+          data-name="Round Diagonal Corner Rectangle 11"
+          style="z-index: 251667456; position: absolute; left: 71.42px; top: 98.20px; width: 69.15px; height: 62.51px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="62.51px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="69.15px"
+          >
+            <path
+              d="M 10.418541699999999 0 L 69.15 0 A 0 0 0 0 1 69.15,0 L 69.15 52.0914583 A 10.418541699999999 10.418541699999999 0 0 1 58.73145830000001,62.51 L 0 62.51 A 0 0 0 0 1 0,62.51 L 0 10.418541699999999 A 10.418541699999999 10.418541699999999 0 0 1 10.418541699999997,-1.7763568394002505e-15 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="278860760"
+          data-name="Round Same Side Corner Rectangle 10"
+          style="z-index: 251666432; position: absolute; left: -18.98px; top: 108.28px; width: 59.15px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="50.23px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="59.15px"
+          >
+            <path
+              d="M 8.3718341 0 L 50.7781659 0 A 8.3718341 8.3718341 0 0 1 59.15,8.371834099999997 L 59.15 50.23 A 0 0 0 0 1 59.15,50.23 L 0 50.23 A 0 0 0 0 1 0,50.23 L 0 8.3718341 A 8.3718341 8.3718341 0 0 1 8.371834099999997,-1.7763568394002505e-15 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="433779098"
+          data-name="Round Single Corner Rectangle 9"
+          style="z-index: 251665408; position: absolute; left: 575.99px; top: 31.26px; width: 52.46px; height: 46.87px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.87px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="52.46px"
+          >
+            <path
+              d="M 0 0 L 44.6481771 0 A 7.811822899999999 7.811822899999999 0 0 1 52.459999999999994,7.8118228999999975 L 52.46 46.87 L 0 46.87 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="324933846"
+          data-name="Snip and Round Single Corner Rectangle 8"
+          style="z-index: 251664384; position: absolute; left: 495.62px; top: 31.26px; width: 56.93px; height: 46.87px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.87px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="56.93px"
+          >
+            <path
+              d="M 7.811822899999999 0 L 49.1181771 0 L 56.93 7.811822899999999 L 56.93 46.87 L 0 46.87 L 0 7.811822899999999 A 7.811822899999999 7.811822899999999 0 0 1 7.8118228999999975,-8.881784197001252e-16 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="926536569"
+          data-name="Snip Diagonal Corner Rectangle 7"
+          style="z-index: 251663360; position: absolute; left: 395.12px; top: 31.20px; width: 60.28px; height: 46.88px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.88px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="60.28px"
+          >
+            <path
+              d="M 0 0 L 52.466510400000004 0 L 60.28 7.8134896000000005 L 60.28 46.88 L 60.28 46.88 L 7.8134896000000005 46.88 L 0 39.0665104 L 0 0 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1531125359"
+          data-name="Snip Same Side Corner Rectangle 6"
+          style="z-index: 251662336; position: absolute; left: 310.32px; top: 31.26px; width: 49.12px; height: 43.47px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.47px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.12px"
+          >
+            <path
+              d="M 7.2451449 0 L 41.8748551 0 L 49.12 7.2451449 L 49.12 43.47 L 49.12 43.47 L 0 43.47 L 0 43.47 L 0 7.2451449 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="596043594"
+          data-name="Snip Single Corner Rectangle 5"
+          style="z-index: 251661312; position: absolute; left: 197.55px; top: 31.20px; width: 83.72px; height: 43.52px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.52px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="83.72px"
+          >
+            <path
+              d="M 0 0 L 76.4665216 0 L 83.72 7.2534784000000005 L 83.72 43.52 L 0 43.52 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="280127693"
+          data-name="Rounded Rectangle 4"
+          style="z-index: 251660288; position: absolute; left: 71.40px; top: 23.42px; width: 88.18px; height: 51.35px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="51.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="88.18px"
+          >
+            <path
+              d="M 0 8.558504500000002 A 8.558504500000002 8.558504500000002 0 0 1 8.5585045,-1.7763568394002505e-15 L 79.62149550000001 0 A 8.558504500000002 8.558504500000002 0 0 1 88.18,8.5585045 L 88.18 42.791495499999996 A 8.558504500000002 8.558504500000002 0 0 1 79.62149550000001,51.349999999999994 L 8.558504500000002 51.35 A 8.558504500000002 8.558504500000002 0 0 1 0,42.791495499999996 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="125564410"
+          data-name="Rectangle 3"
+          style="z-index: 251659264; position: absolute; left: -29.02px; top: 24.56px; width: 69.21px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="50.23px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="69.21px"
+          >
+            <path
+              d="M 0 0 L 69.21 0 L 69.21 50.23 L 0 50.23 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

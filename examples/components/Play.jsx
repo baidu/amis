@@ -1,12 +1,15 @@
 import React from 'react';
-import {toast} from '../../src/components/Toast';
-import {render} from '../../src/index';
-import {alert, confirm} from '../../src/components/Alert';
+import {toast, render, makeTranslator} from 'amis';
+import {normalizeLink} from 'amis-core';
+import {isMobile} from 'amis-core';
+import {attachmentAdpator} from 'amis-core';
+import {alert, confirm} from 'amis-ui';
 import axios from 'axios';
-import Frame from 'react-frame-component';
-import stripJsonComments from 'strip-json-comments';
-import CodeEditor from '../../src/components/Editor';
+import JSON5 from 'json5';
+import {Editor as CodeEditor} from 'amis-ui';
 import copy from 'copy-to-clipboard';
+import {matchPath} from 'react-router-dom';
+import {Drawer} from 'amis-ui';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
@@ -33,11 +36,25 @@ const scopes = {
             "autoFocus": false,
             "api": "/api/mock/saveForm?waitSeconds=1",
             "mode": "horizontal",
-            "controls": SCHEMA_PLACEHOLDER,
+            "body": SCHEMA_PLACEHOLDER,
             "submitText": null,
             "actions": []
         }
     }`,
+
+  'form2': `{
+      "type": "page",
+      "body": {
+          "title": "",
+          "type": "form",
+          "autoFocus": false,
+          "api": "/api/mock/saveForm?waitSeconds=1",
+          "mode": "horizontal",
+          "body": SCHEMA_PLACEHOLDER,
+          "submitText": null,
+          "actions": []
+      }
+  }`,
 
   'form-item': `{
         "type": "page",
@@ -46,13 +63,28 @@ const scopes = {
             "type": "form",
             "mode": "horizontal",
             "autoFocus": false,
-            "controls": [
+            "body": [
                 SCHEMA_PLACEHOLDER
             ],
             "submitText": null,
             "actions": []
         }
-    }`
+    }`,
+
+  'form-item2': `{
+      "type": "page",
+      "body": {
+          "title": "",
+          "type": "form",
+          "mode": "horizontal",
+          "autoFocus": false,
+          "body": [
+              SCHEMA_PLACEHOLDER
+          ],
+          "submitText": null,
+          "actions": []
+      }
+  }`
 };
 
 export default class PlayGround extends React.Component {
@@ -60,22 +92,23 @@ export default class PlayGround extends React.Component {
   startX = 0;
   oldContents = '';
   frameTemplate;
+  iframeRef;
 
   static defaultProps = {
-    useIFrame: false,
     vertical: false
   };
 
   constructor(props) {
     super(props);
-
-    const {router} = props;
+    this.iframeRef = React.createRef();
+    const {history} = props;
 
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
     this.state = {
       asideWidth: props.asideWidth || Math.max(300, window.innerWidth * 0.3),
       schema: schema,
-      schemaCode: JSON.stringify(schema, null, 2)
+      schemaCode: JSON.stringify(schema, null, 2),
+      isOpened: false
     };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -83,117 +116,235 @@ export default class PlayGround extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.schemaProps = {
-      style: {
-        height: '100%'
-      }
-    };
-    const normalizeLink = to => {
-      to = to || '';
-      const location = router.getCurrentLocation();
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.close = this.close.bind(this);
+    this.schemaProps = {};
 
-      if (to && to[0] === '#') {
-        to = location.pathname + location.search + to;
-      } else if (to && to[0] === '?') {
-        to = location.pathname + to;
-      }
+    const __ = makeTranslator(props.locale);
 
-      const idx = to.indexOf('?');
-      const idx2 = to.indexOf('#');
-      let pathname = ~idx
-        ? to.substring(0, idx)
-        : ~idx2
-        ? to.substring(0, idx2)
-        : to;
-      let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
-      let hash = ~idx2 ? to.substring(idx2) : location.hash;
-
-      if (!pathname) {
-        pathname = location.pathname;
-      } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
-        let relativeBase = location.pathname;
-        const paths = relativeBase.split('/');
-        paths.pop();
-        let m;
-        while ((m = /^\.\.?\//.exec(pathname))) {
-          if (m[0] === '../') {
-            paths.pop();
-          }
-          pathname = pathname.substring(m[0].length);
-        }
-        pathname = paths.concat(pathname).join('/');
-      }
-
-      return pathname + search + hash;
-    };
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {
-        router[replace ? 'replace' : 'push'](normalizeLink(location));
+        history[replace ? 'replace' : 'push'](normalizeLink(location));
       },
       isCurrentUrl: to => {
+        if (!to) {
+          return false;
+        }
         const link = normalizeLink(to);
-        return router.isActive(link);
+        return !!matchPath(history.location.pathname, {
+          path: link,
+          exact: true
+        });
       },
       jumpTo: (to, action) => {
         to = normalizeLink(to);
 
         if (action && action.actionType === 'url') {
-          action.blank === false
-            ? (window.location.href = to)
-            : window.open(to);
+          action.blank === true ? window.open(to) : (window.location.href = to);
+          return;
+        }
+
+        if (action && to && action.target) {
+          window.open(to, action.target);
           return;
         }
 
         if (/^https?:\/\//.test(to)) {
           window.location.replace(to);
         } else {
-          router.push(to);
+          history.push(to);
         }
       },
-      fetcher: config => {
-        config = {
-          dataType: 'json',
-          ...config
-        };
+      fetcher: async api => {
+        let {url, method, data, responseType, config, headers} = api;
+        config = config || {};
+        // 如果在 gh-pages 里面
+        if (
+          /^\/amis/.test(window.location.pathname) &&
+          typeof url === 'string' &&
+          url.startsWith('/examples/static/')
+        ) {
+          url = url.replace('/examples/static/', '/amis/static/');
+        }
 
-        if (config.dataType === 'json' && config.data) {
-          config.data = JSON.stringify(config.data);
-          config.headers = config.headers || {};
+        config.url = url;
+        responseType && (config.responseType = responseType);
+
+        if (config.cancelExecutor) {
+          config.cancelToken = new axios.CancelToken(config.cancelExecutor);
+        }
+
+        config.headers = headers || {};
+        config.method = method;
+        config.data = data;
+
+        if (method === 'get' && data) {
+          config.params = data;
+        } else if (data && data instanceof FormData) {
+          // config.headers['Content-Type'] = 'multipart/form-data';
+        } else if (
+          data &&
+          typeof data !== 'string' &&
+          !(data instanceof Blob) &&
+          !(data instanceof ArrayBuffer)
+        ) {
+          data = JSON.stringify(data);
           config.headers['Content-Type'] = 'application/json';
         }
 
-        return axios[config.method](config.url, config.data, config);
+        // 支持返回各种报错信息
+        config.validateStatus = function () {
+          return true;
+        };
+
+        let response = await axios(config);
+        response = await attachmentAdpator(response, __, api);
+
+        if (response.status >= 400) {
+          if (response.data) {
+            // 主要用于 raw: 模式下，后端自己校验登录，
+            if (
+              response.status === 401 &&
+              response.data.location &&
+              response.data.location.startsWith('http')
+            ) {
+              location.href = response.data.location.replace(
+                '{{redirect}}',
+                encodeURIComponent(location.href)
+              );
+              return new Promise(() => {});
+            } else if (response.data.msg) {
+              throw new Error(response.data.msg);
+            } else {
+              throw new Error(
+                __('System.requestError') +
+                  JSON.stringify(response.data, null, 2)
+              );
+            }
+          } else {
+            throw new Error(
+              `${__('System.requestErrorStatus')} ${response.status}`
+            );
+          }
+        }
+
+        return response;
       },
       isCancel: value => axios.isCancel(value),
-      notify: (type, msg) =>
+      notify: (type, msg, conf) =>
         toast[type]
-          ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+          ? toast[type](msg, conf)
           : console.warn('[Notify]', type, msg),
       alert,
       confirm,
-      copy: content => {
-        copy(content);
-        toast.success('内容已复制到粘贴板');
+      copy: (content, options) => {
+        copy(content, options);
+        toast.success(__('System.copy'));
+      },
+      tracker(eventTrack) {
+        console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
+      },
+      loadTinymcePlugin: async tinymce => {
+        // 参考：https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+        /*
+          Note: We have included the plugin in the same JavaScript file as the TinyMCE
+          instance for display purposes only. Tiny recommends not maintaining the plugin
+          with the TinyMCE instance and using the `external_plugins` option.
+        */
+        tinymce.PluginManager.add('example', function (editor, url) {
+          var openDialog = function () {
+            return editor.windowManager.open({
+              title: 'Example plugin',
+              body: {
+                type: 'panel',
+                items: [
+                  {
+                    type: 'input',
+                    name: 'title',
+                    label: 'Title'
+                  }
+                ]
+              },
+              buttons: [
+                {
+                  type: 'cancel',
+                  text: 'Close'
+                },
+                {
+                  type: 'submit',
+                  text: 'Save',
+                  primary: true
+                }
+              ],
+              onSubmit: function (api) {
+                var data = api.getData();
+                /* Insert content when the window form is submitted */
+                editor.insertContent('Title: ' + data.title);
+                api.close();
+              }
+            });
+          };
+          /* Add a button that opens a window */
+          editor.ui.registry.addButton('example', {
+            text: 'My button',
+            onAction: function () {
+              /* Open window */
+              openDialog();
+            }
+          });
+          /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+          editor.ui.registry.addMenuItem('example', {
+            text: 'Example plugin',
+            onAction: function () {
+              /* Open window */
+              openDialog();
+            }
+          });
+          /* Return the metadata for the help plugin */
+          return {
+            getMetadata: function () {
+              return {
+                name: 'Example plugin',
+                url: 'http://exampleplugindocsurl.com'
+              };
+            }
+          };
+        });
       }
     };
 
-    const links = [].slice
-      .call(document.head.querySelectorAll('link,style'))
-      .map(item => item.outerHTML);
-    this.frameTemplate = `<!DOCTYPE html><html><head>${links.join(
-      ''
-    )}</head><body><div></div></body></html>`;
+    this.watchIframeReady = this.watchIframeReady.bind(this);
+    window.addEventListener('message', this.watchIframeReady, false);
   }
 
-  componentWillReceiveProps(nextprops) {
+  watchIframeReady(event) {
+    // iframe 里面的 amis 初始化了就可以发数据
+    if (event.data && event.data === 'amisReady') {
+      this.updateIframe();
+    }
+  }
+
+  updateIframe() {
+    if (this.iframeRef && this.iframeRef.current) {
+      this.iframeRef.current.contentWindow.postMessage(
+        {
+          schema: this.state.schema,
+          props: {theme: this.props.theme, locale: this.props.locale}
+        },
+        '*'
+      );
+    }
+  }
+
+  componentDidUpdate(preProps) {
     const props = this.props;
 
-    if (props.code !== nextprops.code) {
-      const schema = this.buildSchema(
-        nextprops.code || DEFAULT_CONTENT,
-        nextprops
-      );
+    if (preProps.code !== props.code) {
+      const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
       this.setState({
         schema: schema,
         schemaCode: JSON.stringify(schema, null, 2)
@@ -207,13 +358,14 @@ export default class PlayGround extends React.Component {
 
   componentWillUnmount() {
     this.props.setAsideFolded && this.props.setAsideFolded(false);
+    window.removeEventListener('message', this.watchIframeReady, false);
   }
 
   buildSchema(schemaContent, props = this.props) {
     const query = props.location.query;
 
     try {
-      const scope = query.scope || props.scope;
+      const scope = props.scope;
 
       if (scope && scopes[scope]) {
         schemaContent = scopes[scope].replace(
@@ -222,14 +374,9 @@ export default class PlayGround extends React.Component {
         );
       }
 
-      schemaContent = stripJsonComments(schemaContent).replace(
-        /('|")raw:/g,
-        '$1'
-      ); // 去掉注释
+      schemaContent = schemaContent.replace(/('|")raw:/g, '$1'); // 去掉 raw
 
-      const json = {
-        ...JSON.parse(schemaContent)
-      };
+      const json = JSON5.parse(schemaContent);
 
       return json;
     } catch (e) {
@@ -263,33 +410,37 @@ export default class PlayGround extends React.Component {
       affixFooter: false
     };
 
-    if (!this.props.useIFrame) {
-      return render(schema, props, this.env);
+    if (this.props.viewMode === 'mobile' && !isMobile()) {
+      return (
+        <iframe
+          width="375"
+          height="100%"
+          frameBorder={0}
+          className="mobile-frame"
+          ref={this.iframeRef}
+          // @ts-ignore
+          src={__uri('../mobile.html')}
+        ></iframe>
+      );
     }
 
-    return (
-      <Frame
-        width="100%"
-        height="100%"
-        frameBorder={0}
-        initialContent={this.frameTemplate}
-      >
-        {render(schema, props, this.env)}
-      </Frame>
-    );
+    return render(schema, props, this.env);
   }
 
   handleChange(value) {
     this.setState({
       schemaCode: value
     });
-
     try {
-      const schema = JSON.parse(value);
-
-      this.setState({
-        schema
-      });
+      const schema = JSON5.parse(value);
+      this.setState(
+        {
+          schema
+        },
+        () => {
+          this.updateIframe();
+        }
+      );
     } catch (e) {
       //ignore
     }
@@ -322,6 +473,18 @@ export default class PlayGround extends React.Component {
   removeWindowEvents() {
     window.removeEventListener('mouseup', this.handleMouseUp);
     window.removeEventListener('mousemove', this.handleMouseMove);
+  }
+
+  toggleDrawer() {
+    this.setState({
+      isOpened: !this.state.isOpened
+    });
+  }
+
+  close() {
+    this.setState({
+      isOpened: false
+    });
   }
 
   editorDidMount = (editor, monaco) => {
@@ -373,32 +536,59 @@ export default class PlayGround extends React.Component {
   // };
 
   renderEditor() {
+    const {theme} = this.props;
     return (
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        options={{
+          lineNumbers: 'off'
+        }}
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"
+        editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
       />
     );
   }
 
   render() {
-    const {vertical} = this.props;
-    if (vertical) {
+    const {vertical, mini, height, theme, classPrefix} = this.props;
+    if (mini) {
       return (
-        <div className="vbox">
-          <div className="row-row">
-            <div className="cell pos-rlt">
-              <div className="scroll-y h-full pos-abt w-full b-b">
-                {this.renderPreview()}
-              </div>
+        <div className="Playgroud Playgroud--mini">
+          <a onClick={this.toggleDrawer} className="Playgroud-edit-btn">
+            编辑代码 <i className="fa fa-code p-l-xs"></i>
+          </a>
+          <Drawer
+            showCloseButton
+            closeOnOutside
+            resizable
+            theme={theme}
+            overlay={false}
+            position="right"
+            show={this.state.isOpened}
+            onHide={this.close}
+          >
+            <div className={`${classPrefix}Drawer-header`}>
+              编辑代码（支持编辑实时预览）
             </div>
+            <div className={`${classPrefix}Drawer-body no-padder`}>
+              {this.renderEditor()}
+            </div>
+          </Drawer>
+          <div style={{minHeight: height}} className="Playgroud-preview">
+            {this.renderPreview()}
           </div>
-          <div className="row-row b-t" style={{height: 200}}>
-            <div className="cell">{this.renderEditor()}</div>
+        </div>
+      );
+    } else if (vertical) {
+      return (
+        <div className="Playgroud">
+          <div style={{minHeight: height}} className="Playgroud-preview">
+            {this.renderPreview()}
           </div>
+          <div className="Playgroud-code">{this.renderEditor()}</div>
         </div>
       );
     }

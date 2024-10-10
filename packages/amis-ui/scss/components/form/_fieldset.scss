@@ -1,0 +1,202 @@
+%fieldSetBase {
+  position: relative;
+
+  &:after {
+    content: '';
+    pointer-events: none;
+    border: 1px solid var(--borderColor);
+    position: absolute;
+    z-index: 0;
+    top: 11px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  > legend {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: auto;
+    z-index: 1;
+    background: var(--Fieldset-legend-bgColor);
+  }
+
+  > legend.#{$ns}Collapse-header.is-mobile {
+    position: absolute;
+  }
+
+  .collapse {
+    position: relative;
+  }
+}
+
+fieldset.#{$ns}Collapse {
+  border: none;
+  > legend {
+    border-left: var(--fieldSet-legend-border-color)
+      var(--fieldSet-legend-border-width) solid;
+    height: var(--fieldSet-legend-height);
+    line-height: var(--fieldSet-legend-height);
+    margin: var(--fieldSet-legend-marginTop) var(--fieldSet-legend-marginRight)
+      var(--fieldSet-legend-marginBottom) var(--fieldSet-legend-marginLeft);
+    padding: var(--fieldSet-legend-paddingTop)
+      var(--fieldSet-legend-paddingRight) var(--fieldSet-legend-paddingBottom)
+      var(--fieldSet-legend-paddingLeft);
+    cursor: pointer;
+    background: transparent;
+    display: inline-flex !important;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    box-sizing: content-box;
+    // width: 100%;
+
+    .#{$ns}TplField {
+      font-weight: var(--fieldSet-legend-fontWeight);
+      font-size: var(--fieldSet-legend-fontSize);
+      color: var(--fieldSet-legend-color);
+    }
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  &--xs {
+    @extend %fieldSetBase;
+    padding: var(--fieldSet-size-xs-paddingTop)
+      var(--fieldSet-size-xs-paddingRight) var(--fieldSet-size-xs-paddingBottom)
+      var(--fieldSet-size-xs-paddingLeft);
+
+    > legend {
+      left: var(--fieldSet-size-xs-paddingLeft);
+      padding: 0 3px;
+      margin: 0 0 0 -3px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-xs-fontSize);
+      }
+
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+
+    &:after {
+      top: calc(var(--fieldSet-size-xs-fontSize) / 2);
+    }
+  }
+
+  &--sm {
+    @extend %fieldSetBase;
+
+    padding: var(--fieldSet-size-sm-paddingTop)
+      var(--fieldSet-size-sm-paddingRight) var(--fieldSet-size-sm-paddingBottom)
+      var(--fieldSet-size-sm-paddingLeft);
+
+    > legend {
+      left: var(--fieldSet-size-sm-paddingLeft);
+      padding: 0 5px;
+      margin: 0 0 0 -5px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-sm-fontSize);
+      }
+
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+
+    &:after {
+      top: calc(var(--fieldSet-size-sm-fontSize) / 2);
+    }
+  }
+
+  &--base {
+    @extend %fieldSetBase;
+
+    padding: var(--fieldSet-size-base-paddingTop)
+      var(--fieldSet-size-base-paddingRight)
+      var(--fieldSet-size-base-paddingBottom)
+      var(--fieldSet-size-base-paddingLeft);
+
+    > legend {
+      left: var(--fieldSet-size-base-paddingLeft);
+      padding: 0 8px;
+      margin: 0 0 0 -8px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-base-fontSize);
+      }
+
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+
+    &:after {
+      top: calc(var(--fieldSet-size-base-fontSize) / 2);
+    }
+  }
+
+  &--md {
+    @extend %fieldSetBase;
+    padding: var(--fieldSet-size-md-paddingTop)
+      var(--fieldSet-size-md-paddingRight) var(--fieldSet-size-md-paddingBottom)
+      var(--fieldSet-size-md-paddingLeft);
+
+    > legend {
+      left: var(--fieldSet-size-md-paddingLeft);
+      padding: 0 10px;
+      margin: 0 0 0 -10px;
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-md-fontSize);
+      }
+
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+
+    &:after {
+      top: calc(var(--fieldSet-size-md-fontSize) / 2);
+    }
+  }
+
+  &--lg {
+    @extend %fieldSetBase;
+    padding: var(--fieldSet-size-lg-paddingTop)
+      var(--fieldSet-size-lg-paddingRight) var(--fieldSet-size-lg-paddingBottom)
+      var(--fieldSet-size-lg-paddingLeft);
+
+    > legend {
+      left: var(--fieldSet-size-lg-paddingLeft);
+      padding: 0 var(--gap-md);
+      margin: 0 0 0 calc(var(--gap-md) * -1);
+
+      .#{$ns}TplField {
+        font-size: var(--fieldSet-size-lg-fontSize);
+      }
+
+      &:hover {
+        background-color: var(--white);
+      }
+    }
+
+    &:after {
+      top: calc(var(--fieldSet-size-lg-fontSize) / 2);
+    }
+  }
+
+  .#{$ns}Collapse-header.is-mobile {
+    padding-left: var(--gap-xs) !important;
+    padding-right: px2rem(18px);
+
+    &:hover {
+      background: var(--white);
+    }
+  }
+}

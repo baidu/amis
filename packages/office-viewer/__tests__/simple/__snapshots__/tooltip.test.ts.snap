@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tooltip 1`] = `
+<article>
+  <section
+    style="position: relative; width: 793.31px; padding: 94.46px 94.46px 94.46px 94.46px;"
+  >
+    <p
+      class="docx-viewer-0-p docx-viewer-0-Normal docx-viewer-0-Heading1"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        Is Hope Tip-less?
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        Here is a 
+      </span>
+      <a
+        href="http://berjon.com/"
+        target="_blank"
+        title="tooltip"
+      >
+        <span
+          class="docx-viewer-0-r docx-viewer-0-DefaultParagraphFont docx-viewer-0-Hyperlink"
+          style="color: rgb(5, 99, 193); text-decoration: underline;"
+        >
+          hyperlink with a tooltip
+        </span>
+      </a>
+      <span
+        class="docx-viewer-0-r"
+      >
+        .
+      </span>
+    </p>
+  </section>
+</article>
+`;

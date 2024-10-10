@@ -1,0 +1,12 @@
+{
+  "packages": [
+    "packages/amis-formula",
+    "packages/amis-core",
+    "packages/amis-ui",
+    "packages/amis",
+    "packages/amis-editor-core",
+    "packages/amis-editor"
+  ],
+  "useWorkspaces": false,
+  "version": "6.8.0"
+}

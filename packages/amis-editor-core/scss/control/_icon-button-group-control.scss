@@ -1,0 +1,27 @@
+.icon-ButtonList {
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    background-color: #fff !important;
+    box-sizing: border-box;
+
+    svg {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 20px;
+      min-height: 20px;
+    }
+
+    &.is-active {
+      svg {
+        fill: $Editor-theme-color;
+        color: $Editor-theme-color;
+      }
+      i {
+        color: $Editor-theme-color;
+      }
+    }
+  }
+}

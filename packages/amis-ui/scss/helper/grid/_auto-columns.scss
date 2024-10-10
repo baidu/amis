@@ -1,0 +1,38 @@
+/*!markdown
+
+---
+title: Grid Auto Columns
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| auto-cols-auto | grid-auto-columns: auto |
+| auto-cols-min | grid-auto-columns: min-content |
+| auto-cols-max | grid-auto-columns: max-content |
+| auto-cols-fr | grid-auto-columns: minmax(0, 1fr) |
+
+
+*/
+@mixin make-grid-auto-columns($prefix: '.') {
+  #{$prefix}auto-cols-auto {
+    grid-auto-columns: auto;
+  }
+
+  #{$prefix}auto-cols-min {
+    grid-auto-columns: min-content;
+  }
+
+  #{$prefix}auto-cols-max {
+    grid-auto-columns: max-content;
+  }
+  #{$prefix}auto-cols-fr {
+    grid-auto-columns: minmax(0, 1fr);
+  }
+}
+
+@include make-grid-auto-columns();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-grid-auto-columns('.' + selector-escape($deivce + ':'));
+  }
+}

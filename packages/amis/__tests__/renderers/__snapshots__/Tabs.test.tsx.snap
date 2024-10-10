@@ -1,0 +1,1161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:tabs as form item 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Tabs cxd-Tabs--line"
+        >
+          <div
+            class="cxd-Tabs-linksContainer-wrapper"
+          >
+            <div
+              class="cxd-Tabs-linksContainer"
+            >
+              <div
+                class="cxd-Tabs-linksContainer-main"
+              >
+                <ul
+                  class="cxd-Tabs-links"
+                  role="tablist"
+                >
+                  <li
+                    class="cxd-Tabs-link"
+                  >
+                    <a
+                      title="Tab 1"
+                    >
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        Tab 1
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Tabs-link is-active"
+                  >
+                    <a
+                      title="Tab 2"
+                    >
+                      <span
+                        class="cxd-Tabs-link-text"
+                      >
+                        Tab 2
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Tabs-content"
+          >
+            <div
+              class="cxd-Tabs-pane"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Content 1
+                </span>
+              </span>
+            </div>
+            <div
+              class="in is-active cxd-Tabs-pane"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Content 2
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            submitText
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs change active tab 1`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+              <span
+                class="cxd-Tabs-link-close"
+              >
+                <icon-mock
+                  classname="cxd-Tabs-link-close-icon icon-close"
+                  icon="close"
+                />
+              </span>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+              <span
+                class="cxd-Tabs-link-close"
+              >
+                <icon-mock
+                  classname="cxd-Tabs-link-close-icon icon-close"
+                  icon="close"
+                />
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs change active tab 2`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+              <span
+                class="cxd-Tabs-link-close"
+              >
+                <icon-mock
+                  classname="cxd-Tabs-link-close-icon icon-close"
+                  icon="close"
+                />
+              </span>
+            </li>
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+              <span
+                class="cxd-Tabs-link-close"
+              >
+                <icon-mock
+                  classname="cxd-Tabs-link-close-icon icon-close"
+                  icon="close"
+                />
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  文本3
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="c"
+                placeholder=""
+                size="10"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="d"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  文本4
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="d"
+                placeholder=""
+                size="10"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 1`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--card"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 2`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--radio"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 3`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--vertical"
+  >
+    <div
+      class="cxd-Tabs-linksWrapper"
+    >
+      <ul
+        class="cxd-Tabs-links"
+        role="tablist"
+      >
+        <li
+          class="cxd-Tabs-link is-active"
+        >
+          <a
+            title="基本配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="其他配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 4`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--chrome"
+  >
+    <div
+      class="cxd-Tabs-linksWrapper"
+    >
+      <ul
+        class="cxd-Tabs-links"
+        role="tablist"
+      >
+        <li
+          class="cxd-Tabs-link is-active"
+        >
+          <a
+            title="基本配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
+          </a>
+          <div
+            class="chrome-tab-background"
+          >
+            <svg
+              class="chrome-tab-background--right"
+              viewBox="0 0 124 124"
+            >
+              <path
+                d="M0,0 C0,68.483309 55.516691,124 124,124 L0,124 L0,-1 C0.00132103964,-0.667821298 0,-0.334064922 0,0 Z"
+              />
+            </svg>
+            <svg
+              class="chrome-tab-background--left"
+              viewBox="0 0 124 124"
+            >
+              <path
+                d="M124,0 L124,125 L0,125 L0,125 C68.483309,125 124,69.483309 124,1 L123.992,0 L124,0 Z"
+              />
+            </svg>
+          </div>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="其他配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
+          </a>
+          <div
+            class="chrome-tab-background"
+          >
+            <svg
+              class="chrome-tab-background--right"
+              viewBox="0 0 124 124"
+            >
+              <path
+                d="M0,0 C0,68.483309 55.516691,124 124,124 L0,124 L0,-1 C0.00132103964,-0.667821298 0,-0.334064922 0,0 Z"
+              />
+            </svg>
+            <svg
+              class="chrome-tab-background--left"
+              viewBox="0 0 124 124"
+            >
+              <path
+                d="M124,0 L124,125 L0,125 L0,125 C68.483309,125 124,69.483309 124,1 L123.992,0 L124,0 Z"
+              />
+            </svg>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 5`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--simple"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 6`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--strong"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 7`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--tiled"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs tabsMode 8`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--sidebar sidebar--right"
+  >
+    <div
+      class="cxd-Tabs-linksWrapper"
+    >
+      <ul
+        class="cxd-Tabs-links"
+        role="tablist"
+      >
+        <li
+          class="cxd-Tabs-link is-active"
+        >
+          <a
+            title="基本配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              基本配置
+            </span>
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="其他配置"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              其他配置
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs toolbar 1`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--line"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="基本配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  基本配置
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="其他配置"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  其他配置
+                </span>
+              </a>
+            </li>
+            <div
+              class="cxd-Tabs-toolbar toolbarClassName"
+            >
+              <button
+                class="cxd-Button cxd-Button--default cxd-Button--size-sm"
+                type="button"
+              >
+                <span>
+                  按钮
+                </span>
+              </button>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
+<div>
+  <div
+    class="cxd-Tabs cxd-Tabs--tiled has-popover"
+  >
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
+    >
+      <div
+        class="cxd-Tabs-linksContainer"
+      >
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a
+                title="Tab 1"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  Tab 1
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                title="Tab 2"
+              >
+                <span
+                  class="cxd-Tabs-link-text"
+                >
+                  Tab 2
+                </span>
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a
+                class="cxd-Tabs-togglor is-opened"
+              >
+                <span>
+                  更多
+                </span>
+                <span
+                  class="cxd-Tabs-togglor-arrow"
+                >
+                  <icon-mock
+                    classname="icon icon-right-arrow-bold"
+                    icon="right-arrow-bold"
+                  />
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Tabs-content"
+    >
+      <div
+        class="in is-active cxd-Tabs-pane"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            Content 1
+          </span>
+        </span>
+      </div>
+    </div>
+    <div
+      class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerBottomCenterTop cxd-PopOver--v-top"
+      role="popover"
+      style="display: block; min-width: auto; left: 0px; top: 0px;"
+      theme="cxd"
+    >
+      <div
+        class="cxd-PopOver-overlay"
+      />
+      <ul
+        class="cxd-Tabs-PopOverList cxd-DropDown-menu"
+      >
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 3"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 3
+            </span>
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 4"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 4
+            </span>
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a
+            title="Tab 5"
+          >
+            <span
+              class="cxd-Tabs-link-text"
+            >
+              Tab 5
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

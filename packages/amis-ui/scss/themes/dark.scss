@@ -1,0 +1,34 @@
+@import '../properties';
+@import '../components';
+@import './dark-variables';
+@import './common';
+
+:root,
+.AMISCSSWrapper {
+  --loading-dark-bg-color: var(--colors-neutral-fill-2);
+  --switch-text-on-color: var(--colors-neutral-text-2);
+  --switch-text-off-color: var(--colors-neutral-text-2);
+  --switch-default-on-slider-color: var(--colors-neutral-fill-2);
+  --switch-default-off-slider-color: var(--colors-neutral-fill-2);
+  --button-primary-default-font-color: var(--colors-neutral-text-2);
+  --button-primary-hover-font-color: var(--colors-neutral-text-2);
+  --button-primary-active-font-color: var(--colors-neutral-text-2);
+  --button-info-default-font-color: var(--colors-neutral-text-2);
+  --button-info-hover-font-color: var(--colors-neutral-text-2);
+  --button-info-active-font-color: var(--colors-neutral-text-2);
+  --button-success-default-font-color: var(--colors-neutral-text-2);
+  --button-success-hover-font-color: var(--colors-neutral-text-2);
+  --button-success-active-font-color: var(--colors-neutral-text-2);
+  --button-warning-default-font-color: var(--colors-neutral-text-2);
+  --button-warning-hover-font-color: var(--colors-neutral-text-2);
+  --button-warning-active-font-color: var(--colors-neutral-text-2);
+  --button-danger-default-font-color: var(--colors-neutral-text-2);
+  --button-danger-hover-font-color: var(--colors-neutral-text-2);
+  --button-danger-active-font-color: var(--colors-neutral-text-2);
+  --Layout-aside-bg: var(--colors-neutral-fill-10);
+  --Layout-asideLink-color: var(--colors-neutral-text-2);
+  --Layout-aside-subList-bg: var(--colors-neutral-fill-10);
+  --Layout-brand-bg: var(--colors-neutral-fill-10);
+  --Layout-brand-color: var(--colors-neutral-text-2);
+  --Layout-asideLink-onActive-color: var(--colors-brand-4);
+}

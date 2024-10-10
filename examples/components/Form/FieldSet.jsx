@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'FieldSet 示例',
   body: [
     {
@@ -15,23 +14,23 @@ export default {
       ],
       collapsable: true,
       title: 'fieldSet 可以对表单元素做个分组',
-      controls: [
+      body: [
         {
           type: 'fieldSet',
           title: '基本信息',
           collapsable: true,
-          controls: [
+          body: [
             {
               type: 'group',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email',
                   placeholder: '请输入邮箱地址',
                   label: '邮箱'
                 },
                 {
-                  type: 'password',
+                  type: 'input-password',
                   name: 'password',
                   label: false,
                   placeholder: 'Password'
@@ -43,9 +42,9 @@ export default {
             },
             {
               type: 'group',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email',
                   placeholder: '请输入邮箱地址',
                   label: '邮箱'
@@ -64,9 +63,9 @@ export default {
         {
           title: '其他信息',
           type: 'fieldSet',
-          controls: [
+          body: [
             {
-              type: 'email',
+              type: 'input-email',
               name: 'email',
               placeholder: '请输入邮箱地址',
               label: '邮箱'
@@ -86,12 +85,13 @@ export default {
     {
       title: 'FieldSet 样式集',
       type: 'form',
-      controls: [
+      body: [
         {
           title: '超级小',
           type: 'fieldSet',
-          className: 'fieldset-xs',
-          controls: [
+          collapsable: true,
+          size: 'xs',
+          body: [
             {
               type: 'plain',
               text: '文本 ...'
@@ -101,8 +101,9 @@ export default {
         {
           title: '小尺寸',
           type: 'fieldSet',
-          className: 'fieldset-sm',
-          controls: [
+          collapsable: true,
+          size: 'sm',
+          body: [
             {
               type: 'plain',
               text: '文本 ...'
@@ -112,8 +113,9 @@ export default {
         {
           title: '正常尺寸',
           type: 'fieldSet',
-          className: 'fieldset',
-          controls: [
+          collapsable: true,
+          size: 'base',
+          body: [
             {
               type: 'plain',
               text: '文本 ...'
@@ -123,8 +125,9 @@ export default {
         {
           title: '中大尺寸',
           type: 'fieldSet',
-          className: 'fieldset-md',
-          controls: [
+          collapsable: true,
+          size: 'md',
+          body: [
             {
               type: 'plain',
               text: '文本 ...'
@@ -134,8 +137,9 @@ export default {
         {
           title: '超大尺寸',
           type: 'fieldSet',
-          className: 'fieldset-lg',
-          controls: [
+          collapsable: true,
+          size: 'lg',
+          body: [
             {
               type: 'plain',
               text: '文本 ...'

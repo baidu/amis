@@ -1,0 +1,442 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:list 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  单选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ListControl cxd-Form-control"
+          >
+            <div
+              class="cxd-ListControl-items"
+            >
+              <div
+                class="cxd-ListControl-item"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="cxd-ListControl-item"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+              <div
+                class="cxd-ListControl-item"
+              >
+                <div
+                  class="cxd-ListControl-itemImage"
+                >
+                  <img
+                    alt="OptionC"
+                    src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+                  />
+                </div>
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  OptionC
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ListControl cxd-Form-control"
+          >
+            <div
+              class="cxd-ListControl-items"
+            >
+              <div
+                class="cxd-ListControl-item is-active"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="cxd-ListControl-item"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ListControl cxd-Form-control"
+          >
+            <div
+              class="cxd-ListControl-items"
+            >
+              <div
+                class="cxd-ListControl-item is-active"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="cxd-ListControl-item is-active"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a,b
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 3`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-ListControl cxd-Form-control"
+          >
+            <div
+              class="cxd-ListControl-items"
+            >
+              <div
+                class="cxd-ListControl-item is-active"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="cxd-ListControl-item"
+              >
+                <div
+                  class="cxd-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

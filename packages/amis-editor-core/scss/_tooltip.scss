@@ -1,0 +1,111 @@
+// 页面设计器 3.0 UI
+
+// 提示小气泡，带箭头
+[editor-tooltip] {
+  position: relative;
+
+  // 默认右侧展示
+  &::after {
+    pointer-events: none;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    max-width: 300px;
+    padding: 4px 8px;
+    box-sizing: content-box;
+    content: attr(editor-tooltip);
+
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    font-weight: 400;
+    background: rgba(7, 12, 20, 0.85);
+    border: 1px solid rgba(7, 12, 20, 0.85);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+
+    white-space: normal;
+    animation-fill-mode: both;
+    visibility: hidden;
+    z-index: 110; // 避免被组件搜索面板遮挡
+    white-space: nowrap;
+  }
+
+  // 默认右侧展示
+  &::before {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    left: calc(100% - 2px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    border: 6px solid rgba(7, 12, 20, 0.85);
+    border-color: transparent rgba(7, 12, 20, 0.85) transparent transparent;
+    visibility: hidden;
+    z-index: 100;
+  }
+
+  &:not(.is-disabled):hover::after,
+  &:not(.disabled):hover::after,
+  &:not(.is-disabled):hover::before,
+  &:not(.disabled):hover::before {
+    visibility: visible;
+  }
+
+  &.is-disabled:hover::after,
+  &.disabled:hover::after,
+  &.is-disabled:hover::before,
+  &.disabled:hover::before {
+    visibility: hidden !important;
+  }
+
+  &[tooltip-position='bottom']::after {
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+  }
+
+  &[tooltip-position='bottom']::before {
+    left: 50%;
+    top: calc(100% - 2px);
+    transform: translateX(-50%);
+    border-color: transparent transparent rgba(7, 12, 20, 0.85) transparent;
+  }
+
+  &[tooltip-position='left']::after {
+    top: 50%;
+    right: calc(100% + 10px);
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  &[tooltip-position='left']::before {
+    top: 50%;
+    right: calc(100% - 2px);
+    left: auto;
+    transform: translateY(-50%);
+    border-color: transparent transparent transparent rgba(7, 12, 20, 0.85);
+  }
+
+  &[tooltip-position='top']::after {
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 9px);
+    transform: translateX(-50%);
+  }
+
+  &[tooltip-position='top']::before {
+    left: 50%;
+    top: auto;
+    bottom: calc(100% - 2px);
+    transform: translateX(-50%);
+    border-color: rgba(7, 12, 20, 0.85) transparent transparent transparent;
+  }
+}

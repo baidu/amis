@@ -1,0 +1,625 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tablestyle 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <table
+      class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable5Dark-Accent5 docx-classname-0"
+      style="width: auto;"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band2Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band1Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band1Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band2Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band1Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band2Horz band2Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band2Horz band1Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band2Horz band2Vert"
+            style="width: 155.86px;"
+          >
+            <table
+              class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable4-Accent6 docx-classname-1"
+              style="width: auto;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    class="nwCell firstRow firstCol band2Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="firstRow band2Horz band1Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="neCell firstRow lastCol band2Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="firstCol band1Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="band1Horz band1Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="lastCol band1Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="swCell lastRow firstCol band2Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="lastRow band2Horz band1Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                  <td
+                    class="seCell lastRow lastCol band2Horz band2Vert"
+                    style="width: 46.93px;"
+                  >
+                    <p
+                      class="docx-viewer-0-p"
+                      style="position: relative;"
+                    >
+                       
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            />
+          </td>
+          <td
+            class="lastCol band2Horz band1Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band1Horz band2Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band1Horz band1Vert"
+            style="width: 155.80px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band1Horz band2Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band1Horz band1Vert"
+            style="width: 155.86px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <table
+      class="enable-firstRow enable-firstColumn enable-hBand enable-vBand docx-viewer-0-TableNormal docx-viewer-0-PlainTable3 docx-classname-2"
+      style="width: auto;"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band2Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band2Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band2Horz band2Vert"
+            style="width: 124.66px; background-color: rgb(201, 201, 201);"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band2Horz band1Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band2Horz band2Vert"
+            style="width: 124.66px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <table
+      class="enable-firstRow enable-firstColumn enable-hBand docx-viewer-0-TableNormal docx-viewer-0-GridTable6Colorful-Accent2 docx-classname-3"
+      style="width: auto;"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="band1Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band2Horz band2Vert"
+            style="width: 207.73px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastRow band2Horz band1Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band2Horz band2Vert"
+            style="width: 207.79px;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+  </section>
+</article>
+`;

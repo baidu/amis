@@ -1,0 +1,42 @@
+/*!markdown
+
+---
+title: Whitespace
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| white-space-normal | align: normal |
+| white-space-nowrap | white-space: nowrap |
+| white-space-pre | white-space: pre |
+| white-space-pre-line | white-space: pre-line |
+| white-space-pre-wrap | white-space: pre-wrap |
+
+
+
+*/
+@mixin make-whitespace($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'normal': normal,
+        'nowrap': nowrap,
+        'pre': pre,
+        'pre-line': pre-line,
+        'pre-wrap': pre-wrap
+      )
+  {
+    #{$prefix}white-space-#{$name} {
+      white-space: $value;
+    }
+  }
+}
+
+@include make-whitespace();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-whitespace('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

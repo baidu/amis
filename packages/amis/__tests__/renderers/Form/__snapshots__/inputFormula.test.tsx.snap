@@ -1,0 +1,568 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:input-formula button 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-JsonField cxd-Form--debug"
+                >
+                  <div
+                    class="react-json-view"
+                    style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
+                  >
+                    <div
+                      class="pretty-json-container object-container"
+                    >
+                      <div
+                        class="object-content"
+                      >
+                        <div
+                          class="object-key-val"
+                        >
+                          <span>
+                            <span
+                              style="display: inline-block; cursor: pointer;"
+                            >
+                              <div
+                                class="icon-container"
+                                style="display: inline-block; width: 17px;"
+                              >
+                                <span
+                                  class="expanded-icon"
+                                >
+                                  <svg
+                                    fill="#586e75"
+                                    height="1em"
+                                    style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                                    viewBox="0 0 1792 1792"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                              <span />
+                              <span
+                                style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                              >
+                                {
+                              </span>
+                            </span>
+                            <div
+                              class="object-meta-data"
+                              style="display: inline-block; padding: 0px 0px 0px 10px;"
+                            >
+                              <span
+                                class="object-size"
+                                style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                              >
+                                1
+                                 item
+                              </span>
+                            </div>
+                          </span>
+                          <div
+                            class="pushed-content object-container"
+                          >
+                            <div
+                              class="object-content"
+                              style="margin-left: 6px;"
+                            >
+                              <div
+                                class="variable-row"
+                                style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                              >
+                                <span>
+                                  <span
+                                    class="object-key"
+                                    style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                                  >
+                                    <span
+                                      style="vertical-align: top;"
+                                    >
+                                      "
+                                    </span>
+                                    <span
+                                      style="display: inline-block;"
+                                    >
+                                      formula
+                                    </span>
+                                    <span
+                                      style="vertical-align: top;"
+                                    >
+                                      "
+                                    </span>
+                                  </span>
+                                  <span
+                                    style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                                  >
+                                    :
+                                  </span>
+                                </span>
+                                <div
+                                  class="variable-value"
+                                  style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                                >
+                                  <div
+                                    style="display: inline-block; color: rgb(203, 75, 22);"
+                                  >
+                                    <span
+                                      class="string-value"
+                                      style="cursor: default;"
+                                    >
+                                      "
+                                      SUM(1 + 2)
+                                      "
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            class="brace-row"
+                          >
+                            <span
+                              style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                            >
+                              }
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="formula"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          公式
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-FormulaPicker cxd-FormulaPicker--text cxd-Form-control"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default is-active cxd-FormulaPicker-action w-full"
+                      type="button"
+                    >
+                      <span
+                        class="cxd-FormulaPicker-label"
+                      >
+                        公式编辑
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:input-formula input-group 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-JsonField cxd-Form--debug"
+                >
+                  <div
+                    class="react-json-view"
+                    style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
+                  >
+                    <div
+                      class="pretty-json-container object-container"
+                    >
+                      <div
+                        class="object-content"
+                      >
+                        <div
+                          class="object-key-val"
+                        >
+                          <span>
+                            <span
+                              style="display: inline-block; cursor: pointer;"
+                            >
+                              <div
+                                class="icon-container"
+                                style="display: inline-block; width: 17px;"
+                              >
+                                <span
+                                  class="expanded-icon"
+                                >
+                                  <svg
+                                    fill="#586e75"
+                                    height="1em"
+                                    style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                                    viewBox="0 0 1792 1792"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                              <span />
+                              <span
+                                style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                              >
+                                {
+                              </span>
+                            </span>
+                            <div
+                              class="object-meta-data"
+                              style="display: inline-block; padding: 0px 0px 0px 10px;"
+                            >
+                              <span
+                                class="object-size"
+                                style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                              >
+                                1
+                                 item
+                              </span>
+                            </div>
+                          </span>
+                          <div
+                            class="pushed-content object-container"
+                          >
+                            <div
+                              class="object-content"
+                              style="margin-left: 6px;"
+                            >
+                              <div
+                                class="variable-row"
+                                style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                              >
+                                <span>
+                                  <span
+                                    class="object-key"
+                                    style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                                  >
+                                    <span
+                                      style="vertical-align: top;"
+                                    >
+                                      "
+                                    </span>
+                                    <span
+                                      style="display: inline-block;"
+                                    >
+                                      formula
+                                    </span>
+                                    <span
+                                      style="vertical-align: top;"
+                                    >
+                                      "
+                                    </span>
+                                  </span>
+                                  <span
+                                    style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                                  >
+                                    :
+                                  </span>
+                                </span>
+                                <div
+                                  class="variable-value"
+                                  style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                                >
+                                  <div
+                                    style="display: inline-block; color: rgb(203, 75, 22);"
+                                  >
+                                    <span
+                                      class="string-value"
+                                      style="cursor: default;"
+                                    >
+                                      "
+                                      SUM(1 + 2)
+                                      "
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            class="brace-row"
+                          >
+                            <span
+                              style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                            >
+                              }
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="formula"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          公式
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-FormulaPicker is-input-group cxd-FormulaPicker--text cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-InputBox cxd-FormulaPicker-input cxd-InputBox--borderFull"
+                    >
+                      <div
+                        class="cxd-FormulaCodeEditor cxd-FormulaCodeEditor--singleLine"
+                      >
+                        <div
+                          class="CodeMirror cm-s-idea"
+                          translate="no"
+                        >
+                          <div
+                            style="overflow: hidden; position: relative; width: 3px; height: 0px;"
+                          >
+                            <textarea
+                              autocapitalize="off"
+                              autocorrect="off"
+                              spellcheck="false"
+                              style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; min-height: 1em; outline: none;"
+                              tabindex="0"
+                            />
+                          </div>
+                          <div
+                            class="CodeMirror-scrollbar-filler"
+                            cm-not-content="true"
+                          />
+                          <div
+                            class="CodeMirror-gutter-filler"
+                            cm-not-content="true"
+                          />
+                          <div
+                            class="CodeMirror-scroll"
+                            tabindex="-1"
+                          >
+                            <div
+                              class="CodeMirror-sizer"
+                              style="margin-left: 0px; min-width: 3px;"
+                            >
+                              <div
+                                style="position: relative;"
+                              >
+                                <div
+                                  class="CodeMirror-lines"
+                                  role="presentation"
+                                >
+                                  <div
+                                    role="presentation"
+                                    style="position: relative; outline: none;"
+                                  >
+                                    <div
+                                      class="CodeMirror-measure"
+                                    />
+                                    <div
+                                      class="CodeMirror-measure"
+                                    >
+                                      <pre
+                                        class="CodeMirror-line"
+                                        role="presentation"
+                                      >
+                                        <span
+                                          role="presentation"
+                                          style="padding-right: .1px;"
+                                        >
+                                          SUM(1 + 2)
+                                        </span>
+                                      </pre>
+                                    </div>
+                                    <div
+                                      style="position: relative; z-index: 1;"
+                                    />
+                                    <div
+                                      class="CodeMirror-cursors"
+                                    />
+                                    <div
+                                      class="CodeMirror-code"
+                                      role="presentation"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              style="position: absolute; height: 50px; width: 1px;"
+                            />
+                            <div
+                              class="CodeMirror-gutters"
+                              style="display: none;"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        class="cxd-InputBox-clear"
+                      >
+                        <icon-mock
+                          classname="icon icon-input-clear"
+                          icon="input-clear"
+                        />
+                      </a>
+                    </div>
+                    <a
+                      class="cxd-FormulaPicker-toggler"
+                    >
+                      <icon-mock
+                        classname="icon icon-function"
+                        icon="function"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,225 @@
+.#{$ns}ListControl,
+.#{$ns}ListControl-static {
+  &-items {
+    display: block;
+    margin: calc(var(--ListControl-gutterWidth) / -2);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &-item {
+    width: var(--listSelect-base-image-width);
+    position: relative;
+    user-select: none;
+    font-size: var(--ListControl-fontSize);
+    display: inline-block;
+    vertical-align: middle;
+    margin: calc(var(--ListControl-gutterWidth) / 2);
+    border: var(--ListControl-item-borderWidth) solid
+      var(--ListControl-item-borderColor);
+    background: var(--ListControl-item-bg);
+    padding: var(--ListControl-item-paddingY) var(--ListControl-item-paddingX);
+    color: var(--ListControl-item-color);
+    transition: var(--ListControl-item-transition);
+    max-width: calc(#{px2rem(200px)} + 2 * var(--ListControl-item-paddingX));
+    border-radius: var(--ListControl-item-borderRadius);
+    padding: var(--listSelect-base-default-paddingTop)
+      var(--listSelect-base-default-paddingRight)
+      var(--listSelect-base-default-paddingBottom)
+      var(--listSelect-base-default-paddingLeft);
+
+    .b-inherit {
+      border-color: var(--ListControl-item-color);
+    }
+
+    &:hover {
+      color: var(--listSelect-base-hover-color);
+    }
+  }
+
+  &-itemImage {
+    margin: calc(var(--ListControl-item-paddingY) * -1)
+      calc(var(--ListControl-item-paddingX) * -1);
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+  }
+
+  &-itemLabel {
+    text-align: center;
+  }
+
+  &-itemImage + &-itemLabel {
+    margin-top: var(--ListControl-item-paddingY);
+  }
+
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+  }
+}
+
+.#{$ns}ListControl {
+  &-item {
+    &:not(.is-disabled) {
+      cursor: pointer;
+    }
+
+    @include hover {
+      background: var(--ListControl-item-onHover-bg);
+      border-color: var(--ListControl-item-onHover-borderColor);
+      color: var(--ListControl-item-onHover-color);
+
+      .b-inherit {
+        border-color: var(--ListControl-item-onHover-borderColor);
+      }
+    }
+
+    border-width: var(--listSelect-base-default-top-border-width)
+      var(--listSelect-base-default-right-border-width)
+      var(--listSelect-base-default-bottom-border-width)
+      var(--listSelect-base-default-left-border-width);
+    border-style: var(--listSelect-base-default-top-border-style)
+      var(--listSelect-base-default-right-border-style)
+      var(--listSelect-base-default-bottom-border-style)
+      var(--listSelect-base-default-left-border-style);
+    border-color: var(--listSelect-base-default-top-border-color)
+      var(--listSelect-base-default-right-border-color)
+      var(--listSelect-base-default-bottom-border-color)
+      var(--listSelect-base-default-left-border-color);
+    border-radius: var(--listSelect-base-default-top-left-border-radius)
+      var(--listSelect-base-default-top-right-border-radius)
+      var(--listSelect-base-default-bottom-right-border-radius)
+      var(--listSelect-base-default-bottom-left-border-radius);
+    background: var(--listSelect-base-default-bg-color);
+
+    &:hover {
+      border-width: var(--listSelect-base-hover-top-border-width)
+        var(--listSelect-base-hover-right-border-width)
+        var(--listSelect-base-hover-bottom-border-width)
+        var(--listSelect-base-hover-left-border-width);
+      border-style: var(--listSelect-base-hover-top-border-style)
+        var(--listSelect-base-hover-right-border-style)
+        var(--listSelect-base-hover-bottom-border-style)
+        var(--listSelect-base-hover-left-border-style);
+      border-color: var(--listSelect-base-hover-top-border-color)
+        var(--listSelect-base-hover-right-border-color)
+        var(--listSelect-base-hover-bottom-border-color)
+        var(--listSelect-base-hover-left-border-color);
+      border-radius: var(--listSelect-base-hover-top-left-border-radius)
+        var(--listSelect-base-hover-top-right-border-radius)
+        var(--listSelect-base-hover-bottom-right-border-radius)
+        var(--listSelect-base-hover-bottom-left-border-radius);
+      background: var(--listSelect-base-hover-bg-color);
+    }
+
+    &:hover:active,
+    &.is-active {
+      background: var(--ListControl-item-onActive-bg);
+      border-color: var(--ListControl-item-onActive-borderColor);
+      color: var(--ListControl-item-onActive-color);
+
+      &:hover {
+        background: var(--ListControl-item-onActive-onHover-bg);
+      }
+
+      .b-inherit {
+        border-color: var(--ListControl-item-onActive-color);
+      }
+
+      border-width: var(--listSelect-base-active-top-border-width)
+        var(--listSelect-base-active-right-border-width)
+        var(--listSelect-base-active-bottom-border-width)
+        var(--listSelect-base-active-left-border-width);
+      border-style: var(--listSelect-base-active-top-border-style)
+        var(--listSelect-base-active-right-border-style)
+        var(--listSelect-base-active-bottom-border-style)
+        var(--listSelect-base-active-left-border-style);
+      border-color: var(--listSelect-base-active-top-border-color)
+        var(--listSelect-base-active-right-border-color)
+        var(--listSelect-base-active-bottom-border-color)
+        var(--listSelect-base-active-left-border-color);
+      border-radius: var(--listSelect-base-active-top-left-border-radius)
+        var(--listSelect-base-active-top-right-border-radius)
+        var(--listSelect-base-active-bottom-right-border-radius)
+        var(--listSelect-base-active-bottom-left-border-radius);
+      background: var(--listSelect-base-active-bg-color);
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: px2rem(14px);
+        height: px2rem(14px);
+        background: var(--ListControl-item-onActive-before-bg);
+        right: 0;
+        bottom: 0;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 0 px2rem(1px) px2rem(1px);
+        right: px2rem(2px);
+        bottom: px2rem(6px);
+        transform: rotate(-40deg);
+        width: var(--Checkbox--full-inner-size);
+        height: calc(var(--Checkbox--full-inner-size) / 2);
+        border-color: #fff;
+      }
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: var(--ListControl-item-onDisabled-opacity);
+      border-color: var(--ListControl-item-onDisabled-borderColor);
+
+      &:before {
+        background: var(--ListControl-item-onDisabled-color);
+      }
+
+      background: var(--ListControl-item-onDisabled-bg);
+      color: var(--ListControl-item-onDisabled-color);
+
+      .b-inherit {
+        border-color: var(--ListControl-item-onDisabled-borderColor);
+      }
+
+      border-width: var(--listSelect-base-disabled-top-border-width)
+        var(--listSelect-base-disabled-right-border-width)
+        var(--listSelect-base-disabled-bottom-border-width)
+        var(--listSelect-base-disabled-left-border-width);
+      border-style: var(--listSelect-base-disabled-top-border-style)
+        var(--listSelect-base-disabled-right-border-style)
+        var(--listSelect-base-disabled-bottom-border-style)
+        var(--listSelect-base-disabled-left-border-style);
+      border-color: var(--listSelect-base-disabled-top-border-color)
+        var(--listSelect-base-disabled-right-border-color)
+        var(--listSelect-base-disabled-bottom-border-color)
+        var(--listSelect-base-disabled-left-border-color);
+      border-radius: var(--listSelect-base-disabled-top-left-border-radius)
+        var(--listSelect-base-disabled-top-right-border-radius)
+        var(--listSelect-base-disabled-bottom-right-border-radius)
+        var(--listSelect-base-disabled-bottom-left-border-radius);
+      background: var(--listSelect-base-disabled-bg-color);
+    }
+
+    &.is-custom {
+      border: none;
+      padding: 0;
+
+      &:hover,
+      &.is-active {
+        border: none;
+      }
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

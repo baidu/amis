@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Tabs 示例',
   body: [
     {
@@ -30,24 +29,24 @@ export default {
                   primary: true
                 }
               ],
-              controls: [
+              body: [
                 {
                   type: 'tabs',
                   tabs: [
                     {
                       title: '基本信息',
-                      controls: [
+                      body: [
                         {
                           type: 'group',
-                          controls: [
+                          body: [
                             {
-                              type: 'email',
+                              type: 'input-email',
                               name: 'email1',
                               placeholder: '请输入邮箱地址',
                               label: '邮箱'
                             },
                             {
-                              type: 'password',
+                              type: 'input-password',
                               name: 'password',
                               placeholder: '密码',
                               label: false
@@ -59,9 +58,9 @@ export default {
                         },
                         {
                           type: 'group',
-                          controls: [
+                          body: [
                             {
-                              type: 'email',
+                              type: 'input-email',
                               name: 'email2',
                               placeholder: '请输入邮箱地址',
                               label: '邮箱'
@@ -78,9 +77,9 @@ export default {
                     },
                     {
                       title: '其他信息',
-                      controls: [
+                      body: [
                         {
-                          type: 'email',
+                          type: 'input-email',
                           name: 'email3',
                           placeholder: '请输入邮箱地址',
                           label: '邮箱'
@@ -107,26 +106,27 @@ export default {
           primary: true
         }
       ],
-      controls: [
+      body: [
         {
           type: 'tabs',
-
+          name: 'outertabs',
+          className: 'm-b',
           tabs: [
             {
               title: '基本信息',
               hash: 'tab1',
-              controls: [
+              body: [
                 {
                   type: 'group',
-                  controls: [
+                  body: [
                     {
-                      type: 'email',
+                      type: 'input-email',
                       name: 'email',
                       placeholder: '请输入邮箱地址',
                       label: '邮箱'
                     },
                     {
-                      type: 'password',
+                      type: 'input-password',
                       name: 'password',
                       placeholder: '密码',
                       label: false
@@ -138,9 +138,9 @@ export default {
                 },
                 {
                   type: 'group',
-                  controls: [
+                  body: [
                     {
-                      type: 'email',
+                      type: 'input-email',
                       name: 'email2',
                       placeholder: '请输入邮箱地址',
                       label: '邮箱'
@@ -158,9 +158,9 @@ export default {
             {
               title: '其他信息',
               hash: 'tab2',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email3',
                   placeholder: '请输入邮箱地址',
                   label: '邮箱'
@@ -174,6 +174,25 @@ export default {
                   label: '记住我'
                 }
               ]
+            }
+          ]
+        },
+
+        {
+          type: 'radios',
+          name: 'outertabs',
+          label: 'Tabs值',
+          mode: 'normal',
+          description:
+            '如果 tabs 设置了 name 是可以跟表单值联动的，默认并不会开启此功能。',
+          options: [
+            {
+              label: '基本信息',
+              value: '基本信息'
+            },
+            {
+              label: '其他信息',
+              value: '其他信息'
             }
           ]
         }

@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:icon-picker 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  icon-picker
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-IconPickerControl"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              class="cxd-IconPickerControl-input cxd-IconPickerControl-input--withAC"
+              role="combobox"
+            >
+              <div
+                class="cxd-IconPickerControl-valueWrap"
+              >
+                <div
+                  class="cxd-IconPickerControl-value"
+                >
+                  <i
+                    class="glyphicon glyphicon-plus"
+                  />
+                  glyphicon glyphicon-plus
+                </div>
+                <input
+                  aria-autocomplete="list"
+                  autocomplete="off"
+                  id="downshift-0-input"
+                  name="a"
+                  size="10"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

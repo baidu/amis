@@ -1,0 +1,311 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`group 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="27"
+          data-name="Group 180"
+          style="z-index: 251659264; position: absolute; left: 11.24px; top: 114.02px; width: 651.78px; height: 86.86px;"
+        >
+          <div>
+            <div
+              style="width: 651.78px; height: 86.86px;"
+            >
+              <div
+                style="position: absolute; left: 0px; top: 0px; width: 265.77436893203884px; height: 55.83857142857142px; display: table;"
+              >
+                <svg
+                  height="55.83857142857142px"
+                  style="display: block; overflow: visible; position: absolute; z-index: -1"
+                  width="265.77436893203884px"
+                >
+                  <path
+                    d="M 0 0 L 265.77436893203884 0 L 265.77436893203884 55.83857142857142 L 0 55.83857142857142 Z"
+                    fill="none"
+                    stroke="none"
+                  />
+                </svg>
+                <div
+                  data-name="textContainer"
+                  style="display: table-cell; vertical-align: middle;"
+                >
+                  <p
+                    class="docx-viewer-0-p"
+                    style="line-height: 1.15; position: relative;"
+                  >
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia); font-weight: bold; font-size: 14.67px;"
+                    >
+                      公司
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                style="position: absolute; left: 493.5809708737864px; top: 0px; width: 158.1990291262136px; height: 55.83857142857142px; display: table;"
+              >
+                <svg
+                  height="55.83857142857142px"
+                  style="display: block; overflow: visible; position: absolute; z-index: -1"
+                  width="158.1990291262136px"
+                >
+                  <path
+                    d="M 0 0 L 158.1990291262136 0 L 158.1990291262136 55.83857142857142 L 0 55.83857142857142 Z"
+                    fill="none"
+                    stroke="none"
+                  />
+                </svg>
+                <div
+                  data-name="textContainer"
+                  style="display: table-cell; vertical-align: middle;"
+                >
+                  <p
+                    class="docx-viewer-0-p"
+                    style="line-height: 1.15; position: relative;"
+                  >
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia); font-weight: bold; font-size: 14.67px;"
+                    >
+                      2012 
+                    </span>
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia); font-weight: bold; font-size: 14.67px;"
+                    >
+                      –
+                    </span>
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia); font-weight: bold; font-size: 14.67px;"
+                    >
+                       2013
+                    </span>
+                  </p>
+                  <p
+                    class="docx-viewer-0-p"
+                    style="line-height: 1.15; position: relative;"
+                  >
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia); font-size: 14.67px;"
+                    >
+                      上海
+                    </span>
+                  </p>
+                  <p
+                    class="docx-viewer-0-p"
+                    style="position: relative;"
+                  >
+                     
+                  </p>
+                </div>
+              </div>
+              <div
+                style="position: absolute; left: 18.98388349514563px; top: 49.63428571428575px; width: 582.1724271844661px; height: 31.02142857142857px; display: table;"
+              >
+                <svg
+                  height="31.02142857142857px"
+                  style="display: block; overflow: visible; position: absolute; z-index: -1"
+                  width="582.1724271844661px"
+                >
+                  <path
+                    d="M 0 0 L 582.1724271844661 0 L 582.1724271844661 31.02142857142857 L 0 31.02142857142857 Z"
+                    fill="none"
+                    stroke="none"
+                  />
+                </svg>
+                <div
+                  data-name="textContainer"
+                  style="display: table-cell; vertical-align: top;"
+                >
+                  <p
+                    class="docx-viewer-0-p docx-viewer-0-Normal docx-classname-0"
+                    style="line-height: 1.15; position: relative; text-indent: -28.00px; margin-left: 28.00px;"
+                  >
+                    <span
+                      style="font-family: Wingdings;"
+                    >
+                       
+                    </span>
+                    <span
+                      class="docx-viewer-0-r"
+                      style="font-family: var(--docx-theme-font-minorEastAsia);"
+                    >
+                      Group1
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;
+
+exports[`group-in-group 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-1-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-1-r"
+      >
+        <div
+          data-id="25"
+          data-name="组合 25"
+          style="z-index: 251659264; position: absolute; left: -54.22px; top: -23.56px; width: 191.00px; height: 41.59px;"
+        >
+          <div>
+            <div>
+              <div
+                style="width: 187.24px; height: 38.67px;"
+              >
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 187.24px; height: 38.67px;"
+                >
+                  <svg
+                    height="38.67px"
+                    style="display: block; overflow: visible; position: absolute; z-index: -1"
+                    width="187.24px"
+                  >
+                    <path
+                      d="M 0 7.4486154 A 7.4486154 7.4486154 0 0 1 7.448615399999999,-8.881784197001252e-16 L 179.79138460000001 0 A 7.4486154 7.4486154 0 0 1 187.24,7.448615399999999 L 187.24 31.2213846 A 7.4486154 7.4486154 0 0 1 179.79138460000001,38.67 L 7.4486154 38.67 A 7.4486154 7.4486154 0 0 1 -8.881784197001252e-16,31.2213846 Z"
+                      fill="#F2F2F2"
+                      stroke-width="1.00px"
+                    />
+                  </svg>
+                </div>
+                <div
+                  style="position: absolute; left: -4.32px; top: 9.81px; width: 33.5px; height: 19.17px; transform: rotate(270deg);"
+                >
+                  <svg
+                    height="19.17px"
+                    style="display: block; overflow: visible; position: absolute; z-index: -1"
+                    width="33.5px"
+                  >
+                    <path
+                      d="M 4.770646200000001 0 L 28.7293538 0 A 4.770646200000001 4.770646200000001 0 0 1 33.5,4.7706462 L 33.5 19.17 A 0 0 0 0 1 33.5,19.17 L 0 19.17 A 0 0 0 0 1 0,19.17 L 0 4.770646200000001 A 4.770646200000001 4.770646200000001 0 0 1 4.7706462,-8.881784197001252e-16 Z"
+                      fill="#767171"
+                      stroke-width="1.00px"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              style="width: 191.00px; height: 41.59px;"
+            >
+              <div
+                style="position: absolute; left: 23.38361567635904px; top: 0px; width: 167.61638432364094px; height: 41.59px; display: table;"
+              >
+                <svg
+                  height="41.59px"
+                  style="display: block; overflow: visible; position: absolute; z-index: -1"
+                  width="167.61638432364094px"
+                >
+                  <path
+                    d="M 0 0 L 167.61638432364094 0 L 167.61638432364094 41.59 L 0 41.59 Z"
+                    fill="none"
+                    stroke="none"
+                  />
+                </svg>
+                <div
+                  data-name="textContainer"
+                  style="display: table-cell; vertical-align: middle;"
+                >
+                  <p
+                    class="docx-viewer-1-p docx-viewer-1-Normal docx-viewer-1-NormalWeb"
+                    style="margin-top: 0.00px; margin-bottom: 0.00px; position: relative;"
+                  >
+                    <span
+                      class="docx-viewer-1-r"
+                      style="font-family: var(--docx-theme-font-minorHAnsi), "Microsoft YaHei"; font-weight: bold; color: rgb(128, 128, 128); font-size: 24.00px;"
+                    >
+                      Basic 
+                    </span>
+                    <span
+                      class="docx-viewer-1-r"
+                      style="font-family: var(--docx-theme-font-minorHAnsi), "Microsoft YaHei"; font-weight: bold; color: rgb(128, 128, 128); font-size: 24.00px;"
+                    >
+                      informatin
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;
+
+exports[`shape-group 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-2-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-2-r"
+      >
+        <div
+          data-id="82"
+          data-name="Group 36"
+          style="z-index: 251659264; position: absolute; left: 0.00px; top: 96.73px; width: 21.53px; height: 21.53px;"
+        >
+          <div>
+            <div
+              style="width: 21.53px; height: 21.53px;"
+            >
+              <div
+                style="vertical-align: top; position: absolute; left: 0px; top: 0px; width: 21.53px; height: 21.53px;"
+              >
+                <svg
+                  height="21.53px"
+                  style="display: block; overflow: visible; position: absolute; z-index: -1"
+                  width="21.53px"
+                >
+                  <path
+                    d="M 0 10.765 A 10.765 10.765 0 0 1 10.764999999999999,-1.7763568394002505e-15 A 10.765 10.765 0 0 1 21.53,10.764999999999997 A 10.765 10.765 0 0 1 10.765,21.529999999999998 A 10.765 10.765 0 0 1 0,10.764999999999999 Z"
+                    fill="#000000"
+                    stroke="none"
+                  />
+                </svg>
+              </div>
+              <img
+                alt="icon(1).png"
+                src="blob:http://localhost/mock"
+                style="position: absolute; left: 0px; top: 7.176666666666674px; width: 14.353333333333335px; height: 14.353333333333335px;"
+              />
+            </div>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

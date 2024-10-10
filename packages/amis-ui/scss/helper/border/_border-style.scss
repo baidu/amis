@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: 边框样式
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| border-solid | border-style: solid |
+| border-dashed | border-style: dashed |
+| border-dotted | border-style: dotted |
+| border-double | border-style: double |
+| border-none | border-style: none |
+
+
+*/
+
+@mixin make-border-style($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'solid': solid,
+        'dashed': dashed,
+        'dotted': dotted,
+        'double': double,
+        'none': none
+      )
+  {
+    #{$prefix}border-#{$name} {
+      border-style: $value;
+    }
+  }
+}
+
+@include make-border-style();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-border-style('.' + selector-escape($deivce + ':'));
+  }
+}

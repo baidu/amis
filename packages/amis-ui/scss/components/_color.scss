@@ -1,0 +1,17 @@
+.#{$ns}ColorField {
+  display: inline-block;
+
+  &-previewIcon {
+    display: inline-block;
+    vertical-align: middle;
+    width: px2rem(16px);
+    height: px2rem(16px);
+    box-shadow: var(--boxShadowSm);
+  }
+
+  &-value {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+}

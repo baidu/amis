@@ -1,0 +1,236 @@
+.#{$ns}Collapse {
+  border-width: var(--collapse-default-top-border-width)
+    var(--collapse-default-right-border-width)
+    var(--collapse-default-bottom-border-width)
+    var(--collapse-default-left-border-width);
+  border-style: var(--collapse-default-top-border-style)
+    var(--collapse-default-right-border-style)
+    var(--collapse-default-bottom-border-style)
+    var(--collapse-default-left-border-style);
+  border-color: var(--collapse-default-top-border-color)
+    var(--collapse-default-right-border-color)
+    var(--collapse-default-bottom-border-color)
+    var(--collapse-default-left-border-color);
+  border-radius: var(--collapse-default-top-left-border-radius)
+    var(--collapse-default-top-right-border-radius)
+    var(--collapse-default-bottom-right-border-radius)
+    var(--collapse-default-bottom-left-border-radius);
+  padding: 0;
+  line-height: px2rem(20px);
+  // 很神奇，设计态弹窗里面放个字段级 fieldset 就会撑开好宽
+  min-width: 0;
+  // overflow: hidden;
+
+  &-header {
+    font-size: var(--Collapse-header-fontSize);
+    font-weight: var(--Collapse-header-fontWeight);
+    color: var(--collapse-default-header-color);
+    line-height: var(--collapse-default-header-lineHeight);
+    padding: var(--Collapse-header-padding);
+    margin: 0;
+    cursor: pointer;
+    background: var(--Collapse-header-bg);
+
+    &-wrapper {
+      display: inline-flex;
+      flex-direction: var(--Collapse-header-wrapper-direction);
+    }
+
+    &-tpl {
+      margin-right: px2rem(8px);
+    }
+
+    &:hover {
+      background: var(--Collapse-header-onHover-bg);
+      color: var(--collapse-default-header-hover-color);
+    }
+
+    &.is-mobile {
+      background: none;
+      border-radius: 0 !important;
+      position: relative;
+      padding-left: 0;
+
+      &:hover {
+        background: none;
+      }
+    }
+  }
+
+  .Collapse-arrow {
+    content: var(--collapse-icon-icon);
+  }
+
+  &-arrow-wrap {
+    width: px2rem(16px);
+    height: px2rem(16px);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: var(--collapse-icon-margin);
+
+    svg {
+      width: var(--collapse-icon-size);
+      height: var(--collapse-icon-size);
+      color: var(--collapse-icon-color);
+      top: 0;
+    }
+  }
+
+  &-icon-tranform {
+    display: inline-block;
+    width: px2rem(16px);
+    text-align: center;
+    margin-right: var(--gap-xs);
+  }
+
+  // 干扰太多了，先注释
+  // .#{$ns}TplField {
+  //   display: inline-block;
+  // }
+
+  &.is-active > .#{$ns}Collapse-header > .#{$ns}Collapse-arrow-wrap > &-arrow {
+    transform: rotate(var(--collapse-icon-rotate));
+    transform-origin: 50% 50%;
+  }
+  &.is-active > * > &-icon-tranform {
+    transform: rotate(var(--collapse-icon-rotate));
+  }
+
+  &--disabled > &-header {
+    cursor: not-allowed;
+    user-select: none;
+    color: var(--collapse-default-disabled-color);
+    background: var(--collapse-default-disabled-header-bg-color);
+  }
+
+  &--disabled &-arrow-wrap svg {
+    color: var(--collapse-default-disabled-color);
+  }
+
+  // title 显示在底部的模式
+  &--title-bottom &-header {
+    text-align: center;
+    font-size: var(--fontSizeBase);
+    border-top: var(--Collapse-header-collapsed-borderTop);
+    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+  }
+
+  &--title-bottom.is-collapsed &-header {
+    border-top: none;
+  }
+
+  &--title-bottom &-arrow {
+    top: px2rem(-4px);
+    transform: rotate(var(--collapse-icon-rotate));
+  }
+
+  &--title-bottom.is-active
+    > .#{$ns}Collapse-header
+    > .#{$ns}Collapse-arrow-wrap
+    > &-arrow {
+    top: 0;
+    transform: rotate(calc(-1 * var(--collapse-icon-rotate)));
+  }
+
+  &-contentWrapper {
+    transition: height var(--animation-duration) ease;
+    &.in,
+    &.out {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+  &-content {
+    padding: var(--Collapse-content-padding);
+    color: var(--Collapse-content-color);
+    font-size: var(--Collapse-content-fontSize);
+    font-weight: var(--Collapse-content-fontWeight);
+    line-height: var(--collapse-default-content-lineHeight);
+    background: var(--collapse-default-bg-color);
+  }
+
+  &.is-mobile {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .#{$ns}Collapse-icon-tranform,
+    .#{$ns}Collapse-arrow-wrap {
+      margin-right: px2rem(-18px);
+      float: right;
+      margin-top: px2rem(2px);
+    }
+
+    .#{$ns}Collapse-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+//FieldSet Form + Collapse
+.#{$ns}Form {
+  .#{$ns}Collapse {
+    border: none;
+
+    .#{$ns}Collapse-header {
+      background-color: var(--white);
+      display: inline-flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-direction: row-reverse;
+      border-radius: 0;
+    }
+
+    .#{$ns}Collapse-content {
+      padding: 0;
+    }
+  }
+
+  /* 恢复 Form 嵌套场景下的样式 */
+  .#{$ns}Collapse-fieldset--disabled {
+    border-width: var(--collapse-default-top-border-width)
+      var(--collapse-default-right-border-width)
+      var(--collapse-default-bottom-border-width)
+      var(--collapse-default-left-border-width);
+    border-style: var(--collapse-default-top-border-style)
+      var(--collapse-default-right-border-style)
+      var(--collapse-default-bottom-border-style)
+      var(--collapse-default-left-border-style);
+    border-color: var(--collapse-default-top-border-color)
+      var(--collapse-default-right-border-color)
+      var(--collapse-default-bottom-border-color)
+      var(--collapse-default-left-border-color);
+    border-radius: var(--collapse-default-top-left-border-radius)
+      var(--collapse-default-top-right-border-radius)
+      var(--collapse-default-bottom-right-border-radius)
+      var(--collapse-default-bottom-left-border-radius);
+
+    .#{$ns}Collapse-header {
+      background: var(--Collapse-header-bg);
+      display: block;
+      border-radius: unset;
+    }
+
+    .#{$ns}Collapse-content {
+      padding: var(--Collapse-content-padding);
+    }
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Collapse {
+    border: none;
+    position: relative;
+    margin-bottom: var(--Collapse-mobile-marginBottom);
+    &::before {
+      @include hairline-bottom(var(--collapse-default-bottom-border-color));
+    }
+  }
+}

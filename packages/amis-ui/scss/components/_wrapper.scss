@@ -1,0 +1,26 @@
+.#{$ns}Wrapper,
+.#{$ns}Container {
+  /* 添加默认的min-width和min-height可避免容器子元素异常溢出 */
+  min-width: 0;
+  min-height: 0;
+  
+  &--xs {
+    padding: var(--gap-xs);
+  }
+
+  &--sm {
+    padding: var(--gap-sm);
+  }
+
+  &--md {
+    padding: var(--gap-md);
+  }
+
+  &--lg {
+    padding: var(--gap-lg);
+  }
+
+  &--xl {
+    padding: var(--gap-xl);
+  }
+}

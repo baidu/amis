@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '公式示例',
   body: [
     '<p>通过公式，可以动态的设置目标值。</p>',
@@ -7,21 +6,21 @@ export default {
       type: 'form',
       title: '自动应用',
       api: '/api/mock2/form/saveForm',
-      controls: [
+      body: [
         {
-          type: 'number',
+          type: 'input-number',
           name: 'a',
           label: 'A'
         },
 
         {
-          type: 'number',
+          type: 'input-number',
           name: 'b',
           label: 'B'
         },
 
         {
-          type: 'number',
+          type: 'input-number',
           name: 'sum',
           label: '和',
           disabled: true,
@@ -41,24 +40,24 @@ export default {
       type: 'form',
       title: '手动应用',
       api: '/api/mock2/form/saveForm',
-      controls: [
+      body: [
         {
-          type: 'number',
+          type: 'input-number',
           name: 'a',
           label: 'A'
         },
 
         {
-          type: 'number',
+          type: 'input-number',
           name: 'b',
           label: 'B'
         },
 
         {
           type: 'group',
-          controls: [
+          body: [
             {
-              type: 'number',
+              type: 'input-number',
               name: 'sum',
               label: '和',
               disabled: true,
@@ -89,7 +88,7 @@ export default {
       type: 'form',
       title: '条件应用',
       api: '/api/mock2/form/saveForm',
-      controls: [
+      body: [
         {
           type: 'radios',
           name: 'radios',
@@ -108,7 +107,7 @@ export default {
           description: 'radios 变化会自动清空 B'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'b',
           label: 'B'
         },

@@ -1,165 +1,147 @@
+const data = [
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  }
+].map((item, key) => ({
+  ...item,
+  id: key + 1
+}));
+
 const table = {
   type: 'table',
-  data: [
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    }
-  ].map((item, key) => ({
-    ...item,
-    id: key + 1
-  })),
+  data,
   columns: [
     {
       name: 'id',
       label: 'ID',
-      width: 20,
+      width: 30,
       sortable: true,
       type: 'text',
       toggled: true,
@@ -276,11 +258,37 @@ const table = {
 };
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '固顶和列固定示例',
   remark: 'bla bla bla',
   body: [
     table,
+    {
+      label: '点击弹框',
+      type: 'button',
+      actionType: 'dialog',
+      dialog: {
+        title: '弹框标题',
+        size: 'lg',
+        body: [
+          {...table, data},
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>'
+        ]
+      }
+    },
     '<div>分割</div>',
     '<div>分割</div>',
     '<div>分割</div>',

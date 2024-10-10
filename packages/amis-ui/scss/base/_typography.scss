@@ -1,0 +1,76 @@
+/**
+ * Basic typography style for copy text
+ */
+html {
+  font-size: $remFactor;
+}
+
+body {
+  color: var(--body-color);
+  background: var(--body-bg);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  font-family: var(--fontFamilyBase);
+  line-height: var(--body-lineHeight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--link-color);
+  font-size: var(--link-fontSize);
+  font-weight: var(--link-fontWeight);
+  text-decoration: var(--link-decoration);
+  font-style: var(--link-font-style);
+  background-color: var(--link-bg-color);
+
+  &:hover {
+    color: var(--link-onHover-color);
+    font-size: var(--link-onHover-fontSize);
+    font-weight: var(--link-onHover-fontWeight);
+    text-decoration: var(--link-onHover-decoration);
+    font-style: var(--link-onHover-font-style);
+    background-color: var(--link-onHover-bg-color);
+  }
+
+  &:active {
+    color: var(--link-onClick-color);
+    font-size: var(--link-onClick-fontSize);
+    font-weight: var(--link-onClick-fontWeight);
+    text-decoration: var(--link-onClick-text-decoration);
+    font-style: var(--link-onClick-font-style);
+    background-color: var(--link-onClick-bg-color);
+  }
+}
+
+label {
+  font-weight: var(--fontWeightNormal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--fontWeightNormal);
+  color: var(--text--loud-color);
+  line-height: 1.1;
+}
+
+.is-matched {
+  color: var(--danger);
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--fontFamilyMonospace);
+}
+
+// js sdk 中的有用到
+.amis-routes-wrapper {
+  width: 100%;
+  height: 100%;
+}

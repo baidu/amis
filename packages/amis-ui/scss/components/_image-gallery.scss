@@ -1,0 +1,331 @@
+@keyframes disappear {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+.#{$ns}ImageGallery {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  max-width: 1010px !important;
+  padding-top: 0;
+
+  &-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+    }
+
+    svg {
+      width: px2rem(16px);
+      height: px2rem(16px);
+    }
+  }
+
+  &-title,
+  &-caption {
+    height: px2rem(18px);
+    vertical-align: top;
+    line-height: px2rem(18px);
+    font-size: px2rem(12px);
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  &-caption {
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
+  &-main {
+    background: #000;
+    flex-basis: 0;
+    flex-grow: 1;
+    height: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    overflow: hidden;
+
+    > img {
+      cursor: move;
+      cursor: -webkit-grab;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
+    }
+
+    &.is-dragging > img {
+      transition: none;
+      user-select: none;
+      cursor: -webkit-grabbing;
+    }
+  }
+
+  &-prevBtn,
+  &-nextBtn {
+    svg {
+      width: var(--image-images-item-size);
+      height: var(--image-images-item-size);
+    }
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--image-images-item-color);
+    text-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
+
+    &:hover {
+      color: #fff;
+      text-shadow: rgba(0, 0, 0, 0.5) 0px 0px 4px;
+    }
+    animation-name: disappear;
+    animation-delay: var(--animation-duration);
+    animation-duration: var(--animation-duration);
+    animation-fill-mode: both;
+
+    &.is-disabled {
+      pointer-events: none;
+    }
+  }
+
+  &-main:hover &-prevBtn,
+  &-main:hover &-nextBtn {
+    animation-name: appear;
+    animation-delay: 0s;
+    animation-duration: var(--animation-duration);
+  }
+
+  &-prevBtn {
+    left: var(--gap-md);
+  }
+
+  &-nextBtn {
+    right: var(--gap-md);
+  }
+
+  &-footer {
+    min-height: px2rem(74px);
+    background: #222;
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+  }
+
+  &-prevList,
+  &-nextList {
+    width: var(--gap-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+
+    &.is-disabled {
+      background: rgba(0, 0, 0, 0.3);
+      color: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 1);
+      color: #fff;
+    }
+  }
+
+  &-itemsWrap {
+    flex-grow: 1;
+    flex-basis: 0;
+    width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: flex-start;
+    justify-content: flex-start;
+    display: flex;
+
+    // 火狐浏览器
+    scrollbar-width: thin;
+    scrollbar-color: #111 transparent;
+
+    &::-webkit-scrollbar {
+      // display: none;
+      background-color: transparent;
+      width: 6px;
+      height: 6px;
+      overflow: visible;
+      height: 10px !important;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      width: 6px;
+      height: 6px;
+      background-color: #111; // #babac0;
+      border-radius: 6px;
+      border: 4px solid transparent;
+
+      &:hover {
+        background-color: #000;
+      }
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+  }
+
+  &-items {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0 auto;
+  }
+
+  &-item {
+    margin: 10px 5px 0;
+    width: 54px;
+    height: 54px;
+    display: inline-flex;
+    position: relative;
+    border: 1px solid #666;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    > img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    @supports (object-fit: cover) {
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &:after {
+      position: absolute;
+      content: '';
+      display: block;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      border: 1px solid #e5e5e5;
+      &:after {
+        display: none;
+      }
+    }
+
+    &.is-active {
+      border: 1px solid var(--primary);
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+
+.ImageGallery-prevBtn {
+  content: var(--image-images-prev-icon);
+}
+
+.ImageGallery-nextBtn {
+  content: var(--image-images-next-icon);
+}
+
+.#{$ns}ImageGallery-toolbar {
+  background-color: var(--image-images-preview-bgColor);
+  border-radius: var(--image-images-preview-radius);
+  box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
+  display: flex;
+  align-items: flex-start;
+  padding: var(--image-images-preview-paddingTop)
+    var(--image-images-preview-paddingRight)
+    var(--image-images-preview-paddingBottom)
+    var(--image-images-preview-paddingLeft);
+  position: absolute;
+  bottom: px2rem(20px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &-action {
+    padding: px2rem(13px);
+    border-radius: px2rem(4px);
+    width: px2rem(40px);
+    height: px2rem(40px);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-icon {
+      display: block;
+      color: var(--black);
+
+      svg {
+        fill: var(--black);
+      }
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      color: var(--icon-onDisabled-color);
+
+      .#{$ns}ImageGallery-toolbar-action-icon {
+        color: var(--icon-onDisabled-color);
+
+        svg {
+          color: var(--icon-onDisabled-color);
+        }
+      }
+    }
+
+    &:hover {
+      background-color: #f2f3f5;
+
+      .#{$ns}ImageGallery-toolbar-action-icon {
+        color: var(--primary);
+
+        svg {
+          fill: var(--primary);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.#{$ns}Card2 {
+  width: 100%;
+  background: var(--Card-bg);
+  border: var(--Card-borderWidth) solid var(--Card-borderColor);
+  border-radius: var(--Card-borderRadius);
+  position: relative;
+
+  &.checkOnItem {
+    cursor: pointer !important;
+  }
+
+  &-checkbox {
+    margin: 0;
+    position: absolute;
+    right: var(--gap-md);
+    top: var(--gap-md);
+  }
+
+  &-body {
+    padding: var(--gap-md);
+  }
+
+  &.is-checked {
+    background: var(--Card-onChecked-bg);
+    border-color: var(--Card-onChecked-borderColor);
+    color: var(--Card-onChecked-color);
+  }
+}

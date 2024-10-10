@@ -1,0 +1,7 @@
+db
+__pycache__
+text.json
+embedding.json
+.env
+m3e-base
+flagged

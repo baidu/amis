@@ -1,0 +1,65 @@
+name: PR test
+
+on:
+  pull_request:
+    branches: ['**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: npm install
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm i --legacy-peer-deps
+          cd packages/office-viewer
+          npm i --legacy-peer-deps
+          cd ../../
+      - name: build amis-formula
+        run: |
+          npm run build --workspace amis-formula
+      - name: build amis-core
+        run: |
+          npm run build --workspace amis-core
+      - name: build amis-ui
+        run: |
+          npm run build --workspace amis-ui
+      - name: build amis
+        run: |
+          npm run build --workspace amis
+      - name: check schema.json
+        run: |
+          cp ./packages/amis/schema.json .
+      - name: build amis-editor-core
+        run: |
+          npm run build --workspace amis-editor-core
+      - name: build amis-editor
+        run: |
+          npm run build --workspace amis-editor
+      - name: typescript check
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm run typecheck
+      - name: test
+        run: |
+          npm test --workspaces
+          cd packages/office-viewer
+          npm test
+          cd ../../
+          sh deploy-gh-pages.sh

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MobileView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="@fortawesome/fontawesome-free/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
+    <link rel="stylesheet" title="ang" href="amis/lib/themes/ang.css" />
+    <link
+      rel="stylesheet"
+      title="cxd"
+      disabled
+      href="amis/lib/themes/cxd.css"
+    />
+    <link
+      rel="stylesheet"
+      title="dark"
+      disabled
+      href="amis/lib/themes/dark.css"
+    />
+    <link
+      rel="stylesheet"
+      title="antd"
+      disabled
+      href="amis/lib/themes/antd.css"
+    />
+    <link rel="stylesheet" href="amis/lib/helper.css" />
+    <style>
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="./mod.js"></script>
+    <script type="text/javascript">
+      const themes = [
+        {
+          label: '云舍',
+          value: 'cxd'
+        },
+        {
+          label: 'Ang',
+          value: 'ang'
+        },
+        {
+          label: 'Dark',
+          value: 'dark'
+        },
+        {
+          label: 'antd',
+          value: 'antd'
+        }
+      ];
+      // mobile 下先禁掉所有外链避免影响
+      document.querySelectorAll('link[title]').forEach(item => {
+        item.disabled = true;
+      });
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme == 'default') {
+        theme = 'cxd';
+      }
+
+      const linkDom = document.querySelector(`link[title=${theme}]`);
+
+      if (linkDom) {
+        linkDom.disabled = false;
+      }
+
+      if (theme === 'dark') {
+        document.querySelector('body').classList.add('dark');
+      }
+
+      amis.require(['./mobile.jsx'], function (app) {
+        app.bootstrap(document.getElementById('root'), {});
+      });
+    </script>
+  </body>
+</html>

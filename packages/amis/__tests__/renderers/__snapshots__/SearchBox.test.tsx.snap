@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:Searchbox 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-SearchBox is-active"
+          >
+            <input
+              autocomplete="off"
+              name="keywords"
+              placeholder="请输入"
+              type="text"
+              value="searchkey"
+            />
+            <a
+              class="cxd-SearchBox-searchBtn"
+            >
+              <icon-mock
+                classname="icon icon-search"
+                icon="search"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Searchbox with clearable 1`] = `
+<div>
+  <div
+    class="cxd-SearchBox is-active"
+  >
+    <input
+      autocomplete="off"
+      name="keywords"
+      placeholder="请输入"
+      type="text"
+      value="tmpvalue"
+    />
+    <div
+      class="cxd-SearchBox-clearable"
+    >
+      <icon-mock
+        classname="icon icon-input-clear"
+        icon="input-clear"
+      />
+    </div>
+    <a
+      class="cxd-SearchBox-searchBtn"
+    >
+      <icon-mock
+        classname="icon icon-search"
+        icon="search"
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Searchbox with enhance 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-SearchBox cxd-SearchBox--enhance is-active"
+          >
+            <input
+              autocomplete="off"
+              name="keywords"
+              placeholder="请输入"
+              type="text"
+              value=""
+            />
+            <a
+              class="cxd-SearchBox-searchBtn"
+            >
+              <icon-mock
+                classname="icon icon-search"
+                icon="search"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Searchbox with mini 1`] = `
+<div>
+  <div
+    class="cxd-SearchBox"
+  >
+    <input
+      autocomplete="off"
+      name="keywords"
+      placeholder="请输入"
+      type="text"
+      value=""
+    />
+    <a
+      class="cxd-SearchBox-activeBtn"
+    >
+      <icon-mock
+        classname="icon icon-search"
+        icon="search"
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Searchbox with mini 2`] = `
+<div>
+  <div
+    class="cxd-SearchBox is-focused is-active"
+  >
+    <input
+      autocomplete="off"
+      name="keywords"
+      placeholder="请输入"
+      type="text"
+      value="what?"
+    />
+    <a
+      class="cxd-SearchBox-cancelBtn"
+    >
+      <icon-mock
+        classname="icon icon-close"
+        icon="close"
+      />
+    </a>
+  </div>
+</div>
+`;

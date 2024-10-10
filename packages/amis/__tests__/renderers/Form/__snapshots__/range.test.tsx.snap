@@ -1,0 +1,1164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer: range with min & max & step by variables 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="range"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          滑块
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-InputRange-wrap"
+                    >
+                      <div
+                        class="cxd-InputRange-track cxd-InputRange-track--background"
+                      >
+                        <div
+                          class="cxd-InputRange-track-active"
+                          style="width: 10%; left: 0%;"
+                        />
+                        <div
+                          class="cxd-InputRange-handle"
+                          style="left: 10%; z-index: 1;"
+                        >
+                          <div
+                            class="cxd-InputRange-handle-icon"
+                          >
+                            <icon-mock
+                              classname="icon icon-slider-handle"
+                              icon="slider-handle"
+                            />
+                          </div>
+                          <div
+                            class="cxd-InputRange-label pos-top"
+                          >
+                            <span>
+                              12
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-InputRange-input"
+                    >
+                      <div
+                        class="cxd-Number cxd-Number--borderFull"
+                      >
+                        <div
+                          class="cxd-Number-handler-wrap"
+                        >
+                          <span
+                            aria-disabled="false"
+                            aria-label="Increase Value"
+                            class="cxd-Number-handler cxd-Number-handler-up"
+                            role="button"
+                            unselectable="on"
+                          >
+                            <span
+                              class="cxd-Number-handler-up-inner"
+                              unselectable="on"
+                            />
+                          </span>
+                          <span
+                            aria-disabled="false"
+                            aria-label="Decrease Value"
+                            class="cxd-Number-handler cxd-Number-handler-down"
+                            role="button"
+                            unselectable="on"
+                          >
+                            <span
+                              class="cxd-Number-handler-down-inner"
+                              unselectable="on"
+                            />
+                          </span>
+                        </div>
+                        <div
+                          class="cxd-Number-input-wrap"
+                        >
+                          <input
+                            aria-valuemax="66"
+                            aria-valuemin="6"
+                            aria-valuenow="12"
+                            autocomplete="off"
+                            class="cxd-Number-input"
+                            role="spinbutton"
+                            step="2"
+                            value="12"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <a
+                      class="cxd-InputRange-clear is-active"
+                    >
+                      <icon-mock
+                        classname="icon icon-close"
+                        icon="close"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with marks 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 0%; left: 0%;"
+                />
+                <div>
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 20%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 40%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 60%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 80%;"
+                  />
+                </div>
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 0%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      0
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-InputRange-marks"
+                >
+                  <div
+                    style="left: 0%; width: 10%;"
+                  >
+                    <span>
+                      0
+                    </span>
+                  </div>
+                  <div
+                    style="left: 20%; width: 10%;"
+                  >
+                    <span>
+                      20Mbps
+                    </span>
+                  </div>
+                  <div
+                    style="left: 40%; width: 10%;"
+                  >
+                    <span>
+                      40Mbps
+                    </span>
+                  </div>
+                  <div
+                    style="left: 60%; width: 10%;"
+                  >
+                    <span>
+                      60Mbps
+                    </span>
+                  </div>
+                  <div
+                    style="left: 80%; width: 10%;"
+                  >
+                    <span>
+                      80Mbps
+                    </span>
+                  </div>
+                  <div
+                    style="left: 100%; width: 10%;"
+                  >
+                    <span>
+                      100
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with min & max & step & joinValues 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-input"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="1"
+                    aria-valuemin="0"
+                    aria-valuenow="0.2"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="0.1"
+                    value="0.2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 60%; left: 20%;"
+                />
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 20%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      0.2
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 80%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      0.8
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-input"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="1"
+                    aria-valuemin="0"
+                    aria-valuenow="0.8"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="0.1"
+                    value="0.8"
+                  />
+                </div>
+              </div>
+            </div>
+            <a
+              class="cxd-InputRange-clear"
+            >
+              <icon-mock
+                classname="icon icon-close"
+                icon="close"
+              />
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            Submit
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-input"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="7"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="7"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 6%; left: 7%;"
+                />
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 7%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      7
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 13%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      13
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-input"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="13"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="13"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                7--13
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with showInput & showInputUnit 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 7%; left: 0%;"
+                />
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 7%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      7个
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-input cxd-InputRange-input-with-unit"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="100"
+                    aria-valuemin="0"
+                    aria-valuenow="7"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="7"
+                  />
+                </div>
+              </div>
+              <div
+                class="cxd-InputRange-unit cxd-Select"
+              >
+                个
+              </div>
+            </div>
+            <a
+              class="cxd-InputRange-clear is-active"
+            >
+              <icon-mock
+                classname="icon icon-close"
+                icon="close"
+              />
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with showSteps 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 0%; left: 0%;"
+                />
+                <div>
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 10%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 20%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 30%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 40%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 50%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 60%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 70%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 80%;"
+                  />
+                  <span
+                    class="cxd-InputRange-track-dot"
+                    style="left: 90%;"
+                  />
+                </div>
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 0%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-top"
+                  >
+                    <span>
+                      0
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-InputRange-input"
+            >
+              <div
+                class="cxd-Number cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="true"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down cxd-Number-handler-down-disabled"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuemax="10"
+                    aria-valuemin="0"
+                    aria-valuenow="0"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="0"
+                  />
+                </div>
+              </div>
+            </div>
+            <a
+              class="cxd-InputRange-clear"
+            >
+              <icon-mock
+                classname="icon icon-close"
+                icon="close"
+              />
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+          >
+            <div
+              class="cxd-InputRange-wrap"
+            >
+              <div
+                class="cxd-InputRange-track cxd-InputRange-track--background"
+              >
+                <div
+                  class="cxd-InputRange-track-active"
+                  style="width: 41%; left: 0%;"
+                />
+                <div
+                  class="cxd-InputRange-handle"
+                  style="left: 41%; z-index: 1;"
+                >
+                  <div
+                    class="cxd-InputRange-handle-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-slider-handle"
+                      icon="slider-handle"
+                    />
+                  </div>
+                  <div
+                    class="cxd-InputRange-label pos-right cxd-InputRange-label-visible"
+                  >
+                    <span>
+                      41
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

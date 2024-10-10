@@ -1,0 +1,12 @@
+.ae-BoxShadow {
+  &-group {
+    > div {
+      align-items: center;
+    }
+  }
+  &-unit {
+    flex: 0.3;
+    padding-top: #{px2rem(16px)};
+    padding-bottom: #{px2rem(16px)};
+  }
+}

@@ -1,25 +1,24 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   definitions: {
     options: {
       type: 'combo',
       multiple: true,
       multiLine: true,
-      controls: [
+      items: [
         {
           type: 'group',
-          controls: [
+          body: [
             {
               label: '名称',
               name: 'label',
-              type: 'text',
+              type: 'input-text',
               required: true
             },
 
             {
               label: '值',
               name: 'value',
-              type: 'text',
+              type: 'input-text',
               required: true
             }
           ]
@@ -44,14 +43,14 @@ export default {
           label: '条件',
           test: "!data.hasOwnProperty('connect')",
           scaffold: {},
-          controls: [
+          items: [
             {
               type: 'group',
               className: 'm-b-none',
-              controls: [
+              body: [
                 {
                   name: 'key',
-                  type: 'text',
+                  type: 'input-text',
                   placeholder: '字段名',
                   required: true
                 },
@@ -134,7 +133,7 @@ export default {
 
                 {
                   name: 'val',
-                  type: 'text',
+                  type: 'input-text',
                   placeholder: '值',
                   required: true,
                   visibleOn:
@@ -147,7 +146,7 @@ export default {
                   required: true,
                   minLength: 1,
                   items: {
-                    type: 'text',
+                    type: 'input-text',
                     placeholder: '值',
                     required: true
                   },
@@ -165,9 +164,9 @@ export default {
             connect: '&',
             exprs: [{}]
           },
-          controls: [
+          items: [
             {
-              type: 'button-group',
+              type: 'button-group-select',
               name: 'connect',
               value: '&',
               clearable: false,
@@ -199,9 +198,9 @@ export default {
       type: 'combo',
       multiple: false,
       multiLine: true,
-      controls: [
+      items: [
         {
-          type: 'button-group',
+          type: 'button-group-select',
           name: 'connect',
           value: '&',
           // label: "连接方式",
@@ -238,7 +237,7 @@ export default {
       type: 'form',
       api: '/api/mock/saveForm',
       mode: 'horizontal',
-      controls: [
+      body: [
         {
           $ref: 'options',
           name: 'options',
@@ -257,7 +256,7 @@ export default {
     {
       type: 'form',
       api: '/api/mock/saveForm',
-      controls: [
+      body: [
         {
           $ref: 'queryGroup',
           name: 'q',

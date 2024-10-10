@@ -1,0 +1,540 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`info 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="text-align: center; position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: SimHei; font-size: 18.67px; text-decoration: underline;"
+      >
+        员工人事资料卡
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        日期
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+                                                                             
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        编号
+      </span>
+    </p>
+    <table
+      class="enable-hBand enable-vBand docx-classname-0"
+      style="width: auto; margin-left: 7.20px; border-top: 2.00px solid black; border-left: 2.00px solid black; border-bottom: 2.00px solid black; border-right: 2.00px solid black; table-layout: fixed;"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="nwCell firstRow firstCol band2Horz band2Vert"
+            rowspan="2"
+            style="width: 60.00px; border-top: 2.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                姓
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                  
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                名
+              </span>
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band2Vert"
+            colspan="2"
+            rowspan="2"
+            style="width: 111.40px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                {
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                {name}}
+              </span>
+            </p>
+          </td>
+          <td
+            class="neCell firstRow lastCol band2Horz band2Vert"
+            style="width: 68.60px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                性
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                 
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                别
+              </span>
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band1Vert"
+            style="width: 227.99px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                出
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                   
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                生
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                   
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                日
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                   
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                期
+              </span>
+            </p>
+          </td>
+          <td
+            class="firstRow band2Horz band2Vert"
+            rowspan="7"
+            style="width: 120.00px; border-top: 2.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 2.00px solid black; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                相
+              </span>
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                片
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 68.60px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band1Vert"
+            style="width: 227.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black; vertical-align: bottom;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: right; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                             
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                年
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                    
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                月
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                     
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                日
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                  
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band2Horz band2Vert"
+            style="width: 60.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                籍
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                  
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                贯
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                                    
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastCol band2Horz band1Vert"
+            colspan="4"
+            style="width: 407.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: left; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                                                 
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                省
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                                  
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                市
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            style="width: 60.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                现住址
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band1Vert"
+            colspan="4"
+            style="width: 407.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: left; position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band2Horz band2Vert"
+            colspan="2"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                身份证号码
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastCol band2Horz band1Vert"
+            colspan="3"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band1Horz band2Vert"
+            colspan="2"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                手机号
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastCol band1Horz band1Vert"
+            colspan="3"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                {
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                {phone}}
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="firstCol band2Horz band2Vert"
+            colspan="2"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                邮箱
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastCol band2Horz band1Vert"
+            colspan="3"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                {
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                {email}}
+              </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="swCell lastRow firstCol band1Horz band2Vert"
+            colspan="2"
+            style="width: 96.00px; border-top: 1.00px solid black; border-left: 2.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                日期
+              </span>
+            </p>
+          </td>
+          <td
+            class="lastRow band1Horz band1Vert"
+            colspan="3"
+            style="width: 371.99px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 1.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r variable"
+                data-origin-text="{{DATETOSTR(TODAY(), 'YYYY-MM-DD')}}"
+              >
+                {{DATETOSTR(TODAY(), 'YYYY-MM-DD')}}
+              </span>
+            </p>
+          </td>
+          <td
+            class="seCell lastRow lastCol band1Horz band2Vert"
+            style="width: 120.00px; border-top: 1.00px solid black; border-left: 1.00px solid black; border-bottom: 1.00px solid black; border-right: 2.00px solid black;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+               
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+       
+    </p>
+  </section>
+</article>
+`;

@@ -1,0 +1,446 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:formula 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  a
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="1"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="a"
+                  role="spinbutton"
+                  step="1"
+                  value="1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="b"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  b
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="2"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="b"
+                  role="spinbutton"
+                  step="1"
+                  value="2"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum1"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  sum1
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="3"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="sum1"
+                  role="spinbutton"
+                  step="1"
+                  value="3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum2"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  sum2
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="4"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="sum2"
+                  role="spinbutton"
+                  step="1"
+                  value="4"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum3"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  sum3
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="5"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="sum3"
+                  role="spinbutton"
+                  step="1"
+                  value="5"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="sum4"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  sum4
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="5"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  name="sum4"
+                  role="spinbutton"
+                  step="1"
+                  value="5"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,15 @@
+# 避免 windows 下自动转
+* text eol=lf
+*.jpg   -text
+*.png   -text
+*.eot   -text
+*.otf binary
+*.eot binary
+*.svg binary
+*.ttf binary
+*.woff binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.TTF binary
+*.sketch binary

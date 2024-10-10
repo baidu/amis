@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:hbox 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Grid"
+          >
+            <div
+              class="cxd-Grid-col--md3 bg-white"
+            >
+              <div
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-amis-name="text"
+                data-role="form-item"
+              >
+                <div
+                  class="cxd-Form-control cxd-TextControl"
+                >
+                  <div
+                    class="cxd-TextControl-input"
+                  >
+                    <input
+                      autocomplete="off"
+                      class=""
+                      name="text"
+                      placeholder="Text"
+                      size="10"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Grid-col--md9"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  其他渲染器类型
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:usersselect 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="usersselect"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  人员选择
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="UserSelectControl cxd-Form-control"
+          >
+            <div
+              class="cxd-UserSelect"
+            >
+              <div
+                class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-ResultBox-value-wrap"
+                >
+                  <span
+                    class="cxd-ResultBox-placeholder"
+                  >
+                    请选择
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

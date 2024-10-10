@@ -1,0 +1,169 @@
+.#{$ns}Log {
+  position: relative;
+
+  &-body {
+    background: var(--Log-bg);
+    color: var(--Log-color);
+    padding: var(--Log-padding);
+    overflow-y: auto;
+    font-family: var(--fontFamilyMonospace);
+  }
+
+  &-line {
+    padding: var(--Log-line-padding);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    // bootstrap 会修改这些，覆盖掉
+    code {
+      color: inherit;
+      background: inherit;
+    }
+    &:hover {
+      background: var(--Log-line--onHover-bg);
+    }
+    &-number {
+      color: #999;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    &-highlight {
+      background: #ffffb6;
+      display: inline-block;
+      color: #000;
+    }
+  }
+
+  &-operation {
+    position: relative;
+    background: rgba(28, 28, 28, 0.5);
+    & > a {
+      display: inline-flex;
+      flex-direction: row;
+      line-height: var(--Form-input-lineHeight);
+      font-size: var(--Form-input-fontSize);
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+      height: 30px;
+      width: 30px;
+      padding-left: 8px;
+      transition: all var(--animation-duration) ease-in-out;
+      border: var(--Form-input-borderWidth) solid transparent;
+      border-radius: var(--Form-input-borderRadius);
+      overflow: hidden;
+      height: 30px;
+      width: 30px;
+    }
+    a {
+      color: #000;
+    }
+    & > a:hover {
+      background: var(--Form-input-onHover-bg);
+      color: var(--link-color);
+    }
+
+    & > a > svg {
+      margin-right: 8px;
+    }
+
+    & > a.is-disabled {
+      cursor: not-allowed;
+      color: #6b7280;
+    }
+
+    & > a.is-disabled:hover {
+      cursor: not-allowed;
+      background: transparent;
+      color: #6b7280;
+    }
+  }
+
+  .ansi-bold {
+    font-weight: 700;
+  }
+
+  .ansi-italic {
+    font-style: italic;
+  }
+
+  .ansi-underline {
+    text-decoration: underline;
+  }
+
+  .ansi-black-fg,
+  .ansi-bright-black-fg {
+    color: #4e4e4e;
+  }
+
+  .ansi-red-fg,
+  .ansi-bright-red-fg {
+    color: #ff6c60;
+  }
+
+  .ansi-green-fg,
+  .ansi-bright-green-fg {
+    color: #0a0;
+  }
+
+  .ansi-yellow-fg,
+  .ansi-bright-yellow-fg {
+    color: #ffffb6;
+  }
+
+  .ansi-blue-fg,
+  .ansi-bright-blue-fg {
+    color: #96cbfe;
+  }
+
+  .ansi-magenta-fg,
+  .ansi-bright-magenta-fg {
+    color: #ff73fd;
+  }
+
+  .ansi-cyan-fg,
+  .ansi-bright-cyan-fg {
+    color: #5ff;
+  }
+
+  .ansi-white-fg,
+  .ansi-bright-white-fg {
+    color: #eee;
+  }
+
+  .ansi-grey-fg,
+  .ansi-bright-grey-fg {
+    color: #969696;
+  }
+
+  .ansi-black-bg {
+    background-color: #4e4e4e;
+  }
+
+  .ansi-red-bg {
+    background-color: #ff6c60;
+  }
+
+  .ansi-green-bg {
+    background-color: #0a0;
+  }
+
+  .ansi-yellow-bg {
+    background-color: #ffffb6;
+  }
+
+  .ansi-blue-bg {
+    background-color: #96cbfe;
+  }
+
+  .ansi-magenta-bg {
+    background-color: #ff73fd;
+  }
+
+  .ansi-cyan-bg {
+    background-color: #0aa;
+  }
+
+  .ansi-white-bg {
+    background-color: #eee;
+  }
+}

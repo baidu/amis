@@ -1,0 +1,139 @@
+.#{$ns}EditorControl {
+  min-height: px2rem(200px);
+  max-height: px2rem(400px);
+
+  > .#{$ns}MonacoEditor,
+  > .#{$ns}MonacoEditor > .monaco-diff-editor {
+    // 解决多层Form嵌套情况下Editor无法完整显示的问题
+    min-height: inherit;
+  }
+
+  overflow: visible;
+  height: auto;
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  max-width: 100%;
+  box-sizing: content-box;
+
+  &.is-error {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-focused {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &--sm {
+    min-height: 100px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 100px;
+    }
+  }
+
+  &--md {
+    min-height: 250px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 250px;
+    }
+  }
+
+  &--lg {
+    min-height: 300px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 300px;
+    }
+  }
+
+  &--xl {
+    min-height: 400px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 400px;
+    }
+  }
+
+  &--xxl {
+    min-height: 500px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 500px;
+    }
+  }
+
+  .monaco-editor .iPadShowKeyboard {
+    display: none;
+  }
+}
+
+.#{$ns}MonacoEditor {
+  position: relative;
+
+  &-header {
+    position: absolute;
+    right: px2rem(14px);
+    top: 0;
+    padding: 0;
+    width: px2rem(18px);
+    height: px2rem(18px);
+    z-index: 5;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  &-fullscreen {
+    cursor: pointer;
+    color: var(--Modal-close-color);
+    line-height: inherit;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+
+    &:hover {
+      color: var(--Model-close-onHover-color);
+
+      svg {
+        fill: var(--Model-close-onHover-color);
+      }
+    }
+  }
+
+  &-placeholder {
+    pointer-events: none;
+    top: 0;
+    position: absolute;
+    left: px2rem(65px);
+    right: px2rem(16px);
+    white-space: break-spaces;
+    line-break: anywhere;
+    color: var(--Form-input-placeholderColor);
+  }
+}
+
+.monaco-inputbox > .wrapper {
+  padding: 0;
+}
+
+.is-fullscreen {
+  margin: 0 !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2147483630 !important;
+  width: auto !important;
+}
+
+// @media (min-width: 768px) {
+
+//     .amis-editor-control.form-contorl-inline,
+//     .form-group-inline .amis-editor-control {
+//       display: inline-block;
+//       width: 280px;
+//     }
+//   }

@@ -1,0 +1,452 @@
+/**
+ * @file ColorPicker
+ * @description 颜色选择器组件
+ * @author fex
+ */
+
+import React from 'react';
+import {findDOMNode} from 'react-dom';
+import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
+import {Icon} from './icons';
+import {Overlay} from 'amis-core';
+import {uncontrollable} from 'amis-core';
+import {PopOver} from 'amis-core';
+import PopUp from './PopUp';
+import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {autobind, isObject} from 'amis-core';
+import {localeable, LocaleProps} from 'amis-core';
+
+export type PresetColor = {color: string; title: string} | string;
+
+export interface ColorProps extends LocaleProps, ThemeProps {
+  placeholder?: string;
+  format: string;
+  // closeOnSelect:boolean;
+  clearable: boolean;
+  className?: string;
+  popoverClassName?: string;
+  disabled?: boolean;
+  popOverContainer?: any;
+  popOverContainerSelector?: string;
+  placement?: string;
+  value?: any;
+  onChange: (value: any) => void;
+  presetColors?: PresetColor[];
+  resetValue?: string;
+  allowCustomColor?: boolean;
+}
+
+export interface ColorControlState {
+  isOpened: boolean;
+  isFocused: boolean;
+  inputValue: string;
+  tempValue: string;
+}
+
+export class ColorControl extends React.PureComponent<
+  ColorProps,
+  ColorControlState
+> {
+  static defaultProps = {
+    format: 'hex',
+    clearable: true,
+    placeholder: 'ColorPicker.placeholder',
+    allowCustomColor: true
+    // closeOnSelect: true
+  };
+  state = {
+    isOpened: false,
+    isFocused: false,
+    inputValue: this.props.value || '',
+    tempValue: this.props.value || ''
+  };
+  popover: any;
+  closeTimer: number;
+  preview: React.RefObject<HTMLElement>;
+  input: React.RefObject<HTMLInputElement>;
+  constructor(props: ColorProps) {
+    super(props);
+
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.focus = this.focus.bind(this);
+    this.blur = this.blur.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleTempChange = this.handleTempChange.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.clearValue = this.clearValue.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.preview = React.createRef();
+    this.input = React.createRef();
+  }
+
+  componentDidUpdate(prevProps: ColorProps) {
+    const props = this.props;
+
+    if (prevProps.value !== props.value) {
+      this.setState({
+        inputValue: props.value || ''
+      });
+    }
+  }
+
+  handleFocus() {
+    this.setState({
+      isFocused: true
+    });
+  }
+
+  handleBlur() {
+    this.setState({
+      isFocused: false,
+      inputValue: this.props.value
+    });
+  }
+
+  focus() {
+    this.input.current && this.input.current.focus();
+  }
+
+  blur() {
+    this.input.current && this.input.current.blur();
+  }
+
+  open(fn?: () => void) {
+    if (this.props.disabled) {
+      return;
+    }
+    this.setState(
+      {
+        isOpened: true
+      },
+      fn
+    );
+  }
+
+  close() {
+    this.setState({
+      isOpened: false
+    });
+  }
+
+  clearValue() {
+    const {onChange, resetValue} = this.props;
+    onChange(resetValue || '');
+  }
+
+  handleClick() {
+    this.state.isOpened ? this.close() : this.open(this.focus);
+  }
+
+  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!this.props.allowCustomColor) {
+      return;
+    }
+
+    const onChange = this.props.onChange;
+
+    this.setState(
+      {
+        inputValue: e.currentTarget.value
+      },
+      () => {
+        let isValidated = this.validateColor(this.state.inputValue);
+        if (isValidated) {
+          onChange(this.state.inputValue);
+        }
+      }
+    );
+  }
+
+  @autobind
+  validateColor(value: string) {
+    if (value === '') {
+      return false;
+    }
+    if (value === 'inherit') {
+      return false;
+    }
+    if (value === 'transparent') {
+      return false;
+    }
+
+    let image = document.createElement('img');
+    image.style.color = 'rgb(0, 0, 0)';
+    image.style.color = value;
+    if (image.style.color !== 'rgb(0, 0, 0)') {
+      return true;
+    }
+    image.style.color = 'rgb(255, 255, 255)';
+    image.style.color = value;
+    return image.style.color !== 'rgb(255, 255, 255)';
+  }
+
+  handleChange(color: ColorResult) {
+    const {
+      onChange,
+      format
+      // closeOnSelect
+    } = this.props;
+
+    if (format === 'rgba') {
+      onChange(
+        `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`
+      );
+    } else if (format === 'rgb') {
+      onChange(`rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`);
+    } else if (format === 'hexa') {
+      onChange(
+        this.rgbaToHex(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a)
+      );
+    } else if (format === 'hsl') {
+      onChange(
+        `hsl(${Math.round(color.hsl.h)}, ${Math.round(
+          color.hsl.s * 100
+        )}%, ${Math.round(color.hsl.l * 100)}%)`
+      );
+    } else {
+      onChange(color.hex);
+    }
+
+    // closeOnSelect && this.close();
+  }
+
+  handleTempChange(color: ColorResult) {
+    let {tempValue} = this.state;
+    const {format} = this.props;
+
+    if (format === 'rgba') {
+      tempValue = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`;
+    } else if (format === 'rgb') {
+      tempValue = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`;
+    } else if (format === 'hexa') {
+      tempValue = this.rgbaToHex(
+        color.rgb.r,
+        color.rgb.g,
+        color.rgb.b,
+        color.rgb.a
+      );
+    } else if (format === 'hsl') {
+      tempValue = `hsl(${Math.round(color.hsl.h)}, ${Math.round(
+        color.hsl.s * 100
+      )}%, ${Math.round(color.hsl.l * 100)}%)`;
+    } else {
+      tempValue = color.hex;
+    }
+    this.setState({tempValue});
+  }
+
+  handleConfirm() {
+    const {onChange} = this.props;
+    const {tempValue} = this.state;
+    onChange(tempValue);
+    this.close();
+  }
+
+  /**
+   * Converts an RGBA color to an 8-digit hex color.
+   *
+   * @param r - Red component (0-255)
+   * @param g - Green component (0-255)
+   * @param b - Blue component (0-255)
+   * @param a - Alpha component (1-100)
+   * @returns The hex color string in the format #RRGGBBAA
+   */
+  rgbaToHex(r: number, g: number, b: number, a: number | undefined): string {
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+      return `#00000000`;
+    }
+    if (typeof a === 'undefined' || a > 1) {
+      a = 1;
+    }
+    if (a < 0.01) {
+      a = 0;
+    }
+
+    const toHex = (n: number) => n.toString(16).padStart(2, '0').toUpperCase();
+
+    const alphaHex = toHex(Math.round(a * 255));
+    const redHex = toHex(r);
+    const greenHex = toHex(g);
+    const blueHex = toHex(b);
+
+    return `#${redHex}${greenHex}${blueHex}${alphaHex}`;
+  }
+
+  render() {
+    const {
+      classPrefix: ns,
+      className,
+      popoverClassName,
+      value,
+      placeholder,
+      disabled,
+      popOverContainer,
+      popOverContainerSelector,
+      format,
+      clearable,
+      placement,
+      classnames: cx,
+      presetColors,
+      allowCustomColor,
+      mobileUI
+    } = this.props;
+
+    const __ = this.props.translate;
+    const isOpened = this.state.isOpened;
+    const isFocused = this.state.isFocused;
+    const tempValue = this.state.tempValue;
+
+    return (
+      <div
+        className={cx(
+          `ColorPicker`,
+          {
+            'is-disabled': disabled,
+            'is-focused': isFocused,
+            'is-opened': isOpened
+          },
+          className
+        )}
+      >
+        <span onClick={this.handleClick} className={cx('ColorPicker-preview')}>
+          <i
+            ref={this.preview}
+            className={`${ns}ColorPicker-previewIcon`}
+            style={{background: this.state.inputValue || '#ccc'}}
+          />
+        </span>
+
+        <input
+          ref={this.input}
+          type="text"
+          autoComplete="off"
+          size={10}
+          className={cx('ColorPicker-input')}
+          value={this.state.inputValue || ''}
+          placeholder={__(placeholder)}
+          disabled={disabled}
+          onChange={this.handleInputChange}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onClick={this.handleClick}
+          readOnly={mobileUI}
+        />
+
+        {clearable && !disabled && value ? (
+          <a onClick={this.clearValue} className={cx('ColorPicker-clear')}>
+            <Icon icon="input-clear" className="icon" />
+          </a>
+        ) : null}
+
+        <span className={cx('ColorPicker-arrow')}>
+          <Icon
+            icon="right-arrow-bold"
+            className="icon"
+            onClick={this.handleClick}
+          />
+        </span>
+
+        {!mobileUI && isOpened ? (
+          <Overlay
+            placement={placement || 'auto'}
+            target={() => findDOMNode(this)}
+            onHide={this.close}
+            container={popOverContainer || (() => findDOMNode(this))}
+            containerSelector={popOverContainerSelector}
+            rootClose={false}
+            show
+          >
+            <PopOver
+              classPrefix={ns}
+              className={cx('ColorPicker-popover', popoverClassName)}
+              onHide={this.close}
+              overlay
+            >
+              {allowCustomColor ? (
+                <SketchPicker
+                  styles={{}}
+                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                  color={value}
+                  presetColors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+              ) : (
+                <GithubPicker
+                  color={value}
+                  colors={
+                    Array.isArray(presetColors)
+                      ? (presetColors
+                          .filter(
+                            item => typeof item === 'string' || isObject(item)
+                          )
+                          .map(item =>
+                            typeof item === 'string'
+                              ? item
+                              : isObject(item)
+                              ? item?.color
+                              : item
+                          ) as string[])
+                      : undefined
+                  }
+                  onChangeComplete={this.handleChange}
+                />
+              )}
+            </PopOver>
+          </Overlay>
+        ) : null}
+        {mobileUI && (
+          <PopUp
+            className={cx(`${ns}ColorPicker-popup`)}
+            container={popOverContainer}
+            isShow={isOpened}
+            onHide={this.handleClick}
+            showConfirm
+            onConfirm={this.handleConfirm}
+          >
+            {allowCustomColor ? (
+              <SketchPicker
+                styles={{}}
+                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                color={tempValue}
+                presetColors={presetColors}
+                onChangeComplete={this.handleTempChange}
+              />
+            ) : (
+              <GithubPicker
+                color={tempValue}
+                colors={
+                  Array.isArray(presetColors)
+                    ? (presetColors
+                        .filter(
+                          item => typeof item === 'string' || isObject(item)
+                        )
+                        .map(item =>
+                          typeof item === 'string'
+                            ? item
+                            : isObject(item)
+                            ? item?.color
+                            : item
+                        ) as string[])
+                    : undefined
+                }
+                onChangeComplete={this.handleTempChange}
+              />
+            )}
+          </PopUp>
+        )}
+      </div>
+    );
+  }
+}
+
+export default themeable(
+  localeable(
+    uncontrollable(ColorControl, {
+      value: 'onChange'
+    })
+  )
+);

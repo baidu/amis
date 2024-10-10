@@ -1,0 +1,127 @@
+.#{$ns}Hbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  &-col {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-height: 1px;
+    max-width: 100%;
+    width: 100%;
+
+    &--customWidth {
+      flex-grow: unset;
+      flex-basis: unset;
+    }
+
+    &--auto {
+      flex: 0 0 auto;
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  &--hRight {
+    justify-content: flex-end;
+  }
+
+  &--hCenter {
+    justify-content: center;
+  }
+  &--hBetween {
+    justify-content: space-between;
+  }
+
+  &--vMiddle > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &--vBottom > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &--vBetween > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  & > &-col--vTop {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  & > &-col--vMiddle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & > &-col--vBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  & > &-col--vBetween {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.#{$ns}Hbox--xs {
+  margin-left: calc(var(--gap-xs) * -0.5);
+  margin-right: calc(var(--gap-xs) * -0.5);
+
+  > .#{$ns}Hbox-col {
+    padding-left: calc(var(--gap-xs) * 0.5);
+    padding-right: calc(var(--gap-xs) * 0.5);
+  }
+}
+
+.#{$ns}Hbox--sm {
+  margin-left: calc(var(--gap-sm) * -0.5);
+  margin-right: calc(var(--gap-sm) * -0.5);
+
+  > .#{$ns}Hbox-col {
+    padding-left: calc(var(--gap-sm) * 0.5);
+    padding-right: calc(var(--gap-sm) * 0.5);
+  }
+}
+
+.#{$ns}Hbox--base {
+  margin-left: calc(var(--gap-base) * -0.5);
+  margin-right: calc(var(--gap-base) * -0.5);
+
+  > .#{$ns}Hbox-col {
+    padding-left: calc(var(--gap-base) * 0.5);
+    padding-right: calc(var(--gap-base) * 0.5);
+  }
+}
+
+.#{$ns}Hbox--md {
+  margin-left: calc(var(--gap-md) * -0.5);
+  margin-right: calc(var(--gap-md) * -0.5);
+
+  > .#{$ns}Hbox-col {
+    padding-left: calc(var(--gap-md) * 0.5);
+    padding-right: calc(var(--gap-md) * 0.5);
+  }
+}
+
+.#{$ns}Hbox--lg {
+  margin-left: calc(var(--gap-lg) * -0.5);
+  margin-right: calc(var(--gap-lg) * -0.5);
+
+  > .#{$ns}Hbox-col {
+    padding-left: calc(var(--gap-lg) * 0.5);
+    padding-right: calc(var(--gap-lg) * 0.5);
+  }
+}

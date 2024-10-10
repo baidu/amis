@@ -1,0 +1,38 @@
+.#{$ns}Video {
+  min-width: 200px;
+
+  &-cursor {
+    position: absolute;
+    border: 2px solid var(--info);
+    transition: all var(--animation-duration) ease-out;
+  }
+
+  &-frameList {
+    .#{$ns}Video-frameItem {
+      cursor: pointer;
+    }
+  }
+
+  &-frameLabel {
+    text-align: center;
+  }
+
+  .video-react-paused .video-react-big-play-button.big-play-button-hide {
+    display: block;
+  }
+
+  &-player {
+    position: relative;
+  }
+
+  &-error {
+    position: absolute;
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    color: var(--danger);
+    background: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    top: 0;
+  }
+}

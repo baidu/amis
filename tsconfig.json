@@ -1,27 +1,58 @@
 {
   "compilerOptions": {
-    "outDir": "output/",
+    "outDir": "lib",
+    "rootDir": "./",
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
+    "lib": ["ES6", "DOM", "ES2015", "ES2021"],
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "sourceRoot": "src",
+    "sourceRoot": "",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["./node_modules/@types", "./types"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "composite": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "amis-core": ["./packages/amis-core/src/index.tsx"],
+      "amis-formula": ["./packages/amis-formula/src/index.ts"],
+      "amis-ui": ["./packages/amis-ui/src/index.tsx"],
+      "amis": ["./packages/amis/src/index.tsx"],
+      "office-viewer": ["./packages/office-viewer/src/index.ts"],
+      "amis-editor-core": ["./packages/amis-editor-core/src/index.ts"],
+      "amis-editor": ["./packages/amis-editor/src/index.tsx"],
+      "amis-theme-editor-helper": [
+        "./packages/amis-theme-editor-helper/src/index.ts"
+      ]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],
-  "types": ["typePatches"]
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules"]
+  },
+  "types": ["typePatches"],
+  "references": [],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "scripts/fis3plugin.ts",
+    "scripts/markdownPlugin.ts",
+    "scripts/mockApiPlugin.ts",
+    "packages/amis-ui/src/custom.d.ts",
+    "examples/polyfills/cloest.js",
+    "examples/polyfills/classList.js"
+  ]
 }

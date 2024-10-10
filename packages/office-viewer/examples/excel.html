@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>excel viewer</title>
+    <link rel="stylesheet" href="/examples/static/css/app.css" />
+    <link rel="stylesheet" href="../scss/office.scss" />
+    <style>
+      @font-face {
+        font-family: DengXian;
+        src: local('DengXian'), url('static/font/DengXian.ttf');
+      }
+      @font-face {
+        font-family: '\u7b49\u7ebf';
+        src: local('\u7b49\u7ebf'), local('DengXian'),
+          url('static/font/DengXian.ttf');
+      }
+    </style>
+    <script>
+      window['OFFICE_VIEWER_DEBUG'] = true;
+    </script>
+  </head>
+  <body>
+    <div class="columns">
+      <div class="column file-list" id="fileList">
+        <button type="button" onclick="downloadDocx()">dl</button>
+        <button type="button" onclick="printDocx()">print</button>
+        <div id="files"></div>
+        <div id="upload">
+          <input
+            type="file"
+            id="uploadFile"
+            name="uploadFile"
+            accept=".docx, .xlsx"
+          />
+        </div>
+        <div id="mousePosition"></div>
+        <div id="hitTestResult"></div>
+      </div>
+      <div class="column">
+        <div id="viewer"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/examples/excel.ts"></script>
+  </body>
+</html>

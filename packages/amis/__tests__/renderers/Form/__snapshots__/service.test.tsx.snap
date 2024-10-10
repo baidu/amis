@@ -1,0 +1,357 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:service 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal is-required"
+          data-amis-name="tpl"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  模板
+                </span>
+              </span>
+              <span
+                class="cxd-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-SelectControl cxd-Form-control is-inline"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              class="cxd-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  模板1
+                </div>
+              </div>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Service m-t"
+        >
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="dy_1"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    动态字段1
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="dy_1"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="dy_2"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    动态字段2
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="dy_2"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`form:service:remoteData 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Service"
+    >
+      <div
+        class="cxd-Form-item cxd-Form-item--normal"
+        data-amis-name="child-a"
+        data-role="form-item"
+      >
+        <div
+          class="cxd-Form-control cxd-TextControl"
+        >
+          <div
+            class="cxd-TextControl-input"
+          >
+            <input
+              autocomplete="off"
+              class=""
+              name="child-a"
+              placeholder=""
+              size="10"
+              type="text"
+              value="123"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`form:service:remoteSchmea+data 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Service"
+    >
+      <div
+        class="cxd-Form-item cxd-Form-item--normal"
+        data-amis-name="child-a"
+        data-role="form-item"
+      >
+        <div
+          class="cxd-Form-control cxd-TextControl"
+        >
+          <div
+            class="cxd-TextControl-input"
+          >
+            <input
+              autocomplete="off"
+              class=""
+              name="child-a"
+              placeholder=""
+              size="10"
+              type="text"
+              value="123"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-Form-item cxd-Form-item--normal"
+        data-amis-name="child-b"
+        data-role="form-item"
+      >
+        <div
+          class="cxd-Form-control cxd-TextControl"
+        >
+          <div
+            class="cxd-TextControl-input"
+          >
+            <input
+              autocomplete="off"
+              class=""
+              name="child-b"
+              placeholder=""
+              size="10"
+              type="text"
+              value="344"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`form:service:super-remoteData 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Service"
+    >
+      <div
+        class="cxd-Form-item cxd-Form-item--normal"
+        data-amis-name="child-a"
+        data-role="form-item"
+      >
+        <div
+          class="cxd-Form-control cxd-TextControl"
+        >
+          <div
+            class="cxd-TextControl-input"
+          >
+            <input
+              autocomplete="off"
+              class=""
+              name="child-a"
+              placeholder=""
+              size="10"
+              type="text"
+              value="123"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+  </form>
+</div>
+`;

@@ -1,0 +1,368 @@
+.#{$ns}ResultBox {
+  @include input-input();
+  @include input-border();
+  flex-wrap: nowrap;
+  padding: 0 px2rem(12px);
+  min-height: var(--Form-input-height);
+  align-items: center;
+  border-radius: 3px;
+  position: relative;
+  color: var(--Form-select-color);
+  font-size: var(--select-base-default-fontSize);
+  font-weight: var(--select-base-default-fontWeight);
+  border-width: var(--Form-select-borderWidth);
+  border-style: var(--select-base-default-top-border-style)
+    var(--select-base-default-right-border-style)
+    var(--select-base-default-bottom-border-style)
+    var(--select-base-default-left-border-style);
+  border-color: var(--Form-select-borderColor);
+  background: var(--Form-select-bg);
+  border-radius: var(--Form-select-borderRadius);
+  min-height: var(--Form-selectOption-height);
+  padding: var(--select-base-default-paddingTop)
+    var(--select-base-default-paddingRight)
+    var(--select-base-default-paddingBottom)
+    var(--select-base-default-paddingLeft);
+
+  &.is-error {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
+  &.is-focused,
+  &:focus {
+    outline: none;
+    background: var(--Form-select-onHover-bg);
+    border-width: var(--select-base-hover-top-border-width)
+      var(--select-base-hover-right-border-width)
+      var(--select-base-hover-bottom-border-width)
+      var(--select-base-hover-left-border-width);
+    border-style: var(--select-base-hover-top-border-style)
+      var(--select-base-hover-right-border-style)
+      var(--select-base-hover-bottom-border-style)
+      var(--select-base-hover-left-border-style);
+    border-color: var(--select-base-hover-top-border-color)
+      var(--select-base-hover-right-border-color)
+      var(--select-base-hover-bottom-border-color)
+      var(--select-base-hover-left-border-color);
+  }
+
+  &.is-active,
+  &.is-opened {
+    border-width: var(--select-base-active-top-border-width)
+      var(--select-base-active-right-border-width)
+      var(--select-base-active-bottom-border-width)
+      var(--select-base-active-left-border-width);
+    border-style: var(--select-base-active-top-border-style)
+      var(--select-base-active-right-border-style)
+      var(--select-base-active-bottom-border-style)
+      var(--select-base-active-left-border-style);
+    border-color: var(--select-base-active-top-border-color)
+      var(--select-base-active-right-border-color)
+      var(--select-base-active-bottom-border-color)
+      var(--select-base-active-left-border-color);
+    box-shadow: var(--select-base-active-shadow);
+    background: var(--select-base-active-bg-color);
+  }
+
+  &.is-clickable:not(.is-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      background: var(--Form-select-onHover-bg);
+      border-width: var(--select-base-hover-top-border-width)
+        var(--select-base-hover-right-border-width)
+        var(--select-base-hover-bottom-border-width)
+        var(--select-base-hover-left-border-width);
+      border-style: var(--select-base-hover-top-border-style)
+        var(--select-base-hover-right-border-style)
+        var(--select-base-hover-bottom-border-style)
+        var(--select-base-hover-left-border-style);
+      border-color: var(--select-base-hover-top-border-color)
+        var(--select-base-hover-right-border-color)
+        var(--select-base-hover-bottom-border-color)
+        var(--select-base-hover-left-border-color);
+    }
+  }
+
+  &.is-error.is-focused {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-disabled {
+    color: var(--text--muted-color);
+    pointer-events: none;
+    border-width: var(--select-base-disabled-top-border-width)
+      var(--select-base-disabled-right-border-width)
+      var(--select-base-disabled-bottom-border-width)
+      var(--select-base-disabled-left-border-width);
+    border-style: var(--select-base-disabled-top-border-style)
+      var(--select-base-disabled-right-border-style)
+      var(--select-base-disabled-bottom-border-style)
+      var(--select-base-disabled-left-border-style);
+    border-color: var(--select-base-disabled-top-border-color)
+      var(--select-base-disabled-right-border-color)
+      var(--select-base-disabled-bottom-border-color)
+      var(--select-base-disabled-left-border-color);
+    background: var(--select-base-disabled-bg-color);
+
+    div.#{$ns}ResultBox-value {
+      background: var(--TabsTransfer-border-color);
+
+      .#{$ns}ResultBox-valueLabel {
+        color: var(--Pagination-light-color);
+      }
+    }
+  }
+
+  &-value-wrap {
+    flex-grow: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &-actions {
+    margin-left: px2rem(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-singleValue {
+    flex-grow: 1;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all; // 避免超长单词撑开
+  }
+
+  &-pc-arrow {
+    width: var(--gap-md);
+    height: 100%;
+    margin: auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--animation-duration) ease;
+    transform: rotate(90deg);
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+      color: var(--default-icon-color);
+    }
+  }
+
+  &.is-opened &-pc-arrow {
+    transform: rotate(270deg);
+  }
+
+  &-clear {
+    @include input-clear();
+    height: 100%;
+    margin: auto 0;
+    background-color: unset;
+
+    &-with-arrow {
+      right: 33px;
+    }
+  }
+
+  &-clear-wrap {
+    line-height: 1;
+  }
+
+  > svg {
+    display: inline-block;
+    width: px2rem(14px);
+    color: var(--icon-color);
+  }
+
+  > a {
+    cursor: pointer;
+  }
+
+  &-value {
+    background: var(--ResultBox-value-bg);
+    color: var(--ResultBox-value-color);
+    font-size: var(--select-multiple-fontSize);
+    min-height: var(--ResultBox-tag-height);
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items: center;
+    padding: var(--select-multiple-paddingTop)
+      var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+      var(--select-multiple-paddingLeft);
+    margin: var(--select-multiple-marginTop) var(--select-multiple-marginRight)
+      var(--ResultBox-tag-marginBottom) var(--select-multiple-marginLeft);
+    user-select: none;
+    border-radius: var(--select-multiple-top-left-border-radius)
+      var(--select-multiple-top-right-border-radius)
+      var(--select-multiple-bottom-right-border-radius)
+      var(--select-multiple-bottom-left-border-radius);
+
+    > a {
+      cursor: pointer;
+      margin-left: px2rem(10px);
+      color: var(--ResultBox-icon-color);
+
+      &:hover {
+        color: var(--ResultBox-icon--onHover-color);
+      }
+
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
+
+        &.icon {
+          top: 0;
+        }
+      }
+    }
+
+    &:hover {
+      background: var(--ResultBox-value--onHover-bg);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      color: var(--ResultBox-value--onDisabled-color);
+
+      > a {
+        color: var(--ResultBox-icon--onDisabled-color);
+      }
+    }
+
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
+  }
+
+  &-valueLabel {
+    max-width: var(--Form-valueLabel-maxWidth);
+    overflow: hidden;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+    flex-grow: 1;
+    user-select: none;
+  }
+
+  > input {
+    padding-left: 8px;
+    min-height: 24px;
+  }
+
+  &.#{$ns}TransferDropDown {
+    &.is-group {
+      > .#{$ns}TransferDropDown-icon {
+        margin-right: var(--gap-sm);
+      }
+
+      > .#{$ns}ResultBox-placeholder {
+        padding-left: var(--gap-sm);
+      }
+    }
+
+    > .#{$ns}ResultBox-value {
+      background: var(--Form-select-value-bgColor);
+
+      &:hover {
+        background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+  }
+
+  &-overflow {
+    &-wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: calc(
+        (var(--ResultBox-tag-height) + var(--ResultBox-tag-marginBottom)) * 5
+      );
+    }
+
+    &.#{$ns}Tooltip--dark {
+      .#{$ns}ResultBox-overflow-wrapper {
+        .#{$ns}ResultBox-value {
+          color: var(--white);
+          background-color: var(--Form-select-value-bgColor--dark);
+
+          &:hover {
+            background-color: var(--ResultBox-value--onHover-bg--dark);
+          }
+
+          & > a {
+            color: var(--Form-select-valueIcon-color--dark);
+          }
+        }
+      }
+    }
+  }
+
+  &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+    border: none;
+    justify-content: flex-end;
+    width: 100%;
+
+    &.is-focused,
+    &:hover {
+      border: none !important;
+    }
+
+    .#{$ns}ResultBox-value-wrap {
+      text-align: left;
+    }
+
+    .#{$ns}ResultBox-clear {
+      @include input-clear();
+      width: px2rem(26px);
+      height: px2rem(26px);
+      margin: 0 px2rem(-2px);
+      margin-left: auto;
+      padding: px2rem(4px);
+      position: unset;
+      right: 0;
+      display: flex;
+      align-items: center;
+      background-color: unset;
+    }
+
+    .#{$ns}ResultBox-arrow {
+      margin-right: var(--gap-xs);
+      // margin-left: var(--gap-xs);
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      margin-left: 4px;
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+      }
+    }
+  }
+}

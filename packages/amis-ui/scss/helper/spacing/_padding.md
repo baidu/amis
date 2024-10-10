@@ -1,0 +1,265 @@
+---
+title: Padding
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| p-px | padding: 0.0625rem |
+| p-0 | padding: 0 |
+| p-none | padding: 0 |
+| p-0\.5 | padding: 0.125rem |
+| p-1 | padding: 0.25rem |
+| p-1\.5 | padding: 0.375rem |
+| p-2 | padding: 0.5rem |
+| p-2\.5 | padding: 0.625rem |
+| p-3 | padding: 0.75rem |
+| p-3\.5 | padding: 0.875rem |
+| p-4 | padding: 1rem |
+| p-5 | padding: 1.25rem |
+| p-6 | padding: 1.5rem |
+| p-7 | padding: 1.75rem |
+| p-8 | padding: 2rem |
+| p-9 | padding: 2.25rem |
+| p-10 | padding: 2.5rem |
+| p-11 | padding: 2.75rem |
+| p-12 | padding: 3rem |
+| p-14 | padding: 3.5rem |
+| p-16 | padding: 4rem |
+| p-18 | padding: 4.5rem |
+| p-20 | padding: 5rem |
+| p-24 | padding: 6rem |
+| p-28 | padding: 7rem |
+| p-32 | padding: 8rem |
+| p-36 | padding: 9rem |
+| p-40 | padding: 10rem |
+| p-44 | padding: 11rem |
+| p-48 | padding: 12rem |
+| p-52 | padding: 13rem |
+| p-56 | padding: 14rem |
+| p-60 | padding: 15rem |
+| p-64 | padding: 16rem |
+| p-72 | padding: 18rem |
+| p-80 | padding: 20rem |
+| p-96 | padding: 24rem |
+| px-px | padding-left: 0.0625rem; padding-right: 0.0625rem |
+| px-0 | padding-left: 0; padding-right: 0 |
+| px-none | padding-left: 0; padding-right: 0 |
+| px-0\.5 | padding-left: 0.125rem; padding-right: 0.125rem |
+| px-1 | padding-left: 0.25rem; padding-right: 0.25rem |
+| px-1\.5 | padding-left: 0.375rem; padding-right: 0.375rem |
+| px-2 | padding-left: 0.5rem; padding-right: 0.5rem |
+| px-2\.5 | padding-left: 0.625rem; padding-right: 0.625rem |
+| px-3 | padding-left: 0.75rem; padding-right: 0.75rem |
+| px-3\.5 | padding-left: 0.875rem; padding-right: 0.875rem |
+| px-4 | padding-left: 1rem; padding-right: 1rem |
+| px-5 | padding-left: 1.25rem; padding-right: 1.25rem |
+| px-6 | padding-left: 1.5rem; padding-right: 1.5rem |
+| px-7 | padding-left: 1.75rem; padding-right: 1.75rem |
+| px-8 | padding-left: 2rem; padding-right: 2rem |
+| px-9 | padding-left: 2.25rem; padding-right: 2.25rem |
+| px-10 | padding-left: 2.5rem; padding-right: 2.5rem |
+| px-11 | padding-left: 2.75rem; padding-right: 2.75rem |
+| px-12 | padding-left: 3rem; padding-right: 3rem |
+| px-14 | padding-left: 3.5rem; padding-right: 3.5rem |
+| px-16 | padding-left: 4rem; padding-right: 4rem |
+| px-18 | padding-left: 4.5rem; padding-right: 4.5rem |
+| px-20 | padding-left: 5rem; padding-right: 5rem |
+| px-24 | padding-left: 6rem; padding-right: 6rem |
+| px-28 | padding-left: 7rem; padding-right: 7rem |
+| px-32 | padding-left: 8rem; padding-right: 8rem |
+| px-36 | padding-left: 9rem; padding-right: 9rem |
+| px-40 | padding-left: 10rem; padding-right: 10rem |
+| px-44 | padding-left: 11rem; padding-right: 11rem |
+| px-48 | padding-left: 12rem; padding-right: 12rem |
+| px-52 | padding-left: 13rem; padding-right: 13rem |
+| px-56 | padding-left: 14rem; padding-right: 14rem |
+| px-60 | padding-left: 15rem; padding-right: 15rem |
+| px-64 | padding-left: 16rem; padding-right: 16rem |
+| px-72 | padding-left: 18rem; padding-right: 18rem |
+| px-80 | padding-left: 20rem; padding-right: 20rem |
+| px-96 | padding-left: 24rem; padding-right: 24rem |
+| py-px | padding-top: 0.0625rem; padding-bottom: 0.0625rem |
+| py-0 | padding-top: 0; padding-bottom: 0 |
+| py-none | padding-top: 0; padding-bottom: 0 |
+| py-0\.5 | padding-top: 0.125rem; padding-bottom: 0.125rem |
+| py-1 | padding-top: 0.25rem; padding-bottom: 0.25rem |
+| py-1\.5 | padding-top: 0.375rem; padding-bottom: 0.375rem |
+| py-2 | padding-top: 0.5rem; padding-bottom: 0.5rem |
+| py-2\.5 | padding-top: 0.625rem; padding-bottom: 0.625rem |
+| py-3 | padding-top: 0.75rem; padding-bottom: 0.75rem |
+| py-3\.5 | padding-top: 0.875rem; padding-bottom: 0.875rem |
+| py-4 | padding-top: 1rem; padding-bottom: 1rem |
+| py-5 | padding-top: 1.25rem; padding-bottom: 1.25rem |
+| py-6 | padding-top: 1.5rem; padding-bottom: 1.5rem |
+| py-7 | padding-top: 1.75rem; padding-bottom: 1.75rem |
+| py-8 | padding-top: 2rem; padding-bottom: 2rem |
+| py-9 | padding-top: 2.25rem; padding-bottom: 2.25rem |
+| py-10 | padding-top: 2.5rem; padding-bottom: 2.5rem |
+| py-11 | padding-top: 2.75rem; padding-bottom: 2.75rem |
+| py-12 | padding-top: 3rem; padding-bottom: 3rem |
+| py-14 | padding-top: 3.5rem; padding-bottom: 3.5rem |
+| py-16 | padding-top: 4rem; padding-bottom: 4rem |
+| py-18 | padding-top: 4.5rem; padding-bottom: 4.5rem |
+| py-20 | padding-top: 5rem; padding-bottom: 5rem |
+| py-24 | padding-top: 6rem; padding-bottom: 6rem |
+| py-28 | padding-top: 7rem; padding-bottom: 7rem |
+| py-32 | padding-top: 8rem; padding-bottom: 8rem |
+| py-36 | padding-top: 9rem; padding-bottom: 9rem |
+| py-40 | padding-top: 10rem; padding-bottom: 10rem |
+| py-44 | padding-top: 11rem; padding-bottom: 11rem |
+| py-48 | padding-top: 12rem; padding-bottom: 12rem |
+| py-52 | padding-top: 13rem; padding-bottom: 13rem |
+| py-56 | padding-top: 14rem; padding-bottom: 14rem |
+| py-60 | padding-top: 15rem; padding-bottom: 15rem |
+| py-64 | padding-top: 16rem; padding-bottom: 16rem |
+| py-72 | padding-top: 18rem; padding-bottom: 18rem |
+| py-80 | padding-top: 20rem; padding-bottom: 20rem |
+| py-96 | padding-top: 24rem; padding-bottom: 24rem |
+| pt-px | padding-top: 0.0625rem |
+| pt-0 | padding-top: 0 |
+| pt-none | padding-top: 0 |
+| pt-0\.5 | padding-top: 0.125rem |
+| pt-1 | padding-top: 0.25rem |
+| pt-1\.5 | padding-top: 0.375rem |
+| pt-2 | padding-top: 0.5rem |
+| pt-2\.5 | padding-top: 0.625rem |
+| pt-3 | padding-top: 0.75rem |
+| pt-3\.5 | padding-top: 0.875rem |
+| pt-4 | padding-top: 1rem |
+| pt-5 | padding-top: 1.25rem |
+| pt-6 | padding-top: 1.5rem |
+| pt-7 | padding-top: 1.75rem |
+| pt-8 | padding-top: 2rem |
+| pt-9 | padding-top: 2.25rem |
+| pt-10 | padding-top: 2.5rem |
+| pt-11 | padding-top: 2.75rem |
+| pt-12 | padding-top: 3rem |
+| pt-14 | padding-top: 3.5rem |
+| pt-16 | padding-top: 4rem |
+| pt-18 | padding-top: 4.5rem |
+| pt-20 | padding-top: 5rem |
+| pt-24 | padding-top: 6rem |
+| pt-28 | padding-top: 7rem |
+| pt-32 | padding-top: 8rem |
+| pt-36 | padding-top: 9rem |
+| pt-40 | padding-top: 10rem |
+| pt-44 | padding-top: 11rem |
+| pt-48 | padding-top: 12rem |
+| pt-52 | padding-top: 13rem |
+| pt-56 | padding-top: 14rem |
+| pt-60 | padding-top: 15rem |
+| pt-64 | padding-top: 16rem |
+| pt-72 | padding-top: 18rem |
+| pt-80 | padding-top: 20rem |
+| pt-96 | padding-top: 24rem |
+| pr-px | padding-right: 0.0625rem |
+| pr-0 | padding-right: 0 |
+| pr-none | padding-right: 0 |
+| pr-0\.5 | padding-right: 0.125rem |
+| pr-1 | padding-right: 0.25rem |
+| pr-1\.5 | padding-right: 0.375rem |
+| pr-2 | padding-right: 0.5rem |
+| pr-2\.5 | padding-right: 0.625rem |
+| pr-3 | padding-right: 0.75rem |
+| pr-3\.5 | padding-right: 0.875rem |
+| pr-4 | padding-right: 1rem |
+| pr-5 | padding-right: 1.25rem |
+| pr-6 | padding-right: 1.5rem |
+| pr-7 | padding-right: 1.75rem |
+| pr-8 | padding-right: 2rem |
+| pr-9 | padding-right: 2.25rem |
+| pr-10 | padding-right: 2.5rem |
+| pr-11 | padding-right: 2.75rem |
+| pr-12 | padding-right: 3rem |
+| pr-14 | padding-right: 3.5rem |
+| pr-16 | padding-right: 4rem |
+| pr-18 | padding-right: 4.5rem |
+| pr-20 | padding-right: 5rem |
+| pr-24 | padding-right: 6rem |
+| pr-28 | padding-right: 7rem |
+| pr-32 | padding-right: 8rem |
+| pr-36 | padding-right: 9rem |
+| pr-40 | padding-right: 10rem |
+| pr-44 | padding-right: 11rem |
+| pr-48 | padding-right: 12rem |
+| pr-52 | padding-right: 13rem |
+| pr-56 | padding-right: 14rem |
+| pr-60 | padding-right: 15rem |
+| pr-64 | padding-right: 16rem |
+| pr-72 | padding-right: 18rem |
+| pr-80 | padding-right: 20rem |
+| pr-96 | padding-right: 24rem |
+| pb-px | padding-bottom: 0.0625rem |
+| pb-0 | padding-bottom: 0 |
+| pb-none | padding-bottom: 0 |
+| pb-0\.5 | padding-bottom: 0.125rem |
+| pb-1 | padding-bottom: 0.25rem |
+| pb-1\.5 | padding-bottom: 0.375rem |
+| pb-2 | padding-bottom: 0.5rem |
+| pb-2\.5 | padding-bottom: 0.625rem |
+| pb-3 | padding-bottom: 0.75rem |
+| pb-3\.5 | padding-bottom: 0.875rem |
+| pb-4 | padding-bottom: 1rem |
+| pb-5 | padding-bottom: 1.25rem |
+| pb-6 | padding-bottom: 1.5rem |
+| pb-7 | padding-bottom: 1.75rem |
+| pb-8 | padding-bottom: 2rem |
+| pb-9 | padding-bottom: 2.25rem |
+| pb-10 | padding-bottom: 2.5rem |
+| pb-11 | padding-bottom: 2.75rem |
+| pb-12 | padding-bottom: 3rem |
+| pb-14 | padding-bottom: 3.5rem |
+| pb-16 | padding-bottom: 4rem |
+| pb-18 | padding-bottom: 4.5rem |
+| pb-20 | padding-bottom: 5rem |
+| pb-24 | padding-bottom: 6rem |
+| pb-28 | padding-bottom: 7rem |
+| pb-32 | padding-bottom: 8rem |
+| pb-36 | padding-bottom: 9rem |
+| pb-40 | padding-bottom: 10rem |
+| pb-44 | padding-bottom: 11rem |
+| pb-48 | padding-bottom: 12rem |
+| pb-52 | padding-bottom: 13rem |
+| pb-56 | padding-bottom: 14rem |
+| pb-60 | padding-bottom: 15rem |
+| pb-64 | padding-bottom: 16rem |
+| pb-72 | padding-bottom: 18rem |
+| pb-80 | padding-bottom: 20rem |
+| pb-96 | padding-bottom: 24rem |
+| pl-px | padding-left: 0.0625rem |
+| pl-0 | padding-left: 0 |
+| pl-none | padding-left: 0 |
+| pl-0\.5 | padding-left: 0.125rem |
+| pl-1 | padding-left: 0.25rem |
+| pl-1\.5 | padding-left: 0.375rem |
+| pl-2 | padding-left: 0.5rem |
+| pl-2\.5 | padding-left: 0.625rem |
+| pl-3 | padding-left: 0.75rem |
+| pl-3\.5 | padding-left: 0.875rem |
+| pl-4 | padding-left: 1rem |
+| pl-5 | padding-left: 1.25rem |
+| pl-6 | padding-left: 1.5rem |
+| pl-7 | padding-left: 1.75rem |
+| pl-8 | padding-left: 2rem |
+| pl-9 | padding-left: 2.25rem |
+| pl-10 | padding-left: 2.5rem |
+| pl-11 | padding-left: 2.75rem |
+| pl-12 | padding-left: 3rem |
+| pl-14 | padding-left: 3.5rem |
+| pl-16 | padding-left: 4rem |
+| pl-18 | padding-left: 4.5rem |
+| pl-20 | padding-left: 5rem |
+| pl-24 | padding-left: 6rem |
+| pl-28 | padding-left: 7rem |
+| pl-32 | padding-left: 8rem |
+| pl-36 | padding-left: 9rem |
+| pl-40 | padding-left: 10rem |
+| pl-44 | padding-left: 11rem |
+| pl-48 | padding-left: 12rem |
+| pl-52 | padding-left: 13rem |
+| pl-56 | padding-left: 14rem |
+| pl-60 | padding-left: 15rem |
+| pl-64 | padding-left: 16rem |
+| pl-72 | padding-left: 18rem |
+| pl-80 | padding-left: 20rem |
+| pl-96 | padding-left: 24rem |

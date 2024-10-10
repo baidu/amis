@@ -1,0 +1,45 @@
+.#{$ns}Nav {
+  position: relative;
+  cursor: pointer;
+  background-color: var(--Layout-light-backgroundColor);
+  font-size: var(--Nav-item-fontSize);
+  line-height: var(--Nav-Item-height);
+  min-height: px2rem(10px);
+  color: var(--colors-neutral-text-2);
+
+  &-horizontal {
+    line-height: var(--Nav-Item-height--horizontal);
+  }
+
+  .#{$ns}Nav-dropIndicator {
+    position: absolute;
+    background: var(--Nav-item-onActive-color);
+    height: px2rem(2px);
+  }
+
+  &--searchable {
+    display: flex;
+
+    &:not(.#{$ns}Nav-horizontal) {
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .#{$ns}Nav-SearchBox {
+        &.is-active {
+          width: 100%;
+        }
+      }
+    }
+
+    &.#{$ns}Nav-horizontal {
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .#{$ns}Nav-SearchBox {
+        margin-left: px2rem(16px);
+      }
+    }
+  }
+}

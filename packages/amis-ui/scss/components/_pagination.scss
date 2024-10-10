@@ -1,0 +1,312 @@
+.#{$ns}Pagination {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0 px2rem(-8px);
+  border-radius: px2rem(4px);
+
+  > li {
+    display: inline-flex;
+    cursor: pointer;
+
+    > a,
+    > span {
+      user-select: none;
+      cursor: pointer;
+      position: relative;
+      float: left;
+      text-decoration: none;
+      min-width: var(--Pagination-minWidth);
+      height: var(--Pagination-height);
+      border: 0;
+      line-height: var(--Pagination-height);
+      padding: var(--Pagination-padding);
+      text-align: center;
+      color: var(--Pagination-light-color);
+      border-radius: 0;
+      margin-left: 0;
+      font-size: var(--Pagination-fontSize);
+    }
+
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      background: transparent;
+      color: var(--primary);
+    }
+  }
+
+  > li.is-disabled {
+    > span,
+    > a {
+      cursor: not-allowed;
+    }
+
+    > a,
+    > span,
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      color: #cccccc;
+    }
+  }
+
+  > li.is-active {
+    > a,
+    > span,
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      background: var(--Pagination-onActive-backgroundColor);
+      color: var(--Pagination-onActive-color);
+      border: var(--Pagination-onActive-border);
+      border-radius: var(--borderRadius);
+    }
+  }
+  &-simple {
+    > ul > li {
+      &:hover,
+      &:focus {
+        outline: none;
+      }
+      &.is-active > a {
+        border: none;
+        &:hover,
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
+  &-prev {
+    > span {
+      cursor: pointer;
+    }
+  }
+
+  &-next {
+    > span {
+      cursor: pointer;
+    }
+  }
+
+  &-total {
+    display: inline-block;
+    color: var(--Pagination-light-color);
+  }
+
+  &-inputGroup {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: var(--Pagination-height);
+
+    &-left {
+      color: var(--Pagination-light-color);
+    }
+    input {
+      min-width: px2rem(50px);
+      width: px2rem(50px);
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      // height: var(--Pagination-height);
+      border: none;
+      border: var(--borderWidth) solid var(--borderColor);
+      border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+      padding: var(--Pagination-padding);
+      background-color: var(--colors-neutral-fill-11);
+      color: var(--Pagination-light-color);
+      margin-left: px2rem(8px);
+      text-align: center;
+
+      &:focus,
+      &:hover {
+        outline: none;
+        // border: var(--borderWidth) solid var(--primary);
+        border-color: var(--primary);
+      }
+    }
+    &-right {
+      display: inline-block;
+      width: px2rem(32px);
+      cursor: pointer;
+      text-align: center;
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      border: var(--borderWidth) solid var(--borderColor);
+      border-left: none;
+      border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+      font-size: var(--fontSizeSm);
+      margin-left: -1px;
+      &:hover {
+        color: var(--primary);
+        border-color: var(--primary);
+        border-left: var(--borderWidth) solid var(--primary);
+      }
+    }
+  }
+
+  &-simplego {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: var(--Pagination-height);
+
+    input {
+      min-width: px2rem(40px);
+      width: px2rem(40px);
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      border: none;
+      border: var(--borderWidth) solid var(--borderColor);
+      border-radius: var(--borderRadius);
+      padding: var(--Pagination-padding);
+      background-color: var(--colors-neutral-fill-11);
+      color: var(--Pagination-light-color);
+      margin-right: px2rem(8px);
+      text-align: center;
+
+      &:focus,
+      &:hover {
+        outline: none;
+        border-color: var(--primary);
+      }
+    }
+    &-right {
+      display: inline-block;
+      width: px2rem(32px);
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      border: var(--borderWidth) solid var(--borderColor);
+      font-size: var(--fontSizeSm);
+      &:hover {
+        color: #666666 !important;
+        cursor: default;
+      }
+    }
+  }
+
+  &-ellipsis {
+    cursor: unset;
+    position: relative;
+
+    &:hover {
+      cursor: pointer;
+      > a {
+        opacity: 0;
+        transition: all 0.2s;
+      }
+      > span {
+        opacity: 1;
+        transition: all 0.2s;
+      }
+    }
+
+    > a {
+      cursor: unset;
+      position: absolute !important;
+      top: px2rem(-4px);
+      opacity: 1;
+      transition: all 0.2s;
+    }
+    > span {
+      opacity: 0;
+      transition: all 0.2s;
+    }
+  }
+}
+
+.#{$ns}Pagination-wrap {
+  .#{$ns}Pagination-item {
+    &.#{$ns}Pagination-perpage {
+      margin-left: px2rem(8px);
+      vertical-align: baseline;
+    }
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+  &.disabled {
+    background-color: #fff;
+    .#{$ns}Pagination {
+      > li {
+        > a,
+        > span {
+          color: var(--Pagination-onDisabled-color);
+          cursor: not-allowed;
+        }
+
+        &.is-active {
+          > a,
+          > span,
+          > a:hover,
+          > span:hover,
+          > a:focus,
+          > span:focus {
+            background-color: var(--Pagination-onDisabled-backgroundColor);
+            border-color: var(--Pagination-onDisabled-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}PaginationWrapper-pager {
+  &:first-child {
+    margin-bottom: var(--gap-sm);
+  }
+
+  text-align: right;
+}
+
+.#{$ns}Pagination-wrap-size--sm {
+  line-height: px2rem(24px);
+
+  .#{$ns}Pagination-item {
+    margin-left: px2rem(4px);
+
+    > li {
+      > a,
+      > span {
+        min-width: var(--Pagination-minWidth-sm);
+        height: var(--Pagination-height-sm);
+        line-height: var(--Pagination-height-sm);
+        padding: var(--Pagination-padding-sm);
+      }
+    }
+
+    .#{$ns}Pagination-inputGroup,
+    .#{$ns}Pagination-simplego {
+      height: var(--Pagination-height-sm);
+      &-input {
+        min-width: px2rem(40px);
+        width: px2rem(40px);
+        height: var(--Pagination-height-sm);
+        line-height: var(--Pagination-height-sm);
+        padding: var(--Pagination-padding-sm);
+        margin-left: px2rem(4px);
+      }
+      &-right {
+        height: var(--Pagination-height-sm);
+        line-height: var(--Pagination-height-sm);
+      }
+    }
+
+    .#{$ns}Pagination-simplego {
+      &-input {
+        min-width: px2rem(32px);
+        width: px2rem(32px);
+      }
+    }
+  }
+
+  .#{$ns}Pagination-perpage {
+    margin-left: px2rem(4px);
+    padding: 0 px2rem(6px);
+    min-height: px2rem(24px);
+    vertical-align: baseline;
+  }
+}

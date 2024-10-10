@@ -1,0 +1,59 @@
+/*!markdown
+
+---
+title: Line Height
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| leading-3 | line-height: 0.75rem |
+| leading-4 | line-height: 1rem |
+| leading-5 | line-height: 1.25rem |
+| leading-6 | line-height: 1.5rem |
+| leading-7 | line-height: 1.75rem |
+| leading-8 | line-height: 2rem |
+| leading-9 | line-height: 2.25rem |
+| leading-10 | line-height: 2.5rem |
+| leading-none | line-height: 1 |
+| leading-tight | line-height: 1.25 |
+| leading-snug | line-height: 1.375 |
+| leading-normal | line-height: 1.5 |
+| leading-relaxed | line-height: 1.625 |
+| leading-loose | line-height: 2 |
+
+
+*/
+@mixin make-line-height($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        '3': 0.75rem,
+        '4': 1rem,
+        '5': 1.25rem,
+        '6': 1.5rem,
+        '7': 1.75rem,
+        '8': 2rem,
+        '9': 2.25rem,
+        '10': 2.5rem,
+        'none': 1,
+        'tight': 1.25,
+        'snug': 1.375,
+        'normal': 1.5,
+        'relaxed': 1.625,
+        'loose': 2
+      )
+  {
+    #{$prefix}leading-#{$name} {
+      line-height: $value;
+    }
+  }
+}
+
+@include make-line-height();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-line-height('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

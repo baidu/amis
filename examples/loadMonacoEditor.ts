@@ -19,10 +19,21 @@ function filterUrl(url: string) {
 }
 
 function onLoad(req: any, callback: (result: any) => void) {
+  const locale =
+    ((window as any).__amis_monaco_editor_locale &&
+      (
+        {
+          'zh-CN': 'zh-cn',
+          'en-US': '',
+          'de-DE': 'de'
+        } as any
+      )[(window as any).__amis_monaco_editor_locale]) ||
+    '';
+
   const config = {
     'vs/nls': {
       availableLanguages: {
-        '*': 'zh-cn'
+        '*': locale
       }
     },
     'paths': {
@@ -180,6 +191,9 @@ function onLoad(req: any, callback: (result: any) => void) {
       // 'vs/editor/contrib/suggest/media/String_16x.svg': __uri('monaco-editor/min/vs/editor/contrib/suggest/media/String_16x.svg'),
       // 'vs/editor/contrib/suggest/media/String_inverse_16x.svg': __uri('monaco-editor/min/vs/editor/contrib/suggest/media/String_inverse_16x.svg'),
       // 'vs/editor/standalone/browser/quickOpen/symbol-sprite.svg': __uri('monaco-editor/min/vs/editor/standalone/browser/quickOpen/symbol-sprite.svg'),
+      'vs/base/browser/ui/codicons/codicon/codicon.ttf': __uri(
+        'monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf'
+      ),
       'vs/language/typescript/tsMode': __uri(
         'monaco-editor/min/vs/language/typescript/tsMode.js'
       ),
@@ -220,8 +234,8 @@ function onLoad(req: any, callback: (result: any) => void) {
                   baseUrl: '${config.paths.vs}',
                   paths: ${JSON.stringify(config.paths)}
               };
-              importScripts('${__uri(
-                'monaco-editor/min/vs/base/worker/workerMain.js'
+              importScripts('${filterUrl(
+                __uri('monaco-editor/min/vs/base/worker/workerMain.js')
               )}');`)}`;
       }
     };

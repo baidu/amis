@@ -5,6 +5,7 @@ test.sass
 npm-debug.log
 yarn.lock
 
+
 # Folders
 .idea/
 .sass-cache
@@ -13,13 +14,31 @@ _site
 node_modules
 /dist
 /lib
+**/esm
+**/lib
 /sdk
 /public
 /gh-pages
-/.vscode
+/.vscode/*
 /output
 /toolkit/amis-renderer
 /toolkit/output
 /coverage
-/package-lock.json
 /schema.json
+/npm
+/mock/cfc/cfc.zip
+.rollup.cache
+/theme-npm
+
+dist
+tsconfig.tsbuildinfo
+lerna-debug.log
+.rollup.cache
+package-lock.json
+revision.json
+**/revision.json
+~$*
+
+
+!/.vscode/iconConfig.json
+publish.sh

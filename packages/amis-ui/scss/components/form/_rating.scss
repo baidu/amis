@@ -1,0 +1,94 @@
+.#{$ns}Rating {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  content: var(--Rating-colors);
+
+  & > ul {
+    display: flex;
+    padding: unset;
+    margin: unset;
+    align-items: center;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+  }
+
+  &-star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--Rating-star-size);
+    height: var(--Rating-star-size);
+    position: relative;
+    overflow: hidden;
+    font-size: var(--Rating-star-icon-size);
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    color: var(--Rating-inactive-color);
+
+    &-half > svg.icon,
+    & > svg.icon {
+      display: block;
+      width: px2rem(24px);
+      height: px2rem(24px);
+      top: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    &-half {
+      position: absolute;
+      overflow: hidden;
+      display: block;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 50%;
+    }
+  }
+
+  &-text {
+    font-size: var(--Rating-text-fontSize);
+    color: var(--Rating-text-color);
+    font-weight: var(--Rating-text-fontWeight);
+    line-height: var(--Rating-text-lineHeight);
+
+    &--left {
+      margin-right: var(--Rating-star-margin);
+    }
+
+    &--right {
+      margin-left: var(--Rating-star-margin);
+    }
+  }
+}
+
+.Rating-star-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--Rating-star-size);
+  height: var(--Rating-star-size);
+  content: var(--Rating-star-icon);
+
+  & > svg.icon {
+    width: var(--Rating-star-icon-size);
+    height: var(--Rating-star-icon-size);
+    top: 0;
+  }
+}
+
+.#{$ns}RatingControl {
+  position: relative;
+  overflow: hidden;
+}

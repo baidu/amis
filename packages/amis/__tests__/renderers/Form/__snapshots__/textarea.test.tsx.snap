@@ -1,0 +1,362 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:textarea 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  textarea
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TextareaControl cxd-Form-control"
+          >
+            <textarea
+              autocomplete="off"
+              autocorrect="off"
+              class="cxd-TextareaControl-input"
+              name="a"
+              spellcheck="false"
+            >
+              456
+            </textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal is-error has-error--maxLength"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  textarea
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TextareaControl is-focused cxd-Form-control is-error has-error--maxLength"
+          >
+            <textarea
+              autocomplete="off"
+              autocorrect="off"
+              class="cxd-TextareaControl-input cxd-TextareaControl-input--counter"
+              maxlength="9"
+              name="text"
+              spellcheck="false"
+            >
+              i am reset value
+            </textarea>
+            <a
+              class="cxd-TextareaControl-clear"
+            >
+              <icon-mock
+                classname="icon icon-input-clear"
+                icon="input-clear"
+              />
+            </a>
+            <span
+              class="cxd-TextareaControl-counter is-clearable"
+            >
+              <span>
+                16
+              </span>
+              <i>
+                /
+              </i>
+              <span>
+                9
+              </span>
+            </span>
+          </div>
+          <ul
+            class="cxd-Form-feedback"
+          >
+            <li>
+              请控制内容长度, 不要输入 9 个以上字符
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:textarea with readOnly 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  textarea
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TextareaControl is-disabled cxd-Form-control"
+          >
+            <textarea
+              autocomplete="off"
+              autocorrect="off"
+              class="cxd-TextareaControl-input"
+              name="text"
+              readonly=""
+              spellcheck="false"
+            >
+              123
+            </textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:textarea with trimContents & showCounter 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  textarea
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TextareaControl cxd-Form-control"
+          >
+            <textarea
+              autocomplete="off"
+              autocorrect="off"
+              class="cxd-TextareaControl-input cxd-TextareaControl-input--counter"
+              name="text"
+              spellcheck="false"
+            >
+              12345
+            </textarea>
+            <span
+              class="cxd-TextareaControl-counter"
+            >
+              <span>
+                5
+              </span>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

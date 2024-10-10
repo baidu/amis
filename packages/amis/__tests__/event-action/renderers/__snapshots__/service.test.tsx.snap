@@ -1,0 +1,1324 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`doAction:service reload 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          名字：
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="name"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="amis"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          年龄：
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="age"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="18"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+                  type="button"
+                >
+                  <span>
+                    刷新Service数据加载请求
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="Amis Renderer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service reload 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          名字：
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="name"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="amis"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          年龄：
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="age"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="18"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+                  type="button"
+                >
+                  <span>
+                    刷新Service数据加载请求
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="Amis Renderer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Spinner-overlay in"
+            />
+            <div
+              class="cxd-Spinner cxd-Spinner--overlay in"
+              data-testid="spinner"
+            >
+              <div
+                class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service reload with data 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="Amis Renderer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service reload with data 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="Amis Renderer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="18"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Spinner-overlay in"
+            />
+            <div
+              class="cxd-Spinner cxd-Spinner--overlay in"
+              data-testid="spinner"
+            >
+              <div
+                class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi) reload 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi) reload 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Spinner-overlay in"
+            />
+            <div
+              class="cxd-Spinner cxd-Spinner--overlay in"
+              data-testid="spinner"
+            >
+              <div
+                class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi) reload with data 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi) reload with data 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="18"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Spinner-overlay in"
+            />
+            <div
+              class="cxd-Spinner cxd-Spinner--overlay in"
+              data-testid="spinner"
+            >
+              <div
+                class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi+data) reload with data 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="amis"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="20"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:service(schemaApi+data) reload with data 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Service数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Service"
+          >
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的名字：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="amis"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
+              data-role="form-item"
+            >
+              <label
+                class="cxd-Form-label"
+              >
+                <span>
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      我的年龄：
+                    </span>
+                  </span>
+                </span>
+              </label>
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="age"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="18"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Spinner-overlay in"
+            />
+            <div
+              class="cxd-Spinner cxd-Spinner--overlay in"
+              data-testid="spinner"
+            >
+              <div
+                class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

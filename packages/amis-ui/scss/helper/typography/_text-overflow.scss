@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: Text OverFlow
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| truncate | overflow: hidden; text-overflow: ellipsis; white-space: nowrap |
+| overflow-ellipsis | text-overflow: ellipsis |
+| overflow-clip | text-overflow: clip |
+
+
+
+*/
+
+@mixin make-text-overflow($prefix: '.') {
+  #{$prefix}truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #{$prefix}overflow-ellipsis {
+    text-overflow: ellipsis;
+  }
+
+  #{$prefix}overflow-clip {
+    text-overflow: clip;
+  }
+}
+
+@include make-text-overflow();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-overflow('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

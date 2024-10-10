@@ -1,0 +1,118 @@
+.#{$ns}StatusField {
+  vertical-align: middle;
+  white-space: nowrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+
+  &-label {
+    font-size: var(--Status-font-size);
+    margin-left: var(--Status-font-margin);
+  }
+
+  @keyframes animation-rolling_red {
+    0% {
+      transform: translateX(0);
+    }
+
+    50% {
+      transform: translateX(20px);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes animation-rolling_blue {
+    0% {
+      transform: translateX(0);
+    }
+
+    50% {
+      transform: translateX(-20px);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  svg.#{$ns}Status-icon {
+    width: var(--Status-icon-width);
+    height: var(--Status-icon-height);
+    top: 0;
+  }
+
+  .#{$ns}Status-icon {
+    &.rolling {
+      width: 30px;
+      height: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        border: 5px solid var(--Status-pending-beforeColor);
+        border-radius: 500px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: animation-rolling_red 2s;
+        animation-iteration-count: infinite;
+      }
+
+      &::after {
+        content: '';
+        display: inline-block;
+        border: 5px solid var(--Status-pending-afterColor);
+        border-radius: 500px;
+        position: absolute;
+        top: 0;
+        left: 20px;
+
+        animation: animation-rolling_blue 2s;
+        animation-iteration-count: infinite;
+      }
+    }
+
+    &.icon-warning {
+      color: var(--Status-warning-color);
+    }
+
+    &.icon-fail {
+      color: var(--Status-fail-color)
+    }
+  
+    &.icon-success {
+      color: var(--Status-success-color)
+    }
+  
+    &.icon-schedule {
+      color: var(--Status-schedule-color)
+    }
+  }
+
+  .#{$ns}Status-icon.rolling + &-label {
+    color: var(--Status-warning-color);
+  }
+
+  .#{$ns}Status-icon.icon-success + &-label {
+    color: var(--Status-success-color);
+  }
+
+  .#{$ns}Status-icon.icon-fail + &-label {
+    color: var(--Status-fail-color);
+  }
+
+  .#{$ns}Status-icon.icon-warning + &-label {
+    color: var(--Status-warning-color);
+  }
+
+  .#{$ns}Status-icon.icon-schedule + &-label {
+    color: var(--Status-schedule-color);
+  }
+}

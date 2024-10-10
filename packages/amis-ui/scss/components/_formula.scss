@@ -1,0 +1,721 @@
+.#{$ns}FormulaEditor {
+  overflow: visible;
+  max-width: 100%;
+  box-sizing: content-box;
+  min-height: px2rem(450px);
+
+  @mixin scrollbar {
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  @mixin panel-header {
+    width: 100%;
+    height: px2rem(30px);
+    line-height: px2rem(30px);
+    padding: 0 #{px2rem(10px)};
+    box-sizing: border-box;
+    background: var(--InputFormula-header-bgColor);
+    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+    border-bottom: none;
+    font-weight: 500;
+  }
+
+  &-content {
+    flex: 1;
+    height: 100%;
+    max-width: #{px2rem(530px)};
+    min-width: 0;
+    border-top: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-runPanel {
+    &.in {
+      height: 0;
+      overflow: hidden;
+    }
+    height: px2rem(200px);
+    transition: height 0.1s ease-out;
+    border-top: 1px solid var(--Form-input-borderColor);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+
+    &-context,
+    &-result {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+
+      > header {
+        @include panel-header();
+        margin: 0;
+      }
+
+      > div {
+        flex: 1;
+        min-height: 0;
+        font-size: 12px;
+      }
+    }
+
+    &-context {
+      border-right: 1px solid var(--Form-input-borderColor);
+    }
+
+    &-result {
+      > div {
+        padding: 0 px2rem(10px);
+      }
+
+      &.is-error {
+        color: var(--Form-input-onError-borderColor);
+      }
+    }
+  }
+
+  &-header {
+    @include panel-header();
+
+    &-toolbar {
+      font-size: 12px;
+      float: right;
+      > span {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &-editor {
+    @include scrollbar();
+    flex: 1;
+    min-height: 0;
+    padding: #{px2rem(5px)};
+    padding-right: 0;
+
+    .CodeMirror {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.is-error &-editor {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-focused &-editor {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &-settings {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    height: #{px2rem(450px)};
+    margin-top: #{px2rem(10px)};
+
+    &.is-mobile {
+      width: 100%;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+  }
+
+  &-settings.only-variable {
+    height: #{px2rem(350px)};
+  }
+
+  &-panel {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100%;
+    width: #{px2rem(188px)};
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+
+    &-header {
+      @include panel-header();
+    }
+
+    &-body {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      max-height: calc(100% - 30px);
+      overflow: hidden;
+
+      &--tabs {
+        max-height: 100%;
+      }
+    }
+  }
+
+  &-panel.left {
+    justify-content: normal !important;
+    border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+  }
+
+  &-panel.right {
+    width: #{px2rem(330px)};
+    border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+  }
+
+  /* 变量列表 */
+  &-VariableList {
+    height: 100%;
+    &-root {
+      max-height: 100%;
+    }
+
+    &-body {
+      display: flex;
+      flex-flow: column nowrap;
+      max-height: 100%;
+    }
+
+    &-base {
+      --Form-input-fontSize: var(--fontSizeSm);
+      --gap-sm: #{px2rem(10px)};
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      max-height: 100%;
+    }
+
+    &-base.is-scrollable {
+      @include scrollbar();
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 100% !important;
+    }
+
+    &-searchBox {
+      display: flex;
+      width: auto;
+      flex-shrink: 0;
+      padding: #{px2rem(8px)};
+
+      & > div {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        font-size: var(--fontSizeSm);
+        height: var(--gap-xl);
+      }
+    }
+
+    &-tabs {
+      --Tabs--line-fontSize: var(--fontSizeSm);
+      --Tabs--line-active-fontSize: var(--fontSizeSm);
+      --Tabs--line-hover-fontSize: var(--fontSizeSm);
+      --Tabs--line-lineHeight: 30px;
+      --Tabs--line-active-lineHeight: 30px;
+      --Tabs--line-hover-lineHeight: 30px;
+      --Tabs--line-fontWeight: 500;
+      --Tabs--line-active-fontWeight: 500;
+      --Tabs--line-hover-fontWeight: 500;
+      --Tabs--card-linkPadding: #{px2rem(5px)};
+
+      max-height: 100%;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+
+      .#{$ns}Tabs {
+        &-content {
+          padding: 0;
+          .#{$ns}FormulaEditor-VariableList {
+            &-sub {
+              .#{$ns}FormulaEditor-VariableList-body {
+                overflow-y: hidden;
+              }
+              &-FormulaEditor-VariableList-base {
+                @include scrollbar();
+                overflow-x: hidden;
+                overflow-y: auto;
+              }
+            }
+          }
+        }
+        &-linksContainer {
+          &-wrapper {
+            @include panel-header();
+            max-height: px2rem(30px);
+            min-height: px2rem(30px);
+            ul.#{$ns}Tabs-links {
+              > li {
+                height: 30px;
+                line-height: 30px;
+                > a {
+                  margin: 0;
+                  padding: 0;
+                }
+              }
+            }
+          }
+
+          &--overflow {
+            > div {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      & > div {
+        @include scrollbar();
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        border-radius: var(--borderRadius);
+      }
+    }
+
+    &-tab {
+      padding: 0;
+    }
+
+    &-item {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      white-space: nowrap;
+
+      & > label {
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+        width: 0;
+        display: inline-block;
+        min-width: #{px2rem(50px)};
+      }
+
+      & > .icon {
+        cursor: pointer;
+        top: 0;
+        margin-right: 4px;
+      }
+
+      .fa-ellipsis-h {
+        margin-right: #{px2rem(5px)};
+        &:hover {
+          color: var(--primary);
+        }
+      }
+
+      &-tag {
+        cursor: auto;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0 #{px2rem(8px)};
+        border-radius: var(--borderRadius);
+        background: var(--colors-neutral-fill-10);
+        color: var(--colors-neutral-text-2);
+        font-size: var(--fontSizeSm);
+        line-height: #{px2rem(24px)};
+        height: #{px2rem(24px)};
+      }
+
+      &-oper {
+        list-style: none;
+        max-width: #{px2rem(235px)};
+        font-size: var(--fontSizeSm);
+        min-width: 100px;
+        padding: 0 5px;
+        margin: 5px;
+        text-align: left;
+        li {
+          line-height: 24px;
+          &:hover {
+            cursor: pointer;
+            background: var(--Form-select-menu-onHover-bg);
+          }
+        }
+      }
+    }
+    .#{$ns}GroupedSelection {
+      max-height: 100%;
+      &-item {
+        &-tag {
+          line-height: 17px;
+        }
+      }
+      &-itemLabel {
+        font-size: var(--fontSizeSm);
+      }
+    }
+  }
+
+  /* 函数列表 */
+  &-FuncList {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+
+    &-searchBox {
+      display: flex;
+      width: auto;
+      flex-shrink: 0;
+      padding: #{px2rem(8px)};
+
+      & > div {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        font-size: var(--fontSizeSm);
+        height: var(--gap-xl);
+      }
+    }
+
+    &-body {
+      @include scrollbar();
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &-collapseGroup {
+      .#{$ns}FormulaEditor-FuncList-collapse {
+        border: none;
+
+        .#{$ns}FormulaEditor-FuncList-expandIcon {
+          font-size: var(--fontSizeSm);
+          line-height: var(--fontSizeXl);
+          transform-origin: #{px2rem(7px)} #{px2rem(9px)};
+          transition: transform 0.2s;
+        }
+      }
+    }
+
+    &-groupTitle {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: unset;
+      padding: #{px2rem(5px)} #{px2rem(10px)};
+      background: transparent;
+      font-size: var(--fontSizeSm);
+      font-weight: bold;
+    }
+
+    &-groupBody {
+      > div {
+        padding: 5px 0;
+      }
+    }
+
+    &-item {
+      cursor: pointer;
+      padding: 0 #{px2rem(30px)};
+      height: var(--gap-xl);
+      line-height: var(--gap-xl);
+
+      &.is-active {
+        background: var(--Tree-item-onHover-bg);
+      }
+    }
+
+    &-doc {
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 0 #{px2rem(10px)};
+      font-size: 12px;
+      height: 100%;
+      overflow: hidden;
+
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        border-radius: var(--borderRadius);
+        margin-top: 0;
+
+        code {
+          color: #2468f2;
+        }
+      }
+
+      &-example {
+        font-size: var(--fontSizeSm) !important;
+        th {
+          padding: #{px2rem(5px)} !important;
+          font-size: var(--fontSizeSm) !important;
+        }
+        td {
+          padding: #{px2rem(5px)} !important;
+        }
+      }
+
+      &-desc {
+        @include scrollbar();
+        color: var(--text--loud-color);
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+      }
+    }
+  }
+
+  &-FuncList.withDoc {
+    max-height: 50% !important;
+  }
+
+  &-FuncDoc {
+    height: 300px;
+    overflow: hidden;
+    background: var(--InputFormula-code-bgColor);
+  }
+}
+
+.#{$ns}FormulaPicker {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &-popup {
+    height: px2rem(580px);
+
+    &-inner {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 px2rem(16px);
+    }
+  }
+
+  &-input {
+    flex: 1;
+    min-width: 0;
+    margin-right: #{px2rem(10px)};
+    padding-right: px2rem(4px);
+    max-width: calc(100% - #{px2rem(42px)});
+  }
+
+  &-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-icon {
+    top: 0 !important;
+    font-size: var(--InputFormula-icon-size);
+
+    &:not(:last-child) {
+      margin-right: var(--fontSizeSm);
+    }
+
+    &.is-filled {
+      &.icon-function.icon {
+        font-size: var(--InputFormula-icon-size) !important;
+      }
+    }
+  }
+
+  &-ResultBox {
+    padding-right: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    span.c-field {
+      background: #007bff;
+      padding: 3px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    span.c-func {
+      color: #ae4597;
+      font-weight: bold;
+      line-height: 14px;
+      padding: 0 2px;
+    }
+  }
+}
+
+.#{$ns}FormulaPicker.is-input-group {
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  padding: 0 var(--Form-input-paddingX) 0 0;
+  border-radius: var(--borderRadius);
+  background-color: var(--colors-neutral-fill-11);
+  height: var(--Form-input-height);
+
+  &.#{$ns}FormulaPicker--text {
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX)
+      var(--Form-input-paddingY) px2rem(5px);
+  }
+
+  .#{$ns}FormulaPicker-input {
+    display: flex;
+    align-items: center;
+    background: none;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    margin-right: #{px2rem(10px)};
+    max-width: unset;
+
+    &:focus {
+      border: none;
+      outline: none;
+      box-sizing: none;
+    }
+
+    &-select,
+    &-number,
+    &-boolean,
+    &-date,
+    &-time,
+    &-datetime {
+      height: var(--InputFormula-input-schema-height);
+      padding-left: var(--Form-input-paddingX);
+    }
+
+    &-number {
+      .#{$ns}Number-handler-wrap {
+        height: unset; /* 避免调节器超出Input框 */
+      }
+      padding-left: 0;
+    }
+
+    &-custom {
+      border: 0;
+      flex: 1;
+      min-width: 0;
+
+      > div {
+        border: 0;
+        padding: 0 0 0 var(--Form-input-paddingX);
+        align-items: center;
+        height: var(--InputFormula-input-schema-height);
+      }
+    }
+
+    &-variable {
+      border: none;
+      min-height: unset;
+      line-height: #{px2rem(18px)};
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .#{$ns}FormulaPicker-toggler {
+    color: var(--colors-neutral-text-2);
+    .icon-function {
+      transform: scale(1.3);
+    }
+
+    .icon-ellipsis-v {
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: var(--colors-brand-5);
+    }
+  }
+}
+
+.#{$ns}FormulaCodeEditor {
+  .cm-field,
+  .cm-func {
+    border-radius: 3px;
+    color: #fff;
+  }
+
+  .cm-field {
+    padding: 2px 5px;
+  }
+
+  .cm-field {
+    background: #28a745;
+  }
+  .cm-func {
+    color: #ae4597;
+    font-weight: bold;
+    line-height: 14px;
+  }
+  .cm-expression {
+    background-color: #007bff;
+    border-radius: 4px;
+    color: #fff;
+  }
+
+  .cm-error-token {
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==);
+  }
+
+  .CodeMirror-placeholder {
+    color: var(--Form-input-placeholderColor) !important;
+  }
+
+  .lint-error {
+    color: var(--Form-input-onError-borderColor);
+  }
+
+  &--singleLine {
+    max-width: 100%;
+    line-height: 20px;
+    > .CodeMirror {
+      height: 20px;
+
+      .CodeMirror-hscrollbar,
+      .CodeMirror-vscrollbar {
+        display: none !important;
+      }
+
+      .CodeMirror-sizer {
+        min-height: 20px !important;
+        min-width: auto !important;
+        border-right-width: 0 !important;
+      }
+      .CodeMirror-scroll {
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden !important;
+      }
+      .CodeMirror-sizer + div {
+        // 不设置可以用触摸板滚动，将代码滚不见了
+        height: 0 !important;
+      }
+      .CodeMirror-lines {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.#{$ns}InputBox > .#{$ns}FormulaCodeEditor {
+  flex: 1;
+  min-width: 0;
+}

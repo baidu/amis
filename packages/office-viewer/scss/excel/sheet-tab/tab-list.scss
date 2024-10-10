@@ -1,0 +1,145 @@
+.ov-excel-sheet-tab-bar__nav {
+  display: flex;
+}
+
+.ov-excel-sheet-tab-bar__nav-icon {
+  height: 16px;
+  padding: 4px 4px;
+}
+
+.ov-excel-sheet-tab-bar__nav-icon svg {
+  height: 16px;
+  width: 16px;
+}
+
+.ov-excel-sheet-tab-bar__nav-icon svg path {
+  fill: #b1b1b1;
+}
+
+.ov-excel-sheet-tab-bar__nav-icon--enabled {
+  cursor: pointer;
+}
+
+.ov-excel-sheet-tab-bar__nav-icon--enabled svg path {
+  fill: #000000;
+}
+
+.ov-excel-sheet-tab-bar__menu {
+  position: relative;
+}
+
+.ov-excel-sheet-tab-bar__menu-icon {
+  cursor: pointer;
+  height: 16px;
+  padding: 4px 8px;
+}
+
+.ov-excel-sheet-tab-bar__menu-icon svg {
+  height: 16px;
+  width: 16px;
+}
+
+.ov-excel-sheet-tab-bar__menu-list {
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid rgb(199, 199, 199);
+  box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px,
+    rgba(0, 0, 0, 0.11) 0px 0.6px 1.8px 0px;
+  display: none;
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: $sheet-tab-menu-index;
+  user-select: none;
+}
+
+.ov-excel-sheet-tab-bar__menu-list-item {
+  padding: 4px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ov-excel-sheet-tab-bar__menu-list-item:hover {
+  background-color: $hover-bg-color;
+}
+
+.ov-excel-sheet-tab-bar__menu-list-item--active {
+  background-color: $hover-bg-color;
+}
+
+.ov-excel-sheet-tab-bar__list-container {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 0;
+  user-select: none;
+}
+
+.ov-excel-sheet-tab-bar__list-container--enable-left-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  background-image: linear-gradient(
+    to right,
+    #dcdcdc,
+    rgba(220, 220, 220, 0.1)
+  );
+}
+
+.ov-excel-sheet-tab-bar__list-container--enable-right-nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  background-image: linear-gradient(to left, #dcdcdc, rgba(220, 220, 220, 0.1));
+}
+
+.ov-excel-sheet-tab-bar__list {
+  width: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.ov-excel-sheet-tab-bar__list-tab {
+  display: inline-block;
+  position: relative;
+  padding: 0 8px;
+  font-size: 14px;
+  margin: 4px 4px;
+  border-radius: 4px;
+  line-height: 24px;
+
+  white-space: nowrap;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $hover-bg-color;
+  }
+}
+
+.ov-excel-sheet-tab-bar__list-tab--active {
+  cursor: default;
+}
+
+.ov-excel-sheet-tab-bar__list-tab--active::before {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  color: transparent;
+  border-bottom: 3px solid var(--active-sheet-color);
+  padding-bottom: 5px;
+  width: calc(100% - 18px);
+  margin: auto;
+  transition: width 0.4s cubic-bezier(0.17, 0.17, 0, 1) 0s;
+}

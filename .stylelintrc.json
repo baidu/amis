@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "color-hex-case": "lower",
+    "no-extra-semicolons": true,
+    "declaration-colon-space-after": "always-single-line",
+    "block-no-empty": true
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.scss",
+        "**/*.scss"
+      ],
+      "customSyntax": "postcss-scss"
+    }
+  ]
+}

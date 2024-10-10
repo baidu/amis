@@ -1,0 +1,13 @@
+/**
+ * @file table-column-width-control.scss
+ * @desc 表格列宽控件
+ */
+
+.ae-columnWidthControl {
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}

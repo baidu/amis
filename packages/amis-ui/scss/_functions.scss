@@ -1,0 +1,101 @@
+@use 'sass:math';
+
+//下一个断点
+@function breakpoint-next(
+  $name,
+  $breakpoints: breakpoints,
+  $breakpoint-names: map-keys($breakpoints)
+) {
+  $n: index($breakpoint-names, $name);
+  @return if(
+    $n < length($breakpoint-names),
+    nth($breakpoint-names, $n + 1),
+    null
+  );
+}
+
+//断点最小值
+@function breakpoint-min($name, $breakpoints: $breakpoints) {
+  $min: map-get($breakpoints, $name); // @return if($min != 0, $min, null);
+  @return $min;
+}
+
+//断点最大值
+@function breakpoint-max($name, $breakpoints: $breakpoints) {
+  $next: breakpoint-next($name, $breakpoints);
+  @return if($next, breakpoint-min($next, $breakpoints) - 1px, null);
+}
+
+//生成类名“-sm、-md、-lg、-cl” -xs?
+@function breakpoint-infix($name, $breakpoints: $breakpoints) {
+  @return if(breakpoint-min($name, $breakpoints) ==null, '', '-#{$name}');
+}
+
+@function px2rem($pixels, $context: $remFactor) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return math.div($pixels, $context) * 1rem;
+}
+
+@function tint($color, $intensity) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return rgb(
+    $r + (255 - $r) * $intensity,
+    $g + (255 - $g) * $intensity,
+    $b + (255 - $b) * $intensity
+  );
+}
+
+@function shade($color, $intensity) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return rgb($r * $intensity, $g * $intensity, $b * $intensity);
+}
+
+// 判断对象是否是 map
+@function is-map($var) {
+  @return type-of($var) == 'map';
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $str: #{'' + $string};
+  $index: str-index($str, $search);
+
+  @if $index {
+    @return str-slice($str, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($str, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $str;
+}
+
+@function selector-escape($str) {
+  @return str-replace(
+    str-replace(str-replace($str, '.', '\\.'), ':', '\\:'),
+    '/',
+    '\\/'
+  );
+}
+
+@function suffixName($str) {
+  @if $str == default {
+    @return '';
+  } @else {
+    @return '-' + $str;
+  }
+}

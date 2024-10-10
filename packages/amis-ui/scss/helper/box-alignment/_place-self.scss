@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: Place Self
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| place-self-auto | place-self: auto |
+| place-self-start | place-self: start |
+| place-self-end | place-self: end |
+| place-self-center | place-self: center |
+| place-self-stretch | place-self: stretch |
+
+
+*/
+@mixin make-place-self($prefix: '.') {
+  #{$prefix}place-self-auto {
+    place-self: auto;
+  }
+  #{$prefix}place-self-start {
+    place-self: start;
+  }
+  #{$prefix}place-self-end {
+    place-self: end;
+  }
+  #{$prefix}place-self-center {
+    place-self: center;
+  }
+  #{$prefix}place-self-stretch {
+    place-self: stretch;
+  }
+}
+
+@include make-place-self();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-place-self('.' + selector-escape($deivce + ':'));
+  }
+}

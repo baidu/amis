@@ -1,0 +1,624 @@
+.#{$ns}Transfer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: px2rem(300px);
+  position: relative;
+
+  &-searchbox {
+    width: 100%;
+  }
+
+  &--inline {
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    background: var(--transfer-base-title-bg);
+    color: var(--transfer-base-title-color);
+    line-height: var(--transfer-base-title-lineHeight);
+    font-size: var(--transfer-base-title-fontSize);
+    font-weight: var(--transfer-base-title-fontWeight);
+    font-family: var(--transfer-base-title-font-family);
+    padding: var(--transfer-base-header-paddingTop)
+      var(--transfer-base-header-paddingRight)
+      var(--transfer-base-header-paddingBottom)
+      var(--transfer-base-header-paddingLeft);
+    flex-direction: row;
+    width: 100%;
+
+    &--light {
+      background: transparent;
+    }
+
+    > span {
+      flex-grow: 1;
+    }
+  }
+
+  &-footer {
+    border-top: 1px solid var(--transfer-base-footer-border-color);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    padding: var(--gap-sm);
+
+    /* 底部空间较小，让Pagination紧凑一些 */
+    &-pagination {
+      & > ul {
+        &.#{$ns}Pagination-item {
+          margin-left: 0;
+        }
+
+        & > li {
+          --Pagination-minWidth: #{px2rem(22px)};
+          --Pagination-height: #{px2rem(22px)};
+          --Pagination-padding: 0 #{px2rem(6px)};
+        }
+      }
+
+      .#{$ns}Pagination-perpage {
+        --select-base-default-paddingTop: 0;
+        --select-base-default-paddingBottom: 0;
+        --select-base-default-paddingLeft: #{px2rem(6px)};
+        --select-base-default-paddingRight: #{px2rem(6px)};
+
+        margin-left: 0;
+
+        .#{$ns}Select-valueWrap {
+          line-height: #{px2rem(22px)};
+        }
+      }
+    }
+  }
+
+  &-select,
+  &-result {
+    overflow: hidden;
+    width: 0;
+    min-width: px2rem(200px);
+    max-height: px2rem(400px);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    border-width: var(--transfer-base-top-border-width)
+      var(--transfer-base-right-border-width)
+      var(--transfer-base-bottom-border-width)
+      var(--transfer-base-left-border-width);
+    border-style: var(--transfer-base-top-border-style)
+      var(--transfer-base-right-border-style)
+      var(--transfer-base-bottom-border-style)
+      var(--transfer-base-left-border-style);
+    border-color: var(--transfer-base-top-border-color)
+      var(--transfer-base-right-border-color)
+      var(--transfer-base-bottom-border-color)
+      var(--transfer-base-left-border-color);
+    border-radius: var(--transfer-base-top-left-border-radius)
+      var(--transfer-base-top-right-border-radius)
+      var(--transfer-base-bottom-right-border-radius)
+      var(--transfer-base-bottom-left-border-radius);
+
+    &--pagination {
+      max-height: px2rem(475px);
+    }
+  }
+
+  &-select > &-selection,
+  &-result > &-value {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow: auto;
+    position: relative; // 貌似不加 relative 会有 bug。
+    padding: var(--transfer-base-body-paddingTop)
+      var(--transfer-base-body-paddingRight)
+      var(--transfer-base-body-paddingBottom)
+      var(--transfer-base-body-paddingLeft);
+    width: 100%;
+  }
+
+  .#{$ns}GroupedSelection-item,
+  .#{$ns}Selections-item {
+    padding: var(--transfer-base-option-paddingTop)
+      var(--transfer-base-option-paddingRight)
+      var(--transfer-base-option-paddingBottom)
+      var(--transfer-base-option-paddingLeft);
+    margin: var(--transfer-base-option-marginTop)
+      var(--transfer-base-option-marginRight)
+      var(--transfer-base-option-marginBottom)
+      var(--transfer-base-option-marginLeft);
+    line-height: var(--transfer-base-content-lineHeight);
+    font-size: var(--transfer-base-content-fontSize);
+    font-weight: var(--transfer-base-content-fontWeight);
+
+    color: var(--transfer-base-content-color);
+  }
+
+  .#{$ns}ChainedSelection-item {
+    padding: var(--transfer-chained-paddingTop)
+      var(--transfer-chained-paddingRight) var(--transfer-chained-paddingBottom)
+      var(--transfer-chained-paddingLeft);
+    margin: var(--transfer-chained-marginTop)
+      var(--transfer-chained-marginRight) var(--transfer-chained-marginBottom)
+      var(--transfer-chained-marginLeft);
+    line-height: var(--transfer-base-content-lineHeight);
+    font-size: var(--transfer-base-content-fontSize);
+    font-weight: var(--transfer-base-content-fontWeight);
+
+    color: var(--transfer-base-content-color);
+  }
+
+  .#{$ns}GroupedSelection-group > .#{$ns}GroupedSelection-itemLabel {
+    font-size: var(--transfer-group-fontSize);
+    font-weight: var(--transfer-group-fontWeight);
+    line-height: var(--transfer-group-lineHeight);
+    color: var(--transfer-group-color);
+  }
+
+  &-select > .#{$ns}ChainedSelection {
+    min-height: unset;
+    overflow: hidden;
+
+    .#{$ns}ChainedSelection-col {
+      height: 100%;
+      overflow: auto;
+      min-width: unset;
+      flex: 1 1 0;
+    }
+  }
+
+  .#{$ns}-ResultTreeList {
+    border-top: 1px solid var(--borderColor);
+  }
+
+  .#{$ns}AssociatedSelection {
+    overflow: hidden;
+
+    &-left,
+    &-right {
+      min-height: unset;
+    }
+  }
+
+  &-select {
+    overflow: hidden;
+  }
+
+  &-selection {
+    .#{$ns}ListSelection-placeholder {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    &.#{$ns}Tree,
+    &.#{$ns}AssociatedSelection {
+      .#{$ns}Tree-itemLabel.is-checked:hover,
+      .#{$ns}Tree-itemLabel:hover {
+        .#{$ns}Tree-itemLabel-item > .#{$ns}Tree-itemText {
+          background-color: unset;
+          &:active {
+            background-color: unset;
+          }
+        }
+      }
+
+      .#{$ns}Tree-itemLabel-item {
+        display: flex;
+        align-items: center;
+
+        > .#{$ns}Tree-itemText {
+          max-width: unset;
+          line-height: unset;
+          top: unset;
+
+          & > span.is-invalid {
+            color: var(--Form-selectValue-onInvalid-color);
+          }
+        }
+      }
+    }
+  }
+
+  &-search {
+    padding: var(--transfer-search-paddingTop)
+      var(--transfer-search-paddingRight) var(--transfer-search-paddingBottom)
+      var(--transfer-search-paddingLeft);
+    width: 100%;
+    .#{$ns}InputBox:not(.is-mobile) {
+      font-size: var(--transfer-search-fontSize);
+      font-weight: var(--transfer-search-fontWeight);
+      line-height: var(--transfer-search-lineHeight);
+      color: var(--transfer-search-color);
+      border-width: var(--transfer-search-top-border-width)
+        var(--transfer-search-right-border-width)
+        var(--transfer-search-bottom-border-width)
+        var(--transfer-search-left-border-width);
+      border-style: var(--transfer-search-top-border-style)
+        var(--transfer-search-right-border-style)
+        var(--transfer-search-bottom-border-style)
+        var(--transfer-search-left-border-style);
+      border-color: var(--transfer-search-top-border-color)
+        var(--transfer-search-right-border-color)
+        var(--transfer-search-bottom-border-color)
+        var(--transfer-search-left-border-color);
+      border-radius: var(--transfer-search-top-left-border-radius)
+        var(--transfer-search-top-right-border-radius)
+        var(--transfer-search-bottom-right-border-radius)
+        var(--transfer-search-bottom-left-border-radius);
+      box-shadow: var(--transfer-search-shadow);
+
+      &:hover {
+        border-color: var(--transfer-search-border-hover-color);
+      }
+
+      &.is-focused {
+        border-color: var(--transfer-search-border-active-color);
+      }
+
+      input {
+        color: var(--transfer-search-color);
+        font-size: var(--transfer-search-fontSize);
+        font-weight: var(--transfer-search-fontWeight);
+        line-height: var(--transfer-search-lineHeight);
+
+        height: var(--transfer-search-lineHeight);
+      }
+
+      input::placeholder {
+        color: var(--transfer-search-placeholder-font-color);
+      }
+    }
+
+    &.is-mobile {
+      .#{$ns}InputBox {
+        border: none;
+        border-bottom: var(--transfer-search-bottom-border-width)
+          var(--transfer-search-bottom-border-style)
+          var(--transfer-search-bottom-border-color);
+        border-radius: 0;
+      }
+    }
+  }
+
+  &-mid {
+    min-width: px2rem(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &.is-mobile {
+      display: none;
+    }
+  }
+
+  &-arrow {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--borderColor);
+    margin: 0 10px;
+    color: var(--icon-color);
+
+    > svg {
+      top: 0;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &-checkAll,
+  &-clearAll {
+    user-select: none;
+    cursor: pointer;
+
+    &.is-disabled {
+      pointer-events: none;
+      color: var(--text--muted-color);
+    }
+  }
+
+  .#{$ns}Tree {
+    padding: var(--transfer-tree-paddingTop) var(--transfer-tree-paddingRight)
+      var(--transfer-tree-paddingBottom) var(--transfer-tree-paddingLeft);
+    margin: var(--transfer-tree-marginTop) var(--transfer-tree-marginLeft)
+      var(--transfer-tree-marginBottom) var(--transfer-tree-marginRight);
+
+    &-itemLabel:hover::after {
+      left: 0;
+    }
+
+    &-itemLabel {
+      padding: var(--transfer-tree-option-paddingTop)
+        var(--transfer-tree-option-paddingRight)
+        var(--transfer-tree-option-paddingBottom)
+        var(--transfer-tree-option-paddingLeft);
+      margin: var(--transfer-tree-option-marginTop)
+        var(--transfer-tree-option-marginLeft)
+        var(--transfer-tree-option-marginBottom)
+        var(--transfer-tree-option-marginRight);
+      border-radius: var(--transfer-tree-top-left-border-radius)
+        var(--transfer-tree-top-right-border-radius)
+        var(--transfer-tree-bottom-right-border-radius)
+        var(--transfer-tree-bottom-left-border-radius);
+      overflow: hidden;
+
+      &:hover {
+        background: var(--transfer-tree-bg-hover-color);
+        .#{$ns}Tree-itemLabel-item {
+          background: var(--transfer-tree-bg-hover-color);
+        }
+      }
+
+      &.is-checked {
+        background: var(--transfer-tree-bg-active-color);
+        .#{$ns}Tree-itemLabel-item {
+          background: var(--transfer-tree-bg-active-color);
+        }
+      }
+    }
+
+    &-itemText {
+      line-height: var(--transfer-base-content-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
+      font-weight: var(--transfer-base-content-fontWeight);
+
+      color: var(--transfer-base-content-color);
+    }
+  }
+
+  .#{$ns}Table-content {
+    .#{$ns}Table-table > thead > tr > th {
+      padding: var(--transfer-table-header-paddingTop)
+        var(--transfer-table-header-paddingRight)
+        var(--transfer-table-header-paddingBottom)
+        var(--transfer-table-header-paddingLeft);
+      background: var(--transfer-base-title-bg);
+      color: var(--transfer-base-title-color);
+      line-height: var(--transfer-base-title-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
+
+      &:last-child {
+        padding-right: var(--transfer-table-last-paddingRight);
+      }
+    }
+    .#{$ns}Table-table > tbody > tr > td {
+      padding: var(--transfer-table-option-paddingTop)
+        var(--transfer-table-option-paddingRight)
+        var(--transfer-table-option-paddingBottom)
+        var(--transfer-table-option-paddingLeft);
+      line-height: var(--transfer-base-content-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
+      font-weight: var(--transfer-base-content-fontWeight);
+
+      & > span.is-invalid {
+        color: var(--Form-selectValue-onInvalid-color);
+      }
+
+      &:last-child {
+        padding-right: var(--transfer-table-last-paddingRight);
+      }
+    }
+  }
+
+  .#{$ns}Selections .#{$ns}TableSelection {
+    .#{$ns}Table-table > thead > tr,
+    .#{$ns}Table-table > tbody > tr {
+      height: auto;
+    }
+  }
+
+  .#{$ns}Transfer-result {
+    .#{$ns}Transfer-title {
+      height: px2rem(40px);
+      line-height: px2rem(40px);
+    }
+
+    &.is-mobile {
+      .#{$ns}Transfer-search {
+        .#{$ns}InputBox {
+          border: none;
+          border-bottom: var(--transfer-search-bottom-border-width)
+            var(--transfer-search-bottom-border-style)
+            var(--transfer-search-bottom-border-color);
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}TabsTransfer {
+  .#{$ns}Transfer-title {
+    height: 40px;
+  }
+  &-tabs {
+    .#{$ns}Tabs-linksContainer {
+      padding-left: px2rem(20px);
+      padding-right: px2rem(20px);
+      padding-top: px2rem(8px);
+      background-color: var(--TabsTransfer-title-bg);
+    }
+  }
+
+  .#{$ns}Tree.#{$ns}Transfer-checkboxes {
+    width: 100%;
+  }
+
+  &-search {
+    margin: var(--gap-sm) var(--gap-sm);
+    .#{$ns}InputBox {
+      border: 1px solid var(--TabsTransfer-border-color);
+    }
+  }
+
+  .#{$ns}Transfer-result {
+    .#{$ns}Transfer-title {
+      height: px2rem(40px);
+      line-height: px2rem(40px);
+    }
+  }
+
+  // .#{$ns}Transfer-result {
+  //   flex-grow: unset;
+  // }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
+  }
+
+  &-tab {
+    padding: 0;
+    overflow: auto;
+  }
+
+  &-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > .#{$ns}Tabs-links {
+      border-top: 0 none;
+      padding: 5px 0 0 5px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+
+      > .#{$ns}Tabs-link > a:first-child {
+        font-size: 12px;
+        padding: 7px 8px;
+      }
+
+      .#{$ns}TabsTransfer-tabsMid {
+        flex-grow: 1;
+      }
+
+      > .#{$ns}SearchBox {
+        margin: -5px 5px 0 10px;
+
+        &.is-active {
+          width: 150px;
+          margin-right: 10px;
+          padding-left: 10px;
+        }
+      }
+    }
+
+    > .#{$ns}Tabs-content {
+      flex-grow: 1;
+      min-height: 0;
+      position: relative;
+      padding: 5px 0 0;
+
+      > .#{$ns}Tabs-pane {
+        position: relative;
+        height: 100%;
+
+        &.is-active {
+          display: flex;
+          flex-direction: column;
+
+          > .#{$ns}Transfer-selection {
+            flex-grow: 1;
+            max-height: 100%;
+            overflow: auto;
+          }
+        }
+      }
+
+      .#{$ns}TabsTransfer-search {
+        &.is-mobile {
+          .#{$ns}InputBox {
+            border: none;
+            border-bottom: 1px solid var(--TabsTransfer-border-color);
+            border-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}TransferControl {
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--transfer-base-shadow);
+
+  &.is-inline {
+    display: inline-block;
+  }
+}
+
+.#{$ns}TransferPicker {
+  &-icon {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px 5px 5px auto;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+      top: 0;
+    }
+  }
+}
+
+.#{$ns}TransferDropDown {
+  &:hover {
+    border: px2rem(1px) solid ver(--menu-active-color);
+  }
+  &-icon {
+    transform: rotate(90deg);
+    transition: transform var(--animation-duration) ease-out;
+    margin: px2rem(5px) 0 px2rem(5px) auto;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+    }
+  }
+
+  &.is-active &-icon {
+    transform: rotate(-90deg);
+  }
+}
+.#{$ns}TransferDropDown-content {
+  min-width: px2rem(40px);
+  display: flex;
+  flex-direction: column;
+  padding: var(--gap-xs) 0;
+
+  &.is-mobile {
+    width: 100%;
+    min-width: auto;
+
+    .#{$ns}Table-table > thead > tr > th:first-child.#{$ns}Table-checkCell {
+      padding-left: var(--select-table-option-paddingLeft);
+    }
+  }
+
+  & > .#{$ns}Transfer-selection {
+    flex-grow: 1;
+    max-height: var(--Transfer-selection-maxHeight);
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative; // 貌似不加 relative 会有 bug。
+  }
+}

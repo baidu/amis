@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:datetime 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  date
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-DateControl is-datetime cxd-Form-control"
+          >
+            <div
+              class="cxd-DatePicker"
+              tabindex="0"
+            >
+              <input
+                autocomplete="off"
+                class="cxd-DatePicker-input"
+                placeholder="请选择日期以及时间"
+                type="text"
+                value="2019-06-06 21:11:00"
+              />
+              <a
+                class="cxd-DatePicker-clear"
+              >
+                <icon-mock
+                  classname="icon icon-input-clear"
+                  icon="input-clear"
+                />
+              </a>
+              <a
+                class="cxd-DatePicker-toggler"
+              >
+                <icon-mock
+                  classname="icon icon-date"
+                  icon="date"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

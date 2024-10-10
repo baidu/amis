@@ -1,0 +1,123 @@
+{
+  "name": "office-viewer",
+  "version": "0.3.14",
+  "description": "office 文档在线预览",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "dev": "vite --host",
+    "start": "vite --host",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c && sass scss/office.scss dist/office.css",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
+    "test": "jest",
+    "lib": "npm run clean-dist && cross-env NODE_ENV=production IS_LIB=1 rollup -c",
+    "update-snapshot": "jest --updateSnapshot",
+    "coverage": "jest --coverage",
+    "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
+    "clean-dist": "rimraf lib/** esm/**",
+    "xsd2excel": "cd tools && ts-node --transpileOnly xsd2excel.ts",
+    "xsd2excelExt": "cd tools && ts-node --transpileOnly xsd2excelExt.ts",
+    "xsd2word": "cd tools && ts-node --transpileOnly xsd2word.ts",
+    "xsd2dml": "cd tools && ts-node --transpileOnly xsd2dml.ts",
+    "xsd2chart": "cd tools && ts-node --transpileOnly xsd2chart.ts",
+    "convertDrawingML": "cd tools && ts-node --transpileOnly convertDrawingML.ts",
+    "convertPresetTableStyles": "cd tools && ts-node --transpileOnly convertPresetTableStyles.ts",
+    "convertPresetCellStyles": "cd tools && ts-node --transpileOnly convertPresetCellStyles.ts",
+    "genPresetIcons": "cd tools && ts-node --transpileOnly genPresetIcons.ts",
+    "genIcons": "ts-node --transpileOnly tools/genIcons.ts",
+    "emptyExcel": "ts-node --transpileOnly tools/convertFileToBase64.ts src/excel/io/csv/empty.xlsx src/excel/io/csv/emptyXLSX.ts",
+    "genExampleFileList": "ts-node --transpileOnly tools/genExampleFileList.ts",
+    "functionCount": "bun tools/functionCount.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
+  "files": [
+    "lib",
+    "dist",
+    "esm"
+  ],
+  "keywords": [
+    "office",
+    "word",
+    "excel",
+    "docx",
+    "xlsx"
+  ],
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/baidu/amis/issues"
+  },
+  "homepage": "https://github.com/baidu/amis#readme",
+  "dependencies": {
+    "numfmt": "^2.5.2",
+    "papaparse": "^5.4.1",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^14.2.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@swc/jest": "^0.2.34",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@types/node": "^14.0.24",
+    "@types/jest": "^28.1.0",
+    "@types/prettier": "^2.7.3",
+    "amis-formula": "^2.7.2",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.3",
+    "puppeteer": "^22.8.0",
+    "rollup": "^2.60.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.69.7",
+    "ts-jest": "^29.0.2",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.3.5",
+    "xml-formatter": "^3.3.2"
+  },
+  "peerDependencies": {
+    "echarts": "^5.5.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": "@swc/jest"
+    },
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
+    "testRegex": "/.*\\.test\\.(ts|tsx)$",
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/../__mocks__/styleMock.js",
+      "\\.(svg)$": "<rootDir>/../__mocks__/svgMock.js"
+    },
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
+    }
+  }
+}

@@ -1,16 +1,15 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '一次性加载，前端分页，前端排序',
   body: {
     type: 'crud',
     loadDataOnce: true,
-    api: '/api/sample?waitSeconds=1',
+    api: '/api/sample?waitSeconds=1&loadDataOnce=1',
     filter: {
       title: '条件搜索',
       submitText: '',
-      controls: [
+      body: [
         {
-          type: 'text',
+          type: 'input-text',
           name: 'keywords',
           placeholder: '通过关键字搜索',
           addOn: {
@@ -24,7 +23,6 @@ export default {
       {
         name: 'id',
         label: 'ID',
-        width: 20,
         sortable: true,
         type: 'text',
         toggled: true,
@@ -77,7 +75,7 @@ export default {
               title: '查看',
               body: {
                 type: 'form',
-                controls: [
+                body: [
                   {
                     type: 'static',
                     name: 'engine',
@@ -120,8 +118,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }
@@ -140,9 +137,9 @@ export default {
                 type: 'form',
                 name: 'sample-edit-form',
                 api: '/api/sample/$id',
-                controls: [
+                body: [
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'engine',
                     label: 'Engine',
                     required: true
@@ -151,7 +148,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'browser',
                     label: 'Browser',
                     required: true
@@ -160,7 +157,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'platform',
                     label: 'Platform(s)',
                     required: true
@@ -169,7 +166,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'version',
                     label: 'Engine version'
                   },

@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:transfer-picker 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="a"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          组合穿梭器
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferPicker is-active is-clickable is-group"
+                      tabindex="-1"
+                    >
+                      <div
+                        class="cxd-ResultBox-value-wrap"
+                      >
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferPicker-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-pencil"
+                            icon="pencil"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

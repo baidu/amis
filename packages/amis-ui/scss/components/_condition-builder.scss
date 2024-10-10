@@ -1,0 +1,500 @@
+.#{$ns}ConditionBuilderControl.is-mobile {
+  overflow-x: auto;
+}
+.#{$ns}CBGroup {
+  font-size: var(--fontSizeSm);
+  position: relative;
+  // border: 1px solid #e8e9eb;
+  // border-radius: 4px;
+  // border-left: px2rem(3px) solid #e6f0ff;
+  // padding: px2rem(30px) px2rem(27px) px2rem(17px);
+  // margin-top: px2rem(30px);
+  display: flex;
+  &-toolbarCondition {
+    // text-align: center;
+    // margin-top: px2rem(-44px);
+    // margin-bottom: px2rem(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 px2rem(10px) 0 0;
+    flex-direction: column;
+
+    &[draggable='true'] {
+      cursor: grab;
+    }
+
+    &-arrow {
+      position: absolute;
+      top: 0;
+      font-size: 14px;
+      width: px2rem(20px);
+      height: px2rem(20px);
+      border-radius: 50%;
+      background: var(--conditionBuilder-toolbar-bg-color);
+      text-align: center;
+      color: var(--conditionBuilder-toolbar-color);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &.is-collapse {
+        transform: rotate(180deg);
+      }
+
+      &:hover {
+        background: var(--conditionBuilder-toolbar-hover-bg-color);
+        color: var(--conditionBuilder-toolbar-hover-color);
+      }
+    }
+
+    .#{$ns}Select {
+      font-size: var(--conditionBuilder-toolbar-fontSize);
+      height: var(--conditionBuilder-toolbar-height);
+      width: var(--conditionBuilder-toolbar-width);
+      background: var(--conditionBuilder-toolbar-bg-color);
+      border: none;
+      color: var(--conditionBuilder-toolbar-color);
+      font-weight: var(--conditionBuilder-toolbar-fontWeight);
+      padding: 0;
+      text-align: center;
+      min-height: var(--conditionBuilder-toolbar-height);
+
+      &.is-focused {
+        color: var(--conditionBuilder-toolbar-color) !important;
+        font-size: var(--conditionBuilder-toolbar-fontSize);
+        font-weight: var(--conditionBuilder-toolbar-fontWeight);
+        background: var(--conditionBuilder-toolbar-bg-color) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      &:hover {
+        color: var(--conditionBuilder-toolbar-hover-color) !important;
+        font-size: var(--conditionBuilder-toolbar-hover-fontSize);
+        font-weight: var(--conditionBuilder-toolbar-hover-fontWeight);
+        background: var(--conditionBuilder-toolbar-hover-bg-color) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      &-valueWrap {
+        padding-right: 0;
+      }
+
+      &-arrow {
+        display: none;
+      }
+
+      &-menu {
+        padding: 0;
+
+        > .#{$ns}Select-option {
+          font-size: px2rem(12px);
+          font-weight: 500;
+          line-height: 2rem !important;
+          text-align: center;
+          padding: 0 !important;
+        }
+      }
+    }
+
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: px2rem(5px);
+      bottom: px2rem(5px);
+      width: var(--conditionBuilder-line-width);
+      background-color: var(--conditionBuilder-line-bg-color);
+    }
+  }
+
+  &-body {
+    position: relative;
+    &-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-collapse {
+      text-align: center;
+      color: #84868c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > span {
+        padding: 0 10px;
+        cursor: pointer;
+      }
+
+      &::before,
+      &::after {
+        content: ' ';
+        height: 1px;
+        background: #e8e9eb;
+        display: block;
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+      }
+    }
+  }
+
+  &-body-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-toolbar {
+    display: flex;
+    flex-direction: row;
+    padding-top: px2rem(8px);
+
+    &[draggable='true'] {
+      cursor: grab;
+    }
+
+    .#{$ns}Button {
+      transition: padding var(--animation-duration);
+      min-width: unset;
+
+      svg {
+        width: 10px;
+        height: 10px;
+        top: 0;
+        margin-right: 5px;
+      }
+    }
+
+    .#{$ns}CBGroup-toolbarConditionAdd {
+      display: flex;
+      align-items: center;
+      .#{$ns}ButtonGroup {
+        & > .cxd-Button:not(:last-child) {
+          margin-right: px2rem(24px);
+        }
+      }
+
+      // .#{$ns}CBDelete {
+      //   margin-left: var(--gap-xs);
+      // }
+    }
+  }
+  .#{$ns}ResultBox {
+    padding-right: px2rem(3px);
+  }
+
+  &-field,
+  &-operator {
+    position: relative;
+    display: inline-block;
+    margin: px2rem(3px);
+    vertical-align: middle;
+  }
+
+  &-fieldCaret,
+  &-operatorCaret {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+      transform: rotate(90deg);
+    }
+  }
+
+  &-fieldInput.is-active &-fieldCaret,
+  &-operatorInput.is-active &-operatorCaret {
+    transform: rotate(180deg);
+  }
+
+  &-placeholder {
+    color: var(--text--muted-color);
+    position: relative;
+    padding: var(--conditionBuilder-body-paddingTop)
+      var(--conditionBuilder-body-paddingRight)
+      var(--conditionBuilder-body-paddingBottom) px2rem(10px);
+    background: var(--conditionBuilder-body-bg-color);
+    &.simple {
+      margin-left: 0;
+    }
+  }
+}
+
+.#{$ns}CBDelete {
+  margin-left: 5px;
+  font-size: 16px;
+  color: #84868c;
+  // cursor: pointer;
+  // margin-left: auto;
+}
+
+// .#{$ns}CBGroupOrItem-body-group.is-hover {
+//   & > .#{$ns}CBGroupOrItem-dragbar {
+//     opacity: 1 !important;
+//   }
+//   & > .#{$ns}CBGroup {
+//     border-left-color: #2468f1;
+//   }
+// }
+
+.#{$ns}CBIf {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #84868c;
+
+  &:hover {
+    font-size: 16px;
+  }
+
+  &.is-active {
+    color: #2468f1;
+  }
+  cursor: pointer;
+  // margin-left: auto;
+}
+
+.#{$ns}CBGroupOrItem {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+
+  &.is-hover {
+    box-shadow: #e8ebee 0 2px 10px 0;
+    // cursor: grab;
+  }
+
+  & + & {
+    margin-top: px2rem(10px);
+  }
+  &-dragbar {
+    cursor: move;
+    width: 20px;
+    margin-left: -5px;
+    opacity: 0.6;
+    text-align: center;
+    transition: opacity var(--animation-duration) ease-out;
+    @include icon-color();
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    transition: all var(--animation-duration) ease-out;
+    &-group {
+      width: 100%;
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      padding-left: 10px;
+
+      // margin-top: px2rem(16px);
+
+      &.is-hover {
+        cursor: grab;
+        box-shadow: 0px 2px 14px 0px rgb(0 0 0 / 16%);
+        border-radius: 8px;
+        padding: 10px;
+        margin: -10px 0px;
+        background: $white;
+        z-index: $zindex-dropdown;
+      }
+      > .#{$ns}CBGroupOrItem-dragbar {
+        left: px2rem(-5px);
+        position: absolute;
+      }
+      > .#{$ns}CBGroup {
+        margin: 0px;
+      }
+    }
+
+    &-item {
+      background-color: var(--conditionBuilder-body-bg-color);
+      width: 100%;
+      padding: var(--conditionBuilder-body-paddingTop)
+        var(--conditionBuilder-body-paddingRight)
+        var(--conditionBuilder-body-paddingBottom)
+        var(--conditionBuilder-body-paddingLeft);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      > .#{$ns}CBGroupOrItem-dragbar {
+        left: px2rem(10px);
+        position: absolute;
+      }
+    }
+  }
+
+  &.is-dragging {
+    display: none;
+  }
+
+  &.is-ghost > &-body:before {
+    position: absolute;
+    z-index: 2;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($info, 0.2);
+  }
+
+  .#{$ns}CBGroup {
+    flex-grow: 1;
+  }
+
+  & > &-body > &-body-group > &-dragbar,
+  & > &-body > &-body-item > &-dragbar,
+  & > &-body > &-body-item > .#{$ns}CBDelete {
+    opacity: 0;
+  }
+
+  &:is(.is-mobile) {
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-group
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
+  }
+
+  &:not(.is-mobile) {
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
+  }
+
+  &-simple {
+    margin-bottom: var(--gap-sm);
+  }
+}
+
+.#{$ns}CBInputSwitch {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  // margin: px2rem(3px);
+  cursor: pointer;
+  > a {
+    @include icon-color();
+  }
+
+  svg {
+    width: px2rem(10px);
+    height: px2rem(10px);
+  }
+}
+
+.#{$ns}CBFunc {
+  display: inline-block;
+  vertical-align: middle;
+  margin: px2rem(3px);
+
+  &-select {
+    display: inline-block;
+    position: relative;
+  }
+
+  &-error {
+    color: var(--danger);
+  }
+
+  &-args {
+    display: inline-block;
+    > span {
+      display: inline-block;
+      padding: 0 5px;
+      color: var(--info);
+    }
+
+    > div {
+      display: inline-block;
+    }
+  }
+}
+
+.#{$ns}CBItem {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+.#{$ns}CBValue {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: px2rem(3px);
+  flex: 1;
+  min-width: px2rem(100px);
+
+  > * {
+    width: 100%;
+  }
+}
+
+.#{$ns}CBFormula {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: px2rem(3px);
+
+  &-label {
+    background: var(--ResultBox-value-bg);
+    color: var(--text--muted-color);
+    display: block;
+    font-size: var(--fontSizeSm);
+    align-self: center;
+    margin: -5px 5px -5px -8px;
+    padding: 5px;
+    border-radius: 5px;
+    user-select: none;
+  }
+}
+
+.#{$ns}CBSeprator {
+  width: 20px;
+  text-align: center;
+  display: inline-block;
+  align-self: center;
+  user-select: none;
+}
+
+.#{$ns}CBPicker-trigger {
+  cursor: pointer;
+  transition: transform var(--animation-duration) ease-out;
+  display: flex;
+  color: var(--Form-select-caret-iconColor);
+
+  &:hover {
+    color: var(--primary);
+  }
+}

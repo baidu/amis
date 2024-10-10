@@ -1,0 +1,157 @@
+.#{$ns}DropDown {
+  position: relative;
+  display: inline-block;
+
+  &-caret {
+    margin-left: var(--DropDown-caret-marginLeft);
+    display: inline-block;
+    vertical-align: top;
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+      transform: rotate(90deg);
+      transition: transform var(--animation-duration) ease;
+    }
+  }
+
+  &.is-opened &-caret svg {
+    transform: rotate(270deg);
+  }
+
+  &.is-actived {
+    .#{$ns}Button {
+      color: var(--link-color);
+    }
+  }
+
+  &--block {
+    display: block;
+
+    .#{$ns}Button {
+      display: block;
+    }
+  }
+
+  &-menu {
+    background: var(--DropDown-menu-bg);
+    list-style: none;
+    padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
+    margin: 0;
+    min-width: var(--DropDown-menu-minWidth);
+    text-align: left;
+    border: none;
+    user-select: none;
+
+    &-root {
+      position: absolute;
+      z-index: $zindex-dropdown;
+      top: 100%;
+      left: 0;
+      margin: px2rem(1px) 0 0;
+      border: var(--Form-select-outer-borderWidth) solid
+        var(--Form-select-outer-borderColor);
+      border-radius: var(--DropDown-menu-borderRadius);
+      box-shadow: var(--DropDown-menu-boxShadow);
+      min-width: var(--DropDown-menu-minWidth);
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: px2rem(300px);
+      margin-top: px2rem(4px);
+    }
+  }
+
+  &--alignRight &-menu {
+    left: auto;
+    right: 0;
+  }
+
+  &-menuItem,
+  &-menu > li {
+    padding: 0 var(--DropDown-menuItem-paddingX);
+    white-space: nowrap;
+    box-sizing: border-box;
+    height: var(--DropDown-menu-height);
+    line-height: var(--DropDown-menu-height);
+    vertical-align: middle;
+    user-select: none;
+    color: var(--DropDown-menuItem-color);
+    text-decoration: var(--link-decoration);
+
+    &.is-active {
+      background: var(--DropDown-menuItem-onHover-bg);
+      color: var(--DropDown-menuItem-onActive-color);
+    }
+
+    &:not(.is-disabled),
+    &:not(.disabled) {
+      cursor: pointer;
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      // pointer-events: none;
+      color: var(--DropDown-menuItem-onDisabled-color);
+      filter: grayscale(80%);
+    }
+
+    &.#{$ns}DropDown-divider {
+      height: px2rem(1px);
+      margin: px2rem(4px) 0;
+      overflow: hidden;
+      background: var(--DropDown-menu-borderColor);
+      padding: 0;
+    }
+
+    &.#{$ns}DropDown-groupTitle {
+      height: inherit;
+      font-size: var(--fontSizeSm);
+      padding: var(--gap-xs) var(--gap-xs);
+      padding-left: var(--gap-sm);
+      color: var(--DropDown-group-color);
+      flex-grow: 1;
+      cursor: default;
+
+      &:hover {
+        background: none;
+      }
+
+      span {
+        white-space: nowrap;
+      }
+
+      & ~ .#{$ns}DropDown-button {
+        padding-left: var(--gap-lg);
+      }
+    }
+  }
+
+  &-menuItem,
+  &-menu:not(.is-mobile) > li:not(.is-disabled) {
+    &:hover {
+      background: var(--DropDown-menuItem-onHover-bg);
+      color: var(--DropDown-menuItem-onHover-color);
+    }
+  }
+
+  &-menu > li a {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+  }
+
+  &-popover {
+    border: none;
+    box-shadow: none;
+    // 如果是在PopOver position: absolute会使overlayNode没有高度 定位不正确
+    // 改成static z-index不生效 无法点击操作
+    > .#{$ns}DropDown-menu-root {
+      position: relative;
+    }
+  }
+
+  > .#{$ns}Button {
+    min-width: unset;
+  }
+}

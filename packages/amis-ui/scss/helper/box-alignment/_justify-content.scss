@@ -1,0 +1,44 @@
+/*!markdown
+
+---
+title: Jsutify Content
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| justify-start | justify-content: flex-start |
+| justify-end | justify-content: flex-end |
+| justify-center | justify-content: center |
+| justify-between | justify-content: space-between |
+| justify-around | justify-content: space-around |
+| justify-evenly | justify-content: space-evenly |
+
+
+*/
+@mixin make-justify-content($prefix: '.') {
+  #{$prefix}justify-start {
+    justify-content: flex-start;
+  }
+  #{$prefix}justify-end {
+    justify-content: flex-end;
+  }
+  #{$prefix}justify-center {
+    justify-content: center;
+  }
+  #{$prefix}justify-between {
+    justify-content: space-between;
+  }
+  #{$prefix}justify-around {
+    justify-content: space-around;
+  }
+  #{$prefix}justify-evenly {
+    justify-content: space-evenly;
+  }
+}
+
+@include make-justify-content();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-justify-content('.' + selector-escape($deivce + ':'));
+  }
+}

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:date 1`] = `
+<div>
+  <span
+    class="cxd-DateField show"
+  >
+    2019-06-07
+  </span>
+</div>
+`;

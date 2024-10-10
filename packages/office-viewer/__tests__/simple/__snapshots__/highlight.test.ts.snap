@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`highlight 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: yellow;"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(0, 0, 139);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(0, 139, 139);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(169, 169, 169);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(0, 100, 0);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(128, 0, 128);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(139, 0, 0);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(128, 128, 0);"
+      >
+        聚
+      </span>
+    </p>
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+        style="font-family: Georgia, SimSun; font-weight: bold; color: rgb(0, 0, 0); font-size: 18.67px; background-color: rgb(211, 211, 211);"
+      >
+        聚
+      </span>
+    </p>
+  </section>
+</article>
+`;

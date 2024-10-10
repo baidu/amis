@@ -1,0 +1,3260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal wizard-class-name"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-finish is-clickable"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon is-success"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  <icon-mock
+                    classname="icon icon-check"
+                    icon="check"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            PrevStep
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            Submit
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal wizard-class-name"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  1
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            NextStep
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard default 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      />
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard dialog 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          1
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-wait"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <a
+          class="cxd-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="cxd-Modal-title"
+        >
+          添加
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+        role="dialog-body"
+      >
+        <div
+          class="cxd-Form cxd-Form--horizontal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    Name
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-value"
+            >
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    class=""
+                    name="name"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="Amis"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard dialog 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          1
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-wait"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi default 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  1
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  3
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 3"
+                    >
+                      Step 3
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Amis renderer"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="cxd-Spinner-overlay"
+    />
+    <div
+      class="cxd-Spinner cxd-Spinner--overlay"
+      data-testid="spinner"
+    >
+      <div
+        class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi reload 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          1
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-wait"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="website"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-amis-name="name"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          class=""
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi reload 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-finish is-clickable"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon is-success"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-check"
+                            icon="check"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi reload 3`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-finish is-clickable"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon is-success"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-check"
+                            icon="check"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi show loading 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      />
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        加载中
+      </div>
+    </div>
+    <div
+      class="cxd-Spinner-overlay in"
+    />
+    <div
+      class="cxd-Spinner cxd-Spinner--overlay in"
+      data-testid="spinner"
+    >
+      <div
+        class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard initApi show loading 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  1
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  3
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 3"
+                    >
+                      Step 3
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard readOnly 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      />
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl is-disabled"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  readonly=""
+                  size="10"
+                  type="url"
+                  value="http://amis.baidu.com"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Amis"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard send data 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-finish is-clickable"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon is-success"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  <icon-mock
+                    classname="icon icon-check"
+                    icon="check"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            上一步
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            完成
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard step initApi 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-finish is-clickable"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon is-success"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  <icon-mock
+                    classname="icon icon-check"
+                    icon="check"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  3
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 3"
+                    >
+                      Step 3
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-required"
+            data-amis-name="email"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    邮箱
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="email"
+                  placeholder=""
+                  size="10"
+                  type="email"
+                  value="xxx@xxx.com"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            上一步
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard steps not array 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      />
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <p
+          class="text-danger"
+        >
+          配置错误
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard target 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+          >
+            <div
+              class="cxd-Wizard-step"
+            >
+              <div
+                class="cxd--Wizard-steps"
+                id="form-wizard"
+              >
+                <ul
+                  class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+                >
+                  <li
+                    class="cxd-StepsItem is-finish is-clickable"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon is-success"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-check"
+                            icon="check"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem- is-success"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 1"
+                            >
+                              Step 1
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="cxd-StepsItem is-process"
+                  >
+                    <div
+                      class="cxd-StepsItem-container"
+                    >
+                      <div
+                        class="cxd-StepsItem-containerTail"
+                      />
+                      <div
+                        class="cxd-StepsItem-containerIcon"
+                      >
+                        <span
+                          class="cxd-StepsItem-icon"
+                        >
+                          2
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-StepsItem-containerWrapper"
+                      >
+                        <div
+                          class="cxd-StepsItem-body"
+                        >
+                          <div
+                            class="cxd-StepsItem-title cxd-StepsItem-"
+                          >
+                            <span
+                              class="cxd-StepsItem-ellText"
+                              title="Step 2"
+                            >
+                              Step 2
+                            </span>
+                          </div>
+                          <div
+                            class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                          >
+                            <span />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Wizard-footer cxd-Panel-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="website"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          Website
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="website"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="http://amis.baidu.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          Name
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        name="name"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="Amis"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Wizard validate 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+  >
+    <div
+      class="cxd-Wizard-step"
+    >
+      <div
+        class="cxd--Wizard-steps"
+        id="form-wizard"
+      >
+        <ul
+          class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+        >
+          <li
+            class="cxd-StepsItem is-process"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  1
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 1"
+                    >
+                      Step 1
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  2
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 2"
+                    >
+                      Step 2
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li
+            class="cxd-StepsItem is-wait"
+          >
+            <div
+              class="cxd-StepsItem-container"
+            >
+              <div
+                class="cxd-StepsItem-containerTail"
+              />
+              <div
+                class="cxd-StepsItem-containerIcon"
+              >
+                <span
+                  class="cxd-StepsItem-icon"
+                >
+                  3
+                </span>
+              </div>
+              <div
+                class="cxd-StepsItem-containerWrapper"
+              >
+                <div
+                  class="cxd-StepsItem-body"
+                >
+                  <div
+                    class="cxd-StepsItem-title cxd-StepsItem-"
+                  >
+                    <span
+                      class="cxd-StepsItem-ellText"
+                      title="Step 3"
+                    >
+                      Step 3
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                  >
+                    <span />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="cxd-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--normal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isUrl"
+            data-amis-name="website"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control is-error has-error--isUrl cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value="http"
+                />
+              </div>
+            </div>
+            <ul
+              class="cxd-Form-feedback"
+            >
+              <li>
+                URL 格式不正确
+              </li>
+            </ul>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+            data-amis-name="name"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
+                <span
+                  class="cxd-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <ul
+              class="cxd-Form-feedback"
+            >
+              <li>
+                这是必填项
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Wizard-footer cxd-Panel-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

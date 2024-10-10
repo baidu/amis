@@ -1,0 +1,50 @@
+{
+  "id": {
+    "desc": "<p>组件 ID。默认不指定。指定则可用于在 option 或者 API 中引用组件。</p>\n"
+  },
+  "source": {
+    "desc": "<p>原始数据。一般来说，原始数据表达的是二维表。可以用如下这些格式表达二维表：</p>\n<p>二维数组，其中第一行/列可以给出 <a href=\"#dataset.dimensions\">维度名</a>，也可以不给出，直接就是数据：</p>\n<pre><code class=\"lang-js\">[\n    [&#39;product&#39;, &#39;2015&#39;, &#39;2016&#39;, &#39;2017&#39;],\n    [&#39;Matcha Latte&#39;, 43.3, 85.8, 93.7],\n    [&#39;Milk Tea&#39;, 83.1, 73.4, 55.1],\n    [&#39;Cheese Cocoa&#39;, 86.4, 65.2, 82.5],\n    [&#39;Walnut Brownie&#39;, 72.4, 53.9, 39.1]\n]\n</code></pre>\n<p>按行的 key-value 形式（对象数组），其中键（key）表明了 <a href=\"#dataset.dimensions\">维度名</a>：</p>\n<pre><code class=\"lang-js\">[\n    {product: &#39;Matcha Latte&#39;, count: 823, score: 95.8},\n    {product: &#39;Milk Tea&#39;, count: 235, score: 81.4},\n    {product: &#39;Cheese Cocoa&#39;, count: 1042, score: 91.2},\n    {product: &#39;Walnut Brownie&#39;, count: 988, score: 76.9}\n]\n</code></pre>\n<p>按列的 key-value 形式，每一项表示二维表的 “一列”：</p>\n<pre><code class=\"lang-js\">{\n    &#39;product&#39;: [&#39;Matcha Latte&#39;, &#39;Milk Tea&#39;, &#39;Cheese Cocoa&#39;, &#39;Walnut Brownie&#39;],\n    &#39;count&#39;: [823, 235, 1042, 988],\n    &#39;score&#39;: [95.8, 81.4, 91.2, 76.9]\n}\n</code></pre>\n<p>关于 <code class=\"codespan\">dataset</code> 的详情，请参见<a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20dataset%20%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE\" target=\"_blank\">教程</a>。</p>\n"
+  },
+  "dimensions": {
+    "desc": "<p>使用 dimensions 定义 <code class=\"codespan\">series.data</code> 或者 <code class=\"codespan\">dataset.source</code> 的每个维度的信息。</p>\n<p>注意：如果使用了 <a href=\"#dataset\">dataset</a>，那么可以在 <a href=\"#dataset.dimensions\">dataset.dimensions</a> 中定义 dimension ，或者在 <a href=\"#dataset.source\">dataset.source</a> 的第一行/列中给出 dimension 名称。于是就不用在这里指定 dimension。但如果在这里指定了 <code class=\"codespan\">dimensions</code>，那么优先使用这里的。</p>\n<p>例如：</p>\n<pre><code class=\"lang-js\">option = {\n    dataset: {\n        source: [\n            // 有了上面 dimensions 定义后，下面这五个维度的名称分别为：\n            // &#39;date&#39;, &#39;open&#39;, &#39;close&#39;, &#39;highest&#39;, &#39;lowest&#39;\n            [12, 44, 55, 66, 2],\n            [23, 6, 16, 23, 1],\n            ...\n        ]\n    },\n    series: {\n        type: &#39;xxx&#39;,\n        // 定义了每个维度的名称。这个名称会被显示到默认的 tooltip 中。\n        dimensions: [&#39;date&#39;, &#39;open&#39;, &#39;close&#39;, &#39;highest&#39;, &#39;lowest&#39;]\n    }\n}\n</code></pre>\n<pre><code class=\"lang-js\">series: {\n    type: &#39;xxx&#39;,\n    dimensions: [\n        null,                // 如果此维度不想给出定义，则使用 null 即可\n        {type: &#39;ordinal&#39;},   // 只定义此维度的类型。\n                             // &#39;ordinal&#39; 表示离散型，一般文本使用这种类型。\n                             // 如果类型没有被定义，会自动猜测类型。\n        {name: &#39;good&#39;, type: &#39;number&#39;},\n        &#39;bad&#39;                // 等同于 {name: &#39;bad&#39;}\n    ]\n}\n</code></pre>\n<p><code class=\"codespan\">dimensions</code> 数组中的每一项可以是：</p>\n<ul>\n<li><code class=\"codespan\">string</code>，如 <code class=\"codespan\">&#39;someName&#39;</code>，等同于 <code class=\"codespan\">{name: &#39;someName&#39;}</code></li>\n<li><code class=\"codespan\">Object</code>，属性可以有：<ul>\n<li>name: <code class=\"codespan\">string</code>。</li>\n<li>type: <code class=\"codespan\">string</code>，支持<ul>\n<li><code class=\"codespan\">number</code>，默认，表示普通数据。</li>\n<li><code class=\"codespan\">ordinal</code>，对于类目、文本这些 string 类型的数据，如果需要能在数轴上使用，须是 &#39;ordinal&#39; 类型。ECharts 默认会自动判断这个类型。但是自动判断也是不可能很完备的，所以使用者也可以手动强制指定。</li>\n<li><code class=\"codespan\">float</code>，即 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array\" target=\"_blank\">Float64Array</a>。</li>\n<li><code class=\"codespan\">int</code>，即 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array\" target=\"_blank\">Int32Array</a>。</li>\n<li><code class=\"codespan\">time</code>，表示时间类型。设置成 &#39;time&#39; 则能支持自动解析数据成时间戳（timestamp），比如该维度的数据是 &#39;2017-05-10&#39;，会自动被解析。时间类型的支持参见 <a href=\"#series.data\">data</a>。</li>\n</ul>\n</li>\n<li>displayName: 一般用于 tooltip 中维度名的展示。<code class=\"codespan\">string</code> 如果没有指定，默认使用 name 来展示。</li>\n</ul>\n</li>\n</ul>\n<p>值得一提的是，当定义了 <code class=\"codespan\">dimensions</code> 后，默认 <code class=\"codespan\">tooltip</code> 中对个维度的显示，会变为『竖排』，从而方便显示每个维度的名称。如果没有定义 <code class=\"codespan\">dimensions</code>，则默认 <code class=\"codespan\">tooltip</code> 会横排显示，且只显示数值没有维度名称可显示。</p>\n"
+  },
+  "sourceHeader": {
+    "desc": "<p><code class=\"codespan\">dataset.source</code> 第一行/列是否是 <a href=\"dataset.dimensions\" target=\"_blank\">维度名</a> 信息。可选值：</p>\n<ul>\n<li><code class=\"codespan\">null/undefine</code>：默认，自动探测。</li>\n<li><code class=\"codespan\">true</code>：第一行/列是维度名信息。</li>\n<li><code class=\"codespan\">false</code>：第一行/列直接开始是数据。</li>\n</ul>\n<p>注意：“第一行/列” 的意思是，如果 <a href=\"#series.seriesLayoutBy\">series.seriesLayoutBy</a> 设置为 <code class=\"codespan\">&#39;column&#39;</code>（默认值），则取第一行，如果 <code class=\"codespan\">series.seriesLayoutBy</code> 设置为 <code class=\"codespan\">&#39;row&#39;</code>，则取第一列。</p>\n"
+  },
+  "transform": {
+    "desc": "<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "transform-filter.config": {
+    "desc": "<p>&quot;sort&quot; 数据转换器的“条件”。</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "transform-filter.print": {
+    "desc": "<p>使用 transform 时，有时候我们会配不对，显示不出来结果，并且不知道哪里错了。所以，这里提供了一个配置项 <code class=\"codespan\">transform.print</code> 方便 debug 。这个配置项只在开发环境中生效。如下例：</p>\n<pre><code class=\"lang-js\">option = {\n    dataset: [{\n        source: [ ... ]\n    }, {\n        transform: {\n            type: &#39;filter&#39;,\n            config: { ... }\n            // 配置为 `true` 后， transform 的结果\n            // 会被 console.log 打印出来。\n            print: true\n        }\n    }],\n    ...\n}\n</code></pre>\n"
+  },
+  "transform-sort.config": {
+    "desc": "<p>&quot;sort&quot; 数据转换器的“条件”。</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "transform-sort.print": {
+    "desc": "<p>使用 transform 时，有时候我们会配不对，显示不出来结果，并且不知道哪里错了。所以，这里提供了一个配置项 <code class=\"codespan\">transform.print</code> 方便 debug 。这个配置项只在开发环境中生效。如下例：</p>\n<pre><code class=\"lang-js\">option = {\n    dataset: [{\n        source: [ ... ]\n    }, {\n        transform: {\n            type: &#39;filter&#39;,\n            config: { ... }\n            // 配置为 `true` 后， transform 的结果\n            // 会被 console.log 打印出来。\n            print: true\n        }\n    }],\n    ...\n}\n</code></pre>\n"
+  },
+  "transform-xxx:xxx": {
+    "desc": "<p>除了上述的内置的数据转换器外，我们也可以使用外部的数据转换器。外部数据转换器能提供或自己定制更丰富的功能。</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "transform-xxx:xxx.type": {
+    "desc": "<p>内置数据转换器没有名空间（如 <code class=\"codespan\">type: &#39;filter&#39;</code>, <code class=\"codespan\">type: &#39;sort&#39;</code>）。</p>\n<p>外部数据转换器须有名空间（如 <code class=\"codespan\">type: &#39;ecStat:regression&#39;</code>）。</p>\n"
+  },
+  "transform-xxx:xxx.config": {
+    "desc": "<p>这里设置每个数据转换器所须的参数。每种数据转换器有自己的参数格式定义。</p>\n"
+  },
+  "transform-xxx:xxx.print": {
+    "desc": "<p>使用 transform 时，有时候我们会配不对，显示不出来结果，并且不知道哪里错了。所以，这里提供了一个配置项 <code class=\"codespan\">transform.print</code> 方便 debug 。这个配置项只在开发环境中生效。如下例：</p>\n<pre><code class=\"lang-js\">option = {\n    dataset: [{\n        source: [ ... ]\n    }, {\n        transform: {\n            type: &#39;filter&#39;,\n            config: { ... }\n            // 配置为 `true` 后， transform 的结果\n            // 会被 console.log 打印出来。\n            print: true\n        }\n    }],\n    ...\n}\n</code></pre>\n"
+  },
+  "fromDatasetIndex": {
+    "desc": "<p>指定 <a href=\"#dataset.transform\">dataset.transform</a> 以哪个 dataset 作为输入。如果 <a href=\"#dataset.transform\">dataset.transform</a> 被指定了，但是 <code class=\"codespan\">fromDatasetIndex</code> 和 <code class=\"codespan\">fromDatasetId</code> 都没有被指定，那么默认会使用 <code class=\"codespan\">fromDatasetIndex: 0</code>.</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "fromDatasetId": {
+    "desc": "<p>指定 <a href=\"#dataset.transform\">dataset.transform</a> 以哪个 dataset 作为输入。</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  },
+  "fromTransformResult": {
+    "desc": "<p>如果一个 <a href=\"#dataset.transform\">dataset.transform</a> 会产出多个结果 data ，我们可以使用 <code class=\"codespan\">fromTransformResult</code> 获得特定的结果。</p>\n<p>大多数场景下，transform 只会产出一个结果，所以大多数情况下 <code class=\"codespan\">fromTransformResult</code> 并不需要指定。当不指定 <code class=\"codespan\">fromTransformResult</code> 时，默认使用 <code class=\"codespan\">fromTransformResult: 0</code>。</p>\n<p>参见这个教程： <a href=\"tutorial.html#%E4%BD%BF%E7%94%A8%20transform%20%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2\" target=\"_blank\">datat transform</a>.</p>\n"
+  }
+}

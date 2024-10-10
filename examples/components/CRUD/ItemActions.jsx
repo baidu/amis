@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '增删改查示例',
   remark: 'bla bla bla',
   body: {
@@ -13,12 +12,20 @@ export default {
         align: 'right'
       },
       {
+        type: 'search-box',
+        align: 'right',
+        name: 'keywords',
+        placeholder: '请输入关键字',
+        mini: true
+      },
+
+      {
         type: 'drag-toggler',
-        className: 'pull-right'
+        align: 'right'
       },
       {
         type: 'pagination',
-        className: 'pull-right'
+        align: 'right'
       }
     ],
     itemActions: [
@@ -30,7 +37,7 @@ export default {
           title: '查看',
           body: {
             type: 'form',
-            controls: [
+            body: [
               {
                 type: 'static',
                 name: 'engine',
@@ -73,8 +80,7 @@ export default {
               },
               {
                 type: 'html',
-                html:
-                  '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
               }
             ]
           }
@@ -92,9 +98,9 @@ export default {
             type: 'form',
             name: 'sample-edit-form',
             api: '/api/sample/$id',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'engine',
                 label: 'Engine',
                 required: true
@@ -103,7 +109,7 @@ export default {
                 type: 'divider'
               },
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'browser',
                 label: 'Browser',
                 required: true
@@ -112,7 +118,7 @@ export default {
                 type: 'divider'
               },
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'platform',
                 label: 'Platform(s)',
                 required: true
@@ -121,7 +127,7 @@ export default {
                 type: 'divider'
               },
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'version',
                 label: 'Engine version'
               },
@@ -163,13 +169,13 @@ export default {
           body: {
             type: 'form',
             api: '/api/sample/bulkUpdate2',
-            controls: [
+            body: [
               {
                 type: 'hidden',
                 name: 'ids'
               },
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'engine',
                 label: 'Engine'
               }
@@ -183,7 +189,6 @@ export default {
       {
         name: 'id',
         label: 'ID',
-        width: 20,
         sortable: true,
         type: 'text',
         toggled: true,

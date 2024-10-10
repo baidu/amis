@@ -1,0 +1,214 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.#{$ns}Spinner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: ease-out opacity var(--animation-duration);
+
+  &.in {
+    opacity: 1;
+  }
+
+  .#{$ns}Spinner-icon {
+    width: var(--Spinner-width);
+    height: var(--Spinner-height);
+    position: relative;
+    transform: translateZ(0);
+    animation: spin 2s linear infinite;
+    transition: ease-out all var(--animation-duration);
+
+    &--default {
+      background: var(--Spinner-bg);
+      background-size: 100%;
+      animation: none;
+    }
+
+    &--simple {
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        width: 100%;
+        height: 100%;
+        color: var(--Spinner-color);
+      }
+
+      svg.icon {
+        top: 0;
+
+        path {
+          fill: var(--Spinner-color);
+        }
+      }
+
+      i.icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--Spinner-width);
+      }
+    }
+
+    &--custom {
+      width: auto;
+      height: auto;
+    }
+
+    &.#{$ns}Spinner-icon--disabled > svg.icon {
+      color: var(--Spinner-color--disabled);
+      fill: var(--Spinner-color--disabled);
+
+      & path {
+        fill: var(--Spinner-color--disabled);
+      }
+    }
+
+    &--lg {
+      width: var(--Spinner--lg-width);
+      height: var(--Spinner--lg-height);
+
+      i.icon {
+        font-size: var(--Spinner--lg-height);
+      }
+    }
+
+    &--sm {
+      width: var(--Spinner--sm-width);
+      height: var(--Spinner--sm-height);
+
+      i.icon {
+        font-size: var(--Spinner--sm-height);
+      }
+    }
+  }
+
+  .#{$ns}Spinner-icon--darkBg {
+    svg.icon path {
+      fill: var(--loading-dark-bg-color);
+    }
+  }
+
+  .#{$ns}Spinner-tip {
+    margin: px2rem(12px) 0 0 0;
+    word-break: keep-all;
+    white-space: nowrap;
+    font-size: var(--spinner-base-fontSize);
+    color: var(--Spinner-color);
+    font-weight: var(--spinner-base-fontWeight);
+  }
+
+  &.#{$ns}Spinner-tip--top {
+    flex-direction: column-reverse;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 0 var(--spinner-base-tip-size) 0;
+    }
+  }
+
+  &.#{$ns}Spinner-tip--right {
+    flex-direction: row;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 0 0 var(--spinner-base-tip-size);
+    }
+  }
+
+  &.#{$ns}Spinner-tip--bottom {
+    flex-direction: column;
+
+    .#{$ns}Spinner-tip {
+      margin: var(--spinner-base-tip-size) 0 0 0;
+    }
+  }
+
+  &.#{$ns}Spinner-tip--left {
+    flex-direction: row-reverse;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 var(--spinner-base-tip-size) 0 0;
+    }
+  }
+
+  &--overlay {
+    position: absolute;
+    z-index: $zindex-spinner-overlay;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
+.#{$ns}Spinner-overlay {
+  position: absolute;
+  z-index: calc(#{$zindex-spinner-overlay} - 1);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--Spinner-overlay-bg);
+  transition: ease-out opacity var(--animation-duration);
+  opacity: 0;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  filter: blur(1px);
+
+  &.in {
+    opacity: 1;
+  }
+}
+
+// spinner渲染器scss
+.#{$ns}Spinner-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .#{$ns}Spinner {
+    position: absolute;
+    z-index: $zindex-spinner-overlay;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
+.#{$ns}Spinner-mark {
+  position: absolute;
+  z-index: -999;
+  opacity: 0;
+}
+
+.#{$ns}RootLoader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .#{$ns}Spinner-icon {
+    width: var(--Spinner-width);
+    height: var(--Spinner-height);
+  }
+}

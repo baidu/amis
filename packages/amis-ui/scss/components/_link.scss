@@ -1,0 +1,22 @@
+.#{$ns}Link {
+  &.is-disabled {
+    cursor: not-allowed;
+    color: var(--link-disabled-color);
+    font-size: var(--link-disabled-fontSize);
+    font-weight: var(--link-disabled-fontWeight);
+    text-decoration: var(--link-disabled-text-decoration);
+    font-style: var(--link-disabled-font-style);
+    background-color: var(--link-disabled-bg-color);
+  }
+  i {
+    font-size: var(--link-icon-size);
+    margin: 0 var(--link-icon-margin);
+  }
+  svg {
+    height: var(--link-icon-size);
+    width: var(--link-icon-size);
+    margin: 0 var(--link-icon-margin);
+    display: inline-block;
+    vertical-align: text-top;
+  }
+}

@@ -1,96 +1,110 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'FieldSet In Tabs',
   remark: '',
   body: {
     type: 'form',
-    collapsable: true,
-    tabs: [
+
+    body: [
       {
-        title: 'Tab A',
-        fieldSet: [
+        type: 'tabs',
+        collapsable: true,
+        tabs: [
           {
-            title: 'Group A',
-            tabs: [
+            title: 'Tab A',
+            body: [
               {
-                title: 'SubTab A',
-                controls: [
+                type: 'fieldset',
+                body: [
                   {
-                    name: 'a',
-                    type: 'text',
-                    label: 'Text'
+                    type: 'tabs',
+                    title: 'Group A',
+                    tabs: [
+                      {
+                        title: 'SubTab A',
+                        body: [
+                          {
+                            name: 'a',
+                            type: 'input-text',
+                            label: 'Text'
+                          },
+                          {
+                            name: 'a',
+                            type: 'input-text',
+                            label: 'Text'
+                          }
+                        ]
+                      },
+                      {
+                        title: 'SubTab B',
+                        body: [
+                          {
+                            name: 'a',
+                            type: 'input-text',
+                            label: 'Text'
+                          },
+                          {
+                            name: 'a',
+                            type: 'input-text',
+                            label: 'Text'
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
-                    name: 'a',
-                    type: 'text',
-                    label: 'Text'
-                  }
-                ]
-              },
-              {
-                title: 'SubTab B',
-                controls: [
-                  {
-                    name: 'a',
-                    type: 'text',
-                    label: 'Text'
-                  },
-                  {
-                    name: 'a',
-                    type: 'text',
-                    label: 'Text'
+                    type: 'tabs',
+                    title: 'Group B',
+                    body: [
+                      {
+                        name: 'a',
+                        type: 'input-text',
+                        label: 'Text'
+                      },
+                      {
+                        name: 'a',
+                        type: 'input-text',
+                        label: 'Text'
+                      }
+                    ]
                   }
                 ]
               }
             ]
           },
           {
-            title: 'Group B',
-            controls: [
+            title: 'Tab B',
+            body: [
               {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
+                type: 'fieldset',
+                title: 'Group A',
+                body: [
+                  {
+                    name: 'a',
+                    type: 'input-text',
+                    label: 'Text'
+                  },
+                  {
+                    name: 'a',
+                    type: 'input-text',
+                    label: 'Text'
+                  }
+                ]
               },
               {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: 'Tab B',
-        fieldSet: [
-          {
-            title: 'Group A',
-            controls: [
-              {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
-              },
-              {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
-              }
-            ]
-          },
-          {
-            title: 'Group B',
-            controls: [
-              {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
-              },
-              {
-                name: 'a',
-                type: 'text',
-                label: 'Text'
+                type: 'fieldset',
+                title: 'Group B',
+                body: [
+                  {
+                    name: 'a',
+                    type: 'input-text',
+                    label: 'Text'
+                  },
+                  {
+                    name: 'a',
+                    type: 'input-text',
+                    label: 'Text'
+                  }
+                ]
               }
             ]
           }

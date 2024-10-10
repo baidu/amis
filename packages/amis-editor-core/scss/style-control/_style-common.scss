@@ -1,0 +1,22 @@
+/**
+ * @file 样式控件通用属性
+ */
+
+.ae-selection-code {
+  width: 100%;
+
+  > span {
+    @include flexBox();
+    display: flex !important;
+  }
+
+  code {
+    display: inline-block;
+  }
+}
+
+.ae-Display {
+  &-group {
+    @include panel-group-bg();
+  }
+}

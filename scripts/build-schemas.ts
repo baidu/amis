@@ -25,14 +25,18 @@ import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/I
  * 程序主入口
  */
 async function main() {
-  const dir = path.join(__dirname, '../src');
-  const outDir = path.join(__dirname, '../');
-  const tsConfig = path.join(__dirname, '../tsconfig.json');
+  const dir = path.join(__dirname, '../packages/amis/src');
+  const outDir = path.join(__dirname, '../packages/amis/');
+  const tsConfig = path.join(
+    __dirname,
+    '../packages/amis/tsconfig-for-declaration.json'
+  );
 
   const config = {
     path: path.join(dir, 'Schema.ts'),
     tsconfig: tsConfig,
-    type: 'PageSchema'
+    type: 'RootSchema',
+    skipTypeCheck: true
   };
 
   const generator = tsj.createGenerator(config);
@@ -78,6 +82,8 @@ function fixSchema(schema: Schema) {
   });
 
   copyAnyOf(schema, list);
+
+  convertAnyOfItemToConditionalItem(schema, ['SchemaObject', 'ActionSchema']);
 
   schema.definitions!['UnkownSchema'] = {
     type: 'object',
@@ -189,7 +195,7 @@ function hackIt(generator: any) {
   replaceNodeParser(
     chainNodeParser.nodeParsers,
     IntersectionNodeParser,
-    new MyIntersectionNodeParser(typeChecker, chainNodeParser)
+    new MyIntersectionNodeParser(typeChecker as any, chainNodeParser) as any
   );
 }
 
@@ -217,6 +223,66 @@ function replaceNodeParser(
   }
 }
 
+function convertAnyOfItemToConditionalItem(schema: any, list: Array<string>) {
+  list.forEach(key => {
+    if (!Array.isArray(schema.definitions[key]?.anyOf)) {
+      return;
+    }
+
+    const list: Array<any> = schema.definitions[key].anyOf.concat();
+    const allOf: Array<any> = [];
+
+    while (list.length) {
+      const item: any = list.shift()!;
+      if (item.$ref) {
+        const src = schema.definitions[item.$ref.replace('#/definitions/', '')];
+
+        if (!src) {
+          console.log(`${item.$ref} not found`);
+          return;
+        }
+
+        if (Array.isArray(src.anyOf)) {
+          list.unshift.apply(list, src.anyOf);
+          continue;
+        }
+
+        allOf.push({
+          if: {
+            properties: pickConstProperties(src)
+          },
+          then: item
+        });
+      } else {
+        allOf.push({
+          if: {
+            properties: pickConstProperties(item)
+          },
+          then: item
+        });
+      }
+    }
+
+    schema.definitions[key] = {
+      allOf
+    };
+  });
+}
+
+function pickConstProperties(schema: any) {
+  const keys = Object.keys(schema.properties);
+  const filtedProperties: any = {};
+  keys.forEach((key: string) => {
+    if (
+      schema.properties[key]?.const ||
+      (schema.properties[key]?.enum && /type|mode/i.test(key))
+    ) {
+      filtedProperties[key] = schema.properties[key];
+    }
+  });
+  return filtedProperties;
+}
+
 main().catch(e => {
   if (e instanceof DiagnosticError) {
     console.log('Ts 错误\n');
@@ -239,6 +305,7 @@ main().catch(e => {
 
     const sourceFile = node.getSourceFile();
     const position = sourceFile.getLineAndCharacterOfPosition(node.pos);
+
     console.log(
       `\x1b[36m${sourceFile.fileName}:${position.line + 1}:${
         position.character + 1

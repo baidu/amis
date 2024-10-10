@@ -1,0 +1,47 @@
+.#{$ns}Property {
+  > table {
+    width: 100%;
+    border-collapse: collapse;
+
+    > thead > tr > th {
+      padding: var(--gap-sm);
+      background: var(--Property-title-bg);
+      border: 1px solid var(--borderColor);
+    }
+
+    > tbody > tr {
+      background: var(--background);
+
+      > td,
+      > th {
+        border: 1px solid var(--borderColor);
+        padding: var(--gap-sm);
+
+        .#{$ns}Form-item:last-child {
+          margin-bottom: 0;
+        }
+      }
+      > th {
+        background: var(--Property-label-bg);
+      }
+    }
+  }
+
+  &--simple {
+    > table {
+      > thead > tr > th {
+        background: transparent;
+        border: none;
+      }
+
+      > tbody > tr {
+        background: transparent;
+      }
+
+      > tbody > tr > td,
+      > tbody > tr > th {
+        border: none;
+      }
+    }
+  }
+}

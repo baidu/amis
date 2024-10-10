@@ -1,0 +1,116 @@
+@use 'sass:math';
+
+.#{$ns}Form-groupColumn {
+  margin-bottom: var(--gap-sm);
+}
+
+@include media-breakpoint-up(md) {
+  .#{$ns}Form-group {
+    margin-bottom: var(--Form-item-gap);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .#{$ns}Form-value > & {
+      margin-bottom: var(--Form-input-marginBottom);
+    }
+
+    &--hor {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: calc(var(--Form-group-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group-gutterWidth) / -2);
+      align-items: flex-start;
+
+      &.v-middle {
+        align-items: center;
+      }
+
+      &.v-bottom {
+        align-items: flex-end;
+      }
+
+      > * {
+        padding-left: calc(var(--Form-group-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group-gutterWidth) / 2);
+      }
+
+      > .#{$ns}Form-item--inline {
+        margin-right: 0;
+      }
+
+      > .#{$ns}Form-item,
+      > div > .#{$ns}Form-item {
+        margin-bottom: 0;
+      }
+
+      .#{$ns}Form-input > .#{$ns}Form-group {
+        margin-bottom: 0;
+      }
+    }
+
+    &--lg {
+      margin-left: calc(var(--Form-group--lg-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--lg-gutterWidth) / -2);
+
+      > * {
+        padding-left: calc(var(--Form-group--lg-gutterWidth) / 2);
+        padding-left: calc(var(--Form-group--lg-gutterWidth) / 2);
+      }
+    }
+
+    &--md {
+      margin-left: calc(var(--Form-group--md-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--md-gutterWidth) / -2);
+
+      > * {
+        padding-left: calc(var(--Form-group--md-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--md-gutterWidth) / 2);
+      }
+    }
+
+    &--sm {
+      margin-left: calc(var(--Form-group--sm-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--sm-gutterWidth) / -2);
+
+      > * {
+        padding-left: calc(var(--Form-group--sm-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--sm-gutterWidth) / 2);
+      }
+    }
+
+    &--xs {
+      margin-left: calc(var(--Form-group--xs-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--xs-gutterWidth) / -2);
+
+      > * {
+        padding-left: calc(var(--Form-group--xs-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--xs-gutterWidth) / 2);
+      }
+    }
+  }
+
+  .#{$ns}Form-groupColumn {
+    flex-basis: 0;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  @for $i from (1) through $Form--horizontal-columns {
+    .#{$ns}Form-groupColumn--#{$i} {
+      flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+      max-width: percentage(math.div($i, $Form--horizontal-columns));
+      min-height: 1px;
+    }
+  }
+
+  .#{$ns}Form-groupColumn--auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    min-height: 1px;
+  }
+}

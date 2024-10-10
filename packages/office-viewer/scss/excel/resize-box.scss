@@ -1,0 +1,19 @@
+/** 缩放的控制界面 */
+
+.ov-excel-resize-box {
+  position: absolute;
+  border: 1px solid #4af;
+  z-index: $scroll-bar-z-index;
+}
+
+.ov-excel-resize-box-control {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  background: #4af;
+  border: 2px solid #fff;
+  z-index: $resize-box-control-z-index;
+}

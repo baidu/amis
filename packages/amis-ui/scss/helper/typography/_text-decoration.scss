@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: Text Decoration
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| underline | text-decoration: underline |
+| line-through | text-decoration: line-through |
+| no-underline | text-decoration: none |
+
+
+*/
+@mixin make-text-decoration($prefix: '.') {
+  #{$prefix}underline {
+    text-decoration: underline;
+  }
+  #{$prefix}line-through {
+    text-decoration: line-through;
+  }
+  #{$prefix}no-underline {
+    text-decoration: none;
+  }
+}
+
+@include make-text-decoration();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-decoration('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

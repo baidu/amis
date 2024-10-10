@@ -1,0 +1,38 @@
+/*!markdown
+
+---
+title: Grid Auto Flow
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| grid-flow-row | grid-auto-flow: row |
+| grid-flow-col | grid-auto-flow: column |
+| grid-flow-row-dense | grid-auto-flow: row dense |
+| grid-flow-col-dense | grid-auto-flow: column dense |
+
+
+*/
+@mixin make-grid-auto-flow($prefix: '.') {
+  #{$prefix}grid-flow-row {
+    grid-auto-flow: row;
+  }
+
+  #{$prefix}grid-flow-col {
+    grid-auto-flow: column;
+  }
+
+  #{$prefix}grid-flow-row-dense {
+    grid-auto-flow: row dense;
+  }
+  #{$prefix}grid-flow-col-dense {
+    grid-auto-flow: column dense;
+  }
+}
+
+@include make-grid-auto-flow();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-grid-auto-flow('.' + selector-escape($deivce + ':'));
+  }
+}
