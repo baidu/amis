@@ -17,7 +17,6 @@ import {
 import path from 'path';
 import fs from 'fs';
 import svgr from '@svgr/rollup';
-import fs from 'fs';
 import i18nPlugin from 'plugin-react-i18n';
 
 const i18nConfig = require('./i18nConfig');
