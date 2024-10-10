@@ -255,7 +255,11 @@ export default class Panel extends React.Component<PanelProps> {
     ) : null;
 
     return (
-      <div className={cx(`Panel`, className || `Panel--default`)} style={style}>
+      <div
+        id={id}
+        className={cx(`Panel`, className || `Panel--default`)}
+        style={style}
+      >
         {header ? (
           <div
             className={cx(
