@@ -286,9 +286,8 @@
       border-color: #222;
       border-style: solid;
       border-radius: 30px;
-      width: 375px;
-      height: 96%;
-      max-height: 812px;
+      width: 100%;
+      height: 100%;
       flex-grow: unset;
       min-height: unset;
       min-width: unset;
@@ -1971,6 +1970,8 @@ div[class*='Form-group']:empty {
       transform: translate(-50%, -50%);
       top: 53%;
       left: 50%;
+      width: 395px;
+      height: 687px;
     }
   }
 }
