@@ -150,7 +150,7 @@ export default function MobileDevTool(props: {
       initialSize.current;
     const scale = Math.min(
       (width - 50) / previewBodyWidth,
-      (height - 50) / previewBodyHeight
+      (height * 0.9) / previewBodyHeight
     );
     setAutoScale(Math.floor(scale * 100));
   }
