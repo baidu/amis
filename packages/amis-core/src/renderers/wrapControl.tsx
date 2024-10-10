@@ -176,7 +176,9 @@ export function wrapControl<
             this.validate = this.validate.bind(this);
             this.flushChange = this.flushChange.bind(this);
             this.renderChild = this.renderChild.bind(this);
-            let name = this.props.$schema.name;
+            let name =
+              this.props.$schema.name ||
+              (ComposedComponent.defaultProps as Record<string, unknown>)?.name;
 
             // 如果 name 是表达式
             // 扩充 each 用法
