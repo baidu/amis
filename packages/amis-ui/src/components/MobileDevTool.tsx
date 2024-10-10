@@ -150,7 +150,7 @@ export default function MobileDevTool(props: {
       initialSize.current;
     const scale = Math.min(
       (width - 50) / previewBodyWidth,
-      (height - 50) / previewBodyHeight
+      (height * 0.9) / previewBodyHeight
     );
     setAutoScale(Math.floor(scale * 100));
   }
@@ -228,7 +228,7 @@ export default function MobileDevTool(props: {
   function updatePreviewScale(scale: number) {
     if (previewBody) {
       previewBody.style.transform =
-        'translate(-50%, -50%) scale(' + scale / 100 + ')';
+        'translateX(-50%) scale(' + scale / 100 + ')';
     }
   }
 
@@ -347,7 +347,7 @@ function CustomSizeHandle(props: {
     if (previewBody) {
       let w = previewBody.clientWidth;
       w += e.movementX;
-      w = Math.max(20, w);
+      w = Math.max(70, w);
       previewBody.style.width = w + 'px';
       onChange?.(w, previewBody.clientHeight);
     }
@@ -372,7 +372,7 @@ function CustomSizeHandle(props: {
     if (previewBody) {
       let h = previewBody.clientHeight;
       h += e.movementY;
-      h = Math.max(20, h);
+      h = Math.max(70, h);
       previewBody.style.height = h + 'px';
       onChange?.(previewBody.clientWidth, h);
     }
