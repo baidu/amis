@@ -2,8 +2,14 @@ import React, {useEffect} from 'react';
 import {Icon} from './icons';
 import {Select} from 'amis-ui';
 import debounce from 'lodash/debounce';
+import {Portal} from 'react-overlays';
 
 export const dimensions = [
+  {
+    name: 'custom',
+    width: 375,
+    height: 667
+  },
   {
     name: 'iPhone SE',
     width: 375,
@@ -94,12 +100,10 @@ export const dimensions = [
 const scaleList = [50, 75, 100, 125, 150, 200];
 
 export default function MobileDevTool(props: {
-  onChange: (dimension: {width: number; height: number}) => void;
-  onScaleChange: (scale: number) => void;
   container: HTMLElement | null;
   previewBody: HTMLElement | null;
 }) {
-  const [dimension, setDimension] = React.useState(dimensions[0]);
+  const [dimension, setDimension] = React.useState(dimensions[1]);
   const [scale, setScale] = React.useState(100);
   const [autoScale, setAutoScale] = React.useState(100);
   // 记录初始时100%的尺寸
@@ -108,16 +112,16 @@ export default function MobileDevTool(props: {
     height: 0
   });
 
-  const {onChange, onScaleChange, container, previewBody} = props;
+  const {container, previewBody} = props;
 
   const resizeObserver = new ResizeObserver(debounce(updateAutoScale, 300));
 
   useEffect(() => {
-    onChange?.({
+    updatePreviewSize({
       width: dimension.width,
       height: dimension.height
     });
-    onScaleChange?.(100);
+    updatePreviewScale(100);
     // 初始化时获取预览区域的尺寸
     getPreviewInitialSize();
 
@@ -127,6 +131,11 @@ export default function MobileDevTool(props: {
     return () => {
       if (container) {
         resizeObserver.unobserve(container);
+      }
+      if (previewBody) {
+        previewBody.style.width = '';
+        previewBody.style.height = '';
+        previewBody.style.transform = '';
       }
     };
   }, [container, previewBody]);
@@ -161,22 +170,66 @@ export default function MobileDevTool(props: {
     }, 500);
   }
 
-  function rotateScreen() {
+  function handleRotateScreen() {
     setDimension({
       name: dimension.name,
       width: dimension.height,
       height: dimension.width
     });
-    onChange?.({
+    updatePreviewSize({
       width: dimension.height,
       height: dimension.width
     });
-    getPreviewInitialSize();
+    initialSize.current = {
+      width: initialSize.current.height,
+      height: initialSize.current.width
+    };
+    updateAutoScale();
   }
 
   function handleAutoScale() {
     setScale(autoScale);
-    onScaleChange?.(autoScale);
+    updatePreviewScale(autoScale);
+  }
+
+  function handleDimensionChange(item: any) {
+    if (item) {
+      const value = dimensions.find(n => n.name === item.value)!;
+      setDimension(value);
+      updatePreviewSize(value);
+      setScale(100);
+      updatePreviewScale(100);
+      getPreviewInitialSize();
+    }
+  }
+
+  function handleCustomInputDimensionChange(
+    value: string,
+    type: 'width' | 'height'
+  ) {
+    const number = parseInt(value || '0', 10);
+    const newDimension = {
+      name: 'custom',
+      width: type === 'width' ? number : dimension.width,
+      height: type === 'height' ? number : dimension.height
+    };
+    setDimension(newDimension);
+    updatePreviewSize(newDimension);
+  }
+
+  function updatePreviewSize(dimension: {width: number; height: number}) {
+    if (previewBody) {
+      // 预览区域宽高加上20px的padding
+      previewBody.style.width = dimension.width + 20 + 'px';
+      previewBody.style.height = dimension.height + 20 + 'px';
+    }
+  }
+
+  function updatePreviewScale(scale: number) {
+    if (previewBody) {
+      previewBody.style.transform =
+        'translate(-50%, -50%) scale(' + scale / 100 + ')';
+    }
   }
 
   return (
@@ -186,30 +239,42 @@ export default function MobileDevTool(props: {
         <Select
           className="ae-MobileDevTool-select"
           value={dimension.name}
-          onChange={(item: any) => {
-            if (item) {
-              const value = dimensions.find(n => n.name === item.value)!;
-              setDimension(value);
-              onChange?.({
-                width: value.width,
-                height: value.height
-              });
-              setScale(100);
-              onScaleChange?.(100);
-              getPreviewInitialSize();
-            }
-          }}
+          onChange={handleDimensionChange}
           options={dimensions.map(n => ({
-            label: n.name,
+            label: n.name === 'custom' ? '自定义' : n.name,
             value: n.name
           }))}
           clearable={false}
         />
       </div>
       <div className="ae-MobileDevTool-dimension">
-        <span>{dimension.width}</span>
+        {dimension.name === 'custom' ? (
+          <input
+            className="ae-MobileDevTool-dimension-input"
+            value={dimension.width}
+            onChange={event => {
+              const value = event.currentTarget.value;
+
+              handleCustomInputDimensionChange(value, 'width');
+            }}
+          />
+        ) : (
+          <span>{dimension.width}</span>
+        )}
         <span>×</span>
-        <span>{dimension.height}</span>
+        {dimension.name === 'custom' ? (
+          <input
+            className="ae-MobileDevTool-dimension-input"
+            value={dimension.height}
+            onChange={event => {
+              const value = event.currentTarget.value;
+
+              handleCustomInputDimensionChange(value, 'height');
+            }}
+          />
+        ) : (
+          <span>{dimension.height}</span>
+        )}
       </div>
       <div className="ae-MobileDevTool-right">
         <div className="ae-MobileDevTool-right-scale">
@@ -225,7 +290,7 @@ export default function MobileDevTool(props: {
             ]}
             onChange={(item: any) => {
               setScale(item.value);
-              onScaleChange?.(item.value);
+              updatePreviewScale(item.value);
             }}
           />
           {!scaleList.includes(scale) && (
@@ -240,13 +305,97 @@ export default function MobileDevTool(props: {
             自适应
           </div>
         </div>
-        <div onClick={rotateScreen}>
+        <div onClick={handleRotateScreen}>
           <Icon
             icon="rotate-screen"
             className="ae-MobileDevTool-right-rotate-screen"
           />
         </div>
       </div>
+      {dimension.name === 'custom' && (
+        <CustomSizeHandle
+          previewBody={previewBody}
+          onChange={(w, h) => {
+            setDimension({
+              name: 'custom',
+              width: w - 20,
+              height: h - 20
+            });
+          }}
+        />
+      )}
     </div>
+  );
+}
+
+function CustomSizeHandle(props: {
+  previewBody: HTMLElement | null;
+  onChange?: (w: number, h: number) => void;
+}) {
+  const {previewBody, onChange} = props;
+
+  function handleRightDown(e: any) {
+    e.stopPropagation();
+    e.preventDefault();
+    document.body.classList.add('width-move');
+    document.addEventListener('mousemove', handleRightDragMove);
+    document.addEventListener('mouseup', handleRightDragEnd);
+  }
+
+  function handleRightDragMove(e: any) {
+    e.stopPropagation();
+    if (previewBody) {
+      let w = previewBody.clientWidth;
+      w += e.movementX;
+      w = Math.max(20, w);
+      previewBody.style.width = w + 'px';
+      onChange?.(w, previewBody.clientHeight);
+    }
+  }
+
+  function handleRightDragEnd() {
+    document.body.classList.remove('width-move');
+    document.removeEventListener('mousemove', handleRightDragMove);
+    document.removeEventListener('mouseup', handleRightDragEnd);
+  }
+
+  function handleBottomDown(e: any) {
+    e.stopPropagation();
+    e.preventDefault();
+    document.body.classList.add('height-move');
+    document.addEventListener('mousemove', handleBottomDragMove);
+    document.addEventListener('mouseup', handleBottomDragEnd);
+  }
+
+  function handleBottomDragMove(e: any) {
+    e.stopPropagation();
+    if (previewBody) {
+      let h = previewBody.clientHeight;
+      h += e.movementY;
+      h = Math.max(20, h);
+      previewBody.style.height = h + 'px';
+      onChange?.(previewBody.clientWidth, h);
+    }
+  }
+
+  function handleBottomDragEnd() {
+    document.body.classList.remove('height-move');
+    document.removeEventListener('mousemove', handleBottomDragMove);
+    document.removeEventListener('mouseup', handleBottomDragEnd);
+  }
+
+  return (
+    <Portal container={() => previewBody}>
+      <>
+        <div
+          className="ae-MobileDevTool-rightHandle"
+          onMouseDown={handleRightDown}
+        ></div>
+        <div
+          className="ae-MobileDevTool-bottomHandle"
+          onMouseDown={handleBottomDown}
+        ></div>
+      </>
+    </Portal>
   );
 }

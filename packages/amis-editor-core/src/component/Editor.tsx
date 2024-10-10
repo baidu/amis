@@ -641,12 +641,6 @@ export default class Editor extends Component<
             )}
             {isMobile && (
               <MobileDevTool
-                onChange={value => {
-                  this.setState({mobileDimensions: value});
-                }}
-                onScaleChange={scale => {
-                  this.setState({mobileScale: scale});
-                }}
                 container={this.mainPreviewRef.current}
                 previewBody={this.mainPreviewBodyRef.current?.currentDom}
               />
@@ -664,8 +658,6 @@ export default class Editor extends Component<
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
               readonly={readonly}
-              mobileDimensions={mobileDimensions}
-              mobileScale={mobileScale}
               ref={this.mainPreviewBodyRef}
             ></Preview>
           </div>
