@@ -19,7 +19,7 @@ import {RightPanels} from './Panel/RightPanels';
 import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
 import type {EditorNodeType} from '../store/node';
-import MobileDevTool, {dimensions} from './MobileDevTool';
+import {MobileDevTool} from 'amis-ui';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -230,7 +230,10 @@ export default class Editor extends Component<
     );
 
     this.state = {
-      mobileDimensions: dimensions[0],
+      mobileDimensions: {
+        width: 375,
+        height: 667
+      },
       mobileScale: 100
     };
   }

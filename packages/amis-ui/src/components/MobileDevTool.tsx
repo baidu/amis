@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {Icon} from '../icons';
+import {Icon} from './icons';
 import {Select} from 'amis-ui';
-import {debounce} from 'lodash';
+import debounce from 'lodash/debounce';
 
 export const dimensions = [
   {
