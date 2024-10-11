@@ -103,16 +103,17 @@ export default function MobileDevTool(props: {
   container: HTMLElement | null;
   previewBody: HTMLElement | null;
 }) {
-  const initDimension =
-    JSON.parse(
-      localStorage.getItem('amis-mobile-dev-tool-dimension') || 'null'
-    ) || dimensions[1];
-  const initScale =
-    parseInt(localStorage.getItem('amis-mobile-dev-tool-scale') || '0', 10) ||
-    100;
-
-  const [dimension, setDimension] = React.useState(initDimension);
-  const [scale, setScale] = React.useState(initScale);
+  const [dimension, setDimension] = React.useState(
+    () =>
+      JSON.parse(
+        localStorage.getItem('amis-mobile-dev-tool-dimension') || 'null'
+      ) || dimensions[1]
+  );
+  const [scale, setScale] = React.useState(
+    () =>
+      parseInt(localStorage.getItem('amis-mobile-dev-tool-scale') || '0', 10) ||
+      100
+  );
   const [autoScale, setAutoScale] = React.useState(100);
 
   const {container, previewBody} = props;
