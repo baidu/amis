@@ -2714,6 +2714,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
+            id,
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
             onEvent: this.filterOnEvent(onEvent),
