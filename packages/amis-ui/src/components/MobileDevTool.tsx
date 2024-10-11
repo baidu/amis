@@ -189,6 +189,7 @@ export default function MobileDevTool(props: {
     };
     setDimension(newDimension);
     updatePreviewSize(newDimension);
+    updateAutoScale();
   }
 
   function updatePreviewSize(dimension: {width: number; height: number}) {
