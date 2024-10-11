@@ -106,11 +106,6 @@ export default function MobileDevTool(props: {
   const [dimension, setDimension] = React.useState(dimensions[1]);
   const [scale, setScale] = React.useState(100);
   const [autoScale, setAutoScale] = React.useState(100);
-  // 记录初始时100%的尺寸
-  const initialSize = React.useRef({
-    width: 0,
-    height: 0
-  });
 
   const {container, previewBody} = props;
 
@@ -122,8 +117,6 @@ export default function MobileDevTool(props: {
       height: dimension.height
     });
     updatePreviewScale(100);
-    // 初始化时获取预览区域的尺寸
-    getPreviewInitialSize();
 
     if (container) {
       resizeObserver.observe(container);
@@ -146,28 +139,13 @@ export default function MobileDevTool(props: {
     }
     const containerRect = container.getBoundingClientRect();
     const {width, height} = containerRect;
-    const {width: previewBodyWidth, height: previewBodyHeight} =
-      initialSize.current;
+    const previewBodyWidth = previewBody?.clientWidth || 375;
+    const previewBodyHeight = previewBody?.clientHeight || 667;
     const scale = Math.min(
       (width - 50) / previewBodyWidth,
       (height * 0.9) / previewBodyHeight
     );
     setAutoScale(Math.floor(scale * 100));
-  }
-
-  function getPreviewInitialSize() {
-    // 延迟一会，等待previewBody 100%比例渲染完成后才能获取到正确的尺寸
-    setTimeout(() => {
-      if (previewBody) {
-        const previewBodyRect = previewBody.getBoundingClientRect();
-        const {width, height} = previewBodyRect;
-        initialSize.current = {
-          width,
-          height
-        };
-      }
-      updateAutoScale();
-    }, 500);
   }
 
   function handleRotateScreen() {
@@ -180,10 +158,6 @@ export default function MobileDevTool(props: {
       width: dimension.height,
       height: dimension.width
     });
-    initialSize.current = {
-      width: initialSize.current.height,
-      height: initialSize.current.width
-    };
     updateAutoScale();
   }
 
@@ -199,7 +173,7 @@ export default function MobileDevTool(props: {
       updatePreviewSize(value);
       setScale(100);
       updatePreviewScale(100);
-      getPreviewInitialSize();
+      updateAutoScale();
     }
   }
 
@@ -215,6 +189,7 @@ export default function MobileDevTool(props: {
     };
     setDimension(newDimension);
     updatePreviewSize(newDimension);
+    updateAutoScale();
   }
 
   function updatePreviewSize(dimension: {width: number; height: number}) {
@@ -322,6 +297,8 @@ export default function MobileDevTool(props: {
               height: h - 20
             });
           }}
+          onEnd={updateAutoScale}
+          scale={scale}
         />
       )}
     </div>
@@ -330,9 +307,11 @@ export default function MobileDevTool(props: {
 
 function CustomSizeHandle(props: {
   previewBody: HTMLElement | null;
-  onChange?: (w: number, h: number) => void;
+  scale: number;
+  onChange: (w: number, h: number) => void;
+  onEnd: () => void;
 }) {
-  const {previewBody, onChange} = props;
+  const {previewBody, scale = 1, onChange, onEnd} = props;
 
   function handleRightDown(e: any) {
     e.stopPropagation();
@@ -357,6 +336,7 @@ function CustomSizeHandle(props: {
     document.body.classList.remove('width-move');
     document.removeEventListener('mousemove', handleRightDragMove);
     document.removeEventListener('mouseup', handleRightDragEnd);
+    onEnd();
   }
 
   function handleBottomDown(e: any) {
@@ -374,7 +354,7 @@ function CustomSizeHandle(props: {
       h += e.movementY;
       h = Math.max(70, h);
       previewBody.style.height = h + 'px';
-      onChange?.(previewBody.clientWidth, h);
+      onChange(previewBody.clientWidth, h);
     }
   }
 
@@ -382,6 +362,7 @@ function CustomSizeHandle(props: {
     document.body.classList.remove('height-move');
     document.removeEventListener('mousemove', handleBottomDragMove);
     document.removeEventListener('mouseup', handleBottomDragEnd);
+    onEnd();
   }
 
   return (
@@ -390,10 +371,12 @@ function CustomSizeHandle(props: {
         <div
           className="ae-MobileDevTool-rightHandle"
           onMouseDown={handleRightDown}
+          style={{transform: `scale(${1 / (scale / 100)})`}}
         ></div>
         <div
           className="ae-MobileDevTool-bottomHandle"
           onMouseDown={handleBottomDown}
+          style={{transform: `scale(${1 / (scale / 100)})`}}
         ></div>
       </>
     </Portal>
