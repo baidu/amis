@@ -391,6 +391,7 @@ register('en-US', {
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
   'pullRefresh.successText': 'Loading success',
+  'pullRefresh.completedText': 'No More Data',
   'Picker.placeholder': 'Click icon on the right',
   'UserSelect.edit': 'edit',
   'UserSelect.save': 'preservation',

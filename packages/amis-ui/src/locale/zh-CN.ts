@@ -384,6 +384,7 @@ register('zh-CN', {
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
   'pullRefresh.successText': '加载成功',
+  'pullRefresh.completedText': '没有更多了',
   'Picker.placeholder': '请点击右侧的图标',
   'UserSelect.edit': '编辑',
   'UserSelect.save': '保存',
