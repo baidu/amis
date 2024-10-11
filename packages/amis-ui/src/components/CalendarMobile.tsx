@@ -533,14 +533,12 @@ export class CalendarMobile extends React.Component<
     ) {
       return this.setState(
         {
-          endDate: newValue
-            .clone()
-            .endOf(precision)
-            .set({
-              hour: dateTime[0],
-              minute: dateTime[1],
-              second: dateTime[2] || 0
-            })
+          endDate: newValue.clone().endOf(precision)
+          // .set({
+          //   hour: dateTime[0],
+          //   minute: dateTime[1],
+          //   second: dateTime[2] || 0
+          // })
         },
         () => {
           onChange &&
