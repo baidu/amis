@@ -103,8 +103,16 @@ export default function MobileDevTool(props: {
   container: HTMLElement | null;
   previewBody: HTMLElement | null;
 }) {
-  const [dimension, setDimension] = React.useState(dimensions[1]);
-  const [scale, setScale] = React.useState(100);
+  const initDimension =
+    JSON.parse(
+      localStorage.getItem('amis-mobile-dev-tool-dimension') || 'null'
+    ) || dimensions[1];
+  const initScale =
+    parseInt(localStorage.getItem('amis-mobile-dev-tool-scale') || '0', 10) ||
+    100;
+
+  const [dimension, setDimension] = React.useState(initDimension);
+  const [scale, setScale] = React.useState(initScale);
   const [autoScale, setAutoScale] = React.useState(100);
 
   const {container, previewBody} = props;
@@ -116,7 +124,7 @@ export default function MobileDevTool(props: {
       width: dimension.width,
       height: dimension.height
     });
-    updatePreviewScale(100);
+    updatePreviewScale(scale);
 
     if (container) {
       resizeObserver.observe(container);
@@ -132,6 +140,23 @@ export default function MobileDevTool(props: {
       }
     };
   }, [container, previewBody]);
+
+  function updateDimension(dimension: {
+    width: number;
+    height: number;
+    name: string;
+  }) {
+    setDimension(dimension);
+    localStorage.setItem(
+      'amis-mobile-dev-tool-dimension',
+      JSON.stringify(dimension)
+    );
+  }
+
+  function updateScale(scale: number) {
+    setScale(scale);
+    localStorage.setItem('amis-mobile-dev-tool-scale', scale + '');
+  }
 
   function updateAutoScale() {
     if (!container) {
@@ -149,7 +174,7 @@ export default function MobileDevTool(props: {
   }
 
   function handleRotateScreen() {
-    setDimension({
+    updateDimension({
       name: dimension.name,
       width: dimension.height,
       height: dimension.width
@@ -162,16 +187,16 @@ export default function MobileDevTool(props: {
   }
 
   function handleAutoScale() {
-    setScale(autoScale);
+    updateScale(autoScale);
     updatePreviewScale(autoScale);
   }
 
   function handleDimensionChange(item: any) {
     if (item) {
       const value = dimensions.find(n => n.name === item.value)!;
-      setDimension(value);
+      updateDimension(value);
       updatePreviewSize(value);
-      setScale(100);
+      updateScale(100);
       updatePreviewScale(100);
       updateAutoScale();
     }
@@ -187,7 +212,7 @@ export default function MobileDevTool(props: {
       width: type === 'width' ? number : dimension.width,
       height: type === 'height' ? number : dimension.height
     };
-    setDimension(newDimension);
+    updateDimension(newDimension);
     updatePreviewSize(newDimension);
     updateAutoScale();
   }
@@ -264,7 +289,7 @@ export default function MobileDevTool(props: {
               }))
             ]}
             onChange={(item: any) => {
-              setScale(item.value);
+              updateScale(item.value);
               updatePreviewScale(item.value);
             }}
           />
@@ -291,7 +316,7 @@ export default function MobileDevTool(props: {
         <CustomSizeHandle
           previewBody={previewBody}
           onChange={(w, h) => {
-            setDimension({
+            updateDimension({
               name: 'custom',
               width: w - 20,
               height: h - 20
