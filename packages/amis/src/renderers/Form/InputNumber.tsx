@@ -508,6 +508,14 @@ export default class NumberControl extends React.Component<
                 value = numberFormatter(value, finalPrecision);
               }
             }
+            if (
+              suffix &&
+              userTyping &&
+              this.input?.selectionStart === input.length
+            ) {
+              return `${prefix || ''}${value}`;
+            }
+
             return `${prefix || ''}${value}${suffix || ''}`;
           }
         : undefined;
