@@ -118,6 +118,19 @@
     min-width: 0;
     text-overflow: ellipsis;
     overflow: hidden;
+    @media (max-width: 767px) {
+      .#{$ns}Form-item {
+        padding-top: 0;
+        padding-bottom: 0;
+        &:after {
+          display: none;
+        }
+        .#{$ns}Form-static {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
   }
 
   &-fieldLabel {
