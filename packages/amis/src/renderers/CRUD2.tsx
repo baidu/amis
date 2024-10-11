@@ -34,7 +34,7 @@ import {
   JSONTraverse
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
-import {Html, SpinnerExtraProps} from 'amis-ui';
+import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -50,6 +50,7 @@ import {SchemaCollection} from '../Schema';
 
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
+import isPlainObject from 'lodash/isPlainObject';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
@@ -678,7 +679,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             silent,
             pageField,
             perPageField,
-            loadDataMode: false,
+            loadDataMode,
             syncResponse2Query,
             columns: store.columns ?? columns,
             isTable2: true
@@ -1159,6 +1160,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
+  async handlePullRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.handleLoadMore();
+  }
+
+  @autobind
   renderChild(region: string, schema: any, props: object = {}) {
     const {render, store, primaryField = 'id'} = this.props;
     let data;
@@ -1323,6 +1334,41 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     );
   }
 
+  transformTable2cards() {
+    const {store, columns, card} = this.props;
+    const body: any[] = [];
+    const actions: any[] = [];
+
+    ((store.columns ?? columns) || []).forEach((item: any) => {
+      if (!isPlainObject(item)) {
+        return;
+      } else if (item.type === 'operation') {
+        actions.push(...(item?.buttons || []));
+      } else if (item.type === 'button' && item.name === 'operation') {
+        actions.push(item);
+      } else {
+        if (!item.label && item.title) {
+          item.label = item.title;
+        }
+        body.push(item);
+      }
+    });
+
+    if (!body.length) {
+      return null;
+    }
+
+    return {
+      columnsCount: 1,
+      type: 'cards',
+      card: {
+        ...card,
+        body,
+        actions
+      }
+    };
+  }
+
   render() {
     const {
       columns,
@@ -1364,8 +1410,89 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       footerToolbarClassName,
       id,
       testIdBuilder,
+      mobileMode,
+      mobileUI,
+      pullRefresh: _pullRefresh,
       ...rest
     } = this.props;
+
+    let pullRefresh: any;
+
+    let mobileModeProps: any = {};
+    if (mobileMode && mobileUI && mode.includes('table')) {
+      if (typeof mobileMode === 'string' && mobileMode === 'cards') {
+        const cardsSchema = this.transformTable2cards();
+        if (cardsSchema) {
+          mobileModeProps = cardsSchema;
+        }
+      } else if (typeof mobileMode === 'object') {
+        mobileModeProps = {...mobileMode};
+      }
+      // 移动端模式，默认开启上拉刷新
+      if (mobileModeProps && !_pullRefresh?.disabled) {
+        pullRefresh = {
+          ..._pullRefresh,
+          disabled: false
+        };
+      }
+    } else {
+      pullRefresh = _pullRefresh;
+    }
+
+    const body = render(
+      'body',
+      {
+        ...rest,
+        // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+        // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+        onEvent: omitBy(
+          onEvent,
+          (event, key: any) => !INNER_EVENTS.includes(key)
+        ),
+        type: mode,
+        columns: mode.startsWith('table')
+          ? store.columns || columns
+          : undefined,
+        id,
+        ...mobileModeProps
+      },
+      {
+        key: 'body',
+        className: cx('Crud2-body', bodyClassName),
+        ref: this.controlRef,
+        autoGenerateFilter: !filterSchema && autoGenerateFilter,
+        autoFillHeight: autoFillHeight,
+        checkAll: false, // 不使用组件的全选，因为不在工具栏里
+        selectable: !!(selectable ?? pickerMode),
+        itemActions,
+        multiple: multiple,
+        // columnsTogglable在CRUD2中渲染 但需要给table2传columnsTogglable为false 否则列数超过5 table2会自动渲染
+        columnsTogglable: false,
+        selected:
+          pickerMode || keepItemSelectionOnPageChange
+            ? store.selectedItemsAsArray
+            : undefined,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        // valueField: valueField || primaryField,
+        primaryField: primaryField,
+        testIdBuilder,
+        items: store.data.items,
+        query: store.query,
+        orderBy: store.query.orderBy,
+        orderDir: store.query.orderDir,
+        popOverContainer,
+        onSave: this.handleSave.bind(this),
+        onSaveOrder: this.handleSaveOrder,
+        onSearch: this.handleQuerySearch,
+        onSort: this.handleQuerySearch,
+        onSelect: this.handleSelect,
+        onAction: this.handleAction,
+        data: store.mergedData,
+        loading: store.loading,
+        host: this
+      }
+    );
 
     return (
       <div
@@ -1391,65 +1518,30 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           ? this.renderSelection()
           : null}
 
-        {render(
-          'body',
-          {
-            ...rest,
-            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
-            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: omitBy(
-              onEvent,
-              (event, key: any) => !INNER_EVENTS.includes(key)
-            ),
-            type: mode,
-            columns: mode.startsWith('table')
-              ? store.columns || columns
-              : undefined,
-            id
-          },
-          {
-            key: 'body',
-            className: cx('Crud2-body', bodyClassName),
-            ref: this.controlRef,
-            autoGenerateFilter: !filterSchema && autoGenerateFilter,
-            autoFillHeight: autoFillHeight,
-            checkAll: false, // 不使用组件的全选，因为不在工具栏里
-            selectable: !!(selectable ?? pickerMode),
-            itemActions,
-            multiple: multiple,
-            // columnsTogglable在CRUD2中渲染 但需要给table2传columnsTogglable为false 否则列数超过5 table2会自动渲染
-            columnsTogglable: false,
-            selected:
-              pickerMode || keepItemSelectionOnPageChange
-                ? store.selectedItemsAsArray
-                : undefined,
-            keepItemSelectionOnPageChange,
-            maxKeepItemSelectionLength,
-            // valueField: valueField || primaryField,
-            primaryField: primaryField,
-            testIdBuilder,
-            items: store.data.items,
-            query: store.query,
-            orderBy: store.query.orderBy,
-            orderDir: store.query.orderDir,
-            popOverContainer,
-            onSave: this.handleSave.bind(this),
-            onSaveOrder: this.handleSaveOrder,
-            onSearch: this.handleQuerySearch,
-            onSort: this.handleQuerySearch,
-            onSelect: this.handleSelect,
-            onAction: this.handleAction,
-            data: store.mergedData,
-            loading: store.loading,
-            host: this
-          }
+        {mobileUI && pullRefresh && !pullRefresh.disabled ? (
+          <PullRefresh
+            {...pullRefresh}
+            translate={__}
+            onRefresh={this.handlePullRefresh}
+            direction="down"
+            completed={
+              !store.loading &&
+              store.lastPage > 0 &&
+              store.page >= store.lastPage
+            }
+          >
+            {body}
+          </PullRefresh>
+        ) : (
+          <>
+            {body}
+            <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
+              {this.renderToolbar('footerToolbar', footerToolbar)}
+            </div>
+          </>
         )}
         {/* spinner可以交给孩子处理 */}
         {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
-
-        <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
-          {this.renderToolbar('footerToolbar', footerToolbar)}
-        </div>
       </div>
     );
   }
