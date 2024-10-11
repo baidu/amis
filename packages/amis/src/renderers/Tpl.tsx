@@ -73,6 +73,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
 
   dom: any;
   mounted: boolean;
+  sn: number = 0;
 
   constructor(props: TplProps) {
     super(props);
@@ -102,7 +103,13 @@ export class Tpl extends React.Component<TplProps, TplState> {
 
   @autobind
   async updateContent() {
+    let sn = ++this.sn;
     const content = await this.getAsyncContent();
+
+    // 解决异步时序问题，防止较早的运算覆盖较晚的运算结果
+    if (sn !== this.sn) {
+      return;
+    }
     this.mounted && this.setState({content});
   }
 
