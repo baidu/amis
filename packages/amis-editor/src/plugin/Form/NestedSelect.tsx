@@ -11,6 +11,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NestedSelectControlPlugin extends BasePlugin {
   static id = 'NestedSelectControlPlugin';
@@ -342,23 +343,36 @@ export class NestedSelectControlPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer}),
-          {
-            title: '边框',
-            key: 'borderMode',
-            body: [getSchemaTpl('borderMode')]
-          },
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              })
-            ]
-          })
-        ])
+        body: [
+          getSchemaTpl('collapseGroup', [
+            getSchemaTpl('theme:formItem'),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '选择框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.nestedSelectControlClassName',
+                  '--nested-select'
+                )
+              ]
+            },
+            {
+              title: '下拉框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.nestedSelectPopoverClassName',
+                  '--nested-select',
+                  {
+                    state: ['default', 'hover', 'focused']
+                  }
+                )
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
+            getSchemaTpl('style:classNames')
+          ])
+        ]
       },
       {
         title: '事件',
