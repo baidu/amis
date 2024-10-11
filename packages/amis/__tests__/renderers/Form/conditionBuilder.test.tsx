@@ -479,7 +479,7 @@ test('Renderer:condition-builder with custom field', async () => {
   fireEvent.click(await findByText('请选择操作'));
   fireEvent.click(await findByText('等于（自定义）'));
 
-  await wait(400);
+  await wait(1000);
   const colorInputs = container.querySelectorAll(
     '.cxd-CBValue .cxd-ColorPicker-input'
   )!;

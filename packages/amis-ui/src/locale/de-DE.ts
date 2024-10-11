@@ -409,6 +409,7 @@ register('de-DE', {
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
   'pullRefresh.successText': 'Laden erfolgreich',
+  'pullRefresh.completedText': 'Keine weiteren Daten',
   'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
   'UserSelect.edit': 'bearbeiten',
   'UserSelect.save': 'Konservierung',
