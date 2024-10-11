@@ -30,7 +30,9 @@ import {
   renderTextByKeyword,
   getVariable,
   TestIdBuilder,
-  labelToString
+  labelToString,
+  setThemeClassName,
+  CustomStyle
 } from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import xor from 'lodash/xor';
@@ -903,7 +905,9 @@ export default class NestedSelectControl extends React.Component<
       translate: __,
       classnames: cx,
       options,
-      render
+      render,
+      id,
+      themeCss
     } = this.props;
     const isSearch = !!this.state.inputValue;
     let noResultsText: any = this.props.noResultsText;
@@ -939,7 +943,19 @@ export default class NestedSelectControl extends React.Component<
         placement={'auto'}
         show
       >
-        <PopOver className={cx('NestedSelect-popover')}>{body}</PopOver>
+        <PopOver
+          className={cx(
+            'NestedSelect-popover',
+            setThemeClassName({
+              ...this.props,
+              name: 'nestedSelectPopoverClassName',
+              id,
+              themeCss: themeCss
+            })
+          )}
+        >
+          {body}
+        </PopOver>
       </Overlay>
     );
   }
@@ -969,10 +985,13 @@ export default class NestedSelectControl extends React.Component<
       overflowTagPopover
     } = this.props;
 
+    const {classPrefix: ns, themeCss, id} = this.props;
+
     return (
       <div
         className={cx('NestedSelectControl', className)}
         ref={this.outTarget}
+        style={style}
       >
         <ResultBox
           mobileUI={mobileUI}
@@ -982,15 +1001,24 @@ export default class NestedSelectControl extends React.Component<
           ref={this.domRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}
           inputPlaceholder={''}
-          className={cx(`NestedSelect`, {
-            'NestedSelect--inline': inline,
-            'NestedSelect--single': !multiple,
-            'NestedSelect--multi': multiple,
-            'NestedSelect--searchable': searchable,
-            'is-opened': this.state.isOpened,
-            'is-focused': this.state.isFocused,
-            [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
-          })}
+          className={cx(
+            `NestedSelect`,
+            {
+              'NestedSelect--inline': inline,
+              'NestedSelect--single': !multiple,
+              'NestedSelect--multi': multiple,
+              'NestedSelect--searchable': searchable,
+              'is-opened': this.state.isOpened,
+              'is-focused': this.state.isFocused,
+              [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
+            },
+            setThemeClassName({
+              ...this.props,
+              name: 'nestedSelectControlClassName',
+              id,
+              themeCss: themeCss
+            })
+          )}
           result={
             multiple
               ? selectedOptions
@@ -1037,6 +1065,45 @@ export default class NestedSelectControl extends React.Component<
         ) : this.state.isOpened ? (
           this.renderOuter()
         ) : null}
+
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'nestedSelectControlClassName',
+                weights: {
+                  hover: {
+                    suf: '.is-clickable:not(.is-disabled)'
+                  },
+                  focused: {
+                    suf: '.is-opened:not(.is-mobile)'
+                  },
+                  disabled: {
+                    suf: '.is-disabled'
+                  }
+                }
+              },
+              {
+                key: 'nestedSelectPopoverClassName',
+                weights: {
+                  default: {
+                    suf: ` .${ns}NestedSelect-option`
+                  },
+                  hover: {
+                    suf: ` .${ns}NestedSelect-option.is-highlight`
+                  },
+                  focused: {
+                    inner: `.${ns}NestedSelect-option.is-active`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }
