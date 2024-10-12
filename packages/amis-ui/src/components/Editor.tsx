@@ -118,7 +118,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
   container: any;
   currentValue: any;
   preventTriggerChangeEvent: boolean;
-  disposes: Array<{dispose: () => void}> = [];
+  disposes: Array<() => void> = [];
   constructor(props: EditorProps) {
     super(props);
 
@@ -176,7 +176,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
       const editorWillUnmount = this.props.editorWillUnmount;
       editorWillUnmount && editorWillUnmount(this.editor, monaco);
     }
-    this.disposes.forEach(({dispose}) => dispose());
+    this.disposes.forEach(dispose => dispose());
     this.disposes = [];
     this.editor?.dispose();
   }
@@ -187,7 +187,7 @@ export class Editor extends React.Component<EditorProps, EditorState> {
       this.loadMonaco();
     } else {
       try {
-        this.disposes.forEach(({dispose}) => dispose());
+        this.disposes.forEach(dispose => dispose());
         this.disposes = [];
         if (this.editor) {
           this.editor.getModel().dispose();
