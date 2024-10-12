@@ -13,6 +13,7 @@ import {
   diff
 } from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
+import {buttonStateFunc} from '../renderer/style-control/helper';
 export class DropDownButtonPlugin extends BasePlugin {
   static id = 'DropDownButtonPlugin';
   static scene = ['layout'];
@@ -162,6 +163,38 @@ export class DropDownButtonPlugin extends BasePlugin {
                 })
               ]
             },
+
+            {
+              title: '基本样式',
+              body: [
+                {
+                  type: 'select',
+                  name: '__editorState',
+                  label: '状态',
+                  selectFirst: true,
+                  options: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '点击',
+                      value: 'active'
+                    }
+                  ]
+                },
+                ...buttonStateFunc(
+                  "${__editorState == 'default' || !__editorState}",
+                  'default'
+                ),
+                ...buttonStateFunc("${__editorState == 'hover'}", 'hover'),
+                ...buttonStateFunc("${__editorState == 'active'}", 'active')
+              ]
+            },
             {
               title: '图标',
               body: [
@@ -185,6 +218,14 @@ export class DropDownButtonPlugin extends BasePlugin {
                 })
               ]
             },
+            getSchemaTpl('theme:cssCode', {
+              themeClass: [
+                {
+                  value: '',
+                  state: ['default', 'hover', 'active']
+                }
+              ]
+            }),
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

@@ -369,7 +369,7 @@ export default class ChainedSelectControl extends React.Component<
               themeCss: themeCss
             })
           )}
-          style={style}
+          controlStyle={style}
           classPrefix={ns}
           key="base"
           testIdBuilder={testIdBuilder?.getChild('base')}
@@ -398,7 +398,7 @@ export default class ChainedSelectControl extends React.Component<
               value={arr[index + 1]}
               onChange={this.handleChange.bind(this, index + 1)}
               inline
-              style={style}
+              controlStyle={style}
               className={cx(
                 setThemeClassName({
                   ...this.props,
