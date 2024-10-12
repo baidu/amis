@@ -1406,6 +1406,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       // 移动端模式，默认开启上拉刷新
       if (mobileModeProps && !_pullRefresh?.disabled) {
         pullRefresh = {
+          normalText: __('pullRefresh.crud2NormalText'),
+          pullingText: __('pullRefresh.crud2PullingText'),
+          loosingText: __('pullRefresh.crud2LoosingText'),
           ..._pullRefresh,
           disabled: false
         };
@@ -1498,7 +1501,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             {...pullRefresh}
             translate={__}
             onRefresh={this.handlePullRefresh}
-            direction="down"
+            direction="up"
+            loading={store.loading}
             completed={
               !store.loading &&
               store.lastPage > 0 &&
