@@ -858,8 +858,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             this.applyMapping(
               autoFill?.fillMapping ?? {'&': '$$'},
               result,
-              false,
-              true
+              false
             );
           }
         }
@@ -929,12 +928,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
    * @param ctx 上下文对象，类型为任意类型
    * @param skipIfExits 是否跳过已存在的属性，默认为 false
    */
-  applyMapping(
-    mapping: any,
-    ctx: any,
-    skipIfExits = false,
-    ignoreSelf = false
-  ) {
+  applyMapping(mapping: any, ctx: any, skipIfExits = false) {
     const {onBulkChange, data, formItem} = this.props;
     const toSync = dataMapping(mapping, ctx);
 
@@ -969,9 +963,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     });
 
     // 是否忽略自己的设置
-    if (ignoreSelf && formItem?.name) {
-      deleteVariable(result, formItem.name);
-    }
+    // if (ignoreSelf && formItem?.name) {
+    //   deleteVariable(result, formItem.name);
+    // }
 
     onBulkChange!(result);
   }
