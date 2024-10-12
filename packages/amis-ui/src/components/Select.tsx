@@ -1329,7 +1329,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileUI,
       hasError,
       testIdBuilder,
-      loadingConfig
+      loadingConfig,
+      style
     } = this.props;
 
     const selection = this.state.selection;
@@ -1378,6 +1379,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 className
               )}
               data-amis-name={this.props.dataName}
+              style={style}
             >
               <div
                 className={cx(`Select-valueWrap`, {
