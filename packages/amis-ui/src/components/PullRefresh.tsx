@@ -17,7 +17,9 @@ export interface PullRefreshProps {
   translate: TranslateFn;
   disabled?: boolean;
   completed?: boolean;
+  // 划屏方向，默认是下拉
   direction?: 'up' | 'down';
+  normalText?: string;
   pullingText?: string;
   loosingText?: string;
   loadingText?: string;
@@ -40,11 +42,11 @@ export interface PullRefreshState {
 const defaultProps: {
   successDuration: number;
   loadingDuration: number;
-  direction: 'up' | 'down';
+  direction?: 'up' | 'down';
 } = {
   successDuration: 0,
   loadingDuration: 0,
-  direction: 'up'
+  direction: 'down'
 };
 
 const defaultHeaderHeight = 28;
@@ -61,11 +63,12 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   } = props;
 
   const refreshText = {
-    pullingText: __('pullRefresh.pullingText'),
-    loosingText: __('pullRefresh.loosingText'),
-    loadingText: __('pullRefresh.loadingText'),
-    successText: __('pullRefresh.successText'),
-    completedText: __('pullRefresh.completedText')
+    normalText: props.normalText ?? __('pullRefresh.normalText'),
+    pullingText: props.pullingText ?? __('pullRefresh.pullingText'),
+    loosingText: props.loosingText ?? __('pullRefresh.loosingText'),
+    loadingText: props.loadingText ?? __('pullRefresh.loadingText'),
+    successText: props.successText ?? __('pullRefresh.successText'),
+    completedText: props.completedText ?? __('pullRefresh.completedText')
   };
 
   const touch = useTouch();
@@ -154,9 +157,9 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       updateState({});
 
       if (touch.isVertical()) {
-        if (direction === 'up' && touch.deltaY > 0) {
+        if (direction === 'down' && touch.deltaY > 0) {
           setStatus(ease(touch.deltaY));
-        } else if (direction === 'down' && touch.deltaY < 0) {
+        } else if (direction === 'up' && touch.deltaY < 0) {
           setStatus(-1 * ease(-1 * touch.deltaY));
         }
       }
@@ -183,7 +186,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   const transformStyle = {
     transform: `translate3d(0, ${state.offsetY}px, 0)`,
     // 不清楚历史原因为什么要加这个，兼容一下
-    ...(direction === 'up'
+    ...(direction === 'down'
       ? {
           touchAction: 'none'
         }
@@ -191,14 +194,23 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   };
 
   const getStatusText = (status: statusText) => {
+    if (props.loading) {
+      return refreshText.loadingText;
+    }
     if (completed) {
       return refreshText.completedText;
     }
-    if (status === 'normal') {
-      return '';
-    }
-    return props[`${status}Text`] || refreshText[`${status}Text`];
+    return refreshText[`${status}Text`];
   };
+
+  const loadingDom = (className: string) => (
+    <div className={className} ref={loadingRef}>
+      {state.status === 'loading' && (
+        <Icon icon="loading-outline" className="icon loading-icon" />
+      )}
+      {getStatusText(state.status)}
+    </div>
+  );
 
   return (
     <div
@@ -209,29 +221,9 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       onTouchCancel={onTouchEnd}
     >
       <div className={cx('PullRefresh-wrap')} style={transformStyle}>
-        {direction === 'up' ? (
-          <div className={cx('PullRefresh-header')} ref={loadingRef}>
-            {state.status === 'loading' && (
-              <Icon icon="loading-outline" className="icon loading-icon" />
-            )}
-            {getStatusText(state.status)}
-          </div>
-        ) : null}
+        {direction === 'down' ? loadingDom(cx('PullRefresh-header')) : null}
         {children}
-        {direction === 'down' ? (
-          completed ? (
-            <div className={cx('PullRefresh-footer')} ref={loadingRef}>
-              {refreshText.completedText}
-            </div>
-          ) : (
-            <div className={cx('PullRefresh-footer')} ref={loadingRef}>
-              {state.status === 'loading' && (
-                <Icon icon="loading-outline" className="icon loading-icon" />
-              )}
-              {getStatusText(state.status)}
-            </div>
-          )
-        ) : null}
+        {direction === 'up' ? loadingDom(cx('PullRefresh-footer')) : null}
       </div>
     </div>
   );
