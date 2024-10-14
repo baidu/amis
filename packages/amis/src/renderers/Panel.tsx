@@ -14,6 +14,7 @@ import {
 import {ActionSchema} from './Action';
 import {FormHorizontal} from 'amis-core';
 import omit from 'lodash/omit';
+import {Icon} from 'amis-ui';
 
 /**
  * Panel渲染器。
@@ -80,6 +81,11 @@ export interface PanelSchema extends BaseSchema {
    */
   affixFooter?: boolean | 'always';
 
+  /**\
+   * 可折叠。先简单实现一下
+   */
+  collapsible?: boolean;
+
   /**
    * 配置子表单项默认的展示方式。
    */
@@ -121,6 +127,10 @@ export default class Panel extends React.Component<PanelProps> {
     // footerClassName: 'Panel-footer bg-light lter Wrapper',
     // actionsClassName: 'Panel-footer',
     // bodyClassName: 'Panel-body'
+  };
+
+  state = {
+    collapsed: false
   };
 
   renderBody(): JSX.Element | null {
@@ -205,6 +215,7 @@ export default class Panel extends React.Component<PanelProps> {
       classPrefix: ns,
       classnames: cx,
       id,
+      collapsible,
       ...rest
     } = this.props;
 
@@ -214,33 +225,37 @@ export default class Panel extends React.Component<PanelProps> {
     };
 
     const footerDoms = [];
-    const actions = this.renderActions();
-    actions &&
-      footerDoms.push(
-        <div
-          key="actions"
-          className={cx(
-            `Panel-btnToolbar`,
-            actionsClassName || `Panel-footer`,
-            actionsControlClassName
-          )}
-        >
-          {actions}
-        </div>
-      );
+    const collapsed = this.state.collapsed;
 
-    footer &&
-      footerDoms.push(
-        <div
-          key="footer"
-          className={cx(
-            footerClassName || `Panel-footer`,
-            actionsControlClassName
-          )}
-        >
-          {render('footer', footer, subProps)}
-        </div>
-      );
+    if (!collapsed) {
+      const actions = this.renderActions();
+      actions &&
+        footerDoms.push(
+          <div
+            key="actions"
+            className={cx(
+              `Panel-btnToolbar`,
+              actionsClassName || `Panel-footer`,
+              actionsControlClassName
+            )}
+          >
+            {actions}
+          </div>
+        );
+
+      footer &&
+        footerDoms.push(
+          <div
+            key="footer"
+            className={cx(
+              footerClassName || `Panel-footer`,
+              actionsControlClassName
+            )}
+          >
+            {render('footer', footer, subProps)}
+          </div>
+        );
+    }
 
     let footerDom = footerDoms.length ? (
       <div
@@ -273,20 +288,42 @@ export default class Panel extends React.Component<PanelProps> {
           <div
             className={cx(
               headerClassName || `Panel-heading`,
-              headerControlClassName
+              headerControlClassName,
+              {
+                'is-collapsible': collapsible
+              }
             )}
           >
             <h3 className={cx(`Panel-title`, headerTitleControlClassName)}>
               {render('title', title, subProps)}
             </h3>
+            {collapsible ? (
+              <span
+                className={cx('Panel-arrow-wrap')}
+                onClick={() => {
+                  this.setState({
+                    collapsed: !collapsed
+                  });
+                }}
+              >
+                <Icon
+                  icon="down-arrow-bold"
+                  className={cx('Panel-arrow', 'icon', {
+                    'is-collapsed': collapsed
+                  })}
+                />
+              </span>
+            ) : null}
           </div>
         ) : null}
 
-        <div
-          className={cx(bodyClassName || `Panel-body`, bodyControlClassName)}
-        >
-          {this.renderBody()}
-        </div>
+        {!collapsed ? (
+          <div
+            className={cx(bodyClassName || `Panel-body`, bodyControlClassName)}
+          >
+            {this.renderBody()}
+          </div>
+        ) : null}
 
         {footerDom}
       </div>
