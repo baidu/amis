@@ -878,4 +878,8 @@ $Table-strip-bg: transparent;
   :root {
     --fontSizeBase: var(--fontSizeLg);
   }
+  :root,
+  .AMISCSSWrapper {
+    --Page-body-padding: var(--gap-md);
+  }
 }
