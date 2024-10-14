@@ -256,6 +256,7 @@
         min-height: 0;
         flex: 1;
         height: px2rem(44px);
+        font-size: var(--fontSizeMd);
 
         &:first-child {
           margin-left: 0;
