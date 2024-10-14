@@ -152,6 +152,18 @@
       var(--Panel-heading-bottom-border-width)
       var(--Panel-heading-left-border-width);
     border-radius: var(--Panel-headingBorderRadius);
+
+    &.is-collapsible {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-arrow {
+    transition: transform 0.1s ease-in;
+    &.is-collapsed {
+      transform: rotate(180deg);
+    }
   }
 
   &-title {
@@ -219,8 +231,10 @@
       border-radius: 0;
 
       .#{$ns}Panel-title {
-        padding-left: var(--Panel-body-paddingLeft);
-        border-left: px2rem(3px) solid var(--primary);
+        .icon {
+          width: var(--sizes-base-7);
+          height: var(--sizes-base-7);
+        }
         font-size: var(--fontSizeLg);
       }
     }
