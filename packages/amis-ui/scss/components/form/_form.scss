@@ -862,6 +862,8 @@
     .#{$ns}TextareaControl > textarea,
     .#{$ns}Form-control > .#{$ns}TextControl-input,
     .#{$ns}Number-input,
+    .#{$ns}ResultBox,
+    .#{$ns}DateControl > .#{$ns}DatePicker,
     .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
       border: none;
       padding: 0 var(--Form-input-paddingX) 0 0;
