@@ -130,7 +130,7 @@
     align-self: flex-start;
   }
 
-  &-filter {
+  &-filter:not(:empty) {
     margin-bottom: var(--gap-base);
   }
 
