@@ -7,7 +7,7 @@ export function labelToString(label: any): string {
   } else if (type === 'number') {
     return `${label}`;
   } else if (type === 'boolean') {
-    return String(label);
+    return label ? '开' : '关';
   }
 
   if (isPlainObject(label)) {
