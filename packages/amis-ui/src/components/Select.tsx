@@ -85,6 +85,7 @@ export interface OptionProps {
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
   hasError?: boolean;
   block?: boolean;
+  controlStyle?: any;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -1329,7 +1330,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileUI,
       hasError,
       testIdBuilder,
-      loadingConfig
+      loadingConfig,
+      controlStyle
     } = this.props;
 
     const selection = this.state.selection;
@@ -1378,6 +1380,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 className
               )}
               data-amis-name={this.props.dataName}
+              style={controlStyle}
             >
               <div
                 className={cx(`Select-valueWrap`, {

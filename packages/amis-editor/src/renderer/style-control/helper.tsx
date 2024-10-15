@@ -108,3 +108,53 @@ export const inputStateFunc = (
     ...options
   ];
 };
+
+export const buttonStateFunc = (visibleOn: string, state: string) => {
+  return [
+    getSchemaTpl('theme:font', {
+      label: '文字',
+      name: `themeCss.className.font:${state}`,
+      visibleOn: visibleOn,
+      editorValueToken: {
+        'color': `--button-\${level || "default"}-${state}-font-color`,
+        '*': '--button-size-${size || "default"}'
+      },
+      state
+    }),
+    getSchemaTpl('theme:colorPicker', {
+      label: '背景',
+      name: `themeCss.className.background:${state}`,
+      labelMode: 'input',
+      needGradient: true,
+      needImage: true,
+      visibleOn: visibleOn,
+      editorValueToken: `--button-\${level || "default"}-${state}-bg-color`,
+      state
+    }),
+    getSchemaTpl('theme:border', {
+      name: `themeCss.className.border:${state}`,
+      visibleOn: visibleOn,
+      editorValueToken: `--button-\${level || "default"}-${state}`,
+      state
+    }),
+    getSchemaTpl('theme:paddingAndMargin', {
+      name: `themeCss.className.padding-and-margin:${state}`,
+      visibleOn: visibleOn,
+      editorValueToken: '--button-size-${size || "default"}',
+      state
+    }),
+    getSchemaTpl('theme:radius', {
+      name: `themeCss.className.radius:${state}`,
+      visibleOn: visibleOn,
+      editorValueToken: '--button-size-${size || "default"}',
+      state
+    }),
+    getSchemaTpl('theme:select', {
+      label: '图标尺寸',
+      name: `themeCss.iconClassName.iconSize:${state}`,
+      visibleOn: visibleOn,
+      editorValueToken: '--button-size-${size || "default"}-icon-size',
+      state
+    })
+  ];
+};
