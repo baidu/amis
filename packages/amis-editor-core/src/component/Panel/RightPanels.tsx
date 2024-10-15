@@ -9,6 +9,8 @@ import {autobind, isHasPluginIcon} from '../../util';
 import {findDOMNode} from 'react-dom';
 import {PanelItem} from '../../plugin';
 import {WidthDraggableBtn} from '../base/WidthDraggableBtn';
+import type {Schema} from 'amis';
+import merge from 'lodash/merge';
 
 interface RightPanelsProps {
   store: EditorStoreType;
@@ -17,6 +19,7 @@ interface RightPanelsProps {
   appLocale?: string;
   amisEnv?: any;
   readonly?: boolean;
+  isMobile?: boolean;
 }
 
 interface RightPanelsStates {
@@ -72,6 +75,12 @@ export class RightPanels extends React.Component<
     manager.panelChangeValue(...arg);
   }
 
+  @autobind
+  mergeMobileAttribute(obj: Schema) {
+    const {isMobile} = this.props;
+    return obj.mobile && isMobile ? merge(obj, obj.mobile) : obj;
+  }
+
   render() {
     const {store, manager, theme, readonly} = this.props;
     const {isOpenStatus, isFixedStatus} = this.state;
@@ -86,7 +95,7 @@ export class RightPanels extends React.Component<
           info: node?.info,
           path: node?.path,
           node: node,
-          value: store.value,
+          value: this.mergeMobileAttribute(store.value),
           onChange: this.handlePanelChangeValue,
           store: store,
           manager: manager,
@@ -100,7 +109,7 @@ export class RightPanels extends React.Component<
           id={id}
           info={node?.info}
           path={node?.path}
-          value={store.value}
+          value={this.mergeMobileAttribute(store.value)}
           onChange={this.handlePanelChangeValue}
           store={store}
           manager={manager}

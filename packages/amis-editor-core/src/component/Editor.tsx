@@ -26,6 +26,8 @@ export interface EditorProps extends PluginEventListener {
   onChange: (value: SchemaObject) => void;
   preview?: boolean;
   isMobile?: boolean;
+  /** 用于区分响应式页面和h5页面 */
+  isMobileAloneEdit?: boolean;
   isSubEditor?: boolean;
   autoFocus?: boolean;
   className?: string;
@@ -182,6 +184,7 @@ export default class Editor extends Component<
     this.store = MainStore.create(
       {
         isMobile: props.isMobile,
+        isMobileAloneEdit: props.isMobileAloneEdit,
         theme: props.theme,
         toolbarMode: props.toolbarMode || 'default',
         noDialog: props.noDialog,
@@ -591,6 +594,7 @@ export default class Editor extends Component<
     const {
       preview,
       isMobile,
+      isMobileAloneEdit,
       className,
       theme,
       appLocale,
@@ -649,6 +653,7 @@ export default class Editor extends Component<
               {...previewProps}
               editable={!preview}
               isMobile={isMobile}
+              isMobileAloneEdit={isMobileAloneEdit}
               store={this.store}
               manager={this.manager}
               theme={theme}
@@ -670,6 +675,7 @@ export default class Editor extends Component<
               appLocale={appLocale}
               amisEnv={amisEnv}
               readonly={readonly}
+              isMobile={isMobile}
             />
           )}
 

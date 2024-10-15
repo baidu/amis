@@ -41,6 +41,7 @@ export interface PreviewProps {
   className?: string;
   editable?: boolean;
   isMobile?: boolean;
+  isMobileAloneEdit?: boolean;
   store: EditorStoreType;
   manager: EditorManager;
   data?: any;
@@ -522,6 +523,7 @@ export default class Preview extends Component<PreviewProps> {
       amisEnv,
       theme,
       isMobile,
+      isMobileAloneEdit,
       autoFocus,
       toolbarContainer,
       appLocale,
@@ -578,6 +580,7 @@ export default class Preview extends Component<PreviewProps> {
                 manager={manager}
                 autoFocus={autoFocus}
                 appLocale={appLocale}
+                isMobileAloneEdit={isMobileAloneEdit}
               ></IFramePreview>
             ) : (
               <SmartPreview

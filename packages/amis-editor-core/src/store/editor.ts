@@ -149,6 +149,7 @@ export const MainStore = types
   .model('EditorRoot', {
     ready: false, // 异步组件加载前不可用
     isMobile: false,
+    isMobileAloneEdit: false,
     isSubEditor: false,
     // 用于自定义爱速搭中的 amis 文档路径
     amisDocHost: types.optional(types.string, 'https://baidu.gitee.io'),
@@ -251,7 +252,8 @@ export const MainStore = types
     /** 应用语料 */
     appCorpusData: types.optional(types.frozen(), {}),
     /** 应用多语言状态，用于其它组件进行订阅 */
-    appLocaleState: types.optional(types.number, 0)
+    appLocaleState: types.optional(types.number, 0),
+    isCodeEditing: types.optional(types.boolean, false)
   })
   .views(self => {
     return {
@@ -2314,6 +2316,10 @@ export const MainStore = types
 
       beforeDestroy() {
         lazyUpdateTargetName.cancel();
+      },
+
+      patchCodeEdit(isEdit: boolean) {
+        self.isCodeEditing = isEdit;
       }
     };
   });

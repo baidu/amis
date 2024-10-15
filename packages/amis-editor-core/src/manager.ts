@@ -1869,6 +1869,7 @@ export class EditorManager {
     trailing: true
   });
 
+  isCodeEditing = false;
   patching = false;
   patchingInvalid = false;
   patchSchema(force = false) {
@@ -1904,6 +1905,10 @@ export class EditorManager {
     this.store.batchChangeValue(batch);
     this.patching = false;
     this.patchingInvalid && this.patchSchema(force);
+  }
+
+  patchCodeEdit(isCodeEdit: boolean) {
+    this.isCodeEditing = isCodeEdit;
   }
 
   /**

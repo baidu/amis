@@ -11,6 +11,8 @@ import {
   resizeSensor
 } from 'amis';
 import {isAlive} from 'mobx-state-tree';
+import {JSONMergeForMobile} from '../util';
+import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * 这个用了 observer，所以能最小程度的刷新，数据不变按理是不会刷新的。
@@ -24,6 +26,7 @@ export interface IFramePreviewProps {
   manager: EditorManager;
   /** 应用语言类型 */
   appLocale?: string;
+  isMobileAloneEdit?: boolean;
 }
 @observer
 export default class IFramePreview extends React.Component<IFramePreviewProps> {
@@ -98,8 +101,20 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   render() {
-    const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
-      this.props;
+    const {
+      editable,
+      store,
+      appLocale,
+      autoFocus,
+      env,
+      data,
+      manager,
+      isMobileAloneEdit,
+      ...rest
+    } = this.props;
+    const schema = editable
+      ? store.filteredSchema
+      : store.filteredSchemaForPreview;
 
     return (
       <Frame
@@ -111,7 +126,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
         <InnerComponent store={store} editable={editable} manager={manager} />
         <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
           {render(
-            editable ? store.filteredSchema : store.filteredSchemaForPreview,
+            isMobileAloneEdit ? JSONMergeForMobile(cloneDeep(schema)) : schema,
             {
               ...rest,
               key: editable ? 'edit-mode' : 'preview-mode',
