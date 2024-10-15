@@ -1394,7 +1394,7 @@ export async function resolveVariablesFromScope(node: any, manager: any) {
     manager?.variableManager?.getVariableFormulaOptions() || [];
 
   return [...hostNodeVaraibles, ...dataPropsAsOptions, ...variables].filter(
-    (item: any) => item.children?.length
+    (item: any) => (item.children && item.children?.length) || !item.children
   );
 }
 
