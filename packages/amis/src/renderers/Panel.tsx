@@ -133,6 +133,11 @@ export default class Panel extends React.Component<PanelProps> {
     collapsed: false
   };
 
+  constructor(props: PanelProps) {
+    super(props);
+    props.mobileUI && props.collapsible && (this.state.collapsed = true);
+  }
+
   renderBody(): JSX.Element | null {
     const {
       type,
