@@ -22,6 +22,14 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
     }, 500);
   }
 
+  @autobind
+  onChange(...rest: any) {
+    const {store} = this.props;
+    store.patchCodeEdit(true);
+    this.props.onChange(...rest);
+    store.patchCodeEdit(false);
+  }
+
   render() {
     const {onChange, manager, store} = this.props;
 
@@ -31,7 +39,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
         <div className="ae-CodePanel-content">
           <AMisCodeEditor
             value={store.valueWithoutHiddenProps}
-            onChange={onChange}
+            onChange={this.onChange}
             $schema={store.jsonSchemaUri}
             $schemaUrl={manager.config.$schemaUrl}
             onPaste={this.handleCodePaste}

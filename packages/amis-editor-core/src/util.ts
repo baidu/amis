@@ -969,7 +969,15 @@ function applyChange(target: any, source: any, change: DiffChange) {
         source
       }
     );
-
+    const editorStore = (window as any)?.editorStore;
+    // pc 响应式页面，纯h5页面不处理
+    if (
+      editorStore.isMobileAloneEdit &&
+      editorStore.isMobile &&
+      !editorStore.isCodeEditing
+    ) {
+      change.path.unshift('mobile');
+    }
     DeepDiff.applyChange(target, source, change);
   }
 
@@ -2023,3 +2031,34 @@ export const RAW_TYPE_MAP: {
   'user-select': 'user',
   'department-select': 'department'
 };
+/*
+ * 将移动端存储在mobile对象中的属性合并到最外层
+ * @param obj
+ * @returns
+ */
+export function JSONMergeForMobile(obj: any): any {
+  if (!isObject(obj)) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(JSONMergeForMobile);
+  }
+  if (obj.mobile) {
+    merge(obj, obj.mobile, {$$id: obj.$$id});
+  }
+
+  Object.keys(obj).forEach(key => {
+    let prop = obj[key];
+
+    if (Array.isArray(prop)) {
+      prop.map((item: any) => {
+        JSONMergeForMobile(item);
+      });
+    } else {
+      JSONMergeForMobile(prop);
+    }
+  });
+
+  return obj;
+}

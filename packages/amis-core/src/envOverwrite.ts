@@ -4,6 +4,7 @@
 
 import {JSONValueMap, findObjectsWithKey} from './utils/helper';
 import isPlainObject from 'lodash/isPlainObject';
+import merge from 'lodash/merge';
 const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   ? true
   : false;
@@ -22,6 +23,11 @@ export const envOverwrite = (schema: any, locale?: string) => {
         delete newValue[locale];
         return newValue;
       } else if (isMobile && value.mobile) {
+        let schemaNodes = findObjectsWithKey(value, 'mobile');
+        for (let schemaNode of schemaNodes) {
+          merge(schemaNode, schemaNode['mobile']);
+        }
+
         const newValue = Object.assign({}, value, value.mobile);
         delete newValue.mobile;
         return newValue;
