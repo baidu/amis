@@ -605,6 +605,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
     const {
+      id,
       store,
       columns,
       selectable,
@@ -643,6 +644,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     store.update(
       {
+        crudId: id,
         selectable,
         draggable,
         columns,
@@ -2860,7 +2862,6 @@ export default class Table extends React.Component<TableProps, object> {
     const tableClassName = cx('Table-table', this.props.tableClassName, {
       'Table-table--withCombine': store.combineNum > 0
     });
-
     return (
       <div
         ref={this.dom}
