@@ -51,6 +51,7 @@ export class ModalForm extends React.Component<ModalFormProps> {
       store.closeModalForm();
     } catch (e) {
       console.error(e.stack);
+      store.setModalFormError(e.message);
     }
 
     store.markModalFormBuzy(false);
@@ -82,35 +83,39 @@ export class ModalForm extends React.Component<ModalFormProps> {
   render() {
     const {store, theme, manager} = this.props;
     const modalFormContext = store.modalForm;
-    if (!modalFormContext) {
-      return null;
-    }
+    const modalMode = store.modalMode || 'dialog';
+    const contents = modalFormContext
+      ? render(
+          this.buildSchema(),
+          {
+            data: createObject(store.ctx, modalFormContext?.value),
+            manager,
+            scopeRef: this.scopeRef
+          },
+          {
+            ...manager.env,
+            session: 'modal-form',
+            theme: theme
+          }
+        )
+      : null;
 
-    const contents = render(
-      this.buildSchema(),
-      {
-        data: createObject(store.ctx, modalFormContext?.value),
-        manager,
-        scopeRef: this.scopeRef
-      },
-      {
-        ...manager.env,
-        session: 'modal-form',
-        theme: theme
-      }
-    );
-
-    return modalFormContext.mode === 'drawer' ? (
+    return modalMode === 'drawer' ? (
       <Drawer
-        position={(modalFormContext.postion as any) || 'left'}
-        size={modalFormContext.size || 'md'}
+        position={(modalFormContext?.postion as any) || 'left'}
+        size={modalFormContext?.size || 'md'}
         theme={theme}
-        show
+        show={!!modalFormContext}
         onHide={store.closeModalForm}
       >
-        <div className="cxd-Drawer-header">{modalFormContext.title}</div>
+        <div className="cxd-Drawer-header">{modalFormContext?.title}</div>
         <div className="cxd-Drawer-body">{contents}</div>
         <div className="cxd-Drawer-footer">
+          <div className="cxd-Drawer-info">
+            {store.modalFormError ? (
+              <div className="cxd-Drawer-error">{store.modalFormError}</div>
+            ) : null}
+          </div>
           <Button
             disabled={store.modalFormBuzy}
             level="primary"
@@ -125,17 +130,22 @@ export class ModalForm extends React.Component<ModalFormProps> {
       <Modal
         theme={theme}
         size={modalFormContext?.size || 'md'}
-        show
+        show={!!modalFormContext}
         onHide={store.closeModalForm}
         closeOnEsc={false}
       >
-        {modalFormContext.title ? (
+        {modalFormContext?.title ? (
           <Modal.Header onClose={store.closeModalForm}>
             {modalFormContext.title}
           </Modal.Header>
         ) : null}
         <Modal.Body>{contents}</Modal.Body>
         <Modal.Footer>
+          <div className="cxd-Dialog-info">
+            {store.modalFormError ? (
+              <div className="cxd-Dialog-error">{store.modalFormError}</div>
+            ) : null}
+          </div>
           <Button
             disabled={store.modalFormBuzy}
             level="primary"
