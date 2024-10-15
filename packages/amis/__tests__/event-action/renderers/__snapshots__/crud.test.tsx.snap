@@ -29,6 +29,7 @@ exports[`doAction:crud reload 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              data-id="crud_reload"
               style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
@@ -1275,6 +1276,7 @@ exports[`doAction:crud reload with data1 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              data-id="crud_reload"
               style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
@@ -1544,6 +1546,7 @@ exports[`doAction:crud reload with data2 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              data-id="crud_reload"
               style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div

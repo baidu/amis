@@ -30,21 +30,21 @@
     font-weight: var(--Pick-base-value-fontWeight);
     background: var(--Pick-base-value-bgColor);
     border-width: var(--Pick-base-value-top-border-width)
-        var(--Pick-base-value-right-border-width)
-        var(--Pick-base-value-bottom-border-width)
-        var(--Pick-base-value-left-border-width);
+      var(--Pick-base-value-right-border-width)
+      var(--Pick-base-value-bottom-border-width)
+      var(--Pick-base-value-left-border-width);
     border-style: var(--Pick-base-value-top-border-style)
-        var(--Pick-base-value-right-border-style)
-        var(--Pick-base-value-bottom-border-style)
-        var(--Pick-base-value-left-border-style);
+      var(--Pick-base-value-right-border-style)
+      var(--Pick-base-value-bottom-border-style)
+      var(--Pick-base-value-left-border-style);
     border-color: var(--Pick-base-value-top-border-color)
-        var(--Pick-base-value-right-border-color)
-        var(--Pick-base-value-bottom-border-color)
-        var(--Pick-base-value-left-border-color);
+      var(--Pick-base-value-right-border-color)
+      var(--Pick-base-value-bottom-border-color)
+      var(--Pick-base-value-left-border-color);
     border-radius: var(--Pick-base-top-left-border-radius)
-        var(--Pick-base-top-right-border-radius)
-        var(--Pick-base-bottom-right-border-radius)
-        var(--Pick-base-bottom-left-border-radius);
+      var(--Pick-base-top-right-border-radius)
+      var(--Pick-base-bottom-right-border-radius)
+      var(--Pick-base-bottom-left-border-radius);
     margin-right: var(--gap-xs);
     margin-top: var(--gap-xs);
 
@@ -132,6 +132,112 @@
 
   &-filter {
     margin-bottom: var(--gap-base);
+  }
+
+  &.is-mobile.is-mobile-cards {
+    // 移动端卡片模式不需要列选择器
+    .#{$ns}ColumnToggler {
+      display: none;
+    }
+
+    .#{$ns}SearchBox {
+      border-radius: var(--Form-input-borderRadius);
+      width: 100%;
+    }
+
+    .#{$ns}Card {
+      --Card-borderRadius: var(--sizes-size-5);
+      --gap-base: var(--sizes-size-9);
+      --fontSizeBase: var(--fonts-size-7);
+      --body-lineHeight: var(--sizes-base-11);
+      --Card-actions-borderColor: #f2f2f4;
+      --Card-actions-fontSize: var(--fontSizeBase);
+      font-size: var(--fontSizeBase);
+      border: 0;
+      box-shadow: var(--boxShadowSm);
+      &-field {
+        margin-bottom: var(--sizes-size-3);
+      }
+      &-fieldLabel {
+        color: var(--colors-neutral-text-5);
+        font-size: var(--fontSizeBase);
+        flex-basis: var(--sizes-base-28);
+        line-height: var(--body-lineHeight);
+        margin-right: var(--sizes-size-6);
+      }
+      &-fieldValue {
+        color: var(--colors-neutral-text-2);
+      }
+
+      &-actions {
+        &-wrapper {
+          padding-left: var(--gap-md);
+          padding-right: var(--gap-md);
+        }
+        & > a {
+          height: var(--sizes-base-12);
+          line-height: var(--sizes-base-12);
+          margin-top: var(--sizes-size-4);
+          margin-bottom: var(--sizes-size-4);
+        }
+      }
+
+      .#{$ns}Form-item {
+        .#{$ns}Form-value,
+        .#{$ns}Form-control {
+          font-size: var(--fontSizeBase);
+        }
+      }
+
+      &-multiMedia {
+        &--right {
+          align-items: flex-start;
+        }
+        &-img {
+          width: var(--sizes-base-45);
+          height: var(--sizes-base-45);
+        }
+      }
+
+      .#{$ns}Image {
+        border: 0;
+
+        &--thumb {
+          padding-left: 0;
+          img {
+            border-radius: var(--sizes-size-5);
+          }
+        }
+      }
+    }
+
+    .#{$ns}Panel {
+      --Panel-bodyPadding: var(--gap-md);
+      --Panel-headingPadding: var(--gap-sm) var(--gap-md);
+      --Panel-body-paddingTop: var(--gap-md);
+      --Panel-body-paddingBottom: var(--gap-md);
+      --Panel-body-paddingLeft: var(--gap-md);
+      --Panel-body-paddingRight: var(--gap-md);
+      &--form {
+        margin: 0;
+        margin-bottom: var(--gap-md);
+        border-radius: var(--sizes-size-5);
+        box-shadow: var(--boxShadowSm);
+      }
+      &-body {
+        padding-top: 0;
+      }
+      .#{$ns}Form {
+        &--column {
+          margin-left: 0;
+          margin-right: 0;
+        }
+        &-item {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
   }
 }
 

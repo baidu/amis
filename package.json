@@ -36,8 +36,11 @@
     }
   },
   "lint-staged": {
-    "{packages,examples}/**/{src,examples}/**/**/*.{tsx,jsx,ts}": [
+    "{packages,examples}/**/{src,examples}/**/**/*.{tsx,jsx,ts,scss}": [
       "prettier --write"
+    ],
+    "*.{scss}": [
+      "stylelint --fix"
     ]
   },
   "dependencies": {

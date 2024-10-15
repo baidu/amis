@@ -655,7 +655,6 @@
       overflow-wrap: break-word;
       margin-right: 0;
       margin-bottom: 0;
-      font-size: var(--fontSizeLg);
 
       & + .#{$ns}Form-item-controlBox {
         max-width: calc(100% - 28%);
@@ -672,10 +671,8 @@
     }
 
     .#{$ns}TextControl-input {
-      font-size: var(--fontSizeLg);
-
       input {
-        height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+        height: calc(var(--Form-input-lineHeight) * var(--Form-item-fontSize));
       }
     }
 
@@ -744,7 +741,6 @@
     .#{$ns}Form-control {
       flex: 1;
       flex-wrap: wrap;
-      font-size: var(--fontSizeLg);
       min-width: 0;
 
       .#{$ns}ColorPicker {
@@ -865,6 +861,9 @@
 
     .#{$ns}TextareaControl > textarea,
     .#{$ns}Form-control > .#{$ns}TextControl-input,
+    .#{$ns}Number-input,
+    .#{$ns}ResultBox,
+    .#{$ns}DateControl > .#{$ns}DatePicker,
     .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
       border: none;
       padding: 0 var(--Form-input-paddingX) 0 0;

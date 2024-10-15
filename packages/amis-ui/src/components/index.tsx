@@ -30,6 +30,7 @@ import Drawer from './Drawer';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import Editor from './Editor';
+import DiffEditor from './DiffEditor';
 import Html from './Html';
 export * from './icons';
 import * as Icons from './icons';
@@ -167,6 +168,7 @@ export {
   Tabs,
   Tab,
   Editor,
+  DiffEditor,
   Html,
   Icons,
   Layout,
