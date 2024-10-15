@@ -26,7 +26,7 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
   onChange(...rest: any) {
     const {store} = this.props;
     store.patchCodeEdit(true);
-    this.props.onChange(...rest);
+    this.props.onChange(rest);
     store.patchCodeEdit(false);
   }
 
