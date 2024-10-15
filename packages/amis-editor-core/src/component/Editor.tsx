@@ -13,6 +13,7 @@ import Breadcrumb from './Breadcrumb';
 import {destroy, isAlive} from 'mobx-state-tree';
 import {ScaffoldModal} from './ScaffoldModal';
 import {PopOverForm} from './PopOverForm';
+import {ModalForm} from './ModalForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
@@ -689,6 +690,7 @@ export default class Editor extends Component<
           theme={theme}
         />
         <PopOverForm store={this.store} manager={this.manager} theme={theme} />
+        <ModalForm store={this.store} manager={this.manager} theme={theme} />
       </div>
     );
   }

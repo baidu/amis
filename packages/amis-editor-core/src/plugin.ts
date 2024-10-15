@@ -335,6 +335,9 @@ export interface PopOverForm {
    * @deprecated 改用 body 代替
    */
   controls?: Array<any>;
+
+  initApi?: any;
+  api?: any;
 }
 
 export interface ScaffoldForm extends PopOverForm {
