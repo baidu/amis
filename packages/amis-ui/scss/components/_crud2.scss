@@ -134,7 +134,7 @@
     margin-bottom: var(--gap-base);
   }
 
-  &.is-mobile-cards {
+  &.is-mobile.is-mobile-cards {
     // 移动端卡片模式不需要列选择器
     .#{$ns}ColumnToggler {
       display: none;
@@ -222,6 +222,7 @@
         margin: 0;
         margin-bottom: var(--gap-md);
         border-radius: var(--sizes-size-5);
+        box-shadow: var(--boxShadowSm);
       }
       &-body {
         padding-top: 0;
