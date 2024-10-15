@@ -30,7 +30,8 @@ import {
   isApiOutdated,
   isPureVariable,
   resolveVariableAndFilter,
-  parsePrimitiveQueryString
+  parsePrimitiveQueryString,
+  JSONTraverse
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
 import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
@@ -286,7 +287,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     silentPolling: false,
     autoFillHeight: false,
     showSelection: true,
-    perPage: 10,
     primaryField: 'id',
     parsePrimitiveQuery: true
   };
@@ -351,12 +351,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   componentDidMount() {
-    const {store, pickerMode, loadType, loadDataOnce, perPage} = this.props;
+    const {store, pickerMode, loadType, loadDataOnce, maxLoadNum} = this.props;
 
     // 初始化分页
-    let pagination = loadType && !!loadDataOnce;
+    let pagination = loadType && !loadDataOnce;
     if (pagination) {
+      // crud2的翻页每页条数是翻页组件里单独配置的
+      let perPage =
+        loadType === 'more'
+          ? this.props.perPage || 10
+          : this.getPaginationPerPage();
       store.changePage(store.page, perPage);
+    } else if (!loadType) {
+      store.changePage(1, maxLoadNum || 500); // 不分页时默认一次最多查询500条(jsonql)
     }
 
     // 初始化筛选条件
@@ -447,6 +454,24 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     clearTimeout(this.timer);
   }
 
+  @autobind
+  getPaginationPerPage() {
+    let perPage = 10;
+    let {headerToolbar, footerToolbar} = this.props;
+    JSONTraverse(
+      {
+        headerToolbar,
+        footerToolbar
+      },
+      (value: any, key: string, host: any) => {
+        if (key === 'type' && value === 'pagination' && !isNaN(host?.perPage)) {
+          perPage = +host.perPage;
+        }
+      }
+    );
+    return perPage;
+  }
+
   getParseQueryOptions(props: CRUD2Props) {
     const {parsePrimitiveQuery} = props;
     type PrimitiveQueryObj = Exclude<
@@ -504,7 +529,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
-    const {store, perPage} = this.props;
+    const {store, perPage = 10} = this.props;
 
     store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
@@ -1251,7 +1276,26 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             replaceQuery: true,
             resetPage: true
           });
-        }
+        },
+        // 移动端的查询表单支持折叠
+        ...(this.props.mobileUI
+          ? {
+              columnCount: 1,
+              mode: 'normal',
+              collapsible: true,
+              title: {
+                type: 'container',
+                body: [
+                  {
+                    type: 'icon',
+                    icon: 'column-filter',
+                    className: 'icon mr-2'
+                  },
+                  (item as any).title || ''
+                ]
+              }
+            }
+          : {})
       })
     );
   }
@@ -1310,14 +1354,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   transformTable2cards() {
-    const {store, columns, card} = this.props;
+    const {store, columns: propsColumns, card, mobileMode} = this.props;
     const body: any[] = [];
+    const fieldCount = mobileMode.fieldCount || 4;
     const actions: any[] = [];
+    let cover: string = '';
 
-    ((store.columns ?? columns) || []).forEach((item: any) => {
+    const columns = (store.columns ?? propsColumns) || [];
+    for (let index = 0; index < columns.length; index++) {
+      const item = columns[index];
       if (!isPlainObject(item)) {
-        return;
-      } else if (item.type === 'operation') {
+        continue;
+      }
+
+      if (item.type === 'operation') {
         actions.push(...(item?.buttons || []));
       } else if (item.type === 'button' && item.name === 'operation') {
         actions.push(item);
@@ -1325,9 +1375,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         if (!item.label && item.title) {
           item.label = item.title;
         }
-        body.push(item);
+
+        if (item.type === 'static-image' && !cover) {
+          cover = `\${${item.name}}`;
+          continue;
+        }
+
+        if (body.length < fieldCount) {
+          if (item.type === 'static-image' && item.title) {
+            delete item.title;
+          }
+          body.push(item);
+        }
       }
-    });
+    }
 
     if (!body.length) {
       return null;
@@ -1339,7 +1400,18 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       card: {
         ...card,
         body,
-        actions
+        actions,
+        ...(cover
+          ? {
+              media: {
+                type: 'image',
+                url: cover,
+                position: 'right',
+                className: ''
+              },
+              mediaActionPosition: 'outside'
+            }
+          : {})
       }
     };
   }
@@ -1395,13 +1467,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     let mobileModeProps: any = {};
     if (mobileMode && mobileUI && mode.includes('table')) {
+      const cardsSchema = this.transformTable2cards();
       if (typeof mobileMode === 'string' && mobileMode === 'cards') {
-        const cardsSchema = this.transformTable2cards();
         if (cardsSchema) {
           mobileModeProps = cardsSchema;
         }
       } else if (typeof mobileMode === 'object') {
-        mobileModeProps = {...mobileMode};
+        mobileModeProps = {
+          ...cardsSchema,
+          ...mobileMode,
+          card: {
+            ...cardsSchema?.card,
+            ...mobileMode.card
+          }
+        };
       }
       // 移动端模式，默认开启上拉刷新
       if (mobileModeProps && !_pullRefresh?.disabled) {
@@ -1475,7 +1554,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     return (
       <div
         className={cx('Crud2', className, {
-          'is-loading': store.loading
+          'is-loading': store.loading,
+          'is-mobile': mobileUI,
+          'is-mobile-cards':
+            mobileMode === 'cards' || mobileModeProps.type === 'cards'
         })}
         style={style}
         data-id={id}

@@ -262,8 +262,13 @@
 
       & > .#{$ns}Form,
       & > .#{$ns}Form-item > .#{$ns}Form-control:not(.is-thin) {
-        // todo 优化这个，有些表单项宽度其实是很小的比如 switch，button，checkbox，radio
         min-width: var(--Form-control-widthBase);
+
+        &.#{$ns}CheckboxControl,
+        &.#{$ns}SwitchControl,
+        &.#{$ns}RadiosControl {
+          min-width: auto;
+        }
       }
 
       .#{$ns}Form-static {
