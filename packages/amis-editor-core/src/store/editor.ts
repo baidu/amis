@@ -243,7 +243,9 @@ export const MainStore = types
 
     // 弹出层表单
     modalForm: types.maybe(types.frozen<ModalFormContext>()),
+    modalMode: '',
     modalFormBuzy: false,
+    modalFormError: '',
 
     // 弹出子编辑器相关的信息
     subEditorContext: types.maybe(types.frozen<SubEditorContext>()),
@@ -2119,6 +2121,8 @@ export const MainStore = types
 
       openModalForm(context: ModalFormContext) {
         self.modalForm = context;
+        self.modalMode = context?.mode || self.modalMode;
+        self.modalFormError = '';
       },
 
       closeModalForm() {
@@ -2127,6 +2131,10 @@ export const MainStore = types
 
       markModalFormBuzy(value: any) {
         self.modalFormBuzy = !!value;
+      },
+
+      setModalFormError(msg: string = '') {
+        self.modalFormError = msg;
       },
 
       activeHighlightNodes(ids: Array<string>) {
