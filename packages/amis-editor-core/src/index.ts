@@ -42,6 +42,7 @@ import {UnknownRendererPlugin} from './plugin/Unknown';
 import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 import {SchemaFrom} from './component/base/SchemaForm';
+import {RendererThumb} from './component/RendererThumb';
 
 export const version = '__buildVersion';
 (window as any).amisEditorVersionInfo = {
@@ -75,5 +76,6 @@ export {
   UnknownRendererPlugin,
   ShortcutKey,
   SchemaFrom,
-  WidthDraggableContainer
+  WidthDraggableContainer,
+  RendererThumb
 };
