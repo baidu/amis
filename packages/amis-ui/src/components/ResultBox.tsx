@@ -20,7 +20,7 @@ export interface ResultBoxProps
   result?: Array<any> | any;
   itemRender: (value: any) => JSX.Element | string;
   onResultChange?: (value: Array<any>) => void;
-  onClickItem?: (item: Object) => void;
+  onItemClick?: (item: Object) => void;
   onClear?: (e: React.MouseEvent<HTMLElement>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
@@ -105,14 +105,14 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   }
 
   @autobind
-  clickItem(e: React.MouseEvent<HTMLElement>) {
+  handleItemClick(e: React.MouseEvent<HTMLElement>) {
     e.stopPropagation();
     e.preventDefault();
 
-    const {result, onClickItem} = this.props;
+    const {result, onItemClick} = this.props;
     const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
     const newResult = Array.isArray(result) ? result.concat() : [];
-    onClickItem && onClickItem(newResult[index] || {});
+    onItemClick && onItemClick(newResult[index] || {});
   }
 
   @autobind
@@ -182,7 +182,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                           <span
                             className={cx('ResultBox-valueLabel')}
                             data-index={index}
-                            onClick={this.clickItem}
+                            onClick={this.handleItemClick}
                           >
                             {itemRender(item)}
                           </span>
@@ -226,7 +226,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <span
                 className={cx('ResultBox-valueLabel')}
                 data-index={index}
-                onClick={this.clickItem}
+                onClick={this.handleItemClick}
               >
                 {itemRender(item)}
               </span>
@@ -262,7 +262,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             <span
               className={cx('ResultBox-valueLabel')}
               data-index={index}
-              onClick={this.clickItem}
+              onClick={this.handleItemClick}
             >
               {itemRender(item)}
             </span>
