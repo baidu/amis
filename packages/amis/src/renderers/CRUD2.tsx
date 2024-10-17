@@ -1590,6 +1590,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
               store.lastPage > 0 &&
               store.page >= store.lastPage
             }
+            completedText={store.total > 0 ? undefined : ''}
           >
             {body}
           </PullRefresh>

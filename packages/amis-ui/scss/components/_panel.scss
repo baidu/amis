@@ -154,8 +154,9 @@
 
   &-arrow {
     transition: transform 0.1s ease-in;
+    transform: rotate(180deg);
     &.is-collapsed {
-      transform: rotate(180deg);
+      transform: rotate(0deg);
     }
   }
 
