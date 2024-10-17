@@ -1,7 +1,8 @@
 import React from 'react';
 import {PanelProps} from '../../plugin';
-import {autobind} from '../../util';
+import {autobind, DiffChange} from '../../util';
 import AMisCodeEditor from './AMisCodeEditor';
+import type {BaseSchema} from 'amis';
 
 export default class CodeEditorPanel extends React.Component<PanelProps> {
   @autobind
@@ -23,10 +24,10 @@ export default class CodeEditorPanel extends React.Component<PanelProps> {
   }
 
   @autobind
-  onChange(...rest: any) {
+  onChange(value: BaseSchema, diff?: Array<DiffChange>) {
     const {store} = this.props;
     store.patchCodeEdit(true);
-    this.props.onChange(rest);
+    this.props.onChange(value, diff);
     store.patchCodeEdit(false);
   }
 
