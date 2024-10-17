@@ -69,6 +69,10 @@
     align-items: center;
     margin-right: var(--collapse-icon-margin);
 
+    &.noTitle {
+      transform: translateY(-50%);
+    }
+
     svg {
       width: var(--collapse-icon-size);
       height: var(--collapse-icon-size);

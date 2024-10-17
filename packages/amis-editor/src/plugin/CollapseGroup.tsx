@@ -101,6 +101,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const isInForm = context.path.includes('/form/');
     const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
@@ -169,6 +170,12 @@ export class CollapseGroupPlugin extends BasePlugin {
                       : undefined;
                   }
                 },
+                getSchemaTpl('switch', {
+                  name: 'enableFieldSetStyle',
+                  label: '切换展示方式',
+                  value: true,
+                  visible: isInForm
+                }),
                 {
                   name: 'accordion',
                   label: tipedLabel(
