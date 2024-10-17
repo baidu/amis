@@ -41,6 +41,8 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   bodyClassName?: string;
   footerClassName?: string;
   testIdBuilder?: TestIdBuilder;
+  onExited?: () => void;
+  onEntered?: () => void;
 }
 
 export function ConfirmBox({
@@ -66,7 +68,9 @@ export function ConfirmBox({
   footerClassName,
   mobileUI,
   disabled,
-  testIdBuilder
+  testIdBuilder,
+  onEntered,
+  onExited
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -115,6 +119,8 @@ export function ConfirmBox({
         onConfirm={handleConfirm}
         onHide={onCancel}
         container={popOverContainer}
+        onEntered={onEntered}
+        onExited={onExited}
       >
         {typeof children === 'function'
           ? children({
@@ -133,6 +139,8 @@ export function ConfirmBox({
         onHide={onCancel!}
         container={popOverContainer}
         className={className}
+        onEntered={onEntered}
+        onExited={onExited}
       >
         {showTitle !== false && title ? (
           <Modal.Header onClose={onCancel} className={headerClassName}>
