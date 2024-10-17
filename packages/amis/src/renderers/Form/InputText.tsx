@@ -388,8 +388,8 @@ export default class TextControl extends React.PureComponent<
     onChange(this.normalizeValue(newValue));
   }
 
-  async handleClick() {
-    const {dispatchEvent, value} = this.props;
+  async handleClick(event: React.MouseEvent) {
+    const {dispatchEvent, value, multiple} = this.props;
     const rendererEvent = await dispatchEvent(
       'click',
       resolveEventData(this.props, {
@@ -402,9 +402,11 @@ export default class TextControl extends React.PureComponent<
     }
     // 已经 focus 的就不重复执行，否则总重新定位光标
     this.state.isFocused || this.focus();
-    this.setState({
-      isOpen: true
-    });
+    if(multiple ||(event.target as HTMLElement).tagName.toLowerCase() === 'input'){
+      this.setState({
+        isOpen: true
+      });
+    }
   }
 
   async handleFocus(e: any) {
