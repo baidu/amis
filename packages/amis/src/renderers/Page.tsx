@@ -1157,12 +1157,7 @@ export default class Page extends React.Component<PageProps> {
   }
 }
 
-@Renderer({
-  type: 'page',
-  storeType: ServiceStore.name,
-  isolateScope: true
-})
-export class PageRenderer extends Page {
+export class PageRendererBase extends Page {
   static contextType = ScopedContext;
 
   constructor(props: PageProps, context: IScopedContext) {
@@ -1288,3 +1283,10 @@ export class PageRenderer extends Page {
     return store.data;
   }
 }
+
+@Renderer({
+  type: 'page',
+  storeType: ServiceStore.name,
+  isolateScope: true
+})
+export class PageRenderer extends PageRendererBase {}
