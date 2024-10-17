@@ -240,7 +240,7 @@ export class App extends React.Component<AppProps, object> {
     ctx?: any,
     silent?: boolean,
     replace?: boolean
-  ) {
+  ): Promise<any> {
     if (query) {
       return this.receive(query, undefined, replace);
     }
@@ -277,13 +277,15 @@ export class App extends React.Component<AppProps, object> {
         );
       }
     }
+
+    return store.data;
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
+  async receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   /**

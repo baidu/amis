@@ -894,6 +894,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     // 派发初始化接口请求完成事件
     this.dispatchInited(result);
+    return store.data;
   }
 
   receive(values: object, name?: string, replace?: boolean) {
@@ -904,7 +905,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   silentReload(target?: string, query?: any) {
-    this.reload(target, query, undefined, true);
+    return this.reload(target, query, undefined, true);
   }
 
   initInterval(value: any) {
@@ -1127,7 +1128,7 @@ export default class Form extends React.Component<FormProps, object> {
         onChange && onChange.apply(null, changeProps);
       }
 
-      store.clearRestError();
+      isAlive(store) && store.clearRestError();
 
       // 只有主动修改表单项触发的 change 才会触发 submit
       if (!emitedFromWatch && (submit || (submitOnChange && store.inited))) {
@@ -1244,6 +1245,10 @@ export default class Form extends React.Component<FormProps, object> {
     // 做动作之前，先把数据同步一下。
     if (!action.skipFormFlush) {
       await this.flush();
+    }
+
+    if (!isAlive(store)) {
+      return;
     }
 
     if (trimValues) {

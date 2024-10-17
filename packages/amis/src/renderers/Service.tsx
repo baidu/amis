@@ -586,13 +586,13 @@ export default class Service extends React.Component<ServiceProps> {
     return value;
   }
 
-  reload(
+  async reload(
     subpath?: string,
     query?: any,
     ctx?: RendererData,
     silent?: boolean,
     replace?: boolean
-  ) {
+  ): Promise<any> {
     if (query) {
       return this.receive(query, undefined, replace);
     }
@@ -611,44 +611,40 @@ export default class Service extends React.Component<ServiceProps> {
     clearTimeout(this.timer);
 
     if (isEffectiveApi(schemaApi, store.data)) {
-      store
-        .fetchSchema(schemaApi, store.data, {
-          successMessage: fetchSuccess,
-          errorMessage: fetchFailed
-        })
-        .then(res => {
-          this.runDataProvider('onApiFetched');
-          this.afterSchemaFetch(res);
-        });
+      const res = await store.fetchSchema(schemaApi, store.data, {
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed
+      });
+      await this.runDataProvider('onApiFetched');
+      this.afterSchemaFetch(res);
     }
 
     if (isEffectiveApi(api, store.data)) {
-      store
-        .fetchData(api, store.data, {
-          silent,
-          successMessage: fetchSuccess,
-          errorMessage: fetchFailed
-        })
-        .then(res => {
-          this.runDataProvider('onSchemaApiFetched');
-          this.afterDataFetch(res);
-        });
+      const res = await store.fetchData(api, store.data, {
+        silent,
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed
+      });
+      await this.runDataProvider('onSchemaApiFetched');
+      this.afterDataFetch(res);
     }
 
     if (dataProvider) {
-      this.runDataProvider('inited');
+      await this.runDataProvider('inited');
     }
+
+    return store.data;
   }
 
   silentReload(target?: string, query?: any) {
     this.reload(target, query, undefined, true);
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
+  async receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   handleQuery(query: any) {
@@ -878,7 +874,7 @@ export class ServiceRenderer extends Service {
     scoped.registerComponent(this as ScopedComponentType);
   }
 
-  reload(
+  async reload(
     subpath?: string,
     query?: any,
     ctx?: any,
@@ -896,7 +892,7 @@ export class ServiceRenderer extends Service {
     return super.reload(subpath, query, ctx, silent, replace);
   }
 
-  receive(values: any, subPath?: string, replace?: boolean) {
+  async receive(values: any, subPath?: string, replace?: boolean) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);

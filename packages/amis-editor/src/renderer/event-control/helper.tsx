@@ -1264,6 +1264,17 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'override'
                 }
               ]
+            },
+            {
+              name: 'outputVar',
+              type: 'input-text',
+              label: '刷新后数据结果',
+              placeholder: '请输入变量名称',
+              description:
+                '如果想要拿到目标组件刷新后的数据，请在此处输入变量名称',
+              mode: 'horizontal',
+              size: 'lg',
+              value: ''
             }
           ]
         },

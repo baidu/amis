@@ -701,7 +701,7 @@ export default class Page extends React.Component<PageProps> {
     });
   }
 
-  reload(
+  async reload(
     subpath?: any,
     query?: any,
     ctx?: any,
@@ -715,12 +715,14 @@ export default class Page extends React.Component<PageProps> {
     const {store, initApi} = this.props;
 
     clearTimeout(this.timer);
-    isEffectiveApi(initApi, store.data) &&
-      store
-        .fetchData(initApi, store.data, {
-          silent
-        })
-        .then(this.initInterval);
+    if (isEffectiveApi(initApi, store.data)) {
+      const value = await store.fetchData(initApi, store.data, {
+        silent
+      });
+      this.initInterval(value);
+    }
+
+    return store.data;
   }
 
   receive(values: object, subPath?: string, replace?: boolean) {
