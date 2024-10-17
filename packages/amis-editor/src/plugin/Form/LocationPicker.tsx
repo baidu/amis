@@ -3,7 +3,6 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {inputStateTpl} from '../../renderer/style-control/helper';
 import {ValidatorTag} from '../../validator';
 
 export class LocationControlPlugin extends BasePlugin {

@@ -1241,7 +1241,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     });
   }
 
-  search(
+  async search(
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
@@ -1300,98 +1300,87 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             'options'
           ) as any)
         : undefined;
-    isEffectiveApi(api, data)
-      ? store
-          .fetchInitData(api, data, {
-            successMessage: messages && messages.fetchSuccess,
-            errorMessage: messages && messages.fetchFailed,
-            autoAppend: true,
-            forceReload,
-            loadDataOnce,
-            source,
-            silent,
-            pageField,
-            perPageField,
-            loadDataMode,
-            syncResponse2Query,
-            columns: store.columns ?? columns,
-            matchFunc
+    if (isEffectiveApi(api, data)) {
+      const value = await store.fetchInitData(api, data, {
+        successMessage: messages && messages.fetchSuccess,
+        errorMessage: messages && messages.fetchFailed,
+        autoAppend: true,
+        forceReload,
+        loadDataOnce,
+        source,
+        silent,
+        pageField,
+        perPageField,
+        loadDataMode,
+        syncResponse2Query,
+        columns: store.columns ?? columns,
+        matchFunc
+      });
+      if (!isAlive(store)) {
+        return value;
+      }
+
+      const {page, lastPage, msg, error} = store;
+
+      if (isInit) {
+        // 初始化请求完成
+        const rendererEvent = await dispatchEvent?.(
+          'fetchInited',
+          createObject(this.props.data, {
+            responseData: value?.ok ? store.data ?? {} : value,
+            responseStatus:
+              value?.status === undefined ? (error ? 1 : 0) : value?.status,
+            responseMsg: msg
           })
-          .then(async value => {
-            if (!isAlive(store)) {
-              return value;
-            }
+        );
 
-            const {page, lastPage, data, msg, error} = store;
+        if (rendererEvent?.prevented) {
+          return store.data;
+        }
+      }
 
-            if (isInit) {
-              // 初始化请求完成
-              const rendererEvent = await dispatchEvent?.(
-                'fetchInited',
-                createObject(this.props.data, {
-                  responseData: value?.ok ? data ?? {} : value,
-                  responseStatus:
-                    value?.status === undefined
-                      ? error
-                        ? 1
-                        : 0
-                      : value?.status,
-                  responseMsg: msg
-                })
-              );
+      // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
+      if (
+        !store.data.items.length &&
+        !interval &&
+        page > 1 &&
+        lastPage < page
+      ) {
+        this.search(
+          {
+            ...store.query,
+            [pageField || 'page']: lastPage
+          },
+          false,
+          undefined
+        );
+      }
 
-              if (rendererEvent?.prevented) {
-                return;
-              }
-            }
+      value?.ok && // 接口正常返回才继续轮训
+        interval &&
+        this.mounted &&
+        (!stopAutoRefreshWhen ||
+          !(
+            (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
+            evalExpression(
+              stopAutoRefreshWhen,
+              createObject(store.data, store.query)
+            )
+          )) &&
+        (this.timer = setTimeout(
+          silentPolling
+            ? this.silentSearch.bind(this, undefined, undefined, true)
+            : this.search.bind(this, undefined, undefined, undefined, true),
+          Math.max(interval, 1000)
+        ));
+    } else if (source) {
+      store.initFromScope(data, source, {
+        columns: store.columns ?? columns,
+        matchFunc
+      });
+    }
 
-            // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
-            if (
-              !store.data.items.length &&
-              !interval &&
-              page > 1 &&
-              lastPage < page
-            ) {
-              this.search(
-                {
-                  ...store.query,
-                  [pageField || 'page']: lastPage
-                },
-                false,
-                undefined
-              );
-            }
-
-            value?.ok && // 接口正常返回才继续轮训
-              interval &&
-              this.mounted &&
-              (!stopAutoRefreshWhen ||
-                !(
-                  (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(
-                    stopAutoRefreshWhen,
-                    createObject(store.data, store.query)
-                  )
-                )) &&
-              (this.timer = setTimeout(
-                silentPolling
-                  ? this.silentSearch.bind(this, undefined, undefined, true)
-                  : this.search.bind(
-                      this,
-                      undefined,
-                      undefined,
-                      undefined,
-                      true
-                    ),
-                Math.max(interval, 1000)
-              ));
-            return value;
-          })
-      : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns,
-          matchFunc
-        });
+    return store.data;
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
@@ -1862,7 +1851,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(
+    return this.search(
       undefined,
       undefined,
       clearSelection ?? replace,
@@ -1880,7 +1869,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (query) {
       return this.receive(query, undefined, replace, resetPage, true);
     } else {
-      this.search(undefined, undefined, true, true);
+      return this.search(undefined, undefined, true, true);
     }
   }
 
@@ -1891,7 +1880,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     resetPage?: boolean,
     clearSelection?: boolean
   ) {
-    this.handleQuery(values, true, replace, resetPage, clearSelection);
+    return this.handleQuery(values, true, replace, resetPage, clearSelection);
   }
 
   reloadTarget(target: string, data: any) {
@@ -2834,7 +2823,7 @@ export class CRUDRenderer extends CRUD {
     return super.reload(subpath, query, replace, args?.resetPage ?? true);
   }
 
-  receive(
+  async receive(
     values: any,
     subPath?: string,
     replace?: boolean,

@@ -16,18 +16,20 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
   };
 });
 
-setSchemaTpl('theme:formItem', ({schema}: any = {}) => {
+setSchemaTpl('theme:formItem', ({schema, hidSize}: any = {hidSize: false}) => {
   return {
     title: '表单项',
     key: 'formItem',
     body: [
       getSchemaTpl('theme:labelHide'),
-      {
+      !hidSize && {
         type: 'col-size',
         name: '__size',
         label: '宽度'
       }
-    ].concat(schema)
+    ]
+      .filter(Boolean)
+      .concat(schema)
   };
 });
 

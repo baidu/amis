@@ -145,6 +145,10 @@
       width: 100%;
     }
 
+    .#{$ns}Cards-placeholder {
+      font-size: var(--fonts-size-7);
+    }
+
     .#{$ns}Card {
       --Card-borderRadius: var(--sizes-size-5);
       --gap-base: var(--sizes-size-9);

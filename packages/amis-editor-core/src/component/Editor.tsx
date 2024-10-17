@@ -140,16 +140,7 @@ export interface EditorProps extends PluginEventListener {
   readonly?: boolean;
 }
 
-export default class Editor extends Component<
-  EditorProps,
-  {
-    mobileDimensions: {
-      width: number;
-      height: number;
-    };
-    mobileScale: number;
-  }
-> {
+export default class Editor extends Component<EditorProps> {
   readonly store: EditorStoreType;
   readonly manager: EditorManager;
   readonly mainRef = React.createRef<HTMLDivElement>();
@@ -229,14 +220,6 @@ export default class Editor extends Component<
     this.toDispose.push(
       this.manager.on('preview2editor', () => this.manager.rebuild())
     );
-
-    this.state = {
-      mobileDimensions: {
-        width: 375,
-        height: 667
-      },
-      mobileScale: 100
-    };
   }
 
   componentDidMount() {
@@ -602,7 +585,6 @@ export default class Editor extends Component<
       amisEnv,
       readonly
     } = this.props;
-    const {mobileDimensions, mobileScale} = this.state;
 
     return (
       <div
