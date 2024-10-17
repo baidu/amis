@@ -47,6 +47,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 Apple
               </span>
@@ -64,6 +65,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="1"
               >
                 Orange
               </span>
@@ -81,6 +83,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="2"
               >
                 Banana
               </span>
@@ -163,6 +166,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 Apple
               </span>
@@ -180,6 +184,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="1"
               >
                 Orange
               </span>
@@ -197,6 +202,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="2"
               >
                 Banana
               </span>
@@ -278,6 +284,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 Apple
               </span>
@@ -295,6 +302,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="1"
               >
                 Orange
               </span>
@@ -375,6 +383,7 @@ exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 Apple
               </span>
@@ -456,6 +465,7 @@ exports[`Renderer:InputTag InputTag input with single tag 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 Honey-dew melon
               </span>

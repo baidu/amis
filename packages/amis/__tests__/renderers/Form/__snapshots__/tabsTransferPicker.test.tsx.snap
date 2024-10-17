@@ -81,6 +81,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                           >
                             <span
                               class="cxd-ResultBox-valueLabel"
+                              data-index="0"
                             >
                               <span>
                                 诸葛亮
