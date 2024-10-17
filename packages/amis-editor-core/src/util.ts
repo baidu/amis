@@ -935,6 +935,24 @@ export function patchDiff(left: any, changes: Array<DiffChange> | undefined) {
 }
 
 /**
+ * 添加移动端单独编辑标识
+ */
+function addMobileAttribute(path: Array<string>) {
+  const editorStore = (window as any)?.editorStore;
+
+  if (
+    editorStore.isMobileAloneEdit &&
+    editorStore.isMobile &&
+    !editorStore.isCodeEditing &&
+    !path.slice(-1)?.[0]?.startsWith?.('__') &&
+    path[0] !== 'body' &&
+    path[0] !== 'mobile'
+  ) {
+    path.unshift('mobile');
+  }
+}
+
+/**
  * 因为左侧是个不可变动的对象，所以先 copy 了对应的属性，再传给 DeepDiff.applyChange
  */
 function applyChange(target: any, source: any, change: DiffChange) {
@@ -945,6 +963,11 @@ function applyChange(target: any, source: any, change: DiffChange) {
 
     if (change.kind !== 'A') {
       path.pop();
+    }
+
+    // pc 响应式页面，纯h5页面不处理
+    if (change.kind === 'E' || change.kind === 'N') {
+      addMobileAttribute(path);
     }
 
     path.reduce(
@@ -969,15 +992,9 @@ function applyChange(target: any, source: any, change: DiffChange) {
         source
       }
     );
-    const editorStore = (window as any)?.editorStore;
-    // pc 响应式页面，纯h5页面不处理
-    if (
-      editorStore.isMobileAloneEdit &&
-      editorStore.isMobile &&
-      !editorStore.isCodeEditing
-    ) {
-      change.path.unshift('mobile');
-    }
+    // 一定要要再添加一遍
+    addMobileAttribute(change.path);
+
     DeepDiff.applyChange(target, source, change);
   }
 
