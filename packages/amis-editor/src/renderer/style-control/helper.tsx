@@ -3,110 +3,120 @@ import {getSchemaTpl} from 'amis-editor-core';
 export const inputStateTpl = (
   className: string,
   token: string = '',
-  options: {
-    state: string[];
-  } = {
-    state: ['default', 'hover', 'focused', 'disabled']
+  options?: {
+    state?: {
+      label: string;
+      value: string;
+      token?: string;
+    }[];
+    hideFont?: boolean;
+    hidePadding?: boolean;
+    hideMargin?: boolean;
+    hideRadius?: boolean;
+    hideBackground?: boolean;
+    hideBorder?: boolean;
   }
 ) => {
-  return [
+  const stateOptions = options?.state || [
+    {
+      label: '常规',
+      value: 'default'
+    },
+    {
+      label: '悬浮',
+      value: 'hover'
+    },
+    {
+      label: '选中',
+      value: 'focused'
+    },
+    {
+      label: '禁用',
+      value: 'disabled'
+    }
+  ];
+
+  const res: any = [
     {
       type: 'select',
       name: `__editorState${className}`,
       label: '状态',
       selectFirst: true,
-      options: [
-        {
-          label: '常规',
-          value: 'default'
-        },
-        {
-          label: '悬浮',
-          value: 'hover'
-        },
-        {
-          label: '选中',
-          value: 'focused'
-        },
-        {
-          label: '禁用',
-          value: 'disabled'
-        }
-      ].filter(item => options.state.includes(item.value))
+      options: stateOptions
     },
-    ...inputStateFunc(
-      `\${__editorState${className} == 'default' || !__editorState${className}}`,
-      'default',
-      className,
-      token
-    ),
-    ...inputStateFunc(
-      `\${__editorState${className} == 'hover'}`,
-      'hover',
-      className,
-      token
-    ),
-    ...inputStateFunc(
-      `\${__editorState${className} == 'focused'}`,
-      'focused',
-      className,
-      token
-    ),
-    ...inputStateFunc(
-      `\${__editorState${className} == 'disabled'}`,
-      'disabled',
-      className,
-      token
-    )
+    ...stateOptions.map((item: any) => {
+      return {
+        type: 'container',
+        visibleOn:
+          `\${__editorState${className} == '${item.value}'` +
+          (item.value === 'default' ? ` || !__editorState${className}` : '') +
+          `}`,
+        body: inputStateFunc(
+          item.value,
+          className,
+          item.token || token,
+          options
+        )
+      };
+    })
   ];
+  return res;
 };
 
 export const inputStateFunc = (
-  visibleOn: string,
   state: string,
   className: string,
   token: string,
-  options: any = []
+  options: any
 ) => {
-  const cssToken = state === 'focused' ? 'active' : state;
+  const cssTokenState = state === 'focused' ? 'active' : state;
+
+  if (token.includes('${state}')) {
+    token = token.replace(/\${state}/g, cssTokenState);
+  } else {
+    token = `${token}-${cssTokenState}`;
+  }
   return [
-    getSchemaTpl('theme:font', {
-      label: '文字',
-      name: `${className}.font:${state}`,
-      visibleOn: visibleOn,
-      editorValueToken: `${token}-${cssToken}`,
-      state
-    }),
-    getSchemaTpl('theme:colorPicker', {
-      label: '背景',
-      name: `${className}.background:${state}`,
-      labelMode: 'input',
-      needGradient: true,
-      needImage: true,
-      visibleOn: visibleOn,
-      editorValueToken: `${token}-${cssToken}-bg-color`,
-      state
-    }),
-    getSchemaTpl('theme:border', {
-      name: `${className}.border:${state}`,
-      visibleOn: visibleOn,
-      editorValueToken: `${token}-${cssToken}`,
-      state
-    }),
-    getSchemaTpl('theme:paddingAndMargin', {
-      name: `${className}.padding-and-margin:${state}`,
-      visibleOn: visibleOn,
-      editorValueToken: `${token}-${cssToken}`,
-      state
-    }),
-    getSchemaTpl('theme:radius', {
-      name: `${className}.radius:${state}`,
-      visibleOn: visibleOn,
-      editorValueToken: `${token}-${cssToken}`,
-      state
-    }),
-    ...options
-  ];
+    !options?.hideFont &&
+      getSchemaTpl('theme:font', {
+        label: '文字',
+        name: `${className}.font:${state}`,
+        editorValueToken: token,
+        state
+      }),
+    !options?.hideBackground &&
+      getSchemaTpl('theme:colorPicker', {
+        label: '背景',
+        name: `${className}.background:${state}`,
+        labelMode: 'input',
+        needGradient: true,
+        needImage: true,
+        editorValueToken: `${token}-bg-color`,
+        state
+      }),
+    !options?.hideBorder &&
+      getSchemaTpl('theme:border', {
+        name: `${className}.border:${state}`,
+        editorValueToken: token,
+        state
+      }),
+    !options?.hidePadding &&
+      !options?.hideMargin &&
+      getSchemaTpl('theme:paddingAndMargin', {
+        name: `${className}.padding-and-margin:${state}`,
+        editorValueToken: token,
+        state,
+        hidePadding: options?.hidePadding,
+        hideMargin: options?.hideMargin
+      }),
+    !options?.hideRadius &&
+      getSchemaTpl('theme:radius', {
+        name: `${className}.radius:${state}`,
+        editorValueToken: token,
+        state
+      }),
+    ...(options?.schema || [])
+  ].filter(Boolean);
 };
 
 export const buttonStateFunc = (visibleOn: string, state: string) => {

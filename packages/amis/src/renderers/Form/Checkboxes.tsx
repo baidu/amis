@@ -7,7 +7,9 @@ import {
   hasAbility,
   columnsSplit,
   flattenTreeWithLeafNodes,
-  getVariable
+  getVariable,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon, Spinner} from 'amis-ui';
@@ -337,6 +339,29 @@ export default class CheckboxesControl extends React.Component<
     return result;
   }
 
+  formateThemeCss(themeCss: any) {
+    if (!themeCss) {
+      return {};
+    }
+    const {checkboxesClassName} = themeCss;
+    const defaultThemeCss: any = {};
+    const checkedThemeCss: any = {};
+    Object.keys(checkboxesClassName).forEach(key => {
+      if (key.includes('checked-')) {
+        const newKey = key.replace('checked-', '');
+        checkedThemeCss[newKey] = checkboxesClassName[key];
+      } else if (key.includes('checkbox-')) {
+        const newKey = key.replace('checkbox-', '');
+        defaultThemeCss[newKey] = checkboxesClassName[key];
+      }
+    });
+    return {
+      ...themeCss,
+      checkboxesClassName: defaultThemeCss,
+      checkboxesCheckedClassName: checkedThemeCss
+    };
+  }
+
   @supportStatic()
   render() {
     const {
@@ -361,7 +386,11 @@ export default class CheckboxesControl extends React.Component<
       translate: __,
       optionType,
       loading,
-      loadingConfig
+      loadingConfig,
+      themeCss,
+      id,
+      env,
+      classPrefix: ns
     } = this.props;
 
     let body: Array<React.ReactNode> = [];
@@ -393,8 +422,34 @@ export default class CheckboxesControl extends React.Component<
 
     body = this.columnsSplit(body);
 
+    const css = this.formateThemeCss(themeCss);
+
     return (
-      <div className={cx(`CheckboxesControl`, className)} ref="checkboxRef">
+      <div
+        className={cx(
+          `CheckboxesControl`,
+          className,
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxesClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxesCheckedClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxesLabelClassName',
+            id,
+            themeCss: css
+          })
+        )}
+        ref="checkboxRef"
+      >
         {body && body.length ? (
           body
         ) : loading ? null : (
@@ -417,6 +472,63 @@ export default class CheckboxesControl extends React.Component<
             {__(createBtnLabel)}
           </a>
         ) : null}
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: this.formateThemeCss(themeCss),
+            classNames: [
+              {
+                key: 'checkboxesClassName',
+                weights: {
+                  default: {
+                    suf: ' label',
+                    inner: 'i'
+                  },
+                  hover: {
+                    suf: ' label',
+                    inner: 'i'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input[disabled] + i`
+                  }
+                }
+              },
+              {
+                key: 'checkboxesCheckedClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox--checkbox input:checked + i`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox--checkbox`,
+                    inner: 'input:checked + i'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input:checked[disabled] + i`
+                  }
+                }
+              },
+              {
+                key: 'checkboxesLabelClassName',
+                weights: {
+                  default: {
+                    suf: ' label',
+                    inner: 'span'
+                  },
+                  hover: {
+                    suf: ' label',
+                    inner: 'span'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input[disabled] + i + span`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -25,6 +25,7 @@ import {
   resolveOptionEventDataSchame,
   resolveOptionType
 } from '../../util';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class CheckboxesControlPlugin extends BasePlugin {
   static id = 'CheckboxesControlPlugin';
@@ -230,7 +231,70 @@ export class CheckboxesControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:formItem', {hidSize: true}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '勾选框样式',
+              body: [
+                ...inputStateTpl('themeCss.checkboxesClassName', '--checkbox', {
+                  hideFont: true,
+                  hideMargin: true,
+                  hidePadding: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'checkbox-default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'checkbox-hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'checkbox-disabled'
+                    },
+                    {
+                      label: '选中',
+                      value: 'checked-default'
+                    },
+                    {
+                      label: '选中态悬浮',
+                      value: 'checked-hover'
+                    },
+                    {
+                      label: '选中禁用',
+                      value: 'checked-disabled'
+                    }
+                  ]
+                })
+              ]
+            },
+            {
+              title: '选项说明样式',
+              body: [
+                ...inputStateTpl('themeCss.checkboxesLabelClassName', '', {
+                  hidePadding: true,
+                  hideRadius: true,
+                  hideBorder: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'disabled'
+                    }
+                  ]
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames')
           ])
         ]
