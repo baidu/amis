@@ -276,7 +276,7 @@ export default class Panel extends React.Component<PanelProps> {
 
     return (
       <div
-        id={id}
+        data-id={id}
         className={cx(`Panel`, className || `Panel--default`)}
         style={style}
       >
