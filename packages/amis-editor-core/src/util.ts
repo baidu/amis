@@ -992,9 +992,9 @@ function applyChange(target: any, source: any, change: DiffChange) {
         source
       }
     );
+
     // 一定要要再添加一遍
     addMobileAttribute(change.path);
-
     DeepDiff.applyChange(target, source, change);
   }
 
