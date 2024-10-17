@@ -1,5 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {createObject} from '../utils/helper';
+import {createObject, extendObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -82,7 +82,7 @@ export class CmptAction implements RendererAction {
 
     // 刷新
     if (action.actionType === 'reload') {
-      return component?.reload?.(
+      const result = await component?.reload?.(
         undefined,
         action.data,
         event.data,
@@ -90,6 +90,16 @@ export class CmptAction implements RendererAction {
         dataMergeMode === 'override',
         action.args
       );
+
+      if (result && action.outputVar) {
+        event.setData(
+          extendObject(event.data, {
+            [action.outputVar]: result
+          })
+        );
+      }
+
+      return result;
     }
 
     // 校验表单项

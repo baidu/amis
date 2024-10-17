@@ -601,6 +601,19 @@ export function wrapFetcher(
     // 如果发送适配器中设置了 mockResponse
     // 则直接跳过请求发送
     if (api.mockResponse) {
+      console.debug(
+        `fetch api ${api.url}${
+          api.data
+            ? `?${
+                typeof api.data === 'string'
+                  ? api.data
+                  : qsstringify(api.data, api.qsOptions)
+              }`
+            : ''
+        } with mock response`,
+        api.mockResponse,
+        api
+      );
       return wrapAdaptor(Promise.resolve(api.mockResponse) as any, api, data);
     }
 

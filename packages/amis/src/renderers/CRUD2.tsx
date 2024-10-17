@@ -612,7 +612,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   /**
    * 更新列表数据
    */
-  getData(
+  async getData(
     /** 静默更新，不显示加载状态 */
     silent?: boolean,
     /** 清空已选择数据 */
@@ -667,49 +667,49 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store.changePerPage(perPage);
     }
 
-    isEffectiveApi(api, data)
-      ? store
-          .fetchInitData(api, data, {
-            successMessage: messages && messages.fetchSuccess,
-            errorMessage: messages && messages.fetchFailed,
-            autoAppend: true,
-            forceReload,
-            loadDataOnce,
-            source,
-            silent,
-            pageField,
-            perPageField,
-            loadDataMode,
-            syncResponse2Query,
-            columns: store.columns ?? columns,
-            isTable2: true
-          })
-          .then(value => {
-            value?.ok && // 接口正常返回才继续轮训
-              interval &&
-              !this.stopingAutoRefresh &&
-              this.mounted &&
-              (!stopAutoRefreshWhen ||
-                !(
-                  stopAutoRefreshWhen &&
-                  evalExpression(
-                    stopAutoRefreshWhen,
-                    createObject(store.data, store.query)
-                  )
-                )) &&
-              // 弹窗期间不进行刷新
-              (!stopAutoRefreshWhenModalIsOpen ||
-                (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
-              (this.timer = setTimeout(
-                this.getData.bind(this, silentPolling, undefined, true),
-                Math.max(interval, 1000)
-              ));
-            return value;
-          })
-      : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns
-        });
+    if (isEffectiveApi(api, data)) {
+      const value = await store.fetchInitData(api, data, {
+        successMessage: messages && messages.fetchSuccess,
+        errorMessage: messages && messages.fetchFailed,
+        autoAppend: true,
+        forceReload,
+        loadDataOnce,
+        source,
+        silent,
+        pageField,
+        perPageField,
+        loadDataMode,
+        syncResponse2Query,
+        columns: store.columns ?? columns,
+        isTable2: true
+      });
+
+      value?.ok && // 接口正常返回才继续轮训
+        interval &&
+        !this.stopingAutoRefresh &&
+        this.mounted &&
+        (!stopAutoRefreshWhen ||
+          !(
+            stopAutoRefreshWhen &&
+            evalExpression(
+              stopAutoRefreshWhen,
+              createObject(store.data, store.query)
+            )
+          )) &&
+        // 弹窗期间不进行刷新
+        (!stopAutoRefreshWhenModalIsOpen ||
+          (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
+        (this.timer = setTimeout(
+          this.getData.bind(this, silentPolling, undefined, true),
+          Math.max(interval, 1000)
+        ));
+    } else if (source) {
+      store.initFromScope(data, source, {
+        columns: store.columns ?? columns
+      });
+    }
+
+    return store.data;
   }
 
   @autobind
@@ -1055,19 +1055,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-    this.getData(undefined, undefined, forceReload);
+    return this.getData(undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.getData(undefined, undefined, true);
+      return this.getData(undefined, undefined, true);
     }
   }
 
   receive(values: object) {
-    this.handleQuerySearch(values, true);
+    return this.handleQuerySearch(values, true);
   }
 
   @autobind
@@ -1630,7 +1630,7 @@ export class CRUD2Renderer extends CRUD2 {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  async reload(subpath?: string, query?: any, ctx?: any) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -1642,7 +1642,7 @@ export class CRUD2Renderer extends CRUD2 {
     return super.reload(subpath, query);
   }
 
-  receive(values: any, subPath?: string) {
+  async receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
