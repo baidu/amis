@@ -183,6 +183,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                             className={cx('ResultBox-valueLabel')}
                             data-index={index}
                             onClick={this.handleItemClick}
+                            {...itemTIB?.getChild('click').getTestId()}
                           >
                             {itemRender(item)}
                           </span>
@@ -227,6 +228,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                 className={cx('ResultBox-valueLabel')}
                 data-index={index}
                 onClick={this.handleItemClick}
+                {...itemTIB?.getChild('click').getTestId()}
               >
                 {itemRender(item)}
               </span>
@@ -263,6 +265,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               className={cx('ResultBox-valueLabel')}
               data-index={index}
               onClick={this.handleItemClick}
+              {...itemTIB?.getChild('click').getTestId()}
             >
               {itemRender(item)}
             </span>
