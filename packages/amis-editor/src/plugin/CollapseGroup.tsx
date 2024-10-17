@@ -27,6 +27,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   pluginIcon = 'collapse-plugin';
   scaffold = {
     type: 'collapse-group',
+    expandIconPosition: 'right',
     activeKey: ['1'],
     body: [
       {
@@ -101,6 +102,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const isInForm = context.path.includes('/form/');
     const i18nEnabled = getI18nEnabled();
     return [
       getSchemaTpl('tabs', [
@@ -116,7 +118,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                   label: '图标位置',
                   type: 'button-group-select',
 
-                  pipeIn: defaultValue('left'),
+                  pipeIn: defaultValue('right'),
                   options: [
                     {
                       label: '左边',
@@ -169,6 +171,12 @@ export class CollapseGroupPlugin extends BasePlugin {
                       : undefined;
                   }
                 },
+                getSchemaTpl('switch', {
+                  name: 'enableFieldSetStyle',
+                  label: '切换展示方式',
+                  value: true,
+                  visible: isInForm
+                }),
                 {
                   name: 'accordion',
                   label: tipedLabel(
