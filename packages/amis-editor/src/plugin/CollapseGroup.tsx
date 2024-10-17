@@ -27,7 +27,6 @@ export class CollapseGroupPlugin extends BasePlugin {
   pluginIcon = 'collapse-plugin';
   scaffold = {
     type: 'collapse-group',
-    expandIconPosition: 'right',
     activeKey: ['1'],
     body: [
       {
@@ -118,7 +117,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                   label: '图标位置',
                   type: 'button-group-select',
 
-                  pipeIn: defaultValue('right'),
+                  pipeIn: defaultValue('left'),
                   options: [
                     {
                       label: '左边',
