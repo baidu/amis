@@ -131,7 +131,6 @@
         &:before {
           width: var(--Checkbox-inner-size);
           height: var(--Checkbox-inner-size);
-          background: var(--Checkbox-onHover-color);
         }
       }
 
@@ -140,7 +139,6 @@
         cursor: not-allowed;
         background-color: var(--checkbox-checkbox-disabled-bg-color);
         &:before {
-          background-color: var(--Checkbox-onDisabled-color);
           border-width: 0;
         }
       }
@@ -243,10 +241,6 @@
       input:checked + i {
         background: var(--button-primary-hover-bg-color);
         border-color: transparent;
-
-        &:before {
-          background: var(--checkbox-checked-hover-bg-color);
-        }
       }
 
       & > i:before {
@@ -264,9 +258,6 @@
       &:checked + i {
         border-color: var(--Checkbox-onHover-color);
         background: var(--Checkbox-onHover-color);
-        &:hover {
-          background: var(--checkbox-checked-hover-bg-color);
-        }
 
         &:before {
           width: var(--Checkbox--full-inner-size);
@@ -283,14 +274,12 @@
       &[disabled]:checked + i {
         &:before {
           border-color: var(--Checkbox-onDisabled-color);
-          background: var(--Checkbox-onDisabled-bg);
           border-width: 0 0 px2rem(1px) px2rem(1px);
         }
       }
 
       &:checked[disabled] + i {
         border-color: var(--Checkbox-color);
-        background: var(--Checkbox-onDisabled-bg);
       }
     }
 
@@ -325,7 +314,6 @@
         &:before {
           width: var(--Checkbox-inner-size);
           height: var(--Checkbox-inner-size);
-          background: var(--Checkbox-onHover-color);
         }
       }
 

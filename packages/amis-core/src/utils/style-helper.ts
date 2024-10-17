@@ -417,7 +417,7 @@ export function insertEditCustomStyle(params: {
       } else if (key === 'root') {
         const res = map(
           styles[key],
-          (value, key) =>
+          (value: any, key) =>
             `${key}: ${
               resolveVariableAndFilter(
                 value.replace(/['|"]/g, ''),
@@ -430,7 +430,7 @@ export function insertEditCustomStyle(params: {
       } else if (/^root:/.test(key)) {
         const res = map(
           styles[key],
-          (value, key) =>
+          (value: any, key) =>
             `${key}: ${
               resolveVariableAndFilter(
                 value.replace(/['|"]/g, ''),
@@ -444,7 +444,7 @@ export function insertEditCustomStyle(params: {
       } else {
         const res = map(
           styles[key],
-          (value, key) =>
+          (value: any, key) =>
             `${key}: ${
               resolveVariableAndFilter(
                 value.replace(/['|"]/g, ''),
