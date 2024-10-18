@@ -6,7 +6,7 @@
 
 import React, {forwardRef, useEffect} from 'react';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {useSetState} from '../hooks';
+import {useOnScreen, useSetState} from '../hooks';
 import useTouch from '../hooks/use-touch';
 import {Icon} from './icons';
 import {TranslateFn} from 'amis-core';
@@ -16,10 +16,15 @@ export interface PullRefreshProps {
   classPrefix: string;
   translate: TranslateFn;
   disabled?: boolean;
+  completed?: boolean;
+  // 划屏方向，默认是下拉
+  direction?: 'up' | 'down';
+  normalText?: string;
   pullingText?: string;
   loosingText?: string;
   loadingText?: string;
   successText?: string;
+  completedText?: string;
   onRefresh?: () => void;
   loading?: boolean;
   successDuration?: number;
@@ -34,9 +39,14 @@ export interface PullRefreshState {
   offsetY: number;
 }
 
-const defaultProps = {
+const defaultProps: {
+  successDuration: number;
+  loadingDuration: number;
+  direction?: 'up' | 'down';
+} = {
   successDuration: 0,
-  loadingDuration: 0
+  loadingDuration: 0,
+  direction: 'down'
 };
 
 const defaultHeaderHeight = 28;
@@ -47,17 +57,24 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     translate: __,
     children,
     successDuration,
-    loadingDuration
+    loadingDuration,
+    direction,
+    completed
   } = props;
 
   const refreshText = {
-    pullingText: __('pullRefresh.pullingText'),
-    loosingText: __('pullRefresh.loosingText'),
-    loadingText: __('pullRefresh.loadingText'),
-    successText: __('pullRefresh.successText')
+    normalText: props.normalText ?? __('pullRefresh.normalText'),
+    pullingText: props.pullingText ?? __('pullRefresh.pullingText'),
+    loosingText: props.loosingText ?? __('pullRefresh.loosingText'),
+    loadingText: props.loadingText ?? __('pullRefresh.loadingText'),
+    successText: props.successText ?? __('pullRefresh.successText'),
+    completedText: props.completedText ?? __('pullRefresh.completedText')
   };
 
   const touch = useTouch();
+  const loadingRef = React.useRef<HTMLDivElement>(null);
+  // 当占位文字在屏幕内时，需要刷新
+  const needRefresh = useOnScreen(loadingRef);
 
   useEffect(() => {
     if (props.loading === false) {
@@ -72,6 +89,8 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
 
   const isTouchable = () => {
     return (
+      !completed &&
+      needRefresh &&
       !props.disabled &&
       state.status !== 'loading' &&
       state.status !== 'success'
@@ -100,7 +119,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       status = 'loading';
     } else if (distance === 0) {
       status = 'normal';
-    } else if (distance < pullDistance) {
+    } else if (Math.abs(distance) < pullDistance) {
       status = 'pulling';
     } else {
       status = 'loosing';
@@ -136,8 +155,13 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     if (isTouchable()) {
       touch.move(event);
       updateState({});
-      if (touch.isVertical() && touch.deltaY > 0) {
-        setStatus(ease(touch.deltaY));
+
+      if (touch.isVertical()) {
+        if (direction === 'down' && touch.deltaY > 0) {
+          setStatus(ease(touch.deltaY));
+        } else if (direction === 'up' && touch.deltaY < 0) {
+          setStatus(-1 * ease(-1 * touch.deltaY));
+        }
       }
     }
     return false;
@@ -145,8 +169,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
 
   const onTouchEnd = (event: any) => {
     event.stopPropagation();
-
-    if (isTouchable() && state.offsetY > 0) {
+    if (isTouchable() && state.offsetY !== 0) {
       if (state.status === 'loosing') {
         if (loadingDuration) {
           setStatus(defaultHeaderHeight, true);
@@ -162,15 +185,32 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
 
   const transformStyle = {
     transform: `translate3d(0, ${state.offsetY}px, 0)`,
-    touchAction: 'none'
+    // 不清楚历史原因为什么要加这个，兼容一下
+    ...(direction === 'down'
+      ? {
+          touchAction: 'none'
+        }
+      : {})
   };
 
   const getStatusText = (status: statusText) => {
-    if (status === 'normal') {
-      return '';
+    if (props.loading) {
+      return refreshText.loadingText;
     }
-    return props[`${status}Text`] || refreshText[`${status}Text`];
+    if (completed) {
+      return refreshText.completedText;
+    }
+    return refreshText[`${status}Text`];
   };
+
+  const loadingDom = (className: string) => (
+    <div className={className} ref={loadingRef}>
+      {state.status === 'loading' && (
+        <Icon icon="loading-outline" className="icon loading-icon" />
+      )}
+      {getStatusText(state.status)}
+    </div>
+  );
 
   return (
     <div
@@ -181,13 +221,9 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       onTouchCancel={onTouchEnd}
     >
       <div className={cx('PullRefresh-wrap')} style={transformStyle}>
-        <div className={cx('PullRefresh-header')}>
-          {state.status === 'loading' && (
-            <Icon icon="loading-outline" className="icon loading-icon" />
-          )}
-          {getStatusText(state.status)}
-        </div>
+        {direction === 'down' ? loadingDom(cx('PullRefresh-header')) : null}
         {children}
+        {direction === 'up' ? loadingDom(cx('PullRefresh-footer')) : null}
       </div>
     </div>
   );

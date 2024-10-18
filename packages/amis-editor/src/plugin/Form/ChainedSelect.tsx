@@ -19,6 +19,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {Schema} from 'amis';
 import {resolveOptionEventDataSchame} from '../../util';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
   static id = 'ChainedSelectControlPlugin';
@@ -210,15 +211,36 @@ export class ChainedSelectControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            getSchemaTpl('style:classNames', {
-              schema: [
-                getSchemaTpl('className', {
-                  name: 'descriptionClassName',
-                  label: '描述'
-                })
+            getSchemaTpl('theme:formItem'),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '选择框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.chainedSelectControlClassName',
+                  '--select-base'
+                )
               ]
-            })
+            },
+            {
+              title: '下拉框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.chainedSelectPopoverClassName',
+                  '--select-base-${state}-option',
+                  {
+                    state: [
+                      {label: '常规', value: 'default'},
+                      {label: '悬浮', value: 'hover'},
+                      {label: '选中', value: 'focused'}
+                    ]
+                  }
+                )
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
+            getSchemaTpl('style:classNames')
           ])
         ]
       },

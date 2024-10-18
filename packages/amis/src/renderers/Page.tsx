@@ -701,7 +701,7 @@ export default class Page extends React.Component<PageProps> {
     });
   }
 
-  reload(
+  async reload(
     subpath?: any,
     query?: any,
     ctx?: any,
@@ -715,12 +715,14 @@ export default class Page extends React.Component<PageProps> {
     const {store, initApi} = this.props;
 
     clearTimeout(this.timer);
-    isEffectiveApi(initApi, store.data) &&
-      store
-        .fetchData(initApi, store.data, {
-          silent
-        })
-        .then(this.initInterval);
+    if (isEffectiveApi(initApi, store.data)) {
+      const value = await store.fetchData(initApi, store.data, {
+        silent
+      });
+      this.initInterval(value);
+    }
+
+    return store.data;
   }
 
   receive(values: object, subPath?: string, replace?: boolean) {
@@ -904,48 +906,24 @@ export default class Page extends React.Component<PageProps> {
     return header || right;
   }
 
-  render() {
+  renderContent(subProps: any) {
     const {
-      className,
       store,
       body,
       bodyClassName,
       render,
-      aside,
-      asideClassName,
       classnames: cx,
       showErrorMsg,
-      initApi,
       regions,
-      style,
-      data,
-      asideResizor,
-      asideSticky,
-      pullRefresh,
-      mobileUI,
       translate: __,
       loadingConfig,
+      initApi,
       id,
-      wrapperCustomStyle,
       env,
       themeCss
     } = this.props;
 
-    const subProps = {
-      onAction: this.handleAction,
-      onQuery: initApi ? this.handleQuery : undefined,
-      onChange: this.handleChange,
-      onBulkChange: this.handleBulkChange,
-      pageLoading: store.loading
-    };
-
-    const hasAside = Array.isArray(regions)
-      ? ~regions.indexOf('aside')
-      : aside && (!Array.isArray(aside) || aside.length);
-
-    const styleVar = buildStyle(style, data);
-
-    const pageContent = (
+    return (
       <div className={cx('Page-content')}>
         <div className={cx('Page-main')}>
           {this.renderHeader()}
@@ -990,6 +968,49 @@ export default class Page extends React.Component<PageProps> {
         </div>
       </div>
     );
+  }
+
+  render() {
+    const {
+      className,
+      store,
+      body,
+      bodyClassName,
+      render,
+      aside,
+      asideClassName,
+      classnames: cx,
+      showErrorMsg,
+      initApi,
+      regions,
+      style,
+      data,
+      asideResizor,
+      asideSticky,
+      pullRefresh,
+      mobileUI,
+      translate: __,
+      loadingConfig,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss
+    } = this.props;
+
+    const subProps = {
+      onAction: this.handleAction,
+      onQuery: initApi ? this.handleQuery : undefined,
+      onChange: this.handleChange,
+      onBulkChange: this.handleBulkChange,
+      pageLoading: store.loading
+    };
+
+    const hasAside = Array.isArray(regions)
+      ? ~regions.indexOf('aside')
+      : aside && (!Array.isArray(aside) || aside.length);
+
+    const styleVar = buildStyle(style, data);
+    const pageContent = this.renderContent(subProps);
 
     return (
       <div

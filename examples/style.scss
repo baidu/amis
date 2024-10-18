@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import 'node_modules/amis-ui/scss/mixins';
 @import 'node_modules/amis-ui/scss/functions';
 @import 'node_modules/amis-ui/scss/variables';
@@ -55,7 +56,7 @@ body {
   bottom: 0;
   margin-left: -2px;
   width: 4px;
-  background: lighten($dark, 20%);
+  background: color.adjust($dark, $lightness: 20%);
   z-index: 1;
   cursor: col-resize;
 
@@ -849,7 +850,7 @@ body {
       position: fixed;
       width: 200px;
       top: 100px;
-      bottom: 0;
+      bottom: 25px;
       overflow-y: auto;
       overflow-x: hidden;
       border-right: 1px solid #e8ebee;

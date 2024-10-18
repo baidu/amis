@@ -1,3 +1,4 @@
+@use 'sass:color';
 :root,
 .AMISCSSWrapper {
   --button-default-default-top-border-color: var(--colors-neutral-line-8);
@@ -2893,18 +2894,21 @@
   );
   --Form-select-multiple-bgColor: var(--colors-neutral-fill-10);
   --Form-selectOption-height: var(--Form-select-height);
-  --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
+  --Form-selectValue-bg: #{color.adjust(
+      color.adjust($info, $lightness: 40%),
+      $saturation: 2.5%
+    )};
   --Form-selectValue-onHover-bgColor: var(--select-multiple-hover-bg-color);
   --Form-selectValue-borderColor: var(--colors-brand-7);
   --Form-selectValue-color: var(--colors-brand-5);
   --Form-selectValue-fontSize: var(--select-multiple-fontSize);
-  --Form-selectValue-onDisable-bg: #{lighten(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
+  --Form-selectValue-onDisable-bg: #{color.adjust(
+      color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
+      $lightness: 5%
     )};
-  --Form-selectValue-onHover-bg: #{darken(
-      saturate(lighten($info, 40%), 2.5%),
-      5%
+  --Form-selectValue-onHover-bg: #{color.adjust(
+      color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
+      $lightness: -5%
     )};
   --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
   --Form-selectValue-onInvalid-color: var(--danger);
@@ -3932,9 +3936,9 @@
 
   --table-border-width: var(--borders-width-2);
   --table-border-color: var(--colors-neutral-line-8);
-  --table-paddingTop: var(--sizes-size-3);
+  --table-paddingTop: var(--sizes-size-6);
   --table-paddingRight: var(--sizes-size-6);
-  --table-paddingBottom: var(--sizes-size-3);
+  --table-paddingBottom: var(--sizes-size-6);
   --table-paddingLeft: var(--sizes-size-6);
   --table-paddingX: var(--sizes-size-7);
   --table-header-color: var(--colors-neutral-text-2);
@@ -4020,7 +4024,7 @@
   --Table-onHover-boxShadow: var(--shadows-shadow-normal);
   --Table-onHover-color: var(--table-body-hover-color);
   --Table-onModified-bg: #e8f0fe;
-  --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
+  --Table-onModified-borderColor: #{color.adjust(#e8f0fe, $lightness: -5%)};
   --Table-onModified-color: #4285f4;
   --Table-placeholder-height: #{px2rem(200px)};
   --Table-strip-bg: transparent;

@@ -1,5 +1,11 @@
 import React from 'react';
-import {createObject, Renderer, RendererProps} from 'amis-core';
+import {
+  createObject,
+  CustomStyle,
+  Renderer,
+  RendererProps,
+  setThemeClassName
+} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
@@ -433,7 +439,10 @@ export default class DropDownButton extends React.Component<
       data,
       hideCaret,
       env,
-      testIdBuilder
+      testIdBuilder,
+      id,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
 
     return (
@@ -478,13 +487,49 @@ export default class DropDownButton extends React.Component<
                 'Button--primary': primary,
                 'Button--iconOnly': iconOnly
               },
-              `Button--size-${size}`
+              `Button--size-${size}`,
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id,
+                themeCss: wrapperCustomStyle
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'className',
+                id,
+                themeCss: themeCss
+              })
             )}
           >
-            <Icon c={cx} icon={icon} className="icon m-r-xs" />
+            <Icon
+              c={cx}
+              icon={icon}
+              className={cx(
+                'icon m-r-xs',
+                setThemeClassName({
+                  ...this.props,
+                  name: 'iconClassName',
+                  id,
+                  themeCss: themeCss
+                })
+              )}
+            />
             {typeof label === 'string' ? filter(label, data) : label}
             {rightIcon && (
-              <Icon cx={cx} icon={rightIcon} className="icon m-l-xs" />
+              <Icon
+                cx={cx}
+                icon={rightIcon}
+                className={cx(
+                  'icon m-l-xs',
+                  setThemeClassName({
+                    ...this.props,
+                    name: 'iconClassName',
+                    id,
+                    themeCss: themeCss
+                  })
+                )}
+              />
             )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
@@ -494,6 +539,43 @@ export default class DropDownButton extends React.Component<
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
+
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'className',
+                weights: {
+                  hover: {
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  },
+                  active: {suf: ':not(:disabled):not(.is-disabled)'}
+                }
+              },
+              {
+                key: 'iconClassName',
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true,
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  },
+                  active: {
+                    important: true,
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  }
+                }
+              }
+            ],
+            wrapperCustomStyle,
+            id
+          }}
+          env={env}
+        />
       </div>
     );
   }

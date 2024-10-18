@@ -13,7 +13,6 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
-import isNumber from 'lodash/isNumber';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 import {FormulaEvalError} from './error';
 
@@ -217,10 +216,21 @@ export class Evaluator {
     return value ?? 0;
   }
 
+  // 判断是否是数字或者字符串数字
+  isValidValue(value: string | number) {
+    return (
+      typeof value === 'number' ||
+      (typeof value === 'string' && /^\d+(\.\d+)?$/.test(value as string))
+    );
+  }
+
   power(ast: {left: any; right: any}) {
     const left = this.evalute(ast.left);
     const right = this.evalute(ast.right);
-    return Math.pow(this.formatNumber(left), this.formatNumber(right));
+    if (!this.isValidValue(left) || !this.isValidValue(right)) {
+      return left;
+    }
+    return Math.pow(left, right);
   }
 
   multiply(ast: {left: any; right: any}) {
@@ -1043,7 +1053,7 @@ export class Evaluator {
    * @returns {number} 基数的指数次幂
    */
   fnPOW(base: number, exponent: number) {
-    if (!isNumber(base) || !isNumber(exponent)) {
+    if (!this.isValidValue(base) || !this.isValidValue(exponent)) {
       return base;
     }
 

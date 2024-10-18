@@ -286,9 +286,8 @@
       border-color: #222;
       border-style: solid;
       border-radius: 30px;
-      width: 375px;
-      height: 96%;
-      max-height: 812px;
+      width: 100%;
+      height: 100%;
       flex-grow: unset;
       min-height: unset;
       min-width: unset;
@@ -1952,7 +1951,6 @@ div[class*='Form-group']:empty {
   justify-content: space-between;
   background: #fff;
   align-items: center;
-  border-bottom: 1px solid $editor-border-color;
   .ae-Breadcrumb {
     flex: 1;
     max-width: 100%;
@@ -1961,5 +1959,20 @@ div[class*='Form-group']:empty {
   &-Right-Container {
     z-index: 1001;
     background-color: #fff;
+  }
+}
+
+.ae-Editor-inner--mobile {
+  .ae-Main {
+    position: relative;
+    .ae-Preview {
+      position: absolute;
+      transform: translateX(-50%);
+      transform-origin: top;
+      top: 10%;
+      left: 50%;
+      width: 395px;
+      height: 687px;
+    }
   }
 }

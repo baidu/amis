@@ -2950,7 +2950,7 @@ interface CRUDMatchFunc {
             "name": "grade",
             "label": "CSS grade"
         }
-    ]`
+    ]
 }
 ```
 

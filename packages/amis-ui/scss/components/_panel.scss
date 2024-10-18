@@ -11,13 +11,6 @@
   -webkit-box-shadow: var(--Panel-boxShadow);
   box-shadow: var(--Panel-shadow);
 
-  &-fixedBottom {
-    position: sticky;
-    background: var(--white);
-    bottom: var(--affix-offset-bottom);
-    z-index: $zindex-sticky;
-  }
-
   /* 主题 */
   &--default {
     border-color: var(--Panel-top-border-color) var(--Panel-right-border-color)
@@ -152,6 +145,19 @@
       var(--Panel-heading-bottom-border-width)
       var(--Panel-heading-left-border-width);
     border-radius: var(--Panel-headingBorderRadius);
+
+    &.is-collapsible {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-arrow {
+    transition: transform 0.1s ease-in;
+    transform: rotate(180deg);
+    &.is-collapsed {
+      transform: rotate(0deg);
+    }
   }
 
   &-title {
@@ -184,6 +190,13 @@
     .#{$ns}Button + .#{$ns}Button {
       margin-left: var(--Panel-footerButtonMarginLeft);
     }
+  }
+
+  &-fixedBottom {
+    position: sticky;
+    background: var(--white);
+    bottom: var(--affix-offset-bottom);
+    z-index: $zindex-sticky;
   }
 
   &-btnToolbar {
@@ -219,8 +232,10 @@
       border-radius: 0;
 
       .#{$ns}Panel-title {
-        padding-left: var(--Panel-body-paddingLeft);
-        border-left: px2rem(3px) solid var(--primary);
+        .icon {
+          width: var(--sizes-base-7);
+          height: var(--sizes-base-7);
+        }
         font-size: var(--fontSizeLg);
       }
     }

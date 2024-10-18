@@ -19,6 +19,7 @@ import {RightPanels} from './Panel/RightPanels';
 import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
 import type {EditorNodeType} from '../store/node';
+import {MobileDevTool} from 'amis-ui';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -142,6 +143,8 @@ export default class Editor extends Component<EditorProps> {
   readonly store: EditorStoreType;
   readonly manager: EditorManager;
   readonly mainRef = React.createRef<HTMLDivElement>();
+  readonly mainPreviewRef = React.createRef<HTMLDivElement>();
+  readonly mainPreviewBodyRef = React.createRef<any>();
   toDispose: Array<Function> = [];
   lastResult: any;
   curCopySchemaData: any; // 用于记录当前复制的元素
@@ -593,7 +596,13 @@ export default class Editor extends Component<EditorProps> {
           className
         )}
       >
-        <div className="ae-Editor-inner" onContextMenu={this.handleContextMenu}>
+        <div
+          className={cx(
+            'ae-Editor-inner',
+            isMobile && 'ae-Editor-inner--mobile'
+          )}
+          onContextMenu={this.handleContextMenu}
+        >
           {!preview && !readonly && (
             <LeftPanels
               store={this.store}
@@ -602,7 +611,7 @@ export default class Editor extends Component<EditorProps> {
             />
           )}
 
-          <div className="ae-Main">
+          <div className="ae-Main" ref={this.mainPreviewRef}>
             {!preview && (
               <div className="ae-Header">
                 <Breadcrumb store={this.store} manager={this.manager} />
@@ -611,6 +620,12 @@ export default class Editor extends Component<EditorProps> {
                   className="ae-Header-Right-Container"
                 ></div>
               </div>
+            )}
+            {isMobile && (
+              <MobileDevTool
+                container={this.mainPreviewRef.current}
+                previewBody={this.mainPreviewBodyRef.current?.currentDom}
+              />
             )}
             <Preview
               {...previewProps}
@@ -625,6 +640,7 @@ export default class Editor extends Component<EditorProps> {
               autoFocus={autoFocus}
               toolbarContainer={this.getToolbarContainer}
               readonly={readonly}
+              ref={this.mainPreviewBodyRef}
             ></Preview>
           </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {autobind} from 'amis-core';
 import {Icon} from '../icons';
-import {SchemaEditorItemCommon} from './Common';
+import {ITEMMAP, SchemaEditorItemCommon} from './Common';
 import {SchemaEditorItem} from './Item';
 import {Controller} from '../FormField';
 
@@ -158,3 +158,5 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
     );
   }
 }
+
+ITEMMAP.array = SchemaEditorItemArray;

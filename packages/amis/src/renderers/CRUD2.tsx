@@ -30,10 +30,11 @@ import {
   isApiOutdated,
   isPureVariable,
   resolveVariableAndFilter,
-  parsePrimitiveQueryString
+  parsePrimitiveQueryString,
+  JSONTraverse
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
-import {Html, SpinnerExtraProps} from 'amis-ui';
+import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -49,6 +50,7 @@ import {SchemaCollection} from '../Schema';
 
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
+import isPlainObject from 'lodash/isPlainObject';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
@@ -285,7 +287,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     silentPolling: false,
     autoFillHeight: false,
     showSelection: true,
-    perPage: 10,
     primaryField: 'id',
     parsePrimitiveQuery: true
   };
@@ -350,12 +351,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   componentDidMount() {
-    const {store, pickerMode, loadType, loadDataOnce, perPage} = this.props;
+    const {store, pickerMode, loadType, loadDataOnce, maxLoadNum} = this.props;
 
     // 初始化分页
-    let pagination = loadType && !!loadDataOnce;
+    let pagination = loadType && !loadDataOnce;
     if (pagination) {
+      // crud2的翻页每页条数是翻页组件里单独配置的
+      let perPage =
+        loadType === 'more'
+          ? this.props.perPage || 10
+          : this.getPaginationPerPage();
       store.changePage(store.page, perPage);
+    } else if (!loadType) {
+      store.changePage(1, maxLoadNum || 500); // 不分页时默认一次最多查询500条(jsonql)
     }
 
     // 初始化筛选条件
@@ -446,6 +454,24 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     clearTimeout(this.timer);
   }
 
+  @autobind
+  getPaginationPerPage() {
+    let perPage = 10;
+    let {headerToolbar, footerToolbar} = this.props;
+    JSONTraverse(
+      {
+        headerToolbar,
+        footerToolbar
+      },
+      (value: any, key: string, host: any) => {
+        if (key === 'type' && value === 'pagination' && !isNaN(host?.perPage)) {
+          perPage = +host.perPage;
+        }
+      }
+    );
+    return perPage;
+  }
+
   getParseQueryOptions(props: CRUD2Props) {
     const {parsePrimitiveQuery} = props;
     type PrimitiveQueryObj = Exclude<
@@ -503,7 +529,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
    * 加载更多动作处理器
    */
   handleLoadMore() {
-    const {store, perPage} = this.props;
+    const {store, perPage = 10} = this.props;
 
     store.changePage(store.page + 1, perPage);
     this.getData(undefined, undefined, undefined, true);
@@ -586,7 +612,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   /**
    * 更新列表数据
    */
-  getData(
+  async getData(
     /** 静默更新，不显示加载状态 */
     silent?: boolean,
     /** 清空已选择数据 */
@@ -641,49 +667,49 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store.changePerPage(perPage);
     }
 
-    isEffectiveApi(api, data)
-      ? store
-          .fetchInitData(api, data, {
-            successMessage: messages && messages.fetchSuccess,
-            errorMessage: messages && messages.fetchFailed,
-            autoAppend: true,
-            forceReload,
-            loadDataOnce,
-            source,
-            silent,
-            pageField,
-            perPageField,
-            loadDataMode: false,
-            syncResponse2Query,
-            columns: store.columns ?? columns,
-            isTable2: true
-          })
-          .then(value => {
-            value?.ok && // 接口正常返回才继续轮训
-              interval &&
-              !this.stopingAutoRefresh &&
-              this.mounted &&
-              (!stopAutoRefreshWhen ||
-                !(
-                  stopAutoRefreshWhen &&
-                  evalExpression(
-                    stopAutoRefreshWhen,
-                    createObject(store.data, store.query)
-                  )
-                )) &&
-              // 弹窗期间不进行刷新
-              (!stopAutoRefreshWhenModalIsOpen ||
-                (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
-              (this.timer = setTimeout(
-                this.getData.bind(this, silentPolling, undefined, true),
-                Math.max(interval, 1000)
-              ));
-            return value;
-          })
-      : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns
-        });
+    if (isEffectiveApi(api, data)) {
+      const value = await store.fetchInitData(api, data, {
+        successMessage: messages && messages.fetchSuccess,
+        errorMessage: messages && messages.fetchFailed,
+        autoAppend: true,
+        forceReload,
+        loadDataOnce,
+        source,
+        silent,
+        pageField,
+        perPageField,
+        loadDataMode,
+        syncResponse2Query,
+        columns: store.columns ?? columns,
+        isTable2: true
+      });
+
+      value?.ok && // 接口正常返回才继续轮训
+        interval &&
+        !this.stopingAutoRefresh &&
+        this.mounted &&
+        (!stopAutoRefreshWhen ||
+          !(
+            stopAutoRefreshWhen &&
+            evalExpression(
+              stopAutoRefreshWhen,
+              createObject(store.data, store.query)
+            )
+          )) &&
+        // 弹窗期间不进行刷新
+        (!stopAutoRefreshWhenModalIsOpen ||
+          (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
+        (this.timer = setTimeout(
+          this.getData.bind(this, silentPolling, undefined, true),
+          Math.max(interval, 1000)
+        ));
+    } else if (source) {
+      store.initFromScope(data, source, {
+        columns: store.columns ?? columns
+      });
+    }
+
+    return store.data;
   }
 
   @autobind
@@ -1029,19 +1055,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-    this.getData(undefined, undefined, forceReload);
+    return this.getData(undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.getData(undefined, undefined, true);
+      return this.getData(undefined, undefined, true);
     }
   }
 
   receive(values: object) {
-    this.handleQuerySearch(values, true);
+    return this.handleQuerySearch(values, true);
   }
 
   @autobind
@@ -1131,6 +1157,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         toggled: index === i ? !toggled : c.toggled !== false
       }))
     );
+  }
+
+  @autobind
+  async handlePullRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.handleLoadMore();
   }
 
   @autobind
@@ -1240,7 +1276,26 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             replaceQuery: true,
             resetPage: true
           });
-        }
+        },
+        // 移动端的查询表单支持折叠
+        ...(this.props.mobileUI
+          ? {
+              columnCount: 1,
+              mode: 'normal',
+              collapsible: true,
+              title: {
+                type: 'container',
+                body: [
+                  {
+                    type: 'icon',
+                    icon: 'column-filter',
+                    className: 'icon mr-2'
+                  },
+                  (item as any).title || ''
+                ]
+              }
+            }
+          : {})
       })
     );
   }
@@ -1298,6 +1353,69 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     );
   }
 
+  transformTable2cards() {
+    const {store, columns: propsColumns, card, mobileMode} = this.props;
+    const body: any[] = [];
+    const fieldCount = mobileMode.fieldCount || 4;
+    const actions: any[] = [];
+    let cover: string = '';
+
+    const columns = (store.columns ?? propsColumns) || [];
+    for (let index = 0; index < columns.length; index++) {
+      const item = columns[index];
+      if (!isPlainObject(item)) {
+        continue;
+      }
+
+      if (item.type === 'operation') {
+        actions.push(...(item?.buttons || []));
+      } else if (item.type === 'button' && item.name === 'operation') {
+        actions.push(item);
+      } else {
+        if (!item.label && item.title) {
+          item.label = item.title;
+        }
+
+        if (item.type === 'static-image' && !cover) {
+          cover = `\${${item.name}}`;
+          continue;
+        }
+
+        if (body.length < fieldCount) {
+          if (item.type === 'static-image' && item.title) {
+            delete item.title;
+          }
+          body.push(item);
+        }
+      }
+    }
+
+    if (!body.length) {
+      return null;
+    }
+
+    return {
+      columnsCount: 1,
+      type: 'cards',
+      card: {
+        ...card,
+        body,
+        actions,
+        ...(cover
+          ? {
+              media: {
+                type: 'image',
+                url: cover,
+                position: 'right',
+                className: ''
+              },
+              mediaActionPosition: 'outside'
+            }
+          : {})
+      }
+    };
+  }
+
   render() {
     const {
       columns,
@@ -1339,13 +1457,107 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       footerToolbarClassName,
       id,
       testIdBuilder,
+      mobileMode,
+      mobileUI,
+      pullRefresh: _pullRefresh,
       ...rest
     } = this.props;
+
+    let pullRefresh: any;
+
+    let mobileModeProps: any = {};
+    if (mobileMode && mobileUI && mode.includes('table')) {
+      const cardsSchema = this.transformTable2cards();
+      if (typeof mobileMode === 'string' && mobileMode === 'cards') {
+        if (cardsSchema) {
+          mobileModeProps = cardsSchema;
+        }
+      } else if (typeof mobileMode === 'object') {
+        mobileModeProps = {
+          ...cardsSchema,
+          ...mobileMode,
+          card: {
+            ...cardsSchema?.card,
+            ...mobileMode.card
+          }
+        };
+      }
+      // 移动端模式，默认开启上拉刷新
+      if (mobileModeProps && !_pullRefresh?.disabled) {
+        pullRefresh = {
+          normalText: __('pullRefresh.crud2NormalText'),
+          pullingText: __('pullRefresh.crud2PullingText'),
+          loosingText: __('pullRefresh.crud2LoosingText'),
+          ..._pullRefresh,
+          disabled: false
+        };
+      }
+    } else {
+      pullRefresh = _pullRefresh;
+    }
+
+    const body = render(
+      'body',
+      {
+        ...rest,
+        // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+        // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+        onEvent: omitBy(
+          onEvent,
+          (event, key: any) => !INNER_EVENTS.includes(key)
+        ),
+        type: mode,
+        columns: mode.startsWith('table')
+          ? store.columns || columns
+          : undefined,
+        id,
+        ...mobileModeProps
+      },
+      {
+        key: 'body',
+        className: cx('Crud2-body', bodyClassName),
+        ref: this.controlRef,
+        autoGenerateFilter: !filterSchema && autoGenerateFilter,
+        autoFillHeight: autoFillHeight,
+        checkAll: false, // 不使用组件的全选，因为不在工具栏里
+        selectable: !!(selectable ?? pickerMode),
+        itemActions,
+        multiple: multiple,
+        // columnsTogglable在CRUD2中渲染 但需要给table2传columnsTogglable为false 否则列数超过5 table2会自动渲染
+        columnsTogglable: false,
+        selected:
+          pickerMode || keepItemSelectionOnPageChange
+            ? store.selectedItemsAsArray
+            : undefined,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        // valueField: valueField || primaryField,
+        primaryField: primaryField,
+        testIdBuilder,
+        items: store.data.items,
+        query: store.query,
+        orderBy: store.query.orderBy,
+        orderDir: store.query.orderDir,
+        popOverContainer,
+        onSave: this.handleSave.bind(this),
+        onSaveOrder: this.handleSaveOrder,
+        onSearch: this.handleQuerySearch,
+        onSort: this.handleQuerySearch,
+        onSelect: this.handleSelect,
+        onAction: this.handleAction,
+        data: store.mergedData,
+        loading: store.loading,
+        host: this
+      }
+    );
 
     return (
       <div
         className={cx('Crud2', className, {
-          'is-loading': store.loading
+          'is-loading': store.loading,
+          'is-mobile': mobileUI,
+          'is-mobile-cards':
+            mobileMode === 'cards' || mobileModeProps.type === 'cards'
         })}
         style={style}
         data-id={id}
@@ -1366,65 +1578,32 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           ? this.renderSelection()
           : null}
 
-        {render(
-          'body',
-          {
-            ...rest,
-            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
-            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: omitBy(
-              onEvent,
-              (event, key: any) => !INNER_EVENTS.includes(key)
-            ),
-            type: mode,
-            columns: mode.startsWith('table')
-              ? store.columns || columns
-              : undefined,
-            id
-          },
-          {
-            key: 'body',
-            className: cx('Crud2-body', bodyClassName),
-            ref: this.controlRef,
-            autoGenerateFilter: !filterSchema && autoGenerateFilter,
-            autoFillHeight: autoFillHeight,
-            checkAll: false, // 不使用组件的全选，因为不在工具栏里
-            selectable: !!(selectable ?? pickerMode),
-            itemActions,
-            multiple: multiple,
-            // columnsTogglable在CRUD2中渲染 但需要给table2传columnsTogglable为false 否则列数超过5 table2会自动渲染
-            columnsTogglable: false,
-            selected:
-              pickerMode || keepItemSelectionOnPageChange
-                ? store.selectedItemsAsArray
-                : undefined,
-            keepItemSelectionOnPageChange,
-            maxKeepItemSelectionLength,
-            // valueField: valueField || primaryField,
-            primaryField: primaryField,
-            testIdBuilder,
-            items: store.data.items,
-            query: store.query,
-            orderBy: store.query.orderBy,
-            orderDir: store.query.orderDir,
-            popOverContainer,
-            onSave: this.handleSave.bind(this),
-            onSaveOrder: this.handleSaveOrder,
-            onSearch: this.handleQuerySearch,
-            onSort: this.handleQuerySearch,
-            onSelect: this.handleSelect,
-            onAction: this.handleAction,
-            data: store.mergedData,
-            loading: store.loading,
-            host: this
-          }
+        {mobileUI && pullRefresh && !pullRefresh.disabled ? (
+          <PullRefresh
+            {...pullRefresh}
+            translate={__}
+            onRefresh={this.handlePullRefresh}
+            direction="up"
+            loading={store.loading}
+            completed={
+              !store.loading &&
+              store.lastPage > 0 &&
+              store.page >= store.lastPage
+            }
+            completedText={store.total > 0 ? undefined : ''}
+          >
+            {body}
+          </PullRefresh>
+        ) : (
+          <>
+            {body}
+            <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
+              {this.renderToolbar('footerToolbar', footerToolbar)}
+            </div>
+          </>
         )}
         {/* spinner可以交给孩子处理 */}
         {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
-
-        <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
-          {this.renderToolbar('footerToolbar', footerToolbar)}
-        </div>
       </div>
     );
   }
@@ -1451,7 +1630,7 @@ export class CRUD2Renderer extends CRUD2 {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  async reload(subpath?: string, query?: any, ctx?: any) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -1463,7 +1642,7 @@ export class CRUD2Renderer extends CRUD2 {
     return super.reload(subpath, query);
   }
 
-  receive(values: any, subPath?: string) {
+  async receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);

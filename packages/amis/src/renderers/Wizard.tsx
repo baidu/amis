@@ -9,7 +9,6 @@ import {
   createObject,
   until,
   isVisible,
-  getScrollParent,
   autobind,
   SkipOperation
 } from 'amis-core';
@@ -17,8 +16,6 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {IFormStore} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Steps} from 'amis-ui';
-import {findDOMNode} from 'react-dom';
-import {resizeSensor} from 'amis-core';
 import {
   BaseSchema,
   FormSchema,
@@ -34,7 +31,6 @@ import {ActionSchema} from './Action';
 import {tokenize, evalExpressionWithConditionBuilderAsync} from 'amis-core';
 import {StepSchema} from './Steps';
 import isEqual from 'lodash/isEqual';
-import omit from 'lodash/omit';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> &
   StepSchema & {
@@ -241,10 +237,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   form: any;
   asyncCancel: () => void;
 
-  parentNode?: any;
-  unSensor: Function;
-  affixDom: React.RefObject<HTMLDivElement> = React.createRef();
-  footerDom: React.RefObject<HTMLDivElement> = React.createRef();
   initalValues: {
     [propName: string]: any;
   } = {};
@@ -333,19 +325,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       });
     }
 
-    const dom = findDOMNode(this) as HTMLElement;
-    if (!(dom instanceof Element)) {
-      return;
-    }
-
-    let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
-    if (!parent || parent === document.body) {
-      parent = window;
-    }
-    this.parentNode = parent;
-    parent.addEventListener('scroll', this.affixDetect);
-    this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
-    this.affixDetect();
     this.normalizeSteps(store.data);
   }
 
@@ -378,9 +357,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   componentWillUnmount() {
     this.asyncCancel && this.asyncCancel();
-    const parent = this.parentNode;
-    parent && parent.removeEventListener('scroll', this.affixDetect);
-    this.unSensor && this.unSensor();
   }
 
   async dispatchEvent(action: string, value?: object) {
@@ -433,34 +409,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     });
   }
 
-  @autobind
-  affixDetect() {
-    if (
-      !this.props.affixFooter ||
-      !this.affixDom.current ||
-      !this.footerDom.current
-    ) {
-      return;
-    }
-
-    const affixDom = this.affixDom.current;
-    const footerDom = this.footerDom.current;
-    let affixed = false;
-    footerDom.offsetWidth &&
-      (affixDom.style.cssText = `width: ${footerDom.offsetWidth}px;`);
-
-    if (this.props.affixFooter === 'always') {
-      affixed = true;
-      footerDom.classList.add('invisible2');
-    } else {
-      const clip = footerDom.getBoundingClientRect();
-      const clientHeight = window.innerHeight;
-      affixed = clip.top + clip.height / 2 > clientHeight;
-    }
-
-    affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
-  }
-
   async gotoStep(index: number) {
     const steps = this.state.rawSteps;
     index = Math.max(Math.min(steps.length, index), 1);
@@ -501,7 +449,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
-  reload(
+  async reload(
     subPath?: string,
     query?: any,
     ctx?: any,
@@ -521,60 +469,58 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } = this.props;
 
     if (isEffectiveApi(initApi, store.data) && this.state.currentStep === 1) {
-      store
-        .fetchInitData(initApi, store.data, {
-          successMessage: fetchSuccess,
-          errorMessage: fetchFailed,
-          onSuccess: () => {
-            if (
-              !isEffectiveApi(initAsyncApi, store.data) ||
-              store.data[initFinishedField || 'finished']
-            ) {
-              return;
-            }
-
-            return until(
-              () => store.checkRemote(initAsyncApi, store.data),
-              (ret: any) => ret && ret[initFinishedField || 'finished'],
-              cancel => (this.asyncCancel = cancel)
-            );
-          }
-        })
-        .then(value => {
-          const state = {
-            currentStep: 1
-          };
-
+      const value = await store.fetchInitData(initApi, store.data, {
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed,
+        onSuccess: () => {
           if (
-            value &&
-            value.data &&
-            (typeof value.data.step === 'number' ||
-              (typeof value.data.step === 'string' &&
-                /^\d+$/.test(value.data.step)))
+            !isEffectiveApi(initAsyncApi, store.data) ||
+            store.data[initFinishedField || 'finished']
           ) {
-            state.currentStep = toNumber(value.data.step, 1);
+            return;
           }
 
-          this.setState(state, () => {
-            // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
-            if (
-              value &&
-              value.data &&
-              (value.data.submiting || value.data.submited)
-            ) {
-              this.checkSubmit();
-            }
-          });
-          return value;
-        });
+          return until(
+            () => store.checkRemote(initAsyncApi, store.data),
+            (ret: any) => ret && ret[initFinishedField || 'finished'],
+            cancel => (this.asyncCancel = cancel)
+          );
+        }
+      });
+      const state = {
+        currentStep: 1
+      };
+
+      if (
+        value &&
+        value.data &&
+        (typeof value.data.step === 'number' ||
+          (typeof value.data.step === 'string' &&
+            /^\d+$/.test(value.data.step)))
+      ) {
+        state.currentStep = toNumber(value.data.step, 1);
+      }
+
+      this.setState(state, () => {
+        // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
+        if (
+          value &&
+          value.data &&
+          (value.data.submiting || value.data.submited)
+        ) {
+          this.checkSubmit();
+        }
+      });
     }
+
+    return store.data;
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
+  receive(values: object, subPath?: string, replace?: boolean): Promise<any> {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   @autobind
@@ -1197,6 +1143,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     if (!actions) {
       return actions;
     }
+
     const {
       classnames: cx,
       affixFooter,
@@ -1205,33 +1152,17 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } = this.props;
 
     return (
-      <>
-        <div
-          role="wizard-footer"
-          ref={this.footerDom}
-          className={cx(
-            'Wizard-footer',
-            wrapWithPanel ? 'Panel-footer' : '',
-            affixFooter ? 'Wizard-fixedButtom' : '',
-            footerClassName
-          )}
-        >
-          {actions}
-        </div>
-
-        {affixFooter && wrapWithPanel ? (
-          <div
-            ref={this.affixDom}
-            className={cx(
-              wrapWithPanel ? 'Panel-fixedBottom' : '',
-              'Wizard-footer',
-              footerClassName
-            )}
-          >
-            <div className={cx('Panel-footer')}>{actions}</div>
-          </div>
-        ) : null}
-      </>
+      <div
+        role="wizard-footer"
+        className={cx(
+          'Wizard-footer',
+          wrapWithPanel ? 'Panel-footer' : '',
+          affixFooter && wrapWithPanel ? 'Panel-fixedBottom' : '',
+          footerClassName
+        )}
+      >
+        {actions}
+      </div>
     );
   }
 

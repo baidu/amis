@@ -177,6 +177,7 @@ export interface ImageThumbProps
   onLoad?: React.EventHandler<any>;
   overlays?: JSX.Element;
   imageControlClassName?: string;
+  imageContentClassName?: string;
   titleControlClassName?: string;
   desControlClassName?: string;
   iconControlClassName?: string;
@@ -254,6 +255,7 @@ export class ImageThumb extends React.Component<
       titleControlClassName,
       iconControlClassName,
       imageControlClassName,
+      imageContentClassName,
       desControlClassName
     } = this.props;
 
@@ -316,7 +318,8 @@ export class ImageThumb extends React.Component<
           <div
             className={cx(
               'Image-origin',
-              thumbMode ? `Image-origin--${thumbMode}` : ''
+              thumbMode ? `Image-origin--${thumbMode}` : '',
+              imageContentClassName
             )}
             style={{height: height, width: width}}
           >
@@ -332,7 +335,8 @@ export class ImageThumb extends React.Component<
                 thumbMode ? `Image-thumb--${thumbMode}` : '',
                 thumbRatio
                   ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}`
-                  : ''
+                  : '',
+                imageContentClassName
               )}
               style={{height: height, width: width}}
             >
@@ -648,6 +652,12 @@ export class ImageField extends React.Component<
               id,
               themeCss
             })}
+            imageContentClassName={setThemeClassName({
+              ...this.props,
+              name: 'imageContentClassName',
+              id,
+              themeCss
+            })}
             titleControlClassName={setThemeClassName({
               ...this.props,
               name: 'titleControlClassName',
@@ -679,6 +689,9 @@ export class ImageField extends React.Component<
             classNames: [
               {
                 key: 'imageControlClassName'
+              },
+              {
+                key: 'imageContentClassName'
               },
               {
                 key: 'titleControlClassName'
