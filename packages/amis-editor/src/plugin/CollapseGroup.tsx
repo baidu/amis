@@ -27,6 +27,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   pluginIcon = 'collapse-plugin';
   scaffold = {
     type: 'collapse-group',
+    enableFieldSetStyle: true,
     activeKey: ['1'],
     body: [
       {
@@ -113,6 +114,22 @@ export class CollapseGroupPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 {
+                  name: 'enableFieldSetStyle',
+                  label: '展示风格',
+                  visible: isInForm,
+                  type: 'button-group-select',
+                  options: [
+                    {
+                      label: '默认',
+                      value: false
+                    },
+                    {
+                      label: '简洁',
+                      value: true
+                    }
+                  ]
+                },
+                {
                   name: 'expandIconPosition',
                   label: '图标位置',
                   type: 'button-group-select',
@@ -170,12 +187,6 @@ export class CollapseGroupPlugin extends BasePlugin {
                       : undefined;
                   }
                 },
-                getSchemaTpl('switch', {
-                  name: 'enableFieldSetStyle',
-                  label: '切换展示方式',
-                  value: true,
-                  visible: isInForm
-                }),
                 {
                   name: 'accordion',
                   label: tipedLabel(
