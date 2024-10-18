@@ -91,6 +91,16 @@ const makeUrlRegexp = memoize(function (options: any) {
   return new RegExp(regex, 'i');
 });
 
+const valueToString = (value: any) => {
+  return typeof value === 'undefined' || value === null
+    ? ''
+    : typeof value === 'string'
+    ? value
+    : value instanceof Date
+    ? value.toISOString()
+    : JSON.stringify(value);
+};
+
 export interface ValidateFn {
   (
     values: {[propsName: string]: any},
@@ -177,14 +187,7 @@ export const validations: {
   },
   isLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    value =
-      typeof value === 'undefined' || value === null
-        ? ''
-        : typeof value === 'string'
-        ? value
-        : value instanceof Date
-        ? value.toISOString()
-        : JSON.stringify(value);
+    value = valueToString(value);
 
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
@@ -196,27 +199,13 @@ export const validations: {
   },
   maxLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    value =
-      typeof value === 'undefined' || value === null
-        ? ''
-        : typeof value === 'string'
-        ? value
-        : value instanceof Date
-        ? value.toISOString()
-        : JSON.stringify(value);
+    value = valueToString(value);
 
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    value =
-      typeof value === 'undefined' || value === null
-        ? ''
-        : typeof value === 'string'
-        ? value
-        : value instanceof Date
-        ? value.toISOString()
-        : JSON.stringify(value);
+    value = valueToString(value);
 
     return !isExisty(value) || isEmpty(value) || value.length >= length;
   },
