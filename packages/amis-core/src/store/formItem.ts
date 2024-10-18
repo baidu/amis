@@ -1524,6 +1524,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         | 'defaultValue' // 默认值
     ) {
       self.tmpValue = value;
+
+      // 处理 input-text, textarea 组件的 value为string类型
+      if (['input-text', 'textarea'].includes(self.type)) {
+        self.tmpValue =
+          typeof value === 'undefined' || value === null
+            ? ''
+            : typeof value === 'string'
+            ? value
+            : value instanceof Date
+            ? value.toISOString()
+            : JSON.stringify(value);
+      }
+
       if (changeReason) {
         self.changeMotivation = changeReason;
       }
