@@ -105,6 +105,7 @@ export function ConfirmBox({
       setError(e.message);
     } finally {
       setLoading(false);
+      setTimeout(() => setError(''), 5000);
     }
   }, [onConfirm, beforeConfirm]);
   React.useEffect(() => {
