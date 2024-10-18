@@ -24,6 +24,12 @@ export default class DiffEditor extends React.Component<DiffEditorProps> {
     if (this.modifiedEditor && value !== prevProps.value) {
       this.modifiedEditor.getModel().setValue(value || '');
     }
+
+    if (this.props.disabled !== prevProps.disabled && this.modifiedEditor) {
+      this.modifiedEditor.updateOptions?.({
+        readOnly: this.props.disabled
+      });
+    }
   }
 
   componentWillUnmount() {
