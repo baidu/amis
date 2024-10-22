@@ -11,6 +11,7 @@ var rSourceMap =
   /(?:\/\/\#\s*sourceMappingURL[^\r\n\'\"]*|\/\*\#\s*sourceMappingURL[^\r\n\'\"]*\*\/)(?:\r?\n|$)/gi;
 var caches = {};
 var createResource = fis.require('postpackager-loader/lib/resource.js');
+const package = require('../packages/amis/package.json');
 
 function prefixCss(code, prefix) {
   var cssAst = css.parse(code);
@@ -129,9 +130,9 @@ module.exports = function (ret, pack, settings, opt) {
     ${contents.replace(
       /\"url\"\s*\:\s*('|")(\.\/.*?)\1/g,
       function (_, quote, value) {
-        return `"url": amis.sdkBasePath + ${quote}${value.substring(
-          1
-        )}${quote}`;
+        return `"url": amis['sdk@${
+          package.version
+        }BasePath'] + ${quote}${value.substring(1)}${quote}`;
       }
     )}
         })()`;
