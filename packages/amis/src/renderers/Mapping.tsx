@@ -91,6 +91,8 @@ export const Store = StoreNode.named('MappingStore')
                 ? data.options
                 : Array.isArray(data.items)
                 ? data.items
+                : Array.isArray(data.records)
+                ? data.records
                 : data
             );
           } else {
