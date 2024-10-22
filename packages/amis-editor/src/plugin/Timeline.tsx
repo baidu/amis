@@ -42,10 +42,6 @@ export class TimelinePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              getSchemaTpl('formItemName', {
-                required: true
-              }),
-              getSchemaTpl('label'),
               {
                 label: '排序',
                 name: 'reverse',
@@ -95,7 +91,7 @@ export class TimelinePlugin extends BasePlugin {
               {
                 type: 'ae-switch-more',
                 mode: 'normal',
-                label: '自定义标题显示模板',
+                label: '自定义标题显示',
                 bulk: false,
                 name: 'itemTitleSchema',
                 formType: 'extend',
@@ -107,7 +103,7 @@ export class TimelinePlugin extends BasePlugin {
                       size: 'sm',
                       block: true,
                       onClick: this.editDetail.bind(this, context),
-                      label: '配置标题显示模板'
+                      label: '配置标题显示模版'
                     }
                   ]
                 },
@@ -121,7 +117,9 @@ export class TimelinePlugin extends BasePlugin {
                   if (value === true) {
                     return {
                       type: 'tpl',
-                      tpl: '请编辑标题内容'
+                      tpl: this.scaffold.label,
+                      editorState: 'default',
+                      wrapperComponent: ''
                     };
                   }
                   return value ? value : undefined;
@@ -166,12 +164,14 @@ export class TimelinePlugin extends BasePlugin {
     const value = store.getValueOf(id);
     const defaultItemSchema = {
       type: 'tpl',
-      tpl: '请编辑标题内容'
+      tpl: this.scaffold.label,
+      editorState: 'default',
+      wrapperComponent: ''
     };
     node &&
       value &&
       this.manager.openSubEditor({
-        title: '配置标题显示模板',
+        title: '配置标题显示模版',
         value: schemaToArray(value.itemTitleSchema ?? defaultItemSchema),
         slot: {
           type: 'container',
@@ -180,8 +180,9 @@ export class TimelinePlugin extends BasePlugin {
         onChange: (newValue: any) => {
           newValue = {...value, itemTitleSchema: schemaArrayFormat(newValue)};
           manager.panelChangeValue(newValue, diff(value, newValue));
-        },
-        data: schema
+        }
+        //todo: data:schema 这样传存在错误，把该组件本身传过去了
+        //后面保存回显的时候，因为在数据域里面并不存在组件本身的属性，数据访问不到
       });
   }
 }
