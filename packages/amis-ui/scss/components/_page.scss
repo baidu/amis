@@ -144,6 +144,21 @@
     }
   }
 
+  // 右侧侧边栏时，调整侧边栏相关的样式
+  .#{$ns}Page--rightAside {
+    flex-direction: row-reverse;
+
+    > .#{$ns}Page-aside {
+      border-left: var(--borderWidth) solid var(--borderColor);
+      border-right: unset;
+
+      > .#{$ns}Page-asideResizor {
+        left: px2rem(-6px);
+        right: unset;
+      }
+    }
+  }
+
   .#{$ns}Page--asideSticky {
     > .#{$ns}Page-aside {
       position: sticky;

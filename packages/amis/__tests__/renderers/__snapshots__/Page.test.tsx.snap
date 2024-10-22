@@ -124,7 +124,7 @@ exports[`Renderer:Page 1`] = `
 exports[`Renderer:Page classNames 1`] = `
 <div>
   <div
-    class="cxd-Page cxd-Page--withSidebar cxd-Page--asideSticky"
+    class="cxd-Page cxd-Page--withSidebar cxd-Page--asideSticky cxd-Page--leftAside"
   >
     <div
       class="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
