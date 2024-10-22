@@ -22,7 +22,9 @@ export default class DiffEditor extends React.Component<DiffEditorProps> {
     }
 
     if (this.modifiedEditor && value !== prevProps.value) {
-      this.modifiedEditor.getModel().setValue(value || '');
+      const editorValue = this.modifiedEditor.getModel().getValue();
+      editorValue !== value &&
+        this.modifiedEditor.getModel().setValue(value || '');
     }
 
     if (this.props.disabled !== prevProps.disabled && this.modifiedEditor) {
@@ -64,6 +66,13 @@ export default class DiffEditor extends React.Component<DiffEditorProps> {
   }
 
   @autobind
+  handleModifiedEditorChange(e: any) {
+    const {onChange} = this.props;
+    const value = this.modifiedEditor.getModel().getValue();
+    onChange?.(value, e);
+  }
+
+  @autobind
   editorDidMount(editor: any, monaco: any) {
     const {value, originValue, language, onFocus, onBlur, editorDidMount} =
       this.props;
@@ -90,6 +99,12 @@ export default class DiffEditor extends React.Component<DiffEditorProps> {
           this.updateContainerSize.bind(this, this.modifiedEditor, monaco)
         ); // folding
       }).dispose
+    );
+
+    this.toDispose.push(
+      this.modifiedEditor.onDidChangeModelContent(
+        this.handleModifiedEditorChange
+      ).dispose
     );
 
     this.editor.setModel({
