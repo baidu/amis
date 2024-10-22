@@ -18,7 +18,13 @@ import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents, autobind, TestIdBuilder} from './utils/helper';
+import {
+  anyChanged,
+  chainEvents,
+  autobind,
+  TestIdBuilder,
+  formateId
+} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
@@ -30,6 +36,7 @@ import {StatusScopedProps} from './StatusScoped';
 import {evalExpression, filter} from './utils/tpl';
 import {CSSTransition} from 'react-transition-group';
 import {createAnimationStyle} from './utils/animations';
+import styleManager from './styleManager';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -126,7 +133,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   componentDidMount(): void {
     if (this.props.schema.animations) {
       let {animations, id} = this.props.schema;
-      id = id?.replace('u:', '');
+      id = formateId(id);
       createAnimationStyle(id, animations);
     }
   }
@@ -168,11 +175,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   removeCustomAnimationStyle() {
     if (this.props.schema.animations) {
       let {id} = this.props.schema;
-      id = id?.replace('u:', '');
-      const style = document.getElementById(`animation-${id}`);
-      if (style) {
-        style.remove();
-      }
+      id = formateId(id);
+      styleManager.removeStyles(id);
     }
   }
 
@@ -564,7 +568,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       const {enter, exit, attention} = schema.animations;
 
       let {id} = schema;
-      id = id?.replace('u:', '');
+      id = formateId(id);
       let type = enter?.type;
 
       if (animationIn === false) {

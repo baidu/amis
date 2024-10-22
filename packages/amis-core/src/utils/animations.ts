@@ -1,3 +1,5 @@
+import styleManager from '../styleManager';
+
 export interface AnimationsProps {
   enter?: {
     type: string;
@@ -19,26 +21,11 @@ function generateStyleByAnimation(
   duration?: number,
   animation?: string
 ) {
-  let style = `
-    animation: ${type} ${duration || 0.3}s ${animation || 'ease'};
-  `;
-
-  return `${className.join(',')} {${style}}`;
-}
-
-function createStyle(id: string, animationStyle: string) {
-  let classStyle = document.getElementById(`animation-${id}`);
-  let style = '';
-  if (classStyle) {
-    style = classStyle.innerHTML;
-    classStyle.remove();
-  } else {
-    classStyle = document.createElement('style');
-    classStyle.id = `animation-${id}`;
-  }
-  style += animationStyle;
-  classStyle.innerHTML = style;
-  document.body.appendChild(classStyle);
+  return {
+    [className.join(',')]: {
+      animation: `${type} ${duration || 0.3}s ${animation || 'ease'}`
+    }
+  };
 }
 
 export function createAnimationStyle(
@@ -46,7 +33,7 @@ export function createAnimationStyle(
   animationsConfig: AnimationsProps
 ) {
   const enterAnimationConfig = animationsConfig.enter;
-  let enterStyle = '';
+  let enterStyle = {};
   if (enterAnimationConfig?.type) {
     enterStyle = generateStyleByAnimation(
       enterAnimationConfig.type,
@@ -59,7 +46,7 @@ export function createAnimationStyle(
   }
 
   const attentionAnimationConfig = animationsConfig.attention;
-  let attentionStyle = '';
+  let attentionStyle = {};
   if (attentionAnimationConfig?.type) {
     attentionStyle = generateStyleByAnimation(
       attentionAnimationConfig.type,
@@ -70,7 +57,7 @@ export function createAnimationStyle(
   }
 
   const exitAnimationConfig = animationsConfig.exit;
-  let exitStyle = '';
+  let exitStyle = {};
   if (exitAnimationConfig?.type) {
     exitStyle = generateStyleByAnimation(
       exitAnimationConfig.type,
@@ -79,5 +66,7 @@ export function createAnimationStyle(
     );
   }
 
-  createStyle(id, enterStyle + attentionStyle + exitStyle);
+  styleManager.updateStyle({
+    [id]: Object.assign({}, enterStyle, attentionStyle, exitStyle)
+  });
 }

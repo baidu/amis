@@ -2376,3 +2376,17 @@ export function supportsMjs() {
     return false;
   }
 }
+
+export function formateId(id: string) {
+  // 将className非法字符替换为下划线
+  id = id.replace(/[^a-zA-Z0-9-]/g, '-');
+  // 将连续的-替换为单个-
+  id = id.replace(/-{2,}/g, '-');
+  // 去掉首尾的-
+  id = id.replace(/^-|-$/g, '');
+  // 首字母不能为数字
+  if (/^\d/.test(id)) {
+    id = 'amis-' + id;
+  }
+  return id;
+}
