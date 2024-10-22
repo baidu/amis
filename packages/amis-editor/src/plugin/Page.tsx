@@ -222,6 +222,24 @@ export class PagePlugin extends BasePlugin {
                     inputClassName: 'is-inline',
                     pipeIn: defaultValue(true),
                     hiddenOn: 'this.regions && !this.regions.includes("aside")'
+                  },
+                  {
+                    type: 'button-group-select',
+                    name: 'asidePosition',
+                    size: 'sm',
+                    label: '边栏位置',
+                    pipeIn: defaultValue('left'),
+                    options: [
+                      {
+                        label: '左',
+                        value: 'left'
+                      },
+                      {
+                        label: '右',
+                        value: 'right'
+                      }
+                    ],
+                    hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   }
                 ]
               },
