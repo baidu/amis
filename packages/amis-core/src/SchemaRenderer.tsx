@@ -28,6 +28,8 @@ import {buildStyle} from './utils/style';
 import {isExpression} from './utils/formula';
 import {StatusScopedProps} from './StatusScoped';
 import {evalExpression, filter} from './utils/tpl';
+import {CSSTransition} from 'react-transition-group';
+import {createAnimationStyle} from './utils/animations';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -121,9 +123,18 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     );
   }
 
+  componentDidMount(): void {
+    if (this.props.schema.animations) {
+      let {animations, id} = this.props.schema;
+      id = id?.replace('u:', '');
+      createAnimationStyle(id, animations);
+    }
+  }
+
   componentWillUnmount() {
     this.reaction?.();
     this.unbindEvent?.();
+    this.removeCustomAnimationStyle();
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -152,6 +163,17 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     return false;
+  }
+
+  removeCustomAnimationStyle() {
+    if (this.props.schema.animations) {
+      let {id} = this.props.schema;
+      id = id?.replace('u:', '');
+      const style = document.getElementById(`animation-${id}`);
+      if (style) {
+        style.remove();
+      }
+    }
   }
 
   resolveRenderer(props: SchemaRendererProps, force = false): any {
@@ -447,6 +469,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } = schema;
     const Component = renderer.component!;
 
+    let animationIn = true;
+
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
     // 这个本来就是个bug，但是已经被广泛使用了
@@ -458,7 +482,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         !renderer.isFormItem ||
         (schema.visible !== false && !schema.hidden))
     ) {
-      return null;
+      if (schema.animations) {
+        animationIn = false;
+      } else {
+        return null;
+      }
     }
 
     // withStore 里面会处理，而且会实时处理
@@ -526,11 +554,53 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       }
     }
 
-    const component = supportRef ? (
+    let component = supportRef ? (
       <Component {...props} ref={this.childRef} />
     ) : (
       <Component {...props} forwardedRef={this.childRef} />
     );
+
+    if (schema.animations) {
+      const {enter, exit, attention} = schema.animations;
+
+      let {id} = schema;
+      id = id?.replace('u:', '');
+      let type = enter?.type;
+
+      if (animationIn === false) {
+        type = exit?.type;
+      }
+
+      type = (type || 'fade') + '-' + id;
+
+      component = (
+        <CSSTransition
+          in={animationIn}
+          timeout={{
+            appear: enter?.duration * 1000 || 300,
+            enter: enter?.duration * 1000 || 300,
+            exit: exit?.duration * 1000 || 300
+          }}
+          classNames={type}
+          onEntered={(node: HTMLElement) => {
+            // 如果配置了强调动画，需要在进入动画结束后添加attention的class
+            if (attention) {
+              node.classList.add(`${attention.type}-${id}-attention`);
+            }
+          }}
+          onExit={(node: HTMLElement) => {
+            // 需要在退出动画开始前移除attention的class
+            if (attention) {
+              node.classList.remove(`${attention.type}-${id}-attention`);
+            }
+          }}
+          appear
+          unmountOnExit
+        >
+          {component}
+        </CSSTransition>
+      );
+    }
 
     return this.props.env.enableAMISDebug ? (
       <DebugWrapper renderer={renderer}>{component}</DebugWrapper>

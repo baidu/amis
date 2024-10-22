@@ -3,6 +3,7 @@ import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
 import type {TestIdBuilder} from './utils/helper';
+import {AnimationsProps} from './utils/animations';
 
 export interface Option {
   /**
@@ -307,6 +308,7 @@ export interface Schema {
   static?: boolean;
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
   definitions?: Definitions;
+  animations?: AnimationsProps;
   [propName: string]: any;
 }
 
