@@ -101,6 +101,7 @@ export class DiffEditorRenderer extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   doAction(
