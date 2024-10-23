@@ -1,3 +1,5 @@
+import kebabCase from 'lodash/kebabCase';
+
 interface Style {
   [id: string]: {
     [className: string]: {
@@ -44,7 +46,7 @@ class StyleManager {
           .map(className => {
             return `${className} {${Object.keys(style[className])
               .map(propName => {
-                return `${propName}: ${style[className][propName]};`;
+                return `${kebabCase(propName)}: ${style[className][propName]};`;
               })
               .join('')}}`;
           })

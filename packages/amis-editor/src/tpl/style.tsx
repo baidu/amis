@@ -2,6 +2,447 @@ import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
 import type {SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 
+const animationOptions = {
+  enter: [
+    {
+      label: '淡入',
+      children: [
+        {
+          label: '淡入',
+          value: 'fadeIn'
+        },
+        {
+          value: 'fadeInDown',
+          label: '从上淡入'
+        },
+        {
+          value: 'fadeInDownBig',
+          label: '从上淡入(加强效果)'
+        },
+        {
+          value: 'fadeInLeft',
+          label: '从左淡入'
+        },
+        {
+          value: 'fadeInLeftBig',
+          label: '从左淡入(加强效果)'
+        },
+        {
+          value: 'fadeInRight',
+          label: '从右淡入'
+        },
+        {
+          value: 'fadeInRightBig',
+          label: '从右淡入(加强效果)'
+        },
+        {
+          value: 'fadeInUp',
+          label: '从下淡入'
+        },
+        {
+          value: 'fadeInUpBig',
+          label: '从下淡入(加强效果)'
+        }
+      ]
+    },
+    {
+      label: '回弹',
+      children: [
+        {
+          value: 'backInDown',
+          label: '从上回弹进入'
+        },
+        {
+          value: 'backInLeft',
+          label: '从左回弹进入'
+        },
+        {
+          value: 'backInRight',
+          label: '从右回弹进入'
+        },
+        {
+          value: 'backInUp',
+          label: '从下回弹进入'
+        }
+      ]
+    },
+    {
+      label: '旋转',
+      children: [
+        {
+          value: 'rotateIn',
+          label: '旋转进入'
+        },
+        {
+          value: 'rotateInDownLeft',
+          label: '左上角旋转进入'
+        },
+        {
+          value: 'rotateInDownRight',
+          label: '右上角旋转进入'
+        },
+        {
+          value: 'rotateInUpLeft',
+          label: '左下角旋转进入'
+        },
+        {
+          value: 'rotateInUpRight',
+          label: '右下角旋转进入'
+        }
+      ]
+    },
+    {
+      label: '滑动',
+      children: [
+        {
+          value: 'slideInUp',
+          label: '从下滑入'
+        },
+        {
+          value: 'slideInDown',
+          label: '从上滑入'
+        },
+        {
+          value: 'slideInLeft',
+          label: '从左滑入'
+        },
+        {
+          value: 'slideInRight',
+          label: '从右滑入'
+        }
+      ]
+    },
+    {
+      label: '翻页',
+      children: [
+        {
+          value: 'flip',
+          label: '翻页'
+        },
+        {
+          value: 'flipInX',
+          label: '水平翻页'
+        },
+        {
+          value: 'flipInY',
+          label: '垂直翻页'
+        }
+      ]
+    },
+    {
+      label: '弹跳',
+      children: [
+        {
+          value: 'bounceIn',
+          label: '弹跳进入'
+        },
+        {
+          value: 'bounceInDown',
+          label: '从上弹跳进入'
+        },
+        {
+          value: 'bounceInLeft',
+          label: '从左弹跳进入'
+        },
+        {
+          value: 'bounceInRight',
+          label: '从右弹跳进入'
+        },
+        {
+          value: 'bounceInUp',
+          label: '从下弹跳进入'
+        }
+      ]
+    },
+    {
+      label: '缩放',
+      children: [
+        {
+          value: 'zoomIn',
+          label: '缩放进入'
+        },
+        {
+          value: 'zoomInDown',
+          label: '从上缩放进入'
+        },
+        {
+          value: 'zoomInLeft',
+          label: '从左缩放进入'
+        },
+        {
+          value: 'zoomInRight',
+          label: '从右缩放进入'
+        },
+        {
+          value: 'zoomInUp',
+          label: '从下缩放进入'
+        }
+      ]
+    },
+    {
+      label: '其他',
+      children: [
+        {
+          value: 'lightSpeedInLeft',
+          label: '从左光速进入'
+        },
+        {
+          value: 'lightSpeedInRight',
+          label: '从右光速进入'
+        },
+        {
+          value: 'rollIn',
+          label: '滚动进入'
+        }
+      ]
+    }
+  ],
+  attention: [
+    {
+      label: '弹跳',
+      value: 'bounce'
+    },
+    {
+      label: '闪烁',
+      value: 'flash'
+    },
+    {
+      value: 'headShake',
+      label: '摇头'
+    },
+    {
+      value: 'heartBeat',
+      label: '心跳'
+    },
+    {
+      value: 'jello',
+      label: '果冻'
+    },
+    {
+      label: '跳动',
+      value: 'pulse'
+    },
+    {
+      label: '摇摆',
+      value: 'swing'
+    },
+    {
+      label: '震动',
+      value: 'tada'
+    },
+    {
+      label: '晃动',
+      value: 'wobble'
+    },
+    {
+      label: '抖动',
+      value: 'shake'
+    },
+    {
+      value: 'shakeX',
+      label: '水平抖动'
+    },
+    {
+      value: 'shakeY',
+      label: '垂直抖动'
+    },
+    {
+      value: 'rubberBand',
+      label: '橡皮筋'
+    }
+  ],
+  exit: [
+    {
+      label: '淡出',
+      children: [
+        {
+          label: '淡出',
+          value: 'fadeOut'
+        },
+        {
+          value: 'fadeOutDown',
+          label: '从上淡出'
+        },
+        {
+          value: 'fadeOutDownBig',
+          label: '从上淡出(加强效果)'
+        },
+        {
+          value: 'fadeOutLeft',
+          label: '从左淡出'
+        },
+        {
+          value: 'fadeOutLeftBig',
+          label: '从左淡出(加强效果)'
+        },
+        {
+          value: 'fadeOutRight',
+          label: '从右淡出'
+        },
+        {
+          value: 'fadeOutRightBig',
+          label: '从右淡出(加强效果)'
+        },
+        {
+          value: 'fadeOutUp',
+          label: '从下淡出'
+        },
+        {
+          value: 'fadeOutUpBig',
+          label: '从下淡出(加强效果)'
+        }
+      ]
+    },
+    {
+      label: '回弹',
+      children: [
+        {
+          value: 'backOutDown',
+          label: '从下回弹退出'
+        },
+        {
+          value: 'backOutLeft',
+          label: '从左回弹退出'
+        },
+        {
+          value: 'backOutRight',
+          label: '从右回弹退出'
+        },
+        {
+          value: 'backOutUp',
+          label: '从上回弹退出'
+        }
+      ]
+    },
+    {
+      label: '旋转',
+      children: [
+        {
+          value: 'rotateOut',
+          label: '旋转退出'
+        },
+        {
+          value: 'rotateOutDownLeft',
+          label: '左上角旋转退出'
+        },
+        {
+          value: 'rotateOutDownRight',
+          label: '右上角旋转退出'
+        },
+        {
+          value: 'rotateOutUpLeft',
+          label: '左下角旋转退出'
+        },
+        {
+          value: 'rotateOutUpRight',
+          label: '右下角旋转退出'
+        }
+      ]
+    },
+    {
+      label: '滑动',
+      children: [
+        {
+          value: 'slideOutUp',
+          label: '从上滑入'
+        },
+        {
+          value: 'slideOutDown',
+          label: '从下滑入'
+        },
+        {
+          value: 'slideOutLeft',
+          label: '从左滑入'
+        },
+        {
+          value: 'slideOutRight',
+          label: '从右滑入'
+        }
+      ]
+    },
+    {
+      label: '翻页',
+      children: [
+        {
+          value: 'flipOutX',
+          label: '水平翻页'
+        },
+        {
+          value: 'flipOutY',
+          label: '垂直翻页'
+        }
+      ]
+    },
+    {
+      label: '弹跳',
+      children: [
+        {
+          value: 'bounceOut',
+          label: '弹跳退出'
+        },
+        {
+          value: 'bounceOutDown',
+          label: '从上弹跳退出'
+        },
+        {
+          value: 'bounceOutLeft',
+          label: '从左弹跳退出'
+        },
+        {
+          value: 'bounceOutRight',
+          label: '从右弹跳退出'
+        },
+        {
+          value: 'bounceOutUp',
+          label: '从下弹跳退出'
+        }
+      ]
+    },
+    {
+      label: '缩放',
+      children: [
+        {
+          value: 'zoomOut',
+          label: '缩放退出'
+        },
+        {
+          value: 'zoomOutDown',
+          label: '从上缩放退出'
+        },
+        {
+          value: 'zoomOutLeft',
+          label: '从左缩放退出'
+        },
+        {
+          value: 'zoomOutRight',
+          label: '从右缩放退出'
+        },
+        {
+          value: 'zoomOutUp',
+          label: '从下缩放退出'
+        }
+      ]
+    },
+    {
+      label: '其他',
+      children: [
+        {
+          value: 'lightSpeedOutLeft',
+          label: '从左光速退出'
+        },
+        {
+          value: 'lightSpeedOutRight',
+          label: '从右光速退出'
+        },
+        {
+          value: 'rollOut',
+          label: '滚动退出'
+        }
+      ]
+    }
+  ]
+};
+
 setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
   return {
     title: '表单项',
@@ -809,7 +1250,8 @@ setSchemaTpl(
             label: false
           }
         ]
-      }
+      },
+      getSchemaTpl('animation')
     ].filter(item => !~exclude.indexOf(item.key || ''));
   }
 );
@@ -845,3 +1287,80 @@ setSchemaTpl(
     };
   }
 );
+
+setSchemaTpl('animation', () => {
+  const animation = (
+    type: 'enter' | 'attention' | 'exit',
+    label: string,
+    schema: any = []
+  ) => [
+    {
+      type: 'switch',
+      name: `animations.${type}`,
+      pipeIn: (value: boolean) => !!value,
+      pipeOut: (value: boolean) => {
+        if (value) {
+          return {};
+        }
+        return undefined;
+      },
+      label
+    },
+    {
+      type: 'container',
+      className: 'm-b',
+      visibleOn: `animations.${type}`,
+      body: [
+        {
+          type: 'select',
+          name: `animations.${type}.type`,
+          selectMode: 'group',
+          options: animationOptions[type],
+          label: '类型',
+          selectFirst: true
+        },
+        {
+          type: 'input-number',
+          name: `animations.${type}.duration`,
+          label: '持续',
+          value: 1,
+          suffix: '秒',
+          min: 0,
+          precision: 3
+        },
+        ...schema
+      ]
+    }
+  ];
+
+  return {
+    title: '动画',
+    body: [
+      ...animation('enter', '进入动画'),
+      ...animation('attention', '强调动画', [
+        {
+          label: '重复',
+          type: 'select',
+          name: 'animations.attention.repeat',
+          value: 'infinite',
+          options: [
+            ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
+              label: i,
+              value: i
+            })),
+            {label: '无限', value: 'infinite'}
+          ]
+        },
+        {
+          label: '延迟',
+          type: 'input-number',
+          name: 'animations.attention.delay',
+          value: 0,
+          suffix: '秒',
+          precision: 3
+        }
+      ]),
+      ...animation('exit', '退出动画')
+    ]
+  };
+});

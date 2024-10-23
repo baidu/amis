@@ -98,17 +98,44 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   schema: any;
   path: string;
 
+  animationTimeout: {
+    enter?: number;
+    exit?: number;
+  } = {};
+  animationClassNames: {
+    appear?: string;
+    enter?: string;
+    exit?: string;
+  } = {};
+
   reaction: any;
   unbindEvent: (() => void) | undefined = undefined;
   isStatic: any = undefined;
 
   constructor(props: SchemaRendererProps) {
     super(props);
+    const animations = props?.schema?.animations;
+    if (animations) {
+      let id = props?.schema.id;
+      id = formateId(id);
+      if (animations.enter) {
+        this.animationTimeout.enter = (animations.enter.duration || 1) * 1000;
+        this.animationClassNames.enter = `${animations.enter.type}-${id}-enter`;
+        this.animationClassNames.appear = this.animationClassNames.enter;
+      }
+      if (animations.exit) {
+        this.animationTimeout.exit = (animations.exit.duration || 1) * 1000;
+        this.animationClassNames.exit = `${animations.exit.type}-${id}-exit`;
+      }
+    }
+
     this.refFn = this.refFn.bind(this);
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.addAnimationAttention = this.addAnimationAttention.bind(this);
+    this.removeAnimationAttention = this.removeAnimationAttention.bind(this);
 
     // 监听statusStore更新
     this.reaction = reaction(
@@ -141,7 +168,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   componentWillUnmount() {
     this.reaction?.();
     this.unbindEvent?.();
-    this.removeCustomAnimationStyle();
+    this.removeAnimationStyle();
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -172,7 +199,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
-  removeCustomAnimationStyle() {
+  removeAnimationStyle() {
     if (this.props.schema.animations) {
       let {id} = this.props.schema;
       id = formateId(id);
@@ -321,6 +348,25 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   reRender() {
     this.resolveRenderer(this.props, true);
     this.forceUpdate();
+  }
+
+  addAnimationAttention(node: HTMLElement) {
+    const {schema} = this.props || {};
+    const {attention} = schema?.animations || {};
+    if (attention) {
+      let {id} = schema;
+      id = formateId(id);
+      node.classList.add(`${attention.type}-${id}-attention`);
+    }
+  }
+  removeAnimationAttention(node: HTMLElement) {
+    const {schema} = this.props || {};
+    const {attention} = schema?.animations || {};
+    if (attention) {
+      let {id} = schema;
+      id = formateId(id);
+      node.classList.remove(`${attention.type}-${id}-attention`);
+    }
   }
 
   render(): JSX.Element | null {
@@ -565,39 +611,13 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     );
 
     if (schema.animations) {
-      const {enter, exit, attention} = schema.animations;
-
-      let {id} = schema;
-      id = formateId(id);
-      let type = enter?.type;
-
-      if (animationIn === false) {
-        type = exit?.type;
-      }
-
-      type = (type || 'fade') + '-' + id;
-
       component = (
         <CSSTransition
           in={animationIn}
-          timeout={{
-            appear: enter?.duration * 1000 || 300,
-            enter: enter?.duration * 1000 || 300,
-            exit: exit?.duration * 1000 || 300
-          }}
-          classNames={type}
-          onEntered={(node: HTMLElement) => {
-            // 如果配置了强调动画，需要在进入动画结束后添加attention的class
-            if (attention) {
-              node.classList.add(`${attention.type}-${id}-attention`);
-            }
-          }}
-          onExit={(node: HTMLElement) => {
-            // 需要在退出动画开始前移除attention的class
-            if (attention) {
-              node.classList.remove(`${attention.type}-${id}-attention`);
-            }
-          }}
+          timeout={this.animationTimeout}
+          classNames={this.animationClassNames}
+          onEntered={this.addAnimationAttention}
+          onExit={this.removeAnimationAttention}
           appear
           unmountOnExit
         >

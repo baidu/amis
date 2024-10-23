@@ -8,6 +8,8 @@ export interface AnimationsProps {
   attention?: {
     type: string;
     duration?: number;
+    repeat?: string;
+    delay?: number;
   };
   exit?: {
     type: string;
@@ -16,14 +18,24 @@ export interface AnimationsProps {
 }
 
 function generateStyleByAnimation(
-  type: string,
   className: string[],
-  duration?: number,
-  animation?: string
+  animation: {
+    name: string;
+    duration?: number;
+    iterationCount?: string;
+    delay?: number;
+    fillMode?: string;
+    timingFunction?: string;
+  }
 ) {
   return {
     [className.join(',')]: {
-      animation: `${type} ${duration || 0.3}s ${animation || 'ease'}`
+      animationName: animation.name,
+      animationDuration: `${animation.duration || 1}s`,
+      animationIterationCount: animation.iterationCount || 1,
+      animationDelay: `${animation.delay || 0}s`,
+      animationTimingFunction: animation.timingFunction || 'ease',
+      animationFillMode: animation.fillMode || 'none'
     }
   };
 }
@@ -36,12 +48,8 @@ export function createAnimationStyle(
   let enterStyle = {};
   if (enterAnimationConfig?.type) {
     enterStyle = generateStyleByAnimation(
-      enterAnimationConfig.type,
-      [
-        `.${enterAnimationConfig.type}-${id}-appear`,
-        `.${enterAnimationConfig.type}-${id}-enter`
-      ],
-      enterAnimationConfig.duration
+      [`.${enterAnimationConfig.type}-${id}-enter`],
+      {name: enterAnimationConfig.type, duration: enterAnimationConfig.duration}
     );
   }
 
@@ -49,10 +57,13 @@ export function createAnimationStyle(
   let attentionStyle = {};
   if (attentionAnimationConfig?.type) {
     attentionStyle = generateStyleByAnimation(
-      attentionAnimationConfig.type,
       [`.${attentionAnimationConfig.type}-${id}-attention`],
-      attentionAnimationConfig.duration,
-      'ease infinite'
+      {
+        name: attentionAnimationConfig.type,
+        duration: attentionAnimationConfig.duration,
+        iterationCount: attentionAnimationConfig.repeat || 'infinite',
+        delay: attentionAnimationConfig.delay
+      }
     );
   }
 
@@ -60,9 +71,12 @@ export function createAnimationStyle(
   let exitStyle = {};
   if (exitAnimationConfig?.type) {
     exitStyle = generateStyleByAnimation(
-      exitAnimationConfig.type,
       [`.${exitAnimationConfig.type}-${id}-exit`],
-      exitAnimationConfig.duration
+      {
+        name: exitAnimationConfig.type,
+        duration: exitAnimationConfig.duration,
+        fillMode: 'forwards'
+      }
     );
   }
 
