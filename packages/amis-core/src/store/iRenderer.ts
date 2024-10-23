@@ -22,6 +22,7 @@ import {DataChangeReason} from '../types';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
+    crudId: types.optional(types.string, ''),
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),
     initedAt: 0, // 初始 init 的时刻

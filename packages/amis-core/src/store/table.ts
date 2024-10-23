@@ -810,8 +810,13 @@ export const TableStore = iRendererStore
     return {
       getSelectionUpperLimit,
 
+      // 前端列缓存，必须有crud的id作为标识，否则会导致读取的缓存列数据错误
       get columnsKey() {
-        return location.pathname + self.path;
+        return (
+          location.pathname +
+          self.path +
+          `${self.crudId ? '?' + self.crudId : ''}`
+        );
       },
 
       get columnsData() {
@@ -1072,6 +1077,11 @@ export const TableStore = iRendererStore
         resolveDefinitions?: (ref: string) => any;
       }
     ) {
+      // 更换为crud组件的id, id赋值后就不能为空，否则缓存列配置会丢失
+      if (!self.crudId) {
+        self.crudId = config.crudId || '';
+      }
+
       config.primaryField !== undefined &&
         (self.primaryField = config.primaryField);
       config.selectable !== undefined && (self.selectable = config.selectable);
