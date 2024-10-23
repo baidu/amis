@@ -4,7 +4,9 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  getVariable
+  getVariable,
+  setThemeClassName,
+  CustomStyle
 } from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
@@ -128,6 +130,29 @@ export default class CheckboxControl extends React.Component<
     );
   }
 
+  formateThemeCss(themeCss: any) {
+    if (!themeCss) {
+      return {};
+    }
+    const {checkboxClassName = {}} = themeCss;
+    const defaultThemeCss: any = {};
+    const checkedThemeCss: any = {};
+    Object.keys(checkboxClassName).forEach(key => {
+      if (key.includes('checked-')) {
+        const newKey = key.replace('checked-', '');
+        checkedThemeCss[newKey] = checkboxClassName[key];
+      } else if (key.includes('checkbox-')) {
+        const newKey = key.replace('checkbox-', '');
+        defaultThemeCss[newKey] = checkboxClassName[key];
+      }
+    });
+    return {
+      ...themeCss,
+      checkboxClassName: defaultThemeCss,
+      checkboxCheckedClassName: checkedThemeCss
+    };
+  }
+
   @supportStatic()
   render() {
     const {
@@ -145,11 +170,39 @@ export default class CheckboxControl extends React.Component<
       checked,
       labelClassName,
       testIdBuilder,
-      classPrefix: ns
+      classPrefix: ns,
+      id,
+      env,
+      themeCss
     } = this.props;
 
+    const css = this.formateThemeCss(themeCss);
+
     return (
-      <div className={cx(`${ns}CheckboxControl`, className)}>
+      <div
+        className={cx(
+          `${ns}CheckboxControl`,
+          className,
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxCheckedClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxLabelClassName',
+            id,
+            themeCss: css
+          })
+        )}
+      >
         <Checkbox
           inline
           value={value || ''}
@@ -165,6 +218,64 @@ export default class CheckboxControl extends React.Component<
         >
           {option ? render('option', option) : null}
         </Checkbox>
+
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: this.formateThemeCss(themeCss),
+            classNames: [
+              {
+                key: 'checkboxClassName',
+                weights: {
+                  default: {
+                    suf: ' label',
+                    inner: 'i'
+                  },
+                  hover: {
+                    suf: ' label',
+                    inner: 'i'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input[disabled] + i`
+                  }
+                }
+              },
+              {
+                key: 'checkboxCheckedClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox--checkbox input:checked + i`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox--checkbox`,
+                    inner: 'input:checked + i'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input:checked[disabled] + i`
+                  }
+                }
+              },
+              {
+                key: 'checkboxLabelClassName',
+                weights: {
+                  default: {
+                    suf: ' label',
+                    inner: 'span'
+                  },
+                  hover: {
+                    suf: ' label',
+                    inner: 'span'
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox input[disabled] + i + span`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }

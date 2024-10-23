@@ -13,6 +13,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema, SchemaType} from 'amis';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class RadiosControlPlugin extends BasePlugin {
   static id = 'RadiosControlPlugin';
@@ -157,8 +158,8 @@ export class RadiosControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {
-              renderer: context.info.renderer,
+            getSchemaTpl('theme:formItem', {
+              hidSize: true,
               schema: [
                 getSchemaTpl('switch', {
                   label: '一行选项显示',
@@ -177,6 +178,92 @@ export class RadiosControlPlugin extends BasePlugin {
                 }
               ]
             }),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '单选框样式',
+              body: [
+                ...inputStateTpl('themeCss.radiosClassName', '--radio', {
+                  hideFont: true,
+                  hideMargin: true,
+                  hidePadding: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'radios-default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'radios-hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'radios-disabled'
+                    },
+                    {
+                      label: '选中',
+                      value: 'checked-default'
+                    },
+                    {
+                      label: '选中态悬浮',
+                      value: 'checked-hover'
+                    },
+                    {
+                      label: '选中禁用',
+                      value: 'checked-disabled'
+                    }
+                  ],
+                  schema: [
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.background:default',
+                      labelMode: 'input',
+                      label: '圆点颜色',
+                      visibleOn:
+                        "${__editorStatethemeCss.radiosClassName == 'checked-default'}"
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.background:hover',
+                      labelMode: 'input',
+                      label: '圆点颜色',
+                      visibleOn:
+                        "${__editorStatethemeCss.radiosClassName == 'checked-hover'}"
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.background:disabled',
+                      labelMode: 'input',
+                      label: '圆点颜色',
+                      visibleOn:
+                        "${__editorStatethemeCss.radiosClassName == 'checked-disabled'}"
+                    })
+                  ]
+                })
+              ]
+            },
+            {
+              title: '选项说明样式',
+              body: [
+                ...inputStateTpl('themeCss.radiosLabelClassName', '', {
+                  hidePadding: true,
+                  hideRadius: true,
+                  hideBorder: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'disabled'
+                    }
+                  ]
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames', {
               schema: [
                 getSchemaTpl('className', {

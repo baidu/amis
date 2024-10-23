@@ -343,7 +343,7 @@ export default class CheckboxesControl extends React.Component<
     if (!themeCss) {
       return {};
     }
-    const {checkboxesClassName} = themeCss;
+    const {checkboxesClassName = {}} = themeCss;
     const defaultThemeCss: any = {};
     const checkedThemeCss: any = {};
     Object.keys(checkboxesClassName).forEach(key => {

@@ -1,21 +1,23 @@
 import {getSchemaTpl} from 'amis-editor-core';
+interface InputStateOptions {
+  state?: {
+    label: string;
+    value: string;
+    token?: string;
+  }[];
+  hideFont?: boolean;
+  hidePadding?: boolean;
+  hideMargin?: boolean;
+  hideRadius?: boolean;
+  hideBackground?: boolean;
+  hideBorder?: boolean;
+  schema?: any[];
+}
 
 export const inputStateTpl = (
   className: string,
   token: string = '',
-  options?: {
-    state?: {
-      label: string;
-      value: string;
-      token?: string;
-    }[];
-    hideFont?: boolean;
-    hidePadding?: boolean;
-    hideMargin?: boolean;
-    hideRadius?: boolean;
-    hideBackground?: boolean;
-    hideBorder?: boolean;
-  }
+  options?: InputStateOptions
 ) => {
   const stateOptions = options?.state || [
     {
@@ -67,7 +69,7 @@ export const inputStateFunc = (
   state: string,
   className: string,
   token: string,
-  options: any
+  options?: InputStateOptions
 ) => {
   const cssTokenState = state === 'focused' ? 'active' : state;
 
