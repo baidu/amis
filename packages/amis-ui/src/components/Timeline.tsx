@@ -29,10 +29,13 @@ export function Timeline(props: TimelineProps) {
   } = props;
 
   const timelineDatasource = items?.slice();
-  const defaultData = {
-    time: '时间轴',
-    title: '暂无数据'
-  };
+  // 防止数据为空时，编辑器中无法选中
+  if (timelineDatasource?.length === 0) {
+    timelineDatasource.push({
+      time: '时间轴',
+      title: '暂无数据'
+    });
+  }
   reverse && timelineDatasource?.reverse();
 
   return (
@@ -55,9 +58,6 @@ export function Timeline(props: TimelineProps) {
           detailClassName={item.detailClassName || detailClassName}
         />
       ))}
-      {timelineDatasource.length ? null : (
-        <TimelineItem {...defaultData} key={`TimelineItem-99`} />
-      )}
     </div>
   );
 }

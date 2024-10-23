@@ -28,7 +28,7 @@ export interface TimelineItemProps extends FormControlProps {
   className?: string;
 }
 
-export type SourceType = 'custom' | 'api' | 'apicenter' | 'variable';
+export type SourceType = 'custom' | 'api' | 'variable';
 export interface TimelineItemState {
   items: Array<Partial<TimelineItem>>;
   source: SourceType;
@@ -61,7 +61,7 @@ export default class TimelineItemControl extends React.Component<
     if (source === this.state.source) {
       return;
     }
-    this.setState({source: source, api: ''}, this.onChange);
+    this.setState({source: source, api: '', items: []}, this.onChange);
   }
 
   @autobind
@@ -78,8 +78,7 @@ export default class TimelineItemControl extends React.Component<
     if (source === 'custom') {
       data.items = items.map(item => ({...item}));
     }
-    if (source === 'api' || source === 'apicenter' || source === 'variable') {
-      data.items = [];
+    if (source === 'api' || source === 'variable') {
       data.source = api;
     }
     onBulkChange && onBulkChange(data);
@@ -144,13 +143,12 @@ export default class TimelineItemControl extends React.Component<
     const i18nEnabled = getI18nEnabled();
     return [
       {
-        type: i18nEnabled ? 'input-date-i18n' : 'input-date',
+        type: i18nEnabled ? 'input-text-i18n' : 'input-text',
         name: 'time',
         required: true,
-        placeholder: '请选择时间',
+        placeholder: '请输入时间',
         label: '时间',
-        value: props?.['time'],
-        format: 'YYYY-MM-DD'
+        value: props?.['time']
       },
       {
         type: i18nEnabled ? 'input-text-i18n' : 'input-text',
@@ -329,15 +327,8 @@ export default class TimelineItemControl extends React.Component<
   }
 
   renderHeader() {
-    const {
-      render,
-      label,
-      labelRemark,
-      useMobileUI,
-      env,
-      popOverContainer,
-      hasApiCenter
-    } = this.props;
+    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
+      this.props;
 
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
@@ -351,7 +342,6 @@ export default class TimelineItemControl extends React.Component<
           label: '接口获取',
           value: 'api'
         },
-        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : []),
         {
           label: '上下文变量',
           value: 'variable'
@@ -575,9 +565,7 @@ export default class TimelineItemControl extends React.Component<
             </div>
           </div>
         ) : null}
-        {source === 'api' || source === 'apicenter'
-          ? this.renderApiPanel()
-          : null}
+        {source === 'api' ? this.renderApiPanel() : null}
         {source === 'variable'
           ? render(
               'variable',
