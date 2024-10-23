@@ -36,7 +36,7 @@ import {StatusScopedProps} from './StatusScoped';
 import {evalExpression, filter} from './utils/tpl';
 import {CSSTransition} from 'react-transition-group';
 import {createAnimationStyle} from './utils/animations';
-import styleManager from './styleManager';
+import styleManager from './StyleManager';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,

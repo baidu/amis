@@ -1,4 +1,4 @@
-import styleManager from '../styleManager';
+import styleManager from '../StyleManager';
 
 export interface AnimationsProps {
   enter?: {
