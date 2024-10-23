@@ -11,6 +11,7 @@ interface Style {
 class StyleManager {
   styles: Style;
   styleDom: HTMLStyleElement;
+  styleText: string;
 
   constructor() {
     this.styles = {};
@@ -55,6 +56,7 @@ class StyleManager {
       .join('');
 
     this.styleDom.innerHTML = styleText;
+    this.styleText = styleText;
   }
 }
 

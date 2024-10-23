@@ -1,6 +1,7 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {createAnimationStyle, formateId, type SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
+import {styleManager} from 'amis-core';
 
 const animationOptions = {
   enter: [
@@ -1340,12 +1341,30 @@ setSchemaTpl('animation', () => {
       size: 'sm',
       label: '播放',
       onClick: (e: any, {data}: any) => {
+        let doc = document;
+        const isMobile = (window as any).editorStore.isMobile;
+
+        if (isMobile) {
+          doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
+            .contentDocument;
+        }
         let {id, animations} = data;
-        const el = document.querySelector(`[name="${id}"]`);
+        const el = doc.querySelector(`[name="${id}"]`);
         id = formateId(id);
         const className = `${animations[type].type}-${id}-${type}`;
         el?.classList.add(className);
         createAnimationStyle(id, animations);
+
+        if (isMobile) {
+          let style = doc.getElementById('amis-styles');
+          if (!style) {
+            style = doc.createElement('style');
+            style.id = 'amis-styles';
+            doc.head.appendChild(style);
+          }
+          style.innerHTML = styleManager.styleText;
+        }
+
         setTimeout(() => {
           el?.classList.remove(className);
         }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000);
