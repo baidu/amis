@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import type {SchemaCollection} from 'amis';
+import {createAnimationStyle, formateId, type SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 
 const animationOptions = {
@@ -261,35 +261,35 @@ const animationOptions = {
         },
         {
           value: 'fadeOutDown',
-          label: '从上淡出'
+          label: '向下淡出'
         },
         {
           value: 'fadeOutDownBig',
-          label: '从上淡出(加强效果)'
+          label: '向下淡出(加强效果)'
         },
         {
           value: 'fadeOutLeft',
-          label: '从左淡出'
+          label: '向左淡出'
         },
         {
           value: 'fadeOutLeftBig',
-          label: '从左淡出(加强效果)'
+          label: '向左淡出(加强效果)'
         },
         {
           value: 'fadeOutRight',
-          label: '从右淡出'
+          label: '向右淡出'
         },
         {
           value: 'fadeOutRightBig',
-          label: '从右淡出(加强效果)'
+          label: '向右淡出(加强效果)'
         },
         {
           value: 'fadeOutUp',
-          label: '从下淡出'
+          label: '向上淡出'
         },
         {
           value: 'fadeOutUpBig',
-          label: '从下淡出(加强效果)'
+          label: '向上淡出(加强效果)'
         }
       ]
     },
@@ -298,19 +298,19 @@ const animationOptions = {
       children: [
         {
           value: 'backOutDown',
-          label: '从下回弹退出'
+          label: '向下回弹退出'
         },
         {
           value: 'backOutLeft',
-          label: '从左回弹退出'
+          label: '向左回弹退出'
         },
         {
           value: 'backOutRight',
-          label: '从右回弹退出'
+          label: '向右回弹退出'
         },
         {
           value: 'backOutUp',
-          label: '从上回弹退出'
+          label: '向上回弹退出'
         }
       ]
     },
@@ -344,19 +344,19 @@ const animationOptions = {
       children: [
         {
           value: 'slideOutUp',
-          label: '从上滑入'
+          label: '向上滑入'
         },
         {
           value: 'slideOutDown',
-          label: '从下滑入'
+          label: '向下滑入'
         },
         {
           value: 'slideOutLeft',
-          label: '从左滑入'
+          label: '向左滑入'
         },
         {
           value: 'slideOutRight',
-          label: '从右滑入'
+          label: '向右滑入'
         }
       ]
     },
@@ -382,19 +382,19 @@ const animationOptions = {
         },
         {
           value: 'bounceOutDown',
-          label: '从上弹跳退出'
+          label: '向下弹跳退出'
         },
         {
           value: 'bounceOutLeft',
-          label: '从左弹跳退出'
+          label: '向左弹跳退出'
         },
         {
           value: 'bounceOutRight',
-          label: '从右弹跳退出'
+          label: '向右弹跳退出'
         },
         {
           value: 'bounceOutUp',
-          label: '从下弹跳退出'
+          label: '向上弹跳退出'
         }
       ]
     },
@@ -407,19 +407,19 @@ const animationOptions = {
         },
         {
           value: 'zoomOutDown',
-          label: '从上缩放退出'
+          label: '向上缩放退出'
         },
         {
           value: 'zoomOutLeft',
-          label: '从左缩放退出'
+          label: '向左缩放退出'
         },
         {
           value: 'zoomOutRight',
-          label: '从右缩放退出'
+          label: '向右缩放退出'
         },
         {
           value: 'zoomOutUp',
-          label: '从下缩放退出'
+          label: '向下缩放退出'
         }
       ]
     },
@@ -428,11 +428,11 @@ const animationOptions = {
       children: [
         {
           value: 'lightSpeedOutLeft',
-          label: '从左光速退出'
+          label: '向左光速退出'
         },
         {
           value: 'lightSpeedOutRight',
-          label: '从右光速退出'
+          label: '向右光速退出'
         },
         {
           value: 'rollOut',
@@ -1308,7 +1308,7 @@ setSchemaTpl('animation', () => {
     },
     {
       type: 'container',
-      className: 'm-b',
+      className: 'm-b ae-ExtendMore',
       visibleOn: `animations.${type}`,
       body: [
         {
@@ -1330,6 +1330,26 @@ setSchemaTpl('animation', () => {
         },
         ...schema
       ]
+    },
+    {
+      type: 'button',
+      visibleOn: `animations.${type}`,
+      className: 'm-b',
+      block: true,
+      level: 'enhance',
+      size: 'sm',
+      label: '播放',
+      onClick: (e: any, {data}: any) => {
+        let {id, animations} = data;
+        const el = document.querySelector(`[name="${id}"]`);
+        id = formateId(id);
+        const className = `${animations[type].type}-${id}-${type}`;
+        el?.classList.add(className);
+        createAnimationStyle(id, animations);
+        setTimeout(() => {
+          el?.classList.remove(className);
+        }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000);
+      }
     }
   ];
 

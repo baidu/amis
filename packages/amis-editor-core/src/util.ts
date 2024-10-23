@@ -790,7 +790,14 @@ export function filterSchemaForEditor(schema: any): any {
     Object.keys(schema).forEach(key => {
       const value = schema[key];
       if (
-        ~['visible', 'visibleOn', 'hidden', 'hiddenOn', 'toggled'].indexOf(key)
+        ~[
+          'visible',
+          'visibleOn',
+          'hidden',
+          'hiddenOn',
+          'toggled',
+          'animations' // 编辑态也不能有动画
+        ].indexOf(key)
       ) {
         key = `$$${key}`;
         modified = true;

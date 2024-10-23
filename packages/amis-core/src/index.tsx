@@ -36,6 +36,7 @@ import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
 export * from './utils/index';
+export * from './utils/animations';
 export * from './types';
 export * from './store';
 import * as utils from './utils/helper';
