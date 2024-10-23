@@ -43,6 +43,7 @@ import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 import {SchemaFrom} from './component/base/SchemaForm';
 import {RendererThumb} from './component/RendererThumb';
+import {AvailableRenderersPanel} from './component/Panel/AvailableRenderersPanel';
 
 export const version = '__buildVersion';
 (window as any).amisEditorVersionInfo = {
@@ -69,6 +70,7 @@ export {
   EditorStoreType,
   ContainerWrapper,
   AvailableRenderersPlugin,
+  AvailableRenderersPanel,
   BasicToolbarPlugin,
   CodePlugin,
   ErrorRendererPlugin,
