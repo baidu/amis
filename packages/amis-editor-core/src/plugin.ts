@@ -456,6 +456,7 @@ export interface PanelProps {
   manager: EditorManager;
   popOverContainer?: () => HTMLElement | void;
   readonly?: boolean;
+  children?: React.ReactNode | ((props: PanelProps) => React.ReactNode);
 }
 
 /**
