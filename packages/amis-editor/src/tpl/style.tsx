@@ -120,11 +120,11 @@ const animationOptions = {
           label: '翻页'
         },
         {
-          value: 'flipInX',
+          value: 'flipInY',
           label: '水平翻页'
         },
         {
-          value: 'flipInY',
+          value: 'flipInX',
           label: '垂直翻页'
         }
       ]
@@ -364,11 +364,11 @@ const animationOptions = {
       label: '翻页',
       children: [
         {
-          value: 'flipOutX',
+          value: 'flipOutY',
           label: '水平翻页'
         },
         {
-          value: 'flipOutY',
+          value: 'flipOutX',
           label: '垂直翻页'
         }
       ]
