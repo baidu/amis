@@ -74,7 +74,7 @@ import {VariableManager} from './variable';
 
 import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
-import type {RendererConfig, RendererEnv} from 'amis-core';
+import type {Api, Payload, RendererConfig, RendererEnv} from 'amis-core';
 import {loadAsyncRenderer} from 'amis-core';
 
 export interface EditorManagerConfig
@@ -199,9 +199,7 @@ export function unRegisterEditorPlugin(id: string) {
  */
 export class EditorManager {
   readonly plugins: Array<PluginInterface>;
-  readonly env: Omit<RendererEnv, 'theme'> & {
-    theme?: string;
-  };
+  readonly env: RenderOptions;
   toDispose: Array<() => void> = [];
   readonly dnd: EditorDNDManager;
   readonly id = guid();
@@ -222,6 +220,7 @@ export class EditorManager {
 
   /** 变量管理 */
   readonly variableManager;
+  fetch?: (api: Api, data?: any, options?: object) => Promise<Payload>;
 
   constructor(
     readonly config: EditorManagerConfig,
@@ -238,6 +237,7 @@ export class EditorManager {
     // 内部统一使用 wrapFetcher 包装 fetcher
     if (this.env.fetcher) {
       this.env.fetcher = wrapFetcher(this.env.fetcher as any, this.env.tracker);
+      this.fetch = this.env.fetcher as any;
     }
 
     this.env.beforeDispatchEvent = this.beforeDispatchEvent.bind(
