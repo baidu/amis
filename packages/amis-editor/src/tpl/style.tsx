@@ -1290,6 +1290,39 @@ setSchemaTpl(
 );
 
 setSchemaTpl('animation', () => {
+  let timeoutId: any = null;
+
+  function playAnimation(animations: any, id: string, type: string) {
+    let doc = document;
+    const isMobile = (window as any).editorStore.isMobile;
+
+    if (isMobile) {
+      doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
+        .contentDocument;
+    }
+    const el = doc.querySelector(`[name="${id}"]`);
+    id = formateId(id);
+    const className = `${animations[type].type}-${id}-${type}`;
+    el?.classList.add(className);
+    createAnimationStyle(id, animations);
+
+    if (isMobile) {
+      let style = doc.getElementById('amis-styles');
+      if (!style) {
+        style = doc.createElement('style');
+        style.id = 'amis-styles';
+        doc.head.appendChild(style);
+      }
+      style.innerHTML = styleManager.styleText;
+    }
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      el?.classList.remove(className);
+    }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000 + 200);
+  }
   const animation = (
     type: 'enter' | 'attention' | 'exit',
     label: string,
@@ -1318,7 +1351,23 @@ setSchemaTpl('animation', () => {
           selectMode: 'group',
           options: animationOptions[type],
           label: '类型',
-          selectFirst: true
+          selectFirst: true,
+          onChange: (value: any, oldValue: any, obj: any, {data}: any) => {
+            const {animations, id} = data;
+            if (oldValue !== undefined) {
+              playAnimation(
+                {
+                  ...animations,
+                  [type]: {
+                    ...animations[type],
+                    type: value
+                  }
+                },
+                id,
+                type
+              );
+            }
+          }
         },
         {
           type: 'input-number',
@@ -1327,7 +1376,47 @@ setSchemaTpl('animation', () => {
           value: 1,
           suffix: '秒',
           min: 0,
-          precision: 3
+          precision: 3,
+          onChange: (value: any, oldValue: any, obj: any, {data}: any) => {
+            const {animations, id} = data;
+            if (oldValue !== undefined) {
+              playAnimation(
+                {
+                  ...animations,
+                  [type]: {
+                    ...animations[type],
+                    duration: value
+                  }
+                },
+                id,
+                type
+              );
+            }
+          }
+        },
+        {
+          label: '延迟',
+          type: 'input-number',
+          name: `animations.${type}.delay`,
+          value: 0,
+          suffix: '秒',
+          precision: 3,
+          onChange: (value: any, oldValue: any, obj: any, {data}: any) => {
+            const {animations, id} = data;
+            if (oldValue !== undefined) {
+              playAnimation(
+                {
+                  ...animations,
+                  [type]: {
+                    ...animations[type],
+                    delay: value
+                  }
+                },
+                id,
+                type
+              );
+            }
+          }
         },
         ...schema
       ]
@@ -1341,33 +1430,8 @@ setSchemaTpl('animation', () => {
       size: 'sm',
       label: '播放',
       onClick: (e: any, {data}: any) => {
-        let doc = document;
-        const isMobile = (window as any).editorStore.isMobile;
-
-        if (isMobile) {
-          doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
-            .contentDocument;
-        }
-        let {id, animations} = data;
-        const el = doc.querySelector(`[name="${id}"]`);
-        id = formateId(id);
-        const className = `${animations[type].type}-${id}-${type}`;
-        el?.classList.add(className);
-        createAnimationStyle(id, animations);
-
-        if (isMobile) {
-          let style = doc.getElementById('amis-styles');
-          if (!style) {
-            style = doc.createElement('style');
-            style.id = 'amis-styles';
-            doc.head.appendChild(style);
-          }
-          style.innerHTML = styleManager.styleText;
-        }
-
-        setTimeout(() => {
-          el?.classList.remove(className);
-        }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000);
+        const {animations, id} = data;
+        playAnimation(animations, id, type);
       }
     }
   ];
@@ -1389,14 +1453,6 @@ setSchemaTpl('animation', () => {
             })),
             {label: '无限', value: 'infinite'}
           ]
-        },
-        {
-          label: '延迟',
-          type: 'input-number',
-          name: 'animations.attention.delay',
-          value: 0,
-          suffix: '秒',
-          precision: 3
         }
       ]),
       ...animation('exit', '退出动画')

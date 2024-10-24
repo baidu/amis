@@ -4,6 +4,7 @@ export interface AnimationsProps {
   enter?: {
     type: string;
     duration?: number;
+    delay?: number;
   };
   attention?: {
     type: string;
@@ -14,6 +15,7 @@ export interface AnimationsProps {
   exit?: {
     type: string;
     duration?: number;
+    delay?: number;
   };
 }
 
@@ -49,7 +51,12 @@ export function createAnimationStyle(
   if (enterAnimationConfig?.type) {
     enterStyle = generateStyleByAnimation(
       [`.${enterAnimationConfig.type}-${id}-enter`],
-      {name: enterAnimationConfig.type, duration: enterAnimationConfig.duration}
+      {
+        name: enterAnimationConfig.type,
+        duration: enterAnimationConfig.duration,
+        delay: enterAnimationConfig.delay,
+        fillMode: 'backwards'
+      }
     );
   }
 
@@ -75,6 +82,7 @@ export function createAnimationStyle(
       {
         name: exitAnimationConfig.type,
         duration: exitAnimationConfig.duration,
+        delay: exitAnimationConfig.delay,
         fillMode: 'forwards'
       }
     );
