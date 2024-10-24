@@ -5,10 +5,10 @@ import Sortable from 'sortablejs';
 import {
   DataSchema,
   FormItem,
-  Button,
   Icon,
   TooltipWrapper,
-  render as amisRender
+  render as amisRender,
+  Tooltip
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -20,17 +20,18 @@ import {
 } from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
-  findActionNode,
-  findSubActionNode,
-  getActionType,
   getEventDesc,
   getEventStrongDesc,
   getEventLabel,
-  getPropOfAcion,
-  SELECT_PROPS_CONTAINER,
-  updateCommonUseActions,
-  FORMITEM_CMPTS
+  updateCommonUseActions
 } from './helper';
+import {
+  findActionNode,
+  findSubActionNode,
+  getActionType,
+  getPropOfAcion
+} from './eventControlConfigHelper';
+import {SELECT_PROPS_CONTAINER} from './constants';
 import {
   ActionConfig,
   ActionEventConfig,
@@ -656,17 +657,6 @@ export class EventControl extends React.Component<
           allComponents
         );
 
-        // const schema: any = {
-        //   type: 'object',
-        //   $id: 'outputVar',
-        //   properties: {
-        //     [action.outputVar!]: {
-        //       ...actionSchema[0],
-        //       title: `${action.outputVar}(${actionLabel})`
-        //     }
-        //   }
-        // };
-
         jsonSchema = {
           ...jsonSchema,
           properties: {
@@ -685,12 +675,6 @@ export class EventControl extends React.Component<
             }
           }
         };
-
-        // manager.dataSchema.addScope(
-        //   schema,
-        //   `action-output-${action.actionType}_${index}`
-        // );
-        // manager.dataSchema.current.group = '动作出参';
       });
 
     if (manager.dataSchema.getScope('event-variable')) {
@@ -710,70 +694,6 @@ export class EventControl extends React.Component<
       'event-variable'
     );
   }
-
-  // buildActionDataSchema(
-  //   activeData: Pick<
-  //     EventControlState,
-  //     'showAcionDialog' | 'type' | 'actionData'
-  //   >,
-  //   manager: EditorManager
-  // ) {
-  //   const {actionTree, pluginActions, commonActions, allComponents} =
-  //     this.props;
-  //   const {onEvent} = this.state;
-  //   // 收集当前事件已有ajax动作的请求返回结果作为事件变量
-  //   let oldActions = onEvent[activeData.actionData!.eventKey].actions;
-
-  //   // 编辑的时候只能拿到当前动作前面动作的事件变量
-  //   if (activeData.type === 'update') {
-  //     oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
-  //   }
-
-  //   oldActions
-  //     ?.filter(item => item.outputVar)
-  //     ?.forEach((action: ActionConfig, index: number) => {
-  //       if (
-  //         manager.dataSchema.getScope(
-  //           `action-output-${action.actionType}_ ${index}`
-  //         )
-  //       ) {
-  //         return;
-  //       }
-
-  //       const actionLabel = getPropOfAcion(
-  //         action,
-  //         'actionLabel',
-  //         actionTree,
-  //         pluginActions,
-  //         commonActions,
-  //         allComponents
-  //       );
-  //       const actionSchema = getPropOfAcion(
-  //         action,
-  //         'outputVarDataSchema',
-  //         actionTree,
-  //         pluginActions,
-  //         commonActions,
-  //         allComponents
-  //       );
-
-  //       const schema: any = {
-  //         type: 'object',
-  //         properties: {
-  //           [`event.data.${action.outputVar}`]: {
-  //             ...actionSchema[0],
-  //             title: `${action.outputVar}(${actionLabel})`
-  //           }
-  //         }
-  //       };
-
-  //       manager.dataSchema.addScope(
-  //         schema,
-  //         `action-output-${action.actionType}_${index}`
-  //       );
-  //       manager.dataSchema.current.group = '动作出参';
-  //     });
-  // }
 
   async buildContextSchema(data: any) {
     const {manager, node: currentNode} = this.props;
@@ -1000,15 +920,6 @@ export class EventControl extends React.Component<
     if (manager.dataSchema.getScope('event-variable')) {
       manager.dataSchema.removeScope('event-variable');
     }
-
-    // // 删除动作出参
-    // Object.keys(manager.dataSchema.idMap)
-    //   .filter(key => /^action-output/.test(key))
-    //   .map(key => {
-    //     if (manager.dataSchema.getScope(key)) {
-    //       manager.dataSchema.removeScope(key);
-    //     }
-    //   });
   }
 
   renderActionType(action: any, actionIndex: number, eventKey: string) {
@@ -1245,6 +1156,18 @@ export class EventControl extends React.Component<
                                       eventKey
                                     )}
                                   </div>
+                                  {action.description && (
+                                    <TooltipWrapper
+                                      trigger="hover"
+                                      placement="top"
+                                      tooltip={action.description}
+                                    >
+                                      <Icon
+                                        icon="far fa-question-circle"
+                                        className="flex justify-center items-center icon ml-0.5"
+                                      />
+                                    </TooltipWrapper>
+                                  )}
                                 </div>
                                 <div className="action-control-header-right">
                                   <div

@@ -3,20 +3,22 @@ import {
   EditorNodeType,
   getI18nEnabled,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  registerEditorPlugin,
+  defaultValue,
+  getSchemaTpl,
+  BaseEventContext,
+  BasePlugin,
+  tipedLabel
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import cloneDeep from 'lodash/cloneDeep';
+import type {Schema} from 'amis';
 import {
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
-import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {resolveOptionType, TREE_BASE_EVENTS} from '../../util';
-import type {Schema} from 'amis';
+import {getActionCommonProps} from '../../renderer/event-control/helper';
 
 // 树组件公共动作
 export const TreeCommonAction: RendererPluginAction[] = [
@@ -212,29 +214,34 @@ export class TreeControlPlugin extends BasePlugin {
     {
       actionType: 'collapse',
       actionLabel: '收起',
-      description: '收起树节点'
+      description: '收起树节点',
+      ...getActionCommonProps('collapse')
     },
     /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除数据'
+      description: '清除数据',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置数据'
+      description: '重置数据',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
