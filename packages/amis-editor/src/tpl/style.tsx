@@ -900,6 +900,22 @@ setSchemaTpl('theme:cssCode', () => {
   };
 });
 
+// single css类名
+setSchemaTpl('theme:singleCssCode', (options: any) => {
+  const {selectors} = options;
+  return {
+    title: '自定义样式',
+    body: selectors?.map((item: any) => {
+      return {
+        mode: 'default',
+        type: 'ae-single-theme-cssCode',
+        label: false,
+        selector: item
+      };
+    })
+  };
+});
+
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
@@ -1244,6 +1260,7 @@ setSchemaTpl(
       ...extra,
       {
         title: '自定义样式',
+        key: 'theme-css-code',
         collapsed: curCollapsed,
         body: [
           {
