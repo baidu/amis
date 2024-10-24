@@ -121,6 +121,38 @@ order: 2
 }
 ```
 
+### 单一选项禁用
+
+如果需要禁用某个单独选项，让用户不可选。可以给`options`中某一项配置`disabled`属性为`true`。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a",
+                    "disabled": true
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 静态选项组 options
 
 可以使用静态方式，配置一组选项组：
