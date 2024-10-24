@@ -162,6 +162,22 @@
       width: var(--Toast-icon-width);
       height: var(--Toast-icon-height);
       color: inherit;
+
+      &.icon-warning {
+        color: var(--Status-warning-color);
+      }
+
+      &.icon-fail {
+        color: var(--Status-fail-color);
+      }
+
+      &.icon-success {
+        color: var(--Status-success-color);
+      }
+
+      &.icon-schedule {
+        color: var(--Status-schedule-color);
+      }
     }
   }
 

@@ -45,7 +45,7 @@ import type {
   RowSelectionProps,
   ExpandableProps,
   AutoFillHeightObject
-} from 'amis-ui/lib/components/table';
+} from 'amis-ui/lib/components/table/index';
 import {
   BaseSchema,
   SchemaObject,
