@@ -9,7 +9,12 @@ import debounce from 'lodash/debounce';
 import findIndex from 'lodash/findIndex';
 import omit from 'lodash/omit';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
-import {getRenderers, RenderOptions, JSONTraverse} from 'amis-core';
+import {
+  getRenderers,
+  RenderOptions,
+  JSONTraverse,
+  wrapFetcher
+} from 'amis-core';
 import {
   PluginInterface,
   BasicPanelItem,
@@ -69,7 +74,7 @@ import {VariableManager} from './variable';
 
 import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
-import type {RendererConfig} from 'amis-core';
+import type {RendererConfig, RendererEnv} from 'amis-core';
 import {loadAsyncRenderer} from 'amis-core';
 
 export interface EditorManagerConfig
@@ -194,7 +199,9 @@ export function unRegisterEditorPlugin(id: string) {
  */
 export class EditorManager {
   readonly plugins: Array<PluginInterface>;
-  readonly env: RenderOptions;
+  readonly env: Omit<RendererEnv, 'theme'> & {
+    theme?: string;
+  };
   toDispose: Array<() => void> = [];
   readonly dnd: EditorDNDManager;
   readonly id = guid();
@@ -223,10 +230,16 @@ export class EditorManager {
   ) {
     // 传给 amis 渲染器的默认 env
     this.env = {
-      ...env, // 默认的 env 中带 jumpTo
+      ...(env as any), // 默认的 env 中带 jumpTo
       ...omit(config.amisEnv, 'replaceText'), // 用户也可以设置自定义环境配置，用于覆盖默认的 env
-      theme: config.theme
+      theme: config.theme!
     };
+
+    // 内部统一使用 wrapFetcher 包装 fetcher
+    if (this.env.fetcher) {
+      this.env.fetcher = wrapFetcher(this.env.fetcher as any, this.env.tracker);
+    }
+
     this.env.beforeDispatchEvent = this.beforeDispatchEvent.bind(
       this,
       this.env.beforeDispatchEvent
@@ -1837,8 +1850,11 @@ export class EditorManager {
     this.dnd.startDrag(id, e.nativeEvent);
   }
 
-  async scaffold(form: any, value: any): Promise<SchemaObject> {
+  async scaffold(form: ScaffoldForm, value: any): Promise<SchemaObject> {
     const scaffoldFormData = form.pipeIn ? await form.pipeIn(value) : value;
+    if (form.getSchema) {
+      form = Object.assign({}, form, await form.getSchema(scaffoldFormData));
+    }
 
     return new Promise(resolve => {
       this.store.openScaffoldForm({
@@ -1857,7 +1873,7 @@ export class EditorManager {
   // 根据元素ID实时拿取上下文数据
   async reScaffoldV2(id: string) {
     const commonContext = this.buildEventContext(id);
-    const scaffoldForm = commonContext.info?.scaffoldForm;
+    const scaffoldForm = commonContext.info?.scaffoldForm!;
     const curSchema = commonContext.schema;
     const replaceWith = await this.scaffold(scaffoldForm, curSchema);
     this.replaceChild(id, replaceWith);

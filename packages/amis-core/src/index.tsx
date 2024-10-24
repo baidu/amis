@@ -228,7 +228,8 @@ export {
   disableDebug,
   envOverwrite,
   getGlobalOptions,
-  setGlobalOptions
+  setGlobalOptions,
+  wrapFetcher
 };
 
 export function render(

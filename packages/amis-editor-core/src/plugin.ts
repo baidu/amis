@@ -345,6 +345,7 @@ export interface ScaffoldForm extends PopOverForm {
   stepsBody?: boolean;
   /** 是否可跳过创建向导直接创建 */
   canSkip?: boolean;
+  getSchema?: (value: any) => PopOverForm | Promise<PopOverForm>;
   mode?:
     | 'normal'
     | 'horizontal'
