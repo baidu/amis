@@ -5,10 +5,13 @@ import {
   RendererPluginEvent,
   BasePlugin,
   BaseEventContext,
-  registerEditorPlugin
+  registerEditorPlugin,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 
 const addBtnCssClassName = 'themeCss.addBtnControlClassName';
@@ -189,12 +192,14 @@ export class ImageControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空数据',
-      description: '清除选择的文件'
+      description: '清除选择的文件',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

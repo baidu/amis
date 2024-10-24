@@ -1,0 +1,88 @@
+import React from 'react';
+import {defaultValue} from 'amis-editor-core';
+import without from 'lodash/without';
+import {registerActionPanel} from '../../actionsPanelManager';
+import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {FORMITEM_CMPTS} from './helper';
+
+const SUPPORT_STATIC_FORMITEM_CMPTS = without(
+  FORMITEM_CMPTS,
+  ...[
+    'button-toolbar',
+    'condition-builder',
+    'diff-editor',
+    'editor',
+    'formula',
+    'hidden',
+    'icon-picker',
+    'input-excel',
+    'input-file',
+    'input-formula',
+    'input-image',
+    'input-repeat',
+    'input-rich-text',
+    'input-sub-form',
+    'input-table',
+    'picker',
+    'uuid'
+  ]
+);
+
+registerActionPanel('staticStatus', {
+  label: '组件展示态',
+  tag: '组件',
+  description: '控制所选的组件的输入态/静态',
+  actions: [
+    {
+      actionType: 'static',
+      descDetail: (info: any) => {
+        return (
+          <div>
+            <span className="variable-right">
+              {info?.rendererLabel || info.componentId}
+            </span>
+            组件切换为静态
+          </div>
+        );
+      }
+    },
+    {
+      actionType: 'nonstatic',
+      descDetail: (info: any) => {
+        return (
+          <div>
+            <span className="variable-right">
+              {info?.rendererLabel || info.componentId}
+            </span>
+            组件切换为输入态
+          </div>
+        );
+      }
+    }
+  ],
+  supportComponents: ['form', ...SUPPORT_STATIC_FORMITEM_CMPTS],
+  schema: [
+    ...renderCmptSelect('选择组件', true),
+    renderCmptIdInput(),
+    {
+      type: 'radios',
+      label: '组件状态',
+      name: 'groupType',
+      mode: 'horizontal',
+      inputClassName: 'event-action-radio',
+      value: 'nonstatic',
+      required: true,
+      pipeIn: defaultValue('nonstatic'),
+      options: [
+        {
+          label: '表单输入',
+          value: 'nonstatic'
+        },
+        {
+          label: '表单静态',
+          value: 'static'
+        }
+      ]
+    }
+  ]
+});

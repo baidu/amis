@@ -8,7 +8,8 @@ import {
   Button,
   Icon,
   TooltipWrapper,
-  render as amisRender
+  render as amisRender,
+  Tooltip
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -1245,6 +1246,18 @@ export class EventControl extends React.Component<
                                       eventKey
                                     )}
                                   </div>
+                                  {action.description && (
+                                    <TooltipWrapper
+                                      trigger="hover"
+                                      placement="top"
+                                      tooltip={action.description}
+                                    >
+                                      <Icon
+                                        icon="far fa-question-circle"
+                                        className="flex justify-center items-center icon ml-0.5"
+                                      />
+                                    </TooltipWrapper>
+                                  )}
                                 </div>
                                 <div className="action-control-header-right">
                                   <div
