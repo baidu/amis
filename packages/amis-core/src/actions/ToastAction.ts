@@ -41,7 +41,7 @@ export class ToastAction implements RendererAction {
     event.context.env?.notify?.(
       action.args?.msgType || 'info',
       String(action.args?.msg),
-      action.args
+      {...action.args, mobileUI: renderer.props.mobileUI}
     );
   }
 }

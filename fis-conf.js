@@ -657,7 +657,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
           function () {
             return `function filterUrl(url) {
-      return amis.sdkBasePath + url.substring(1);`;
+      return amis['sdk@${package.version}BasePath'] + url.substring(1);`;
           }
         );
 

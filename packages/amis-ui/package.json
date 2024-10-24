@@ -38,6 +38,7 @@
     "@rc-component/mini-decimal": "^1.0.1",
     "amis-core": "^6.8.0",
     "amis-formula": "^6.8.0",
+    "animate.css": "4.1.1",
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
     "downshift": "6.1.12",

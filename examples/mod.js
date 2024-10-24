@@ -8,10 +8,30 @@
 (function (global) {
   var require, define;
   var amis = window.amis || {};
+
+  // 获取当前加载脚本的路径，从而推断 sdk 的目录，用于异步加载其他资源
+  // 仅用于 jssdk 场景
+  let host = '';
+  if (document.currentScript && document.currentScript.src) {
+    host = document.currentScript.src.replace(/\/[^\/]*$/, '');
+  } else {
+    try {
+      throw new Error();
+    } catch (e) {
+      host = (/((?:https?|file):.*?)\n/.test(e.stack) && RegExp.$1)?.replace(
+        /\/[^\/]*$/,
+        ''
+      );
+    }
+  }
+  amis['sdk@@versionBasePath'] = host;
+
   // 避免重复加载而导致已定义模块丢失
   if (amis.require) {
     return;
   }
+
+  amis.sdkBasePath = host;
 
   var head = document.getElementsByTagName('head')[0];
   var loadingMap = {};
@@ -305,23 +325,6 @@
   };
 
   require.timeout = 5000;
-
-  // 获取当前加载脚本的路径，从而推断 sdk 的目录，用于异步加载其他资源
-  // 仅用于 jssdk 场景
-  let host = '';
-  if (document.currentScript && document.currentScript.src) {
-    host = document.currentScript.src.replace(/\/[^\/]*$/, '');
-  } else {
-    try {
-      throw new Error();
-    } catch (e) {
-      host = (/((?:https?|file):.*?)\n/.test(e.stack) && RegExp.$1)?.replace(
-        /\/[^\/]*$/,
-        ''
-      );
-    }
-  }
-  amis.sdkBasePath = host;
 
   amis.require = require;
   amis.define = define;
