@@ -233,14 +233,14 @@ export const MappingField = withStore(props =>
         typeof key !== 'undefined' &&
         map &&
         (value =
-          map[key] ??
+          this.renderValue(map, key) ??
           (key === true && map['1']
             ? map['1']
             : key === false && map['0']
             ? map['0']
             : map['*'])) !== undefined
       ) {
-        viewValue = this.renderViewValue(value);
+        viewValue = this.renderViewValue(value, key);
       }
 
       return (
@@ -253,9 +253,14 @@ export const MappingField = withStore(props =>
         </span>
       );
     }
-
-    renderViewValue(value: any) {
-      const {render, itemSchema, data, labelField, name} = this.props;
+    renderViewValue(value: any, key: any) {
+      const {render, itemSchema, renderViewValueProp, data, labelField, name} =
+        this.props;
+      // 检查是否有外部renderViewValue函数传入
+      if (renderViewValueProp) {
+        // 使用外部传入的renderViewValue函数
+        return renderViewValueProp(value, key);
+      }
 
       if (!itemSchema) {
         let label = value;
@@ -296,6 +301,15 @@ export const MappingField = withStore(props =>
         data: createObject(data, isObject(value) ? value : {item: value}),
         ...((itemSchema as any)?.type === 'tag' ? {value: null} : {})
       });
+    }
+
+    // 扩展函数,用于外围扩充
+    renderValue(map: any, key: any) {
+      const {renderValueProp} = this.props;
+      if (renderValueProp) {
+        return renderValueProp(map, key);
+      }
+      return map[key];
     }
 
     render() {
