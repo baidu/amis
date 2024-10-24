@@ -146,6 +146,8 @@ export interface MappingProps
   extends Omit<RendererProps, 'store'>,
     Omit<MappingSchema, 'type' | 'className'> {
   store: IStore;
+  renderValue: (map: any, key: any) => String;
+  renderViewValue: (value: any, key: any) => React.ReactNode;
 }
 
 export const MappingField = withStore(props =>
