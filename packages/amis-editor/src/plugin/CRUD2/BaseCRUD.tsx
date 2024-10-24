@@ -30,9 +30,10 @@ import {
 } from '../../builder';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  getActionCommonProps
 } from '../../renderer/event-control/helper';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import {CRUD2Schema} from 'amis';
 import {deepRemove, findObj, findSchema} from './utils';
 import {
   ToolsConfig,
@@ -156,7 +157,8 @@ export class BaseCRUDPlugin extends BasePlugin {
         {
           actionType: 'reload',
           actionLabel: '重新加载',
-          description: '触发组件数据刷新并重新渲染'
+          description: '触发组件数据刷新并重新渲染',
+          ...getActionCommonProps('reload')
         },
         ...(actions || [])
       ],

@@ -14,9 +14,10 @@ import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
-import {findActionNode} from './helper';
+import {findActionNode} from './eventControlConfigHelper';
 import {PlainObject, SchemaNode, Option} from 'amis-core';
 import {i18n as _i18n} from 'i18n-runtime';
+import './actionsPanelPlugins';
 
 interface ActionDialogProp {
   show: boolean;
@@ -323,29 +324,44 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                   {
                     body: [
                       {
-                        type: 'tpl',
-                        tpl: '动作说明',
-                        className: 'action-panel-title',
-                        visibleOn: 'this.actionType',
-                        inline: false
-                      },
-                      {
-                        type: 'tpl',
-                        className: 'action-desc',
-                        tpl: '${__actionDesc}',
-                        visibleOn: 'this.actionType'
-                      },
-                      {
-                        type: 'tpl',
-                        tpl: '基础设置',
-                        className: 'action-panel-title',
-                        visibleOn: 'this.actionType',
-                        inline: false
-                      },
-                      {
                         type: 'container',
                         className: 'right-panel-container',
                         body: [
+                          {
+                            type: 'container',
+                            className: 'action-panel-title',
+                            body: [
+                              {
+                                type: 'tpl',
+                                tpl: '动作说明',
+                                visibleOn: 'this.actionType'
+                              },
+                              {
+                                type: 'tooltip-wrapper',
+                                content: '${__actionDesc}',
+                                body: {
+                                  type: 'icon',
+                                  icon: 'far fa-question-circle',
+                                  vendor: '',
+                                  className: 'ml-0.5'
+                                },
+                                className: 'inline-block ml-0.5 mb-1'
+                              }
+                            ]
+                          },
+                          {
+                            name: 'description',
+                            type: 'textarea',
+                            label: '动作描述',
+                            mode: 'horizontal'
+                          },
+                          {
+                            type: 'tpl',
+                            tpl: '基础设置',
+                            className: 'action-panel-title',
+                            visibleOn: 'this.actionType',
+                            inline: false
+                          },
                           {
                             asFormItem: true,
                             component: ActionConfigPanel,
