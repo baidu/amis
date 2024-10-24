@@ -171,8 +171,6 @@
 .#{$ns}Timeline-horizontal {
   display: flex;
   flex-flow: row;
-  margin-left: 50%;
-  transform: translateX(-50%);
 
   .#{$ns}TimelineItem {
     display: flex;

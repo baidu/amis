@@ -243,16 +243,20 @@ export function withRemoteConfig<P = any>(
               this.props.env || (this.context as RendererEnv);
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
-
             if (isPureVariable(source)) {
+              //监听上下文变量变化
               this.toDispose.push(
                 reaction(
-                  () =>
-                    resolveVariableAndFilter(
+                  () => {
+                    const source = (this.props as any)[
+                      config.sourceField || 'source'
+                    ];
+                    return resolveVariableAndFilter(
                       source as string,
                       store.data,
                       '| raw'
-                    ),
+                    );
+                  },
                   () => this.syncConfig(),
                   // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
                   // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
@@ -262,28 +266,52 @@ export function withRemoteConfig<P = any>(
               );
             } else if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
-              (source as ApiObject).autoRefresh !== false &&
-                this.toDispose.push(
-                  reaction(
-                    () => {
-                      const api = normalizeApi(source as string);
-                      return api.trackExpression
-                        ? tokenize(api.trackExpression, store.data)
-                        : buildApi(api, store.data, {
-                            ignoreData: true
-                          }).url;
-                    },
-                    () => this.loadConfig()
-                  )
-                );
             }
           }
 
           componentDidUpdate(prevProps: any) {
-            const props = this.props;
+            //监听source变化
+            const env: RendererEnv =
+              this.props.env || (this.context as RendererEnv);
+            const {store, data} = this.props;
+            let source = (this.props as any)[config.sourceField || 'source'];
+            const prevSource = prevProps.source;
+            const prevApi = normalizeApi(prevSource as string);
+            const api = normalizeApi(source as string);
+            //如果没对上下文变量进行监听，则进行监听
+            if (isPureVariable(source) && !this.toDispose.length) {
+              //比较上下文变量是否变化
+              resolveVariableAndFilter(
+                prevSource as string,
+                store.data,
+                '| raw'
+              ) !==
+                resolveVariableAndFilter(
+                  source as string,
+                  store.data,
+                  '| raw'
+                ) && this.syncConfig();
+            } else if (env && isEffectiveApi(source, data)) {
+              //比较api是否变化
+              (source as ApiObject).autoRefresh !== false &&
+                (api.trackExpression
+                  ? tokenize(api.trackExpression, store.data)
+                  : buildApi(api, store.data, {
+                      ignoreData: true
+                    }).url) !==
+                  (prevApi.trackExpression
+                    ? tokenize(prevApi.trackExpression, store.data)
+                    : buildApi(prevApi, store.data, {
+                        ignoreData: true
+                      }).url) &&
+                this.loadConfig();
+            } else if (!source) {
+              //如果source为空，则清空配置
+              this.setConfig(undefined);
+            }
 
-            if (props.data !== prevProps.data) {
-              props.store.setData(props.data);
+            if (data !== prevProps.data) {
+              store.setData(data);
             }
           }
 
