@@ -45,7 +45,7 @@ import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
-import './renderer/style-control/SingleThemeCssCOde';
+import './renderer/style-control/SingleThemeCssCode';
 import './renderer/style-control/ColCount';
 import './renderer/style-control/ColSize';
 import './renderer/style-control/LabelAlign';
