@@ -1,4 +1,4 @@
-.SingleThemeCssCode {
+.ae-SingleThemeCssCode {
   position: relative;
   border: 1px solid #e8e9eb;
   border-radius: var(--input-default-default-top-left-border-radius)
@@ -37,7 +37,7 @@
   }
 }
 
-.cxd-SingleThemeCssCode-custom-editor {
+.ae-SingleThemeCssCode-custom-editor {
   .suggest-widget {
     width: auto !important;
     left: 16px !important;
@@ -49,7 +49,7 @@
   }
 }
 
-.SingleThemeCssCode-panel {
+.ae-SingleThemeCssCode-panel {
   height: auto;
   width: px2rem(460px);
   padding: px2rem(16px);
@@ -76,8 +76,8 @@
     width: 100%;
     border: 1px solid #e8e9eb;
 
-    .SingleThemeCssCode-content {
-      height: px2rem(434px);
+    .ae-SingleThemeCssCode-content {
+      height: px2rem(454px);
     }
   }
 }

@@ -3233,28 +3233,29 @@ const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
 
   const StyleEditor = (
     <>
-      <div className="SingleThemeCssCode-header">
-        <div className="SingleThemeCssCode-title mtk14">{selector + ' {'}</div>
+      <div className="ae-SingleThemeCssCode-header">
+        <div className="ae-SingleThemeCssCode-title mtk14">
+          {selector + ' {'}
+        </div>
       </div>
-      <div className="SingleThemeCssCode-content">
+      <div className="ae-SingleThemeCssCode-content">
         <Editor
-          className="SingleThemeCssCode-custom-editor"
+          className="ae-SingleThemeCssCode-custom-editor"
           value={value}
           editorFactory={editorFactory}
           onChange={handleChange}
-          language="scss"
         />
       </div>
-      <div className="SingleThemeCssCode-footer mtk14">{'}'}</div>
+      <div className="ae-SingleThemeCssCode-footer mtk14">{'}'}</div>
     </>
   );
 
   return (
     <>
-      <div className="SingleThemeCssCode-label">{label}</div>
-      <div ref={ref} className="SingleThemeCssCode">
+      <div className="ae-SingleThemeCssCode-label">{label}</div>
+      <div ref={ref} className="ae-SingleThemeCssCode">
         <a
-          className="SingleThemeCssCode-button SingleThemeCssCode-icon"
+          className="ae-SingleThemeCssCode-button ae-SingleThemeCssCode-icon"
           onClick={() => setShowPanel(true)}
         >
           <Icon icon="expand-alt" className="icon" />
@@ -3269,17 +3270,17 @@ const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
         rootClose={false}
       >
         <PopOver overlay onHide={() => setShowPanel(false)}>
-          <div className="SingleThemeCssCode-panel">
-            <div className="SingleThemeCssCode-panel-title">编辑样式</div>
-            <div className="SingleThemeCssCode-panel-close">
+          <div className="ae-SingleThemeCssCode-panel">
+            <div className="ae-SingleThemeCssCode-panel-title">编辑样式</div>
+            <div className="ae-SingleThemeCssCode-panel-close">
               <a
                 onClick={() => setShowPanel(false)}
-                className="SingleThemeCssCode-icon"
+                className="ae-SingleThemeCssCode-icon"
               >
                 <Icon icon="close" className="icon" />
               </a>
             </div>
-            <div className="SingleThemeCssCode-panel-content">
+            <div className="ae-SingleThemeCssCode-panel-content">
               {StyleEditor}
             </div>
           </div>
@@ -3290,7 +3291,7 @@ const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
 };
 
 @FormItem({
-  type: 'single-theme-cssCode',
+  type: 'ae-single-theme-cssCode',
   strictMode: false
 })
 export class SingleThemeCssCodeRenderer extends React.Component<ISingleThemeCssCode> {

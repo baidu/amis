@@ -908,7 +908,7 @@ setSchemaTpl('theme:singleCssCode', (options: any) => {
     body: selectors?.map((item: any) => {
       return {
         mode: 'default',
-        type: 'single-theme-cssCode',
+        type: 'ae-single-theme-cssCode',
         label: false,
         selector: item
       };
