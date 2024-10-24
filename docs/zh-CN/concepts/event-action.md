@@ -2112,6 +2112,73 @@ run action ajax
 }
 ```
 
+#### 获得刷新后的结果
+
+> 6.9.0 及以上版本
+
+通过配置 outputVar 可以拿到刷新后的结果，例如以下示例，点击按钮后，会串行按顺序刷新 service 1 和 service2， 同时 service2 可以拿到 service1 的返回值。
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新Service数据",
+      "level": "primary",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "service_reload",
+              "actionType": "reload",
+              "outputVar": "service1"
+            },
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "service 的数据返回为： ${service1|json}"
+              }
+            },
+            {
+              "componentId": "service_reload2",
+              "actionType": "reload",
+              "data": {
+                "date": "${service1.date}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/form/initData",
+        "trackExpression": "none"
+      },
+      "body": [],
+      "initFetch": false,
+      "id": "service_reload"
+    },
+    {
+      "type": "service",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/form/initData?date=${date}",
+        "trackExpression": "none"
+      },
+      "body": [],
+      "initFetch": false,
+      "id": "service_reload2"
+    }
+  ]
+}
+```
+
 **动作属性**
 
 | 属性名    | 类型      | 默认值 | 说明                                                               |

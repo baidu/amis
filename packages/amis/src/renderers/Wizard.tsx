@@ -449,7 +449,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
-  reload(
+  async reload(
     subPath?: string,
     query?: any,
     ctx?: any,
@@ -469,60 +469,58 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } = this.props;
 
     if (isEffectiveApi(initApi, store.data) && this.state.currentStep === 1) {
-      store
-        .fetchInitData(initApi, store.data, {
-          successMessage: fetchSuccess,
-          errorMessage: fetchFailed,
-          onSuccess: () => {
-            if (
-              !isEffectiveApi(initAsyncApi, store.data) ||
-              store.data[initFinishedField || 'finished']
-            ) {
-              return;
-            }
-
-            return until(
-              () => store.checkRemote(initAsyncApi, store.data),
-              (ret: any) => ret && ret[initFinishedField || 'finished'],
-              cancel => (this.asyncCancel = cancel)
-            );
-          }
-        })
-        .then(value => {
-          const state = {
-            currentStep: 1
-          };
-
+      const value = await store.fetchInitData(initApi, store.data, {
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed,
+        onSuccess: () => {
           if (
-            value &&
-            value.data &&
-            (typeof value.data.step === 'number' ||
-              (typeof value.data.step === 'string' &&
-                /^\d+$/.test(value.data.step)))
+            !isEffectiveApi(initAsyncApi, store.data) ||
+            store.data[initFinishedField || 'finished']
           ) {
-            state.currentStep = toNumber(value.data.step, 1);
+            return;
           }
 
-          this.setState(state, () => {
-            // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
-            if (
-              value &&
-              value.data &&
-              (value.data.submiting || value.data.submited)
-            ) {
-              this.checkSubmit();
-            }
-          });
-          return value;
-        });
+          return until(
+            () => store.checkRemote(initAsyncApi, store.data),
+            (ret: any) => ret && ret[initFinishedField || 'finished'],
+            cancel => (this.asyncCancel = cancel)
+          );
+        }
+      });
+      const state = {
+        currentStep: 1
+      };
+
+      if (
+        value &&
+        value.data &&
+        (typeof value.data.step === 'number' ||
+          (typeof value.data.step === 'string' &&
+            /^\d+$/.test(value.data.step)))
+      ) {
+        state.currentStep = toNumber(value.data.step, 1);
+      }
+
+      this.setState(state, () => {
+        // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
+        if (
+          value &&
+          value.data &&
+          (value.data.submiting || value.data.submited)
+        ) {
+          this.checkSubmit();
+        }
+      });
     }
+
+    return store.data;
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
+  receive(values: object, subPath?: string, replace?: boolean): Promise<any> {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   @autobind

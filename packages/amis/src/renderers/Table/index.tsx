@@ -43,7 +43,8 @@ import {
   isExpression,
   getTree,
   resolveVariableAndFilterForAsync,
-  getMatchedEventTargets
+  getMatchedEventTargets,
+  loopTooMuch
 } from 'amis-core';
 import {
   Button,
@@ -722,6 +723,11 @@ export default class Table extends React.Component<TableProps, object> {
         : null;
 
       if (prev === resolved) {
+        updateRows = false;
+      } else if (
+        loopTooMuch(`Table.syncRows${store.id}`) &&
+        isEqual(prev, resolved)
+      ) {
         updateRows = false;
       } else {
         updateRows = true;

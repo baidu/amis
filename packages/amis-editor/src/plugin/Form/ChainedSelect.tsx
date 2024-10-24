@@ -219,7 +219,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
               body: [
                 ...inputStateTpl(
                   'themeCss.chainedSelectControlClassName',
-                  '--chained-select'
+                  '--select-base'
                 )
               ]
             },
@@ -228,9 +228,13 @@ export class ChainedSelectControlPlugin extends BasePlugin {
               body: [
                 ...inputStateTpl(
                   'themeCss.chainedSelectPopoverClassName',
-                  '--chained-select',
+                  '--select-base-${state}-option',
                   {
-                    state: ['default', 'hover', 'focused']
+                    state: [
+                      {label: '常规', value: 'default'},
+                      {label: '悬浮', value: 'hover'},
+                      {label: '选中', value: 'focused'}
+                    ]
                   }
                 )
               ]

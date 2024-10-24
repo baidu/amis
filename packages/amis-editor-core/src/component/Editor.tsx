@@ -138,18 +138,14 @@ export interface EditorProps extends PluginEventListener {
 
   getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
   readonly?: boolean;
+
+  onEditorMount?: (manager: EditorManager) => void;
+  onEditorUnmount?: (manager: EditorManager) => void;
+
+  children?: React.ReactNode | ((manager: EditorManager) => React.ReactNode);
 }
 
-export default class Editor extends Component<
-  EditorProps,
-  {
-    mobileDimensions: {
-      width: number;
-      height: number;
-    };
-    mobileScale: number;
-  }
-> {
+export default class Editor extends Component<EditorProps> {
   readonly store: EditorStoreType;
   readonly manager: EditorManager;
   readonly mainRef = React.createRef<HTMLDivElement>();
@@ -174,6 +170,7 @@ export default class Editor extends Component<
       showCustomRenderersPanel,
       superEditorData,
       hostManager,
+      onEditorMount,
       ...rest
     } = props;
 
@@ -230,13 +227,7 @@ export default class Editor extends Component<
       this.manager.on('preview2editor', () => this.manager.rebuild())
     );
 
-    this.state = {
-      mobileDimensions: {
-        width: 375,
-        height: 667
-      },
-      mobileScale: 100
-    };
+    onEditorMount?.(this.manager);
   }
 
   componentDidMount() {
@@ -280,6 +271,7 @@ export default class Editor extends Component<
   }
 
   componentWillUnmount() {
+    this.props.onEditorUnmount?.(this.manager);
     document.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('message', this.handleMessage);
     this.toDispose.forEach(fn => fn());
@@ -600,9 +592,9 @@ export default class Editor extends Component<
       autoFocus,
       isSubEditor,
       amisEnv,
-      readonly
+      readonly,
+      children
     } = this.props;
-    const {mobileDimensions, mobileScale} = this.state;
 
     return (
       <div
@@ -675,6 +667,8 @@ export default class Editor extends Component<
           )}
 
           {!preview && <ContextMenuPanel store={this.store} />}
+
+          {typeof children === 'function' ? children(this.manager) : children}
         </div>
 
         <SubEditor

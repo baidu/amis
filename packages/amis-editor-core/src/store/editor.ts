@@ -292,6 +292,10 @@ export const MainStore = types
         return false;
       },
 
+      get rootId() {
+        return this.getRootId();
+      },
+
       getRootId() {
         const curSchema = this.getSchema();
         return curSchema?.$$id;
