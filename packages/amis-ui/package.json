@@ -6,8 +6,8 @@
   "version": "6.8.0",
   "description": "",
   "scripts": {
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "dev": "rollup -c -w",
     "test": "jest",
     "gen-doc": "ts-node ./scripts/genDoc.ts",
@@ -76,6 +76,7 @@
     "uncontrollable": "7.2.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
