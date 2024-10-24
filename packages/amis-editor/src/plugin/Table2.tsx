@@ -33,6 +33,7 @@ import {resolveArrayDatasource} from '../util';
 import type {SchemaObject} from 'amis';
 import type {IFormItemStore, IFormStore} from 'amis-core';
 import type {EditorManager} from 'amis-editor-core';
+import {getActionCommonProps} from '../renderer/event-control/helper';
 
 export const Table2RenderereEvent: RendererPluginEvent[] = [
   {
@@ -307,7 +308,8 @@ export const Table2RendererAction: RendererPluginAction[] = [
   {
     actionType: 'selectAll',
     actionLabel: '设置全部选中',
-    description: '设置表格全部项选中'
+    description: '设置表格全部项选中',
+    ...getActionCommonProps('selectAll')
   },
   {
     actionType: 'clearAll',

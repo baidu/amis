@@ -1,9 +1,13 @@
-import {registerEditorPlugin, RendererPluginAction} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
-import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  BaseEventContext,
+  BasePlugin,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
+import {getActionCommonProps} from '../renderer/event-control/helper';
 
 export class ProgressPlugin extends BasePlugin {
   static id = 'ProgressPlugin';
@@ -37,12 +41,14 @@ export class ProgressPlugin extends BasePlugin {
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置为默认值'
+      description: '重置为默认值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

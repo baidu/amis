@@ -1,4 +1,5 @@
 import {isObject} from 'amis';
+import type {IFormStore, IFormItemStore} from 'amis-core';
 import {
   BasePlugin,
   defaultValue,
@@ -6,10 +7,6 @@ import {
   tipedLabel,
   registerEditorPlugin
 } from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-
-import type {IFormStore, IFormItemStore} from 'amis-core';
 import type {
   EditorNodeType,
   RendererPluginAction,
@@ -17,6 +14,11 @@ import type {
   BaseEventContext,
   EditorManager
 } from 'amis-editor-core';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 
 export class RangeControlPlugin extends BasePlugin {
   static id = 'RangeControlPlugin';
@@ -155,17 +157,20 @@ export class RangeControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除输入框'
+      description: '清除输入框',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

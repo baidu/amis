@@ -5,6 +5,7 @@ export * from './builder';
 import './tpl/index';
 export * from './plugin';
 export * from './validator';
+export * from './renderer/event-control/actionsPanelManager';
 
 import './renderer/OptionControl';
 import './renderer/ValueFormatControl';

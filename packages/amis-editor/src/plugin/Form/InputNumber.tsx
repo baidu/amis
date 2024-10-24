@@ -3,25 +3,22 @@ import {
   getI18nEnabled,
   RAW_TYPE_MAP,
   RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import flatten from 'lodash/flatten';
-import {ContainerWrapper} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {isObject} from 'amis-editor-core';
-import {
+  RendererPluginEvent,
   BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  registerEditorPlugin,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {inputStateTpl} from '../../renderer/style-control/helper';
 import {Schema} from 'amis-core';
 import type {SchemaType} from 'amis';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NumberControlPlugin extends BasePlugin {
   static id = 'NumberControlPlugin';
@@ -137,17 +134,20 @@ export class NumberControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空数字框内容'
+      description: '清空数字框内容',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置为默认值'
+      description: '重置为默认值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

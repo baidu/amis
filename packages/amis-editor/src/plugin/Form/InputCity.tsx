@@ -1,25 +1,21 @@
 import {
+  BasePlugin,
+  BaseEventContext,
+  RendererPluginAction,
+  RendererPluginEvent,
+  registerEditorPlugin,
   EditorManager,
   EditorNodeType,
   defaultValue,
-  getSchemaTpl,
-  valuePipeOut
-} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {
-  BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
-  BaseEventContext
+  getSchemaTpl
 } from 'amis-editor-core';
 import cloneDeep from 'lodash/cloneDeep';
 import type {Schema} from 'amis';
-
-import {formItemControl} from '../../component/BaseControl';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 
 export class CityControlPlugin extends BasePlugin {
   static id = 'CityControlPlugin';
@@ -102,17 +98,20 @@ export class CityControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置为默认值'
+      description: '重置为默认值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

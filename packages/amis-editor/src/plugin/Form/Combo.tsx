@@ -18,7 +18,8 @@ import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
   getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getActionCommonProps
 } from '../../renderer/event-control/helper';
 import {resolveInputTableEventDataSchame} from '../../util';
 
@@ -249,12 +250,14 @@ export class ComboControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'addItem',
@@ -292,7 +295,8 @@ export class ComboControlPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

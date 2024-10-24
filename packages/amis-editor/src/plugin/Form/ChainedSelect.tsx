@@ -1,23 +1,21 @@
 import {
   EditorManager,
   EditorNodeType,
-  registerEditorPlugin
-} from 'amis-editor-core';
-import {
+  registerEditorPlugin,
   BasePlugin,
   BaseEventContext,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
   RendererPluginAction,
   RendererPluginEvent,
   tipedLabel,
   getSchemaTpl,
   defaultValue
 } from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {Schema} from 'amis';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 import {resolveOptionEventDataSchame} from '../../util';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 
@@ -84,22 +82,26 @@ export class ChainedSelectControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

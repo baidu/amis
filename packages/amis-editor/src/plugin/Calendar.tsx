@@ -1,9 +1,15 @@
-import {registerEditorPlugin, RendererPluginEvent} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin, tipedLabel} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control';
+import {
+  registerEditorPlugin,
+  RendererPluginEvent,
+  BaseEventContext,
+  BasePlugin,
+  getSchemaTpl
+} from 'amis-editor-core';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control';
 import {FormulaDateType} from '../renderer/FormulaControl';
-import type {Schema} from 'amis';
 
 export class CalendarPlugin extends BasePlugin {
   static id = 'CalendarPlugin';
@@ -126,17 +132,20 @@ export class CalendarPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空'
+      description: '清空',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

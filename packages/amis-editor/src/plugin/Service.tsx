@@ -16,7 +16,10 @@ import {
 } from 'amis-editor-core';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
 import {DSFeatureEnum, ModelDSBuilderKey, ApiDSBuilderKey} from '../builder';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 
 import type {Schema} from 'amis-core';
 import type {
@@ -168,7 +171,8 @@ export class ServicePlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'rebuild',
@@ -178,7 +182,8 @@ export class ServicePlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '更新数据域数据'
+      description: '更新数据域数据',
+      ...getActionCommonProps('setValue')
     }
   ];
 

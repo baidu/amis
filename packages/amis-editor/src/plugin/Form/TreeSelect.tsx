@@ -3,18 +3,19 @@ import {
   EditorNodeType,
   getI18nEnabled,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  defaultValue,
+  getSchemaTpl,
+  registerEditorPlugin,
+  BaseEventContext,
+  BasePlugin,
+  tipedLabel
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import cloneDeep from 'lodash/cloneDeep';
 import {
-  getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getActionCommonProps
 } from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
-import {tipedLabel} from 'amis-editor-core';
 import {
   resolveOptionEventDataSchame,
   resolveOptionType,
@@ -154,22 +155,26 @@ export class TreeSelectControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除数据'
+      description: '清除数据',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置数据'
+      description: '重置数据',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     },
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     }
   ];
 

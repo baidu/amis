@@ -1,7 +1,10 @@
 import {toast, normalizeApiResponseData} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 import {genCodeSchema} from '../renderer/APIAdaptorControl';
 import {
   getI18nEnabled,
@@ -20,12 +23,12 @@ import {
   RendererEventContext,
   RendererInfoResolveEventContext,
   ScaffoldForm,
-  SubRendererInfo
+  SubRendererInfo,
+  defaultValue,
+  getSchemaTpl,
+  JSONPipeIn
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {isObject, JSONPipeIn} from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
-import type {ActionSchema} from 'amis';
+import {setVariable, someTree, normalizeApi} from 'amis-core';
 import type {CRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
 import type {
@@ -33,7 +36,6 @@ import type {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import findLastIndex from 'lodash/findLastIndex';
 
@@ -367,12 +369,14 @@ export class CRUDPlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionLabel: '变量赋值',
       actionType: 'setValue',
-      description: '更新列表记录'
+      description: '更新列表记录',
+      ...getActionCommonProps('setValue')
     }
   ];
 
