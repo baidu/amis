@@ -306,7 +306,7 @@ export class PagePlugin extends BasePlugin {
           body: [
             getSchemaTpl('collapseGroup', [
               ...getSchemaTpl('theme:common', {
-                exclude: ['layout'],
+                exclude: ['layout', 'theme-css-code'],
                 classname: 'baseControlClassName',
                 baseTitle: '基本样式',
                 extra: [
@@ -337,6 +337,30 @@ export class PagePlugin extends BasePlugin {
                     title: '边栏样式',
                     hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   })
+                ]
+              }),
+              getSchemaTpl('theme:singleCssCode', {
+                selectors: [
+                  {
+                    label: '页面基本样式',
+                    selector: '.cxd-Page'
+                  },
+                  {
+                    label: '页面内容区样式',
+                    selector: '.cxd-Page-body'
+                  },
+                  {
+                    label: '页面标题栏样式',
+                    selector: '.cxd-Page-title'
+                  },
+                  {
+                    label: '页面工具栏样式',
+                    selector: '.cxd-Page-toolbar'
+                  },
+                  {
+                    label: '页面边栏样式',
+                    selector: '.cxd-Page-aside'
+                  }
                 ]
               })
             ])
