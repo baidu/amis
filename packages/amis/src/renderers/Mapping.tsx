@@ -254,12 +254,12 @@ export const MappingField = withStore(props =>
       );
     }
     renderViewValue(value: any, key: any) {
-      const {render, itemSchema, renderViewValueProp, data, labelField, name} =
+      const {render, itemSchema, renderViewValue, data, labelField, name} =
         this.props;
       // 检查是否有外部renderViewValue函数传入
-      if (renderViewValueProp) {
+      if (renderViewValue) {
         // 使用外部传入的renderViewValue函数
-        return renderViewValueProp(value, key);
+        return renderViewValue(value, key);
       }
 
       if (!itemSchema) {
@@ -305,9 +305,9 @@ export const MappingField = withStore(props =>
 
     // 扩展函数,用于外围扩充
     renderValue(map: any, key: any) {
-      const {renderValueProp} = this.props;
-      if (renderValueProp) {
-        return renderValueProp(map, key);
+      const {renderValue} = this.props;
+      if (renderValue) {
+        return renderValue(map, key);
       }
       return map[key];
     }
