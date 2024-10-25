@@ -86,6 +86,9 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
     this.sections.forEach(item => {
       this.observer.observe(item.element);
     });
+    if (this.props.active) {
+      this.scrollToSection(this.props.active);
+    }
   }
 
   componentWillUnmount() {
