@@ -1416,6 +1416,52 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     };
   }
 
+  // headerToolbar 移动端适配，如果只有新增按钮，则将新增按钮固定到屏幕右下
+  transMobileHeaderToolbar(toolbar: any, fixedHeader: () => void) {
+    let buttonCount = 0;
+    let addButton: any = {};
+    let addButtonParent: any = {};
+    let searchBox: any = {};
+    function traverse(node: any, parentObj?: any) {
+      if (Array.isArray(node)) {
+        node.forEach((item: any) => traverse(item, parentObj));
+      } else if (node && typeof node === 'object') {
+        if (node.type === 'button') {
+          buttonCount++;
+          if (node.label === '新增') {
+            addButton = node;
+            addButtonParent = parentObj;
+          }
+        } else if (node.type === 'search-box') {
+          searchBox = node;
+        }
+        Object.values(node).forEach((item: any) => traverse(item, node));
+      }
+    }
+    toolbar.forEach((item: any) => {
+      traverse(item);
+    });
+    if (buttonCount === 1 && addButton) {
+      addButton.label = '';
+      addButton.icon = 'plus';
+      if (!addButton.className) {
+        addButton.className = '';
+      }
+      addButton.className += ' is-fixed-right-bottom';
+
+      if (addButtonParent) {
+        if (!addButtonParent.className) {
+          addButtonParent.className = '';
+        }
+        addButtonParent.className += ' is-fixed-right-bottom-wrapper';
+      }
+
+      if (searchBox) {
+        fixedHeader();
+      }
+    }
+  }
+
   render() {
     const {
       columns,
@@ -1464,8 +1510,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     } = this.props;
 
     let pullRefresh: any;
-
-    let mobileModeProps: any = {};
+    let stickyHeader = false;
+    let mobileModeProps: any = null;
     if (mobileMode && mobileUI && mode.includes('table')) {
       const cardsSchema = this.transformTable2cards();
       if (typeof mobileMode === 'string' && mobileMode === 'cards') {
@@ -1481,6 +1527,11 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             ...mobileMode.card
           }
         };
+      }
+      if (mobileModeProps) {
+        this.transMobileHeaderToolbar(headerToolbar, () => {
+          stickyHeader = true;
+        });
       }
       // 移动端模式，默认开启上拉刷新
       if (mobileModeProps && !_pullRefresh?.disabled) {
@@ -1557,7 +1608,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'is-loading': store.loading,
           'is-mobile': mobileUI,
           'is-mobile-cards':
-            mobileMode === 'cards' || mobileModeProps.type === 'cards'
+            mobileMode === 'cards' || mobileModeProps?.type === 'cards'
         })}
         style={style}
         data-id={id}
@@ -1570,7 +1621,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           {this.renderFilter(filterSchema)}
         </div>
 
-        <div className={cx('Crud2-toolbar', headerToolbarClassName)}>
+        <div
+          className={cx(
+            'Crud2-toolbar',
+            'Crud2-header-toolbar',
+            headerToolbarClassName,
+            {
+              'is-sticky': stickyHeader
+            }
+          )}
+        >
           {this.renderToolbar('headerToolbar', headerToolbar)}
         </div>
 
@@ -1597,7 +1657,13 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         ) : (
           <>
             {body}
-            <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
+            <div
+              className={cx(
+                'Crud2-toolbar',
+                'Crud2-footer-toolbar',
+                footerToolbarClassName
+              )}
+            >
               {this.renderToolbar('footerToolbar', footerToolbar)}
             </div>
           </>
