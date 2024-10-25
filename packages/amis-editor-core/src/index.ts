@@ -44,6 +44,7 @@ import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 import {SchemaFrom} from './component/base/SchemaForm';
 import {RendererThumb} from './component/RendererThumb';
 import {AvailableRenderersPanel} from './component/Panel/AvailableRenderersPanel';
+import {deepSplice} from './deepSplice';
 
 export const version = '__buildVersion';
 (window as any).amisEditorVersionInfo = {
@@ -57,6 +58,7 @@ export {
   Editor,
   MiniEditor,
   utils,
+  deepSplice,
   mapReactElement,
   RendererEditor,
   BasicEditor,

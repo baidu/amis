@@ -97,6 +97,7 @@ export class PanelPlugin extends BasePlugin {
             getSchemaTpl('collapseGroup', [
               {
                 className: 'p-none',
+                id: 'properties-basic',
                 title: '基本',
                 body: [
                   getSchemaTpl('layout:originPosition', {value: 'left-top'}),
@@ -132,6 +133,7 @@ export class PanelPlugin extends BasePlugin {
               {
                 className: 'p-none',
                 title: '基本',
+                id: 'appearance-basic',
                 body: [
                   getSchemaTpl('switch', {
                     name: 'affixFooter',
@@ -165,6 +167,7 @@ export class PanelPlugin extends BasePlugin {
                     label: '主题',
                     type: 'select',
                     size: 'sm',
+                    id: 'panel-settings-panelClassName',
                     pipeIn: (value: any) =>
                       typeof value === 'string' &&
                       /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(value)

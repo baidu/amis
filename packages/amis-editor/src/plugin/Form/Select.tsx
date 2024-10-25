@@ -199,6 +199,7 @@ export class SelectControlPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'properties-basic',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
@@ -232,6 +233,7 @@ export class SelectControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
+            id: 'properties-options',
             body: [
               getSchemaTpl('optionControlV2'),
               getSchemaTpl('selectFirst', {

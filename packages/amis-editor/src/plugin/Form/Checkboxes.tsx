@@ -192,6 +192,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
+            id: 'properties-options',
             body: [
               getSchemaTpl('optionControlV2', {
                 multiple: true

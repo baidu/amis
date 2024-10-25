@@ -147,6 +147,7 @@ export class RadiosControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
+            id: 'properties-options',
             body: [getSchemaTpl('optionControlV2'), getSchemaTpl('selectFirst')]
           },
           getSchemaTpl('status', {isFormItem: true}),
