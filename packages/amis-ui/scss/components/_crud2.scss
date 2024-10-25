@@ -174,15 +174,28 @@
       }
 
       &-actions {
+        padding-top: var(--sizes-base-4);
+        padding-bottom: var(--sizes-base-4);
+        gap: var(--sizes-base-5);
+        justify-content: flex-end;
+        flex-wrap: wrap;
         &-wrapper {
           padding-left: var(--gap-md);
           padding-right: var(--gap-md);
         }
         & > a {
-          height: var(--sizes-base-12);
-          line-height: var(--sizes-base-12);
-          margin-top: var(--sizes-size-4);
-          margin-bottom: var(--sizes-size-4);
+          line-height: var(--sizes-base-14);
+          background: var(--colors-link-10);
+          border-radius: var(--sizes-base-7);
+          font-size: var(--fontSizeBase);
+          color: var(--colors-link-5);
+          flex-grow: 0;
+          text-align: center;
+          padding: 0 var(--sizes-base-10);
+          &.text-danger {
+            background-color: var(--colors-error-10);
+            color: var(--colors-error-5);
+          }
         }
       }
 
@@ -240,6 +253,51 @@
           padding-left: 0;
           padding-right: 0;
         }
+      }
+    }
+
+    .#{$ns}Button.is-fixed-right-bottom {
+      position: fixed;
+      right: 12px;
+      bottom: 70px;
+      z-index: 1300;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #528eff;
+      box-shadow: 0 2px 12px 0 rgba(22, 27, 67, 0.2);
+      border: 0 !important;
+      .#{$ns}Button-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .is-fixed-right-bottom-wrapper {
+      flex: 0 !important;
+      & + div {
+        position: sticky !important;
+        top: 0;
+        margin-top: 0;
+        .#{$ns}SearchBox {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .#{$ns}Crud2-header-toolbar.is-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 1300;
+      background-color: #fff;
+      padding: 5px 16px;
+      margin-top: calc(-1 * var(--Page-body-padding));
+      margin-left: calc(-1 * var(--Page-body-padding));
+      margin-right: calc(-1 * var(--Page-body-padding));
+      .#{$ns}SearchBox {
+        background: #f7f7f9;
+        border-radius: 4px;
+        border-bottom: 0;
       }
     }
   }
