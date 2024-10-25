@@ -12,18 +12,16 @@ import {
   RendererPluginAction,
   tipedLabel,
   getI18nEnabled,
-  repeatArray,
-  mockValue,
   EditorNodeType,
   EditorManager,
   RAW_TYPE_MAP
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
 import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  getActionCommonProps
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -951,7 +949,8 @@ export class TableControlPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     },
     {
       actionType: 'addItem',
@@ -1101,7 +1100,8 @@ export class TableControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空组件数据'
+      description: '清空组件数据',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'initDrag',
