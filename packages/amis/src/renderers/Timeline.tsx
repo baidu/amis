@@ -199,7 +199,7 @@ const TimelineWithRemoteConfig = withRemoteConfig({
     RemoteOptionsProps & React.ComponentProps<typeof TimelineCmpt>
   > {
     render() {
-      const {config, items, deferLoad, loading, updateConfig, ...rest} =
+      const {config, items, deferLoad, loading, updateConfig, source, ...rest} =
         this.props;
 
       let sourceItems: Array<TimelineItemSchema> = config
@@ -210,6 +210,11 @@ const TimelineWithRemoteConfig = withRemoteConfig({
               title: config[key]
             }))
         : items || [];
+
+      // 如果items有值或者source为空，则直接使用items
+      if (items?.length || !source) {
+        sourceItems = items || [];
+      }
       return <TimelineCmpt items={sourceItems} {...rest} />;
     }
   }

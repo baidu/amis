@@ -61,7 +61,7 @@ export default class TimelineItemControl extends React.Component<
     if (source === this.state.source) {
       return;
     }
-    this.setState({source: source, api: '', items: []}, this.onChange);
+    this.setState({source, api: '', items: []}, this.onChange);
   }
 
   @autobind

@@ -305,9 +305,6 @@ export function withRemoteConfig<P = any>(
                         ignoreData: true
                       }).url) &&
                 this.loadConfig();
-            } else if (!source) {
-              //如果source为空，则清空配置
-              this.setConfig(undefined);
             }
 
             if (data !== prevProps.data) {
