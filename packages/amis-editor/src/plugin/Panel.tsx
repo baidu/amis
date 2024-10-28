@@ -129,110 +129,115 @@ export class PanelPlugin extends BasePlugin {
           title: '外观',
           body: [
             getSchemaTpl('collapseGroup', [
-              {
-                className: 'p-none',
-                title: '基本',
-                body: [
-                  getSchemaTpl('switch', {
-                    name: 'affixFooter',
-                    label: '固定底部',
-                    value: false
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'baseControlClassName',
+                baseTitle: '基本样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    title: '标题区样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'themeCss.titleControlClassName.font'
+                      })
+                    ]
                   }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyControlClassName',
+                    title: '内容区样式',
+                    extra: [
+                      getSchemaTpl('subFormItemMode', {label: '表单展示模式'}),
+                      getSchemaTpl('subFormHorizontalMode', {
+                        label: '表单水平占比'
+                      }),
+                      getSchemaTpl('subFormHorizontal')
+                    ]
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'footerControlClassName',
+                    title: '底部区样式',
+                    extra: [
+                      getSchemaTpl('switch', {
+                        name: 'affixFooter',
+                        label: '固定底部',
+                        value: false
+                      })
+                    ]
+                  }),
+                  getSchemaTpl('style:classNames', {
+                    isFormItem: false,
+                    schema: [
+                      getSchemaTpl('className', {
+                        name: 'headerClassName',
+                        label: '头部区域'
+                      }),
 
-                  getSchemaTpl('horizontal', {
-                    visibleOn:
-                      '(data.mode || data.$$formMode) == "horizontal" && data.$$mode == "form"'
-                  })
-                ]
-              },
-              {
-                className: 'p-none',
-                title: '内容区域展示',
-                body: [
-                  getSchemaTpl('subFormItemMode', {label: '表单展示模式'}),
-                  getSchemaTpl('subFormHorizontalMode', {
-                    label: '表单水平占比'
-                  }),
-                  getSchemaTpl('subFormHorizontal')
-                ]
-              },
-              {
-                className: 'p-none',
-                title: 'CSS 类名',
-                body: [
-                  {
-                    name: isForm ? 'panelClassName' : 'className',
-                    label: '主题',
-                    type: 'select',
-                    size: 'sm',
-                    pipeIn: (value: any) =>
-                      typeof value === 'string' &&
-                      /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(value)
-                        ? RegExp.$1
-                        : 'Panel--default',
-                    pipeOut: (value: string, origin: string) =>
-                      origin
-                        ? `${origin.replace(
-                            /(?:^|\s)(Panel\-\-(\w+))(?=($|\s))/g,
-                            ''
-                          )} ${value}`
-                            .replace(/\s+/g, ' ')
-                            .trim()
-                        : value,
-                    options: [
+                      getSchemaTpl('className', {
+                        name: 'bodyClassName',
+                        label: '内容区域'
+                      }),
+
+                      getSchemaTpl('className', {
+                        name: 'footerClassName',
+                        label: '底部区域'
+                      }),
+
+                      getSchemaTpl('className', {
+                        name: 'actionsClassName',
+                        label: '按钮外层'
+                      }),
                       {
-                        label: '默认',
-                        value: 'Panel--default'
-                      },
-                      {
-                        label: '主色',
-                        value: 'Panel--primary'
-                      },
-                      {
-                        label: '提示',
-                        value: 'Panel--info'
-                      },
-                      {
-                        label: '成功',
-                        value: 'Panel--success'
-                      },
-                      {
-                        label: '警告',
-                        value: 'Panel--warning'
-                      },
-                      {
-                        label: '危险',
-                        value: 'Panel--danger'
+                        name: isForm ? 'panelClassName' : 'className',
+                        label: '主题',
+                        type: 'select',
+                        size: 'sm',
+                        pipeIn: (value: any) =>
+                          typeof value === 'string' &&
+                          /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(value)
+                            ? RegExp.$1
+                            : 'Panel--default',
+                        pipeOut: (value: string, origin: string) =>
+                          origin
+                            ? `${origin.replace(
+                                /(?:^|\s)(Panel\-\-(\w+))(?=($|\s))/g,
+                                ''
+                              )} ${value}`
+                                .replace(/\s+/g, ' ')
+                                .trim()
+                            : value,
+                        options: [
+                          {
+                            label: '默认',
+                            value: 'Panel--default'
+                          },
+                          {
+                            label: '主色',
+                            value: 'Panel--primary'
+                          },
+                          {
+                            label: '提示',
+                            value: 'Panel--info'
+                          },
+                          {
+                            label: '成功',
+                            value: 'Panel--success'
+                          },
+                          {
+                            label: '警告',
+                            value: 'Panel--warning'
+                          },
+                          {
+                            label: '危险',
+                            value: 'Panel--danger'
+                          }
+                        ]
                       }
                     ]
-                  },
-                  getSchemaTpl('className', {
-                    label: '外层',
-                    name: isForm ? 'panelClassName' : 'className',
-                    pipeIn: defaultValue('Panel--default')
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'headerClassName',
-                    label: '头部区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'bodyClassName',
-                    label: '内容区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'footerClassName',
-                    label: '底部区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'actionsClassName',
-                    label: '按钮外层'
                   })
                 ]
-              }
+              })
             ])
           ]
         }
