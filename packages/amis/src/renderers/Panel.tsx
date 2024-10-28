@@ -408,12 +408,6 @@ export default class Panel extends React.Component<PanelProps> {
                 weights: {
                   default: {
                     suf: `.${ns}Panel-heading`
-                  },
-                  hover: {
-                    suf: `.${ns}Panel-heading`
-                  },
-                  active: {
-                    suf: `.${ns}Panel-heading`
                   }
                 }
               },

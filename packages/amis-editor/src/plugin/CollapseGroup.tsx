@@ -272,20 +272,17 @@ export class CollapseGroupPlugin extends BasePlugin {
             {
               title: '基本样式',
               body: [
-                getSchemaTpl('theme:border', {
-                  name: `themeCss.className.border`
-                }),
                 getSchemaTpl('theme:paddingAndMargin', {
                   name: `themeCss.className.padding-and-margin`,
                   hidePadding: true
                 })
               ]
             },
+            getSchemaTpl('theme:cssCode'),
+            getSchemaTpl('animation'),
             getSchemaTpl('style:classNames', {
               isFormItem: false
-            }),
-            getSchemaTpl('theme:cssCode'),
-            getSchemaTpl('animation')
+            })
           ])
         },
         {
