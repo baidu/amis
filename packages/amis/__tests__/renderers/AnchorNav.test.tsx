@@ -219,8 +219,6 @@ test('Renderer:anchorNav with active by href', async () => {
 
   await wait(500);
 
-  debugger;
-
   expect(
     container.querySelector('.two .cxd-AnchorNav-link.is-active')
   ).toHaveTextContent('工作信息');
