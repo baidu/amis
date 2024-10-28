@@ -1,6 +1,6 @@
 .#{$ns}AnchorNav {
   display: flex;
-  height: 100%;
+  min-height: px2rem(400px);
 
   &--vertical {
     .#{$ns}AnchorNav-link-wrap {
