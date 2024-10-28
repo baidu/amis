@@ -124,7 +124,7 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
   scrollToSection(key: string | number) {
     this.fromSelect = true;
     const node = find(this.sections, item => item.key === key)?.element;
-    node?.scrollIntoView({behavior: 'smooth'});
+    node?.scrollIntoView?.({behavior: 'smooth'});
   }
 
   handleSelect(key: string | number) {
