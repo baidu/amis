@@ -1,3 +1,7 @@
+.#{$ns}Timeline {
+  min-height: #{px2rem(10px)};
+}
+
 .#{$ns}Timeline-vertical {
   display: flex;
   flex-flow: column;
