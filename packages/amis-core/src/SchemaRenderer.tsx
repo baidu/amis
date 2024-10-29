@@ -119,12 +119,16 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       let id = props?.schema.id;
       id = formateId(id);
       if (animations.enter) {
-        this.animationTimeout.enter = (animations.enter.duration || 1) * 1000;
+        this.animationTimeout.enter =
+          ((animations.enter.duration || 1) + (animations.enter.delay || 0)) *
+          1000;
         this.animationClassNames.enter = `${animations.enter.type}-${id}-enter`;
         this.animationClassNames.appear = this.animationClassNames.enter;
       }
       if (animations.exit) {
-        this.animationTimeout.exit = (animations.exit.duration || 1) * 1000;
+        this.animationTimeout.exit =
+          ((animations.exit.duration || 1) + (animations.exit.delay || 0)) *
+          1000;
         this.animationClassNames.exit = `${animations.exit.type}-${id}-exit`;
       }
     }

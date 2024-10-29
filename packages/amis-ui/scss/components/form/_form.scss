@@ -127,6 +127,13 @@
     vertical-align: top;
   }
 
+  &--flex {
+    margin: calc(var(--Form-item-gap) / 2);
+    &:last-child {
+      margin-bottom: calc(var(--Form-item-gap) / 2);
+    }
+  }
+
   &--inline {
     margin-right: var(--Form-mode-inline-item-gap);
   }
@@ -428,7 +435,6 @@
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 1;
-    padding: calc(var(--Form-item-gap) / 2);
     min-width: 0;
     min-height: 0;
   }
