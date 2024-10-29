@@ -883,7 +883,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       items: selectedItems,
       selectedItems,
       unSelectedItems: unSelectedItems,
-      ids
+      ids,
+      event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
     });
 
     let fn = () => {
