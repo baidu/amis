@@ -216,7 +216,7 @@ const TimelineWithRemoteConfig = withRemoteConfig({
       }
     }
     render() {
-      const {config, items, deferLoad, loading, updateConfig, source, ...rest} =
+      const {config, items, deferLoad, loading, updateConfig, ...rest} =
         this.props;
 
       let sourceItems: Array<TimelineItemSchema> = config
@@ -227,7 +227,6 @@ const TimelineWithRemoteConfig = withRemoteConfig({
               title: config[key]
             }))
         : items || [];
-
       return <TimelineCmpt items={sourceItems} {...rest} />;
     }
   }
