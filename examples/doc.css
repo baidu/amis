@@ -19,6 +19,7 @@
   position: relative;
   width: 100%;
   margin: 20px 0;
+  --affix-offset-top: 70px;
 }
 
 .doc-play-ground > .visibility-sensor {
