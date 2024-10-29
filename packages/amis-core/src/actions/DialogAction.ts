@@ -90,6 +90,7 @@ export class DialogAction implements RendererAction {
             actionType: 'dialog',
             dialog: action.dialog,
             reload: 'none',
+            dataMergeMode: action.dataMergeMode,
             data: action.rawData
           },
           action.data
@@ -100,6 +101,7 @@ export class DialogAction implements RendererAction {
             actionType: 'dialog',
             dialog: action.dialog,
             reload: 'none',
+            dataMergeMode: action.dataMergeMode,
             data: action.rawData
           },
           action.data
@@ -230,6 +232,7 @@ export class ConfirmAction implements RendererAction {
               actionType: 'dialog',
               dialog: modal,
               data: action.rawData,
+              dataMergeMode: action.dataMergeMode,
               reload: 'none',
               callback: (result: boolean) => resolve(result)
             },
@@ -241,6 +244,7 @@ export class ConfirmAction implements RendererAction {
               actionType: 'dialog',
               dialog: modal,
               data: action.rawData,
+              dataMergeMode: action.dataMergeMode,
               reload: 'none',
               callback: (result: boolean) => resolve(result)
             },

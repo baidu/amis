@@ -253,7 +253,12 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         }
 
         const data = createObjectFromChain(chain);
-        const mappingData = self.action.data ?? self.action.dialog?.data;
+        const dataMergeMode = self.action.dataMergeMode || 'merge';
+        // 当配置了 data 的时候，可以控制数据追加方式，支持合并(merge)和覆盖(override)两种模式
+        const mappingData =
+          dataMergeMode === 'override'
+            ? self.action.data ?? self.action.dialog?.data
+            : {...self.action.dialog?.data, ...self.action.data};
         if (mappingData) {
           self.dialogData = createObjectFromChain([
             top?.context,
