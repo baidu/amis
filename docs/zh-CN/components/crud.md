@@ -2082,6 +2082,7 @@ interface CRUDMatchFunc {
 | `items`           | `Array<Column>`       | 批量操作       | `selectedItems` 的别名                                                               |
 | `rows`            | `Array<Column>`       | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
 | `ids`             | `string`              | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
+| `event`           | `object`              | 事件动作       | 可以通过`event.data`获取批量操作按钮上绑定的事件动作产生的数据                       |
 | `...rest`         | `Record<string, any>` | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
