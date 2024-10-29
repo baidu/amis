@@ -198,6 +198,23 @@ const TimelineWithRemoteConfig = withRemoteConfig({
   class extends React.Component<
     RemoteOptionsProps & React.ComponentProps<typeof TimelineCmpt>
   > {
+    componentDidMount() {
+      const {source, updateConfig, config} = this.props;
+      if (typeof source === 'object' && !source.url && config) {
+        updateConfig(undefined);
+      }
+    }
+    componentDidUpdate(prevProps: any) {
+      const {source, updateConfig, config} = this.props;
+
+      if (
+        (!source || (typeof source === 'object' && !source.url)) &&
+        config &&
+        source !== prevProps.source
+      ) {
+        updateConfig(undefined);
+      }
+    }
     render() {
       const {config, items, deferLoad, loading, updateConfig, source, ...rest} =
         this.props;
@@ -211,10 +228,6 @@ const TimelineWithRemoteConfig = withRemoteConfig({
             }))
         : items || [];
 
-      // 如果items有值或者source为空，则直接使用items
-      if (items?.length || !source) {
-        sourceItems = items || [];
-      }
       return <TimelineCmpt items={sourceItems} {...rest} />;
     }
   }

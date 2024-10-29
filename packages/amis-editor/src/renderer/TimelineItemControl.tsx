@@ -79,6 +79,7 @@ export default class TimelineItemControl extends React.Component<
       data.items = items.map(item => ({...item}));
     }
     if (source === 'api' || source === 'variable') {
+      data.items = [];
       data.source = api;
     }
     onBulkChange && onBulkChange(data);
