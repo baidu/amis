@@ -153,6 +153,44 @@
   //   }
 }
 
+.me-Richtext-view table {
+  border: 0;
+  border-collapse: collapse;
+  empty-cells: show;
+  max-width: 100%;
+}
+
+.me-Richtext-view table td {
+  min-width: 5px;
+}
+
+.me-Richtext-view table td,
+.me-Richtext-view table th {
+  border: 1px solid #ddd;
+}
+
+.me-Richtext-view table td:empty,
+.me-Richtext-view table th:empty {
+  height: 20px;
+}
+
+.me-Richtext-view table th {
+  background: #ececec;
+}
+
+.me-Richtext-view hr {
+  clear: both;
+  user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-column-break-after: always;
+  break-after: always;
+  page-break-after: always;
+}
+
 // @media (min-width: 768px) {
 
 //   .amis-rich-text-control.form-contorl-inline,
