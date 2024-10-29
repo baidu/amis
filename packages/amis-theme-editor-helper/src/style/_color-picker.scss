@@ -88,35 +88,16 @@ $ns: cxd-;
   &-tab {
     display: flex;
     padding: px2rem(14px) px2rem(12px);
-    border: 1px solid #e8e9eb;
+    border-bottom: 1px solid #e8e9eb;
     & > div {
       height: px2rem(16px);
-      width: px2rem(16px);
       border-radius: 50%;
       margin-right: px2rem(12px);
+      font-size: 12px;
       cursor: pointer;
-      & > svg {
-        height: px2rem(16px);
-        width: px2rem(16px);
-      }
     }
-    &-color {
-      background-color: #e8e9eb;
-    }
-    &-color--active {
-      background: #d4e5ff;
-      border: 1px solid #2468f2;
-    }
-    &-gradient {
-      background-image: linear-gradient(180deg, #f4f4f4 0%, #b8babf 100%);
-    }
-    &-gradient--active {
-      background-image: linear-gradient(180deg, #ffffff 0%, #6296ff 99%);
-      border: 1px solid #2468f2;
-    }
-    &-img--active > svg {
-      border: 1px solid #2468f2;
-      border-radius: 50%;
+    &--active {
+      color: #2468f2;
     }
   }
   &-tab {
@@ -596,5 +577,21 @@ $ns: cxd-;
     border-radius: px2rem(2px);
     background: #fff;
     z-index: 1500;
+  }
+}
+
+.gradientColor-move {
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000000;
+    cursor: pointer;
+  }
+  * {
+    user-select: none;
   }
 }

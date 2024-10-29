@@ -36,6 +36,7 @@ import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
 export * from './utils/index';
+export * from './utils/animations';
 export * from './types';
 export * from './store';
 import * as utils from './utils/helper';
@@ -123,6 +124,8 @@ import type {IItem} from './store/list';
 import CustomStyle from './components/CustomStyle';
 import {StatusScoped} from './StatusScoped';
 
+import styleManager from './StyleManager';
+
 // @ts-ignore
 export const version = '__buildVersion';
 (window as any).amisVersionInfo = {
@@ -131,6 +134,7 @@ export const version = '__buildVersion';
 };
 
 export {
+  styleManager,
   clearStoresCache,
   updateEnv,
   Renderer,

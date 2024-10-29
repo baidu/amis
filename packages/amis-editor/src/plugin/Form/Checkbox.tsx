@@ -21,6 +21,7 @@ import {ValidatorTag} from '../../validator';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import omit from 'lodash/omit';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 setSchemaTpl('option', {
   name: 'option',
@@ -45,7 +46,8 @@ export class CheckboxControlPlugin extends BasePlugin {
   scaffold = {
     type: 'checkbox',
     option: '勾选框',
-    name: 'checkbox'
+    name: 'checkbox',
+    label: '勾选框'
   };
   previewSchema: any = {
     type: 'form',
@@ -227,7 +229,70 @@ export class CheckboxControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:formItem', {hidSize: true}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '勾选框样式',
+              body: [
+                ...inputStateTpl('themeCss.checkboxClassName', '--checkbox', {
+                  hideFont: true,
+                  hideMargin: true,
+                  hidePadding: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'checkbox-default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'checkbox-hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'checkbox-disabled'
+                    },
+                    {
+                      label: '选中',
+                      value: 'checked-default'
+                    },
+                    {
+                      label: '选中态悬浮',
+                      value: 'checked-hover'
+                    },
+                    {
+                      label: '选中禁用',
+                      value: 'checked-disabled'
+                    }
+                  ]
+                })
+              ]
+            },
+            {
+              title: '选项说明样式',
+              body: [
+                ...inputStateTpl('themeCss.checkboxLabelClassName', '', {
+                  hidePadding: true,
+                  hideRadius: true,
+                  hideBorder: true,
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'disabled'
+                    }
+                  ]
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames')
           ])
         ]

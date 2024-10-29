@@ -271,10 +271,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             ? resolveVariableAndFilter(props.defaultKey, props.data)
             : props.defaultKey;
       } else if (props.defaultActiveKey) {
-        activeKey = resolveVariableAndFilter(
-          props.defaultActiveKey,
-          props.data
-        );
+        activeKey =
+          typeof props.defaultActiveKey === 'string'
+            ? resolveVariableAndFilter(props.defaultActiveKey, props.data)
+            : props.defaultActiveKey;
       }
 
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;

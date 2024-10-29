@@ -64,6 +64,7 @@
     "qs": "6.9.7",
     "react-intersection-observer": "9.5.2",
     "react-json-view": "1.21.3",
+    "react-overlays": "5.1.1",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1"
   },

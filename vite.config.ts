@@ -54,6 +54,13 @@ export default defineConfig({
       target: 'esnext'
     }
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ['legacy-js-api']
+      }
+    }
+  },
   server: {
     host: '0.0.0.0',
     port: 8888

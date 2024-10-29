@@ -55,6 +55,7 @@ exports[`Renderer:anchorNav 1`] = `
             >
               <div
                 class="cxd-AnchorNav-section"
+                id="0"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -179,6 +180,7 @@ exports[`Renderer:anchorNav 1`] = `
               </div>
               <div
                 class="cxd-AnchorNav-section"
+                id="1"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -303,6 +305,7 @@ exports[`Renderer:anchorNav 1`] = `
               </div>
               <div
                 class="cxd-AnchorNav-section"
+                id="2"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -642,6 +645,7 @@ exports[`Renderer:anchorNav with children 1`] = `
             >
               <div
                 class="cxd-AnchorNav-section"
+                id="0"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -766,6 +770,7 @@ exports[`Renderer:anchorNav with children 1`] = `
               </div>
               <div
                 class="cxd-AnchorNav-section"
+                id="0-0"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -890,6 +895,7 @@ exports[`Renderer:anchorNav with children 1`] = `
               </div>
               <div
                 class="cxd-AnchorNav-section"
+                id="0-1"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1014,6 +1020,7 @@ exports[`Renderer:anchorNav with children 1`] = `
               </div>
               <div
                 class="cxd-AnchorNav-section"
+                id="1"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1182,6 +1189,7 @@ exports[`Renderer:anchorNav with horizontal 1`] = `
             >
               <div
                 class="cxd-AnchorNav-section"
+                id="0"
               >
                 <div
                   class="cxd-Panel cxd-Panel--default cxd-Panel--form"
