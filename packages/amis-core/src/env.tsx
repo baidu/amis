@@ -168,6 +168,11 @@ export interface RendererEnv {
     action: ICmptAction,
     event: RendererEvent<any, any>
   ) => Promise<void | boolean>;
+
+  /**
+   * 渲染器包裹组件可以外部指定
+   */
+  SchemaRenderer?: React.ComponentType<any>;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);

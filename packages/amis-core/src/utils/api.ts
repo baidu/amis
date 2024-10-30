@@ -471,6 +471,14 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   return payload;
 }
 
+function lazyResolve<T = any>(value: T, waitFor = 1000) {
+  return new Promise<T>(resolve => {
+    setTimeout(() => {
+      resolve(value);
+    }, waitFor);
+  });
+}
+
 export function wrapFetcher(
   fn: (config: FetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
@@ -540,7 +548,24 @@ export function wrapFetcher(
     // 如果发送适配器中设置了 mockResponse
     // 则直接跳过请求发送
     if (api.mockResponse) {
-      return wrapAdaptor(Promise.resolve(api.mockResponse) as any, api, data);
+      console.debug(
+        `fetch api ${api.url}${
+          api.data
+            ? `?${
+                typeof api.data === 'string'
+                  ? api.data
+                  : qsstringify(api.data, api.qsOptions)
+              }`
+            : ''
+        } with mock response`,
+        api.mockResponse,
+        api
+      );
+      return wrapAdaptor(
+        lazyResolve(api.mockResponse, api.mockResponse?.delay ?? 100),
+        api,
+        data
+      );
     }
 
     if (!isValidApi(api.url)) {

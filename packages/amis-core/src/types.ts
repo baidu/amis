@@ -227,7 +227,11 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
-  mockResponse?: PlainObject;
+  mockResponse?: {
+    status: number;
+    data?: any;
+    delay?: number;
+  };
   adaptor?: (
     payload: object,
     response: fetcherResult,
@@ -263,7 +267,7 @@ export interface fetcherResult {
     [propName: string]: any; // 为了兼容其他返回格式
   };
   status: number;
-  headers: object;
+  headers?: object;
 }
 
 export interface fetchOptions {
