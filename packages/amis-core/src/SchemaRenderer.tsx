@@ -108,7 +108,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     exit?: string;
   } = {};
 
-  reaction: any;
+  toDispose: Array<() => any> = [];
   unbindEvent: (() => void) | undefined = undefined;
   isStatic: any = undefined;
 
@@ -138,22 +138,24 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.removeAnimationAttention = this.removeAnimationAttention.bind(this);
 
     // 监听statusStore更新
-    this.reaction = reaction(
-      () => {
-        const id = filter(props.schema.id, props.data);
-        const name = filter(props.schema.name, props.data);
-        return `${
-          props.statusStore.visibleState[id] ??
-          props.statusStore.visibleState[name]
-        }${
-          props.statusStore.disableState[id] ??
-          props.statusStore.disableState[name]
-        }${
-          props.statusStore.staticState[id] ??
-          props.statusStore.staticState[name]
-        }`;
-      },
-      () => this.forceUpdate()
+    this.toDispose.push(
+      reaction(
+        () => {
+          const id = filter(props.schema.id, props.data);
+          const name = filter(props.schema.name, props.data);
+          return `${
+            props.statusStore.visibleState[id] ??
+            props.statusStore.visibleState[name]
+          }${
+            props.statusStore.disableState[id] ??
+            props.statusStore.disableState[name]
+          }${
+            props.statusStore.staticState[id] ??
+            props.statusStore.staticState[name]
+          }`;
+        },
+        () => this.forceUpdate()
+      )
     );
   }
 
@@ -166,7 +168,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   componentWillUnmount() {
-    this.reaction?.();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
     this.unbindEvent?.();
     this.removeAnimationStyle();
   }
