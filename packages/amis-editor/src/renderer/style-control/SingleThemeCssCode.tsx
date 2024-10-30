@@ -3158,7 +3158,7 @@ const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    setValue(getCssAndSetValue(wrapperCustomStyle[selector], '', 0));
+    setValue(getCssAndSetValue(wrapperCustomStyle?.[selector], '', 0));
   }, []);
 
   // 前面加上空格
