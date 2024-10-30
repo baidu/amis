@@ -1,24 +1,27 @@
 import {useEffect, useRef} from 'react';
-import type {RendererEnv} from '../env';
 import {
   removeCustomStyle,
   type InsertCustomStyle,
   insertCustomStyle,
-  insertEditCustomStyle
+  insertEditCustomStyle,
+  CustomStyleClassName,
+  setThemeClassName
 } from '../utils/style-helper';
+import React from 'react';
+import {PlainObject} from '../types';
+import cx from 'classnames';
 
 interface CustomStyleProps {
   config: {
     wrapperCustomStyle?: any;
-    componentId?: string;
   } & InsertCustomStyle;
   [propName: string]: any;
 }
 
 export const styleIdCount = new Map();
 
-export default function (props: CustomStyleProps) {
-  const {config, env, data} = props;
+export default function CustomStyle(props: CustomStyleProps) {
+  const {config, env, data, children, classPrefix} = props;
   const {themeCss, classNames, defaultData, wrapperCustomStyle} = config;
   const id = config.id ? `${config.id}` : config.id;
 
@@ -47,7 +50,8 @@ export default function (props: CustomStyleProps) {
         defaultData,
         customStyleClassPrefix: env?.customStyleClassPrefix,
         doc: env?.getModalContainer?.()?.ownerDocument,
-        data
+        data,
+        classPrefix
       });
     }
 
@@ -85,5 +89,60 @@ export default function (props: CustomStyleProps) {
     };
   }, [wrapperCustomStyle, id]);
 
-  return null;
+  return children;
+}
+
+/**
+ * 自定义样式装饰器
+ */
+export function CustomStyleWrapper(config: {
+  classNames: CustomStyleClassName[];
+  wrapperCustomStyle?: boolean;
+  themeCss?: string;
+  id?: string;
+}) {
+  return function <T extends React.ComponentType>(Component: T): T {
+    const WrappedComponent = (props: any) => {
+      const id = config.id || props.id;
+      const themeCss = props[config.themeCss || 'themeCss'];
+
+      const [className, setClassName] = React.useState<PlainObject>({});
+
+      useEffect(() => {
+        const className: PlainObject = {};
+        config.classNames.forEach(item => {
+          if (item.name) {
+            className[item.name] = cx(
+              setThemeClassName({
+                props,
+                name: item.key,
+                id,
+                themeCss
+              }),
+              props[item.name]
+            );
+          }
+        });
+        setClassName(className);
+      }, [props]);
+
+      return (
+        <>
+          <CustomStyle
+            config={{
+              classNames: config.classNames,
+              id,
+              themeCss,
+              wrapperCustomStyle: config.wrapperCustomStyle
+                ? props.wrapperCustomStyle
+                : null
+            }}
+            {...props}
+          />
+          <Component {...props} {...className} />
+        </>
+      );
+    };
+    return WrappedComponent as unknown as T;
+  };
 }

@@ -40,10 +40,10 @@ export const inheritValueMap: PlainObject = {
 
 interface extra {
   important?: boolean;
-  parent?: string;
-  inner?: string;
-  pre?: string;
-  suf?: string;
+  parent?: string | ((ns: string) => string);
+  inner?: string | ((ns: string) => string);
+  pre?: string | ((ns: string) => string);
+  suf?: string | ((ns: string) => string);
 }
 
 /**
@@ -169,7 +169,8 @@ export function formatStyle(
   classNames?: CustomStyleClassName[],
   id?: string,
   defaultData?: any,
-  data?: any
+  data?: any,
+  classPrefix?: string
 ) {
   // 没有具体的样式，或者没有对应的classname
   if (!themeCss || !classNames) {
@@ -272,9 +273,23 @@ export function formatStyle(
         }
       });
       if (styles.length > 0) {
-        const cx = (weights?.pre || '') + className + (weights?.suf || '');
-        const inner = weights?.inner || '';
-        const parent = weights?.parent || '';
+        const pre =
+          typeof weights?.pre === 'function'
+            ? weights.pre(classPrefix)
+            : weights?.pre || '';
+        const suf =
+          typeof weights?.suf === 'function'
+            ? weights.suf(classPrefix)
+            : weights?.suf || '';
+        const cx = pre + className + suf;
+        const inner =
+          typeof weights?.inner === 'function'
+            ? weights.inner(classPrefix)
+            : weights?.inner || '';
+        const parent =
+          weights?.parent === 'function'
+            ? weights.parent(classPrefix)
+            : weights?.parent || '';
 
         res.push({
           className: parent + cx + status2string[status] + inner,
@@ -300,6 +315,7 @@ export function formatStyle(
 
 export interface CustomStyleClassName {
   key: string;
+  name?: string;
   weights?: {
     default?: extra;
     hover?: extra;
@@ -316,6 +332,7 @@ export function insertCustomStyle(params: {
   defaultData?: any;
   customStyleClassPrefix?: string;
   doc?: Document;
+  classPrefix?: string;
   [propName: string]: any;
 }) {
   const {
@@ -325,13 +342,21 @@ export function insertCustomStyle(params: {
     defaultData,
     customStyleClassPrefix,
     doc,
-    data
+    data,
+    classPrefix
   } = params;
   if (!themeCss) {
     return;
   }
 
-  let {value} = formatStyle(themeCss, classNames, id, defaultData, data);
+  let {value} = formatStyle(
+    themeCss,
+    classNames,
+    id,
+    defaultData,
+    data,
+    classPrefix
+  );
   value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
   let classId = id?.replace?.('u:', '') || id + '';
   if (typeof data?.index === 'number') {

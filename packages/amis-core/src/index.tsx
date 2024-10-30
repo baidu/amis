@@ -124,7 +124,7 @@ import {
   SchemaRenderer
 } from './SchemaRenderer';
 import type {IItem} from './store/list';
-import CustomStyle from './components/CustomStyle';
+import CustomStyle, {CustomStyleWrapper} from './components/CustomStyle';
 import {StatusScoped} from './StatusScoped';
 
 import styleManager from './StyleManager';
@@ -231,6 +231,7 @@ export {
   filterTarget,
   splitTarget,
   CustomStyle,
+  CustomStyleWrapper,
   enableDebug,
   disableDebug,
   envOverwrite,

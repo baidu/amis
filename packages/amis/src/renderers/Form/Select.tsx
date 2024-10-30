@@ -17,8 +17,7 @@ import {
   autobind,
   TestIdBuilder,
   getVariable,
-  CustomStyle,
-  setThemeClassName
+  CustomStyleWrapper
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -526,6 +525,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showInvalidMatch,
       options,
       className,
+      controlClassName,
       popoverClassName,
       style,
       loading,
@@ -550,7 +550,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       filterOption,
       ...rest
     } = this.props;
-    const {classPrefix: ns, themeCss} = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
@@ -571,23 +570,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onAdd={this.handleOptionAdd}
             onEdit={this.handleOptionEdit}
             onDelete={this.handleOptionDelete}
-            className={cx(
-              setThemeClassName({
-                ...this.props,
-                name: 'selectControlClassName',
-                id,
-                themeCss: themeCss
-              })
-            )}
-            popoverClassName={cx(
-              popoverClassName,
-              setThemeClassName({
-                ...this.props,
-                name: 'selectPopoverClassName',
-                id,
-                themeCss: themeCss
-              })
-            )}
+            className={controlClassName}
+            popoverClassName={popoverClassName}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -620,41 +604,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             overlay={overlay}
           />
         )}
-        <CustomStyle
-          {...this.props}
-          config={{
-            themeCss: themeCss,
-            classNames: [
-              {
-                key: 'selectControlClassName',
-                weights: {
-                  focused: {
-                    suf: '.is-opened:not(.is-mobile)'
-                  },
-                  disabled: {
-                    suf: '.is-disabled'
-                  }
-                }
-              },
-              {
-                key: 'selectPopoverClassName',
-                weights: {
-                  default: {
-                    suf: ` .${ns}Select-option`
-                  },
-                  hover: {
-                    suf: ` .${ns}Select-option.is-highlight`
-                  },
-                  focused: {
-                    inner: `.${ns}Select-option.is-active`
-                  }
-                }
-              }
-            ],
-            id: id
-          }}
-          env={env}
-        />
       </div>
     );
   }
@@ -789,14 +738,48 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
   }
 }
 
+const customStyleOptions = {
+  classNames: [
+    {
+      key: 'selectControlClassName',
+      name: 'controlClassName',
+      weights: {
+        focused: {
+          suf: '.is-opened:not(.is-mobile)'
+        },
+        disabled: {
+          suf: '.is-disabled'
+        }
+      }
+    },
+    {
+      key: 'selectPopoverClassName',
+      name: 'popoverClassName',
+      weights: {
+        default: {
+          suf: (ns: string) => ` .${ns}Select-option`
+        },
+        hover: {
+          suf: (ns: string) => ` .${ns}Select-option.is-highlight`
+        },
+        focused: {
+          inner: (ns: string) => `.${ns}Select-option.is-active`
+        }
+      }
+    }
+  ]
+};
+
 @OptionsControl({
   type: 'select'
 })
+@CustomStyleWrapper(customStyleOptions)
 export class SelectControlRenderer extends SelectControl {}
 
 @OptionsControl({
   type: 'multi-select'
 })
+@CustomStyleWrapper(customStyleOptions)
 export class MultiSelectControlRenderer extends SelectControl {
   static defaultProps = {
     multiple: true
