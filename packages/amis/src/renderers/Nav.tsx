@@ -38,7 +38,7 @@ import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import type {NavigationItem} from 'amis-ui/lib/components/menu';
+import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 
 import type {Payload} from 'amis-core';

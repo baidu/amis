@@ -262,7 +262,7 @@ export interface fetcherResult {
     [propName: string]: any; // 为了兼容其他返回格式
   };
   status: number;
-  headers: object;
+  headers?: object;
 }
 
 export interface fetchOptions {

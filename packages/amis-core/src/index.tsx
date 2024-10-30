@@ -108,7 +108,10 @@ import {
 } from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
-import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
+import {
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  SchemaRenderer
+} from './SchemaRenderer';
 import type {IItem} from './store/list';
 import CustomStyle from './components/CustomStyle';
 import {StatusScoped} from './StatusScoped';
@@ -207,7 +210,8 @@ export {
   CustomStyle,
   enableDebug,
   disableDebug,
-  envOverwrite
+  envOverwrite,
+  SchemaRenderer
 };
 
 export function render(
