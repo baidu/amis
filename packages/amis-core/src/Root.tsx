@@ -11,7 +11,11 @@ import {ThemeContext} from './theme';
 import {Schema, SchemaNode} from './types';
 import {autobind, isEmpty} from './utils/helper';
 import {RootStoreContext} from './WithRootStore';
-import {StatusScoped, StatusScopedProps} from './StatusScoped';
+import {
+  StatusScoped,
+  StatusScopedWrapper,
+  StatusScopedProps
+} from './StatusScoped';
 
 export interface RootRenderProps {
   location?: Location;
@@ -154,8 +158,6 @@ export interface renderChildProps
 }
 export type ReactElement = React.ReactNode[] | JSX.Element | null | false;
 
-const StatusScopedSchemaRenderer = StatusScoped(SchemaRenderer);
-
 export function renderChildren(
   prefix: string,
   node: SchemaNode,
@@ -206,6 +208,8 @@ export function renderChild(
     props = transform(props);
   }
 
+  const Comp = props.env.SchemaRenderer || SchemaRenderer;
+
   if (
     ['dialog', 'drawer'].includes(schema?.type) &&
     !schema?.component &&
@@ -216,19 +220,26 @@ export function renderChild(
     // 所以这里先根据 type 来处理一下
     // 等后续把状态处理再抽一层，可以把此处放到 SchemaRenderer 里面去
     return (
-      <StatusScopedSchemaRenderer
-        render={renderChild as any}
-        {...props}
-        key={props.key ?? schema.key}
-        schema={schema}
-        propKey={schema.key}
-        $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
-      />
+      <StatusScopedWrapper>
+        {({statusStore}) => (
+          <Comp
+            render={renderChild as any}
+            {...props}
+            key={props.key ?? schema.key}
+            schema={schema}
+            propKey={schema.key}
+            $path={`${prefix ? `${prefix}/` : ''}${
+              (schema && schema.type) || ''
+            }`}
+            statusStore={statusStore}
+          />
+        )}
+      </StatusScopedWrapper>
     );
   }
 
   return (
-    <SchemaRenderer
+    <Comp
       render={renderChild as any}
       {...props}
       key={props.key ?? schema.key}

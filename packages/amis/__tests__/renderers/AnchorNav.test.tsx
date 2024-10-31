@@ -169,7 +169,7 @@ test('Renderer:anchorNav with horizontal', () => {
 });
 
 // 3.默认定位到某个区域
-test('Renderer:anchorNav with active', async () => {
+test('Renderer:anchorNav with active by index', async () => {
   const {container} = render(
     amisRender(
       {
@@ -180,7 +180,27 @@ test('Renderer:anchorNav with active', async () => {
             className: 'one',
             active: 2,
             links: defaultLinks
-          },
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(500);
+
+  expect(
+    container.querySelector('.one .cxd-AnchorNav-link.is-active')
+  ).toHaveTextContent('兴趣爱好');
+});
+
+test('Renderer:anchorNav with active by href', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
           {
             type: 'anchor-nav',
             className: 'two',
@@ -199,9 +219,6 @@ test('Renderer:anchorNav with active', async () => {
 
   await wait(500);
 
-  expect(
-    container.querySelector('.one .cxd-AnchorNav-link.is-active')
-  ).toHaveTextContent('兴趣爱好');
   expect(
     container.querySelector('.two .cxd-AnchorNav-link.is-active')
   ).toHaveTextContent('工作信息');

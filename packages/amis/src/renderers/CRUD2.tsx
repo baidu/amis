@@ -612,7 +612,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   /**
    * 更新列表数据
    */
-  getData(
+  async getData(
     /** 静默更新，不显示加载状态 */
     silent?: boolean,
     /** 清空已选择数据 */
@@ -667,49 +667,49 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       store.changePerPage(perPage);
     }
 
-    isEffectiveApi(api, data)
-      ? store
-          .fetchInitData(api, data, {
-            successMessage: messages && messages.fetchSuccess,
-            errorMessage: messages && messages.fetchFailed,
-            autoAppend: true,
-            forceReload,
-            loadDataOnce,
-            source,
-            silent,
-            pageField,
-            perPageField,
-            loadDataMode,
-            syncResponse2Query,
-            columns: store.columns ?? columns,
-            isTable2: true
-          })
-          .then(value => {
-            value?.ok && // 接口正常返回才继续轮训
-              interval &&
-              !this.stopingAutoRefresh &&
-              this.mounted &&
-              (!stopAutoRefreshWhen ||
-                !(
-                  stopAutoRefreshWhen &&
-                  evalExpression(
-                    stopAutoRefreshWhen,
-                    createObject(store.data, store.query)
-                  )
-                )) &&
-              // 弹窗期间不进行刷新
-              (!stopAutoRefreshWhenModalIsOpen ||
-                (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
-              (this.timer = setTimeout(
-                this.getData.bind(this, silentPolling, undefined, true),
-                Math.max(interval, 1000)
-              ));
-            return value;
-          })
-      : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns
-        });
+    if (isEffectiveApi(api, data)) {
+      const value = await store.fetchInitData(api, data, {
+        successMessage: messages && messages.fetchSuccess,
+        errorMessage: messages && messages.fetchFailed,
+        autoAppend: true,
+        forceReload,
+        loadDataOnce,
+        source,
+        silent,
+        pageField,
+        perPageField,
+        loadDataMode,
+        syncResponse2Query,
+        columns: store.columns ?? columns,
+        isTable2: true
+      });
+
+      value?.ok && // 接口正常返回才继续轮训
+        interval &&
+        !this.stopingAutoRefresh &&
+        this.mounted &&
+        (!stopAutoRefreshWhen ||
+          !(
+            stopAutoRefreshWhen &&
+            evalExpression(
+              stopAutoRefreshWhen,
+              createObject(store.data, store.query)
+            )
+          )) &&
+        // 弹窗期间不进行刷新
+        (!stopAutoRefreshWhenModalIsOpen ||
+          (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
+        (this.timer = setTimeout(
+          this.getData.bind(this, silentPolling, undefined, true),
+          Math.max(interval, 1000)
+        ));
+    } else if (source) {
+      store.initFromScope(data, source, {
+        columns: store.columns ?? columns
+      });
+    }
+
+    return store.data;
   }
 
   @autobind
@@ -1055,19 +1055,19 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-    this.getData(undefined, undefined, forceReload);
+    return this.getData(undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.getData(undefined, undefined, true);
+      return this.getData(undefined, undefined, true);
     }
   }
 
   receive(values: object) {
-    this.handleQuerySearch(values, true);
+    return this.handleQuerySearch(values, true);
   }
 
   @autobind
@@ -1416,6 +1416,52 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     };
   }
 
+  // headerToolbar 移动端适配，如果只有新增按钮，则将新增按钮固定到屏幕右下
+  transMobileHeaderToolbar(toolbar: any, fixedHeader: () => void) {
+    let buttonCount = 0;
+    let addButton: any = {};
+    let addButtonParent: any = {};
+    let searchBox: any = {};
+    function traverse(node: any, parentObj?: any) {
+      if (Array.isArray(node)) {
+        node.forEach((item: any) => traverse(item, parentObj));
+      } else if (node && typeof node === 'object') {
+        if (node.type === 'button') {
+          buttonCount++;
+          if (node.label === '新增') {
+            addButton = node;
+            addButtonParent = parentObj;
+          }
+        } else if (node.type === 'search-box') {
+          searchBox = node;
+        }
+        Object.values(node).forEach((item: any) => traverse(item, node));
+      }
+    }
+    toolbar.forEach((item: any) => {
+      traverse(item);
+    });
+    if (buttonCount === 1 && addButton) {
+      addButton.label = '';
+      addButton.icon = 'plus';
+      if (!addButton.className) {
+        addButton.className = '';
+      }
+      addButton.className += ' is-fixed-right-bottom';
+
+      if (addButtonParent) {
+        if (!addButtonParent.className) {
+          addButtonParent.className = '';
+        }
+        addButtonParent.className += ' is-fixed-right-bottom-wrapper';
+      }
+
+      if (searchBox) {
+        fixedHeader();
+      }
+    }
+  }
+
   render() {
     const {
       columns,
@@ -1464,8 +1510,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     } = this.props;
 
     let pullRefresh: any;
-
-    let mobileModeProps: any = {};
+    let stickyHeader = false;
+    let mobileModeProps: any = null;
     if (mobileMode && mobileUI && mode.includes('table')) {
       const cardsSchema = this.transformTable2cards();
       if (typeof mobileMode === 'string' && mobileMode === 'cards') {
@@ -1481,6 +1527,11 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             ...mobileMode.card
           }
         };
+      }
+      if (mobileModeProps) {
+        this.transMobileHeaderToolbar(headerToolbar, () => {
+          stickyHeader = true;
+        });
       }
       // 移动端模式，默认开启上拉刷新
       if (mobileModeProps && !_pullRefresh?.disabled) {
@@ -1557,7 +1608,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           'is-loading': store.loading,
           'is-mobile': mobileUI,
           'is-mobile-cards':
-            mobileMode === 'cards' || mobileModeProps.type === 'cards'
+            mobileMode === 'cards' || mobileModeProps?.type === 'cards'
         })}
         style={style}
         data-id={id}
@@ -1570,7 +1621,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           {this.renderFilter(filterSchema)}
         </div>
 
-        <div className={cx('Crud2-toolbar', headerToolbarClassName)}>
+        <div
+          className={cx(
+            'Crud2-toolbar',
+            'Crud2-header-toolbar',
+            headerToolbarClassName,
+            {
+              'is-sticky': stickyHeader
+            }
+          )}
+        >
           {this.renderToolbar('headerToolbar', headerToolbar)}
         </div>
 
@@ -1597,7 +1657,13 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         ) : (
           <>
             {body}
-            <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
+            <div
+              className={cx(
+                'Crud2-toolbar',
+                'Crud2-footer-toolbar',
+                footerToolbarClassName
+              )}
+            >
               {this.renderToolbar('footerToolbar', footerToolbar)}
             </div>
           </>
@@ -1630,7 +1696,7 @@ export class CRUD2Renderer extends CRUD2 {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  async reload(subpath?: string, query?: any, ctx?: any) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -1642,7 +1708,7 @@ export class CRUD2Renderer extends CRUD2 {
     return super.reload(subpath, query);
   }
 
-  receive(values: any, subPath?: string) {
+  async receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);

@@ -8,80 +8,43 @@ export interface StatusScopedProps {
   statusStore: IStatusStore;
 }
 
+export interface StatusScopedWrapperProps {
+  children: (props: {statusStore: IStatusStore}) => JSX.Element;
+}
+
+export function StatusScopedWrapper({children}: StatusScopedWrapperProps) {
+  const store = React.useMemo(() => StatusStore.create({}), []);
+  React.useEffect(() => {
+    return () => {
+      destroy(store);
+    };
+  }, []);
+
+  return children({statusStore: store});
+}
+
 export function StatusScoped<
   T extends React.ComponentType<React.ComponentProps<T> & StatusScopedProps>
 >(ComposedComponent: T) {
-  type OuterProps = JSX.LibraryManagedAttributes<
-    T,
-    Omit<React.ComponentProps<T>, keyof StatusScopedProps>
-  > & {};
-
-  const result = hoistNonReactStatic(
-    class extends React.Component<OuterProps> {
-      static displayName = `StatusScoped(${
-        ComposedComponent.displayName || ComposedComponent.name
-      })`;
-      static ComposedComponent = ComposedComponent as React.ComponentType<T>;
-
-      store?: IStatusStore;
-
-      constructor(props: OuterProps) {
-        super(props);
-
-        this.childRef = this.childRef.bind(this);
-        this.getWrappedInstance = this.getWrappedInstance.bind(this);
-
-        this.store = StatusStore.create({});
-      }
-
-      ref: any;
-
-      childRef(ref: any) {
-        while (ref && ref.getWrappedInstance) {
-          ref = ref.getWrappedInstance();
-        }
-
-        this.ref = ref;
-      }
-
-      getWrappedInstance() {
-        return this.ref;
-      }
-
-      componentWillUnmount(): void {
-        this.store && destroy(this.store);
-        delete this.store;
-      }
-
-      render() {
-        const injectedProps: {
-          statusStore: IStatusStore;
-        } = {
-          statusStore: this.store!
-        };
-        const refConfig =
-          ComposedComponent.prototype?.isReactComponent ||
-          (ComposedComponent as any).$$typeof ===
-            Symbol.for('react.forward_ref')
-            ? {ref: this.childRef}
-            : {forwardedRef: this.childRef};
-
-        return (
+  const wrapped = (
+    props: JSX.LibraryManagedAttributes<
+      T,
+      Omit<React.ComponentProps<T>, keyof StatusScopedProps>
+    > & {},
+    ref: any
+  ) => {
+    return (
+      <StatusScopedWrapper>
+        {({statusStore}) => (
           <ComposedComponent
-            {...(this.props as JSX.LibraryManagedAttributes<
-              T,
-              React.ComponentProps<T>
-            > as any)}
-            {...injectedProps}
-            {...refConfig}
+            {...(props as any)}
+            statusStore={statusStore}
+            ref={ref}
           />
-        );
-      }
-    },
-    ComposedComponent
-  );
-
-  return result as typeof result & {
-    ComposedComponent: T;
+        )}
+      </StatusScopedWrapper>
+    );
   };
+
+  return React.forwardRef(wrapped as any) as typeof wrapped;
 }

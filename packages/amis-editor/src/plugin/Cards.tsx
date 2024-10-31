@@ -545,18 +545,24 @@ export class CardsPlugin extends BasePlugin {
       node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
     let field = node.schema.name || match?.[1];
     const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
-    const schema = scope?.parent?.getSchemaByPath(field);
-    if (isObject(schema?.items)) {
-      dataSchema = {
-        ...dataSchema,
-        ...(schema!.items as any)
-      };
 
-      // 列表添加序号方便处理
-      set(dataSchema, 'properties.index', {
-        type: 'number',
-        title: '索引'
-      });
+    if (scope) {
+      const origin = this.manager.dataSchema.current;
+      this.manager.dataSchema.switchTo(scope.parent!);
+      const schema = this.manager.dataSchema.getSchemaByPath(field);
+      this.manager.dataSchema.switchTo(origin);
+      if (isObject(schema?.items)) {
+        dataSchema = {
+          ...dataSchema,
+          ...(schema!.items as any)
+        };
+
+        // 列表添加序号方便处理
+        set(dataSchema, 'properties.index', {
+          type: 'number',
+          title: '索引'
+        });
+      }
     }
 
     return dataSchema;

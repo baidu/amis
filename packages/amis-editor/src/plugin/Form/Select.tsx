@@ -309,7 +309,10 @@ export class SelectControlPlugin extends BasePlugin {
             {
               title: '选择框样式',
               body: [
-                ...inputStateTpl('themeCss.selectControlClassName', '--select')
+                ...inputStateTpl(
+                  'themeCss.selectControlClassName',
+                  '--select-base'
+                )
               ]
             },
             {
@@ -317,9 +320,13 @@ export class SelectControlPlugin extends BasePlugin {
               body: [
                 ...inputStateTpl(
                   'themeCss.selectPopoverClassName',
-                  '--select',
+                  '--select-base-${state}-option',
                   {
-                    state: ['default', 'hover', 'focused']
+                    state: [
+                      {label: '常规', value: 'default'},
+                      {label: '悬浮', value: 'hover'},
+                      {label: '选中', value: 'focused'}
+                    ]
                   }
                 )
               ]
