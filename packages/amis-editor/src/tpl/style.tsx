@@ -1185,6 +1185,14 @@ setSchemaTpl(
           {
             label: '点击',
             value: 'active'
+          },
+          {
+            label: '选中',
+            value: 'focused'
+          },
+          {
+            label: '禁用',
+            value: 'disabled'
           }
         ].filter(item => state.includes(item.value))
       },
@@ -1193,7 +1201,9 @@ setSchemaTpl(
         'default'
       ),
       ...styleStateFunc(`\${__editorState${classId} == 'hover'}`, 'hover'),
-      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active')
+      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active'),
+      ...styleStateFunc(`\${__editorState${classId} == 'focused'}`, 'focused'),
+      ...styleStateFunc(`\${__editorState${classId} == 'disabled'}`, 'disabled')
     ].filter(Boolean);
 
     return {

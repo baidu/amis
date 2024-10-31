@@ -1836,3 +1836,11 @@ setSchemaTpl(
     };
   }
 );
+
+setSchemaTpl('closable', {
+  type: 'ae-StatusControl',
+  label: tipedLabel('可关闭选项卡', '选项卡内优先级更高'),
+  mode: 'normal',
+  name: 'closable',
+  expressionName: 'closableOn'
+});
