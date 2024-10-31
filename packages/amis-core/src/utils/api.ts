@@ -66,10 +66,12 @@ export function removeApiRequestAdaptor(adaptor: RequestAdaptor) {
  * 添加全局响应适配器
  * @param adaptor
  */
-export function addApiResponseAdator(adaptor: ResponseAdaptor) {
+export function addApiResponseAdaptor(adaptor: ResponseAdaptor) {
   responseAdaptors.push(adaptor);
   return () => removeApiResponseAdaptor(adaptor);
 }
+// :(  之前写错了，这里为了让以前的代码能继续跑，暂时保留
+export const addApiResponseAdator = addApiResponseAdaptor;
 
 /**
  * 删除全局响应适配器
