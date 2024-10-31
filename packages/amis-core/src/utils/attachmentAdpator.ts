@@ -28,6 +28,8 @@ export function attachmentAdpator(
         let matches = disposition.match(filenameRegex);
         if (matches && matches.length) {
           filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
+        } else {
+          filename = disposition?.split(';')[1];
         }
 
         // 很可能是中文被 url-encode 了
