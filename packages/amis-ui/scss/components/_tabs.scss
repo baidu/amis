@@ -1152,7 +1152,7 @@
             &:not(.is-disabled):hover {
               > a {
                 font-size: var(--Tabs--simple-hover-fontSize);
-                color: var(--Tabs--simple-hover-color) !important;
+                color: var(--Tabs--simple-hover-color);
                 font-weight: var(--Tabs--simple-hover-fontWeight);
                 line-height: var(--Tabs--simple-hover-lineHeight);
               }
@@ -1160,7 +1160,7 @@
             &.is-disabled {
               > a {
                 font-size: var(--Tabs--simple-disabled-fontSize);
-                color: var(--Tabs--simple-disabled-color) !important;
+                color: var(--Tabs--simple-disabled-color);
                 font-weight: var(--Tabs--simple-disabled-fontWeight);
                 line-height: var(--Tabs--simple-disabled-lineHeight);
               }
@@ -1168,7 +1168,7 @@
             &.is-active {
               > a {
                 font-size: var(--Tabs--simple-active-fontSize);
-                color: var(--Tabs--simple-active-color) !important;
+                color: var(--Tabs--simple-active-color);
                 font-weight: var(--Tabs--simple-active-fontWeight);
                 line-height: var(--Tabs--simple-active-lineHeight);
               }
@@ -1317,7 +1317,7 @@
               var(--Tabs--strong-hover-left-border-width);
             > a {
               font-size: var(--Tabs--strong-hover-fontSize);
-              color: var(--Tabs--strong-hover-color) !important;
+              color: var(--Tabs--strong-hover-color);
               font-weight: var(--Tabs--strong-hover-fontWeight);
               line-height: var(--Tabs--strong-hover-lineHeight);
             }
@@ -1339,7 +1339,7 @@
               var(--Tabs--strong-disabled-left-border-width);
             > a {
               font-size: var(--Tabs--strong-disabled-fontSize);
-              color: var(--Tabs--strong-disabled-color) !important;
+              color: var(--Tabs--strong-disabled-color);
               font-weight: var(--Tabs--strong-disabled-fontWeight);
               line-height: var(--Tabs--strong-disabled-lineHeight);
             }
@@ -1360,7 +1360,7 @@
               var(--Tabs--strong-active-left-border-width);
             > a {
               font-size: var(--Tabs--strong-active-fontSize);
-              color: var(--Tabs--strong-active-color) !important;
+              color: var(--Tabs--strong-active-color);
               font-weight: var(--Tabs--strong-active-fontWeight);
               line-height: var(--Tabs--strong-active-lineHeight);
             }
