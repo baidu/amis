@@ -1093,21 +1093,23 @@ setSchemaTpl(
         !hideBorder &&
           getSchemaTpl('theme:border', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.border:${state}`,
+            name: `themeCss.${classname}.border${needState ? ':' + state : ''}`,
             state,
             editorValueToken
           }),
         !hideRadius &&
           getSchemaTpl('theme:radius', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.radius:${state}`,
+            name: `themeCss.${classname}.radius${needState ? ':' + state : ''}`,
             state,
             editorValueToken
           }),
         !hidePaddingAndMargin &&
           getSchemaTpl('theme:paddingAndMargin', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.padding-and-margin:${state}`,
+            name: `themeCss.${classname}.padding-and-margin${
+              needState ? ':' + state : ''
+            }`,
             hideMargin,
             hidePadding,
             state,
@@ -1116,7 +1118,9 @@ setSchemaTpl(
         !hideBackground &&
           getSchemaTpl('theme:colorPicker', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.background:${state}`,
+            name: `themeCss.${classname}.background${
+              needState ? ':' + state : ''
+            }`,
             label: '背景',
             needCustom: true,
             needGradient: true,
@@ -1130,7 +1134,9 @@ setSchemaTpl(
         !hideShadow &&
           getSchemaTpl('theme:shadow', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.boxShadow:${state}`,
+            name: `themeCss.${classname}.boxShadow${
+              needState ? ':' + state : ''
+            }`,
             state,
             editorValueToken
           })
@@ -1141,7 +1147,7 @@ setSchemaTpl(
             return {
               ...item,
               visibleOn: visibleOn,
-              name: `${item.name}:${state}`,
+              name: `${item.name}${needState ? ':' + state : ''}`,
               state
             };
           })
@@ -1201,6 +1207,8 @@ setSchemaTpl(
     classname?: string;
     baseTitle?: string;
     hidePaddingAndMargin?: boolean;
+    hideAnimation?: boolean;
+    needState?: boolean;
   }) => {
     let {
       exclude,
@@ -1210,7 +1218,9 @@ setSchemaTpl(
       layoutExtra,
       classname,
       baseTitle,
-      hidePaddingAndMargin
+      hidePaddingAndMargin,
+      hideAnimation,
+      needState = true
     } = option || {};
 
     const curCollapsed = collapsed ?? false; // 默认都展开
@@ -1239,6 +1249,7 @@ setSchemaTpl(
         extra: baseExtra,
         classname,
         title: baseTitle,
+        needState,
         hidePaddingAndMargin
       }),
       ...extra,
@@ -1252,7 +1263,7 @@ setSchemaTpl(
           }
         ]
       },
-      getSchemaTpl('animation')
+      !hideAnimation && getSchemaTpl('animation')
     ].filter(item => !~exclude.indexOf(item.key || ''));
   }
 );

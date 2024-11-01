@@ -5,10 +5,13 @@ import {
   autobind,
   resolveEventData,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  setThemeClassName,
+  CustomStyle
 } from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
+import cx from 'classnames';
 
 /**
  * CollapseGroup 折叠渲染器，格式说明。
@@ -101,7 +104,11 @@ export class CollapseGroupRender extends React.Component<
       style,
       render,
       mobileUI,
-      data
+      data,
+      id,
+      themeCss,
+      wrapperCustomStyle,
+      env
     } = this.props;
     let enableFieldSetStyle = this.props.enableFieldSetStyle;
 
@@ -114,18 +121,48 @@ export class CollapseGroupRender extends React.Component<
     }
 
     return (
-      <CollapseGroup
-        defaultActiveKey={defaultActiveKey}
-        accordion={accordion}
-        expandIcon={expandIcon}
-        expandIconPosition={expandIconPosition}
-        className={className}
-        style={style}
-        mobileUI={mobileUI}
-        onCollapseChange={this.handleCollapseChange}
-      >
-        {render('body', body || '', {enableFieldSetStyle})}
-      </CollapseGroup>
+      <>
+        <CollapseGroup
+          defaultActiveKey={defaultActiveKey}
+          accordion={accordion}
+          expandIcon={expandIcon}
+          expandIconPosition={expandIconPosition}
+          className={cx(
+            className,
+            setThemeClassName({
+              ...this.props,
+              name: 'className',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
+          )}
+          style={style}
+          mobileUI={mobileUI}
+          onCollapseChange={this.handleCollapseChange}
+        >
+          {render('body', body || '', {enableFieldSetStyle})}
+        </CollapseGroup>
+        <CustomStyle
+          {...this.props}
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'className'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }
