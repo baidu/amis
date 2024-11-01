@@ -46,7 +46,8 @@
   "dependencies": {
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.4.14",
-    "qs": "6.9.7"
+    "qs": "6.9.7",
+    "super-image-cropper": "^1.0.18"
   },
   "devDependencies": {
     "@babel/generator": "^7.22.9",
