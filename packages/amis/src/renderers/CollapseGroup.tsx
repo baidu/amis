@@ -78,7 +78,7 @@ export class CollapseGroupRender extends React.Component<
     collapseId: string | number,
     collapsed: boolean
   ) {
-    const {dispatchEvent, onCollapse} = this.props;
+    const {dispatchEvent} = this.props;
     const renderEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
@@ -90,7 +90,6 @@ export class CollapseGroupRender extends React.Component<
     if (renderEvent?.prevented) {
       return;
     }
-    onCollapse?.(activeKeys, collapseId, collapsed);
   }
 
   render() {
