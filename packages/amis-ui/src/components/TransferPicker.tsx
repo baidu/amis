@@ -18,7 +18,7 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   borderMode?: 'full' | 'half' | 'none';
 
   onFocus?: () => void;
-
+  onItemClick?: (item: Object) => void;
   onBlur?: () => void;
   popOverContainer?: any;
 }
@@ -65,6 +65,7 @@ export class TransferPicker extends React.Component<
       disabled,
       className,
       onChange,
+      onItemClick,
       size,
       borderMode,
       labelField = 'label',
@@ -98,6 +99,7 @@ export class TransferPicker extends React.Component<
               mobileUI={mobileUI}
               {...rest}
               {...states}
+              options={rest.options}
               value={value}
               labelField={labelField}
               onChange={(value: any, optionModified) => {
@@ -129,6 +131,7 @@ export class TransferPicker extends React.Component<
             )}
             allowInput={false}
             result={value}
+            onItemClick={onItemClick}
             onResultChange={onChange}
             onResultClick={onClick}
             placeholder={placeholder ?? __('Select.placeholder')}

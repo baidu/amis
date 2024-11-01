@@ -55,6 +55,20 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     dispatchEvent(name, resolveEventData(this.props, {value}));
   }
 
+  @autobind
+  // 增加点击选项事件函数
+  async onItemClick(item: Object) {
+    // 触发渲染器事件
+    const {dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'clickItem',
+      resolveEventData(this.props, {item})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+  }
+
   // 动作
   doAction(action: ActionObject) {
     const {resetValue, onChange, formStore, store, name} = this.props;
@@ -139,6 +153,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           value={selectedOptions}
           disabled={disabled}
           options={options}
+          onItemClick={this.onItemClick}
           onChange={this.handleChange}
           option2value={this.option2value}
           sortable={sortable}
