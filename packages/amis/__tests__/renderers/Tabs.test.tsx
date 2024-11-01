@@ -582,10 +582,10 @@ test('Renderer:Tabs delete actions', async () => {
             click: {
               actions: [
                 {
-                  actionType: 'deleteKey',
+                  actionType: 'deleteTab',
                   componentId: 'tabs',
                   args: {
-                    deleteKey: 'tab1'
+                    deleteHash: 'tab1'
                   }
                 }
               ]
@@ -599,10 +599,10 @@ test('Renderer:Tabs delete actions', async () => {
             click: {
               actions: [
                 {
-                  actionType: 'deleteKey',
+                  actionType: 'deleteTab',
                   componentId: 'tabs',
                   args: {
-                    deleteKey: 'tab3'
+                    deleteHash: 'tab3'
                   }
                 }
               ]

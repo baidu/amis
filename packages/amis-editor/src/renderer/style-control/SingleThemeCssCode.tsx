@@ -3146,19 +3146,21 @@ interface ISingleThemeCssCode extends FormControlProps {
   selector: {
     label: string;
     selector: string;
+    isRoot?: boolean;
   };
 }
 
 const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
-  const {data, onBulkChange, selector: _selector} = props;
-  const {label, selector} = _selector;
+  const {data, onChange, selector: _selector} = props;
+  const {label, selector, isRoot} = _selector;
   const {wrapperCustomStyle} = data;
   const ref = useRef<HTMLDivElement>(null);
   const [showPanel, setShowPanel] = useState(false);
   const [value, setValue] = useState('');
+  const finalSelector = isRoot ? 'root' : selector;
 
   useEffect(() => {
-    setValue(getCssAndSetValue(wrapperCustomStyle?.[selector], '', 0));
+    setValue(getCssAndSetValue(wrapperCustomStyle?.[finalSelector], '', 0));
   }, []);
 
   // 前面加上空格
@@ -3216,13 +3218,7 @@ const SingleThemeCssCode = (props: ISingleThemeCssCode) => {
     try {
       const style = cssParse(value);
       const newStyle: PlainObject = getStyle(style);
-      onBulkChange &&
-        onBulkChange({
-          wrapperCustomStyle: {
-            ...wrapperCustomStyle,
-            [selector]: newStyle
-          }
-        });
+      onChange && onChange(newStyle);
     } catch (error) {}
   });
 
