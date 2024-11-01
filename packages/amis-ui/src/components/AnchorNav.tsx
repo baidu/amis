@@ -81,6 +81,8 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
   fromSelect: boolean = false;
   fromSelectTimer: any;
 
+  scrollParent: HTMLElement | null;
+
   componentDidMount() {
     this.observer = new IntersectionObserver(this.scrollToNav);
     this.sections.forEach(item => {
@@ -89,10 +91,37 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
     if (this.props.active) {
       this.scrollToSection(this.props.active);
     }
+
+    if (this.contentDom.current) {
+      this.scrollParent = this.getScrollableParent(this.contentDom.current);
+    }
   }
 
   componentWillUnmount() {
     this.observer.disconnect();
+  }
+
+  getScrollableParent(element: HTMLElement) {
+    while (element) {
+      const overflowY = window.getComputedStyle(element).overflowY;
+      const isScrollable =
+        (overflowY === 'auto' || overflowY === 'scroll') &&
+        element.scrollHeight > element.clientHeight;
+
+      if (isScrollable) {
+        return element;
+      }
+      if (element.parentElement) {
+        element = element.parentElement;
+      }
+    }
+    return null; // 没有找到可滚动的父级
+  }
+  isElementScrolledToBottom(element: HTMLElement | null) {
+    if (!element) {
+      return false;
+    }
+    return element.scrollTop + element.clientHeight >= element.scrollHeight;
   }
 
   @autobind
@@ -122,6 +151,11 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
   }
 
   scrollToSection(key: string | number) {
+    // 如果父级滚动到底部，不触发滚动，避免底部出现空白
+    if (this.isElementScrolledToBottom(this.scrollParent)) {
+      return;
+    }
+
     this.fromSelect = true;
     const node = find(this.sections, item => item.key === key)?.element;
     node?.scrollIntoView?.({behavior: 'smooth'});
