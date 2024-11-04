@@ -5,7 +5,10 @@ import {
   filter,
   isPureVariable,
   resolveVariableAndFilter,
-  createObject
+  createObject,
+  isEffectiveApi,
+  ApiObject,
+  autobind
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -206,7 +209,7 @@ const TimelineWithRemoteConfig = withRemoteConfig({
     }
     componentDidUpdate(prevProps: any) {
       const {source, updateConfig, config} = this.props;
-
+      // 当source为空时，需要重置config
       if (
         (!source || (typeof source === 'object' && !source.url)) &&
         config &&
@@ -236,7 +239,36 @@ const TimelineWithRemoteConfig = withRemoteConfig({
   type: 'timeline'
 })
 export class TimelineRenderer extends React.Component<TimelineProps> {
+  remoteRef:
+    | {
+        loadConfig: (ctx?: any) => Promise<any> | void;
+        setConfig: (value: any) => void;
+        syncConfig: () => void;
+      }
+    | undefined = undefined;
+
+  @autobind
+  remoteConfigRef(ref: any) {
+    this.remoteRef = ref;
+  }
+
+  componentDidUpdate(prevProps: any) {
+    const {source, data} = this.props;
+    if (this.remoteRef && source !== prevProps.source) {
+      // 如果是变量，则同步配置。如果为api，则重新加载配置
+      (isPureVariable(source) && this.remoteRef.syncConfig()) ||
+        (isEffectiveApi(source, data) &&
+          (source as ApiObject).autoRefresh !== false &&
+          this.remoteRef.loadConfig());
+    }
+  }
+
   render() {
-    return <TimelineWithRemoteConfig {...this.props} />;
+    return (
+      <TimelineWithRemoteConfig
+        {...this.props}
+        remoteConfigRef={this.remoteConfigRef}
+      />
+    );
   }
 }
