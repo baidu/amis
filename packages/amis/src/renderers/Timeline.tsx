@@ -201,12 +201,6 @@ const TimelineWithRemoteConfig = withRemoteConfig({
   class extends React.Component<
     RemoteOptionsProps & React.ComponentProps<typeof TimelineCmpt>
   > {
-    componentDidMount() {
-      const {source, updateConfig, config} = this.props;
-      if (typeof source === 'object' && !source.url && config) {
-        updateConfig(undefined);
-      }
-    }
     componentDidUpdate(prevProps: any) {
       const {source, updateConfig, config} = this.props;
       // 当source为空时，需要重置config
