@@ -240,13 +240,10 @@ export class TimelineRenderer extends React.Component<TimelineProps> {
     if (this.remoteRef && source !== prevProps.source) {
       // 如果是变量，则同步配置。如果为api，则重新加载配置
       (isPureVariable(source) && this.remoteRef.syncConfig()) ||
-        (isEffectiveApi(source, data) &&
-          (source as ApiObject).autoRefresh !== false &&
-          this.remoteRef.loadConfig());
-      // 如果source为空，则清空配置
-      if (!source || (typeof source === 'object' && !source.url)) {
-        this.remoteRef.setConfig(undefined);
-      }
+        (isEffectiveApi(source, data)
+          ? (source as ApiObject).autoRefresh !== false &&
+            this.remoteRef.loadConfig()
+          : this.remoteRef.setConfig(undefined));
     }
   }
 
