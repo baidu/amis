@@ -35,28 +35,29 @@ export function position(node: HTMLElement, offsetParent?: HTMLElement) {
     }
 
     if (nodeName(parent) !== 'html') parentOffset = getOffset(parent);
+    const parentStyle = getComputedStyle(parent);
     const borderTop = String(
-      getComputedStyle(parent).getPropertyValue('border-top-width') || 0
+      parentStyle.getPropertyValue('border-top-width') || 0
     );
     parentOffset.top += parseInt(borderTop, 10) - parent.scrollTop || 0;
 
     const borderLeft = String(
-      getComputedStyle(parent).getPropertyValue('border-left-width') || 0
+      parentStyle.getPropertyValue('border-left-width') || 0
     );
     parentOffset.left += parseInt(borderLeft, 10) - parent.scrollLeft || 0;
   }
 
-  const marginTop = String(
-    getComputedStyle(node).getPropertyValue('margin-top') || 0
-  );
-  const marginLeft = String(
-    getComputedStyle(node).getPropertyValue('margin-left') || 0
-  );
+  // const marginTop = String(
+  //   getComputedStyle(node).getPropertyValue('margin-top') || 0
+  // );
+  // const marginLeft = String(
+  //   getComputedStyle(node).getPropertyValue('margin-left') || 0
+  // );
   // Subtract parent offsets and node margins
   return {
     ...offset,
-    top: offset.top - parentOffset.top - (parseInt(marginTop, 10) || 0),
-    left: offset.left - parentOffset.left - (parseInt(marginLeft, 10) || 0)
+    top: offset.top - parentOffset.top /*- (parseInt(marginTop, 10) || 0)*/,
+    left: offset.left - parentOffset.left /* - (parseInt(marginLeft, 10) || 0)*/
   };
 }
 
