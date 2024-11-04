@@ -16,6 +16,7 @@ import {
   EditorManager,
   RAW_TYPE_MAP
 } from 'amis-editor-core';
+import {someTree} from 'amis-core';
 import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
