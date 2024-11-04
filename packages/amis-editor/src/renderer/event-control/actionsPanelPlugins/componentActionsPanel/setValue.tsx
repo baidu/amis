@@ -8,7 +8,7 @@ import {
 import {getRendererByName} from 'amis-core';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptActionSelect, renderCmptIdInput} from './helper';
-import {getArgsWrapper} from '../../helper';
+import {buildLinkActionDesc, getArgsWrapper} from '../../helper';
 import {getRootManager} from '../../eventControlConfigHelper';
 
 // 下拉展示可赋值属性范围
@@ -115,10 +115,10 @@ registerActionPanel('setValue', {
     '__comboType',
     '__containerType'
   ],
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     const variableManager = info?.variableManager;
     return (
-      <div>
+      <div className="action-desc">
         {/* 只要path字段存在就认为是应用变量赋值，无论是否有值 */}
         {typeof info?.args?.path === 'string' && !info?.componentId ? (
           <>
@@ -131,9 +131,7 @@ registerActionPanel('setValue', {
         ) : (
           <>
             设置组件
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             的数据
           </>
         )}

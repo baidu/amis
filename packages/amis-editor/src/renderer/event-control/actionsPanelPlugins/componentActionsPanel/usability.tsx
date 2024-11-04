@@ -2,6 +2,7 @@ import React from 'react';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 const SUPPORT_DISABLED_CMPTS = [
   'button-group',
@@ -29,13 +30,11 @@ registerActionPanel('usability', {
   actions: [
     {
       actionType: 'enabled',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             启用
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             组件
           </div>
         );
@@ -43,13 +42,11 @@ registerActionPanel('usability', {
     },
     {
       actionType: 'disabled',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             禁用
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             组件
           </div>
         );
@@ -57,13 +54,11 @@ registerActionPanel('usability', {
     },
     {
       actionType: 'usability',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             组件
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             表达式已配置
           </div>
         );

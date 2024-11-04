@@ -1,18 +1,17 @@
 import React from 'react';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 registerActionPanel('submit', {
   label: '提交表单',
   tag: '组件',
   description: '触发表单提交',
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     return (
-      <div>
+      <div className="action-desc">
         提交
-        <span className="variable-left variable-right">
-          {info?.rendererLabel || info.componentId || '-'}
-        </span>
+        {buildLinkActionDesc(props.manager, info)}
         的数据
       </div>
     );

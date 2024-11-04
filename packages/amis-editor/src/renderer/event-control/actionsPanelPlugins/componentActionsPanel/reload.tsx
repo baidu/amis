@@ -9,20 +9,19 @@ import {
 } from 'amis-editor-core';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 registerActionPanel('reload', {
   label: '重新请求数据',
   tag: '组件',
   description:
     '如果开启发送数据，会先发送配置数据到目标组件，然后重新请求数据。',
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     // TODO: actionConfig
     return (
-      <div>
+      <div className="action-desc">
         刷新
-        <span className="variable-left variable-right">
-          {info?.rendererLabel || info.componentId || '-'}
-        </span>
+        {buildLinkActionDesc(props.manager, info)}
         组件
       </div>
     );

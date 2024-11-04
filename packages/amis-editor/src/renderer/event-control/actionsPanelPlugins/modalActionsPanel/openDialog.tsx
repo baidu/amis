@@ -2,6 +2,7 @@ import React from 'react';
 import {modalsToDefinitions} from 'amis-editor-core';
 import {registerActionPanel} from '../../actionsPanelManager';
 import DialogActionPanel from '../../DialogActionPanel';
+import {TooltipWrapper} from 'amis';
 
 const modalDescDetail: (info: any, context: any, props: any) => any = (
   info,
@@ -31,32 +32,44 @@ const modalDescDetail: (info: any, context: any, props: any) => any = (
     ? manager.store.modals.find((item: any) => item.$$id === modalId)
     : '';
   if (modal) {
+    const desc =
+      modal.editorSetting?.displayName || modal.title || '未命名弹窗';
     return (
       <>
-        <div>
+        <div className="action-desc">
           打开&nbsp;
-          <a
-            href="#"
-            onClick={(e: React.UIEvent<any>) => {
-              e.preventDefault();
-              e.stopPropagation();
+          <span className="desc-tag variable-left variable-right">
+            <TooltipWrapper
+              rootClose
+              placement="top"
+              tooltip={`${desc}，点击查看弹窗配置`}
+              tooltipClassName="ae-event-item-header-tip"
+            >
+              <a
+                href="#"
+                className="component-action-tag"
+                onClick={(e: React.UIEvent<any>) => {
+                  e.preventDefault();
+                  e.stopPropagation();
 
-              const modalId = modal.$$id;
-              manager.openSubEditor({
-                title: '编辑弹窗',
-                value: {
-                  type: 'dialog',
-                  ...modal,
-                  definitions: modalsToDefinitions(store.modals, {}, modal)
-                },
-                onChange: ({definitions, ...modal}: any, diff: any) => {
-                  store.updateModal(modalId, modal, definitions);
-                }
-              });
-            }}
-          >
-            {modal.editorSetting?.displayName || modal.title || '未命名弹窗'}
-          </a>
+                  const modalId = modal.$$id;
+                  manager.openSubEditor({
+                    title: '编辑弹窗',
+                    value: {
+                      type: 'dialog',
+                      ...modal,
+                      definitions: modalsToDefinitions(store.modals, {}, modal)
+                    },
+                    onChange: ({definitions, ...modal}: any, diff: any) => {
+                      store.updateModal(modalId, modal, definitions);
+                    }
+                  });
+                }}
+              >
+                {desc}
+              </a>
+            </TooltipWrapper>
+          </span>
           &nbsp;
           {(modal as any).actionType === 'confirmDialog'
             ? '确认框'
@@ -72,7 +85,7 @@ const modalDescDetail: (info: any, context: any, props: any) => any = (
       // 这个时候还不能打开弹窗，schema 还没插入进去不知道 $$id，无法定位
       return (
         <>
-          <div>
+          <div className="action-desc">
             打开
             <span className="variable-left">{modal.label}</span>
             &nbsp;

@@ -8,9 +8,9 @@ registerActionPanel('copy', {
   tag: '其他',
   description: '复制文本内容至粘贴板',
   innerArgs: ['content', 'copyFormat'],
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     return (
-      <div>
+      <div className="action-desc">
         复制内容：
         <span className="variable-left">{info?.args?.content || '-'}</span>
       </div>

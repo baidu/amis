@@ -237,7 +237,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         type: 'dialog',
         title: '动作配置',
         headerClassName: 'font-bold',
-        className: 'action-config-dialog',
+        className: 'ae-action-config-dialog',
         bodyClassName: 'action-config-dialog-body',
         closeOnEsc: closeOnEsc,
         closeOnOutside: false,

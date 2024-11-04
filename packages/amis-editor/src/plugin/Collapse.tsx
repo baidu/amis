@@ -120,9 +120,9 @@ export class CollapsePlugin extends BasePlugin {
       actionType: 'expand',
       actionLabel: '组件展开',
       description: '组件折叠状态变更为展开',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">{info?.rendererLabel}</span>
             展开
           </div>

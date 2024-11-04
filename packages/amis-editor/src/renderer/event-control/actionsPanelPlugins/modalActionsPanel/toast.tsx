@@ -24,10 +24,10 @@ registerActionPanel('toast', {
     'showIcon',
     'className'
   ],
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     return (
-      <div>
-        {MSG_TYPES[info?.args?.msgType] || ''}消息：
+      <div className="action-desc">
+        {MSG_TYPES[info?.args?.msgType] || ''}
         <span className="variable-left">{info?.args?.msg || '-'}</span>
       </div>
     );

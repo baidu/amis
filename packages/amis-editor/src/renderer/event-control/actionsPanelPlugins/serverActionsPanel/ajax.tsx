@@ -8,13 +8,13 @@ registerActionPanel('ajax', {
   tag: '服务',
   description: '配置并发送API请求',
   // innerArgs: ['api', 'options'],
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     let apiInfo = info?.api ?? info?.args?.api;
     if (typeof apiInfo === 'string') {
       apiInfo = normalizeApi(apiInfo);
     }
     return (
-      <div>
+      <div className="action-desc">
         发送
         <span className="variable-right variable-left">
           {apiInfo?.method || '-'}

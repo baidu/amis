@@ -11,9 +11,9 @@ registerActionPanel('staticStatus', {
   actions: [
     {
       actionType: 'static',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">
               {info?.rendererLabel || info.componentId}
             </span>
@@ -24,9 +24,9 @@ registerActionPanel('staticStatus', {
     },
     {
       actionType: 'nonstatic',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">
               {info?.rendererLabel || info.componentId}
             </span>
