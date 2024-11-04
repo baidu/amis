@@ -201,17 +201,6 @@ const TimelineWithRemoteConfig = withRemoteConfig({
   class extends React.Component<
     RemoteOptionsProps & React.ComponentProps<typeof TimelineCmpt>
   > {
-    componentDidUpdate(prevProps: any) {
-      const {source, updateConfig, config} = this.props;
-      // 当source为空时，需要重置config
-      if (
-        (!source || (typeof source === 'object' && !source.url)) &&
-        config &&
-        source !== prevProps.source
-      ) {
-        updateConfig(undefined);
-      }
-    }
     render() {
       const {config, items, deferLoad, loading, updateConfig, ...rest} =
         this.props;
@@ -254,6 +243,10 @@ export class TimelineRenderer extends React.Component<TimelineProps> {
         (isEffectiveApi(source, data) &&
           (source as ApiObject).autoRefresh !== false &&
           this.remoteRef.loadConfig());
+      // 如果source为空，则清空配置
+      if (!source || (typeof source === 'object' && !source.url)) {
+        this.remoteRef.setConfig(undefined);
+      }
     }
   }
 
