@@ -1,13 +1,10 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
+import type {DataScope, SchemaObject} from 'amis';
 import {
   getI18nEnabled,
   RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import {findTree, setVariable, someTree} from 'amis-core';
-import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
-import {
+  RendererPluginEvent,
   BasePlugin,
   BaseEventContext,
   PluginEvent,
@@ -16,13 +13,20 @@ import {
   BasicRendererInfo,
   PluginInterface,
   InsertEventContext,
-  ScaffoldForm
+  ScaffoldForm,
+  registerEditorPlugin,
+  repeatArray,
+  diff,
+  mockValue,
+  EditorNodeType,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel
 } from 'amis-editor-core';
+import type {EditorManager} from 'amis-editor-core';
+import {setVariable, someTree} from 'amis-core';
+import {reaction} from 'mobx';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
-import {EditorNodeType} from 'amis-editor-core';
-import type {DataScope, SchemaObject} from 'amis';
 import {
   getEventControlConfig,
   getArgsWrapper
@@ -32,9 +36,7 @@ import {
   schemaToArray,
   resolveArrayDatasource
 } from '../util';
-import {reaction} from 'mobx';
-
-import type {EditorManager} from 'amis-editor-core';
+import {getActionCommonProps} from '../renderer/event-control/helper';
 
 export class TablePlugin extends BasePlugin {
   static id = 'TablePlugin';
@@ -464,7 +466,8 @@ export class TablePlugin extends BasePlugin {
     {
       actionType: 'selectAll',
       actionLabel: '设置全部选中',
-      description: '设置表格全部项选中'
+      description: '设置表格全部项选中',
+      ...getActionCommonProps('selectAll')
     },
     {
       actionType: 'clearAll',

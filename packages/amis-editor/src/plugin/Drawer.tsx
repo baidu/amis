@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -12,7 +13,10 @@ import {
   getI18nEnabled,
   JSONPipeOut
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
 import omit from 'lodash/omit';
 import {InlineModal} from './Dialog';
@@ -100,7 +104,8 @@ export class DrawerPlugin extends BasePlugin {
     {
       actionType: 'confirm',
       actionLabel: '确认',
-      description: '触发抽屉确认操作'
+      description: '触发抽屉确认操作',
+      descDetail: (info: any) => <div>触发确认操作</div>
     },
     {
       actionType: 'cancel',
@@ -110,7 +115,8 @@ export class DrawerPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

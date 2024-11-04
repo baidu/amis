@@ -5,7 +5,6 @@
 import {Option, Select} from 'amis';
 import {RendererProps, getRendererByName} from 'amis-core';
 import React from 'react';
-import {FORMITEM_CMPTS} from './helper';
 
 // 动作基本配置项
 export const BASE_ACTION_PROPS = [
