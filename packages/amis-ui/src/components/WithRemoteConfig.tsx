@@ -280,16 +280,10 @@ export function withRemoteConfig<P = any>(
           }
 
           componentDidUpdate(prevProps: any) {
-            const {source, data, store} = this.props;
-            if (source !== prevProps.source) {
-              // 如果是变量，则同步配置。如果为api，则重新加载配置
-              (isPureVariable(source) && this.syncConfig()) ||
-                (isEffectiveApi(source, data) &&
-                  (source as ApiObject).autoRefresh !== false &&
-                  this.loadConfig());
-            }
-            if (data !== prevProps.data) {
-              store.setData(data);
+            const props = this.props;
+
+            if (props.data !== prevProps.data) {
+              props.store.setData(props.data);
             }
           }
 
