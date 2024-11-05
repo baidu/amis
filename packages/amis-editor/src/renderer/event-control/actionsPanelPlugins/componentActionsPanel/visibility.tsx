@@ -2,6 +2,7 @@ import React from 'react';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 registerActionPanel('visibility', {
   label: '组件可见性',
@@ -10,13 +11,11 @@ registerActionPanel('visibility', {
   actions: [
     {
       actionType: 'show',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             显示
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             组件
           </div>
         );
@@ -24,13 +23,11 @@ registerActionPanel('visibility', {
     },
     {
       actionType: 'hidden',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             隐藏
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             组件
           </div>
         );
@@ -38,13 +35,11 @@ registerActionPanel('visibility', {
     },
     {
       actionType: 'visibility',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             组件
-            <span className="variable-left variable-right">
-              {info?.rendererLabel || info.componentId || '-'}
-            </span>
+            {buildLinkActionDesc(props.manager, info)}
             表达式已配置
           </div>
         );

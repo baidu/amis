@@ -1,18 +1,17 @@
 import React from 'react';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 registerActionPanel('validateFormItem', {
   label: '校验表单项',
   tag: '组件',
   description: '校验单个表单项数据',
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     return (
-      <div>
+      <div className="action-desc">
         校验
-        <span className="variable-left variable-right">
-          {info?.rendererLabel || info.componentId || '-'}
-        </span>
+        {buildLinkActionDesc(props.manager, info)}
         的数据
       </div>
     );

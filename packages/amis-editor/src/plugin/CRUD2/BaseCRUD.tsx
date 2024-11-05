@@ -114,9 +114,9 @@ export class BaseCRUDPlugin extends BasePlugin {
           actionType: 'search',
           actionLabel: '数据查询',
           description: '使用指定条件完成列表数据查询',
-          descDetail: (info: any) => {
+          descDetail: (info: any, context: any, props: any) => {
             return (
-              <div>
+              <div className="action-desc">
                 <span className="variable-right">{info?.__rendererLabel}</span>
                 触发数据查询
               </div>
@@ -135,9 +135,9 @@ export class BaseCRUDPlugin extends BasePlugin {
           actionType: 'loadMore',
           actionLabel: '加载更多',
           description: '加载更多条数据到列表容器',
-          descDetail: (info: any) => {
+          descDetail: (info: any, context: any, props: any) => {
             return (
-              <div>
+              <div className="action-desc">
                 <span className="variable-right">{info?.__rendererLabel}</span>
                 加载更多数据
               </div>

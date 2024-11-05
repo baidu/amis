@@ -258,9 +258,9 @@ export class WizardPlugin extends BasePlugin {
       actionType: 'stepSubmit',
       actionLabel: '分步提交',
       description: '提交当前步骤数据',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">{info?.__rendererLabel}</span>
             提交当前步骤数据
           </div>
@@ -271,9 +271,9 @@ export class WizardPlugin extends BasePlugin {
       actionType: 'prev',
       actionLabel: '上一步',
       description: '返回上一步',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">{info?.rendererLabel}</span>
             {info?.__rendererName === 'carousel' ? '滚动至上一张' : null}
             {info?.__rendererName === 'wizard' ? '返回前一步' : null}
@@ -285,9 +285,9 @@ export class WizardPlugin extends BasePlugin {
       actionType: 'next',
       actionLabel: '下一步',
       description: '提交当前步骤数据',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">{info?.rendererLabel}</span>
             {info?.__rendererName === 'carousel' ? '滚动至下一张' : null}
             {info?.__rendererName === 'wizard' ? '提交当前步骤数据' : null}
@@ -300,9 +300,9 @@ export class WizardPlugin extends BasePlugin {
       actionLabel: '定位步骤',
       description: '切换到指定步骤',
       innerArgs: ['step'],
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             <span className="variable-right">{info?.__rendererLabel}</span>
             切换到第
             <span className="variable-left variable-right">

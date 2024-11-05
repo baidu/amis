@@ -119,9 +119,9 @@ export class TabsPlugin extends BasePlugin {
       actionLabel: '激活指定选项卡',
       description: '修改当前激活tab项的key',
       config: ['activeKey'],
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             激活第
             <span className="variable-left variable-right">
               {info?.args?.activeKey}
@@ -144,9 +144,9 @@ export class TabsPlugin extends BasePlugin {
       actionType: 'deleteKey',
       actionLabel: '删除指定选项卡',
       description: '删除指定tab项',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             删除第
             <span className="variable-left variable-right">
               {info?.args?.deleteKey}

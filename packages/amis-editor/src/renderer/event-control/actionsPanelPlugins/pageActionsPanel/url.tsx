@@ -8,9 +8,9 @@ registerActionPanel('url', {
   tag: '页面',
   description: '跳转至指定链接的页面',
   innerArgs: ['url', 'params', 'blank'],
-  descDetail: (info: any) => {
+  descDetail: (info: any, context: any, props: any) => {
     return (
-      <div>
+      <div className="action-desc">
         跳转至
         <span className="variable-left">{info?.args?.url || '-'}</span>
       </div>

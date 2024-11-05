@@ -13,8 +13,8 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {DataSchema, Schema, Option} from 'amis-core';
-import {Button} from 'amis';
+import {DataSchema, Schema, Option, getRendererByName} from 'amis-core';
+import {Button, toast, TooltipWrapper} from 'amis';
 import {i18n as _i18n} from 'i18n-runtime';
 import {ActionConfig} from './types';
 import CmptActionSelect from './comp-action-select';
@@ -264,19 +264,59 @@ export const getActionCommonProps = (actionType: string, info?: any) => {
   return COMMON_ACTION_SCHEMA_MAP[actionType];
 };
 
+export const buildLinkActionDesc = (manager: EditorManager, info: any) => {
+  const desc = info?.rendererLabel || info.componentId || '-';
+
+  return (
+    <span className="desc-tag variable-left variable-right">
+      <TooltipWrapper
+        rootClose
+        placement="top"
+        tooltip={`${desc}，点击锚定到该组件`}
+        tooltipClassName="ae-event-item-header-tip"
+      >
+        <a
+          href="#"
+          className="component-action-tag"
+          onClick={(e: React.UIEvent<any>) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (/^u:[A-Za-z0-9]{12}$/.test(desc)) {
+              toast.info('该组件可能在弹窗内，暂无法锚定到该组件');
+              return;
+            }
+
+            const schema = JSONGetById(
+              manager.store.schema,
+              info.componentId,
+              'id'
+            );
+            if (!schema) {
+              toast.info('温馨提示：未找到该组件');
+              return;
+            }
+            manager.store.setActiveId(schema.$$id);
+          }}
+        >
+          {desc}
+        </a>
+      </TooltipWrapper>
+    </span>
+  );
+};
+
 // 动作配置项schema map
 export const COMMON_ACTION_SCHEMA_MAP: {
   [propName: string]: RendererPluginAction;
 } = {
   setValue: {
     innerArgs: ['value'],
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           设置
-          <span className="variable-left variable-right">
-            {info?.rendererLabel}
-          </span>
+          {buildLinkActionDesc(props.manager, info)}
           的数据
         </div>
       );
@@ -449,61 +489,53 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     })
   },
   reload: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           刷新
-          <span className="variable-left variable-right">
-            {info?.rendererLabel}
-          </span>
+          {buildLinkActionDesc(props.manager, info)}
           组件
         </div>
       );
     }
   },
   clear: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           清空
-          <span className="variable-left variable-right">
-            {info?.rendererLabel}
-          </span>
+          {buildLinkActionDesc(props.manager, info)}
           的数据
         </div>
       );
     }
   },
   reset: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           重置
-          <span className="variable-left variable-right">
-            {info?.rendererLabel}
-          </span>
+          {buildLinkActionDesc(props.manager, info)}
           的数据
         </div>
       );
     }
   },
   submit: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           提交
-          <span className="variable-left variable-right">
-            {info?.rendererLabel}
-          </span>
+          {buildLinkActionDesc(props.manager, info)}
           {info?.__rendererName === 'wizard' ? '全部数据' : '数据'}
         </div>
       );
     }
   },
   collapse: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           <span className="variable-right">{info?.rendererLabel}</span>
           收起
         </div>
@@ -511,10 +543,9 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     }
   },
   selectAll: {
-    // TODO： crud1， crud2
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           <span className="variable-right">{info?.rendererLabel}</span>
           选中所有选项
         </div>
@@ -522,9 +553,9 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     }
   },
   focus: {
-    descDetail: (info: any) => {
+    descDetail: (info: any, context: any, props: any) => {
       return (
-        <div>
+        <div className="action-desc">
           <span className="variable-right">{info?.rendererLabel}</span>
           获取焦点
         </div>
@@ -964,4 +995,21 @@ export const updateCommonUseActions = (action: Option) => {
     (before: Option, next: Option) => next.use - before.use
   );
   persistSet('common-use-actions', commonUseActions);
+};
+
+export const getActionsByRendererName = (
+  pluginActions: any,
+  rendererName: string
+): RendererPluginAction[] => {
+  let actions = (pluginActions[rendererName] || []).slice();
+  // 表单项类型组件，添加校验动作
+  if (getRendererByName(rendererName)?.isFormItem) {
+    actions.push({
+      actionLabel: '校验',
+      description: '对单个表单项进行校验',
+      actionType: 'validateFormItem'
+    });
+  }
+
+  return actions;
 };

@@ -364,9 +364,9 @@ export class FormPlugin extends BasePlugin {
       actionLabel: '校验表单',
       actionType: 'validate',
       description: '触发表单校验',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             校验
             <span className="variable-left variable-right">
               {info?.rendererLabel}
