@@ -1421,7 +1421,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     let buttonCount = 0;
     let addButton: any = {};
     let addButtonParent: any = {};
-    let searchBox: any = {};
+    let searchBox: any = null;
     function traverse(node: any, parentObj?: any) {
       if (Array.isArray(node)) {
         node.forEach((item: any) => traverse(item, parentObj));
@@ -1455,10 +1455,28 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         }
         addButtonParent.className += ' is-fixed-right-bottom-wrapper';
       }
+    }
 
-      if (searchBox) {
-        fixedHeader();
+    if (searchBox && (buttonCount === 0 || (buttonCount === 1 && addButton))) {
+      // 没有 filter 的时候才可以把搜索框 吸顶
+      const filterSchema = this.props.filterSchema;
+      let hasFilter = false;
+      if (filterSchema) {
+        if (Array.isArray(filterSchema) && filterSchema?.length > 0) {
+          hasFilter = true;
+        } else {
+          const filterSchemas = Array.isArray(filterSchema)
+            ? filterSchema
+            : isObject(filterSchema) && filterSchema.type != null
+            ? [filterSchema]
+            : [];
+
+          if (filterSchemas.length > 0) {
+            hasFilter = true;
+          }
+        }
       }
+      !hasFilter && fixedHeader();
     }
   }
 
