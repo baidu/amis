@@ -777,6 +777,10 @@ registerRenderer({
   type: 'table2',
   getComponent: () => import('./renderers/Table2/index')
 });
+registerRenderer({
+  type: 'column-toggler',
+  getComponent: () => import('./renderers/Table2/ColumnToggler')
+});
 // import './renderers/Words';
 registerRenderer({
   type: 'words',
