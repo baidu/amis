@@ -1306,10 +1306,14 @@ setSchemaTpl('animation', () => {
   function playAnimation(animations: any, id: string, type: string) {
     let doc = document;
     const isMobile = (window as any).editorStore.isMobile;
-
     if (isMobile) {
       doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
         .contentDocument;
+    }
+    const highlightDom = doc.getElementById('aePreviewHighlightBox');
+    if (highlightDom) {
+      highlightDom.style.opacity = '0';
+      highlightDom.classList.add('ae-Preview-widgets--no-transition');
     }
     const el = doc.querySelector(`[name="${id}"]`);
     id = formateId(id);
@@ -1332,6 +1336,17 @@ setSchemaTpl('animation', () => {
 
     timeoutId = setTimeout(() => {
       el?.classList.remove(className);
+
+      if (highlightDom) {
+        const editorId = el?.getAttribute('data-editor-id');
+        const node = (window as any).editorStore.getNodeById(editorId);
+        // 重新计算元素高亮框的位置
+        node.calculateHighlightBox();
+        highlightDom.style.opacity = '1';
+        setTimeout(() => {
+          highlightDom.classList.remove('ae-Preview-widgets--no-transition');
+        }, 150);
+      }
     }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000 + 200);
   }
   const animation = (
