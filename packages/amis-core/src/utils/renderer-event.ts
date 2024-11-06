@@ -195,6 +195,42 @@ export const bindEvent = (renderer: any) => {
   return undefined;
 };
 
+export const bindGlobalEvent = (renderer: any) => {
+  if (!renderer) {
+    return undefined;
+  }
+  const listeners: EventListeners = renderer.props.$schema.onEvent;
+  let bcs = [];
+  if (listeners) {
+    // 暂存
+    for (let key of Object.keys(listeners)) {
+      const listener = listeners[key];
+      const bc = new BroadcastChannel(key);
+      bcs.push({
+        renderer: renderer,
+        bc
+      });
+      bc.onmessage = e => {
+        const {eventName, data} = e.data;
+        const rendererEvent = createRendererEvent(eventName, {
+          env: renderer?.props?.env,
+          nativeEvent: eventName,
+          scoped: renderer?.context,
+          data
+        });
+
+        runActions(listener.actions, renderer, rendererEvent);
+      };
+    }
+    return () => {
+      bcs
+        .filter(item => item.renderer === renderer)
+        .forEach(item => item.bc.close());
+    };
+  }
+  return void 0;
+};
+
 // 触发事件
 export async function dispatchEvent(
   e: string | React.MouseEvent<any>,
@@ -311,6 +347,14 @@ export async function dispatchEvent(
     }
   }
   return Promise.resolve(rendererEvent);
+}
+
+export async function dispatchGlobalEvent(eventName: string, data: any) {
+  const bc = new BroadcastChannel(eventName);
+  bc.postMessage({
+    eventName,
+    data
+  });
 }
 
 export const getRendererEventListeners = () => {

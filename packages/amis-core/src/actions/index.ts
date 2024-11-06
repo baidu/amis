@@ -22,5 +22,6 @@ import './ToastAction';
 import './WaitAction';
 import './PageAction';
 import './PrintAction';
+import './GlobalEventAction';
 
 export * from './Action';
