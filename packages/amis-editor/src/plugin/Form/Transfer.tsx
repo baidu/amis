@@ -247,11 +247,6 @@ export class TransferPlugin extends BasePlugin {
                 }
               },
 
-              getSchemaTpl('optionControl', {
-                visibleOn: 'this.selectMode === "list"',
-                multiple: true
-              }),
-
               getSchemaTpl(
                 'loadingConfig',
                 {
@@ -259,6 +254,10 @@ export class TransferPlugin extends BasePlugin {
                 },
                 {context}
               ),
+              getSchemaTpl('optionControl', {
+                visibleOn: 'this.selectMode === "list"',
+                multiple: true
+              }),
 
               {
                 type: 'ae-transferTableControl',
@@ -290,6 +289,17 @@ export class TransferPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 label: '可检索',
                 name: 'searchable'
+              }),
+              getSchemaTpl('switch', {
+                label: '仅包含子节点的值',
+                name: 'onlyChildren',
+                visibleOn: 'this.selectMode === "tree"'
+              }),
+              getSchemaTpl('switch', {
+                label: '选中父节点自动选中子节点',
+                name: 'autoCheckChildren',
+                value: true,
+                visibleOn: 'this.selectMode === "tree"'
               }),
 
               getSchemaTpl('optionsMenuTpl', {

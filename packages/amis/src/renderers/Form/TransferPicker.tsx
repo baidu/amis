@@ -32,6 +32,8 @@ export interface TransferPickerControlSchema
    * 弹窗大小
    */
   pickerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  onlyChildren?: boolean;
 }
 
 export interface TabsTransferProps
@@ -124,6 +126,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       data,
       popOverContainer,
       placeholder,
+      onlyChildren,
       autoCheckChildren = true,
       initiallyOpen = true
     } = this.props;
@@ -150,6 +153,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           placeholder={placeholder}
           borderMode={borderMode}
           selectMode={selectMode}
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           disabled={disabled}
           options={options}

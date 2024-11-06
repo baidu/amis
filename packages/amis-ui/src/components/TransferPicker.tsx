@@ -99,7 +99,6 @@ export class TransferPicker extends React.Component<
               mobileUI={mobileUI}
               {...rest}
               {...states}
-              options={rest.options}
               value={value}
               labelField={labelField}
               onChange={(value: any, optionModified) => {

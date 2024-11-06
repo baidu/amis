@@ -177,12 +177,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                             'is-invalid': showInvalidMatch && item?.__unmatched
                           })}
                           key={itemIndex}
+                          onClick={this.handleItemClick}
                           {...itemTIB?.getTestId()}
                         >
                           <span
                             className={cx('ResultBox-valueLabel')}
                             data-index={index}
-                            onClick={this.handleItemClick}
                             {...itemTIB?.getChild('click').getTestId()}
                           >
                             {itemRender(item)}
@@ -222,12 +222,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               className={cx('ResultBox-value', {
                 'is-invalid': isShowInvalid
               })}
+              onClick={this.handleItemClick}
               {...itemTIB?.getTestId()}
             >
               <span
                 className={cx('ResultBox-valueLabel')}
                 data-index={index}
-                onClick={this.handleItemClick}
                 {...itemTIB?.getChild('click').getTestId()}
               >
                 {itemRender(item)}
@@ -259,12 +259,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             className={cx('ResultBox-value', {
               'is-invalid': showInvalidMatch && item?.__unmatched
             })}
+            onClick={this.handleItemClick}
             {...itemTIB?.getTestId()}
           >
             <span
               className={cx('ResultBox-valueLabel')}
               data-index={index}
-              onClick={this.handleItemClick}
               {...itemTIB?.getChild('click').getTestId()}
             >
               {itemRender(item)}
