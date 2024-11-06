@@ -888,6 +888,11 @@
   z-index: 1000;
   pointer-events: none;
 }
+.ae-Preview-widgets--no-transition {
+  .ae-Editor-hlbox {
+    transition: none;
+  }
+}
 
 .ae-Editor-rendererCol {
   width: 140px;

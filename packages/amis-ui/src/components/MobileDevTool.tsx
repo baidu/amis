@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Icon} from './icons';
 import {Select} from 'amis-ui';
 import debounce from 'lodash/debounce';
@@ -109,11 +109,8 @@ export default function MobileDevTool(props: {
         localStorage.getItem('amis-mobile-dev-tool-dimension') || 'null'
       ) || dimensions[1]
   );
-  const [scale, setScale] = React.useState(
-    () =>
-      parseInt(localStorage.getItem('amis-mobile-dev-tool-scale') || '0', 10) ||
-      100
-  );
+  const defaultScale = useRef<number>();
+  const [scale, setScale] = React.useState(100);
   const [autoScale, setAutoScale] = React.useState(100);
 
   const {container, previewBody} = props;
@@ -121,13 +118,26 @@ export default function MobileDevTool(props: {
   const resizeObserver = new ResizeObserver(debounce(updateAutoScale, 300));
 
   useEffect(() => {
-    updatePreviewSize({
-      width: dimension.width,
-      height: dimension.height
-    });
-    updatePreviewScale(scale);
+    defaultScale.current = parseInt(
+      localStorage.getItem('amis-mobile-dev-tool-scale') || '0',
+      10
+    );
+  }, []);
 
-    if (container) {
+  useEffect(() => {
+    if (container && previewBody) {
+      updatePreviewSize({
+        width: dimension.width,
+        height: dimension.height
+      });
+      let scale = defaultScale.current || 100;
+      if (!defaultScale.current) {
+        scale = updateAutoScale();
+        defaultScale.current = scale;
+      }
+      setScale(scale);
+
+      updatePreviewScale(scale);
       resizeObserver.observe(container);
     }
     return () => {
@@ -161,17 +171,19 @@ export default function MobileDevTool(props: {
 
   function updateAutoScale() {
     if (!container) {
-      return;
+      return 100;
     }
     const containerRect = container.getBoundingClientRect();
     const {width, height} = containerRect;
     const previewBodyWidth = previewBody?.clientWidth || 375;
     const previewBodyHeight = previewBody?.clientHeight || 667;
-    const scale = Math.min(
+    let scale = Math.min(
       (width - 50) / previewBodyWidth,
       (height * 0.9) / previewBodyHeight
     );
-    setAutoScale(Math.floor(scale * 100));
+    scale = Math.floor(scale * 100);
+    setAutoScale(scale);
+    return scale;
   }
 
   function handleRotateScreen() {
