@@ -294,7 +294,11 @@ export class TransferPlugin extends BasePlugin {
                 name: 'searchable'
               }),
               getSchemaTpl('switch', {
-                label: '仅包含子节点的值',
+                label: tipedLabel(
+                  '仅包含子节点的值',
+                  '仅在autoCheckChildren=true时生效'
+                ),
+                value: true,
                 name: 'onlyChildren',
                 visibleOn: 'this.selectMode === "tree"'
               }),
