@@ -231,9 +231,62 @@ export class CheckboxesControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('theme:formItem', {hidSize: true}),
+            getSchemaTpl('theme:formItem', {
+              hidSize: true,
+              schema: [
+                {
+                  type: 'select',
+                  label: '模式',
+                  name: 'optionType',
+                  value: 'default',
+                  options: [
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '按钮',
+                      value: 'button'
+                    }
+                  ]
+                }
+              ]
+            }),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
+            {
+              title: '选项样式',
+              body: [
+                ...inputStateTpl('themeCss.checkboxesControlClassName', '', {
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'checkbox-default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'checkbox-hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'checkbox-disabled'
+                    },
+                    {
+                      label: '选中',
+                      value: 'checked-default'
+                    },
+                    {
+                      label: '选中态悬浮',
+                      value: 'checked-hover'
+                    },
+                    {
+                      label: '选中禁用',
+                      value: 'checked-disabled'
+                    }
+                  ]
+                })
+              ]
+            },
             {
               title: '勾选框样式',
               body: [
@@ -265,30 +318,6 @@ export class CheckboxesControlPlugin extends BasePlugin {
                     {
                       label: '选中禁用',
                       value: 'checked-disabled'
-                    }
-                  ]
-                })
-              ]
-            },
-            {
-              title: '选项说明样式',
-              body: [
-                ...inputStateTpl('themeCss.checkboxesLabelClassName', '', {
-                  hidePadding: true,
-                  hideRadius: true,
-                  hideBorder: true,
-                  state: [
-                    {
-                      label: '常规',
-                      value: 'default'
-                    },
-                    {
-                      label: '悬浮',
-                      value: 'hover'
-                    },
-                    {
-                      label: '禁用',
-                      value: 'disabled'
                     }
                   ]
                 })

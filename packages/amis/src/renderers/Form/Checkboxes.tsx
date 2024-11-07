@@ -16,6 +16,7 @@ import {Checkbox, Icon, Spinner} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
+import debounce from 'lodash/debounce';
 
 /**
  * 复选框
@@ -88,6 +89,9 @@ export default class CheckboxesControl extends React.Component<
     optionType: 'default'
   };
 
+  checkboxRef: React.RefObject<HTMLDivElement> = React.createRef();
+  checkboxRefObserver: ResizeObserver;
+
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
@@ -130,11 +134,16 @@ export default class CheckboxesControl extends React.Component<
 
   componentDidMount() {
     this.updateBorderStyle();
-    window.addEventListener('resize', this.updateBorderStyle);
+    const updateBorderStyleFn = debounce(this.updateBorderStyle, 100);
+    if (this.checkboxRef.current) {
+      // 监听容器宽度变化，更新边框样式
+      this.checkboxRefObserver = new ResizeObserver(updateBorderStyleFn);
+      this.checkboxRefObserver.observe(this.checkboxRef.current);
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateBorderStyle);
+    this.checkboxRefObserver?.disconnect();
   }
 
   @autobind
@@ -142,79 +151,28 @@ export default class CheckboxesControl extends React.Component<
     if (this.props.optionType !== 'button') {
       return;
     }
-    const wrapDom = this.refs.checkboxRef as HTMLElement;
-    const wrapWidth = wrapDom.clientWidth;
-    const childs = Array.from(wrapDom.children) as HTMLElement[];
-
-    childs.forEach(child => {
-      child.style.borderRadius = '0';
-      child.style.borderLeftWidth = '1px';
-      child.style.borderTopWidth = '1px';
-    });
-    const childTotalWidth = childs.reduce(
-      (pre, next) => pre + next.clientWidth,
-      0
-    );
-    if (childTotalWidth <= wrapWidth) {
-      if (childs.length === 1) {
-        childs[0].style.borderRadius = '4px';
-      } else {
-        childs[0].style.borderRadius = '4px 0 0 4px';
-        childs[childs.length - 1].style.borderRadius = '0 4px 4px 0';
-        childs.forEach((child, idx) => {
-          idx !== 0 && (child.style.borderLeftWidth = '0');
-        });
-      }
-    } else {
-      let curRowWidth = 0;
-      let curRow = 0;
-      const rowNum = Math.floor(childTotalWidth / wrapWidth);
-      const rowColArr: any[] = [];
-      for (let i = 0; i <= rowNum; i++) {
-        const arr: HTMLElement[] = [];
-        rowColArr[i] = arr;
-      }
-      childs.forEach((child: HTMLElement, idx: number) => {
-        curRowWidth += child.clientWidth;
-        if (curRowWidth > wrapWidth) {
-          curRowWidth = child.clientWidth;
-          curRow++;
-        }
-        if (curRow > rowNum) {
-          return;
-        }
-        rowColArr[curRow].push(child);
-      });
-
-      rowColArr.forEach((row: HTMLElement[], rowIdx: number) => {
-        if (rowIdx === 0) {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            row.length > rowColArr[rowIdx + 1].length &&
-              (row[row.length - 1].style.borderBottomRightRadius = '4px');
-          });
-          row[0].style.borderTopLeftRadius = '4px';
-          row[row.length - 1].style.borderTopRightRadius = '4px';
-        } else if (rowIdx === rowNum) {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            r.style.borderTopWidth = '0';
-            row[0].style.borderBottomLeftRadius = '4px';
-            row[row.length - 1].style.borderBottomRightRadius = '4px';
-          });
-        } else {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            r.style.borderTopWidth = '0';
-            row.length > rowColArr[rowIdx + 1].length &&
-              (row[row.length - 1].style.borderBottomRightRadius = '4px');
-          });
-        }
-      });
+    if (!this.checkboxRef.current) {
+      return;
     }
+    const wrapDom = this.checkboxRef.current;
+    const children = Array.from(wrapDom.children) as HTMLElement[];
+    let lastOffsetTop = children[0].offsetTop;
+    // 清除所有的 first 和 last
+    children.forEach(item => {
+      item.classList.remove('first', 'last');
+    });
+    // 设置 first 和 last
+    children[0].classList.add('first');
+    for (let i = 1; i < children.length; i++) {
+      const item = children[i];
+      // 如果当前元素的 offsetTop 与上一个元素的 offsetTop 不同，则说明是新的一行
+      if (item.offsetTop !== lastOffsetTop) {
+        item.classList.add('first');
+        children[i - 1].classList.add('last');
+        lastOffsetTop = item.offsetTop;
+      }
+    }
+    children[children.length - 1].classList.add('last');
   }
 
   renderGroup(option: Option, index: number) {
@@ -343,7 +301,9 @@ export default class CheckboxesControl extends React.Component<
     if (!themeCss) {
       return {};
     }
-    const {checkboxesClassName = {}} = themeCss;
+    const {checkboxesClassName = {}, checkboxesControlClassName} = themeCss;
+    const defaultControlThemeCss: any = {};
+    const checkedControlThemeCss: any = {};
     const defaultThemeCss: any = {};
     const checkedThemeCss: any = {};
     Object.keys(checkboxesClassName).forEach(key => {
@@ -355,8 +315,19 @@ export default class CheckboxesControl extends React.Component<
         defaultThemeCss[newKey] = checkboxesClassName[key];
       }
     });
+    Object.keys(checkboxesControlClassName).forEach(key => {
+      if (key.includes('checked-')) {
+        const newKey = key.replace('checked-', '');
+        checkedControlThemeCss[newKey] = checkboxesControlClassName[key];
+      } else if (key.includes('checkbox-')) {
+        const newKey = key.replace('checkbox-', '');
+        defaultControlThemeCss[newKey] = checkboxesControlClassName[key];
+      }
+    });
     return {
       ...themeCss,
+      checkboxesControlClassName: defaultControlThemeCss,
+      checkboxesControlCheckedClassName: checkedControlThemeCss,
       checkboxesClassName: defaultThemeCss,
       checkboxesCheckedClassName: checkedThemeCss
     };
@@ -431,6 +402,18 @@ export default class CheckboxesControl extends React.Component<
           className,
           setThemeClassName({
             ...this.props,
+            name: 'checkboxesControlClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'checkboxesControlCheckedClassName',
+            id,
+            themeCss: css
+          }),
+          setThemeClassName({
+            ...this.props,
             name: 'checkboxesClassName',
             id,
             themeCss: css
@@ -440,15 +423,9 @@ export default class CheckboxesControl extends React.Component<
             name: 'checkboxesCheckedClassName',
             id,
             themeCss: css
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'checkboxesLabelClassName',
-            id,
-            themeCss: css
           })
         )}
-        ref="checkboxRef"
+        ref={this.checkboxRef}
       >
         {body && body.length ? (
           body
@@ -478,6 +455,36 @@ export default class CheckboxesControl extends React.Component<
             themeCss: this.formateThemeCss(themeCss),
             classNames: [
               {
+                key: 'checkboxesControlClassName',
+                weights: {
+                  default: {
+                    inner: 'label'
+                  },
+                  hover: {
+                    inner: `.${ns}Checkbox--checkbox`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checkbox`,
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'checkboxesControlCheckedClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox--checked`
+                  },
+                  hover: {
+                    inner: `.${ns}Checkbox--checked`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox--checked`,
+                    important: true
+                  }
+                }
+              },
+              {
                 key: 'checkboxesClassName',
                 weights: {
                   default: {
@@ -485,7 +492,7 @@ export default class CheckboxesControl extends React.Component<
                     inner: 'i'
                   },
                   hover: {
-                    suf: ' label',
+                    suf: ` .${ns}Checkbox--checkbox.${ns}Checkbox`,
                     inner: 'i'
                   },
                   disabled: {
@@ -507,23 +514,23 @@ export default class CheckboxesControl extends React.Component<
                     inner: `.${ns}Checkbox--checkbox input:checked[disabled] + i`
                   }
                 }
-              },
-              {
-                key: 'checkboxesLabelClassName',
-                weights: {
-                  default: {
-                    suf: ' label',
-                    inner: 'span'
-                  },
-                  hover: {
-                    suf: ' label',
-                    inner: 'span'
-                  },
-                  disabled: {
-                    inner: `.${ns}Checkbox--checkbox input[disabled] + i + span`
-                  }
-                }
               }
+              // {
+              //   key: 'checkboxesLabelClassName',
+              //   weights: {
+              //     default: {
+              //       suf: ' label',
+              //       inner: 'span'
+              //     },
+              //     hover: {
+              //       suf: ' label',
+              //       inner: 'span'
+              //     },
+              //     disabled: {
+              //       inner: `.${ns}Checkbox--checkbox input[disabled] + i + span`
+              //     }
+              //   }
+              // }
             ],
             id: id
           }}

@@ -1,4 +1,5 @@
 @use 'sass:color';
+@import './mixins';
 :root,
 .AMISCSSWrapper {
   --button-default-default-top-border-color: var(--colors-neutral-line-8);
@@ -1290,164 +1291,129 @@
   --checkbox-checkbox-default-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-default-fontWeight: var(--fonts-weight-6);
   --checkbox-checkbox-default-fontSize: var(--fonts-size-7);
-  --checkbox-checkbox-default-top-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-default-top-border-width: var(--borders-width-2);
-  --checkbox-checkbox-default-top-border-style: var(--borders-style-2);
-  --checkbox-checkbox-default-right-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-default-right-border-width: var(--borders-width-2);
-  --checkbox-checkbox-default-right-border-style: var(--borders-style-2);
-  --checkbox-checkbox-default-bottom-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-default-bottom-border-width: var(--borders-width-2);
-  --checkbox-checkbox-default-bottom-border-style: var(--borders-style-2);
-  --checkbox-checkbox-default-left-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-default-left-border-width: var(--borders-width-2);
-  --checkbox-checkbox-default-left-border-style: var(--borders-style-2);
-  --checkbox-checkbox-default-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-default-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-default-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-default-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checkbox-default-distance: var(--sizes-size-5);
+  @include borderColor(
+    --checkbox-checkbox-default,
+    var(--colors-neutral-line-8)
+  );
+  @include borderWidth(--checkbox-checkbox-default, var(--borders-width-2));
+  @include borderStyle(--checkbox-checkbox-default, var(--borders-style-2));
+  @include borderRadius(--checkbox-checkbox-default, var(--sizes-size-2));
+
   --checkbox-checkbox-hover-height: var(--sizes-size-9);
   --checkbox-checkbox-hover-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checkbox-hover-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-hover-fontSize: var(--fonts-size-7);
-  --checkbox-checkbox-hover-top-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-hover-top-border-width: var(--borders-width-2);
-  --checkbox-checkbox-hover-top-border-style: var(--borders-style-2);
-  --checkbox-checkbox-hover-right-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-hover-right-border-width: var(--borders-width-2);
-  --checkbox-checkbox-hover-right-border-style: var(--borders-style-2);
-  --checkbox-checkbox-hover-bottom-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-hover-bottom-border-width: var(--borders-width-2);
-  --checkbox-checkbox-hover-bottom-border-style: var(--borders-style-2);
-  --checkbox-checkbox-hover-left-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-hover-left-border-width: var(--borders-width-2);
-  --checkbox-checkbox-hover-left-border-style: var(--borders-style-2);
-  --checkbox-checkbox-hover-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-hover-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-hover-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-hover-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderColor(--checkbox-checkbox-hover, var(--colors-brand-5));
+  @include borderWidth(--checkbox-checkbox-hover, var(--borders-width-2));
+  @include borderStyle(--checkbox-checkbox-hover, var(--borders-style-2));
+  @include borderRadius(--checkbox-checkbox-hover, var(--sizes-size-2));
+
   --checkbox-checkbox-active-height: var(--sizes-size-9);
   --checkbox-checkbox-active-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checkbox-active-text-color: var(--colors-neutral-text-2);
   --checkbox-checkbox-active-fontSize: var(--fonts-size-7);
-  --checkbox-checkbox-active-top-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-active-top-border-width: var(--borders-width-2);
-  --checkbox-checkbox-active-top-border-style: var(--borders-style-2);
-  --checkbox-checkbox-active-right-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-active-right-border-width: var(--borders-width-2);
-  --checkbox-checkbox-active-right-border-style: var(--borders-style-2);
-  --checkbox-checkbox-active-bottom-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-active-bottom-border-width: var(--borders-width-2);
-  --checkbox-checkbox-active-bottom-border-style: var(--borders-style-2);
-  --checkbox-checkbox-active-left-border-color: var(--colors-brand-5);
-  --checkbox-checkbox-active-left-border-width: var(--borders-width-2);
-  --checkbox-checkbox-active-left-border-style: var(--borders-style-2);
-  --checkbox-checkbox-active-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-active-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-active-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-active-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderColor(--checkbox-checkbox-active, var(--colors-brand-5));
+  @include borderWidth(--checkbox-checkbox-active, var(--borders-width-2));
+  @include borderStyle(--checkbox-checkbox-active, var(--borders-style-2));
+  @include borderRadius(--checkbox-checkbox-active, var(--sizes-size-2));
+
   --checkbox-checkbox-disabled-height: var(--sizes-size-9);
   --checkbox-checkbox-disabled-bg-color: var(--colors-neutral-fill-10);
   --checkbox-checkbox-disabled-text-color: var(--colors-neutral-text-6);
   --checkbox-checkbox-disabled-fontSize: var(--fonts-size-7);
-  --checkbox-checkbox-disabled-top-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-disabled-top-border-width: var(--borders-width-2);
-  --checkbox-checkbox-disabled-top-border-style: var(--borders-style-2);
-  --checkbox-checkbox-disabled-right-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-disabled-right-border-width: var(--borders-width-2);
-  --checkbox-checkbox-disabled-right-border-style: var(--borders-style-2);
-  --checkbox-checkbox-disabled-bottom-border-color: var(
-    --colors-neutral-line-8
+  @include borderColor(
+    --checkbox-checkbox-disabled,
+    var(--colors-neutral-line-8)
   );
-  --checkbox-checkbox-disabled-bottom-border-width: var(--borders-width-2);
-  --checkbox-checkbox-disabled-bottom-border-style: var(--borders-style-2);
-  --checkbox-checkbox-disabled-left-border-color: var(--colors-neutral-line-8);
-  --checkbox-checkbox-disabled-left-border-width: var(--borders-width-2);
-  --checkbox-checkbox-disabled-left-border-style: var(--borders-style-2);
-  --checkbox-checkbox-disabled-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-disabled-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-disabled-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checkbox-disabled-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderWidth(--checkbox-checkbox-disabled, var(--borders-width-2));
+  @include borderStyle(--checkbox-checkbox-disabled, var(--borders-style-2));
+  @include borderRadius(--checkbox-checkbox-disabled, var(--sizes-size-2));
+
   --checkbox-checked-default-height: var(--sizes-size-9);
   --checkbox-checked-default-bg-color: var(--colors-brand-5);
   --checkbox-checked-default-color: var(--colors-neutral-text-2);
   --checkbox-checked-default-fontSize: var(--fonts-size-7);
-  --checkbox-checked-default-top-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-default-top-border-width: var(--borders-width-2);
-  --checkbox-checked-default-top-border-style: var(--borders-style-2);
-  --checkbox-checked-default-right-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-default-right-border-width: var(--borders-width-2);
-  --checkbox-checked-default-right-border-style: var(--borders-style-2);
-  --checkbox-checked-default-bottom-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-default-bottom-border-width: var(--borders-width-2);
-  --checkbox-checked-default-bottom-border-style: var(--borders-style-2);
-  --checkbox-checked-default-left-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-default-left-border-width: var(--borders-width-2);
-  --checkbox-checked-default-left-border-style: var(--borders-style-2);
-  --checkbox-checked-default-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-default-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checked-default-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-default-bottom-left-border-radius: var(--sizes-size-2);
+  --checkbox-checked-default-icon-size: var(--sizes-size-5);
+  @include borderColor(--checkbox-checked-default, var(--colors-brand-5));
+  @include borderWidth(--checkbox-checked-default, var(--borders-width-2));
+  @include borderStyle(--checkbox-checked-default, var(--borders-style-2));
+  @include borderRadius(--checkbox-checked-default, var(--sizes-size-2));
+
   --checkbox-checked-hover-height: var(--sizes-size-9);
   --checkbox-checked-hover-bg-color: var(--colors-brand-6);
   --checkbox-checked-hover-color: var(--colors-neutral-text-2);
   --checkbox-checked-hover-fontSize: var(--fonts-size-7);
-  --checkbox-checked-hover-top-border-color: var(--colors-brand-5);
-  --checkbox-checked-hover-top-border-width: var(--borders-width-2);
-  --checkbox-checked-hover-top-border-style: var(--borders-style-2);
-  --checkbox-checked-hover-right-border-color: var(--colors-brand-5);
-  --checkbox-checked-hover-right-border-width: var(--borders-width-2);
-  --checkbox-checked-hover-right-border-style: var(--borders-style-2);
-  --checkbox-checked-hover-bottom-border-color: var(--colors-brand-5);
-  --checkbox-checked-hover-bottom-border-width: var(--borders-width-2);
-  --checkbox-checked-hover-bottom-border-style: var(--borders-style-2);
-  --checkbox-checked-hover-left-border-color: var(--colors-brand-5);
-  --checkbox-checked-hover-left-border-width: var(--borders-width-2);
-  --checkbox-checked-hover-left-border-style: var(--borders-style-2);
-  --checkbox-checked-hover-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-hover-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checked-hover-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-hover-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderColor(--checkbox-checked-hover, var(--colors-brand-6));
+  @include borderWidth(--checkbox-checked-hover, var(--borders-width-2));
+  @include borderStyle(--checkbox-checked-hover, var(--borders-style-2));
+  @include borderRadius(--checkbox-checked-hover, var(--sizes-size-2));
+
   --checkbox-checked-active-height: var(--sizes-size-9);
   --checkbox-checked-active-bg-color: var(--colors-brand-4);
   --checkbox-checked-active-color: var(--colors-neutral-text-2);
   --checkbox-checked-active-fontSize: var(--fonts-size-7);
-  --checkbox-checked-active-top-border-color: var(--colors-brand-5);
-  --checkbox-checked-active-top-border-width: var(--borders-width-2);
-  --checkbox-checked-active-top-border-style: var(--borders-style-2);
-  --checkbox-checked-active-right-border-color: var(--colors-brand-5);
-  --checkbox-checked-active-right-border-width: var(--borders-width-2);
-  --checkbox-checked-active-right-border-style: var(--borders-style-2);
-  --checkbox-checked-active-bottom-border-color: var(--colors-brand-5);
-  --checkbox-checked-active-bottom-border-width: var(--borders-width-2);
-  --checkbox-checked-active-bottom-border-style: var(--borders-style-2);
-  --checkbox-checked-active-left-border-color: var(--colors-brand-5);
-  --checkbox-checked-active-left-border-width: var(--borders-width-2);
-  --checkbox-checked-active-left-border-style: var(--borders-style-2);
-  --checkbox-checked-active-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-active-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checked-active-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-active-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderColor(--checkbox-checked-active, var(--colors-brand-5));
+  @include borderWidth(--checkbox-checked-active, var(--borders-width-2));
+  @include borderStyle(--checkbox-checked-active, var(--borders-style-2));
+  @include borderRadius(--checkbox-checked-active, var(--sizes-size-2));
+
   --checkbox-checked-disabled-height: var(--sizes-size-9);
   --checkbox-checked-disabled-bg-color: var(--colors-neutral-fill-11);
   --checkbox-checked-disabled-color: var(--colors-neutral-text-2);
   --checkbox-checked-disabled-fontSize: var(--fonts-size-7);
-  --checkbox-checked-disabled-top-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-disabled-top-border-width: var(--borders-width-2);
-  --checkbox-checked-disabled-top-border-style: var(--borders-style-2);
-  --checkbox-checked-disabled-right-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-disabled-right-border-width: var(--borders-width-2);
-  --checkbox-checked-disabled-right-border-style: var(--borders-style-2);
-  --checkbox-checked-disabled-bottom-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-disabled-bottom-border-width: var(--borders-width-2);
-  --checkbox-checked-disabled-bottom-border-style: var(--borders-style-2);
-  --checkbox-checked-disabled-left-border-color: var(--colors-neutral-line-8);
-  --checkbox-checked-disabled-left-border-width: var(--borders-width-2);
-  --checkbox-checked-disabled-left-border-style: var(--borders-style-2);
-  --checkbox-checked-disabled-top-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-disabled-top-left-border-radius: var(--sizes-size-2);
-  --checkbox-checked-disabled-bottom-right-border-radius: var(--sizes-size-2);
-  --checkbox-checked-disabled-bottom-left-border-radius: var(--sizes-size-2);
+  @include borderColor(
+    --checkbox-checked-disabled,
+    var(--colors-neutral-line-8)
+  );
+  @include borderWidth(--checkbox-checked-disabled, var(--borders-width-2));
+  @include borderStyle(--checkbox-checked-disabled, var(--borders-style-2));
+  @include borderRadius(--checkbox-checked-disabled, var(--sizes-size-2));
+
+  --checkbox-button-default-height: var(--sizes-base-16);
+  --checkbox-button-font-size: var(--fonts-size-7);
+  --checkbox-button-default-color: var(--colors-neutral-text-8);
+  --checkbox-button-default-lineHeight: var(--fonts-lineHeight-2);
+  @include padding(
+    --checkbox-button-default,
+    var(--sizes-size-3),
+    var(--sizes-size-7)
+  );
+  @include borderRadius(--checkbox-button-default, var(--borders-radius-3));
+  @include borderColor(--checkbox-button-default, var(--colors-neutral-line-8));
+  @include borderWidth(--checkbox-button-default, var(--borders-width-2));
+  @include borderStyle(--checkbox-button-default, var(--borders-style-2));
+
+  --checkbox-button-hover-color: var(--colors-brand-5);
+  @include borderColor(--checkbox-button-hover, var(--colors-brand-5));
+
+  --checkbox-button-checked-color: var(--colors-brand-5);
+  --checkbox-button-checked-icon-color: var(--colors-brand-5);
+  @include borderColor(--checkbox-button-checked, var(--colors-brand-5));
+
+  --checkbox-button-checked-hover-color: var(--colors-brand-6);
+  --checkbox-button-checked-hover-icon-color: var(--colors-brand-6);
+  @include borderColor(--checkbox-button-checked-hover, var(--colors-brand-6));
+
+  --checkbox-button-checked-active-color: var(--colors-brand-4);
+  --checkbox-button-checked-active-icon-color: var(--colors-brand-4);
+  @include borderColor(--checkbox-button-checked-active, var(--colors-brand-4));
+
+  --checkbox-button-disabled-unchecked-color: var(--colors-neutral-text-6);
+  --checkbox-button-disabled-unchecked-bg-color: var(--colors-neutral-fill-10);
+  @include borderColor(
+    --checkbox-button-disabled-unchecked,
+    var(--colors-neutral-line-8)
+  );
+
+  --checkbox-button-disabled-checked-color: var(--colors-neutral-text-6);
+  --checkbox-button-disabled-checked-bg-color: var(--colors-neutral-fill-10);
+  --checkbox-button-disabled-checked-icon-color: var(--colors-neutral-text-6);
+  @include borderColor(
+    --checkbox-button-disabled-checked,
+    var(--colors-neutral-line-8)
+  );
+
   --Checkbox-onHover-color: var(--checkbox-checked-default-bg-color);
   --button-primary-hover-bg-color: var(--checkbox-checked-hover-bg-color);
   --Checkbox-checked-onHover-bgColor: var(--checkbox-checked-active-bg-color);
@@ -1869,6 +1835,7 @@
   --Rating-text-fontWeight: var(--fonts-weight-6);
   --Rating-text-lineHeight: var(--fonts-lineHeight-2);
   --Rating-inactive-color: var(--colors-neutral-text-9);
+
   --radio-default-default-color: var(--colors-neutral-text-8);
   --radio-default-default-text-color: var(--colors-neutral-text-1);
   --radio-default-default-bg-color: var(--colors-neutral-fill-11);
@@ -1876,33 +1843,70 @@
   --radio-default-default-fontWeight: var(--fonts-weight-6);
   --radio-default-default-lineHeight: var(--fonts-lineHeight-2);
   --radio-default-default-point-size: var(--sizes-size-9);
-  --radio-default-default-point-inner-size: var(--sizes-size-5);
-  --radio-default-default-marginTop: var(--sizes-size-0);
-  --radio-default-default-marginBottom: var(--sizes-size-4);
-  --radio-default-default-marginLeft: var(--sizes-size-0);
-  --radio-default-default-marginRight: var(--sizes-size-9);
   --radio-default-default-distance: var(--sizes-size-5);
+  @include margin(
+    --radio-default-default,
+    var(--sizes-size-0),
+    var(--sizes-size-9),
+    var(--sizes-size-4),
+    var(--sizes-size-0)
+  );
+
   --radio-default-hover-color: var(--colors-brand-5);
   --radio-default-hover-text-color: var(--colors-neutral-text-1);
   --radio-default-hover-bg-color: var(--colors-neutral-fill-11);
-  --radio-default-active-color: var(--colors-brand-5);
-  --radio-default-active-text-color: var(--colors-neutral-text-1);
-  --radio-default-active-bg-color: var(--colors-neutral-fill-11);
+
+  --radio-default-checked-point-inner-size: var(--sizes-size-5);
+  --radio-default-checked-color: var(--colors-brand-5);
+  --radio-default-checked-text-color: var(--colors-neutral-text-1);
+  --radio-default-checked-bg-color: var(--colors-neutral-fill-11);
+
   --radio-default-disabled-color: var(--colors-neutral-text-6);
   --radio-default-disabled-text-color: var(--colors-neutral-text-6);
   --radio-default-disabled-bg-color: var(--colors-neutral-fill-8);
-  --radio-default-vertical-marginTop: var(--sizes-size-0);
-  --radio-default-vertical-marginBottom: var(--sizes-size-4);
-  --radio-default-vertical-marginLeft: var(--sizes-size-0);
-  --radio-default-vertical-marginRight: var(--sizes-size-5);
-  --Radio--sm-size: var(--Checkbox--sm-size);
-  --Radio-color: var(--radio-default-default-color);
-  --Radio-inner-size: var(--radio-default-default-point-inner-size);
-  --Radio-onHover-color: var(--radio-default-active-color);
-  --Radio-size: var(--radio-default-default-point-size);
-  --Radio-onDisabled-bg: var(--radio-default-disabled-bg-color);
-  --Radio-onDisabled-color: var(--radio-default-disabled-color);
-  --Radio-onFocus-boxShadow: none;
+
+  @include margin(
+    --radio-default-vertical,
+    var(--sizes-size-0),
+    var(--sizes-size-5),
+    var(--sizes-size-4),
+    var(--sizes-size-0)
+  );
+
+  --radio-button-default-height: var(--sizes-base-16);
+  --radio-button-font-size: var(--fonts-size-7);
+  --radio-button-default-color: var(--colors-neutral-text-8);
+  --radio-button-default-lineHeight: var(--fonts-lineHeight-2);
+  @include padding(
+    --radio-button-default,
+    var(--sizes-size-3),
+    var(--sizes-size-7)
+  );
+  @include borderRadius(--radio-button-default, var(--borders-radius-3));
+  @include borderColor(--radio-button-default, var(--colors-neutral-line-8));
+  @include borderWidth(--radio-button-default, var(--borders-width-2));
+  @include borderStyle(--radio-button-default, var(--borders-style-2));
+
+  --radio-button-hover-color: var(--colors-brand-5);
+  @include borderColor(--radio-button-hover, var(--colors-brand-5));
+
+  --radio-button-checked-color: var(--colors-neutral-text-11);
+  --radio-button-checked-bg-color: var(--colors-brand-5);
+  @include borderColor(--radio-button-checked, var(--colors-brand-5));
+
+  --radio-button-disabled-unchecked-color: var(--colors-neutral-text-6);
+  --radio-button-disabled-unchecked-bg-color: var(--colors-neutral-fill-10);
+  @include borderColor(
+    --radio-button-disabled-unchecked,
+    var(--colors-neutral-line-8)
+  );
+
+  --radio-button-disabled-checked-color: var(--colors-neutral-text-5);
+  --radio-button-disabled-checked-bg-color: var(--colors-neutral-fill-8);
+  @include borderColor(
+    --radio-button-disabled-checked,
+    var(--colors-neutral-line-7)
+  );
 
   --switch-default-off-bg-color: var(--colors-neutral-fill-7);
   --switch-default-off-hover-bg-color: var(--colors-neutral-fill-6);

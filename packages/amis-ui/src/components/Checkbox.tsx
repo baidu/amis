@@ -73,7 +73,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       type,
       name,
       labelClassName,
-      optionType,
+      optionType = 'default',
       mobileUI,
       testIdBuilder
     } = this.props;
@@ -86,18 +86,25 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
 
     return (
       <label
-        className={cx(`Checkbox Checkbox--${type}`, className, {
-          'Checkbox--full': !partial,
-          // 'Checkbox--partial': partial
-          [`Checkbox--${size}`]: size,
-          'Checkbox--button': optionType === 'button',
-          'Checkbox--button--checked': optionType === 'button' && _checked,
-          'Checkbox--button--disabled--unchecked':
-            optionType === 'button' && disabled && !_checked,
-          'Checkbox--button--disabled--checked':
-            optionType === 'button' && disabled && _checked,
-          'is-mobile': mobileUI
-        })}
+        className={cx(
+          'Checkbox',
+          `Checkbox--${type}--${optionType}`,
+          className,
+          {
+            'Checkbox--full': !partial,
+            // 'Checkbox--partial': partial
+            [`Checkbox--${size}`]: size,
+            'is-mobile': mobileUI,
+            'disabled': disabled,
+            'checked': _checked,
+            [`Checkbox--${type}--${optionType}--checked`]:
+              !disabled && _checked,
+            [`Checkbox--${type}--${optionType}--disabled--unchecked`]:
+              disabled && !_checked,
+            [`Checkbox--${type}--${optionType}--disabled--checked`]:
+              disabled && _checked
+          }
+        )}
         data-role="checkbox"
         {...testIdBuilder?.getTestId()}
         data-amis-name={this.props.dataName}

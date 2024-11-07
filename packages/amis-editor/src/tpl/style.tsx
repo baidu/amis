@@ -1310,7 +1310,7 @@ setSchemaTpl('animation', () => {
       doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
         .contentDocument;
     }
-    const highlightDom = doc.getElementById('aePreviewHighlightBox');
+    const highlightDom = document.getElementById('aePreviewHighlightBox');
     if (highlightDom) {
       highlightDom.style.opacity = '0';
       highlightDom.classList.add('ae-Preview-widgets--no-transition');
