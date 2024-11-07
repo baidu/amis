@@ -48,9 +48,9 @@ export class TransferPickerPlugin extends TransferPlugin {
   events: RendererPluginEvent[] = [
     ...this.events,
     {
-      eventName: 'clickItem',
+      eventName: 'itemClick',
       eventLabel: '点击选项',
-      description: '点击选中项时触发',
+      description: '选项被点击时触发',
       dataSchema: [
         {
           type: 'object',

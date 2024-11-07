@@ -63,7 +63,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     // 触发渲染器事件
     const {dispatchEvent} = this.props;
     const rendererEvent = await dispatchEvent(
-      'clickItem',
+      'itemClick',
       resolveEventData(this.props, {item})
     );
     if (rendererEvent?.prevented) {
