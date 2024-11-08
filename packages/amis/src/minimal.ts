@@ -2,6 +2,7 @@
  * 只包含 amis 最小集，不引入其他模块
  */
 import {registerRenderer} from 'amis-core';
+export * from 'amis-core';
 import './preset';
 
 // 注册渲染器
