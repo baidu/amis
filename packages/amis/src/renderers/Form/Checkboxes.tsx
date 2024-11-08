@@ -91,6 +91,7 @@ export default class CheckboxesControl extends React.Component<
 
   checkboxRef: React.RefObject<HTMLDivElement> = React.createRef();
   checkboxRefObserver: ResizeObserver;
+  childRefs: Array<any> = [];
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange, formStore, store, name} = this.props;
@@ -151,28 +152,29 @@ export default class CheckboxesControl extends React.Component<
     if (this.props.optionType !== 'button') {
       return;
     }
-    if (!this.checkboxRef.current) {
+    if (!this.childRefs.length) {
       return;
     }
-    const wrapDom = this.checkboxRef.current;
-    const children = Array.from(wrapDom.children) as HTMLElement[];
-    let lastOffsetTop = children[0].offsetTop;
-    // 清除所有的 first 和 last
-    children.forEach(item => {
-      item.classList.remove('first', 'last');
-    });
-    // 设置 first 和 last
-    children[0].classList.add('first');
-    for (let i = 1; i < children.length; i++) {
+    const children = this.childRefs.map(item => item?.ref);
+    let lastOffsetTop = children[0].labelRef.current.offsetTop;
+    const options = [];
+    const len = children.length;
+    options[0] = 'first';
+    for (let i = 1; i < len; i++) {
       const item = children[i];
       // 如果当前元素的 offsetTop 与上一个元素的 offsetTop 不同，则说明是新的一行
-      if (item.offsetTop !== lastOffsetTop) {
-        item.classList.add('first');
-        children[i - 1].classList.add('last');
-        lastOffsetTop = item.offsetTop;
+      const currentOffsetTop = item.labelRef.current.offsetTop;
+      options[i] = '';
+      if (currentOffsetTop !== lastOffsetTop) {
+        options[i] = 'first';
+        options[i - 1] += ' last';
+        lastOffsetTop = currentOffsetTop;
       }
     }
-    children[children.length - 1].classList.add('last');
+    options[len - 1] += ' last';
+    options.forEach((option, index) => {
+      children[index].setClassName(option);
+    });
   }
 
   renderGroup(option: Option, index: number) {
@@ -244,6 +246,7 @@ export default class CheckboxesControl extends React.Component<
         description={option.description}
         optionType={optionType}
         testIdBuilder={itemTestIdBuilder}
+        ref={el => el && this.childRefs.push(el)}
       >
         {menuTpl
           ? render(`checkboxes/${index}`, menuTpl, {

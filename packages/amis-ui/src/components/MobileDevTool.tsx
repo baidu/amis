@@ -132,7 +132,7 @@ export default function MobileDevTool(props: {
       });
       let scale = defaultScale.current || 100;
       if (!defaultScale.current) {
-        scale = updateAutoScale();
+        scale = Math.min(updateAutoScale(), 100);
         defaultScale.current = scale;
       }
       setScale(scale);

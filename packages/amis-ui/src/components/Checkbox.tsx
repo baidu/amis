@@ -41,7 +41,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
     falseValue: false,
     type: 'checkbox'
   };
-
+  labelRef: React.RefObject<HTMLLabelElement> = React.createRef();
   @autobind
   handleCheck(e: React.ChangeEvent<any>) {
     const {trueValue, falseValue, onChange} = this.props;
@@ -54,6 +54,13 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       e.currentTarget.checked ? trueValue : falseValue,
       (e.nativeEvent as MouseEvent).shiftKey
     );
+  }
+
+  @autobind
+  setClassName(className: string) {
+    this.setState({
+      className
+    });
   }
 
   render() {
@@ -77,6 +84,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       mobileUI,
       testIdBuilder
     } = this.props;
+    const {className: stateClassName} = this.state || {};
     const _checked =
       typeof checked !== 'undefined'
         ? checked
@@ -90,6 +98,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           'Checkbox',
           `Checkbox--${type}--${optionType}`,
           className,
+          stateClassName,
           {
             'Checkbox--full': !partial,
             // 'Checkbox--partial': partial
@@ -108,6 +117,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         data-role="checkbox"
         {...testIdBuilder?.getTestId()}
         data-amis-name={this.props.dataName}
+        ref={this.labelRef}
       >
         <input
           type={type}
