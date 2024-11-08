@@ -1436,7 +1436,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         } else if (node.type === 'search-box') {
           searchBox = node;
         }
-        Object.values(node).forEach((item: any) => traverse(item, node));
+
+        if (node.items || node.body) {
+          traverse(node.items || node.body, node);
+        }
       }
     }
     toolbar.forEach((item: any) => {
