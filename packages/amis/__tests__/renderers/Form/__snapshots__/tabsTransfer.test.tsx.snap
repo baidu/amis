@@ -163,7 +163,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -199,7 +199,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -240,7 +240,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -276,7 +276,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -312,7 +312,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -353,7 +353,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -389,7 +389,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -425,7 +425,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
@@ -461,7 +461,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input

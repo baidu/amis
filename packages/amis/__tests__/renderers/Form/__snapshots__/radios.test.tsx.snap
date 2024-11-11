@@ -53,7 +53,7 @@ exports[`Renderer:radios 1`] = `
             class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -67,7 +67,7 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -81,7 +81,7 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -95,7 +95,7 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -205,7 +205,7 @@ exports[`Renderer:radios 2`] = `
             class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full checked cxd-Checkbox--radio--default--checked"
               data-role="checkbox"
             >
               <input
@@ -219,7 +219,7 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -233,7 +233,7 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -247,7 +247,7 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
               data-role="checkbox"
             >
               <input
@@ -359,7 +359,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
                   data-role="checkbox"
                 >
                   <input
@@ -377,7 +377,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
                   data-role="checkbox"
                 >
                   <input
@@ -395,7 +395,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full checked cxd-Checkbox--radio--default--checked"
                   data-role="checkbox"
                 >
                   <input

@@ -70,9 +70,10 @@ test('Renderer:checkbox with optionType', async () => {
   await wait(300);
 
   expect(
-    container.querySelector('.cxd-Checkbox.cxd-Checkbox--button') as Element
+    container.querySelector(
+      '.cxd-Checkbox.cxd-Checkbox--checkbox--button'
+    ) as Element
   ).toBeInTheDocument();
-
 
   fireEvent.click(getByText(/去吃饭/));
 
@@ -82,13 +83,14 @@ test('Renderer:checkbox with optionType', async () => {
     ).toBe('吃了');
 
     expect(
-      container.querySelector('.cxd-Checkbox.cxd-Checkbox--button.cxd-Checkbox--button--checked') as Element
+      container.querySelector(
+        '.cxd-Checkbox.cxd-Checkbox--checkbox--button.cxd-Checkbox--checkbox--button--checked'
+      ) as Element
     ).toBeInTheDocument();
   });
 
   expect(container).toMatchSnapshot();
 });
-
 
 test('Renderer:checkbox with checked', async () => {
   const {container, getByText} = render(
