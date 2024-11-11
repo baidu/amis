@@ -86,7 +86,7 @@ exports[`options:linkage 1`] = `
         class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -100,7 +100,7 @@ exports[`options:linkage 1`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -205,7 +205,7 @@ exports[`options:linkage 2`] = `
         class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full disabled cxd-Checkbox--radio--default--disabled--unchecked"
           data-role="checkbox"
         >
           <input
@@ -220,7 +220,7 @@ exports[`options:linkage 2`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -325,7 +325,7 @@ exports[`options:linkage 3`] = `
         class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -430,7 +430,7 @@ exports[`options:linkage 4`] = `
         class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -444,7 +444,7 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
@@ -458,7 +458,7 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
           data-role="checkbox"
         >
           <input
