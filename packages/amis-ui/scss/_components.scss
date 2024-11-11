@@ -1389,6 +1389,7 @@
 
   --checkbox-button-checked-color: var(--colors-brand-5);
   --checkbox-button-checked-icon-color: var(--colors-brand-5);
+  --checkbox-button-checked-icon-i-color: var(--colors-neutral-fill-11);
   @include borderColor(--checkbox-button-checked, var(--colors-brand-5));
 
   --checkbox-button-checked-hover-color: var(--colors-brand-6);

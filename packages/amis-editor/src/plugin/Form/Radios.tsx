@@ -175,18 +175,31 @@ export class RadiosControlPlugin extends BasePlugin {
                   min: 1,
                   max: 6,
                   pipeIn: defaultValue(1)
+                },
+                {
+                  type: 'select',
+                  label: '模式',
+                  name: 'optionType',
+                  value: 'default',
+                  options: [
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '按钮',
+                      value: 'button'
+                    }
+                  ]
                 }
               ]
             }),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
             {
-              title: '单选框样式',
+              title: '选项样式',
               body: [
-                ...inputStateTpl('themeCss.radiosClassName', '--radio', {
-                  hideFont: true,
-                  hideMargin: true,
-                  hidePadding: true,
+                ...inputStateTpl('themeCss.radiosControlClassName', '', {
                   state: [
                     {
                       label: '常规',
@@ -212,57 +225,82 @@ export class RadiosControlPlugin extends BasePlugin {
                       label: '选中禁用',
                       value: 'checked-disabled'
                     }
-                  ],
-                  schema: [
-                    getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.radiosCheckedInnerClassName.background:default',
-                      labelMode: 'input',
-                      label: '圆点颜色',
-                      visibleOn:
-                        "${__editorStatethemeCss.radiosClassName == 'checked-default'}"
-                    }),
-                    getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.radiosCheckedInnerClassName.background:hover',
-                      labelMode: 'input',
-                      label: '圆点颜色',
-                      visibleOn:
-                        "${__editorStatethemeCss.radiosClassName == 'checked-hover'}"
-                    }),
-                    getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.radiosCheckedInnerClassName.background:disabled',
-                      labelMode: 'input',
-                      label: '圆点颜色',
-                      visibleOn:
-                        "${__editorStatethemeCss.radiosClassName == 'checked-disabled'}"
-                    })
                   ]
                 })
               ]
             },
             {
-              title: '选项说明样式',
+              title: '单选框样式',
+              hiddenOn: 'optionType === "button"',
               body: [
-                ...inputStateTpl('themeCss.radiosLabelClassName', '', {
-                  hidePadding: true,
-                  hideRadius: true,
-                  hideBorder: true,
-                  state: [
-                    {
-                      label: '常规',
-                      value: 'default'
-                    },
-                    {
-                      label: '悬浮',
-                      value: 'hover'
-                    },
-                    {
-                      label: '禁用',
-                      value: 'disabled'
-                    }
-                  ]
-                })
+                {
+                  label: '隐藏勾选框',
+                  type: 'switch',
+                  name: 'themeCss.radiosShowClassName.display',
+                  trueValue: 'none'
+                },
+                ...inputStateTpl(
+                  'themeCss.radiosClassName',
+                  '--radio-default',
+                  {
+                    hideFont: true,
+                    hideMargin: true,
+                    hidePadding: true,
+                    hiddenOn: 'themeCss.radiosShowClassName.display === "none"',
+                    state: [
+                      {
+                        label: '常规',
+                        value: 'radios-default'
+                      },
+                      {
+                        label: '悬浮',
+                        value: 'radios-hover'
+                      },
+                      {
+                        label: '禁用',
+                        value: 'radios-disabled'
+                      },
+                      {
+                        label: '选中',
+                        value: 'checked-default'
+                      },
+                      {
+                        label: '选中态悬浮',
+                        value: 'checked-hover'
+                      },
+                      {
+                        label: '选中禁用',
+                        value: 'checked-disabled'
+                      }
+                    ],
+                    schema: [
+                      getSchemaTpl('theme:colorPicker', {
+                        name: 'themeCss.radiosCheckedInnerClassName.background:default',
+                        labelMode: 'input',
+                        label: '圆点颜色',
+                        visibleOn:
+                          "${__editorStatethemeCss.radiosClassName == 'checked-default'}"
+                      }),
+                      getSchemaTpl('theme:colorPicker', {
+                        name: 'themeCss.radiosCheckedInnerClassName.background:hover',
+                        labelMode: 'input',
+                        label: '圆点颜色',
+                        visibleOn:
+                          "${__editorStatethemeCss.radiosClassName == 'checked-hover'}"
+                      }),
+                      getSchemaTpl('theme:colorPicker', {
+                        name: 'themeCss.radiosCheckedInnerClassName.background:disabled',
+                        labelMode: 'input',
+                        label: '圆点颜色',
+                        visibleOn:
+                          "${__editorStatethemeCss.radiosClassName == 'checked-disabled'}"
+                      })
+                    ]
+                  }
+                )
               ]
             },
+
             getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames', {
               schema: [

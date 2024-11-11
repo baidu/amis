@@ -234,6 +234,21 @@ export class CheckboxesControlPlugin extends BasePlugin {
             getSchemaTpl('theme:formItem', {
               hidSize: true,
               schema: [
+                getSchemaTpl('switch', {
+                  label: '一行选项显示',
+                  name: 'inline',
+                  hiddenOn: 'this.mode === "inline"',
+                  pipeIn: defaultValue(true)
+                }),
+                {
+                  label: '每行选项个数',
+                  name: 'columnsCount',
+                  hiddenOn: 'this.mode === "inline" || this.inline !== false',
+                  type: 'input-range',
+                  min: 1,
+                  max: 6,
+                  pipeIn: defaultValue(1)
+                },
                 {
                   type: 'select',
                   label: '模式',
@@ -290,10 +305,18 @@ export class CheckboxesControlPlugin extends BasePlugin {
             {
               title: '勾选框样式',
               body: [
+                {
+                  label: '隐藏勾选框',
+                  type: 'switch',
+                  name: 'themeCss.checkboxesShowClassName.display',
+                  trueValue: 'none'
+                },
                 ...inputStateTpl('themeCss.checkboxesClassName', '--checkbox', {
                   hideFont: true,
                   hideMargin: true,
                   hidePadding: true,
+                  hiddenOn:
+                    'themeCss.checkboxesShowClassName.display === "none"',
                   state: [
                     {
                       label: '常规',
@@ -319,6 +342,32 @@ export class CheckboxesControlPlugin extends BasePlugin {
                       label: '选中禁用',
                       value: 'checked-disabled'
                     }
+                  ],
+                  schema: [
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.checkboxesInnerClassName.border-color:default',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxesClassName == "checked-default"}',
+                      label: '对勾颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.checkboxesInnerClassName.border-color:hover',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxesClassName == "checked-hover"}',
+                      label: '对勾颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.checkboxesInnerClassName.border-color:disabled',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxesClassName == "checked-disabled"}',
+                      label: '对勾颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                    })
                   ]
                 })
               ]

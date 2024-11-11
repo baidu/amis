@@ -1,6 +1,7 @@
 .#{$ns}Checkbox {
   margin: 0 var(--gap-sm) 0 0;
   font-weight: var(--fontWeightNormal);
+  display: inline-block;
   cursor: pointer;
 
   &.disabled {
@@ -157,9 +158,7 @@
       border-color: borderColor(--checkbox-checkbox-default);
       border-radius: radius(--checkbox-checkbox-default);
       background: var(--checkbox-checkbox-default-bg-color);
-    }
-    > span {
-      margin-left: var(--checkbox-checkbox-default-distance);
+      margin-right: var(--checkbox-checkbox-default-distance);
     }
 
     &:hover:not(.disabled):not(.checked) {
@@ -285,6 +284,9 @@
         var(--checkbox-button-default-bottom-right-border-radius)
         var(--checkbox-button-default-bottom-left-border-radius);
     }
+    &.last-line {
+      margin-bottom: 0 !important;
+    }
     &:hover:not(.disabled):not(.checked) {
       color: var(--checkbox-button-hover-color);
       border-color: borderColor(--checkbox-button-hover);
@@ -309,7 +311,7 @@
       &:before {
         width: var(--checkbox-checked-default-icon-size);
         height: calc(var(--checkbox-checked-default-icon-size) / 2);
-        border-color: #fff;
+        border-color: var(--checkbox-button-checked-icon-i-color);
         background: transparent;
         border-width: 0 0 1px 1px;
         transform: translate(-80%, -160%) rotate(-50deg) scale(0.8);
@@ -360,7 +362,7 @@
       &:before {
         width: var(--checkbox-checked-default-icon-size);
         height: calc(var(--checkbox-checked-default-icon-size) / 2);
-        border-color: #fff;
+        border-color: var(--checkbox-button-checked-icon-i-color);
         background: transparent;
         border-width: 0 0 1px 1px;
         transform: translate(-80%, -160%) rotate(-50deg) scale(0.8);
@@ -418,15 +420,14 @@
     }
   }
   &--radio--default--disabled--unchecked {
+    color: var(--radio-default-disabled-text-color);
     > i {
       border-color: var(--radio-default-disabled-color);
       background-color: var(--radio-default-disabled-bg-color);
     }
-    > span {
-      color: var(--radio-default-disabled-text-color);
-    }
   }
   &--radio--default--disabled--checked {
+    color: var(--radio-default-disabled-text-color);
     > i {
       border-color: var(--radio-default-disabled-color);
       background-color: var(--radio-default-disabled-bg-color);
@@ -437,9 +438,6 @@
         background: var(--radio-default-disabled-color);
         border-radius: 50%;
       }
-    }
-    > span {
-      color: var(--radio-default-disabled-text-color);
     }
   }
 
@@ -643,5 +641,10 @@
   .#{$ns}Button:active,
   .#{$ns}Button.is-active {
     background: var(--ButtonGroup--primary-isActive-bg);
+  }
+}
+.#{$ns}Grid {
+  > div > .#{$ns}Checkbox--checkbox--button {
+    border-radius: radius(--checkbox-button-default);
   }
 }

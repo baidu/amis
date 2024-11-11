@@ -11,6 +11,7 @@ interface InputStateOptions {
   hideRadius?: boolean;
   hideBackground?: boolean;
   hideBorder?: boolean;
+  hiddenOn?: string;
   schema?: any[];
 }
 
@@ -44,7 +45,8 @@ export const inputStateTpl = (
       name: `__editorState${className}`,
       label: '状态',
       selectFirst: true,
-      options: stateOptions
+      options: stateOptions,
+      hiddenOn: options?.hiddenOn || false
     },
     ...stateOptions.map((item: any) => {
       return {
@@ -53,6 +55,7 @@ export const inputStateTpl = (
           `\${__editorState${className} == '${item.value}'` +
           (item.value === 'default' ? ` || !__editorState${className}` : '') +
           `}`,
+        hiddenOn: options?.hiddenOn || false,
         body: inputStateFunc(
           item.value,
           className,

@@ -2390,3 +2390,42 @@ export function formateId(id: string) {
   }
   return id;
 }
+
+export function formateCheckThemeCss(themeCss: any, type: string) {
+  if (!themeCss) {
+    return {};
+  }
+  const className = themeCss[`${type}ClassName`] || {};
+  const controlClassName = themeCss[`${type}ControlClassName`] || {};
+  const defaultControlThemeCss: any = {};
+  const checkedControlThemeCss: any = {};
+  const defaultThemeCss: any = {};
+  const checkedThemeCss: any = {};
+  Object.keys(className).forEach(key => {
+    if (key.includes('checked-')) {
+      const newKey = key.replace('checked-', '');
+      checkedThemeCss[newKey] = className;
+    } else if (key.includes('checkbox-')) {
+      const newKey = key.replace('checkbox-', '');
+      defaultThemeCss[newKey] = className[key];
+    } else {
+      defaultThemeCss[key] = className[key];
+    }
+  });
+  Object.keys(controlClassName).forEach(key => {
+    if (key.includes('checked-')) {
+      const newKey = key.replace('checked-', '');
+      checkedControlThemeCss[newKey] = controlClassName[key];
+    } else if (key.includes('checkbox-')) {
+      const newKey = key.replace('checkbox-', '');
+      defaultControlThemeCss[newKey] = controlClassName[key];
+    }
+  });
+  return {
+    ...themeCss,
+    [`${type}ControlClassName`]: defaultControlThemeCss,
+    [`${type}ControlCheckedClassName`]: checkedControlThemeCss,
+    [`${type}ClassName`]: defaultThemeCss,
+    [`${type}CheckedClassName`]: checkedThemeCss
+  };
+}
