@@ -21,12 +21,21 @@ import {
   findTree,
   isEffectiveApi,
   BaseApiObject,
-  getVariable
+  getVariable,
+  setThemeClassName,
+  CustomStyle
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
-import {FormOptionsSchema, SchemaApi} from '../../Schema';
+import {
+  FormOptionsSchema,
+  SchemaApi,
+  SchemaCollection,
+  SchemaClassName
+} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+
+type NodeBehaviorType = 'unfold' | 'check';
 
 /**
  * Tree 下拉选择框。
@@ -61,6 +70,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
   autoCheckChildren?: boolean;
 
   /**
+   * 虚拟列表高度
+   */
+  virtualHeight?: number;
+
+  /**
    * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
    * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
@@ -68,6 +82,16 @@ export interface TreeControlSchema extends FormOptionsSchema {
    * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
    */
   cascade?: boolean;
+
+  /**
+   * 节点行为配置，默认为选中
+   */
+  nodeBehavior?: NodeBehaviorType[];
+
+  /**
+   * 子节点取消时自动取消父节点的值，默认为false
+   */
+  autoCancelParent?: boolean;
 
   /**
    * 选父级的时候是否把子节点的值也包含在内。
@@ -128,6 +152,21 @@ export interface TreeControlSchema extends FormOptionsSchema {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 工具栏区域，仅开启检索时生效
+   */
+  toolbar?: SchemaCollection;
+
+  /**
+   * 配置 toolbar 容器 className
+   */
+  toolbarClassName?: SchemaClassName;
+
+  /**
+   * 自定义节点操作栏区域
+   */
+  itemActions?: SchemaCollection;
 
   /**
    * 搜索框的配置
@@ -255,7 +294,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     } else if (action.actionType === 'expand') {
       this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
     } else if (action.actionType === 'collapse') {
-      this.treeRef.syncUnFolded(this.props, 0);
+      this.treeRef.syncUnFolded(this.props, action.args?.closeLevel || 0);
     } else if (action.actionType === 'add') {
       this.addItemFromAction(action.args?.item, action.args?.parentValue);
     } else if (action.actionType === 'edit') {
@@ -397,6 +436,23 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     onChange && onChange(value);
   }
 
+  @autobind
+  async handleNodeClick(item: any) {
+    const {dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'itemClick',
+      resolveEventData(this.props, {
+        value: item.value,
+        item
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+  }
+
   async handleSearch(keyword: string) {
     const {searchApi, options, env, data, translate: __} = this.props;
 
@@ -463,11 +519,53 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     });
   }
 
+  @autobind
+  renderToolbar() {
+    const {
+      classPrefix: ns,
+      render,
+      id,
+      themeCss,
+      toolbar,
+      toolbarClassName
+    } = this.props;
+
+    // 防止空数组的时候展示
+    const isShow = Boolean(Array.isArray(toolbar) ? toolbar.length : toolbar);
+
+    return (
+      isShow && (
+        <div
+          className={cx(
+            `${ns}TreeControl-toolbar`,
+            toolbarClassName,
+            setThemeClassName({
+              ...this.props,
+              name: 'toolbarControlClassName',
+              id,
+              themeCss
+            })
+          )}
+        >
+          {render('toolbar', toolbar || '')}
+        </div>
+      )
+    );
+  }
+
+  @autobind
+  renderItemActions(option: Option, states: any) {
+    const {itemActions, data, render} = this.props;
+
+    return render(`action/${states.index}`, itemActions || '', {
+      data: createObject(createObject(data, {...states}), option)
+    });
+  }
+
   @supportStatic()
   render() {
     const {
       className,
-      style,
       treeContainerClassName,
       classPrefix: ns,
       value,
@@ -490,6 +588,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       hideRoot,
       rootLabel,
       autoCheckChildren,
+      autoCancelParent,
       cascade,
       rootValue,
       showIcon,
@@ -517,6 +616,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       translate: __,
       data,
       virtualThreshold,
+      virtualHeight,
       itemHeight,
       loadingConfig,
       menuTpl,
@@ -526,7 +626,11 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       heightAuto,
       mobileUI,
       testIdBuilder,
-      popOverContainer,
+      nodeBehavior,
+      itemActions,
+      id,
+      wrapperCustomStyle,
+      themeCss,
       env
     } = this.props;
     let {highlightTxt} = this.props;
@@ -546,6 +650,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         deferField={deferField}
         disabled={disabled}
         onChange={this.handleChange}
+        onHandleNodeClick={this.handleNodeClick}
         joinValues={joinValues}
         extractValue={extractValue}
         delimiter={delimiter}
@@ -565,6 +670,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         showRadio={showRadio}
         showOutline={showOutline}
         autoCheckChildren={autoCheckChildren}
+        autoCancelParent={autoCancelParent}
         cascade={cascade}
         foldedField="collapsed"
         value={value || ''}
@@ -587,49 +693,84 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
         virtualThreshold={virtualThreshold}
+        virtualHeight={
+          toNumber(virtualHeight) > 0 ? toNumber(virtualHeight) : undefined
+        }
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
+        nodeBehavior={nodeBehavior}
+        itemActionsRender={itemActions ? this.renderItemActions : undefined}
+        actionClassName={cx(
+          setThemeClassName({
+            ...this.props,
+            name: 'actionControlClassName',
+            id,
+            themeCss
+          })
+        )}
         testIdBuilder={testIdBuilder?.getChild('tree')}
       />
     );
 
     return (
-      <div
-        className={cx(`${ns}TreeControl`, className, treeContainerClassName, {
-          'is-sticky': searchable && searchConfig?.sticky,
-          'h-auto': heightAuto
-        })}
-        {...testIdBuilder?.getChild('control').getTestId()}
-      >
-        <Spinner
-          size="sm"
-          key="info"
-          show={loading}
-          loadingConfig={loadingConfig}
+      <>
+        <div
+          className={cx(`${ns}TreeControl`, className, treeContainerClassName, {
+            'is-sticky': searchable && searchConfig?.sticky,
+            'h-auto': heightAuto
+          })}
+          {...testIdBuilder?.getChild('control').getTestId()}
+        >
+          <Spinner
+            size="sm"
+            key="info"
+            show={loading}
+            loadingConfig={loadingConfig}
+          />
+          {loading ? null : searchable ? (
+            <>
+              <div className="flex items-center">
+                <SearchBox
+                  className={cx(
+                    `${ns}TreeControl-searchbox`,
+                    searchConfig?.className,
+                    {'is-sticky': searchConfig?.sticky}
+                  )}
+                  mini={false}
+                  clearable={true}
+                  {...omit(searchConfig, 'className', 'sticky')}
+                  onSearch={this.handleSearch}
+                  mobileUI={mobileUI}
+                  testIdBuilder={testIdBuilder?.getChild('search')}
+                />
+                {this.renderToolbar()}
+              </div>
+              {TreeCmpt}
+            </>
+          ) : (
+            TreeCmpt
+          )}
+        </div>
+        <CustomStyle
+          {...this.props}
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'actionControlClassName'
+              },
+              {
+                key: 'toolbarControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
-        {loading ? null : searchable ? (
-          <>
-            <SearchBox
-              className={cx(
-                `${ns}TreeControl-searchbox`,
-                searchConfig?.className,
-                {'is-sticky': searchConfig?.sticky}
-              )}
-              mini={false}
-              clearable={true}
-              {...omit(searchConfig, 'className', 'sticky')}
-              onSearch={this.handleSearch}
-              mobileUI={mobileUI}
-              testIdBuilder={testIdBuilder?.getChild('search')}
-            />
-            {TreeCmpt}
-          </>
-        ) : (
-          TreeCmpt
-        )}
-      </div>
+      </>
     );
   }
 }
