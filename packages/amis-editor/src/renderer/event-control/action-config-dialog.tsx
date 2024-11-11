@@ -339,6 +339,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                               {
                                 type: 'tooltip-wrapper',
                                 content: '${__actionDesc}',
+                                visibleOn: 'this.actionType',
                                 body: {
                                   type: 'icon',
                                   icon: 'far fa-question-circle',
@@ -353,7 +354,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             name: 'description',
                             type: 'textarea',
                             label: '动作描述',
-                            mode: 'horizontal'
+                            mode: 'horizontal',
+                            visibleOn: 'this.actionType'
                           },
                           {
                             type: 'tpl',
