@@ -482,14 +482,14 @@ export default class CheckboxesControl extends React.Component<
                 key: 'checkboxesInnerClassName',
                 weights: {
                   default: {
-                    inner: `.${ns}Checkbox:not(.disabled) > i:before`
+                    inner: `.${ns}Checkbox:not(.disabled) > i .icon`
                   },
                   hover: {
                     suf: ` .${ns}Checkbox:not(.disabled)`,
-                    inner: '> i:before'
+                    inner: '> i .icon'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox.disabled > i:before`
+                    inner: `.${ns}Checkbox.disabled > i .icon`
                   }
                 }
               },

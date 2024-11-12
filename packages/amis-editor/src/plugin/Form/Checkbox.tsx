@@ -326,29 +326,38 @@ export class CheckboxControlPlugin extends BasePlugin {
                     }
                   ],
                   schema: [
+                    {
+                      name: 'themeCss.checkboxShowClassName.--checkbox-checked-default-icon',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxClassName == "checked-default" || __editorStatethemeCss.checkboxClassName == "checked-hover" || __editorStatethemeCss.checkboxClassName == "checked-disabled"}',
+                      label: '图标',
+                      type: 'icon-select',
+                      returnSvg: true,
+                      noSize: true
+                    },
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:default',
+                      name: 'themeCss.checkboxInnerClassName.color:default',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-default"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:hover',
+                      name: 'themeCss.checkboxInnerClassName.color:hover',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-hover"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:disabled',
+                      name: 'themeCss.checkboxInnerClassName.color:disabled',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-disabled"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-disabled-icon-color'
                     })
                   ]
                 })

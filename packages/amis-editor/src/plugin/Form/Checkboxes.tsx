@@ -344,29 +344,38 @@ export class CheckboxesControlPlugin extends BasePlugin {
                     }
                   ],
                   schema: [
+                    {
+                      name: 'themeCss.checkboxesShowClassName.--checkbox-checked-default-icon',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxesClassName == "checked-default" || __editorStatethemeCss.checkboxesClassName == "checked-hover" || __editorStatethemeCss.checkboxesClassName == "checked-disabled"}',
+                      label: '图标',
+                      type: 'icon-select',
+                      returnSvg: true,
+                      noSize: true
+                    },
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxesInnerClassName.border-color:default',
+                      name: 'themeCss.checkboxesInnerClassName.color:default',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxesClassName == "checked-default"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxesInnerClassName.border-color:hover',
+                      name: 'themeCss.checkboxesInnerClassName.color:hover',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxesClassName == "checked-hover"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxesInnerClassName.border-color:disabled',
+                      name: 'themeCss.checkboxesInnerClassName.color:disabled',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxesClassName == "checked-disabled"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken: '--checkbox-checked-disabled-icon-color'
                     })
                   ]
                 })

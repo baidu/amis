@@ -274,26 +274,41 @@ export class RadiosControlPlugin extends BasePlugin {
                       }
                     ],
                     schema: [
-                      getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosCheckedInnerClassName.background:default',
-                        labelMode: 'input',
-                        label: '圆点颜色',
+                      {
+                        name: 'themeCss.radiosShowClassName.--radio-default-checked-icon',
                         visibleOn:
-                          "${__editorStatethemeCss.radiosClassName == 'checked-default'}"
+                          '${__editorStatethemeCss.radiosClassName == "checked-default" || __editorStatethemeCss.radiosClassName == "checked-hover" || __editorStatethemeCss.radiosClassName == "checked-disabled"}',
+                        label: '图标',
+                        type: 'icon-select',
+                        returnSvg: true,
+                        noSize: true
+                      },
+                      getSchemaTpl('theme:colorPicker', {
+                        name: 'themeCss.radiosInnerClassName.color:default',
+                        visibleOn:
+                          '${__editorStatethemeCss.radiosClassName == "checked-default"}',
+                        label: '图标颜色',
+                        labelMode: 'input',
+                        editorValueToken:
+                          '--checkbox-checked-default-icon-color'
                       }),
                       getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosCheckedInnerClassName.background:hover',
-                        labelMode: 'input',
-                        label: '圆点颜色',
+                        name: 'themeCss.radiosInnerClassName.color:hover',
                         visibleOn:
-                          "${__editorStatethemeCss.radiosClassName == 'checked-hover'}"
+                          '${__editorStatethemeCss.radiosClassName == "checked-hover"}',
+                        label: '图标颜色',
+                        labelMode: 'input',
+                        editorValueToken:
+                          '--checkbox-checked-default-icon-color'
                       }),
                       getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosCheckedInnerClassName.background:disabled',
-                        labelMode: 'input',
-                        label: '圆点颜色',
+                        name: 'themeCss.radiosInnerClassName.color:disabled',
                         visibleOn:
-                          "${__editorStatethemeCss.radiosClassName == 'checked-disabled'}"
+                          '${__editorStatethemeCss.radiosClassName == "checked-disabled"}',
+                        label: '图标颜色',
+                        labelMode: 'input',
+                        editorValueToken:
+                          '--checkbox-checked-disabled-icon-color'
                       })
                     ]
                   }
