@@ -99,50 +99,46 @@ export function CustomStyleWrapper(config: {
   classNames: CustomStyleClassName[];
   wrapperCustomStyle?: boolean;
   themeCss?: string;
+  defaultData?: PlainObject;
   id?: string;
 }) {
   return function <T extends React.ComponentType>(Component: T): T {
-    const WrappedComponent = (props: any) => {
-      const id = config.id || props.id;
-      const themeCss = props[config.themeCss || 'themeCss'];
-
-      const [className, setClassName] = React.useState<PlainObject>({});
-
-      useEffect(() => {
+    return class extends React.Component<any> {
+      render() {
+        const id = config.id || this.props.id;
+        const themeCss = this.props[config.themeCss || 'themeCss'];
         const className: PlainObject = {};
         config.classNames.forEach(item => {
           if (item.name) {
             className[item.name] = cx(
               setThemeClassName({
-                props,
+                props: this.props,
                 name: item.key,
                 id,
                 themeCss
               }),
-              props[item.name]
+              this.props[item.name]
             );
           }
         });
-        setClassName(className);
-      }, [props]);
-
-      return (
-        <>
-          <CustomStyle
-            config={{
-              classNames: config.classNames,
-              id,
-              themeCss,
-              wrapperCustomStyle: config.wrapperCustomStyle
-                ? props.wrapperCustomStyle
-                : null
-            }}
-            {...props}
-          />
-          <Component {...props} {...className} />
-        </>
-      );
-    };
-    return WrappedComponent as unknown as T;
+        return (
+          <>
+            <CustomStyle
+              config={{
+                classNames: config.classNames,
+                id,
+                themeCss,
+                defaultData: config.defaultData,
+                wrapperCustomStyle: config.wrapperCustomStyle
+                  ? this.props.wrapperCustomStyle
+                  : null
+              }}
+              {...this.props}
+            />
+            <Component {...this.props} {...(className as any)} />
+          </>
+        );
+      }
+    } as T;
   };
 }
