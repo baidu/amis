@@ -65,7 +65,9 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           }
         }
       });
-      return loadAsyncRenderersByType(types, true);
+      return hasAsyncRenderers(types)
+        ? loadAsyncRenderersByType(types, true)
+        : undefined;
     });
   }
 
