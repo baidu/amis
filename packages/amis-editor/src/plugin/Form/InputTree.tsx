@@ -280,6 +280,43 @@ export class TreeControlPlugin extends BasePlugin {
       actionLabel: '赋值',
       description: '触发组件数据更新',
       ...getActionCommonProps('setValue')
+    },
+    // 检索
+    {
+      actionType: 'search',
+      actionLabel: '搜索',
+      description: '搜索当前数据源内的选项',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            <span className="variable-right">{info?.rendererLabel}</span>
+            {info?.args?.keyword ? (
+              <>
+                搜索
+                <span className="variable-left variable-right">
+                  {info?.args?.keyword}
+                </span>
+                的选项
+              </>
+            ) : (
+              '搜索'
+            )}
+          </div>
+        );
+      },
+      innerArgs: ['keyword'],
+      schema: getArgsWrapper(
+        getSchemaTpl('formulaControl', {
+          name: 'keyword',
+          label: '关键词',
+          variables: '${variables}',
+          size: 'lg',
+          mode: 'horizontal',
+          horizontal: {
+            left: 'normal'
+          }
+        })
+      )
     }
   ];
 

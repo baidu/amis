@@ -154,16 +154,6 @@ export interface TreeControlSchema extends FormOptionsSchema {
   searchApi?: SchemaApi;
 
   /**
-   * 工具栏区域，仅开启检索时生效
-   */
-  toolbar?: SchemaCollection;
-
-  /**
-   * 配置 toolbar 容器 className
-   */
-  toolbarClassName?: SchemaClassName;
-
-  /**
    * 自定义节点操作栏区域
    */
   itemActions?: SchemaCollection;
@@ -233,6 +223,7 @@ export interface TreeProps
 interface TreeState {
   filteredOptions: Option[];
   keyword: string;
+  allowSearch: boolean;
 }
 
 export default class TreeControl extends React.Component<TreeProps, TreeState> {
@@ -251,7 +242,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     super(props);
     this.state = {
       keyword: '',
-      filteredOptions: this.props.options ?? []
+      filteredOptions: this.props.options ?? [],
+      allowSearch: false
     };
     this.handleSearch = debounce(this.handleSearch.bind(this), 250, {
       trailing: true,
@@ -303,6 +295,11 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       this.deleteItemFromAction(action.args?.value);
     } else if (action.actionType === 'reload') {
       this.reload();
+    } else if (actionType === 'search') {
+      this.setState({
+        allowSearch: !!action.args?.keyword
+      });
+      this.handleSearch(action.args?.keyword);
     }
   }
 
@@ -387,8 +384,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       joinValues,
       extractValue
     } = this.props;
-    const {filteredOptions} = this.state;
-    const items = searchable ? filteredOptions : options;
+    const {filteredOptions, allowSearch} = this.state;
+    const items = searchable || allowSearch ? filteredOptions : options;
 
     const selectedItems = value2array(value, {
       multiple,
@@ -401,7 +398,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     // 如果是搜索模式，有可能已经选择的值被过滤掉了，如果值发生了变化
     // 不应该让原来选中的值丢失
     // https://github.com/baidu/amis/issues/9946
-    if (multiple && searchable && originSelectedItems.length) {
+    if (multiple && (searchable || allowSearch) && originSelectedItems.length) {
       originSelectedItems.forEach(origin => {
         const exists = findTree(
           filteredOptions,
@@ -520,46 +517,30 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   }
 
   @autobind
-  renderToolbar() {
-    const {
-      classPrefix: ns,
-      render,
-      id,
-      themeCss,
-      toolbar,
-      toolbarClassName
-    } = this.props;
-
-    // 防止空数组的时候展示
-    const isShow = Boolean(Array.isArray(toolbar) ? toolbar.length : toolbar);
-
-    return (
-      isShow && (
-        <div
-          className={cx(
-            `${ns}TreeControl-toolbar`,
-            toolbarClassName,
-            setThemeClassName({
-              ...this.props,
-              name: 'toolbarControlClassName',
-              id,
-              themeCss
-            })
-          )}
-        >
-          {render('toolbar', toolbar || '')}
-        </div>
-      )
-    );
-  }
-
-  @autobind
   renderItemActions(option: Option, states: any) {
     const {itemActions, data, render} = this.props;
 
     return render(`action/${states.index}`, itemActions || '', {
       data: createObject(createObject(data, {...states}), option)
     });
+  }
+
+  @autobind
+  renderSearch() {
+    const {classPrefix: ns, searchConfig, mobileUI, testIdBuilder} = this.props;
+    return (
+      <SearchBox
+        className={cx(`${ns}TreeControl-searchbox`, searchConfig?.className, {
+          'is-sticky': searchConfig?.sticky
+        })}
+        mini={false}
+        clearable={true}
+        {...omit(searchConfig, 'className', 'sticky')}
+        onSearch={this.handleSearch}
+        mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder?.getChild('search')}
+      />
+    );
   }
 
   @supportStatic()
@@ -634,7 +615,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       env
     } = this.props;
     let {highlightTxt} = this.props;
-    const {filteredOptions, keyword} = this.state;
+    const {filteredOptions, keyword, allowSearch} = this.state;
 
     if (isPureVariable(highlightTxt)) {
       highlightTxt = resolveVariableAndFilter(highlightTxt, data);
@@ -655,8 +636,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         extractValue={extractValue}
         delimiter={delimiter}
         placeholder={__(placeholder)}
-        options={searchable ? filteredOptions : options}
-        highlightTxt={searchable ? keyword : highlightTxt}
+        options={searchable || allowSearch ? filteredOptions : options}
+        highlightTxt={searchable || allowSearch ? keyword : highlightTxt}
         multiple={multiple}
         initiallyOpen={initiallyOpen}
         unfoldedLevel={unfoldedLevel}
@@ -731,22 +712,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           />
           {loading ? null : searchable ? (
             <>
-              <div className="flex items-center">
-                <SearchBox
-                  className={cx(
-                    `${ns}TreeControl-searchbox`,
-                    searchConfig?.className,
-                    {'is-sticky': searchConfig?.sticky}
-                  )}
-                  mini={false}
-                  clearable={true}
-                  {...omit(searchConfig, 'className', 'sticky')}
-                  onSearch={this.handleSearch}
-                  mobileUI={mobileUI}
-                  testIdBuilder={testIdBuilder?.getChild('search')}
-                />
-                {this.renderToolbar()}
-              </div>
+              {this.renderSearch()}
               {TreeCmpt}
             </>
           ) : (
@@ -762,9 +728,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             classNames: [
               {
                 key: 'actionControlClassName'
-              },
-              {
-                key: 'toolbarControlClassName'
               }
             ]
           }}
