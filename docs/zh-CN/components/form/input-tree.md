@@ -1793,6 +1793,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | clear    | -                                      | 清空                                                                                                       |
 | reset    | -                                      | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                           |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                    |
+| search   | `keyword: string` 检索的值             | 检索数据                                                                                                   |
 
 ### clear
 
@@ -1924,6 +1925,70 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
                 }
             }
         }
+    ]
+}
+```
+
+### search
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keyword",
+        "className": "mb-4",
+        "style": {
+          "width": "100%"
+        },
+        "onEvent": {
+          "change": {
+            "actions": [
+              {
+                "componentId": "tree",
+                "groupType": "component",
+                "actionType": "search",
+                "args": {
+                  "keyword": "${event.data.value}"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-tree",
+        "id": "tree",
+        "name": "tree",
+        "label": false,
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ]
+      }
     ]
 }
 ```
