@@ -42,6 +42,7 @@ class Position extends React.Component<any, any> {
   parentPopover: any;
   // setState: (state: any) => void;
   componentId: string;
+  overlay: HTMLDivElement;
 
   static defaultProps = {
     containerPadding: 0,
@@ -89,16 +90,13 @@ class Position extends React.Component<any, any> {
     }
 
     const watchTargetSizeChange = this.props.watchTargetSizeChange;
-    const overlay = findDOMNode(this as any) as HTMLElement;
+    const overlay = this.overlay;
     const container = getContainer(
       this.props.container,
       ownerDocument(this).body
     );
 
-    if (
-      (!this.watchedTarget || this.watchedTarget !== target) &&
-      getComputedStyle(target, 'position') !== 'static'
-    ) {
+    if (!this.watchedTarget || this.watchedTarget !== target) {
       this.resizeDispose?.forEach(fn => fn());
       this.watchedTarget = target;
       this.resizeDispose = [
@@ -131,6 +129,7 @@ class Position extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    this.overlay = findDOMNode(this) as HTMLDivElement;
     this.updatePosition(this.getTarget());
   }
 
