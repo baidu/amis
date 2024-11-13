@@ -395,7 +395,7 @@ export class CheckboxControlPlugin extends BasePlugin {
                   ],
                   schema: [
                     {
-                      name: 'themeCss.checkboxShowClassName.--checkbox-checked-default-icon',
+                      name: 'themeCss.checkboxShowClassName.--checkbox-default-checked-default-icon',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-default" || __editorStatethemeCss.checkboxClassName == "checked-hover" || __editorStatethemeCss.checkboxClassName == "checked-disabled"}',
                       label: '图标',
