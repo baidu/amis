@@ -1369,8 +1369,10 @@ setSchemaTpl('animation', () => {
           const {id} = data;
           let animationType = 'fadeIn';
           if ('children' in animationOptions[type][0]) {
+            // @ts-ignore
             animationType = animationOptions[type][0].children[0].value;
           } else {
+            // @ts-ignore
             animationType = animationOptions[type][0].value;
           }
           playAnimation(
