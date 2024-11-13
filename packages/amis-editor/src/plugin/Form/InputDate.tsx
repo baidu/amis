@@ -358,6 +358,9 @@ export class DateControlPlugin extends BasePlugin {
                 getSchemaTpl('clearable', {
                   pipeIn: defaultValue(true)
                 }),
+                getSchemaTpl('inputForbid', {
+                  pipeIn: defaultValue(false)
+                }),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: (schema: Schema) => schema,
                   placeholder: '请选择静态值',
