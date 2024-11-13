@@ -48,7 +48,8 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
       this.props.editorFactory?.(this.dom.current!, cm, this.props) ??
       cm(this.dom.current!, {
         value: this.props.value || '',
-        readOnly: this.props.readOnly ? 'nocursor' : false
+        readOnly: this.props.readOnly ? 'nocursor' : false,
+        autofocus: false
       });
 
     this.props.editorDidMount?.(cm, this.editor);
@@ -56,7 +57,7 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
     this.editor.on('blur', this.handleBlur);
     this.editor.on('focus', this.handleFocus);
 
-    this.setValue(this.props.value);
+    this.props.value && this.setValue(this.props.value);
 
     this.toDispose.push(
       resizeSensor(this.dom.current as HTMLElement, () =>

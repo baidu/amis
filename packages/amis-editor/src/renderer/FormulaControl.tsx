@@ -250,7 +250,7 @@ export default class FormulaControl extends React.Component<
       this.props
     );
     const rawType =
-      utils.RAW_TYPE_MAP[rendererSchema.type as SchemaType] || 'string';
+      utils.RAW_TYPE_MAP[rendererSchema?.type as SchemaType] || 'string';
     const filterVars = variables
       .map(item => {
         if (item.children && item.type !== 'quickVars') {
