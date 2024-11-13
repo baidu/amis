@@ -482,6 +482,7 @@ order: 54
       "type":"input-table",
       "perPage": 5,
       "name":"table",
+      "addable": true,
       "columns":[
           {
             "name": "a",

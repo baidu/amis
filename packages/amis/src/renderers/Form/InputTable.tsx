@@ -728,7 +728,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     callback?: () => void
   ) {
     index = index || `${this.state.items.length - 1}`;
-    const {needConfirm, scaffold, columns, data} = this.props;
+    const {needConfirm, scaffold, columns, data, perPage} = this.props;
     let items = this.state.items.concat();
     let value: TableDataItem = {
       [PLACE_HOLDER]: true
@@ -787,10 +787,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let originHost = items;
     items = spliceTree(items, next, 0, value);
     this.reUseRowId(items, originHost, next);
+    let page = this.state.page;
+
+    if (perPage) {
+      page = Math.ceil((next[0] + 1) / perPage);
+    }
 
     this.setState(
       {
         items,
+        page,
         // 需要一起修改，state 不能分批次 setState
         // 因为第一步添加成员，单元格的表单项如果有默认值就会触发 onChange
         // 然后 handleTableSave 里面就会执行，因为没有 editIndex 会以为是批量更新 state 后 emitValue
