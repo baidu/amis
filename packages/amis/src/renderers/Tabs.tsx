@@ -242,7 +242,7 @@ export interface TabsState {
 }
 
 export type TabsRendererEvent = 'change';
-export type TabsRendererAction = 'changeActiveKey' | 'deleteKey';
+export type TabsRendererAction = 'changeActiveKey' | 'deleteTab';
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
   static defaultProps: Partial<TabsProps> = {
@@ -588,12 +588,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  async handleClose(key: string | number) {
+  async handleClose(key: any, isHash?: boolean) {
     const originTabs = this.state.localTabs.concat();
 
     // 获取删除元素项下标
     const tabIndex = originTabs?.findIndex(
-      (item, index) => key === (item.hash ?? index)
+      (item, index) => key === (isHash ? item.hash : item.hash ?? index)
     );
 
     if (tabIndex === -1) {
@@ -605,7 +605,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const rendererEvent = await dispatchEvent(
       'delete',
       resolveEventData(this.props, {
-        value: key ?? tabIndex + 1
+        value: key
       })
     );
     if (rendererEvent?.prevented) {
@@ -712,17 +712,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const tmpKey = Number(args?.activeKey);
     let activeKey = isNaN(tmpKey) ? args?.activeKey : tmpKey;
 
-    const _tmpKey = Number(args?.deleteKey);
-    let deleteKey = isNaN(_tmpKey) ? args?.deleteKey : _tmpKey;
+    const deleteHash = args?.deleteHash;
 
     if (actionType === 'changeActiveKey') {
       this.handleSelect(
         typeof activeKey === 'number' ? activeKey - 1 : activeKey
       );
-    } else if (actionType === 'deleteKey') {
-      this.handleClose(
-        typeof deleteKey === 'number' ? deleteKey - 1 : deleteKey
-      );
+    } else if (actionType === 'deleteTab') {
+      this.handleClose(deleteHash, true);
     }
   }
 

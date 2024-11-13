@@ -901,20 +901,36 @@ setSchemaTpl('theme:cssCode', () => {
 });
 
 // single css类名
-setSchemaTpl('theme:singleCssCode', (options: any) => {
-  const {selectors} = options;
-  return {
-    title: '自定义样式',
-    body: selectors?.map((item: any) => {
-      return {
-        mode: 'default',
-        type: 'ae-single-theme-cssCode',
-        label: false,
-        selector: item
-      };
-    })
-  };
-});
+setSchemaTpl(
+  'theme:singleCssCode',
+  (options: {
+    selectors: {
+      label: string;
+      selector: string;
+      isRoot?: boolean;
+    }[];
+  }) => {
+    const {selectors} = options;
+    return {
+      title: '自定义样式',
+      name: 'wrapperCustomStyle',
+      body: selectors?.map(
+        (item: {label: string; selector: string; isRoot?: boolean}) => {
+          const {isRoot, selector} = item;
+          const _selector = isRoot ? 'root' : selector;
+          const name = `wrapperCustomStyle[${_selector}]`;
+          return {
+            mode: 'default',
+            name,
+            type: 'ae-single-theme-cssCode',
+            label: false,
+            selector: item
+          };
+        }
+      )
+    };
+  }
+);
 
 // form label
 setSchemaTpl('theme:form-label', () => {

@@ -117,7 +117,7 @@ export class TabsPlugin extends BasePlugin {
     {
       actionType: 'changeActiveKey',
       actionLabel: '激活指定选项卡',
-      description: '修改当前激活tab项的key',
+      description: '修改当前激活tab项',
       config: ['activeKey'],
       descDetail: (info: any, context: any, props: any) => {
         return (
@@ -136,32 +136,39 @@ export class TabsPlugin extends BasePlugin {
           label: '激活项',
           variables: '${variables}',
           size: 'lg',
-          mode: 'horizontal'
+          mode: 'horizontal',
+          horizontal: {
+            left: 'normal'
+          }
         })
       )
     },
     {
-      actionType: 'deleteKey',
+      actionType: 'deleteTab',
       actionLabel: '删除指定选项卡',
-      description: '删除指定tab项',
-      descDetail: (info: any, context: any, props: any) => {
+      description: '删除指定hash的tab项',
+      descDetail: (info: any) => {
         return (
-          <div className="action-desc">
-            删除第
+          <div>
+            删除hash为
             <span className="variable-left variable-right">
-              {info?.args?.deleteKey}
+              {info?.args?.deleteHash}
             </span>
-            项
+            的tab项
           </div>
         );
       },
       schema: getArgsWrapper(
         getSchemaTpl('formulaControl', {
-          name: 'deleteKey',
+          name: 'deleteHash',
           label: '删除项',
           variables: '${variables}',
           size: 'lg',
-          mode: 'horizontal'
+          mode: 'horizontal',
+          placeholder: '请输入hash值',
+          horizontal: {
+            left: 'normal'
+          }
         })
       )
     }
@@ -368,6 +375,7 @@ export class TabsPlugin extends BasePlugin {
               selectors: [
                 {
                   label: '选项卡基本样式',
+                  isRoot: true,
                   selector: '.cxd-Tabs'
                 },
                 {
