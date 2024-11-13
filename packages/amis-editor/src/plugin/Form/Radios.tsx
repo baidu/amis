@@ -200,6 +200,59 @@ export class RadiosControlPlugin extends BasePlugin {
               title: '选项样式',
               body: [
                 ...inputStateTpl('themeCss.radiosControlClassName', '', {
+                  fontToken(state) {
+                    const s = state.split('-');
+                    if (s[1] === 'disabled') {
+                      return {
+                        'color': `--radio-\${optionType}-\${optionType === "default" ? "disabled-text-color" : "disabled-${
+                          s[0] === 'checked' ? 'checked' : 'unchecked'
+                        }-text-color"}`,
+                        '*': '--radio-${optionType}-default'
+                      };
+                    }
+                    if (s[0] === 'checked') {
+                      return {
+                        'color': '--radio-${optionType}-checked-text-color',
+                        '*': '--radio-${optionType}-default'
+                      };
+                    }
+                    return {
+                      'color': `--radio-\${optionType}-${s[1]}-text-color`,
+                      '*': '--radio-${optionType}-default'
+                    };
+                  },
+                  backgroundToken(state) {
+                    const s = state.split('-');
+                    if (s[1] === 'disabled') {
+                      return `--radio-\${optionType}-\${optionType === "default" ? "disabled-bg-color" : "disabled-${
+                        s[0] === 'checked' ? 'checked' : 'unchecked'
+                      }-bg-color"}`;
+                    }
+                    if (s[0] === 'checked') {
+                      return '--radio-${optionType}-checked-bg-color';
+                    }
+                    return `--radio-\${optionType}-${s[1]}-bg-color`;
+                  },
+                  radiusToken() {
+                    return '--radio-${optionType}-default';
+                  },
+                  borderToken(state) {
+                    const s = state.split('-');
+                    let str = s[0] === 'checked' ? 'checked' : s[1];
+                    if (s[1] === 'disabled') {
+                      str =
+                        s[0] === 'checked'
+                          ? 'disabled-checked'
+                          : 'disabled-unchecked';
+                    }
+                    return {
+                      'topBorderColor': `--radio-\${optionType}-${str}-top-border-color`,
+                      'rightBorderColor': `--radio-\${optionType}-${str}-right-border-color`,
+                      'bottomBorderColor': `--radio-\${optionType}-${str}-bottom-border-color`,
+                      'leftBorderColor': `--radio-\${optionType}-${str}-left-border-color`,
+                      '*': '--radio-${optionType}-default'
+                    };
+                  },
                   state: [
                     {
                       label: '常规',
@@ -239,80 +292,95 @@ export class RadiosControlPlugin extends BasePlugin {
                   name: 'themeCss.radiosShowClassName.display',
                   trueValue: 'none'
                 },
-                ...inputStateTpl(
-                  'themeCss.radiosClassName',
-                  '--radio-default',
-                  {
-                    hideFont: true,
-                    hideMargin: true,
-                    hidePadding: true,
-                    hiddenOn: 'themeCss.radiosShowClassName.display === "none"',
-                    state: [
-                      {
-                        label: '常规',
-                        value: 'radios-default'
-                      },
-                      {
-                        label: '悬浮',
-                        value: 'radios-hover'
-                      },
-                      {
-                        label: '禁用',
-                        value: 'radios-disabled'
-                      },
-                      {
-                        label: '选中',
-                        value: 'checked-default'
-                      },
-                      {
-                        label: '选中态悬浮',
-                        value: 'checked-hover'
-                      },
-                      {
-                        label: '选中禁用',
-                        value: 'checked-disabled'
-                      }
-                    ],
-                    schema: [
-                      {
-                        name: 'themeCss.radiosShowClassName.--radio-default-checked-icon',
-                        visibleOn:
-                          '${__editorStatethemeCss.radiosClassName == "checked-default" || __editorStatethemeCss.radiosClassName == "checked-hover" || __editorStatethemeCss.radiosClassName == "checked-disabled"}',
-                        label: '图标',
-                        type: 'icon-select',
-                        returnSvg: true,
-                        noSize: true
-                      },
-                      getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosInnerClassName.color:default',
-                        visibleOn:
-                          '${__editorStatethemeCss.radiosClassName == "checked-default"}',
-                        label: '图标颜色',
-                        labelMode: 'input',
-                        editorValueToken:
-                          '--checkbox-checked-default-icon-color'
-                      }),
-                      getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosInnerClassName.color:hover',
-                        visibleOn:
-                          '${__editorStatethemeCss.radiosClassName == "checked-hover"}',
-                        label: '图标颜色',
-                        labelMode: 'input',
-                        editorValueToken:
-                          '--checkbox-checked-default-icon-color'
-                      }),
-                      getSchemaTpl('theme:colorPicker', {
-                        name: 'themeCss.radiosInnerClassName.color:disabled',
-                        visibleOn:
-                          '${__editorStatethemeCss.radiosClassName == "checked-disabled"}',
-                        label: '图标颜色',
-                        labelMode: 'input',
-                        editorValueToken:
-                          '--checkbox-checked-disabled-icon-color'
-                      })
-                    ]
-                  }
-                )
+                ...inputStateTpl('themeCss.radiosClassName', '', {
+                  hideFont: true,
+                  hideMargin: true,
+                  hidePadding: true,
+                  hiddenOn: 'themeCss.radiosShowClassName.display === "none"',
+                  backgroundToken: (state: string) => {
+                    const s = state.split('-');
+                    if (s[0] === 'checked' && s[1] !== 'disabled') {
+                      return `--radio-default-checked-bg-color`;
+                    }
+                    return `--radio-default-${s[1]}-bg-color`;
+                  },
+                  borderToken: (state: string) => {
+                    const s = state.split('-');
+                    let color = `--radio-default-${s[1]}-border-color`;
+                    if (s[0] === 'checked' && s[1] !== 'disabled') {
+                      color = '--radio-default-checked-border-color';
+                    }
+                    return {
+                      color,
+                      width: 'var(--borders-width-2)',
+                      style: 'var(--borders-style-2)'
+                    };
+                  },
+                  radiusToken: () => {
+                    return {'*': 'var(--borders-radius-7)'};
+                  },
+                  state: [
+                    {
+                      label: '常规',
+                      value: 'radios-default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'radios-hover'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'radios-disabled'
+                    },
+                    {
+                      label: '选中',
+                      value: 'checked-default'
+                    },
+                    {
+                      label: '选中态悬浮',
+                      value: 'checked-hover'
+                    },
+                    {
+                      label: '选中禁用',
+                      value: 'checked-disabled'
+                    }
+                  ],
+                  schema: [
+                    {
+                      name: 'themeCss.radiosShowClassName.--radio-default-checked-icon',
+                      visibleOn:
+                        '${__editorStatethemeCss.radiosClassName == "checked-default" || __editorStatethemeCss.radiosClassName == "checked-hover" || __editorStatethemeCss.radiosClassName == "checked-disabled"}',
+                      label: '图标',
+                      type: 'icon-select',
+                      returnSvg: true,
+                      noSize: true
+                    },
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.color:default',
+                      visibleOn:
+                        '${__editorStatethemeCss.radiosClassName == "checked-default"}',
+                      label: '图标颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--radio-default-checked-icon-color'
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.color:hover',
+                      visibleOn:
+                        '${__editorStatethemeCss.radiosClassName == "checked-hover"}',
+                      label: '图标颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--radio-default-checked-icon-color'
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      name: 'themeCss.radiosCheckedInnerClassName.color:disabled',
+                      visibleOn:
+                        '${__editorStatethemeCss.radiosClassName == "checked-disabled"}',
+                      label: '图标颜色',
+                      labelMode: 'input',
+                      editorValueToken: '--radio-default-disabled-icon-color'
+                    })
+                  ]
+                })
               ]
             },
 

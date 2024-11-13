@@ -2404,9 +2404,9 @@ export function formateCheckThemeCss(themeCss: any, type: string) {
   Object.keys(className).forEach(key => {
     if (key.includes('checked-')) {
       const newKey = key.replace('checked-', '');
-      checkedThemeCss[newKey] = className;
-    } else if (key.includes('checkbox-')) {
-      const newKey = key.replace('checkbox-', '');
+      checkedThemeCss[newKey] = className[key];
+    } else if (key.includes(`${type}-`)) {
+      const newKey = key.replace(`${type}-`, '');
       defaultThemeCss[newKey] = className[key];
     } else {
       defaultThemeCss[key] = className[key];
@@ -2416,9 +2416,11 @@ export function formateCheckThemeCss(themeCss: any, type: string) {
     if (key.includes('checked-')) {
       const newKey = key.replace('checked-', '');
       checkedControlThemeCss[newKey] = controlClassName[key];
-    } else if (key.includes('checkbox-')) {
-      const newKey = key.replace('checkbox-', '');
+    } else if (key.includes(`${type}-`)) {
+      const newKey = key.replace(`${type}-`, '');
       defaultControlThemeCss[newKey] = controlClassName[key];
+    } else {
+      defaultControlThemeCss[key] = controlClassName[key];
     }
   });
   return {

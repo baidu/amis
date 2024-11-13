@@ -53,7 +53,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
   }
   const [radiusType, setRadiusType] = useState<string>('all');
 
-  let radiusToken;
+  let radiusToken: any;
 
   if (editorValueToken) {
     radiusToken = {
@@ -62,6 +62,19 @@ function BoxRadius(props: RadiusProps & RendererProps) {
       'bottom-right-border-radius': `${editorValueToken}-bottom-right-border-radius`,
       'bottom-left-border-radius': `${editorValueToken}-bottom-left-border-radius`
     };
+  }
+  if (typeof editorValueToken === 'object') {
+    Object.keys(radiusToken).forEach(key => {
+      // 短横线转驼峰
+      const tokenKey = key.replace(/-([a-z])/g, function (all, letter) {
+        return letter.toUpperCase();
+      });
+      if (editorValueToken['*']) {
+        radiusToken[key] = editorValueToken['*'];
+      } else {
+        radiusToken[key] = editorValueToken[tokenKey];
+      }
+    });
   }
 
   const editorDefaultValue = formatData(getDefaultValue(radiusToken, data));

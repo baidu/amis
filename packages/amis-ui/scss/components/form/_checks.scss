@@ -147,56 +147,56 @@
   }
 
   &--checkbox--default {
-    font-weight: var(--checkbox-checkbox-default-fontWeight);
-    @include checkbox-default-style(--checkbox-checkbox-default);
+    font-weight: var(--checkbox-default-default-fontWeight);
+    @include checkbox-default-style(--checkbox-default-default);
     > i {
-      margin-right: var(--checkbox-checkbox-default-distance);
+      margin-right: var(--checkbox-default-default-distance);
       .icon {
-        height: var(--checkbox-checked-default-icon-size);
-        width: var(--checkbox-checked-default-icon-size);
-        color: var(--checkbox-checked-default-icon-color);
+        height: var(--checkbox-default-checked-default-icon-size);
+        width: var(--checkbox-default-checked-default-icon-size);
+        color: var(--checkbox-default-checked-default-icon-color);
         transition: all var(--animation-duration);
         transform: scale(0);
       }
     }
 
     &:hover:not(.disabled):not(.checked) {
-      @include checkbox-default-style(--checkbox-checkbox-hover);
+      @include checkbox-default-style(--checkbox-default-hover);
     }
     &:active:not(.disabled):not(.checked) {
-      @include checkbox-default-style(--checkbox-checkbox-active);
+      @include checkbox-default-style(--checkbox-default-active);
     }
   }
   &--checkbox--default--checked {
-    @include checkbox-default-style(--checkbox-checked-default);
+    @include checkbox-default-style(--checkbox-default-checked-default);
     > i {
       .icon {
         transform: scale(1);
       }
     }
     &:hover:not(.disabled) {
-      @include checkbox-default-style(--checkbox-checked-hover);
+      @include checkbox-default-style(--checkbox-default-checked-hover);
     }
     &:active:not(.disabled) {
-      @include checkbox-default-style(--checkbox-checked-active);
+      @include checkbox-default-style(--checkbox-default-checked-active);
     }
   }
   &--checkbox--default--disabled--unchecked {
-    @include checkbox-default-style(--checkbox-checkbox-disabled);
+    @include checkbox-default-style(--checkbox-default-disabled);
   }
   &--checkbox--default--disabled--checked {
-    @include checkbox-default-style(--checkbox-checked-disabled);
+    @include checkbox-default-style(--checkbox-default-checked-disabled);
     > i {
       .icon {
         transform: scale(1);
-        color: var(--checkbox-checked-disabled-icon-color);
+        color: var(--checkbox-default-checked-disabled-icon-color);
       }
     }
   }
 
   @mixin checkbox-button-style($type) {
     border-color: borderColor(#{$type});
-    color: var(#{$type}-color);
+    color: var(#{$type}-text-color);
     > i {
       width: var(#{$type}-icon-bg-size);
       height: var(#{$type}-icon-bg-size);
@@ -215,7 +215,8 @@
     line-height: var(--checkbox-button-default-lineHeight);
     padding: padding(--checkbox-button-default);
     min-width: px2rem(80px);
-    font-size: var(--checkbox-button-font-size);
+    font-size: var(--checkbox-button-default-fontSize);
+    color: var(--checkbox-button-default-text-color);
     border-radius: 0;
     border-color: borderColor(--checkbox-button-default);
     border-width: borderWidth(--checkbox-button-default);
@@ -242,14 +243,14 @@
       margin-bottom: 0 !important;
     }
     &:hover:not(.disabled):not(.checked) {
-      color: var(--checkbox-button-hover-color);
+      color: var(--checkbox-button-hover-text-color);
       border-color: borderColor(--checkbox-button-hover);
       z-index: 1;
     }
   }
   &--checkbox--button--checked {
     z-index: 1;
-    @include checkbox-button-style(--checkbox-button-checked);
+    @include checkbox-button-style(--checkbox-button-checked-default);
     > i {
       position: absolute;
       top: 0;
@@ -268,13 +269,13 @@
     }
   }
   &--checkbox--button--disabled--unchecked {
-    color: var(--checkbox-button-disabled-unchecked-color);
-    background: var(--checkbox-button-disabled-unchecked-bg-color);
-    border-color: borderColor(--checkbox-button-disabled-unchecked);
+    color: var(--checkbox-button-disabled-text-color);
+    background: var(--checkbox-button-disabled-bg-color);
+    border-color: borderColor(--checkbox-button-disabled);
   }
   &--checkbox--button--disabled--checked {
-    background: var(--checkbox-button-disabled-checked-bg-color);
-    @include checkbox-button-style(--checkbox-button-disabled-checked);
+    background: var(--checkbox-button-checked-disabled-bg-color);
+    @include checkbox-button-style(--checkbox-button-checked-disabled);
     > i {
       position: absolute;
       top: 0;
@@ -295,9 +296,10 @@
     > i {
       width: var(--radio-default-default-point-size);
       height: var(--radio-default-default-point-size);
-      border: px2rem(1px) solid var(--radio-default-default-color);
+      border: var(--borders-width-2) var(--borders-style-2)
+        var(--radio-default-default-border-color);
       margin-top: px2rem(-2px);
-      border-radius: 50%;
+      border-radius: var(--borders-radius-7);
       background: var(--radio-default-default-bg-color);
       display: inline-flex;
       align-items: center;
@@ -305,7 +307,7 @@
       .icon {
         width: var(--radio-default-checked-icon-size);
         height: var(--radio-default-checked-icon-size);
-        color: var(--radio-default-checked-color);
+        color: var(--radio-default-checked-icon-color);
         transition: all var(--animation-duration);
         transform: scale(0);
         display: flex;
@@ -318,7 +320,7 @@
     &:hover:not(.disabled) {
       color: var(--radio-default-hover-text-color);
       > i {
-        border-color: var(--radio-default-hover-color);
+        border-color: var(--radio-default-hover-border-color);
         background-color: var(--radio-default-hover-bg-color);
       }
     }
@@ -326,7 +328,7 @@
   &--radio--default--checked {
     color: var(--radio-default-checked-text-color);
     > i {
-      border-color: var(--radio-default-checked-color);
+      border-color: var(--radio-default-checked-border-color);
       background-color: var(--radio-default-checked-bg-color);
       .icon {
         transform: scale(1);
@@ -336,14 +338,14 @@
   &--radio--default--disabled--unchecked {
     color: var(--radio-default-disabled-text-color);
     > i {
-      border-color: var(--radio-default-disabled-color);
+      border-color: var(--radio-default-disabled-border-color);
       background-color: var(--radio-default-disabled-bg-color);
     }
   }
   &--radio--default--disabled--checked {
     color: var(--radio-default-disabled-text-color);
     > i {
-      border-color: var(--radio-default-disabled-color);
+      border-color: var(--radio-default-disabled-border-color);
       background-color: var(--radio-default-disabled-bg-color);
 
       .icon {
@@ -356,17 +358,18 @@
   &--radio--button {
     text-align: center;
     height: var(--radio-button-default-height);
-    line-height: var(--radio-button-default-lineHeight);
     padding: padding(--radio-button-default);
     min-width: px2rem(80px);
-    font-size: var(--radio-button-font-size);
+    font-size: var(--radio-button-default-fontSize);
+    color: var(--radio-button-default-text-color);
+    line-height: var(--radio-button-default-lineHeight);
     border-radius: radius(--radio-button-default);
     border-color: borderColor(--radio-button-default);
     border-width: borderWidth(--radio-button-default);
     border-style: borderStyle(--radio-button-default);
 
     &:hover:not(.disabled):not(.checked) {
-      color: var(--radio-button-hover-color);
+      color: var(--radio-button-hover-text-color);
       border-color: borderColor(--radio-button-hover);
     }
     > i {
@@ -377,17 +380,17 @@
     }
   }
   &--radio--button--checked {
-    color: var(--radio-button-checked-color);
+    color: var(--radio-button-checked-text-color);
     border-color: borderColor(--radio-button-checked);
     background-color: var(--radio-button-checked-bg-color);
   }
   &--radio--button--disabled--unchecked {
-    color: var(--radio-button-disabled-unchecked-color);
+    color: var(--radio-button-disabled-unchecked-text-color);
     border-color: borderColor(--radio-button-disabled-unchecked);
     background: var(--radio-button-disabled-unchecked-bg-color);
   }
   &--radio--button--disabled--checked {
-    color: var(--radio-button-disabled-checked-color);
+    color: var(--radio-button-disabled-checked-text-color);
     border-color: borderColor(--radio-button-disabled-checked);
     background: var(--radio-button-disabled-checked-bg-color);
   }
@@ -562,7 +565,7 @@
 }
 
 .checkbox-icon {
-  content: var(--checkbox-checked-default-icon);
+  content: var(--checkbox-default-checked-default-icon);
 }
 
 .radio-icon {
