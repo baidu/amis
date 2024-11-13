@@ -45,7 +45,7 @@ export function getDefaultValue(
         const value = data.cssVars[key];
         if (!value) {
           if (key.startsWith('--')) {
-            return undefined;
+            res[k] = undefined;
           }
           res[k] = key;
         } else if (isThemeCssVar(value)) {
