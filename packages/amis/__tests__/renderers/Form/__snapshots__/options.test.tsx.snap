@@ -92,7 +92,11 @@ exports[`options:linkage 1`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -106,7 +110,11 @@ exports[`options:linkage 1`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -212,7 +220,11 @@ exports[`options:linkage 2`] = `
             disabled=""
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -226,7 +238,11 @@ exports[`options:linkage 2`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -331,7 +347,11 @@ exports[`options:linkage 3`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -436,7 +456,11 @@ exports[`options:linkage 4`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -450,7 +474,11 @@ exports[`options:linkage 4`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -464,7 +492,11 @@ exports[`options:linkage 4`] = `
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >

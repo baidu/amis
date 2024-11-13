@@ -295,20 +295,25 @@ export class CheckboxesControlPlugin extends BasePlugin {
                   },
                   borderToken(state) {
                     const s = state.split('-');
+                    const fn = (type: string, checked?: boolean) => {
+                      return `\${optionType === "button" ? "--checkbox-" + optionType + "${
+                        checked ? '-checked' : ''
+                      }-${s[1]}-${type}" : ""}`;
+                    };
                     if (s[0] === 'checked') {
                       return {
-                        'topBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-checked-${s[1]}-top-border-color" : ""}`,
-                        'rightBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-checked-${s[1]}-right-border-color" : ""}`,
-                        'bottomBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-checked-${s[1]}-bottom-border-color" : ""}`,
-                        'leftBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-checked-${s[1]}-left-border-color" : ""}`,
+                        'topBorderColor': fn('top-border-color', true),
+                        'rightBorderColor': fn('right-border-color', true),
+                        'bottomBorderColor': fn('bottom-border-color', true),
+                        'leftBorderColor': fn('left-border-color', true),
                         '*': '--checkbox-${optionType}-default'
                       };
                     }
                     return {
-                      'topBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-${s[1]}-top-border-color" : ""}`,
-                      'rightBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-${s[1]}-right-border-color" : ""}`,
-                      'bottomBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-${s[1]}-bottom-border-color" : ""}`,
-                      'leftBorderColor': `\${optionType === "button" ? "--checkbox-" + optionType + "-${s[1]}-left-border-color" : ""}`,
+                      'topBorderColor': fn('top-border-color'),
+                      'rightBorderColor': fn('right-border-color'),
+                      'bottomBorderColor': fn('bottom-border-color'),
+                      'leftBorderColor': fn('left-border-color'),
                       '*': '--checkbox-${optionType}-default'
                     };
                   },

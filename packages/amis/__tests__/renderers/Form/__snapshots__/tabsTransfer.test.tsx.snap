@@ -169,7 +169,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -205,7 +209,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -246,7 +254,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -282,7 +294,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -318,7 +334,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -359,7 +379,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -395,7 +419,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -431,7 +459,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -467,7 +499,11 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />

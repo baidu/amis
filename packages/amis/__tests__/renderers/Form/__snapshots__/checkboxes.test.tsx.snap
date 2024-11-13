@@ -59,7 +59,11 @@ exports[`Renderer:checkboxes 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -73,7 +77,11 @@ exports[`Renderer:checkboxes 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -87,7 +95,11 @@ exports[`Renderer:checkboxes 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -101,7 +113,11 @@ exports[`Renderer:checkboxes 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -211,7 +227,11 @@ exports[`Renderer:checkboxes 2`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -225,7 +245,11 @@ exports[`Renderer:checkboxes 2`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -239,7 +263,11 @@ exports[`Renderer:checkboxes 2`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -253,7 +281,11 @@ exports[`Renderer:checkboxes 2`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -360,7 +392,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -382,7 +418,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -396,7 +436,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -411,7 +455,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -425,7 +473,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -449,7 +501,11 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -564,7 +620,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -586,7 +646,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -600,7 +664,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -615,7 +683,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -629,7 +701,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -653,7 +729,11 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -768,7 +848,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -790,7 +874,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -804,7 +892,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -819,7 +911,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -833,7 +929,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -857,7 +957,11 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -977,7 +1081,11 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -995,7 +1103,11 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1017,7 +1129,11 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1035,7 +1151,11 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1133,7 +1253,11 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1155,7 +1279,11 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1173,7 +1301,11 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1195,7 +1327,11 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1301,7 +1437,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1319,7 +1459,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1353,7 +1497,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1371,7 +1519,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1389,7 +1541,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1411,7 +1567,11 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1510,7 +1670,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1524,7 +1688,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1538,7 +1706,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1552,7 +1724,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1566,7 +1742,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1669,7 +1849,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1683,7 +1867,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1697,7 +1885,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1711,7 +1903,11 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1988,7 +2184,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2002,7 +2202,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2016,7 +2220,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2030,7 +2238,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2067,7 +2279,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2081,7 +2297,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2095,7 +2315,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2109,7 +2333,11 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2203,7 +2431,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2226,7 +2458,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2249,7 +2485,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2272,7 +2512,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2517,7 +2761,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2540,7 +2788,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2563,7 +2815,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2586,7 +2842,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2685,7 +2945,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2708,7 +2972,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2731,7 +2999,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2754,7 +3026,11 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2861,7 +3137,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2875,7 +3155,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2898,7 +3182,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2912,7 +3200,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2926,7 +3218,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2940,7 +3236,11 @@ exports[`Renderer:checkboxes with group 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2955,7 +3255,11 @@ exports[`Renderer:checkboxes with group 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3045,7 +3349,11 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3069,7 +3377,11 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3093,7 +3405,11 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3117,7 +3433,11 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3217,7 +3537,11 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3231,7 +3555,11 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3246,7 +3574,11 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3260,7 +3592,11 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3354,7 +3690,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3377,7 +3717,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3400,7 +3744,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3423,7 +3771,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3570,7 +3922,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3593,7 +3949,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3616,7 +3976,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3639,7 +4003,11 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >

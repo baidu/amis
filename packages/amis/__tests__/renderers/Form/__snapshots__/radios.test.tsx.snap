@@ -59,7 +59,11 @@ exports[`Renderer:radios 1`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -73,7 +77,11 @@ exports[`Renderer:radios 1`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -87,7 +95,11 @@ exports[`Renderer:radios 1`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -101,7 +113,11 @@ exports[`Renderer:radios 1`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -211,7 +227,11 @@ exports[`Renderer:radios 2`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -225,7 +245,11 @@ exports[`Renderer:radios 2`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -239,7 +263,11 @@ exports[`Renderer:radios 2`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -253,7 +281,11 @@ exports[`Renderer:radios 2`] = `
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -365,7 +397,11 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -383,7 +419,11 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -401,7 +441,11 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >

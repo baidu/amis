@@ -59,7 +59,11 @@ exports[`Renderer:checkbox 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -140,7 +144,11 @@ exports[`Renderer:checkbox with checked 1`] = `
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -220,7 +228,11 @@ exports[`Renderer:checkbox with optionType 1`] = `
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >

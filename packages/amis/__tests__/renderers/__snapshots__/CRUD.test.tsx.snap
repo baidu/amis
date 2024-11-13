@@ -2819,7 +2819,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -2917,7 +2921,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -2968,7 +2976,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3019,7 +3031,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3070,7 +3086,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3122,7 +3142,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3174,7 +3198,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3226,7 +3254,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3278,7 +3310,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3330,7 +3366,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3382,7 +3422,11 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />

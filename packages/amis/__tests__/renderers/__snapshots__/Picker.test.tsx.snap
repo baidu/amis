@@ -119,7 +119,11 @@ exports[`1. Renderer:Picker base 1`] = `
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -148,7 +152,11 @@ exports[`1. Renderer:Picker base 1`] = `
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -177,7 +185,11 @@ exports[`1. Renderer:Picker base 1`] = `
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />

@@ -82,7 +82,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -110,7 +114,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -136,7 +144,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -162,7 +174,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -188,7 +204,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -214,7 +234,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -240,7 +264,11 @@ exports[`Renderer:transfer 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -627,7 +655,11 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -654,7 +686,11 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -681,7 +717,11 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -708,7 +748,11 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -1265,7 +1309,11 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1292,7 +1340,11 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1319,7 +1371,11 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1346,7 +1402,11 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1495,7 +1555,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -1556,7 +1620,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1597,7 +1665,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1643,7 +1715,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1684,7 +1760,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1725,7 +1805,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1771,7 +1855,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1812,7 +1900,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1853,7 +1945,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1894,7 +1990,11 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2133,7 +2233,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -2194,7 +2298,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2235,7 +2343,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2281,7 +2393,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2322,7 +2438,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2363,7 +2483,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2409,7 +2533,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2450,7 +2578,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2491,7 +2623,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2532,7 +2668,11 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2792,7 +2932,11 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -2836,7 +2980,11 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2871,7 +3019,11 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2906,7 +3058,11 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2941,7 +3097,11 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -3628,7 +3788,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3656,7 +3820,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3690,7 +3858,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3724,7 +3896,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3758,7 +3934,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3792,7 +3972,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3826,7 +4010,11 @@ exports[`Renderer:transfer table 1`] = `
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -4008,7 +4196,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                 checked=""
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -4063,7 +4255,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4098,7 +4294,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4134,7 +4334,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4169,7 +4373,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4205,7 +4413,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4240,7 +4452,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4276,7 +4492,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4311,7 +4531,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4347,7 +4571,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4382,7 +4610,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4418,7 +4650,11 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4831,7 +5067,11 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                 checked=""
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -4886,7 +5126,11 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4921,7 +5165,11 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4957,7 +5205,11 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4992,7 +5244,11 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -5271,7 +5527,11 @@ exports[`Renderer:transfer tree 1`] = `
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -5313,7 +5573,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5354,7 +5618,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5400,7 +5668,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5441,7 +5713,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5482,7 +5758,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5528,7 +5808,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5569,7 +5853,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5610,7 +5898,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5651,7 +5943,11 @@ exports[`Renderer:transfer tree 1`] = `
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5781,7 +6077,11 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 />
@@ -5818,7 +6118,11 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -5859,7 +6163,11 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -5900,7 +6208,11 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
