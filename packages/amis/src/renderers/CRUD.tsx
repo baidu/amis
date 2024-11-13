@@ -1863,12 +1863,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   reload(
     subpath?: string,
     query?: any,
+    ctx?: any,
+    silent?: boolean,
     replace?: boolean,
-    resetPage?: boolean,
     args?: any
   ) {
     if (query) {
-      return this.receive(query, undefined, replace, resetPage, true);
+      return this.receive(query, undefined, replace, args?.resetPage, true);
     } else {
       return this.search(undefined, undefined, true, true);
     }
@@ -2821,7 +2822,7 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query, replace, args?.resetPage ?? true);
+    return super.reload(subpath, query, ctx, silent, replace, args);
   }
 
   async receive(
