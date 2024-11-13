@@ -11,6 +11,7 @@ import {getRendererByName} from '../factory';
 export interface ICmptAction extends ListenerAction {
   actionType: string;
   args: {
+    resetPage?: boolean; // reload时，是否重置分页
     path?: string; // setValue时，目标变量的path
     value?: string | {[key: string]: string}; // setValue时，目标变量的值
     index?: number; // setValue时，支持更新指定索引的数据，一般用于数组类型
@@ -88,7 +89,10 @@ export class CmptAction implements RendererAction {
         event.data,
         undefined,
         dataMergeMode === 'override',
-        action.args
+        {
+          ...action.args,
+          resetPage: action.args?.resetPage ?? action.resetPage
+        }
       );
 
       if (result && action.outputVar) {
