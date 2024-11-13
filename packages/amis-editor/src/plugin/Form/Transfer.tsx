@@ -2,21 +2,20 @@ import {
   EditorManager,
   EditorNodeType,
   defaultValue,
-  getSchemaTpl
-} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
+  getSchemaTpl,
+  BasePlugin,
+  BaseEventContext,
+  registerEditorPlugin,
+  tipedLabel,
   RendererPluginAction,
   RendererPluginEvent,
   undefinedPipeOut
 } from 'amis-editor-core';
-
-import {ValidatorTag} from '../../validator';
-import {tipedLabel} from 'amis-editor-core';
-import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {ValidatorTag} from '../../validator';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
+import {getActionCommonProps} from '../../renderer/event-control/helper';
 
 export class TransferPlugin extends BasePlugin {
   static id = 'TransferPlugin';
@@ -118,22 +117,26 @@ export class TransferPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空选中内容'
+      description: '清空选中内容',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置选择的内容'
+      description: '重置选择的内容',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'selectAll',
       actionLabel: '全选',
-      description: '选中所有选项'
+      description: '选中所有选项',
+      ...getActionCommonProps('selectAll')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新，多值用“,”分隔'
+      description: '触发组件数据更新，多值用“,”分隔',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -247,11 +250,6 @@ export class TransferPlugin extends BasePlugin {
                 }
               },
 
-              getSchemaTpl('optionControl', {
-                visibleOn: 'this.selectMode === "list"',
-                multiple: true
-              }),
-
               getSchemaTpl(
                 'loadingConfig',
                 {
@@ -259,6 +257,10 @@ export class TransferPlugin extends BasePlugin {
                 },
                 {context}
               ),
+              getSchemaTpl('optionControl', {
+                visibleOn: 'this.selectMode === "list"',
+                multiple: true
+              }),
 
               {
                 type: 'ae-transferTableControl',
@@ -290,6 +292,17 @@ export class TransferPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 label: '可检索',
                 name: 'searchable'
+              }),
+              getSchemaTpl('switch', {
+                label: '仅包含子节点的值',
+                name: 'onlyChildren',
+                visibleOn: 'this.selectMode === "tree"'
+              }),
+              getSchemaTpl('switch', {
+                label: '选中父节点自动选中子节点',
+                name: 'autoCheckChildren',
+                value: true,
+                visibleOn: 'this.selectMode === "tree"'
               }),
 
               getSchemaTpl('optionsMenuTpl', {

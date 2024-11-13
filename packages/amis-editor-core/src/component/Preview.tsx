@@ -728,7 +728,11 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
             locale: appLocale,
             editorDialogMountNode: this.getDialogMountRef
           },
-          env
+          {
+            ...env,
+            session: editable ? 'edit-mode' : 'preview-mode',
+            enableAMISDebug: !editable
+          }
         )}
       </div>
     );

@@ -119,9 +119,9 @@ export class TabsPlugin extends BasePlugin {
       actionLabel: '激活指定选项卡',
       description: '修改当前激活tab项',
       config: ['activeKey'],
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
+          <div className="action-desc">
             激活第
             <span className="variable-left variable-right">
               {info?.args?.activeKey}

@@ -2,26 +2,24 @@ import {
   defaultValue,
   setSchemaTpl,
   getSchemaTpl,
-  valuePipeOut,
   undefinedPipeOut,
   EditorNodeType,
-  EditorManager
+  EditorManager,
+  registerEditorPlugin,
+  BasePlugin,
+  BaseEventContext,
+  tipedLabel,
+  RendererPluginAction,
+  RendererPluginEvent
 } from 'amis-editor-core';
 import {isPureVariable} from 'amis';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {
-  BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
-  BaseEventContext,
-  tipedLabel
-} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
 import omit from 'lodash/omit';
 import {inputStateTpl} from '../../renderer/style-control/helper';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 
 setSchemaTpl('option', {
   name: 'option',
@@ -105,17 +103,20 @@ export class CheckboxControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
   panelBodyCreator = (context: BaseEventContext) => {

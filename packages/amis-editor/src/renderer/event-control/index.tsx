@@ -5,32 +5,41 @@ import Sortable from 'sortablejs';
 import {
   DataSchema,
   FormItem,
-  Button,
   Icon,
   TooltipWrapper,
-  render as amisRender
+  render as amisRender,
+  Tooltip,
+  PopOverContainer,
+  Tree,
+  Button
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
+import groupBy from 'lodash/groupBy';
 import {
   FormControlProps,
+  JSONTraverse,
+  JSONValueMap,
   Schema,
   autobind,
   findTree,
-  getRendererByName
+  getRendererByName,
+  guid
 } from 'amis-core';
 import ActionDialog from './action-config-dialog';
+import {
+  getEventDesc,
+  getEventStrongDesc,
+  getEventLabel,
+  updateCommonUseActions,
+  getActionsByRendererName
+} from './helper';
 import {
   findActionNode,
   findSubActionNode,
   getActionType,
-  getEventDesc,
-  getEventStrongDesc,
-  getEventLabel,
-  getPropOfAcion,
-  SELECT_PROPS_CONTAINER,
-  updateCommonUseActions,
-  FORMITEM_CMPTS
-} from './helper';
+  getPropOfAcion
+} from './eventControlConfigHelper';
+import {SELECT_PROPS_CONTAINER} from './constants';
 import {
   ActionConfig,
   ActionEventConfig,
@@ -128,6 +137,7 @@ interface EventControlState {
   actionData: ActionData | undefined;
   type: 'update' | 'add';
   appLocaleState?: number;
+  actionRelations: any;
 }
 
 const dialogObjMap = {
@@ -167,6 +177,8 @@ export class EventControl extends React.Component<
       eventPanelActive[event.eventName] = true;
     });
 
+    const actionRelations = this.getActionRelations();
+
     this.state = {
       onEvent: value ?? this.generateEmptyDefault(pluginEvents),
       events: pluginEvents,
@@ -175,7 +187,8 @@ export class EventControl extends React.Component<
       showEventDialog: false,
       actionData: undefined,
       type: 'add',
-      appLocaleState: 0
+      appLocaleState: 0,
+      actionRelations: actionRelations ?? []
     };
   }
 
@@ -225,8 +238,11 @@ export class EventControl extends React.Component<
       //   eventPanelActive[event.eventName] = true;
       // });
 
+      const actionRelations = this.getActionRelations();
+
       this.setState({
-        events: pluginEvents
+        events: pluginEvents,
+        actionRelations: actionRelations
       });
     }
   }
@@ -379,7 +395,7 @@ export class EventControl extends React.Component<
     if (config.actionType) {
       onEventConfig[event] = {
         ...onEventConfig[event],
-        actions: (onEventConfig[event].actions || []).concat(
+        actions: (onEventConfig[event]?.actions || []).concat(
           // 临时处理，后面干掉这么多交互属性
           Object.defineProperties(config, {
             __cmptTreeSource: {
@@ -607,7 +623,7 @@ export class EventControl extends React.Component<
     );
 
     // 收集当前事件动作出参
-    let actions = onEvent[data.actionData!.eventKey].actions;
+    let actions = onEvent[data.actionData!.eventKey]?.actions;
 
     // 编辑的时候只能拿到当前动作前面动作的事件变量以及当前动作事件
     if (data.type === 'update') {
@@ -656,17 +672,6 @@ export class EventControl extends React.Component<
           allComponents
         );
 
-        // const schema: any = {
-        //   type: 'object',
-        //   $id: 'outputVar',
-        //   properties: {
-        //     [action.outputVar!]: {
-        //       ...actionSchema[0],
-        //       title: `${action.outputVar}(${actionLabel})`
-        //     }
-        //   }
-        // };
-
         jsonSchema = {
           ...jsonSchema,
           properties: {
@@ -685,12 +690,6 @@ export class EventControl extends React.Component<
             }
           }
         };
-
-        // manager.dataSchema.addScope(
-        //   schema,
-        //   `action-output-${action.actionType}_${index}`
-        // );
-        // manager.dataSchema.current.group = '动作出参';
       });
 
     if (manager.dataSchema.getScope('event-variable')) {
@@ -710,70 +709,6 @@ export class EventControl extends React.Component<
       'event-variable'
     );
   }
-
-  // buildActionDataSchema(
-  //   activeData: Pick<
-  //     EventControlState,
-  //     'showAcionDialog' | 'type' | 'actionData'
-  //   >,
-  //   manager: EditorManager
-  // ) {
-  //   const {actionTree, pluginActions, commonActions, allComponents} =
-  //     this.props;
-  //   const {onEvent} = this.state;
-  //   // 收集当前事件已有ajax动作的请求返回结果作为事件变量
-  //   let oldActions = onEvent[activeData.actionData!.eventKey].actions;
-
-  //   // 编辑的时候只能拿到当前动作前面动作的事件变量
-  //   if (activeData.type === 'update') {
-  //     oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
-  //   }
-
-  //   oldActions
-  //     ?.filter(item => item.outputVar)
-  //     ?.forEach((action: ActionConfig, index: number) => {
-  //       if (
-  //         manager.dataSchema.getScope(
-  //           `action-output-${action.actionType}_ ${index}`
-  //         )
-  //       ) {
-  //         return;
-  //       }
-
-  //       const actionLabel = getPropOfAcion(
-  //         action,
-  //         'actionLabel',
-  //         actionTree,
-  //         pluginActions,
-  //         commonActions,
-  //         allComponents
-  //       );
-  //       const actionSchema = getPropOfAcion(
-  //         action,
-  //         'outputVarDataSchema',
-  //         actionTree,
-  //         pluginActions,
-  //         commonActions,
-  //         allComponents
-  //       );
-
-  //       const schema: any = {
-  //         type: 'object',
-  //         properties: {
-  //           [`event.data.${action.outputVar}`]: {
-  //             ...actionSchema[0],
-  //             title: `${action.outputVar}(${actionLabel})`
-  //           }
-  //         }
-  //       };
-
-  //       manager.dataSchema.addScope(
-  //         schema,
-  //         `action-output-${action.actionType}_${index}`
-  //       );
-  //       manager.dataSchema.current.group = '动作出参';
-  //     });
-  // }
 
   async buildContextSchema(data: any) {
     const {manager, node: currentNode} = this.props;
@@ -1000,15 +935,6 @@ export class EventControl extends React.Component<
     if (manager.dataSchema.getScope('event-variable')) {
       manager.dataSchema.removeScope('event-variable');
     }
-
-    // // 删除动作出参
-    // Object.keys(manager.dataSchema.idMap)
-    //   .filter(key => /^action-output/.test(key))
-    //   .map(key => {
-    //     if (manager.dataSchema.getScope(key)) {
-    //       manager.dataSchema.removeScope(key);
-    //     }
-    //   });
   }
 
   renderActionType(action: any, actionIndex: number, eventKey: string) {
@@ -1033,6 +959,70 @@ export class EventControl extends React.Component<
         ) || action.actionType}
       </span>
     );
+  }
+
+  getActionRelations() {
+    const {actions: pluginActions, data, manager} = this.props;
+    const actions = getActionsByRendererName(pluginActions, data?.type);
+    const schema = manager.store.schema;
+    let prevs: any[] = [];
+
+    JSONValueMap(schema, (value: any, key: string, host: any) => {
+      if (key === 'onEvent') {
+        const hostName =
+          host.title ?? host.label ?? host.name ?? host.type ?? host.id;
+        const hostId = host.$$id;
+
+        Object.keys(value)?.forEach(eventKey => {
+          if (eventKey !== '$$id') {
+            value[eventKey]?.actions?.forEach((ac: any) => {
+              const matchAction = actions?.find(
+                item => item.actionType === ac.actionType
+              );
+              if (matchAction && ac.componentId === data.id) {
+                // 如果存在不同事件调用同组件同动作，则不记录
+                const isHas = prevs?.find(
+                  item =>
+                    item.hostId === hostId && item.actionType === ac.actionType
+                );
+                if (!isHas) {
+                  prevs.push({
+                    actionType: matchAction.actionType,
+                    actionLabel: matchAction.actionLabel,
+                    hostName,
+                    hostId
+                  });
+                }
+              }
+            });
+          }
+        });
+      }
+      return value;
+    });
+
+    const prevsGroup = groupBy(prevs, item => item.actionLabel);
+    let actionRelations: any = [];
+    Object.keys(prevsGroup)?.forEach(key => {
+      actionRelations.push({
+        label: key,
+        value: key,
+        icon: 'fa fa-bolt',
+        children: prevsGroup[key]?.map(item => ({
+          label: item.hostName,
+          value: item.hostId,
+          icon: ''
+        }))
+      });
+    });
+
+    return actionRelations;
+  }
+
+  @autobind
+  handleRelationComponentActive(componentId: string) {
+    const {manager} = this.props;
+    manager.store.setActiveId(componentId);
   }
 
   render() {
@@ -1099,15 +1089,48 @@ export class EventControl extends React.Component<
       ];
     }
     const events = [...itemEvents, ...commonEvents];
+
     return (
       <div className="ae-event-control">
         <header
           className={cx({
             'ae-event-control-header': true,
-            'ae-event-control-header-oldentry': showOldEntry,
+            'ae-event-control-header-m':
+              this.props.data.type === 'button' && showOldEntry,
             'no-bd-btm': !eventKeys.length
           })}
         >
+          {this.state.actionRelations?.length ? (
+            <PopOverContainer
+              popOverContainer={() => document.body}
+              popOverRender={({onClose}) => (
+                <div className="ae-action-relation-panel">
+                  <Tree
+                    options={this.state.actionRelations}
+                    className="variables-select-panel-tree"
+                    onChange={this.handleRelationComponentActive}
+                    onlyChildren={true}
+                    value=""
+                  />
+                </div>
+              )}
+            >
+              {({onClick, ref, isOpened}) => {
+                return (
+                  <TooltipWrapper
+                    tooltipClassName="ae-event-item-header-tip"
+                    trigger="hover"
+                    placement="top"
+                    tooltip="可查看哪些组件会调用当前组件的哪些动作"
+                  >
+                    <Button className="block w-full mb-2" onClick={onClick}>
+                      查看调用关系
+                    </Button>
+                  </TooltipWrapper>
+                );
+              }}
+            </PopOverContainer>
+          ) : null}
           {render(
             'dropdown',
             {
@@ -1139,7 +1162,13 @@ export class EventControl extends React.Component<
         <ul
           className={cx({
             'ae-event-control-content': true,
-            'ae-event-control-content-oldentry': showOldEntry
+            'ae-event-control-content-m':
+              (this.props.data.type === 'button' && showOldEntry) ||
+              this.state.actionRelations?.length,
+            'ae-event-control-content-l':
+              this.props.data.type === 'button' &&
+              showOldEntry &&
+              !!this.state.actionRelations?.length
           })}
           ref={this.dragRef}
         >
@@ -1158,7 +1187,7 @@ export class EventControl extends React.Component<
                     })}
                   >
                     <TooltipWrapper
-                      tooltipClassName="event-item-header-tip"
+                      tooltipClassName="ae-event-item-header-tip"
                       trigger="hover"
                       placement="top"
                       tooltip={{
@@ -1245,6 +1274,18 @@ export class EventControl extends React.Component<
                                       eventKey
                                     )}
                                   </div>
+                                  {action.description && (
+                                    <TooltipWrapper
+                                      trigger="hover"
+                                      placement="top"
+                                      tooltip={action.description}
+                                    >
+                                      <Icon
+                                        icon="far fa-question-circle"
+                                        className="flex justify-center items-center icon ml-0.5"
+                                      />
+                                    </TooltipWrapper>
+                                  )}
                                 </div>
                                 <div className="action-control-header-right">
                                   <div
