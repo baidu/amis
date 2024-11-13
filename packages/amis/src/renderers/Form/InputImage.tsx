@@ -804,6 +804,9 @@ export default class ImageControl extends React.Component<
               const idx = files.indexOf(file);
 
               if (!~idx) {
+                // 事件里面可能把当前表单值给改了
+                this.current = null;
+                requestAnimationFrame(this.tick);
                 return;
               }
 

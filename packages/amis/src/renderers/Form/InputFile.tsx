@@ -732,6 +732,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               const idx = files.indexOf(file as FileX);
 
               if (!~idx) {
+                // 事件里面可能把当前表单值给改了
+                this.current = null;
+                requestAnimationFrame(this.tick);
                 return;
               }
 
