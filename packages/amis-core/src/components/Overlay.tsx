@@ -54,6 +54,7 @@ class Position extends React.Component<any, any> {
     super(props);
 
     this.state = {
+      ready: false,
       positionLeft: 0,
       positionTop: 0,
       arrowOffsetLeft: null,
@@ -80,13 +81,15 @@ class Position extends React.Component<any, any> {
       }
     }
 
-    if (!target) {
-      return this.setState({
-        positionLeft: 0,
-        positionTop: 0,
-        arrowOffsetLeft: null,
-        arrowOffsetTop: null
-      });
+    if (!target || !target.offsetWidth) {
+      return;
+      // return this.setState({
+      //   ready: false,
+      //   positionLeft: 0,
+      //   positionTop: 0,
+      //   arrowOffsetLeft: null,
+      //   arrowOffsetTop: null
+      // });
     }
 
     const watchTargetSizeChange = this.props.watchTargetSizeChange;
@@ -116,16 +119,17 @@ class Position extends React.Component<any, any> {
       }
     }
 
-    this.setState(
-      calculatePosition(
+    this.setState({
+      ...calculatePosition(
         this.props.placement,
         overlay,
         target,
         container,
         this.props.containerPadding,
         this.props.offset
-      )
-    );
+      ),
+      ready: true
+    });
   }
 
   componentDidMount() {
@@ -177,7 +181,7 @@ class Position extends React.Component<any, any> {
 
   render() {
     const {children, className, ...props} = this.props;
-    const {positionLeft, positionTop, ...arrowPosition} = this.state;
+    const {ready, positionLeft, positionTop, ...arrowPosition} = this.state;
 
     // These should not be forwarded to the child.
     delete props.target;
@@ -199,7 +203,8 @@ class Position extends React.Component<any, any> {
       style: {
         ...child.props.style,
         left: positionLeft,
-        top: positionTop
+        top: positionTop,
+        visibility: ready ? undefined : 'hidden'
       },
       componentId: this.componentId
     });
