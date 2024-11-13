@@ -1844,3 +1844,10 @@ setSchemaTpl('closable', {
   name: 'closable',
   expressionName: 'closableOn'
 });
+
+setSchemaTpl('inputForbid', {
+  type: 'switch',
+  label: '禁止输入',
+  name: 'inputForbid',
+  inputClassName: 'is-inline'
+});
