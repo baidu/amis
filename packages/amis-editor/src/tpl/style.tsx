@@ -1364,12 +1364,34 @@ setSchemaTpl('animation', () => {
         }
         return undefined;
       },
+      onChange: (value: any, a: any, b: any, {data}: any) => {
+        if (value) {
+          const {id} = data;
+          let animationType = 'fadeIn';
+          if ('children' in animationOptions[type][0]) {
+            animationType = animationOptions[type][0].children[0].value;
+          } else {
+            animationType = animationOptions[type][0].value;
+          }
+          playAnimation(
+            {
+              [type]: {
+                delay: 0,
+                duration: 1,
+                type: animationType
+              }
+            },
+            id,
+            type
+          );
+        }
+      },
       label
     },
     {
       type: 'container',
       className: 'm-b ae-ExtendMore',
-      visibleOn: `animations.${type}`,
+      visibleOn: `\${animations && animations.${type}}`,
       body: [
         {
           type: 'select',
@@ -1449,7 +1471,7 @@ setSchemaTpl('animation', () => {
     },
     {
       type: 'button',
-      visibleOn: `animations.${type}`,
+      visibleOn: `\${animations && animations.${type}}`,
       className: 'm-b',
       block: true,
       level: 'enhance',
