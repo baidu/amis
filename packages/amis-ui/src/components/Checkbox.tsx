@@ -101,8 +101,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           className,
           stateClassName,
           {
-            'Checkbox--full': !partial,
-            // 'Checkbox--partial': partial
+            'Checkbox--partial': partial,
             [`Checkbox--${size}`]: size,
             'is-mobile': mobileUI,
             'disabled': disabled,

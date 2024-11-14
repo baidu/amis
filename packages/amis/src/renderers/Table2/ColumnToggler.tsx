@@ -97,7 +97,7 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
                 )
               }
             >
-              {__('Checkboxes.selectAll')}
+              {__('Select.checkAll')}
             </Checkbox>
           </li>
         ) : null}

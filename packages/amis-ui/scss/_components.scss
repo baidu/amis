@@ -1476,15 +1476,14 @@
     var(--colors-neutral-line-7)
   );
 
+  --checkbox-default-sm-size: var(--sizes-size-8);
+  --checkbox-default-sm-icon-size: var(--sizes-size-7);
+
+  --checkbox-default-partial-default-icon: '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" ><path d="M164.571429 424.96m87.04 0l520.777142 0q87.04 0 87.04 87.04l0 0q0 87.04-87.04 87.04l-520.777142 0q-87.04 0-87.04-87.04l0 0q0-87.04 87.04-87.04Z" fill="currentColor"></path></svg>';
+
   --Checkbox-onHover-color: var(--checkbox-checked-default-bg-color);
-  --button-primary-hover-bg-color: var(--checkbox-checked-hover-bg-color);
-  --Checkbox-checked-onHover-bgColor: var(--checkbox-checked-active-bg-color);
   --Checkbox-onDisabled-bg: var(--colors-neutral-fill-10);
   --Checkbox-size: var(--checkbox-checkbox-default-height);
-  --Checkbox--full-inner-size: var(--sizes-size-5);
-  --Checkbox--sm--full-inner-size: var(--sizes-size-5);
-  --Checkbox--sm-inner-size: var(--sizes-size-5);
-  --Checkbox--sm-size: var(--sizes-size-8);
   --Checkbox-borderRadius: #{px2rem(2px)};
   --Checkbox-color: var(--borderColor);
   --Checkbox-gap: var(--gap-xs);
