@@ -1593,9 +1593,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -1748,9 +1748,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -1930,9 +1930,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -2111,9 +2111,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -2407,9 +2407,9 @@ exports[`Renderer:text with options: options is open 1`] = `
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div

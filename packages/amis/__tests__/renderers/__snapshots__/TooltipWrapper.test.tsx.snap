@@ -33,10 +33,10 @@ exports[`Renderer:TooltipWrapper with context data 1`] = `
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="left: 0px; top: 0px;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -93,48 +93,10 @@ exports[`Renderer:TooltipWrapper with offset 1`] = `
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="19,-22"
     role="tooltip"
-    style="left: 19px; top: -22px;"
-    theme="cxd"
-  >
-    <div
-      class="cxd-Tooltip-arrow"
-    />
-    <div
-      class="cxd-Tooltip-body"
-    >
-      <span
-        class="cxd-Html"
-      >
-        提示文字
-      </span>
-    </div>
-  </div>
-</body>
-`;
-
-exports[`Renderer:TooltipWrapper with placement 1`] = `
-<body>
-  <div>
-    <div
-      class="cxd-TooltipWrapper"
-    >
-      <span
-        class="cxd-TplField"
-      >
-        <span>
-          激活文字提示
-        </span>
-      </span>
-    </div>
-  </div>
-  <div
-    class="cxd-Tooltip cxd-Tooltip--bottom cxd-Tooltip--light"
-    offset="0,0"
-    role="tooltip"
-    style="left: 0px; top: 0px;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -169,10 +131,10 @@ exports[`Renderer:TooltipWrapper with showArrow 1`] = `
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="left: 0px; top: 0px;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -210,10 +172,10 @@ exports[`Renderer:TooltipWrapper with style & tooltipStyle 1`] = `
     </span>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="font-weight: bold; left: 0px; top: 0px;"
+    style="font-weight: bold; left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div

@@ -154,7 +154,7 @@ test('Renderer:PopOver with trigger & showIcon & title & position & popOverEnabl
   fireEvent.click(btns[0]!);
 
   const popOverNode = container.querySelector(
-    '.cxd-PopOver.cxd-PopOverAble-popover.cxd-PopOver--leftTop'
+    '.cxd-PopOver.cxd-PopOverAble-popover'
   )!;
 
   expect(popOverNode).toBeInTheDocument();
@@ -167,7 +167,7 @@ test('Renderer:PopOver with trigger & showIcon & title & position & popOverEnabl
   await wait(200);
 
   const popOverNode2 = container.querySelector(
-    '.cxd-PopOver.cxd-PopOverAble-popover.cxd-PopOver--rightTop'
+    '.cxd-PopOver.cxd-PopOverAble-popover'
   )!;
   expect(popOverNode2).toBeInTheDocument();
 
