@@ -39,6 +39,7 @@ export class NumberControlPlugin extends BasePlugin {
     type: 'input-number',
     label: '数字',
     name: 'number',
+    showSteps: true,
     keyboard: true
   };
   previewSchema: any = {
@@ -211,12 +212,20 @@ export class NumberControlPlugin extends BasePlugin {
                   valueType: 'number'
                 }),
                 {
+                  type: 'switch',
+                  label: '显示上下按钮',
+                  name: 'showSteps',
+                  value: true,
+                  inputClassName: 'is-inline'
+                },
+                {
                   type: 'input-number',
                   name: 'step',
                   label: '步长',
                   min: 0,
                   value: 1,
                   precision: '${precision}',
+                  visibleOn: '${showSteps}',
                   strictMode: false
                 },
                 {
@@ -322,16 +331,26 @@ export class NumberControlPlugin extends BasePlugin {
                   )
                 ]
               },
-              getSchemaTpl('theme:cssCode', {
-                themeClass: [
+              getSchemaTpl('theme:singleCssCode', {
+                selectors: [
                   {
-                    name: '数字输入框',
-                    value: '',
-                    className: 'inputControlClassName',
-                    state: ['default', 'hover', 'active']
+                    label: '表单项基本样式',
+                    isRoot: true,
+                    selector: '.cxd-from-item'
+                  },
+                  {
+                    label: '标题样式',
+                    selector: '.cxd-Form-label'
+                  },
+                  {
+                    label: '数字框基本样式',
+                    selector: '.cxd-Number'
+                  },
+                  {
+                    label: '输入框样式',
+                    selector: '.cxd-Number-input'
                   }
-                ],
-                isFormItem: true
+                ]
               })
             ],
             {...context?.schema, configTitle: 'style'}
