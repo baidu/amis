@@ -325,7 +325,7 @@ function AMISRenderer({
       env.replaceTextIgnoreKeys
     );
     return schema;
-  }, [schema, locale]);
+  }, [schema, locale, options.replaceText]);
 
   return (
     <EnvContext.Provider value={env}>
