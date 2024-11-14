@@ -113,7 +113,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default"
                     data-role="checkbox"
                   >
                     <input
@@ -146,7 +146,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full checked cxd-Checkbox--radio--default--checked"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
                     data-role="checkbox"
                   >
                     <input
@@ -179,7 +179,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default"
                     data-role="checkbox"
                   >
                     <input

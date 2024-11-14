@@ -53,7 +53,7 @@ exports[`Renderer:checkbox 1`] = `
             class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last"
               data-role="checkbox"
             >
               <input
@@ -137,7 +137,7 @@ exports[`Renderer:checkbox with checked 1`] = `
             class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
@@ -222,7 +222,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
             class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox--button first last cxd-Checkbox--full checked cxd-Checkbox--checkbox--button--checked"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button first last checked cxd-Checkbox--checkbox--button--checked"
               data-role="checkbox"
             >
               <input

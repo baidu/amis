@@ -2813,7 +2813,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
@@ -2915,7 +2915,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
@@ -2970,7 +2970,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
@@ -3025,7 +3025,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
@@ -3080,7 +3080,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full checked cxd-Checkbox--checkbox--default--checked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
@@ -3135,7 +3135,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
@@ -3191,7 +3191,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
@@ -3247,7 +3247,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
@@ -3303,7 +3303,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
@@ -3359,7 +3359,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
@@ -3415,7 +3415,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
