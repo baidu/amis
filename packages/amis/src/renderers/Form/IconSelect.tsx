@@ -26,12 +26,18 @@ export interface IconSelectControlSchema extends FormBaseControlSchema {
   noDataTip?: string;
 
   clearable?: boolean;
+
+  returnSvg?: boolean;
+
+  noSize?: boolean;
 }
 
 export interface IconSelectProps extends FormControlProps, SpinnerExtraProps {
   placeholder?: string;
   disabled?: boolean;
   noDataTip?: string;
+  returnSvg?: boolean;
+  noSize?: boolean;
 }
 
 export interface IconChecked {
@@ -212,6 +218,9 @@ export default class IconSelectControl extends React.PureComponent<
         /<svg/,
         `<svg data-name="${checkedIcon?.name}" data-id="${checkedIcon?.id}"`
       );
+      if (this.props.noSize) {
+        svg = svg.replace(/width=".*?"/, '').replace(/height=".*?"/, '');
+      }
       this.props.onChange && this.props.onChange(svg);
     } else {
       this.props.onChange &&

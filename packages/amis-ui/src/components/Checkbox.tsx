@@ -6,6 +6,7 @@
 import React from 'react';
 import {TestIdBuilder, ThemeProps, themeable} from 'amis-core';
 import {autobind} from 'amis-core';
+import Icon from './icons';
 
 const preventEvent = (e: any) => e.stopPropagation();
 
@@ -100,8 +101,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           className,
           stateClassName,
           {
-            'Checkbox--full': !partial,
-            // 'Checkbox--partial': partial
+            'Checkbox--partial': partial,
             [`Checkbox--${size}`]: size,
             'is-mobile': mobileUI,
             'disabled': disabled,
@@ -136,7 +136,9 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           readOnly={readOnly}
           name={name}
         />
-        <i {...testIdBuilder?.getChild('input').getTestId()} />
+        <i {...testIdBuilder?.getChild('input').getTestId()}>
+          <Icon iconContent={`${type}-icon`} className="icon" />
+        </i>
         <span
           className={cx(labelClassName)}
           {...testIdBuilder?.getChild('label').getTestId()}

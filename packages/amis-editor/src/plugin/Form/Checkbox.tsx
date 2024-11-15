@@ -256,6 +256,53 @@ export class CheckboxControlPlugin extends BasePlugin {
               title: '选项样式',
               body: [
                 ...inputStateTpl('themeCss.checkboxControlClassName', '', {
+                  fontToken(state) {
+                    const s = state.split('-');
+                    if (s[0] === 'checked') {
+                      return {
+                        'color': `--checkbox-\${optionType}-checked-${s[1]}-text-color`,
+                        '*': '--checkbox-${optionType}-default'
+                      };
+                    }
+                    return {
+                      'color': `--checkbox-\${optionType}-${s[1]}-text-color`,
+                      '*': '--checkbox-${optionType}-default'
+                    };
+                  },
+                  backgroundToken(state) {
+                    const s = state.split('-');
+                    if (s[0] === 'checked') {
+                      return `\${optionType === "button" ? "--checkbox-" + optionType + "-checked-${s[1]}-bg-color" : ""}`;
+                    }
+                    return `\${optionType === "button" ? "--checkbox-" + optionType + "-${s[1]}-bg-color" : ""}`;
+                  },
+                  borderToken(state) {
+                    const s = state.split('-');
+                    const fn = (type: string, checked?: boolean) => {
+                      return `\${optionType === "button" ? "--checkbox-" + optionType + "${
+                        checked ? '-checked' : ''
+                      }-${s[1]}-${type}" : ""}`;
+                    };
+                    if (s[0] === 'checked') {
+                      return {
+                        'topBorderColor': fn('top-border-color', true),
+                        'rightBorderColor': fn('right-border-color', true),
+                        'bottomBorderColor': fn('bottom-border-color', true),
+                        'leftBorderColor': fn('left-border-color', true),
+                        '*': '--checkbox-${optionType}-default'
+                      };
+                    }
+                    return {
+                      'topBorderColor': fn('top-border-color'),
+                      'rightBorderColor': fn('right-border-color'),
+                      'bottomBorderColor': fn('bottom-border-color'),
+                      'leftBorderColor': fn('left-border-color'),
+                      '*': '--checkbox-${optionType}-default'
+                    };
+                  },
+                  radiusToken(state) {
+                    return '${optionType === "button" ? "--checkbox-" + optionType + "-default": "-"}';
+                  },
                   state: [
                     {
                       label: '常规',
@@ -294,11 +341,32 @@ export class CheckboxControlPlugin extends BasePlugin {
                   name: 'themeCss.checkboxShowClassName.display',
                   trueValue: 'none'
                 },
-                ...inputStateTpl('themeCss.checkboxClassName', '--checkbox', {
+                ...inputStateTpl('themeCss.checkboxClassName', '', {
                   hideFont: true,
                   hideMargin: true,
                   hidePadding: true,
                   hiddenOn: 'themeCss.checkboxShowClassName.display === "none"',
+                  backgroundToken(state) {
+                    const s = state.split('-');
+                    if (s[0] === 'checked') {
+                      return `--checkbox-\${optionType}-checked-${s[1]}-\${optionType ==='button' ? 'icon-' : ''}bg-color`;
+                    }
+                    return `--checkbox-\${optionType}-${s[1]}-\${optionType ==='button' ? 'icon-' : ''}bg-color`;
+                  },
+                  borderToken(state) {
+                    const s = state.split('-');
+                    if (s[0] === 'checked') {
+                      return `--checkbox-\${optionType}-checked-${s[1]}\${optionType ==='button' ? '-icon' : ''}`;
+                    }
+                    return `--checkbox-\${optionType}-${s[1]}\${optionType ==='button' ? '-icon' : ''}`;
+                  },
+                  radiusToken(state) {
+                    const s = state.split('-');
+                    if (s[0] === 'checked') {
+                      return `--checkbox-\${optionType}-checked-${s[1]}`;
+                    }
+                    return `--checkbox-\${optionType}-${s[1]}\${optionType ==='button' ? '-icon' : ''}`;
+                  },
                   state: [
                     {
                       label: '常规',
@@ -326,34 +394,47 @@ export class CheckboxControlPlugin extends BasePlugin {
                     }
                   ],
                   schema: [
+                    {
+                      name: 'themeCss.checkboxShowClassName.--checkbox-default-checked-default-icon',
+                      visibleOn:
+                        '${__editorStatethemeCss.checkboxClassName == "checked-default" || __editorStatethemeCss.checkboxClassName == "checked-hover" || __editorStatethemeCss.checkboxClassName == "checked-disabled"}',
+                      label: '图标',
+                      type: 'icon-select',
+                      returnSvg: true,
+                      noSize: true
+                    },
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:default',
+                      name: 'themeCss.checkboxInnerClassName.color:default',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-default"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken:
+                        '--checkbox-${optionType}-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:hover',
+                      name: 'themeCss.checkboxInnerClassName.color:hover',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-hover"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken:
+                        '--checkbox-${optionType}-checked-default-icon-color'
                     }),
                     getSchemaTpl('theme:colorPicker', {
-                      name: 'themeCss.checkboxInnerClassName.border-color:disabled',
+                      name: 'themeCss.checkboxInnerClassName.color:disabled',
                       visibleOn:
                         '${__editorStatethemeCss.checkboxClassName == "checked-disabled"}',
-                      label: '对勾颜色',
+                      label: '图标颜色',
                       labelMode: 'input',
-                      editorValueToken: '--checkbox-button-checked-icon-i-color'
+                      editorValueToken:
+                        '--checkbox-${optionType}-checked-disabled-icon-color'
                     })
                   ]
                 })
               ]
             },
+
             getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames')
           ])

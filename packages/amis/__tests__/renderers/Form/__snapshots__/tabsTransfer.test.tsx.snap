@@ -163,13 +163,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -199,13 +203,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -240,13 +248,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -276,13 +288,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -312,13 +328,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -353,13 +373,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         />
                                       </div>
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -389,13 +413,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -425,13 +453,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />
@@ -461,13 +493,17 @@ exports[`Renderer:tabsTransfer 1`] = `
                                         class="cxd-Tree-itemArrowPlaceholder"
                                       />
                                       <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                                        class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                         data-role="checkbox"
                                       >
                                         <input
                                           type="checkbox"
                                         />
-                                        <i />
+                                        <i>
+                                          <div
+                                            class="checkbox-icon icon"
+                                          />
+                                        </i>
                                         <span
                                           class=""
                                         />

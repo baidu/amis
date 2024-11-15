@@ -2396,7 +2396,7 @@ export default class Table extends React.Component<TableProps, object> {
                 )
               }
             >
-              {__('Checkboxes.selectAll')}
+              {__('Select.checkAll')}
             </Checkbox>
           </li>
         ) : null}

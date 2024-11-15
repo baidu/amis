@@ -53,13 +53,17 @@ exports[`Renderer:radios 1`] = `
             class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -67,13 +71,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -81,13 +89,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -95,13 +107,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -205,13 +221,17 @@ exports[`Renderer:radios 2`] = `
             class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full checked cxd-Checkbox--radio--default--checked"
+              class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -219,13 +239,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -233,13 +257,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -247,13 +275,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -359,13 +391,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -377,13 +413,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -395,13 +435,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio--default cxd-Checkbox--full checked cxd-Checkbox--radio--default--checked"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >

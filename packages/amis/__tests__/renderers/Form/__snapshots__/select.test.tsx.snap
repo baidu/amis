@@ -1843,13 +1843,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1871,13 +1875,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1901,13 +1909,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1931,13 +1943,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1961,13 +1977,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1991,13 +2011,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -2021,13 +2045,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
