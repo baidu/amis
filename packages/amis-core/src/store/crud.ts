@@ -7,6 +7,7 @@ import {
   createObject,
   isObjectShallowModified,
   sortArray,
+  applyFilters,
   isEmpty,
   qsstringify,
   getVariable
@@ -237,51 +238,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               )
             : self.items.concat();
 
-          /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
-          if (matchFunc && typeof matchFunc === 'function') {
-            items = matchFunc(items, self.data.itemsRaw, {
-              query: self.query,
-              columns: options.columns,
-              matchSorter: matchSorter
-            });
-          } else {
-            if (Array.isArray(options.columns)) {
-              options.columns.forEach((column: any) => {
-                let value: any =
-                  typeof column.name === 'string'
-                    ? getVariable(self.query, column.name)
-                    : undefined;
-                const key = column.name;
-
-                if (value != null && key) {
-                  // value可能为null、undefined、''、0
-                  if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                      const arr = [...items];
-                      let arrItems: Array<any> = [];
-                      value.forEach(item => {
-                        arrItems = [
-                          ...arrItems,
-                          ...matchSorter(arr, item, {
-                            keys: [key],
-                            threshold: matchSorter.rankings.CONTAINS
-                          })
-                        ];
-                      });
-                      items = items.filter((item: any) =>
-                        arrItems.find(a => a === item)
-                      );
-                    }
-                  } else {
-                    items = matchSorter(items, value, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    });
-                  }
-                }
-              });
-            }
-          }
+          items = applyFilters(items, {
+            query: self.query,
+            columns: options.columns,
+            matchFunc: matchFunc
+          });
 
           if (self.query.orderBy) {
             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;

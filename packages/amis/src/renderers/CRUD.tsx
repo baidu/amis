@@ -325,6 +325,15 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
 
   /**
    * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+   *
+   * 参数说明
+   *
+   *  * `items` 当前表格数据
+   *  * `itemsRaw` 当前表格数据（未处理）
+   *  * `options` 配置
+   *  * `options.query` 查询条件
+   *  * `options.columns` 列配置
+   *  * `options.matchSorter` 系统默认的排序方法
    * @since 3.5.0
    */
   matchFunc?: string | any;

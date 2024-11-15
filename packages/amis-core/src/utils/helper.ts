@@ -11,6 +11,7 @@ import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 import qs from 'qs';
 import {compile} from 'path-to-regexp';
+import {matchSorter} from 'match-sorter';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
@@ -1495,6 +1496,57 @@ export function sortArray<T extends any>(
 
     return ret * dir;
   });
+}
+
+export function applyFilters<T extends any>(
+  items: Array<T>,
+  options: {
+    query: any;
+    columns?: Array<any>;
+    matchFunc?: Function;
+  }
+) {
+  if (options.matchFunc && typeof options.matchFunc === 'function') {
+    items = options.matchFunc(items, items, options);
+  } else {
+    if (Array.isArray(options.columns)) {
+      options.columns.forEach((column: any) => {
+        let value: any =
+          typeof column.name === 'string'
+            ? getVariable(options.query, column.name)
+            : undefined;
+        const key = column.name;
+
+        if (value != null && key) {
+          // value可能为null、undefined、''、0
+          if (Array.isArray(value)) {
+            if (value.length > 0) {
+              const arr = [...items];
+              let arrItems: Array<any> = [];
+              value.forEach(item => {
+                arrItems = [
+                  ...arrItems,
+                  ...matchSorter(arr, item, {
+                    keys: [key],
+                    threshold: matchSorter.rankings.CONTAINS
+                  })
+                ];
+              });
+              items = items.filter((item: any) =>
+                arrItems.find(a => a === item)
+              );
+            }
+          } else {
+            items = matchSorter(items, value, {
+              keys: [key],
+              threshold: matchSorter.rankings.CONTAINS
+            });
+          }
+        }
+      });
+    }
+  } /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+  return items;
 }
 
 // 只判断一层, 如果层级很深，form-data 也不好表达。
