@@ -514,6 +514,41 @@ export class ComboControlPlugin extends BasePlugin {
                   ]
                 },
 
+                {
+                  type: 'select',
+                  name: 'uniqueItems',
+                  label: '配置唯一项',
+                  multiple: true,
+                  source: '${items|pick:name}',
+                  pipeIn: (value: any, form: any) => {
+                    // 从 items 中获取设置了 unique: true 的项的 name
+                    const items = form.data.items || [];
+                    return items
+                      .filter((item: any) => item.unique)
+                      .map((item: any) => item.name);
+                  },
+                  onChange: (
+                    value: string[],
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    // 获取当前的 items
+                    const items = [...(form.data.items || [])];
+                    // 修改 items 中的 unique 属性
+                    const updatedItems = items.map(item => {
+                      if (value.includes(item.name)) {
+                        return {...item, unique: true};
+                      } else {
+                        const newItem = {...item};
+                        delete newItem.unique;
+                        return newItem;
+                      }
+                    });
+                    // 更新 items
+                    form.setValueByName('items', updatedItems);
+                  }
+                },
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
 
