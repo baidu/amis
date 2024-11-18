@@ -478,19 +478,112 @@ order: 54
   },
   "body": [
     {
-      "showIndex": true,
       "type":"input-table",
       "perPage": 5,
       "name":"table",
+      "addable": true,
+      "showIndex": true,
       "columns":[
           {
             "name": "a",
-            "label": "A"
+            "label": "A",
+            "searchable": true
           },
           {
             "name": "b",
-            "label": "B"
+            "label": "B",
+            "sortable": true
           }
+      ]
+    }
+  ]
+}
+```
+
+## 前端过滤与排序
+
+> 6.10.0 及以上版本
+
+在列上配置 `searchable`、`sortable` 或者 `filterable` 来开启对应功能，用法与 [CRUD](../crud#快速搜索) 一致。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "initApi": "/api/mock2/sample",
+  "body": [
+    {
+      "type":"input-table",
+      "perPage": 10,
+      "name":"rows",
+      "addable": true,
+      "copyable": true,
+      "editable": true,
+      "removable": true,
+      "showIndex": true,
+      "columns":[
+        {
+          "name": "grade",
+          "label": "CSS grade",
+          "filterable": {
+            "options": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "X"
+            ]
+          }
+        },
+        {
+          "name": "version",
+          "label": "Version",
+          "searchable": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+默认前端只是简单的过滤，如果要有复杂过滤，请通过 `matchFunc` 来实现，函数签名 `(items: Record<string, any>[], itemsRaw: Record<string, any>[], options: {query: string, columns: Column[], matchSorter: (a: any, b: any) => number}) => Record<string, any>[]`
+
+- `items` 当前表格数据
+- `itemsRaw` 与 items 一样，（历史用法，保持不变）
+- `options` 配置
+- `options.query` 查询条件
+- `options.columns` 列配置
+- `options.matchSorter` 系统默认的排序方法
+
+```schema: scope="body"
+{
+  "type": "form",
+  "initApi": "/api/mock2/sample",
+  "body": [
+    {
+      "type":"input-table",
+      "perPage": 10,
+      "name":"rows",
+      "addable": true,
+      "matchFunc": "const query = options.query;if (query.version === '>=20') {items = items.filter(item => parseFloat(item.version) >= 20);} else if (query.version ==='<20') {items = items.filter(item => parseFloat(item.version) < 20);}return items;",
+      "columns":[
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "name": "version",
+          "label": "Version",
+          "filterable": {
+            "options": [
+              ">=20",
+              "<20"
+            ]
+          }
+        }
       ]
     }
   ]
