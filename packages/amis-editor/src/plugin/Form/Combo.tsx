@@ -516,9 +516,8 @@ export class ComboControlPlugin extends BasePlugin {
 
                 {
                   type: 'select',
-                  name: 'uniqueItems',
+                  name: '__uniqueItems',
                   label: '配置唯一项',
-                  multiple: true,
                   source: '${items|pick:name}',
                   pipeIn: (value: any, form: any) => {
                     // 从 items 中获取设置了 unique: true 的项的 name
