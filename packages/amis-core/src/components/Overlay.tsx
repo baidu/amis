@@ -82,14 +82,14 @@ class Position extends React.Component<any, any> {
     }
 
     if (!target || !target.offsetWidth) {
-      return;
-      // return this.setState({
-      //   ready: false,
-      //   positionLeft: 0,
-      //   positionTop: 0,
-      //   arrowOffsetLeft: null,
-      //   arrowOffsetTop: null
-      // });
+      // 靠这个 re-render 来重置 position
+      return this.setState({
+        ready: false,
+        positionLeft: 0,
+        positionTop: 0,
+        arrowOffsetLeft: null,
+        arrowOffsetTop: null
+      });
     }
 
     const watchTargetSizeChange = this.props.watchTargetSizeChange;
