@@ -505,6 +505,15 @@ export interface RendererJSONSchemaResolveEventContext
   data: string;
 }
 
+export interface IGlobalEvent {
+  name: string; // 事件名称，唯一
+  description: string; // 事件描述
+  mapping: Array<{
+    key: string; // 入参名称
+    type: string; // 入参类型
+  }>;
+}
+
 /**
  * 右键菜单事件的上下文。
  */
