@@ -3011,8 +3011,8 @@ export const getEventControlConfig = (
     commonActions,
     globalEvents,
     owner: '',
-    addBroadcast: manager?.addBroadcast,
-    removeBroadcast: manager?.removeBroadcast,
+    addBroadcast: manager?.addBroadcast.bind(manager),
+    removeBroadcast: manager?.removeBroadcast.bind(manager),
     allComponents: allComponents,
     getContextSchemas: async (id?: string, withoutSuper?: boolean) => {
       const dataSchema = await manager.getContextSchemas(
