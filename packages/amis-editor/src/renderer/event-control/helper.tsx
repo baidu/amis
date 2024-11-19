@@ -2966,6 +2966,8 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
+  const globalEvents =
+    manager?.config.actionOptions?.globalEventGetter?.(manager);
   const allComponents = manager?.store?.getComponentTreeSource();
   const checkComponent = (node: any, action: RendererPluginAction) => {
     const actionType = action?.actionType;
@@ -3007,6 +3009,7 @@ export const getEventControlConfig = (
     events: manager?.pluginEvents,
     actionTree,
     commonActions,
+    globalEvents,
     owner: '',
     addBroadcast: manager?.addBroadcast,
     removeBroadcast: manager?.removeBroadcast,

@@ -43,18 +43,20 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction
+  SubRendererPluginAction,
+  IGlobalEvent
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
-import type {VariableItem} from 'amis-ui/lib/components/formula/CodeEditor';
 import {reaction} from 'mobx';
 import {updateComponentContext} from 'amis-editor-core';
+import type {VariableItem} from 'amis-ui';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
   events: PluginEvents; // 组件的事件列表
   actionTree: RendererPluginAction[]; // 动作树
+  globalEvents?: IGlobalEvent[]; // 全局事件
   commonActions?: {[propName: string]: RendererPluginAction}; // 公共动作Map
   value: ActionEventConfig; // 事件动作配置
   onChange: (
@@ -267,6 +269,25 @@ export class EventControl extends React.Component<
     }
     onEvent[`${event.eventName}`] = {
       __isBroadcast: !!event.isBroadcast,
+      weight: 0,
+      actions: []
+    };
+    this.setState({
+      onEvent: onEvent
+    });
+
+    onChange && onChange(onEvent);
+  }
+
+  addGlobalEvent(event: IGlobalEvent, disabled: boolean) {
+    const {onChange} = this.props;
+    let onEvent = {
+      ...this.state.onEvent
+    };
+    if (disabled) {
+      return;
+    }
+    onEvent[`${event.name}`] = {
       weight: 0,
       actions: []
     };
@@ -1043,6 +1064,7 @@ export class EventControl extends React.Component<
       getComponents,
       allComponents,
       render,
+      globalEvents,
       subscribeSchemaSubmit
     } = this.props;
     const {
@@ -1135,11 +1157,42 @@ export class EventControl extends React.Component<
               popOverContainer: null // amis 渲染挂载节点会使用 this.target
             }
           )}
+
+          {globalEvents
+            ? render(
+                'dropdown',
+                {
+                  type: 'dropdown-button',
+                  level: 'enhance',
+                  label: '添加全局事件',
+                  disabled: false,
+                  className: 'block w-full add-event-dropdown mt-2',
+                  closeOnClick: true,
+                  buttons: globalEvents.map(item => ({
+                    type: 'button',
+                    disabledTip: '您已添加该事件',
+                    tooltipPlacement: 'left',
+                    disabled: Object.keys(onEvent).includes(item.name),
+                    actionType: '',
+                    label: item.name,
+                    onClick: this.addGlobalEvent.bind(
+                      this,
+                      item,
+                      Object.keys(onEvent).includes(item.name)
+                    )
+                  }))
+                },
+                {
+                  popOverContainer: null // amis 渲染挂载节点会使用 this.target
+                }
+              )
+            : null}
         </header>
         <ul
           className={cx({
             'ae-event-control-content': true,
-            'ae-event-control-content-oldentry': showOldEntry
+            'ae-event-control-content-oldentry': showOldEntry,
+            'ae-event-control-content-withglobalevent': globalEvents?.length
           })}
           ref={this.dragRef}
         >
