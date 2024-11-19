@@ -366,6 +366,7 @@ export async function dispatchGlobalEvent(eventName: string, data: any) {
     eventName,
     data
   });
+  bc.close();
 }
 
 export const getRendererEventListeners = () => {
