@@ -1503,7 +1503,8 @@ export function applyFilters<T extends any>(
   options: {
     query: any;
     columns?: Array<any>;
-    matchFunc?: Function;
+    matchFunc?: Function | null;
+    filterOnAllColumns?: boolean;
   }
 ) {
   if (options.matchFunc && typeof options.matchFunc === 'function') {
@@ -1517,7 +1518,13 @@ export function applyFilters<T extends any>(
             : undefined;
         const key = column.name;
 
-        if (value != null && key) {
+        if (
+          (options.filterOnAllColumns ||
+            column.searchable ||
+            column.filterable) &&
+          key &&
+          value != null
+        ) {
           // value可能为null、undefined、''、0
           if (Array.isArray(value)) {
             if (value.length > 0) {

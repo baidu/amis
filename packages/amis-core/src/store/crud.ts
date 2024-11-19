@@ -209,6 +209,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        matchFunc?: MatchFunc;
+        filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
       }
     ) => Promise<any> = flow(function* getInitData(
@@ -222,26 +224,30 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         syncResponse2Query?: boolean;
         columns?: Array<any>;
         matchFunc?: MatchFunc;
+        filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
       } = {}
     ) {
       try {
-        if (!options.forceReload && options.loadDataOnce && self.total) {
+        let rawItems = options.source
+          ? resolveVariableAndFilter(
+              options.source,
+              createObject(self.mergedData, {
+                items: self.data.itemsRaw,
+                rows: self.data.itemsRaw
+              }),
+              '| raw'
+            )
+          : self.items.concat();
+
+        if (!options.forceReload && options.loadDataOnce && rawItems?.length) {
           const matchFunc = options.matchFunc;
-          let items = options.source
-            ? resolveVariableAndFilter(
-                options.source,
-                createObject(self.mergedData, {
-                  items: self.data.itemsRaw,
-                  rows: self.data.itemsRaw
-                }),
-                '| raw'
-              )
-            : self.items.concat();
+          let items = rawItems;
 
           items = applyFilters(items, {
             query: self.query,
             columns: options.columns,
-            matchFunc: matchFunc
+            matchFunc: matchFunc,
+            filterOnAllColumns: options.filterOnAllColumns
           });
 
           if (self.query.orderBy) {
@@ -380,43 +386,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
              * 2. 接口返回中没有 items 和 rows 字段，则直接用查到的数据。
              */
             data.itemsRaw = oItems || oRows || rowsData.concat();
-            let filteredItems = rowsData.concat();
-
-            if (Array.isArray(options.columns)) {
-              options.columns.forEach((column: any) => {
-                let value: any;
-                const key = column.name;
-                if (
-                  column.searchable &&
-                  key &&
-                  (value = getVariable(self.query, key))
-                ) {
-                  if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                      const arr = [...filteredItems];
-                      let arrItems: Array<any> = [];
-                      value.forEach(item => {
-                        arrItems = [
-                          ...arrItems,
-                          ...matchSorter(arr, item, {
-                            keys: [key],
-                            threshold: matchSorter.rankings.CONTAINS
-                          })
-                        ];
-                      });
-                      filteredItems = filteredItems.filter(item =>
-                        arrItems.find(a => a === item)
-                      );
-                    }
-                  } else {
-                    filteredItems = matchSorter(filteredItems, value, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    });
-                  }
-                }
-              });
-            }
+            let filteredItems = applyFilters(rowsData, {
+              query: self.query,
+              columns: options.columns,
+              filterOnAllColumns: false,
+              matchFunc: options.matchFunc
+            });
 
             if (self.query.orderBy) {
               const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -642,65 +617,22 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc | null;
       }
     ) {
-      const matchFunc = options.matchFunc;
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
       if (!Array.isArray(items) && !self.items.length) {
         return;
       }
 
-      items = Array.isArray(items) ? items : [];
-
-      /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
-      if (matchFunc && typeof matchFunc === 'function') {
-        items = matchFunc(items, items.concat(), {
-          query: self.query,
-          columns: options.columns,
-          matchSorter: matchSorter
-        });
-      } else {
-        if (Array.isArray(options.columns)) {
-          options.columns.forEach((column: any) => {
-            let value: any =
-              typeof column.name === 'string'
-                ? getVariable(self.query, column.name)
-                : undefined;
-            const key = column.name;
-
-            if (value != null && key) {
-              // value可能为null、undefined、''、0
-              if (Array.isArray(value)) {
-                if (value.length > 0) {
-                  const arr = [...items];
-                  let arrItems: Array<any> = [];
-                  /** 搜索 query 值为数组的情况 */
-                  value.forEach(item => {
-                    arrItems = [
-                      ...arrItems,
-                      ...matchSorter(arr, item, {
-                        keys: [key],
-                        threshold: matchSorter.rankings.CONTAINS
-                      })
-                    ];
-                  });
-                  items = items.filter((item: any) =>
-                    arrItems.find(a => a === item)
-                  );
-                }
-              } else {
-                items = matchSorter(items, value, {
-                  keys: [key],
-                  threshold: matchSorter.rankings.CONTAINS
-                });
-              }
-            }
-          });
-        }
-      }
+      items = applyFilters(Array.isArray(items) ? items : [], {
+        query: self.query,
+        columns: options.columns,
+        matchFunc: options.matchFunc,
+        filterOnAllColumns: true
+      });
 
       if (self.query.orderBy) {
         const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
-        items = sortArray(items, self.query.orderBy, dir);
+        items = sortArray(items.concat(), self.query.orderBy, dir);
       }
 
       const data = {
