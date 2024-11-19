@@ -540,7 +540,7 @@ export class ComboControlPlugin extends BasePlugin {
                     const items = [...(form.data.items || [])];
                     // 修改 items 中的 unique 属性
                     const updatedItems = items.map(item => {
-                      if (value.includes(item.name)) {
+                      if (value === item.name) {
                         return {...item, unique: true};
                       } else {
                         const newItem = {...item};
