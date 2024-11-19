@@ -627,14 +627,11 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   async handleNodeClick(item: any) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, data} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'itemClick',
-      resolveEventData(this.props, {
-        value: item.value,
-        item
-      })
+      createObject(data, {item})
     );
 
     if (rendererEvent?.prevented) {
