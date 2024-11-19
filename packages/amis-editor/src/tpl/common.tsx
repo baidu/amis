@@ -1857,3 +1857,10 @@ setSchemaTpl('virtualHeight', {
   ),
   pipeOut: (value: any) => value || undefined
 });
+  
+setSchemaTpl('inputForbid', {
+  type: 'switch',
+  label: '禁止输入',
+  name: 'inputForbid',
+  inputClassName: 'is-inline'
+});

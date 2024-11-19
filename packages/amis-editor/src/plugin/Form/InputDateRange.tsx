@@ -415,7 +415,9 @@ export class DateRangeControlPlugin extends BasePlugin {
                 getSchemaTpl('clearable', {
                   pipeIn: defaultValue(true)
                 }),
-
+                getSchemaTpl('inputForbid', {
+                  pipeIn: defaultValue(false)
+                }),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: (schema: Schema) => ({
                     ...schema,

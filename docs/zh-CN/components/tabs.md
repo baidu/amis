@@ -963,7 +963,7 @@ order: 68
 | 动作名称        | 动作配置                                 | 说明             |
 | --------------- | ---------------------------------------- | ---------------- |
 | changeActiveKey | `activeKey: number \| string` 选项卡索引 | 激活指定的选项卡 |
-| deleteKey       | `deleteKey: number \| string` 选项卡索引 | 删除指定的选项卡 |
+| deleteTab       | `deleteHash: string` 选项卡 hash         | 删除指定的选项卡 |
 
 ### changeActiveKey
 
@@ -1047,7 +1047,7 @@ order: 68
 ]
 ```
 
-### deleteKey
+### deleteTab
 
 可以尝试点击下方按钮，实现选项卡删除。
 
@@ -1061,10 +1061,10 @@ order: 68
         "click": {
           "actions": [
             {
-              "actionType": "deleteKey",
+              "actionType": "deleteTab",
               "componentId": "tabs-change-receiver",
               "args": {
-                "deleteKey": "tab1"
+                "deleteHash": "tab1"
               }
             }
           ]
@@ -1079,10 +1079,10 @@ order: 68
         "click": {
           "actions": [
             {
-              "actionType": "deleteKey",
+              "actionType": "deleteTab",
               "componentId": "tabs-change-receiver",
               "args": {
-                "deleteKey": "tab2"
+                "deleteHash": "tab2"
               }
             }
           ]
@@ -1097,10 +1097,10 @@ order: 68
         "click": {
           "actions": [
             {
-              "actionType": "deleteKey",
+              "actionType": "deleteTab",
               "componentId": "tabs-change-receiver",
               "args": {
-                "deleteKey": "tab3"
+                "deleteHash": "tab3"
               }
             }
           ]

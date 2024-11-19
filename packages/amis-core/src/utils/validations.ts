@@ -256,14 +256,16 @@ export const validations: {
   },
   isPhoneNumber: function (values, value) {
     return (
-      !isExisty(value) || isEmpty(value) || /^[1]([3-9])[0-9]{9}$/.test(value)
+      !isExisty(value) ||
+      isEmpty(value) ||
+      /^(\+\d{2}-)?[1]([3-9])[0-9]{9}$/.test(value)
     );
   },
   isTelNumber: function (values, value) {
     return (
       !isExisty(value) ||
       isEmpty(value) ||
-      /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value)
+      /^(\+\d{2}-)?(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value)
     );
   },
   isZipcode: function (values, value) {

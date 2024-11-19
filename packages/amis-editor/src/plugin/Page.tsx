@@ -348,6 +348,7 @@ export class PagePlugin extends BasePlugin {
                 selectors: [
                   {
                     label: '页面基本样式',
+                    isRoot: true,
                     selector: '.cxd-Page'
                   },
                   {
