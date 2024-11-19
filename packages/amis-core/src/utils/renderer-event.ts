@@ -195,6 +195,48 @@ export const bindEvent = (renderer: any) => {
   return undefined;
 };
 
+export const bindGlobalEvent = (renderer: any) => {
+  if (!renderer) {
+    return undefined;
+  }
+  const listeners: EventListeners = renderer.props.$schema.onEvent;
+  let bcs: Array<{
+    renderer: any;
+    bc: BroadcastChannel;
+  }> = [];
+  if (listeners) {
+    for (let key of Object.keys(listeners)) {
+      const listener = listeners[key];
+      if (!BroadcastChannel) {
+        console.error('BroadcastChannel is not supported in your browser');
+        return;
+      }
+      const bc = new BroadcastChannel(key);
+      bcs.push({
+        renderer: renderer,
+        bc
+      });
+      bc.onmessage = e => {
+        const {eventName, data} = e.data;
+        const rendererEvent = createRendererEvent(eventName, {
+          env: renderer?.props?.env,
+          nativeEvent: eventName,
+          scoped: renderer?.context,
+          data
+        });
+
+        runActions(listener.actions, renderer, rendererEvent);
+      };
+    }
+    return () => {
+      bcs
+        .filter(item => item.renderer === renderer)
+        .forEach(item => item.bc.close());
+    };
+  }
+  return void 0;
+};
+
 // 触发事件
 export async function dispatchEvent(
   e: string | React.MouseEvent<any>,
@@ -311,6 +353,20 @@ export async function dispatchEvent(
     }
   }
   return Promise.resolve(rendererEvent);
+}
+
+export async function dispatchGlobalEvent(eventName: string, data: any) {
+  if (!BroadcastChannel) {
+    console.error('BroadcastChannel is not supported in your browser');
+    return;
+  }
+
+  const bc = new BroadcastChannel(eventName);
+  bc.postMessage({
+    eventName,
+    data
+  });
+  bc.close();
 }
 
 export const getRendererEventListeners = () => {
