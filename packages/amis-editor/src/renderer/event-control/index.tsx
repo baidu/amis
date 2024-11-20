@@ -152,7 +152,7 @@ export class EventControl extends React.Component<
 
   constructor(props: EventControlProps) {
     super(props);
-    const {events, value, data, rawType} = props;
+    const {events, value, data, rawType, globalEvents} = props;
 
     const eventPanelActive: {
       [prop: string]: boolean;
@@ -167,6 +167,10 @@ export class EventControl extends React.Component<
 
     pluginEvents.forEach((event: RendererPluginEvent) => {
       eventPanelActive[event.eventName] = true;
+    });
+
+    globalEvents?.forEach(event => {
+      eventPanelActive[event.name] = true;
     });
 
     this.state = {
@@ -619,14 +623,16 @@ export class EventControl extends React.Component<
       actionTree,
       actions: pluginActions,
       commonActions,
-      allComponents
+      allComponents,
+      globalEvents
     } = this.props;
     const {events, onEvent} = this.state;
-
     const eventConfig = events.find(
       item => item.eventName === data.actionData!.eventKey
     );
-
+    const globalEventConfig = globalEvents?.find(
+      item => item.name === data.actionData!.eventKey
+    );
     // 收集当前事件动作出参
     let actions = onEvent[data.actionData!.eventKey].actions;
 
@@ -642,11 +648,33 @@ export class EventControl extends React.Component<
 
     let jsonSchema: any = {};
 
-    // 动态构建事件参数
-    if (typeof eventConfig?.dataSchema === 'function') {
-      jsonSchema = eventConfig.dataSchema(manager)?.[0];
+    if (globalEventConfig) {
+      jsonSchema = {
+        type: 'object',
+        properties: {
+          data: {
+            type: 'object',
+            title: '数据',
+            properties: (globalEventConfig.mapping || []).reduce(
+              (acc: any, item) => {
+                acc[item.key] = {
+                  type: item.type,
+                  title: `${item.key}(全局事件参数)`
+                };
+                return acc;
+              },
+              {}
+            )
+          }
+        }
+      };
     } else {
-      jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+      // 动态构建事件参数
+      if (typeof eventConfig?.dataSchema === 'function') {
+        jsonSchema = eventConfig.dataSchema(manager)?.[0];
+      } else {
+        jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+      }
     }
 
     actions
@@ -1174,7 +1202,7 @@ export class EventControl extends React.Component<
                     tooltipPlacement: 'left',
                     disabled: Object.keys(onEvent).includes(item.name),
                     actionType: '',
-                    label: item.name,
+                    label: item.label,
                     onClick: this.addGlobalEvent.bind(
                       this,
                       item,

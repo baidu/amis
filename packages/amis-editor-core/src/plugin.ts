@@ -506,6 +506,7 @@ export interface RendererJSONSchemaResolveEventContext
 }
 
 export interface IGlobalEvent {
+  label: string;
   name: string; // 事件名称，唯一
   description: string; // 事件描述
   mapping: Array<{
