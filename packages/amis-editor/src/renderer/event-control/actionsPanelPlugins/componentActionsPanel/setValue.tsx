@@ -306,17 +306,6 @@ registerActionPanel('setValue', {
                 visibleOn: `(this.__rendererName === 'input-table' || this.__rendererName === 'combo')
               && this.__comboType === 'appoint'`
               }),
-              // {
-              //   type: 'input-number',
-              //   required: true,
-              //   name: 'index',
-              //   mode: 'horizontal',
-              //   label: '输入序号',
-              //   size: 'lg',
-              //   placeholder: '请输入待更新序号',
-              //   visibleOn: `(this.__rendererName === 'input-table' || this.__rendererName === 'combo')
-              // && this.__comboType === 'appoint'`
-              // },
               {
                 type: 'combo',
                 name: 'value',
