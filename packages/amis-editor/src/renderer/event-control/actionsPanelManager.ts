@@ -68,7 +68,9 @@ export const registerActionPanel = (
     });
   } else {
     const subActionsPanel = builtInActionsPanel[idx]?.children || [];
-    const idx2 = subActionsPanel.findIndex(item => item.actionType === tag);
+    const idx2 = subActionsPanel.findIndex(
+      item => item.actionType === actionType
+    );
     const processData = builtInActionPanelData(actionType, actionPanel);
     if (idx2 === -1) {
       subActionsPanel.push(processData);

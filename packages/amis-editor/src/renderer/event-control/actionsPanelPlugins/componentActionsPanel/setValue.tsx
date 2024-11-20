@@ -291,17 +291,21 @@ registerActionPanel('setValue', {
                   form.setValueByName('__valueInput', undefined);
                 }
               },
-              {
-                type: 'input-number',
-                required: true,
+              getSchemaTpl('formulaControl', {
                 name: 'index',
-                mode: 'horizontal',
                 label: '输入序号',
+                required: true,
+                rendererSchema: {
+                  type: 'input-number'
+                },
+                valueType: 'number',
+                variables: '${variables}',
                 size: 'lg',
+                mode: 'horizontal',
                 placeholder: '请输入待更新序号',
                 visibleOn: `(this.__rendererName === 'input-table' || this.__rendererName === 'combo')
               && this.__comboType === 'appoint'`
-              },
+              }),
               {
                 type: 'combo',
                 name: 'value',
