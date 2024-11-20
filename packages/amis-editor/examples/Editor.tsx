@@ -318,6 +318,7 @@ const editorLanguages = [
 const globalEvents = [
   {
     name: 'globalEventA',
+    label: '全局事件A',
     description: '全局事件动作A',
     mapping: [
       {
@@ -332,6 +333,7 @@ const globalEvents = [
   },
   {
     name: 'globalEventB',
+    label: '全局事件B',
     description: '全局事件动作A',
     mapping: [
       {

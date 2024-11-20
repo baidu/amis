@@ -3218,7 +3218,9 @@ export const getEventControlConfig = (
         }
       }
 
-      delete config.data;
+      if (config.actionType !== 'broadcast') {
+        delete config.data;
+      }
 
       // 处理下 addItem 的初始化
       if (action.actionType === 'addItem') {
