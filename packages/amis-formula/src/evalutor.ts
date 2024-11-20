@@ -1110,6 +1110,9 @@ export class Evaluator {
    * @returns {number} 长度
    */
   fnLEN(text: string) {
+    if (text === undefined || text === null) {
+      return 0;
+    }
     text = this.normalizeText(text);
     return text?.length;
   }
