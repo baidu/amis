@@ -351,8 +351,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       treeElement.offsetHeight -
       virtualParentElement.offsetHeight;
 
-    console.log('othersHeight', othersHeight);
-
     this.setState({othersHeight});
   }
 
