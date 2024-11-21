@@ -2,7 +2,13 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  createObjectFromChain,
+  filterTarget,
+  mapTree
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {
@@ -876,16 +882,21 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       .filter(item => item)
       .join(',');
 
-    const ctx = createObject(store.mergedData, {
-      ...selectedItems[0],
-      currentPageData: (store.mergedData?.items || []).concat(),
-      rows: selectedItems,
-      items: selectedItems,
-      selectedItems,
-      unSelectedItems: unSelectedItems,
-      ids,
-      event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
-    });
+    const ctx = createObjectFromChain([
+      store.mergedData,
+      {
+        event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
+      },
+      {
+        ...selectedItems[0],
+        currentPageData: (store.mergedData?.items || []).concat(),
+        rows: selectedItems,
+        items: selectedItems,
+        selectedItems,
+        unSelectedItems: unSelectedItems,
+        ids
+      }
+    ]);
 
     let fn = () => {
       if (action.actionType === 'dialog') {
