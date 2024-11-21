@@ -137,11 +137,6 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   menuTpl?: string;
 
   /**
-   * 虚拟列表高度
-   */
-  virtualHeight?: number;
-
-  /**
    * 子节点取消时自动取消父节点的值，默认为false
    */
   autoCancelParent?: boolean;
@@ -732,7 +727,6 @@ export default class TreeSelectControl extends React.Component<
       enableDefaultIcon,
       mobileUI,
       testIdBuilder,
-      virtualHeight,
       nodeBehavior,
       itemActions,
       classnames: cx,
@@ -799,9 +793,6 @@ export default class TreeSelectControl extends React.Component<
         onExpandTree={expandTreeOptions}
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
-        virtualHeight={
-          toNumber(virtualHeight) > 0 ? toNumber(virtualHeight) : undefined
-        }
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}

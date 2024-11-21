@@ -732,7 +732,6 @@ export class TreeControlPlugin extends BasePlugin {
                 }
               },
               getSchemaTpl('virtualThreshold'),
-              getSchemaTpl('virtualHeight'),
               getSchemaTpl('virtualItemHeight')
             ]
           },
@@ -745,7 +744,15 @@ export class TreeControlPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('theme:formItem'),
+          getSchemaTpl('theme:formItem', {
+            schema: {
+              type: 'input-number',
+              label: '高度',
+              name: 'wrapperCustomStyle.root.height',
+              clearable: true,
+              unitOptions: ['px', '%', 'em', 'vh', 'vw']
+            }
+          }),
           getSchemaTpl('theme:form-label'),
           getSchemaTpl('theme:form-description'),
           getSchemaTpl('theme:base', {

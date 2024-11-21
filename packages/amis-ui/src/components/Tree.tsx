@@ -233,7 +233,6 @@ export class TreeSelector extends React.Component<
     pathSeparator: '/',
     nodePath: [],
     virtualThreshold: 100,
-    virtualHeight: 266,
     itemHeight: 32,
     enableDefaultIcon: true
   };
@@ -1544,12 +1543,12 @@ export class TreeSelector extends React.Component<
 
   @autobind
   renderList(list: Options, value: any[]) {
-    const {virtualThreshold, itemHeight = 32, virtualHeight = 266} = this.props;
+    const {virtualThreshold, itemHeight = 32, virtualHeight} = this.props;
     if (virtualThreshold && list.length > virtualThreshold) {
       return (
         <div ref={this.virtualListRef}>
           <VirtualList
-            height={list.length > 8 ? virtualHeight : list.length * itemHeight}
+            height={virtualHeight !== undefined ? virtualHeight : 266}
             itemCount={list.length}
             prefix={this.renderCheckAll()}
             itemSize={itemHeight}

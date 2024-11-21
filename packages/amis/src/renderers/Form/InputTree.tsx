@@ -72,11 +72,6 @@ export interface TreeControlSchema extends FormOptionsSchema {
   autoCheckChildren?: boolean;
 
   /**
-   * 虚拟列表高度
-   */
-  virtualHeight?: number;
-
-  /**
    * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
    * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
@@ -272,8 +267,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     );
   }
 
-  componentDidUpdate(prevProps: TreeProps) {
+  componentDidUpdate(prevProps: TreeProps, preState: TreeState) {
     const props = this.props;
+    const state = this.state;
     const keyword = this.state.keyword;
 
     if (
@@ -291,7 +287,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     if (
       anyChanged(
         [
-          'selectable',
+          'label',
+          'searchable',
           'creatable',
           'hideRoot',
           'themeCss',
@@ -301,7 +298,13 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         props
       )
     ) {
+      console.log('initOthersHeight');
       this.initOthersHeight();
+    }
+
+    if (preState.othersHeight !== state.othersHeight) {
+      console.log('handleVirtualListHeight');
+      this.handleVirtualListHeight();
     }
   }
 
@@ -313,20 +316,42 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   }
 
   initOthersHeight() {
-    const parentElement = this.rootRef.current?.parentElement;
+    const treeElement = this.rootRef.current;
+    const treeParentElement = this.rootRef.current?.parentElement;
     const virtualElement = this.treeRef.virtualListRef.current;
+    const virtualParentElement: HTMLElement | null | undefined =
+      this.treeRef.virtualListRef.current?.parentElement;
 
-    if (!parentElement || !virtualElement) return;
+    if (
+      !treeParentElement ||
+      !virtualParentElement ||
+      !virtualElement ||
+      !treeElement
+    )
+      return;
 
-    const othersHeight =
-      Array.from(parentElement.children).reduce(
-        (prev, current: HTMLElement) => {
+    const calculateHeight = (
+      element: HTMLElement,
+      excludeElement: HTMLElement
+    ) => {
+      return Array.from(element.children)
+        .filter(item => item !== excludeElement)
+        .reduce((prev, current: HTMLElement) => {
           return (
             prev + current.offsetHeight + this.getElementVerticalMargin(current)
           );
-        },
-        0
-      ) - virtualElement.clientHeight;
+        }, 0);
+    };
+
+    // 计算元素的高度+padding+margin等值
+    const othersHeight =
+      calculateHeight(treeParentElement, treeElement) +
+      this.getElementVerticalMargin(treeElement) +
+      calculateHeight(virtualParentElement, virtualElement) +
+      treeElement.offsetHeight -
+      virtualParentElement.offsetHeight;
+
+    console.log('othersHeight', othersHeight);
 
     this.setState({othersHeight});
   }
@@ -336,8 +361,10 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     const parentElement = this.rootRef.current?.parentElement;
     if (!parentElement) return;
 
+    const virtualListHeight = parentElement.offsetHeight - othersHeight;
+
     this.setState({
-      virtualListHeight: parentElement.offsetHeight - othersHeight
+      virtualListHeight: virtualListHeight > 0 ? virtualListHeight : 0
     });
   }
 
@@ -675,7 +702,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       translate: __,
       data,
       virtualThreshold,
-      virtualHeight,
       itemHeight,
       loadingConfig,
       menuTpl,
@@ -754,8 +780,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onExpandTree={expandTreeOptions}
         virtualThreshold={virtualThreshold}
         virtualHeight={
-          toNumber(virtualHeight || virtualListHeight) > 0
-            ? toNumber(virtualHeight || virtualListHeight)
+          toNumber(virtualListHeight) >= 0
+            ? toNumber(virtualListHeight)
             : undefined
         }
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
