@@ -679,7 +679,7 @@ export class Evaluator {
   /**
    * 获取最大值，如果只有一个参数且是数组，则计算这个数组内的值。
    *
-   * @example MAX(num1, num2, ...numN)
+   * @example MAX(num1, num2, ...numN) or MAX([num1, num2, ...numN])
    * @param {...number} num - 数值
    * @namespace 数学函数
    *
@@ -696,7 +696,7 @@ export class Evaluator {
   /**
    * 获取最小值，如果只有一个参数且是数组，则计算这个数组内的值。
    *
-   * @example MIN(num1, num2, ...numN)
+   * @example MIN(num1, num2, ...numN) or MIN([num1, num2, ...numN])
    * @param {...number} num - 数值
    * @namespace 数学函数
    *
@@ -713,7 +713,7 @@ export class Evaluator {
   /**
    * 求和，如果只有一个参数且是数组，则计算这个数组内的值。
    *
-   * @example SUM(num1, num2, ...numN)
+   * @example SUM(num1, num2, ...numN) or SUM([num1, num2, ...numN])
    * @param {...number} num - 数值
    * @namespace 数学函数
    *
@@ -848,7 +848,7 @@ export class Evaluator {
   /**
    * 返回所有参数的平均值，如果只有一个参数且是数组，则计算这个数组内的值。
    *
-   * @example AVG(num1, num2, ...numN)
+   * @example AVG(num1, num2, ...numN) or AVG([num1, num2, ...numN])
    * @param {...number} num - 要处理的数字
    * @namespace 数学函数
    *
@@ -1057,7 +1057,7 @@ export class Evaluator {
       return base;
     }
 
-    return Math.pow(base, exponent);
+    return Math.pow(this.formatNumber(base), this.formatNumber(exponent));
   }
 
   // 文本函数
@@ -1124,7 +1124,7 @@ export class Evaluator {
    * @returns {number[]} 长度集合
    */
   fnLENGTH(...args: any[]) {
-    return this.fnLEN.call(this, args);
+    return this.fnLEN.apply(this, args);
   }
 
   /**
@@ -1150,7 +1150,7 @@ export class Evaluator {
    * @returns {string} 连接后的文本
    */
   fnCONCATENATE(...args: Array<any>) {
-    return args.join('');
+    return args.map(this.normalizeText).join('');
   }
 
   /**
@@ -1378,7 +1378,7 @@ export class Evaluator {
    * @param {string} startString - 起始文本
    * @namespace 文本函数
    *
-   * @returns {string} 判断结果
+   * @returns {boolean} 判断结果
    */
   fnSTARTSWITH(text: string, search: string) {
     search = this.normalizeText(search);
@@ -1398,7 +1398,7 @@ export class Evaluator {
    * @param {string} endString - 结束文本
    * @namespace 文本函数
    *
-   * @returns {string} 判断结果
+   * @returns {boolean} 判断结果
    */
   fnENDSWITH(text: string, search: string) {
     search = this.normalizeText(search);
@@ -1418,7 +1418,7 @@ export class Evaluator {
    * @param {string} searchText - 搜索文本
    * @namespace 文本函数
    *
-   * @returns {string} 判断结果
+   * @returns {boolean} 判断结果
    */
   fnCONTAINS(text: string, search: string) {
     search = this.normalizeText(search);
@@ -1501,13 +1501,17 @@ export class Evaluator {
   /**
    * 返回文本字符串中从指定位置开始的特定数目的字符。
    *
+   * 示例：`MID("amis.baidu.com", 6, 3)`，
+   *
+   * 返回 `aid`。
+   *
    * @example MID(text, from, len)
    * @param {string} text - 要处理的文本
    * @param {number} from - 起始位置
    * @param {number} len - 处理长度
    * @namespace 文本函数
    *
-   * @returns {number} 命中的位置
+   * @returns {string} 命中的位置
    */
   fnMID(text: string, from: number, len: number) {
     text = this.normalizeText(text);
@@ -1521,7 +1525,7 @@ export class Evaluator {
    *
    * 示例：`/home/amis/a.json`，
    *
-   * 返回：a.json`。
+   * 返回：`a.json`。
    *
    * @example BASENAME(text)
    * @param {string} text - 要处理的文本
@@ -1741,7 +1745,7 @@ export class Evaluator {
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
    * @param {string} format 日期格式，可选
-   * @returns {date} 新的日期对象
+   * @returns {date | string} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
    */
   fnSTARTOF(date: Date, unit?: any, format?: string) {
     const md = moment(this.normalizeDate(date)).startOf(unit || 'day');
@@ -1756,7 +1760,7 @@ export class Evaluator {
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
    * @param {string} format 日期格式，可选
-   * @returns {date} 新的日期对象
+   * @returns {date | string} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
    */
   fnENDOF(date: Date, unit?: any, format?: string) {
     const md = moment(this.normalizeDate(date)).endOf(unit || 'day');
@@ -2063,7 +2067,7 @@ export class Evaluator {
    * @param {Array<any>} arr 数组
    * @namespace 数组
    * @example COUNT(arr)
-   * @returns {boolean} 结果
+   * @returns {number} 结果
    */
   fnCOUNT(value: any) {
     return Array.isArray(value) ? value.length : value ? 1 : 0;
@@ -2072,11 +2076,17 @@ export class Evaluator {
   /**
    * 数组做数据转换，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
    *
+   * 将数组中的每个元素转换成箭头函数返回的值。
+   *
+   * 示例：
+   *
+   * ARRAYMAP([1, 2, 3], item => item + 1) 得到 [2, 3, 4]。
+   *
    * @param {Array<any>} arr 数组
    * @param {Function<any>} iterator 箭头函数
    * @namespace 数组
    * @example ARRAYMAP(arr, item => item)
-   * @returns {boolean} 结果
+   * @returns {Array<any>} 返回转换后的数组
    */
   fnARRAYMAP(value: any, iterator: any) {
     if (!iterator || iterator.type !== 'anonymous_function') {
@@ -2092,11 +2102,15 @@ export class Evaluator {
    * 数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
    * 将第二个箭头函数返回为 false 的成员过滤掉。
    *
+   * 示例：
+   *
+   * ARRAYFILTER([1, 2, 3], item => item > 1) 得到 [2, 3]。
+   *
    * @param {Array<any>} arr 数组
    * @param {Function<any>} iterator 箭头函数
    * @namespace 数组
    * @example ARRAYFILTER(arr, item => item)
-   * @returns {boolean} 结果
+   * @returns {Array<any>} 返回过滤后的数组
    */
   fnARRAYFILTER(value: any, iterator: any) {
     if (!iterator || iterator.type !== 'anonymous_function') {
@@ -2259,7 +2273,7 @@ export class Evaluator {
    * @param { String} separator 分隔符
    * @namespace 数组
    * @example JOIN(arr, string)
-   * @returns {String} 结果
+   * @returns {string} 结果
    */
   fnJOIN(arr: any[], separator = '') {
     if (Array.isArray(arr)) {
@@ -2293,7 +2307,7 @@ export class Evaluator {
    *
    * 示例：
    *
-   * UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')。
+   * UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]) 得到 [{a: '1'}, {b: '2'}]。
    *
    * @param {Array<any>} arr 数组
    * @param {string} field 字段
