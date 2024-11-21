@@ -525,6 +525,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
+    const targetElement = (e.nativeEvent as FocusEvent).relatedTarget;
+    if (targetElement === this.dom || targetElement === this.inputRef.current) {
+      return;
+    }
     this.setState({
       isFocused: false
     });
