@@ -298,12 +298,10 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         props
       )
     ) {
-      console.log('initOthersHeight');
       this.initOthersHeight();
     }
 
     if (preState.othersHeight !== state.othersHeight) {
-      console.log('handleVirtualListHeight');
       this.handleVirtualListHeight();
     }
   }
