@@ -255,16 +255,18 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   }
 
   componentDidMount() {
-    this.initOthersHeight();
-    this.handleVirtualListHeight();
-    this.unSensor = resizeSensor(
-      this.rootRef.current?.parentElement!,
-      () => {
-        this.handleVirtualListHeight();
-      },
-      false,
-      'height'
-    );
+    if (this.props.heightAuto) {
+      this.initOthersHeight();
+      this.handleVirtualListHeight();
+      this.unSensor = resizeSensor(
+        this.rootRef.current?.parentElement!,
+        () => {
+          this.handleVirtualListHeight();
+        },
+        false,
+        'height'
+      );
+    }
   }
 
   componentDidUpdate(prevProps: TreeProps, preState: TreeState) {
@@ -292,16 +294,18 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           'creatable',
           'hideRoot',
           'themeCss',
-          'wrapperCustomStyle'
+          'wrapperCustomStyle',
+          'heightAuto'
         ],
         prevProps,
         props
-      )
+      ) &&
+      props.heightAuto
     ) {
       this.initOthersHeight();
     }
 
-    if (preState.othersHeight !== state.othersHeight) {
+    if (preState.othersHeight !== state.othersHeight && props.heightAuto) {
       this.handleVirtualListHeight();
     }
   }
