@@ -1845,6 +1845,19 @@ setSchemaTpl('closable', {
   expressionName: 'closableOn'
 });
 
+setSchemaTpl('virtualHeight', {
+  name: 'virtualHeight',
+  type: 'input-number',
+  min: 1,
+  step: 1,
+  precision: 0,
+  label: tipedLabel(
+    '虚拟列表高度',
+    '当设置虚拟列表阈值开启虚拟列表后，设置虚拟列表高度'
+  ),
+  pipeOut: (value: any) => value || undefined
+});
+
 setSchemaTpl('inputForbid', {
   type: 'switch',
   label: '禁止输入',
