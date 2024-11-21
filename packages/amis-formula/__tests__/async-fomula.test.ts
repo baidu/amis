@@ -342,9 +342,9 @@ test('formula:date', async () => {
       'CONCATENATE(STARTOF("2023-02-28", "day"), "," ,ENDOF("2023-02-28", "day"))'
     )
   ).toBe(
-    `${moment('2023-02-28').startOf('day').toDate()},${moment('2023-02-28')
+    `${moment('2023-02-28').startOf('day').format()},${moment('2023-02-28')
       .endOf('day')
-      .toDate()}`
+      .format()}`
   );
   expect(
     await evalFormual(
