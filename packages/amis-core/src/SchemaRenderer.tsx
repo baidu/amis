@@ -28,7 +28,7 @@ import {
 import {SimpleMap} from './utils/SimpleMap';
 import {
   bindEvent,
-  bindGlobalEvent,
+  bindGlobalEventForRenderer as bindGlobalEvent,
   dispatchEvent,
   RendererEvent
 } from './utils/renderer-event';

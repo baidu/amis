@@ -129,6 +129,8 @@ import {StatusScoped} from './StatusScoped';
 
 import styleManager from './StyleManager';
 
+import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
+
 // @ts-ignore
 export const version = '__buildVersion';
 (window as any).amisVersionInfo = {
@@ -181,6 +183,9 @@ export {
   getClassPrefix,
   classnames,
   makeClassnames,
+  // 全局广播事件
+  bindGlobalEvent,
+  dispatchGlobalEvent,
   // 多语言相关
   getDefaultLocale,
   setDefaultLocale,
