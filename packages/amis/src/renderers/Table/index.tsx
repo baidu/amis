@@ -861,9 +861,14 @@ export default class Table extends React.Component<TableProps, object> {
       while (nextSibling) {
         const positon = getComputedStyle(nextSibling).position;
         if (positon !== 'absolute' && positon !== 'fixed') {
-          nextSiblingHeight +=
-            nextSibling.offsetHeight +
-            getStyleNumber(nextSibling, 'margin-bottom');
+          const rect1 = selfNode.getBoundingClientRect();
+          const rect2 = nextSibling.getBoundingClientRect();
+
+          if (rect1.bottom <= rect2.top) {
+            nextSiblingHeight +=
+              nextSibling.offsetHeight +
+              getStyleNumber(nextSibling, 'margin-bottom');
+          }
         }
 
         nextSibling = nextSibling.nextElementSibling as HTMLElement;
