@@ -67,7 +67,6 @@
     "@rollup/plugin-typescript": "^8.3.2",
     "@svgr/rollup": "^6.2.1",
     "@types/async": "^2.0.45",
-    "@types/classnames": "^2.2.3",
     "@types/codemirror": "5.60.10",
     "@types/deep-diff": "^1.0.0",
     "@types/history": "^4.6.0",

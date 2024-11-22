@@ -1745,7 +1745,7 @@ export class Evaluator {
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
    * @param {string} format 日期格式，可选
-   * @returns {date | string} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
+   * @returns {any} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
    */
   fnSTARTOF(date: Date, unit?: any, format?: string) {
     const md = moment(this.normalizeDate(date)).startOf(unit || 'day');
@@ -1760,7 +1760,7 @@ export class Evaluator {
    * @param {date} date 日期对象
    * @param {string} unit 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
    * @param {string} format 日期格式，可选
-   * @returns {date | string} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
+   * @returns {any} 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
    */
   fnENDOF(date: Date, unit?: any, format?: string) {
     const md = moment(this.normalizeDate(date)).endOf(unit || 'day');
