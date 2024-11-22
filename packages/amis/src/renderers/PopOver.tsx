@@ -169,7 +169,11 @@ export const HocPopOver =
         lastOpenedInstance = this;
         const e = event.currentTarget;
         // 如果内容不超出，不需要弹出
-        if (!this.props.popOver && e && e.offsetWidth >= e.scrollWidth) {
+        if (
+          this.getClassName() === 'ellipsis' &&
+          e &&
+          e.offsetWidth >= e.scrollWidth
+        ) {
           return;
         }
         this.setState(
@@ -240,6 +244,11 @@ export const HocPopOver =
             type: 'panel',
             ...popOver
           };
+        } else if (this.getClassName() === 'ellipsis') {
+          schema = {
+            type: 'panel',
+            body: `\${${name}}`
+          };
         }
 
         return schema || 'error';
@@ -247,7 +256,8 @@ export const HocPopOver =
 
       getOffset() {
         const {popOver} = this.props;
-        if (typeof popOver === 'boolean' || !popOver.offset) {
+
+        if (!popOver || typeof popOver === 'boolean' || !popOver.offset) {
           return undefined;
         }
 
@@ -279,15 +289,19 @@ export const HocPopOver =
         }
 
         const content = render('popover-detail', this.buildSchema(), {
-          className: cx((popOver as SchemaPopOverObject).className)
+          className: cx(popOver && (popOver as SchemaPopOverObject).className)
         }) as JSX.Element;
 
         if (!popOverContainer) {
           popOverContainer = () => findDOMNode(this);
         }
 
+        const selectClassName = this.getClassName();
+        const defaultPositon =
+          selectClassName === 'ellipsis' ? 'right-top-center-bottom' : 'center';
         const position =
           (popOver && (popOver as SchemaPopOverObject).position) || '';
+
         const isFixed = /^fixed\-/.test(position);
         return isFixed ? (
           <RootClose
@@ -318,7 +332,7 @@ export const HocPopOver =
         ) : (
           <Overlay
             container={popOverContainer}
-            placement={position || config.position || 'center'}
+            placement={position || config.position || defaultPositon}
             target={() => this.target}
             onHide={this.closePopOver}
             rootClose
@@ -328,16 +342,18 @@ export const HocPopOver =
               classPrefix={ns}
               className={cx(
                 'PopOverAble-popover',
-                (popOver as SchemaPopOverObject).popOverClassName
+                popOver && (popOver as SchemaPopOverObject).popOverClassName
               )}
               offset={this.getOffset()}
               onMouseLeave={
-                (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                (popOver as SchemaPopOverObject)?.trigger === 'hover' ||
+                selectClassName
                   ? this.closePopOver
                   : undefined
               }
               onMouseEnter={
-                (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                (popOver as SchemaPopOverObject)?.trigger === 'hover' ||
+                selectClassName
                   ? this.clearCloseTimer
                   : undefined
               }
@@ -351,43 +367,6 @@ export const HocPopOver =
       getClassName() {
         const {textOverflow} = this.props;
         return textOverflow === 'default' ? '' : textOverflow;
-      }
-
-      renderTextOverflow() {
-        let {
-          popOverContainer,
-          classnames: cx,
-          name,
-          render,
-          classPrefix: ns
-        } = this.props;
-
-        const content = render('popover-detail', {
-          type: 'panel',
-          body: `\${${name}}`
-        }) as JSX.Element;
-
-        return (
-          <Overlay
-            container={popOverContainer}
-            placement={'right-top-center-bottom'}
-            target={() => this.target}
-            onHide={this.closePopOver}
-            rootClose
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              className={cx('PopOverAble-popover')}
-              onMouseLeave={this.getClassName() ? this.closePopOver : undefined}
-              onMouseEnter={
-                this.getClassName() ? this.clearCloseTimer : undefined
-              }
-            >
-              {content}
-            </PopOver>
-          </Overlay>
-        );
       }
 
       render() {
@@ -460,11 +439,7 @@ export const HocPopOver =
                 >
                   <Component {...this.props} contentsOnly noHoc />
                 </div>
-                {this.state.isOpened
-                  ? selectClassName === 'ellipsis' && !popOver
-                    ? this.renderTextOverflow()
-                    : this.renderPopOver()
-                  : null}
+                {this.state.isOpened ? this.renderPopOver() : null}
               </>
             )}
           </Component>
