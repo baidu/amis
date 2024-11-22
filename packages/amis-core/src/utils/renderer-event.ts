@@ -7,6 +7,7 @@ import {createObject, extendObject} from './object';
 import debounce from 'lodash/debounce';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import {evalExpression, evalExpressionWithConditionBuilderAsync} from './tpl';
+import type {PlainObject} from '../types';
 
 export interface debounceConfig {
   maxWait?: number;
@@ -195,7 +196,7 @@ export const bindEvent = (renderer: any) => {
   return undefined;
 };
 
-export const bindGlobalEvent = (renderer: any) => {
+export const bindGlobalEventForRenderer = (renderer: any) => {
   if (!renderer) {
     return undefined;
   }
@@ -235,6 +236,26 @@ export const bindGlobalEvent = (renderer: any) => {
     };
   }
   return void 0;
+};
+
+export const bindGlobalEvent = (
+  eventName: string,
+  callback: (data: PlainObject) => void
+) => {
+  if (!BroadcastChannel) {
+    console.error('BroadcastChannel is not supported in your browser');
+    return;
+  }
+
+  const bc = new BroadcastChannel(eventName);
+  bc.onmessage = e => {
+    const {eventName: name, data} = e.data;
+    if (name === eventName) {
+      callback(data);
+    }
+  };
+
+  return () => bc.close();
 };
 
 // 触发事件
