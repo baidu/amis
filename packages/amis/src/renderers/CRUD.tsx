@@ -1284,6 +1284,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
+      loadDataOnceFetchOnFilter,
       source,
       columns,
       dispatchEvent
@@ -1335,7 +1336,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         loadDataMode,
         syncResponse2Query,
         columns: store.columns ?? columns,
-        matchFunc
+        matchFunc,
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false
       });
       if (!isAlive(store)) {
         return value;
@@ -1362,6 +1364,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
       if (
+        !loadDataOnce &&
         !store.data.items.length &&
         !interval &&
         page > 1 &&
