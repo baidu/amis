@@ -365,7 +365,10 @@ export const HocPopOver =
       }
       // 便于外围扩充函数，勿动
       getClassName() {
-        const {textOverflow} = this.props;
+        const {textOverflow, getClassName} = this.props;
+        if (getClassName) {
+          return getClassName();
+        }
         return textOverflow === 'default' ? '' : textOverflow;
       }
 
