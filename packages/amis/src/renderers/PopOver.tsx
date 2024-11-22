@@ -175,7 +175,7 @@ export const HocPopOver =
         lastOpenedInstance = this;
         const e = this.sonTarget;
         // 如果内容不超出，不需要弹出
-        if (e && e.offsetWidth >= e.scrollWidth) {
+        if (!this.props.popOver && e && e.offsetWidth >= e.scrollWidth) {
           return;
         }
         this.setState(
