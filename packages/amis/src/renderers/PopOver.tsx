@@ -125,6 +125,7 @@ export interface PopOverProps extends RendererProps {
   popOver: boolean | SchemaPopOverObject;
   onPopOverOpened: (popover: any) => void;
   onPopOverClosed: (popover: any) => void;
+  textOverflow?: 'noWrap' | 'ellipsis' | 'default';
 }
 
 export interface PopOverState {
@@ -142,6 +143,7 @@ export const HocPopOver =
     let lastOpenedInstance: PopOverComponent | null = null;
     class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
       target: HTMLElement;
+      sonTarget: HTMLElement;
       timer: ReturnType<typeof setTimeout>;
       static ComposedComponent = Component;
       constructor(props: PopOverProps) {
@@ -152,6 +154,7 @@ export const HocPopOver =
         this.closePopOverLater = this.closePopOverLater.bind(this);
         this.clearCloseTimer = this.clearCloseTimer.bind(this);
         this.targetRef = this.targetRef.bind(this);
+        this.sonTargetRef = this.sonTargetRef.bind(this);
         // this.handleClickOutside = this.handleClickOutside.bind(this);
         this.state = {
           isOpened: false
@@ -160,6 +163,10 @@ export const HocPopOver =
 
       targetRef(ref: any) {
         this.target = ref;
+      }
+
+      sonTargetRef(ref: any) {
+        this.sonTarget = ref;
       }
 
       openPopOver() {
@@ -355,7 +362,11 @@ export const HocPopOver =
           render,
           classPrefix: ns
         } = this.props;
-
+        const e = this.sonTarget;
+        // 如果内容不超出，不需要弹出
+        if (e && e.offsetWidth >= e.scrollWidth) {
+          return null;
+        }
         const content = render('popover-detail', {
           type: 'panel',
           body: `\${${name}}`
@@ -420,12 +431,13 @@ export const HocPopOver =
           <Component
             {...this.props}
             className={cx(`Field--popOverAble`, className, {
-              in: this.state.isOpened
+              'in': this.state.isOpened,
+              'Field--popOverAble--flex':
+                width && selectClassName === 'ellipsis'
             })}
             ref={config.targetOutter ? this.targetRef : undefined}
           >
-            {(popOver as SchemaPopOverObject)?.showIcon !== false &&
-            !selectClassName ? (
+            {(popOver as SchemaPopOverObject)?.showIcon !== false && popOver ? (
               <>
                 <Component {...this.props} contentsOnly noHoc />
                 <span
@@ -449,12 +461,18 @@ export const HocPopOver =
                   )}
                   {...triggerProps}
                   style={{width: selectClassName && width}}
-                  ref={config.targetOutter ? undefined : this.targetRef}
+                  ref={
+                    config.targetOutter
+                      ? selectClassName === 'ellipsis'
+                        ? this.sonTargetRef
+                        : undefined
+                      : this.targetRef
+                  }
                 >
                   <Component {...this.props} contentsOnly noHoc />
                 </div>
                 {this.state.isOpened
-                  ? selectClassName === 'ellipsis'
+                  ? selectClassName === 'ellipsis' && !popOver
                     ? this.renderTextOverflow()
                     : this.renderPopOver()
                   : null}
