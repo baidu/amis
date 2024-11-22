@@ -89,6 +89,7 @@ export interface StepsProps extends ThemeProps {
   labelPlacement?: 'horizontal' | 'vertical';
   progressDot?: boolean;
   onClickStep?: (i: number, step: StepObject) => void;
+  iconPosition?: boolean;
 }
 
 export function Steps(props: StepsProps) {
@@ -102,6 +103,7 @@ export function Steps(props: StepsProps) {
     mode = 'horizontal',
     labelPlacement = 'horizontal',
     progressDot = false,
+    iconPosition,
     mobileUI,
     onClickStep
   } = props;
@@ -172,7 +174,12 @@ export function Steps(props: StepsProps) {
               }`
             )}
           >
-            <div className={cx('StepsItem-container')}>
+            <div
+              className={cx(
+                'StepsItem-container',
+                iconPosition && mode != 'vertical' && 'StepsItem-vertical'
+              )}
+            >
               <div className={cx('StepsItem-containerTail')}></div>
               {progressDot ? (
                 <div
@@ -239,16 +246,16 @@ export function Steps(props: StepsProps) {
                     <span>{step.description}</span>
                   </div>
                 </div>
+                {mode === 'simple' && i < stepsRow.length - 1 && (
+                  <div className={cx('StepsItem-icon-line')}>
+                    <Icon
+                      icon="right-arrow"
+                      className="icon"
+                      iconContent="StepsItem-icon-line"
+                    />
+                  </div>
+                )}
               </div>
-              {mode === 'simple' && i < stepsRow.length - 1 && (
-                <div className={cx('StepsItem-icon-line')}>
-                  <Icon
-                    icon="right-arrow"
-                    className="icon"
-                    iconContent="StepsItem-icon-line"
-                  />
-                </div>
-              )}
             </div>
           </li>
         );
