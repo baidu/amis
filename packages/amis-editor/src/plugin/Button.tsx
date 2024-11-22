@@ -204,6 +204,7 @@ export class ButtonPlugin extends BasePlugin {
                 formType: 'extend',
                 mode: 'normal',
                 label: '气泡提示',
+                id: 'button-tooltip', //便于扩充定位
                 hidden: isInDropdown,
                 form: {
                   body: [

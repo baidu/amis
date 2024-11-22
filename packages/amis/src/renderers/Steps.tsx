@@ -85,6 +85,11 @@ export interface StepsSchema extends BaseSchema {
    * 点状步骤条
    */
   progressDot?: boolean;
+
+  /**
+   * 切换图标位置
+   */
+  iconPosition: false;
 }
 
 export interface StepsProps
@@ -98,6 +103,7 @@ export function StepsCmpt(props: StepsProps) {
     steps,
     status,
     mode,
+    iconPosition,
     labelPlacement,
     progressDot,
     data,
@@ -163,6 +169,7 @@ export function StepsCmpt(props: StepsProps) {
       style={style}
       status={statusValue}
       mode={mode}
+      iconPosition={iconPosition}
       progressDot={progressDot}
       labelPlacement={labelPlacement}
       mobileUI={mobileUI}
