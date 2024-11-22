@@ -143,7 +143,6 @@ export const HocPopOver =
     let lastOpenedInstance: PopOverComponent | null = null;
     class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
       target: HTMLElement;
-      sonTarget: HTMLElement;
       timer: ReturnType<typeof setTimeout>;
       static ComposedComponent = Component;
       constructor(props: PopOverProps) {
@@ -154,7 +153,6 @@ export const HocPopOver =
         this.closePopOverLater = this.closePopOverLater.bind(this);
         this.clearCloseTimer = this.clearCloseTimer.bind(this);
         this.targetRef = this.targetRef.bind(this);
-        this.sonTargetRef = this.sonTargetRef.bind(this);
         // this.handleClickOutside = this.handleClickOutside.bind(this);
         this.state = {
           isOpened: false
@@ -165,15 +163,11 @@ export const HocPopOver =
         this.target = ref;
       }
 
-      sonTargetRef(ref: any) {
-        this.sonTarget = ref;
-      }
-
-      openPopOver() {
+      openPopOver(event: any) {
         const onPopOverOpened = this.props.onPopOverOpened;
         lastOpenedInstance?.closePopOver();
         lastOpenedInstance = this;
-        const e = this.sonTarget;
+        const e = event.currentTarget;
         // 如果内容不超出，不需要弹出
         if (!this.props.popOver && e && e.offsetWidth >= e.scrollWidth) {
           return;
@@ -462,13 +456,7 @@ export const HocPopOver =
                   )}
                   {...triggerProps}
                   style={{width: selectClassName && width}}
-                  ref={
-                    config.targetOutter
-                      ? selectClassName === 'ellipsis'
-                        ? this.sonTargetRef
-                        : undefined
-                      : this.targetRef
-                  }
+                  ref={config.targetOutter ? undefined : this.targetRef}
                 >
                   <Component {...this.props} contentsOnly noHoc />
                 </div>
