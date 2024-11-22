@@ -9,7 +9,8 @@ import {
   registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
-  tipedLabel
+  tipedLabel,
+  diff
 } from 'amis-editor-core';
 import {
   getEventControlConfig,
@@ -19,9 +20,12 @@ import {ValidatorTag} from '../../validator';
 import {
   resolveOptionEventDataSchame,
   resolveOptionType,
+  schemaArrayFormat,
+  schemaToArray,
   TREE_BASE_EVENTS
 } from '../../util';
 import {TreeCommonAction} from './InputTree';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class TreeSelectControlPlugin extends BasePlugin {
   static id = 'TreeSelectControlPlugin';
@@ -304,6 +308,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('switch', {
                 label: tipedLabel(
+                  '子节点反选取消父节点',
+                  '取消任意子节点选中状态的同时取消父节点选中状态'
+                ),
+                name: 'autoCancelParent',
+                hiddenOn: '!this.multiple || !this.cascade'
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
                   '值包含父节点',
                   '选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值'
                 ),
@@ -358,6 +370,25 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 },
                 {context}
               ),
+              {
+                type: 'checkboxes',
+                name: 'nodeBehavior',
+                label: '节点行为',
+                value: ['check'],
+                joinValues: false,
+                extractValue: true,
+                inline: true,
+                options: [
+                  {
+                    label: '选中',
+                    value: 'check'
+                  },
+                  {
+                    label: '展开',
+                    value: 'unfold'
+                  }
+                ]
+              },
               getSchemaTpl('switch', {
                 label: '只可选择叶子节点',
                 name: 'onlyLeaf'
@@ -409,7 +440,57 @@ export class TreeSelectControlPlugin extends BasePlugin {
                     name: 'removeTip'
                   }
                 ]
-              })
+              }),
+              {
+                type: 'select',
+                label: '操作栏位置',
+                value: '',
+                name: 'themeCss.actionControlClassName.marginLeft',
+                options: [
+                  {
+                    label: '左侧',
+                    value: ''
+                  },
+                  {
+                    label: '右侧',
+                    value: 'auto'
+                  }
+                ]
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                label: '自定义操作',
+                bulk: false,
+                name: 'itemActions',
+                formType: 'extend',
+                form: {
+                  body: [
+                    {
+                      type: 'button',
+                      level: 'primary',
+                      size: 'sm',
+                      block: true,
+                      onClick: this.editDetail.bind(this, context.id),
+                      label: '配置自定义操作模板'
+                    }
+                  ]
+                },
+                pipeIn: (value: any) => {
+                  return value !== undefined;
+                },
+                pipeOut: (value: any) => {
+                  if (value === true) {
+                    return {
+                      type: 'button',
+                      icon: 'fa fa-plus',
+                      level: 'link',
+                      size: 'xs'
+                    };
+                  }
+                  return value ? value : undefined;
+                }
+              }
             ]
           },
           {
@@ -489,19 +570,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 label: tipedLabel('显示层级展开线', '显示树层级展开线'),
                 name: 'showOutline'
               }),
-              getSchemaTpl('switch', {
-                name: 'withChildren',
-                label: '数值是否携带子节点',
-                visibleOn: 'this.cascade !== true && this.multiple',
-                disabledOn: 'this.onlyChildren'
-              }),
-
-              getSchemaTpl('switch', {
-                name: 'onlyChildren',
-                label: '数值是否只包含子节点',
-                visibleOn: 'this.cascade !== true && this.multiple',
-                disabledOn: 'this.withChildren'
-              }),
               {
                 type: 'ae-Switch-More',
                 mode: 'normal',
@@ -541,15 +609,18 @@ export class TreeSelectControlPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer}),
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '外层容器',
-                name: 'treeContainerClassName'
-              })
+          getSchemaTpl('theme:formItem'),
+          getSchemaTpl('theme:form-label'),
+          getSchemaTpl('theme:form-description'),
+          {
+            title: '输入框样式',
+            body: [
+              ...inputStateTpl(
+                'themeCss.inputControlClassName',
+                '--input-default'
+              )
             ]
-          })
+          }
         ])
       },
       {
@@ -613,6 +684,76 @@ export class TreeSelectControlPlugin extends BasePlugin {
     }
 
     return dataSchema;
+  }
+
+  getSubEditorVariable(schema: any): Array<{label: string; children: any}> {
+    let labelField = schema?.labelField || 'label';
+    let valueField = schema?.valueField || 'value';
+
+    return [
+      {
+        label: '节点选项',
+        children: [
+          {
+            label: '节点索引',
+            value: 'index'
+          },
+          {
+            label: '节点名称',
+            value: labelField
+          },
+          {
+            label: '节点值',
+            value: valueField
+          },
+          {
+            label: '节点状态',
+            value: 'checked'
+          }
+        ]
+      }
+    ];
+  }
+
+  getDisplayField(data: any) {
+    if (
+      data.source ||
+      (data.map &&
+        Array.isArray(data.map) &&
+        data.map[0] &&
+        Object.keys(data.map[0]).length > 1)
+    ) {
+      return data.labelField ?? 'label';
+    }
+    return 'item';
+  }
+
+  editDetail(id: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+    const defaultItemSchema = {
+      type: 'button',
+      icon: 'fa fa-plus',
+      level: 'link',
+      size: 'xs'
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置自定义操作模板',
+        value: schemaToArray(value.itemActions ?? defaultItemSchema),
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: (newValue: any) => {
+          newValue = {...value, itemActions: schemaArrayFormat(newValue)};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        }
+      });
   }
 }
 
