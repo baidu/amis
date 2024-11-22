@@ -192,7 +192,7 @@ export const HocPopOver =
 
       closePopOverLater() {
         // 5s 后自动关闭。
-        this.timer = setTimeout(this.closePopOver, 2000);
+        this.timer = setTimeout(this.closePopOver, 500);
       }
 
       clearCloseTimer() {
@@ -341,6 +341,48 @@ export const HocPopOver =
           </Overlay>
         );
       }
+      // 便于外围扩充函数，勿动
+      getClassName() {
+        const {textOverflow} = this.props;
+        return textOverflow === 'default' ? '' : textOverflow;
+      }
+
+      renderTextOverflow() {
+        let {
+          popOverContainer,
+          classnames: cx,
+          name,
+          render,
+          classPrefix: ns
+        } = this.props;
+
+        const content = render('popover-detail', {
+          type: 'panel',
+          body: `\${${name}}`
+        }) as JSX.Element;
+
+        return (
+          <Overlay
+            container={popOverContainer}
+            placement={'right-top-center-bottom'}
+            target={() => this.target}
+            onHide={this.closePopOver}
+            rootClose
+            show
+          >
+            <PopOver
+              classPrefix={ns}
+              className={cx('PopOverAble-popover')}
+              onMouseLeave={this.getClassName() ? this.closePopOver : undefined}
+              onMouseEnter={
+                this.getClassName() ? this.clearCloseTimer : undefined
+              }
+            >
+              {content}
+            </PopOver>
+          </Overlay>
+        );
+      }
 
       render() {
         const {
@@ -349,12 +391,15 @@ export const HocPopOver =
           popOverEnable,
           className,
           noHoc,
+          width,
           classnames: cx,
           showIcon
         } = this.props;
 
+        const selectClassName = this.getClassName();
+
         if (
-          !popOver ||
+          (!popOver && !selectClassName) ||
           popOverEnabled === false ||
           noHoc ||
           popOverEnable === false
@@ -364,7 +409,7 @@ export const HocPopOver =
 
         const triggerProps: any = {};
         const trigger = (popOver as SchemaPopOverObject)?.trigger;
-        if (trigger === 'hover') {
+        if (trigger === 'hover' || selectClassName === 'ellipsis') {
           triggerProps.onMouseEnter = this.openPopOver;
           triggerProps.onMouseLeave = this.closePopOverLater;
         } else {
@@ -379,7 +424,8 @@ export const HocPopOver =
             })}
             ref={config.targetOutter ? this.targetRef : undefined}
           >
-            {(popOver as SchemaPopOverObject)?.showIcon !== false ? (
+            {(popOver as SchemaPopOverObject)?.showIcon !== false &&
+            !selectClassName ? (
               <>
                 <Component {...this.props} contentsOnly noHoc />
                 <span
@@ -395,13 +441,23 @@ export const HocPopOver =
             ) : (
               <>
                 <div
-                  className={cx('Field-popOverWrap')}
+                  className={cx(
+                    'Field-popOverWrap',
+                    selectClassName
+                      ? 'Field-popOverWrap-' + selectClassName
+                      : ''
+                  )}
                   {...triggerProps}
+                  style={{width: selectClassName && width}}
                   ref={config.targetOutter ? undefined : this.targetRef}
                 >
                   <Component {...this.props} contentsOnly noHoc />
                 </div>
-                {this.state.isOpened ? this.renderPopOver() : null}
+                {this.state.isOpened
+                  ? selectClassName === 'ellipsis'
+                    ? this.renderTextOverflow()
+                    : this.renderPopOver()
+                  : null}
               </>
             )}
           </Component>

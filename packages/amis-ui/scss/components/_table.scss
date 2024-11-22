@@ -13,6 +13,11 @@
     margin-bottom: var(--gap-sm);
   }
 
+  .#{$ns}TableCell-ellipsis {
+    display: flex;
+    align-items: center;
+  }
+
   &-fixedTop {
     position: sticky;
     top: var(--affix-offset-top);

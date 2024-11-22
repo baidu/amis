@@ -17,6 +17,7 @@ export interface TableCellProps extends RendererProps {
   column: any;
   contentsOnly?: boolean;
   testIdBuilder?: TestIdBuilder;
+  textOverflow?: 'noWrap' | 'ellipsis' | 'default';
 }
 
 export class TableCell extends React.Component<TableCellProps> {
@@ -65,6 +66,7 @@ export class TableCell extends React.Component<TableCellProps> {
       cellAffix,
       isHead,
       colIndex,
+      textOverflow,
       row,
       showBadge,
       itemBadge,
@@ -188,7 +190,11 @@ export class TableCell extends React.Component<TableCellProps> {
           />
         ) : null}
         {cellPrefix}
-        {body}
+        {textOverflow === 'ellipsis' ? (
+          <div className={cx('TableCell-ellipsis')}>{body}</div>
+        ) : (
+          body
+        )}
         {cellAffix}
       </Component>
     );
@@ -199,10 +205,10 @@ export class TableCell extends React.Component<TableCellProps> {
   type: 'cell',
   name: 'table-cell'
 })
-@QuickEdit()
 @PopOverable({
   targetOutter: true
 })
+@QuickEdit()
 @Copyable()
 @observer
 export class TableCellRenderer extends TableCell {
