@@ -1092,7 +1092,7 @@ export class EventControl extends React.Component<
       getComponents,
       allComponents,
       render,
-      globalEvents,
+      globalEvents = [],
       subscribeSchemaSubmit
     } = this.props;
     const {
@@ -1167,65 +1167,51 @@ export class EventControl extends React.Component<
               disabled: false,
               className: 'block w-full add-event-dropdown',
               closeOnClick: true,
-              buttons: events.map(item => ({
-                type: 'button',
-                disabledTip: '您已添加该事件',
-                tooltipPlacement: 'left',
-                disabled: Object.keys(onEvent).includes(item.eventName),
-                actionType: '',
-                label: item.eventLabel,
-                onClick: this.addEvent.bind(
-                  this,
-                  item,
-                  Object.keys(onEvent).includes(item.eventName)
-                )
-              }))
+              buttons: [
+                ...events.map(item => ({
+                  type: 'button',
+                  disabledTip: '您已添加该事件',
+                  tooltipPlacement: 'left',
+                  disabled: Object.keys(onEvent).includes(item.eventName),
+                  actionType: '',
+                  label: item.eventLabel,
+                  onClick: this.addEvent.bind(
+                    this,
+                    item,
+                    Object.keys(onEvent).includes(item.eventName)
+                  )
+                })),
+                ...globalEvents.map(item => ({
+                  type: 'button',
+                  disabledTip: '您已添加该全局事件',
+                  tooltipPlacement: 'left',
+                  disabled: Object.keys(onEvent).includes(item.name),
+                  actionType: '',
+                  className: 'add-event-dropdown-global-event',
+                  label: item.label,
+                  onClick: this.addGlobalEvent.bind(
+                    this,
+                    item,
+                    Object.keys(onEvent).includes(item.name)
+                  )
+                }))
+              ]
             },
             {
               popOverContainer: null // amis 渲染挂载节点会使用 this.target
             }
           )}
-
-          {globalEvents
-            ? render(
-                'dropdown',
-                {
-                  type: 'dropdown-button',
-                  level: 'enhance',
-                  label: '添加全局事件',
-                  disabled: false,
-                  className: 'block w-full add-event-dropdown mt-2',
-                  closeOnClick: true,
-                  buttons: globalEvents.map(item => ({
-                    type: 'button',
-                    disabledTip: '您已添加该事件',
-                    tooltipPlacement: 'left',
-                    disabled: Object.keys(onEvent).includes(item.name),
-                    actionType: '',
-                    label: item.label,
-                    onClick: this.addGlobalEvent.bind(
-                      this,
-                      item,
-                      Object.keys(onEvent).includes(item.name)
-                    )
-                  }))
-                },
-                {
-                  popOverContainer: null // amis 渲染挂载节点会使用 this.target
-                }
-              )
-            : null}
         </header>
         <ul
           className={cx({
             'ae-event-control-content': true,
-            'ae-event-control-content-oldentry': showOldEntry,
-            'ae-event-control-content-withglobalevent': globalEvents?.length
+            'ae-event-control-content-oldentry': showOldEntry
           })}
           ref={this.dragRef}
         >
           {eventKeys.length ? (
             eventKeys.map((eventKey, eventIndex) => {
+              const globalEvent = globalEvents.find(i => i.name === eventKey);
               return (
                 <li className="event-item" key={`content_${eventIndex}`}>
                   <div
@@ -1252,7 +1238,18 @@ export class EventControl extends React.Component<
                         )
                       }}
                     >
-                      <div>{getEventLabel(events, eventKey) || eventKey}</div>
+                      {!globalEvent ? (
+                        <div>{getEventLabel(events, eventKey) || eventKey}</div>
+                      ) : (
+                        <div className="event-label">
+                          <span className="global-event-tip">
+                            <span>全局事件</span>
+                          </span>
+                          <span className="event-label-key">
+                            {globalEvent.label || eventKey}
+                          </span>
+                        </div>
+                      )}
                     </TooltipWrapper>
                     <div className="event-item-header-toolbar">
                       <div
