@@ -173,6 +173,11 @@ export const HocPopOver =
         const onPopOverOpened = this.props.onPopOverOpened;
         lastOpenedInstance?.closePopOver();
         lastOpenedInstance = this;
+        const e = this.sonTarget;
+        // 如果内容不超出，不需要弹出
+        if (e && e.offsetWidth >= e.scrollWidth) {
+          return;
+        }
         this.setState(
           {
             isOpened: true
@@ -362,11 +367,7 @@ export const HocPopOver =
           render,
           classPrefix: ns
         } = this.props;
-        const e = this.sonTarget;
-        // 如果内容不超出，不需要弹出
-        if (e && e.offsetWidth >= e.scrollWidth) {
-          return null;
-        }
+
         const content = render('popover-detail', {
           type: 'panel',
           body: `\${${name}}`
