@@ -606,6 +606,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
     const {
+      id,
       store,
       columns,
       selectable,
@@ -644,6 +645,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     store.update(
       {
+        crudId: id,
         selectable,
         draggable,
         columns,
@@ -860,11 +862,19 @@ export default class Table extends React.Component<TableProps, object> {
       let nextSiblingHeight = 0;
       let nextSibling = selfNode.nextElementSibling as HTMLElement;
       while (nextSibling) {
-        const positon = getComputedStyle(nextSibling).position;
-        if (positon !== 'absolute' && positon !== 'fixed') {
-          nextSiblingHeight +=
-            nextSibling.offsetHeight +
-            getStyleNumber(nextSibling, 'margin-bottom');
+        //TODO 这里先做容器组件的兼容处理，希望大佬们能优化一下
+        // 如果下一个兄弟节点不是 cxd-Container,cxd-Grid-col--xxx2种容器，则计算下一个兄弟节点的高度
+        let classString = Array.from(nextSibling.classList).join(',');
+        if (
+          classString.indexOf(`${ns}Container`) < 0 &&
+          classString.indexOf(`${ns}Grid-col--`) < 0
+        ) {
+          const positon = getComputedStyle(nextSibling).position;
+          if (positon !== 'absolute' && positon !== 'fixed') {
+            nextSiblingHeight +=
+              nextSibling.offsetHeight +
+              getStyleNumber(nextSibling, 'margin-bottom');
+          }
         }
 
         nextSibling = nextSibling.nextElementSibling as HTMLElement;
@@ -2862,7 +2872,6 @@ export default class Table extends React.Component<TableProps, object> {
     const tableClassName = cx('Table-table', this.props.tableClassName, {
       'Table-table--withCombine': store.combineNum > 0
     });
-
     return (
       <div
         ref={this.dom}
