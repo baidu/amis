@@ -1641,3 +1641,4 @@ order: 2
 | itemHeight       | `number`                                                                          | `32`      | 每个选项的高度，用于虚拟渲染                                                 |
 | virtualThreshold | `number`                                                                          | `100`     | 在选项数量超过多少时开启虚拟渲染                                             |
 | valuesNoWrap     | `boolean`                                                                         | `false`   | 默认情况下多选所有选项都会显示，通过这个可以最多显示一行，超出的部分变成 ... |
+| clearValueOnSourceChange   | `boolean`              |                        | `source`从数据域取值时，数据域值变化后是否自动清空 |
