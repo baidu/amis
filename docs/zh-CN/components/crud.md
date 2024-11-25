@@ -3999,6 +3999,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | filterable         | `boolean` \| [`QuickFilterConfig`](./crud#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
 | quickEdit          | `boolean` \| [`QuickEditConfig`](./crud#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
 | quickEditEnabledOn | `SchemaExpression`                                           | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
+| textOverflow       | `string`                                                     | `default` | 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效) | `6.9.0` |
 
 #### QuickFilterConfig
 

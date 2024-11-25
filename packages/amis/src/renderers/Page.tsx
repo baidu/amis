@@ -108,6 +108,13 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   asideSticky?: boolean;
 
   /**
+   * 边栏位置
+   *
+   * @default 'left'
+   */
+  asidePosition?: 'left' | 'right';
+
+  /**
    * 边栏最小宽度
    */
   asideMinWidth?: number;
@@ -253,6 +260,7 @@ export default class Page extends React.Component<PageProps> {
     toolbarClassName: '',
     messages: {},
     asideSticky: true,
+    asidePosition: 'left',
     pullRefresh: {
       disabled: true
     }
@@ -666,9 +674,14 @@ export default class Page extends React.Component<PageProps> {
 
   @autobind
   handleResizeMouseMove(e: MouseEvent) {
-    const {asideMinWidth = 160, asideMaxWidth = 350} = this.props;
+    const {
+      asideMinWidth = 160,
+      asideMaxWidth = 350,
+      asidePosition
+    } = this.props;
     const dx = e.clientX - this.startX;
-    const mx = this.startWidth + dx;
+    const mx =
+      asidePosition === 'right' ? this.startWidth - dx : this.startWidth + dx;
     const width = Math.min(Math.max(mx, asideMinWidth), asideMaxWidth);
     this.codeWrap.style.cssText += `width: ${width}px`;
   }
@@ -994,7 +1007,8 @@ export default class Page extends React.Component<PageProps> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss
+      themeCss,
+      asidePosition
     } = this.props;
 
     const subProps = {
@@ -1018,6 +1032,7 @@ export default class Page extends React.Component<PageProps> {
           `Page`,
           hasAside ? `Page--withSidebar` : '',
           hasAside && asideSticky ? `Page--asideSticky` : '',
+          hasAside && asidePosition ? `Page--${asidePosition}Aside` : '',
           className,
           setThemeClassName({
             name: 'baseControlClassName',
@@ -1159,12 +1174,7 @@ export default class Page extends React.Component<PageProps> {
   }
 }
 
-@Renderer({
-  type: 'page',
-  storeType: ServiceStore.name,
-  isolateScope: true
-})
-export class PageRenderer extends Page {
+export class PageRendererBase extends Page {
   static contextType = ScopedContext;
 
   constructor(props: PageProps, context: IScopedContext) {
@@ -1290,3 +1300,10 @@ export class PageRenderer extends Page {
     return store.data;
   }
 }
+
+@Renderer({
+  type: 'page',
+  storeType: ServiceStore.name,
+  isolateScope: true
+})
+export class PageRenderer extends PageRendererBase {}

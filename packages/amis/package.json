@@ -11,7 +11,7 @@
     "coverage": "jest --coverage",
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "npm run clean-dist && sh build.sh",
-    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
     "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts",
     "clean-dist": "rimraf lib/** esm/**"
@@ -76,6 +76,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",

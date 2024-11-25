@@ -81,7 +81,11 @@ import type {
   FormControlProps,
   FormItemProps
 } from './renderers/Item';
-import {OptionsControl, registerOptionsControl} from './renderers/Options';
+import {
+  OptionsControl,
+  registerOptionsControl,
+  OptionsControlBase
+} from './renderers/Options';
 import type {OptionsControlProps} from './renderers/Options';
 import type {FormOptionsControl} from './renderers/Options';
 import {Schema} from './types';
@@ -217,6 +221,7 @@ export {
   ErrorBoundary,
   addSchemaFilter,
   OptionsControlProps,
+  OptionsControlBase,
   FormOptionsControl,
   FormControlProps,
   FormBaseControl,
@@ -241,6 +246,7 @@ export {
   envOverwrite,
   getGlobalOptions,
   setGlobalOptions,
+  wrapFetcher,
   SchemaRenderer
 };
 

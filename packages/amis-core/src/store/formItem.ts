@@ -620,7 +620,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       for (let option of options) {
-        if (Array.isArray(option.children)) {
+        if (Array.isArray(option.children) && option.children.length) {
           const childFirst = getFirstAvaibleOption(option.children);
           if (childFirst !== undefined) {
             return childFirst;

@@ -481,6 +481,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   renderDescription?: boolean;
   test?: RegExp | TestFunc;
   storeType?: string;
+  formItemStoreType?: string;
   validations?: string;
   strictMode?: boolean;
 
@@ -2205,6 +2206,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
     }
 
     return wrapControl(
+      config,
       hoistNonReactStatic(
         class extends FormItemWrap {
           static defaultProps: any = {

@@ -20,6 +20,7 @@ export interface ResultBoxProps
   result?: Array<any> | any;
   itemRender: (value: any) => JSX.Element | string;
   onResultChange?: (value: Array<any>) => void;
+  onItemClick?: (item: Object) => void;
   onClear?: (e: React.MouseEvent<HTMLElement>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
@@ -104,6 +105,17 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   }
 
   @autobind
+  handleItemClick(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const {result, onItemClick} = this.props;
+    const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
+    const newResult = Array.isArray(result) ? result.concat() : [];
+    onItemClick && onItemClick(newResult[index] || {});
+  }
+
+  @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const {onChange} = this.props;
 
@@ -165,9 +177,14 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                             'is-invalid': showInvalidMatch && item?.__unmatched
                           })}
                           key={itemIndex}
+                          onClick={this.handleItemClick}
                           {...itemTIB?.getTestId()}
                         >
-                          <span className={cx('ResultBox-valueLabel')}>
+                          <span
+                            className={cx('ResultBox-valueLabel')}
+                            data-index={index}
+                            {...itemTIB?.getChild('click').getTestId()}
+                          >
                             {itemRender(item)}
                           </span>
                           <a
@@ -205,9 +222,14 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               className={cx('ResultBox-value', {
                 'is-invalid': isShowInvalid
               })}
+              onClick={this.handleItemClick}
               {...itemTIB?.getTestId()}
             >
-              <span className={cx('ResultBox-valueLabel')}>
+              <span
+                className={cx('ResultBox-valueLabel')}
+                data-index={index}
+                {...itemTIB?.getChild('click').getTestId()}
+              >
                 {itemRender(item)}
               </span>
               <a
@@ -237,9 +259,14 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             className={cx('ResultBox-value', {
               'is-invalid': showInvalidMatch && item?.__unmatched
             })}
+            onClick={this.handleItemClick}
             {...itemTIB?.getTestId()}
           >
-            <span className={cx('ResultBox-valueLabel')}>
+            <span
+              className={cx('ResultBox-valueLabel')}
+              data-index={index}
+              {...itemTIB?.getChild('click').getTestId()}
+            >
               {itemRender(item)}
             </span>
             <a

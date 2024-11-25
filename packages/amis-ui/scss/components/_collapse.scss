@@ -45,6 +45,15 @@
       color: var(--collapse-default-header-hover-color);
     }
 
+    &.noTitle {
+      padding: 0;
+      background-color: unset;
+      &:hover {
+        background: unset;
+        color: inherit;
+      }
+    }
+
     &.is-mobile {
       background: none;
       border-radius: 0 !important;

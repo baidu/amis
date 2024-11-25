@@ -80,6 +80,7 @@ export class AnchorNavPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'properties-basic',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
@@ -163,6 +164,7 @@ export class AnchorNavPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'appearance-basic',
             body: [
               {
                 type: 'button-group-select',

@@ -58,6 +58,7 @@ export class MappingPlugin extends BasePlugin {
           body: getSchemaTpl('collapseGroup', [
             {
               title: '基本',
+              id: 'properties-basic',
               body: [
                 isUnderField
                   ? {

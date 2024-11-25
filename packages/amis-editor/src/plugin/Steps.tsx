@@ -107,6 +107,11 @@ export class StepsPlugin extends BasePlugin {
       {
         title: '外观',
         body: [
+          getSchemaTpl('switch', {
+            name: 'iconPosition',
+            label: '图标文字垂直展示',
+            value: false
+          }),
           {
             name: 'mode',
             type: 'select',

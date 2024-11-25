@@ -210,14 +210,8 @@ export default class TextControl extends React.PureComponent<
   };
 
   componentDidMount() {
-    const {
-      formItem,
-      autoComplete,
-      addHook,
-      formInited,
-      data,
-      name
-    } = this.props;
+    const {formItem, autoComplete, addHook, formInited, data, name} =
+      this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -308,14 +302,8 @@ export default class TextControl extends React.PureComponent<
   }
 
   async resetValue() {
-    const {
-      onChange,
-      dispatchEvent,
-      resetValue,
-      formStore,
-      store,
-      name
-    } = this.props;
+    const {onChange, dispatchEvent, resetValue, formStore, store, name} =
+      this.props;
     const pristineVal =
       getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
 
@@ -496,13 +484,8 @@ export default class TextControl extends React.PureComponent<
   }
 
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {
-      selectedOptions,
-      onChange,
-      multiple,
-      creatable,
-      dispatchEvent
-    } = this.props;
+    const {selectedOptions, onChange, multiple, creatable, dispatchEvent} =
+      this.props;
     const valueField = this.props?.valueField || 'value';
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
@@ -644,12 +627,8 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {
-      onChange,
-      dispatchEvent,
-      trimContents,
-      clearValueOnEmpty
-    } = this.props;
+    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty} =
+      this.props;
     let value: string | undefined = this.transformValue(e.currentTarget.value);
     if (typeof value === 'string') {
       if (trimContents) {
@@ -674,13 +653,8 @@ export default class TextControl extends React.PureComponent<
   }
 
   normalizeValue(value: Option[] | Option | undefined | null) {
-    const {
-      multiple,
-      delimiter,
-      joinValues,
-      extractValue,
-      valueField
-    } = this.props;
+    const {multiple, delimiter, joinValues, extractValue, valueField} =
+      this.props;
     const selectedOptions = Array.isArray(value) ? value : value ? [value] : [];
 
     if (joinValues) {
@@ -863,9 +837,8 @@ export default class TextControl extends React.PureComponent<
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
-                  [`TextControl-input--border${ucFirst(
+                  [`TextControl-input--border${ucFirst(borderMode)}`]:
                     borderMode
-                  )}`]: borderMode
                 }
               )}
               onClick={this.handleClick}
