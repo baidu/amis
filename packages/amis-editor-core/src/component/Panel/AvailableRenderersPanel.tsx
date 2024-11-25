@@ -22,7 +22,7 @@ export class AvailableRenderersPanel extends React.Component<
   }
 
   render() {
-    const {store, manager} = this.props;
+    const {store, manager, children} = this.props;
     const renderersTabsKey = store.renderersTabsKey || 'base-renderers';
     const curTheme = store.theme;
     const customRenderersByOrder = store.customRenderersByOrder || [];
@@ -33,6 +33,7 @@ export class AvailableRenderersPanel extends React.Component<
       <div className="ae-RendererPanel">
         <div className="panel-header">组件</div>
         <div className="ae-RendererPanel-content">
+          {typeof children === 'function' ? children(this.props) : children}
           {store.showCustomRenderersPanel &&
             customRenderersByOrder.length > 0 && (
               <Tabs

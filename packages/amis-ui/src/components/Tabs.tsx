@@ -169,6 +169,7 @@ export interface TabsProps extends ThemeProps, LocaleProps {
   activeKey?: string | number;
   contentClassName: string;
   linksClassName?: ClassName;
+  titleClassName?: ClassName;
   className?: string;
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
@@ -176,7 +177,7 @@ export interface TabsProps extends ThemeProps, LocaleProps {
   addable?: boolean; // 是否显示增加按钮
   onAdd?: () => void;
   closable?: boolean;
-  onClose?: (index: number, key: string | number) => void;
+  onClose?: (key: string | number) => void;
   draggable?: boolean;
   onDragChange?: (e: any) => void;
   showTip?: boolean;
@@ -597,7 +598,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       showTip,
       showTipClassName,
       editable,
-      testIdBuilder
+      testIdBuilder,
+      titleClassName
     } = this.props;
 
     const {
@@ -666,6 +668,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       <li
         className={cx(
           'Tabs-link',
+          titleClassName,
           activeKey === eventKey ? 'is-active' : '',
           disabled ? 'is-disabled' : '',
           tabClassName
@@ -697,8 +700,7 @@ export class Tabs extends React.Component<TabsProps, any> {
             className={cx('Tabs-link-close')}
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              this.props.onClose &&
-                this.props.onClose(index, eventKey ?? index);
+              this.props.onClose && this.props.onClose(eventKey);
             }}
             {...tabTestIdBuidr?.getChild('close').getTestId()}
           >
@@ -775,7 +777,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       translate: __,
       classnames: cx,
       popOverContainer,
-      collapseBtnLabel
+      collapseBtnLabel,
+      titleClassName
     } = this.props;
 
     if (!Array.isArray(children)) {
@@ -814,6 +817,7 @@ export class Tabs extends React.Component<TabsProps, any> {
             <li
               className={cx(
                 'Tabs-link',
+                titleClassName,
                 rest.some(item => ~item.props.className.indexOf('is-active'))
                   ? 'is-active'
                   : ''

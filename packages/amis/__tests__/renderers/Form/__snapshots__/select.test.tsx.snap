@@ -1773,6 +1773,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                 >
                   <span
                     class="cxd-ResultBox-valueLabel"
+                    data-index="0"
                   >
                     诸葛亮
                   </span>
@@ -1790,6 +1791,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                 >
                   <span
                     class="cxd-ResultBox-valueLabel"
+                    data-index="1"
                   >
                     李白
                   </span>

@@ -122,6 +122,14 @@ export interface PopOverFormContext extends PopOverForm {
   node?: EditorNodeType;
 }
 
+export interface ModalFormContext extends PopOverForm {
+  mode?: 'dialog' | 'drawer';
+  size?: string;
+  postion?: string;
+  value: any;
+  callback: (value: any, diff: any) => void;
+}
+
 /**
  * 搜集的 name 信息
  */
@@ -233,6 +241,12 @@ export const MainStore = types
 
     popOverForm: types.maybe(types.frozen<PopOverFormContext>()),
 
+    // 弹出层表单
+    modalForm: types.maybe(types.frozen<ModalFormContext>()),
+    modalMode: '',
+    modalFormBuzy: false,
+    modalFormError: '',
+
     // 弹出子编辑器相关的信息
     subEditorContext: types.maybe(types.frozen<SubEditorContext>()),
     // 子编辑器中可能需要拿到父编辑器的数据
@@ -276,6 +290,10 @@ export const MainStore = types
           return true;
         }
         return false;
+      },
+
+      get rootId() {
+        return this.getRootId();
       },
 
       getRootId() {
@@ -2103,6 +2121,24 @@ export const MainStore = types
 
       closePopOverForm() {
         self.popOverForm = undefined;
+      },
+
+      openModalForm(context: ModalFormContext) {
+        self.modalForm = context;
+        self.modalMode = context?.mode || self.modalMode;
+        self.modalFormError = '';
+      },
+
+      closeModalForm() {
+        self.modalForm = undefined;
+      },
+
+      markModalFormBuzy(value: any) {
+        self.modalFormBuzy = !!value;
+      },
+
+      setModalFormError(msg: string = '') {
+        self.modalFormError = msg;
       },
 
       activeHighlightNodes(ids: Array<string>) {

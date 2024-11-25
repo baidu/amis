@@ -81,6 +81,10 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
    * (currentDate: moment.Moment, props: any) => boolean;
    */
   disabledDate?: string;
+
+  /* * 是否禁止输入
+   */
+  inputForbid?: boolean;
 }
 
 /**

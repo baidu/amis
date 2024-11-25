@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, RendererPluginEvent} from 'amis-editor-core';
 
 import {TransferPlugin} from './Transfer';
 
@@ -44,6 +44,32 @@ export class TransferPickerPlugin extends TransferPlugin {
       }
     ]
   };
+
+  events: RendererPluginEvent[] = [
+    ...this.events,
+    {
+      eventName: 'itemClick',
+      eventLabel: '点击选项',
+      description: '选项被点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前选项'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   notRenderFormZone = true;
 }

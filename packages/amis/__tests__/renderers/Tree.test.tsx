@@ -436,71 +436,71 @@ test('Tree: item disabled', async () => {
   const {container, findByText, findByPlaceholderText} = render(
     amisRender(
       {
-        "type": "form",
-        "api": "/api/mock2/form/saveForm",
-        "body": [
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
           {
-            "label": "树型展示",
-            "type": "transfer",
-            "name": "transfer",
-            "selectMode": "tree",
-            "searchable": true,
-            "options": [
+            label: '树型展示',
+            type: 'transfer',
+            name: 'transfer',
+            selectMode: 'tree',
+            searchable: true,
+            options: [
               {
-                "label": "法师",
-                "children": [
+                label: '法师',
+                children: [
                   {
-                    "label": "诸葛亮",
-                    "value": "zhugeliang"
+                    label: '诸葛亮',
+                    value: 'zhugeliang'
                   }
                 ]
               },
               {
-                "label": "战士",
-                "children": [
+                label: '战士',
+                children: [
                   {
-                    "label": "曹操",
-                    "value": "caocao"
+                    label: '曹操',
+                    value: 'caocao'
                   },
                   {
-                    "label": "曹操1",
-                    "value": "caocao1",
-                    "children": [
+                    label: '曹操1',
+                    value: 'caocao1',
+                    children: [
                       {
-                        "label": "李白1",
-                        "value": "libai1"
+                        label: '李白1',
+                        value: 'libai1'
                       },
                       {
-                        "label": "韩信1",
-                        "value": "hanxin1"
+                        label: '韩信1',
+                        value: 'hanxin1'
                       },
                       {
-                        "label": "云中君1",
-                        "value": "yunzhongjun1"
+                        label: '云中君1',
+                        value: 'yunzhongjun1'
                       }
                     ]
                   },
                   {
-                    "disabled": true,
-                    "label": "钟无艳",
-                    "value": "zhongwuyan"
+                    disabled: true,
+                    label: '钟无艳',
+                    value: 'zhongwuyan'
                   }
                 ]
               },
               {
-                "label": "打野",
-                "children": [
+                label: '打野',
+                children: [
                   {
-                    "label": "李白",
-                    "value": "libai"
+                    label: '李白',
+                    value: 'libai'
                   },
                   {
-                    "label": "韩信",
-                    "value": "hanxin"
+                    label: '韩信',
+                    value: 'hanxin'
                   },
                   {
-                    "label": "云中君",
-                    "value": "yunzhongjun"
+                    label: '云中君',
+                    value: 'yunzhongjun'
                   }
                 ]
               }
@@ -533,73 +533,282 @@ test('Tree: item disabled', async () => {
 
 test('Tree: single value mode should not render input when searchable enabled and default value settled', async () => {
   const {container} = render(
-    amisRender({
-      type: 'container',
-      body: [
-        {
-          "type": "tree-select",
-          "name": "tree",
-          "label": "Tree",
-          "searchable": true,
-          "value": 2,
-          "inputClassName": "single",
-          "options": [
-            {
-              "label": "Folder A",
-              "value": 1,
-              "children": [
-                {
-                  "label": "file A",
-                  "value": 2
-                },
-                {
-                  "label": "file B",
-                  "value": 3
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "tree-select",
-          "name": "tree2",
-          "label": "Tree2",
-          "searchable": true,
-          "value": "2,4",
-          "multiple": true,
-          "inputClassName": "multiple",
-          "options": [
-            {
-              "label": "Folder A",
-              "value": 1,
-              "children": [
-                {
-                  "label": "file A",
-                  "value": 2
-                },
-                {
-                  "label": "file B",
-                  "value": 3
-                }
-              ]
-            },
-            {
-              "label": "file C",
-              "value": 4
-            }
-          ]
-        }
-      ]
-    },
-    {},
-    makeEnv({})
-  ));
+    amisRender(
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'tree-select',
+            name: 'tree',
+            label: 'Tree',
+            searchable: true,
+            value: 2,
+            inputClassName: 'single',
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  },
+                  {
+                    label: 'file B',
+                    value: 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            type: 'tree-select',
+            name: 'tree2',
+            label: 'Tree2',
+            searchable: true,
+            value: '2,4',
+            multiple: true,
+            inputClassName: 'multiple',
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  },
+                  {
+                    label: 'file B',
+                    value: 3
+                  }
+                ]
+              },
+              {
+                label: 'file C',
+                value: 4
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
 
-  const singleModeInput = container.querySelector('.single .cxd-ResultBox-value-input');
-  const multipleModeInput = container.querySelector('.multiple .cxd-ResultBox-value-input');
+  const singleModeInput = container.querySelector(
+    '.single .cxd-ResultBox-value-input'
+  );
+  const multipleModeInput = container.querySelector(
+    '.multiple .cxd-ResultBox-value-input'
+  );
 
   /** 单选模式且已选值，不应该再有 input */
   expect(singleModeInput).not.toBeInTheDocument();
   /** 多选模式始终都有 input */
   expect(multipleModeInput).toBeInTheDocument();
-})
+});
+
+test('Tree: autoCancelParent = true', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          api: '/api/mock2/form/saveForm',
+          body: [
+            {
+              type: 'input-tree',
+              name: 'tree',
+              label: 'Tree',
+              cascade: true,
+              multiple: true,
+              autoCancelParent: true,
+              options: [
+                {
+                  label: 'Folder A',
+                  value: 1,
+                  children: [
+                    {
+                      label: 'file A',
+                      value: 2
+                    },
+                    {
+                      label: 'Folder B',
+                      value: 3,
+                      children: [
+                        {
+                          label: 'file b1',
+                          value: 3.1
+                        },
+                        {
+                          label: 'file b2',
+                          value: 3.2
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  label: 'file C',
+                  value: 4
+                },
+                {
+                  label: 'file D',
+                  value: 5
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  fireEvent.click(getByText('Folder A'));
+
+  await waitFor(() => container.querySelector('.is-checked'));
+
+  expect(container.querySelectorAll('.is-checked').length).toBe(5);
+
+  fireEvent.click(getByText('file b1'));
+
+  await waitFor(() => container.querySelector('.is-checked'));
+
+  expect(container.querySelectorAll('.is-checked').length).toBe(2);
+});
+
+test('Tree: nodeBehavior-check', async () => {
+  const {container, getByText} = render(
+    amisRender({
+      type: 'page',
+      body: {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-tree',
+            name: 'tree',
+            label: 'Tree',
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  }
+                ]
+              },
+              {
+                label: 'file C',
+                value: 3
+              }
+            ]
+          }
+        ]
+      }
+    })
+  );
+
+  fireEvent.click(getByText('Folder A'));
+
+  await waitFor(() => container.querySelector('.is-checked'));
+
+  expect(container.querySelector('.is-checked')!.textContent).toBe('Folder A');
+});
+
+test('Tree: nodeBehavior-unfold', async () => {
+  const {container, getByText} = render(
+    amisRender({
+      type: 'page',
+      body: {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-tree',
+            name: 'tree',
+            label: 'Tree',
+            nodeBehavior: ['unfold'],
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                collapsed: true,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  }
+                ]
+              },
+              {
+                label: 'file C',
+                value: 3
+              }
+            ]
+          }
+        ]
+      }
+    })
+  );
+
+  fireEvent.click(getByText('Folder A'));
+
+  await waitFor(() => container.querySelector('.is-child'));
+
+  expect(container.querySelector('.is-child')!.textContent).toBe('file A');
+});
+
+test('Tree: nodeBehavior-check+unfold', async () => {
+  const {container, getByText} = render(
+    amisRender({
+      type: 'page',
+      body: {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            type: 'input-tree',
+            name: 'tree',
+            label: 'Tree',
+            nodeBehavior: ['unfold', 'check'],
+            options: [
+              {
+                label: 'Folder A',
+                value: 1,
+                collapsed: true,
+                children: [
+                  {
+                    label: 'file A',
+                    value: 2
+                  }
+                ]
+              },
+              {
+                label: 'file C',
+                value: 3
+              }
+            ]
+          }
+        ]
+      }
+    })
+  );
+
+  fireEvent.click(getByText('Folder A'));
+
+  await waitFor(() => container.querySelector('.is-child'));
+
+  expect(container.querySelector('.is-child')!.textContent).toBe('file A');
+
+  await waitFor(() => container.querySelector('.is-checked'));
+
+  expect(container.querySelector('.is-checked')!.textContent).toBe('Folder A');
+});

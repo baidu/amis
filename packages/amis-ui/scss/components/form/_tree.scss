@@ -30,6 +30,14 @@
     max-height: none;
     overflow: visible;
   }
+
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    margin-top: var(--gap-sm);
+    margin-bottom: var(--gap-md);
+    margin-left: px2rem(12px);
+  }
 }
 
 .#{$ns}Tree {
@@ -113,6 +121,11 @@
 
   &-rootItem {
     line-height: var(--Tree-itemHeight);
+
+    .#{$ns}Tree-rootIcon {
+      color: var(--inputTree-base-default-color);
+      align-items: center;
+    }
   }
 
   &-item > div:hover > .#{$ns}Tree-item-icons,
@@ -143,6 +156,8 @@
       align-items: center;
       overflow: hidden;
       height: px2rem(32px);
+      position: relative;
+      cursor: pointer;
     }
 
     &:hover {
@@ -194,7 +209,8 @@
   &-item-icons {
     visibility: hidden;
     transition: visibility var(--animation-duration) ease;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     vertical-align: top;
     height: var(--Tree-itemHeight);
     line-height: var(--Tree-itemHeight);
@@ -213,6 +229,12 @@
         top: 0;
       }
     }
+  }
+
+  &-itemActions {
+    display: flex;
+    align-items: center;
+    margin-left: var(--Tree-icon-gap);
   }
 
   &-itemInput {

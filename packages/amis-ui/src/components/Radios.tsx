@@ -109,7 +109,7 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderItem(option: Option, index: number, valueArray: Array<Option>) {
-    if (option.children) {
+    if (option.children?.length) {
       return this.renderGroup(option, index, valueArray);
     }
 

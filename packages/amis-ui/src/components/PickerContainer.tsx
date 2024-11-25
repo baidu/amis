@@ -172,7 +172,7 @@ export class PickerContainer extends React.Component<
           testIdBuilder={testIdBuilder?.getChild('confirm-box')}
         >
           {({popOverContainer, loading, onConfirm, bodyRef}) =>
-            popOverRender({
+            popOverRender?.({
               ...(this.state as any),
               ref: bodyRef,
               setState: this.updateState,

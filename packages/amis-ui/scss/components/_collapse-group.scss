@@ -60,6 +60,17 @@
     }
   }
 
+  &.icon-position-right {
+    .#{$ns}Collapse-header {
+      &.noTitle {
+        text-align: right;
+        .#{$ns}Collapse-arrow-wrap {
+          float: none;
+        }
+      }
+    }
+  }
+
   &.is-mobile {
     &.icon-position-right {
       .#{$ns}Collapse-header {

@@ -203,42 +203,40 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       : collapseHeader || header;
 
     let dom = [
-      finalHeader ? (
-        <HeadingComponent
-          key="header"
-          onClick={this.toggleCollapsed}
-          className={cx(
-            `Collapse-header`,
-            {'is-mobile': mobileUI},
-            headingClassName
-          )}
-        >
-          {showArrow && collapsable ? (
-            expandIcon ? (
-              React.cloneElement(expandIcon, {
-                ...expandIcon.props,
-                className: cx(
-                  'Collapse-icon-tranform',
-                  expandIcon.props?.className
-                )
-              })
-            ) : (
-              <span className={cx('Collapse-arrow-wrap')}>
-                <Icon
-                  icon="right-arrow-bold"
-                  className={cx('Collapse-arrow', 'icon')}
-                  classNameProp={cx('Collapse-arrow')}
-                  iconContent="Collapse-arrow"
-                />
-              </span>
-            )
+      <HeadingComponent
+        key="header"
+        onClick={this.toggleCollapsed}
+        className={cx(
+          `Collapse-header`,
+          {'is-mobile': mobileUI},
+          headingClassName,
+          {noTitle: !finalHeader}
+        )}
+      >
+        {showArrow && collapsable ? (
+          expandIcon ? (
+            React.cloneElement(expandIcon, {
+              ...expandIcon.props,
+              className: cx(
+                'Collapse-icon-tranform',
+                expandIcon.props?.className
+              )
+            })
           ) : (
-            ''
-          )}
-          {finalHeader}
-        </HeadingComponent>
-      ) : null,
-
+            <span className={cx('Collapse-arrow-wrap')}>
+              <Icon
+                icon="right-arrow-bold"
+                className={cx('Collapse-arrow', 'icon')}
+                classNameProp={cx('Collapse-arrow')}
+                iconContent="Collapse-arrow"
+              />
+            </span>
+          )
+        ) : (
+          ''
+        )}
+        {finalHeader}
+      </HeadingComponent>,
       <Transition
         key="body"
         mountOnEnter={mountOnEnter}

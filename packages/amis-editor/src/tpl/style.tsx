@@ -900,6 +900,38 @@ setSchemaTpl('theme:cssCode', () => {
   };
 });
 
+// single css类名
+setSchemaTpl(
+  'theme:singleCssCode',
+  (options: {
+    selectors: {
+      label: string;
+      selector: string;
+      isRoot?: boolean;
+    }[];
+  }) => {
+    const {selectors} = options;
+    return {
+      title: '自定义样式',
+      name: 'wrapperCustomStyle',
+      body: selectors?.map(
+        (item: {label: string; selector: string; isRoot?: boolean}) => {
+          const {isRoot, selector} = item;
+          const _selector = isRoot ? 'root' : selector;
+          const name = `wrapperCustomStyle[${_selector}]`;
+          return {
+            mode: 'default',
+            name,
+            type: 'ae-single-theme-cssCode',
+            label: false,
+            selector: item
+          };
+        }
+      )
+    };
+  }
+);
+
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
@@ -1175,6 +1207,14 @@ setSchemaTpl(
           {
             label: '点击',
             value: 'active'
+          },
+          {
+            label: '选中',
+            value: 'focused'
+          },
+          {
+            label: '禁用',
+            value: 'disabled'
           }
         ].filter(item => state.includes(item.value))
       },
@@ -1183,7 +1223,9 @@ setSchemaTpl(
         'default'
       ),
       ...styleStateFunc(`\${__editorState${classId} == 'hover'}`, 'hover'),
-      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active')
+      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active'),
+      ...styleStateFunc(`\${__editorState${classId} == 'focused'}`, 'focused'),
+      ...styleStateFunc(`\${__editorState${classId} == 'disabled'}`, 'disabled')
     ].filter(Boolean);
 
     return {
@@ -1255,6 +1297,7 @@ setSchemaTpl(
       ...extra,
       {
         title: '自定义样式',
+        key: 'theme-css-code',
         collapsed: curCollapsed,
         body: [
           {

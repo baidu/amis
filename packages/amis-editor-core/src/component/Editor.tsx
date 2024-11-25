@@ -17,6 +17,7 @@ import Breadcrumb from './Breadcrumb';
 import {destroy, isAlive} from 'mobx-state-tree';
 import {ScaffoldModal} from './ScaffoldModal';
 import {PopOverForm} from './PopOverForm';
+import {ModalForm} from './ModalForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
@@ -143,6 +144,11 @@ export interface EditorProps extends PluginEventListener {
 
   getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
   readonly?: boolean;
+
+  onEditorMount?: (manager: EditorManager) => void;
+  onEditorUnmount?: (manager: EditorManager) => void;
+
+  children?: React.ReactNode | ((manager: EditorManager) => React.ReactNode);
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -170,6 +176,7 @@ export default class Editor extends Component<EditorProps> {
       showCustomRenderersPanel,
       superEditorData,
       hostManager,
+      onEditorMount,
       ...rest
     } = props;
 
@@ -225,6 +232,8 @@ export default class Editor extends Component<EditorProps> {
     this.toDispose.push(
       this.manager.on('preview2editor', () => this.manager.rebuild())
     );
+
+    onEditorMount?.(this.manager);
   }
 
   componentDidMount() {
@@ -268,6 +277,7 @@ export default class Editor extends Component<EditorProps> {
   }
 
   componentWillUnmount() {
+    this.props.onEditorUnmount?.(this.manager);
     document.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('message', this.handleMessage);
     this.toDispose.forEach(fn => fn());
@@ -588,7 +598,8 @@ export default class Editor extends Component<EditorProps> {
       autoFocus,
       isSubEditor,
       amisEnv,
-      readonly
+      readonly,
+      children
     } = this.props;
 
     return (
@@ -662,6 +673,8 @@ export default class Editor extends Component<EditorProps> {
           )}
 
           {!preview && <ContextMenuPanel store={this.store} />}
+
+          {typeof children === 'function' ? children(this.manager) : children}
         </div>
 
         <SubEditor
@@ -677,6 +690,7 @@ export default class Editor extends Component<EditorProps> {
           theme={theme}
         />
         <PopOverForm store={this.store} manager={this.manager} theme={theme} />
+        <ModalForm store={this.store} manager={this.manager} theme={theme} />
       </div>
     );
   }

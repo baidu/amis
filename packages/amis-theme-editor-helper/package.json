@@ -7,7 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Warnings: no test specified\"",
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
     "clean-dist": "rimraf lib/** esm/**",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
@@ -34,6 +34,7 @@
     "amis-ui": "*"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@rollup/plugin-url": "^7.0.0",
     "@svgr/rollup": "^6.4.0",
     "@types/async": "^2.0.45",

@@ -27,7 +27,7 @@ import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../WithRootStore';
-import {FormBaseControl, FormItemWrap} from './Item';
+import {FormBaseControl, FormItemConfig, FormItemWrap} from './Item';
 import {Api, DataChangeReason} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
@@ -94,7 +94,7 @@ export interface ControlProps {
 
 export function wrapControl<
   T extends React.ComponentType<React.ComponentProps<T> & ControlProps>
->(ComposedComponent: T) {
+>(config: Omit<FormItemConfig, 'component'>, ComposedComponent: T) {
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
     Omit<React.ComponentProps<T>, keyof ControlProps>
@@ -194,7 +194,7 @@ export function wrapControl<
             const model = rootStore.addStore({
               id: guid(),
               path: this.props.$path,
-              storeType: FormItemStore.name,
+              storeType: config.formItemStoreType || FormItemStore.name,
               parentId: store?.id,
               name,
               colIndex: colIndex !== undefined ? colIndex : undefined,

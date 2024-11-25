@@ -217,7 +217,7 @@ export default class CheckboxesControl extends React.Component<
   }
 
   renderItem(option: Option, index: number) {
-    if (option.children) {
+    if (option.children?.length) {
       return this.renderGroup(option, index);
     }
 
