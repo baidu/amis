@@ -10,7 +10,8 @@ import {
   TestIdBuilder,
   getVariable,
   setThemeClassName,
-  CustomStyle
+  CustomStyle,
+  formateCheckThemeCss
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -107,30 +108,6 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     return <>{typeof label === 'string' ? filter(label, data) : `${label}`}</>;
   }
 
-  formateThemeCss(themeCss: any) {
-    if (!themeCss) {
-      return {};
-    }
-    const {radiosClassName = {}} = themeCss;
-    const defaultThemeCss: any = {};
-    const checkedThemeCss: any = {};
-    Object.keys(radiosClassName).forEach(key => {
-      if (key.includes('checked-')) {
-        const newKey = key.replace('checked-', '');
-        checkedThemeCss[newKey] = radiosClassName[key];
-      } else if (key.includes('radios-')) {
-        const newKey = key.replace('radios-', '');
-        defaultThemeCss[newKey] = radiosClassName[key];
-      }
-    });
-
-    return {
-      ...themeCss,
-      radiosClassName: defaultThemeCss,
-      radiosCheckedClassName: checkedThemeCss
-    };
-  }
-
   @supportStatic()
   render() {
     const {
@@ -164,7 +141,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       env
     } = this.props;
 
-    const css = this.formateThemeCss(themeCss);
+    const css = formateCheckThemeCss(themeCss, 'radios');
 
     return (
       <>
@@ -175,25 +152,14 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
             className,
             setThemeClassName({
               ...this.props,
-              name: 'radiosClassName',
-              id,
-              themeCss: css
-            }),
-            setThemeClassName({
-              ...this.props,
-              name: 'radiosCheckedInnerClassName',
-              id,
-              themeCss: css
-            }),
-            setThemeClassName({
-              ...this.props,
-              name: 'radiosCheckedClassName',
-              id,
-              themeCss: css
-            }),
-            setThemeClassName({
-              ...this.props,
-              name: 'radiosLabelClassName',
+              name: [
+                'radiosControlClassName',
+                'radiosControlCheckedClassName',
+                'radiosClassName',
+                'radiosCheckedClassName',
+                'radiosCheckedInnerClassName',
+                'radiosShowClassName'
+              ],
               id,
               themeCss: css
             })
@@ -221,21 +187,48 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         <CustomStyle
           {...this.props}
           config={{
-            themeCss: this.formateThemeCss(themeCss),
+            themeCss: css,
             classNames: [
+              {
+                key: 'radiosControlClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox:not(.checked):not(.disabled)`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox:not(.disabled):not(.checked)`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox.disabled:not(.checked)`
+                  }
+                }
+              },
+              {
+                key: 'radiosControlCheckedClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox.checked:not(.disabled)`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox.checked:not(.disabled)`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox.checked.disabled`
+                  }
+                }
+              },
               {
                 key: 'radiosClassName',
                 weights: {
                   default: {
-                    suf: ' label',
-                    inner: 'i'
+                    inner: `.${ns}Checkbox:not(.checked):not(.disabled) > i`
                   },
                   hover: {
-                    suf: ' label',
-                    inner: 'i'
+                    suf: ` .${ns}Checkbox:not(.disabled):not(.checked)`,
+                    inner: '> i'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--radio input[disabled] + i`
+                    inner: `.${ns}Checkbox.disabled:not(.checked) > i`
                   }
                 }
               },
@@ -243,14 +236,14 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
                 key: 'radiosCheckedClassName',
                 weights: {
                   default: {
-                    inner: `.${ns}Checkbox--radio input:checked + i`
+                    inner: `.${ns}Checkbox:not(.disabled) > i`
                   },
                   hover: {
-                    suf: ` .${ns}Checkbox--radio`,
-                    inner: 'input:checked + i'
+                    suf: ` .${ns}Checkbox:not(.disabled)`,
+                    inner: '> i'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--radio input:checked[disabled] + i`
+                    inner: `.${ns}Checkbox.disabled > i`
                   }
                 }
               },
@@ -258,30 +251,22 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
                 key: 'radiosCheckedInnerClassName',
                 weights: {
                   default: {
-                    inner: `.${ns}Checkbox--radio input:checked + i:before`
+                    inner: `.${ns}Checkbox:not(.disabled) > i .icon`
                   },
                   hover: {
-                    suf: ` .${ns}Checkbox--radio`,
-                    inner: 'input:checked + i:before'
+                    suf: ` .${ns}Checkbox:not(.disabled)`,
+                    inner: '> i .icon'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--radio input:checked[disabled] + i:before`
+                    inner: `.${ns}Checkbox.disabled > i:before`
                   }
                 }
               },
               {
-                key: 'radiosLabelClassName',
+                key: 'radiosShowClassName',
                 weights: {
                   default: {
-                    suf: ' label',
-                    inner: 'span'
-                  },
-                  hover: {
-                    suf: ' label',
-                    inner: 'span'
-                  },
-                  disabled: {
-                    inner: `.${ns}Checkbox--radio input[disabled] + i + span`
+                    inner: `.${ns}Checkbox > i`
                   }
                 }
               }

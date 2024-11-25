@@ -51,6 +51,7 @@ import {SchemaCollection} from '../Schema';
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
 import isPlainObject from 'lodash/isPlainObject';
+import isEmpty from 'lodash/isEmpty';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
@@ -1421,7 +1422,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     let buttonCount = 0;
     let addButton: any = {};
     let addButtonParent: any = {};
-    let searchBox: any = {};
+    let searchBox: any = null;
     function traverse(node: any, parentObj?: any) {
       if (Array.isArray(node)) {
         node.forEach((item: any) => traverse(item, parentObj));
@@ -1435,7 +1436,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         } else if (node.type === 'search-box') {
           searchBox = node;
         }
-        Object.values(node).forEach((item: any) => traverse(item, node));
+
+        if (node.items || node.body) {
+          traverse(node.items || node.body, node);
+        }
       }
     }
     toolbar.forEach((item: any) => {
@@ -1455,10 +1459,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         }
         addButtonParent.className += ' is-fixed-right-bottom-wrapper';
       }
+    }
 
-      if (searchBox) {
-        fixedHeader();
-      }
+    if (
+      searchBox &&
+      (buttonCount === 0 || (buttonCount === 1 && addButton)) &&
+      isEmpty(this.props.filterSchema)
+    ) {
+      fixedHeader();
     }
   }
 

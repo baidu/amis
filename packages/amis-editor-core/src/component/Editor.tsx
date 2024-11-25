@@ -6,7 +6,11 @@ import {MainStore, EditorStoreType} from '../store/editor';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, closeContextMenus, toast} from 'amis';
-import {PluginEventListener, RendererPluginAction} from '../plugin';
+import {
+  PluginEventListener,
+  RendererPluginAction,
+  IGlobalEvent
+} from '../plugin';
 import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
@@ -111,6 +115,8 @@ export interface EditorProps extends PluginEventListener {
     customActionGetter?: (manager: EditorManager) => {
       [propName: string]: RendererPluginAction;
     };
+
+    globalEventGetter?: (manager: EditorManager) => IGlobalEvent[];
   };
 
   /** 上下文变量 */

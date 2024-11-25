@@ -10,6 +10,7 @@ import {render as amisRender, FormItem, Icon} from 'amis';
 import {getI18nEnabled} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
+import {isExpression} from 'amis-core';
 import type {FormControlProps} from 'amis-core';
 import type {SchemaApi} from 'amis';
 
@@ -27,9 +28,10 @@ export interface TimelineItemProps extends FormControlProps {
   className?: string;
 }
 
+export type SourceType = 'custom' | 'api' | 'variable';
 export interface TimelineItemState {
   items: Array<Partial<TimelineItem>>;
-  source: 'custom' | 'api' | 'variable';
+  source: SourceType;
   api: SchemaApi;
 }
 
@@ -43,54 +45,45 @@ export default class TimelineItemControl extends React.Component<
 
   constructor(props: TimelineItemProps) {
     super(props);
-
+    const {source} = props.data || {};
     this.state = {
       items: props.value,
-      api: props.data.source,
-      source: props.data.source
-        ? typeof props.data.source === 'string' &&
-          props.data.source.match(/^\$\{.*\}$/)
-          ? 'variable'
-          : 'api'
-        : 'custom'
+      api: source,
+      source: source ? (isExpression(source) ? 'variable' : 'api') : 'custom'
     };
   }
   /**
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api' | 'variable') {
-    this.setState({source: source}, this.onChange);
+  handleSourceChange(source: SourceType) {
+    //取消无效切换
+    if (source === this.state.source) {
+      return;
+    }
+    this.setState({source, api: '', items: []}, this.onChange);
   }
 
   @autobind
   handleAPIChange(source: SchemaApi) {
     this.setState({api: source}, this.onChange);
   }
-
   onChange() {
-    const {source} = this.state;
+    const {source, items, api} = this.state;
     const {onBulkChange} = this.props;
     const data: Partial<TimelineItemProps> = {
       source: undefined,
       items: undefined
     };
-
     if (source === 'custom') {
-      const {items} = this.state;
       data.items = items.map(item => ({...item}));
     }
-    if (source === 'api') {
-      const {items, api} = this.state;
-      data.items = items.map(item => ({...item}));
-      data.source = api;
-    }
-    if (source === 'variable') {
-      const {items, api} = this.state;
-      data.items = items.map(item => ({...item}));
+    if (source === 'api' || source === 'variable') {
+      data.items = [];
       data.source = api;
     }
     onBulkChange && onBulkChange(data);
+    return;
   }
 
   @autobind
@@ -212,7 +205,7 @@ export default class TimelineItemControl extends React.Component<
             body: [
               {
                 type: 'tpl',
-                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置time和title,例："2022-06-23 期末补考"'
+                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每个数据单独一行，时间与标题用空格分隔，例：“2024-01-01 提交申请”'
               }
             ],
             showIcon: true,
@@ -252,7 +245,7 @@ export default class TimelineItemControl extends React.Component<
     return {
       type: 'action',
       actionType: 'dialog',
-      label: '添加选项',
+      label: '添加一项',
       active: true,
       dialog: {
         title: '节点配置',
@@ -530,10 +523,6 @@ export default class TimelineItemControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api} = this.state;
-    if (source !== 'api') {
-      return null;
-    }
-
     return render(
       'api',
       getSchemaTpl('apiControl', {
@@ -542,7 +531,8 @@ export default class TimelineItemControl extends React.Component<
         className: 'ae-ExtendMore',
         visibleOn: 'this.autoComplete !== false',
         value: api,
-        onChange: this.handleAPIChange
+        onChange: this.handleAPIChange,
+        sourceType: source
       })
     );
   }
@@ -576,7 +566,7 @@ export default class TimelineItemControl extends React.Component<
             </div>
           </div>
         ) : null}
-
+        {source === 'api' ? this.renderApiPanel() : null}
         {source === 'variable'
           ? render(
               'variable',
@@ -589,7 +579,6 @@ export default class TimelineItemControl extends React.Component<
               }
             )
           : null}
-        {this.renderApiPanel()}
       </div>
     );
   }

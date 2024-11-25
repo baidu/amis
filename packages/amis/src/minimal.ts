@@ -2,6 +2,7 @@
  * 只包含 amis 最小集，不引入其他模块
  */
 import {registerRenderer} from 'amis-core';
+export * from 'amis-core';
 import './preset';
 
 // 注册渲染器
@@ -776,6 +777,10 @@ registerRenderer({
 registerRenderer({
   type: 'table2',
   getComponent: () => import('./renderers/Table2/index')
+});
+registerRenderer({
+  type: 'column-toggler',
+  getComponent: () => import('./renderers/Table2/ColumnToggler')
 });
 // import './renderers/Words';
 registerRenderer({

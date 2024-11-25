@@ -149,6 +149,15 @@ function BoxBorder(props: BorderProps & FormControlProps) {
         });
         borderToken[key] =
           editorValueToken[tokenKey] || `${editorValueToken['*']}-${key}`;
+        if (key.includes('color') && editorValueToken.color) {
+          borderToken[key] = editorValueToken.color;
+        }
+        if (key.includes('width') && editorValueToken.width) {
+          borderToken[key] = editorValueToken.width;
+        }
+        if (key.includes('style') && editorValueToken.style) {
+          borderToken[key] = editorValueToken.style;
+        }
       });
     }
   }

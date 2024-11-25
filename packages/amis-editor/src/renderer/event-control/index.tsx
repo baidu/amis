@@ -52,18 +52,20 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction
+  SubRendererPluginAction,
+  IGlobalEvent
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
-import type {VariableItem} from 'amis-ui/lib/components/formula/CodeEditor';
 import {reaction} from 'mobx';
 import {updateComponentContext} from 'amis-editor-core';
+import type {VariableItem} from 'amis-ui';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
   events: PluginEvents; // 组件的事件列表
   actionTree: RendererPluginAction[]; // 动作树
+  globalEvents?: IGlobalEvent[]; // 全局事件
   commonActions?: {[propName: string]: RendererPluginAction}; // 公共动作Map
   value: ActionEventConfig; // 事件动作配置
   onChange: (
@@ -160,7 +162,7 @@ export class EventControl extends React.Component<
 
   constructor(props: EventControlProps) {
     super(props);
-    const {events, value, data, rawType} = props;
+    const {events, value, data, rawType, globalEvents} = props;
 
     const eventPanelActive: {
       [prop: string]: boolean;
@@ -178,6 +180,9 @@ export class EventControl extends React.Component<
     });
 
     const actionRelations = this.getActionRelations();
+    globalEvents?.forEach(event => {
+      eventPanelActive[event.name] = true;
+    });
 
     this.state = {
       onEvent: value ?? this.generateEmptyDefault(pluginEvents),
@@ -283,6 +288,25 @@ export class EventControl extends React.Component<
     }
     onEvent[`${event.eventName}`] = {
       __isBroadcast: !!event.isBroadcast,
+      weight: 0,
+      actions: []
+    };
+    this.setState({
+      onEvent: onEvent
+    });
+
+    onChange && onChange(onEvent);
+  }
+
+  addGlobalEvent(event: IGlobalEvent, disabled: boolean) {
+    const {onChange} = this.props;
+    let onEvent = {
+      ...this.state.onEvent
+    };
+    if (disabled) {
+      return;
+    }
+    onEvent[`${event.name}`] = {
       weight: 0,
       actions: []
     };
@@ -614,14 +638,16 @@ export class EventControl extends React.Component<
       actionTree,
       actions: pluginActions,
       commonActions,
-      allComponents
+      allComponents,
+      globalEvents
     } = this.props;
     const {events, onEvent} = this.state;
-
     const eventConfig = events.find(
       item => item.eventName === data.actionData!.eventKey
     );
-
+    const globalEventConfig = globalEvents?.find(
+      item => item.name === data.actionData!.eventKey
+    );
     // 收集当前事件动作出参
     let actions = onEvent[data.actionData!.eventKey]?.actions;
 
@@ -637,11 +663,33 @@ export class EventControl extends React.Component<
 
     let jsonSchema: any = {};
 
-    // 动态构建事件参数
-    if (typeof eventConfig?.dataSchema === 'function') {
-      jsonSchema = eventConfig.dataSchema(manager)?.[0];
+    if (globalEventConfig) {
+      jsonSchema = {
+        type: 'object',
+        properties: {
+          data: {
+            type: 'object',
+            title: '数据',
+            properties: (globalEventConfig.mapping || []).reduce(
+              (acc: any, item) => {
+                acc[item.key] = {
+                  type: item.type,
+                  title: `${item.key}(全局事件参数)`
+                };
+                return acc;
+              },
+              {}
+            )
+          }
+        }
+      };
     } else {
-      jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+      // 动态构建事件参数
+      if (typeof eventConfig?.dataSchema === 'function') {
+        jsonSchema = eventConfig.dataSchema(manager)?.[0];
+      } else {
+        jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+      }
     }
 
     actions
@@ -1033,6 +1081,7 @@ export class EventControl extends React.Component<
       getComponents,
       allComponents,
       render,
+      globalEvents = [],
       subscribeSchemaSubmit
     } = this.props;
     const {
@@ -1140,19 +1189,35 @@ export class EventControl extends React.Component<
               disabled: false,
               className: 'block w-full add-event-dropdown',
               closeOnClick: true,
-              buttons: events.map(item => ({
-                type: 'button',
-                disabledTip: '您已添加该事件',
-                tooltipPlacement: 'left',
-                disabled: Object.keys(onEvent).includes(item.eventName),
-                actionType: '',
-                label: item.eventLabel,
-                onClick: this.addEvent.bind(
-                  this,
-                  item,
-                  Object.keys(onEvent).includes(item.eventName)
-                )
-              }))
+              buttons: [
+                ...events.map(item => ({
+                  type: 'button',
+                  disabledTip: '您已添加该事件',
+                  tooltipPlacement: 'left',
+                  disabled: Object.keys(onEvent).includes(item.eventName),
+                  actionType: '',
+                  label: item.eventLabel,
+                  onClick: this.addEvent.bind(
+                    this,
+                    item,
+                    Object.keys(onEvent).includes(item.eventName)
+                  )
+                })),
+                ...globalEvents.map(item => ({
+                  type: 'button',
+                  disabledTip: '您已添加该全局事件',
+                  tooltipPlacement: 'left',
+                  disabled: Object.keys(onEvent).includes(item.name),
+                  actionType: '',
+                  className: 'add-event-dropdown-global-event',
+                  label: item.label,
+                  onClick: this.addGlobalEvent.bind(
+                    this,
+                    item,
+                    Object.keys(onEvent).includes(item.name)
+                  )
+                }))
+              ]
             },
             {
               popOverContainer: null // amis 渲染挂载节点会使用 this.target
@@ -1174,6 +1239,7 @@ export class EventControl extends React.Component<
         >
           {eventKeys.length ? (
             eventKeys.map((eventKey, eventIndex) => {
+              const globalEvent = globalEvents.find(i => i.name === eventKey);
               return (
                 <li className="event-item" key={`content_${eventIndex}`}>
                   <div
@@ -1200,7 +1266,18 @@ export class EventControl extends React.Component<
                         )
                       }}
                     >
-                      <div>{getEventLabel(events, eventKey) || eventKey}</div>
+                      {!globalEvent ? (
+                        <div>{getEventLabel(events, eventKey) || eventKey}</div>
+                      ) : (
+                        <div className="event-label">
+                          <span className="global-event-tip">
+                            <span>全局事件</span>
+                          </span>
+                          <span className="event-label-key">
+                            {globalEvent.label || eventKey}
+                          </span>
+                        </div>
+                      )}
                     </TooltipWrapper>
                     <div className="event-item-header-toolbar">
                       <div

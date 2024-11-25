@@ -362,8 +362,12 @@ export function isAsyncRenderer(item: RendererConfig) {
   );
 }
 
-export function hasAsyncRenderers() {
-  return renderers.some(isAsyncRenderer);
+export function hasAsyncRenderers(types?: Array<string>) {
+  return (
+    Array.isArray(types)
+      ? renderers.filter(item => item.type && types.includes(item.type))
+      : renderers
+  ).some(isAsyncRenderer);
 }
 
 export async function loadAsyncRenderersByType(

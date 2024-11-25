@@ -208,6 +208,31 @@ export class CollapsePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            hideAnimation: true,
+            classname: 'baseControlClassName',
+            needState: false,
+            baseTitle: '基本样式',
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headerControlClassName',
+                title: '标题区样式',
+                state: ['default', 'hover'],
+                extra: [
+                  getSchemaTpl('theme:font', {
+                    label: '文字',
+                    name: 'themeCss.headerControlClassName.font'
+                  })
+                ]
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'bodyControlClassName',
+                needState: false,
+                title: '内容区样式'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [

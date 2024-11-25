@@ -317,9 +317,9 @@ exports[`Renderer:select associated mode with virtual 1`] = `
               </div>
             </div>
             <div
-              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              class="cxd-PopOver cxd-TransferDropDown-popover"
               role="popover"
-              style="display: block; min-width: 100px; left: 0px; top: 0px;"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; visibility: hidden;"
               theme="cxd"
             >
               <div
@@ -776,9 +776,9 @@ exports[`Renderer:select chained mode with virtual 1`] = `
               </div>
             </div>
             <div
-              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              class="cxd-PopOver cxd-TransferDropDown-popover"
               role="popover"
-              style="display: block; min-width: 100px; left: 0px; top: 0px;"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; visibility: hidden;"
               theme="cxd"
             >
               <div
@@ -1127,9 +1127,9 @@ exports[`Renderer:select group mode with virtual 1`] = `
               </div>
             </div>
             <div
-              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              class="cxd-PopOver cxd-TransferDropDown-popover"
               role="popover"
-              style="display: block; min-width: 100px; left: 0px; top: 0px;"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; visibility: hidden;"
               theme="cxd"
             >
               <div
@@ -1560,9 +1560,9 @@ exports[`Renderer:select table mode with virtual 1`] = `
               </div>
             </div>
             <div
-              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              class="cxd-PopOver cxd-TransferDropDown-popover"
               role="popover"
-              style="display: block; min-width: 100px; left: 0px; top: 0px;"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; visibility: hidden;"
               theme="cxd"
             >
               <div
@@ -1819,9 +1819,9 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
               </div>
             </div>
             <div
-              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              class="cxd-PopOver cxd-TransferDropDown-popover"
               role="popover"
-              style="display: block; min-width: 100px; left: 0px; top: 0px;"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; visibility: hidden;"
               theme="cxd"
             >
               <div
@@ -1845,13 +1845,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1873,13 +1877,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1903,13 +1911,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1933,13 +1945,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1963,13 +1979,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1993,13 +2013,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -2023,13 +2047,17 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -2279,9 +2307,9 @@ exports[`Renderer:select virtual 1`] = `
                 />
               </span>
               <div
-                class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-Select-popover"
                 role="popover"
-                style="display: block; width: auto; left: 0px; top: 0px;"
+                style="display: block; width: auto; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div

@@ -11,7 +11,13 @@ interface InputStateOptions {
   hideRadius?: boolean;
   hideBackground?: boolean;
   hideBorder?: boolean;
+  hiddenOn?: string;
   schema?: any[];
+  fontToken?: (state: string) => string | object;
+  pmToken?: (state: string) => string;
+  radiusToken?: (state: string) => string | object;
+  backgroundToken?: (state: string) => string;
+  borderToken?: (state: string) => string | object;
 }
 
 export const inputStateTpl = (
@@ -44,7 +50,8 @@ export const inputStateTpl = (
       name: `__editorState${className}`,
       label: '状态',
       selectFirst: true,
-      options: stateOptions
+      options: stateOptions,
+      hiddenOn: options?.hiddenOn || false
     },
     ...stateOptions.map((item: any) => {
       return {
@@ -53,6 +60,7 @@ export const inputStateTpl = (
           `\${__editorState${className} == '${item.value}'` +
           (item.value === 'default' ? ` || !__editorState${className}` : '') +
           `}`,
+        hiddenOn: options?.hiddenOn || false,
         body: inputStateFunc(
           item.value,
           className,
@@ -68,22 +76,24 @@ export const inputStateTpl = (
 export const inputStateFunc = (
   state: string,
   className: string,
-  token: string,
+  token?: string,
   options?: InputStateOptions
 ) => {
   const cssTokenState = state === 'focused' ? 'active' : state;
-
-  if (token.includes('${state}')) {
-    token = token.replace(/\${state}/g, cssTokenState);
-  } else {
-    token = `${token}-${cssTokenState}`;
+  if (token) {
+    if (token.includes('${state}')) {
+      token = token.replace(/\${state}/g, cssTokenState);
+    } else {
+      token = `${token}-${cssTokenState}`;
+    }
   }
+
   return [
     !options?.hideFont &&
       getSchemaTpl('theme:font', {
         label: '文字',
         name: `${className}.font:${state}`,
-        editorValueToken: token,
+        editorValueToken: options?.fontToken?.(cssTokenState) || token,
         state
       }),
     !options?.hideBackground &&
@@ -93,20 +103,22 @@ export const inputStateFunc = (
         labelMode: 'input',
         needGradient: true,
         needImage: true,
-        editorValueToken: `${token}-bg-color`,
+        editorValueToken:
+          options?.backgroundToken?.(cssTokenState) ||
+          (token && `${token}-bg-color`),
         state
       }),
     !options?.hideBorder &&
       getSchemaTpl('theme:border', {
         name: `${className}.border:${state}`,
-        editorValueToken: token,
+        editorValueToken: options?.borderToken?.(cssTokenState) || token,
         state
       }),
     !options?.hidePadding &&
       !options?.hideMargin &&
       getSchemaTpl('theme:paddingAndMargin', {
         name: `${className}.padding-and-margin:${state}`,
-        editorValueToken: token,
+        editorValueToken: options?.pmToken?.(cssTokenState) || token,
         state,
         hidePadding: options?.hidePadding,
         hideMargin: options?.hideMargin
@@ -114,7 +126,7 @@ export const inputStateFunc = (
     !options?.hideRadius &&
       getSchemaTpl('theme:radius', {
         name: `${className}.radius:${state}`,
-        editorValueToken: token,
+        editorValueToken: options?.radiusToken?.(cssTokenState) || token,
         state
       }),
     ...(options?.schema || [])

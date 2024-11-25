@@ -26,6 +26,25 @@
           display: none;
         }
       }
+      .add-event-dropdown-global-event {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '全局事件';
+          display: flex;
+          align-items: center;
+          padding: 0 6px;
+          right: 4px;
+          top: 4px;
+          bottom: 4px;
+          font-size: 12px;
+          color: #fff;
+          background-color: #2468f2;
+          border-radius: 4px;
+          transform: scale(0.8);
+          transform-origin: center;
+        }
+      }
     }
     ul {
       width: 100%;
@@ -74,6 +93,32 @@
             margin-right: #{px2rem(12px)};
             &:last-child {
               margin-right: 0;
+            }
+          }
+        }
+
+        .event-label {
+          display: flex;
+          align-items: center;
+          .event-label-key {
+            flex: 1;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .global-event-tip {
+            width: 48px;
+            display: flex;
+            > span {
+              transform: scale(0.7);
+              transform-origin: left;
+              background-color: #2468f2;
+              border-radius: 4px;
+              font-size: 12px;
+              color: #fff;
+              padding: 4px 6px;
+              flex-shrink: 0;
+              text-align: center;
             }
           }
         }

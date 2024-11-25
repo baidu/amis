@@ -132,7 +132,7 @@ export class TableRow extends React.PureComponent<
   @autobind
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
     const {onAction, item} = this.props;
-    onAction && onAction(e, action, ctx || item.locals);
+    return onAction && onAction(e, action, ctx || item.locals);
   }
 
   @autobind

@@ -221,6 +221,7 @@ export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
 type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
+
 /**
  * Table 表格渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
@@ -1031,7 +1032,7 @@ export default class Table extends React.Component<TableProps, object> {
     const {onAction} = this.props;
 
     // todo
-    onAction(e, action, ctx);
+    return onAction(e, action, ctx);
   }
 
   async handleCheck(item: IRow, value?: boolean, shift?: boolean) {
@@ -1381,6 +1382,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   tableUnWatchResize?: () => void;
+
   tableRef(ref: HTMLTableElement) {
     this.table = ref;
     isAlive(this.props.store) && this.props.store.setTable(ref);
@@ -2402,7 +2404,7 @@ export default class Table extends React.Component<TableProps, object> {
                 )
               }
             >
-              {__('Checkboxes.selectAll')}
+              {__('Select.checkAll')}
             </Checkbox>
           </li>
         ) : null}

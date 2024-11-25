@@ -300,7 +300,7 @@ export function Icon({
     iconContent = '';
   }
 
-  if (!icon) {
+  if (!icon && !iconContent) {
     return null;
   }
 

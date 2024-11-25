@@ -134,16 +134,14 @@ describe('层级选择', () => {
 
     await waitFor(() => {
       expect(checkMeSecond1).toBeChecked();
-      expect(checkMeSecond1.parentElement!.classList).toContain(
-        'cxd-Checkbox--full'
-      );
+      expect(checkMeSecond1.parentElement!.classList).toContain('checked');
     });
 
     // 根节点下包含苹果和华为两个节点
     // 华为节点是未选中,所以根节点应该显示部分选中的样式
     expect(checkMeFirst).toBeChecked();
     expect(checkMeFirst.parentElement!.classList).not.toContain(
-      'cxd-Checkbox--full'
+      'cxd-Checkbox--partial checked'
     );
   });
 
@@ -167,13 +165,13 @@ describe('层级选择', () => {
     await waitFor(() => {
       expect(checkMeSecond2).toBeChecked();
       expect(checkMeSecond2.parentElement!.classList).not.toContain(
-        'cxd-Checkbox--full'
+        'cxd-Checkbox--partial checked'
       );
     });
 
     expect(checkMeFirst).toBeChecked();
     expect(checkMeFirst.parentElement!.classList).not.toContain(
-      'cxd-Checkbox--full'
+      'cxd-Checkbox--partial checked'
     );
   });
 });

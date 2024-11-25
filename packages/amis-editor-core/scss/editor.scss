@@ -889,6 +889,11 @@
   z-index: 1000;
   pointer-events: none;
 }
+.ae-Preview-widgets--no-transition {
+  .ae-Editor-hlbox {
+    transition: none;
+  }
+}
 
 .ae-Editor-rendererCol {
   width: 140px;
@@ -1426,7 +1431,7 @@
   > .region-tip {
     position: absolute;
     right: 50%;
-    top: -19px;
+    top: -17px;
     transform: translateX(50%);
     background: $Editor-rgion-bg; // $Editor-rgion-bg;
     color: #fff;
@@ -1478,11 +1483,11 @@
   }
 
   // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
-  > div.region-tip.is-only-child-region,
-  &.region-label-within > .region-tip {
-    top: 1px;
-    border-radius: 0 0 3px 3px;
-  }
+  // > div.region-tip.is-only-child-region,
+  // &.region-label-within > .region-tip {
+  //   top: 1px;
+  //   border-radius: 0 0 3px 3px;
+  // }
 
   // 高亮区域hover态
   &.region-hover {

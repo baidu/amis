@@ -65,7 +65,9 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           }
         }
       });
-      return loadAsyncRenderersByType(types, true);
+      return hasAsyncRenderers(types)
+        ? loadAsyncRenderersByType(types, true)
+        : undefined;
     });
   }
 
@@ -95,16 +97,17 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   componentDidUpdate(prevProps: RootRendererProps) {
     const props = this.props;
 
-    if (props.data !== prevProps.data) {
-      this.store.initData(props.data);
-    }
-
     if (props.location !== prevProps.location) {
       this.store.updateLocation(props.location, this.props.env?.parseLocation);
     }
 
     if (props.context !== prevProps.context) {
       this.store.updateContext(props.context);
+    }
+
+    // 一定要最后处理，否则 downStream 里面的上层数据 context 还是老的。
+    if (props.data !== prevProps.data) {
+      this.store.initData(props.data);
     }
   }
 

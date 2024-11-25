@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "6.8.0",
+  "version": "6.9.0",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -68,7 +68,6 @@
     "@rollup/plugin-typescript": "^8.3.2",
     "@svgr/rollup": "^6.2.1",
     "@types/async": "^2.0.45",
-    "@types/classnames": "^2.2.3",
     "@types/codemirror": "5.60.10",
     "@types/deep-diff": "^1.0.0",
     "@types/history": "^4.6.0",

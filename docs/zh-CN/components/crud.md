@@ -881,6 +881,124 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 }
 ```
 
+## 多个列表共用一套查询条件
+
+如果希望一个查询表单作用在多个列表中，可以直接 `form + n * crud` 的方式。将 form 的提交目标给到多个 crud。
+
+> 注意：如果一个页面有多个 crud，请控制同步地址栏的 crud 数量不要超过一个。否则会相互干扰
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+        "title": "条件搜索",
+        "type": "form",
+        "target": "crud1,crud2",
+        "body": [
+            {
+                "type": "group",
+                "body": [
+                    {
+                        "type": "input-text",
+                        "name": "keywords",
+                        "label": "关键字",
+                        "clearable": true,
+                        "placeholder": "通过关键字搜索",
+                        "size": "sm"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "engine",
+                        "label": "Engine",
+                        "clearable": true,
+                        "size": "sm"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "platform",
+                        "label": "Platform",
+                        "clearable": true,
+                        "size": "sm"
+                    }
+                ]
+            }
+        ],
+        actions: [
+            {
+                "type": "reset",
+                "label": "重置"
+            },
+            {
+                "type": "submit",
+                "level": "primary",
+                "label": "查询"
+            }
+        ]
+    },
+
+    {
+      "type": "crud",
+      "name": "crud1",
+      "perPage": 5,
+      "syncLocation": false,
+      "title": "CRUD 1",
+      "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        }
+    ]
+  },
+  {
+      "type": "crud",
+      "name": "crud2",
+      "title": "CRUD 2",
+      "syncLocation": false,
+      "api": "/api/mock2/sample",
+      "columnsTogglable": false,
+      "perPage": 5,
+      "columns": [
+          {
+              "name": "id",
+              "label": "ID"
+          },
+          {
+              "name": "engine",
+              "label": "Rendering engine"
+          },
+          {
+              "name": "browser",
+              "label": "Browser"
+          },
+          {
+              "name": "platform",
+              "label": "Platform(s)",
+              "canAccessSuperData": false
+          },
+          {
+              "name": "version",
+              "label": "Engine version"
+          },
+          {
+              "name": "grade",
+              "label": "CSS grade"
+          }
+      ]
+  }
+  ]
+}
+```
+
 ## 配置默认请求参数
 
 可以配置`defaultParams`，来指定拉取接口时的默认参数：
@@ -2082,6 +2200,7 @@ interface CRUDMatchFunc {
 | `items`           | `Array<Column>`       | 批量操作       | `selectedItems` 的别名                                                               |
 | `rows`            | `Array<Column>`       | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
 | `ids`             | `string`              | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
+| `event`           | `object`              | 事件动作       | 可以通过`event.data`获取批量操作按钮上绑定的事件动作产生的数据                       |
 | `...rest`         | `Record<string, any>` | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
