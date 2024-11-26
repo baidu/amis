@@ -17,6 +17,9 @@ import {
   RAW_TYPE_MAP
 } from 'amis-editor-core';
 import {someTree} from 'amis-core';
+import type {SchemaType} from 'amis';
+import {isObject} from 'amis';
+import set from 'lodash/set';
 import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
@@ -29,7 +32,6 @@ import {
   resolveArrayDatasource,
   resolveInputTableEventDataSchame
 } from '../../util';
-import type {SchemaType} from 'amis';
 
 export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
@@ -1456,7 +1458,7 @@ export class TableControlPlugin extends BasePlugin {
     trigger?: EditorNodeType,
     parent?: EditorNodeType
   ) {
-    const itemsSchema: any = {
+    let itemsSchema: any = {
       $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
@@ -1514,6 +1516,23 @@ export class TableControlPlugin extends BasePlugin {
           };
         }
       }
+    }
+    let match =
+      node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
+    let field = node.schema.name || match?.[1];
+    const origin = this.manager.dataSchema.current;
+    const schema = this.manager.dataSchema.getSchemaByPath(field);
+    this.manager.dataSchema.switchTo(origin);
+    if (isObject(schema?.items)) {
+      itemsSchema = {
+        ...itemsSchema,
+        ...(schema!.items as any)
+      };
+
+      set(itemsSchema, 'properties.index', {
+        type: 'number',
+        title: '索引'
+      });
     }
 
     if (region?.region === 'columns') {
