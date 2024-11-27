@@ -34,6 +34,15 @@ export const TreeCommonAction: RendererPluginAction[] = [
     actionLabel: '新增',
     description: '新增数据项',
     innerArgs: ['item', 'parentValue'],
+    descDetail: (info: any, context: any, props: any) => {
+      return (
+        <div className="action-desc">
+          新增
+          {buildLinkActionDesc(props.manager, info)}
+          数据项
+        </div>
+      );
+    },
     schema: getArgsWrapper({
       type: 'container',
       body: [
@@ -71,6 +80,15 @@ export const TreeCommonAction: RendererPluginAction[] = [
     actionLabel: '编辑',
     description: '编辑数据项',
     innerArgs: ['item', 'originValue'],
+    descDetail: (info: any, context: any, props: any) => {
+      return (
+        <div className="action-desc">
+          编辑
+          {buildLinkActionDesc(props.manager, info)}
+          数据项
+        </div>
+      );
+    },
     schema: getArgsWrapper({
       type: 'container',
       body: [
@@ -109,6 +127,15 @@ export const TreeCommonAction: RendererPluginAction[] = [
     actionLabel: '删除',
     description: '删除数据项',
     innerArgs: ['value'],
+    descDetail: (info: any, context: any, props: any) => {
+      return (
+        <div className="action-desc">
+          删除
+          {buildLinkActionDesc(props.manager, info)}
+          数据项
+        </div>
+      );
+    },
     schema: getArgsWrapper([
       getSchemaTpl('formulaControl', {
         label: '数据删除项的值',
