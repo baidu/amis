@@ -512,4 +512,9 @@
   width: 255px;
   max-height: 360px;
   overflow: auto;
+  .variables-select-panel-tree {
+    *:not(svg) {
+      font-size: 12px;
+    }
+  }
 }

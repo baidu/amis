@@ -22,7 +22,8 @@ import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
   getArgsWrapper,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -958,6 +959,14 @@ export class TableControlPlugin extends BasePlugin {
       actionLabel: '添加行',
       description: '添加行数据',
       innerArgs: ['item', 'index'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            添加行
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'container',
         body: [
@@ -1026,6 +1035,14 @@ export class TableControlPlugin extends BasePlugin {
       actionLabel: '删除行',
       description: '删除某一行数据',
       innerArgs: ['condition', 'index'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            删除行
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'container',
         body: [
@@ -1107,12 +1124,30 @@ export class TableControlPlugin extends BasePlugin {
     {
       actionType: 'initDrag',
       actionLabel: '开启排序',
-      description: '开启表格拖拽排序功能'
+      description: '开启表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            开启
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     },
     {
       actionType: 'cancelDrag',
       actionLabel: '取消排序',
-      description: '取消表格拖拽排序功能'
+      description: '取消表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            取消
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     }
   ];
 

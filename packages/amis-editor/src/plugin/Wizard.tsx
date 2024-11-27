@@ -19,7 +19,8 @@ import {
 import {
   getArgsWrapper,
   getEventControlConfig,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
@@ -261,8 +262,9 @@ export class WizardPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            提交当前步骤数据
+            提交
+            {buildLinkActionDesc(props.manager, info)}
+            当前步骤数据
           </div>
         );
       }
@@ -274,9 +276,11 @@ export class WizardPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.rendererLabel}</span>
-            {info?.__rendererName === 'carousel' ? '滚动至上一张' : null}
-            {info?.__rendererName === 'wizard' ? '返回前一步' : null}
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '返回' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至上一张' : null}
+            {info?.__rendererName === 'wizard' ? '前一步' : null}
           </div>
         );
       }
@@ -288,9 +292,11 @@ export class WizardPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.rendererLabel}</span>
-            {info?.__rendererName === 'carousel' ? '滚动至下一张' : null}
-            {info?.__rendererName === 'wizard' ? '提交当前步骤数据' : null}
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '提交' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至下一张' : null}
+            {info?.__rendererName === 'wizard' ? '当前步骤数据' : null}
           </div>
         );
       }
@@ -303,8 +309,9 @@ export class WizardPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            切换到第
+            切换
+            {buildLinkActionDesc(props.manager, info)}
+            到第
             <span className="variable-left variable-right">
               {info?.args?.step}
             </span>
