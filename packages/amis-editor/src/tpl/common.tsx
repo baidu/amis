@@ -6,7 +6,7 @@ import {
   tipedLabel,
   EditorManager
 } from 'amis-editor-core';
-import type {SchemaObject} from 'amis';
+import {render, type SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
@@ -1850,4 +1850,40 @@ setSchemaTpl('inputForbid', {
   label: '禁止输入',
   name: 'inputForbid',
   inputClassName: 'is-inline'
+});
+
+setSchemaTpl('button-manager', () => {
+  return getSchemaTpl('combo-container', {
+    type: 'combo',
+    label: '按钮管理',
+    name: 'actions',
+    mode: 'normal',
+    multiple: true,
+    addable: true,
+    draggable: true,
+    editable: false,
+    items: [
+      {
+        component: (props: any) => {
+          return render({
+            ...props.data,
+            onEvent: {},
+            actionType: '',
+            onClick: (e: any, props: any) => {
+              const editorStore = (window as any).editorStore;
+              const subEditorStore = editorStore.getSubEditorRef()?.store;
+              (subEditorStore || editorStore).setActiveIdByComponentId(
+                props.id
+              );
+            }
+          });
+        }
+      }
+    ],
+    addButtonText: '新增按钮',
+    scaffold: {
+      type: 'button',
+      label: '按钮'
+    }
+  });
 });

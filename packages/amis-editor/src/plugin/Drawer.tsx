@@ -171,6 +171,7 @@ export class DrawerPlugin extends BasePlugin {
                 label: '显示蒙层',
                 pipeIn: defaultValue(true)
               }),
+              getSchemaTpl('button-manager'),
               getSchemaTpl('switch', {
                 name: 'showCloseButton',
                 label: '展示关闭按钮',
