@@ -671,12 +671,15 @@ function ImageInput(props: ThemeColorProps) {
     if (imgRes) {
       let img = imgRes[1];
       setImage(img);
-      let res = value.replace(imgRes[0] + ' ', '');
+      let res = value;
+      !res.endsWith(' ') && (res += ' ');
+      res = value.replace(imgRes[0] + ' ', '');
       let list = res.split(' ');
       // 解析position
       let position = list[0] + ' ' + list[1];
       const index = POSITION_MAP.findIndex(n => n === position);
       setPosition(index);
+      !res.endsWith(' ') && (res += ' ');
       res = res.replace(position + ' / ', '');
       list = res.split(' ');
       // 解析mode
@@ -688,6 +691,7 @@ function ImageInput(props: ThemeColorProps) {
         mode = '100% 100% no-repeat';
       }
       setMode(mode);
+      !res.endsWith(' ') && (res += ' ');
       // 解析color
       const color = res.replace(mode + ' ', '');
       setColor(color);
@@ -770,7 +774,7 @@ function ImageInput(props: ThemeColorProps) {
           value={color}
           onChange={(value: string) => {
             onChange(
-              `url(${image}) ${POSITION_MAP[position]} / ${mode} ${value}`
+              `url(${image}) ${POSITION_MAP[position]} / ${mode} ${value || ''}`
             );
           }}
         />
