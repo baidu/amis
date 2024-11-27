@@ -219,7 +219,7 @@ export class StatusControl extends React.Component<
             actionsClassName: 'border-none mt-2.5',
             wrapperComponent: 'div',
             submitOnChange: true,
-            autoFocus: true,
+            // autoFocus: true,
             formLazyChange: true,
             footerWrapClassName: 'hidden',
             preventEnterSubmit: true,
