@@ -18,7 +18,8 @@ import {DSBuilderManager} from '../builder/DSBuilderManager';
 import {DSFeatureEnum, ModelDSBuilderKey, ApiDSBuilderKey} from '../builder';
 import {
   getEventControlConfig,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 
 import type {Schema} from 'amis-core';
@@ -177,7 +178,16 @@ export class ServicePlugin extends BasePlugin {
     {
       actionType: 'rebuild',
       actionLabel: '重新构建',
-      description: '触发schemaApi刷新，重新构建Schema'
+      description: '触发schemaApi刷新，重新构建Schema',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            重新构建
+            {buildLinkActionDesc(props.manager, info)}
+            Schema
+          </div>
+        );
+      }
     },
     {
       actionType: 'setValue',

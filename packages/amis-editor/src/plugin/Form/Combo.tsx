@@ -19,9 +19,11 @@ import {ValidatorTag} from '../../validator';
 import {
   getArgsWrapper,
   getEventControlConfig,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import {resolveInputTableEventDataSchame} from '../../util';
+import React from 'react';
 
 export class ComboControlPlugin extends BasePlugin {
   static id = 'ComboControlPlugin';
@@ -264,6 +266,14 @@ export class ComboControlPlugin extends BasePlugin {
       actionLabel: '添加项',
       description: '添加新的项',
       innerArgs: ['item'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            添加项
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'combo',
         label: '添加项',
