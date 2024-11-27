@@ -8,6 +8,7 @@ import {
   EditorManager,
   getSchemaTpl,
   JSONGetById,
+  JSONGetPathById,
   persistGet,
   persistSet,
   RendererPluginAction,
@@ -282,20 +283,24 @@ export const buildLinkActionDesc = (manager: EditorManager, info: any) => {
             e.preventDefault();
             e.stopPropagation();
 
-            if (/^u:[A-Za-z0-9]{12}$/.test(desc)) {
-              toast.info('该组件可能在弹窗内，暂无法锚定到该组件');
-              return;
-            }
-
             const schema = JSONGetById(
               manager.store.schema,
               info.componentId,
               'id'
             );
+
             if (!schema) {
               toast.info('温馨提示：未找到该组件');
               return;
             }
+
+            const path = JSONGetPathById(manager.store.schema, schema.$$id);
+
+            if (path?.includes('dialog') || path?.includes('drawer')) {
+              toast.info('该组件在弹窗内，暂无法直接锚定到该组件');
+              return;
+            }
+
             manager.store.setActiveId(schema.$$id);
           }}
         >
