@@ -31,7 +31,8 @@ import {
 import {
   getEventControlConfig,
   getArgsWrapper,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import {CRUD2Schema} from 'amis';
 import {deepRemove, findObj, findSchema} from './utils';
@@ -117,8 +118,9 @@ export class BaseCRUDPlugin extends BasePlugin {
           descDetail: (info: any, context: any, props: any) => {
             return (
               <div className="action-desc">
-                <span className="variable-right">{info?.__rendererLabel}</span>
-                触发数据查询
+                触发
+                {buildLinkActionDesc(props.manager, info)}
+                数据查询
               </div>
             );
           },
@@ -138,8 +140,9 @@ export class BaseCRUDPlugin extends BasePlugin {
           descDetail: (info: any, context: any, props: any) => {
             return (
               <div className="action-desc">
-                <span className="variable-right">{info?.__rendererLabel}</span>
-                加载更多数据
+                加载
+                {buildLinkActionDesc(props.manager, info)}
+                更多数据
               </div>
             );
           }

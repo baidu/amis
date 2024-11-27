@@ -18,6 +18,7 @@ import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {
+  buildLinkActionDesc,
   getArgsWrapper,
   getEventControlConfig
 } from '../renderer/event-control/helper';
@@ -122,7 +123,8 @@ export class TabsPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            激活第
+            激活
+            {buildLinkActionDesc(props.manager, info)}第
             <span className="variable-left variable-right">
               {info?.args?.activeKey}
             </span>
@@ -147,10 +149,12 @@ export class TabsPlugin extends BasePlugin {
       actionType: 'deleteTab',
       actionLabel: '删除指定选项卡',
       description: '删除指定hash的tab项',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
           <div>
-            删除hash为
+            删除
+            {buildLinkActionDesc(props.manager, info)}
+            hash为
             <span className="variable-left variable-right">
               {info?.args?.deleteHash}
             </span>

@@ -536,8 +536,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     descDetail: (info: any, context: any, props: any) => {
       return (
         <div className="action-desc">
-          <span className="variable-right">{info?.rendererLabel}</span>
-          收起
+          收起{buildLinkActionDesc(props.manager, info)}
         </div>
       );
     }
@@ -546,8 +545,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     descDetail: (info: any, context: any, props: any) => {
       return (
         <div className="action-desc">
-          <span className="variable-right">{info?.rendererLabel}</span>
-          选中所有选项
+          选中{buildLinkActionDesc(props.manager, info)}所有选项
         </div>
       );
     }
@@ -556,8 +554,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
     descDetail: (info: any, context: any, props: any) => {
       return (
         <div className="action-desc">
-          <span className="variable-right">{info?.rendererLabel}</span>
-          获取焦点
+          获取{buildLinkActionDesc(props.manager, info)}焦点
         </div>
       );
     }

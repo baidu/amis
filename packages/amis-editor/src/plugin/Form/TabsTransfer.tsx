@@ -12,7 +12,8 @@ import {
 } from 'amis-editor-core';
 import {
   getEventControlConfig,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 
@@ -216,8 +217,9 @@ export class TabsTransferPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            修改选中tab
+            修改
+            {buildLinkActionDesc(props.manager, info)}
+            选中tab
           </div>
         );
       }
