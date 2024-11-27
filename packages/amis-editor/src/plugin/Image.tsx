@@ -14,9 +14,11 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {
+  buildLinkActionDesc,
   getArgsWrapper,
   getEventControlConfig
 } from '../renderer/event-control/helper';
+import React from 'react';
 
 export class ImagePlugin extends BasePlugin {
   static id = 'ImagePlugin';
@@ -119,12 +121,29 @@ export class ImagePlugin extends BasePlugin {
     {
       actionType: 'preview',
       actionLabel: '预览',
-      description: '预览图片'
+      description: '预览图片',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            预览
+            {buildLinkActionDesc(props.manager, info)}
+          </div>
+        );
+      }
     },
     {
       actionType: 'zoom',
       actionLabel: '调整图片比例',
       description: '将图片等比例放大或缩小',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            调整
+            {buildLinkActionDesc(props.manager, info)}
+            图片比例
+          </div>
+        );
+      },
       schema: {
         type: 'container',
         body: [
