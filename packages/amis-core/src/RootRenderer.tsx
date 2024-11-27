@@ -101,12 +101,15 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       this.store.updateLocation(props.location, this.props.env?.parseLocation);
     }
 
+    let contextChanged = false;
     if (props.context !== prevProps.context) {
+      contextChanged = true;
       this.store.updateContext(props.context);
     }
 
     // 一定要最后处理，否则 downStream 里面的上层数据 context 还是老的。
-    if (props.data !== prevProps.data) {
+    if (props.data !== prevProps.data || contextChanged) {
+      // context 依赖 data 变化才能触发变动，所以不管 data 变没变都更新一下
       this.store.initData(props.data);
     }
   }
