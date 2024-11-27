@@ -298,6 +298,8 @@ export class DialogPlugin extends BasePlugin {
                 name: 'title'
               },
 
+              getSchemaTpl('button-manager'),
+
               getSchemaTpl('switch', {
                 label: '展示关闭按钮',
                 name: 'showCloseButton',
