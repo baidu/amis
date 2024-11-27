@@ -14,6 +14,7 @@ import {
 } from 'amis-editor-core';
 import type {Schema} from 'amis';
 import {
+  buildLinkActionDesc,
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
@@ -200,8 +201,9 @@ export class TreeControlPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            展开到第
+            展开
+            {buildLinkActionDesc(props.manager, info)}
+            到第
             <span className="variable-left variable-right">
               {info?.args?.openLevel}
             </span>
@@ -226,17 +228,18 @@ export class TreeControlPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.rendererLabel}</span>
+            收起
+            {buildLinkActionDesc(props.manager, info)}
             {info?.args?.closeLevel ? (
               <>
-                收起到第
+                到第
                 <span className="variable-left variable-right">
                   {info?.args?.closeLevel}
                 </span>
                 层
               </>
             ) : (
-              '收起'
+              ''
             )}
           </div>
         );
@@ -289,17 +292,17 @@ export class TreeControlPlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.rendererLabel}</span>
+            搜索
+            {buildLinkActionDesc(props.manager, info)}
             {info?.args?.keyword ? (
               <>
-                搜索
                 <span className="variable-left variable-right">
                   {info?.args?.keyword}
                 </span>
                 的选项
               </>
             ) : (
-              '搜索'
+              ''
             )}
           </div>
         );
