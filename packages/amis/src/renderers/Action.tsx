@@ -707,9 +707,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
   render() {
     const {
       type,
-      icon,
       iconClassName,
-      rightIcon,
       rightIconClassName,
       loadingClassName,
       primary,
@@ -791,6 +789,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       }) as string;
       disabled = true;
     }
+    const icon = filter(this.props.icon, data);
+    const rightIcon = filter(this.props.rightIcon, data);
 
     const iconElement = (
       <Icon
