@@ -29,7 +29,8 @@ import {reaction} from 'mobx';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 import {
   schemaArrayFormat,
@@ -453,6 +454,15 @@ export class TablePlugin extends BasePlugin {
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
       innerArgs: ['selected'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            设置
+            {buildLinkActionDesc(props.manager, info)}
+            选中项
+          </div>
+        );
+      },
       schema: getArgsWrapper([
         getSchemaTpl('formulaControl', {
           name: 'selected',
@@ -472,17 +482,44 @@ export class TablePlugin extends BasePlugin {
     {
       actionType: 'clearAll',
       actionLabel: '清空选中项',
-      description: '清空表格所有选中项'
+      description: '清空表格所有选中项',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            清空
+            {buildLinkActionDesc(props.manager, info)}
+            选中项
+          </div>
+        );
+      }
     },
     {
       actionType: 'initDrag',
       actionLabel: '开启排序',
-      description: '开启表格拖拽排序功能'
+      description: '开启表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            开启
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     },
     {
       actionType: 'cancelDrag',
       actionLabel: '取消排序',
-      description: '取消表格拖拽排序功能'
+      description: '取消表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            取消
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     }
   ];
 

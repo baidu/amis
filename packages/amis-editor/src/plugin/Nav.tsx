@@ -12,7 +12,8 @@ import {
 } from 'amis-editor-core';
 import {
   getEventControlConfig,
-  getActionCommonProps
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 
 export class NavPlugin extends BasePlugin {
@@ -253,7 +254,16 @@ export class NavPlugin extends BasePlugin {
     {
       actionType: 'updateItems',
       actionLabel: '更新菜单项',
-      description: '触发组件更新菜单项'
+      description: '触发组件更新菜单项',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            更新
+            {buildLinkActionDesc(props.manager, info)}
+            菜单项
+          </div>
+        );
+      }
     },
     {
       actionType: 'collapse',
