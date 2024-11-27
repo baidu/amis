@@ -3,6 +3,7 @@ import {defaultValue} from 'amis-editor-core';
 import without from 'lodash/without';
 import {registerActionPanel} from '../../actionsPanelManager';
 import {renderCmptSelect, renderCmptIdInput} from './helper';
+import {buildLinkActionDesc} from '../../helper';
 
 registerActionPanel('staticStatus', {
   label: '组件展示态',
@@ -14,10 +15,7 @@ registerActionPanel('staticStatus', {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">
-              {info?.rendererLabel || info.componentId}
-            </span>
-            组件切换为静态
+            {buildLinkActionDesc(props.manager, info)}切换为静态展示
           </div>
         );
       }
