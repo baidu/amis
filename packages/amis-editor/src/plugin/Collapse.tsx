@@ -10,7 +10,10 @@ import {
   defaultValue,
   getSchemaTpl
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  buildLinkActionDesc,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 import {getActionCommonProps} from '../renderer/event-control/helper';
 
 export class CollapsePlugin extends BasePlugin {
@@ -123,8 +126,8 @@ export class CollapsePlugin extends BasePlugin {
       descDetail: (info: any, context: any, props: any) => {
         return (
           <div className="action-desc">
-            <span className="variable-right">{info?.rendererLabel}</span>
             展开
+            {buildLinkActionDesc(props.manager, info)}
           </div>
         );
       }
