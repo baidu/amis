@@ -789,8 +789,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
       }) as string;
       disabled = true;
     }
-    const icon = filter(this.props.icon, data);
-    const rightIcon = filter(this.props.rightIcon, data);
+    let icon = this.props.icon;
+    let rightIcon = this.props.rightIcon;
+    if (typeof icon === 'string') {
+      icon = filter(this.props.icon, data);
+    }
+    if (typeof rightIcon === 'string') {
+      rightIcon = filter(this.props.rightIcon, data);
+    }
 
     const iconElement = (
       <Icon
