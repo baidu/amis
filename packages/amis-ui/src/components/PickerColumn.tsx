@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import isObject from 'lodash/isObject';
 import cloneDeep from 'lodash/cloneDeep';
-import {uncontrollable, highlight} from 'amis-core';
+import {uncontrollable, highlight, labelToString} from 'amis-core';
 
 import {useSetState, useUpdateEffect} from '../hooks';
 import {range} from 'amis-core';
@@ -96,7 +96,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const getOptionText = (option: [] | PickerOption) => {
     if (isObject(option) && labelField in option) {
       //@ts-ignore
-      return option[labelField];
+      return labelToString(option[labelField]);
     }
     return option;
   };
