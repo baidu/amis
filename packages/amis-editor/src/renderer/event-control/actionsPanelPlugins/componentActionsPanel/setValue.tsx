@@ -116,7 +116,8 @@ registerActionPanel('setValue', {
     '__containerType'
   ],
   descDetail: (info: any, context: any, props: any) => {
-    const variableManager = info?.variableManager;
+    const variableManager = props.manager?.variableManager;
+
     return (
       <div className="action-desc">
         {/* 只要path字段存在就认为是应用变量赋值，无论是否有值 */}
@@ -124,7 +125,7 @@ registerActionPanel('setValue', {
           <>
             设置变量
             <span className="variable-left variable-right">
-              {variableManager.getNameByPath(info.args.path)}
+              {variableManager?.getNameByPath(info.args.path)}
             </span>
             的数据
           </>
