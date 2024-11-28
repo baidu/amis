@@ -46,7 +46,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
     } else {
       const __originActionSchema = data.__actionSchema;
       schema = isFunction(__originActionSchema)
-        ? __originActionSchema(manager)
+        ? __originActionSchema(manager, data)
         : __originActionSchema;
     }
 

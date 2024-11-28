@@ -225,8 +225,12 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
           scoped: renderer?.context,
           data
         });
+        // 过滤掉当前的广播事件，避免循环广播
+        const actions = listener.actions.filter(
+          a => !(a.actionType === 'broadcast' && a.eventName === eventName)
+        );
 
-        runActions(listener.actions, renderer, rendererEvent);
+        runActions(actions, renderer, rendererEvent);
       };
     }
     return () => {
