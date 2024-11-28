@@ -98,7 +98,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
       //@ts-ignore
       return labelToString(option[labelField]);
     }
-    return option;
+    return labelToString(option);
   };
 
   const getOptionValue = (option: [] | PickerOption) => {
