@@ -20,7 +20,7 @@ registerActionPanel('broadcast', {
       </div>
     );
   },
-  schema: (manager: EditorManager) => {
+  schema: (manager: EditorManager, data: any) => {
     const globalEvents =
       manager.config?.actionOptions?.globalEventGetter?.(manager) || [];
     return {
@@ -34,7 +34,8 @@ registerActionPanel('broadcast', {
           options: globalEvents.map(item => ({
             label: item.label,
             value: item.name,
-            mapping: item.mapping
+            mapping: item.mapping,
+            disabled: item.name === data.eventKey
           })),
           size: 'lg',
           mode: 'horizontal',
