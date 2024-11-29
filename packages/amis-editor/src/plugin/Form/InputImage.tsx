@@ -365,6 +365,18 @@ export class ImageControlPlugin extends BasePlugin {
                       {label: '绘图区域', value: 1}
                     ],
                     pipeOut: valuePipeOut
+                  },
+                  {
+                    name: 'cropQuality',
+                    type: 'input-number',
+                    label: tipedLabel(
+                      '压缩质量',
+                      '裁剪后会重新生成，体积可能会变大，需要设置压缩质量降低体积，数值越小压缩率越高'
+                    ),
+                    step: 0.1,
+                    min: 0.1,
+                    max: 1,
+                    value: 0.7
                   }
                 ]
               },
