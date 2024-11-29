@@ -63,8 +63,11 @@ export default class FlexLayout implements LayoutInterface {
       if (position === 'right') {
         row = preRow;
       }
+      if (position === 'top') {
+        row = preRow + 1 || 0; // 如果往第一个元素上边插入，preRow为undefined，所以设置0
+      }
 
-      if (position === 'bottom' || position === 'top') {
+      if (position === 'bottom') {
         row = preRow + 1;
       }
     }
