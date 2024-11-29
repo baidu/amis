@@ -12,6 +12,7 @@ import {uuidv4, importLazyComponent} from './helper';
 import position from './position';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
 import {callStrFunction} from './api';
+import isPlainObject from 'lodash/isPlainObject';
 
 export const JsonView = React.lazy(() =>
   import('react-json-view').then(importLazyComponent)
@@ -102,21 +103,25 @@ const LogView = observer(({store}: {store: AMISDebugStore}) => {
   return (
     <>
       {logs.map((log, index) => {
+        let ext =
+          typeof log.ext === 'string' &&
+          (log.ext.startsWith('{') || log.ext.startsWith('['))
+            ? parseJson(log.ext)
+            : typeof log.ext === 'object'
+            ? normalizeDataForLog(log.ext)
+            : log.ext;
+
         return (
           <div className="AMISDebug-logLine" key={`log-${index}`}>
             <div className="AMISDebug-logLineMsg">
               [{log.cat}] {log.msg}
             </div>
-            {(typeof log.ext === 'string' &&
-              (log.ext.startsWith('{') || log.ext.startsWith('['))) ||
-            typeof log.ext === 'object' ? (
+            {typeof ext === 'object' ? (
               <React.Suspense fallback={<div>Loading...</div>}>
                 <JsonView
                   name={null}
                   theme="monokai"
-                  src={
-                    typeof log.ext === 'string' ? parseJson(log.ext) : log.ext
-                  }
+                  src={ext}
                   collapsed={true}
                   enableClipboard={false}
                   displayDataTypes={false}
@@ -125,7 +130,7 @@ const LogView = observer(({store}: {store: AMISDebugStore}) => {
                 />
               </React.Suspense>
             ) : (
-              <pre className="AMISDebug-value">{JSON.stringify(log.ext)}</pre>
+              <pre className="AMISDebug-value">{JSON.stringify(ext)}</pre>
             )}
           </div>
         );
@@ -260,119 +265,121 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
           <i className="fas fa-bug"></i>
         )}
       </div>
-      <div className={cx('AMISDebug-content')}>
-        <div className="AMISDebug-close" title="Close" onClick={store.close}>
-          <i className="fas fa-times" />
-        </div>
-        <div
-          className="AMISDebug-resize"
-          onMouseDown={event => {
-            setStartX(event.clientX);
-            setPanelWidth(
-              parseInt(
-                getComputedStyle(panelRef.current!).getPropertyValue('width'),
-                10
-              )
-            );
-            setResizing(true);
-          }}
-        ></div>
-        <div className="AMISDebug-tab">
-          <button
-            className={cx({active: store.tab === 'log'})}
-            onClick={() => {
-              store.tab = 'log';
+      {store.isExpanded ? (
+        <div className={cx('AMISDebug-content')}>
+          <div className="AMISDebug-close" title="Close" onClick={store.close}>
+            <i className="fas fa-times" />
+          </div>
+          <div
+            className="AMISDebug-resize"
+            onMouseDown={event => {
+              setStartX(event.clientX);
+              setPanelWidth(
+                parseInt(
+                  getComputedStyle(panelRef.current!).getPropertyValue('width'),
+                  10
+                )
+              );
+              setResizing(true);
             }}
-          >
-            Log
-          </button>
-          <button
-            className={cx({active: store.tab === 'inspect'})}
-            onClick={() => {
-              store.tab = 'inspect';
-            }}
-          >
-            Inspect
-          </button>
-        </div>
-        <div className="AMISDebug-changePosition">
-          {store.position === 'right' ? (
-            <i
-              className="fas fa-chevron-left"
-              title="move to left"
-              onClick={() => {
-                store.position = 'left';
-              }}
-            />
-          ) : (
-            <i
-              className="fas fa-chevron-right"
-              title="move to right"
-              onClick={() => {
-                store.position = 'right';
-              }}
-            />
-          )}
-        </div>
-        {store.tab === 'log' ? (
-          <div className="AMISDebug-log">
+          ></div>
+          <div className="AMISDebug-tab">
             <button
+              className={cx({active: store.tab === 'log'})}
               onClick={() => {
-                store.logs = [];
+                store.tab = 'log';
               }}
             >
-              Clear Log
+              Log
             </button>
-            <LogView store={store} />
-          </div>
-        ) : null}
-        {store.tab === 'inspect' ? (
-          <div className="AMISDebug-inspect">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 1024 1024"
-              className={`AMISDebug-inspectIcon ${
-                store.inspectMode ? 'is-active' : ''
-              }`}
-              onClick={store.toggleInspectMode}
+            <button
+              className={cx({active: store.tab === 'inspect'})}
+              onClick={() => {
+                store.tab = 'inspect';
+              }}
             >
-              <path d="M64 192L128 128h768l64 64v384H896v-384H128v512h320V768H128l-64-64v-512z m941.226667 621.226667L576 384v602.496l173.226667-173.226667h256zM640 832v-293.504l210.773333 210.773333h-128L640 832z" />
-            </svg>
-            {store.inspectMode ? (
-              <span>Select an element in the page to inspect it.</span>
+              Inspect
+            </button>
+          </div>
+          <div className="AMISDebug-changePosition">
+            {store.position === 'right' ? (
+              <i
+                className="fas fa-chevron-left"
+                title="move to left"
+                onClick={() => {
+                  store.position = 'left';
+                }}
+              />
             ) : (
-              <span>Click to inspect an element.</span>
+              <i
+                className="fas fa-chevron-right"
+                title="move to right"
+                onClick={() => {
+                  store.position = 'right';
+                }}
+              />
             )}
-            {activeId ? (
-              <>
-                <h3>
-                  Component:{' '}
-                  <span className="primary">
-                    {activeComponentInspect?.name}
-                  </span>
-                </h3>
-                {stackDataView}
-              </>
-            ) : null}
           </div>
-        ) : null}
-        {activeId ? (
-          <div className="AMISDebug-footer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 1024 1024"
-            >
-              <path
-                d="M724.48 521.728c-1.8432 7.7824-5.7344 14.848-11.3664 20.48l-341.9136 342.016c-16.6912 16.6912-43.7248 16.6912-60.3136 0s-16.6912-43.7248 0-60.3136L622.6944 512 310.8864 200.0896c-16.6912-16.6912-16.6912-43.7248 0-60.3136 16.6912-16.6912 43.7248-16.6912 60.3136 0l341.9136 341.9136c10.8544 10.8544 14.6432 26.112 11.3664 40.0384z"
+          {store.tab === 'log' ? (
+            <div className="AMISDebug-log">
+              <button
+                onClick={() => {
+                  store.logs = [];
+                }}
+              >
+                Clear Log
+              </button>
+              <LogView store={store} />
+            </div>
+          ) : null}
+          {store.tab === 'inspect' ? (
+            <div className="AMISDebug-inspect">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-              ></path>
-            </svg>
-            <input type="text" placeholder="" onKeyUp={handleInputKeyUp} />
-          </div>
-        ) : null}
-      </div>
+                viewBox="0 0 1024 1024"
+                className={`AMISDebug-inspectIcon ${
+                  store.inspectMode ? 'is-active' : ''
+                }`}
+                onClick={store.toggleInspectMode}
+              >
+                <path d="M64 192L128 128h768l64 64v384H896v-384H128v512h320V768H128l-64-64v-512z m941.226667 621.226667L576 384v602.496l173.226667-173.226667h256zM640 832v-293.504l210.773333 210.773333h-128L640 832z" />
+              </svg>
+              {store.inspectMode ? (
+                <span>Select an element in the page to inspect it.</span>
+              ) : (
+                <span>Click to inspect an element.</span>
+              )}
+              {activeId ? (
+                <>
+                  <h3>
+                    Component:{' '}
+                    <span className="primary">
+                      {activeComponentInspect?.name}
+                    </span>
+                  </h3>
+                  {stackDataView}
+                </>
+              ) : null}
+            </div>
+          ) : null}
+          {activeId ? (
+            <div className="AMISDebug-footer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 1024 1024"
+              >
+                <path
+                  d="M724.48 521.728c-1.8432 7.7824-5.7344 14.848-11.3664 20.48l-341.9136 342.016c-16.6912 16.6912-43.7248 16.6912-60.3136 0s-16.6912-43.7248 0-60.3136L622.6944 512 310.8864 200.0896c-16.6912-16.6912-16.6912-43.7248 0-60.3136 16.6912-16.6912 43.7248-16.6912 60.3136 0l341.9136 341.9136c10.8544 10.8544 14.6432 26.112 11.3664 40.0384z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+              <input type="text" placeholder="" onKeyUp={handleInputKeyUp} />
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 });
@@ -554,6 +561,30 @@ function parseJson(str: string) {
     return JSON.parse(str);
   } catch (e) {
     return e;
+  }
+}
+
+function normalizeDataForLog(data: any) {
+  try {
+    return parseJson(JSON.stringify(data));
+  } catch {
+    let ret: any = {};
+
+    Object.keys(data).forEach(key => {
+      const value = data[key];
+
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        !isPlainObject(value)
+      ) {
+        ret[key] = '[complicated data]';
+      } else {
+        ret[key] = value;
+      }
+    });
+
+    return ret;
   }
 }
 
