@@ -8,6 +8,7 @@ import debounce from 'lodash/debounce';
 import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
 import {evalExpression, evalExpressionWithConditionBuilderAsync} from './tpl';
 import type {PlainObject} from '../types';
+import {debug} from './debug';
 
 export interface debounceConfig {
   maxWait?: number;
@@ -272,6 +273,15 @@ export async function dispatchEvent(
 ): Promise<RendererEvent<any> | void> {
   let unbindEvent: ((eventName?: string) => void) | null | undefined = null;
   const eventName = typeof e === 'string' ? e : e.type;
+
+  const from = renderer?.props.id || renderer?.props.name || '';
+  debug(
+    'event',
+    `dispatch \`${eventName}\` from 「${renderer?.props.type || 'unknown'}${
+      from ? `#${from}` : ''
+    }」`,
+    data
+  );
 
   renderer?.props?.env?.beforeDispatchEvent?.(
     e,
