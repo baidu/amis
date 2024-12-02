@@ -37,7 +37,8 @@ import {
   ScaffoldForm,
   PopOverForm,
   DeleteEventContext,
-  BaseEventContext
+  BaseEventContext,
+  IGlobalEvent
 } from '../plugin';
 import {
   JSONDuplicate,
@@ -265,7 +266,9 @@ export const MainStore = types
     /** 应用语料 */
     appCorpusData: types.optional(types.frozen(), {}),
     /** 应用多语言状态，用于其它组件进行订阅 */
-    appLocaleState: types.optional(types.number, 0)
+    appLocaleState: types.optional(types.number, 0),
+    /** 全局广播事件 */
+    globalEvents: types.optional(types.frozen<Array<IGlobalEvent>>(), [])
   })
   .views(self => {
     return {
@@ -2346,6 +2349,10 @@ export const MainStore = types
       setAppCorpusData(data: any = {}) {
         self.appCorpusData = data;
         this.updateAppLocaleState();
+      },
+
+      setGlobalEvents(events: IGlobalEvent[]) {
+        self.globalEvents = events;
       },
 
       beforeDestroy() {
