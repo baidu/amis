@@ -8,7 +8,7 @@ import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {resizeSensor} from 'amis-core';
-import SmoothSignature from 'smooth-signature';
+import {SmoothSignature} from '../utils';
 import Button from './Button';
 import {Icon} from '../index';
 import Modal from './Modal';
@@ -117,6 +117,12 @@ const Signature: React.FC<ISignatureProps> = props => {
     },
     [width, height, fullScreen]
   );
+
+  React.useEffect(() => {
+    if (data && sign) {
+      sign.loadFromBase64(data);
+    }
+  }, [data, sign]);
 
   function embedCanvasRef(ref: HTMLCanvasElement) {
     if (open && ref && !sign) {

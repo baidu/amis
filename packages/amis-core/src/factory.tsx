@@ -29,7 +29,6 @@ import type {RendererEnv} from './env';
 import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 import {StatusScopedProps} from './StatusScoped';
-import moment from 'moment';
 
 export interface TestFunc {
   (
@@ -136,7 +135,6 @@ export interface RenderOptions
   session?: string;
   theme?: string;
   fetcher?: (config: FetcherConfig) => Promise<fetcherResult>;
-  moment?: () => typeof moment;
 }
 
 const renderers: Array<RendererConfig> = [];
@@ -539,8 +537,7 @@ export const defaultOptions: RenderOptions = {
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
   filterHtml: (input: string) => input,
-  isMobile: isMobile,
-  moment: () => moment
+  isMobile: isMobile
 };
 
 export const stores: {
