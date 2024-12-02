@@ -45,6 +45,7 @@ export interface UserSelectProps
   controlled?: boolean;
   displayFields: Array<string>;
   isTab?: boolean;
+  disabled?: boolean;
   fetcher?: (
     api: Api,
     data?: any,
@@ -995,6 +996,7 @@ export class UserSelect extends React.Component<
       showResultBox,
       labelField = 'label',
       valueField = 'value',
+      disabled,
       mobileUI
     } = this.props;
 
@@ -1007,6 +1009,7 @@ export class UserSelect extends React.Component<
             className={cx('UserSelect-input', isOpened ? 'is-active' : '')}
             allowInput={false}
             result={this.getResult()}
+            disabled={disabled}
             itemRender={(option: any) => {
               if (labelField !== 'avatar') {
                 return (
