@@ -19,6 +19,20 @@
     color: #009fff;
   }
 
+  &-inspectIcon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 3px;
+
+    cursor: pointer;
+    margin-right: 8px;
+
+    &.is-active {
+      fill: #009fff;
+    }
+  }
+
   &-header {
     padding: var(--Drawer-header-padding);
     background: var(--Drawer-header-bg);
@@ -30,27 +44,31 @@
     pointer-events: none;
     position: absolute;
     outline: 1px dashed #1c76c4;
+    z-index: 2000;
   }
 
   &-activeBox {
     pointer-events: none;
     position: absolute;
-    outline: 1px #1c76c4;
+    outline: 1px #1c76c4 solid;
+    z-index: 2000;
   }
 
   &-tab {
-    overflow: hidden;
     border-bottom: 1px solid #3d3d3d;
+    height: 30px;
+    flex-shrink: 0;
   }
 
   &-tab > button {
     color: inherit;
     background: inherit;
-    float: left;
+    display: inline-block;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: var(--gap-sm) var(--gap-md);
+    line-height: 29px;
+    padding: 0 var(--gap-md);
     transition: 0.3s;
     border-bottom: 1px solid transparent;
   }
@@ -92,6 +110,7 @@
     pointer-events: all;
     display: none;
     height: 100%;
+    flex-direction: column;
   }
 
   &-resize {
@@ -110,7 +129,7 @@
     position: absolute;
     font-size: 18px;
     right: 40px;
-    top: var(--gap-sm);
+    top: 2px;
     cursor: pointer;
   }
 
@@ -118,7 +137,7 @@
     position: absolute;
     font-size: 18px;
     right: var(--gap-sm);
-    top: var(--gap-sm);
+    top: 2px;
     cursor: pointer;
   }
 
@@ -132,7 +151,7 @@
       display: none;
     }
     .AMISDebug-content {
-      display: block;
+      display: flex;
     }
   }
 
@@ -174,6 +193,8 @@
   &-inspect {
     height: 100%;
     overflow: auto;
+    flex: 1;
+    min-height: 0;
 
     // 火狐浏览器
     scrollbar-width: thin;
@@ -203,5 +224,36 @@
 
   &-logLine {
     overflow-x: hidden;
+  }
+
+  &-footer {
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #2c2c2c;
+
+    > svg {
+      width: 11px;
+      flex-shrink: 0;
+    }
+
+    > input {
+      flex-grow: 1;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      color: #cccccc;
+      padding: 0;
+      outline: none;
+      height: 100%;
+    }
+  }
+
+  &-value {
+    color: rgb(253, 151, 31);
+    padding: 0;
+    margin: 0;
   }
 }

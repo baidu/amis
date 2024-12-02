@@ -3,11 +3,11 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "6.8.0",
+  "version": "6.9.0",
   "description": "",
   "scripts": {
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "dev": "rollup -c -w",
     "test": "jest",
     "gen-doc": "ts-node ./scripts/genDoc.ts",
@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-core": "^6.8.0",
-    "amis-formula": "^6.8.0",
+    "amis-core": "^6.9.0",
+    "amis-formula": "^6.9.0",
     "animate.css": "4.1.1",
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
@@ -77,6 +77,7 @@
     "uncontrollable": "7.2.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",

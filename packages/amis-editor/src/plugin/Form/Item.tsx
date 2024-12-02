@@ -15,8 +15,12 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import find from 'lodash/find';
 import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
-import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
-import {isExpression, resolveVariableAndFilter} from 'amis-core';
+import {NO_SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/constants';
+import {
+  isExpression,
+  resolveVariableAndFilter,
+  getRendererByName
+} from 'amis-core';
 
 export class ItemPlugin extends BasePlugin {
   static id = 'ItemPlugin';
@@ -59,7 +63,10 @@ export class ItemPlugin extends BasePlugin {
   }
   panelBodyCreator = (context: BaseEventContext) => {
     const type = context.schema.type || '';
-    const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
+    const render = getRendererByName(type);
+    // 支持静态表单项条件：是表单项组件，切不在不支持静态列表组件中
+    const supportStatic =
+      !!render?.isFormItem && !NO_SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
     const ignoreName = ~['button', 'submit', 'reset'].indexOf(type);
     const notRequiredName = ~[
       'button-toobar',

@@ -9,13 +9,15 @@ import {
   flattenTreeWithLeafNodes,
   getVariable,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  formateCheckThemeCss
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon, Spinner} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
+import debounce from 'lodash/debounce';
 
 /**
  * 复选框
@@ -88,6 +90,10 @@ export default class CheckboxesControl extends React.Component<
     optionType: 'default'
   };
 
+  checkboxRef: React.RefObject<HTMLDivElement> = React.createRef();
+  checkboxRefObserver: ResizeObserver;
+  childRefs: Array<any> = [];
+
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange, formStore, store, name} = this.props;
     const actionType = action?.actionType as string;
@@ -130,11 +136,16 @@ export default class CheckboxesControl extends React.Component<
 
   componentDidMount() {
     this.updateBorderStyle();
-    window.addEventListener('resize', this.updateBorderStyle);
+    const updateBorderStyleFn = debounce(this.updateBorderStyle, 100);
+    if (this.checkboxRef.current) {
+      // 监听容器宽度变化，更新边框样式
+      this.checkboxRefObserver = new ResizeObserver(updateBorderStyleFn);
+      this.checkboxRefObserver.observe(this.checkboxRef.current);
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateBorderStyle);
+    this.checkboxRefObserver?.disconnect();
   }
 
   @autobind
@@ -142,79 +153,34 @@ export default class CheckboxesControl extends React.Component<
     if (this.props.optionType !== 'button') {
       return;
     }
-    const wrapDom = this.refs.checkboxRef as HTMLElement;
-    const wrapWidth = wrapDom.clientWidth;
-    const childs = Array.from(wrapDom.children) as HTMLElement[];
-
-    childs.forEach(child => {
-      child.style.borderRadius = '0';
-      child.style.borderLeftWidth = '1px';
-      child.style.borderTopWidth = '1px';
-    });
-    const childTotalWidth = childs.reduce(
-      (pre, next) => pre + next.clientWidth,
-      0
-    );
-    if (childTotalWidth <= wrapWidth) {
-      if (childs.length === 1) {
-        childs[0].style.borderRadius = '4px';
-      } else {
-        childs[0].style.borderRadius = '4px 0 0 4px';
-        childs[childs.length - 1].style.borderRadius = '0 4px 4px 0';
-        childs.forEach((child, idx) => {
-          idx !== 0 && (child.style.borderLeftWidth = '0');
-        });
-      }
-    } else {
-      let curRowWidth = 0;
-      let curRow = 0;
-      const rowNum = Math.floor(childTotalWidth / wrapWidth);
-      const rowColArr: any[] = [];
-      for (let i = 0; i <= rowNum; i++) {
-        const arr: HTMLElement[] = [];
-        rowColArr[i] = arr;
-      }
-      childs.forEach((child: HTMLElement, idx: number) => {
-        curRowWidth += child.clientWidth;
-        if (curRowWidth > wrapWidth) {
-          curRowWidth = child.clientWidth;
-          curRow++;
-        }
-        if (curRow > rowNum) {
-          return;
-        }
-        rowColArr[curRow].push(child);
-      });
-
-      rowColArr.forEach((row: HTMLElement[], rowIdx: number) => {
-        if (rowIdx === 0) {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            row.length > rowColArr[rowIdx + 1].length &&
-              (row[row.length - 1].style.borderBottomRightRadius = '4px');
-          });
-          row[0].style.borderTopLeftRadius = '4px';
-          row[row.length - 1].style.borderTopRightRadius = '4px';
-        } else if (rowIdx === rowNum) {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            r.style.borderTopWidth = '0';
-            row[0].style.borderBottomLeftRadius = '4px';
-            row[row.length - 1].style.borderBottomRightRadius = '4px';
-          });
-        } else {
-          row.forEach((r: HTMLElement, colIdx: number) => {
-            r.style.borderRadius = '0';
-            colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            r.style.borderTopWidth = '0';
-            row.length > rowColArr[rowIdx + 1].length &&
-              (row[row.length - 1].style.borderBottomRightRadius = '4px');
-          });
-        }
-      });
+    if (!this.childRefs.length) {
+      return;
     }
+    const children = this.childRefs.map(item => item?.ref);
+    let lastOffsetTop = children[0].labelRef.current.offsetTop;
+    const options = [];
+    const len = children.length;
+    options[0] = 'first';
+    let lastLineStart = 0;
+    for (let i = 1; i < len; i++) {
+      const item = children[i];
+      // 如果当前元素的 offsetTop 与上一个元素的 offsetTop 不同，则说明是新的一行
+      const currentOffsetTop = item.labelRef.current.offsetTop;
+      options[i] = '';
+      if (currentOffsetTop !== lastOffsetTop) {
+        options[i] = 'first';
+        options[i - 1] += ' last';
+        lastLineStart = i;
+        lastOffsetTop = currentOffsetTop;
+      }
+    }
+    options[len - 1] += ' last';
+    options.forEach((option, index) => {
+      if (index >= lastLineStart) {
+        option += ' last-line';
+      }
+      children[index].setClassName(option);
+    });
   }
 
   renderGroup(option: Option, index: number) {
@@ -245,9 +211,13 @@ export default class CheckboxesControl extends React.Component<
       </div>
     );
   }
+  @autobind
+  addChildRefs(el: any) {
+    el && this.childRefs.push(el);
+  }
 
   renderItem(option: Option, index: number) {
-    if (option.children) {
+    if (option.children?.length) {
       return this.renderGroup(option, index);
     }
 
@@ -286,6 +256,7 @@ export default class CheckboxesControl extends React.Component<
         description={option.description}
         optionType={optionType}
         testIdBuilder={itemTestIdBuilder}
+        ref={this.addChildRefs}
       >
         {menuTpl
           ? render(`checkboxes/${index}`, menuTpl, {
@@ -337,29 +308,6 @@ export default class CheckboxesControl extends React.Component<
     tmp.length && result.push(columnsSplit(tmp, cx, columnsCount));
 
     return result;
-  }
-
-  formateThemeCss(themeCss: any) {
-    if (!themeCss) {
-      return {};
-    }
-    const {checkboxesClassName = {}} = themeCss;
-    const defaultThemeCss: any = {};
-    const checkedThemeCss: any = {};
-    Object.keys(checkboxesClassName).forEach(key => {
-      if (key.includes('checked-')) {
-        const newKey = key.replace('checked-', '');
-        checkedThemeCss[newKey] = checkboxesClassName[key];
-      } else if (key.includes('checkbox-')) {
-        const newKey = key.replace('checkbox-', '');
-        defaultThemeCss[newKey] = checkboxesClassName[key];
-      }
-    });
-    return {
-      ...themeCss,
-      checkboxesClassName: defaultThemeCss,
-      checkboxesCheckedClassName: checkedThemeCss
-    };
   }
 
   @supportStatic()
@@ -422,7 +370,7 @@ export default class CheckboxesControl extends React.Component<
 
     body = this.columnsSplit(body);
 
-    const css = this.formateThemeCss(themeCss);
+    const css = formateCheckThemeCss(themeCss, 'checkboxes');
 
     return (
       <div
@@ -431,24 +379,19 @@ export default class CheckboxesControl extends React.Component<
           className,
           setThemeClassName({
             ...this.props,
-            name: 'checkboxesClassName',
-            id,
-            themeCss: css
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'checkboxesCheckedClassName',
-            id,
-            themeCss: css
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'checkboxesLabelClassName',
+            name: [
+              'checkboxesControlClassName',
+              'checkboxesControlCheckedClassName',
+              'checkboxesClassName',
+              'checkboxesCheckedClassName',
+              'checkboxesInnerClassName',
+              'checkboxesShowClassName'
+            ],
             id,
             themeCss: css
           })
         )}
-        ref="checkboxRef"
+        ref={this.checkboxRef}
       >
         {body && body.length ? (
           body
@@ -475,21 +418,48 @@ export default class CheckboxesControl extends React.Component<
         <CustomStyle
           {...this.props}
           config={{
-            themeCss: this.formateThemeCss(themeCss),
+            themeCss: css,
             classNames: [
+              {
+                key: 'checkboxesControlClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox:not(.checked):not(.disabled)`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox:not(.disabled):not(.checked)`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox.disabled:not(.checked)`
+                  }
+                }
+              },
+              {
+                key: 'checkboxesControlCheckedClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox.checked:not(.disabled)`
+                  },
+                  hover: {
+                    suf: ` .${ns}Checkbox.checked:not(.disabled)`
+                  },
+                  disabled: {
+                    inner: `.${ns}Checkbox.checked.disabled`
+                  }
+                }
+              },
               {
                 key: 'checkboxesClassName',
                 weights: {
                   default: {
-                    suf: ' label',
-                    inner: 'i'
+                    inner: `.${ns}Checkbox:not(.checked):not(.disabled) > i`
                   },
                   hover: {
-                    suf: ' label',
-                    inner: 'i'
+                    suf: ` .${ns}Checkbox:not(.disabled):not(.checked)`,
+                    inner: '> i'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--checkbox input[disabled] + i`
+                    inner: `.${ns}Checkbox.disabled:not(.checked) > i`
                   }
                 }
               },
@@ -497,30 +467,37 @@ export default class CheckboxesControl extends React.Component<
                 key: 'checkboxesCheckedClassName',
                 weights: {
                   default: {
-                    inner: `.${ns}Checkbox--checkbox input:checked + i`
+                    inner: `.${ns}Checkbox:not(.disabled) > i`
                   },
                   hover: {
-                    suf: ` .${ns}Checkbox--checkbox`,
-                    inner: 'input:checked + i'
+                    suf: ` .${ns}Checkbox:not(.disabled)`,
+                    inner: '> i'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--checkbox input:checked[disabled] + i`
+                    inner: `.${ns}Checkbox.disabled > i`
                   }
                 }
               },
               {
-                key: 'checkboxesLabelClassName',
+                key: 'checkboxesInnerClassName',
                 weights: {
                   default: {
-                    suf: ' label',
-                    inner: 'span'
+                    inner: `.${ns}Checkbox:not(.disabled) > i .icon`
                   },
                   hover: {
-                    suf: ' label',
-                    inner: 'span'
+                    suf: ` .${ns}Checkbox:not(.disabled)`,
+                    inner: '> i .icon'
                   },
                   disabled: {
-                    inner: `.${ns}Checkbox--checkbox input[disabled] + i + span`
+                    inner: `.${ns}Checkbox.disabled > i .icon`
+                  }
+                }
+              },
+              {
+                key: 'checkboxesShowClassName',
+                weights: {
+                  default: {
+                    inner: `.${ns}Checkbox > i`
                   }
                 }
               }

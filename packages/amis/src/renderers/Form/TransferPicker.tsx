@@ -32,6 +32,8 @@ export interface TransferPickerControlSchema
    * 弹窗大小
    */
   pickerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  onlyChildren?: boolean;
 }
 
 export interface TabsTransferProps
@@ -53,6 +55,20 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
   dispatchEvent(name: string) {
     const {dispatchEvent, value} = this.props;
     dispatchEvent(name, resolveEventData(this.props, {value}));
+  }
+
+  @autobind
+  // 增加点击选项事件函数
+  async onItemClick(item: Object) {
+    // 触发渲染器事件
+    const {dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'itemClick',
+      resolveEventData(this.props, {item})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   // 动作
@@ -110,6 +126,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       data,
       popOverContainer,
       placeholder,
+      onlyChildren,
       autoCheckChildren = true,
       initiallyOpen = true
     } = this.props;
@@ -136,9 +153,11 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           placeholder={placeholder}
           borderMode={borderMode}
           selectMode={selectMode}
+          onlyChildren={onlyChildren}
           value={selectedOptions}
           disabled={disabled}
           options={options}
+          onItemClick={this.onItemClick}
           onChange={this.handleChange}
           option2value={this.option2value}
           sortable={sortable}

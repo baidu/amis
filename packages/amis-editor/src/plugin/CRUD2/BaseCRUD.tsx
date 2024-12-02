@@ -30,9 +30,11 @@ import {
 } from '../../builder';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
-import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
+import {CRUD2Schema} from 'amis';
 import {deepRemove, findObj, findSchema} from './utils';
 import {
   ToolsConfig,
@@ -113,11 +115,12 @@ export class BaseCRUDPlugin extends BasePlugin {
           actionType: 'search',
           actionLabel: '数据查询',
           description: '使用指定条件完成列表数据查询',
-          descDetail: (info: any) => {
+          descDetail: (info: any, context: any, props: any) => {
             return (
-              <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
-                触发数据查询
+              <div className="action-desc">
+                触发
+                {buildLinkActionDesc(props.manager, info)}
+                数据查询
               </div>
             );
           },
@@ -134,11 +137,12 @@ export class BaseCRUDPlugin extends BasePlugin {
           actionType: 'loadMore',
           actionLabel: '加载更多',
           description: '加载更多条数据到列表容器',
-          descDetail: (info: any) => {
+          descDetail: (info: any, context: any, props: any) => {
             return (
-              <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
-                加载更多数据
+              <div className="action-desc">
+                加载
+                {buildLinkActionDesc(props.manager, info)}
+                更多数据
               </div>
             );
           }
@@ -156,7 +160,8 @@ export class BaseCRUDPlugin extends BasePlugin {
         {
           actionType: 'reload',
           actionLabel: '重新加载',
-          description: '触发组件数据刷新并重新渲染'
+          description: '触发组件数据刷新并重新渲染',
+          ...getActionCommonProps('reload')
         },
         ...(actions || [])
       ],

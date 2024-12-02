@@ -25,6 +25,29 @@ global.ResizeObserver = require('resize-observer-polyfill');
 
 global.__buildVersion = '';
 
+global.BroadcastChannel = class {
+  constructor(channelName) {
+    this.channelName = channelName;
+    this.listeners = [];
+  }
+  postMessage(message) {
+    this.listeners.forEach(listener => listener({data: message}));
+  }
+  addEventListener(event, listener) {
+    if (event === 'message') {
+      this.listeners.push(listener);
+    }
+  }
+  removeEventListener(event, listener) {
+    if (event === 'message') {
+      this.listeners = this.listeners.filter(l => l !== listener);
+    }
+  }
+  close() {
+    this.listeners = [];
+  }
+};
+
 global.beforeAll(async () => {
   console.warn =
     console.groupCollapsed =

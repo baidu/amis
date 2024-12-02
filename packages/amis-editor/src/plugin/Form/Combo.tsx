@@ -18,9 +18,12 @@ import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
   getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import {resolveInputTableEventDataSchame} from '../../util';
+import React from 'react';
 
 export class ComboControlPlugin extends BasePlugin {
   static id = 'ComboControlPlugin';
@@ -249,18 +252,28 @@ export class ComboControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'addItem',
       actionLabel: '添加项',
       description: '添加新的项',
       innerArgs: ['item'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            添加项
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'combo',
         label: '添加项',
@@ -292,7 +305,8 @@ export class ComboControlPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -514,6 +528,40 @@ export class ComboControlPlugin extends BasePlugin {
                   ]
                 },
 
+                {
+                  type: 'select',
+                  name: '__uniqueItems',
+                  label: '配置唯一项',
+                  source: '${items|pick:name}',
+                  pipeIn: (value: any, form: any) => {
+                    // 从 items 中获取设置了 unique: true 的项的 name
+                    const items = form.data.items || [];
+                    return items
+                      .filter((item: any) => item.unique)
+                      .map((item: any) => item.name);
+                  },
+                  onChange: (
+                    value: string[],
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    // 获取当前的 items
+                    const items = [...(form.data.items || [])];
+                    // 修改 items 中的 unique 属性
+                    const updatedItems = items.map(item => {
+                      if (value === item.name) {
+                        return {...item, unique: true};
+                      } else {
+                        const newItem = {...item};
+                        delete newItem.unique;
+                        return newItem;
+                      }
+                    });
+                    // 更新 items
+                    form.setValueByName('items', updatedItems);
+                  }
+                },
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
 

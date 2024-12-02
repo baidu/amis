@@ -204,6 +204,7 @@ export class ButtonPlugin extends BasePlugin {
                 formType: 'extend',
                 mode: 'normal',
                 label: '气泡提示',
+                id: 'button-tooltip', //便于扩充定位
                 hidden: isInDropdown,
                 form: {
                   body: [
@@ -351,11 +352,16 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${__editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:cssCode', {
-            themeClass: [
+          getSchemaTpl('theme:singleCssCode', {
+            selectors: [
               {
-                value: '',
-                state: ['default', 'hover', 'active']
+                label: '按钮基本样式',
+                isRoot: true,
+                selector: '.cxd-Button'
+              },
+              {
+                label: '按钮内容样式',
+                selector: 'span'
               }
             ]
           })

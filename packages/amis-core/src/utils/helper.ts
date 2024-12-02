@@ -11,6 +11,7 @@ import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 import qs from 'qs';
 import {compile} from 'path-to-regexp';
+import {matchSorter} from 'match-sorter';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
@@ -1497,6 +1498,64 @@ export function sortArray<T extends any>(
   });
 }
 
+export function applyFilters<T extends any>(
+  items: Array<T>,
+  options: {
+    query: any;
+    columns?: Array<any>;
+    matchFunc?: Function | null;
+    filterOnAllColumns?: boolean;
+  }
+) {
+  if (options.matchFunc && typeof options.matchFunc === 'function') {
+    items = options.matchFunc(items, items, options);
+  } else {
+    if (Array.isArray(options.columns)) {
+      options.columns.forEach((column: any) => {
+        let value: any =
+          typeof column.name === 'string'
+            ? getVariable(options.query, column.name)
+            : undefined;
+        const key = column.name;
+
+        if (
+          (options.filterOnAllColumns ||
+            column.searchable ||
+            column.filterable) &&
+          key &&
+          value != null
+        ) {
+          // value可能为null、undefined、''、0
+          if (Array.isArray(value)) {
+            if (value.length > 0) {
+              const arr = [...items];
+              let arrItems: Array<any> = [];
+              value.forEach(item => {
+                arrItems = [
+                  ...arrItems,
+                  ...matchSorter(arr, item, {
+                    keys: [key],
+                    threshold: matchSorter.rankings.CONTAINS
+                  })
+                ];
+              });
+              items = items.filter((item: any) =>
+                arrItems.find(a => a === item)
+              );
+            }
+          } else {
+            items = matchSorter(items, value, {
+              keys: [key],
+              threshold: matchSorter.rankings.CONTAINS
+            });
+          }
+        }
+      });
+    }
+  } /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+  return items;
+}
+
 // 只判断一层, 如果层级很深，form-data 也不好表达。
 export function hasFile(object: any): boolean {
   return Object.keys(object).some(key => {
@@ -2389,4 +2448,45 @@ export function formateId(id: string) {
     id = 'amis-' + id;
   }
   return id;
+}
+
+export function formateCheckThemeCss(themeCss: any, type: string) {
+  if (!themeCss) {
+    return {};
+  }
+  const className = themeCss[`${type}ClassName`] || {};
+  const controlClassName = themeCss[`${type}ControlClassName`] || {};
+  const defaultControlThemeCss: any = {};
+  const checkedControlThemeCss: any = {};
+  const defaultThemeCss: any = {};
+  const checkedThemeCss: any = {};
+  Object.keys(className).forEach(key => {
+    if (key.includes('checked-')) {
+      const newKey = key.replace('checked-', '');
+      checkedThemeCss[newKey] = className[key];
+    } else if (key.includes(`${type}-`)) {
+      const newKey = key.replace(`${type}-`, '');
+      defaultThemeCss[newKey] = className[key];
+    } else {
+      defaultThemeCss[key] = className[key];
+    }
+  });
+  Object.keys(controlClassName).forEach(key => {
+    if (key.includes('checked-')) {
+      const newKey = key.replace('checked-', '');
+      checkedControlThemeCss[newKey] = controlClassName[key];
+    } else if (key.includes(`${type}-`)) {
+      const newKey = key.replace(`${type}-`, '');
+      defaultControlThemeCss[newKey] = controlClassName[key];
+    } else {
+      defaultControlThemeCss[key] = controlClassName[key];
+    }
+  });
+  return {
+    ...themeCss,
+    [`${type}ControlClassName`]: defaultControlThemeCss,
+    [`${type}ControlCheckedClassName`]: checkedControlThemeCss,
+    [`${type}ClassName`]: defaultThemeCss,
+    [`${type}CheckedClassName`]: checkedThemeCss
+  };
 }

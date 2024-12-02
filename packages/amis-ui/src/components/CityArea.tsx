@@ -283,6 +283,7 @@ const CityArea = memo<AreaProps>(props => {
         onResultClick={() => setIsOpened(!isOpened)}
         placeholder={__('Select.placeholder')}
         mobileUI={mobileUI}
+        disabled={disabled}
       ></ResultBox>
       {allowStreet && values[0] ? (
         <input

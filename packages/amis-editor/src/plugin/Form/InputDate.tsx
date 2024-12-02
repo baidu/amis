@@ -1,12 +1,20 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
-
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {FormulaDateType} from '../../renderer/FormulaControl';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent,
+  defaultValue,
+  getSchemaTpl,
+  BasePlugin,
+  BaseEventContext,
+  tipedLabel
+} from 'amis-editor-core';
 import type {Schema} from 'amis';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
+import {FormulaDateType} from '../../renderer/FormulaControl';
 
 const formatX = [
   {
@@ -248,17 +256,20 @@ export class DateControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空输入框内容'
+      description: '清空输入框内容',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -346,6 +357,9 @@ export class DateControlPlugin extends BasePlugin {
                 getSchemaTpl('utc'),
                 getSchemaTpl('clearable', {
                   pipeIn: defaultValue(true)
+                }),
+                getSchemaTpl('inputForbid', {
+                  pipeIn: defaultValue(false)
                 }),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: (schema: Schema) => schema,

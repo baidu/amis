@@ -5,7 +5,7 @@
 import {Option, Select} from 'amis';
 import {RendererProps, getRendererByName} from 'amis-core';
 import React from 'react';
-import {FORMITEM_CMPTS} from './helper';
+import {getActionsByRendererName} from './helper';
 
 // 动作基本配置项
 export const BASE_ACTION_PROPS = [
@@ -59,15 +59,10 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
   render() {
     const {data, formStore} = this.props;
     // 根据type 从组件树中获取actions
-    const actions = (data.pluginActions[data.__rendererName] || []).slice();
-    // 表单项类型组件，添加校验动作
-    if (getRendererByName(data.__rendererName)?.isFormItem) {
-      actions.push({
-        actionLabel: '校验',
-        description: '对单个表单项进行校验',
-        actionType: 'validateFormItem'
-      });
-    }
+    const actions = getActionsByRendererName(
+      data.pluginActions,
+      data.__rendererName
+    );
 
     return (
       <Select

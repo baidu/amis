@@ -2,7 +2,13 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  createObjectFromChain,
+  filterTarget,
+  mapTree
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {
@@ -325,6 +331,15 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
 
   /**
    * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+   *
+   * 参数说明
+   *
+   *  * `items` 当前表格数据
+   *  * `itemsRaw` 当前表格数据（未处理）
+   *  * `options` 配置
+   *  * `options.query` 查询条件
+   *  * `options.columns` 列配置
+   *  * `options.matchSorter` 系统默认的排序方法
    * @since 3.5.0
    */
   matchFunc?: string | any;
@@ -876,16 +891,21 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       .filter(item => item)
       .join(',');
 
-    const ctx = createObject(store.mergedData, {
-      ...selectedItems[0],
-      currentPageData: (store.mergedData?.items || []).concat(),
-      rows: selectedItems,
-      items: selectedItems,
-      selectedItems,
-      unSelectedItems: unSelectedItems,
-      ids,
-      event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
-    });
+    const ctx = createObjectFromChain([
+      store.mergedData,
+      {
+        event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
+      },
+      {
+        ...selectedItems[0],
+        currentPageData: (store.mergedData?.items || []).concat(),
+        rows: selectedItems,
+        items: selectedItems,
+        selectedItems,
+        unSelectedItems: unSelectedItems,
+        ids
+      }
+    ]);
 
     let fn = () => {
       if (action.actionType === 'dialog') {
@@ -1264,6 +1284,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
+      loadDataOnceFetchOnFilter,
       source,
       columns,
       dispatchEvent
@@ -1315,7 +1336,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         loadDataMode,
         syncResponse2Query,
         columns: store.columns ?? columns,
-        matchFunc
+        matchFunc,
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false
       });
       if (!isAlive(store)) {
         return value;
@@ -1342,6 +1364,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
       if (
+        !loadDataOnce &&
         !store.data.items.length &&
         !interval &&
         page > 1 &&
@@ -1863,12 +1886,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   reload(
     subpath?: string,
     query?: any,
+    ctx?: any,
+    silent?: boolean,
     replace?: boolean,
-    resetPage?: boolean,
     args?: any
   ) {
     if (query) {
-      return this.receive(query, undefined, replace, resetPage, true);
+      return this.receive(query, undefined, replace, args?.resetPage, true);
     } else {
       return this.search(undefined, undefined, true, true);
     }
@@ -2821,7 +2845,7 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query, replace, args?.resetPage ?? true);
+    return super.reload(subpath, query, ctx, silent, replace, args);
   }
 
   async receive(

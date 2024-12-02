@@ -113,13 +113,17 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default"
                     data-role="checkbox"
                   >
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -142,13 +146,17 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
                     data-role="checkbox"
                   >
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -171,13 +179,17 @@ exports[`1. Renderer:Picker base 1`] = `
                   class="cxd-ListItem-checkBtn"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--radio--default"
                     data-role="checkbox"
                   >
                     <input
                       type="radio"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="radio-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />

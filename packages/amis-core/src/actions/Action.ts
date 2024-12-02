@@ -10,6 +10,7 @@ import {IContinueAction} from './ContinueAction';
 import {ILoopAction} from './LoopAction';
 import {IParallelAction} from './ParallelAction';
 import {ISwitchAction} from './SwitchAction';
+import {debug} from '../utils/debug';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -342,6 +343,9 @@ export const runAction = async (
 
   console.group?.(`run action ${action.actionType}`);
   console.debug(`[${action.actionType}] action args, data`, args, data);
+
+  debug('action', `run action ${action.actionType} with args`, args);
+  debug('action', `run action ${action.actionType} with data`, data);
 
   let stopped = false;
   const actionResult = await actionInstrance.run(

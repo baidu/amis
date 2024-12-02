@@ -3,7 +3,8 @@ import {
   CustomStyle,
   RENDERER_TRANSMISSION_OMIT_PROPS,
   Renderer,
-  RendererProps
+  RendererProps,
+  setThemeClassName
 } from 'amis-core';
 import {
   BaseSchema,
@@ -161,6 +162,8 @@ export default class Panel extends React.Component<PanelProps> {
       subFormMode,
       subFormHorizontal,
       id,
+      themeCss,
+      wrapperCustomStyle,
       ...rest
     } = this.props;
 
@@ -221,6 +224,8 @@ export default class Panel extends React.Component<PanelProps> {
       classnames: cx,
       id,
       collapsible,
+      themeCss,
+      wrapperCustomStyle,
       ...rest
     } = this.props;
 
@@ -267,7 +272,13 @@ export default class Panel extends React.Component<PanelProps> {
         className={cx(
           'Panel-footerWrap',
           footerWrapClassName,
-          affixFooter ? 'Panel-fixedBottom' : ''
+          affixFooter ? 'Panel-fixedBottom' : '',
+          setThemeClassName({
+            ...this.props,
+            name: 'footerControlClassName',
+            id,
+            themeCss
+          })
         )}
       >
         {footerDoms}
@@ -277,14 +288,35 @@ export default class Panel extends React.Component<PanelProps> {
     return (
       <div
         data-id={id}
-        className={cx(`Panel`, className || `Panel--default`)}
+        className={cx(
+          `Panel`,
+          className || `Panel--default`,
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
+        )}
         style={style}
       >
         {header ? (
           <div
             className={cx(
               headerClassName || `Panel-heading`,
-              headerControlClassName
+              headerControlClassName,
+              setThemeClassName({
+                ...this.props,
+                name: 'headerControlClassName',
+                id,
+                themeCss
+              })
             )}
           >
             {render('header', header, subProps)}
@@ -296,10 +328,27 @@ export default class Panel extends React.Component<PanelProps> {
               headerControlClassName,
               {
                 'is-collapsible': collapsible
-              }
+              },
+              setThemeClassName({
+                ...this.props,
+                name: 'headerControlClassName',
+                id,
+                themeCss
+              })
             )}
           >
-            <h3 className={cx(`Panel-title`, headerTitleControlClassName)}>
+            <h3
+              className={cx(
+                `Panel-title`,
+                headerTitleControlClassName,
+                setThemeClassName({
+                  ...this.props,
+                  name: 'titleControlClassName',
+                  id,
+                  themeCss
+                })
+              )}
+            >
               {render('title', title, subProps)}
             </h3>
             {collapsible ? (
@@ -324,13 +373,54 @@ export default class Panel extends React.Component<PanelProps> {
 
         {!collapsed ? (
           <div
-            className={cx(bodyClassName || `Panel-body`, bodyControlClassName)}
+            className={cx(
+              bodyClassName || `Panel-body`,
+              bodyControlClassName,
+              setThemeClassName({
+                ...this.props,
+                name: 'bodyControlClassName',
+                id,
+                themeCss
+              })
+            )}
           >
             {this.renderBody()}
           </div>
         ) : null}
 
         {footerDom}
+
+        <CustomStyle
+          {...this.props}
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'bodyControlClassName'
+              },
+              {
+                key: 'headerControlClassName',
+                weights: {
+                  default: {
+                    suf: `.${ns}Panel-heading`
+                  }
+                }
+              },
+              {
+                key: 'titleControlClassName'
+              },
+              {
+                key: 'footerControlClassName'
+              }
+            ]
+          }}
+          env={this.props.env}
+        />
       </div>
     );
   }

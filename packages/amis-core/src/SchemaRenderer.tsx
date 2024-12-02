@@ -26,7 +26,12 @@ import {
   formateId
 } from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
-import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
+import {
+  bindEvent,
+  bindGlobalEventForRenderer as bindGlobalEvent,
+  dispatchEvent,
+  RendererEvent
+} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
@@ -110,6 +115,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   toDispose: Array<() => any> = [];
   unbindEvent: (() => void) | undefined = undefined;
+  unbindGlobalEvent: (() => void) | undefined = undefined;
   isStatic: any = undefined;
 
   constructor(props: SchemaRendererProps) {
@@ -175,6 +181,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
     this.unbindEvent?.();
+    this.unbindGlobalEvent?.();
     this.removeAnimationStyle();
   }
 
@@ -299,7 +306,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     if (ref) {
       // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
       this.unbindEvent?.();
+      this.unbindGlobalEvent?.();
+
       this.unbindEvent = bindEvent(ref);
+      this.unbindGlobalEvent = bindGlobalEvent(ref);
     }
     this.cRef = ref;
   }

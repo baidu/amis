@@ -335,6 +335,9 @@ export interface PopOverForm {
    * @deprecated 改用 body 代替
    */
   controls?: Array<any>;
+
+  initApi?: any;
+  api?: any;
 }
 
 export interface ScaffoldForm extends PopOverForm {
@@ -342,6 +345,7 @@ export interface ScaffoldForm extends PopOverForm {
   stepsBody?: boolean;
   /** 是否可跳过创建向导直接创建 */
   canSkip?: boolean;
+  getSchema?: (value: any) => PopOverForm | Promise<PopOverForm>;
   mode?:
     | 'normal'
     | 'horizontal'
@@ -453,6 +457,7 @@ export interface PanelProps {
   manager: EditorManager;
   popOverContainer?: () => HTMLElement | void;
   readonly?: boolean;
+  children?: React.ReactNode | ((props: PanelProps) => React.ReactNode);
 }
 
 /**
@@ -503,6 +508,16 @@ export interface RendererInfoResolveEventContext extends EventContext {
 export interface RendererJSONSchemaResolveEventContext
   extends BaseEventContext {
   data: string;
+}
+
+export interface IGlobalEvent {
+  label: string;
+  name: string; // 事件名称，唯一
+  description: string; // 事件描述
+  mapping: Array<{
+    key: string; // 入参名称
+    type: string; // 入参类型
+  }>;
 }
 
 /**

@@ -1,26 +1,26 @@
+import React from 'react';
 import {
   EditorNodeType,
   getI18nEnabled,
   jsonToJsonSchema,
-  registerEditorPlugin
-} from 'amis-editor-core';
-import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   BasicToolbarItem,
   RendererInfo,
-  VRendererConfig
+  VRendererConfig,
+  getSchemaTpl,
+  VRenderer,
+  mapReactElement,
+  RegionWrapper as Region,
+  RendererPluginAction,
+  RendererPluginEvent
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import React from 'react';
-import {VRenderer} from 'amis-editor-core';
-import {mapReactElement} from 'amis-editor-core';
-import {RegionWrapper as Region} from 'amis-editor-core';
-
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {
   getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
@@ -252,17 +252,19 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'submit',
       actionLabel: '全部提交',
-      description: '提交全部数据'
+      description: '提交全部数据',
+      ...getActionCommonProps('submit')
     },
     {
       actionType: 'stepSubmit',
       actionLabel: '分步提交',
       description: '提交当前步骤数据',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            提交当前步骤数据
+          <div className="action-desc">
+            提交
+            {buildLinkActionDesc(props.manager, info)}
+            当前步骤数据
           </div>
         );
       }
@@ -270,23 +272,46 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'prev',
       actionLabel: '上一步',
-      description: '返回上一步'
+      description: '返回上一步',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '返回' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至上一张' : null}
+            {info?.__rendererName === 'wizard' ? '前一步' : null}
+          </div>
+        );
+      }
     },
     {
       actionType: 'next',
       actionLabel: '下一步',
-      description: '提交当前步骤数据'
+      description: '提交当前步骤数据',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '提交' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至下一张' : null}
+            {info?.__rendererName === 'wizard' ? '当前步骤数据' : null}
+          </div>
+        );
+      }
     },
     {
       actionType: 'goto-step',
       actionLabel: '定位步骤',
       description: '切换到指定步骤',
       innerArgs: ['step'],
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            切换到第
+          <div className="action-desc">
+            切换
+            {buildLinkActionDesc(props.manager, info)}
+            到第
             <span className="variable-left variable-right">
               {info?.args?.step}
             </span>
@@ -308,12 +333,14 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

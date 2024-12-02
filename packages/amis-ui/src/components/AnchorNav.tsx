@@ -32,7 +32,7 @@ class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProp
       <div
         ref={this.contentRef}
         className={cx('AnchorNav-section', className)}
-        id={name + ''}
+        data-id={name + ''}
       >
         {children}
       </div>
@@ -98,7 +98,7 @@ export class AnchorNav extends React.Component<AnchorNavProps> {
   @autobind
   scrollToNav(entries: IntersectionObserverEntry[]) {
     entries.forEach(entry => {
-      const key = entry.target.id;
+      const key = entry.target.getAttribute('data-id');
       const currentSection = this.sections.find(item => item.key === key);
       if (currentSection) {
         currentSection.isIntersecting = entry.isIntersecting;

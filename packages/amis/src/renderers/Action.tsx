@@ -707,9 +707,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
   render() {
     const {
       type,
-      icon,
       iconClassName,
-      rightIcon,
       rightIconClassName,
       loadingClassName,
       primary,
@@ -790,6 +788,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         timeLeft: this.state.timeLeft
       }) as string;
       disabled = true;
+    }
+    let icon = this.props.icon;
+    let rightIcon = this.props.rightIcon;
+    if (typeof icon === 'string') {
+      icon = filter(this.props.icon, data);
+    }
+    if (typeof rightIcon === 'string') {
+      rightIcon = filter(this.props.rightIcon, data);
     }
 
     const iconElement = (

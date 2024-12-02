@@ -1,6 +1,8 @@
 import {RendererPluginAction, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import React from 'react';
+import {buildLinkActionDesc} from '../renderer/event-control';
 
 export class OfficeViewerPlugin extends BasePlugin {
   static id = 'OfficeViewerPlugin';
@@ -32,12 +34,28 @@ export class OfficeViewerPlugin extends BasePlugin {
     {
       actionType: 'print',
       actionLabel: '打印',
-      description: '打印文档'
+      description: '打印文档',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            打印文档
+            {buildLinkActionDesc(props.manager, info)}
+          </div>
+        );
+      }
     },
     {
       actionType: 'saveAs',
       actionLabel: '下载',
-      description: '下载文档'
+      description: '下载文档',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            下载文档
+            {buildLinkActionDesc(props.manager, info)}
+          </div>
+        );
+      }
     }
   ];
 

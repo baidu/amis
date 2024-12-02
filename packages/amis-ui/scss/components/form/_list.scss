@@ -166,8 +166,8 @@
         right: px2rem(2px);
         bottom: px2rem(6px);
         transform: rotate(-40deg);
-        width: var(--Checkbox--full-inner-size);
-        height: calc(var(--Checkbox--full-inner-size) / 2);
+        width: px2rem(8px);
+        height: px2rem(4px);
         border-color: #fff;
       }
     }

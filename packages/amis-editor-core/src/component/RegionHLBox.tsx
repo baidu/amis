@@ -52,8 +52,8 @@ export default observer(function (props: HighlightBoxProps) {
         isDragEnter ? 'is-dragenter' : '',
         store.planDropId === id ? 'region-can-be-drop' : '',
         !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
-        isOnlyChildRegion || isHiglight ? 'is-highlight' : '',
-        dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
+        isOnlyChildRegion || isHiglight ? 'is-highlight' : ''
+        // dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
       )}
       style={{
         width: node.w,

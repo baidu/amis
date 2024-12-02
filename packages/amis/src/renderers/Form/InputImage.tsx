@@ -804,6 +804,9 @@ export default class ImageControl extends React.Component<
               const idx = files.indexOf(file);
 
               if (!~idx) {
+                // 事件里面可能把当前表单值给改了
+                this.current = null;
+                requestAnimationFrame(this.tick);
                 return;
               }
 
@@ -1107,6 +1110,7 @@ export default class ImageControl extends React.Component<
 
   handleCrop() {
     const {cropFormat, cropQuality} = this.props;
+    const originFormat = this.state.cropFile?.type || 'image/png';
     this.cropper.getCroppedCanvas().toBlob(
       (file: File) => {
         this.addFiles([file]);
@@ -1116,7 +1120,7 @@ export default class ImageControl extends React.Component<
           lockedReason: ''
         });
       },
-      cropFormat || 'image/png',
+      cropFormat || originFormat,
       cropQuality || 1
     );
   }

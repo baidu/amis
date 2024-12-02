@@ -33,6 +33,8 @@ export interface PopUpPorps extends ThemeProps, LocaleProps {
   placement?: 'left' | 'center' | 'right';
   header?: JSX.Element;
   children?: React.ReactNode | Array<React.ReactNode>;
+  onExited?: () => void;
+  onEntered?: () => void;
 }
 
 const fadeStyles: {
@@ -89,6 +91,8 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
       showClose,
       header,
       placement = 'center',
+      onEntered,
+      onExited,
       ...rest
     } = this.props;
 
@@ -98,7 +102,15 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     delete outerStyle.top;
     return (
       <Portal container={container}>
-        <Transition mountOnEnter unmountOnExit in={isShow} timeout={500} appear>
+        <Transition
+          onEntered={onEntered}
+          onExit={onExited}
+          mountOnEnter
+          unmountOnExit
+          in={isShow}
+          timeout={500}
+          appear
+        >
           {(status: string) => {
             return (
               <div
