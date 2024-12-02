@@ -134,7 +134,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'MAX',
     description: '获取最大值，如果只有一个参数且是数组，则计算这个数组内的值。',
-    example: 'MAX(num1, num2, ...numN)',
+    example: 'MAX(num1, num2, ...numN) or MAX([num1, num2, ...numN])',
     params: [
       {
         type: '...number',
@@ -151,7 +151,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'MIN',
     description: '获取最小值，如果只有一个参数且是数组，则计算这个数组内的值。',
-    example: 'MIN(num1, num2, ...numN)',
+    example: 'MIN(num1, num2, ...numN) or MIN([num1, num2, ...numN])',
     params: [
       {
         type: '...number',
@@ -168,7 +168,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'SUM',
     description: '求和，如果只有一个参数且是数组，则计算这个数组内的值。',
-    example: 'SUM(num1, num2, ...numN)',
+    example: 'SUM(num1, num2, ...numN) or SUM([num1, num2, ...numN])',
     params: [
       {
         type: '...number',
@@ -319,7 +319,7 @@ bulkRegisterFunctionDoc([
     name: 'AVG',
     description:
       '返回所有参数的平均值，如果只有一个参数且是数组，则计算这个数组内的值。',
-    example: 'AVG(num1, num2, ...numN)',
+    example: 'AVG(num1, num2, ...numN) or AVG([num1, num2, ...numN])',
     params: [
       {
         type: '...number',
@@ -861,7 +861,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'string',
+      type: 'boolean',
       description: '判断结果'
     },
     namespace: '文本函数'
@@ -884,7 +884,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'string',
+      type: 'boolean',
       description: '判断结果'
     },
     namespace: '文本函数'
@@ -907,7 +907,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'string',
+      type: 'boolean',
       description: '判断结果'
     },
     namespace: '文本函数'
@@ -968,7 +968,8 @@ bulkRegisterFunctionDoc([
   },
   {
     name: 'MID',
-    description: '返回文本字符串中从指定位置开始的特定数目的字符。',
+    description:
+      '返回文本字符串中从指定位置开始的特定数目的字符。\n\n示例：`MID("amis.baidu.com", 6, 3)`，\n\n返回 `aid`。',
     example: 'MID(text, from, len)',
     params: [
       {
@@ -988,7 +989,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'number',
+      type: 'string',
       description: '命中的位置'
     },
     namespace: '文本函数'
@@ -996,7 +997,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'BASENAME',
     description:
-      '返回路径中的文件名。\n\n示例：`/home/amis/a.json`，\n\n返回：a.json`。',
+      '返回路径中的文件名。\n\n示例：`/home/amis/a.json`，\n\n返回：`a.json`。',
     example: 'BASENAME(text)',
     params: [
       {
@@ -1210,8 +1211,8 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'date',
-      description: '新的日期对象'
+      type: 'any',
+      description: '新的日期对象, 如果传入 format 则返回格式化后的日期字符串'
     },
     namespace: '日期函数'
   },
@@ -1237,8 +1238,8 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'date',
-      description: '新的日期对象'
+      type: 'any',
+      description: '新的日期对象, 如果传入 format 则返回格式化后的日期字符串'
     },
     namespace: '日期函数'
   },
@@ -1641,7 +1642,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'boolean',
+      type: 'number',
       description: '结果'
     },
     namespace: '数组'
@@ -1649,7 +1650,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'ARRAYMAP',
     description:
-      '数组做数据转换，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。',
+      '数组做数据转换，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n\n将数组中的每个元素转换成箭头函数返回的值。\n\n示例：\n\nARRAYMAP([1, 2, 3], item => item + 1) 得到 [2, 3, 4]。',
     example: 'ARRAYMAP(arr, item => item)',
     params: [
       {
@@ -1664,15 +1665,15 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'boolean',
-      description: '结果'
+      type: 'Array<any>',
+      description: '返回转换后的数组'
     },
     namespace: '数组'
   },
   {
     name: 'ARRAYFILTER',
     description:
-      '数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n将第二个箭头函数返回为 false 的成员过滤掉。',
+      '数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。\n将第二个箭头函数返回为 false 的成员过滤掉。\n\n示例：\n\nARRAYFILTER([1, 2, 3], item => item > 1) 得到 [2, 3]。',
     example: 'ARRAYFILTER(arr, item => item)',
     params: [
       {
@@ -1687,8 +1688,8 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'boolean',
-      description: '结果'
+      type: 'Array<any>',
+      description: '返回过滤后的数组'
     },
     namespace: '数组'
   },
@@ -1843,7 +1844,7 @@ bulkRegisterFunctionDoc([
       }
     ],
     returns: {
-      type: 'String',
+      type: 'string',
       description: '结果'
     },
     namespace: '数组'
@@ -1869,7 +1870,7 @@ bulkRegisterFunctionDoc([
   {
     name: 'UNIQ',
     description:
-      "数组去重，第二个参数「field」，可指定根据该字段去重。\n\n示例：\n\nUNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')。",
+      "数组去重，第二个参数「field」，可指定根据该字段去重。\n\n示例：\n\nUNIQ([{a: '1'}, {b: '2'}, {a: '1'}]) 得到 [{a: '1'}, {b: '2'}]。",
     example: "UNIQ([{a: '1'}, {b: '2'}, {a: '1'}], 'x')",
     params: [
       {
