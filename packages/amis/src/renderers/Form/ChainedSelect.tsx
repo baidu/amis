@@ -303,8 +303,6 @@ export default class ChainedSelectControl extends React.Component<
         })
         .filter(v => v != null)
         .join(' > ');
-    } else {
-      displayValue = '-';
     }
 
     return (

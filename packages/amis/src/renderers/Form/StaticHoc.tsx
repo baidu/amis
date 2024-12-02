@@ -102,9 +102,7 @@ export function supportStatic<T extends FormControlProps>() {
           classnames: cx,
           className,
           placeholder,
-          staticPlaceholder = (
-            <span className="text-muted">{placeholder || '-'}</span>
-          )
+          staticPlaceholder = <span className="text-muted">{'-'}</span>
         } = props;
 
         let body;
