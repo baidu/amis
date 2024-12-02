@@ -89,7 +89,7 @@
 
 ### MAX
 
-用法：`MAX(num1, num2, ...numN)`
+用法：`MAX(num1, num2, ...numN) or MAX([num1, num2, ...numN])`
 
  * `num:...number` 数值
 
@@ -99,7 +99,7 @@
 
 ### MIN
 
-用法：`MIN(num1, num2, ...numN)`
+用法：`MIN(num1, num2, ...numN) or MIN([num1, num2, ...numN])`
 
  * `num:...number` 数值
 
@@ -109,7 +109,7 @@
 
 ### SUM
 
-用法：`SUM(num1, num2, ...numN)`
+用法：`SUM(num1, num2, ...numN) or SUM([num1, num2, ...numN])`
 
  * `num:...number` 数值
 
@@ -189,7 +189,7 @@
 
 ### AVG
 
-用法：`AVG(num1, num2, ...numN)`
+用法：`AVG(num1, num2, ...numN) or AVG([num1, num2, ...numN])`
 
  * `num:...number` 要处理的数字
 
@@ -515,7 +515,7 @@
  * `text:string` 文本
  * `startString:string` 起始文本
 
-返回：`string` 判断结果
+返回：`boolean` 判断结果
 
 判断字符串(text)是否以特定字符串(startString)开始，是则返回 true，否则返回 false。
 
@@ -526,7 +526,7 @@
  * `text:string` 文本
  * `endString:string` 结束文本
 
-返回：`string` 判断结果
+返回：`boolean` 判断结果
 
 判断字符串(text)是否以特定字符串(endString)结束，是则返回 true，否则返回 false。
 
@@ -537,7 +537,7 @@
  * `text:string` 文本
  * `searchText:string` 搜索文本
 
-返回：`string` 判断结果
+返回：`boolean` 判断结果
 
 判断参数 1 中的文本是否包含参数 2 中的文本，是则返回 true，否则返回 false。
 
@@ -573,9 +573,13 @@
  * `from:number` 起始位置
  * `len:number` 处理长度
 
-返回：`number` 命中的位置
+返回：`string` 命中的位置
 
 返回文本字符串中从指定位置开始的特定数目的字符。
+
+示例：`MID("amis.baidu.com", 6, 3)`，
+
+返回 `aid`。
 
 ### BASENAME
 
@@ -589,7 +593,7 @@
 
 示例：`/home/amis/a.json`，
 
-返回：a.json`。
+返回：`a.json`。
 
 ### UUID
 
@@ -714,7 +718,7 @@ DATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '
  * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
  * `format:string` 日期格式，可选
 
-返回：`date` 新的日期对象
+返回：`any` 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
 
 返回日期的指定范围的开端。
 
@@ -726,7 +730,7 @@ DATERANGESPLIT('1676563200, 1676735999', 'end' , 'YYYY.MM.DD hh:mm:ss') 得到 '
  * `unit:string` 比如可以传入 'day'、'month'、'year' 或者 `week` 等等
  * `format:string` 日期格式，可选
 
-返回：`date` 新的日期对象
+返回：`any` 新的日期对象, 如果传入 format 则返回格式化后的日期字符串
 
 返回日期的指定范围的末尾。
 
@@ -936,7 +940,7 @@ DATEMODIFY(A, -2, 'month')，
 
  * `arr:Array<any>` 数组
 
-返回：`boolean` 结果
+返回：`number` 结果
 
 返回数组的长度。
 
@@ -947,9 +951,15 @@ DATEMODIFY(A, -2, 'month')，
  * `arr:Array<any>` 数组
  * `iterator:Array<any>` 箭头函数
 
-返回：`boolean` 结果
+返回：`Array<any>` 返回转换后的数组
 
 数组做数据转换，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+
+将数组中的每个元素转换成箭头函数返回的值。
+
+示例：
+
+ARRAYMAP([1, 2, 3], item => item + 1) 得到 [2, 3, 4]。
 
 ### ARRAYFILTER
 
@@ -958,10 +968,14 @@ DATEMODIFY(A, -2, 'month')，
  * `arr:Array<any>` 数组
  * `iterator:Array<any>` 箭头函数
 
-返回：`boolean` 结果
+返回：`Array<any>` 返回过滤后的数组
 
 数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
 将第二个箭头函数返回为 false 的成员过滤掉。
+
+示例：
+
+ARRAYFILTER([1, 2, 3], item => item > 1) 得到 [2, 3]。
 
 ### ARRAYFINDINDEX
 
@@ -1063,7 +1077,7 @@ COMPACT([0, 1, false, 2, '', 3]) 得到 [1, 2, 3]。
  * `arr:Array<any>` 数组
  * `separator:String` 分隔符
 
-返回：`String` 结果
+返回：`string` 结果
 
 数组转成字符串。
 
@@ -1098,7 +1112,7 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']。
 
 示例：
 
-UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')。
+UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]) 得到 [{a: '1'}, {b: '2'}]。
 
 ## 编码
 
