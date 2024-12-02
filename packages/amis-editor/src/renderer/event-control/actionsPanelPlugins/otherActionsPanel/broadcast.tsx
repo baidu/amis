@@ -8,7 +8,7 @@ registerActionPanel('broadcast', {
   description: '触发全局广播事件',
   innerArgs: [],
   descDetail: (info: any, context: any, props: any) => {
-    const globalEvents = props.globalEvents || [];
+    const globalEvents = props.manager.store.globalEvents;
     const event = globalEvents.find(
       (item: any) => item.name === info?.eventName
     );
@@ -21,8 +21,7 @@ registerActionPanel('broadcast', {
     );
   },
   schema: (manager: EditorManager, data: any) => {
-    const globalEvents =
-      manager.config?.actionOptions?.globalEventGetter?.(manager) || [];
+    const globalEvents = manager.store.globalEvents;
     return {
       type: 'wrapper',
       body: [

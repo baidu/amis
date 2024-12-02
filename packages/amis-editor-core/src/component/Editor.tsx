@@ -206,6 +206,10 @@ export default class Editor extends Component<EditorProps> {
 
     this.manager = new EditorManager(config, this.store, hostManager);
 
+    this.store.setGlobalEvents(
+      config.actionOptions?.globalEventGetter?.(this.manager) || []
+    );
+
     // 子编辑器不再重新设置 editorStore
     if (!(props.isSubEditor && (window as any).editorStore)) {
       (window as any).editorStore = this.store;
@@ -273,6 +277,14 @@ export default class Editor extends Component<EditorProps> {
 
     if (props?.amisEnv?.replaceText !== prevProps?.amisEnv?.replaceText) {
       this.store.setAppCorpusData(props?.amisEnv?.replaceText);
+    }
+    if (
+      props.actionOptions?.globalEventGetter?.(this.manager) !==
+      prevProps.actionOptions?.globalEventGetter?.(this.manager)
+    ) {
+      this.store.setGlobalEvents(
+        props.actionOptions?.globalEventGetter?.(this.manager) || []
+      );
     }
   }
 
