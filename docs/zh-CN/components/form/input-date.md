@@ -270,41 +270,6 @@ order: 13
 }
 ```
 
-### 通过 props env moment 自定义控制
-
-经常在表单遇到开始时间和结束时间表单项分开的，但又有联动，规则还复杂，valueFormat 又是特定格式，而不是默认的时间戳格式(这样 minDate 和 maxDate 就会失效)，等等限制。可以通过 `props env moment` 字符函数将表单项转为 Moment 格式，就方便许多，以及更灵活，比如下面例子：需要禁用某些日期，开始时间小于结束时间，结束时间大于开始时间，通过 props env moment 更灵活配置。
-
-```schema: scope="body"
-{
-    "type": "form",
-    "debug": true,
-    "api": "/api/mock2/form/saveForm",
-    "body": [
-        {
-            "type": "input-date",
-            "name": "start",
-            "label": "开始时间",
-            "required": true,
-            "valueFormat": "YYYY-MM-DD HH:mm:ss",
-            "placeholder": "请选择日期以及时间",
-            "displayFormat": "YYYY-MM-DD HH:mm:ss",
-            "disabledDate": "if(!props.data.end)return;const moment = props.env.moment();const maxDate = moment(props.data.end).valueOf();return currentDate.valueOf() > maxDate"
-        },
-        {
-            "type": "input-date",
-            "name": "end",
-            "label": "结束时间",
-            "required": true,
-            "valueFormat": "YYYY-MM-DD HH:mm:ss",
-            "placeholder": "请选择日期以及时间",
-            "displayFormat": "YYYY-MM-DD HH:mm:ss",
-            "disabledDate": "console.log(props);if(!props.data.start)return false;const moment = props.env.moment();const minDate = moment(props.data.start).valueOf();return currentDate.valueOf() < minDate"
-        },
-
-    ]
-}
-```
-
 ## 快捷键
 
 你也可以配置`shortcuts`属性支持快捷选择日期
