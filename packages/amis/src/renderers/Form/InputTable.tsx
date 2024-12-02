@@ -410,7 +410,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       toUpdate = {
         ...toUpdate,
         items,
-        filteredItems: this.transformState(items),
+        ...this.transformState(items),
         editIndex: '',
         columns: this.buildColumns(props)
       };
