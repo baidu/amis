@@ -62,10 +62,10 @@ import {updateComponentContext} from 'amis-editor-core';
 import type {VariableItem} from 'amis-ui';
 
 interface EventControlProps extends FormControlProps {
+  manager: EditorManager;
   actions: PluginActions; // 组件的动作列表
   events: PluginEvents; // 组件的事件列表
   actionTree: RendererPluginAction[]; // 动作树
-  globalEvents?: IGlobalEvent[]; // 全局事件
   commonActions?: {[propName: string]: RendererPluginAction}; // 公共动作Map
   value: ActionEventConfig; // 事件动作配置
   onChange: (
@@ -140,6 +140,7 @@ interface EventControlState {
   type: 'update' | 'add';
   appLocaleState?: number;
   actionRelations: any;
+  globalEvents: IGlobalEvent[];
 }
 
 const dialogObjMap = {
@@ -158,12 +159,14 @@ export class EventControl extends React.Component<
   } = {};
   drag?: HTMLElement | null;
   unReaction: any;
+  unEventReaction: any;
   submitSubscribers: Array<(value: any) => any> = [];
 
   constructor(props: EventControlProps) {
     super(props);
-    const {events, value, data, rawType, globalEvents} = props;
-
+    const {events, value, data, rawType} = props;
+    const editorStore = props.manager.store;
+    const globalEvents = editorStore.globalEvents;
     const eventPanelActive: {
       [prop: string]: boolean;
     } = {};
@@ -193,12 +196,13 @@ export class EventControl extends React.Component<
       actionData: undefined,
       type: 'add',
       appLocaleState: 0,
-      actionRelations: actionRelations ?? []
+      actionRelations: actionRelations ?? [],
+      globalEvents: globalEvents
     };
   }
 
   componentDidMount(): void {
-    const editorStore = (window as any).editorStore;
+    const editorStore = this.props.manager.store;
     this.unReaction = reaction(
       () => editorStore?.appLocaleState,
       () => {
@@ -207,10 +211,19 @@ export class EventControl extends React.Component<
         });
       }
     );
+    this.unEventReaction = reaction(
+      () => editorStore.globalEvents,
+      () => {
+        this.setState({
+          globalEvents: editorStore.globalEvents
+        });
+      }
+    );
   }
 
   componentWillUnmount() {
     this.unReaction?.();
+    this.unEventReaction?.();
     this.submitSubscribers = [];
   }
 
@@ -228,21 +241,12 @@ export class EventControl extends React.Component<
       data?.type !== prevProps.data?.type ||
       data?.onEvent !== prevProps.data?.onEvent
     ) {
-      const eventPanelActive: {
-        [prop: string]: boolean;
-      } = {};
       const tmpEvents =
         events[
           rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
         ] || [];
       const pluginEvents =
         typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
-
-      // 事件配置面板不自动折叠
-      // pluginEvents.forEach((event: RendererPluginEvent) => {
-      //   eventPanelActive[event.eventName] = true;
-      // });
-
       const actionRelations = this.getActionRelations();
 
       this.setState({
@@ -638,10 +642,9 @@ export class EventControl extends React.Component<
       actionTree,
       actions: pluginActions,
       commonActions,
-      allComponents,
-      globalEvents
+      allComponents
     } = this.props;
-    const {events, onEvent} = this.state;
+    const {events, onEvent, globalEvents} = this.state;
     const eventConfig = events.find(
       item => item.eventName === data.actionData!.eventKey
     );
@@ -771,7 +774,7 @@ export class EventControl extends React.Component<
     variables = (manager.dataSchema as DataSchema).getDataPropsAsOptions();
 
     // 插入应用变量
-    const appVariables: VariableItem[] =
+    const appVariables =
       manager?.variableManager?.getVariableFormulaOptions() || [];
     appVariables.forEach(item => {
       if (Array.isArray(item?.children) && item.children.length) {
@@ -1079,14 +1082,12 @@ export class EventControl extends React.Component<
       actions: pluginActions,
       commonActions,
       getComponents,
-      allComponents,
-      render,
-      globalEvents = [],
-      subscribeSchemaSubmit
+      render
     } = this.props;
     const {
       onEvent,
       events: itemEvents,
+      globalEvents,
       eventPanelActive,
       showAcionDialog,
       showEventDialog,
