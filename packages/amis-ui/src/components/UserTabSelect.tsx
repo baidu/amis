@@ -35,6 +35,7 @@ export interface UserTabSelectProps extends ThemeProps, LocaleProps {
   selection?: Array<Option>;
   displayFields: string[];
   data?: PlainObject;
+  disabled?: boolean;
   onChange: (value: Array<Option> | Option) => void;
   onSearch?: (
     term: string,
@@ -212,6 +213,7 @@ export class UserTabSelect extends React.Component<
       onSearch,
       deferLoad,
       data,
+      disabled,
       displayFields,
       mobileUI
     } = this.props;
@@ -227,6 +229,7 @@ export class UserTabSelect extends React.Component<
           onResultClick={this.onOpen}
           placeholder={placeholder}
           mobileUI={mobileUI}
+          disabled={disabled}
         />
         <PopUp
           isShow={isOpened}
