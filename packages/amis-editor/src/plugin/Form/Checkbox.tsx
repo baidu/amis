@@ -231,7 +231,6 @@ export class CheckboxControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('theme:formItem', {
-              hidSize: true,
               schema: [
                 {
                   type: 'select',

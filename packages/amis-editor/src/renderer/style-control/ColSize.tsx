@@ -37,11 +37,17 @@ const ColSize: React.FC<FormControlProps> = props => {
   const parent = store.getNodeById(node.parentId);
   const isFlex = parent?.schema?.mode === 'flex';
 
-  const value = isFlex ? props.data.colSize : props.data.size;
+  // combo的row模式
+  const type = parent?.schema?.type;
+  const multiLine = parent?.schema?.multiLine;
+  const tabsMode = parent?.schema?.tabsMode;
+  const isComboRow = type === 'combo' && !multiLine && !tabsMode;
+
+  const value = isFlex || isComboRow ? props.data.colSize : props.data.size;
 
   function handleColSizeChange(value: string) {
     if (
-      !colSizeMap[length].includes(value) ||
+      !colSizeMap[length]?.includes(value) ||
       node?.schema?.$$dragMode === 'hv'
     ) {
       return;
@@ -77,6 +83,14 @@ const ColSize: React.FC<FormControlProps> = props => {
           return item;
         });
       }
+    } else if (isComboRow) {
+      const colSize = getColSize(value, length - 1);
+      list = list.map((item: any) => {
+        if (item.$$id !== node.id) {
+          item.colSize = colSize;
+        }
+        return item;
+      });
     }
 
     const schema = JSONUpdate(store.schema, node.parentId, {
@@ -91,22 +105,29 @@ const ColSize: React.FC<FormControlProps> = props => {
     props.setValue(value, 'size');
   }
 
-  return isFlex ? (
+  return isFlex || isComboRow ? (
     <div className="ColSize">
-      {baseColSize.map(n => (
-        <div
-          className={cx(
-            'ColSize-item',
-            value === n && 'is-active',
-            !colSizeMap[length]?.includes(n) && 'is-disabled',
-            node.schema.$$dragMode === 'hv' && 'is-disabled'
-          )}
-          key={n}
-          onClick={() => handleColSizeChange(n)}
-        >
-          {n}
-        </div>
-      ))}
+      {baseColSize
+        .filter(n => {
+          if (type === 'combo' && !multiLine && n === '1') {
+            return false;
+          }
+          return true;
+        })
+        .map(n => (
+          <div
+            className={cx(
+              'ColSize-item',
+              value === n && 'is-active',
+              !colSizeMap[length]?.includes(n) && 'is-disabled',
+              node.schema.$$dragMode === 'hv' && 'is-disabled'
+            )}
+            key={n}
+            onClick={() => handleColSizeChange(n)}
+          >
+            {n}
+          </div>
+        ))}
     </div>
   ) : (
     props.render('size', {
