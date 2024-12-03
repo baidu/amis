@@ -136,7 +136,9 @@ export function renderItemActions(
   );
 }
 
-export class TableContent extends React.PureComponent<TableContentProps> {
+export class TableContent<
+  T extends TableContentProps = TableContentProps
+> extends React.PureComponent<T> {
   render() {
     const {
       placeholder,
