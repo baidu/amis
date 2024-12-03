@@ -2,6 +2,10 @@ import isPlainObject from 'lodash/isPlainObject';
 
 export function labelToString(label: any): string {
   const type = typeof label;
+  if (type === 'undefined' || label === null) {
+    // render placeholder
+    return '-';
+  }
   if (type === 'string') {
     return label;
   } else if (type === 'number') {
