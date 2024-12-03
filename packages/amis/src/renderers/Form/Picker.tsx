@@ -105,7 +105,7 @@ export interface PickerControlSchema extends FormOptionsSchema {
   /**
    * 选中项可删除，默认为true
    */
-  removeable?: boolean;
+  removable?: boolean;
 }
 
 export interface PickerProps extends OptionsControlProps {
@@ -529,7 +529,7 @@ export default class PickerControl extends React.PureComponent<
 
   renderTag(item: Option, index: number) {
     const {
-      removeable = true,
+      removable = true,
       classPrefix: ns,
       classnames: cx,
       labelField,
@@ -558,7 +558,7 @@ export default class PickerControl extends React.PureComponent<
           }
         )}
       >
-        {removeable && (
+        {removable && (
           <span
             className={cx(
               `${ns}Picker-valueIcon`,
