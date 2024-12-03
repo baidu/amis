@@ -105,7 +105,7 @@ export interface PickerControlSchema extends FormOptionsSchema {
   /**
    * 选中项可删除，默认为true
    */
-  itemCanDelete?: boolean;
+  removeable?: boolean;
 }
 
 export interface PickerProps extends OptionsControlProps {
@@ -229,17 +229,6 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  getCtx() {
-    // 用于外围扩充，勿删
-    const {value, valueField, data} = this.props;
-    return createObject(data, {
-      value: value,
-      [valueField || 'value']: value,
-      op: 'loadOptions'
-    });
-  }
-
-  @autobind
   fetchOptions(): any {
     const {value, formItem, valueField, labelField, source, data} = this.props;
     let selectedOptions: any;
@@ -256,7 +245,11 @@ export default class PickerControl extends React.PureComponent<
       return;
     }
 
-    const ctx = this.getCtx();
+    const ctx = createObject(data, {
+      value: value,
+      [valueField || 'value']: value,
+      op: 'loadOptions'
+    });
 
     if (isPureVariable(source)) {
       formItem.setOptions(resolveVariableAndFilter(source, data, '| raw'));
@@ -536,7 +529,7 @@ export default class PickerControl extends React.PureComponent<
 
   renderTag(item: Option, index: number) {
     const {
-      itemCanDelete = true,
+      removeable = true,
       classPrefix: ns,
       classnames: cx,
       labelField,
@@ -565,7 +558,7 @@ export default class PickerControl extends React.PureComponent<
           }
         )}
       >
-        {itemCanDelete && (
+        {removeable && (
           <span
             className={cx(
               `${ns}Picker-valueIcon`,
@@ -706,8 +699,9 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  otherParams() {
-    // 用于外部函数扩充参数
+  overrideCRUDProps() {
+    // 自定义参数，用于外部透传给 crud 组件外围需要的属性值。
+    // 需要保留这个函数和函数名存在即可，返回值是一个对象
     return {};
   }
 
@@ -742,7 +736,7 @@ export default class PickerControl extends React.PureComponent<
       (Array.isArray(displayPosition) && displayPosition.includes('crud'))
         ? {maxTagCount, overflowTagPopover: overflowTagPopoverInCRUD}
         : {}),
-      ...this.otherParams()
+      ...this.overrideCRUDProps()
     }) as JSX.Element;
   }
   @supportStatic()
