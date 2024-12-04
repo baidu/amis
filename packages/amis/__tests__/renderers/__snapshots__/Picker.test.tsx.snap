@@ -270,7 +270,7 @@ exports[`1. Renderer:Picker base 2`] = `
               class="cxd-Picker-values"
             >
               <div
-                class="cxd-Picker-value"
+                class="cxd-OverflowTpl cxd-Picker-value"
               >
                 <span
                   class="cxd-Picker-valueIcon"
