@@ -26,7 +26,7 @@ import {
   isIntegerInRange,
   setThemeClassName
 } from 'amis-core';
-import {Html, Icon, TooltipWrapper} from 'amis-ui';
+import {Html, Icon, OverflowTpl, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
 import type {TooltipWrapperSchema} from '../TooltipWrapper';
@@ -543,7 +543,9 @@ export default class PickerControl extends React.PureComponent<
     } = this.props;
 
     return (
-      <div
+      <OverflowTpl
+        inline={false}
+        tooltip={getVariable(item, labelField || 'label')}
         key={index}
         className={cx(
           `${ns}Picker-value`,
@@ -601,7 +603,7 @@ export default class PickerControl extends React.PureComponent<
             }`
           )}
         </span>
-      </div>
+      </OverflowTpl>
     );
   }
 
