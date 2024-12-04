@@ -93,6 +93,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -206,6 +207,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -268,6 +270,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -377,6 +380,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -439,6 +443,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1183,6 +1188,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1214,6 +1220,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   </div>
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1301,6 +1308,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1332,6 +1340,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                   </div>
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1763,6 +1772,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1866,6 +1876,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1977,6 +1988,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"

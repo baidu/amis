@@ -238,7 +238,6 @@ export class CheckboxesControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('theme:formItem', {
-              hidSize: true,
               schema: [
                 getSchemaTpl('switch', {
                   label: '一行选项显示',

@@ -101,6 +101,11 @@ export interface PickerControlSchema extends FormOptionsSchema {
      */
     overflowTagPopoverInCRUD?: TooltipWrapperSchema;
   };
+
+  /**
+   * 选中项可删除，默认为true
+   */
+  removable?: boolean;
 }
 
 export interface PickerProps extends OptionsControlProps {
@@ -471,7 +476,8 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  clearValue() {
+  clearValue(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
     const {onChange, resetValue} = this.props;
 
     onChange(resetValue !== void 0 ? resetValue : '');
@@ -523,6 +529,7 @@ export default class PickerControl extends React.PureComponent<
 
   renderTag(item: Option, index: number) {
     const {
+      removable = true,
       classPrefix: ns,
       classnames: cx,
       labelField,
@@ -551,23 +558,25 @@ export default class PickerControl extends React.PureComponent<
           }
         )}
       >
-        <span
-          className={cx(
-            `${ns}Picker-valueIcon`,
-            setThemeClassName({
-              ...this.props,
-              name: 'pickValueIconClassName',
-              id,
-              themeCss: themeCss || css
-            })
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            this.removeItem(index);
-          }}
-        >
-          ×
-        </span>
+        {removable && (
+          <span
+            className={cx(
+              `${ns}Picker-valueIcon`,
+              setThemeClassName({
+                ...this.props,
+                name: 'pickValueIconClassName',
+                id,
+                themeCss: themeCss || css
+              })
+            )}
+            onClick={e => {
+              e.stopPropagation();
+              this.removeItem(index);
+            }}
+          >
+            ×
+          </span>
+        )}
         <span
           className={cx(
             `${ns}Picker-valueLabel`,
@@ -690,6 +699,13 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
+  overrideCRUDProps() {
+    // 自定义参数，用于外部透传给 crud 组件外围需要的属性值。
+    // 需要保留这个函数和函数名存在即可，返回值是一个对象
+    return {};
+  }
+
+  @autobind
   renderBody({popOverContainer}: any = {}) {
     const {
       render,
@@ -719,7 +735,8 @@ export default class PickerControl extends React.PureComponent<
       ...(embed ||
       (Array.isArray(displayPosition) && displayPosition.includes('crud'))
         ? {maxTagCount, overflowTagPopover: overflowTagPopoverInCRUD}
-        : {})
+        : {}),
+      ...this.overrideCRUDProps()
     }) as JSX.Element;
   }
   @supportStatic()
