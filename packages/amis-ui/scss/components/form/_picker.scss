@@ -97,6 +97,10 @@
 
   .#{$ns}Picker-values {
     display: inline;
+
+    .#{$ns}Picker-valueLabel {
+      pointer-events: auto;
+    }
   }
 
   &-valueWrap {

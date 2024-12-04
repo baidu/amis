@@ -298,7 +298,9 @@ export const HocPopOver =
 
         const selectClassName = this.getClassName();
         const defaultPositon =
-          selectClassName === 'ellipsis' ? 'right-top-center-bottom' : 'center';
+          selectClassName === 'ellipsis' && !popOver
+            ? 'right-top-center-bottom'
+            : 'center';
         const position =
           (popOver && (popOver as SchemaPopOverObject).position) || '';
 
@@ -397,7 +399,10 @@ export const HocPopOver =
 
         const triggerProps: any = {};
         const trigger = (popOver as SchemaPopOverObject)?.trigger;
-        if (trigger === 'hover' || selectClassName === 'ellipsis') {
+        if (
+          trigger === 'hover' ||
+          (selectClassName === 'ellipsis' && !popOver)
+        ) {
           triggerProps.onMouseEnter = this.openPopOver;
           triggerProps.onMouseLeave = this.closePopOverLater;
         } else {
