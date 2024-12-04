@@ -1018,8 +1018,9 @@
     margin-bottom: 0;
 
     > .#{$ns}Table-contentWrap {
-      > .#{$ns}Table-content table {
+      > .#{$ns}Table-content > table {
         border-top: none; // 不然会导致拖动时顶部露出内容
+        min-height: 100%; // 为了让表格占满高度
       }
 
       > .#{$ns}Table-content table thead {
