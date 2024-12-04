@@ -447,21 +447,30 @@ export class TextControlPlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('theme:cssCode', {
-              themeClass: [
+            getSchemaTpl('theme:singleCssCode', {
+              selectors: [
                 {
-                  name: '输入框',
-                  value: '',
-                  className: 'inputControlClassName',
-                  state: ['default', 'hover', 'active']
+                  label: '表单项基本样式',
+                  isRoot: true,
+                  selector: '.cxd-from-item'
                 },
                 {
-                  name: 'addOn',
-                  value: 'addOn',
-                  className: 'addOnClassName'
+                  label: '标题样式',
+                  selector: '.cxd-Form-label'
+                },
+                {
+                  label: '文本框基本样式',
+                  selector: '.cxd-TextControl'
+                },
+                {
+                  label: '输入框外层样式',
+                  selector: '.cxd-TextControl-input'
+                },
+                {
+                  label: '输入框样式',
+                  selector: '.cxd-TextControl-input input'
                 }
-              ],
-              isFormItem: true
+              ]
             })
           ],
           {...context?.schema, configTitle: 'style'}
