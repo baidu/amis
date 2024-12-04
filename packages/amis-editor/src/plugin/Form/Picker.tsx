@@ -402,7 +402,7 @@ export class PickerControlPlugin extends BasePlugin {
               },
               {
                 type: 'switch',
-                name: 'removable',
+                name: 'itemClearable',
                 label: '选中项可删除',
                 pipeIn: defaultValue(true),
                 inputClassName: 'is-inline '
