@@ -13,7 +13,7 @@
     &-overflow {
       &-wrapper {
         display: flex;
-        flex-flow: column nowrap;
+        flex-wrap: wrap;
         justify-content: flex-start;
         align-items: flex-start;
         overflow-x: hidden;
