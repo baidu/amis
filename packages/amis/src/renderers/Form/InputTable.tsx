@@ -305,7 +305,9 @@ export type FormTableRendererEvent =
 
 export type FormTableRendererAction = 'add' | 'delete' | 'reset' | 'clear';
 
-export default class FormTable extends React.Component<TableProps, TableState> {
+export default class FormTable<
+  T extends TableProps = TableProps
+> extends React.Component<T, TableState> {
   static defaultProps = {
     placeholder: 'placeholder.empty',
     scaffold: {},
@@ -358,7 +360,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     leading: false
   });
 
-  constructor(props: TableProps) {
+  constructor(props: T) {
     super(props);
     const {addHook} = props;
     const items = Array.isArray(props.value) ? props.value.concat() : [];
