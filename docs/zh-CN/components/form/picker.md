@@ -1211,7 +1211,7 @@ order: 35
 | pickerSchema   | `string`                                                                                     | `{mode: 'list', listItem: {title: '${label}'}}` | 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)                          |
 | embed          | `boolean`                                                                                    | `false`                                         | 是否使用内嵌模式                                                                            |
 | overflowConfig | `OverflowConfig`                                                                             | 参考[OverflowConfig](./#overflowconfig)         | 开启最大标签展示数量的相关配置 `3.4.0`                                                      |
-| removable  | `removable`                                                                              | `true`                                          | 用于控制是否显示选中项的删除图标，默认值为 `true`                                           | `6.10.0` |
+| itemClearable  | `itemClearable`                                                                              | `true`                                          | 用于控制是否显示选中项的删除图标，默认值为 `true`                                           | `6.10.0` |
 
 ### OverflowConfig
 
