@@ -15,6 +15,7 @@ import type {SchemaObject} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 import omit from 'lodash/omit';
+import {generateId} from '../util';
 
 export class PagePlugin extends BasePlugin {
   static id = 'PagePlugin';
@@ -39,7 +40,8 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容'
+        tpl: '内容',
+        id: generateId()
       }
     ]
   };

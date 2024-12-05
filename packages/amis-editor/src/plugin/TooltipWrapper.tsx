@@ -1,11 +1,11 @@
 /**
  * @file 文字提示容器
  */
-
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
+import {generateId} from '../util';
 
 export class TooltipWrapperPlugin extends BasePlugin {
   static id = 'TooltipWrapperPlugin';
@@ -30,7 +30,8 @@ export class TooltipWrapperPlugin extends BasePlugin {
       {
         type: 'tpl',
         wrapperComponent: '',
-        tpl: '内容'
+        tpl: '内容',
+        id: generateId()
       }
     ],
     enterable: true,

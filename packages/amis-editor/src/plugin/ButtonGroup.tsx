@@ -9,6 +9,7 @@ import {
   translateSchema
 } from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
+import {generateId} from '../util';
 
 export class ButtonGroupPlugin extends BasePlugin {
   static id = 'ButtonGroupPlugin';
@@ -31,12 +32,14 @@ export class ButtonGroupPlugin extends BasePlugin {
       {
         type: 'button',
         label: '按钮1',
+        id: generateId(),
         ...BUTTON_DEFAULT_ACTION
       },
 
       {
         type: 'button',
         label: '按钮2',
+        id: generateId(),
         ...BUTTON_DEFAULT_ACTION
       }
     ]
