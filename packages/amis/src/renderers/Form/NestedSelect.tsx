@@ -210,32 +210,18 @@ export default class NestedSelectControl extends React.Component<
   }
 
   async removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-    let {
-      onChange,
-      selectedOptions,
-      joinValues,
-      valueField,
-      extractValue,
-      delimiter,
-      value
-    } = this.props;
+    let {onChange, selectedOptions} = this.props;
 
     e && e.stopPropagation();
 
     selectedOptions.splice(index, 1);
 
-    if (joinValues) {
-      value = (selectedOptions as Options)
-        .map(item => item[valueField || 'value'])
-        .join(delimiter || ',');
-    } else if (extractValue) {
-      value = (selectedOptions as Options).map(
-        item => item[valueField || 'value']
-      );
-    }
+    const value = this.getValue();
+    const label = this.getValue('label');
 
     const isPrevented = await this.dispatchEvent('change', {
-      value
+      value,
+      label
     });
     isPrevented || onChange(value);
   }
@@ -315,7 +301,8 @@ export default class NestedSelectControl extends React.Component<
     }
 
     const isPrevented = await this.dispatchEvent('change', {
-      value
+      value,
+      label: option.label
     });
     isPrevented || onChange(value);
     isPrevented || this.handleResultClear();
@@ -476,24 +463,25 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
-  getValue() {
+  getValue(propName?: string) {
     let {
       selectedOptions,
       joinValues,
       valueField,
+      labelField,
       extractValue,
       delimiter,
       value
     } = this.props;
+    const attribute =
+      propName === 'label' ? labelField || 'label' : valueField || 'value';
 
     if (joinValues) {
       value = (selectedOptions as Options)
-        .map(item => item[valueField || 'value'])
+        .map(item => item[attribute])
         .join(delimiter || ',');
     } else if (extractValue) {
-      value = (selectedOptions as Options).map(
-        item => item[valueField || 'value']
-      );
+      value = (selectedOptions as Options).map(item => item[attribute]);
     }
 
     return value;
@@ -504,6 +492,7 @@ export default class NestedSelectControl extends React.Component<
     const {onFocus, disabled} = this.props;
 
     const value = this.getValue();
+    const label = this.getValue('label');
 
     if (!disabled && !this.state.isOpened) {
       this.setState({
@@ -511,7 +500,8 @@ export default class NestedSelectControl extends React.Component<
       });
 
       const isPrevented = await this.dispatchEvent('focus', {
-        value
+        value,
+        label
       });
       isPrevented || (onFocus && onFocus(e));
     }
@@ -522,13 +512,15 @@ export default class NestedSelectControl extends React.Component<
     const {onBlur} = this.props;
 
     const value = this.getValue();
+    const label = this.getValue('label');
 
     this.setState({
       isFocused: false
     });
 
     const isPrevented = await this.dispatchEvent('blur', {
-      value
+      value,
+      label
     });
     isPrevented || (onBlur && onBlur(e));
   }

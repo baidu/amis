@@ -141,7 +141,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  label: {type: 'string', title: '选中项标题'}
                 }
               }
             }
@@ -164,7 +165,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  label: {type: 'string', title: '选中项标题'}
                 }
               }
             }
@@ -187,7 +189,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  label: {type: 'string', title: '选中项标题'}
                 }
               }
             }
