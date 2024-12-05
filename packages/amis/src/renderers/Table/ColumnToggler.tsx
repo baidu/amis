@@ -132,10 +132,9 @@ export interface ColumnTogglerState {
   tempColumns: any[];
 }
 
-export default class ColumnToggler extends React.Component<
-  ColumnTogglerProps,
-  ColumnTogglerState
-> {
+export default class ColumnToggler<
+  T extends ColumnTogglerProps = ColumnTogglerProps
+> extends React.Component<T, ColumnTogglerState> {
   state: ColumnTogglerState = {
     isOpened: false,
     enableSorting: false,
@@ -156,7 +155,7 @@ export default class ColumnToggler extends React.Component<
   sortable?: Sortable;
   dragRefDOM: HTMLElement;
 
-  constructor(props: ColumnTogglerProps) {
+  constructor(props: T) {
     super(props);
 
     this.open = this.open.bind(this);
