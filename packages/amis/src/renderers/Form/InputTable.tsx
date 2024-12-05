@@ -1222,7 +1222,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const firstRow = filteredItems[list[0]];
     list[0] = items.findIndex(item => item === firstRow);
     if (list[0] === -1) {
-      throw new Error('row not found');
+      return path;
     }
     return list.join('.');
   }
