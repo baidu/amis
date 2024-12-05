@@ -43,7 +43,7 @@ import {
   getActionCommonProps
 } from '../../renderer/event-control/helper';
 import {FieldSetting} from '../../renderer/FieldSetting';
-import {_isModelComp} from '../../util';
+import {_isModelComp, generateId} from '../../util';
 
 import type {FormScaffoldConfig} from '../../builder';
 
@@ -99,6 +99,7 @@ export class FormPlugin extends BasePlugin {
       {
         label: '文本框',
         type: 'input-text',
+        id: generateId(),
         name: 'text'
       }
     ]
