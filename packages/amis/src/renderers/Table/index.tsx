@@ -476,7 +476,9 @@ export type TableRendererAction =
   | 'initDrag'
   | 'cancelDrag';
 
-export default class Table extends React.Component<TableProps, object> {
+export default class Table<
+  T extends TableProps = TableProps
+> extends React.Component<T, object> {
   static contextType = ScopedContext;
 
   static propsList: Array<string> = [
@@ -573,7 +575,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
   );
 
-  constructor(props: TableProps, context: IScopedContext) {
+  constructor(props: T, context: IScopedContext) {
     super(props);
 
     const scoped = context;

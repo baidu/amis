@@ -1814,22 +1814,33 @@ export default class Form extends React.Component<FormProps, object> {
 
       return (
         <div className={cx('Form-row')}>
-          {children.map((control, key) =>
-            ~['hidden', 'formula'].indexOf((control as any).type) ||
-            (control as any).mode === 'inline' ? (
+          {children.map((control, key) => {
+            const split = control.colSize?.split('/');
+            const colSize =
+              split?.[0] && split?.[1]
+                ? (split[0] / split[1]) * 100 + '%'
+                : control.colSize;
+            return ~['hidden', 'formula'].indexOf((control as any).type) ||
+              (control as any).mode === 'inline' ? (
               this.renderChild(control, key, otherProps)
             ) : (
               <div
                 key={key}
                 className={cx(`Form-col`, (control as Schema).columnClassName)}
+                style={{
+                  flex:
+                    colSize && !['1', 'auto'].includes(colSize)
+                      ? `0 0 ${colSize}`
+                      : '1'
+                }}
               >
                 {this.renderChild(control, '', {
                   ...otherProps,
                   mode: 'row'
                 })}
               </div>
-            )
-          )}
+            );
+          })}
         </div>
       );
     }

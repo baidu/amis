@@ -1664,6 +1664,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                       >
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
@@ -1728,6 +1729,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                         </div>
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
