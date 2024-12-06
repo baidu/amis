@@ -10,6 +10,7 @@ import {
   SubRendererInfo
 } from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
+import {generateId} from '../util';
 
 export class OperationPlugin extends BasePlugin {
   static id = 'OperationPlugin';
@@ -29,7 +30,8 @@ export class OperationPlugin extends BasePlugin {
     buttons: [
       {
         label: '按钮',
-        type: 'button'
+        type: 'button',
+        id: generateId()
       }
     ]
   };

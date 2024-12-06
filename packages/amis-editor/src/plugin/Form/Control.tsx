@@ -4,6 +4,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
+import {generateId} from '../../util';
 
 export class ControlPlugin extends BasePlugin {
   static id = 'ControlPlugin';
@@ -30,6 +31,7 @@ export class ControlPlugin extends BasePlugin {
       {
         type: 'tpl',
         wrapperComponent: '',
+        id: generateId(),
         tpl: 'a'
       }
     ]

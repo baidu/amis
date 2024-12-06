@@ -30,6 +30,7 @@ import {
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  generateId,
   resolveArrayDatasource,
   resolveInputTableEventDataSchame
 } from '../../util';
@@ -60,6 +61,7 @@ export class TableControlPlugin extends BasePlugin {
         name: 'name',
         quickEdit: {
           type: 'input-text',
+          id: generateId(),
           name: 'name1'
         }
       },
@@ -69,6 +71,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'input-number',
           mode: 'inline',
+          id: generateId(),
           name: 'score'
         }
       },
@@ -78,6 +81,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'select',
           name: 'level',
+          id: generateId(),
           options: [
             {
               label: 'A',

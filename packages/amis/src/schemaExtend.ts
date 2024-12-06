@@ -2,7 +2,7 @@
  * 扩展 Schema，目前用于实现 input-kv
  */
 import isEqual from 'lodash/isEqual';
-import {Schema} from 'amis-core';
+import {guid, Schema} from 'amis-core';
 import {addSchemaFilter} from 'amis-core';
 import {isObject} from 'amis-core';
 
@@ -63,6 +63,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
       items: [
         schema.keySchema
           ? {
+              id: `u:${guid()}`,
               ...schema.keySchema,
               unique: true,
               name: 'key',
@@ -75,21 +76,24 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
               unique: true,
               name: 'key',
               required: true,
-              validateOnChange: true
+              validateOnChange: true,
+              id: `u:${guid()}`
             },
         schema.valueSchema
-          ? {...schema.valueSchema, name: 'value'}
+          ? {id: `u:${guid()}`, ...schema.valueSchema, name: 'value'}
           : schema.valueComponent
           ? {
               placeholder: schema.valuePlaceholder ?? 'Value',
               component: schema.valueComponent,
               asFormItem: true,
-              name: 'value'
+              name: 'value',
+              id: `u:${guid()}`
             }
           : {
               placeholder: schema.valuePlaceholder ?? 'Value',
               type: schema.valueType || 'input-text',
-              name: 'value'
+              name: 'value',
+              id: `u:${guid()}`
             }
       ]
     };

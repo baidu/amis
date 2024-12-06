@@ -305,7 +305,9 @@ export type FormTableRendererEvent =
 
 export type FormTableRendererAction = 'add' | 'delete' | 'reset' | 'clear';
 
-export default class FormTable extends React.Component<TableProps, TableState> {
+export default class FormTable<
+  T extends TableProps = TableProps
+> extends React.Component<T, TableState> {
   static defaultProps = {
     placeholder: 'placeholder.empty',
     scaffold: {},
@@ -358,7 +360,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     leading: false
   });
 
-  constructor(props: TableProps) {
+  constructor(props: T) {
     super(props);
     const {addHook} = props;
     const items = Array.isArray(props.value) ? props.value.concat() : [];
@@ -1222,7 +1224,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const firstRow = filteredItems[list[0]];
     list[0] = items.findIndex(item => item === firstRow);
     if (list[0] === -1) {
-      throw new Error('row not found');
+      return path;
     }
     return list.join('.');
   }
