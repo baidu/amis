@@ -593,118 +593,13 @@ export class MyRenderer extends React.Component {
 }
 ```
 
-然后插件中加入以下代码即可完成拖拽调整宽高
+然后[插件](https://github.com/aisuda/amis-editor-demo?tab=readme-ov-file#%E6%89%A9%E5%85%85%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8%E6%96%B0%E7%89%88)中修改继承类，即可完成拖拽调整宽高：
 
 ```tsx
-onActive(event: PluginEvent<ActiveEventContext>) {
-  const context = event.context;
+import {LayoutBasePlugin} from 'amis-editor';
 
-  if (context.info?.plugin !== this || !context.node) {
-    return;
-  }
-
-  const node = context.node!;
-  node.setHeightMutable(true);
-  node.setWidthMutable(true);
-}
-
-onWidthChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >
-) {
-  return this.onSizeChangeStart(event, 'horizontal');
-}
-
-onHeightChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >
-) {
-  return this.onSizeChangeStart(event, 'vertical');
-}
-
-onSizeChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >,
-  direction: 'both' | 'vertical' | 'horizontal' = 'both'
-) {
-  const context = event.context;
-  const node = context.node;
-  if (node.info?.plugin !== this) {
-    return;
-  }
-
-  const resizer = context.resizer;
-  const dom = context.dom;
-  const frameRect = dom.parentElement!.getBoundingClientRect();
-  const rect = dom.getBoundingClientRect();
-  const startX = context.nativeEvent.pageX;
-  const startY = context.nativeEvent.pageY;
-
-  event.setData({
-    onMove: (e: MouseEvent) => {
-      const dy = e.pageY - startY;
-      const dx = e.pageX - startX;
-      const height = Math.max(50, rect.height + dy);
-      const width = Math.max(100, Math.min(rect.width + dx, frameRect.width));
-      const state: any = {
-        width,
-        height
-      };
-
-      if (direction === 'both') {
-        resizer.setAttribute('data-value', `${width}px x ${height}px`);
-      } else if (direction === 'vertical') {
-        resizer.setAttribute('data-value', `${height}px`);
-        delete state.width;
-      } else {
-        resizer.setAttribute('data-value', `${width}px`);
-        delete state.height;
-      }
-
-      node.updateState(state);
-
-      requestAnimationFrame(() => {
-        node.calculateHighlightBox();
-      });
-    },
-    onEnd: (e: MouseEvent) => {
-      const dy = e.pageY - startY;
-      const dx = e.pageX - startX;
-      const height = Math.max(50, rect.height + dy);
-      const width = Math.max(100, Math.min(rect.width + dx, frameRect.width));
-      const state: any = {
-        width,
-        height
-      };
-
-      if (direction === 'vertical') {
-        delete state.width;
-      } else if (direction === 'horizontal') {
-        delete state.height;
-      }
-
-      resizer.removeAttribute('data-value');
-      node.updateSchema(state);
-      requestAnimationFrame(() => {
-        node.calculateHighlightBox();
-      });
-    }
-  });
+export class MyRendererPlugin extends LayoutBasePlugin {
+  // ...
 }
 ```
 
