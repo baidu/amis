@@ -16,7 +16,7 @@ import {
   getActionCommonProps
 } from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
-import {resolveOptionType} from '../../util';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 
 const isText = 'this.type === "input-text"';
 const isPassword = 'this.type === "input-password"';
@@ -174,6 +174,52 @@ export class TextControlPlugin extends BasePlugin {
           }
         ];
       }
+    },
+    {
+      eventName: 'review',
+      eventLabel: '查看密码',
+      description: '点击查看密码图标时',
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    {
+      eventName: 'encrypt',
+      eventLabel: '隐藏密码',
+      description: '点击隐藏密码图标时',
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
+                }
+              }
+            }
+          }
+        ];
+      }
     }
     // 貌似无效，先下掉
     // {
@@ -207,6 +253,16 @@ export class TextControlPlugin extends BasePlugin {
       actionLabel: '赋值',
       description: '触发组件数据更新',
       ...getActionCommonProps('setValue')
+    },
+    {
+      actionType: 'review',
+      actionLabel: '查看密码',
+      description: '密码类型时触发查看真实密码'
+    },
+    {
+      actionType: 'encrypt',
+      actionLabel: '隐藏密码',
+      description: '密码类型时触发隐藏真实密码'
     }
   ];
 
