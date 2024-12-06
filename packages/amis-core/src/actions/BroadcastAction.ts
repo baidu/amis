@@ -1,6 +1,8 @@
-import {RendererProps} from '../factory';
 import {createObject} from '../utils/helper';
-import {RendererEvent, dispatchGlobalEvent} from '../utils/renderer-event';
+import {
+  RendererEvent,
+  dispatchGlobalEventForRenderer
+} from '../utils/renderer-event';
 import {
   RendererAction,
   ListenerAction,
@@ -39,15 +41,14 @@ export class BroadcastAction implements RendererAction {
 
     const eventName = action.args?.eventName || action.eventName!;
 
-    return await dispatchGlobalEvent(eventName, action.data);
     // 直接触发对应的动作
-    // return await dispatchEvent(
-    //   action.args?.eventName || action.eventName!,
-    //   renderer,
-    //   event.context.scoped,
-    //   action.data,
-    //   event
-    // );
+    return await dispatchGlobalEventForRenderer(
+      eventName,
+      renderer,
+      event.context.scoped,
+      action.data,
+      event
+    );
   }
 }
 
