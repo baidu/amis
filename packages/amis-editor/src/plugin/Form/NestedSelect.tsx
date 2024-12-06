@@ -131,7 +131,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '值变化',
       description: '选中值变化时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -142,7 +142,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 title: '数据',
                 properties: {
                   value,
-                  label: {type: 'string', title: '选中项标题'}
+                  selectedItems
                 }
               }
             }
@@ -155,7 +155,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -166,7 +166,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 title: '数据',
                 properties: {
                   value,
-                  label: {type: 'string', title: '选中项标题'}
+                  selectedItems
                 }
               }
             }
@@ -179,7 +179,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '失去焦点',
       description: '输入框失去焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -190,7 +190,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 title: '数据',
                 properties: {
                   value,
-                  label: {type: 'string', title: '选中项标题'}
+                  selectedItems
                 }
               }
             }
