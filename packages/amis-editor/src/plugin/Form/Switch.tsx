@@ -145,7 +145,6 @@ export class SwitchControlPlugin extends BasePlugin {
               },
               {
                 type: 'ae-switch-more',
-                hiddenOnDefault: false,
                 mode: 'normal',
                 label: '值格式',
                 formType: 'extend',
