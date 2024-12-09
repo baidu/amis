@@ -139,6 +139,7 @@ order: 16
 | animation                | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                                           | `2.2.0`                 |
 | extraName                | `string`                                                                           |                                                                 | 是否存成两个字段                                                                           | `3.3.0`                 |
 | popOverContainerSelector | `string`                                                                           |                                                                 | 弹层挂载位置选择器，会通过`querySelector`获取                                              | `6.4.0`                 |
+| dateRangeMobileLazyYear  | `boolean`                                                                          | `false`                                                         | [是否开启移动端日期选择器按年加载](./input-date-range#按年加载)                            |
 
 ## 事件表
 

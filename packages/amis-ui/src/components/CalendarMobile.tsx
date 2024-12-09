@@ -54,6 +54,7 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   defaultDate?: moment.Moment;
   isEndDate?: boolean;
   popOverContainer?: any;
+  dateRangeMobileLazyYear?: boolean;
 }
 
 export interface CalendarMobileState {
@@ -222,9 +223,11 @@ export class CalendarMobile extends React.Component<
   }
 
   scollToDate(date: moment.Moment) {
-    const {showViewMode} = this.props;
+    const {showViewMode, dateRangeMobileLazyYear = false} = this.props;
     const {minDate} = this.state;
-    const index = date.diff(minDate, showViewMode);
+    const index = dateRangeMobileLazyYear
+      ? date.month()
+      : date.diff(minDate, showViewMode);
     const currentEl = this.mobileBody.current.children[index];
     if (!currentEl) {
       return;
@@ -570,20 +573,7 @@ export class CalendarMobile extends React.Component<
 
   @autobind
   renderMobileCalendarBody() {
-    const {
-      classnames: cx,
-      dateFormat,
-      timeFormat,
-      inputFormat,
-      displayForamt,
-      locale,
-      viewMode = 'days',
-      close,
-      defaultDate,
-      showViewMode,
-      isEndDate
-    } = this.props;
-    const __ = this.props.translate;
+    const {classnames: cx, defaultDate, showViewMode} = this.props;
 
     const {minDate, maxDate} = this.state;
     if (!minDate || !maxDate) {
@@ -611,6 +601,62 @@ export class CalendarMobile extends React.Component<
         ref={this.mobileBody}
         onScroll={this.onMobileBodyScroll}
       >
+        {this.renderCalendarNodes(calendarDates)}
+      </div>
+    );
+  }
+
+  @autobind
+  renderMobileLazyCalendarBody() {
+    const {classnames: cx, defaultDate, showViewMode} = this.props;
+
+    const {minDate, maxDate, currentDate} = this.state;
+    if (!minDate || !maxDate) {
+      return;
+    }
+    let calendarDates: moment.Moment[] = [];
+    const currentYear = moment(currentDate).format('YYYY');
+    for (
+      let minDateClone = minDate.clone();
+      minDateClone.isSameOrBefore(maxDate);
+      minDateClone.add(1, showViewMode)
+    ) {
+      let date = minDateClone.clone();
+      if (defaultDate) {
+        date = moment(defaultDate).set({
+          year: date.get('year'),
+          month: date.get('month')
+        });
+      }
+      if (date.year() === +currentYear) {
+        calendarDates.push(date);
+      }
+    }
+
+    return (
+      <div className={cx('CalendarMobile-body')} ref={this.mobileBody}>
+        {this.renderCalendarNodes(calendarDates)}
+      </div>
+    );
+  }
+
+  @autobind
+  renderCalendarNodes(calendarDates: moment.Moment[]) {
+    const {
+      classnames: cx,
+      dateFormat,
+      inputFormat,
+      displayForamt,
+      locale,
+      viewMode = 'days',
+      close,
+      showViewMode,
+      isEndDate
+    } = this.props;
+    const __ = this.props.translate;
+
+    return (
+      <>
         {calendarDates.map((calendarDate: moment.Moment, index: number) => {
           const rdtOldNone =
             showViewMode === 'months' &&
@@ -666,7 +712,7 @@ export class CalendarMobile extends React.Component<
             </div>
           );
         })}
-      </div>
+      </>
     );
   }
 
@@ -752,7 +798,8 @@ export class CalendarMobile extends React.Component<
       isDatePicker,
       locale,
       popOverContainer,
-      timeConstraints
+      timeConstraints,
+      dateRangeMobileLazyYear = false
     } = this.props;
     const __ = this.props.translate;
 
@@ -784,7 +831,11 @@ export class CalendarMobile extends React.Component<
                 &lsaquo;
               </a>
             )}
-            <span onClick={this.openDatePicker}>{dateNow}</span>
+            <span onClick={this.openDatePicker}>
+              {dateRangeMobileLazyYear
+                ? moment(currentDate).format('YYYY')
+                : dateNow}
+            </span>
             {(currentDate &&
               currentDate.isSameOrAfter(maxDate, showViewMode)) ||
             isScrollToBottom ? null : (
@@ -840,7 +891,9 @@ export class CalendarMobile extends React.Component<
       >
         <div className={cx('CalendarMobile-wrap')}>
           {header}
-          {this.renderMobileCalendarBody()}
+          {dateRangeMobileLazyYear
+            ? this.renderMobileLazyCalendarBody()
+            : this.renderMobileCalendarBody()}
           {footer}
         </div>
         {showToast ? (
