@@ -253,9 +253,7 @@ export class RateControlPlugin extends BasePlugin {
                 {
                   type: 'ae-switch-more',
                   label: '自定义',
-                  bulk: true,
                   mode: 'normal',
-                  value: false,
                   formType: 'extend',
                   form: {
                     body: [
@@ -265,22 +263,6 @@ export class RateControlPlugin extends BasePlugin {
                         name: 'char'
                       }
                     ]
-                  },
-                  pipeIn: (value: string) => {
-                    if (typeof value === 'string' && value.length) {
-                      return {
-                        character: value
-                      };
-                    }
-                    return undefined;
-                  },
-                  pipeOut: (value: any) => {
-                    if (!isObject(value)) {
-                      return undefined;
-                    }
-                    return typeof value.character === 'string'
-                      ? value.character
-                      : undefined;
                   }
                 },
 

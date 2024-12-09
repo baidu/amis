@@ -575,6 +575,7 @@ export class TablePlugin extends BasePlugin {
                 label: '头部',
                 name: 'showHeader',
                 pipeIn: (value: any) => value ?? true,
+                falseValue: false, // 这个属性模式按true处理，关闭不能删除，除非去掉配置的header
                 form: {
                   body: [
                     {
@@ -599,6 +600,7 @@ export class TablePlugin extends BasePlugin {
                 label: '底部',
                 name: 'showFooter',
                 pipeIn: (value: any) => value ?? true,
+                falseValue: false, // 这个属性模式按true处理，关闭不能删除，除非去掉配置的footer
                 form: {
                   body: [
                     {

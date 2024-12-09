@@ -82,6 +82,17 @@ export class TreeSelectControlPlugin extends BasePlugin {
       mode: 'normal'
     }
   };
+  defaultItemAction = {
+    type: 'container',
+    body: [
+      {
+        type: 'button',
+        icon: 'fa fa-plus',
+        level: 'link',
+        size: 'xs'
+      }
+    ]
+  };
 
   notRenderFormZone = true;
 
@@ -464,6 +475,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 bulk: false,
                 name: 'itemActions',
                 formType: 'extend',
+                defaultData: this.defaultItemAction,
                 form: {
                   body: [
                     {
@@ -475,20 +487,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                       label: '配置自定义操作模板'
                     }
                   ]
-                },
-                pipeIn: (value: any) => {
-                  return value !== undefined;
-                },
-                pipeOut: (value: any) => {
-                  if (value === true) {
-                    return {
-                      type: 'button',
-                      icon: 'fa fa-plus',
-                      level: 'link',
-                      size: 'xs'
-                    };
-                  }
-                  return value ? value : undefined;
                 }
               }
             ]
@@ -509,7 +507,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   '选项值包含父节点',
                   '开启后对应节点值会包含父节点'
                 ),
-                value: false,
+                falseValue: false,
                 formType: 'extend',
                 autoFocus: false,
                 form: {
@@ -528,7 +526,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 mode: 'normal',
                 name: 'hideRoot',
                 label: '显示顶级节点',
-                value: true,
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
@@ -578,7 +575,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   '自定义展开层级',
                   '默认展开所有节点层级，开启后可自定义展开层级数'
                 ),
-                value: true,
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
@@ -590,8 +586,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
-                      min: 0,
-                      hiddenOn: 'this.initiallyOpen'
+                      min: 0
                     }
                   ]
                 }
@@ -733,24 +728,25 @@ export class TreeSelectControlPlugin extends BasePlugin {
     const store = manager.store;
     const node = store.getNodeById(id);
     const value = store.getValueOf(id);
-    const defaultItemSchema = {
-      type: 'button',
-      icon: 'fa fa-plus',
-      level: 'link',
-      size: 'xs'
-    };
+    const defaultItemSchema = this.defaultItemAction;
+    let originData = value.itemActions;
+
+    if (originData.type && originData.type !== 'container') {
+      originData = {
+        type: 'container',
+        body: [originData]
+      };
+    } else {
+      originData = originData ?? defaultItemSchema;
+    }
 
     node &&
       value &&
       this.manager.openSubEditor({
         title: '配置自定义操作模板',
-        value: schemaToArray(value.itemActions ?? defaultItemSchema),
-        slot: {
-          type: 'container',
-          body: '$$'
-        },
+        value: originData,
         onChange: (newValue: any) => {
-          newValue = {...value, itemActions: schemaArrayFormat(newValue)};
+          newValue = {...value, itemActions: newValue};
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
