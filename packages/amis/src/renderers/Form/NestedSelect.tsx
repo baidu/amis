@@ -171,10 +171,18 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, options, multiple, value, selectedOptions} =
+      this.props;
+
     const rendererEvent = await dispatchEvent(
       eventName,
-      resolveEventData(this.props, eventData)
+      resolveEventData(this.props, {
+        options,
+        items: options, // 为了保持名字统一
+        value,
+        selectedItems: multiple ? selectedOptions : selectedOptions[0],
+        ...eventData
+      })
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -210,29 +218,13 @@ export default class NestedSelectControl extends React.Component<
   }
 
   async removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-    let {
-      onChange,
-      selectedOptions,
-      joinValues,
-      valueField,
-      extractValue,
-      delimiter,
-      value
-    } = this.props;
+    let {onChange, selectedOptions} = this.props;
 
     e && e.stopPropagation();
 
     selectedOptions.splice(index, 1);
 
-    if (joinValues) {
-      value = (selectedOptions as Options)
-        .map(item => item[valueField || 'value'])
-        .join(delimiter || ',');
-    } else if (extractValue) {
-      value = (selectedOptions as Options).map(
-        item => item[valueField || 'value']
-      );
-    }
+    const value = this.getValue();
 
     const isPrevented = await this.dispatchEvent('change', {
       value
