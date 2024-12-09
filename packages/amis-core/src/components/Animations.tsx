@@ -83,8 +83,8 @@ function Animations({
   function initAnimationTimeout() {
     const animations = schema?.animations;
     const animationTimeout = {
-      enter: 1000,
-      exit: 1000
+      enter: 0,
+      exit: 0
     };
     if (animations) {
       if (animations.enter) {
