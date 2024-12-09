@@ -623,7 +623,7 @@ export class ImageField extends React.Component<
             themeCss: wrapperCustomStyle
           })
         )}
-        style={{...style, transform: `scale(${this.state.scale})`}}
+        style={{transform: `scale(${this.state.scale})`, ...style}}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
