@@ -240,7 +240,8 @@ export default class UserSelectControl extends React.Component<
       data,
       displayFields,
       labelField,
-      loadingConfig
+      loadingConfig,
+      disabled
     } = this.props;
     tabOptions?.forEach((item: any) => {
       item.deferLoad = this.deferLoad;
@@ -260,6 +261,7 @@ export default class UserSelectControl extends React.Component<
             onSearch={this.onSearch}
             deferLoad={this.deferLoad}
             data={data}
+            disabled={disabled}
           />
         ) : (
           <UserSelect
@@ -280,6 +282,7 @@ export default class UserSelectControl extends React.Component<
             labelField={labelField}
             isDep={isDep}
             isRef={isRef}
+            disabled={disabled}
           />
         )}
       </div>
