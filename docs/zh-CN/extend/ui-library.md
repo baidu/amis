@@ -138,7 +138,7 @@ let amisScoped = amis.embed('#root', {
 });
 ```
 
-具体有哪些可以参考 `https://github.com/baidu/amis/blob/master/src/index.tsx`
+具体有哪些可以参考 [https://github.com/baidu/amis/blob/master/packages/amis/src/index.tsx](https://github.com/baidu/amis/blob/master/packages/amis/src/index.tsx)
 
 ## React 中引入 amis 的组件
 

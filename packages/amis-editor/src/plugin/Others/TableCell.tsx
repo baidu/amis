@@ -1,7 +1,11 @@
 import {Button} from 'amis';
 import React from 'react';
 import get from 'lodash/get';
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  registerEditorPlugin,
+  tipedLabel
+} from 'amis-editor-core';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -427,10 +431,35 @@ export class TableCellPlugin extends BasePlugin {
                   ? value.replace(/\*\s*,\s*|\s*,\s*\*/g, '')
                   : value
             },
-
+            {
+              name: 'textOverflow',
+              type: 'button-group-select',
+              label: '文本超出处理',
+              size: 'xs',
+              mode: 'inline',
+              inputClassName: 'mt-1 w-full',
+              pipeIn: defaultValue('default'),
+              options: [
+                {
+                  label: '默认',
+                  value: 'default'
+                },
+                {
+                  label: '溢出隐藏',
+                  value: 'ellipsis'
+                },
+                {
+                  label: '取消换行',
+                  value: 'noWrap'
+                }
+              ]
+            },
             getSchemaTpl('switch', {
               name: 'className',
-              label: '内容强制换行',
+              label: tipedLabel(
+                '允许任意字符间断行',
+                '开启此项，换行处理将在任意字母处断行，长英文单词或长英文字符会被切断，如url链接'
+              ),
               pipeIn: (value: any) =>
                 typeof value === 'string' && /\word\-break\b/.test(value),
               pipeOut: (value: any, originValue: any) =>

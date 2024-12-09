@@ -1,15 +1,17 @@
-import React from 'react';
 import {
   registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   RendererPluginEvent,
-  RendererPluginAction
+  RendererPluginAction,
+  getSchemaTpl
 } from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
-
-import type {Schema} from 'amis-core';
+import {type Schema} from 'amis-core';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class SearchBoxPlugin extends BasePlugin {
   static id = 'SearchBoxPlugin';
@@ -35,7 +37,8 @@ export class SearchBoxPlugin extends BasePlugin {
       type: 'tpl',
       tpl: '搜索框',
       wrapperComponent: '',
-      inline: false
+      inline: false,
+      id: generateId()
     },
     level: 'info'
   };
@@ -144,12 +147,14 @@ export class SearchBoxPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空输入框'
+      description: '清空输入框',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'setValue',
       actionLabel: '更新数据',
-      description: '更新数据'
+      description: '更新数据',
+      ...getActionCommonProps('setValue')
     }
   ];
 

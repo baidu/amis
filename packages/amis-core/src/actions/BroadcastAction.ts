@@ -1,6 +1,8 @@
-import {RendererProps} from '../factory';
 import {createObject} from '../utils/helper';
-import {RendererEvent, dispatchEvent} from '../utils/renderer-event';
+import {
+  RendererEvent,
+  dispatchGlobalEventForRenderer
+} from '../utils/renderer-event';
 import {
   RendererAction,
   ListenerAction,
@@ -37,9 +39,11 @@ export class BroadcastAction implements RendererAction {
     // 作为一个新的事件，需要把广播动作的args参数追加到事件数据中
     event.setData(createObject(event.data, action.data ?? {}));
 
+    const eventName = action.args?.eventName || action.eventName!;
+
     // 直接触发对应的动作
-    return await dispatchEvent(
-      action.args?.eventName || action.eventName!,
+    return await dispatchGlobalEventForRenderer(
+      eventName,
       renderer,
       event.context.scoped,
       action.data,

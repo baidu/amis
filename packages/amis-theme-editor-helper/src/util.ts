@@ -27,11 +27,13 @@ export function getDefaultValue(
   if (editorValue) {
     if (typeof editorValue === 'string') {
       const key = filter(editorValue, data);
-      const value = data.cssVars[key];
+      const value = data.cssVars[key]?.replace(/\n/g, '').replace(/\s/g, '');
       if (!value) {
-        return value;
-      }
-      if (isThemeCssVar(value)) {
+        if (key.startsWith('--')) {
+          return undefined;
+        }
+        return key;
+      } else if (isThemeCssVar(value)) {
         return value;
       } else {
         return getDefaultValue(getCssKey(value), data);
@@ -42,13 +44,16 @@ export function getDefaultValue(
         const key = filter(editorValue[k], data);
         const value = data.cssVars[key];
         if (!value) {
-          res[k] = value;
-        }
-        if (isThemeCssVar(value)) {
+          if (key.startsWith('--')) {
+            return;
+          }
+          res[k] = key;
+        } else if (isThemeCssVar(value)) {
           res[k] = value;
         } else {
           res[k] = getDefaultValue(getCssKey(value), data);
         }
+        return;
       });
       return res;
     }

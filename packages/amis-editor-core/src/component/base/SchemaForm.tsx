@@ -4,6 +4,7 @@ import {EditorManager} from '../../manager';
 import {diff, getThemeConfig} from '../../util';
 import {
   createObjectFromChain,
+  createObject,
   extractObjectChain,
   IFormStore,
   render,

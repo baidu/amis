@@ -97,6 +97,10 @@
 
   .#{$ns}Picker-values {
     display: inline;
+
+    .#{$ns}Picker-valueLabel {
+      pointer-events: auto;
+    }
   }
 
   &-valueWrap {
@@ -158,7 +162,7 @@
   &-overflow {
     &-wrapper {
       display: flex;
-      flex-flow: column nowrap;
+      flex-wrap: wrap;
       justify-content: flex-start;
       align-items: flex-start;
       overflow-x: hidden;

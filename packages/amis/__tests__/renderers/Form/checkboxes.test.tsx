@@ -876,7 +876,7 @@ test('Renderer:checkboxes with optionType & labelClassName & itemClassName', asy
     '.cxd-CheckboxesControl .cxd-Checkbox:first-of-type'
   )!;
 
-  expect(OptionA).toHaveClass('cxd-Checkbox--button');
+  expect(OptionA).toHaveClass('cxd-Checkbox--checkbox--button');
   expect(OptionA).toHaveClass('iamitem');
   expect(getByText(/OptionA/)).toHaveClass('iamlabel');
 

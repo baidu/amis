@@ -44,95 +44,107 @@ export class StepsPlugin extends BasePlugin {
   panelBody = [
     getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-          getSchemaTpl('combo-container', {
-            name: 'steps',
-            label: '步骤列表',
-            type: 'combo',
-            scaffold: {
-              type: 'wrapper',
-              body: '子节点内容'
-            },
-            minLength: 2,
-            multiple: true,
-            draggable: true,
-            items: [
-              getSchemaTpl('title', {
-                label: false,
-                placeholder: '标题'
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+              getSchemaTpl('combo-container', {
+                name: 'steps',
+                label: '步骤列表',
+                type: 'combo',
+                scaffold: {
+                  type: 'wrapper',
+                  body: '子节点内容'
+                },
+                minLength: 2,
+                multiple: true,
+                draggable: true,
+                items: [
+                  getSchemaTpl('title', {
+                    label: false,
+                    placeholder: '标题'
+                  }),
+                  getSchemaTpl('stepSubTitle'),
+                  getSchemaTpl('stepDescription')
+                ]
               }),
-              getSchemaTpl('stepSubTitle'),
-              getSchemaTpl('stepDescription')
+              {
+                name: 'value',
+                type: 'input-text',
+                label: '当前步骤',
+                description: '以零为头部'
+              },
+              {
+                name: 'status',
+                type: 'select',
+                label: '当前状态',
+                creatable: true,
+                value: 'finish',
+                options: [
+                  {
+                    label: '进行中',
+                    value: 'process'
+                  },
+                  {
+                    label: '等待',
+                    value: 'wait'
+                  },
+                  {
+                    label: '完成',
+                    value: 'finish'
+                  },
+                  {
+                    label: '出错',
+                    value: 'error'
+                  }
+                ]
+              },
+              getSchemaTpl('api', {
+                name: 'source',
+                label: '获取步骤接口'
+              })
             ]
-          }),
-          {
-            name: 'value',
-            type: 'input-text',
-            label: '当前步骤',
-            description: '以零为头部'
           },
-          {
-            name: 'status',
-            type: 'select',
-            label: '当前状态',
-            creatable: true,
-            value: 'finish',
-            options: [
-              {
-                label: '进行中',
-                value: 'process'
-              },
-              {
-                label: '等待',
-                value: 'wait'
-              },
-              {
-                label: '完成',
-                value: 'finish'
-              },
-              {
-                label: '出错',
-                value: 'error'
-              }
-            ]
-          },
-          getSchemaTpl('api', {
-            name: 'source',
-            label: '获取步骤接口'
-          })
-        ]
+          getSchemaTpl('status')
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'mode',
-            type: 'select',
-            label: '模式',
-            value: 'horizontal',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '水平',
-                value: 'horizontal'
+                name: 'mode',
+                type: 'select',
+                label: '模式',
+                value: 'horizontal',
+                options: [
+                  {
+                    label: '水平',
+                    value: 'horizontal'
+                  },
+                  {
+                    label: '竖直',
+                    value: 'vertical'
+                  },
+                  {
+                    label: '简单',
+                    value: 'simple'
+                  }
+                ]
               },
-              {
-                label: '竖直',
-                value: 'vertical'
-              },
-              {
-                label: '简单',
-                value: 'simple'
-              }
+              getSchemaTpl('switch', {
+                name: 'iconPosition',
+                label: '图标文字垂直展示',
+                value: false
+              })
             ]
           },
-          getSchemaTpl('className')
-        ]
-      },
-      {
-        title: '显隐',
-        body: [getSchemaTpl('visible')]
+          getSchemaTpl('style:classNames', {isFormItem: false})
+        ])
       }
     ])
   ];

@@ -15,6 +15,26 @@
 .#{$ns}Field--popOverAble {
   outline: none;
   position: relative;
+
+  &--flex {
+    display: flex;
+    align-items: center;
+  }
+
+  .#{$ns}Field-popOverWrap {
+    &-ellipsis {
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
+      display: inline-block;
+    }
+
+    &-noWrap {
+      white-space: nowrap;
+    }
+  }
 }
 
 .#{$ns}PopOverAble-popover {

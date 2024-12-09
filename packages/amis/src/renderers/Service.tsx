@@ -37,6 +37,7 @@ import {IIRendererStore} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
 import type {ScopedComponentType} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
+import {isAlive} from 'mobx-state-tree';
 
 export const eventTypes = [
   /* 初始化时执行，默认 */
@@ -529,6 +530,9 @@ export default class Service extends React.Component<ServiceProps> {
     // 保存 ajax 请求的时候返回时数据部分。
     const data = result?.hasOwnProperty('ok') ? result.data ?? {} : result;
     const {onBulkChange, dispatchEvent, store, formStore} = this.props;
+    if (!isAlive(store)) {
+      return;
+    }
 
     dispatchEvent?.(
       'fetchInited',

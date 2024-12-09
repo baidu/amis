@@ -76,13 +76,17 @@ exports[`Renderer:transfer 1`] = `
                         >
                           <span>
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -104,13 +108,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -130,13 +138,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -156,13 +168,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -182,13 +198,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -208,13 +228,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -234,13 +258,17 @@ exports[`Renderer:transfer 1`] = `
                             class="cxd-GroupedSelection-item"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -621,13 +649,17 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -648,13 +680,17 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -675,13 +711,17 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -702,13 +742,17 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -1259,13 +1303,17 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1286,13 +1334,17 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1313,13 +1365,17 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1340,13 +1396,17 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -1489,13 +1549,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                 >
                   <span>
                     <label
-                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                       data-role="checkbox"
                     >
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -1550,13 +1614,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1591,13 +1659,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1637,13 +1709,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1678,13 +1754,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1719,13 +1799,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1765,13 +1849,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1806,13 +1894,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1847,13 +1939,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -1888,13 +1984,17 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2127,13 +2227,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                 >
                   <span>
                     <label
-                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                       data-role="checkbox"
                     >
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -2188,13 +2292,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2229,13 +2337,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2275,13 +2387,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2316,13 +2432,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2357,13 +2477,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2403,13 +2527,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                         </div>
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2444,13 +2572,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2485,13 +2617,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2526,13 +2662,17 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrowPlaceholder"
                         />
                         <label
-                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                          class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                           data-role="checkbox"
                         >
                           <input
                             type="checkbox"
                           />
-                          <i />
+                          <i>
+                            <div
+                              class="checkbox-icon icon"
+                            />
+                          </i>
                           <span
                             class=""
                           />
@@ -2786,13 +2926,17 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                 >
                   <span>
                     <label
-                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                       data-role="checkbox"
                     >
                       <input
                         type="checkbox"
                       />
-                      <i />
+                      <i>
+                        <div
+                          class="checkbox-icon icon"
+                        />
+                      </i>
                       <span
                         class=""
                       />
@@ -2830,13 +2974,17 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               class="cxd-GroupedSelection-item"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2865,13 +3013,17 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               class="cxd-GroupedSelection-item"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2900,13 +3052,17 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               class="cxd-GroupedSelection-item"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -2935,13 +3091,17 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                               class="cxd-GroupedSelection-item"
                             >
                               <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                 data-role="checkbox"
                               >
                                 <input
                                   type="checkbox"
                                 />
-                                <i />
+                                <i>
+                                  <div
+                                    class="checkbox-icon icon"
+                                  />
+                                </i>
                                 <span
                                   class=""
                                 />
@@ -3622,13 +3782,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3650,13 +3814,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3684,13 +3852,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3718,13 +3890,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3752,13 +3928,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3786,13 +3966,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -3820,13 +4004,17 @@ exports[`Renderer:transfer table 1`] = `
                                     class="cxd-Table-checkCell"
                                   >
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                       data-role="checkbox"
                                     >
                                       <input
                                         type="checkbox"
                                       />
-                                      <i />
+                                      <i>
+                                        <div
+                                          class="checkbox-icon icon"
+                                        />
+                                      </i>
                                       <span
                                         class=""
                                       />
@@ -4001,14 +4189,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 checked=""
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -4056,14 +4248,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4092,13 +4288,17 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4127,14 +4327,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4163,13 +4367,17 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4198,14 +4406,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4234,13 +4446,17 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4269,14 +4485,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4305,13 +4525,17 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4340,14 +4564,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4376,13 +4604,17 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4411,14 +4643,18 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4824,14 +5060,18 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                               data-role="checkbox"
                             >
                               <input
                                 checked=""
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -4879,14 +5119,18 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4915,13 +5159,17 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4950,14 +5198,18 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm checked cxd-Checkbox--checkbox--default--checked"
                                     data-role="checkbox"
                                   >
                                     <input
                                       checked=""
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -4986,13 +5238,17 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                   class="cxd-Table-checkCell"
                                 >
                                   <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                     data-role="checkbox"
                                   >
                                     <input
                                       type="checkbox"
                                     />
-                                    <i />
+                                    <i>
+                                      <div
+                                        class="checkbox-icon icon"
+                                      />
+                                    </i>
                                     <span
                                       class=""
                                     />
@@ -5265,13 +5521,17 @@ exports[`Renderer:transfer tree 1`] = `
                         >
                           <span>
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                               data-role="checkbox"
                             >
                               <input
                                 type="checkbox"
                               />
-                              <i />
+                              <i>
+                                <div
+                                  class="checkbox-icon icon"
+                                />
+                              </i>
                               <span
                                 class=""
                               />
@@ -5307,13 +5567,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5348,13 +5612,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5394,13 +5662,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5435,13 +5707,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5476,13 +5752,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5522,13 +5802,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                 </div>
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5563,13 +5847,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5604,13 +5892,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5645,13 +5937,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrowPlaceholder"
                                 />
                                 <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                                   data-role="checkbox"
                                 >
                                   <input
                                     type="checkbox"
                                   />
-                                  <i />
+                                  <i>
+                                    <div
+                                      class="checkbox-icon icon"
+                                    />
+                                  </i>
                                   <span
                                     class=""
                                   />
@@ -5775,13 +6071,17 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
           >
             <span>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 />
@@ -5812,13 +6112,17 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     class="cxd-Tree-itemArrowPlaceholder"
                   />
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -5853,13 +6157,17 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     class="cxd-Tree-itemArrowPlaceholder"
                   />
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />
@@ -5894,13 +6202,17 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     class="cxd-Tree-itemArrowPlaceholder"
                   />
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--sm"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     />

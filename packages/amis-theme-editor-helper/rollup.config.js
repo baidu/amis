@@ -47,10 +47,10 @@ const pkgs = [];
     });
   }
 });
+
 const external = id =>
   pkgs.some(pkg => id.startsWith(pkg) || ~id.indexOf(`node_modules/${pkg}`));
 const input = ['./src/index.ts'];
-
 export default [
   {
     input,

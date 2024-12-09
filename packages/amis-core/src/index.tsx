@@ -81,7 +81,11 @@ import type {
   FormControlProps,
   FormItemProps
 } from './renderers/Item';
-import {OptionsControl, registerOptionsControl} from './renderers/Options';
+import {
+  OptionsControl,
+  registerOptionsControl,
+  OptionsControlBase
+} from './renderers/Options';
 import type {OptionsControlProps} from './renderers/Options';
 import type {FormOptionsControl} from './renderers/Options';
 import {Schema} from './types';
@@ -119,12 +123,17 @@ import {
 } from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
-import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
+import {
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  SchemaRenderer
+} from './SchemaRenderer';
 import type {IItem} from './store/list';
 import CustomStyle from './components/CustomStyle';
 import {StatusScoped} from './StatusScoped';
 
 import styleManager from './StyleManager';
+
+import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -178,6 +187,9 @@ export {
   getClassPrefix,
   classnames,
   makeClassnames,
+  // 全局广播事件
+  bindGlobalEvent,
+  dispatchGlobalEvent,
   // 多语言相关
   getDefaultLocale,
   setDefaultLocale,
@@ -209,6 +221,7 @@ export {
   ErrorBoundary,
   addSchemaFilter,
   OptionsControlProps,
+  OptionsControlBase,
   FormOptionsControl,
   FormControlProps,
   FormBaseControl,
@@ -232,7 +245,9 @@ export {
   disableDebug,
   envOverwrite,
   getGlobalOptions,
-  setGlobalOptions
+  setGlobalOptions,
+  wrapFetcher,
+  SchemaRenderer
 };
 
 export function render(
@@ -346,7 +361,7 @@ function AMISRenderer({
       env.replaceTextIgnoreKeys
     );
     return schema;
-  }, [schema, locale]);
+  }, [schema, locale, options.replaceText]);
 
   return (
     <EnvContext.Provider value={env}>

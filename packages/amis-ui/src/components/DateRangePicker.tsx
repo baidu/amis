@@ -57,6 +57,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   ranges?: string | Array<ShortCuts>;
   shortcuts?: string | Array<ShortCuts>;
   clearable?: boolean;
+  inputForbid?: boolean; // 禁用输入
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   minDateRaw?: string;
@@ -1996,6 +1997,7 @@ export class DateRangePicker extends React.Component<
       joinValues,
       delimiter,
       clearable,
+      inputForbid,
       disabled,
       embed,
       overlayPlacement,
@@ -2110,7 +2112,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.startInputValue || ''}
           disabled={disabled}
-          readOnly={mobileUI}
+          readOnly={mobileUI || inputForbid}
           testIdBuilder={testIdBuilder?.getChild('start')}
         />
         <span
@@ -2131,7 +2133,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.endInputValue || ''}
           disabled={disabled}
-          readOnly={mobileUI}
+          readOnly={mobileUI || inputForbid}
           testIdBuilder={testIdBuilder?.getChild('end')}
         />
 

@@ -223,7 +223,7 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
         className={cx(
           `PopOver`,
           className,
-          `PopOver--${camel(activePlacement)}`,
+          activePlacement ? `PopOver--${camel(activePlacement)}` : '',
           placements[3] ? `PopOver--v-${placements[3]}` : ''
         )}
         style={outerStyle}

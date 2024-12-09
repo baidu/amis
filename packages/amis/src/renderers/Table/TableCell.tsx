@@ -199,10 +199,10 @@ export class TableCell extends React.Component<TableCellProps> {
   type: 'cell',
   name: 'table-cell'
 })
-@QuickEdit()
 @PopOverable({
   targetOutter: true
 })
+@QuickEdit()
 @Copyable()
 @observer
 export class TableCellRenderer extends TableCell {

@@ -10,7 +10,26 @@
     }
   }
 
-  .#{$ns}Collapse:last-child {
+  .#{$ns}Collapse:not(.#{$ns}Collapse--title-bottom):last-child {
+    border-radius: 0 0 4px 4px;
+    & > .#{$ns}Collapse-header {
+      border-radius: 0 0 4px 4px;
+    }
+    &
+      > .#{$ns}Collapse-contentWrapper
+      > .#{$ns}Collapse-body
+      > .#{$ns}Collapse-content {
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .#{$ns}Collapse.is-active:not(.#{$ns}Collapse--title-bottom):last-child {
+    & > .#{$ns}Collapse-header {
+      border-radius: 0px;
+    }
+  }
+
+  .#{$ns}Collapse--title-bottom:last-child {
     border-radius: 0 0 4px 4px;
     & > .#{$ns}Collapse-header {
       border-radius: 0 0 4px 4px;
@@ -37,6 +56,17 @@
 
       .#{$ns}Collapse-icon-tranform {
         float: right;
+      }
+    }
+  }
+
+  &.icon-position-right {
+    .#{$ns}Collapse-header {
+      &.noTitle {
+        text-align: right;
+        .#{$ns}Collapse-arrow-wrap {
+          float: none;
+        }
       }
     }
   }

@@ -315,6 +315,35 @@ const editorLanguages = [
   }
 ];
 
+const globalEvents = [
+  {
+    name: 'globalEventA',
+    label: '全局事件A',
+    description: '全局事件动作A',
+    mapping: [
+      {
+        key: 'name',
+        type: 'string'
+      },
+      {
+        key: 'age',
+        type: 'number'
+      }
+    ]
+  },
+  {
+    name: 'globalEventB',
+    label: '全局事件B',
+    description: '全局事件动作A',
+    mapping: [
+      {
+        key: 'name',
+        type: 'string'
+      }
+    ]
+  }
+];
+
 /**
  * 自定义渲染器示例
  */
@@ -645,7 +674,8 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         plugins={LayoutList} // 存放常见布局组件
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
-          showOldEntry: false
+          showOldEntry: false,
+          globalEventGetter: () => globalEvents
         }}
         amisEnv={
           {

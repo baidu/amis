@@ -12,6 +12,11 @@
     height: auto;
     line-height: px2rem(22px);
     &-container {
+      &.#{$ns}StepsItem-vertical {
+        display: flex;
+        flex-direction: column;
+      }
+
       position: relative;
       &Icon {
         vertical-align: top;
@@ -36,7 +41,7 @@
         }
       }
       &Wrapper {
-        display: inline-block;
+        display: inline-flex;
         position: relative;
         .#{$ns}StepsItem-body {
           .#{$ns}StepsItem-title {

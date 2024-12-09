@@ -130,7 +130,10 @@ export class DataBindingControl extends React.Component<
 
           return render('content', schema!, {
             onSelect: onChange,
-            value: value ? value.value : result
+            value:
+              value && typeof value === 'object'
+                ? value?.selected?.value ?? value?.value
+                : result
           });
         }}
         value={result}

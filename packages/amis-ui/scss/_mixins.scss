@@ -715,3 +715,86 @@
     padding: 0 var(--gap-xs);
   }
 }
+
+@function resolve-params($params...) {
+  @if length($params) == 1 {
+    @return (
+      nth($params, 1),
+      nth($params, 1),
+      nth($params, 1),
+      nth($params, 1)
+    );
+  } @else if length($params) == 2 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 1),
+      nth($params, 2)
+    );
+  } @else if length($params) == 3 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 3),
+      nth($params, 2)
+    );
+  } @else if length($params) == 4 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 3),
+      nth($params, 4)
+    );
+  } @else {
+    @warn "Please provide 1 to 4 params values.";
+    @return null;
+  }
+}
+
+@mixin borderRadius($token, $radius...) {
+  $resolved: resolve-params($radius...);
+  #{$token}-top-left-border-radius: nth($resolved, 1);
+  #{$token}-top-right-border-radius: nth($resolved, 2);
+  #{$token}-bottom-right-border-radius: nth($resolved, 3);
+  #{$token}-bottom-left-border-radius: nth($resolved, 4);
+}
+
+@mixin borderColor($token, $color...) {
+  $resolved: resolve-params($color...);
+  #{$token}-top-border-color: nth($resolved, 1);
+  #{$token}-right-border-color: nth($resolved, 2);
+  #{$token}-bottom-border-color: nth($resolved, 3);
+  #{$token}-left-border-color: nth($resolved, 4);
+}
+
+@mixin borderWidth($token, $width...) {
+  $resolved: resolve-params($width...);
+  #{$token}-top-border-width: nth($resolved, 1);
+  #{$token}-right-border-width: nth($resolved, 2);
+  #{$token}-bottom-border-width: nth($resolved, 3);
+  #{$token}-left-border-width: nth($resolved, 4);
+}
+
+@mixin borderStyle($token, $style...) {
+  $resolved: resolve-params($style...);
+  #{$token}-top-border-style: nth($resolved, 1);
+  #{$token}-right-border-style: nth($resolved, 2);
+  #{$token}-bottom-border-style: nth($resolved, 3);
+  #{$token}-left-border-style: nth($resolved, 4);
+}
+
+@mixin padding($token, $padding...) {
+  $resolved: resolve-params($padding...);
+  #{$token}-paddingTop: nth($resolved, 1);
+  #{$token}-paddingRight: nth($resolved, 2);
+  #{$token}-paddingBottom: nth($resolved, 3);
+  #{$token}-paddingLeft: nth($resolved, 4);
+}
+
+@mixin margin($token, $margin...) {
+  $resolved: resolve-params($margin...);
+  #{$token}-marginTop: nth($resolved, 1);
+  #{$token}-marginRight: nth($resolved, 2);
+  #{$token}-marginBottom: nth($resolved, 3);
+  #{$token}-marginLeft: nth($resolved, 4);
+}

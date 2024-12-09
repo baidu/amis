@@ -900,6 +900,38 @@ setSchemaTpl('theme:cssCode', () => {
   };
 });
 
+// single css类名
+setSchemaTpl(
+  'theme:singleCssCode',
+  (options: {
+    selectors: {
+      label: string;
+      selector: string;
+      isRoot?: boolean;
+    }[];
+  }) => {
+    const {selectors} = options;
+    return {
+      title: '自定义样式',
+      name: 'wrapperCustomStyle',
+      body: selectors?.map(
+        (item: {label: string; selector: string; isRoot?: boolean}) => {
+          const {isRoot, selector} = item;
+          const _selector = isRoot ? 'root' : selector;
+          const name = `wrapperCustomStyle[${_selector}]`;
+          return {
+            mode: 'default',
+            name,
+            type: 'ae-single-theme-cssCode',
+            label: false,
+            selector: item
+          };
+        }
+      )
+    };
+  }
+);
+
 // form label
 setSchemaTpl('theme:form-label', () => {
   return {
@@ -1093,21 +1125,23 @@ setSchemaTpl(
         !hideBorder &&
           getSchemaTpl('theme:border', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.border:${state}`,
+            name: `themeCss.${classname}.border${needState ? ':' + state : ''}`,
             state,
             editorValueToken
           }),
         !hideRadius &&
           getSchemaTpl('theme:radius', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.radius:${state}`,
+            name: `themeCss.${classname}.radius${needState ? ':' + state : ''}`,
             state,
             editorValueToken
           }),
         !hidePaddingAndMargin &&
           getSchemaTpl('theme:paddingAndMargin', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.padding-and-margin:${state}`,
+            name: `themeCss.${classname}.padding-and-margin${
+              needState ? ':' + state : ''
+            }`,
             hideMargin,
             hidePadding,
             state,
@@ -1116,7 +1150,9 @@ setSchemaTpl(
         !hideBackground &&
           getSchemaTpl('theme:colorPicker', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.background:${state}`,
+            name: `themeCss.${classname}.background${
+              needState ? ':' + state : ''
+            }`,
             label: '背景',
             needCustom: true,
             needGradient: true,
@@ -1130,7 +1166,9 @@ setSchemaTpl(
         !hideShadow &&
           getSchemaTpl('theme:shadow', {
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.boxShadow:${state}`,
+            name: `themeCss.${classname}.boxShadow${
+              needState ? ':' + state : ''
+            }`,
             state,
             editorValueToken
           })
@@ -1141,7 +1179,7 @@ setSchemaTpl(
             return {
               ...item,
               visibleOn: visibleOn,
-              name: `${item.name}:${state}`,
+              name: `${item.name}${needState ? ':' + state : ''}`,
               state
             };
           })
@@ -1169,6 +1207,14 @@ setSchemaTpl(
           {
             label: '点击',
             value: 'active'
+          },
+          {
+            label: '选中',
+            value: 'focused'
+          },
+          {
+            label: '禁用',
+            value: 'disabled'
           }
         ].filter(item => state.includes(item.value))
       },
@@ -1177,7 +1223,9 @@ setSchemaTpl(
         'default'
       ),
       ...styleStateFunc(`\${__editorState${classId} == 'hover'}`, 'hover'),
-      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active')
+      ...styleStateFunc(`\${__editorState${classId} == 'active'}`, 'active'),
+      ...styleStateFunc(`\${__editorState${classId} == 'focused'}`, 'focused'),
+      ...styleStateFunc(`\${__editorState${classId} == 'disabled'}`, 'disabled')
     ].filter(Boolean);
 
     return {
@@ -1201,6 +1249,8 @@ setSchemaTpl(
     classname?: string;
     baseTitle?: string;
     hidePaddingAndMargin?: boolean;
+    hideAnimation?: boolean;
+    needState?: boolean;
   }) => {
     let {
       exclude,
@@ -1210,7 +1260,9 @@ setSchemaTpl(
       layoutExtra,
       classname,
       baseTitle,
-      hidePaddingAndMargin
+      hidePaddingAndMargin,
+      hideAnimation,
+      needState = true
     } = option || {};
 
     const curCollapsed = collapsed ?? false; // 默认都展开
@@ -1239,11 +1291,13 @@ setSchemaTpl(
         extra: baseExtra,
         classname,
         title: baseTitle,
+        needState,
         hidePaddingAndMargin
       }),
       ...extra,
       {
         title: '自定义样式',
+        key: 'theme-css-code',
         collapsed: curCollapsed,
         body: [
           {
@@ -1252,7 +1306,7 @@ setSchemaTpl(
           }
         ]
       },
-      getSchemaTpl('animation')
+      !hideAnimation && getSchemaTpl('animation')
     ].filter(item => !~exclude.indexOf(item.key || ''));
   }
 );
@@ -1295,10 +1349,14 @@ setSchemaTpl('animation', () => {
   function playAnimation(animations: any, id: string, type: string) {
     let doc = document;
     const isMobile = (window as any).editorStore.isMobile;
-
     if (isMobile) {
       doc = (document.getElementsByClassName('ae-PreviewIFrame')[0] as any)
         .contentDocument;
+    }
+    const highlightDom = document.getElementById('aePreviewHighlightBox');
+    if (highlightDom) {
+      highlightDom.style.opacity = '0';
+      highlightDom.classList.add('ae-Preview-widgets--no-transition');
     }
     const el = doc.querySelector(`[name="${id}"]`);
     id = formateId(id);
@@ -1321,6 +1379,17 @@ setSchemaTpl('animation', () => {
 
     timeoutId = setTimeout(() => {
       el?.classList.remove(className);
+
+      if (highlightDom) {
+        const editorId = el?.getAttribute('data-editor-id');
+        const node = (window as any).editorStore.getNodeById(editorId);
+        // 重新计算元素高亮框的位置
+        node.calculateHighlightBox();
+        highlightDom.style.opacity = '1';
+        setTimeout(() => {
+          highlightDom.classList.remove('ae-Preview-widgets--no-transition');
+        }, 150);
+      }
     }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000 + 200);
   }
   const animation = (
@@ -1338,12 +1407,36 @@ setSchemaTpl('animation', () => {
         }
         return undefined;
       },
+      onChange: (value: any, a: any, b: any, {data}: any) => {
+        if (value) {
+          const {id} = data;
+          let animationType = 'fadeIn';
+          if ('children' in animationOptions[type][0]) {
+            // @ts-ignore
+            animationType = animationOptions[type][0].children[0].value;
+          } else {
+            // @ts-ignore
+            animationType = animationOptions[type][0].value;
+          }
+          playAnimation(
+            {
+              [type]: {
+                delay: 0,
+                duration: 1,
+                type: animationType
+              }
+            },
+            id,
+            type
+          );
+        }
+      },
       label
     },
     {
       type: 'container',
       className: 'm-b ae-ExtendMore',
-      visibleOn: `animations.${type}`,
+      visibleOn: `\${animations && animations.${type}}`,
       body: [
         {
           type: 'select',
@@ -1423,7 +1516,7 @@ setSchemaTpl('animation', () => {
     },
     {
       type: 'button',
-      visibleOn: `animations.${type}`,
+      visibleOn: `\${animations && animations.${type}}`,
       className: 'm-b',
       block: true,
       level: 'enhance',

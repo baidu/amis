@@ -1,5 +1,5 @@
 import {JSONValueMap, findTree, resolveVariableAndFilter} from 'amis';
-import {EditorManager} from 'amis-editor-core';
+import {EditorManager, guid} from 'amis-editor-core';
 import isString from 'lodash/isString';
 
 /**
@@ -373,6 +373,29 @@ export const TREE_BASE_EVENTS = (schema: any) => {
         ];
       }
     },
+    {
+      eventName: 'itemClick',
+      eventLabel: '节点点击',
+      description: '点击节点触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
     ...OPTION_EDIT_EVENTS,
     {
       eventName: 'deferLoadFinished',
@@ -490,3 +513,7 @@ export const getOwnValue = (obj: any, key: string) => {
     return obj[key];
   }
 };
+
+export function generateId() {
+  return `u:${guid()}`;
+}

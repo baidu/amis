@@ -1304,7 +1304,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       {
         data: {
           ...this.props.data,
-          record,
+          ...record,
           rowIndex
         }
       }
@@ -1580,7 +1580,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
       dispatchEvent
     } = this.props;
     actions = Array.isArray(actions) ? actions.concat() : [];
-    const config = isObject(columnsTogglable) ? columnsTogglable : {};
+    const config = isObject(columnsTogglable)
+      ? columnsTogglable
+      : {
+          align: 'left'
+        };
 
     // 现在默认从crud里传进来的columnsTogglable是boolean类型
     // table单独配置的是SchemaNode类型

@@ -66,10 +66,12 @@ export function removeApiRequestAdaptor(adaptor: RequestAdaptor) {
  * 添加全局响应适配器
  * @param adaptor
  */
-export function addApiResponseAdator(adaptor: ResponseAdaptor) {
+export function addApiResponseAdaptor(adaptor: ResponseAdaptor) {
   responseAdaptors.push(adaptor);
   return () => removeApiResponseAdaptor(adaptor);
 }
+// :(  之前写错了，这里为了让以前的代码能继续跑，暂时保留
+export const addApiResponseAdator = addApiResponseAdaptor;
 
 /**
  * 删除全局响应适配器
@@ -517,6 +519,14 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   return payload;
 }
 
+function lazyResolve<T = any>(value: T, waitFor = 1000) {
+  return new Promise<T>(resolve => {
+    setTimeout(() => {
+      resolve(value);
+    }, waitFor);
+  });
+}
+
 export function wrapFetcher(
   fn: (config: FetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
@@ -614,7 +624,11 @@ export function wrapFetcher(
         api.mockResponse,
         api
       );
-      return wrapAdaptor(Promise.resolve(api.mockResponse) as any, api, data);
+      return wrapAdaptor(
+        lazyResolve(api.mockResponse, api.mockResponse?.delay ?? 100),
+        api,
+        data
+      );
     }
 
     if (!isValidApi(api.url)) {

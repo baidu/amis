@@ -28,7 +28,7 @@ describe('constructor', () => {
     OriginComponent.defaultProps = {
       name: 'test'
     };
-    const WrappedComponent = wrapControl(OriginComponent as any);
+    const WrappedComponent = wrapControl({}, OriginComponent as any);
 
     renderComponent(WrappedComponent, {$schema: {}});
     expect(screen.getByText('FormItemStore')).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('constructor', () => {
       // 用于断言formItem已被注册
       return <div>{props.formItem?.storeType}</div>;
     };
-    const WrappedComponent = wrapControl(OriginComponent as any);
+    const WrappedComponent = wrapControl({}, OriginComponent as any);
 
     renderComponent(WrappedComponent, {$schema: {name: 'test'}});
     expect(screen.getByText('FormItemStore')).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('constructor', () => {
       // 用于断言formItem已被注册
       return <div>{props.formItem?.storeType}</div>;
     };
-    const WrappedComponent = wrapControl(OriginComponent as any);
+    const WrappedComponent = wrapControl({}, OriginComponent as any);
 
     renderComponent(WrappedComponent, {$schema: {}});
     expect(screen.queryByText('FormItemStore')).not.toBeInTheDocument();

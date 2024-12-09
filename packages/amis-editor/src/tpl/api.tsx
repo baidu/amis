@@ -42,7 +42,7 @@ setSchemaTpl('api', (patch: any = {}) => {
         option: '高级配置',
         name: name || 'api',
         mode: 'inline',
-        className: 'w-full m-b-sm',
+        className: 'w-full m-b-sm m-r-none',
         inputClassName: 'pull-right text-sm m-t-sm p-t-none',
         onChange: () => {},
         pipeIn: (value: any) => value && typeof value !== 'string',

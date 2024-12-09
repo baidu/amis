@@ -21,7 +21,8 @@ import set from 'lodash/set';
 import {
   schemaArrayFormat,
   resolveArrayDatasource,
-  schemaToArray
+  schemaToArray,
+  generateId
 } from '../util';
 
 export class ListPlugin extends BasePlugin {
@@ -49,7 +50,8 @@ export class ListPlugin extends BasePlugin {
         {
           type: 'tpl',
           tpl: '简单的展示数据：$a $b',
-          wrapperComponent: ''
+          wrapperComponent: '',
+          id: generateId()
         }
       ],
       actions: [

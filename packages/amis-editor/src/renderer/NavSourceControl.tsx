@@ -14,9 +14,7 @@ import {render as renderAmis} from 'amis-core';
 import {FormItem, Button, InputBox, Icon, Modal, toast} from 'amis';
 import {TooltipWrapper} from 'amis-ui';
 
-import {getSchemaTpl} from 'amis-editor';
-
-import {autobind} from 'amis-editor-core';
+import {autobind, getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import type {SchemaApi} from 'amis';
 import {getOwnValue} from '../util';

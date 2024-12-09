@@ -38,7 +38,7 @@ import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import type {NavigationItem} from 'amis-ui/lib/components/menu';
+import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 
 import type {Payload} from 'amis-core';
@@ -1415,15 +1415,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     async handleSelect(link: Link, depth: number) {
-      const {
-        onSelect,
-        env,
-        data,
-        level,
-        dispatchEvent,
-        updateConfig,
-        config
-      } = this.props;
+      const {onSelect, env, data, level, dispatchEvent, updateConfig, config} =
+        this.props;
 
       const rendererEvent = await dispatchEvent(
         'click',
@@ -1466,14 +1459,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     render() {
-      const {
-        disabled,
-        loading,
-        config,
-        deferLoad,
-        updateConfig,
-        ...rest
-      } = this.props;
+      const {disabled, loading, config, deferLoad, updateConfig, ...rest} =
+        this.props;
       const currentLink = this.getCurrentLink(this.state.currentKey);
 
       return (

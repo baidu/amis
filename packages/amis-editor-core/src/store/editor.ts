@@ -37,7 +37,8 @@ import {
   ScaffoldForm,
   PopOverForm,
   DeleteEventContext,
-  BaseEventContext
+  BaseEventContext,
+  IGlobalEvent
 } from '../plugin';
 import {
   JSONDuplicate,
@@ -120,6 +121,14 @@ export interface PopOverFormContext extends PopOverForm {
   value: any;
   callback: (value: any, diff: any) => void;
   node?: EditorNodeType;
+}
+
+export interface ModalFormContext extends PopOverForm {
+  mode?: 'dialog' | 'drawer';
+  size?: string;
+  postion?: string;
+  value: any;
+  callback: (value: any, diff: any) => void;
 }
 
 /**
@@ -233,6 +242,12 @@ export const MainStore = types
 
     popOverForm: types.maybe(types.frozen<PopOverFormContext>()),
 
+    // 弹出层表单
+    modalForm: types.maybe(types.frozen<ModalFormContext>()),
+    modalMode: '',
+    modalFormBuzy: false,
+    modalFormError: '',
+
     // 弹出子编辑器相关的信息
     subEditorContext: types.maybe(types.frozen<SubEditorContext>()),
     // 子编辑器中可能需要拿到父编辑器的数据
@@ -251,7 +266,9 @@ export const MainStore = types
     /** 应用语料 */
     appCorpusData: types.optional(types.frozen(), {}),
     /** 应用多语言状态，用于其它组件进行订阅 */
-    appLocaleState: types.optional(types.number, 0)
+    appLocaleState: types.optional(types.number, 0),
+    /** 全局广播事件 */
+    globalEvents: types.optional(types.frozen<Array<IGlobalEvent>>(), [])
   })
   .views(self => {
     return {
@@ -276,6 +293,10 @@ export const MainStore = types
           return true;
         }
         return false;
+      },
+
+      get rootId() {
+        return this.getRootId();
       },
 
       getRootId() {
@@ -2105,6 +2126,24 @@ export const MainStore = types
         self.popOverForm = undefined;
       },
 
+      openModalForm(context: ModalFormContext) {
+        self.modalForm = context;
+        self.modalMode = context?.mode || self.modalMode;
+        self.modalFormError = '';
+      },
+
+      closeModalForm() {
+        self.modalForm = undefined;
+      },
+
+      markModalFormBuzy(value: any) {
+        self.modalFormBuzy = !!value;
+      },
+
+      setModalFormError(msg: string = '') {
+        self.modalFormError = msg;
+      },
+
       activeHighlightNodes(ids: Array<string>) {
         ids.forEach(id => {
           const node = self.getNodeById(id);
@@ -2310,6 +2349,10 @@ export const MainStore = types
       setAppCorpusData(data: any = {}) {
         self.appCorpusData = data;
         this.updateAppLocaleState();
+      },
+
+      setGlobalEvents(events: IGlobalEvent[]) {
+        self.globalEvents = events;
       },
 
       beforeDestroy() {

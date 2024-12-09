@@ -99,3 +99,39 @@
     @return '-' + $str;
   }
 }
+
+@function padding($type) {
+  @return (
+    var(#{$type}-paddingTop) var(#{$type}-paddingRight)
+      var(#{$type}-paddingBottom) var(#{$type}-paddingLeft)
+  );
+}
+
+@function radius($type) {
+  @return (
+    var(#{$type}-top-left-border-radius) var(#{$type}-top-right-border-radius)
+      var(#{$type}-bottom-right-border-radius)
+      var(#{$type}-bottom-left-border-radius)
+  );
+}
+
+@function borderColor($type) {
+  @return (
+    var(#{$type}-top-border-color) var(#{$type}-right-border-color)
+      var(#{$type}-bottom-border-color) var(#{$type}-left-border-color)
+  );
+}
+
+@function borderWidth($type) {
+  @return (
+    var(#{$type}-top-border-width) var(#{$type}-right-border-width)
+      var(#{$type}-bottom-border-width) var(#{$type}-left-border-width)
+  );
+}
+
+@function borderStyle($type) {
+  @return (
+    var(#{$type}-top-border-style) var(#{$type}-right-border-style)
+      var(#{$type}-bottom-border-style) var(#{$type}-left-border-style)
+  );
+}

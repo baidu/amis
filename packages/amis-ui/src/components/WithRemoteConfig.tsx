@@ -354,7 +354,7 @@ export function withRemoteConfig<P = any>(
               } else {
                 store.setConfig(source, config, 'syncConfig');
               }
-            } else if (isObject(source) && !isEffectiveApi(source, data)) {
+            } else if (isObject(source) && !source.method) {
               store.setConfig(source, config, 'syncConfig');
             }
           }

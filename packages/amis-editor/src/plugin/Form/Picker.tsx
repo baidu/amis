@@ -335,12 +335,41 @@ export class PickerControlPlugin extends BasePlugin {
                   }
                 }
               },
+              {
+                label: '弹框尺寸',
+                type: 'select',
+                name: 'size',
+                pipeIn: defaultValue(''),
+                visibleOn: '${modalMode !== "inner"}',
+                options: [
+                  {
+                    label: '默认',
+                    value: ''
+                  },
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '特大',
+                    value: 'xl'
+                  }
+                ]
+              },
               getSchemaTpl('multiple'),
               {
                 type: 'ae-switch-more',
-                formType: 'dialog',
+                mode: 'normal',
+                formType: 'extend',
                 name: 'overflowConfigSwitch',
-                className: 'ae-switch-more-flex',
                 pipeIn: (value: any) => !!value,
                 label: tipedLabel(
                   '标签收纳',
@@ -357,18 +386,26 @@ export class PickerControlPlugin extends BasePlugin {
                     getOverflowTagPopoverTpl({
                       namePre: 'overflowConfig.overflowTagPopover',
                       title: '选择器收纳器',
-                      key: 'select'
+                      key: 'select',
+                      className: 'm-b-sm'
                     }),
-                    getSchemaTpl('divider'),
                     getOverflowTagPopoverTpl({
                       namePre: 'overflowConfig.overflowTagPopoverInCRUD',
                       title: 'CRUD收纳器',
                       key: 'crud',
+                      className: 'm-b-sm',
                       hiddenOn: '!!embed'
                     })
                   ]
                 },
                 visibleOn: 'this.multiple'
+              },
+              {
+                type: 'switch',
+                name: 'itemClearable',
+                label: '选中项可删除',
+                pipeIn: defaultValue(true),
+                inputClassName: 'is-inline '
               },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
@@ -438,125 +475,145 @@ export class PickerControlPlugin extends BasePlugin {
       {
         title: '外观',
         body: [
-          getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {
-              renderer: context.info.renderer,
-              hiddenList: ['labelHide']
-            }),
-            {
-              title: '基本',
-              body: [
-                {
-                  type: 'select',
-                  name: '__editorState',
-                  label: '状态',
-                  selectFirst: true,
-                  options: [
-                    {
-                      label: '常规',
-                      value: 'default'
-                    },
-                    {
-                      label: '悬浮',
-                      value: 'hover'
-                    },
-                    {
-                      label: '聚焦',
-                      value: 'focused'
-                    },
-                    {
-                      label: '禁用',
-                      value: 'disabled'
-                    }
-                  ]
-                },
-                ...pickStyleStateFunc(
-                  "${__editorState == 'default' || !__editorState}",
-                  'default'
-                ),
-                ...pickStyleStateFunc("${__editorState == 'hover'}", 'hover'),
-                ...pickStyleStateFunc(
-                  "${__editorState == 'focused'}",
-                  'focused'
-                ),
-                ...pickStyleStateFunc(
-                  "${__editorState == 'disabled'}",
-                  'disabled'
-                )
-              ]
-            },
-            {
-              title: '选中值',
-              body: [
-                getSchemaTpl('theme:font', {
-                  name: 'themeCss.pickFontClassName.font:default',
-                  editorValueToken: '--Pick-base-value'
-                }),
-                getSchemaTpl('theme:colorPicker', {
-                  label: '背景',
-                  labelMode: 'input',
-                  needGradient: true,
-                  needImage: true,
-                  name: 'themeCss.pickValueWrapClassName.background',
-                  editorValueToken: '--Pick-base-value-bgColor'
-                }),
-                getSchemaTpl('theme:border', {
-                  name: 'themeCss.pickValueWrapClassName.border:default',
-                  editorValueToken: '--Pick-base-value'
-                }),
-                getSchemaTpl('theme:radius', {
-                  name: 'themeCss.pickValueWrapClassName.radius',
-                  editorValueToken: '--Pick-base'
-                }),
-                getSchemaTpl('theme:colorPicker', {
-                  label: '图标颜色',
-                  labelMode: 'input',
-                  needGradient: true,
-                  needImage: true,
-                  name: 'themeCss.pickValueIconClassName.color',
-                  editorValueToken: '--Pick-base-value-icon-color'
-                }),
-                getSchemaTpl('theme:colorPicker', {
-                  label: '图标hover颜色',
-                  labelMode: 'input',
-                  needGradient: true,
-                  needImage: true,
-                  name: 'themeCss.pickValueIconClassName.color:hover',
-                  editorValueToken: '--Pick-base-value-hover-icon-color'
-                })
-              ]
-            },
-            {
-              title: '图标',
-              body: [
-                {
-                  name: 'themeCss.pickControlClassName.--Pick-base-icon',
-                  label: '选择图标',
-                  type: 'icon-select',
-                  returnSvg: true
-                },
-                // 新版大小设置不兼容，先不加
-                // getSchemaTpl('theme:size', {
-                //   name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
-                //   label: '图标大小',
-                //   editorValueToken: `default.body.icon-size`
-                // }),
-                getSchemaTpl('theme:colorPicker', {
-                  label: '颜色',
-                  labelMode: 'input',
-                  needGradient: true,
-                  needImage: true,
-                  name: 'themeCss.pickIconClassName.color',
-                  editorValueToken: '--Pick-base-icon-color'
-                })
-              ]
-            },
-            getSchemaTpl('theme:cssCode', {
-              themeClass: [],
-              isFormItem: true
-            }),
+          getSchemaTpl(
+            'collapseGroup',
+            [
+              getSchemaTpl('style:formItem', {
+                renderer: context.info.renderer,
+                hiddenList: ['labelHide']
+              }),
+              {
+                title: '基本',
+                body: [
+                  {
+                    type: 'select',
+                    name: '__editorState',
+                    label: '状态',
+                    selectFirst: true,
+                    options: [
+                      {
+                        label: '常规',
+                        value: 'default'
+                      },
+                      {
+                        label: '悬浮',
+                        value: 'hover'
+                      },
+                      {
+                        label: '聚焦',
+                        value: 'focused'
+                      },
+                      {
+                        label: '禁用',
+                        value: 'disabled'
+                      }
+                    ]
+                  },
+                  ...pickStyleStateFunc(
+                    "${__editorState == 'default' || !__editorState}",
+                    'default'
+                  ),
+                  ...pickStyleStateFunc("${__editorState == 'hover'}", 'hover'),
+                  ...pickStyleStateFunc(
+                    "${__editorState == 'focused'}",
+                    'focused'
+                  ),
+                  ...pickStyleStateFunc(
+                    "${__editorState == 'disabled'}",
+                    'disabled'
+                  )
+                ]
+              },
+              {
+                title: '选中值',
+                body: [
+                  getSchemaTpl('theme:font', {
+                    name: 'themeCss.pickFontClassName.font:default',
+                    editorValueToken: '--Pick-base-value'
+                  }),
+                  getSchemaTpl('theme:colorPicker', {
+                    label: '背景',
+                    labelMode: 'input',
+                    needGradient: true,
+                    needImage: true,
+                    name: 'themeCss.pickValueWrapClassName.background',
+                    editorValueToken: '--Pick-base-value-bgColor'
+                  }),
+                  getSchemaTpl('theme:border', {
+                    name: 'themeCss.pickValueWrapClassName.border:default',
+                    editorValueToken: '--Pick-base-value'
+                  }),
+                  getSchemaTpl('theme:radius', {
+                    name: 'themeCss.pickValueWrapClassName.radius',
+                    editorValueToken: '--Pick-base'
+                  }),
+                  getSchemaTpl('theme:colorPicker', {
+                    label: '图标颜色',
+                    labelMode: 'input',
+                    needGradient: true,
+                    needImage: true,
+                    name: 'themeCss.pickValueIconClassName.color',
+                    editorValueToken: '--Pick-base-value-icon-color'
+                  }),
+                  getSchemaTpl('theme:colorPicker', {
+                    label: '图标hover颜色',
+                    labelMode: 'input',
+                    needGradient: true,
+                    needImage: true,
+                    name: 'themeCss.pickValueIconClassName.color:hover',
+                    editorValueToken: '--Pick-base-value-hover-icon-color'
+                  })
+                ]
+              },
+              {
+                title: '图标',
+                body: [
+                  {
+                    name: 'themeCss.pickControlClassName.--Pick-base-icon',
+                    label: '选择图标',
+                    type: 'icon-select',
+                    returnSvg: true
+                  },
+                  // 新版大小设置不兼容，先不加
+                  // getSchemaTpl('theme:size', {
+                  //   name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
+                  //   label: '图标大小',
+                  //   editorValueToken: `default.body.icon-size`
+                  // }),
+                  getSchemaTpl('theme:colorPicker', {
+                    label: '颜色',
+                    labelMode: 'input',
+                    needGradient: true,
+                    needImage: true,
+                    name: 'themeCss.pickIconClassName.color',
+                    editorValueToken: '--Pick-base-icon-color'
+                  })
+                ]
+              },
+              getSchemaTpl('theme:singleCssCode', {
+                selectors: [
+                  {
+                    label: '表单项基本样式',
+                    isRoot: true,
+                    selector: '.cxd-from-item'
+                  },
+                  {
+                    label: '标题样式',
+                    selector: '.cxd-Form-label'
+                  },
+                  {
+                    label: '列表选取基本样式',
+                    selector: '.cxd-Picker'
+                  },
+                  {
+                    label: '输入框样式',
+                    selector: '.cxd-Picker-input'
+                  }
+                ]
+              })
+            ],
             {...context?.schema, configTitle: 'style'}
-          ])
+          )
         ]
       },
       {

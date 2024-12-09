@@ -53,13 +53,17 @@ exports[`Renderer:checkboxes 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -67,13 +71,17 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -81,13 +89,17 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -95,13 +107,17 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -205,13 +221,17 @@ exports[`Renderer:checkboxes 2`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -219,13 +239,17 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -233,13 +257,17 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -247,13 +275,17 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -353,14 +385,18 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -376,13 +412,17 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 GroupA
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -390,13 +430,17 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -404,14 +448,18 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -419,13 +467,17 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -442,14 +494,18 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 GroupB
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -557,14 +613,18 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -580,13 +640,17 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 GroupA
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -594,13 +658,17 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -608,14 +676,18 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -623,13 +695,17 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -646,14 +722,18 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 GroupB
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -761,14 +841,18 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default cxd-Checkbox--partial"
               data-role="checkbox"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -784,13 +868,17 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 GroupA
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -798,13 +886,17 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -812,14 +904,18 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -827,13 +923,17 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -850,14 +950,18 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 GroupB
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   checked=""
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -971,13 +1075,17 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                 class="cxd-Grid-col--sm6"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -989,13 +1097,17 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                 class="cxd-Grid-col--sm6"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1011,13 +1123,17 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                 class="cxd-Grid-col--sm6"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1029,13 +1145,17 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                 class="cxd-Grid-col--sm6"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1127,13 +1247,17 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1149,13 +1273,17 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1167,13 +1295,17 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1189,13 +1321,17 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                   data-role="checkbox"
                 >
                   <input
                     type="checkbox"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="checkbox-icon icon"
+                    />
+                  </i>
                   <span
                     class=""
                   >
@@ -1295,13 +1431,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1313,13 +1453,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1347,13 +1491,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1365,13 +1513,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1383,13 +1535,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1405,13 +1561,17 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                   class="cxd-Grid-col--sm4"
                 >
                   <label
-                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                    class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                     data-role="checkbox"
                   >
                     <input
                       type="checkbox"
                     />
-                    <i />
+                    <i>
+                      <div
+                        class="checkbox-icon icon"
+                      />
+                    </i>
                     <span
                       class=""
                     >
@@ -1504,13 +1664,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1518,13 +1682,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1532,13 +1700,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1546,13 +1718,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1560,13 +1736,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1663,13 +1843,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
             >
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1677,13 +1861,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1691,13 +1879,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1705,13 +1897,17 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -1981,14 +2177,18 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -1996,13 +2196,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2010,13 +2214,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2024,13 +2232,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2061,13 +2273,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2075,13 +2291,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2089,13 +2309,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2103,13 +2327,17 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2197,13 +2425,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
               class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
             >
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2220,13 +2452,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2243,13 +2479,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2266,13 +2506,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2511,13 +2755,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2534,13 +2782,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2557,13 +2809,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2580,13 +2836,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2679,13 +2939,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2702,13 +2966,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2725,13 +2993,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2748,13 +3020,17 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -2855,13 +3131,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 A类型
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2869,13 +3149,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2892,13 +3176,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 B类型
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2906,13 +3194,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2920,13 +3212,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2934,13 +3230,17 @@ exports[`Renderer:checkboxes with group 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -2949,13 +3249,17 @@ exports[`Renderer:checkboxes with group 1`] = `
               </label>
             </div>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3039,13 +3343,17 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3063,13 +3371,17 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3087,13 +3399,17 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3111,13 +3427,17 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3211,14 +3531,17 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox iamitem cxd-Checkbox--full cxd-Checkbox--button"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button iamitem first last-line"
               data-role="checkbox"
-              style="border-radius: 4px 0 0 4px; border-left-width: 1px; border-top-width: 1px;"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3226,14 +3549,17 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox iamitem cxd-Checkbox--full cxd-Checkbox--button"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button iamitem  last-line"
               data-role="checkbox"
-              style="border-radius: 0; border-left-width: 0; border-top-width: 1px;"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3241,15 +3567,18 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox iamitem cxd-Checkbox--full cxd-Checkbox--button cxd-Checkbox--button--checked"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button iamitem  last-line checked cxd-Checkbox--checkbox--button--checked"
               data-role="checkbox"
-              style="border-radius: 0; border-left-width: 0; border-top-width: 1px;"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3257,14 +3586,17 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox iamitem cxd-Checkbox--full cxd-Checkbox--button"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button iamitem  last last-line"
               data-role="checkbox"
-              style="border-radius: 0 4px 4px 0; border-left-width: 0; border-top-width: 1px;"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class="iamlabel"
               >
@@ -3352,13 +3684,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
               class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
             >
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3375,13 +3711,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3398,13 +3738,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3421,13 +3765,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 </span>
               </label>
               <label
-                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                class="cxd-Checkbox cxd-Checkbox--checkbox--default"
                 data-role="checkbox"
               >
                 <input
                   type="checkbox"
                 />
-                <i />
+                <i>
+                  <div
+                    class="checkbox-icon icon"
+                  />
+                </i>
                 <span
                   class=""
                 >
@@ -3568,13 +3916,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3591,13 +3943,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3614,13 +3970,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -3637,13 +3997,17 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
