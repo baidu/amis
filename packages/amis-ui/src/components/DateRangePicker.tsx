@@ -89,6 +89,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   animation?: boolean;
   /** 日期处理函数，通常用于自定义处理绑定日期的值 */
   transform?: string;
+  dateRangeMobileLazyYear?: boolean;
   testIdBuilder?: TestIdBuilder;
 }
 
@@ -2015,7 +2016,8 @@ export class DateRangePicker extends React.Component<
       label,
       animation,
       testIdBuilder,
-      locale
+      locale,
+      dateRangeMobileLazyYear = false
     } = this.props;
     const useCalendarMobile =
       mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
@@ -2052,6 +2054,7 @@ export class DateRangePicker extends React.Component<
         showViewMode={
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
+        dateRangeMobileLazyYear={dateRangeMobileLazyYear}
       />
     );
 

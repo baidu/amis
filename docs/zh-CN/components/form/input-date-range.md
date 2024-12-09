@@ -230,6 +230,29 @@ order: 15
 }
 ```
 
+## 按年加载
+
+在移动端，`input-date-range`以及`input-datetime-range`默认是加载今年明年和前年的月份数据，如果要选择其他年份，只能需要通过设置 `minDate` 和 `maxDate` 间距, 由于年份间距乘以每年 12 月，数据量大，`PopUp` 无法打开，导致卡顿, 内部`ref=this.mobileBody onScroll`滚动不流畅。 可以配置`dateRangeMobileLazyYear`为 true，只会加载当前年份，其他年份不加载，实现按年份加载。`InputDatetimeRange`也可以通过该配置进行按年加载。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "select",
+            "label": "日期范围",
+            "value":"1701446340,1702483199",
+            "minDate": "-662716800",
+            "maxDate": "4794307200",
+            "dateRangeMobileLazyYear": true,
+        }
+    ]
+}
+```
+
 ## 数据处理函数
 
 > `3.5.0`及以上版本
@@ -352,6 +375,7 @@ function transform(value, config, props, data) {
 | extraName                | `string`                                                                           |                                                                 | 是否存成两个字段                                                             | `3.3.0`                 |
 | transform                | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的的值，返回值为 `Moment`对象          | `3.5.0`                 |
 | popOverContainerSelector | `string`                                                                           |                                                                 | 弹层挂载位置选择器，会通过`querySelector`获取                                | `6.4.0`                 |
+| dateRangeMobileLazyYear  | `boolean`                                                                          | `false`                                                         | 是否开启移动端日期选择器按年加载                                             |
 
 ## 事件表
 
