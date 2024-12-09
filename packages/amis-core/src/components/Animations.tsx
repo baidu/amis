@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useMemo, useState, useCallback} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {Schema} from '../types';
 import {formateId} from '../utils';
@@ -14,13 +14,54 @@ function Animations({
   component: any;
   show: boolean;
 }) {
-  const idRef = useRef<string>(formateId(schema.id));
-  const id = idRef.current;
   const {enter} = schema.animations || {};
-  const [animationShow, setAnimationShow] = React.useState(!enter?.inView);
-  const [placeholderShow, setPlaceholderShow] = React.useState(!!enter?.inView);
+  const [animationShow, setAnimationShow] = useState(!enter?.inView);
+  const [placeholderShow, setPlaceholderShow] = useState(!!enter?.inView);
 
-  const [animationClassNames] = useState(() => {
+  const id = useMemo(() => formateId(schema.id), []);
+  const observer = useMemo(newObserver, []);
+  const animationClassNames = useMemo(initAnimationClassNames, []);
+  const animationTimeout = useMemo(initAnimationTimeout, []);
+
+  useEffect(() => {
+    createAnimationStyle(id, schema.animations!);
+    return () => {
+      if (schema.animations) {
+        styleManager.removeStyles(id);
+      }
+      observer.disconnect();
+    };
+  }, []);
+
+  function newObserver() {
+    return new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (
+            entry.target.getAttribute('data-role') === 'animation-placeholder'
+          ) {
+            if (entry.isIntersecting) {
+              setAnimationShow(true);
+              setPlaceholderShow(false);
+              observer.unobserve(entry.target);
+            }
+          } else {
+            if (!entry.isIntersecting) {
+              setAnimationShow(false);
+              observer.unobserve(entry.target);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    );
+  }
+
+  function initAnimationClassNames() {
     const animations = schema?.animations;
     const animationClassNames = {
       appear: '',
@@ -37,8 +78,9 @@ function Animations({
       }
     }
     return animationClassNames;
-  });
-  const [animationTimeout] = useState(() => {
+  }
+
+  function initAnimationTimeout() {
     const animations = schema?.animations;
     const animationTimeout = {
       enter: 1000,
@@ -57,77 +99,43 @@ function Animations({
       }
     }
     return animationTimeout;
-  });
+  }
 
-  useEffect(() => {
-    createAnimationStyle(id, schema.animations!);
-    return () => {
-      if (schema.animations) {
-        styleManager.removeStyles(id);
-      }
-    };
-  }, []);
-
-  function refFn(ref: HTMLDivElement) {
+  function refFn(ref: HTMLElement | null) {
     if (ref) {
-      const observer = new IntersectionObserver(
-        ([entry], observer) => {
-          if (entry.isIntersecting) {
-            setAnimationShow(true);
-            setPlaceholderShow(false);
-            observer.disconnect();
-          }
-        },
-        {
-          root: null,
-          rootMargin: '0px',
-          threshold: 0.1
-        }
-      );
-      if (ref) {
-        observer.observe(ref);
-      }
+      observer.observe(ref);
     }
   }
 
-  function handleEntered(node: HTMLElement) {
+  const handleEntered = useCallback((node: HTMLElement) => {
     const {attention, exit, enter} = schema.animations || {};
     if (attention) {
       node.classList.add(`${attention.type}-${id}-attention`);
     }
-
     if (exit?.outView || enter?.repeat) {
-      const observer = new IntersectionObserver(
-        ([entry], observer) => {
-          if (!entry.isIntersecting) {
-            setAnimationShow(false);
-            observer.disconnect();
-          }
-        },
-        {
-          root: null,
-          rootMargin: '0px',
-          threshold: 0.1
-        }
-      );
       observer.observe(node);
     }
-  }
-  function handleExit(node: HTMLElement) {
+  }, []);
+
+  const handleExit = useCallback((node: HTMLElement) => {
     const {attention} = schema.animations || {};
     if (attention) {
       node.classList.remove(`${attention.type}-${id}-attention`);
     }
-  }
+  }, []);
 
-  function handleExited() {
+  const handleExited = useCallback(() => {
     setPlaceholderShow(true);
-  }
+  }, []);
 
   return (
     <>
       {!animationShow && show && placeholderShow && (
-        <div ref={refFn} className="amis-animation-placeholder">
+        <div
+          ref={refFn}
+          className="amis-animation-placeholder"
+          data-role="animation-placeholder"
+        >
           {component}
         </div>
       )}
