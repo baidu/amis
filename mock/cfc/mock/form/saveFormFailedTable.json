@@ -1,0 +1,12 @@
+{
+  "status": 422,
+  "msg": "",
+  "errors": {
+    "table": "表格有问题",
+    "table[0].a": "表格的第一项中的 a 有问题",
+    "table[1].b": "表格的第二项中的 b 有问题",
+    "combo.table[0].b": "Combo中表格的第一项中的 b 有问题",
+    "combo.table[1].a": "Combo中表格的第二项中的 a 有问题"
+  },
+  "data": null
+}
