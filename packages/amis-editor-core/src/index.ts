@@ -41,7 +41,7 @@ import {OutlinePlugin} from './plugin/Outline';
 import {UnknownRendererPlugin} from './plugin/Unknown';
 import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
-import {SchemaFrom} from './component/base/SchemaForm';
+import {SchemaForm} from './component/base/SchemaForm';
 import {RendererThumb} from './component/RendererThumb';
 import {AvailableRenderersPanel} from './component/Panel/AvailableRenderersPanel';
 import {deepSplice} from './deepSplice';
@@ -79,7 +79,8 @@ export {
   OutlinePlugin,
   UnknownRendererPlugin,
   ShortcutKey,
-  SchemaFrom,
+  SchemaForm as SchemaFrom, // 兼容老版本
+  SchemaForm,
   WidthDraggableContainer,
   RendererThumb
 };

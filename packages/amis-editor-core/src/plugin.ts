@@ -14,7 +14,7 @@ import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
 import {RAW_TYPE_MAP} from './util';
-import type {RendererConfig, Schema} from 'amis-core';
+import type {GlobalVariableItem, RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
@@ -612,6 +612,14 @@ export interface ResizeMoveEventContext extends EventContext {
   store: EditorStoreType;
 }
 
+export interface GlobalVariablesEventContext extends EventContext {
+  data: Array<GlobalVariableItem>;
+}
+
+export interface GlobalVariableEventContext extends EventContext {
+  data: Partial<GlobalVariableItem>;
+}
+
 export interface AfterBuildPanelBody extends EventContext {
   data: SchemaCollection;
   plugin: BasePlugin;
@@ -771,6 +779,24 @@ export interface PluginEventListener {
         onEnd(e: MouseEvent): void;
       }
     >
+  ) => void;
+
+  // 外部可以接管全局变量的增删改查
+  // 全局变量列表获取
+  onGlobalVariableInit?: (
+    event: PluginEvent<GlobalVariablesEventContext>
+  ) => void;
+  // 全局变量详情信息
+  onGlobalVariableDetail?: (
+    event: PluginEvent<GlobalVariableEventContext>
+  ) => void;
+  // 全局变量保存
+  onGlobalVariableSave?: (
+    event: PluginEvent<GlobalVariableEventContext>
+  ) => void;
+  // 全局变量删除
+  onGlobalVariableDelete?: (
+    event: PluginEvent<GlobalVariableEventContext>
   ) => void;
 }
 
