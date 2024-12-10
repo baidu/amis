@@ -5,6 +5,8 @@ export interface AnimationsProps {
     type: string;
     duration?: number;
     delay?: number;
+    repeat?: boolean;
+    inView?: boolean;
   };
   attention?: {
     type: string;
@@ -16,6 +18,8 @@ export interface AnimationsProps {
     type: string;
     duration?: number;
     delay?: number;
+    repeat?: boolean;
+    outView?: boolean;
   };
 }
 
