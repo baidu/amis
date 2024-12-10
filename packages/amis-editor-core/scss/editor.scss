@@ -43,6 +43,7 @@
 @import './control/_flex-setting-control';
 @import './control/table-column-width-control.scss';
 @import './control/crud2-control';
+@import './control/global-var';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -1111,6 +1112,7 @@
 .ae-RendererPanel,
 .ae-Outline-panel,
 .ae-InsertPanel,
+.ae-GlobalVarPanel,
 .ae-CodePanel {
   // 左侧面板Header
   .panel-header {
@@ -1137,6 +1139,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-shrink: 0;
 
     &:hover {
       border-color: $editor-active-color !important;

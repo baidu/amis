@@ -7,6 +7,7 @@ export * from './plugin';
 export * from './validator';
 export * from './renderer/event-control/actionsPanelManager';
 export * from './renderer/event-control/helper';
+export * from './renderer/global-var-control/index';
 
 import './renderer/OptionControl';
 import './renderer/ValueFormatControl';
