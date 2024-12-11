@@ -128,6 +128,10 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
    * 弹窗容器选择器
    */
   popOverContainerSelector?: string;
+  /**
+   * 移动端input-date-range和input-datetime-range，是否按年加载
+   */
+  dateRangeMobileLazyYear?: boolean;
 }
 
 export interface DateRangeProps
