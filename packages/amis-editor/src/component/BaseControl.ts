@@ -402,23 +402,11 @@ export function remarkTpl(config: {
       : config.label,
     bulk: false,
     name: config.name,
-    pipeIn: (value: any) => !!value,
-    pipeOut: (value: any) => {
-      // 更新内容
-      if (isObject(value)) {
-        return value;
-      }
-      // 关到开
-      if (value) {
-        return {
-          icon: 'fa fa-question-circle',
-          trigger: ['hover'],
-          className: 'Remark--warning',
-          placement: 'top'
-        };
-      }
-      // 开到关
-      return undefined;
+    defaultData: {
+      icon: 'fa fa-question-circle',
+      trigger: ['hover'],
+      className: 'Remark--warning',
+      placement: 'top'
     },
     form: {
       size: 'md',

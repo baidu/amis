@@ -2437,6 +2437,9 @@ export function supportsMjs() {
 }
 
 export function formateId(id: string) {
+  if (!id) {
+    return guid();
+  }
   // 将className非法字符替换为短横线
   id = id.replace(/[^a-zA-Z0-9-]/g, '-');
   // 将连续的-替换为单个-

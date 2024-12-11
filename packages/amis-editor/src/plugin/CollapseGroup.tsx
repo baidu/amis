@@ -166,11 +166,15 @@ export class CollapseGroupPlugin extends BasePlugin {
                       getSchemaTpl('icon', {
                         name: 'expandIcon',
                         label: '图标',
+                        value: {
+                          type: 'icon',
+                          vendor: ''
+                        },
                         pipeIn: (value: any) => value?.icon,
                         pipeOut: (value: any) => ({
                           type: 'icon',
                           vendor: '',
-                          icon: value
+                          icon: value ? value : undefined
                         })
                       })
                     ]
