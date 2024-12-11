@@ -9,6 +9,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {isObject} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class CollapseGroupPlugin extends BasePlugin {
   static id = 'CollapseGroupPlugin';
@@ -35,12 +36,14 @@ export class CollapseGroupPlugin extends BasePlugin {
         key: '1',
         active: true,
         header: '标题1',
+        id: generateId(),
         body: [
           {
             type: 'tpl',
             tpl: '这里是内容1',
             wrapperComponent: '',
-            inline: false
+            inline: false,
+            id: generateId()
           }
         ]
       },
@@ -48,12 +51,14 @@ export class CollapseGroupPlugin extends BasePlugin {
         type: 'collapse',
         key: '2',
         header: '标题2',
+        id: generateId(),
         body: [
           {
             type: 'tpl',
             tpl: '这里是内容1',
             wrapperComponent: '',
-            inline: false
+            inline: false,
+            id: generateId()
           }
         ]
       }
@@ -161,11 +166,15 @@ export class CollapseGroupPlugin extends BasePlugin {
                       getSchemaTpl('icon', {
                         name: 'expandIcon',
                         label: '图标',
+                        value: {
+                          type: 'icon',
+                          vendor: ''
+                        },
                         pipeIn: (value: any) => value?.icon,
                         pipeOut: (value: any) => ({
                           type: 'icon',
                           vendor: '',
-                          icon: value
+                          icon: value ? value : undefined
                         })
                       })
                     ]

@@ -18,7 +18,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 import set from 'lodash/set';
 import merge from 'lodash/merge';
-import {escapeFormula, resolveArrayDatasource} from '../util';
+import {escapeFormula, generateId, resolveArrayDatasource} from '../util';
 
 export class CardsPlugin extends BasePlugin {
   static id = 'CardsPlugin';
@@ -63,7 +63,7 @@ export class CardsPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:c3a694c7f4e6'
+              id: generateId()
             },
             {
               type: 'tpl',
@@ -83,7 +83,7 @@ export class CardsPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:4273575e1d7b'
+              id: generateId()
             }
           ],
           style: {
@@ -103,7 +103,7 @@ export class CardsPlugin extends BasePlugin {
               }
             }
           },
-          id: 'u:561592d2ff0a'
+          id: generateId()
         },
         {
           type: 'flex',
@@ -130,7 +130,7 @@ export class CardsPlugin extends BasePlugin {
                           }
                         }
                       },
-                      id: 'u:c53d2e838649'
+                      id: generateId()
                     },
                     {
                       type: 'tpl',
@@ -146,7 +146,7 @@ export class CardsPlugin extends BasePlugin {
                           }
                         }
                       },
-                      id: 'u:774766c09a3e'
+                      id: generateId()
                     }
                   ],
                   style: {
@@ -167,7 +167,7 @@ export class CardsPlugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:7b8d9478caf0'
+                  id: generateId()
                 },
                 {
                   type: 'container',
@@ -185,7 +185,7 @@ export class CardsPlugin extends BasePlugin {
                           }
                         }
                       },
-                      id: 'u:4abe984e2cdf'
+                      id: generateId()
                     }
                   ],
                   style: {
@@ -201,7 +201,7 @@ export class CardsPlugin extends BasePlugin {
                   isFixedHeight: false,
                   isFixedWidth: false,
                   size: 'none',
-                  id: 'u:10268e055c48'
+                  id: generateId()
                 }
               ],
               size: 'xs',
@@ -219,7 +219,7 @@ export class CardsPlugin extends BasePlugin {
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false,
-              id: 'u:a35d9094c57a'
+              id: generateId()
             },
             {
               type: 'container',
@@ -239,7 +239,7 @@ export class CardsPlugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:dfa080010477'
+                  id: generateId()
                 },
                 {
                   type: 'tpl',
@@ -254,7 +254,7 @@ export class CardsPlugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:ee6afab8bebf'
+                  id: generateId()
                 }
               ],
               size: 'xs',
@@ -272,7 +272,7 @@ export class CardsPlugin extends BasePlugin {
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false,
-              id: 'u:8d1113a60808'
+              id: generateId()
             },
             {
               type: 'container',
@@ -292,7 +292,7 @@ export class CardsPlugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:538523c38973'
+                  id: generateId()
                 },
                 {
                   type: 'tpl',
@@ -307,7 +307,7 @@ export class CardsPlugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:4b2f8311836c'
+                  id: generateId()
                 }
               ],
               size: 'xs',
@@ -325,13 +325,13 @@ export class CardsPlugin extends BasePlugin {
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false,
-              id: 'u:7543aef28c33'
+              id: generateId()
             }
           ],
           style: {
             position: 'relative'
           },
-          id: 'u:0f802c8852fd'
+          id: generateId()
         },
         {
           type: 'container',
@@ -350,7 +350,7 @@ export class CardsPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:ec80d1113007'
+              id: generateId()
             },
             {
               type: 'tpl',
@@ -366,7 +366,7 @@ export class CardsPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:7f6bef513eb3'
+              id: generateId()
             }
           ],
           style: {
@@ -385,7 +385,7 @@ export class CardsPlugin extends BasePlugin {
               }
             }
           },
-          id: 'u:6606cebce092'
+          id: generateId()
         }
       ],
       size: 'none',
@@ -435,7 +435,7 @@ export class CardsPlugin extends BasePlugin {
           }
         }
       },
-      id: 'u:b39411e7f540'
+      id: generateId()
     },
     placeholder: '',
     name: '',
@@ -443,7 +443,7 @@ export class CardsPlugin extends BasePlugin {
       gutterX: 15,
       gutterY: 15
     },
-    id: 'u:1f941707f77f'
+    id: generateId()
   };
   previewSchema = {
     ...this.scaffold,

@@ -1,5 +1,5 @@
 .#{$ns}Checkbox {
-  margin: 0 var(--gap-sm) 0 0;
+  margin: var(--Form-label-paddingTop) var(--gap-sm) 0 0;
   font-weight: var(--fontWeightNormal);
   display: inline-block;
   cursor: pointer;
@@ -376,7 +376,6 @@
 .#{$ns}CheckboxesControl {
   .#{$ns}Checkbox {
     display: block;
-    margin-bottom: var(--Form-label-paddingTop);
   }
 
   &.is-inline .#{$ns}Checkbox {

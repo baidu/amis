@@ -20,7 +20,7 @@ export function withRootStore<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `WithRootStore(${
+      static displayName: string = `WithRootStore(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = RootStoreContext;

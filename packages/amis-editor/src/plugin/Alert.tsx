@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
+import {generateId} from '../util';
 
 export class AlertPlugin extends BasePlugin {
   static id = 'AlertPlugin';
@@ -28,7 +29,8 @@ export class AlertPlugin extends BasePlugin {
       type: 'tpl',
       tpl: '提示内容',
       wrapperComponent: '',
-      inline: false
+      inline: false,
+      id: generateId()
     },
     level: 'info'
   };

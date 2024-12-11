@@ -19,6 +19,8 @@ import {
 import {remarkTpl} from '../component/BaseControl';
 
 import type {DSField} from '../builder';
+import {schemaToArray} from '../util';
+import omit from 'lodash/omit';
 
 export type TableCell2DynamicControls = Partial<
   Record<
@@ -283,31 +285,23 @@ export class TableCell2Plugin extends BasePlugin {
         label: '弹出框',
         type: 'ae-switch-more',
         hidden: this._isOpColumn,
+        bulk: false,
         mode: 'normal',
         formType: 'extend',
-        bulk: true,
         defaultData: {
-          popOver: {
-            mode: 'popOver'
-          }
-        },
-        trueValue: {
           mode: 'popOver',
           body: [
             {
               type: 'tpl',
-              tpl: '弹出框内容'
+              tpl: '弹出框内容',
+              wrapperComponent: ''
             }
           ]
-        },
-        isChecked: (e: any) => {
-          const {data, name} = e;
-          return get(data, name);
         },
         form: {
           body: [
             {
-              name: 'popOver.mode',
+              name: 'mode',
               type: 'button-group-select',
               label: '模式',
               value: 'popOver',
@@ -327,15 +321,15 @@ export class TableCell2Plugin extends BasePlugin {
               ]
             },
             getSchemaTpl('formItemSize', {
-              name: 'popOver.size',
+              name: 'size',
               clearValueOnHidden: true,
-              visibleOn: 'popOver.mode !== "popOver"'
+              visibleOn: 'mode !== "popOver"'
             }),
             {
               type: 'select',
-              name: 'popOver.position',
+              name: 'position',
               label: '弹出位置',
-              visibleOn: 'popOver.mode === "popOver"',
+              visibleOn: 'mode === "popOver"',
               options: [
                 'center',
                 'left-top',
@@ -346,7 +340,7 @@ export class TableCell2Plugin extends BasePlugin {
               clearValueOnHidden: true
             },
             {
-              name: 'popOver.trigger',
+              name: 'trigger',
               type: 'button-group-select',
               label: '触发方式',
               options: [
@@ -362,50 +356,31 @@ export class TableCell2Plugin extends BasePlugin {
               pipeIn: defaultValue('click')
             },
             getSchemaTpl('switch', {
-              name: 'popOver.showIcon',
-              label: '显示图标',
-              value: true
+              name: 'showIcon',
+              label: '显示图标'
             }),
             {
               type: 'input-text',
-              name: 'popOver.title',
+              name: 'title',
               label: '标题'
             },
             {
-              name: 'popOver.body',
+              name: 'body',
               asFormItem: true,
               label: false,
-              children: ({value, onBulkChange, onChange, name, data}: any) => {
-                value = {
-                  body:
-                    value && value.body
-                      ? value.body
-                      : [
-                          {
-                            type: 'tpl',
-                            tpl: '弹出框内容'
-                          }
-                        ]
-                };
-
+              children: ({value: originValue, onChange}: any) => {
                 return (
                   <Button
                     className="w-full flex flex-col items-center"
                     onClick={() => {
                       this.manager.openSubEditor({
                         title: '配置弹出框',
-                        value: value,
-                        onChange: value => {
-                          onChange(
-                            value
-                              ? Array.isArray(value)
-                                ? value
-                                : value?.body
-                                ? value.body
-                                : []
-                              : []
-                          );
-                        }
+                        value: schemaToArray(originValue),
+                        slot: {
+                          type: 'container',
+                          body: '$$'
+                        },
+                        onChange
                       });
                     }}
                   >
@@ -422,26 +397,22 @@ export class TableCell2Plugin extends BasePlugin {
       };
     },
     /** 快速编辑 */
-    quickEdit: () => {
+    quickEdit: context => {
       return {
         name: 'quickEdit',
         label: tipedLabel('快速编辑', '输入框左侧或右侧的附加挂件'),
         type: 'ae-switch-more',
         hidden: this._isOpColumn,
         mode: 'normal',
+        bulk: false,
         formType: 'extend',
-        bulk: true,
-        trueValue: {
+        defaultData: {
           mode: 'popOver'
-        },
-        isChecked: (e: any) => {
-          const {data, name} = e;
-          return !!get(data, name);
         },
         form: {
           body: [
             {
-              name: 'quickEdit.mode',
+              name: 'mode',
               type: 'button-group-select',
               label: '模式',
               value: 'popOver',
@@ -458,11 +429,11 @@ export class TableCell2Plugin extends BasePlugin {
             },
 
             getSchemaTpl('icon', {
-              name: 'quickEdit.icon'
+              name: 'icon'
             }),
 
             getSchemaTpl('switch', {
-              name: 'quickEdit.saveImmediately',
+              name: 'saveImmediately',
               label: tipedLabel(
                 '修改立即保存',
                 '开启后修改即提交，而不是批量提交，需要配置快速保存接口用于提交数据'
@@ -474,65 +445,48 @@ export class TableCell2Plugin extends BasePlugin {
               label: '立即保存接口',
               description:
                 '默认使用表格的「快速保存单条」接口，若单独给立即保存配置接口，则优先使用局部配置。',
-              name: 'quickEdit.saveImmediately.api',
-              visibleOn: 'this.quickEdit && this.quickEdit.saveImmediately'
+              name: 'saveImmediately.api',
+              visibleOn: 'this.saveImmediately'
             }),
 
             {
-              name: 'quickEdit',
               asFormItem: true,
               label: false,
-              children: ({value, onBulkChange, name, data}: any) => {
-                if (value === true) {
-                  value = {};
-                } else if (typeof value === 'undefined') {
-                  value = getVariable(data, 'quickEdit');
-                }
-                value = {...value};
-                const originMode = value.mode || 'popOver';
-                if (value.mode) {
-                  delete value.mode;
-                }
-                const originSaveImmediately = value.saveImmediately;
-                if (value.saveImmediately) {
-                  delete value.saveImmediately;
-                }
-                value =
-                  value.body && ['container', 'wrapper'].includes(value.type)
-                    ? {
-                        // schema中存在容器，用自己的就行
-                        type: 'wrapper',
-                        body: [],
-                        ...value
-                      }
-                    : {
-                        // schema中不存在容器，打开子编辑器时需要包裹一层
-                        type: 'wrapper',
-                        body: [
-                          {
-                            type: 'input-text',
-                            name: data.name,
-                            ...value
-                          }
-                        ]
-                      };
-
+              children: ({onBulkChange}: any) => {
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
                   <Button
                     className="w-full flex flex-col items-center"
                     onClick={() => {
+                      let data = context.node.schema.quickEdit
+                        ? omit(context.node.schema.quickEdit, [
+                            'saveImmediately',
+                            'icon',
+                            'mode'
+                          ])
+                        : {};
+                      let originValue = data?.type
+                        ? ['container', 'wrapper'].includes(data.type)
+                          ? data
+                          : {
+                              // schema中存在容器，用自己的就行
+                              type: 'container',
+                              body: [data]
+                            }
+                        : {
+                            type: 'container',
+                            body: [
+                              {
+                                type: 'input-text',
+                                name: context.node.schema.name
+                              }
+                            ]
+                          };
+
                       this.manager.openSubEditor({
                         title: '配置快速编辑类型',
-                        value: value,
-                        onChange: value =>
-                          onBulkChange({
-                            [name]: {
-                              ...value,
-                              mode: originMode,
-                              saveImmediately: originSaveImmediately
-                            }
-                          })
+                        value: originValue,
+                        onChange: value => onBulkChange(value)
                       });
                     }}
                   >
@@ -697,13 +651,13 @@ export class TableCell2Plugin extends BasePlugin {
                   mode: 'normal',
                   name: 'copyable',
                   label: '可复制',
-                  hiddenOnDefault: true,
+                  trueValue: true,
                   formType: 'extend',
+                  bulk: false,
                   form: {
                     body: [
                       {
-                        name: 'copyable.content',
-                        visibleOn: 'this.copyable',
+                        name: 'content',
                         type: 'ae-formulaControl',
                         label: '复制内容'
                       }

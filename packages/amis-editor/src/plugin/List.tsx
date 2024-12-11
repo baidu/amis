@@ -21,7 +21,8 @@ import set from 'lodash/set';
 import {
   schemaArrayFormat,
   resolveArrayDatasource,
-  schemaToArray
+  schemaToArray,
+  generateId
 } from '../util';
 
 export class ListPlugin extends BasePlugin {
@@ -49,7 +50,8 @@ export class ListPlugin extends BasePlugin {
         {
           type: 'tpl',
           tpl: '简单的展示数据：$a $b',
-          wrapperComponent: ''
+          wrapperComponent: '',
+          id: generateId()
         }
       ],
       actions: [
@@ -118,6 +120,7 @@ export class ListPlugin extends BasePlugin {
                 formType: 'extend',
                 label: '头部',
                 name: 'showHeader',
+                falseValue: false, // 组件渲染时默认值用的true，所以关闭时置为false而不是删除属性
                 form: {
                   body: [
                     {
@@ -141,6 +144,7 @@ export class ListPlugin extends BasePlugin {
                 formType: 'extend',
                 label: '底部',
                 name: 'showFooter',
+                falseValue: false, // 组件渲染时默认值用的true，所以关闭时置为false而不是删除属性
                 form: {
                   body: [
                     {

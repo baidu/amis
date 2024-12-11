@@ -369,28 +369,30 @@ export class PickerControlPlugin extends BasePlugin {
                 type: 'ae-switch-more',
                 mode: 'normal',
                 formType: 'extend',
-                name: 'overflowConfigSwitch',
-                pipeIn: (value: any) => !!value,
+                name: 'overflowConfig',
+                bulk: false,
+                isChecked: (v: any) => !!v,
                 label: tipedLabel(
                   '标签收纳',
                   '当值数量超出一定数量时，可进行收纳显示'
                 ),
+                extendData: ['embed'],
                 form: {
                   body: [
                     {
                       type: 'input-number',
-                      name: 'overflowConfig.maxTagCount',
+                      name: 'maxTagCount',
                       label: '最大标签数',
                       defaultValue: -1
                     },
                     getOverflowTagPopoverTpl({
-                      namePre: 'overflowConfig.overflowTagPopover',
+                      namePre: 'overflowTagPopover',
                       title: '选择器收纳器',
                       key: 'select',
                       className: 'm-b-sm'
                     }),
                     getOverflowTagPopoverTpl({
-                      namePre: 'overflowConfig.overflowTagPopoverInCRUD',
+                      namePre: 'overflowTagPopoverInCRUD',
                       title: 'CRUD收纳器',
                       key: 'crud',
                       className: 'm-b-sm',

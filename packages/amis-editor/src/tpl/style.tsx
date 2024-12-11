@@ -1,4 +1,9 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
+import {
+  setSchemaTpl,
+  getSchemaTpl,
+  defaultValue,
+  tipedLabel
+} from 'amis-editor-core';
 import {createAnimationStyle, formateId, type SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 import {styleManager} from 'amis-core';
@@ -1532,7 +1537,26 @@ setSchemaTpl('animation', () => {
   return {
     title: '动画',
     body: [
-      ...animation('enter', '进入动画'),
+      ...animation('enter', '进入动画', [
+        {
+          label: tipedLabel('可见时触发', '组件进入可见区域才触发进入动画'),
+          type: 'switch',
+          name: 'animations.enter.inView',
+          value: true,
+          onChange: (value: any, oldValue: any, obj: any, props: any) => {
+            if (value === false) {
+              props.setValueByName('animations.enter.repeat', false);
+            }
+          }
+        },
+        {
+          label: tipedLabel('重复', '组件再次进入可见区域时重复播放动画'),
+          type: 'switch',
+          name: 'animations.enter.repeat',
+          visibleOn: 'animations.enter.inView',
+          value: false
+        }
+      ]),
       ...animation('attention', '强调动画', [
         {
           label: '重复',
@@ -1548,7 +1572,14 @@ setSchemaTpl('animation', () => {
           ]
         }
       ]),
-      ...animation('exit', '退出动画')
+      ...animation('exit', '退出动画', [
+        {
+          label: tipedLabel('不可见时触发', '组件退出可见区域触发进入动画'),
+          type: 'switch',
+          name: 'animations.exit.outView',
+          value: true
+        }
+      ])
     ]
   };
 });

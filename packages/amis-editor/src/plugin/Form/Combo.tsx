@@ -22,7 +22,7 @@ import {
   getActionCommonProps,
   buildLinkActionDesc
 } from '../../renderer/event-control/helper';
-import {resolveInputTableEventDataSchame} from '../../util';
+import {generateId, resolveInputTableEventDataSchame} from '../../util';
 import React from 'react';
 
 export class ComboControlPlugin extends BasePlugin {
@@ -57,12 +57,14 @@ export class ComboControlPlugin extends BasePlugin {
       {
         type: 'input-text',
         name: 'text',
-        placeholder: '文本'
+        placeholder: '文本',
+        id: generateId()
       },
       {
         type: 'select',
         name: 'select',
         placeholder: '选项',
+        id: generateId(),
         options: [
           {
             label: 'A',

@@ -30,6 +30,7 @@ import {
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  generateId,
   resolveArrayDatasource,
   resolveInputTableEventDataSchame
 } from '../../util';
@@ -60,6 +61,7 @@ export class TableControlPlugin extends BasePlugin {
         name: 'name',
         quickEdit: {
           type: 'input-text',
+          id: generateId(),
           name: 'name1'
         }
       },
@@ -69,6 +71,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'input-number',
           mode: 'inline',
+          id: generateId(),
           name: 'score'
         }
       },
@@ -78,6 +81,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'select',
           name: 'level',
+          id: generateId(),
           options: [
             {
               label: 'A',
@@ -1183,6 +1187,8 @@ export class TableControlPlugin extends BasePlugin {
                   '确认模式',
                   '开启时，新增、编辑需要点击表格右侧的“保存”按钮才能变更组件数据。未开启时，新增、编辑、删除操作直接改变组件数据。'
                 ),
+                isChecked: (v: any) => v !== false,
+                falseValue: false,
                 mode: 'normal',
                 formType: 'extend',
                 hiddenOnDefault: true,

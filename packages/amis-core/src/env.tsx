@@ -188,7 +188,7 @@ export function withRendererEnv<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `WithEnv(${
+      static displayName: string = `WithEnv(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = EnvContext;

@@ -125,6 +125,8 @@ export type InputTextRendererEvent =
   | 'focus'
   | 'click'
   | 'change'
+  | 'review' // 查看密码事件
+  | 'encrypt' // 隐藏密码事件
   | 'enter';
 
 export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
@@ -277,6 +279,10 @@ export default class TextControl extends React.PureComponent<
       this.clearValue();
     } else if (actionType === 'focus') {
       this.focus();
+    } else if (actionType === 'review') {
+      this.setState({revealPassword: true});
+    } else if (actionType === 'encrypt') {
+      this.setState({revealPassword: false});
     }
   }
 
@@ -986,7 +992,21 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  toggleRevealPassword() {
+  async toggleRevealPassword() {
+    const {dispatchEvent, value} = this.props;
+    const eventName = this.state.revealPassword ? 'encrypt' : 'review';
+
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      resolveEventData(this.props, {
+        value
+      })
+    );
+
+    if (rendererEvent?.prevented || rendererEvent?.stoped) {
+      return;
+    }
+
     this.setState({revealPassword: !this.state.revealPassword});
   }
 

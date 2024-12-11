@@ -16,6 +16,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import flatten from 'lodash/flatten';
 import {VRenderer} from 'amis-editor-core';
+import {generateId} from '../util';
 
 export class CardPlugin extends BasePlugin {
   static id = 'CardPlugin';
@@ -44,6 +45,7 @@ export class CardPlugin extends BasePlugin {
         type: 'button',
         label: '按钮',
         actionType: 'dialog',
+        id: generateId(),
         dialog: {
           title: '标题',
           body: '内容'

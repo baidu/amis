@@ -6,11 +6,12 @@ import {
   RendererPluginAction,
   getSchemaTpl
 } from 'amis-editor-core';
-import type {Schema} from 'amis-core';
+import {type Schema} from 'amis-core';
 import {
   getEventControlConfig,
   getActionCommonProps
 } from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class SearchBoxPlugin extends BasePlugin {
   static id = 'SearchBoxPlugin';
@@ -36,7 +37,8 @@ export class SearchBoxPlugin extends BasePlugin {
       type: 'tpl',
       tpl: '搜索框',
       wrapperComponent: '',
-      inline: false
+      inline: false,
+      id: generateId()
     },
     level: 'info'
   };

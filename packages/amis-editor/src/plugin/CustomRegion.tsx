@@ -13,6 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import isArray from 'lodash/isArray';
+import {generateId} from '../util';
 
 export class CustomPlugin extends BasePlugin {
   static id = 'CustomRegionPlugin';
@@ -37,7 +38,8 @@ export class CustomPlugin extends BasePlugin {
       {
         type: 'tpl',
         wrapperComponent: '',
-        tpl: '自定义容器区域'
+        tpl: '自定义容器区域',
+        id: generateId()
       }
     ]
   };

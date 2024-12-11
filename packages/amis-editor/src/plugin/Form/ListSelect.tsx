@@ -179,8 +179,6 @@ export class ListControlPlugin extends BasePlugin {
               type: 'ae-switch-more',
               mode: 'normal',
               label: '自定义显示模板',
-              bulk: false,
-              name: 'itemSchema',
               formType: 'extend',
               form: {
                 body: [

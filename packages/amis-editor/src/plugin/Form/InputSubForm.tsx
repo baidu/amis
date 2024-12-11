@@ -14,6 +14,7 @@ import {
   EditorNodeType,
   jsonToJsonSchema
 } from 'amis-editor-core';
+import {generateId} from '../../util';
 
 export class SubFormControlPlugin extends BasePlugin {
   static id = 'SubFormControlPlugin';
@@ -39,6 +40,7 @@ export class SubFormControlPlugin extends BasePlugin {
         {
           type: 'input-text',
           label: '文本',
+          id: generateId(),
           name: 'text'
         }
       ]

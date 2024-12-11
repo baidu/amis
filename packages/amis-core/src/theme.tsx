@@ -140,7 +140,7 @@ export function themeable<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `Themeable(${
+      static displayName: string = `Themeable(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = ThemeContext;

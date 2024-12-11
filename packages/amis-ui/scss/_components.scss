@@ -1907,9 +1907,9 @@
   --radio-default-default-distance: var(--sizes-size-5);
   @include margin(
     --radio-default-default,
-    var(--sizes-size-0),
-    var(--sizes-size-9),
     var(--sizes-size-4),
+    var(--sizes-size-9),
+    var(--sizes-size-0),
     var(--sizes-size-0)
   );
 
@@ -1931,9 +1931,9 @@
 
   @include margin(
     --radio-default-vertical,
-    var(--sizes-size-0),
-    var(--sizes-size-5),
     var(--sizes-size-4),
+    var(--sizes-size-5),
+    var(--sizes-size-0),
     var(--sizes-size-0)
   );
 

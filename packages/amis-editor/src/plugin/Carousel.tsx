@@ -301,19 +301,20 @@ export class CarouselPlugin extends BasePlugin {
                 }),
                 {
                   type: 'ae-switch-more',
-                  bulk: true,
                   mode: 'normal',
                   name: 'multiple',
+                  bulk: false,
                   label: '多图展示',
                   formType: 'extend',
                   form: {
                     body: [
                       {
-                        name: 'multiple.count',
+                        name: 'count',
                         label: '数量',
                         type: 'input-number',
                         min: 2,
-                        step: 1
+                        step: 1,
+                        value: 5
                       }
                     ]
                   }

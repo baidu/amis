@@ -9,6 +9,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {JSONPipeIn, JSONUpdate, makeHorizontalDeeper} from 'amis-editor-core';
+import {generateId} from '../../util';
 
 export class GroupControlPlugin extends BasePlugin {
   static id = 'GroupControlPlugin';
@@ -31,12 +32,14 @@ export class GroupControlPlugin extends BasePlugin {
       {
         type: 'input-text',
         label: '文本',
+        id: generateId(),
         name: 'var1'
       },
 
       {
         type: 'input-text',
         label: '文本',
+        id: generateId(),
         name: 'var2'
       }
     ],

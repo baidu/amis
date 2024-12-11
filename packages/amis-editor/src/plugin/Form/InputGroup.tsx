@@ -8,6 +8,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
+import {generateId} from '../../util';
 
 export class InputGroupControlPlugin extends BasePlugin {
   static id = 'InputGroupControlPlugin';
@@ -33,11 +34,13 @@ export class InputGroupControlPlugin extends BasePlugin {
       {
         type: 'input-text',
         inputClassName: 'b-r-none p-r-none',
+        id: generateId(),
         name: 'input-group'
       },
       {
         type: 'submit',
         label: '提交',
+        id: generateId(),
         level: 'primary'
       }
     ]

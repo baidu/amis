@@ -22,6 +22,7 @@ import {
   getActionCommonProps,
   buildLinkActionDesc
 } from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class WizardPlugin extends BasePlugin {
   static id = 'WizardPlugin';
@@ -47,7 +48,8 @@ export class WizardPlugin extends BasePlugin {
           {
             type: 'input-text',
             label: '文本',
-            name: 'var1'
+            name: 'var1',
+            id: generateId()
           }
         ]
       },
@@ -58,7 +60,8 @@ export class WizardPlugin extends BasePlugin {
           {
             type: 'input-text',
             label: '文本2',
-            name: 'var2'
+            name: 'var2',
+            id: generateId()
           }
         ]
       }

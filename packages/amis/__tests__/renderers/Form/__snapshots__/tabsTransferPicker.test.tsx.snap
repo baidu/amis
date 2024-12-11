@@ -312,7 +312,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                       role="tablist"
                     >
                       <li
-                        class="cxd-Tabs-link is-active"
+                        class="cxd-Tabs-link is-active cxd-TabsTransfer-tab"
                       >
                         <a
                           title="成员"
@@ -325,7 +325,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </a>
                       </li>
                       <li
-                        class="cxd-Tabs-link"
+                        class="cxd-Tabs-link cxd-TabsTransfer-tab"
                       >
                         <a
                           title="角色"
@@ -338,7 +338,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </a>
                       </li>
                       <li
-                        class="cxd-Tabs-link"
+                        class="cxd-Tabs-link cxd-TabsTransfer-tab"
                       >
                         <a
                           title="部门"

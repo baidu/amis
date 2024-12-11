@@ -416,6 +416,7 @@ export function Icon({
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
+    icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
     const viewBox = /viewBox="(.*?)"/.exec(icon);
     const svgHTML = createElement('svg', {

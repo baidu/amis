@@ -13,6 +13,7 @@ import {
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control';
 import React from 'react';
+import {generateId} from '../util';
 
 export class SwitchContainerPlugin extends LayoutBasePlugin {
   static id = 'SwitchContainerPlugin';
@@ -34,21 +35,25 @@ export class SwitchContainerPlugin extends LayoutBasePlugin {
     items: [
       {
         title: '状态一',
+        id: generateId(),
         body: [
           {
             type: 'tpl',
             tpl: '状态一内容',
-            wrapperComponent: ''
+            wrapperComponent: '',
+            id: generateId()
           }
         ]
       },
       {
         title: '状态二',
+        id: generateId(),
         body: [
           {
             type: 'tpl',
             tpl: '状态二内容',
-            wrapperComponent: ''
+            wrapperComponent: '',
+            id: generateId()
           }
         ]
       }

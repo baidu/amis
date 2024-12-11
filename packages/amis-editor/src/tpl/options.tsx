@@ -494,7 +494,6 @@ setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
   return getSchemaTpl('creatable', {
     formType: 'extend',
     autoFocus: false,
-    hiddenOnDefault: false,
     ...controlSchema,
     form: {
       body: [

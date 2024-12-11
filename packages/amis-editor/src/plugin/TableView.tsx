@@ -18,9 +18,10 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
-import type {TableViewSchema} from 'amis';
+import {type TableViewSchema} from 'amis';
 import {JSONGetById} from 'amis-editor-core';
 import {TableViewEditor} from '../component/TableViewEditor';
+import {generateId} from '../util';
 
 /**
  * 尚未实现的功能：
@@ -111,13 +112,15 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
-              tpl: '地区'
+              tpl: '地区',
+              id: generateId()
             }
           },
           {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '城市'
             }
           },
@@ -125,6 +128,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '销量'
             }
           }
@@ -137,6 +141,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '华北'
             }
           },
@@ -144,6 +149,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '北京'
             }
           },
@@ -151,6 +157,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '${beijing}'
             }
           }
@@ -162,6 +169,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '天津'
             }
           },
@@ -169,6 +177,7 @@ export class TableViewPlugin extends BasePlugin {
             body: {
               type: 'tpl',
               wrapperComponent: '',
+              id: generateId(),
               tpl: '${tianjing}'
             }
           }
