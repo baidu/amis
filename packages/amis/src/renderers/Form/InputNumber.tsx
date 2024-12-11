@@ -275,6 +275,7 @@ export default class NumberControl extends React.Component<
       // 大数下不需要进行精度处理，因为是字符串
       big !== true
     ) {
+      // 精度处理，遵循四舍五入的处理规则
       const normalizedValue = parseFloat(
         toFixed(value.toString(), '.', normalizedPrecision)
       );
