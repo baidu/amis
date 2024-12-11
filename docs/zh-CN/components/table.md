@@ -1874,6 +1874,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | align       | `left` \| `right` \| `center` \| `justify`    |        | 单元格对齐方式           | ` 1.4.0` |
 | headerAlign | `left` \| `right` \| `center` \| `justify`    |        | 表头单元格对齐方式       | `6.7.0`  |
 | vAlign      | `top` \| `middle` \| `bottom`                 |        | 单元格垂直对齐方式       | `6.7.0`  |
+| textOverflow | `string`                                     |`default`| 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效)   | `6.10.0` |
 
 ## 事件表
 
