@@ -5,22 +5,34 @@ import update from 'lodash/update';
 import isEqual from 'lodash/isEqual';
 import {cloneObject, setVariable} from 'amis-core';
 
-const namespace = 'appVariables';
-const initData = JSON.parse(sessionStorage.getItem(namespace)) || {
-  ProductName: 'BCC',
-  Banlance: 1234.888,
-  ProductNum: 10,
-  isOnline: false,
-  ProductList: ['BCC', 'BOS', 'VPC'],
-  PROFILE: {
-    FirstName: 'Amis',
-    Age: 18,
-    Address: {
-      street: 'ShangDi',
-      postcode: 100001
-    }
+const variables = [
+  {
+    key: 'xxx',
+    defaultValue: 'yyy'
+  },
+
+  {
+    key: 'ProductName',
+    defaultValue: ''
+  },
+
+  {
+    key: 'count',
+    defaultValue: 0,
+    scope: 'page',
+    storageOn: 'client'
+  },
+
+  {
+    key: 'arr',
+    defaultValue: []
+  },
+
+  {
+    key: 'select',
+    defaultValue: ''
   }
-};
+];
 
 export default {
   /** schema配置 */
@@ -30,7 +42,7 @@ export default {
     body: [
       {
         type: 'tpl',
-        tpl: '变量的命名空间通过环境变量设置为了<code>appVariables</code>, 可以通过\\${appVariables.xxx}来取值'
+        tpl: '变量的命名空间通过环境变量设置为了<code>global</code>, 可以通过\\${global.xxx}来取值'
       },
       {
         type: 'container',
@@ -43,12 +55,12 @@ export default {
         body: [
           {
             type: 'tpl',
-            tpl: '<h2>数据域appVariables</h2>'
+            tpl: '<h2>数据域global</h2>'
           },
           {
             type: 'json',
             id: 'u:44521540e64c',
-            source: '${appVariables}',
+            source: '${global}',
             levelExpand: 10
           },
           {
@@ -59,7 +71,7 @@ export default {
           },
           {
             type: 'tpl',
-            tpl: '<h3>变量中的<code>ProductName (\\${appVariables.ProductName})</code>: <strong>${appVariables.ProductName|default:-}</strong></h3>',
+            tpl: '<h3>变量中的<code>ProductName (\\${global.ProductName})</code>: <strong>${global.ProductName|default:-}</strong></h3>',
             inline: false,
             id: 'u:98ed5c5534ef'
           }
@@ -82,7 +94,24 @@ export default {
                 actions: [
                   {
                     args: {
-                      path: 'appVariables.ProductName',
+                      path: 'global.ProductName',
+                      value: '${event.data.value}'
+                    },
+                    actionType: 'setValue'
+                  },
+
+                  {
+                    args: {
+                      path: 'global.arr',
+                      value:
+                        '${[{label: event.data.value, value: event.data.value}]}'
+                    },
+                    actionType: 'setValue'
+                  },
+
+                  {
+                    args: {
+                      path: 'global.select',
                       value: '${event.data.value}'
                     },
                     actionType: 'setValue'
@@ -95,8 +124,39 @@ export default {
             type: 'static',
             label: '产品名称描述',
             id: 'u:7bd4e2a4f95e',
-            value: '${appVariables.ProductName}',
+            value: '${global.ProductName}',
             name: 'staticName'
+          },
+
+          {
+            type: 'input-number',
+            label: 'Count (client)',
+            description: '存储自动存入客户端，刷新页面后数据还在',
+            id: 'u:7bd4e2a4f95e',
+            value: '${global.count}',
+            name: 'count',
+            onEvent: {
+              change: {
+                weight: 0,
+                actions: [
+                  {
+                    args: {
+                      path: 'global.count',
+                      value: '${event.data.value}'
+                    },
+                    actionType: 'setValue'
+                  }
+                ]
+              }
+            }
+          },
+
+          {
+            type: 'select',
+            label: 'select(${global.select})',
+            name: 'select',
+            value: '${global.select}',
+            source: '${global.arr}'
           }
         ],
         id: 'u:dc2580fa447a'
@@ -109,7 +169,7 @@ export default {
         actions: [
           {
             args: {
-              path: 'appVariables.ProductName',
+              path: 'global.ProductName',
               value: '${event.data.ProductName}'
             },
             actionType: 'setValue'
@@ -119,51 +179,6 @@ export default {
     }
   },
   props: {
-    data: {[namespace]: JSON.parse(sessionStorage.getItem(namespace))}
-  },
-  /** 环境变量 */
-  env: {
-    beforeSetData: (renderer, action, event) => {
-      const value = event?.data?.value ?? action?.args?.value;
-      const path = action?.args?.path;
-      const {session = 'global'} = renderer.props?.env ?? {};
-      const comptList = event?.context?.scoped?.getComponentsByRefPath(
-        session,
-        path
-      );
-
-      for (let component of comptList) {
-        const {$path: targetPath, $schema: targetSchema} = component?.props;
-        const {$path: triggerPath, $schema: triggerSchema} = renderer?.props;
-
-        if (
-          !component.setData &&
-          (targetPath === triggerPath || isEqual(targetSchema, triggerSchema))
-        ) {
-          continue;
-        }
-
-        if (component?.props?.onChange) {
-          const submitOnChange = !!component.props?.$schema?.submitOnChange;
-
-          component.props.onChange(value, submitOnChange, true);
-        } else if (component?.setData) {
-          const currentData = JSON.parse(
-            sessionStorage.getItem(namespace) || JSON.stringify(initData)
-          );
-          const varPath = path.replace(/^appVariables\./, '');
-
-          update(currentData, varPath, origin => {
-            return typeof value === typeof origin ? value : origin;
-          });
-
-          sessionStorage.setItem(namespace, JSON.stringify(currentData));
-          const newCtx = cloneObject(component?.props?.data ?? {});
-          setVariable(newCtx, path, value, true);
-
-          component.setData(newCtx, false);
-        }
-      }
-    }
+    globalVars: variables
   }
 };

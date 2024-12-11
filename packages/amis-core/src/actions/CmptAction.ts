@@ -42,6 +42,11 @@ export class CmptAction implements RendererAction {
 
     /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
     if (action.actionType === 'setValue' && path && typeof path === 'string') {
+      if (path.startsWith('global.')) {
+        const topStore = renderer.props.topStore;
+        topStore?.updateGlobalVarValue(path.substring(7), action.args.value);
+      }
+
       const beforeSetData = event?.context?.env?.beforeSetData;
       if (beforeSetData && typeof beforeSetData === 'function') {
         const res = await beforeSetData(renderer, action, event);

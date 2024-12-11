@@ -3,6 +3,8 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../store/form';
 import {reaction} from 'mobx';
 import {isAlive} from 'mobx-state-tree';
+import {isGlobalVarExpression} from '../globalVar';
+import {resolveVariableAndFilter} from '../utils/resolveVariableAndFilter';
 
 import {
   renderersMap,
@@ -2361,7 +2363,24 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
     ...config,
     weight: typeof config.weight !== 'undefined' ? config.weight : -100, // 优先级高点
     component: Control as any,
-    isFormItem: true
+    isFormItem: true,
+    onGlobalVarChanged: function (instance, schema, data): any {
+      if (config.onGlobalVarChanged?.apply(this, arguments) === false) {
+        return false;
+      }
+
+      if (isGlobalVarExpression(schema.source)) {
+        (instance.props as any).reloadOptions?.();
+      }
+
+      // 目前表单项的全局变量更新要靠这个方式
+      if (isGlobalVarExpression(schema.value)) {
+        (instance.props as any).onChange(
+          resolveVariableAndFilter(schema.value, data, '| raw')
+        );
+        return false;
+      }
+    }
   });
 }
 

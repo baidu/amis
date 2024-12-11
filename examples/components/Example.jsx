@@ -668,12 +668,7 @@ export const examples = [
               {
                 label: '更新全局变量数据',
                 path: '/examples/action/setdata/variable',
-                component: makeSchemaRenderer(
-                  SetVariable.schema,
-                  SetVariable.props ?? {},
-                  true,
-                  SetVariable.env
-                )
+                component: makeSchemaRenderer(SetVariable)
               }
             ]
           },

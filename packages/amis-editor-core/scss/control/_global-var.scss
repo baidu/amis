@@ -1,0 +1,63 @@
+.ae-GlobalVarPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  > .panel-header {
+    flex-shrink: 0;
+  }
+}
+
+.ae-GlobalVarManager {
+  border-top: 1px solid #e8e9eb;
+  padding: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  @include minScrollBar();
+
+  & > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &-empty {
+    color: #b4b6ba;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  &-AddBtn {
+    margin-top: 12px;
+    // position: sticky;
+    // bottom: 0;
+  }
+}
+
+.ae-GlobalVarItem {
+  padding: 0;
+  display: flex;
+  height: 34px;
+  line-height: 32px;
+  margin: 0 0 12px;
+
+  &-info {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: 1px solid #e8e9eb;
+    margin-right: 10px;
+  }
+
+  &-actions {
+    width: 64px;
+    flex-shrink: 0;
+
+    & > button {
+      border: 0 !important;
+    }
+  }
+}

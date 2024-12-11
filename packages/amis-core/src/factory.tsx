@@ -56,6 +56,14 @@ export interface RendererBasicConfig {
     prevProps: any
   ) => boolean | undefined;
   storeExtendsData?: boolean | ((props: any) => boolean); // 是否需要继承上层数据。
+  // 当全局渲染器关联的全局变量发生变化时执行
+  // 因为全局变量永远都是最新的，有些组件是 didUpdate 的时候比对有变化才更新
+  // 这里给组件一个自定义更新的机会
+  onGlobalVarChanged?: (
+    instance: React.Component,
+    schema: any,
+    data: any
+  ) => void | boolean;
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
   isFormItem?: boolean;
