@@ -3314,6 +3314,56 @@ order: 67
 }
 ```
 
+可以给列配置上`textOverflow`属性，设置为`ellipsis`，可实现内容超出省略，悬浮查看更多。
+可搭配`popOver`属性，来控制弹出框的信息，需要设置图标不展示。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/sample?perPage=6",
+  "body": [
+    {
+      "type": "table2",
+      "source": "$rows",
+      "columns": [
+        {
+          "title": "Engine",
+          "name": "engine",
+        },
+        {
+          "title": "Version",
+          "name": "version"
+        },
+        {
+          "type": "tpl",
+          "title": "Browser",
+          "name": "browser",
+          "tpl": "${browser+'--'+browser}",
+          "textOverflow": "ellipsis",
+          "popOver": {
+            "trigger": "hover",
+            "position": "right-top-center-bottom",
+            "showIcon": false,
+            "body": {
+              "type": "tpl",
+              "tpl": "${browser}"
+            }
+          }
+        },
+        {
+          "title": "Badge",
+          "name": "badgeText"
+        },
+        {
+          "title": "Platform",
+          "name": "platform"
+        }
+      ]
+    }
+  ]
+}
+```
+
 可以给列配置`popOverEnableOn`属性，该属性为表达式，来控制当前行是否启动`popOver`功能。
 
 ```schema: scope="body"
@@ -4163,6 +4213,7 @@ order: 67
 | searchable | `boolean` \| `Schema`                         | `false` | 是否可快速搜索   |
 | width      | `number` \| `string`                          | 列宽    |
 | remark     |                                               |         | 提示信息         |
+| textOverflow | `string`                                    |`default`| 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效)   |
 
 ## 事件表
 

@@ -365,12 +365,8 @@ export const HocPopOver =
           </Overlay>
         );
       }
-      // 便于外围扩充函数，勿动
       getClassName() {
-        const {textOverflow, getClassName} = this.props;
-        if (getClassName) {
-          return getClassName();
-        }
+        const {textOverflow} = this.props;
         return textOverflow === 'default' ? '' : textOverflow;
       }
 
@@ -413,9 +409,7 @@ export const HocPopOver =
           <Component
             {...this.props}
             className={cx(`Field--popOverAble`, className, {
-              'in': this.state.isOpened,
-              'Field--popOverAble--flex':
-                width && selectClassName === 'ellipsis'
+              in: this.state.isOpened
             })}
             ref={config.targetOutter ? this.targetRef : undefined}
           >
