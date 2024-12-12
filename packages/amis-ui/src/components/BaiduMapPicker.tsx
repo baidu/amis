@@ -43,6 +43,7 @@ interface MapPickerProps {
   onlySelectCurrentLoc?: boolean;
   showSug?: boolean;
   showGeoLoc?: boolean;
+  mapStyle?: React.CSSProperties;
 }
 
 interface LocationItem {
@@ -346,7 +347,7 @@ export class BaiduMapPicker extends React.Component<
   }
 
   render() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, mapStyle} = this.props;
     const onlySelectCurrentLoc = this.props.onlySelectCurrentLoc ?? false;
     const {locIndex, locs, inputValue, sugs} = this.state;
     const showSug = this.props.showSug ?? true;
@@ -371,6 +372,7 @@ export class BaiduMapPicker extends React.Component<
           className={cx('MapPicker-map', {
             invisible: hasSug
           })}
+          style={mapStyle}
         />
 
         {!showSug ? null : (
