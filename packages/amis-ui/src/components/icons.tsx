@@ -411,8 +411,8 @@ export function Icon({
 
   style = {
     ...(style || {}),
-    width: width || style?.width,
-    height: height || style?.height
+    ...(width && {width}),
+    ...(height && {height})
   };
 
   if (typeof jest !== 'undefined' && icon) {
