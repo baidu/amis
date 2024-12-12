@@ -112,6 +112,7 @@ order: 30
 | staticSchema.embed       | `boolean`          | false                                | 是否内嵌地图展示地理位置                                                         |
 | staticSchema.showAddress | `boolean`          | true                                 | 内嵌模式是否展示文字地址                                                         |
 | staticSchema.showGeoLoc  | `boolean`          | false                                | 内嵌模式是否展示定位当当前控件                                                   |
+| staticSchema.mapStyle    | `object`           |                                      | 内嵌模式地图的样式，可以传宽高控制大小                                           |
 
 ### 坐标系说明
 
