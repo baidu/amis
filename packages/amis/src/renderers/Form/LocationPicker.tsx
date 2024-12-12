@@ -172,6 +172,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
               onlySelectCurrentLoc={true}
               showSug={false}
               showGeoLoc={staticSchema.showGeoLoc}
+              mapStyle={staticSchema.mapStyle}
             />
           </>
         ) : (
