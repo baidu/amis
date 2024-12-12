@@ -272,12 +272,29 @@ function svgString2Dom(
     classNameProp,
     style,
     cx,
-    events
+    events,
+    colors,
+    borderRadius
   }: {
     [propName: string]: any;
   }
 ) {
   icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+  if (colors) {
+    Object.keys(colors).forEach(key => {
+      icon = icon.replace(new RegExp(key, 'g'), colors[key]);
+    });
+  }
+  if (borderRadius !== undefined) {
+    // 将svg字符串里面的所有矩形的rx属性替换为borderRadius
+    icon = icon.replace(/<rect(.*?)>/g, function (match, p1) {
+      if (p1.indexOf('rx') === -1) {
+        return `<rect${p1} rx="${borderRadius}">`;
+      } else {
+        return `<rect${p1.replace(/rx=".*?"/, `rx="${borderRadius}"`)}>`;
+      }
+    });
+  }
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
   const svgHTML = createElement('svg', {
@@ -335,28 +352,14 @@ function LinkIcon({
           />
         );
       } else {
-        let svgString = svgIcon;
-        if (colors) {
-          Object.keys(colors).forEach(key => {
-            svgString = svgString.replace(new RegExp(key, 'g'), colors[key]);
-          });
-        }
-        if (borderRadius !== undefined) {
-          // 将svg字符串里面的所有矩形的rx属性替换为borderRadius
-          svgString = svgString.replace(/<rect(.*?)>/g, function (match, p1) {
-            if (p1.indexOf('rx') === -1) {
-              return `<rect${p1} rx="${borderRadius}">`;
-            } else {
-              return `<rect${p1.replace(/rx=".*?"/, `rx="${borderRadius}"`)}>`;
-            }
-          });
-        }
-        return svgString2Dom(svgString, {
+        return svgString2Dom(svgIcon, {
           className,
           classNameProp,
           style,
           cx,
-          events
+          events,
+          colors,
+          borderRadius
         });
       }
     } else {
@@ -540,7 +543,9 @@ export function Icon({
       classNameProp,
       style,
       cx,
-      events
+      events,
+      colors,
+      borderRadius
     });
   }
 
