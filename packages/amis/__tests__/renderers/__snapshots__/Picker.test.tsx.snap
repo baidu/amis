@@ -28,10 +28,10 @@ exports[`1. Renderer:Picker base 1`] = `
         class="cxd-PickerControl cxd-Form-control"
       >
         <div
-          class="cxd-Picker cxd-Picker--single is-focused"
+          class="cxd-Picker cxd-Picker--single"
         >
           <div
-            class="cxd-Picker-input is-focused"
+            class="cxd-Picker-input"
           >
             <div
               class="cxd-Picker-placeholder"
@@ -258,10 +258,10 @@ exports[`1. Renderer:Picker base 2`] = `
       class="cxd-PickerControl cxd-Form-control"
     >
       <div
-        class="cxd-Picker cxd-Picker--single is-focused"
+        class="cxd-Picker cxd-Picker--single"
       >
         <div
-          class="cxd-Picker-input is-focused"
+          class="cxd-Picker-input"
         >
           <div
             class="cxd-Picker-valueWrap"

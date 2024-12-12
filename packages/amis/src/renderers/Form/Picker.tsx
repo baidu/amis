@@ -456,7 +456,9 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  handleFocus() {
+  handleFocus(e: React.MouseEvent<HTMLElement>) {
+    this.input.current && this.input.current.focus();
+    e.stopPropagation();
     this.setState({
       isFocused: true
     });
@@ -471,7 +473,6 @@ export default class PickerControl extends React.PureComponent<
 
   @autobind
   handleClick() {
-    this.input.current && this.input.current.focus();
     this.open();
   }
 
@@ -816,7 +817,7 @@ export default class PickerControl extends React.PureComponent<
                   value={''}
                   ref={this.input}
                   onKeyDown={this.handleKeyDown}
-                  onFocus={this.handleFocus}
+                  onClick={this.handleFocus}
                   onBlur={this.handleBlur}
                   readOnly={mobileUI}
                 />
