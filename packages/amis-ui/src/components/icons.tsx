@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React, {createElement} from 'react';
+import React, {createElement, useEffect} from 'react';
 import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -265,6 +265,115 @@ export interface IconCheckedSchemaNew {
   icon: IconCheckedSchema;
 }
 
+function svgString2Dom(
+  icon: string,
+  {
+    className,
+    classNameProp,
+    style,
+    cx,
+    events
+  }: {
+    [propName: string]: any;
+  }
+) {
+  icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+  const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+  const viewBox = /viewBox="(.*?)"/.exec(icon);
+  const svgHTML = createElement('svg', {
+    ...events,
+    className: cx('icon', className, classNameProp),
+    style,
+    dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+    viewBox: viewBox?.[1] || '0 0 16 16'
+  });
+  return svgHTML;
+}
+
+function LinkIcon({
+  icon,
+  options: {
+    className,
+    classNameProp,
+    style,
+    cx,
+    classPrefix,
+    events,
+    colors,
+    borderRadius
+  }
+}: {
+  icon: string;
+  options: {
+    [propName: string]: any;
+  };
+}) {
+  const [svgIcon, setSvgIcon] = React.useState<string | undefined>(undefined);
+  if (icon.endsWith('.svg')) {
+    useEffect(() => {
+      try {
+        fetch(icon)
+          .then(res => res.text())
+          .then(svg => {
+            setSvgIcon(svg);
+          })
+          .catch(() => {
+            setSvgIcon('error');
+          });
+      } catch (error) {
+        setSvgIcon('error');
+      }
+    }, [icon]);
+    if (svgIcon) {
+      if (svgIcon === 'error') {
+        return (
+          <img
+            {...events}
+            className={cx(`${classPrefix}Icon`, className, classNameProp)}
+            src={icon}
+            style={style}
+          />
+        );
+      } else {
+        let svgString = svgIcon;
+        if (colors) {
+          Object.keys(colors).forEach(key => {
+            svgString = svgString.replace(new RegExp(key, 'g'), colors[key]);
+          });
+        }
+        if (borderRadius !== undefined) {
+          // 将svg字符串里面的所有矩形的rx属性替换为borderRadius
+          svgString = svgString.replace(/<rect(.*?)>/g, function (match, p1) {
+            if (p1.indexOf('rx') === -1) {
+              return `<rect${p1} rx="${borderRadius}">`;
+            } else {
+              return `<rect${p1.replace(/rx=".*?"/, `rx="${borderRadius}"`)}>`;
+            }
+          });
+        }
+        return svgString2Dom(svgString, {
+          className,
+          classNameProp,
+          style,
+          cx,
+          events
+        });
+      }
+    } else {
+      return null;
+    }
+  } else {
+    return (
+      <img
+        {...events}
+        className={cx(`${classPrefix}Icon`, className, classNameProp)}
+        src={icon}
+        style={style}
+      />
+    );
+  }
+}
+
 export function Icon({
   icon,
   className,
@@ -288,6 +397,10 @@ export function Icon({
   onTouchEnd,
   onTouchCancel,
   style,
+  width,
+  height,
+  colors,
+  borderRadius,
   testIdBuilder
 }: {
   icon: string;
@@ -295,6 +408,12 @@ export function Icon({
   testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
+
+  style = {
+    ...(style || {}),
+    width: width || style?.width,
+    height: height || style?.height
+  };
 
   if (typeof jest !== 'undefined' && icon) {
     iconContent = '';
@@ -416,28 +535,31 @@ export function Icon({
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
-    icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-    const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
-    const viewBox = /viewBox="(.*?)"/.exec(icon);
-    const svgHTML = createElement('svg', {
-      ...events,
-      className: cx('icon', className, classNameProp),
+    return svgString2Dom(icon, {
+      className,
+      classNameProp,
       style,
-      dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
-      viewBox: viewBox?.[1] || '0 0 16 16'
+      cx,
+      events
     });
-    return svgHTML;
   }
 
   // icon是链接
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
   if (isURLIcon) {
     return (
-      <img
-        {...events}
-        className={cx(`${classPrefix}Icon`, className, classNameProp)}
-        src={icon}
-        style={style}
+      <LinkIcon
+        icon={icon}
+        options={{
+          className,
+          classNameProp,
+          style,
+          cx,
+          classPrefix,
+          events,
+          colors,
+          borderRadius
+        }}
       />
     );
   }
