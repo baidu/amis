@@ -139,7 +139,13 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   renderStatic(displayValue = '-') {
-    const {classnames: cx, value} = this.props;
+    const {
+      classnames: cx,
+      value,
+      staticSchema,
+      ak,
+      coordinatesType
+    } = this.props;
     const __ = this.props.translate;
 
     if (!value) {
@@ -153,7 +159,24 @@ export class LocationControl extends React.Component<LocationControlProps> {
         })}
         ref={this.domRef}
       >
-        <span>{value.address}</span>
+        {staticSchema?.embed ? (
+          <>
+            {staticSchema.showAddress === false ? null : (
+              <div className="mb-2">{value.address}</div>
+            )}
+            <BaiduMapPicker
+              ak={ak}
+              value={value}
+              coordinatesType={coordinatesType}
+              autoSelectCurrentLoc={false}
+              onlySelectCurrentLoc={true}
+              showSug={false}
+              showGeoLoc={staticSchema.showGeoLoc}
+            />
+          </>
+        ) : (
+          <span>{value.address}</span>
+        )}
       </div>
     );
   }
