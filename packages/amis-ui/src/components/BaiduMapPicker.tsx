@@ -36,10 +36,13 @@ interface MapPickerProps {
     lat: number;
     lng: number;
     city?: string;
+    zoom?: number;
   };
   onChange?: (value: any) => void;
   autoSelectCurrentLoc?: boolean;
   onlySelectCurrentLoc?: boolean;
+  showSug?: boolean;
+  showGeoLoc?: boolean;
 }
 
 interface LocationItem {
@@ -122,15 +125,16 @@ export class BaiduMapPicker extends React.Component<
     let point = value
       ? new BMap.Point(value.lng, value.lat)
       : new BMap.Point(116.404, 39.915);
+    const zoom = value?.zoom || 15;
     if (this.props.coordinatesType == 'gcj02') {
       point = await this.covertPoint(
         point,
         COORDINATES_GCJ02,
         COORDINATES_BD09
       );
-      map.centerAndZoom(point, 15);
+      map.centerAndZoom(point, zoom);
     } else {
-      map.centerAndZoom(point, 15);
+      map.centerAndZoom(point, zoom);
     }
 
     map.addControl(
@@ -142,7 +146,9 @@ export class BaiduMapPicker extends React.Component<
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
       this.getLocations(e.point, autoSelectCurrentLoc);
     });
-    map.addControl(geolocationControl);
+    if (this.props.showGeoLoc === true) {
+      map.addControl(geolocationControl);
+    }
 
     map.addEventListener('click', (e: any) => {
       if (this.props.onlySelectCurrentLoc) {
@@ -343,6 +349,7 @@ export class BaiduMapPicker extends React.Component<
     const {classnames: cx} = this.props;
     const onlySelectCurrentLoc = this.props.onlySelectCurrentLoc ?? false;
     const {locIndex, locs, inputValue, sugs} = this.state;
+    const showSug = this.props.showSug ?? true;
     const hasSug = Array.isArray(sugs) && sugs.length;
 
     return (
@@ -366,41 +373,47 @@ export class BaiduMapPicker extends React.Component<
           })}
         />
 
-        <div
-          className={cx('MapPicker-result', {
-            invisible: hasSug
-          })}
-        >
-          {!onlySelectCurrentLoc &&
-            locs.map((item, index) => (
+        {!showSug ? null : (
+          <div
+            className={cx('MapPicker-result', {
+              invisible: hasSug
+            })}
+          >
+            {!onlySelectCurrentLoc &&
+              locs.map((item, index) => (
+                <div
+                  onClick={this.handleSelect}
+                  key={index}
+                  data-index={index}
+                  className={cx('MapPicker-item')}
+                >
+                  <div className={cx('MapPicker-itemTitle')}>{item.title}</div>
+                  <div className={cx('MapPicker-itemDesc')}>{item.address}</div>
+                  {locIndex === index ? (
+                    <Icon icon="success" className="icon" />
+                  ) : null}
+                </div>
+              ))}
+            {onlySelectCurrentLoc && locs.length > 0 && (
               <div
                 onClick={this.handleSelect}
-                key={index}
-                data-index={index}
+                key="locs-current"
+                data-index={0}
                 className={cx('MapPicker-item')}
               >
-                <div className={cx('MapPicker-itemTitle')}>{item.title}</div>
-                <div className={cx('MapPicker-itemDesc')}>{item.address}</div>
-                {locIndex === index ? (
+                <div className={cx('MapPicker-itemTitle')}>{locs[0].title}</div>
+                <div className={cx('MapPicker-itemDesc')}>
+                  {locs[0].address}
+                </div>
+                {locIndex === 0 ? (
                   <Icon icon="success" className="icon" />
                 ) : null}
               </div>
-            ))}
-          {onlySelectCurrentLoc && locs.length > 0 && (
-            <div
-              onClick={this.handleSelect}
-              key="locs-current"
-              data-index={0}
-              className={cx('MapPicker-item')}
-            >
-              <div className={cx('MapPicker-itemTitle')}>{locs[0].title}</div>
-              <div className={cx('MapPicker-itemDesc')}>{locs[0].address}</div>
-              {locIndex === 0 ? <Icon icon="success" className="icon" /> : null}
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
-        {hasSug && !onlySelectCurrentLoc ? (
+        {showSug && hasSug && !onlySelectCurrentLoc ? (
           <div className={cx('MapPicker-sug')}>
             {sugs.map(item => (
               <div
