@@ -73,3 +73,27 @@ export const generateIcon = (
     )
   ) : null;
 };
+
+type CustomVendorFn = (
+  icon: string,
+  options: {
+    [propName: string]: any;
+  }
+) => {
+  icon: string;
+  style: {
+    [propName: string]: any;
+  };
+};
+
+const customVendor = new Map<string, CustomVendorFn>();
+export function registerCustomVendor(vendor: string, fn: CustomVendorFn) {
+  customVendor.set(vendor, fn);
+}
+
+export function getCustomVendor(vendor?: string) {
+  if (!vendor) {
+    return null;
+  }
+  return customVendor.get(vendor);
+}

@@ -111,7 +111,7 @@ import If from '../icons/if.svg';
 import RotateScreen from '../icons/rotate-screen.svg';
 
 import isObject from 'lodash/isObject';
-import type {TestIdBuilder} from 'amis-core';
+import {getCustomVendor, type TestIdBuilder} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -254,23 +254,6 @@ registerIcon('scale-origin', ScaleOrigin);
 registerIcon('if', If);
 registerIcon('rotate-screen', RotateScreen);
 
-type CustomVendorFn = (
-  icon: string,
-  options: {
-    [propName: string]: any;
-  }
-) => {
-  icon: string;
-  style: {
-    [propName: string]: any;
-  };
-};
-
-const customVendor = new Map<string, CustomVendorFn>();
-export function registerCustomVendor(vendor: string, fn: CustomVendorFn) {
-  customVendor.set(vendor, fn);
-}
-
 export interface IconCheckedSchema {
   id: string;
   name?: string;
@@ -297,17 +280,16 @@ function svgString2Dom(
   vendor?: string
 ) {
   icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-  customVendor.forEach((fn, key) => {
-    if (vendor === key) {
-      const {icon: newIcon, style: newStyle} = fn(icon, {
-        ...extra,
-        width: style.width,
-        height: style.height
-      });
-      icon = newIcon;
-      style = Object.assign(style, newStyle);
-    }
-  });
+  const fn = getCustomVendor(vendor);
+  if (fn) {
+    const {icon: newIcon, style: newStyle} = fn(icon, {
+      ...extra,
+      width: style.width,
+      height: style.height
+    });
+    icon = newIcon;
+    style = Object.assign(style, newStyle);
+  }
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
   const svgHTML = createElement('svg', {

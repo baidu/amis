@@ -1,4 +1,4 @@
-import {registerCustomVendor} from 'amis-ui';
+import {registerCustomVendor} from 'amis-core';
 
 function guid() {
   return (

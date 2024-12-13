@@ -13,12 +13,10 @@ import type {SchemaEditorItemPlaceholder} from './components/schema-editor/Commo
 import {schemaEditorItemPlaceholder} from './components/schema-editor/Common';
 import withStore from './withStore';
 import withRemoteConfig from './withRemoteConfig';
-import {registerCustomVendor} from './components/icons';
 
 export {
   schemaEditorItemPlaceholder,
   SchemaEditorItemPlaceholder,
   withStore,
-  withRemoteConfig,
-  registerCustomVendor
+  withRemoteConfig
 };
