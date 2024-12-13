@@ -236,6 +236,7 @@ export default class Cards extends React.Component<GridProps, object> {
 
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -367,6 +368,32 @@ export default class Cards extends React.Component<GridProps, object> {
   handleCheck(item: IItem) {
     item.toggle();
     this.syncSelected();
+
+    const {store, dispatchEvent} = this.props;
+    const selectItems = store.selectedItems.map(row => row.data);
+    const unSelectItems = store.unSelectedItems.map(row => row.data);
+
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        selectedItems: selectItems,
+        unSelectedItems: unSelectItems,
+        item: item.data
+      })
+    );
+  }
+
+  handleClick(item: IItem) {
+    const {dispatchEvent, data} = this.props;
+    return dispatchEvent(
+      //增删改查卡片模式单击卡片
+      'rowClick',
+      createObject(data, {
+        item: item.data,
+        index: item.index
+      })
+    );
   }
 
   handleCheckAll() {
@@ -475,9 +502,17 @@ export default class Cards extends React.Component<GridProps, object> {
     );
   }
 
-  handleSaveOrder() {
-    const {store, onSaveOrder} = this.props;
+  async handleSaveOrder() {
+    const {store, onSaveOrder, data, dispatchEvent} = this.props;
+    const movedItems = store.movedItems.map(item => item.data);
 
+    const rendererEvent = await dispatchEvent(
+      'orderChange',
+      createObject(data, {movedItems})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
     if (!onSaveOrder || !store.movedItems.length) {
       return;
     }
@@ -909,6 +944,7 @@ export default class Cards extends React.Component<GridProps, object> {
       data: item.locals,
       onAction: this.handleAction,
       onCheck: this.handleCheck,
+      onClick: this.handleClick,
       onQuickChange: store.dragging ? null : this.handleQuickChange
     };
 
