@@ -12,14 +12,14 @@
   }
 }
 
+.#{$ns}TableCell-ellipsis {
+  display: flex;
+  align-items: center;
+}
+
 .#{$ns}Field--popOverAble {
   outline: none;
   position: relative;
-
-  &--flex {
-    display: flex;
-    align-items: center;
-  }
 
   .#{$ns}Field-popOverWrap {
     &-ellipsis {

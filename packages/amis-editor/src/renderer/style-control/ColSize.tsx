@@ -29,7 +29,8 @@ function getColSize(value: string, count: number) {
 
 const ColSize: React.FC<FormControlProps> = props => {
   const store = props.manager.store;
-  const body = [...store.getSchemaParentById(store.activeId)];
+  const containerBody = store.getSchemaParentById(store.activeId);
+  const body = Array.isArray(containerBody) ? [...containerBody] : [];
   const node = store.getNodeById(store.activeId);
   const row = props.data.row;
   const rowItem = body.filter((item: any) => item.row === row);
@@ -43,7 +44,10 @@ const ColSize: React.FC<FormControlProps> = props => {
   const tabsMode = parent?.schema?.tabsMode;
   const isComboRow = type === 'combo' && !multiLine && !tabsMode;
 
-  const value = isFlex || isComboRow ? props.data.colSize : props.data.size;
+  const value =
+    (isFlex || isComboRow) && body.length
+      ? props.data.colSize
+      : props.data.size;
 
   function handleColSizeChange(value: string) {
     if (
@@ -105,7 +109,7 @@ const ColSize: React.FC<FormControlProps> = props => {
     props.setValue(value, 'size');
   }
 
-  return isFlex || isComboRow ? (
+  return (isFlex || isComboRow) && body.length ? (
     <div className="ColSize">
       {baseColSize
         .filter(n => {

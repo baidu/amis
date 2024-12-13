@@ -68,6 +68,7 @@ export class TableCell extends React.Component<TableCellProps> {
       row,
       showBadge,
       itemBadge,
+      textOverflow,
       testIdBuilder,
       ...rest
     } = this.props;
@@ -188,7 +189,11 @@ export class TableCell extends React.Component<TableCellProps> {
           />
         ) : null}
         {cellPrefix}
-        {body}
+        {textOverflow === 'ellipsis' && width ? (
+          <div className={cx(`TableCell-ellipsis`)}>{body}</div>
+        ) : (
+          body
+        )}
         {cellAffix}
       </Component>
     );
