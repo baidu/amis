@@ -1477,6 +1477,39 @@ export class EditorManager {
   closeContextMenu() {}
 
   /**
+   * 自由容器内元素置于顶层
+   */
+  moveTop() {
+    const store = this.store;
+    if (!store.activeId) {
+      return;
+    }
+
+    const node = store.getNodeById(store.activeId)!;
+    const regionNode = node.parent;
+    this.move(regionNode.id, regionNode.region, node.id);
+  }
+
+  /**
+   * 自由容器内元素置于底层
+   */
+  moveBottom() {
+    const store = this.store;
+    if (!store.activeId) {
+      return;
+    }
+    const node = store.getNodeById(store.activeId)!;
+    const regionNode = node.parent;
+
+    this.move(
+      regionNode.id,
+      regionNode.region,
+      node.id,
+      regionNode.children[0].id
+    );
+  }
+
+  /**
    * 将当前选中的节点上移
    */
   moveUp() {
