@@ -369,6 +369,60 @@ export class BasicToolbarPlugin extends BasePlugin {
 
       menus.push('|');
 
+      const idx = Array.isArray(parent) ? parent.indexOf(schema) : -1;
+      if (host?.schema?.isFreeContainer) {
+        menus.push({
+          label: '调整层级',
+          disabled:
+            !Array.isArray(parent) || parent.length <= 1 || !node.moveable,
+          children: [
+            {
+              id: 'move-top',
+              label: '置于顶层',
+              disabled: idx === parent.length - 1,
+              onSelect: () => manager.moveTop()
+            },
+            {
+              id: 'move-bottom',
+              label: '置于底层',
+              disabled: idx === 0,
+              onSelect: () => manager.moveBottom()
+            },
+            {
+              id: 'move-forward',
+              label: '上移一层',
+              disabled: idx === parent.length - 1,
+              onSelect: () => manager.moveDown()
+            },
+            {
+              id: 'move-backward',
+              label: '下移一层',
+              disabled: idx === 0,
+              onSelect: () => manager.moveUp()
+            }
+          ]
+        });
+      } else {
+        menus.push({
+          id: 'move-forward',
+          label: '向前移动',
+          disabled: !(Array.isArray(parent) && idx > 0) || !node.moveable,
+          // || !node.prevSibling,
+          onSelect: () => manager.moveUp()
+        });
+
+        menus.push({
+          id: 'move-backward',
+          label: '向后移动',
+          disabled:
+            !(Array.isArray(parent) && idx < parent.length - 1) ||
+            !node.moveable,
+          // || !node.nextSibling,
+          onSelect: () => manager.moveDown()
+        });
+      }
+      menus.push('|');
+
       menus.push({
         id: 'copy',
         label: '重复一份',
@@ -406,27 +460,6 @@ export class BasicToolbarPlugin extends BasePlugin {
         disabled: !node.removable,
         className: 'text-danger',
         onSelect: () => manager.del(id)
-      });
-
-      menus.push('|');
-
-      const idx = Array.isArray(parent) ? parent.indexOf(schema) : -1;
-
-      menus.push({
-        id: 'move-forward',
-        label: '向前移动',
-        disabled: !(Array.isArray(parent) && idx > 0) || !node.moveable,
-        // || !node.prevSibling,
-        onSelect: () => manager.moveUp()
-      });
-
-      menus.push({
-        id: 'move-backward',
-        label: '向后移动',
-        disabled:
-          !(Array.isArray(parent) && idx < parent.length - 1) || !node.moveable,
-        // || !node.nextSibling,
-        onSelect: () => manager.moveDown()
       });
 
       /** 「点选（默认向后插入）」+ 「向前移动」可以替换 「前面插入节点」 */
