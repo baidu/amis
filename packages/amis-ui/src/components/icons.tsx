@@ -254,6 +254,23 @@ registerIcon('scale-origin', ScaleOrigin);
 registerIcon('if', If);
 registerIcon('rotate-screen', RotateScreen);
 
+type CustomVendorFn = (
+  icon: string,
+  options: {
+    [propName: string]: any;
+  }
+) => {
+  icon: string;
+  style: {
+    [propName: string]: any;
+  };
+};
+
+const customVendor = new Map<string, CustomVendorFn>();
+export function registerCustomVendor(vendor: string, fn: CustomVendorFn) {
+  customVendor.set(vendor, fn);
+}
+
 export interface IconCheckedSchema {
   id: string;
   name?: string;
@@ -273,28 +290,24 @@ function svgString2Dom(
     style,
     cx,
     events,
-    colors,
-    borderRadius
+    extra
   }: {
     [propName: string]: any;
-  }
+  },
+  vendor?: string
 ) {
   icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-  if (colors) {
-    Object.keys(colors).forEach(key => {
-      icon = icon.replace(new RegExp(key, 'g'), colors[key]);
-    });
-  }
-  if (borderRadius !== undefined) {
-    // 将svg字符串里面的所有矩形的rx属性替换为borderRadius
-    icon = icon.replace(/<rect(.*?)>/g, function (match, p1) {
-      if (p1.indexOf('rx') === -1) {
-        return `<rect${p1} rx="${borderRadius}">`;
-      } else {
-        return `<rect${p1.replace(/rx=".*?"/, `rx="${borderRadius}"`)}>`;
-      }
-    });
-  }
+  customVendor.forEach((fn, key) => {
+    if (vendor === key) {
+      const {icon: newIcon, style: newStyle} = fn(icon, {
+        ...extra,
+        width: style.width,
+        height: style.height
+      });
+      icon = newIcon;
+      style = Object.assign(style, newStyle);
+    }
+  });
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
   const svgHTML = createElement('svg', {
@@ -309,18 +322,11 @@ function svgString2Dom(
 
 function LinkIcon({
   icon,
-  options: {
-    className,
-    classNameProp,
-    style,
-    cx,
-    classPrefix,
-    events,
-    colors,
-    borderRadius
-  }
+  vendor,
+  options: {className, classNameProp, style, cx, classPrefix, events, extra}
 }: {
   icon: string;
+  vendor?: string;
   options: {
     [propName: string]: any;
   };
@@ -352,15 +358,18 @@ function LinkIcon({
           />
         );
       } else {
-        return svgString2Dom(svgIcon, {
-          className,
-          classNameProp,
-          style,
-          cx,
-          events,
-          colors,
-          borderRadius
-        });
+        return svgString2Dom(
+          svgIcon,
+          {
+            className,
+            classNameProp,
+            style,
+            cx,
+            events,
+            extra
+          },
+          vendor
+        );
       }
     } else {
       return null;
@@ -402,8 +411,7 @@ export function Icon({
   style,
   width,
   height,
-  colors,
-  borderRadius,
+  extra,
   testIdBuilder
 }: {
   icon: string;
@@ -538,15 +546,18 @@ export function Icon({
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
-    return svgString2Dom(icon, {
-      className,
-      classNameProp,
-      style,
-      cx,
-      events,
-      colors,
-      borderRadius
-    });
+    return svgString2Dom(
+      icon,
+      {
+        className,
+        classNameProp,
+        style,
+        cx,
+        events,
+        extra
+      },
+      vendor
+    );
   }
 
   // icon是链接
@@ -555,6 +566,7 @@ export function Icon({
     return (
       <LinkIcon
         icon={icon}
+        vendor={vendor}
         options={{
           className,
           classNameProp,
@@ -562,8 +574,7 @@ export function Icon({
           cx,
           classPrefix,
           events,
-          colors,
-          borderRadius
+          extra
         }}
       />
     );
