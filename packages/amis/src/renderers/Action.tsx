@@ -993,6 +993,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let confirmText: string = '';
     // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
     if (
+      !this.props.customVerify && // customVerify 外部透传过来的验证,勿删
       (!ignoreConfirm || hasOnEvent) &&
       action.confirmText &&
       env.confirm &&
