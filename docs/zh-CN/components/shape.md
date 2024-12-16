@@ -49,19 +49,21 @@ icon:
         type: 'shape',
         className: 'm-2',
         shapeType: 'triangle',
-        size: 100
+        width: 200,
+        height: 100
       },
       {
         type: 'shape',
         className: 'm-2',
         shapeType: 'square',
-        size: 100
+        height: 100
       },
       {
         type: 'shape',
         className: 'm-2',
         shapeType: 'pentagon',
-        size: 100
+        width: 100,
+        height: 100
       }
     ]
 }
@@ -95,6 +97,29 @@ icon:
 }
 ```
 
+## 配置颜色
+
+```schema
+{
+    type: "page",
+    body: [
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'triangle',
+        color: '#2468f2',
+        radius: 4
+      },
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'heart',
+        color: '#f23d3d'
+      }
+    ]
+}
+```
+
 ## 更多图形
 
 ```schema
@@ -105,75 +130,87 @@ icon:
       type: 'shape',
       className: 'm-2',
       shapeType: 'triangle',
-      size: 50
+      width: 50,
+      height: 50
     },
     {
       type: 'shape',
       className: 'm-2',
       shapeType: 'square',
-      size: 50
+      width: 50,
+      height: 50
     },
     {
       type: 'shape',
       className: 'm-2',
       shapeType: 'convex-arc-rectangle',
-      size: 50
+      width: 50,
+      height: 50
     },
     {
       type: 'shape',
       className: 'm-2',
       shapeType: 'convex-arc-rectangle',
-      size: 50,
+      width: 50,
+      height: 50,
       radius: 4
     },
     {
       type: 'shape',
       className: 'm-2',
       shapeType: 'concave-arc-rectangle',
-      size: 50,
+      width: 50,
+      height: 50,
       radius: 4
     },
     {
       type: 'shape',
       className: 'm-2',
       shapeType: 'double-arc-rectangle',
-      size: 50,
+      width: 50,
+      height: 50,
       radius: 4
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'pentagon'
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'hexagon'
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'star'
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'hexagon-star'
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'heart'
     },
     {
       type: 'shape',
       className: 'm-2',
-      size: 50,
+      width: 50,
+      height: 50,
       shapeType: 'circle'
     }
   ]
@@ -187,7 +224,8 @@ icon:
 | type      | `string`     | `'shape'` | 指定为图形渲染器    |
 | shapeType | `IShapeType` | `'-'`     | 图形类型            |
 | className | `string`     |           | 自定义 CSS 样式类名 |
-| size      | `number`     | `200`     | 图形大小            |
+| width     | `number`     | `200`     | 图形宽度            |
+| height    | `number`     | `200`     | 图形大小            |
 | radius    | `number`     | `0`       | 圆角大小（1-10）    |
 
 ### IShapeType 类型
