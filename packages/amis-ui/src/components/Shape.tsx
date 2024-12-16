@@ -25,7 +25,9 @@ export type IShapeType =
 export interface IShapeProps extends ThemeProps {
   shapeType: IShapeType;
   radius: number;
-  size?: number;
+  width?: number;
+  height?: number;
+  color?: string;
 }
 
 class SvgPathGenerator {
@@ -378,15 +380,38 @@ class SvgPathGenerator {
 }
 
 const Shape: React.FC<IShapeProps> = props => {
-  const {classnames: cx, className, shapeType, radius, size = 200} = props;
+  const BASE_SIZE = 200;
+  const {
+    classnames: cx,
+    className,
+    shapeType,
+    radius,
+    color,
+    width = BASE_SIZE,
+    height = BASE_SIZE
+  } = props;
   const radiusValue = Math.floor(Math.max(0, Math.min(10, radius))) || 0;
-  const generator = new SvgPathGenerator(200);
+  const generator = new SvgPathGenerator(BASE_SIZE);
   const genFun = generator.getGenerage(shapeType);
   const paths = genFun(radiusValue * 10);
+  const style = {
+    width: width + 'px',
+    height: height + 'px'
+  };
+  const scaleStyle = {
+    transform: `scale(${width / BASE_SIZE}, ${height / BASE_SIZE})`
+  };
 
   return (
-    <div className={cx('Shape', className)}>
-      <svg width={size} height={size} fill="currentColor" viewBox="0 0 200 200">
+    <div className={cx('Shape', className)} style={style}>
+      <svg
+        className={cx('Shape-svg')}
+        width={BASE_SIZE}
+        height={BASE_SIZE}
+        style={scaleStyle}
+        fill={color ? color : 'currentColor'}
+        viewBox={`0 0 ${BASE_SIZE} ${BASE_SIZE}`}
+      >
         {paths.map((path, index) => (
           <path key={index} d={path} />
         ))}

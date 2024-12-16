@@ -19,13 +19,21 @@ export interface IShapeSchema extends BaseSchema {
   shapeType: IShapeType;
 
   /**
-   * 图形大小
+   * 图形宽度
    */
-  size?: number;
+  width?: number;
+  /**
+   * 图形宽度
+   */
+  height?: number;
   /**
    * 圆角大小 1~10
    */
   radius: number;
+  /**
+   * 颜色
+   */
+  color?: string;
 }
 
 interface IShapeRenderProps
@@ -37,13 +45,15 @@ interface IShapeRenderProps
 })
 export class ShapeRenderer extends React.Component<IShapeRenderProps> {
   render() {
-    const {className, shapeType, radius, size} = this.props;
+    const {className, shapeType, radius, width, height, color} = this.props;
 
     return (
       <Shape
         className={cx(className)}
         shapeType={shapeType}
-        size={size}
+        width={width}
+        height={height}
+        color={color}
         radius={radius}
       />
     );
