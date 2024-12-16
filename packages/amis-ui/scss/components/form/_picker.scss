@@ -98,8 +98,10 @@
   .#{$ns}Picker-values {
     display: inline;
 
-    .#{$ns}Picker-valueLabel {
-      pointer-events: auto;
+    .#{$ns}OverflowTpl {
+      .#{$ns}Picker-valueLabel {
+        pointer-events: auto;
+      }
     }
   }
 
