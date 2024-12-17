@@ -1427,12 +1427,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 }
 
-const EnhancedSelect = themeable(
-  localeable(
-    uncontrollable(Select, {
-      value: 'onChange'
-    })
-  )
+const methods = ['focus', 'blur'];
+const EnhancedSelect = uncontrollable(
+  themeable(localeable(Select, methods), methods),
+  {
+    value: 'onChange'
+  },
+  methods
 );
 
 export default EnhancedSelect;
