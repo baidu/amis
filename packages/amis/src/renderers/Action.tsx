@@ -993,6 +993,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let confirmText: string = '';
     // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
     if (
+      this.props.showConfirmBox !== false && // 外部判断是否开启二次确认弹窗的验证,勿删
       (!ignoreConfirm || hasOnEvent) &&
       action.confirmText &&
       env.confirm &&
