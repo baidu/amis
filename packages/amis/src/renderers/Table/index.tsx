@@ -4,6 +4,7 @@ import {reaction} from 'mobx';
 import Sortable from 'sortablejs';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
+import uniqBy from 'lodash/uniqBy';
 import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import isPlainObject from 'lodash/isPlainObject';
@@ -21,7 +22,6 @@ import {
   SchemaNode,
   ActionObject,
   Schema,
-  evalExpression,
   filter,
   noop,
   anyChanged,
@@ -40,9 +40,6 @@ import {
   offset,
   getStyleNumber,
   getPropValue,
-  isExpression,
-  getTree,
-  resolveVariableAndFilterForAsync,
   getMatchedEventTargets,
   loopTooMuch
 } from 'amis-core';
@@ -1043,7 +1040,14 @@ export default class Table<
   }
 
   async handleCheck(item: IRow, value?: boolean, shift?: boolean) {
-    const {store, data, dispatchEvent, selectable} = this.props;
+    const {
+      data,
+      dispatchEvent,
+      keepItemSelectionOnPageChange,
+      primaryField,
+      store,
+      selectable
+    } = this.props;
 
     if (!selectable) {
       return;
@@ -1062,7 +1066,19 @@ export default class Table<
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.selectedRows.map(row => row.data),
+        selectedItems: keepItemSelectionOnPageChange
+          ? uniqBy(
+              data.selectedItems
+                .slice()
+                .filter((_item: any) => {
+                  return value
+                    ? true
+                    : item.data[primaryField] !== _item[primaryField];
+                })
+                .concat(store.selectedRows.map(row => row.data)),
+              (item: any) => item[primaryField]
+            )
+          : store.selectedRows.map(row => row.data),
         unSelectedItems: store.unSelectedRows.map(row => row.data),
         item: item.data
       })
