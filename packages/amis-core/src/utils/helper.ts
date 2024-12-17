@@ -1762,34 +1762,18 @@ export class SkipOperation extends Error {}
 export class ValidateError extends Error {
   name: 'ValidateError';
   detail: {[propName: string]: Array<string> | string};
+  rawError?: {[propName: string]: any};
 
   constructor(
     message: string,
-    error: {[propName: string]: Array<string> | string}
+    error: {[propName: string]: Array<string> | string},
+    rawError?: {[propName: string]: any}
   ) {
     super();
     this.name = 'ValidateError';
     this.message = message;
     this.detail = error;
-  }
-}
-
-export class RawError extends Error {
-  name: 'RawError';
-  items: any[];
-  errors: {[propName: string]: Array<string> | string};
-  msg: {[propName: string]: string | undefined};
-
-  constructor(
-    items: any[],
-    errors: {[propName: string]: Array<string> | string},
-    msg: {[propName: string]: string | undefined}
-  ) {
-    super();
-    this.name = 'RawError';
-    this.items = items;
-    this.errors = errors;
-    this.msg = msg;
+    this.rawError = rawError;
   }
 }
 

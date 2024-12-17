@@ -2393,7 +2393,7 @@ export class _FormRenderer extends Form {
         })
       );
     } else if (action.actionType === 'clearError') {
-      super.clearErrors();
+      return super.clearErrors();
     } else {
       return super.handleAction(e, action, ctx, throwErrors, delegate);
     }

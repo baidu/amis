@@ -2,7 +2,7 @@
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
-import type {TestIdBuilder} from './utils/helper';
+import type {TestIdBuilder, ValidateError} from './utils/helper';
 import {AnimationsProps} from './utils/animations';
 
 export interface Option {
@@ -543,7 +543,7 @@ export type ToastConf = {
   className?: string;
   items?: Array<any>;
   useMobileUI?: boolean;
-  rawError?: Error;
+  validateError?: ValidateError;
 };
 
 export interface OptionProps {

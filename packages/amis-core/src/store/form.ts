@@ -25,8 +25,7 @@ import {
   keyToPath,
   isObject,
   ValidateError,
-  extendObject,
-  RawError
+  extendObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
@@ -550,10 +549,10 @@ export const FormStore = ServiceStore.named('FormStore')
 
     // 10s 内不要重复弹同一个错误
     const toastValidateError = throttle(
-      (msg, rawError?: RawError) => {
+      (msg, validateError?: ValidateError) => {
         const env = getEnv(self);
         env.notify('error', msg, {
-          rawError
+          validateError
         });
       },
       10000,
@@ -702,11 +701,18 @@ export const FormStore = ServiceStore.named('FormStore')
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            const rawError = new RawError(self.items, self.errors, {
-              customMsg: failedMessage,
-              defaultMsg: self.__('Form.validateFailed')
-            });
-            msg && toastValidateError(msg, rawError);
+            const validateError = new ValidateError(
+              failedMessage || self.__('Form.validateFailed'),
+              self.errors,
+              {
+                items: self.items,
+                msg: {
+                  customMsg: failedMessage,
+                  defaultMsg: self.__('Form.validateFailed')
+                }
+              }
+            );
+            msg && toastValidateError(msg, validateError);
           }
         }
 

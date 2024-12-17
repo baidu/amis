@@ -947,7 +947,7 @@ export function isEffectiveApi(
   return false;
 }
 
-// 判断是否api存在，且SendOn生效
+// 判断api是否存在，且SendOn为不发送
 export function isEffectiveSendOnApi(api?: Api, data?: any) {
   if (isObject(api) && (api as ApiObject).url) {
     if ((api as ApiObject).sendOn && data) {
