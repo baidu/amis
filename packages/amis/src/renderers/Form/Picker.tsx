@@ -157,13 +157,13 @@ export default class PickerControl extends React.PureComponent<
         placement: 'top',
         trigger: 'hover',
         showArrow: false,
-        offset: [0, -10]
+        offset: [0, -5]
       },
       overflowTagPopoverInCRUD: {
         placement: 'bottom',
         trigger: 'hover',
         showArrow: false,
-        offset: [0, 10]
+        offset: [0, 0]
       }
     }
   };
@@ -641,7 +641,7 @@ export default class PickerControl extends React.PureComponent<
     }
 
     return (
-      <div className={`${ns}Picker-values`}>
+      <>
         {tags.map((item, index) => {
           if (enableOverflow && index === maxTagCount) {
             return (
@@ -697,7 +697,7 @@ export default class PickerControl extends React.PureComponent<
 
           return this.renderTag(item, index);
         })}
-      </div>
+      </>
     );
   }
 
@@ -804,24 +804,24 @@ export default class PickerControl extends React.PureComponent<
                 <div className={cx('Picker-placeholder')}>
                   {__(placeholder)}
                 </div>
-              ) : null}
+              ) : (
+                <div
+                  className={cx('Picker-valueWrap')}
+                  {...testIdBuilder?.getTestId()}
+                >
+                  {this.renderValues()}
 
-              <div
-                className={cx('Picker-valueWrap')}
-                {...testIdBuilder?.getTestId()}
-              >
-                {this.renderValues()}
-
-                <input
-                  onChange={noop}
-                  value={''}
-                  ref={this.input}
-                  onKeyDown={this.handleKeyDown}
-                  onClick={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  readOnly={mobileUI}
-                />
-              </div>
+                  <input
+                    onChange={noop}
+                    value={''}
+                    ref={this.input}
+                    onKeyDown={this.handleKeyDown}
+                    onClick={this.handleFocus}
+                    onBlur={this.handleBlur}
+                    readOnly={mobileUI}
+                  />
+                </div>
+              )}
 
               {clearable && !disabled && selectedOptions.length ? (
                 <a onClick={this.clearValue} className={cx('Picker-clear')}>

@@ -2,6 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
+import partition from 'lodash/partition';
 import {
   Renderer,
   RendererProps,
@@ -45,7 +46,8 @@ import {
   SchemaName,
   SchemaObject,
   SchemaTokenizeableString,
-  SchemaTpl
+  SchemaTpl,
+  SchemaCollection
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
@@ -252,6 +254,13 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    */
   syncLocation?: boolean;
 
+  toolbar?: SchemaCollection;
+
+  /**
+   * 工具栏是否为 inline 模式
+   */
+  toolbarInline?: boolean;
+
   /**
    * 顶部工具栏
    */
@@ -393,6 +402,17 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
         types?: ('boolean' | 'number')[];
       }
     | boolean;
+
+  /**
+   * 是否开启行选择功能, 默认为 false
+   * 开启后将支持行选择功能,需要结合事件动作使用
+   */
+  selectable?: boolean;
+
+  /**
+   * 控制是否多选，默认为 false
+   */
+  multiple?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -435,7 +455,7 @@ const INNER_EVENTS: Array<CRUDRendererEvent> = [
   'selected'
 ];
 
-export default class CRUD extends React.Component<CRUDProps, any> {
+export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   static propsList: Array<keyof CRUDProps> = [
     'bulkActions',
     'itemActions',
@@ -528,7 +548,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
   );
 
-  constructor(props: CRUDProps) {
+  constructor(props: T) {
     super(props);
 
     this.controlRef = this.controlRef.bind(this);
@@ -811,6 +831,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const redirect = action.redirect && filter(action.redirect, data);
       redirect && action.blank && env.jumpTo(redirect, action, data);
 
+      // 如果 api 无效，或者不满足发送条件，则直接返回
+      if (!isEffectiveApi(action.api, data)) {
+        return;
+      }
+
       return store
         .saveRemote(action.api!, data, {
           successMessage:
@@ -977,7 +1002,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   handleFilterInit(values: object) {
     const {defaultParams, data, store, orderBy, orderDir, dispatchEvent} =
       this.props;
-    const params = {...defaultParams};
+    const params: any = {...defaultParams};
 
     if (orderBy) {
       params['orderBy'] = orderBy;
@@ -1967,11 +1992,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   clearSelection() {
-    const {store} = this.props;
-    const selected = store.selectedItems.concat();
-    const unSelected = store.unSelectedItems.concat(selected);
+    const {store, itemCheckableOn} = this.props;
+    const [unchecked, checked] = partition(
+      store.selectedItems,
+      item => !itemCheckableOn || evalExpression(itemCheckableOn, item)
+    );
+    const unSelected = store.unSelectedItems.concat(unchecked);
 
-    store.setSelectedItems([]);
+    store.setSelectedItems(checked);
     store.setUnSelectedItems(unSelected);
   }
 
@@ -2395,7 +2423,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
-        .filter((toolbar: any) => isVisible(toolbar, store.filterData))
+        .filter((toolbar: any) => isVisible(toolbar, store.toolbarData))
         .map((toolbar, index) => ({
           dom: this.renderToolbar(toolbar, index, childProps, toolbarRenderer),
           toolbar
@@ -2468,12 +2496,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (toolbar) {
       if (Array.isArray(headerToolbar)) {
         headerToolbar = toolbarInline
-          ? headerToolbar.concat(toolbar)
-          : [headerToolbar, toolbar];
+          ? headerToolbar.concat(toolbar as any)
+          : ([headerToolbar, toolbar] as any);
       } else if (headerToolbar) {
-        headerToolbar = [headerToolbar, toolbar];
+        headerToolbar = [headerToolbar, toolbar] as any;
       } else {
-        headerToolbar = toolbar;
+        headerToolbar = toolbar as any;
       }
     }
 
@@ -2493,13 +2521,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (toolbar) {
       if (Array.isArray(footerToolbar)) {
-        footerToolbar = toolbarInline
-          ? footerToolbar.concat(toolbar)
-          : [footerToolbar, toolbar];
+        footerToolbar = (
+          toolbarInline
+            ? footerToolbar.concat(toolbar as any)
+            : [footerToolbar, toolbar]
+        ) as any;
       } else if (footerToolbar) {
-        footerToolbar = [footerToolbar, toolbar];
+        footerToolbar = [footerToolbar, toolbar] as any;
       } else {
-        footerToolbar = toolbar;
+        footerToolbar = toolbar as any;
       }
     }
 
@@ -2514,11 +2544,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       valueField,
       translate: __,
-      env
+      env,
+      itemCheckableOn
     } = this.props;
 
+    const checkable = itemCheckableOn
+      ? evalExpression(itemCheckableOn, item)
+      : true;
+
     return (
-      <div key={index} className={cx(`Crud-value`)}>
+      <div
+        key={index}
+        className={cx(`Crud-value`, checkable ? '' : 'is-disabled')}
+      >
         <span
           className={cx('Crud-valueIcon')}
           onClick={this.unSelectItem.bind(this, item, index)}
@@ -2679,6 +2717,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       testIdBuilder,
       id,
       filterCanAccessSuperData = true,
+      selectable = false,
       ...rest
     } = this.props;
 
@@ -2744,7 +2783,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
-              pickerMode
+              pickerMode ||
+              selectable
             ),
             itemActions,
             multiple:
@@ -2804,15 +2844,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 }
 
-@Renderer({
-  type: 'crud',
-  storeType: CRUDStore.name,
-  isolateScope: true
-})
-export class CRUDRenderer extends CRUD {
+export class CRUDRendererBase<T extends CRUDProps> extends CRUD<T> {
   static contextType = ScopedContext;
 
-  constructor(props: CRUDProps, context: IScopedContext) {
+  constructor(props: T, context: IScopedContext) {
     super(props);
 
     const scoped = context;
@@ -2908,3 +2943,10 @@ export class CRUDRenderer extends CRUD {
     return store.getData(data);
   }
 }
+
+@Renderer({
+  type: 'crud',
+  storeType: CRUDStore.name,
+  isolateScope: true
+})
+export class CRUDRenderer extends CRUDRendererBase<CRUDProps> {}
