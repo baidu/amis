@@ -192,6 +192,18 @@ export class FileControlPlugin extends BasePlugin {
                   }
                 ]
               }),
+              getSchemaTpl('switch', {
+                name: 'joinValues',
+                label: '文件上传路径拼接',
+                pipeIn: defaultValue(true)
+              }),
+              {
+                type: 'input-text',
+                name: 'delimiter',
+                label: '拼接符',
+                visibleOn: 'this.joinValues !== false',
+                pipeIn: defaultValue(',')
+              },
               {
                 type: 'input-group',
                 name: 'maxSize',
