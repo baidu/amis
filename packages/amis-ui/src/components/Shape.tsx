@@ -11,27 +11,60 @@ import {themeable, ThemeProps} from 'amis-core';
 export type IShapeType =
   | 'square'
   | 'triangle'
+  | 'right-triangle'
   | 'rectangle'
   | 'convex-arc-rectangle'
   | 'concave-arc-rectangle'
-  | 'double-arc-rectangle'
+  | 'double-convex-arc-rectangle'
+  | 'double-concave-arc-rectangle'
+  | 'barrel-rectangle' // 桶形矩形
+  | 'rhombus' // 菱形
+  | 'parallelogram' // 平行四边形
+  | 'rectangle-1' // 矩形类型1
+  | 'rectangle-2' // 矩形类型2
+  | 'rectangle-3' // 矩形类型1
+  | 'rectangle-4' // 矩形类型2
   | 'pentagon' // 五边形
   | 'hexagon' // 六边形
+  | 'octagon' // 八边形
   | 'hexagon-star' // 六角星
   | 'star'
   | 'heart'
-  | 'circle';
+  | 'circle'
+  | 'arrow'
+  | 'leaf';
+
+export type IShapeCustomType = 'custom';
 
 export interface IShapeProps extends ThemeProps {
-  shapeType: IShapeType;
+  shapeType: IShapeType | IShapeCustomType;
   radius: number;
   width?: number;
   height?: number;
   color?: string;
+  paths?: string[];
 }
 
 class SvgPathGenerator {
   constructor(readonly size: number) {}
+
+  static getPath(
+    type: IShapeType | IShapeCustomType,
+    props: Pick<IShapeProps, 'radius' | 'paths'>
+  ) {
+    const {radius, paths} = props;
+    const generator = new SvgPathGenerator(200);
+    if (type === 'custom') {
+      return this.getCustomPath(paths);
+    }
+
+    const genFun = generator.getGenerage(type);
+    if (!genFun) {
+      return [];
+    }
+    const radiusValue = Math.floor(Math.max(0, Math.min(10, radius))) || 0;
+    return genFun(radiusValue * 10);
+  }
 
   toRadians(degrees: number) {
     return degrees * (Math.PI / 180);
@@ -43,16 +76,28 @@ class SvgPathGenerator {
     } = {
       'square': this.getSquarePath.bind(this),
       'triangle': this.getTrianglePath.bind(this),
+      'right-triangle': this.getRightTrianglePath.bind(this),
       'rectangle': this.getRectanglePath.bind(this),
       'convex-arc-rectangle': this.getConvexArcRectangle.bind(this),
       'concave-arc-rectangle': this.getConcaveArcRectangle.bind(this),
-      'double-arc-rectangle': this.getDoubleArcRectangle.bind(this),
+      'double-convex-arc-rectangle': this.getDConvexArcRectangle.bind(this),
+      'double-concave-arc-rectangle': this.getDConcaveArcRectangle.bind(this),
+      'barrel-rectangle': this.getBarrelRectangle.bind(this),
+      'rhombus': this.getRhombusPath.bind(this),
+      'parallelogram': this.getParallelogramPath.bind(this),
+      'rectangle-1': this.getRectangleType1Path.bind(this),
+      'rectangle-2': this.getRectangleType2Path.bind(this),
+      'rectangle-3': this.getRectangleType3Path.bind(this),
+      'rectangle-4': this.getRectangleType4Path.bind(this),
       'pentagon': this.getPentagon.bind(this),
       'hexagon': this.getHexagon.bind(this),
+      'octagon': this.getOctagonPath.bind(this),
       'hexagon-star': this.getHexagonStar.bind(this),
       'star': this.getStar.bind(this),
       'heart': this.getHeart.bind(this),
-      'circle': this.getCirclePath.bind(this)
+      'circle': this.getCirclePath.bind(this),
+      'arrow': this.getArrowPath.bind(this),
+      'leaf': this.getLeafPath.bind(this)
     };
 
     return ShapeConfig[type];
@@ -137,6 +182,7 @@ class SvgPathGenerator {
     return newPath;
   }
 
+  // 正方形
   getSquarePath(radius: number) {
     const S = this.size;
     const ponits1: Array<[number, number]> = [
@@ -158,6 +204,7 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 等边三角形
   getTrianglePath(radius: number) {
     const S = this.size;
     const height = Math.sin(this.toRadians(60)) * S;
@@ -180,6 +227,24 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 直角三角形
+  getRightTrianglePath(radius: number) {
+    const points1: Array<[number, number]> = [
+      [0, 0],
+      [0, 200],
+      [200, 200]
+    ];
+    const points2: Array<[number, number]> = [
+      [200, 200],
+      [0, 200],
+      [0, 0]
+    ];
+    const path1 = this.addRoundCornersToPath(points1, radius);
+    const path2 = this.addRoundCornersToPath(points2, radius);
+    return [path1, path2];
+  }
+
+  // 矩形
   getRectanglePath(radius: number) {
     const S = this.size;
     const points1: Array<[number, number]> = [
@@ -199,6 +264,7 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 凸弧矩形
   getConvexArcRectangle(radius: number) {
     const S = this.size;
     const w = S;
@@ -222,6 +288,7 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 凹弧矩形
   getConcaveArcRectangle(radius: number) {
     const S = this.size;
     const w = S;
@@ -245,22 +312,183 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
-  getDoubleArcRectangle(radius: number) {
+  // 双凸弧矩形
+  getDConvexArcRectangle(radius: number) {
     const S = this.size;
-    const w = S;
-    const h = S;
-    const x = (S - h) / 2;
-    const path = `
-      M 0 ${h + x}
-      L 0 ${radius + x}
-      Q ${w / 2} ${x} ${w} ${radius + x}
-      L ${w} ${h + x - radius}
-      Q ${w / 2} ${h + x} 0 ${h + x - radius}
+    const dx = radius;
+    const path1 = `
+      M 0 ${S / 4}
+      Q ${S / 2} ${S / 4 - dx} ${S} ${S / 4}
+      L ${S} ${(S / 4) * 3}
+      Q ${S / 2} ${(S / 4) * 3 + dx} 0 ${(S / 4) * 3}
       Z
     `;
+    const path2 = `
+      M ${S} ${(S / 4) * 3}
+      L ${S} ${S / 4}
+      Q ${S / 2} ${S / 4 - dx} 0 ${S / 4}
+      L 0 ${(S / 4) * 3}
+      Q ${S / 2} ${(S / 4) * 3 + dx} ${S} ${(S / 4) * 3}
+      Z
+    `;
+    return [path1, path2];
+  }
+  // 双凹弧矩形
+  getDConcaveArcRectangle(radius: number) {
+    const S = this.size;
+    const dx = radius;
+    const path1 = `
+      M 0 ${S / 4}
+      Q ${S / 2} ${S / 4 + dx} ${S} ${S / 4}
+      L ${S} ${(S / 4) * 3}
+      Q ${S / 2} ${(S / 4) * 3 - dx} 0 ${(S / 4) * 3}
+      Z
+    `;
+    const path2 = `
+      M ${S} ${(S / 4) * 3}
+      L ${S} ${S / 4}
+      Q ${S / 2} ${S / 4 + dx} 0 ${S / 4}
+      L 0 ${(S / 4) * 3}
+      Q ${S / 2} ${(S / 4) * 3 - dx} ${S} ${(S / 4) * 3}
+      Z
+    `;
+    return [path1, path2];
+  }
+
+  // 桶形矩形
+  getBarrelRectangle(radius: number) {
+    const S = this.size;
+    const R = radius;
+    const dx = R / 4;
+    const path1 = `
+      M 0 ${S / 4 - dx}
+      Q ${S / 2} ${S / 4 + R - dx} ${S} ${S / 4 - dx}
+      L ${S} ${(S / 4) * 3 - dx}
+      Q ${S / 2} ${(S / 4) * 3 + R - dx} 0 ${(S / 4) * 3 - dx}
+      Z
+    `;
+    const path2 = `
+      M 0 ${S / 4 - dx}
+      Q ${S / 2} ${S / 4 + R - dx} ${S} ${S / 4 - dx}
+      L ${S} ${(S / 4) * 3 - dx}
+      Q ${S / 2} ${(S / 4) * 3 + R - dx} 0 ${(S / 4) * 3 - dx}
+      Z
+    `;
+    return [path1, path2];
+  }
+
+  // 菱形
+  getRhombusPath(radius: number) {
+    const ponits1: Array<[number, number]> = [
+      [100, 0],
+      [200, 100],
+      [100, 200],
+      [0, 100]
+    ];
+    const ponits2: Array<[number, number]> = [
+      [200, 100],
+      [100, 0],
+      [0, 100],
+      [100, 200]
+    ];
+    const path1 = this.addRoundCornersToPath(ponits1, radius);
+    const path2 = this.addRoundCornersToPath(ponits2, radius);
+
+    return [path1, path2];
+  }
+
+  // 平行四边形
+  getParallelogramPath(radius: number) {
+    const points1: Array<[number, number]> = [
+      [50, 0],
+      [200, 0],
+      [150, 200],
+      [0, 200]
+    ];
+    const points2: Array<[number, number]> = [
+      [150, 200],
+      [200, 0],
+      [50, 0],
+      [0, 200]
+    ];
+
+    const path1 = this.addRoundCornersToPath(points1, radius);
+    const path2 = this.addRoundCornersToPath(points2, radius);
+    return [path1, path2];
+  }
+
+  // 矩形-类型1
+  getRectangleType1Path() {
+    const S = this.size;
+    const x = 20;
+    const points: Array<[number, number]> = [
+      [x, 0],
+      [S - x, 0],
+      [S - x, x],
+      [S, x],
+      [S, S - x],
+      [S - x, S - x],
+      [S - x, S],
+      [x, S],
+      [x, S - x],
+      [0, S - x],
+      [0, x],
+      [x, x]
+    ];
+
+    const path = this.addRoundCornersToPath(points, 0);
     return [path];
   }
 
+  // 矩形-类型2
+  getRectangleType2Path() {
+    const path = [
+      'M20,0',
+      'L180,0',
+      'Q180,20 200,20',
+      'L200,180',
+      'Q180,180 180,200',
+      'L20,200',
+      'Q20,180 0,180',
+      'L0,20',
+      'Q20,20 20,0',
+      'Z'
+    ];
+    return [path];
+  }
+
+  // 矩形-类型3
+  getRectangleType3Path(radius: number) {
+    const S = this.size;
+    const dx = 35;
+    const points: Array<[number, number]> = [
+      [0, 0],
+      [S - dx, 0],
+      [S, S / 2],
+      [S - dx, S],
+      [0, S],
+      [dx, S / 2]
+    ];
+    const path = this.addRoundCornersToPath(points, radius);
+    return [path];
+  }
+
+  // 矩形-类型4
+  getRectangleType4Path(radius: number) {
+    const S = this.size;
+    const dx = 35;
+    const points: Array<[number, number]> = [
+      [0, 0],
+      [S - dx, 0],
+      [S, S / 2],
+      [S - dx, S],
+      [0, S]
+    ];
+    const path = this.addRoundCornersToPath(points, radius);
+    return [path];
+  }
+
+  // 星形
   getStar(radius: number) {
     const points: Array<[number, number]> = [
       [100, 11.1297757],
@@ -279,6 +507,7 @@ class SvgPathGenerator {
     return [path];
   }
 
+  // 心形
   getHeart() {
     const path = `
       M143.526375,12
@@ -296,6 +525,7 @@ class SvgPathGenerator {
     return [path];
   }
 
+  // 五边形
   getPentagon(radius: number) {
     const S = this.size;
     const a = S / (Math.tan(this.toRadians(54)) * 2);
@@ -324,6 +554,7 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 六边形
   getHexagon(radius: number) {
     const points1: Array<[number, number]> = [
       [100, 0.577350269],
@@ -347,6 +578,36 @@ class SvgPathGenerator {
     return [path1, path2];
   }
 
+  // 正八边形
+  getOctagonPath(radius: number) {
+    const S = this.size;
+    const x = S / (2 + Math.sqrt(2));
+    const points1: Array<[number, number]> = [
+      [x, 0],
+      [S - x, 0],
+      [S, x],
+      [S, S - x],
+      [S - x, S],
+      [x, S],
+      [0, S - x],
+      [0, x]
+    ];
+    const points2: Array<[number, number]> = [
+      [S - x, S],
+      [S, S - x],
+      [S, x],
+      [S - x, 0],
+      [x, 0],
+      [0, x],
+      [0, S - x],
+      [x, S]
+    ];
+    const path1 = this.addRoundCornersToPath(points1, radius);
+    const path2 = this.addRoundCornersToPath(points2, radius);
+    return [path1, path2];
+  }
+
+  // 六角星
   getHexagonStar(radius: number) {
     const points1: Array<[number, number]> = [
       [149.380343, 14.4707367],
@@ -368,6 +629,7 @@ class SvgPathGenerator {
     return [path1];
   }
 
+  // 圆
   getCirclePath() {
     const path = `
       M 100 0
@@ -377,6 +639,37 @@ class SvgPathGenerator {
     `;
     return [path];
   }
+
+  // 箭头
+  getArrowPath(radius: number) {
+    const points: Array<[number, number]> = [
+      [0, 75],
+      [110, 75],
+      [110, 30],
+      [200, 100],
+      [110, 170],
+      [110, 125],
+      [0, 125]
+    ];
+
+    return [this.addRoundCornersToPath(points, radius)];
+  }
+
+  // 树叶形状
+  getLeafPath() {
+    const path = `
+      M 0 140
+      Q 0 60 80 60
+      L 200 60
+      Q 200 140 120 140
+      Z
+    `;
+    return [path];
+  }
+
+  static getCustomPath(paths?: string[]) {
+    return paths || [];
+  }
 }
 
 const Shape: React.FC<IShapeProps> = props => {
@@ -385,30 +678,31 @@ const Shape: React.FC<IShapeProps> = props => {
     classnames: cx,
     className,
     shapeType,
-    radius,
     color,
     width = BASE_SIZE,
     height = BASE_SIZE
   } = props;
-  const radiusValue = Math.floor(Math.max(0, Math.min(10, radius))) || 0;
-  const generator = new SvgPathGenerator(BASE_SIZE);
-  const genFun = generator.getGenerage(shapeType);
-  const paths = genFun(radiusValue * 10);
-  const style = {
-    width: width + 'px',
-    height: height + 'px'
-  };
-  const scaleStyle = {
-    transform: `scale(${width / BASE_SIZE}, ${height / BASE_SIZE})`
-  };
+  const paths = SvgPathGenerator.getPath(shapeType, props);
+  const getStyle = React.useCallback(
+    () => [
+      {
+        width: width + 'px',
+        height: height + 'px'
+      },
+      {
+        transform: `scale(${width / BASE_SIZE}, ${height / BASE_SIZE})`
+      }
+    ],
+    [width, height]
+  );
 
   return (
-    <div className={cx('Shape', className)} style={style}>
+    <div className={cx('Shape', className)} style={getStyle()[0]}>
       <svg
         className={cx('Shape-svg')}
         width={BASE_SIZE}
         height={BASE_SIZE}
-        style={scaleStyle}
+        style={getStyle()[1]}
         fill={color ? color : 'currentColor'}
         viewBox={`0 0 ${BASE_SIZE} ${BASE_SIZE}`}
       >

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {filter, Renderer, RendererProps} from 'amis-core';
 import {Shape, IShapeType} from 'amis-ui';
 import cx from 'classnames';
 import {BaseSchema} from '../Schema';
@@ -34,6 +34,10 @@ export interface IShapeSchema extends BaseSchema {
    * 颜色
    */
   color?: string;
+  /**
+   * 自定义路径，仅 shapeType 为 custom 时有效
+   */
+  paths?: string[];
 }
 
 interface IShapeRenderProps
@@ -45,16 +49,16 @@ interface IShapeRenderProps
 })
 export class ShapeRenderer extends React.Component<IShapeRenderProps> {
   render() {
-    const {className, shapeType, radius, width, height, color} = this.props;
+    const {className, radius, shapeType, data, ...rest} = this.props;
+    const shapeTypeValue = (filter(shapeType, data) as IShapeType) || shapeType;
+    const radiusValue = +filter(radius, data) || radius;
 
     return (
       <Shape
+        {...rest}
         className={cx(className)}
-        shapeType={shapeType}
-        width={width}
-        height={height}
-        color={color}
-        radius={radius}
+        shapeType={shapeTypeValue}
+        radius={radiusValue}
       />
     );
   }
