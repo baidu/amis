@@ -102,6 +102,7 @@ export function HeadCellSearchDropDown({
         ...schema,
         type: 'form',
         wrapperComponent: 'div',
+        canAccessSuperData: false,
         actions: [
           {
             type: 'button',
@@ -210,9 +211,7 @@ export function HeadCellSearchDropDown({
             {
               render('quick-search-form', formSchema, {
                 popOverContainer,
-                data: {
-                  ...data
-                },
+                data: data,
                 onSubmit: handleSubmit,
                 onAction: handleAction
               }) as JSX.Element
