@@ -1756,40 +1756,6 @@ export default class FormTable<
         const newState = {};
         const editIndex = state.editIndex;
         const lastModifiedRow = state.lastModifiedRow;
-
-        if (editIndex) {
-          const indexes = editIndex.split('.').map(item => parseInt(item, 10));
-          let items = state.items.concat();
-          const origin = getTree(items, indexes);
-
-          if (!origin) {
-            return newState;
-          }
-
-          const value: any = {
-            ...rows
-          };
-          const originItems = items;
-          items = spliceTree(items, indexes, 1, value);
-          this.reUseRowId(items, originItems, indexes);
-
-          Object.assign(newState, {
-            items,
-            filteredItems: state.filteredItems.map(a =>
-              a === origin ? value : a
-            ),
-            /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
-            ...(lastModifiedRow?.index === editIndex
-              ? {}
-              : {
-                  lastModifiedRow: origin.hasOwnProperty(PLACE_HOLDER)
-                    ? undefined
-                    : {index: editIndex, data: {...origin}}
-                })
-          });
-          return newState;
-        }
-
         let items = state.items.concat();
 
         if (Array.isArray(rows)) {
@@ -1805,6 +1771,43 @@ export default class FormTable<
           });
         } else {
           rowIndexes = this.convertToRawPath(rowIndexes as string, state);
+
+          // 修改当前正在编辑的行
+          if (editIndex && rowIndexes === editIndex) {
+            const indexes = editIndex
+              .split('.')
+              .map(item => parseInt(item, 10));
+            let items = state.items.concat();
+            const origin = getTree(items, indexes);
+
+            if (!origin) {
+              return newState;
+            }
+
+            const value: any = {
+              ...rows
+            };
+            const originItems = items;
+            items = spliceTree(items, indexes, 1, value);
+            this.reUseRowId(items, originItems, indexes);
+
+            Object.assign(newState, {
+              items,
+              filteredItems: state.filteredItems.map(a =>
+                a === origin ? value : a
+              ),
+              /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
+              ...(lastModifiedRow?.index === editIndex
+                ? {}
+                : {
+                    lastModifiedRow: origin.hasOwnProperty(PLACE_HOLDER)
+                      ? undefined
+                      : {index: editIndex, data: {...origin}}
+                  })
+            });
+            return newState;
+          }
+
           const indexes = (rowIndexes as string)
             .split('.')
             .map(item => parseInt(item, 10));
