@@ -373,7 +373,8 @@ export interface ActionObject extends ButtonObject {
     | 'initDrag'
     | 'cancelDrag'
     | 'toggleExpanded'
-    | 'setExpanded';
+    | 'setExpanded'
+    | 'clearError';
 
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
@@ -542,6 +543,7 @@ export type ToastConf = {
   className?: string;
   items?: Array<any>;
   useMobileUI?: boolean;
+  rawError?: Error;
 };
 
 export interface OptionProps {

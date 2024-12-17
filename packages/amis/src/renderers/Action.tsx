@@ -160,6 +160,11 @@ export interface ButtonSchema extends BaseSchema {
   loadingOn?: string;
 
   /**
+   * 是否在动作结束前禁用按钮
+   */
+  disabledOnAction?: boolean;
+
+  /**
    * 自定义事件处理函数
    */
   onClick?: string | any;
@@ -949,6 +954,10 @@ export type ActionRendererProps = RendererProps &
 export class ActionRenderer extends React.Component<ActionRendererProps> {
   static contextType = ScopedContext;
 
+  state = {
+    actionDisabled: false
+  };
+
   constructor(props: ActionRendererProps, scoped: IScopedContext) {
     super(props);
 
@@ -984,6 +993,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     const {env, onAction, data, ignoreConfirm, dispatchEvent, $schema} =
       this.props;
     let mergedData = data;
+    this.setState({actionDisabled: true});
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
       mergedData = createObject(data, action.args);
@@ -1025,6 +1035,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
           rendererEvent
         );
       } else if (action.countDown) {
+        this.setState({actionDisabled: false});
         throw new Error('cancel');
       }
     } else {
@@ -1048,6 +1059,8 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         rendererEvent
       );
     }
+
+    this.setState({actionDisabled: false});
   }
 
   @autobind
@@ -1079,13 +1092,16 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
   }
 
   render() {
-    const {env, disabled, btnDisabled, loading, ...rest} = this.props;
-
+    const {env, disabled, btnDisabled, disabledOnAction, loading, ...rest} =
+      this.props;
+    const {actionDisabled} = this.state;
     return (
       <Action
         {...(rest as any)}
         env={env}
-        disabled={disabled || btnDisabled}
+        disabled={
+          disabled || btnDisabled || (disabledOnAction ? actionDisabled : false)
+        }
         onAction={this.handleAction}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

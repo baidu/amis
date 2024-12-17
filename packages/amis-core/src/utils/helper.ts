@@ -1774,6 +1774,25 @@ export class ValidateError extends Error {
   }
 }
 
+export class RawError extends Error {
+  name: 'RawError';
+  items: any[];
+  errors: {[propName: string]: Array<string> | string};
+  msg: {[propName: string]: string | undefined};
+
+  constructor(
+    items: any[],
+    errors: {[propName: string]: Array<string> | string},
+    msg: {[propName: string]: string | undefined}
+  ) {
+    super();
+    this.name = 'RawError';
+    this.items = items;
+    this.errors = errors;
+    this.msg = msg;
+  }
+}
+
 /**
  * 检查对象是否有循环引用，来自 https://stackoverflow.com/a/34909127
  * @param obj

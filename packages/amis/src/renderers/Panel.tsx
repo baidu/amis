@@ -111,7 +111,9 @@ export interface PanelProps
       'type' | 'className' | 'panelClassName' | 'bodyClassName'
     > {}
 
-export default class Panel extends React.Component<PanelProps> {
+export default class Panel<
+  T extends PanelProps = PanelProps
+> extends React.Component<T> {
   static propsList: Array<string> = [
     'header',
     'actions',
@@ -134,7 +136,7 @@ export default class Panel extends React.Component<PanelProps> {
     collapsed: false
   };
 
-  constructor(props: PanelProps) {
+  constructor(props: T) {
     super(props);
     props.mobileUI && props.collapsible && (this.state.collapsed = true);
   }
