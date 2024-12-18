@@ -112,6 +112,7 @@ export function getGlobalData(data: ThemeDefinition | undefined): GlobalData {
     if (key !== 'base') {
       fonts[key].body.forEach((font, i: number) => {
         children.push({
+          ...font,
           label: `${font.label}(${font.value})`,
           value: `var(${font.token})`,
           realValue: `${font.value}`
@@ -121,7 +122,8 @@ export function getGlobalData(data: ThemeDefinition | undefined): GlobalData {
     } else {
       fonts['base'].body.forEach((font, i: number) => {
         children.push({
-          label: font.value,
+          ...font,
+          label: font.label || font.value,
           value: font.value,
           realValue: font.value
         });
