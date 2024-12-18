@@ -29,6 +29,7 @@ interface ThemeSelectProps {
   state?: string;
   itemName?: string;
   menuTpl?: string;
+  menuLabelRender?: (option: Option) => JSX.Element;
   placeholder?: string;
   editorValueToken?: string | {[key: string]: string};
 }
@@ -53,7 +54,8 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
     menuTpl,
     placeholder,
     editorValueToken,
-    data
+    data,
+    menuLabelRender
   } = props;
   // 期望value是string类型
   const value = props.value + '';
@@ -240,7 +242,9 @@ function ThemeSelectContent(props: ThemeSelectContentProps) {
                       'ThemeSelectContent-input-select-item--active'
                   )}
                 >
-                  {item.html || item.label}
+                  {menuLabelRender
+                    ? menuLabelRender(item)
+                    : item.html || item.label}
                 </div>
               );
             })}

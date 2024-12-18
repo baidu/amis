@@ -1092,6 +1092,26 @@ function FontEditor(props: FontEditorProps) {
                   }}
                   itemName="fontFamily"
                   menuTpl="label"
+                  menuLabelRender={(option: any) => {
+                    return (
+                      <div
+                        className={option.className}
+                        style={
+                          option.previewUrl
+                            ? {
+                                background: `url(${option.previewUrl}) no-repeat`,
+                                backgroundSize: 'contain',
+                                height: '100%'
+                              }
+                            : {
+                                fontFamily: option.value
+                              }
+                        }
+                      >
+                        {option.previewUrl ? ' ' : option.html || option.label}
+                      </div>
+                    );
+                  }}
                   state={state}
                   placeholder={editorDefaultValue?.fontFamily || '字体'}
                 />
