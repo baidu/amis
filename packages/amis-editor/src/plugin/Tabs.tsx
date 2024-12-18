@@ -49,7 +49,14 @@ export class TabsPlugin extends BasePlugin {
         body: []
       }
     ],
-    mountOnEnter: true
+    mountOnEnter: true,
+    themeCss: {
+      titleControlClassName: {
+        'font:default': {
+          'text-align': 'center'
+        }
+      }
+    }
   };
   previewSchema = {
     ...this.scaffold
