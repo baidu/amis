@@ -48,7 +48,7 @@ import {dataMapping} from '../utils/tpl-builtin';
 import {
   isApiOutdated,
   isEffectiveApi,
-  isEffectiveSendOnApi
+  shouldBlockedBySendOnApi
 } from '../utils/api';
 import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
@@ -1443,7 +1443,7 @@ export default class Form extends React.Component<FormProps, object> {
                   __response: response
                 });
               });
-          } else if (isEffectiveSendOnApi(action.api || api, values)) {
+          } else if (shouldBlockedBySendOnApi(action.api || api, values)) {
             // api存在，但是不满足sendOn时，走这里，不派发submitSucc事件
             return;
           } else {
