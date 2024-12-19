@@ -180,12 +180,14 @@ class SvgPathGenerator {
   getTrianglePath(radius: number) {
     const S = this.size;
     const height = Math.sin(this.toRadians(60)) * S;
-    const x = ((2 - Math.sqrt(3)) / 4) * S - (Math.sqrt(3) / 8) * (radius || 0);
+    const maxRadius = Math.min(radius, Math.tan(this.toRadians(30)) * (S / 2));
+    // sin30度，所以斜边是R的2倍，斜边减去R就是高度移动的距离
+    const dy = (S - height - maxRadius) / 2;
 
     const points1: Array<[number, number]> = [
-      [0, height + x],
-      [S / 2, x],
-      [S, height + x]
+      [0, height + dy],
+      [S / 2, dy],
+      [S, height + dy]
     ];
 
     const path1 = this.addRoundCornersToPath(points1, radius);
