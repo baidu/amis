@@ -2321,7 +2321,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 }
 
-export class _FormRenderer extends Form {
+export class FormRendererBase extends Form {
   static contextType = ScopedContext;
 
   constructor(props: FormProps, context: IScopedContext) {
@@ -2538,4 +2538,5 @@ export class _FormRenderer extends Form {
     return undefined;
   }
 })
-export class FormRenderer extends _FormRenderer {}
+// 装饰器装饰后的类无法继承父类上的方法，所以多包了一层FormRendererBase用来继承
+export class FormRenderer extends FormRendererBase {}
