@@ -5,18 +5,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import license from 'rollup-plugin-license';
 import autoExternal from 'rollup-plugin-auto-external';
-import {
-  name,
-  version,
-  author,
-  main,
-  module,
-  dependencies
-} from './package.json';
+import {name, version, author, main, module} from './package.json';
 import path from 'path';
 import fs from 'fs';
 import svgr from '@svgr/rollup';
-import moment from 'moment';
 import babel from 'rollup-plugin-babel';
 
 const settings = {
