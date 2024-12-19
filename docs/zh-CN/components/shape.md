@@ -85,7 +85,7 @@ icon:
         type: 'shape',
         className: 'm-2',
         shapeType: 'square',
-        radius: 4
+        radius: -4
       },
       {
         type: 'shape',
@@ -165,7 +165,6 @@ icon:
       {"name": "矩形-类型1", "shapeType": "rectangle-1"},
       {"name": "矩形-类型2", "shapeType": "rectangle-2"},
       {"name": "矩形-类型3", "shapeType": "rectangle-3"},
-      {"name": "矩形-类型4", "shapeType": "rectangle-4"},
       {"name": "心形", "shapeType": "heart"},
       {"name": "正五边形", "shapeType": "pentagon"},
       {"name": "正六边形", "shapeType": "hexagon"},
@@ -207,11 +206,11 @@ icon:
 
 ## 属性表
 
-| 属性名    | 类型         | 默认值    | 说明                |
-| --------- | ------------ | --------- | ------------------- |
-| type      | `string`     | `'shape'` | 指定为图形渲染器    |
-| shapeType | `IShapeType` | `'-'`     | 图形类型            |
-| className | `string`     |           | 自定义 CSS 样式类名 |
-| width     | `number`     | `200`     | 图形宽度            |
-| height    | `number`     | `200`     | 图形大小            |
-| radius    | `number`     | `0`       | 圆角大小（1-10）    |
+| 属性名    | 类型         | 默认值    | 说明                  |
+| --------- | ------------ | --------- | --------------------- |
+| type      | `string`     | `'shape'` | 指定为图形渲染器      |
+| shapeType | `IShapeType` | `'-'`     | 图形类型              |
+| className | `string`     |           | 自定义 CSS 样式类名   |
+| width     | `number`     | `200`     | 图形宽度              |
+| height    | `number`     | `200`     | 图形大小              |
+| radius    | `number`     | `0`       | 圆角大小,负数表示内弧 |

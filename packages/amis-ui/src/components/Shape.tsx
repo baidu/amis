@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
+import {radiusStartEndPoint} from '../utils/vectorComputed';
 
 export type IShapeType =
   | 'square'
@@ -22,8 +23,7 @@ export type IShapeType =
   | 'parallelogram' // 平行四边形
   | 'rectangle-1' // 矩形类型1
   | 'rectangle-2' // 矩形类型2
-  | 'rectangle-3' // 矩形类型1
-  | 'rectangle-4' // 矩形类型2
+  | 'rectangle-3' // 矩形类型3
   | 'pentagon' // 五边形
   | 'hexagon' // 六边形
   | 'octagon' // 八边形
@@ -62,8 +62,7 @@ class SvgPathGenerator {
     if (!genFun) {
       return [];
     }
-    const radiusValue = Math.floor(Math.max(0, Math.min(10, radius))) || 0;
-    return genFun(radiusValue * 10);
+    return genFun(radius * 10);
   }
 
   toRadians(degrees: number) {
@@ -88,7 +87,6 @@ class SvgPathGenerator {
       'rectangle-1': this.getRectangleType1Path.bind(this),
       'rectangle-2': this.getRectangleType2Path.bind(this),
       'rectangle-3': this.getRectangleType3Path.bind(this),
-      'rectangle-4': this.getRectangleType4Path.bind(this),
       'pentagon': this.getPentagon.bind(this),
       'hexagon': this.getHexagon.bind(this),
       'octagon': this.getOctagonPath.bind(this),
@@ -103,49 +101,33 @@ class SvgPathGenerator {
     return ShapeConfig[type];
   }
 
-  /**
-   * 传入起点、终点和距离，返回直线上距离起点距离为distanc
-   *
-   * @param {[number, number]} [startX, startY]
-   * @param {[number, number]} [endX, endY]
-   * @param {number} distance
-   * @returns
-   * @memberof SvgPathGenerator
-   */
-  radiusPoint(
-    [startX, startY]: [number, number],
-    [endX, endY]: [number, number],
-    distance: number
-  ) {
-    // 计算终点与起点的直线距离
-    const dx = endX - startX;
-    const dy = endY - startY;
-    const totalDistance = Math.sqrt(dx * dx + dy * dy);
-
-    // 如果距离大于总距离的一半，则取一半
-    if (distance > totalDistance / 2) {
-      distance = totalDistance / 2;
-    }
-
-    // 计算比例
-    const ratio = distance / totalDistance;
-
-    // 计算新点
-    const x = startX + dx * ratio;
-    const y = startY + dy * ratio;
-
-    return [x, y];
-  }
-
   radiusPath(
     radius: number,
     [endX1, endY1]: [number, number],
     [startX, startY]: [number, number],
     [endX2, endY2]: [number, number]
   ) {
-    const [x1, y1] = this.radiusPoint([startX, startY], [endX1, endY1], radius);
-    const [x2, y2] = this.radiusPoint([startX, startY], [endX2, endY2], radius);
-    return [`${x1},${y1}`, `${startX},${startY} ${x2},${y2}`];
+    let flag = true;
+    if (radius < 0) {
+      radius = radius * -1;
+      // 圆角向内
+      flag = false;
+    }
+    const {
+      start,
+      end,
+      radius: mxRadius,
+      sweepFlag
+    } = radiusStartEndPoint(
+      [startX, startY, endX1, endY1],
+      [startX, startY, endX2, endY2],
+      radius
+    );
+    return [
+      `${start[0]},${start[1]}`,
+      `${mxRadius} ${mxRadius} ${0} ${0} ${flag ? sweepFlag : sweepFlag ^ 1}
+       ${end[0]},${end[1]}`
+    ];
   }
 
   /**
@@ -164,18 +146,17 @@ class SvgPathGenerator {
       const [startX, startY] = points[i];
       const [endX1, endY1] = nextItem;
       const [endX2, endY2] = preItem;
-      const [start, Q] = this.radiusPath(
+      if (!radius) {
+        newPath.push(`${i === 0 ? 'M' : 'L'}${startX},${startY}`);
+        continue;
+      }
+      const [start, A] = this.radiusPath(
         radius,
         [endX2, endY2],
         [startX, startY],
         [endX1, endY1]
       );
-
-      if (i === 0) {
-        newPath.push(`M${start}`, `Q${Q}`);
-      } else {
-        newPath.push(`L${start}`, `Q${Q}`);
-      }
+      newPath.push(`${i === 0 ? 'M' : 'L'}${start}`, `A${A}`);
     }
     newPath.push('Z');
 
@@ -191,57 +172,36 @@ class SvgPathGenerator {
       [S, S],
       [0, S]
     ];
-    const ponits2: Array<[number, number]> = [
-      [S, S],
-      [S, 0],
-      [0, 0],
-      [0, S]
-    ];
     const path1 = this.addRoundCornersToPath(ponits1, radius);
-
-    const path2 = this.addRoundCornersToPath(ponits2, radius);
-    // 用两个path重叠 避免曲线的间隙
-    return [path1, path2];
+    return [path1];
   }
 
   // 等边三角形
   getTrianglePath(radius: number) {
     const S = this.size;
     const height = Math.sin(this.toRadians(60)) * S;
-    const x = ((2 - Math.sqrt(3)) / 4) * S - (Math.sqrt(3) / 8) * radius;
+    const x = ((2 - Math.sqrt(3)) / 4) * S - (Math.sqrt(3) / 8) * (radius || 0);
 
     const points1: Array<[number, number]> = [
       [0, height + x],
       [S / 2, x],
       [S, height + x]
     ];
-    const points2: Array<[number, number]> = [
-      [S / 2, x],
-      [S, height + x],
-      [0, height + x]
-    ];
 
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
 
-    return [path1, path2];
+    return [path1];
   }
 
   // 直角三角形
   getRightTrianglePath(radius: number) {
     const points1: Array<[number, number]> = [
       [0, 0],
-      [0, 200],
-      [200, 200]
-    ];
-    const points2: Array<[number, number]> = [
       [200, 200],
-      [0, 200],
-      [0, 0]
+      [0, 200]
     ];
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
-    return [path1, path2];
+    return [path1];
   }
 
   // 矩形
@@ -253,15 +213,8 @@ class SvgPathGenerator {
       [S, (S / 4) * 3],
       [0, (S / 4) * 3]
     ];
-    const points2: Array<[number, number]> = [
-      [S, (S / 4) * 3],
-      [S, S / 4],
-      [0, S / 4],
-      [0, (S / 4) * 3]
-    ];
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
-    return [path1, path2];
+    return [path1];
   }
 
   // 凸弧矩形
@@ -277,15 +230,8 @@ class SvgPathGenerator {
       L ${w} ${h + x}
       Z
     `;
-    const path2 = `
-      M 0 ${radius + x}
-      Q ${w / 2} ${x} ${w} ${radius + x}
-      L ${w} ${h + x}
-      L 0 ${h + x}
-      Z
-    `;
 
-    return [path1, path2];
+    return [path1];
   }
 
   // 凹弧矩形
@@ -301,15 +247,8 @@ class SvgPathGenerator {
       L ${w} ${h + x}
       Z
     `;
-    const path2 = `
-      M 0 ${x}
-      Q ${w / 2} ${radius + x} ${w} ${x}
-      L ${w} ${h + x}
-      L 0 ${h + x}
-      Z
-    `;
 
-    return [path1, path2];
+    return [path1];
   }
 
   // 双凸弧矩形
@@ -323,15 +262,7 @@ class SvgPathGenerator {
       Q ${S / 2} ${(S / 4) * 3 + dx} 0 ${(S / 4) * 3}
       Z
     `;
-    const path2 = `
-      M ${S} ${(S / 4) * 3}
-      L ${S} ${S / 4}
-      Q ${S / 2} ${S / 4 - dx} 0 ${S / 4}
-      L 0 ${(S / 4) * 3}
-      Q ${S / 2} ${(S / 4) * 3 + dx} ${S} ${(S / 4) * 3}
-      Z
-    `;
-    return [path1, path2];
+    return [path1];
   }
   // 双凹弧矩形
   getDConcaveArcRectangle(radius: number) {
@@ -344,15 +275,7 @@ class SvgPathGenerator {
       Q ${S / 2} ${(S / 4) * 3 - dx} 0 ${(S / 4) * 3}
       Z
     `;
-    const path2 = `
-      M ${S} ${(S / 4) * 3}
-      L ${S} ${S / 4}
-      Q ${S / 2} ${S / 4 + dx} 0 ${S / 4}
-      L 0 ${(S / 4) * 3}
-      Q ${S / 2} ${(S / 4) * 3 - dx} ${S} ${(S / 4) * 3}
-      Z
-    `;
-    return [path1, path2];
+    return [path1];
   }
 
   // 桶形矩形
@@ -367,14 +290,7 @@ class SvgPathGenerator {
       Q ${S / 2} ${(S / 4) * 3 + R - dx} 0 ${(S / 4) * 3 - dx}
       Z
     `;
-    const path2 = `
-      M 0 ${S / 4 - dx}
-      Q ${S / 2} ${S / 4 + R - dx} ${S} ${S / 4 - dx}
-      L ${S} ${(S / 4) * 3 - dx}
-      Q ${S / 2} ${(S / 4) * 3 + R - dx} 0 ${(S / 4) * 3 - dx}
-      Z
-    `;
-    return [path1, path2];
+    return [path1];
   }
 
   // 菱形
@@ -385,16 +301,9 @@ class SvgPathGenerator {
       [100, 200],
       [0, 100]
     ];
-    const ponits2: Array<[number, number]> = [
-      [200, 100],
-      [100, 0],
-      [0, 100],
-      [100, 200]
-    ];
     const path1 = this.addRoundCornersToPath(ponits1, radius);
-    const path2 = this.addRoundCornersToPath(ponits2, radius);
 
-    return [path1, path2];
+    return [path1];
   }
 
   // 平行四边形
@@ -405,16 +314,9 @@ class SvgPathGenerator {
       [150, 200],
       [0, 200]
     ];
-    const points2: Array<[number, number]> = [
-      [150, 200],
-      [200, 0],
-      [50, 0],
-      [0, 200]
-    ];
 
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
-    return [path1, path2];
+    return [path1];
   }
 
   // 矩形-类型1
@@ -441,24 +343,7 @@ class SvgPathGenerator {
   }
 
   // 矩形-类型2
-  getRectangleType2Path() {
-    const path = [
-      'M20,0',
-      'L180,0',
-      'Q180,20 200,20',
-      'L200,180',
-      'Q180,180 180,200',
-      'L20,200',
-      'Q20,180 0,180',
-      'L0,20',
-      'Q20,20 20,0',
-      'Z'
-    ];
-    return [path];
-  }
-
-  // 矩形-类型3
-  getRectangleType3Path(radius: number) {
+  getRectangleType2Path(radius: number) {
     const S = this.size;
     const dx = 35;
     const points: Array<[number, number]> = [
@@ -473,8 +358,8 @@ class SvgPathGenerator {
     return [path];
   }
 
-  // 矩形-类型4
-  getRectangleType4Path(radius: number) {
+  // 矩形-类型3
+  getRectangleType3Path(radius: number) {
     const S = this.size;
     const dx = 35;
     const points: Array<[number, number]> = [
@@ -541,17 +426,9 @@ class SvgPathGenerator {
       [0, a + dx],
       [b, dx]
     ];
-    const points2: Array<[number, number]> = [
-      [x1, a + x2 + dx],
-      [S - x1, a + x2 + dx],
-      [S, a + dx],
-      [b, dx],
-      [0, a + dx]
-    ];
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
 
-    return [path1, path2];
+    return [path1];
   }
 
   // 六边形
@@ -564,18 +441,9 @@ class SvgPathGenerator {
       [13.8974596, 149.711325],
       [13.8974596, 50.2886751]
     ];
-    const points2: Array<[number, number]> = [
-      [100, 199.42265],
-      [186.10254, 149.711325],
-      [186.10254, 50.2886751],
-      [100, 0.577350269],
-      [13.8974596, 50.2886751],
-      [13.8974596, 149.711325]
-    ];
 
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
-    return [path1, path2];
+    return [path1];
   }
 
   // 正八边形
@@ -603,8 +471,7 @@ class SvgPathGenerator {
       [x, S]
     ];
     const path1 = this.addRoundCornersToPath(points1, radius);
-    const path2 = this.addRoundCornersToPath(points2, radius);
-    return [path1, path2];
+    return [path1];
   }
 
   // 六角星
