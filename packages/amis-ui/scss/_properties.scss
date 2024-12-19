@@ -179,6 +179,7 @@ $Table-strip-bg: transparent;
   --ButtonGroup-divider-width: #{px2rem(1px)};
   --ButtonGroup-divider-color: #fff;
   --ButtonGroup-borderWidth: var(--borders-width-2);
+  --Button-onDisabled-opacity: 0.3;
 
   --Breadcrumb-item-fontSize: var(--fontSizeMd);
   --Breadcrumb-item-default-color: var(--colors-neutral-text-5);
