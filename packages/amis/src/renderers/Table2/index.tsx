@@ -901,10 +901,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         };
         if (isObject(column.title)) {
           titleSchema = cloneDeep(column.title);
-        } else if (
-          typeof column.title === 'string' ||
-          typeof column.label === 'string'
-        ) {
+        } else if (typeof title === 'string') {
           titleSchema = {type: 'plain', tpl: title};
         }
 
