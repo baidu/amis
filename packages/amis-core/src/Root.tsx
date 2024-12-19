@@ -16,11 +16,14 @@ import {
   StatusScopedWrapper,
   StatusScopedProps
 } from './StatusScoped';
+import {GlobalVariableItem} from './globalVar';
 
 export interface RootRenderProps {
+  globalVars?: Array<GlobalVariableItem>;
   location?: Location;
   theme?: string;
   data?: Record<string, any>;
+  context?: Record<string, any>;
   locale?: string;
   [propName: string]: any;
 }

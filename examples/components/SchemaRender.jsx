@@ -42,6 +42,15 @@ export default function (schema, schemaProps, showCode, envOverrides) {
     };
   }
 
+  if (!schema.type && schema.schema) {
+    schemaProps = schema.props;
+    envOverrides = schema.env;
+    showCode = schema.showCode ?? true;
+    schema = {
+      ...schema.schema
+    };
+  }
+
   return withRouter(
     class extends React.Component {
       static displayName = 'SchemaRenderer';

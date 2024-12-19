@@ -6,7 +6,8 @@ import {
   eachTree,
   extendObject,
   createObject,
-  extractObjectChain
+  extractObjectChain,
+  GlobalVariableItem
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -268,7 +269,17 @@ export const MainStore = types
     /** 应用多语言状态，用于其它组件进行订阅 */
     appLocaleState: types.optional(types.number, 0),
     /** 全局广播事件 */
-    globalEvents: types.optional(types.frozen<Array<IGlobalEvent>>(), [])
+    globalEvents: types.optional(types.frozen<Array<IGlobalEvent>>(), []),
+
+    /** 全局变量 */
+    globalVariables: types.optional(
+      types.frozen<Array<GlobalVariableItem & {id: string | number}>>(),
+      []
+    )
+    // types.optional(
+    //   types.array(types.frozen<GlobalVariableItem & {id: string | number}>()),
+    //   []
+    // )
   })
   .views(self => {
     return {
@@ -2353,6 +2364,12 @@ export const MainStore = types
 
       setGlobalEvents(events: IGlobalEvent[]) {
         self.globalEvents = events;
+      },
+
+      setGlobalVariables(
+        variables: Array<GlobalVariableItem & {id: string | number}>
+      ) {
+        self.globalVariables = variables;
       },
 
       beforeDestroy() {
