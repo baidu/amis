@@ -894,9 +894,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
         const clone = {...column} as any;
 
         let titleSchema: any = null;
+        const title = clone.title || clone.label;
         const titleProps = {
           popOverContainer: popOverContainer || this.getPopOverContainer,
-          value: filter(column.title || column.label, data)
+          value: typeof title === 'string' ? filter(title, data) : title
         };
         if (isObject(column.title)) {
           titleSchema = cloneDeep(column.title);
