@@ -2521,3 +2521,45 @@ Form 支持轮询初始化接口，步骤如下：
   ]
 }
 ```
+
+### clearError
+
+> 6.11.1 及以上版本
+> 清除表单校验产生的错误状态
+
+```schema
+{
+  type: 'page',
+  title: '清除表单错误',
+  body: [
+    {
+      type: 'form',
+      title: '表单',
+      id: 'form',
+      body: [
+        {
+          type: 'input-text',
+          label: '必填项',
+          name: 'required',
+          required: true
+        }
+      ]
+    },
+    {
+      type: 'button',
+      label: '清除错误',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'clearError',
+              componentId: 'form'
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
