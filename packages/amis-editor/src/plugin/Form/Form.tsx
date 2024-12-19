@@ -388,6 +388,11 @@ export class FormPlugin extends BasePlugin {
       actionType: 'setValue',
       description: '触发组件数据更新',
       ...getActionCommonProps('setValue')
+    },
+    {
+      actionLabel: '清除校验状态',
+      actionType: 'clearError',
+      description: '清除表单校验产生的错误状态'
     }
   ];
 
@@ -651,7 +656,9 @@ export class FormPlugin extends BasePlugin {
       /\/crud2\/filter\/form$/.test(context.path) ||
       /body\/0\/filter$/.test(context.schemaPath);
     /** 表单是否位于Dialog内 */
-    const isInDialog: boolean = context.path?.includes?.('dialog/');
+    const isInDialog: boolean =
+      context.path?.includes?.('dialog/') ||
+      context.path?.includes?.('drawer/');
     /** 是否使用Panel包裹 */
     const isWrapped = 'this.wrapWithPanel !== false';
     const justifyLayout = (left: number = 2) => ({

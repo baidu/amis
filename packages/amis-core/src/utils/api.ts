@@ -947,6 +947,16 @@ export function isEffectiveApi(
   return false;
 }
 
+// 判断api是否存在，且SendOn为不发送
+export function shouldBlockedBySendOnApi(api?: Api, data?: any) {
+  if (isObject(api) && (api as ApiObject).url) {
+    if ((api as ApiObject).sendOn && data) {
+      return !evalExpression((api as ApiObject).sendOn as string, data);
+    }
+  }
+  return false;
+}
+
 export function isSameApi(
   apiA: ApiObject | ApiCacheConfig,
   apiB: ApiObject | ApiCacheConfig

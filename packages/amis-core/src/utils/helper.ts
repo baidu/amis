@@ -1762,15 +1762,18 @@ export class SkipOperation extends Error {}
 export class ValidateError extends Error {
   name: 'ValidateError';
   detail: {[propName: string]: Array<string> | string};
+  rawError?: {[propName: string]: any};
 
   constructor(
     message: string,
-    error: {[propName: string]: Array<string> | string}
+    error: {[propName: string]: Array<string> | string},
+    rawError?: {[propName: string]: any}
   ) {
     super();
     this.name = 'ValidateError';
     this.message = message;
     this.detail = error;
+    this.rawError = rawError;
   }
 }
 

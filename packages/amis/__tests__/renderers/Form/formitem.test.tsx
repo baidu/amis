@@ -1,7 +1,7 @@
 import React = require('react');
 import {render, fireEvent, cleanup} from '@testing-library/react';
 import '../../../src';
-import {render as amisRender} from '../../../src';
+import {render as amisRender, ValidateError} from '../../../src';
 import {wait, makeEnv} from '../../helper';
 import {clearStoresCache} from '../../../src';
 import moment from 'moment';
@@ -61,7 +61,19 @@ test('Renderer:FormItem:validateApi:success', async () => {
   expect(onSubmit).not.toHaveBeenCalled();
 
   await wait(300);
-  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
+  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证', {
+    validateError: new ValidateError(
+      '依赖的部分字段没有通过验证',
+      {},
+      {
+        items: [],
+        msg: {
+          customMsg: '依赖的部分字段没有通过验证',
+          defaultMsg: '依赖的部分字段没有通过验证'
+        }
+      }
+    )
+  });
 
   const input = container.querySelector('input[name=a]');
   expect(input).toBeTruthy();
@@ -130,7 +142,19 @@ test('Renderer:FormItem:validateApi:failed', async () => {
   expect(onSubmit).not.toHaveBeenCalled();
 
   await wait(300);
-  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
+  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证', {
+    validateError: new ValidateError(
+      '依赖的部分字段没有通过验证',
+      {},
+      {
+        items: [],
+        msg: {
+          customMsg: '依赖的部分字段没有通过验证',
+          defaultMsg: '依赖的部分字段没有通过验证'
+        }
+      }
+    )
+  });
 
   const input = container.querySelector('input[name=a]');
   expect(input).toBeTruthy();
