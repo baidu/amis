@@ -195,6 +195,8 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   handleOutClick(e: React.MouseEvent<any>) {
+    e.stopPropagation();
+
     const {options} = this.props;
     this.outTargetWidth = this.outTarget.current?.clientWidth;
     e.defaultPrevented ||
