@@ -48,6 +48,11 @@ const pkgs = [];
   }
 });
 
+const index = pkgs.indexOf('style-inject');
+if (~index) {
+  pkgs.splice(index, 1);
+}
+
 const external = id =>
   pkgs.some(pkg => id.startsWith(pkg) || ~id.indexOf(`node_modules/${pkg}`));
 const input = ['./src/index.ts'];

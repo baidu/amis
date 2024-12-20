@@ -180,7 +180,8 @@ class SvgPathGenerator {
   getTrianglePath(radius: number) {
     const S = this.size;
     const height = Math.sin(this.toRadians(60)) * S;
-    const maxRadius = Math.min(radius, Math.tan(this.toRadians(30)) * (S / 2));
+    // 内切圆为最大圆角，其半径是高度的1/3
+    const maxRadius = Math.min(radius, height / 3) || 0;
     // sin30度，所以斜边是R的2倍，斜边减去R就是高度移动的距离
     const dy = (S - height - maxRadius) / 2;
 
