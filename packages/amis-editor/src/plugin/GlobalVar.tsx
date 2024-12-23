@@ -20,6 +20,11 @@ export class GlobalVarPlugin extends BasePlugin {
     context: BuildPanelEventContext,
     panels: Array<BasicPanelItem>
   ) {
+    // 如果没有配置全局变量初始化函数，则不显示全局变量管理面板
+    if (!this.manager.config.onGlobalVariableInit) {
+      return;
+    }
+
     panels.push({
       key: 'global-var',
       icon: '', // 'fa fa-code',
