@@ -6,7 +6,7 @@ export function uncontrollable<
   P extends {
     [propName: string]: any;
   }
->(arg: T, config: P, mapping?: any): T {
+>(arg: T, config: P, mapping?: Array<string>): T {
   const result = baseuncontrollable(arg, config, mapping);
   return hoistNonReactStatic(result, arg);
 }

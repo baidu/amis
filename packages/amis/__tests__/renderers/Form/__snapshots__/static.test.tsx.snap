@@ -156,6 +156,7 @@ exports[`Renderer:static-quickEdit-icon 1`] = `
         </span>
         <button
           class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+          tabindex="-1"
           type="button"
         >
           <i
