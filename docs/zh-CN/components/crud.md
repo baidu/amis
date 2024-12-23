@@ -401,7 +401,62 @@ interface ParsePrimitiveQueryOptions {
 
 ### 查
 
-查，就不单独介绍了，这个文档绝大部分都是关于查的。
+除了列表查询外，还支持查看详情场景，与编辑不同的地方主要在于弹窗中改成放展示类组件，或者表单项配置静态展示。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/mock2/sample?orderBy=id&orderDir=desc",
+    "syncLocation": false,
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "详情",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "查看数据「${id}」",
+                        "body": {
+                            "type": "form",
+                            "initApi": "/api/mock2/sample/${id}",
+                            "body": [
+                                {
+                                    "type": "static",
+                                    "name": "engine",
+                                    "label": "Engine"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "browser",
+                                    "label": "Browser",
+                                    "static": true
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+弹框里面可用数据自动就是点击的那一行的行数据，如果列表没有返回，可以在 form 里面再配置个 initApi 初始化数据，如果行数据里面有倒是不需要再拉取了。表单项的 name 跟数据 key 对应上便自动回显了。
 
 ## 展示模式
 
@@ -2115,6 +2170,43 @@ interface CRUDMatchFunc {
 
 具体效果请参考[示例](../../../examples/crud/match-func)，从`3.6.0`版本开始，`options`中支持使用`matchSorter`函数处理复杂的过滤场景，比如前缀匹配、模糊匹配等，更多详细内容推荐查看[match-sorter](https://github.com/kentcdodds/match-sorter)。
 
+### 显示序号
+
+通过配置 `showIndex` 为 `true` 启用
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "loadDataOnce": true,
+    "showIndex": true,
+    "columns": [
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "sortable": true
+        }
+    ]
+}
+```
+
 ### 批量操作
 
 在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在 crud 上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
@@ -2192,16 +2284,17 @@ interface CRUDMatchFunc {
 
 批量操作会默认将下面数据添加到数据域中以供**按钮行为**使用，需要注意的是**静态**和**批量操作**时的数据域是不同的。**静态数据域**是指渲染批量操作区域时能够获取到的数据，**批量操作数据域**是指触发按钮动作时能够获取到的数据，具体区别参考下表：
 
-| 属性名            | 类型                  | 所属数据域     | 说明                                                                                 | 版本    |
-| ----------------- | --------------------- | -------------- | ------------------------------------------------------------------------------------ | ------- |
-| `currentPageData` | `Array<Column>`       | 静态, 批量操作 | 当前分页数据集合，`Column`为当前 Table 数据结构定义                                  | `2.4.0` |
-| `selectedItems`   | `Array<Column>`       | 静态, 批量操作 | 选中的行数据集合                                                                     |
-| `unSelectedItems` | `Array<Column>`       | 静态, 批量操作 | 未选中的行数据集合                                                                   |
-| `items`           | `Array<Column>`       | 批量操作       | `selectedItems` 的别名                                                               |
-| `rows`            | `Array<Column>`       | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
-| `ids`             | `string`              | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
-| `event`           | `object`              | 事件动作       | 可以通过`event.data`获取批量操作按钮上绑定的事件动作产生的数据                       |
-| `...rest`         | `Record<string, any>` | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
+| 属性名            | 类型                      | 所属数据域     | 说明                                                                                 | 版本    |
+| ----------------- | ------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------- |
+| `currentPageData` | `Array<Column>`           | 静态, 批量操作 | 当前分页数据集合，`Column`为当前 Table 数据结构定义                                  | `2.4.0` |
+| `selectedItems`   | `Array<Column>`           | 静态, 批量操作 | 选中的行数据集合                                                                     |
+| `selectedIndexes` | `Array<string \| number>` | 静态, 批量操作 | 选中的行数据索引集合                                                                 |
+| `unSelectedItems` | `Array<Column>`           | 静态, 批量操作 | 未选中的行数据集合                                                                   |
+| `items`           | `Array<Column>`           | 批量操作       | `selectedItems` 的别名                                                               |
+| `rows`            | `Array<Column>`           | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
+| `ids`             | `string`                  | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
+| `event`           | `object`                  | 事件动作       | 可以通过`event.data`获取批量操作按钮上绑定的事件动作产生的数据                       |
+| `...rest`         | `Record<string, any>`     | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
 
@@ -2472,6 +2565,261 @@ interface CRUDMatchFunc {
                     ]
                 }
             }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 悬浮操作栏
+
+通过配置 `itemActions` 可以启用悬浮操作栏，鼠标悬停到行上，右侧会出现对应的操作按钮。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "checkOnItemClick": true,
+    "itemActions": [
+        {
+          "type": "button",
+          "label": "按钮 1",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "label": "按钮 2",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+当同时配置 `itemActions` 和 `bulkActions`, 顶部工具栏会根据选择的条数来切换显示按钮。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "checkOnItemClick": true,
+    "bulkActions": [
+        {
+          "type": "button",
+          "label": "批量按钮 1",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "label": "批量按钮 2",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        }
+    ],
+    "itemActions": [
+        {
+          "type": "button",
+          "label": "按钮 1",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "label": "按钮 2",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+如果同时启用时，只想把按钮展示在顶部，而不是悬浮，则需要给按钮上配置 `hiddenOnHover`。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "checkOnItemClick": true,
+    "bulkActions": [
+        {
+          "type": "button",
+          "label": "批量按钮 1",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "label": "批量按钮 2",
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        }
+    ],
+    "itemActions": [
+        {
+          "type": "button",
+          "label": "按钮 1",
+          "hiddenOnHover": true,
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "label": "按钮 2",
+          "hiddenOnHover": true,
+          "actionType": "toast",
+          "toast": {
+            "items": [
+              {
+                "level": "info",
+                "body": "${&|json}"
+              }
+            ]
+          }
         }
     ],
     "columns": [
@@ -3918,6 +4266,130 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 }
 ```
 
+## 开启点选
+
+当配置了 `bulkActions` 后，CRUD 会自动变成可点选状态。如果想直接开启可点选，可以配置 `selectable`，同时可以配置 `multiple` 来配置是单选还是多选。但是这个时候没有任何交互，需要配置事件动作，或者在工具栏中添加行为按钮完成交互逻辑。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "selectable": true,
+    "headerToolbar": [
+      {
+        "type": "button",
+        "label": "按钮",
+        "visibleOn": "${selectedItems.length}",
+        "actionType": "toast",
+        "toast": {
+          "items": [
+            {
+              "level": "info",
+              "body": "${selectedItems|json}"
+            }
+          ]
+        }
+      }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+多选场景且支持跨页面选择同时支持快速修改
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "api": "/api/mock2/sample",
+  "syncLocation": false,
+  "loadDataOnce": true,
+  "keepItemSelectionOnPageChange": true,
+  "onEvent": {
+    "selectedChange": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "已选择数据 ${selectedItems.length} <br /> 未选 ${event.data.unSelectedItems.length} 条 <br /> 已选 indexes ${ENCODEJSON(selectedIndexes)}"
+          }
+        }
+      ]
+    }
+  },
+  "bulkActions": [
+    {
+      "label": "Button(${selectedItems.length})",
+      "type": "button",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "已选择数据 ${ENCODEJSON(ARRAYMAP(selectedItems, item => `${item.id}: ${item.engine}`))} <br /> 未选 ${event.data.unSelectedItems.length} 条 <br /> 已选 indexes ${ENCODEJSON(selectedIndexes)}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine",
+      "quickEdit": true
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                                           | 版本    |
@@ -3992,13 +4464,13 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 除了 Table 组件默认支持的列配置，CRUD 的列配置还额外支持以下属性：
 
-| 属性名             | 类型                                                         | 默认值  | 说明                                                                        | 版本 |
-| ------------------ | ------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- | ---- |
-| sortable           | `boolean`                                                    | `false` | 是否可排序                                                                  |
-| searchable         | `boolean` \| `Schema`                                        | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
-| filterable         | `boolean` \| [`QuickFilterConfig`](./crud#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
-| quickEdit          | `boolean` \| [`QuickEditConfig`](./crud#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
-| quickEditEnabledOn | `SchemaExpression`                                           | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
+| 属性名             | 类型                                                         | 默认值    | 说明                                                                                                           | 版本    |
+| ------------------ | ------------------------------------------------------------ | --------- | -------------------------------------------------------------------------------------------------------------- | ------- |
+| sortable           | `boolean`                                                    | `false`   | 是否可排序                                                                                                     |
+| searchable         | `boolean` \| `Schema`                                        | `false`   | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`                                       |
+| filterable         | `boolean` \| [`QuickFilterConfig`](./crud#quickfilterconfig) | `false`   | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项                                    |
+| quickEdit          | `boolean` \| [`QuickEditConfig`](./crud#quickeditconfig)     | -         | 快速编辑，一般需要配合`quickSaveApi`接口使用                                                                   |
+| quickEditEnabledOn | `SchemaExpression`                                           | -         | 开启快速编辑条件[表达式](../../docs/concepts/expression)                                                       |         |
 | textOverflow       | `string`                                                     | `default` | 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效) | `6.9.0` |
 
 #### QuickFilterConfig
@@ -4057,13 +4529,14 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | quickSaveItemFail | `error` 错误原因                                                                                                                                                                                                                                                            | 快速编辑单条保存失败后触发                                     |
 | saveOrderSucc     | `result` 接口数据返回 <br /> `其他` 请参考 [拖拽排序](#拖拽排序) 章节说明                                                                                                                                                                                                   | 拖拽排序保存成功后触发                                         |
 | saveOrderFail     | `error` 错误原因                                                                                                                                                                                                                                                            | 拖拽排序保存失败后触发                                         |
-| selectedChange    | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                                                                                                                                                                                                     | 手动选择表格项时触发                                           |
+| selectedChange    | `selectedItems: item[]` 已选择行<br/>`selectedIndexes: string[]` 已选择行索引 <br/>`unSelectedItems: item[]` 未选择行                                                                                                                                                       | 手动选择表格项时触发                                           |
 | columnSort        | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                                                                                                                                                                                                                | 点击列排序时触发                                               |
 | columnFilter      | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值                                                                                                                                                                                             | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
 | columnSearch      | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据                                                                                                                                                                                                        | 点击列搜索时触发                                               |
 | orderChange       | `movedItems: item[]` 已排序数据                                                                                                                                                                                                                                             | 手动拖拽行排序时触发                                           |
 | columnToggled     | `columns: item[]` 当前显示的列配置数据                                                                                                                                                                                                                                      | 点击自定义列时触发                                             |
 | rowClick          | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 点击整行时触发                                                 |
+| rowDbClick        | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 双击整行时触发                                                 |
 | rowMouseEnter     | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 移入整行时触发                                                 |
 | rowMouseLeave     | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                                                                                                                                                                                   | 移出整行时触发                                                 |
 
@@ -4511,6 +4984,68 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
             "confirmText": "确定要批量删除?"
         }
     ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "searchable": true
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine",
+        "filterable": {
+            "options": [
+                "Internet Explorer 4.0",
+                "Internet Explorer 5.0"
+            ]
+        }
+      },
+      {
+        "name": "browser",
+        "label": "Browser",
+        "sortable": true
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+### rowDbClick
+
+双击行记录。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "api": "/api/mock2/sample",
+    "syncLocation": false,
+    "onEvent": {
+      "rowDbClick": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                    }
+                }
+            ]
+        }
+    },
     "columns": [
       {
         "name": "id",

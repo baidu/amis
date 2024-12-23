@@ -50,6 +50,8 @@ register('de-DE', {
   'CRUD.stat': '{{page}} von {{lastPage}} insgesamt: {{total}}.',
   'CRUD.paginationGoText': 'Wechseln zu',
   'CRUD.paginationPageText': 'Seite',
+  'CRUD.confirmLeaveUnSavedPage':
+    'Ändern Seite wird nicht gespeicherte Daten verlieren, bestätigen Sie bitte.',
   'PaginationWrapper.placeholder': 'Textkörper konfigurieren',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',

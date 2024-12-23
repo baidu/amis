@@ -24,6 +24,7 @@ export interface CellProps extends ThemeProps {
     node: SchemaNode,
     props?: PlainObject
   ) => JSX.Element;
+  filterItemIndex?: (index: number | string, item: any) => string | number;
   store: ITableStore;
   multiple: boolean;
   canAccessSuperData?: boolean;
@@ -44,6 +45,7 @@ export default function Cell({
   props,
   ignoreDrag,
   render,
+  filterItemIndex,
   store,
   multiple,
   itemBadge,
@@ -85,8 +87,8 @@ export default function Cell({
         <Checkbox
           classPrefix={ns}
           type={multiple ? 'checkbox' : 'radio'}
-          partial={item.partial}
-          checked={item.checked || item.partial}
+          partial={multiple ? item.partial : false}
+          checked={item.checked || (multiple ? item.partial : false)}
           disabled={item.checkdisable || !item.checkable}
           onChange={onCheckboxChange}
           testIdBuilder={testIdBuilder?.getChild('chekbx')}
@@ -124,6 +126,18 @@ export default function Cell({
             <Icon icon="right-arrow-bold" className="icon" />
           </a>
         ) : null}
+      </td>
+    );
+  } else if (column.type === '__index') {
+    return (
+      <td
+        style={style}
+        className={cx(column.pristine.className, stickyClassName)}
+      >
+        {`${filterItemIndex ? filterItemIndex(item.path, item) : item.path}`
+          .split('.')
+          .map(a => parseInt(a, 10) + 1)
+          .join('.')}
       </td>
     );
   }

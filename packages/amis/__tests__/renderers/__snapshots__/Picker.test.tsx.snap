@@ -38,16 +38,6 @@ exports[`1. Renderer:Picker base 1`] = `
             >
               picker-placeholder
             </div>
-            <div
-              class="cxd-Picker-valueWrap"
-            >
-              <div
-                class="cxd-Picker-values"
-              />
-              <input
-                value=""
-              />
-            </div>
             <span
               class="cxd-Picker-btn"
             >
@@ -267,22 +257,18 @@ exports[`1. Renderer:Picker base 2`] = `
             class="cxd-Picker-valueWrap"
           >
             <div
-              class="cxd-Picker-values"
+              class="cxd-OverflowTpl cxd-Picker-value"
             >
-              <div
-                class="cxd-OverflowTpl cxd-Picker-value"
+              <span
+                class="cxd-Picker-valueIcon"
               >
-                <span
-                  class="cxd-Picker-valueIcon"
-                >
-                  ×
-                </span>
-                <span
-                  class="cxd-Picker-valueLabel"
-                >
-                  B
-                </span>
-              </div>
+                ×
+              </span>
+              <span
+                class="cxd-Picker-valueLabel"
+              >
+                B
+              </span>
             </div>
             <input
               value=""

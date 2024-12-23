@@ -282,6 +282,11 @@ export interface TableSchema extends BaseSchema {
   placeholder?: string | SchemaTpl;
 
   /**
+   * 是否显示序号
+   */
+  showIndex?: boolean;
+
+  /**
    * 是否显示底部
    */
   showFooter?: boolean;
@@ -389,6 +394,8 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   tableClassName?: string;
   source?: string;
   selectable?: boolean;
+
+  // 已选清单
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
   maxItemSelectionLength?: number;
@@ -419,6 +426,15 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
     unSelectedItems: Array<object>
   ) => void;
   onPristineChange?: (data: object, rowIndexe: string) => void;
+  // 行数据集合
+  items?: Array<object>;
+
+  // 原始数据集合，前端分页时用来保存原始数据
+  fullItems?: Array<object>;
+
+  // 单条修改时触发
+  onItemChange?: (item: object, diff: object, rowIndex: string) => void;
+
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
@@ -434,6 +450,9 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   onQuery?: (values: object) => any;
   onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
+
+  // table 组件有可能只会渲染区间，所以这个时候序号可能是不正确的，所以需要支持外部传入 `filterItemIndex` 来修正序号
+  filterItemIndex?: (index: number | string, item: any) => number | string;
   checkOnItemClick?: boolean;
   hideCheckToggler?: boolean;
   rowClassName?: string;
@@ -634,7 +653,8 @@ export default class Table<
       canAccessSuperData,
       lazyRenderAfter,
       tableLayout,
-      resolveDefinitions
+      resolveDefinitions,
+      showIndex
     } = props;
 
     let combineNum = props.combineNum;
@@ -668,7 +688,8 @@ export default class Table<
         loading,
         canAccessSuperData,
         lazyRenderAfter,
-        tableLayout
+        tableLayout,
+        showIndex
       },
       {
         resolveDefinitions
@@ -739,14 +760,26 @@ export default class Table<
     }
 
     if (updateRows) {
-      store.initRows(rows, props.getEntryId, props.reUseRow);
+      store.initRows(
+        rows,
+        props.getEntryId,
+        props.reUseRow,
+        props.fullItems,
+        props.selected
+      );
     } else if (props.reUseRow === false) {
       /**
        * 在reUseRow为false情况下，支持强制刷新表格行状态
        * 适用的情况：用户每次刷新，调用接口，返回的数据都是一样的，导致updateRows为false，故针对每次返回数据一致的情况，需要强制表格更新
        */
       updateRows = true;
-      store.initRows(value, props.getEntryId, props.reUseRow);
+      store.initRows(
+        value,
+        props.getEntryId,
+        props.reUseRow,
+        props.fullItems,
+        props.selected
+      );
     }
 
     Array.isArray(props.selected) &&
@@ -937,7 +970,8 @@ export default class Table<
         'loading',
         'canAccessSuperData',
         'lazyRenderAfter',
-        'tableLayout'
+        'tableLayout',
+        'showIndex'
       ],
       prevProps,
       props,
@@ -1017,12 +1051,6 @@ export default class Table<
     scrolledY && window.scroll(0, scrolledY);
   }
 
-  rowPathPlusOffset(path: string, offset = 0) {
-    const list = path.split('.').map((item: any) => parseInt(item, 10));
-    list[0] += offset;
-    return list.join('.');
-  }
-
   subFormRef(form: any, x: number, y: number) {
     const {quickEditFormRef} = this.props;
 
@@ -1062,8 +1090,7 @@ export default class Table<
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.selectedRows.map(row => row.data),
-        unSelectedItems: store.unSelectedRows.map(row => row.data),
+        ...store.eventContext,
         item: item.data
       })
     );
@@ -1076,66 +1103,75 @@ export default class Table<
   }
 
   handleRowClick(item: IRow, index: number) {
-    const {dispatchEvent, offset = 0, store, data} = this.props;
+    const {dispatchEvent, filterItemIndex, store, data} = this.props;
     return dispatchEvent(
       'rowClick',
       createObject(data, {
         rowItem: item.data, // 保留rowItem 可能有用户已经在用 兼容之前的版本
         item: item.data,
-        index: index + offset,
-        indexPath: this.rowPathPlusOffset(item.path, offset)
+        index: parseInt(
+          `${filterItemIndex?.(item.index, item) ?? item.index}`,
+          10
+        ),
+        indexPath: filterItemIndex?.(item.path, item) ?? item.path
       })
     );
   }
 
   handleRowDbClick(item: IRow, index: number) {
-    const {dispatchEvent, offset = 0, store, data} = this.props;
+    const {dispatchEvent, filterItemIndex, store, data} = this.props;
     return dispatchEvent(
       'rowDbClick',
       createObject(data, {
         item: item.data,
-        index: index + offset,
-        indexPath: this.rowPathPlusOffset(item.path, offset)
+        index: parseInt(
+          `${filterItemIndex?.(item.index, item) ?? item.index}`,
+          10
+        ),
+        indexPath: filterItemIndex?.(item.path, item) ?? item.path
       })
     );
   }
 
   handleRowMouseEnter(item: IRow, index: number) {
-    const {dispatchEvent, offset = 0, store, data} = this.props;
+    const {dispatchEvent, filterItemIndex, store, data} = this.props;
     return dispatchEvent(
       'rowMouseEnter',
       createObject(data, {
         item: item.data,
-        index: index + offset,
-        indexPath: this.rowPathPlusOffset(item.path, offset)
+        index: parseInt(
+          `${filterItemIndex?.(item.index, item) ?? item.index}`,
+          10
+        ),
+        indexPath: filterItemIndex?.(item.path, item) ?? item.path
       })
     );
   }
 
   handleRowMouseLeave(item: IRow, index: number) {
-    const {dispatchEvent, offset = 0, store, data} = this.props;
+    const {dispatchEvent, filterItemIndex, store, data} = this.props;
     return dispatchEvent(
       'rowMouseLeave',
       createObject(data, {
         item: item.data,
-        index: index + offset,
-        indexPath: this.rowPathPlusOffset(item.path, offset)
+        index: parseInt(
+          `${filterItemIndex?.(item.index, item) ?? item.index}`,
+          10
+        ),
+        indexPath: filterItemIndex?.(item.path, item) ?? item.path
       })
     );
   }
 
   async handleCheckAll() {
     const {store, data, dispatchEvent} = this.props;
-    const items = store.rows.map((row: any) => row.data);
 
     store.toggleAll();
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.selectedRows.map(row => row.data),
-        unSelectedItems: store.unSelectedRows.map(row => row.data),
-        items
+        ...store.eventContext
       })
     );
 
@@ -1164,7 +1200,8 @@ export default class Table<
       onSave,
       onPristineChange,
       saveImmediately: propsSaveImmediately,
-      primaryField
+      primaryField,
+      onItemChange
     } = this.props;
 
     item.change(values, savePristine);
@@ -1188,11 +1225,17 @@ export default class Table<
     if (savePristine) {
       onPristineChange?.(item.data, item.path);
       return;
-    } else if (!saveImmediately && !propsSaveImmediately) {
-      return;
     }
 
-    if (saveImmediately && saveImmediately.api) {
+    onItemChange?.(
+      item.data,
+      difference(item.data, item.pristine, ['id', primaryField]),
+      item.path
+    );
+
+    if (!saveImmediately && !propsSaveImmediately) {
+      return;
+    } else if (saveImmediately && saveImmediately.api) {
       this.props.onAction(
         null,
         {
@@ -1879,7 +1922,8 @@ export default class Table<
       autoGenerateFilter,
       dispatchEvent,
       data,
-      testIdBuilder
+      testIdBuilder,
+      translate: __
     } = this.props;
 
     // 注意，这里用关了哪些 store 里面的东西，TableContent 里面得也用一下
@@ -1981,6 +2025,19 @@ export default class Table<
               <Icon icon="right-arrow-bold" className="icon" />
             </a>
           )}
+
+          {resizable === false ? null : resizeLine}
+        </th>
+      );
+    } else if (column.type === '__index') {
+      return (
+        <th
+          {...restProps}
+          key={key}
+          style={style}
+          className={cx(column.pristine.className, stickyClassName)}
+        >
+          {__('Table.index')}
 
           {resizable === false ? null : resizeLine}
         </th>
@@ -2176,7 +2233,8 @@ export default class Table<
       canAccessSuperData,
       itemBadge,
       translate,
-      testIdBuilder
+      testIdBuilder,
+      filterItemIndex
     } = this.props;
 
     return (
@@ -2188,6 +2246,7 @@ export default class Table<
         props={props}
         ignoreDrag={ignoreDrag}
         render={render}
+        filterItemIndex={filterItemIndex}
         store={store}
         multiple={store.multiple}
         canAccessSuperData={canAccessSuperData}
@@ -2635,9 +2694,7 @@ export default class Table<
       ? headerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedRows.map(item => item.data),
-            items: store.rows.map(item => item.data),
-            unSelectedItems: store.unSelectedRows.map(item => item.data),
+            ...store.eventContext,
             ...otherProps
           },
           this.renderToolbar
@@ -2702,9 +2759,7 @@ export default class Table<
       ? footerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedRows.map(item => item.data),
-            unSelectedItems: store.unSelectedRows.map(item => item.data),
-            items: store.rows.map(item => item.data)
+            ...store.eventContext
           },
           this.renderToolbar
         )
@@ -3020,6 +3075,10 @@ export class TableRenderer extends Table {
     return store.getData(data);
   }
 
+  hasModifiedItems() {
+    return this.props.store.modified;
+  }
+
   async doAction(
     action: ActionObject,
     ctx: any,
@@ -3033,9 +3092,11 @@ export class TableRenderer extends Table {
       case 'selectAll':
         store.clear();
         store.toggleAll();
+        this.syncSelected();
         break;
       case 'clearAll':
         store.clear();
+        this.syncSelected();
         break;
       case 'select':
         const rows = await this.getEventTargets(
@@ -3048,6 +3109,7 @@ export class TableRenderer extends Table {
           rows.map(item => item.data),
           valueField
         );
+        this.syncSelected();
         break;
       case 'initDrag':
         store.startDragging();
