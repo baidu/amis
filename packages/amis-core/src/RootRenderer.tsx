@@ -234,11 +234,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         );
       });
     } else if (action.actionType === 'toast') {
-      action.toast?.items?.forEach((item: any) => {
+      action.toast?.items?.forEach(({level, body, title, ...item}: any) => {
         env.notify(
-          item.level || 'info',
-          item.body
-            ? render('body', item.body, {
+          level || 'info',
+          body
+            ? render('body', body, {
                 ...this.props,
                 data: ctx,
                 context: store.context
@@ -247,8 +247,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...action.toast,
             ...item,
-            title: item.title
-              ? render('title', item.title, {
+            title: title
+              ? render('title', title, {
                   ...this.props,
                   data: ctx,
                   context: store.context

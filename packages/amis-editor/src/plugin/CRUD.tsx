@@ -144,6 +144,10 @@ export class CRUDPlugin extends BasePlugin {
                 unSelectedItems: {
                   type: 'array',
                   title: '未选择行记录'
+                },
+                selectedIndexes: {
+                  type: 'array',
+                  title: '已选择行索引'
                 }
               }
             }
@@ -277,6 +281,36 @@ export class CRUDPlugin extends BasePlugin {
       eventName: 'rowClick',
       eventLabel: '行单击',
       description: '点击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                },
+                indexPath: {
+                  type: 'number',
+                  title: '行索引路劲'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowDbClick',
+      eventLabel: '行双击',
+      description: '双击整行事件',
       dataSchema: [
         {
           type: 'object',
@@ -998,7 +1032,8 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
-            visibleOn: 'this.api && this.api.url',
+            visibleOn:
+              'this.api && this.api.url || typeof this.api === "string" && this.api',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -2330,6 +2365,10 @@ export class CRUDPlugin extends BasePlugin {
               ...childSchema.properties.unSelectedItems.items,
               properties: itemsSchema
             }
+          },
+          selectedIndexes: {
+            type: 'array',
+            title: '已选择行索引'
           },
           count: {
             type: 'number',

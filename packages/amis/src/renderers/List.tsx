@@ -254,12 +254,23 @@ export interface ListProps
     SpinnerExtraProps {
   store: IListStore;
   selectable?: boolean;
+
+  // 已选清单
   selected?: Array<any>;
   draggable?: boolean;
+
+  // 行数据集合
+  items?: Array<object>;
+
+  // 原始数据集合，前端分页时用来保存原始数据
+  fullItems?: Array<object>;
+
   onSelect: (
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
   ) => void;
+  // 单条修改时触发
+  onItemChange?: (item: object, diff: object, rowIndex: string) => void;
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
@@ -381,7 +392,7 @@ export default class List extends React.Component<ListProps, object> {
       }
     }
 
-    updateItems && store.initItems(items);
+    updateItems && store.initItems(items, props.fullItems, props.selected);
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateItems;
@@ -788,9 +799,7 @@ export default class List extends React.Component<ListProps, object> {
       ? headerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data)
+            ...store.eventContext
           },
           this.renderToolbar
         )
@@ -843,9 +852,7 @@ export default class List extends React.Component<ListProps, object> {
       ? footerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data)
+            ...store.eventContext
           },
           this.renderToolbar
         )
@@ -1188,6 +1195,10 @@ export class ListRenderer extends List {
     return store.getData(data);
   }
 
+  hasModifiedItems() {
+    return this.props.store.modified;
+  }
+
   async doAction(
     action: ActionObject,
     ctx: any,
@@ -1201,9 +1212,11 @@ export class ListRenderer extends List {
       case 'selectAll':
         store.clear();
         store.toggleAll();
+        this.syncSelected();
         break;
       case 'clearAll':
         store.clear();
+        this.syncSelected();
         break;
       case 'select':
         const rows = await getMatchedEventTargets<IItem>(
@@ -1217,6 +1230,7 @@ export class ListRenderer extends List {
           rows.map(item => item.data),
           valueField
         );
+        this.syncSelected();
         break;
       case 'initDrag':
         store.startDragging();
