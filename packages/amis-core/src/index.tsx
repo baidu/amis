@@ -39,7 +39,10 @@ export * from './utils/index';
 export * from './utils/animations';
 export * from './types';
 export * from './store';
+export * from './globalVar';
 import * as utils from './utils/helper';
+import './globalVarClientHandler';
+import './globalVarDefaultValueHandler';
 import {getEnv} from 'mobx-state-tree';
 
 import {RegisterStore, registerStore, RendererStore} from './store';

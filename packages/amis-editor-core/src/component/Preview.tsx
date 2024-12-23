@@ -720,6 +720,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
         {render(
           editable ? store.filteredSchema : store.filteredSchemaForPreview,
           {
+            globalVars: store.globalVariables,
             ...rest,
             key: editable ? 'edit-mode' : 'preview-mode',
             theme: env.theme,

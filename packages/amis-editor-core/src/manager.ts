@@ -13,7 +13,8 @@ import {
   getRenderers,
   RenderOptions,
   JSONTraverse,
-  wrapFetcher
+  wrapFetcher,
+  GlobalVariableItem
 } from 'amis-core';
 import {
   PluginInterface,
@@ -42,7 +43,9 @@ import {
   RendererPluginEvent,
   PluginEvents,
   PluginActions,
-  BasePlugin
+  BasePlugin,
+  GlobalVariablesEventContext,
+  GlobalVariableEventContext
 } from './plugin';
 import {
   EditorStoreType,
@@ -399,6 +402,39 @@ export class EditorManager {
               )
               ?.classList.remove('is-region-active');
           }
+        }
+      ),
+
+      // 同步全局变量数据结构，以便支持fx 可视化操作
+      reaction(
+        () => store.globalVariables,
+        variables => {
+          const id = 'global-variables-schema';
+          const scope = this.dataSchema.root;
+          const globalSchema: any = {
+            type: 'object',
+            title: '全局变量',
+            properties: {}
+          };
+
+          variables.forEach(variable => {
+            globalSchema.properties[variable.key] = {
+              type: 'string',
+              title: variable.label || variable.key,
+              description: variable.description,
+              ...variable.valueSchema
+            };
+          });
+
+          const jsonschema: any = {
+            $id: id,
+            type: 'object',
+            properties: {
+              global: globalSchema
+            }
+          };
+          scope.removeSchema(jsonschema.$id);
+          scope.addSchema(jsonschema);
         }
       )
     );
@@ -2276,6 +2312,69 @@ export class EditorManager {
 
       scope = scope.parent;
     }
+  }
+
+  /**
+   * 初始化全局变量
+   */
+  async initGlobalVariables() {
+    let variables: Array<GlobalVariableItem & {id: string | number}> = [];
+    const context: GlobalVariablesEventContext = {
+      data: variables
+    };
+
+    // 从插件中获取全局变量
+    const event = this.trigger('global-variable-init', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    this.store.setGlobalVariables(event.data);
+  }
+
+  /**
+   * 获取全局变量详情
+   */
+  async getGlobalVariableDetail(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-detail', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    return event.data;
+  }
+
+  /**
+   * 保存全局变量，包括新增保存和编辑保存
+   */
+  async saveGlobalVariable(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-save', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    return event.data;
+  }
+
+  /**
+   * 删除全局变量
+   */
+  async deleteGlobalVariable(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-delete', context);
+    if (event.pending) {
+      await event.pending;
+    }
+
+    return event.data;
   }
 
   beforeDispatchEvent(
