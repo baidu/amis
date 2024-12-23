@@ -19,7 +19,7 @@ import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import {SchemaFrom} from './base/SchemaForm';
+import {SchemaForm} from './base/SchemaForm';
 import memoize from 'lodash/memoize';
 import {FormConfigWrapper} from './FormConfigWrapper';
 
@@ -296,7 +296,7 @@ export function makeSchemaFormRender(
     const controls = filterBody(schema.controls);
 
     return (
-      <SchemaFrom
+      <SchemaForm
         key={curFormKey}
         propKey={curFormKey}
         api={schema.api}

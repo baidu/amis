@@ -160,3 +160,5 @@ export * from './Reset';
 export * from './Submit';
 export * from './Wrapper';
 export * from './ColumnToggler';
+
+export * from './GlobalVar';
