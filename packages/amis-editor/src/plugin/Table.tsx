@@ -689,6 +689,12 @@ export class TablePlugin extends BasePlugin {
               },
 
               getSchemaTpl('switch', {
+                name: 'showIndex',
+                label: '是否显示序号',
+                pipeIn: defaultValue(false)
+              }),
+
+              getSchemaTpl('switch', {
                 name: 'affixHeader',
                 label: '是否固定表头',
                 pipeIn: defaultValue(true)
