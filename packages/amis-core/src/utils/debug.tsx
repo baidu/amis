@@ -229,7 +229,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     panelRef.current!.addEventListener('mouseup', handlePanelMouseUp);
 
     return () => {
-      panelRef.current!.removeEventListener('mouseup', handlePanelMouseUp);
+      panelRef.current?.removeEventListener('mouseup', handlePanelMouseUp);
     };
   }, []);
 

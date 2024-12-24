@@ -247,13 +247,13 @@ export class TableRow<
               <tbody>
                 {ignoreFootableContent
                   ? columns.map(column => (
-                      <tr key={column.index}>
+                      <tr key={column.id}>
                         {column.label !== false ? <th></th> : null}
                         <td></td>
                       </tr>
                     ))
                   : columns.map(column => (
-                      <tr key={column.index}>
+                      <tr key={column.id}>
                         {column.label !== false ? (
                           <th>
                             {render(
@@ -275,14 +275,14 @@ export class TableRow<
                               rowIndexPath: item.path,
                               colIndex: column.index,
                               rowPath,
-                              key: column.index,
+                              key: column.id,
                               onAction: this.handleAction,
                               onQuickChange: this.handleQuickChange,
                               onChange: this.handleChange
                             }
                           )
                         ) : (
-                          <td key={column.index}>
+                          <td key={column.id}>
                             <div className={cx('Table-emptyBlock')}>&nbsp;</div>
                           </td>
                         )}
