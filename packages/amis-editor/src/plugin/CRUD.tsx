@@ -1196,6 +1196,33 @@ export class CRUDPlugin extends BasePlugin {
           },
 
           getSchemaTpl('switch', {
+            name: 'selectable',
+            label: '开启选择',
+            pipeIn: defaultValue(false),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '开启后即便没有批量操作按钮也显示可点选',
+              placement: 'left'
+            }
+          }),
+
+          getSchemaTpl('switch', {
+            name: 'multiple',
+            label: '开启多选',
+            visibleOn: '${selectable}',
+            pipeIn: defaultValue(true),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '控制是单选还是多选',
+              placement: 'left'
+            }
+          }),
+
+          getSchemaTpl('switch', {
             name: 'syncLocation',
             label: '同步地址栏',
             pipeIn: defaultValue(true),
