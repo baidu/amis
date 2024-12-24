@@ -35,6 +35,7 @@ export type IShapeType =
   | 'leaf';
 
 export type IShapeCustomType = 'custom';
+export type ISHapeStrokeType = 'line' | 'dash' | 'dot';
 
 export interface IShapeProps extends ThemeProps {
   shapeType: IShapeType | IShapeCustomType;
@@ -42,7 +43,11 @@ export interface IShapeProps extends ThemeProps {
   width?: number;
   height?: number;
   color?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeType?: 'line' | 'dash' | 'dot';
   paths?: string[];
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 class SvgPathGenerator {
@@ -63,6 +68,33 @@ class SvgPathGenerator {
       return [];
     }
     return genFun(radius * 10);
+  }
+
+  static getStrokeProps(
+    stroke: string,
+    strokeWidth: number,
+    strokeType: ISHapeStrokeType
+  ): any {
+    if (strokeType === 'line') {
+      return {
+        stroke,
+        strokeWidth
+      };
+    } else if (strokeType === 'dash') {
+      return {
+        stroke,
+        strokeWidth,
+        strokeDasharray: `${strokeWidth * 2},${strokeWidth}`
+      };
+    } else if (strokeType === 'dot') {
+      return {
+        stroke,
+        strokeWidth,
+        strokeDasharray: `1,${strokeWidth * 2}`,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'miter'
+      };
+    }
   }
 
   toRadians(degrees: number) {
@@ -549,10 +581,18 @@ const Shape: React.FC<IShapeProps> = props => {
     className,
     shapeType,
     color,
+    stroke = 'currentColor',
+    strokeWidth = 0,
+    strokeType = 'line',
     width = BASE_SIZE,
     height = BASE_SIZE
   } = props;
   const paths = SvgPathGenerator.getPath(shapeType, props);
+  const strokeProps = SvgPathGenerator.getStrokeProps(
+    stroke,
+    strokeWidth,
+    strokeType
+  );
   const getStyle = React.useCallback(
     () => [
       {
@@ -567,7 +607,11 @@ const Shape: React.FC<IShapeProps> = props => {
   );
 
   return (
-    <div className={cx('Shape', className)} style={getStyle()[0]}>
+    <div
+      className={cx('Shape', className)}
+      style={getStyle()[0]}
+      onClick={props.onClick}
+    >
       <svg
         className={cx('Shape-svg')}
         width={BASE_SIZE}
@@ -577,7 +621,7 @@ const Shape: React.FC<IShapeProps> = props => {
         viewBox={`0 0 ${BASE_SIZE} ${BASE_SIZE}`}
       >
         {paths.map((path, index) => (
-          <path key={index} d={path} />
+          <path {...strokeProps} key={index} d={path} />
         ))}
       </svg>
     </div>
