@@ -69,7 +69,7 @@ export default class DiffEditor extends React.Component<DiffEditorProps> {
   handleModifiedEditorChange(e: any) {
     const {onChange} = this.props;
     const value = this.modifiedEditor.getModel().getValue();
-    onChange?.(value, e);
+    value !== this.props.value && onChange?.(value, e);
   }
 
   @autobind
