@@ -2959,12 +2959,7 @@ export default class Table<
   }
 }
 
-@Renderer({
-  type: 'table',
-  storeType: TableStore.name,
-  name: 'table'
-})
-export class TableRenderer extends Table {
+export class TableRendererBase extends Table {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
 
@@ -3145,5 +3140,12 @@ export class TableRenderer extends Table {
     }
   }
 }
+
+@Renderer({
+  type: 'table',
+  storeType: TableStore.name,
+  name: 'table'
+})
+export class TableRenderer extends TableRendererBase {}
 
 export {TableCell};
