@@ -102,6 +102,7 @@ const scaleList = [50, 75, 100, 125, 150, 200];
 export default function MobileDevTool(props: {
   container: HTMLElement | null;
   previewBody: HTMLElement | null;
+  border?: number;
 }) {
   const [dimension, setDimension] = React.useState(
     () =>
@@ -232,9 +233,10 @@ export default function MobileDevTool(props: {
 
   function updatePreviewSize(dimension: {width: number; height: number}) {
     if (previewBody) {
+      const {border = 20} = props;
       // 预览区域宽高加上20px的padding
-      previewBody.style.width = dimension.width + 20 + 'px';
-      previewBody.style.height = dimension.height + 20 + 'px';
+      previewBody.style.width = dimension.width + border + 'px';
+      previewBody.style.height = dimension.height + border + 'px';
     }
   }
 
