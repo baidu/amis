@@ -97,6 +97,60 @@ icon:
 }
 ```
 
+## 配置边框
+
+```schema
+{
+    type: "page",
+    body: [
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'triangle',
+        width: 100,
+        height: 100,
+        color: '#eee',
+        stroke: '#000',
+        strokeWidth: 4,
+        strokeType: 'line',
+      },
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'square',
+        width: 100,
+        height: 100,
+        color: '#eee',
+        stroke: '#000',
+        strokeWidth: 4,
+        strokeType: 'dash',
+      },
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'pentagon',
+        width: 100,
+        height: 100,
+        color: '#eee',
+        stroke: '#000',
+        strokeWidth: 4,
+        strokeType: 'dot',
+      },
+      {
+        type: 'shape',
+        className: 'm-2',
+        shapeType: 'star',
+        width: 100,
+        height: 100,
+        color: '#eee',
+        stroke: '#000',
+        strokeWidth: 4,
+        strokeType: 'dot',
+      }
+    ]
+}
+```
+
 ## 配置颜色
 
 ```schema
@@ -199,6 +253,43 @@ icon:
         "height": 50
       }
     ]
+  }
+}
+```
+
+## 事件表
+
+> 2.6.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                     | 说明         |
+| -------- | ---------------------------- | ------------ |
+| click    | `label: string` 鼠标事件对象 | `点击`时触发 |
+
+### click
+
+鼠标点击。
+
+```schema: scope="body"
+ {
+  type: 'shape',
+  className: 'm-2',
+  shapeType: 'triangle',
+  "width": 100,
+  "height": 100,
+  onEvent: {
+    click: {
+      actions: [
+        {
+          actionType: 'toast',
+          args: {
+            msgType: 'info',
+            msg: '派发点击事件'
+          }
+        }
+      ]
+    }
   }
 }
 ```
