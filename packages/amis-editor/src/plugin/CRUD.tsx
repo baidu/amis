@@ -126,6 +126,36 @@ export class CRUDPlugin extends BasePlugin {
       ]
     },
     {
+      eventName: 'research',
+      eventLabel: '重新加载',
+      description: '重新加载或查询重置时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'selectedChange',
       eventLabel: '选择表格项',
       description: '手动选择表格项事件',
@@ -2386,7 +2416,7 @@ export class CRUDPlugin extends BasePlugin {
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
-    if (e === 'fetchInited') {
+    if (e === 'fetchInited' || e === 'research') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'crudFetchInitedData',

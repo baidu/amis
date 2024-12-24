@@ -1411,6 +1411,21 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         if (rendererEvent?.prevented) {
           return store.data;
         }
+      } else {
+        // 重新加载或查询重置完成后触发
+        const rendererEvent = await dispatchEvent?.(
+          'research',
+          createObject(this.props.data, {
+            responseData: value?.ok ? data ?? {} : value,
+            responseStatus:
+              value?.status === undefined ? (error ? 1 : 0) : value?.status,
+            responseMsg: msg
+          })
+        );
+
+        if (rendererEvent?.prevented) {
+          return;
+        }
       }
 
       // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
@@ -1528,19 +1543,22 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     const {store, primaryField, strictMode} = this.props;
     const isSameValue = (
       a: Record<string, unknown>,
-      item: Record<string, unknown>
+      b: Record<string, unknown>
     ) => {
       const oldValue = a[primaryField || 'id'];
-      const itemValue = item[primaryField || 'id'];
+      const itemValue = b[primaryField || 'id'];
       const isSame = strictMode
         ? oldValue === itemValue
         : oldValue == itemValue;
-      return !!(a === item || (oldValue && isSame));
+      return !!(a === b || (oldValue && isSame));
     };
 
-    const selectedItems = value.map(
-      item => findTree(store.items, a => isSameValue(a, item)) || item
-    );
+    const selectedItems = value.map(item => {
+      if (!isPlainObject(item)) {
+        item = {[primaryField || 'id']: item};
+      }
+      return findTree(store.items, a => isSameValue(a, item)) || item;
+    });
 
     this.props.store.setSelectedItems(selectedItems);
   }
@@ -1839,22 +1857,34 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     let newItems = items;
 
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
+      let compareFn: Function;
+      // 这个是 loadDataOnce 前端分页模式
+      if (store.items.length > items.length + unSelectedItems.length) {
+        compareFn = (a: any, b: any) =>
+          (a.__pristine || a) === (b.__pristine || b);
+      } else {
+        // 这个是后端分页模式
+        compareFn = (a: any, b: any) => {
+          const oldValue = a[primaryField || 'id'];
+          const itemValue = b[primaryField || 'id'];
+          const isSame = strictMode
+            ? oldValue === itemValue
+            : oldValue == itemValue;
+          return a === b || (oldValue && isSame);
+        };
+      }
+
       const itemsRest = items.concat();
 
       newItems = store.selectedItems
         .map(item => {
-          const idx = itemsRest.findIndex(
-            a => (a.__pristine || a) === (item.__pristine || item)
-          );
+          const idx = itemsRest.findIndex(a => compareFn(a, item));
 
           if (~idx) {
             return itemsRest.splice(idx, 1)[0];
           }
 
-          return findTree(
-            unSelectedItems,
-            a => (a.__pristine || a) === (item.__pristine || item)
-          )
+          return findTree(unSelectedItems, a => compareFn(a, item))
             ? null
             : item;
         })
@@ -2836,6 +2866,10 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     return indexes.join('.');
   }
 
+  filterBodySchema(subSchema: any) {
+    return subSchema;
+  }
+
   renderBody() {
     const {
       className,
@@ -2887,7 +2921,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     return render(
       'body',
       {
-        ...rest,
+        ...this.filterBodySchema(rest),
         id,
         // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
         // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
