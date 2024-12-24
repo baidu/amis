@@ -73,6 +73,7 @@
     "sortablejs": "1.15.0",
     "tinymce": "^6.1.2",
     "tslib": "^2.3.1",
+    "video-react": "0.15.0",
     "uncontrollable": "7.2.1"
   },
   "devDependencies": {
