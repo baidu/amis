@@ -296,13 +296,15 @@ describe('5. Renderer:Picker with overflowConfig', () => {
 
     await wait(500);
 
-    const tags = container.querySelector('.cxd-Picker-values');
+    const tags = container.querySelector('.cxd-Picker-valueWrap');
 
     expect(tags).toBeInTheDocument();
     /** tag 元素数量正确 */
-    expect(tags?.childElementCount).toEqual(3);
+    expect(tags?.childElementCount).toEqual(4); // 还有个 input
     /** 收纳标签文案正确 */
-    expect(tags?.lastElementChild).toHaveTextContent('+ 1 ...');
+    expect(tags?.lastElementChild?.previousSibling).toHaveTextContent(
+      '+ 1 ...'
+    );
   });
 
   test('5-2. Renderer:Picker embeded', async () => {

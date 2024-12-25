@@ -157,6 +157,10 @@ registerRenderer({
   type: 'flex',
   getComponent: () => import('./renderers/Flex')
 });
+registerRenderer({
+  type: 'shape',
+  getComponent: () => import('./renderers/Shape')
+});
 // import './renderers/Form/ButtonGroupSelect';
 registerRenderer({
   type: 'button-group-select',

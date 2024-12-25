@@ -45,6 +45,8 @@ register('en-US', {
   'CRUD.stat': '{{page}} of {{lastPage}} total: {{total}}.',
   'CRUD.paginationGoText': 'Go to',
   'CRUD.paginationPageText': 'page',
+  'CRUD.confirmLeaveUnSavedPage':
+    'Change page will loss unsaved data, please confirm.',
   'PaginationWrapper.placeholder': 'please config body',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',

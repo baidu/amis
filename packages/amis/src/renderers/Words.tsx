@@ -9,7 +9,8 @@ import {
   Option,
   getTreeAncestors,
   resolveVariableAndFilter,
-  labelToString
+  labelToString,
+  filter
 } from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 import {Tag} from 'amis-ui';
@@ -61,6 +62,11 @@ export interface WordsSchema extends BaseSchema {
    * 分割符
    */
   delimiter?: string;
+
+  /**
+   * 标签模板
+   */
+  labelTpl?: string;
 }
 
 export interface WordsProps
@@ -76,7 +82,8 @@ function getLabel(
     options = [],
     enableNodePath,
     hideNodePathLabel,
-    pathSeparator = '/'
+    pathSeparator = '/',
+    labelTpl
   }: any
 ): string {
   if (enableNodePath || (type === 'nested-select' && !hideNodePathLabel)) {
@@ -91,7 +98,11 @@ function getLabel(
     }`;
   }
 
-  return labelToString(item[labelField]) || `选项${index}`;
+  const label = labelTpl
+    ? filter(labelTpl, item)
+    : labelToString(item[labelField]) || `选项${index}`;
+
+  return label;
 }
 
 export class WordsField extends React.Component<WordsProps, object> {

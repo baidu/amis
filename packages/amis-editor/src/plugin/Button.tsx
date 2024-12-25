@@ -282,7 +282,12 @@ export class ButtonPlugin extends BasePlugin {
                 name: 'rightIcon',
                 label: '右侧图标'
               }),
-              getSchemaTpl('badge')
+              getSchemaTpl('badge'),
+              getSchemaTpl('switch', {
+                name: 'disabledOnAction',
+                label: '动作完成前禁用',
+                value: false
+              })
             ]
           },
           getSchemaTpl('status', {

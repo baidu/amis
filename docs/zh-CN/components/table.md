@@ -1061,6 +1061,190 @@ popOver 的其它配置请参考 [popover](./popover)
 }
 ```
 
+## 显示序号
+
+通过配置 `showIndex` 为 true，开启展示序号。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "data": {
+        "rows": [
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 4.0",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "X",
+                "id": 1,
+                "children": [
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 1001
+                },
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 1002
+                }
+                ]
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 5.0",
+                "platform": "Win 95+",
+                "version": "5",
+                "grade": "C",
+                "id": 2,
+                "children": [
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 2001
+                },
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 2002
+                }
+                ]
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 5.5",
+                "platform": "Win 95+",
+                "version": "5.5",
+                "grade": "A",
+                "id": 3,
+                "children": [
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 3001
+                },
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 3002
+                }
+                ]
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 6",
+                "platform": "Win 98+",
+                "version": "6",
+                "grade": "A",
+                "id": 4,
+                "children": [
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 4001
+                },
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 4002
+                }
+                ]
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 7",
+                "platform": "Win XP SP2+",
+                "version": "7",
+                "grade": "A",
+                "id": 5,
+                "children": [
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 5001
+                },
+                {
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 5002
+                }
+                ]
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "className": "m-b-none",
+            "columnsTogglable": false,
+            "showIndex": true,
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                },
+
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "id",
+                    "label": "ID"
+                },
+
+                {
+                    "name": "platform",
+                    "label": "Platform"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 底部展示 (Footable)
 
 列太多时，内容没办法全部显示完，可以让部分信息在底部显示，可以让用户展开查看详情。配置很简单，只需要开启 `footable` 属性，同时将想在底部展示的列加个 `breakpoint` 属性为 `*` 即可。
@@ -1836,6 +2020,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | columnsTogglable | `auto` 或者 `boolean`                                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |                                   |
 | placeholder      | `string` 或者 `SchemaTpl`                                | `暂无数据`                | 当没数据的时候的文字提示                                                  |                                   |
 | className        | `string`                                                 | `panel-default`           | 外层 CSS 类名                                                             |                                   |
+| showIndex        | `boolean`                                                |                           | 是否展示序号                                                              | 6.11.0                            |
 | tableClassName   | `string`                                                 | `table-db table-striped`  | 表格 CSS 类名                                                             |                                   |
 | headerClassName  | `string`                                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |                                   |
 | footerClassName  | `string`                                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |                                   |
@@ -1860,38 +2045,38 @@ popOver 的其它配置请参考 [popover](./popover)
 
 ### 列配置属性表
 
-| 属性名      | 类型                                          | 默认值 | 说明                     | 版本     |
-| ----------- | --------------------------------------------- | ------ | ------------------------ | -------- |
-| label       | [模板](../../docs/concepts/template)          |        | 表头文本内容             |          |
-| name        | `string`                                      |        | 通过名称关联数据         |          |
-| width       | `number` \| `string`                          |        | 列宽                     |          |
-| remark      |                                               |        | 提示信息                 |          |
-| fixed       | `left` \| `right` \| `none`                   |        | 是否固定当前列           |          |
-| popOver     |                                               |        | 弹出框                   |          |
-| copyable    | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制               |          |
-| style       | `object`                                      |        | 单元格自定义样式         |          |
-| innerStyle  | `object`                                      |        | 单元格内部组件自定义样式 | `2.8.1`  |
-| align       | `left` \| `right` \| `center` \| `justify`    |        | 单元格对齐方式           | ` 1.4.0` |
-| headerAlign | `left` \| `right` \| `center` \| `justify`    |        | 表头单元格对齐方式       | `6.7.0`  |
-| vAlign      | `top` \| `middle` \| `bottom`                 |        | 单元格垂直对齐方式       | `6.7.0`  |
-| textOverflow | `string`                                     |`default`| 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效)   | `6.10.0` |
+| 属性名       | 类型                                          | 默认值    | 说明                                                                                                           | 版本     |
+| ------------ | --------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------- | -------- |
+| label        | [模板](../../docs/concepts/template)          |           | 表头文本内容                                                                                                   |          |
+| name         | `string`                                      |           | 通过名称关联数据                                                                                               |          |
+| width        | `number` \| `string`                          |           | 列宽                                                                                                           |          |
+| remark       |                                               |           | 提示信息                                                                                                       |          |
+| fixed        | `left` \| `right` \| `none`                   |           | 是否固定当前列                                                                                                 |          |
+| popOver      |                                               |           | 弹出框                                                                                                         |          |
+| copyable     | `boolean` 或 `{icon: string, content:string}` |           | 是否可复制                                                                                                     |          |
+| style        | `object`                                      |           | 单元格自定义样式                                                                                               |          |
+| innerStyle   | `object`                                      |           | 单元格内部组件自定义样式                                                                                       | `2.8.1`  |
+| align        | `left` \| `right` \| `center` \| `justify`    |           | 单元格对齐方式                                                                                                 | ` 1.4.0` |
+| headerAlign  | `left` \| `right` \| `center` \| `justify`    |           | 表头单元格对齐方式                                                                                             | `6.7.0`  |
+| vAlign       | `top` \| `middle` \| `bottom`                 |           | 单元格垂直对齐方式                                                                                             | `6.7.0`  |
+| textOverflow | `string`                                      | `default` | 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效) | `6.10.0` |
 
 ## 事件表
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                                  | 说明                 |
-| -------------- | ----------------------------------------------------------------------------------------- | -------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行                   | 手动选择表格项时触发 |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                              | 点击列排序时触发     |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值                        | 点击列筛选时触发     |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据                      | 点击列搜索时触发     |
-| orderChange    | `movedItems: item[]` 已排序数据                                                           | 手动拖拽行排序时触发 |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                    | 点击自定义列时触发   |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 单击整行时触发       |
-| rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 双击整行时触发       |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移入整行时触发       |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径 | 移出整行时触发       |
+| 事件名称       | 事件参数                                                                                                             | 说明                 |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`selectedIndexes: string[]` 已选择行索引<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                                                         | 点击列排序时触发     |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值                                                   | 点击列筛选时触发     |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据                                                 | 点击列搜索时触发     |
+| orderChange    | `movedItems: item[]` 已排序数据                                                                                      | 手动拖拽行排序时触发 |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                                                               | 点击自定义列时触发   |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                            | 单击整行时触发       |
+| rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                            | 双击整行时触发       |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                            | 移入整行时触发       |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引 <br />`indexPath: string` 行索引路径                            | 移出整行时触发       |
 
 ### selectedChange
 

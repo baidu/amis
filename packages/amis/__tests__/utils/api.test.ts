@@ -183,6 +183,52 @@ test('api:buildApi:dataMapping', () => {
       b: 2
     }
   });
+
+  expect(
+    buildApi(
+      {
+        method: 'get',
+        url: '/api/xxx?b=${b}&c=3&d=${d}'
+      },
+      {
+        b: 2,
+        d: 'abc${123}'
+      }
+    )
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx?b=2&c=3&d=abc%24%7B123%7D',
+    query: {
+      b: 2,
+      c: '3',
+      d: 'abc${123}'
+    }
+  });
+
+  expect(
+    buildApi(
+      {
+        method: 'get',
+        url: '/api/xxx?c=3&d=${d}',
+        query: {
+          a: 1,
+          b: '${b}'
+        }
+      },
+      {
+        b: 2,
+        d: 'abc${123}'
+      }
+    )
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx?c=3&d=abc%24%7B123%7D&a=1&b=2',
+    query: {
+      a: 1,
+      b: 2,
+      d: 'abc${123}'
+    }
+  });
 });
 
 test('api:buildApi:autoAppend', () => {

@@ -141,6 +141,8 @@ import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
 
+import Shape from './Shape';
+import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
 
 export {
@@ -283,5 +285,7 @@ export {
   OverflowTpl,
   Signature,
   VerificationCode,
+  Shape,
+  IShapeType,
   MobileDevTool
 };

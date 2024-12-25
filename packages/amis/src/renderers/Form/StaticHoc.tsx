@@ -85,7 +85,7 @@ function renderCommonStatic(props: any, defaultValue: string) {
 /**
  * 表单项类成员render支持静态展示装饰器
  */
-export function supportStatic<T extends FormControlProps>() {
+let supportStatic = <T extends FormControlProps>() => {
   return function (
     target: any,
     name: string,
@@ -157,7 +157,7 @@ export function supportStatic<T extends FormControlProps>() {
     };
     return descriptor;
   };
-}
+};
 
 function renderStaticDateTypes(props: any) {
   const {
@@ -178,3 +178,15 @@ function renderStaticDateTypes(props: any) {
     valueFormat: valueFormat || format
   });
 }
+
+const overrideSupportStatic = (
+  overrideFunc: () => (
+    target: any,
+    name: string,
+    descriptor: TypedPropertyDescriptor<any>
+  ) => TypedPropertyDescriptor<any>
+) => {
+  supportStatic = overrideFunc;
+};
+
+export {supportStatic, overrideSupportStatic};

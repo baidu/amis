@@ -303,6 +303,7 @@ export class CardRenderer extends React.Component<CardProps> {
       itemAction,
       onAction,
       onCheck,
+      onClick,
       selectable,
       checkOnItemClick
     } = this.props;
@@ -326,6 +327,7 @@ export class CardRenderer extends React.Component<CardProps> {
     }
 
     selectable && checkOnItemClick && onCheck?.(item);
+    onClick && onClick(item);
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
