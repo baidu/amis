@@ -2806,6 +2806,7 @@ export default class Table<
     const {
       classnames: cx,
       tableClassName,
+      tableFillHeight,
       store,
       placeholder,
       render,
@@ -2846,7 +2847,8 @@ export default class Table<
               'Table-table--checkOnItemClick': checkOnItemClick,
               'Table-table--withCombine': store.combineNum > 0,
               'Table-table--affixHeader':
-                affixHeader && !autoFillHeight && store.columnWidthReady
+                affixHeader && !autoFillHeight && store.columnWidthReady,
+              'Table-table--tableFillHeight': autoFillHeight && tableFillHeight
             },
             tableClassName
           )}
