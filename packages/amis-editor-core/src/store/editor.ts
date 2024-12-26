@@ -1105,6 +1105,7 @@ export const MainStore = types
     let versionIdIndex = 0;
     let subEditor: any = null;
     let layer: HTMLElement | undefined = undefined;
+    let scale: number = 1;
     let doc: Document = document;
     let iframe: HTMLIFrameElement | undefined = undefined;
 
@@ -1141,6 +1142,13 @@ export const MainStore = types
       },
       getLayer() {
         return layer;
+      },
+      // iframe 缩放比例
+      setScale(num: number) {
+        scale = num;
+      },
+      getScale() {
+        return scale;
       },
       setDoc(value: any) {
         doc = value;
