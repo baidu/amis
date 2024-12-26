@@ -654,6 +654,11 @@ export default class Editor extends Component<EditorProps> {
               <MobileDevTool
                 container={this.mainPreviewRef.current}
                 previewBody={this.mainPreviewBodyRef.current?.currentDom}
+                onChangeScale={scale => {
+                  if (scale >= 0) {
+                    this.store.setScale(scale / 100);
+                  }
+                }}
               />
             )}
             <Preview
