@@ -138,6 +138,8 @@ import styleManager from './StyleManager';
 
 import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
 
+import {getCustomVendor, registerCustomVendor} from './utils/icon';
+
 // @ts-ignore
 export const version = '__buildVersion';
 (window as any).amisVersionInfo = {
@@ -250,7 +252,9 @@ export {
   getGlobalOptions,
   setGlobalOptions,
   wrapFetcher,
-  SchemaRenderer
+  SchemaRenderer,
+  getCustomVendor,
+  registerCustomVendor
 };
 
 export function render(
