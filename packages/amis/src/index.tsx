@@ -27,6 +27,7 @@ import {availableLanguages as EditorAvailableLanguages} from './renderers/Form/E
 import type {Action} from './types';
 import type {SchemaType} from './Schema';
 import {overrideSupportStatic} from './renderers/Form/StaticHoc';
+import './renderers/icons/mk';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
 
