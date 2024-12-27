@@ -289,6 +289,12 @@ function svgString2Dom(
     });
     icon = newIcon;
     style = Object.assign(style, newStyle);
+    if (style.width) {
+      delete style.width;
+    }
+    if (style.height) {
+      delete style.height;
+    }
   }
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
