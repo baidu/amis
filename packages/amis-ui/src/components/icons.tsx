@@ -289,12 +289,6 @@ function svgString2Dom(
     });
     icon = newIcon;
     style = Object.assign(style, newStyle);
-    if (style.width) {
-      delete style.width;
-    }
-    if (style.height) {
-      delete style.height;
-    }
   }
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
@@ -408,11 +402,24 @@ export function Icon({
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
 
-  style = {
-    ...(style || {}),
-    width: width || style?.width,
-    height: height || style?.height
-  };
+  // style = {
+  //   ...(style || {}),
+  //   width: width || style?.width,
+  //   height: height || style?.height
+  // };
+
+  if (width !== undefined) {
+    style = {
+      ...style,
+      width
+    };
+  }
+  if (height !== undefined) {
+    style = {
+      ...style,
+      height
+    };
+  }
 
   if (typeof jest !== 'undefined' && icon) {
     iconContent = '';
