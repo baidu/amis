@@ -64,7 +64,7 @@ export function mk(
   const path = svg.querySelectorAll('path');
   const polygon = svg.querySelectorAll('polygon');
   const p = [...path, ...polygon, ...rect];
-  if (supportBorderRadius) {
+  if (supportBorderRadius !== false) {
     // 需要将width和height写到svg的viewBox属性里面和rect的width和height属性里面
     const viewBox = svg.getAttribute('viewBox') || '0 0';
     const [x, y] = viewBox.split(' ');
