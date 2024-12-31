@@ -602,6 +602,7 @@ export const HocQuickEdit =
           schema.body.length === 1 &&
           !schema.body[0].unique && // 唯一模式还不支持
           !schema.body[0].value && // 不能有默认值表达式什么的情况
+          !schema.body[0]?.extraName &&
           schema.body[0].name &&
           schema.body[0].name === name &&
           schema.body[0].type &&
