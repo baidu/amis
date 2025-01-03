@@ -265,9 +265,9 @@ order: 67
 }
 ```
 
-### 已选择 - 正则表达式
+### 已选择 - 表达式
 
-还可以使用正则表达式的方式来匹配已选中的项，`rowSelection.selectedRowKeysExpr`可以配置表达式。
+还可以使用表达式的方式来匹配已选中的项，`rowSelection.selectedRowKeysExpr`可以配置表达式。
 
 ```schema: scope="body"
 {
@@ -606,9 +606,9 @@ order: 67
 }
 ```
 
-### 默认展开 - 正则表达式
+### 默认展开 - 表达式
 
-也可以通过设置`expandable.expandedRowKeysExpr`使用正则表达式来控制默认展开项。
+也可以通过设置`expandable.expandedRowKeysExpr`使用表达式来控制默认展开项。
 
 ```schema: scope="body"
 {
@@ -789,7 +789,7 @@ order: 67
 }
 ```
 
-也可以通过正则表达式一次控制多行展开关闭。
+也可以通过表达式一次控制多行展开关闭。
 
 ```schema: scope="body"
 {
@@ -4176,7 +4176,7 @@ order: 67
 | disableOn           | `string`                           |            | 当前行是否可选择条件，要用 [表达式](../../docs/concepts/expression)                                                |
 | selections          | `selections`                       |            | 自定义筛选菜单，内置`all`（全选）、`invert`（反选）、`none`（取消选择）、`odd`（选择奇数项）、`even`（选择偶数项） |
 | selectedRowKeys     | `Array<string>` \| `Array<number>` |            | 已选择项                                                                                                           |
-| selectedRowKeysExpr | `string`                           |            | 已选择项正则表达式                                                                                                 |
+| selectedRowKeysExpr | `string`                           |            | 已选择项表达式                                                                                                 |
 | columnWidth         | `number`                           |            | 自定义选择列列宽                                                                                                   |
 | rowClick            | `boolean`                          |            | 单条任意区域选中                                                                                                   |
 
@@ -4196,7 +4196,7 @@ order: 67
 | disableOn           | `string`                           |        | 当前行是否可选择条件，要用 [表达式](../../docs/concepts/expression)                                                |
 | selections          | `selections`                       |        | 自定义筛选菜单，内置`all`（全选）、`invert`（反选）、`none`（取消选择）、`odd`（选择奇数项）、`even`（选择偶数项） |
 | selectedRowKeys     | `Array<string>` \| `Array<number>` |        | 已选择项                                                                                                           |
-| selectedRowKeysExpr | `string`                           |        | 已选择项正则表达式                                                                                                 |
+| selectedRowKeysExpr | `string`                           |        | 已选择项表达式                                                                                                 |
 | columnWidth         | `number`                           |        | 自定义选择列列宽                                                                                                   |
 
 ## 列配置属性表
