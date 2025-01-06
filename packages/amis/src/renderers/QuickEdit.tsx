@@ -124,6 +124,8 @@ export const HocQuickEdit =
     > {
       target: HTMLElement;
       overlay: HTMLElement;
+      form?: any;
+      formItem?: any;
       static ComposedComponent = Component;
       constructor(props: QuickEditProps) {
         super(props);
@@ -163,24 +165,22 @@ export const HocQuickEdit =
       formRef(ref: any) {
         const {quickEditFormRef, rowIndex, colIndex} = this.props;
 
-        if (quickEditFormRef) {
-          while (ref && ref.getWrappedInstance) {
-            ref = ref.getWrappedInstance();
-          }
-
-          quickEditFormRef(ref, colIndex, rowIndex);
+        while (ref && ref.getWrappedInstance) {
+          ref = ref.getWrappedInstance();
         }
+
+        this.form = ref;
+        quickEditFormRef?.(ref, colIndex, rowIndex);
       }
       formItemRef(ref: any) {
         const {quickEditFormItemRef, rowIndex, colIndex} = this.props;
 
-        if (quickEditFormItemRef) {
-          while (ref && ref.getWrappedInstance) {
-            ref = ref.getWrappedInstance();
-          }
-
-          quickEditFormItemRef(ref, colIndex, rowIndex);
+        while (ref && ref.getWrappedInstance) {
+          ref = ref.getWrappedInstance();
         }
+
+        this.formItem = ref;
+        quickEditFormItemRef?.(ref, colIndex, rowIndex);
       }
 
       handleWindowKeyPress(e: Event) {
@@ -525,7 +525,14 @@ export const HocQuickEdit =
         ) {
           e.preventDefault();
           e.stopPropagation();
-          this.openQuickEdit();
+
+          if (this.formItem) {
+            this.formItem?.focus?.();
+          } else if (this.form) {
+            this.form?.focus?.();
+          } else {
+            this.openQuickEdit();
+          }
         }
       }
 
@@ -677,7 +684,18 @@ export const HocQuickEdit =
           (quickEdit as QuickEditConfig).isFormMode
         ) {
           return (
-            <Component {...restProps}>{this.renderInlineForm()}</Component>
+            <Component
+              {...restProps}
+              className={cx(`Field--quickEditable`, className)}
+              tabIndex={
+                (quickEdit as QuickEditConfig).focusable === false
+                  ? undefined
+                  : '0'
+              }
+              onKeyUp={disabled ? noop : this.handleKeyUp}
+            >
+              {this.renderInlineForm()}
+            </Component>
           );
         } else {
           return (
@@ -698,6 +716,7 @@ export const HocQuickEdit =
                 ? null
                 : render('quick-edit-button', {
                     type: 'button',
+                    tabIndex: '-1',
                     onClick: this.openQuickEdit,
                     className: 'Field-quickEditBtn',
                     icon: (quickEdit as QuickEditConfig).icon || 'edit',
