@@ -14,7 +14,6 @@ import {clearStoresCache, RenderOptions} from 'amis-core';
 import type {Schema} from 'amis';
 import {EditorStoreType} from '../store/editor';
 import {observer} from 'mobx-react';
-import {findDOMNode} from 'react-dom';
 import {EditorManager} from '../manager';
 import HighlightBox from './HighlightBox';
 import RegionHighlightBox from './RegionHLBox';
@@ -58,7 +57,7 @@ export interface PreviewState {
 
 @observer
 export default class Preview extends Component<PreviewProps> {
-  currentDom: HTMLElement; // 用于记录当前dom元素
+  currentDom = React.createRef<HTMLDivElement>();
   dialogReaction: any;
   env: RenderOptions = {
     ...this.props.manager.env,
@@ -80,25 +79,25 @@ export default class Preview extends Component<PreviewProps> {
   doingSelection = false;
 
   componentDidMount() {
-    this.currentDom = findDOMNode(this) as HTMLElement;
+    const currentDom = this.currentDom.current!;
+    currentDom.addEventListener('mouseleave', this.handleMouseLeave);
+    currentDom.addEventListener('mousemove', this.handleMouseMove);
+    currentDom.addEventListener('click', this.handleClick, true);
+    currentDom.addEventListener('mouseover', this.handeMouseOver);
 
-    this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
-    this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick, true);
-    this.currentDom.addEventListener('mouseover', this.handeMouseOver);
-
-    this.currentDom.addEventListener('mousedown', this.handeMouseDown);
+    currentDom.addEventListener('mousedown', this.handeMouseDown);
 
     this.props.manager.on('after-update', this.handlePanelChange);
   }
 
   componentWillUnmount() {
-    if (this.currentDom) {
-      this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
-      this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-      this.currentDom.removeEventListener('click', this.handleClick, true);
-      this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
-      this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
+    if (this.currentDom.current) {
+      const currentDom = this.currentDom.current!;
+      currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
+      currentDom.removeEventListener('mousemove', this.handleMouseMove);
+      currentDom.removeEventListener('click', this.handleClick, true);
+      currentDom.removeEventListener('mouseover', this.handeMouseOver);
+      currentDom.removeEventListener('mousedown', this.handeMouseDown);
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }
@@ -260,7 +259,7 @@ export default class Preview extends Component<PreviewProps> {
   /** 拖拽多选 */
   doSelection(rect: {x: number; y: number; w: number; h: number}) {
     const layer = this.layer;
-    const dom = findDOMNode(this) as HTMLElement;
+    const dom = this.currentDom.current;
     if (!layer || !dom) {
       return;
     }
@@ -478,11 +477,11 @@ export default class Preview extends Component<PreviewProps> {
   getCurrentTarget() {
     const isMobile = this.props.isMobile;
     if (isMobile) {
-      return this.currentDom.querySelector(
+      return this.currentDom.current!.querySelector(
         '.ae-Preview-inner'
       ) as HTMLDivElement;
     } else {
-      return this.currentDom.querySelector(
+      return this.currentDom.current!.querySelector(
         '.ae-Preview-body'
       ) as HTMLDivElement;
     }
@@ -525,7 +524,6 @@ export default class Preview extends Component<PreviewProps> {
       autoFocus,
       toolbarContainer,
       appLocale,
-      ref,
       ...rest
     } = this.props;
 
@@ -547,7 +545,7 @@ export default class Preview extends Component<PreviewProps> {
           className,
           isMobile ? 'is-mobile-body' : 'is-pc-body'
         )}
-        ref={ref}
+        ref={this.currentDom}
       >
         <div
           key={
@@ -592,7 +590,7 @@ export default class Preview extends Component<PreviewProps> {
               />
             )}
           </div>
-          {this.currentDom && (
+          {this.currentDom.current && (
             <BackTop
               key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
               className="ae-editor-action-btn"

@@ -921,6 +921,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ]
             }}
             env={this.props.env}
+            key={`customstyle_${index}`}
           />
         ) : null;
       });
@@ -981,7 +982,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         ) : null
       );
 
-      childrenCustomStyle = tabs.map(tab =>
+      childrenCustomStyle = tabs.map((tab, index) =>
         isVisible(tab, data) ? (
           <CustomStyle
             config={{
@@ -994,6 +995,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ]
             }}
             env={this.props.env}
+            key={`customstyle_${index}`}
           />
         ) : null
       );
