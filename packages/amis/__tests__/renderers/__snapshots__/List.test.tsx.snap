@@ -20,6 +20,7 @@ exports[`Renderer:list 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default"
+              data-role="container"
             >
               <div
                 class="cxd-Panel-heading"

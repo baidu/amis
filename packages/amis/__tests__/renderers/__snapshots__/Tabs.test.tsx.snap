@@ -4,6 +4,7 @@ exports[`Renderer:tabs as form item 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -33,6 +34,7 @@ exports[`Renderer:tabs as form item 1`] = `
         />
         <div
           class="cxd-Tabs cxd-Tabs--line"
+          data-role="container"
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"
@@ -130,6 +132,7 @@ exports[`Renderer:tabs change active tab 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -215,6 +218,7 @@ exports[`Renderer:tabs change active tab 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -376,6 +380,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--card"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -445,6 +450,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--radio"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -514,6 +520,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--vertical"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -575,6 +582,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--chrome"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -676,6 +684,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--simple"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -745,6 +754,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--strong"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -814,6 +824,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -883,6 +894,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--sidebar sidebar--right"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -944,6 +956,7 @@ exports[`Renderer:tabs toolbar 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
@@ -1025,6 +1038,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled has-popover"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"

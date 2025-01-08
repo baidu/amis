@@ -4,6 +4,7 @@ exports[`Renderer:flex 1`] = `
 <div>
   <div
     class="cxd-Flex"
+    data-role="container"
     style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; align-content: center;"
   >
     <span
@@ -64,6 +65,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; align-content: center;"
           >
             <span
@@ -106,6 +108,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: flex-start; align-items: stretch; align-content: center;"
           >
             <span
@@ -148,6 +151,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: flex-end; align-items: stretch; align-content: center;"
           >
             <span
@@ -190,6 +194,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: space-around; align-items: stretch; align-content: center;"
           >
             <span
@@ -232,6 +237,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: space-between; align-items: stretch; align-content: center;"
           >
             <span
@@ -274,6 +280,7 @@ exports[`Renderer:flex justify 1`] = `
           </span>
           <div
             class="cxd-Flex"
+            data-role="container"
             style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: stretch; align-content: center;"
           >
             <span

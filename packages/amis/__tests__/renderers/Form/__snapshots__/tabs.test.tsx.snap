@@ -4,6 +4,7 @@ exports[`Renderer:tabs 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -33,6 +34,7 @@ exports[`Renderer:tabs 1`] = `
         />
         <div
           class="cxd-Tabs cxd-Tabs--line"
+          data-role="container"
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"

@@ -17,6 +17,7 @@ exports[`Renderer:inputArray 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -201,6 +202,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -555,6 +557,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -782,6 +785,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -996,6 +1000,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
