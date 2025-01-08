@@ -173,7 +173,9 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
      */
     if (!isBig && getNumberPrecision(value) !== precision) {
       const multiplier = Math.pow(10, precision);
-      const truncatedValue = Math.trunc(value * multiplier) / multiplier;
+      const truncatedValue =
+        Math.trunc(getMiniDecimal(value).multi(multiplier).toNumber()) /
+        multiplier;
       value = getMiniDecimal(truncatedValue).toNumber();
     }
 
