@@ -416,7 +416,7 @@ export class WizardPlugin extends BasePlugin {
                       visibleOn: 'this.mode == "horizontal"'
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       label: '保存接口',
                       description:
                         '如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步'
@@ -438,7 +438,7 @@ export class WizardPlugin extends BasePlugin {
                       pipeOut: (value: any) => (value ? '' : undefined)
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'asyncApi',
                       label: '异步检测接口',
                       visibleOn: 'this.asyncApi != null',
@@ -450,7 +450,7 @@ export class WizardPlugin extends BasePlugin {
                       type: 'divider'
                     },
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'initApi',
                       label: '初始化接口',
                       description: '用来初始化表单数据'
@@ -472,7 +472,7 @@ export class WizardPlugin extends BasePlugin {
                       pipeOut: (value: any) => (value ? '' : undefined)
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'initAsyncApi',
                       label: '异步检测接口',
                       visibleOn: 'this.initAsyncApi != null',
@@ -506,7 +506,7 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '接口',
           body: [
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initApi',
               label: '初始化接口',
               description:
@@ -530,7 +530,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initAsyncApi',
               label: '异步检测接口',
               visibleOn: 'this.initAsyncApi != null',
@@ -575,7 +575,7 @@ export class WizardPlugin extends BasePlugin {
               type: 'divider'
             },
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '保存接口',
               description:
                 '用来保存表单数据, 最后一步点击完成触发，<code>如果最后一步中已经设置保存接口，则此处设置无效。</code>'
@@ -597,7 +597,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'asyncApi',
               label: '异步检测接口',
               visibleOn: 'this.asyncApi != null',
@@ -767,7 +767,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('title', {
               pipeIn: (value: any, data: any) => value || data.label
             }),
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '保存接口',
               description:
                 '如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步'
@@ -789,7 +789,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'asyncApi',
               label: '异步检测接口',
               visibleOn: 'this.asyncApi != null',
@@ -799,7 +799,7 @@ export class WizardPlugin extends BasePlugin {
             {
               type: 'divider'
             },
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initApi',
               label: '初始化接口',
               description: '用来初始化表单数据'
@@ -821,7 +821,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initAsyncApi',
               label: '异步检测接口',
               visibleOn: 'this.initAsyncApi != null',
