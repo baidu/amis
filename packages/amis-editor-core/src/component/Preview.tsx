@@ -86,7 +86,6 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('dblclick', this.handleDBClick);
     currentDom.addEventListener('mouseover', this.handeMouseOver);
     currentDom.addEventListener('mousedown', this.handeMouseDown);
-
     this.props.manager.on('after-update', this.handlePanelChange);
   }
 
@@ -99,7 +98,6 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('dblclick', this.handleDBClick);
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
-
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }

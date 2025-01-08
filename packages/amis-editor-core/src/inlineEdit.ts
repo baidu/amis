@@ -25,6 +25,7 @@ export interface InlineEditContext {
   event?: MouseEvent;
   onConfirm: (value: string) => void;
   onCancel: () => void;
+  richTextToken?: string;
 }
 
 /**
@@ -108,6 +109,7 @@ async function startRichTextEdit({
   elem,
   event,
   node,
+  richTextToken,
   onConfirm,
   onCancel
 }: InlineEditContext) {
@@ -140,6 +142,7 @@ async function startRichTextEdit({
     {
       toolbarInline: true,
       charCounterCount: false,
+      key: richTextToken,
       // todo 现在这个按钮的位置又问题，先忽略
       // quickInsertEnabled: false,
       toolbarButtons: [
