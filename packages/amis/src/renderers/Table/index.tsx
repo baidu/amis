@@ -2961,7 +2961,9 @@ export default class Table<
   }
 }
 
-export class TableRendererBase extends Table {
+export class TableRendererBase<
+  T extends TableProps = TableProps
+> extends Table<T> {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
 
