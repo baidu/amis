@@ -898,6 +898,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         )}
         style={style}
         {...testIdBuilder?.getTestId()}
+        data-role="container"
       >
         {!['vertical', 'sidebar', 'chrome'].includes(mode) ? (
           <div
