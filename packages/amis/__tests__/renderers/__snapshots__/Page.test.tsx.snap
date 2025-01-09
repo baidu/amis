@@ -130,7 +130,7 @@ exports[`Renderer:Page classNames 1`] = `
       class="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
     >
       <div
-        class="cxd-TplField cxd-Page-asideTplWrapper"
+        class="cxd-TplField fr-view cxd-Page-asideTplWrapper"
       >
         <span>
           This is aside

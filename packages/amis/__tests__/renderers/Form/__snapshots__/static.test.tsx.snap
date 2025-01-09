@@ -64,7 +64,7 @@ exports[`Renderer:static 1`] = `
             </div>
           </div>
           <span
-            class="cxd-TplField cxd-Form-description"
+            class="cxd-TplField fr-view cxd-Form-description"
           >
             <span>
               static description

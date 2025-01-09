@@ -413,7 +413,7 @@ exports[`Renderer:cards hightlight 1`] = `
                       class="cxd-Card-highlight test-highlight-class"
                     />
                     <span
-                      class="cxd-TplField label label-warning"
+                      class="cxd-TplField fr-view label label-warning"
                     >
                       <span>
                         标签
@@ -543,7 +543,7 @@ exports[`Renderer:cards hightlight 2`] = `
                       class="cxd-Card-highlight test-highlight-class"
                     />
                     <span
-                      class="cxd-TplField label label-warning"
+                      class="cxd-TplField fr-view label label-warning"
                     >
                       <span>
                         标签
@@ -670,7 +670,7 @@ exports[`Renderer:cards media 1`] = `
                     class="cxd-Card-toolbar"
                   >
                     <span
-                      class="cxd-TplField label label-warning"
+                      class="cxd-TplField fr-view label label-warning"
                     >
                       <span>
                         标签
