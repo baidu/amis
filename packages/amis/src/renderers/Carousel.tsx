@@ -33,6 +33,22 @@ export interface CarouselSchema extends BaseSchema {
   type: 'carousel';
 
   /**
+   * 轮播图方向，默认为水平方向
+   */
+  direction?: 'horizontal' | 'vertical';
+
+  /**
+   * 是否循环播放, 默认为 true。
+   */
+  loop?: boolean;
+
+  /**
+   * 是否支持鼠标事件
+   * 默认为 true。
+   */
+  mouseEvent?: boolean;
+
+  /**
    * 是否自动播放
    */
   auto?: boolean;
@@ -130,6 +146,7 @@ export interface CarouselState {
   current: number;
   options: any[];
   nextAnimation: string;
+  mouseStartLocation: number | null;
 }
 
 const defaultSchema = {
@@ -164,8 +181,11 @@ const defaultSchema = {
   }
 };
 
+const SCROLL_THRESHOLD = 20;
+
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
   wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
+  carouselRef: React.RefObject<HTMLDivElement> = React.createRef();
   intervalTimeout: NodeJS.Timer | number;
   durationTimeout: NodeJS.Timer | number;
 
@@ -195,13 +215,43 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   state = {
     current: 0,
     options: this.props.options || getPropValue(this.props) || [],
-    nextAnimation: ''
+    nextAnimation: '',
+    mouseStartLocation: null
   };
 
   loading: boolean = false;
 
   componentDidMount() {
     this.prepareAutoSlide();
+
+    if (
+      this.wrapperRef.current &&
+      this.carouselRef.current &&
+      this.props.mouseEvent
+    ) {
+      this.carouselRef.current.addEventListener(
+        'mousedown',
+        this.addMouseDownListener,
+        true
+      );
+      this.carouselRef.current.addEventListener(
+        'mouseup',
+        this.addMouseUpListener
+      );
+      this.carouselRef.current.addEventListener(
+        'mouseleave',
+        this.addMouseUpListener
+      );
+
+      this.carouselRef.current.addEventListener(
+        'touchstart',
+        this.addMouseDownListener
+      );
+      this.carouselRef.current.addEventListener(
+        'touchend',
+        this.addMouseUpListener
+      );
+    }
   }
 
   componentDidUpdate(prevProps: CarouselProps) {
@@ -219,6 +269,31 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   componentWillUnmount() {
     this.clearAutoTimeout();
+
+    if (this.carouselRef.current && this.props.mouseEvent) {
+      this.carouselRef.current.removeEventListener(
+        'mousedown',
+        this.addMouseDownListener,
+        true
+      );
+      this.carouselRef.current.removeEventListener(
+        'mouseup',
+        this.addMouseUpListener
+      );
+      this.carouselRef.current.removeEventListener(
+        'mouseleave',
+        this.addMouseUpListener
+      );
+
+      this.carouselRef.current.removeEventListener(
+        'touchstart',
+        this.addMouseDownListener
+      );
+      this.carouselRef.current.removeEventListener(
+        'touchend',
+        this.addMouseUpListener
+      );
+    }
   }
 
   doAction(
@@ -284,6 +359,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   async transitFramesTowards(direction: string, nextAnimation: string) {
     let {current} = this.state;
     let prevIndex = current;
+
+    // 如果这里是不循环状态，需要阻止切换到第一张或者最后一张图片
+    if (
+      this.props.loop === false &&
+      ((current === 0 && direction === 'right') ||
+        (current === this.state.options.length - 1 && direction === 'left'))
+    ) {
+      return;
+    }
+
     switch (direction) {
       case 'left':
         current = this.getFrameId('next');
@@ -443,6 +528,42 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       }
     }
     return newOptions;
+  }
+
+  /**
+   * 添加鼠标按下事件监听器, 用于判断滑动方向
+   * @param event 鼠标事件对象
+   */
+  @autobind
+  addMouseDownListener(event: MouseEvent) {
+    const {direction} = this.props;
+    const {screenX, screenY} = event;
+    this.setState({
+      mouseStartLocation: direction === 'vertical' ? screenY : screenX // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
+    });
+  }
+
+  /**
+   * 添加鼠标抬起事件监听器, 用于判断滑动方向
+   * @param event 鼠标事件对象
+   */
+  @autobind
+  addMouseUpListener(event: MouseEvent) {
+    const {screenX, screenY} = event;
+    // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
+    const {direction} = this.props;
+    const location = direction === 'vertical' ? screenY : screenX;
+
+    if (this.state.mouseStartLocation !== null) {
+      if (location - this.state.mouseStartLocation > SCROLL_THRESHOLD) {
+        this.autoSlide('prev');
+      } else if (this.state.mouseStartLocation - location > SCROLL_THRESHOLD) {
+        this.autoSlide();
+      }
+      this.setState({
+        mouseStartLocation: null
+      });
+    }
   }
 
   render() {
@@ -615,6 +736,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     return (
       <div
+        ref={this.carouselRef}
         className={cx(
           `Carousel Carousel--${controlsTheme}`,
           {['Carousel-arrow--always']: !!alwaysShowArrow},
@@ -630,7 +752,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             name: 'wrapperCustomStyle',
             id,
             themeCss: wrapperCustomStyle
-          })
+          }),
+          {'Carousel-vertical': this.props.direction === 'vertical'}
         )}
         style={carouselStyles}
       >
