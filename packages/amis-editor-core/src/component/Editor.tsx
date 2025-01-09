@@ -463,6 +463,11 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   async handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    // inline edit 模式不要右键
+    if (this.store.activeElement) {
+      return;
+    }
+
     e.persist();
     await closeContextMenus();
     let targetId: string = '';

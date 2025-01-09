@@ -269,7 +269,9 @@ export default observer(function ({
         'ae-Editor-hlbox',
         {
           shake: id === store.insertOrigId,
-          selected: isActive || ~store.selections.indexOf(id),
+          focused: store.activeElement && isActive,
+          selected:
+            (isActive && !store.activeElement) || ~store.selections.indexOf(id),
           hover: isHover,
           regionOn: node.childRegions.some(region =>
             store.isRegionHighlighted(region.id, region.region)
@@ -293,7 +295,7 @@ export default observer(function ({
       onDragStart={handleDragStart}
       onClick={handleClick}
     >
-      {isActive && !readonly ? (
+      {isActive && !store.activeElement && !readonly ? (
         <div
           className={`ae-Editor-toolbarPopover ${
             isRightElem ? 'is-right-elem' : ''

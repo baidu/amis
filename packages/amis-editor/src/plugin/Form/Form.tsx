@@ -44,6 +44,7 @@ import {
 } from '../../renderer/event-control/helper';
 import {FieldSetting} from '../../renderer/FieldSetting';
 import {_isModelComp, generateId} from '../../util';
+import {InlineEditableElement} from 'amis-editor-core';
 
 import type {FormScaffoldConfig} from '../../builder';
 
@@ -138,6 +139,14 @@ export class FormPlugin extends BasePlugin {
       label: '操作区',
       key: 'actions',
       preferTag: '按钮'
+    }
+  ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope.cxd-Panel .cxd-Panel-title',
+      key: 'title'
     }
   ];
 
