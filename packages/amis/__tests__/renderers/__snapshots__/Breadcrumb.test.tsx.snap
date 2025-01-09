@@ -358,7 +358,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 />
               </a>
             </span>
@@ -378,7 +378,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 onMouseOver={[Function]}
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -396,7 +396,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 className="cxd-Breadcrumb-item-default"
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   当前页面
                 </span>
@@ -446,7 +446,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 />
               </a>
             </span>
@@ -466,7 +466,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 onMouseOver={[Function]}
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -484,7 +484,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 className="cxd-Breadcrumb-item-default"
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   当前页面
                 </span>
@@ -534,7 +534,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 />
               </a>
             </span>
@@ -554,7 +554,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 onMouseOver={[Function]}
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -572,7 +572,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 className="cxd-Breadcrumb-item-default"
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   当前页面
                 </span>
@@ -622,7 +622,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 />
               </a>
             </span>
@@ -642,7 +642,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 onMouseOver={[Function]}
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   上级页面上级页面上级页面上级页面...
                 </span>
@@ -660,7 +660,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 className="cxd-Breadcrumb-item-default"
               >
                 <span
-                  className="cxd-TplField"
+                  className="cxd-TplField fr-view"
                 >
                   当前页面
                 </span>
