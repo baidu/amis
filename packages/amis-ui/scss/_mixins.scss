@@ -714,6 +714,9 @@
 
   .#{$ns}#{$component-prefix}-valueLabel {
     padding: 0 var(--gap-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
