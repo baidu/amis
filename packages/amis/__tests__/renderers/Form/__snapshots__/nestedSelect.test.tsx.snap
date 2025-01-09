@@ -20,7 +20,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               NestedSelect

@@ -26,7 +26,7 @@ exports[`Renderer:inputCity 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -55,7 +55,7 @@ exports[`Renderer:inputCity 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           城市
@@ -223,7 +223,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -252,7 +252,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           城市

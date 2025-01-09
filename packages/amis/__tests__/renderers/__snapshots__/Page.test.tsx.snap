@@ -153,7 +153,7 @@ exports[`Renderer:Page classNames 1`] = `
               class="cxd-Page-title"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   This is Title
@@ -176,7 +176,7 @@ exports[`Renderer:Page classNames 1`] = `
               class="cxd-Page-subTitle"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   This is SubTitle
@@ -188,7 +188,7 @@ exports[`Renderer:Page classNames 1`] = `
             class="cxd-Page-toolbar toolbar-class-name"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 This is toolbar
@@ -201,7 +201,7 @@ exports[`Renderer:Page classNames 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               This is body
@@ -242,7 +242,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 6
@@ -286,7 +286,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         role="dialog-body"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             this is feedback
@@ -346,7 +346,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 6
@@ -387,7 +387,7 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 6
@@ -494,7 +494,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 
@@ -555,7 +555,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     A
@@ -632,7 +632,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 3
@@ -794,7 +794,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 
@@ -844,7 +844,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     A
@@ -921,7 +921,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable a is 3
@@ -950,7 +950,7 @@ exports[`Renderer:Page initApi 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 2
@@ -1121,7 +1121,7 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1162,7 +1162,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1300,7 +1300,7 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 2
@@ -1341,7 +1341,7 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1382,7 +1382,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1509,7 +1509,7 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 2
@@ -1547,7 +1547,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1614,7 +1614,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1652,7 +1652,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1719,7 +1719,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 2
@@ -1760,7 +1760,7 @@ exports[`Renderer:Page initApi reload by action 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 1
@@ -1801,7 +1801,7 @@ exports[`Renderer:Page initApi reload by action 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 2
@@ -1841,7 +1841,7 @@ exports[`Renderer:Page initApi show loading 1`] = `
             />
           </div>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 
@@ -1870,7 +1870,7 @@ exports[`Renderer:Page initApi show loading 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 3
@@ -1899,7 +1899,7 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 3
@@ -1928,7 +1928,7 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
           role="page-body"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               The variable value is 4

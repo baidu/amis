@@ -20,7 +20,7 @@ exports[`Renderer:link with disabled 1`] = `
     target="_blank"
   >
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         百度一下
@@ -38,7 +38,7 @@ exports[`Renderer:link with href & blank & htmlTarget 1`] = `
     target="_self"
   >
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         百度一下
@@ -60,7 +60,7 @@ exports[`Renderer:link with title & icon & rightIcon 1`] = `
       class="fa fa-search cxd-Link-icon fa fa-search"
     />
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         百度一下

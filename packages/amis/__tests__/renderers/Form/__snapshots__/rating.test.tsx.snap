@@ -13,7 +13,7 @@ exports[`Renderer:rating with allowClear 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:rating with allowClear 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -191,7 +191,7 @@ exports[`Renderer:rating with char & charClassName 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -220,7 +220,7 @@ exports[`Renderer:rating with char & charClassName 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -299,7 +299,7 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -328,7 +328,7 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -402,7 +402,7 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   选中数量
@@ -495,7 +495,7 @@ exports[`Renderer:rating with count & half 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -524,7 +524,7 @@ exports[`Renderer:rating with count & half 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -626,7 +626,7 @@ exports[`Renderer:rating with readOnly 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -655,7 +655,7 @@ exports[`Renderer:rating with readOnly 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -804,7 +804,7 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -833,7 +833,7 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   评分
@@ -907,7 +907,7 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   选中数量

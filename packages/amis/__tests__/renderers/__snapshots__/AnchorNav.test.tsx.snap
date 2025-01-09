@@ -68,7 +68,7 @@ exports[`Renderer:anchorNav 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           基本信息
@@ -97,7 +97,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 姓名：
@@ -133,7 +133,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 邮箱：
@@ -194,7 +194,7 @@ exports[`Renderer:anchorNav 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           工作信息
@@ -223,7 +223,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 公司名称：
@@ -259,7 +259,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 公司地址：
@@ -320,7 +320,7 @@ exports[`Renderer:anchorNav 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           兴趣爱好
@@ -349,7 +349,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好1：
@@ -385,7 +385,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好2：
@@ -421,7 +421,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好3：
@@ -457,7 +457,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好4：
@@ -493,7 +493,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好5：
@@ -529,7 +529,7 @@ exports[`Renderer:anchorNav 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 兴趣爱好6：
@@ -661,7 +661,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           基本信息
@@ -690,7 +690,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 姓名：
@@ -726,7 +726,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 邮箱：
@@ -787,7 +787,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           基本信息1-1
@@ -816,7 +816,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 cname1
@@ -852,7 +852,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 caddress1
@@ -913,7 +913,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           基本信息1-2
@@ -942,7 +942,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 cname2
@@ -978,7 +978,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 caddress2
@@ -1039,7 +1039,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           工作信息
@@ -1068,7 +1068,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 公司名称：
@@ -1104,7 +1104,7 @@ exports[`Renderer:anchorNav with children 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 公司地址：
@@ -1209,7 +1209,7 @@ exports[`Renderer:anchorNav with horizontal 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           基本信息
@@ -1238,7 +1238,7 @@ exports[`Renderer:anchorNav with horizontal 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 姓名：
@@ -1274,7 +1274,7 @@ exports[`Renderer:anchorNav with horizontal 1`] = `
                         >
                           <span>
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 邮箱：

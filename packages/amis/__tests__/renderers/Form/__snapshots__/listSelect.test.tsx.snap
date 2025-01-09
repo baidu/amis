@@ -13,7 +13,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -42,7 +42,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   单选
@@ -128,7 +128,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -157,7 +157,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   单选

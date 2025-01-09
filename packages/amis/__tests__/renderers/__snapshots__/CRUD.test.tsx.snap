@@ -88,7 +88,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -108,7 +108,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -128,7 +128,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -1286,7 +1286,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1297,7 +1297,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1308,7 +1308,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1321,7 +1321,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1355,7 +1355,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1366,7 +1366,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1377,7 +1377,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1390,7 +1390,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1424,7 +1424,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1435,7 +1435,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1446,7 +1446,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1459,7 +1459,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1493,7 +1493,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1504,7 +1504,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1515,7 +1515,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1528,7 +1528,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1562,7 +1562,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1573,7 +1573,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1584,7 +1584,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1597,7 +1597,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1631,7 +1631,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1642,7 +1642,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1653,7 +1653,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1666,7 +1666,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1700,7 +1700,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1711,7 +1711,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1722,7 +1722,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1735,7 +1735,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1769,7 +1769,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1780,7 +1780,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1791,7 +1791,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1804,7 +1804,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1838,7 +1838,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1849,7 +1849,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1860,7 +1860,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1873,7 +1873,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1907,7 +1907,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1918,7 +1918,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1929,7 +1929,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1942,7 +1942,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -2191,7 +2191,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -2211,7 +2211,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2231,7 +2231,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2846,7 +2846,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -2895,7 +2895,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine

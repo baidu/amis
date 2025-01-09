@@ -20,7 +20,7 @@ exports[`Renderer:TooltipWrapper with context data 1`] = `
               class="cxd-TooltipWrapper"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   body:this-is-text
@@ -80,7 +80,7 @@ exports[`Renderer:TooltipWrapper with offset 1`] = `
               class="cxd-TooltipWrapper mb-1"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   激活文字提示
@@ -122,7 +122,7 @@ exports[`Renderer:TooltipWrapper with showArrow 1`] = `
       class="cxd-TooltipWrapper"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           没有箭头
@@ -163,7 +163,7 @@ exports[`Renderer:TooltipWrapper with style & tooltipStyle 1`] = `
       style="font-style: italic;"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           一段文案
@@ -213,7 +213,7 @@ exports[`Renderer:TooltipWrapper with trigger & title 1`] = `
             class="cxd-TooltipWrapper mb-1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 hover激活文字提示
@@ -224,7 +224,7 @@ exports[`Renderer:TooltipWrapper with trigger & title 1`] = `
             class="cxd-TooltipWrapper mb-1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 click激活文字提示
@@ -245,7 +245,7 @@ exports[`Renderer:TooltipWrapper with wrapperComponent 1`] = `
       class="cxd-TooltipWrapper"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           function HelloWorld() {

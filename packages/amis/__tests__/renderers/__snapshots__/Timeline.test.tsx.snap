@@ -35,7 +35,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -96,7 +96,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -134,7 +134,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -172,7 +172,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div

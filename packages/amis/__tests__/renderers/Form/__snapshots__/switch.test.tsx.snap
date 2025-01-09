@@ -13,7 +13,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -42,7 +42,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   开关
@@ -97,7 +97,7 @@ exports[`Renderer:Switch Switch size 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -126,7 +126,7 @@ exports[`Renderer:Switch Switch size 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   开关

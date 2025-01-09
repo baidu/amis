@@ -19,7 +19,7 @@ exports[`Renderer:property 1`] = `
         <tr>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 cpu
@@ -30,7 +30,7 @@ exports[`Renderer:property 1`] = `
             colspan="1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 1 core
@@ -39,7 +39,7 @@ exports[`Renderer:property 1`] = `
           </td>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 memory
@@ -50,7 +50,7 @@ exports[`Renderer:property 1`] = `
             colspan="1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 4G
@@ -59,7 +59,7 @@ exports[`Renderer:property 1`] = `
           </td>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 disk
@@ -70,7 +70,7 @@ exports[`Renderer:property 1`] = `
             colspan="1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 80G
@@ -81,7 +81,7 @@ exports[`Renderer:property 1`] = `
         <tr>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 network
@@ -92,7 +92,7 @@ exports[`Renderer:property 1`] = `
             colspan="3"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 4M
@@ -101,7 +101,7 @@ exports[`Renderer:property 1`] = `
           </td>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 IDC
@@ -112,7 +112,7 @@ exports[`Renderer:property 1`] = `
             colspan="1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 beijing
@@ -123,7 +123,7 @@ exports[`Renderer:property 1`] = `
         <tr>
           <th>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 Note
@@ -134,7 +134,7 @@ exports[`Renderer:property 1`] = `
             colspan="5"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 其它说明
@@ -170,7 +170,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   cpu
@@ -179,7 +179,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 1 core
@@ -191,7 +191,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   memory
@@ -200,7 +200,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 4G
@@ -212,7 +212,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   disk
@@ -221,7 +221,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 80G
@@ -235,7 +235,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   network
@@ -244,7 +244,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 4M
@@ -256,7 +256,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   IDC
@@ -265,7 +265,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 beijing
@@ -279,7 +279,7 @@ exports[`Renderer:property simple 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Note
@@ -288,7 +288,7 @@ exports[`Renderer:property simple 1`] = `
             </span>
             ：
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 其它说明

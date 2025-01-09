@@ -13,7 +13,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   月份范围

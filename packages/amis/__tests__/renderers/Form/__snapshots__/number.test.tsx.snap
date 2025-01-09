@@ -13,7 +13,7 @@ exports[`Renderer:number 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:number 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -119,7 +119,7 @@ exports[`Renderer:number with big value 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -148,7 +148,7 @@ exports[`Renderer:number with big value 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -243,7 +243,7 @@ exports[`Renderer:number with borderMode 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -272,7 +272,7 @@ exports[`Renderer:number with borderMode 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -364,7 +364,7 @@ exports[`Renderer:number with borderMode 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -393,7 +393,7 @@ exports[`Renderer:number with borderMode 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -485,7 +485,7 @@ exports[`Renderer:number with precision and default value 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -514,7 +514,7 @@ exports[`Renderer:number with precision and default value 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -607,7 +607,7 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -636,7 +636,7 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -729,7 +729,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -758,7 +758,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number
@@ -871,7 +871,7 @@ exports[`Renderer:number with unitOptions 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -900,7 +900,7 @@ exports[`Renderer:number with unitOptions 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   number

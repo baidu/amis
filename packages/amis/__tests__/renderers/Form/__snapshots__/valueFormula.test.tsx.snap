@@ -13,7 +13,7 @@ exports[`Renderer:inputDate 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test1
@@ -78,7 +78,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test2(test)
@@ -114,7 +114,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test3(test1)
@@ -150,7 +150,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test4
@@ -186,7 +186,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test5
@@ -253,7 +253,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test6
@@ -289,7 +289,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test7(test6)
@@ -325,7 +325,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test8

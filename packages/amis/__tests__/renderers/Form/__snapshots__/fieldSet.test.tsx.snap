@@ -13,7 +13,7 @@ exports[`Renderer:fieldSet 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -115,7 +115,7 @@ exports[`Renderer:fieldSet with mode 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -162,7 +162,7 @@ exports[`Renderer:fieldSet with mode 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本1
@@ -202,7 +202,7 @@ exports[`Renderer:fieldSet with mode 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本2
@@ -256,7 +256,7 @@ exports[`Renderer:fieldSet with mode 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -303,7 +303,7 @@ exports[`Renderer:fieldSet with mode 2`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本1
@@ -343,7 +343,7 @@ exports[`Renderer:fieldSet with mode 2`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本2
@@ -397,7 +397,7 @@ exports[`Renderer:fieldSet with mode 3`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -444,7 +444,7 @@ exports[`Renderer:fieldSet with mode 3`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本1
@@ -480,7 +480,7 @@ exports[`Renderer:fieldSet with mode 3`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本2
@@ -530,7 +530,7 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -574,7 +574,7 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本1
@@ -610,7 +610,7 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             文本2
@@ -652,7 +652,7 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
               />
             </span>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 收起设置

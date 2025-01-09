@@ -13,7 +13,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -115,7 +115,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -144,7 +144,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -217,7 +217,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -246,7 +246,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label

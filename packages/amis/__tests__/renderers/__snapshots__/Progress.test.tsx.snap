@@ -22,7 +22,7 @@ exports[`Renderer:Progress 1`] = `
       class="cxd-Progress-line-text"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           60%
@@ -46,7 +46,7 @@ exports[`Renderer:Progress as form item 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -75,7 +75,7 @@ exports[`Renderer:Progress as form item 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   进度
@@ -109,7 +109,7 @@ exports[`Renderer:Progress as form item 1`] = `
                   class="cxd-Progress-line-text"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       61%
@@ -164,7 +164,7 @@ exports[`Renderer:Progress with map 1`] = `
       class="cxd-Progress-line-text"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           60%
@@ -215,7 +215,7 @@ exports[`Renderer:Progress with mode 1`] = `
         class="cxd-Progress-circle-text"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             63%
@@ -267,7 +267,7 @@ exports[`Renderer:Progress with mode 2`] = `
         class="cxd-Progress-circle-text"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             64%
@@ -301,7 +301,7 @@ exports[`Renderer:Progress with stripe & animate 1`] = `
       class="cxd-Progress-line-text"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           62%
@@ -354,7 +354,7 @@ exports[`Renderer:Progress with threshold & showThresholdText 1`] = `
       class="cxd-Progress-line-text"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           60%
@@ -405,7 +405,7 @@ exports[`Renderer:Progress with valueTpl 1`] = `
         class="cxd-Progress-circle-text"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             67个

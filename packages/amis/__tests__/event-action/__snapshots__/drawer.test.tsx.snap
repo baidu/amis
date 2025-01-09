@@ -52,7 +52,7 @@ exports[`EventAction:drawer 1`] = `
           class="cxd-Drawer-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               模态抽屉
@@ -332,7 +332,7 @@ exports[`EventAction:drawer args 1`] = `
           class="cxd-Drawer-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               模态抽屉
