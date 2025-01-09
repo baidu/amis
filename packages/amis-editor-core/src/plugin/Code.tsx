@@ -28,12 +28,9 @@ export class CodePlugin extends BasePlugin {
     if (this.manager.store.jsonSchemaUri && !selections.length) {
       panels.push({
         key: 'code',
-        icon: 'png-icon code-png', // 'fa fa-code',
-        title: (
-          <span className="editor-tab-icon" editor-tooltip="代码">
-            <Icon icon="editor-code" />
-          </span>
-        ),
+        // icon: 'png-icon code-png', // 'fa fa-code',
+        tooltip: '代码',
+        icon: <Icon icon="editor-code" />,
         position: 'left',
         component: WidthDraggableContainer(CodeEditorPanel),
         order: 5000

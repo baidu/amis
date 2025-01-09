@@ -25,12 +25,8 @@ export class AvailableRenderersPlugin extends BasePlugin {
     if (store.subRenderers.length) {
       panels.push({
         key: 'renderers',
-        icon: 'png-icon renderers-png', // 'fa fa-cube',
-        title: (
-          <span className="editor-tab-icon" editor-tooltip="组件">
-            <Icon icon="editor-renderer" />
-          </span>
-        ),
+        icon: <Icon icon="editor-renderer" />,
+        tooltip: '组件',
         component: AvailableRenderersPanel,
         position: 'left',
         order: -9999

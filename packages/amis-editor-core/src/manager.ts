@@ -2366,6 +2366,8 @@ export class EditorManager {
       event,
       elem,
       config,
+      richTextToken: this.env.richTextToken,
+      richTextOptions: this.config.richTextOptions,
       onCancel: () => {
         store.setActiveElement('');
       },
