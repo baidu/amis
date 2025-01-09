@@ -1220,7 +1220,7 @@ export class CardsRenderer extends Cards {
     index?: number | string,
     condition?: any
   ) {
-    const {store} = this.props;
+    const {store, host} = this.props;
 
     if (index !== undefined || condition !== undefined) {
       const targets = await getMatchedEventTargets<IItem>(
@@ -1232,9 +1232,14 @@ export class CardsRenderer extends Cards {
       targets.forEach(target => {
         target.updateData(values);
       });
-    } else {
-      return store.updateData(values, undefined, replace);
+      return;
     }
+
+    if (host) {
+      host.setData?.(values, replace);
+    }
+
+    return store.updateData(values, undefined, replace);
   }
 
   getData() {

@@ -1898,11 +1898,12 @@ test('25. CRUD Table Cell sync data to store', async () => {
 });
 
 describe.only('26. setValue 动作', () => {
-  it('table模式下，设置值后，页面能够自动更新', async () => {
+  const renderCrud = (mode: string) =>
     render(
       amisRender({
         type: 'crud',
         id: 'crud',
+        mode,
         data: {
           label: '点击前'
         },
@@ -1928,6 +1929,9 @@ describe.only('26. setValue 动作', () => {
       })
     );
 
+  it('table模式下，设置值后，页面能够自动更新', async () => {
+    renderCrud('table');
+
     await waitFor(() => {
       expect(screen.getByText('点击前')).toBeInTheDocument();
     });
@@ -1937,5 +1941,15 @@ describe.only('26. setValue 动作', () => {
     await waitFor(() => {
       expect(screen.getByText('点击后')).toBeInTheDocument();
     });
+  });
+
+  it('cards模式下，设置值后，页面能够自动更新', () => {
+    renderCrud('cards');
+
+    expect(screen.getByText('点击前')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('点击前'));
+
+    expect(screen.getByText('点击后')).toBeInTheDocument();
   });
 });
