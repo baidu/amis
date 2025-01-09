@@ -226,7 +226,7 @@
     .ae-Preview-inner {
       position: relative;
       // display: flex;
-      min-height: calc(100% - 40px);
+      min-height: calc(100% - 16px);
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
       border-radius: 4px;
@@ -418,9 +418,10 @@
 .ae-PreviewIFrame {
   pointer-events: all !important;
   border: 0 !important;
-  min-height: 100%;
+  // min-height: 100%;
   width: 100%;
-  height: auto !important;
+  // height: auto !important;
+  min-height: calc(100% - 46px);
 }
 
 .ae-IFramePreview {

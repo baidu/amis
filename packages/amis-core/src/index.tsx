@@ -259,13 +259,14 @@ export {
 
 export function render(
   schema: Schema,
-  props: RootRenderProps = {},
+  {key, ...props}: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
   return (
     <AMISRenderer
       {...props}
+      key={key}
       schema={schema}
       pathPrefix={pathPrefix}
       options={options}
