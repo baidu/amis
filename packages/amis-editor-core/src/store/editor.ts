@@ -173,6 +173,7 @@ export const MainStore = types
     hoverRegion: '',
     activeId: '',
     activeRegion: '', // 记录当前激活的子区域
+    activeElement: '', // 记录当前编辑的内联元素
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
     // 点选多个的时候用来记录， 单选单个的时候还是 activeId
@@ -1406,6 +1407,10 @@ export const MainStore = types
             }
           }
         }
+      },
+
+      setActiveElement(selector: string) {
+        self.activeElement = selector;
       },
 
       setSelections(ids: Array<string>) {

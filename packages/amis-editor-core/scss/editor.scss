@@ -730,6 +730,14 @@
     }
   }
 
+  &.focused {
+    border: 1px solid $Editor-hlbox--onActive-bg;
+    padding: 5px;
+    box-sizing: content-box;
+    transform: translate(-5px, -5px);
+    box-shadow: inset 0 0 10px rgba($Editor-hlbox--onActive-bg, 0.5);
+  }
+
   &.regionOn {
     background: transparent;
     z-index: 5;
@@ -1264,6 +1272,17 @@
 [data-editor-id][data-visible='false'][style*='position: static'],
 [data-editor-id][data-visible='false'][style*='position:static'] {
   position: relative !important;
+}
+
+[data-editor-id] [contenteditable]:focus {
+  outline: 0px solid transparent;
+}
+
+[data-editor-id] {
+  .fr-quick-insert,
+  .fr-qi-helper {
+    transform: translateX(60px);
+  }
 }
 
 .ae-Region-placeholder {

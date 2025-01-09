@@ -83,8 +83,8 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     currentDom.addEventListener('mousemove', this.handleMouseMove);
     currentDom.addEventListener('click', this.handleClick, true);
+    currentDom.addEventListener('dblclick', this.handleDBClick);
     currentDom.addEventListener('mouseover', this.handeMouseOver);
-
     currentDom.addEventListener('mousedown', this.handeMouseDown);
 
     this.props.manager.on('after-update', this.handlePanelChange);
@@ -96,8 +96,10 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
       currentDom.removeEventListener('mousemove', this.handleMouseMove);
       currentDom.removeEventListener('click', this.handleClick, true);
+      currentDom.removeEventListener('dblclick', this.handleDBClick);
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
+
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }
@@ -301,6 +303,12 @@ export default class Preview extends Component<PreviewProps> {
   @autobind
   handleClick(e: MouseEvent) {
     const store = this.props.store;
+
+    // 处于编辑态时，不响应点击事件
+    if (store.activeElement) {
+      return;
+    }
+
     const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
 
     if ((e.target as HTMLElement).closest('.ae-editor-action-btn')) {
@@ -348,6 +356,40 @@ export default class Preview extends Component<PreviewProps> {
       if (!event.prevented && !event.stoped) {
         e.preventDefault();
         e.stopPropagation();
+      }
+    }
+  }
+
+  @autobind
+  handleDBClick(e: MouseEvent) {
+    const store = this.props.store;
+    const target = e.target as HTMLElement;
+    const hostElem = target.closest(`[data-editor-id]`) as HTMLElement;
+    if (hostElem) {
+      const node = store.getNodeById(hostElem.getAttribute('data-editor-id')!);
+      if (!node) {
+        return;
+      }
+
+      const rendererInfo = node.info;
+
+      // 需要支持 :scope > xxx 语法，所以才这么写
+      let inlineElem: HTMLElement | undefined | null = null;
+      const inlineSetting = (rendererInfo.inlineEditableElements || []).find(
+        elem => {
+          inlineElem = (
+            [].slice.call(
+              hostElem.querySelectorAll(elem.match)
+            ) as Array<HTMLElement>
+          ).find(dom => dom.contains(target));
+          return !!inlineElem;
+        }
+      )!;
+
+      // 如果命中了支持内联编辑的元素，则开始内联编辑
+      if (inlineElem && inlineSetting) {
+        const manager = this.props.manager;
+        manager.startInlineEdit(node, inlineElem, inlineSetting, e);
       }
     }
   }
@@ -623,6 +665,7 @@ export default class Preview extends Component<PreviewProps> {
             >
               {node.childRegions.map(region =>
                 !node.memberImmutable(region.region) &&
+                !store.activeElement &&
                 !this.props.readonly &&
                 store.isRegionActive(region.id, region.region) ? (
                   <RegionHighlightBox
