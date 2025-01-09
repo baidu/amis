@@ -161,6 +161,7 @@ class CollapseGroup extends React.Component<
           className
         )}
         style={style}
+        data-role="container"
       >
         {this.getItems(children)}
       </div>

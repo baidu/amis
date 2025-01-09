@@ -4,6 +4,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -105,6 +106,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -206,6 +208,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"

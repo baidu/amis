@@ -26,6 +26,7 @@ exports[`doAction:crud reload 1`] = `
           <div
             class="cxd-Crud"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -1273,6 +1274,7 @@ exports[`doAction:crud reload with data1 1`] = `
           <div
             class="cxd-Crud is-loading"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -1543,6 +1545,7 @@ exports[`doAction:crud reload with data2 1`] = `
           <div
             class="cxd-Crud is-loading"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"

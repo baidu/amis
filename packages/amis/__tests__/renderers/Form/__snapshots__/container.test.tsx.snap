@@ -4,6 +4,7 @@ exports[`Renderer:container 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -54,6 +55,7 @@ exports[`Renderer:container 1`] = `
           >
             <div
               class="cxd-Container"
+              data-role="container"
             >
               <div
                 class="cxd-Container-body bg-white"

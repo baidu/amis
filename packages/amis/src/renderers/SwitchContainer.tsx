@@ -168,6 +168,7 @@ export default class SwitchContainer extends React.Component<
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={buildStyle(style, data)}
+        data-role="container"
       >
         {activeItem && this.renderBody(activeItem)}
 
