@@ -238,7 +238,7 @@ export class ItemPlugin extends BasePlugin {
                 getSchemaTpl('validationErrors'),
                 getSchemaTpl('validateOnChange'),
                 getSchemaTpl('submitOnChange'),
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'validateApi',
                   label: '校验接口',
                   description: '单独校验这个表单项的接口'
