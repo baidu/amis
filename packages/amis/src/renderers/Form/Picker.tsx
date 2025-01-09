@@ -544,9 +544,7 @@ export default class PickerControl extends React.PureComponent<
     } = this.props;
 
     return (
-      <OverflowTpl
-        inline={false}
-        tooltip={getVariable(item, labelField || 'label')}
+      <div
         key={index}
         className={cx(
           `${ns}Picker-value`,
@@ -580,31 +578,36 @@ export default class PickerControl extends React.PureComponent<
             ×
           </span>
         )}
-        <span
-          className={cx(
-            `${ns}Picker-valueLabel`,
-            setThemeClassName({
-              ...this.props,
-              name: 'pickFontClassName',
-              id,
-              themeCss: themeCss || css
-            })
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            this.handleItemClick(item);
-          }}
+        <OverflowTpl
+          inline={false}
+          tooltip={getVariable(item, labelField || 'label')}
         >
-          {labelTpl ? (
-            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
-          ) : (
-            `${
-              getVariable(item, labelField || 'label') ||
-              getVariable(item, 'id')
-            }`
-          )}
-        </span>
-      </OverflowTpl>
+          <span
+            className={cx(
+              `${ns}Picker-valueLabel`,
+              setThemeClassName({
+                ...this.props,
+                name: 'pickFontClassName',
+                id,
+                themeCss: themeCss || css
+              })
+            )}
+            onClick={e => {
+              e.stopPropagation();
+              this.handleItemClick(item);
+            }}
+          >
+            {labelTpl ? (
+              <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+            ) : (
+              `${
+                getVariable(item, labelField || 'label') ||
+                getVariable(item, 'id')
+              }`
+            )}
+          </span>
+        </OverflowTpl>
+      </div>
     );
   }
 
