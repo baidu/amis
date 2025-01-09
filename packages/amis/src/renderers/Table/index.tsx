@@ -3049,7 +3049,7 @@ export class TableRendererBase<
     index?: number | string,
     condition?: any
   ) {
-    const {store} = this.props;
+    const {store, host} = this.props;
 
     if (index !== undefined || condition !== undefined) {
       const targets = await this.getEventTargets(
@@ -3060,13 +3060,19 @@ export class TableRendererBase<
       targets.forEach(target => {
         target.updateData(values);
       });
-    } else {
-      const data = {
-        ...values,
-        rows: values.rows ?? values.items // 做个兼容
-      };
-      return store.updateData(data, undefined, replace);
+      return;
     }
+
+    if (host) {
+      host.setData?.(values, replace);
+    }
+
+    const data = {
+      ...values,
+      rows: values.rows ?? values.items // 做个兼容
+    };
+
+    return store.updateData(data, undefined, replace);
   }
 
   getData() {

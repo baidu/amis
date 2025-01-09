@@ -1896,3 +1896,46 @@ test('25. CRUD Table Cell sync data to store', async () => {
   const listDoms2 = container.querySelectorAll('.cxd-ListItem-title');
   expect(listDoms2.length).toEqual(0);
 });
+
+describe.only('26. setValue 动作', () => {
+  it('table模式下，设置值后，页面能够自动更新', async () => {
+    render(
+      amisRender({
+        type: 'crud',
+        id: 'crud',
+        data: {
+          label: '点击前'
+        },
+        headerToolbar: [
+          {
+            type: 'button',
+            label: '${label}',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'setValue',
+                    componentId: 'crud',
+                    args: {
+                      value: {label: '点击后'}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      })
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('点击前')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('点击前'));
+
+    await waitFor(() => {
+      expect(screen.getByText('点击后')).toBeInTheDocument();
+    });
+  });
+});
