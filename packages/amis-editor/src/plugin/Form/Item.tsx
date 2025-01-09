@@ -1,4 +1,7 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererInfoResolveEventContext
+} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -28,6 +31,30 @@ export class ItemPlugin extends BasePlugin {
   panelTitle = '表单项';
   order = -990;
   pluginIcon = 'form-plugin';
+
+  afterResolveEditorInfo(event: PluginEvent<RendererInfoResolveEventContext>) {
+    if (event.data && event.context.renderer.isFormItem) {
+      // 给表单项目 label， description 添加快速内联编辑功能
+      let inlineEditableElements =
+        event.data.inlineEditableElements?.concat() || [];
+
+      inlineEditableElements.push(
+        {
+          match: '.cxd-Form-label',
+          key: 'label'
+        },
+        {
+          match: '.cxd-Form-description',
+          key: 'description'
+        }
+      );
+
+      event.setData({
+        ...event.data,
+        inlineEditableElements
+      });
+    }
+  }
 
   buildEditorPanel(
     context: BuildPanelEventContext,

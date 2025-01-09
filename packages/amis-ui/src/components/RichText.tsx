@@ -319,3 +319,5 @@ export default class extends React.Component<any, any> {
     );
   }
 }
+
+export {FroalaEditor};

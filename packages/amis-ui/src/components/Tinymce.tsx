@@ -697,3 +697,5 @@ tinymce.addI18n('zh_CN', {
   'Caption': '\u6807\u9898',
   'Insert template': '\u63d2\u5165\u6a21\u677f'
 });
+
+export {tinymce};
