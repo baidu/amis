@@ -1958,12 +1958,12 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     //   // newUnSelectedItems.push(...unSelectedItems);
     // }
 
-    // if (pickerMode && multiple === false && newItems.length > 1) {
-    //   newUnSelectedItems.push.apply(
-    //     newUnSelectedItems,
-    //     newItems.splice(0, newItems.length - 1)
-    //   );
-    // }
+    if (pickerMode && multiple === false && newItems.length > 1) {
+      newUnSelectedItems.push.apply(
+        newUnSelectedItems,
+        newItems.splice(0, newItems.length - 1)
+      );
+    }
     // 用 updateSelectData 导致 CRUD 无限刷新
     // store.updateSelectData(newItems, newUnSelectedItems);
     store.setSelectedItems(newItems);
