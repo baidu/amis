@@ -483,9 +483,10 @@ export interface PanelProps {
 export interface PanelItem {
   nodeId?: string;
   key: string;
-  icon: string;
+  icon: React.ReactNode;
+  tooltip?: string;
   pluginIcon?: string; // 新版icon（svg）
-  title: string | JSX.Element; // 标题
+  title?: React.ReactNode; // 标题
   component?: React.ComponentType<PanelProps | any>;
   order: number;
   position?: 'left' | 'right';

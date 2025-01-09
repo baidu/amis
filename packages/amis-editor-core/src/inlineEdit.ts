@@ -25,6 +25,8 @@ export interface InlineEditContext {
   event?: MouseEvent;
   onConfirm: (value: string) => void;
   onCancel: () => void;
+  richTextToken?: string;
+  richTextOptions?: any;
 }
 
 /**
@@ -108,6 +110,8 @@ async function startRichTextEdit({
   elem,
   event,
   node,
+  richTextToken,
+  richTextOptions,
   onConfirm,
   onCancel
 }: InlineEditContext) {
@@ -138,8 +142,10 @@ async function startRichTextEdit({
   const editor = new FroalaEditor(
     `[data-froala-id="${id}"]`,
     {
+      iframe_document: elem.ownerDocument,
       toolbarInline: true,
       charCounterCount: false,
+      key: richTextToken,
       // todo 现在这个按钮的位置又问题，先忽略
       // quickInsertEnabled: false,
       toolbarButtons: [
@@ -158,6 +164,8 @@ async function startRichTextEdit({
         'insertEmotion',
         'insertTable'
       ],
+      imageUpload: false,
+      ...richTextOptions,
       events: {
         blur: cleanup,
         keydown: (e: KeyboardEvent) => {

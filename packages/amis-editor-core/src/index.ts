@@ -45,6 +45,8 @@ import {SchemaForm} from './component/base/SchemaForm';
 import {RendererThumb} from './component/RendererThumb';
 import {AvailableRenderersPanel} from './component/Panel/AvailableRenderersPanel';
 import {deepSplice} from './deepSplice';
+import type {RightPanelsProps} from './component/Panel/RightPanels';
+import type {LeftPanelsProps} from './component/Panel/LeftPanels';
 
 export const version = '__buildVersion';
 (window as any).amisEditorVersionInfo = {
@@ -82,5 +84,7 @@ export {
   SchemaForm as SchemaFrom, // 兼容老版本
   SchemaForm,
   WidthDraggableContainer,
-  RendererThumb
+  RendererThumb,
+  LeftPanelsProps,
+  RightPanelsProps
 };
