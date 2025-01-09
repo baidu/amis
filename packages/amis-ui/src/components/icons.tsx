@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React, {createElement} from 'react';
+import React, {createElement, useEffect} from 'react';
 import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -111,7 +111,7 @@ import If from '../icons/if.svg';
 import RotateScreen from '../icons/rotate-screen.svg';
 
 import isObject from 'lodash/isObject';
-import type {TestIdBuilder} from 'amis-core';
+import {getCustomVendor, type TestIdBuilder} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -265,6 +265,109 @@ export interface IconCheckedSchemaNew {
   icon: IconCheckedSchema;
 }
 
+function svgString2Dom(
+  icon: string,
+  {
+    className,
+    classNameProp,
+    style,
+    cx,
+    events,
+    extra
+  }: {
+    [propName: string]: any;
+  },
+  vendor?: string
+) {
+  icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+  const fn = getCustomVendor(vendor);
+  if (fn) {
+    const {icon: newIcon, style: newStyle} = fn(icon, {
+      ...extra,
+      width: style.width,
+      height: style.height
+    });
+    icon = newIcon;
+    style = Object.assign(style, newStyle);
+  }
+  const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+  const viewBox = /viewBox="(.*?)"/.exec(icon);
+  const svgHTML = createElement('svg', {
+    ...events,
+    className: cx('icon', className, classNameProp),
+    style,
+    dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+    viewBox: viewBox?.[1] || '0 0 16 16'
+  });
+  return svgHTML;
+}
+
+function LinkIcon({
+  icon,
+  vendor,
+  options: {className, classNameProp, style, cx, classPrefix, events, extra}
+}: {
+  icon: string;
+  vendor?: string;
+  options: {
+    [propName: string]: any;
+  };
+}) {
+  const [svgIcon, setSvgIcon] = React.useState<string | undefined>(undefined);
+  if (icon.endsWith('.svg')) {
+    useEffect(() => {
+      try {
+        fetch(icon)
+          .then(res => res.text())
+          .then(svg => {
+            setSvgIcon(svg);
+          })
+          .catch(() => {
+            setSvgIcon('error');
+          });
+      } catch (error) {
+        setSvgIcon('error');
+      }
+    }, [icon]);
+    if (svgIcon) {
+      if (svgIcon === 'error') {
+        return (
+          <img
+            {...events}
+            className={cx(`${classPrefix}Icon`, className, classNameProp)}
+            src={icon}
+            style={style}
+          />
+        );
+      } else {
+        return svgString2Dom(
+          svgIcon,
+          {
+            className,
+            classNameProp,
+            style,
+            cx,
+            events,
+            extra
+          },
+          vendor
+        );
+      }
+    } else {
+      return null;
+    }
+  } else {
+    return (
+      <img
+        {...events}
+        className={cx(`${classPrefix}Icon`, className, classNameProp)}
+        src={icon}
+        style={style}
+      />
+    );
+  }
+}
+
 export function Icon({
   icon,
   className,
@@ -288,6 +391,9 @@ export function Icon({
   onTouchEnd,
   onTouchCancel,
   style,
+  width,
+  height,
+  extra,
   testIdBuilder
 }: {
   icon: string;
@@ -295,6 +401,25 @@ export function Icon({
   testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
+
+  // style = {
+  //   ...(style || {}),
+  //   width: width || style?.width,
+  //   height: height || style?.height
+  // };
+
+  if (width !== undefined) {
+    style = {
+      ...style,
+      width
+    };
+  }
+  if (height !== undefined) {
+    style = {
+      ...style,
+      height
+    };
+  }
 
   if (typeof jest !== 'undefined' && icon) {
     iconContent = '';
@@ -416,28 +541,36 @@ export function Icon({
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
-    icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-    const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
-    const viewBox = /viewBox="(.*?)"/.exec(icon);
-    const svgHTML = createElement('svg', {
-      ...events,
-      className: cx('icon', className, classNameProp),
-      style,
-      dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
-      viewBox: viewBox?.[1] || '0 0 16 16'
-    });
-    return svgHTML;
+    return svgString2Dom(
+      icon,
+      {
+        className,
+        classNameProp,
+        style,
+        cx,
+        events,
+        extra
+      },
+      vendor
+    );
   }
 
   // icon是链接
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
   if (isURLIcon) {
     return (
-      <img
-        {...events}
-        className={cx(`${classPrefix}Icon`, className, classNameProp)}
-        src={icon}
-        style={style}
+      <LinkIcon
+        icon={icon}
+        vendor={vendor}
+        options={{
+          className,
+          classNameProp,
+          style,
+          cx,
+          classPrefix,
+          events,
+          extra
+        }}
       />
     );
   }

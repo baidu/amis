@@ -1523,7 +1523,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         | 'input' // 用户交互改变
         | 'defaultValue' // 默认值
     ) {
-      self.tmpValue = value;
+      // 清除因extraName导致清空时value为空值数组，进而导致必填校验不生效的异常情况
+      if (self.extraName && Array.isArray(value)) {
+        self.tmpValue = value.filter(item => item).length ? value : '';
+      } else {
+        self.tmpValue = value;
+      }
+
       if (changeReason) {
         self.changeMotivation = changeReason;
       }

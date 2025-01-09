@@ -2846,7 +2846,9 @@ export default class Table<
               'Table-table--checkOnItemClick': checkOnItemClick,
               'Table-table--withCombine': store.combineNum > 0,
               'Table-table--affixHeader':
-                affixHeader && !autoFillHeight && store.columnWidthReady
+                affixHeader && !autoFillHeight && store.columnWidthReady,
+              'Table-table--tableFillHeight':
+                autoFillHeight && !store.items.length
             },
             tableClassName
           )}
@@ -2959,7 +2961,9 @@ export default class Table<
   }
 }
 
-export class TableRendererBase extends Table {
+export class TableRendererBase<
+  T extends TableProps = TableProps
+> extends Table<T> {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
 

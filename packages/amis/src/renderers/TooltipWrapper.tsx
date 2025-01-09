@@ -121,6 +121,11 @@ export interface TooltipWrapperSchema extends BaseSchema {
   className?: string;
 
   /**
+   * 箭头CSS类名
+   */
+  tooltipArrowClassName?: string;
+
+  /**
    * 文字提示浮层CSS类名
    */
   tooltipClassName?: string;
@@ -237,6 +242,7 @@ export default class TooltipWrapper extends React.Component<
       classPrefix: ns,
       classnames: cx,
       tooltipClassName,
+      tooltipArrowClassName,
       tooltipTheme,
       container,
       placement,
@@ -267,6 +273,7 @@ export default class TooltipWrapper extends React.Component<
       placement,
       trigger,
       rootClose,
+      tooltipArrowClassName,
       container:
         container !== undefined
           ? container
