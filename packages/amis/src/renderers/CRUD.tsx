@@ -3004,6 +3004,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         })}
         style={style}
         data-id={id}
+        data-role="container"
         {...testIdBuilder?.getChild('wrapper').getTestId()}
       >
         {this.renderFilter()}

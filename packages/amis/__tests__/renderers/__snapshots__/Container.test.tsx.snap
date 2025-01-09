@@ -17,6 +17,7 @@ exports[`Renderer:container 1`] = `
         >
           <div
             class="cxd-Container bg-white"
+            data-role="container"
           >
             <div
               class="cxd-Container-body"

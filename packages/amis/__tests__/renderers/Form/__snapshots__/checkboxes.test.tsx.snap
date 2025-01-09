@@ -4,6 +4,7 @@ exports[`Renderer:checkboxes 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -172,6 +173,7 @@ exports[`Renderer:checkboxes 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -336,6 +338,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -564,6 +567,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -792,6 +796,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1020,6 +1025,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1192,6 +1198,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1368,6 +1375,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1615,6 +1623,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1794,6 +1803,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
   <div>
     <div
       class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+      data-role="container"
     >
       <div
         class="cxd-Panel-heading"
@@ -2128,6 +2138,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2376,6 +2387,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
   <div>
     <div
       class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+      data-role="container"
     >
       <div
         class="cxd-Panel-heading"
@@ -2706,6 +2718,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2890,6 +2903,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -3074,6 +3088,7 @@ exports[`Renderer:checkboxes with group 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -3294,6 +3309,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -3482,6 +3498,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -3635,6 +3652,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
   <div>
     <div
       class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+      data-role="container"
     >
       <div
         class="cxd-Panel-heading"
@@ -3867,6 +3885,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"

@@ -86,6 +86,7 @@ exports[`1. Renderer:Picker base 1`] = `
       >
         <div
           class="cxd-Crud"
+          data-role="container"
         >
           <div
             class="cxd-List cxd-Crud-body"

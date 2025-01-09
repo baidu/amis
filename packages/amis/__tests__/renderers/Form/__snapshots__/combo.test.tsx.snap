@@ -17,6 +17,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -538,6 +539,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -816,6 +818,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1099,6 +1102,7 @@ exports[`Renderer:combo with draggable 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1450,6 +1454,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1563,6 +1568,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1696,6 +1702,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -2094,6 +2101,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -2147,6 +2155,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                     >
                       <div
                         class="cxd-Tabs cxd-ComboTabs"
+                        data-role="container"
                       >
                         <div
                           class="cxd-Tabs-linksContainer-wrapper"

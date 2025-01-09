@@ -4,6 +4,7 @@ exports[`Renderer:list 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -103,6 +104,7 @@ exports[`Renderer:list:multiple clearable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -217,6 +219,7 @@ exports[`Renderer:list:multiple clearable 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -331,6 +334,7 @@ exports[`Renderer:list:multiple clearable 3`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"

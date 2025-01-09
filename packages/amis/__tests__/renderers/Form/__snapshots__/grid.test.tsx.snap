@@ -4,6 +4,7 @@ exports[`Renderer:hbox 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -37,6 +38,7 @@ exports[`Renderer:hbox 1`] = `
         >
           <div
             class="cxd-Grid"
+            data-role="container"
           >
             <div
               class="cxd-Grid-col--md3 bg-white"

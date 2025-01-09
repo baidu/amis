@@ -17,6 +17,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -187,6 +188,7 @@ exports[`Renderer:range with marks 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -330,6 +332,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -553,6 +556,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -771,6 +775,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -913,6 +918,7 @@ exports[`Renderer:range with showSteps 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1088,6 +1094,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"

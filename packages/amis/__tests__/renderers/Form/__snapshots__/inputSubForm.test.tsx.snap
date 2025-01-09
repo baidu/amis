@@ -8,6 +8,7 @@ exports[`Renderer:InputSubForm base 1`] = `
   <div>
     <div
       class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+      data-role="container"
     >
       <div
         class="cxd-Panel-heading"
@@ -259,6 +260,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -409,6 +411,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -619,6 +622,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
