@@ -209,7 +209,7 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
   if (listeners) {
     for (let key of Object.keys(listeners)) {
       const listener = listeners[key];
-      if (!BroadcastChannel) {
+      if (typeof BroadcastChannel !== 'function') {
         console.error('BroadcastChannel is not supported in your browser');
         return;
       }
@@ -247,7 +247,7 @@ export const bindGlobalEvent = (
   eventName: string,
   callback: (data: PlainObject) => void
 ) => {
-  if (!BroadcastChannel) {
+  if (typeof BroadcastChannel !== 'function') {
     console.error('BroadcastChannel is not supported in your browser');
     return;
   }
@@ -419,7 +419,7 @@ export async function dispatchGlobalEventForRenderer(
 }
 
 export async function dispatchGlobalEvent(eventName: string, data: any) {
-  if (!BroadcastChannel) {
+  if (typeof BroadcastChannel !== 'function') {
     console.error('BroadcastChannel is not supported in your browser');
     return;
   }
