@@ -21,10 +21,18 @@ export interface LotterySchema extends BaseSchema {
    */
   type: 'lottery';
 
-  /**
-   * 奖品列表
-   * */
-  items: {name: string; pictureUrl: string}[];
+  //宽度，默认300px
+  width?: number;
+  //高度，默认300px
+  height?: number;
+  //奖品列表
+  items: {name: string; pictureUrl: string; id: number}[];
+  // 开始按钮
+  children?: React.ReactNode;
+  //目标索引（中奖）
+  targetIndex?: number;
+  // 结束回调
+  callback?: (index: number) => void;
 }
 
 @Renderer({

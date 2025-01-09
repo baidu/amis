@@ -1,16 +1,24 @@
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
 
-let now = 0,
-  count = 0,
-  timer: null | NodeJS.Timer = null,
-  speed = 50;
+let now = 0;
+let count = 0;
+let timer: null | NodeJS.Timer = null;
+let speed = 50;
 
 interface SquareNineProps extends ThemeProps {
+  //宽度，默认300px
   width?: number;
+  //高度，默认300px
   height?: number;
+  //奖品列表
   items: {name: string; pictureUrl: string; id: number}[];
+  // 开始按钮
   children?: React.ReactNode;
+  //目标索引（中奖）
+  targetIndex?: number;
+  // 结束回调
+  callback?: (index: number) => void;
 }
 
 interface CallBackFn {
@@ -48,6 +56,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
     this.changeFn(index, fn);
   };
 
+  //重置抽奖状态
   reset = () => {
     this.setState({off: 1});
     now = 0;
@@ -68,6 +77,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
     }
   }
 
+  //抽奖动画效果
   changeFn = (index: number, fn?: CallBackFn) => {
     let _item = document.querySelectorAll('.luckNineWrap .luckNineItem');
     now = ++now % (_item.length - 1);
@@ -87,6 +97,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
       speed = 50;
       this.setState({off: 1});
       fn && fn(now);
+      this.props.callback && this.props.callback(now);
     }
   };
 
@@ -135,7 +146,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           <div
             className="luckNineItem startBtn"
             data-index="8"
-            onClick={() => this.start(2)}
+            onClick={() => this.start(this.props.targetIndex || 0)}
           >
             {this.props.children ? this.props.children : <span>开始</span>}
           </div>
