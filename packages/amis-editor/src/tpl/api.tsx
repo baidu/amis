@@ -325,7 +325,7 @@ setSchemaTpl('api', (patch: any = {}) => {
 });
 
 setSchemaTpl('source', (patch: any = {}) => {
-  return getSchemaTpl('api', {
+  return getSchemaTpl('apiControl', {
     name: 'source',
     label: '获取选项接口',
     description: '可以通过接口获取动态选项，一次拉取全部。',
