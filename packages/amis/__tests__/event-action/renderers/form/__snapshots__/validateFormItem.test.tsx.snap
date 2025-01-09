@@ -41,7 +41,7 @@ exports[`doAction:formItem validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -79,7 +79,7 @@ exports[`doAction:formItem validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -116,7 +116,7 @@ exports[`doAction:formItem validate 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -145,7 +145,7 @@ exports[`doAction:formItem validate 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -193,7 +193,7 @@ exports[`doAction:formItem validate 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -291,7 +291,7 @@ exports[`doAction:formItem validate 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -329,7 +329,7 @@ exports[`doAction:formItem validate 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -366,7 +366,7 @@ exports[`doAction:formItem validate 2`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -395,7 +395,7 @@ exports[`doAction:formItem validate 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -443,7 +443,7 @@ exports[`doAction:formItem validate 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -548,7 +548,7 @@ exports[`doAction:formItem validate 3`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -587,7 +587,7 @@ exports[`doAction:formItem validate 3`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -624,7 +624,7 @@ exports[`doAction:formItem validate 3`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -653,7 +653,7 @@ exports[`doAction:formItem validate 3`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -701,7 +701,7 @@ exports[`doAction:formItem validate 3`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -806,7 +806,7 @@ exports[`doAction:formItem validate 4`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -845,7 +845,7 @@ exports[`doAction:formItem validate 4`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -882,7 +882,7 @@ exports[`doAction:formItem validate 4`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -911,7 +911,7 @@ exports[`doAction:formItem validate 4`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -952,7 +952,7 @@ exports[`doAction:formItem validate 4`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -1050,7 +1050,7 @@ exports[`doAction:formItem validate 5`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -1089,7 +1089,7 @@ exports[`doAction:formItem validate 5`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -1126,7 +1126,7 @@ exports[`doAction:formItem validate 5`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1155,7 +1155,7 @@ exports[`doAction:formItem validate 5`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -1196,7 +1196,7 @@ exports[`doAction:formItem validate 5`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -1294,7 +1294,7 @@ exports[`doAction:formItem validate 6`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -1333,7 +1333,7 @@ exports[`doAction:formItem validate 6`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -1370,7 +1370,7 @@ exports[`doAction:formItem validate 6`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1399,7 +1399,7 @@ exports[`doAction:formItem validate 6`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -1440,7 +1440,7 @@ exports[`doAction:formItem validate 6`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：

@@ -13,7 +13,7 @@ exports[`Renderer:text 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -42,7 +42,7 @@ exports[`Renderer:text 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -103,7 +103,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -132,7 +132,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -200,7 +200,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -229,7 +229,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -290,7 +290,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -319,7 +319,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -380,7 +380,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -409,7 +409,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -478,7 +478,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -507,7 +507,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -576,7 +576,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -605,7 +605,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -673,7 +673,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -702,7 +702,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -763,7 +763,7 @@ exports[`Renderer:text with addOn 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -792,7 +792,7 @@ exports[`Renderer:text with addOn 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -865,7 +865,7 @@ exports[`Renderer:text with clearable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -894,7 +894,7 @@ exports[`Renderer:text with clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -963,7 +963,7 @@ exports[`Renderer:text with counter 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -992,7 +992,7 @@ exports[`Renderer:text with counter 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1058,7 +1058,7 @@ exports[`Renderer:text with counter 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1087,7 +1087,7 @@ exports[`Renderer:text with counter 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1153,7 +1153,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1182,7 +1182,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1249,7 +1249,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1278,7 +1278,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1345,7 +1345,7 @@ exports[`Renderer:text with minLength 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1374,7 +1374,7 @@ exports[`Renderer:text with minLength 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1444,7 +1444,7 @@ exports[`Renderer:text with options 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1473,7 +1473,7 @@ exports[`Renderer:text with options 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1538,7 +1538,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1567,7 +1567,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1707,7 +1707,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1736,7 +1736,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1877,7 +1877,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1906,7 +1906,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2046,7 +2046,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2075,7 +2075,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2218,7 +2218,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2247,7 +2247,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2370,7 +2370,7 @@ exports[`Renderer:text with options: options is open 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2399,7 +2399,7 @@ exports[`Renderer:text with options: options is open 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2497,7 +2497,7 @@ exports[`Renderer:text with options: select first option 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2526,7 +2526,7 @@ exports[`Renderer:text with options: select first option 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2593,7 +2593,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2622,7 +2622,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text

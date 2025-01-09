@@ -119,7 +119,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             type="submit"
           />
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               这是最后一步了
@@ -278,7 +278,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -314,7 +314,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称
@@ -394,7 +394,7 @@ exports[`Renderer:Wizard default 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -435,7 +435,7 @@ exports[`Renderer:Wizard default 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称
@@ -611,7 +611,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             网址
@@ -647,7 +647,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             名称
@@ -758,7 +758,7 @@ exports[`Renderer:Wizard dialog 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     Name
@@ -953,7 +953,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             网址
@@ -989,7 +989,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             名称
@@ -1220,7 +1220,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -1261,7 +1261,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称
@@ -1461,7 +1461,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             网址
@@ -1497,7 +1497,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             名称
@@ -1679,7 +1679,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                     type="submit"
                   />
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       这是最后一步了
@@ -1849,7 +1849,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                     type="submit"
                   />
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       这是最后一步了
@@ -2089,7 +2089,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -2130,7 +2130,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称
@@ -2215,7 +2215,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -2252,7 +2252,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称
@@ -2404,7 +2404,7 @@ exports[`Renderer:Wizard send data 1`] = `
             type="submit"
           />
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               这是最后一步了
@@ -2609,7 +2609,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     邮箱
@@ -2827,7 +2827,7 @@ exports[`Renderer:Wizard target 1`] = `
                     type="submit"
                   />
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       这是最后一步了
@@ -2869,7 +2869,7 @@ exports[`Renderer:Wizard target 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -2898,7 +2898,7 @@ exports[`Renderer:Wizard target 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           Website
@@ -2934,7 +2934,7 @@ exports[`Renderer:Wizard target 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           Name
@@ -3154,7 +3154,7 @@ exports[`Renderer:Wizard validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     网址
@@ -3202,7 +3202,7 @@ exports[`Renderer:Wizard validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名称

@@ -13,7 +13,7 @@ exports[`Renderer:chained-select 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -174,7 +174,7 @@ exports[`Renderer:chained-select 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   级联下拉

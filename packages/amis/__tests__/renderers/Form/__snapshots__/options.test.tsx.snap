@@ -20,7 +20,7 @@ exports[`options:linkage 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -74,7 +74,7 @@ exports[`options:linkage 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -147,7 +147,7 @@ exports[`options:linkage 2`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -201,7 +201,7 @@ exports[`options:linkage 2`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -275,7 +275,7 @@ exports[`options:linkage 3`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -329,7 +329,7 @@ exports[`options:linkage 3`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -384,7 +384,7 @@ exports[`options:linkage 4`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -438,7 +438,7 @@ exports[`options:linkage 4`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y

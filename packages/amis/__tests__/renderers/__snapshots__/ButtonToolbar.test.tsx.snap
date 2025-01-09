@@ -12,7 +12,7 @@ exports[`Renderer:button-toolbar 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             button-toolbar

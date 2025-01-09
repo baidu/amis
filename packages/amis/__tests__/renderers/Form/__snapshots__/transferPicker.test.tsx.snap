@@ -26,7 +26,7 @@ exports[`Renderer:transfer-picker 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -55,7 +55,7 @@ exports[`Renderer:transfer-picker 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           组合穿梭器

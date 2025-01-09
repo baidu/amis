@@ -13,7 +13,7 @@ exports[`Renderer:static 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:static 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   label
@@ -135,7 +135,7 @@ exports[`Renderer:static-quickEdit-icon 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             label
@@ -183,7 +183,7 @@ exports[`Renderer:static2 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -212,7 +212,7 @@ exports[`Renderer:static2 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   a
@@ -236,7 +236,7 @@ exports[`Renderer:static2 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   b
@@ -272,7 +272,7 @@ exports[`Renderer:static2 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   c
@@ -302,7 +302,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       a
@@ -330,7 +330,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       b
@@ -370,7 +370,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       c
@@ -402,7 +402,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       a
@@ -442,7 +442,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       b
@@ -482,7 +482,7 @@ exports[`Renderer:static2 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       c

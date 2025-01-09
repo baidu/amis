@@ -44,7 +44,7 @@ exports[`Renderer:table 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -64,7 +64,7 @@ exports[`Renderer:table 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Version
@@ -371,7 +371,7 @@ exports[`Renderer:table align 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -418,7 +418,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -445,7 +445,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -472,7 +472,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -499,7 +499,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     3
@@ -526,7 +526,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -553,7 +553,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -580,7 +580,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -607,7 +607,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -634,7 +634,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -661,7 +661,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -751,7 +751,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -771,7 +771,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -791,7 +791,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -811,7 +811,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -831,7 +831,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -851,7 +851,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -1278,7 +1278,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -1298,7 +1298,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Version
@@ -1605,7 +1605,7 @@ exports[`Renderer:table column head style className 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -1626,7 +1626,7 @@ exports[`Renderer:table column head style className 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Platform
@@ -1962,7 +1962,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -1982,7 +1982,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2002,7 +2002,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -2022,7 +2022,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -2042,7 +2042,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -2498,7 +2498,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2518,7 +2518,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2538,7 +2538,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -2558,7 +2558,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -2578,7 +2578,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -3130,7 +3130,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -3144,7 +3144,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -3163,7 +3163,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -3183,7 +3183,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -3203,7 +3203,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -3223,7 +3223,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -3243,7 +3243,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -3870,7 +3870,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -3887,7 +3887,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -3909,7 +3909,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -3928,7 +3928,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -3947,7 +3947,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -3967,7 +3967,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -3987,7 +3987,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -4617,7 +4617,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -4639,7 +4639,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -4661,7 +4661,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -4680,7 +4680,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -4699,7 +4699,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -4719,7 +4719,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -5346,7 +5346,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -5360,7 +5360,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -5379,7 +5379,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -5399,7 +5399,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -5419,7 +5419,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -5439,7 +5439,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -5459,7 +5459,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -6041,7 +6041,7 @@ exports[`Renderer:table isHead fixed 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -6062,7 +6062,7 @@ exports[`Renderer:table isHead fixed 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Platform
@@ -6419,7 +6419,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       ID
@@ -6439,7 +6439,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       文本
@@ -6459,7 +6459,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       图片
@@ -6479,7 +6479,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       日期
@@ -6499,7 +6499,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       进度
@@ -6519,7 +6519,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       状态
@@ -6539,7 +6539,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       开关
@@ -6559,7 +6559,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       映射
@@ -6579,7 +6579,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       List
@@ -6674,7 +6674,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         22%
@@ -6729,7 +6729,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span
@@ -6917,7 +6917,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         85%
@@ -6972,7 +6972,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span
@@ -7280,7 +7280,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         72%
@@ -7334,7 +7334,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span

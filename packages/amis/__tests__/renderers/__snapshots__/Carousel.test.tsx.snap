@@ -130,7 +130,7 @@ exports[`Renderer:Carousel with itemSchema & width & height 1`] = `
         class="cxd-Carousel-item fade in"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <div
