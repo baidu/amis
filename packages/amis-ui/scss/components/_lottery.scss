@@ -38,6 +38,14 @@
     background-size: 100% 100%;
     transition: all .05s ease;
 
+    .active {
+      background-image: linear-gradient(#f69d7c, #f46c72) !important;
+
+      .luckNineItem-title {
+        color: #fff !important;
+      }
+    }
+
     .luckNineItem {
       border-radius: 5px;
       padding: 5px;
@@ -82,13 +90,5 @@
       background-image: linear-gradient(#f69d7c, #f46c72);
       transition: all 1s ease-in;
     }
-  }
-
-  .luckNineWrap div.active {
-    background-image: linear-gradient(#f69d7c, #f46c72);
-  }
-
-  .luckNineWrap div.active .luckNineItem-title {
-    color: #fff;
   }
 }

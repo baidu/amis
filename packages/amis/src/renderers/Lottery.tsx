@@ -7,7 +7,7 @@ import type {BaseSchema} from 'amis';
 interface SquareNineProps extends RendererProps {
   width?: number;
   height?: number;
-  prizeList: {name: string; pictureUrl: string; id: number}[];
+  items: {name: string; pictureUrl: string; id: number}[];
   children?: React.ReactNode;
 }
 /**
@@ -24,7 +24,7 @@ export interface LotterySchema extends BaseSchema {
   /**
    * 奖品列表
    * */
-  prizeList: {name: string; pictureUrl: string}[];
+  items: {name: string; pictureUrl: string}[];
 }
 
 @Renderer({
@@ -34,7 +34,7 @@ export class LotteryRenderer extends React.Component<
   Omit<SquareNineProps, 'actions'> & RendererProps
 > {
   render() {
-    const {prizeList, ...rest} = this.props;
-    return <SquareNineComponent prizeList={prizeList} {...rest} />;
+    const {items, ...rest} = this.props;
+    return <SquareNineComponent items={items} {...rest} />;
   }
 }

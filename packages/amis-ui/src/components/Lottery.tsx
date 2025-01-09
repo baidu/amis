@@ -9,7 +9,7 @@ let now = 0,
 interface SquareNineProps extends ThemeProps {
   width?: number;
   height?: number;
-  prizeList: {name: string; pictureUrl: string; id: number}[];
+  items: {name: string; pictureUrl: string; id: number}[];
   children?: React.ReactNode;
 }
 
@@ -103,89 +103,73 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           <div className="luckNineItem" data-index="0">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[0].pictureUrl}
+              src={this.props.items[0].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[0].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[0].name}</div>
           </div>
           <div className="luckNineItem" data-index="1">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[1].pictureUrl}
+              src={this.props.items[1].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[1].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[1].name}</div>
           </div>
           <div className="luckNineItem" data-index="2">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[2].pictureUrl}
+              src={this.props.items[2].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[2].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[2].name}</div>
           </div>
           <div className="luckNineItem" data-index="7">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[7].pictureUrl}
+              src={this.props.items[7].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[7].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[7].name}</div>
           </div>
-          <div className="luckNineItem startBtn" data-index="8">
-            {this.props.children ? (
-              this.props.children
-            ) : (
-              <span onClick={() => this.start(2)}>开始</span>
-            )}
+          <div
+            className="luckNineItem startBtn"
+            data-index="8"
+            onClick={() => this.start(2)}
+          >
+            {this.props.children ? this.props.children : <span>开始</span>}
           </div>
           <div className="luckNineItem" data-index="3">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[3].pictureUrl}
+              src={this.props.items[3].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[3].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[3].name}</div>
           </div>
           <div className="luckNineItem" data-index="6">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[6].pictureUrl}
+              src={this.props.items[6].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[6].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[6].name}</div>
           </div>
           <div className="luckNineItem" data-index="5">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[5].pictureUrl}
+              src={this.props.items[5].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[5].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[5].name}</div>
           </div>
           <div className="luckNineItem" data-index="4">
             <img
               className="luckNineItem-img"
-              src={this.props.prizeList[5].pictureUrl}
+              src={this.props.items[5].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">
-              {this.props.prizeList[5].name}
-            </div>
+            <div className="luckNineItem-title">{this.props.items[5].name}</div>
           </div>
         </div>
       </div>
