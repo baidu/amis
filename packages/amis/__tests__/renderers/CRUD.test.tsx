@@ -1897,7 +1897,7 @@ test('25. CRUD Table Cell sync data to store', async () => {
   expect(listDoms2.length).toEqual(0);
 });
 
-describe.only('26. setValue 动作', () => {
+describe('26. setValue 动作', () => {
   const renderCrud = (mode: string) =>
     render(
       amisRender({
@@ -1945,6 +1945,16 @@ describe.only('26. setValue 动作', () => {
 
   it('cards模式下，设置值后，页面能够自动更新', () => {
     renderCrud('cards');
+
+    expect(screen.getByText('点击前')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('点击前'));
+
+    expect(screen.getByText('点击后')).toBeInTheDocument();
+  });
+
+  it('list模式下，设置值后，页面能够自动更新', () => {
+    renderCrud('list');
 
     expect(screen.getByText('点击前')).toBeInTheDocument();
 

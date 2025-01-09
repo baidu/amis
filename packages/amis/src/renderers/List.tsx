@@ -1173,7 +1173,7 @@ export class ListRenderer extends List {
     index?: number | string,
     condition?: any
   ) {
-    const {store} = this.props;
+    const {store, host} = this.props;
 
     if (index !== undefined || condition !== undefined) {
       const targets = await getMatchedEventTargets<IItem>(
@@ -1185,9 +1185,14 @@ export class ListRenderer extends List {
       targets.forEach(target => {
         target.updateData(values);
       });
-    } else {
-      return store.updateData(values, undefined, replace);
+      return;
     }
+
+    if (host) {
+      host.setData?.(values, replace);
+    }
+
+    return store.updateData(values, undefined, replace);
   }
 
   getData() {
