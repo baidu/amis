@@ -17,6 +17,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -833,6 +834,7 @@ exports[`4. Renderer:crud list 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-List cxd-Crud-body"
@@ -1248,6 +1250,7 @@ exports[`5. Renderer:crud cards 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Cards cxd-Crud-body"
@@ -2147,6 +2150,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -2664,6 +2668,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Crud-selection"

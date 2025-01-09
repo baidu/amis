@@ -17,6 +17,7 @@ exports[`Renderer:tabsTransfer 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -73,6 +74,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                       >
                         <div
                           class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                          data-role="container"
                         >
                           <div
                             class="cxd-Tabs-linksContainer-wrapper"
@@ -664,6 +666,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -720,6 +723,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                       >
                         <div
                           class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                          data-role="container"
                         >
                           <div
                             class="cxd-Tabs-linksContainer-wrapper"

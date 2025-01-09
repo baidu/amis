@@ -4,6 +4,7 @@ exports[`1. Renderer:Collapse 1`] = `
 <div>
   <div
     class="cxd-CollapseGroup"
+    data-role="container"
   >
     <div
       class="cxd-Collapse is-active"
@@ -140,6 +141,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
 <div>
   <div
     class="cxd-CollapseGroup icon-position-right"
+    data-role="container"
   >
     <div
       class="cxd-Collapse is-active"
@@ -257,6 +259,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
 <div>
   <div
     class="cxd-CollapseGroup"
+    data-role="container"
   >
     <div
       class="cxd-Collapse is-active"
@@ -291,6 +294,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
           >
             <div
               class="cxd-CollapseGroup"
+              data-role="container"
             >
               <div
                 class="cxd-Collapse is-active"

@@ -1620,6 +1620,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         })}
         style={style}
         data-id={id}
+        data-role="container"
         {...testIdBuilder?.getTestId()}
       >
         <div

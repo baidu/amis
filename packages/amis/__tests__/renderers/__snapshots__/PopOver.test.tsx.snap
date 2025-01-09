@@ -92,6 +92,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default"
+            data-role="container"
           >
             <div
               class="cxd-Panel-body"
@@ -159,6 +160,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default"
+            data-role="container"
           >
             <div
               class="cxd-Panel-body"

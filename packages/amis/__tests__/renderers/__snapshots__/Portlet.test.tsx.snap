@@ -7,6 +7,7 @@ exports[`Renderer:portlet 1`] = `
   >
     <div
       class="cxd-Tabs cxd-Tabs--line cxd-Portlet-tab"
+      data-role="container"
     >
       <div
         class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
