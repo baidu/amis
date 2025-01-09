@@ -27,7 +27,7 @@ interface ContextMenuProps {
 
 export type MenuItem = {
   id?: string;
-  label: string;
+  label: string | React.ReactNode;
   icon?: string;
   disabled?: boolean;
   children?: Array<MenuItem | MenuDivider>;
