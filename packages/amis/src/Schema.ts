@@ -130,12 +130,13 @@ import {
   SchemaClassName,
   SchemaExpression
 } from 'amis-core';
-import type {FormSchemaBase, TestIdBuilder} from 'amis-core';
+import type {FormSchemaBase} from 'amis-core';
 import {MultilineTextSchema} from './renderers/MultilineText';
 import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';
 import {WordsSchema} from './renderers/Words';
 import {RadioControlSchema} from './renderers/Form/Radio';
+import {LotterySchema} from './renderers/Lottery';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -258,6 +259,7 @@ export type SchemaType =
   | 'input-signature'
   | 'input-verification-code'
   | 'shape'
+  | 'lottery'
 
   // editor 系列
   | 'editor'
@@ -498,6 +500,7 @@ export type SchemaObject =
   | DateRangeSchema
   | MultilineTextSchema
   | PasswordSchema
+  | LotterySchema
   | WordsSchema;
 
 export type SchemaCollection =

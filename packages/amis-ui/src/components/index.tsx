@@ -144,6 +144,7 @@ import VerificationCode from './VerificationCode';
 import Shape from './Shape';
 import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
+import {Lottery} from './Lottery';
 
 export {
   NotFound,
@@ -287,5 +288,6 @@ export {
   VerificationCode,
   Shape,
   IShapeType,
-  MobileDevTool
+  MobileDevTool,
+  Lottery
 };

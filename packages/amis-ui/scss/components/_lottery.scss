@@ -1,0 +1,94 @@
+@keyframes switch-light {
+  from {
+    background-image: url("https://aipage.bce.baidu.com/resources/sys/img/lottery/light.png");
+  }
+  to {
+    background-image: url("https://aipage.bce.baidu.com/resources/sys/img/lottery/light-2.png");
+  }
+}
+
+.#{$ns}Lottery {
+  position: relative;
+  padding: 10px;
+  box-sizing: content-box;
+  background-color: #fdd130;
+  background-size: 100% 100%;
+  animation: switch-light 0.3s infinite;
+
+  .luckNineWrap {
+    box-sizing: content-box;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    align-content: space-around;
+    position: absolute;
+    background: #ffa00a;
+    padding: 5px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 90%;
+    height: 90%;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: 100% 100%;
+    transition: all .05s ease;
+
+    .luckNineItem {
+      border-radius: 5px;
+      padding: 5px;
+      background-image: linear-gradient(#ffefd1, #ffc8a4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 28%;
+      height: 28%;
+      align-items: center;
+      transition: all .05s ease;
+
+      .luckNineItem-title {
+        margin-top: 2px;
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 70px;
+        height: 16px;
+        text-align: center;
+        color: #be602b;
+      }
+
+      .luckNineItem-img {
+        width: 60%;
+        height: 60%;
+      }
+    }
+
+    .startBtn {
+      cursor: pointer;
+      background-image: linear-gradient(#ff733e, #ff4e57);
+      color: rgba(255, 212, 167, 1);
+      font-size: 26px;
+      font-weight: bold;
+      transition: all 1s ease-in;
+    }
+
+    .startBtn:hover {
+      background-image: linear-gradient(#f69d7c, #f46c72);
+      transition: all 1s ease-in;
+    }
+  }
+
+  .luckNineWrap div.active {
+    background-image: linear-gradient(#f69d7c, #f46c72);
+  }
+
+  .luckNineWrap div.active .luckNineItem-title {
+    color: #fff;
+  }
+}

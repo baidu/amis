@@ -820,6 +820,11 @@ registerRenderer({
   type: 'pdf-viewer',
   getComponent: () => import('./renderers/PdfViewer')
 });
+// import './renderers/Lottery';
+registerRenderer({
+  type: 'lottery',
+  getComponent: () => import('./renderers/Lottery')
+});
 // import './renderers/AMIS';
 registerRenderer({
   type: 'amis',
