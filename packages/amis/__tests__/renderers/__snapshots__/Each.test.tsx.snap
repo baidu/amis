@@ -19,7 +19,7 @@ exports[`Renderer:Each basic use 1`] = `
             class="cxd-Each"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 <span
@@ -31,7 +31,7 @@ exports[`Renderer:Each basic use 1`] = `
               </span>
             </span>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 <span
@@ -43,7 +43,7 @@ exports[`Renderer:Each basic use 1`] = `
               </span>
             </span>
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 <span
@@ -66,6 +66,7 @@ exports[`Renderer:Each in form 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -74,7 +75,7 @@ exports[`Renderer:Each in form 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -97,7 +98,7 @@ exports[`Renderer:Each in form 1`] = `
           class="cxd-Each"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <span
@@ -108,7 +109,7 @@ exports[`Renderer:Each in form 1`] = `
             </span>
           </span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <span
@@ -119,7 +120,7 @@ exports[`Renderer:Each in form 1`] = `
             </span>
           </span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <span
@@ -158,7 +159,7 @@ exports[`Renderer:Each with array of objects value 1`] = `
     class="cxd-Each show"
   >
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         <span
@@ -170,7 +171,7 @@ exports[`Renderer:Each with array of objects value 1`] = `
       </span>
     </span>
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         <span
@@ -207,7 +208,7 @@ exports[`Renderer:Each with source 1`] = `
               class="cxd-Wrapper cxd-Wrapper--md"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   <span
@@ -232,7 +233,7 @@ exports[`Renderer:Each with source 1`] = `
               class="cxd-Wrapper cxd-Wrapper--md"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   <span

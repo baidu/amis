@@ -4,6 +4,7 @@ exports[`Renderer:tabs as form item 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:tabs as form item 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -33,6 +34,7 @@ exports[`Renderer:tabs as form item 1`] = `
         />
         <div
           class="cxd-Tabs cxd-Tabs--line"
+          data-role="container"
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"
@@ -84,7 +86,7 @@ exports[`Renderer:tabs as form item 1`] = `
               class="cxd-Tabs-pane"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Content 1
@@ -95,7 +97,7 @@ exports[`Renderer:tabs as form item 1`] = `
               class="in is-active cxd-Tabs-pane"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Content 2
@@ -130,6 +132,7 @@ exports[`Renderer:tabs change active tab 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -197,7 +200,7 @@ exports[`Renderer:tabs change active tab 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -215,6 +218,7 @@ exports[`Renderer:tabs change active tab 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -282,7 +286,7 @@ exports[`Renderer:tabs change active tab 2`] = `
         class="cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -304,7 +308,7 @@ exports[`Renderer:tabs change active tab 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   文本3
@@ -340,7 +344,7 @@ exports[`Renderer:tabs change active tab 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   文本4
@@ -376,6 +380,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--card"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -427,7 +432,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -445,6 +450,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--radio"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -496,7 +502,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -514,6 +520,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--vertical"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -557,7 +564,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -575,6 +582,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--chrome"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -658,7 +666,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -676,6 +684,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--simple"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -727,7 +736,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -745,6 +754,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--strong"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -796,7 +806,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -814,6 +824,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -865,7 +876,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -883,6 +894,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--sidebar sidebar--right"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
@@ -926,7 +938,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -944,6 +956,7 @@ exports[`Renderer:tabs toolbar 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
@@ -1007,7 +1020,7 @@ exports[`Renderer:tabs toolbar 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1025,6 +1038,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled has-popover"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
@@ -1095,7 +1109,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             Content 1

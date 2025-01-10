@@ -70,7 +70,7 @@ exports[`EventAction:prevent 1`] = `
               class="cxd-Alert-desc"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   确认后将不关闭弹窗

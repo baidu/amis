@@ -101,7 +101,7 @@ export class StepsPlugin extends BasePlugin {
                   }
                 ]
               },
-              getSchemaTpl('api', {
+              getSchemaTpl('apiControl', {
                 name: 'source',
                 label: '获取步骤接口'
               })

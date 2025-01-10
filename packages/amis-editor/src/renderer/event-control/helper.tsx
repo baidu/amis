@@ -780,7 +780,7 @@ export const getOldActionSchema = (
                 )
               },
 
-              getSchemaTpl('api', {
+              getSchemaTpl('getOldActionSchema', {
                 label: '目标API',
                 visibleOn: 'this.actionType == "ajax"'
               }),

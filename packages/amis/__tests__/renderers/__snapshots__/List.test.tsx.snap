@@ -20,6 +20,7 @@ exports[`Renderer:list 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default"
+              data-role="container"
             >
               <div
                 class="cxd-Panel-heading"
@@ -28,7 +29,7 @@ exports[`Renderer:list 1`] = `
                   class="cxd-Panel-title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       简单 List 示例
@@ -947,7 +948,7 @@ exports[`Renderer:list with itemAction 1`] = `
         role="dialog-body"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             当前行的数据 browser: Internet Explorer 4.0, version: 4
@@ -1412,7 +1413,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                     </small>
                   </div>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       this is list item desc
@@ -1475,7 +1476,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                     </small>
                   </div>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       this is list item desc
@@ -1538,7 +1539,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                     </small>
                   </div>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       this is list item desc
@@ -1616,7 +1617,7 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
                 class="cxd-List-header headerTplClassName"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     头部标题
@@ -1633,7 +1634,7 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
               class="cxd-List-placeholder"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   暂无数据

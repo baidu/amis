@@ -1,1 +1,7 @@
-<svg width="16" height="16" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M0 0h48v48H0z"/><g transform="translate(14 14)"><path d="M0 0h20v20H0z"/><path stroke="currentColor" stroke-width="1.25" stroke-linecap="round" d="M3.121 5.625v11.25m0-6.25h2.5m-2.5 6.25h2.5"/><circle fill="currentColor" cx="3.125" cy="4.375" r="1.875"/><path stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" d="M8.747 3.125h8.728v2.5H8.747zm0 5.625h8.728v2.5H8.747zm0 5.625h8.728v2.5H8.747z"/></g></g></svg>
+<svg viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd" transform="translate(0.292 0)">
+        <path d="M.707 1.542v3.75m0-2.084h.833M.707 5.292h.833" stroke="currentColor" stroke-width=".5" stroke-linecap="round"/>
+        <circle fill="currentColor" fill-rule="nonzero" cx=".708" cy="1.125" r="1"/>
+        <path d="M2.582.708h2.91v.834h-2.91V.708Zm0 1.875h2.91v.834h-2.91v-.834Zm0 1.875h2.91v.834h-2.91v-.834Z" stroke="currentColor" stroke-width=".5" stroke-linejoin="round"/>
+    </g>
+</svg>

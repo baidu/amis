@@ -39,7 +39,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
         return el.outerHTML;
       });
     styles.push(
-      `<style>body {height:auto !important;min-height:100%;overflow-y:auto !important;display: flex;flex-direction: column;}</style>`
+      `<style>body {height:auto !important;min-height:100%;display: flex;flex-direction: column;}</style>`
     );
 
     this.initialContent = `<!DOCTYPE html><html><head>${styles.join(
@@ -171,6 +171,10 @@ function InnerComponent({
     const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
     closeContextMenus();
 
+    if (store.activeElement) {
+      return;
+    }
+
     if (e.defaultPrevented) {
       return;
     }
@@ -188,6 +192,37 @@ function InnerComponent({
       if (!event.prevented && !event.stoped) {
         e.preventDefault();
         e.stopPropagation();
+      }
+    }
+  }, []);
+
+  const handleDBClick = React.useCallback((e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const hostElem = target.closest(`[data-editor-id]`) as HTMLElement;
+    if (hostElem) {
+      const node = store.getNodeById(hostElem.getAttribute('data-editor-id')!);
+      if (!node) {
+        return;
+      }
+
+      const rendererInfo = node.info;
+
+      // 需要支持 :scope > xxx 语法，所以才这么写
+      let inlineElem: HTMLElement | undefined | null = null;
+      const inlineSetting = (rendererInfo.inlineEditableElements || []).find(
+        elem => {
+          inlineElem = (
+            [].slice.call(
+              hostElem.querySelectorAll(elem.match)
+            ) as Array<HTMLElement>
+          ).find(dom => dom.contains(target));
+          return !!inlineElem;
+        }
+      )!;
+
+      // 如果命中了支持内联编辑的元素，则开始内联编辑
+      if (inlineElem && inlineSetting) {
+        manager.startInlineEdit(node, inlineElem, inlineSetting, e);
       }
     }
   }, []);
@@ -212,6 +247,7 @@ function InnerComponent({
     layer!.addEventListener('mouseleave', handleMouseLeave);
     layer!.addEventListener('mousemove', handleMouseMove);
     layer!.addEventListener('click', handleClick, true);
+    layer!.addEventListener('dblclick', handleDBClick);
     layer!.addEventListener('mouseover', handeMouseOver);
 
     const unSensor = resizeSensor(doc!.body, () => {
@@ -225,7 +261,7 @@ function InnerComponent({
       layer!.removeEventListener('mousemove', handleMouseMove);
       layer!.removeEventListener('click', handleClick);
       layer!.removeEventListener('mouseover', handeMouseOver);
-
+      layer!.removeEventListener('dblclick', handleDBClick);
       store.setDoc(document);
       unSensor();
     };

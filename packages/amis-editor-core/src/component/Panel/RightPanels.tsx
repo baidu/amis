@@ -10,7 +10,7 @@ import {findDOMNode} from 'react-dom';
 import {PanelItem} from '../../plugin';
 import {WidthDraggableBtn} from '../base/WidthDraggableBtn';
 
-interface RightPanelsProps {
+export interface RightPanelsProps {
   store: EditorStoreType;
   manager: EditorManager;
   theme?: string;

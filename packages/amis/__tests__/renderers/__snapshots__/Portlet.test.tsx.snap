@@ -7,6 +7,7 @@ exports[`Renderer:portlet 1`] = `
   >
     <div
       class="cxd-Tabs cxd-Tabs--line cxd-Portlet-tab"
+      data-role="container"
     >
       <div
         class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
@@ -97,7 +98,7 @@ exports[`Renderer:portlet 1`] = `
           class="in is-active cxd-Tabs-pane"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               Content 1
@@ -108,7 +109,7 @@ exports[`Renderer:portlet 1`] = `
           class="cxd-Tabs-pane"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               Content 2

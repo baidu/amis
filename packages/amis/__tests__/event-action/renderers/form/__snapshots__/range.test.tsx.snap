@@ -117,6 +117,7 @@ exports[`EventAction:inputRange 1`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -125,7 +126,7 @@ exports[`EventAction:inputRange 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -336,7 +337,7 @@ exports[`EventAction:inputRange 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           滑块值
@@ -373,7 +374,7 @@ exports[`EventAction:inputRange 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           滑块事件

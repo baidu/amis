@@ -289,6 +289,7 @@ export default class Panel<
     return (
       <div
         data-id={id}
+        data-role="container"
         className={cx(
           `Panel`,
           className || `Panel--default`,

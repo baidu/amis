@@ -16,6 +16,7 @@ import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 import omit from 'lodash/omit';
 import {generateId} from '../util';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
   static id = 'PagePlugin';
@@ -132,6 +133,19 @@ export class PagePlugin extends BasePlugin {
     {key: 'aside', label: '边栏', placeholder: '边栏内容'},
     {key: 'body', label: '内容区', placeholder: '页面内容'}
   ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: '.cxd-Page-title',
+      key: 'title'
+    },
+    {
+      match: '.cxd-Page-subTitle',
+      key: 'subTitle'
+    }
+  ];
+
   wrapper = ContainerWrapper;
 
   panelTitle = '页面';

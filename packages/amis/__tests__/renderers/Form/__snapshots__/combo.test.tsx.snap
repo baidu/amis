@@ -17,6 +17,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -54,7 +55,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           自定义1
@@ -168,7 +169,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           更复杂的
@@ -341,7 +342,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           不存在的
@@ -538,6 +539,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -546,7 +548,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -575,7 +577,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           父级文本框
@@ -615,7 +617,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           不可获取父级数据
@@ -671,7 +673,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           可获取父级数据不可更新
@@ -727,7 +729,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           可获取父级数据亦可更新
@@ -816,6 +818,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -824,7 +827,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -853,7 +856,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           多选
@@ -929,7 +932,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                   >
                                     <span>
                                       <span
-                                        class="cxd-TplField"
+                                        class="cxd-TplField fr-view"
                                       >
                                         <span>
                                           最小值
@@ -1099,6 +1102,7 @@ exports[`Renderer:combo with draggable 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1107,7 +1111,7 @@ exports[`Renderer:combo with draggable 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1136,7 +1140,7 @@ exports[`Renderer:combo with draggable 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           拖拽排序
@@ -1450,6 +1454,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1458,7 +1463,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1487,7 +1492,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Combo 单行展示
@@ -1512,7 +1517,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Combo 多行展示
@@ -1563,6 +1568,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1571,7 +1577,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1600,7 +1606,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           最少添加1条且最多3条
@@ -1696,6 +1702,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1704,7 +1711,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1733,7 +1740,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           combo
@@ -1837,7 +1844,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           combo
@@ -1949,7 +1956,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           combo
@@ -2094,6 +2101,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -2102,7 +2110,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -2131,7 +2139,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           组合多条多行
@@ -2147,6 +2155,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                     >
                       <div
                         class="cxd-Tabs cxd-ComboTabs"
+                        data-role="container"
                       >
                         <div
                           class="cxd-Tabs-linksContainer-wrapper"
@@ -2251,7 +2260,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                   >
                                     <span>
                                       <span
-                                        class="cxd-TplField"
+                                        class="cxd-TplField fr-view"
                                       >
                                         <span>
                                           文本

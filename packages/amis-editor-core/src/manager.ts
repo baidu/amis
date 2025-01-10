@@ -14,7 +14,8 @@ import {
   RenderOptions,
   JSONTraverse,
   wrapFetcher,
-  GlobalVariableItem
+  GlobalVariableItem,
+  setVariable
 } from 'amis-core';
 import {
   PluginInterface,
@@ -45,7 +46,8 @@ import {
   PluginActions,
   BasePlugin,
   GlobalVariablesEventContext,
-  GlobalVariableEventContext
+  GlobalVariableEventContext,
+  InlineEditableElement
 } from './plugin';
 import {
   EditorStoreType,
@@ -66,7 +68,8 @@ import {
   scrollToActive,
   JSONPipeIn,
   generateNodeId,
-  JSONGetNodesById
+  JSONGetNodesById,
+  diff
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -79,6 +82,7 @@ import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {Api, Payload, RendererConfig, RendererEnv} from 'amis-core';
 import {loadAsyncRenderer} from 'amis-core';
+import {startInlineEdit} from './inlineEdit';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -2345,6 +2349,45 @@ export class EditorManager {
 
       scope = scope.parent;
     }
+  }
+
+  startInlineEdit(
+    node: EditorNodeType,
+    elem: HTMLElement,
+    config: InlineEditableElement,
+    event?: MouseEvent
+  ) {
+    const store = this.store;
+    store.setActiveId(node.id);
+    store.setActiveElement(config.match);
+
+    startInlineEdit({
+      node,
+      event,
+      elem,
+      config,
+      richTextToken: this.env.richTextToken,
+      richTextOptions: this.config.richTextOptions,
+      onCancel: () => {
+        store.setActiveElement('');
+      },
+      onConfirm: (value: string) => {
+        store.setActiveElement('');
+
+        if (config.key) {
+          const originValue = store.getValueOf(node.id);
+          const newValue = {...originValue};
+          setVariable(newValue, config.key, value);
+
+          const diffValue = diff(originValue, newValue);
+          // 没有变化时不触发onChange
+          if (!diffValue) {
+            return;
+          }
+          this.panelChangeValue(newValue, diffValue, undefined, node.id);
+        }
+      }
+    });
   }
 
   /**
