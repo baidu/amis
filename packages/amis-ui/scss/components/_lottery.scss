@@ -1,15 +1,15 @@
 @keyframes switch-light {
   from {
-    background-image: url("https://aipage.bce.baidu.com/resources/sys/img/lottery/light.png");
+    background-image: url("../../../../examples/static/light.png");
   }
   to {
-    background-image: url("https://aipage.bce.baidu.com/resources/sys/img/lottery/light-2.png");
+    background-image: url("../../../../examples/static/light-2.png");
   }
 }
 
 .#{$ns}Lottery {
   position: relative;
-  padding: 10px;
+  padding: 0.2rem;
   box-sizing: content-box;
   background-color: #fdd130;
   background-size: 100% 100%;
@@ -23,7 +23,7 @@
     align-content: space-around;
     position: absolute;
     background: #ffa00a;
-    padding: 5px;
+    padding: 0.2rem;
     left: 0;
     right: 0;
     top: 0;
@@ -33,7 +33,7 @@
     height: 90%;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    border-radius: 10px;
+    border-radius: 0.1rem;
     overflow: hidden;
     background-size: 100% 100%;
     transition: all .05s ease;
@@ -47,8 +47,8 @@
     }
 
     .luckNineItem {
-      border-radius: 5px;
-      padding: 5px;
+      border-radius: 1rem;
+      padding: 0.2rem;
       background-image: linear-gradient(#ffefd1, #ffc8a4);
       display: flex;
       flex-direction: column;
@@ -59,14 +59,14 @@
       transition: all .05s ease;
 
       .luckNineItem-title {
-        margin-top: 2px;
-        font-size: 12px;
+        margin-top: 0.1rem;
+        font-size: 0.6rem;
         font-weight: bold;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        width: 70px;
-        height: 16px;
+        width: 4rem;
+        height: 1rem;
         text-align: center;
         color: #be602b;
       }
@@ -81,7 +81,7 @@
       cursor: pointer;
       background-image: linear-gradient(#ff733e, #ff4e57);
       color: rgba(255, 212, 167, 1);
-      font-size: 26px;
+      font-size: 1.8rem;
       font-weight: bold;
       transition: all 1s ease-in;
     }

@@ -1,11 +1,6 @@
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
 
-let now = 0;
-let count = 0;
-let timer: null | NodeJS.Timer = null;
-let speed = 50;
-
 interface SquareNineProps extends ThemeProps {
   //宽度，默认300px
   width?: number;
@@ -29,6 +24,9 @@ interface SquareNineState {
   width: number;
   height: number;
   off: 0 | 1;
+  now: number;
+  count: number;
+  speed: number;
 }
 
 interface CustomElement extends HTMLElement {
@@ -45,7 +43,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
     this.state = {
       width: this.props.width || 300,
       height: this.props.height || 300,
-      off: 1
+      off: 1,
+      now: -1,
+      count: 0,
+      speed: 50
     };
   }
 
@@ -59,8 +60,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   //重置抽奖状态
   reset = () => {
     this.setState({off: 1});
-    now = 0;
-    timer && clearTimeout(timer as unknown as number);
+    this.setState({now: -1});
   };
 
   componentDidMount() {
@@ -79,30 +79,26 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
 
   //抽奖动画效果
   changeFn = (index: number, fn?: CallBackFn) => {
-    let _item = document.querySelectorAll('.luckNineWrap .luckNineItem');
-    now = ++now % (_item.length - 1);
-    now == 0 && count++;
-    _item.forEach((res: HTMLElement) => {
-      Number(res.dataset.index) == now
-        ? res.classList.add('active')
-        : res.classList.remove('active');
-    });
-    timer = setTimeout(() => {
+    let now = this.state.now;
+    now = ++now % (this.props.items.length - 1);
+    this.setState({now: now});
+    this.state.now == 0 && this.setState({count: this.state.count + 1});
+    let timer = setTimeout(() => {
       this.changeFn(index, fn);
-    }, speed);
-    if (count > 3) speed += 10;
-    if (speed > 300 && now == index) {
+    }, this.state.speed);
+    if (this.state.count > 3) {
+      this.setState({speed: this.state.speed + 10});
+    }
+    if (this.state.speed > 300 && this.state.now == index) {
       timer && clearTimeout(timer);
-      count = 0;
-      speed = 50;
-      this.setState({off: 1});
-      fn && fn(now);
-      this.props.callback && this.props.callback(now);
+      this.setState({off: 1, count: 0, speed: 50});
+      fn && fn(this.state.now);
+      this.props.callback && this.props.callback(this.state.now);
     }
   };
 
   render() {
-    const {width, height} = this.state;
+    const {width, height, now} = this.state;
     const {classnames: cx} = this.props;
     return (
       <div
@@ -111,7 +107,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
         style={{width: width + 'px', height: height + 'px'}}
       >
         <div className="luckNineWrap">
-          <div className="luckNineItem" data-index="0">
+          <div
+            className={now === 0 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="0"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[0].pictureUrl}
@@ -119,7 +118,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[0].name}</div>
           </div>
-          <div className="luckNineItem" data-index="1">
+          <div
+            className={now === 1 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="1"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[1].pictureUrl}
@@ -127,7 +129,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[1].name}</div>
           </div>
-          <div className="luckNineItem" data-index="2">
+          <div
+            className={now === 2 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="2"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[2].pictureUrl}
@@ -135,7 +140,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[2].name}</div>
           </div>
-          <div className="luckNineItem" data-index="7">
+          <div
+            className={now === 7 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="7"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[7].pictureUrl}
@@ -150,7 +158,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             {this.props.children ? this.props.children : <span>开始</span>}
           </div>
-          <div className="luckNineItem" data-index="3">
+          <div
+            className={now === 3 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="3"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[3].pictureUrl}
@@ -158,7 +169,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[3].name}</div>
           </div>
-          <div className="luckNineItem" data-index="6">
+          <div
+            className={now === 6 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="6"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[6].pictureUrl}
@@ -166,7 +180,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[6].name}</div>
           </div>
-          <div className="luckNineItem" data-index="5">
+          <div
+            className={now === 5 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="5"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[5].pictureUrl}
@@ -174,7 +191,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
             />
             <div className="luckNineItem-title">{this.props.items[5].name}</div>
           </div>
-          <div className="luckNineItem" data-index="4">
+          <div
+            className={now === 4 ? 'luckNineItem active' : 'luckNineItem'}
+            data-index="4"
+          >
             <img
               className="luckNineItem-img"
               src={this.props.items[5].pictureUrl}

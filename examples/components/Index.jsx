@@ -4,8 +4,8 @@ export default {
 
   body: {
     type: 'lottery',
-    width: '600',
-    height: '600',
+    width: '300',
+    height: '300',
     items: [
       {
         name: "商品名称名称1",
