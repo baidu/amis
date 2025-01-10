@@ -193,7 +193,7 @@ export default class DropDownButton extends React.Component<
 
   toogle(e: React.MouseEvent<any>) {
     e.preventDefault();
-
+    e.stopPropagation();
     this.setState({
       isOpened: !this.state.isOpened
     });
