@@ -68,3 +68,20 @@ order: 27
       ]
     }
 ```
+
+支持数据源
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "service",
+    "api": "/amis/api/mock2/sample?perPage=5",
+    "body": [
+      {
+        "type": "lottery",
+        "source": "$rows",
+      }
+    ]
+  }
+}
+```

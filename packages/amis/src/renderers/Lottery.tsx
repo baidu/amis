@@ -1,18 +1,29 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  anyChanged,
+  getPropValue,
+  IListStore,
+  isPureVariable,
+  Renderer,
+  RendererProps,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {Lottery as SquareNineComponent} from 'amis-ui';
+import {SchemaTokenizeableString} from '../Schema';
 
 import type {BaseSchema} from 'amis';
+import {ListProps} from './List';
 
 interface SquareNineProps extends RendererProps {
   width?: number;
   height?: number;
   items: {name: string; pictureUrl: string; id: number}[];
+  source: SchemaTokenizeableString;
   children?: React.ReactNode;
 }
 /**
  * Lottery 九宫格抽奖。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/alert
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/lottery
  */
 
 export interface LotterySchema extends BaseSchema {
@@ -33,6 +44,8 @@ export interface LotterySchema extends BaseSchema {
   targetIndex?: number;
   // 结束回调
   callback?: (index: number) => void;
+  // 数据源： 绑定当前环境变量, @default: '${items}'
+  source?: SchemaTokenizeableString;
 }
 
 @Renderer({
@@ -41,6 +54,16 @@ export interface LotterySchema extends BaseSchema {
 export class LotteryRenderer extends React.Component<
   Omit<SquareNineProps, 'actions'> & RendererProps
 > {
+  static propList: Array<keyof ListProps> = [
+    'width',
+    'height',
+    'items',
+    'source',
+    'targetIndex',
+    'callback',
+    'children'
+  ];
+
   render() {
     const {items, ...rest} = this.props;
     return <SquareNineComponent items={items} {...rest} />;

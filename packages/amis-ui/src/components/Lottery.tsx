@@ -1,5 +1,12 @@
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
+import {
+  getPropValue,
+  isPureVariable,
+  resolveVariableAndFilter,
+  themeable,
+  ThemeProps
+} from 'amis-core';
+import {SchemaTokenizeableString} from 'amis/src/Schema';
 
 interface SquareNineProps extends ThemeProps {
   //宽度，默认300px
@@ -7,13 +14,17 @@ interface SquareNineProps extends ThemeProps {
   //高度，默认300px
   height?: number;
   //奖品列表
-  items: {name: string; pictureUrl: string; id: number}[];
+  items?: {name: string; pictureUrl: string; id: number}[];
   // 开始按钮
   children?: React.ReactNode;
   //目标索引（中奖）
   targetIndex?: number;
   // 结束回调
   callback?: (index: number) => void;
+  // 数据源： 绑定当前环境变量, @default: '${items}'
+  source?: SchemaTokenizeableString;
+  //数据
+  data: any;
 }
 
 interface CallBackFn {
@@ -38,6 +49,7 @@ interface CustomElement extends HTMLElement {
 export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   lightRef: React.RefObject<CustomElement> = React.createRef();
 
+  list: Array<any> = [];
   constructor(props: SquareNineProps) {
     super(props);
     this.state = {
@@ -80,7 +92,7 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   //抽奖动画效果
   changeFn = (index: number, fn?: CallBackFn) => {
     let now = this.state.now;
-    now = ++now % (this.props.items.length - 1);
+    now = ++now % (this.list.length - 1);
     this.setState({now: now});
     this.state.now == 0 && this.setState({count: this.state.count + 1});
     let timer = setTimeout(() => {
@@ -100,6 +112,19 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   render() {
     const {width, height, now} = this.state;
     const {classnames: cx} = this.props;
+    const {source, items, data} = this.props;
+
+    let list: any;
+    let value: any;
+
+    if (typeof source === 'string' && isPureVariable(source)) {
+      list = resolveVariableAndFilter(source, data, '| raw') || undefined;
+    } else if (Array.isArray(items)) {
+      list = items;
+    }
+
+    this.list = list;
+
     return (
       <div
         className={cx('Lottery light')}
@@ -113,10 +138,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[0].pictureUrl}
+              src={this.list[0].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[0].name}</div>
+            <div className="luckNineItem-title">{this.list[0].name}</div>
           </div>
           <div
             className={now === 1 ? 'luckNineItem active' : 'luckNineItem'}
@@ -124,10 +149,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[1].pictureUrl}
+              src={this.list[1].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[1].name}</div>
+            <div className="luckNineItem-title">{this.list[1].name}</div>
           </div>
           <div
             className={now === 2 ? 'luckNineItem active' : 'luckNineItem'}
@@ -135,10 +160,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[2].pictureUrl}
+              src={this.list[2].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[2].name}</div>
+            <div className="luckNineItem-title">{this.list[2].name}</div>
           </div>
           <div
             className={now === 7 ? 'luckNineItem active' : 'luckNineItem'}
@@ -146,10 +171,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[7].pictureUrl}
+              src={this.list[7].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[7].name}</div>
+            <div className="luckNineItem-title">{this.list[7].name}</div>
           </div>
           <div
             className="luckNineItem startBtn"
@@ -164,10 +189,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[3].pictureUrl}
+              src={this.list[3].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[3].name}</div>
+            <div className="luckNineItem-title">{this.list[3].name}</div>
           </div>
           <div
             className={now === 6 ? 'luckNineItem active' : 'luckNineItem'}
@@ -175,10 +200,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[6].pictureUrl}
+              src={this.list[6].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[6].name}</div>
+            <div className="luckNineItem-title">{this.list[6].name}</div>
           </div>
           <div
             className={now === 5 ? 'luckNineItem active' : 'luckNineItem'}
@@ -186,10 +211,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[5].pictureUrl}
+              src={this.list[5].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[5].name}</div>
+            <div className="luckNineItem-title">{this.list[5].name}</div>
           </div>
           <div
             className={now === 4 ? 'luckNineItem active' : 'luckNineItem'}
@@ -197,10 +222,10 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
           >
             <img
               className="luckNineItem-img"
-              src={this.props.items[5].pictureUrl}
+              src={this.list[5].pictureUrl}
               alt="奖品图片"
             />
-            <div className="luckNineItem-title">{this.props.items[5].name}</div>
+            <div className="luckNineItem-title">{this.list[5].name}</div>
           </div>
         </div>
       </div>
