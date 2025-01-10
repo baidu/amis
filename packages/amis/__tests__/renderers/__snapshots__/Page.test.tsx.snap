@@ -22,7 +22,7 @@ exports[`Renderer:Page 1`] = `
               className="cxd-Page-title"
             >
               <span
-                className="cxd-TplField"
+                className="cxd-TplField fr-view"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
@@ -56,7 +56,7 @@ exports[`Renderer:Page 1`] = `
               className="cxd-Page-subTitle"
             >
               <span
-                className="cxd-TplField"
+                className="cxd-TplField fr-view"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
@@ -75,7 +75,7 @@ exports[`Renderer:Page 1`] = `
             className="cxd-Page-toolbar"
           >
             <span
-              className="cxd-TplField"
+              className="cxd-TplField fr-view"
               onClick={[Function]}
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
@@ -98,7 +98,7 @@ exports[`Renderer:Page 1`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -1027,7 +1027,7 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -1070,7 +1070,7 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -1961,7 +1961,7 @@ exports[`Renderer:Page initData 1`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -2004,7 +2004,7 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -2047,7 +2047,7 @@ exports[`Renderer:Page location query 1`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -2090,7 +2090,7 @@ exports[`Renderer:Page location query 2`] = `
             className="cxd-Spinner-mark"
           />
           <span
-            className="cxd-TplField"
+            className="cxd-TplField fr-view"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
