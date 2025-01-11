@@ -385,7 +385,7 @@
         color: var(--select-base-default-option-color);
       }
       .#{$ns}TplField {
-        p {
+        > span > p {
           margin: 0;
           text-overflow: ellipsis;
           overflow: hidden;
