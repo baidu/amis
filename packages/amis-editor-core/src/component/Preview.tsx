@@ -83,7 +83,7 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     currentDom.addEventListener('mousemove', this.handleMouseMove);
     currentDom.addEventListener('click', this.handleClick, true);
-    currentDom.addEventListener('dblclick', this.handleDBClick);
+    currentDom.addEventListener('dblclick', this.handleDBClick, true);
     currentDom.addEventListener('mouseover', this.handeMouseOver);
     currentDom.addEventListener('mousedown', this.handeMouseDown);
     this.props.manager.on('after-update', this.handlePanelChange);
@@ -95,7 +95,7 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
       currentDom.removeEventListener('mousemove', this.handleMouseMove);
       currentDom.removeEventListener('click', this.handleClick, true);
-      currentDom.removeEventListener('dblclick', this.handleDBClick);
+      currentDom.removeEventListener('dblclick', this.handleDBClick, true);
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
       this.props.manager.off('after-update', this.handlePanelChange);
@@ -361,14 +361,45 @@ export default class Preview extends Component<PreviewProps> {
   @autobind
   handleDBClick(e: MouseEvent) {
     const store = this.props.store;
-    const target = e.target as HTMLElement;
-    const hostElem = target.closest(`[data-editor-id]`) as HTMLElement;
+    let target = e.target as HTMLElement;
+    let hostElem = target.closest(`[data-editor-id]`) as HTMLElement;
+
+    if (!hostElem) {
+      const hlbox = target.closest(`[data-hlbox-id]`) as HTMLElement;
+      // 自由容器里面的高亮区域是可以点击的
+      // 当点击来自高亮区域时，需要根据位置计算出组件上点击的元素
+      if (hlbox) {
+        let x = e.clientX;
+        let y = e.clientY;
+
+        const layer: HTMLElement = store.getLayer()!;
+        const layerRect = layer.getBoundingClientRect();
+        const iframe = store.getIframe();
+
+        // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+        let scrollTop = 0;
+        if (iframe) {
+          scrollTop = iframe.contentWindow?.scrollY || 0;
+          x -= layerRect.left;
+          y -= layerRect.top;
+          y += scrollTop;
+        }
+        const elements = store.getDoc().elementsFromPoint(x, y);
+        target = elements.find((ele: Element) => {
+          hostElem = ele.closest(
+            `[data-editor-id="${hlbox.getAttribute('data-hlbox-id')}"]`
+          ) as HTMLElement;
+          return hostElem;
+        }) as HTMLElement;
+      }
+    }
+
     if (hostElem) {
       const node = store.getNodeById(hostElem.getAttribute('data-editor-id')!);
       if (!node) {
         return;
       }
-
+      e.preventDefault();
       const rendererInfo = node.info;
 
       // 需要支持 :scope > xxx 语法，所以才这么写
