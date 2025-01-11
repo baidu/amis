@@ -66,12 +66,12 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 设置宽度
    */
-  width?: number;
+  width?: number | string;
 
   /**
    * 设置高度
    */
-  height?: number;
+  height?: number | string;
 
   controlsTheme?: 'light' | 'dark';
 
@@ -488,9 +488,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     if ((event as MouseEvent<HTMLDivElement>).screenX !== undefined) {
       screenX = (event as MouseEvent<HTMLDivElement>).screenX;
       screenY = (event as MouseEvent<HTMLDivElement>).screenY;
-    } else {
-      screenX = (event as TouchEvent<HTMLDivElement>).touches[0].screenX;
-      screenY = (event as TouchEvent<HTMLDivElement>).touches[0].screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).touches?.length) {
+      // touchStart 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).changedTouches?.length) {
+      // touchEnd 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenY;
     }
 
     return {
@@ -511,9 +518,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     const {screenX, screenY} = this.getEventScreenXY(event);
 
-    this.setState({
-      mouseStartLocation: direction === 'vertical' ? screenY : screenX // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
-    });
+    // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
+    const location = direction === 'vertical' ? screenY : screenX;
+
+    location !== undefined &&
+      this.setState({
+        mouseStartLocation: location
+      });
   }
 
   /**
@@ -530,7 +541,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     const {direction} = this.props;
     const location = direction === 'vertical' ? screenY : screenX;
 
-    if (this.state.mouseStartLocation !== null) {
+    if (this.state.mouseStartLocation !== null && location !== undefined) {
       if (location - this.state.mouseStartLocation > SCROLL_THRESHOLD) {
         this.autoSlide('prev');
       } else if (this.state.mouseStartLocation - location > SCROLL_THRESHOLD) {
@@ -572,8 +583,21 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     let carouselStyles: {
       [propName: string]: string;
     } = style || {};
-    width ? (carouselStyles.width = width + 'px') : '';
-    height ? (carouselStyles.height = height + 'px') : '';
+
+    // 不允许传0，需要有最小高度
+    if (width) {
+      // 数字类型认为是px单位，否则传入字符串直接赋给style对象
+      !isNaN(Number(width))
+        ? (carouselStyles.width = width + 'px')
+        : (carouselStyles.width = width as string);
+    }
+
+    if (height) {
+      !isNaN(Number(height))
+        ? (carouselStyles.height = height + 'px')
+        : (carouselStyles.height = height as string);
+    }
+
     const [dots, arrows] = [
       controls!.indexOf('dots') > -1,
       controls!.indexOf('arrows') > -1
