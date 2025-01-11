@@ -146,6 +146,9 @@ async function startRichTextEdit({
       toolbarInline: true,
       charCounterCount: false,
       key: richTextToken,
+      // 不配置这个户自动包裹个 <p> 会出现跳动
+      // https://wysiwyg-editor.froala.help/hc/en-us/articles/115000461089-Can-I-disable-wrapping-content-with-P-tags
+      enter: FroalaEditor.ENTER_BR,
       // todo 现在这个按钮的位置又问题，先忽略
       // quickInsertEnabled: false,
       toolbarButtons: [
