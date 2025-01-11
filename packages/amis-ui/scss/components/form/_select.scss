@@ -370,6 +370,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+      margin: 0;
       > i {
         flex-shrink: 0;
       }
