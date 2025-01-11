@@ -488,10 +488,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     if ((event as MouseEvent<HTMLDivElement>).screenX !== undefined) {
       screenX = (event as MouseEvent<HTMLDivElement>).screenX;
       screenY = (event as MouseEvent<HTMLDivElement>).screenY;
-    } else {
-      // 兼容触摸事件有的时候touches列表为空的情况（焦点被其他元素获取）
-      screenX = (event as TouchEvent<HTMLDivElement>)?.touches?.[0]?.screenX;
-      screenY = (event as TouchEvent<HTMLDivElement>)?.touches?.[0]?.screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).touches?.length) {
+      // touchStart 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).changedTouches?.length) {
+      // touchEnd 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenY;
     }
 
     return {
