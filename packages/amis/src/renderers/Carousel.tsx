@@ -581,15 +581,15 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     // 不允许传0，需要有最小高度
     if (width) {
       // 数字类型认为是px单位，否则传入字符串直接赋给style对象
-      typeof width === 'number'
+      !isNaN(Number(width))
         ? (carouselStyles.width = width + 'px')
-        : (carouselStyles.width = width);
+        : (carouselStyles.width = width as string);
     }
 
     if (height) {
-      typeof height === 'number'
+      !isNaN(Number(height))
         ? (carouselStyles.height = height + 'px')
-        : (carouselStyles.height = height);
+        : (carouselStyles.height = height as string);
     }
 
     const [dots, arrows] = [
