@@ -125,6 +125,14 @@ export interface ImagesSchema extends BaseSchema {
     | 'lb-4m'
     | 'lb-6s'
     | 'lb-rb-3m';
+  /**
+   * 宽度（有sortType时生效）
+   * */
+  width?: string;
+  /**
+   * 高度（有sortType时生效）
+   * */
+  height?: string;
 }
 
 export interface ImagesProps
@@ -204,7 +212,13 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return height * 0.5;
       }
-    } else if (rootStyle === 'rt-4m' || rootStyle === 'lt-4m') {
+    } else if (
+      rootStyle === 'rt-4m' ||
+      rootStyle === 'lt-4m' ||
+      rootStyle === 'lb-4m' ||
+      rootStyle === 'lb-6s' ||
+      rootStyle === 'lb-rb-3m'
+    ) {
       return height * 0.5;
     }
     return 0;
@@ -241,6 +255,31 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return (width / 3) * 2 + this.gap;
       }
+    } else if (rootStyle === 'lb-4m') {
+      if (index === 0 || index === 1 || index === 2 || index === 4) {
+        return width / 3;
+      } else {
+        return (width / 3) * 2 + this.gap;
+      }
+    } else if (rootStyle === 'lb-6s') {
+      if (
+        index === 0 ||
+        index === 1 ||
+        index === 2 ||
+        index === 3 ||
+        index === 5 ||
+        index === 6
+      ) {
+        return width / 4;
+      } else {
+        return width / 2 + this.gap;
+      }
+    } else if (rootStyle === 'lb-rb-3m') {
+      if (index === 0 || index === 1 || index === 2) {
+        return (width - this.gap * 2) / 3;
+      } else {
+        return (width - this.gap) / 2;
+      }
     }
 
     return 0;
@@ -250,8 +289,8 @@ export class ImagesField extends React.Component<ImagesProps> {
    * 计算照片子元素平移位置
    * */
   generateTranslate = (rootStyle: string | undefined, index: number) => {
-    const width = this.props.width || 800;
-    const height = this.props.height || 450;
+    const width = Number(this.props.width) || 800;
+    const height = Number(this.props.height) || 450;
     const gap = 10;
     let styleObj: any = {position: 'absolute', boxSizing: 'border-box'};
     if (rootStyle === 'l-t-2m') {
@@ -317,6 +356,38 @@ export class ImagesField extends React.Component<ImagesProps> {
         styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
           height / 2 + gap
         }px)`;
+      }
+    } else if (rootStyle === 'lb-4m') {
+      if (index === 1) {
+        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+      } else if (index === 2) {
+        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
+      } else if (index === 3) {
+        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
+      } else if (index === 4) {
+        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
+          height / 2 + gap
+        }px`;
+      }
+    } else if (rootStyle === 'lb-6s') {
+      if (index === 1 || index === 2 || index === 3) {
+        styleObj.transform = `translate(${(width / 4 + gap) * index}px,${0}px)`;
+      } else if (index === 4) {
+        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
+      } else if (index === 5 || index === 6) {
+        styleObj.transform = `translate(${(width / 4 + gap) * (index - 3)}px,${
+          height / 2 + gap
+        }px)`;
+      }
+    } else if (rootStyle === 'lb-rb-3m') {
+      if (index === 1 || index === 2) {
+        styleObj.transform = `translate(${
+          ((width - 2 * gap) / 3 + gap) * index
+        }px,${0}px)`;
+      } else if (index === 3 || index === 4) {
+        styleObj.transform = `translate(${
+          ((width - gap) / 2 + gap) * (index - 3)
+        }px,${height / 2 + gap}px)`;
       }
     }
     return styleObj;

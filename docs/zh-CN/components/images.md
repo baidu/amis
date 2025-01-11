@@ -60,9 +60,32 @@ order: 53
 }
 ```
 
-图集排列方式，通过sortType字段调整布局方式`'l-t-2m'| | 'l-b-2m'| 'l-2m-2s' | 'rt-4m' | 'lt-4m'`
+图集排列方式，通过sortType字段调整布局方式`'l-t-2m'| 'l-b-2m'| 'l-2m-2s' | 'rt-4m' | 'lt-4m'| 'lb-4m' | 'lb-6s' | 'lb-rb-3m';`
+可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
 ![排序样式](../../../examples/static/sortType.png)
 
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "l-t-2m",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
 
 ## 值格式
 
@@ -116,6 +139,8 @@ Array<{
     },
     "body": {
         "type": "images",
+        "width":"100",
+        "height":"25",
         "source": "${images}"
     }
 }
