@@ -363,33 +363,33 @@
     background: var(--select-base-default-option-bg-color);
     line-height: var(--select-base-default-option-line-height);
 
-    &-checkbox {
+    .#{$ns}Checkbox {
       width: 100%;
       display: flex;
+      align-items: center;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      align-items: center;
-      > label {
-        width: 100%;
-        display: flex;
+      margin: 0;
+      > i {
+        flex-shrink: 0;
+      }
+
+      > span {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        align-items: center;
-
-        > i {
-          flex-shrink: 0;
-        }
-
-        > span {
+        width: 100%;
+        font-size: var(--select-base-default-option-fontSize);
+        font-weight: var(--select-base-default-option-fontWeight);
+        color: var(--select-base-default-option-color);
+      }
+      .#{$ns}TplField {
+        > span > p {
+          margin: 0;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          width: 100%;
-          font-size: var(--select-base-default-option-fontSize);
-          font-weight: var(--select-base-default-option-fontWeight);
-          color: var(--select-base-default-option-color);
         }
       }
     }
