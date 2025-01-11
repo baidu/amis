@@ -4,14 +4,6 @@
 @import 'node_modules/amis-ui/scss/functions';
 @import 'node_modules/amis-ui/scss/variables';
 
-@keyframes switch-light {
-  from {
-    background-image: url("../../../../examples/static/light.png");
-  }
-  to {
-    background-image: url("../../../../examples/static/light-2.png");
-  }
-}
 
 .#{$ns}Lottery {
   position: relative;
@@ -19,7 +11,6 @@
   box-sizing: content-box;
   background-color: #fdd130;
   background-size: 100% 100%;
-  animation: switch-light 0.3s infinite;
 
   .luckNineWrap {
     box-sizing: content-box;
