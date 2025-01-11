@@ -162,6 +162,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   };
 
   list: Array<any> = [];
+  gap = 10;
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -187,6 +188,73 @@ export class ImagesField extends React.Component<ImagesProps> {
         this.props
       );
   }
+
+  /**
+   * 计算照片子元素高度
+   * */
+  generateHeight = (rootStyle: string | undefined, index: number) => {
+    const height = Number(this.props.height) || 450;
+    if (rootStyle === 'l-t-2m') {
+      if (index === 0) {
+        return height + this.gap;
+      } else if (index === 1) {
+        return height * 0.5;
+      } else {
+        return height * 0.5;
+      }
+    }
+    return 0;
+  };
+
+  /**
+   * 计算照片子元素宽度
+   * */
+  generateWidth = (rootStyle: string | undefined, index: number) => {
+    const width = Number(this.props.width) || 800;
+    if (rootStyle === 'l-t-2m') {
+      if (index === 0) {
+        console.log(index, width, width * 0.3);
+        return width / 3;
+      } else if (index === 1) {
+        return (width / 3) * 2 + this.gap;
+      } else {
+        return width / 3;
+      }
+    }
+
+    return 0;
+  };
+
+  /**
+   * 计算照片子元素平移位置
+   * */
+  generateTranslate = (rootStyle: string | undefined, index: number) => {
+    const width = this.props.width || 800;
+    const height = this.props.height || 450;
+    const gap = 10;
+    let styleObj: any = {position: 'absolute', boxSizing: 'border-box'};
+    if (rootStyle === 'l-t-2m') {
+      if (index === 0) {
+        return styleObj;
+      } else if (index === 1) {
+        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+        return styleObj;
+      } else if (index === 2) {
+        return {
+          position: 'absolute',
+          transform: `translate(${width / 3 + gap}px,${height * 0.5 + gap}px)`
+        };
+      } else if (index === 3) {
+        return {
+          position: 'absolute',
+          transform: `translate(${(width / 3) * 2 + 2 * gap}px,${
+            height * 0.5 + gap
+          }px)`
+        };
+      }
+    }
+    return styleObj;
+  };
 
   render() {
     const {
@@ -242,7 +310,45 @@ export class ImagesField extends React.Component<ImagesProps> {
     this.list = list;
 
     if (this.props.sortType) {
-      return <div></div>;
+      return (
+        <div className={sortType}>
+          {list.map((item: any, index: number) => (
+            <Image
+              style={this.generateTranslate(sortType, index)}
+              index={index}
+              className={cx('Images-item')}
+              height={this.generateHeight(sortType, index)}
+              width={this.generateWidth(sortType, index)}
+              key={index}
+              src={
+                (src ? filter(src, item, '| raw') : item && item.image) || item
+              }
+              originalSrc={
+                (originalSrc
+                  ? filter(originalSrc, item, '| raw')
+                  : item && item.src) || item
+              }
+              title={item && item.title}
+              caption={item && (item.description || item.caption)}
+              thumbMode={'cover'}
+              thumbRatio={thumbRatio}
+              enlargeAble={enlargeAble!}
+              enlargeWithGallary={enlargeWithGallary}
+              onEnlarge={this.handleEnlarge}
+              showToolbar={showToolbar}
+              imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                {...this.props, name: 'imageGallaryClassName', id, themeCss}
+              )} ${setThemeClassName({
+                ...this.props,
+                name: 'galleryControlClassName',
+                id,
+                themeCss
+              })}`}
+              toolbarActions={toolbarActions}
+            />
+          ))}
+        </div>
+      );
     } else {
       return (
         <div
