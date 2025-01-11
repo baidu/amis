@@ -112,6 +112,19 @@ export interface ImagesSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 排列方式
+   * */
+  sortType?:
+    | 'l-t-2m'
+    | 'l-b-2m'
+    | 'l-2m-2s'
+    | 'rt-4m'
+    | 'lt-4m'
+    | 'lb-4m'
+    | 'lb-6s'
+    | 'lb-rb-3m';
 }
 
 export interface ImagesProps
@@ -202,6 +215,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       wrapperCustomStyle,
       env,
       themeCss,
+      sortType,
       imagesControlClassName
     } = this.props;
 
@@ -227,93 +241,97 @@ export class ImagesField extends React.Component<ImagesProps> {
 
     this.list = list;
 
-    return (
-      <div
-        className={cx(
-          'ImagesField',
-          className,
-          setThemeClassName({
-            ...this.props,
-            name: 'imagesControlClassName',
-            id,
-            themeCss
-          }),
-          setThemeClassName({
-            ...this.props,
-            name: 'wrapperCustomStyle',
-            id,
-            themeCss: wrapperCustomStyle
-          })
-        )}
-        style={style}
-      >
-        {Array.isArray(list) ? (
-          <div className={cx('Images', listClassName)}>
-            {list.map((item: any, index: number) => (
+    if (this.props.sortType) {
+      return <div></div>;
+    } else {
+      return (
+        <div
+          className={cx(
+            'ImagesField',
+            className,
+            setThemeClassName({
+              ...this.props,
+              name: 'imagesControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
+          )}
+          style={style}
+        >
+          {Array.isArray(list) ? (
+            <div className={cx('Images', listClassName)}>
+              {list.map((item: any, index: number) => (
+                <Image
+                  index={index}
+                  className={cx('Images-item')}
+                  key={index}
+                  src={
+                    (src ? filter(src, item, '| raw') : item && item.image) ||
+                    item
+                  }
+                  originalSrc={
+                    (originalSrc
+                      ? filter(originalSrc, item, '| raw')
+                      : item && item.src) || item
+                  }
+                  title={item && item.title}
+                  caption={item && (item.description || item.caption)}
+                  thumbMode={thumbMode}
+                  thumbRatio={thumbRatio}
+                  enlargeAble={enlargeAble!}
+                  enlargeWithGallary={enlargeWithGallary}
+                  onEnlarge={this.handleEnlarge}
+                  showToolbar={showToolbar}
+                  imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                    {...this.props, name: 'imageGallaryClassName', id, themeCss}
+                  )} ${setThemeClassName({
+                    ...this.props,
+                    name: 'galleryControlClassName',
+                    id,
+                    themeCss
+                  })}`}
+                  toolbarActions={toolbarActions}
+                />
+              ))}
+            </div>
+          ) : defaultImage ? (
+            <div className={cx('Images', listClassName)}>
               <Image
-                index={index}
                 className={cx('Images-item')}
-                key={index}
-                src={
-                  (src ? filter(src, item, '| raw') : item && item.image) ||
-                  item
-                }
-                originalSrc={
-                  (originalSrc
-                    ? filter(originalSrc, item, '| raw')
-                    : item && item.src) || item
-                }
-                title={item && item.title}
-                caption={item && (item.description || item.caption)}
+                src={defaultImage}
                 thumbMode={thumbMode}
                 thumbRatio={thumbRatio}
-                enlargeAble={enlargeAble!}
-                enlargeWithGallary={enlargeWithGallary}
-                onEnlarge={this.handleEnlarge}
-                showToolbar={showToolbar}
-                imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
-                  {...this.props, name: 'imageGallaryClassName', id, themeCss}
-                )} ${setThemeClassName({
-                  ...this.props,
-                  name: 'galleryControlClassName',
-                  id,
-                  themeCss
-                })}`}
-                toolbarActions={toolbarActions}
               />
-            ))}
-          </div>
-        ) : defaultImage ? (
-          <div className={cx('Images', listClassName)}>
-            <Image
-              className={cx('Images-item')}
-              src={defaultImage}
-              thumbMode={thumbMode}
-              thumbRatio={thumbRatio}
-            />
-          </div>
-        ) : (
-          placeholder
-        )}
-        <CustomStyle
-          {...this.props}
-          config={{
-            wrapperCustomStyle,
-            id,
-            themeCss,
-            classNames: [
-              {
-                key: 'imagesControlClassName'
-              },
-              {
-                key: 'galleryControlClassName'
-              }
-            ]
-          }}
-          env={env}
-        />
-      </div>
-    );
+            </div>
+          ) : (
+            placeholder
+          )}
+          <CustomStyle
+            {...this.props}
+            config={{
+              wrapperCustomStyle,
+              id,
+              themeCss,
+              classNames: [
+                {
+                  key: 'imagesControlClassName'
+                },
+                {
+                  key: 'galleryControlClassName'
+                }
+              ]
+            }}
+            env={env}
+          />
+        </div>
+      );
+    }
   }
 }
 
