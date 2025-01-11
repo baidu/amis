@@ -60,7 +60,7 @@ order: 53
 }
 ```
 
-图集排列方式，通过sortType字段调整布局方式`'l-t-2m'`
+图集排列方式，通过sortType字段调整布局方式`'l-t-2m'| | 'l-b-2m'| 'l-2m-2s' | 'rt-4m' | 'lt-4m'`
 ![排序样式](../../../examples/static/sortType.png)
 
 
