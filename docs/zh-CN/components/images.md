@@ -139,8 +139,6 @@ Array<{
     },
     "body": {
         "type": "images",
-        "width":"100",
-        "height":"25",
         "source": "${images}"
     }
 }
