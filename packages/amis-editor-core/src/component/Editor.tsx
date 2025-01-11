@@ -159,6 +159,7 @@ export interface EditorProps extends PluginEventListener {
    * 富文本编辑器配置, 用于内联编辑
    */
   richTextOptions?: any;
+  richTextToken?: string;
 }
 
 export default class Editor extends Component<EditorProps> {
