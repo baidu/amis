@@ -194,7 +194,7 @@ export class ImagesField extends React.Component<ImagesProps> {
    * */
   generateHeight = (rootStyle: string | undefined, index: number) => {
     const height = Number(this.props.height) || 450;
-    if (rootStyle === 'l-t-2m') {
+    if (rootStyle === 'l-t-2m' || rootStyle === 'l-b-2m') {
       if (index === 0) {
         return height + this.gap;
       } else if (index === 1) {
@@ -211,9 +211,8 @@ export class ImagesField extends React.Component<ImagesProps> {
    * */
   generateWidth = (rootStyle: string | undefined, index: number) => {
     const width = Number(this.props.width) || 800;
-    if (rootStyle === 'l-t-2m') {
+    if (rootStyle === 'l-t-2m' || rootStyle === 'l-b-2m') {
       if (index === 0) {
-        console.log(index, width, width * 0.3);
         return width / 3;
       } else if (index === 1) {
         return (width / 3) * 2 + this.gap;
@@ -235,22 +234,28 @@ export class ImagesField extends React.Component<ImagesProps> {
     let styleObj: any = {position: 'absolute', boxSizing: 'border-box'};
     if (rootStyle === 'l-t-2m') {
       if (index === 0) {
-        return styleObj;
       } else if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
-        return styleObj;
       } else if (index === 2) {
-        return {
-          position: 'absolute',
-          transform: `translate(${width / 3 + gap}px,${height * 0.5 + gap}px)`
-        };
+        styleObj.transform = `translate(${width / 3 + gap}px,${
+          height * 0.5 + gap
+        }px)`;
       } else if (index === 3) {
-        return {
-          position: 'absolute',
-          transform: `translate(${(width / 3) * 2 + 2 * gap}px,${
-            height * 0.5 + gap
-          }px)`
-        };
+        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
+          height * 0.5 + gap
+        }px)`;
+      }
+    } else if (rootStyle === 'l-b-2m') {
+      if (index === 0) {
+        return styleObj;
+      } else if (index === 1) {
+        styleObj.transform = `translate(${width / 3 + gap}px,${
+          height * 0.5 + gap
+        }px)`;
+      } else if (index === 2) {
+        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+      } else if (index === 3) {
+        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
       }
     }
     return styleObj;
