@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  getPropValue,
   isPureVariable,
   resolveVariableAndFilter,
   themeable,
@@ -10,9 +9,9 @@ import {SchemaTokenizeableString} from 'amis/src/Schema';
 
 interface SquareNineProps extends ThemeProps {
   //宽度，默认300px
-  width?: number;
+  width?: string;
   //高度，默认300px
-  height?: number;
+  height?: string;
   //奖品列表
   items?: {name: string; pictureUrl: string; id: number}[];
   // 开始按钮
@@ -32,8 +31,6 @@ interface CallBackFn {
 }
 
 interface SquareNineState {
-  width: number;
-  height: number;
   off: 0 | 1;
   now: number;
   count: number;
@@ -53,8 +50,6 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   constructor(props: SquareNineProps) {
     super(props);
     this.state = {
-      width: this.props.width || 300,
-      height: this.props.height || 300,
       off: 1,
       now: -1,
       count: 0,
@@ -110,9 +105,11 @@ export class Lottery extends React.Component<SquareNineProps, SquareNineState> {
   };
 
   render() {
-    const {width, height, now} = this.state;
+    const {now} = this.state;
     const {classnames: cx} = this.props;
     const {source, items, data} = this.props;
+    const width = this.props.width || '300';
+    const height = this.props.height || '300';
 
     let list: any;
     let value: any;

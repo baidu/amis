@@ -54,16 +54,6 @@ export interface LotterySchema extends BaseSchema {
 export class LotteryRenderer extends React.Component<
   Omit<SquareNineProps, 'actions'> & RendererProps
 > {
-  static propList: Array<keyof ListProps> = [
-    'width',
-    'height',
-    'items',
-    'source',
-    'targetIndex',
-    'callback',
-    'children'
-  ];
-
   render() {
     const {items, ...rest} = this.props;
     return <SquareNineComponent items={items} {...rest} />;
