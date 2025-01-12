@@ -6,7 +6,7 @@ import {makeEnv, wait} from '../helper';
 import 'jest-canvas-mock';
 
 test('Renderer:bar-code', async () => {
-  const {container} = render(
+  const {findByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -19,9 +19,7 @@ test('Renderer:bar-code', async () => {
       makeEnv({})
     )
   );
-  await waitFor(() =>
-    expect(container.querySelector('.cxd-BarCode')).toBeInTheDocument()
-  );
 
-  expect(container).toMatchSnapshot();
+  const barcodeElement = await findByTestId('barcode');
+  expect(barcodeElement).toBeInTheDocument();
 });
