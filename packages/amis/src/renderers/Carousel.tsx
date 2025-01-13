@@ -686,20 +686,24 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                           : {})
                       }
                     : {};
-                const itemRender = (option: any) =>
-                  render(
+                const itemRender = (option: any) => {
+                  const {itemSchema: optionItemSchema, ...restOption} = option;
+                  return render(
                     `${current}/body`,
-                    itemSchema ? itemSchema : (defaultSchema as any),
+                    optionItemSchema || itemSchema
+                      ? optionItemSchema || itemSchema
+                      : (defaultSchema as any),
                     {
                       thumbMode: this.props.thumbMode,
                       data: createObject(
                         data,
                         isObject(option)
-                          ? option
+                          ? restOption
                           : {item: option, [name!]: option}
                       )
                     }
                   );
+                };
 
                 return (
                   <div
