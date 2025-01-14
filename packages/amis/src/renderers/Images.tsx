@@ -469,7 +469,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               caption={item && (item.description || item.caption)}
               thumbMode={'cover'}
               thumbRatio={thumbRatio}
-              enlargeAble={enlargeAble!}
+              enlargeAble={enlargeAble}
               enlargeWithGallary={enlargeWithGallary}
               onEnlarge={this.handleEnlarge}
               showToolbar={showToolbar}
