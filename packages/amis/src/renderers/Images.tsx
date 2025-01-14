@@ -445,23 +445,6 @@ export class ImagesField extends React.Component<ImagesProps> {
     }
 
     this.list = list;
-    /**
-     * 截取图集图片数量，多余图片不显示
-     * */
-    if (this.props.sortType === 'l-t-2m' || this.props.sortType === 'l-b-2m') {
-      this.list = list.splice(0, 5);
-    } else if (
-      this.props.sortType === 'l-2m-2s' ||
-      this.props.sortType === 'rt-4m' ||
-      this.props.sortType === 'lt-4m' ||
-      this.props.sortType === 'lb-4m'
-    ) {
-      this.list = list.splice(0, 6);
-    } else if (this.props.sortType === 'lb-6s') {
-      this.list = list.splice(0, 8);
-    } else if (this.props.sortType === 'lb-rb-3m') {
-      this.list = list.splice(0, 6);
-    }
 
     if (this.props.sortType) {
       return (
