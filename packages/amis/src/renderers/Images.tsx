@@ -115,16 +115,18 @@ export interface ImagesSchema extends BaseSchema {
 
   /**
    * 排列方式
+   * 类命名方式按照上下左右四个边命名，l=2m，m=2s，最小单位为s
+   * 每条边的顺序都是从上到下，从左到右。
    * */
   sortType?:
-    | 'l-t-2m'
-    | 'l-b-2m'
-    | 'l-2m-2s'
-    | 'rt-4m'
-    | 'lt-4m'
-    | 'lb-4m'
-    | 'lb-6s'
-    | 'lb-rb-3m';
+    | 'sm-mm-mmm-m'
+    | 'sss-ss-ms-m'
+    | 'sms-ss-sms-l'
+    | 'sm-mm-sss-ss'
+    | 'ms-ss-sss-ss'
+    | 'sss-ss-ms-ss'
+    | 'ssss-ss-mss-ss'
+    | 'sss-ss-mm-ss';
   /**
    * 宽度（有sortType时生效）
    * */
@@ -203,9 +205,9 @@ export class ImagesField extends React.Component<ImagesProps> {
   generateHeight = (rootStyle: string | undefined, index: number) => {
     const height = Number(this.props.height) || 450;
     if (
-      rootStyle === 'l-t-2m' ||
-      rootStyle === 'l-b-2m' ||
-      rootStyle === 'l-2m-2s'
+      rootStyle === 'sm-mm-mmm-m' ||
+      rootStyle === 'sss-ss-ms-m' ||
+      rootStyle === 'sms-ss-sms-l'
     ) {
       if (index === 0) {
         return height + this.gap;
@@ -213,11 +215,11 @@ export class ImagesField extends React.Component<ImagesProps> {
         return height * 0.5;
       }
     } else if (
-      rootStyle === 'rt-4m' ||
-      rootStyle === 'lt-4m' ||
-      rootStyle === 'lb-4m' ||
-      rootStyle === 'lb-6s' ||
-      rootStyle === 'lb-rb-3m'
+      rootStyle === 'sm-mm-sss-ss' ||
+      rootStyle === 'ms-ss-sss-ss' ||
+      rootStyle === 'sss-ss-ms-ss' ||
+      rootStyle === 'ssss-ss-mss-ss' ||
+      rootStyle === 'sss-ss-mm-ss'
     ) {
       return height * 0.5;
     }
@@ -229,7 +231,7 @@ export class ImagesField extends React.Component<ImagesProps> {
    * */
   generateWidth = (rootStyle: string | undefined, index: number) => {
     const width = Number(this.props.width) || 800;
-    if (rootStyle === 'l-t-2m' || rootStyle === 'l-b-2m') {
+    if (rootStyle === 'sm-mm-mmm-m' || rootStyle === 'sss-ss-ms-m') {
       if (index === 0) {
         return width / 3;
       } else if (index === 1) {
@@ -237,31 +239,31 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return width / 3;
       }
-    } else if (rootStyle === 'l-2m-2s') {
+    } else if (rootStyle === 'sms-ss-sms-l') {
       if (index === 0 || index === 2 || index === 4) {
         return width / 4;
       } else if (index === 1 || index === 3) {
         return width / 2 + this.gap;
       }
-    } else if (rootStyle === 'rt-4m') {
+    } else if (rootStyle === 'sm-mm-sss-ss') {
       if (index === 0 || index === 2 || index === 3 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'lt-4m') {
+    } else if (rootStyle === 'ms-ss-sss-ss') {
       if (index === 1 || index === 2 || index === 3 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'lb-4m') {
+    } else if (rootStyle === 'sss-ss-ms-ss') {
       if (index === 0 || index === 1 || index === 2 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'lb-6s') {
+    } else if (rootStyle === 'ssss-ss-mss-ss') {
       if (
         index === 0 ||
         index === 1 ||
@@ -274,7 +276,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return width / 2 + this.gap;
       }
-    } else if (rootStyle === 'lb-rb-3m') {
+    } else if (rootStyle === 'sss-ss-mm-ss') {
       if (index === 0 || index === 1 || index === 2) {
         return (width - this.gap * 2) / 3;
       } else {
@@ -293,7 +295,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     const height = Number(this.props.height) || 450;
     const gap = 10;
     let styleObj: any = {position: 'absolute', boxSizing: 'border-box'};
-    if (rootStyle === 'l-t-2m') {
+    if (rootStyle === 'sm-mm-mmm-m') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -305,7 +307,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height * 0.5 + gap
         }px)`;
       }
-    } else if (rootStyle === 'l-b-2m') {
+    } else if (rootStyle === 'sss-ss-ms-m') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${
           height * 0.5 + gap
@@ -315,7 +317,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else if (index === 3) {
         styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
       }
-    } else if (rootStyle === 'l-2m-2s') {
+    } else if (rootStyle === 'sms-ss-sms-l') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 4 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -329,7 +331,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'rt-4m') {
+    } else if (rootStyle === 'sm-mm-sss-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -343,7 +345,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'lt-4m') {
+    } else if (rootStyle === 'ms-ss-sss-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
       } else if (index === 2) {
@@ -357,7 +359,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'lb-4m') {
+    } else if (rootStyle === 'sss-ss-ms-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -369,7 +371,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px`;
       }
-    } else if (rootStyle === 'lb-6s') {
+    } else if (rootStyle === 'ssss-ss-mss-ss') {
       if (index === 1 || index === 2 || index === 3) {
         styleObj.transform = `translate(${(width / 4 + gap) * index}px,${0}px)`;
       } else if (index === 4) {
@@ -379,7 +381,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'lb-rb-3m') {
+    } else if (rootStyle === 'sss-ss-mm-ss') {
       if (index === 1 || index === 2) {
         styleObj.transform = `translate(${
           ((width - 2 * gap) / 3 + gap) * index
@@ -448,20 +450,23 @@ export class ImagesField extends React.Component<ImagesProps> {
     /**
      * 截取图集图片数量，多余图片不显示
      * */
-    if (this.props.sortType === 'l-t-2m' || this.props.sortType === 'l-b-2m') {
+    if (
+      this.props.sortType === 'sm-mm-mmm-m' ||
+      this.props.sortType === 'sss-ss-ms-m'
+    ) {
       console.log('before', list);
       this.list = list.slice(0, 5);
       console.log('after', list);
     } else if (
-      this.props.sortType === 'l-2m-2s' ||
-      this.props.sortType === 'rt-4m' ||
-      this.props.sortType === 'lt-4m' ||
-      this.props.sortType === 'lb-4m'
+      this.props.sortType === 'sms-ss-sms-l' ||
+      this.props.sortType === 'sm-mm-sss-ss' ||
+      this.props.sortType === 'ms-ss-sss-ss' ||
+      this.props.sortType === 'sss-ss-ms-ss'
     ) {
       this.list = list.slice(0, 6);
-    } else if (this.props.sortType === 'lb-6s') {
+    } else if (this.props.sortType === 'ssss-ss-mss-ss') {
       this.list = list.slice(0, 8);
-    } else if (this.props.sortType === 'lb-rb-3m') {
+    } else if (this.props.sortType === 'sss-ss-mm-ss') {
       this.list = list.slice(0, 6);
     }
 
