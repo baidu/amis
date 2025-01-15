@@ -60,9 +60,11 @@ order: 53
 }
 ```
 
-图集排列方式，通过sortType字段调整布局方式`'l-t-2m'| 'l-b-2m'| 'l-2m-2s' | 'rt-4m' | 'lt-4m'| 'lb-4m' | 'lb-6s' | 'lb-rb-3m';`
+图集排列方式，通过sortType字段调整布局方式`'sm-mm-mmm-m'| 'sss-ss-ms-m'| 'sms-ss-sms-l' | 'sm-mm-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-ms-ss' | 'ssss-ss-mss-ss' | 'sss-ss-mm-ss';`
 可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
-![排序样式](../../../examples/static/sortType.png)
+
+ ### 1 
+ `sortType: 'sm-mm-mmm-m'`
 
 ```schema
 {
@@ -78,7 +80,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "l-t-2m",
+      "sortType": "sm-mm-mmm-m",
       "width":"200",
       "height":"112.5",
       "source": "${imageList}"
@@ -86,6 +88,199 @@ order: 53
   ]
 }
 ```
+### 2
+`sortType: 'sss-ss-ms-m'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-ms-m",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+### 3
+`sortType: 'sms-ss-sms-l'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sms-ss-sms-l",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+
+### 4
+`sortType: 'sm-mm-sss-ss'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sm-mm-sss-ss",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+### 5
+
+`sortType: 'ms-ss-sss-ss'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "ms-ss-sss-ss",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+
+### 6
+
+`sortType: 'sss-ss-ms-ss'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-ms-ss",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+### 7
+
+`sortType: 'ssss-ss-mss-ss'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "ssss-ss-mss-ss",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+
+### 8
+
+`sortType: 'sss-ss-mm-ss'`
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+      
+    ]
+  },
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-mm-ss",
+      "width":"200",
+      "height":"112.5",
+      "source": "${imageList}"
+    },
+  ]
+}
+```
+
 
 ## 值格式
 
