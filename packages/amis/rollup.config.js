@@ -241,6 +241,22 @@ function getPlugins(format = 'esm') {
         build time: <%=moment().format('YYYY-MM-DD')%>
         Copyright 2018<%= moment().format('YYYY') > 2018 ? '-' + moment().format('YYYY') : null %> ${author}
       `
-    })
+    }),
+
+    {
+      name: 'disable-treeshake',
+      transform(code, id) {
+        if (/\/src\/renderers\//.test(id)) {
+          // Disable tree shake for modules under `src/renderers`
+          return {
+            code,
+            map: null,
+            moduleSideEffects: 'no-treeshake'
+          };
+        }
+
+        return null;
+      }
+    }
   ].filter(item => item);
 }
