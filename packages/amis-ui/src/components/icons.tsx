@@ -305,7 +305,16 @@ function svgString2Dom(
 function LinkIcon({
   icon,
   vendor,
-  options: {className, classNameProp, style, cx, classPrefix, events, extra}
+  options: {
+    className,
+    classNameProp,
+    style,
+    cx,
+    classPrefix,
+    events,
+    extra,
+    convertSvgLinkToDom = false
+  }
 }: {
   icon: string;
   vendor?: string;
@@ -314,7 +323,7 @@ function LinkIcon({
   };
 }) {
   const [svgIcon, setSvgIcon] = React.useState<string | undefined>(undefined);
-  if (icon.endsWith('.svg')) {
+  if (icon.endsWith('.svg') && convertSvgLinkToDom) {
     useEffect(() => {
       try {
         fetch(icon)
@@ -394,7 +403,8 @@ export function Icon({
   width,
   height,
   extra,
-  testIdBuilder
+  testIdBuilder,
+  convertSvgLinkToDom = false
 }: {
   icon: string;
   iconContent?: string;
@@ -569,7 +579,8 @@ export function Icon({
           cx,
           classPrefix,
           events,
-          extra
+          extra,
+          convertSvgLinkToDom
         }}
       />
     );
