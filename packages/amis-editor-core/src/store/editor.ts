@@ -65,6 +65,7 @@ import debounce from 'lodash/debounce';
 import type {DialogSchema} from 'amis/lib/renderers/Dialog';
 import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 import getLayoutInstance from '../layout';
+import {isAlive} from 'mobx-state-tree';
 
 export interface SchemaHistory {
   versionId: number;
@@ -2180,7 +2181,7 @@ export const MainStore = types
           }
         });
         setTimeout(() => {
-          this.calculateHighlightBox(ids);
+          isAlive(self) && this.calculateHighlightBox(ids);
         }, 200);
       },
 
