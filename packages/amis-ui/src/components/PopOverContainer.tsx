@@ -20,6 +20,8 @@ export interface PopOverContainerProps {
     ref: any;
   }) => JSX.Element;
   disabled?: boolean;
+  /** 弹出层打开时触发的事件 */
+  onOpen?: () => void;
   popOverRender: (props: {onClose: () => void}) => JSX.Element;
   popOverContainer?: any;
   popOverClassName?: string;
@@ -63,11 +65,18 @@ export class PopOverContainer extends React.Component<
   }
 
   @autobind
-  handleClick() {
+  handleClick(e?: React.MouseEvent) {
+    e?.preventDefault();
+
     this.props.disabled ||
-      this.setState({
-        isOpened: true
-      });
+      this.setState(
+        {
+          isOpened: true
+        },
+        () => {
+          this.props.onOpen?.();
+        }
+      );
   }
 
   @autobind
