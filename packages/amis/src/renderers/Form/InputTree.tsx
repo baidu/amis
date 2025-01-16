@@ -547,7 +547,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     const rendererEvent = await dispatchEvent(
       'itemClick',
-      createObject(data, {item})
+      createObject(data, {
+        value: item.value
+      })
     );
 
     if (rendererEvent?.prevented) {
