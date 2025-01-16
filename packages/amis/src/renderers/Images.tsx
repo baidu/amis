@@ -171,6 +171,13 @@ export class ImagesField extends React.Component<ImagesProps> {
     thumbRatio: '1:1'
   };
 
+  constructor(props: ImagesProps) {
+    super(props);
+    this.state = {
+      enLargeUrl: ''
+    };
+  }
+
   list: Array<any> = [];
   gap = 10;
 
@@ -395,6 +402,11 @@ export class ImagesField extends React.Component<ImagesProps> {
     return styleObj;
   };
 
+  /**
+   * 图集组件点击图片后出触发，用于放大图片
+   * */
+  enlargeImage = (url: string) => {};
+
   render() {
     const {
       className,
@@ -474,39 +486,33 @@ export class ImagesField extends React.Component<ImagesProps> {
       return (
         <div className={sortType}>
           {list.map((item: any, index: number) => (
-            <Image
+            <div
+              className="Img-container"
               style={this.generateTranslate(sortType, index)}
-              index={index}
-              className={cx('Images-item')}
-              height={this.generateHeight(sortType, index)}
-              width={this.generateWidth(sortType, index)}
               key={index}
-              src={
-                (src ? filter(src, item, '| raw') : item && item.image) || item
-              }
-              originalSrc={
-                (originalSrc
-                  ? filter(originalSrc, item, '| raw')
-                  : item && item.src) || item
-              }
-              title={item && item.title}
-              caption={item && (item.description || item.caption)}
-              thumbMode={'cover'}
-              thumbRatio={thumbRatio}
-              enlargeAble={enlargeAble}
-              enlargeWithGallary={enlargeWithGallary}
-              onEnlarge={this.handleEnlarge}
-              showToolbar={showToolbar}
-              imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
-                {...this.props, name: 'imageGallaryClassName', id, themeCss}
-              )} ${setThemeClassName({
-                ...this.props,
-                name: 'galleryControlClassName',
-                id,
-                themeCss
-              })}`}
-              toolbarActions={toolbarActions}
-            />
+            >
+              <div
+                className="mask"
+                style={{height: this.generateHeight(sortType, index) + 'px'}}
+                onClick={() =>
+                  this.handleEnlarge({
+                    src: item.image,
+                    index
+                  } as ImageThumbProps)
+                }
+              >
+                {item.desc}
+              </div>
+              <img
+                alt=""
+                src={
+                  (src ? filter(src, item, '| raw') : item && item.image) ||
+                  item
+                }
+                width={this.generateWidth(sortType, index)}
+                height={this.generateHeight(sortType, index)}
+              />
+            </div>
           ))}
         </div>
       );

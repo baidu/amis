@@ -206,7 +206,41 @@
   content: var(--image-image-normal-icon);
 }
 
+.Img-container{
+  position: relative;
 
+  .mask{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    transition: all ease-in-out .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: transparent;
+    font-weight: bold;
+    font-size: px2rem(15px);
+  }
+
+  .mask:hover{
+    background: rgba(0,0,0,.5);
+    color: white;
+  }
+}
+
+.enlarge-container{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0,0,0,.5);
+  transition: all ease-in-out .3s;
+}
 
 
 
