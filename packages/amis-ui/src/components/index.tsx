@@ -144,7 +144,7 @@ import VerificationCode from './VerificationCode';
 import Shape from './Shape';
 import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
-
+import DropdownContextMenus from './DropdownContextMenus';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -287,5 +287,6 @@ export {
   VerificationCode,
   Shape,
   IShapeType,
-  MobileDevTool
+  MobileDevTool,
+  DropdownContextMenus
 };
