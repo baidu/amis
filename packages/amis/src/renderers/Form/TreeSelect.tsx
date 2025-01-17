@@ -627,6 +627,7 @@ export default class TreeSelectControl extends React.Component<
     const rendererEvent = await dispatchEvent(
       'itemClick',
       createObject(data, {
+        item,
         value: item.value
       })
     );
