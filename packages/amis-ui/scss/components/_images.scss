@@ -16,6 +16,13 @@
 .#{$ns}Image {
   border: var(--borderWidth) solid var(--borderColor);
 
+  &--original {
+    height: 100%;
+    .#{$ns}Image-origin--cover {
+      height: 100%;
+    }
+  }
+
   &--thumb {
     display: inline-block;
     padding: var(--image-image-normal-paddingTop)
