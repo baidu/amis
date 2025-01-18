@@ -15,6 +15,7 @@
 
 .#{$ns}Image {
   border: var(--borderWidth) solid var(--borderColor);
+  overflow: hidden;
 
   &--original {
     height: 100%;
