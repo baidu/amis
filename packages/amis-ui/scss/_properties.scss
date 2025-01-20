@@ -630,7 +630,9 @@ $Table-strip-bg: transparent;
   --Pagination-padding: 0 #{px2rem(8px)};
   --Pagination-padding-sm: 0 #{px2rem(4px)};
   --Pagination-light-color: var(--colors-neutral-text-4);
+  --Pagination-border: 1px solid #ccc;
 
+  --Panel--default-bg: var(--colors-neutral-fill-11);
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);
   --Panel--default-badgeColor: var(--colors-neutral-fill-10);
 

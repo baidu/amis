@@ -605,12 +605,12 @@ export class Pagination extends React.Component<
     if (mobileUI) {
       pageButtons = [
         pageButtons[0],
-        this.renderPageItem(activePage),
+        // this.renderPageItem(activePage),
         pageButtons[pageButtons.length - 1]
       ];
     }
 
-    const go = (
+    const go = mobileUI ? null : (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
         {!mobileUI ? (
           <span className={cx('Pagination-inputGroup-left')} key="go-left">
@@ -651,17 +651,19 @@ export class Pagination extends React.Component<
         </span>
       </div>
     );
-    const selection = (perPageAvailable as Array<number>)
-      .filter(v => !!v)
-      .map(v => ({label: __('Pagination.select', {count: v}), value: v}));
-    const perPageEle = (
+    const selection = mobileUI
+      ? null
+      : (perPageAvailable as Array<number>)
+          .filter(v => !!v)
+          .map(v => ({label: __('Pagination.select', {count: v}), value: v}));
+    const perPageEle = mobileUI ? null : (
       <Select
         key="perpage"
         className={cx('Pagination-perpage', 'Pagination-item')}
         clearable={false}
         disabled={disabled}
         value={perPage}
-        options={selection}
+        options={selection || []}
         popOverContainer={popOverContainer}
         popOverContainerSelector={popOverContainerSelector}
         onChange={(p: any) => {
@@ -674,14 +676,17 @@ export class Pagination extends React.Component<
         {...testIdBuilder?.getChild('perpage').getTestId()}
       />
     );
+    console.log('mobileUI', mobileUI);
+
     // total或者lastpage不存在，不渲染总数
-    const totalPage = !(total || lastPage) ? null : (
-      <div className={cx('Pagination-total Pagination-item')} key="total">
-        {total || total === 0
-          ? __('Pagination.totalCount', {total})
-          : __('Pagination.totalPage', {lastPage})}
-      </div>
-    );
+    const totalPage =
+      !(total || lastPage) || mobileUI ? null : (
+        <div className={cx('Pagination-total Pagination-item')} key="total">
+          {total || total === 0
+            ? __('Pagination.totalCount', {total})
+            : __('Pagination.totalPage', {lastPage})}
+        </div>
+      );
     return (
       <div
         className={cx(
