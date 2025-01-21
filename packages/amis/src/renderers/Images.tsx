@@ -112,6 +112,21 @@ export interface ImagesSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 展示模式，支持缩略图模式（thumb）和大图模式（full）
+   */
+  displayMode?: 'thumb' | 'full';
+
+  /**
+   * 当前展示图片索引
+   */
+  currentIndex?: number;
+
+  /**
+   * 画廊高度，仅在大图模式下生效
+   */
+  galleryHeight?: number | string;
 }
 
 export interface ImagesProps
@@ -130,25 +145,111 @@ export interface ImagesProps
   ) => void;
 }
 
-export class ImagesField extends React.Component<ImagesProps> {
-  static defaultProps: Pick<
-    ImagesProps,
-    | 'className'
-    | 'delimiter'
-    | 'defaultImage'
-    | 'placehoder'
-    | 'thumbMode'
-    | 'thumbRatio'
-  > = {
+export interface ImagesState {
+  currentIndex: number;
+  isSwiping: boolean;
+  startX: number;
+}
+
+export class ImagesField extends React.Component<ImagesProps, ImagesState> {
+  static defaultProps = {
     className: '',
     delimiter: ',',
     defaultImage: imagePlaceholder,
     placehoder: '-',
     thumbMode: 'contain',
-    thumbRatio: '1:1'
+    thumbRatio: '1:1',
+    displayMode: 'thumb'
+  };
+
+  state: ImagesState = {
+    currentIndex: 0,
+    isSwiping: false,
+    startX: 0
   };
 
   list: Array<any> = [];
+  containerRef = React.createRef<HTMLDivElement>();
+
+  @autobind
+  handleTouchStart(e: React.TouchEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    this.setState({
+      isSwiping: true,
+      startX: e.touches[0].clientX
+    });
+  }
+
+  @autobind
+  handleTouchEnd(e: React.TouchEvent) {
+    if (!this.state.isSwiping) return;
+
+    const {currentIndex} = this.state;
+    const deltaX = e.changedTouches[0].clientX - this.state.startX;
+    const threshold = 50; // 滑动阈值
+
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0 && currentIndex > 0) {
+        // 向右滑，显示上一张
+        this.setState({currentIndex: currentIndex - 1});
+      } else if (deltaX < 0 && currentIndex < this.list.length - 1) {
+        // 向左滑，显示下一张
+        this.setState({currentIndex: currentIndex + 1});
+      }
+    }
+
+    this.setState({isSwiping: false});
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+
+  @autobind
+  handleMouseDown(e: React.MouseEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    // 阻止图片默认的拖拽行为
+    e.preventDefault();
+
+    this.setState({
+      isSwiping: true,
+      startX: e.clientX
+    });
+
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  @autobind
+  handleMouseMove(e: MouseEvent) {
+    if (!this.state.isSwiping) return;
+    e.preventDefault();
+  }
+
+  @autobind
+  handleMouseUp(e: MouseEvent) {
+    if (!this.state.isSwiping) return;
+
+    const {currentIndex} = this.state;
+    const deltaX = e.clientX - this.state.startX;
+    const threshold = 50; // 滑动阈值
+
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0 && currentIndex > 0) {
+        // 向右滑，显示上一张
+        this.setState({currentIndex: currentIndex - 1});
+      } else if (deltaX < 0 && currentIndex < this.list.length - 1) {
+        // 向左滑，显示下一张
+        this.setState({currentIndex: currentIndex + 1});
+      }
+    }
+
+    this.setState({isSwiping: false});
+
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
+  }
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -173,6 +274,23 @@ export class ImagesField extends React.Component<ImagesProps> {
         },
         this.props
       );
+  }
+
+  renderImageIndex() {
+    const {currentIndex} = this.state;
+    return (
+      <div className="Images-index">
+        {currentIndex + 1}/{this.list.length}
+      </div>
+    );
+  }
+
+  getTransformStyle() {
+    const {currentIndex} = this.state;
+    return {
+      transform: `translateX(-${currentIndex * 100}%)`,
+      transition: this.state.isSwiping ? 'none' : 'transform 0.3s ease-out'
+    };
   }
 
   render() {
@@ -202,8 +320,12 @@ export class ImagesField extends React.Component<ImagesProps> {
       wrapperCustomStyle,
       env,
       themeCss,
-      imagesControlClassName
+      imagesControlClassName,
+      displayMode,
+      galleryHeight
     } = this.props;
+
+    const {currentIndex} = this.state;
 
     let value: any;
     let list: any;
@@ -229,9 +351,11 @@ export class ImagesField extends React.Component<ImagesProps> {
 
     return (
       <div
+        ref={this.containerRef}
         className={cx(
           'ImagesField',
           className,
+          displayMode === 'full' ? 'ImagesField--full' : '',
           setThemeClassName({
             ...this.props,
             name: 'imagesControlClassName',
@@ -245,43 +369,74 @@ export class ImagesField extends React.Component<ImagesProps> {
             themeCss: wrapperCustomStyle
           })
         )}
-        style={style}
+        style={{
+          ...style,
+          ...(displayMode === 'full' && galleryHeight
+            ? {
+                '--gallery-height': /^\d+$/.test(String(galleryHeight))
+                  ? `${galleryHeight}px`
+                  : galleryHeight
+              }
+            : {})
+        }}
+        onTouchStart={this.handleTouchStart}
+        onTouchEnd={this.handleTouchEnd}
+        onMouseDown={this.handleMouseDown}
       >
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
-            {list.map((item: any, index: number) => (
-              <Image
-                index={index}
-                className={cx('Images-item')}
-                key={index}
-                src={
-                  (src ? filter(src, item, '| raw') : item && item.image) ||
-                  item
-                }
-                originalSrc={
-                  (originalSrc
-                    ? filter(originalSrc, item, '| raw')
-                    : item && item.src) || item
-                }
-                title={item && item.title}
-                caption={item && (item.description || item.caption)}
-                thumbMode={thumbMode}
-                thumbRatio={thumbRatio}
-                enlargeAble={enlargeAble!}
-                enlargeWithGallary={enlargeWithGallary}
-                onEnlarge={this.handleEnlarge}
-                showToolbar={showToolbar}
-                imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
-                  {...this.props, name: 'imageGallaryClassName', id, themeCss}
-                )} ${setThemeClassName({
-                  ...this.props,
-                  name: 'galleryControlClassName',
-                  id,
-                  themeCss
-                })}`}
-                toolbarActions={toolbarActions}
-              />
-            ))}
+            {displayMode === 'full' ? (
+              <>
+                <div
+                  className={cx('Images-container')}
+                  style={this.getTransformStyle()}
+                >
+                  {list.map((item: any, index: number) => (
+                    <div key={index} className={cx('Images-item')}>
+                      <img
+                        className={cx('Image-image')}
+                        src={
+                          (src
+                            ? filter(src, item, '| raw')
+                            : item && item.image) || item
+                        }
+                        alt={item && item.title}
+                        draggable={false}
+                        onDragStart={e => e.preventDefault()}
+                      />
+                    </div>
+                  ))}
+                </div>
+                {this.renderImageIndex()}
+              </>
+            ) : (
+              list.map((item: any, index: number) => (
+                <Image
+                  index={index}
+                  className={cx('Images-item')}
+                  key={index}
+                  src={
+                    (src ? filter(src, item, '| raw') : item && item.image) ||
+                    item
+                  }
+                  originalSrc={
+                    (originalSrc
+                      ? filter(originalSrc, item, '| raw')
+                      : item && item.src) || item
+                  }
+                  title={item && item.title}
+                  caption={item && (item.description || item.caption)}
+                  thumbMode={thumbMode}
+                  thumbRatio={thumbRatio}
+                  enlargeAble={enlargeAble!}
+                  enlargeWithGallary={enlargeWithGallary}
+                  onEnlarge={this.handleEnlarge}
+                  showToolbar={showToolbar}
+                  toolbarActions={toolbarActions}
+                  imageGallaryClassName={imageGallaryClassName}
+                />
+              ))
+            )}
           </div>
         ) : defaultImage ? (
           <div className={cx('Images', listClassName)}>

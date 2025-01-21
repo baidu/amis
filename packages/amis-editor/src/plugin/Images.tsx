@@ -20,7 +20,8 @@ export class ImagesPlugin extends BasePlugin {
   pluginIcon = 'images-plugin';
   scaffold = {
     type: 'images',
-    imageGallaryClassName: 'app-popover :AMISCSSWrapper'
+    imageGallaryClassName: 'app-popover :AMISCSSWrapper',
+    displayMode: 'thumb' // 默认缩略图模式
   };
   previewSchema = {
     ...this.scaffold,
@@ -126,6 +127,22 @@ export class ImagesPlugin extends BasePlugin {
                       }
                     ]
                   },
+                  {
+                    type: 'select',
+                    name: 'displayMode',
+                    label: '图片集模式',
+                    value: 'thumb',
+                    options: [
+                      {
+                        label: '缩略图模式',
+                        value: 'thumb'
+                      },
+                      {
+                        label: '大图模式',
+                        value: 'full'
+                      }
+                    ]
+                  },
                   getSchemaTpl('switch', {
                     name: 'enlargeAble',
                     label: '图片放大功能'
@@ -152,6 +169,14 @@ export class ImagesPlugin extends BasePlugin {
               //   name: 'showDimensions',
               //   label: '显示图片尺寸'
               // }),
+              {
+                name: 'galleryHeight',
+                type: 'input-text',
+                label: '画廊高度',
+                description: '支持单位: px, rem, vh等',
+                placeholder: '例如: 400px',
+                visibleOn: 'this.displayMode === "full"'
+              },
 
               {
                 name: 'thumbMode',
@@ -184,7 +209,8 @@ export class ImagesPlugin extends BasePlugin {
                     label: '铺满',
                     value: 'cover'
                   }
-                ]
+                ],
+                visibleOn: 'this.displayMode === "thumb"'
               },
 
               {
@@ -208,7 +234,8 @@ export class ImagesPlugin extends BasePlugin {
                     label: '16:9',
                     value: '16:9'
                   }
-                ]
+                ],
+                visibleOn: 'this.displayMode === "thumb"'
               }
             ]
           },
