@@ -440,7 +440,7 @@ export function insertEditCustomStyle(params: {
             };`
         );
         const nowKey = key.replace('root', '');
-        content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+        content += `\n.${className}${nowKey} {\n  ${res.join('\n  ')}\n}`;
       } else {
         const res = map(
           styles[key],
