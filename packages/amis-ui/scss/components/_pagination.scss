@@ -314,7 +314,8 @@
   .#{$ns}Pagination-wrap-size--sm {
     .#{$ns}Pagination-item {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
+      gap: px2rem(16px);
       > li {
         > a,
         > span {
@@ -323,6 +324,7 @@
           min-width: var(--Pagination-minWidth);
           height: var(--Pagination-height);
           line-height: var(--Pagination-height);
+          border-radius: var(--borderRadius);
         }
         &.disabled {
           > a,
@@ -331,12 +333,15 @@
             cursor: not-allowed;
           }
         }
+        
       }
 
       .#{$ns}Pagination-inputGroup,
       .#{$ns}Pagination-simplego {
         &-input {
           border: none;
+          padding: 0;
+          margin-left: 0;
         }
         &-right {
           border: none;
@@ -352,6 +357,7 @@
         > a,
         > span {
           border: var(--Pagination-border);
+          border-radius: var(--borderRadius);
         }
         &.disabled {
           > a,
@@ -388,7 +394,7 @@
       line-height: var(--Pagination-height);
       font-size: var(--fontSizeSm);
       margin-right: 0;
-      padding: var(--Pagination-padding-sm);
+      padding: 0;
       &:focus,
       &:hover {
         outline: none;

@@ -193,7 +193,6 @@ export class Pagination extends React.Component<
     if (disabled) {
       return;
     }
-    this.setState({internalPageNum: String(_page)});
     onPageChange?.(_page, perPage, dir);
   }
 
@@ -417,7 +416,7 @@ export class Pagination extends React.Component<
 
     let basePager: React.ReactNode = null;
     // 非简洁模式
-    if (mode !== 'simple' && mobileUI) {
+    if ((mode !== 'simple' && mobileUI) || (mode === 'simple' && !mobileUI)) {
       basePager = (
         <li className={cx('Pagination-simplego')} key="simple-go">
           <input
