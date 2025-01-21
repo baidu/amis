@@ -280,6 +280,7 @@ export interface TableState {
   filteredItems: Array<TableDataItem>;
   columns: Array<any>;
   editIndex: string;
+  rowIndex?: string;
   isCreateMode?: boolean;
   page?: number;
   total?: number;
@@ -968,11 +969,12 @@ export default class FormTable<
    */
   async dispatchEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent} = this.props;
-    const {items} = this.state;
+    const {items, rowIndex} = this.state;
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(this.props, {
         value: [...items],
+        rowIndex,
         ...eventData
       })
     );
@@ -1221,7 +1223,7 @@ export default class FormTable<
 
   convertToRawPath(path: string, state?: Partial<TableState>) {
     const {filteredItems, items} = {...this.state, ...state};
-    const list = path.split('.').map((item: any) => parseInt(item, 10));
+    const list = `${path}`.split('.').map((item: any) => parseInt(item, 10));
     const firstRow = filteredItems[list[0]];
     list[0] = items.findIndex(item => item === firstRow);
     if (list[0] === -1) {
@@ -1777,6 +1779,7 @@ export default class FormTable<
               filteredItems: state.filteredItems.map(a =>
                 a === origin ? value : a
               ),
+              rowIndex: editIndex,
               /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
               ...(lastModifiedRow?.index === editIndex
                 ? {}
@@ -1804,6 +1807,7 @@ export default class FormTable<
 
         Object.assign(newState, {
           items,
+          rowIndex: rowIndexes as string,
           ...this.transformState(items, state)
         });
         callback = this.lazyEmitValue;
