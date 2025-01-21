@@ -10,7 +10,7 @@ import {
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
-import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
+import type {MODE_TYPE} from 'amis-ui/src/components/Pagination';
 
 export interface PaginationSchema extends BaseSchema {
   type: 'pagination';
@@ -127,6 +127,7 @@ export default class Pagination extends React.Component<PaginationProps> {
 
   render() {
     const {maxButtons, activePage, total, perPage} = this.props;
+
     return (
       <BasicPagination
         {...this.props}
