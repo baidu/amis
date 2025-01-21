@@ -1,0 +1,27 @@
+.#{$ns}DropdownContextMenus {
+  width: px2rem(20px);
+  height: px2rem(20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--borders-radius-4);
+  background-color: var(--button-light-default-bg-color);
+  color: var(--icon-color);
+
+  &:hover {
+    background-color: var(--button-light-hover-bg-color);
+    color: var(--icon-onHover-color);
+  }
+
+  &.is-disabled {
+    color: var(--icon-onDisabled-color);
+  }
+
+  > svg {
+    fill: currentColor;
+    width: px2rem(12px);
+    height: px2rem(12px);
+    transform: rotate(90deg);
+  }
+}
