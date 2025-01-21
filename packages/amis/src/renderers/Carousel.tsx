@@ -21,6 +21,7 @@ import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';
+import Video from '../renderers/Video';
 
 /**
  * Carousel 轮播图渲染器。
@@ -154,6 +155,7 @@ const defaultSchema = {
     const data = props.data || {};
     const thumbMode = props.thumbMode;
     const cx = props.classnames;
+    const env = props.env;
 
     return (
       <>
@@ -170,7 +172,15 @@ const defaultSchema = {
             className={cx('Carousel-image')}
           />
         ) : data.hasOwnProperty('html') ? (
-          <Html html={data.html} filterHtml={props.env.filterHtml} />
+          <Html html={data.html} filterHtml={env.filterHtml} />
+        ) : data.type === 'video' ? (
+          <Video
+            {...data}
+            className={cx('Carousel-video')}
+            classnames={cx}
+            classPrefix={props.classPrefix}
+            env={env}
+          />
         ) : data.hasOwnProperty('item') ? (
           <span>{data.item}</span>
         ) : (
@@ -507,6 +517,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   /**
+   * 判断是否为视频控件元素
+   */
+  isVideoControl(element: HTMLElement | null): boolean {
+    if (!element) return false;
+
+    // 检查是否在视频控制区域内
+    return !!element.closest('.video-react-control-bar, .video-react-control');
+  }
+
+  /**
    * 添加鼠标按下事件监听器, 用于判断滑动方向
    * @param event 鼠标事件对象
    */
@@ -514,8 +534,14 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   addMouseDownListener(
     event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
   ) {
-    const {direction} = this.props;
+    // 如果是视频控件，不处理滑动
+    const target = event.target as HTMLElement;
+    if (this.isVideoControl(target)) {
+      event.stopPropagation();
+      return;
+    }
 
+    const {direction} = this.props;
     const {screenX, screenY} = this.getEventScreenXY(event);
 
     // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
@@ -535,6 +561,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   addMouseUpListener(
     event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
   ) {
+    // 如果是视频控件，不处理滑动
+    const target = event.target as HTMLElement;
+    if (this.isVideoControl(target)) {
+      event.stopPropagation(); // 阻止事件冒泡
+      return;
+    }
+
     const {screenX, screenY} = this.getEventScreenXY(event);
 
     // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
@@ -630,6 +663,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           className={cx('Carousel-container')}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          onTouchStart={this.addMouseDownListener}
+          onTouchEnd={this.addMouseUpListener}
+          onMouseDown={this.addMouseDownListener}
+          onMouseUp={this.addMouseUpListener}
         >
           {options.map((option: any, key: number) => (
             <Transition
@@ -758,17 +795,15 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           }),
           {'Carousel-vertical': this.props.direction === 'vertical'}
         )}
-        onMouseDown={
-          this.props.mouseEvent ? this.addMouseDownListener : undefined
-        }
-        onMouseUp={this.props.mouseEvent ? this.addMouseUpListener : undefined}
-        onMouseLeave={
-          this.props.mouseEvent ? this.addMouseUpListener : undefined
-        }
-        onTouchStart={
-          this.props.mouseEvent ? this.addMouseDownListener : undefined
-        }
-        onTouchEnd={this.props.mouseEvent ? this.addMouseUpListener : undefined}
+        onTouchMove={e => {
+          // 如果是视频控件，不阻止默认行为
+          const target = e.target as HTMLElement;
+          if (this.isVideoControl(target)) {
+            return;
+          }
+          // 否则阻止默认行为以实现轮播图的滑动
+          e.preventDefault();
+        }}
         style={carouselStyles}
       >
         {body ? body : placeholder}

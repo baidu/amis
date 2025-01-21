@@ -28,7 +28,9 @@ export class CarouselPlugin extends BasePlugin {
         html: '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
       },
       {
-        image: mockValue({type: 'image'})
+        type: 'video',
+        src: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+        poster: mockValue({type: 'image'})
       }
     ]
   };
@@ -152,6 +154,49 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'html',
                     content: '<p>html 片段</p>'
                   }
+                },
+                {
+                  label: '视频',
+                  test: 'this.type === "video"',
+                  items: [
+                    {
+                      name: 'src',
+                      type: 'input-text',
+                      label: '视频地址',
+                      description:
+                        '可以写静态值，也可以用变量取比如：<code>\\${videoSrc}</code>'
+                    },
+                    {
+                      name: 'poster',
+                      type: 'input-text',
+                      label: '视频封面图片地址',
+                      description:
+                        '可以写静态值，也可以用变量取比如：<code>\\${videoPoster}</code>'
+                    },
+                    getSchemaTpl('switch', {
+                      name: 'autoPlay',
+                      label: '自动播放'
+                    }),
+                    getSchemaTpl('switch', {
+                      name: 'muted',
+                      label: '静音'
+                    }),
+                    getSchemaTpl('switch', {
+                      name: 'isLive',
+                      label: '直播流',
+                      labelRemark: {
+                        trigger: 'click',
+                        rootClose: true,
+                        content:
+                          '如果是直播流，请勾选，否则有可能不能正常播放。'
+                      }
+                    })
+                  ],
+                  scaffold: {
+                    type: 'video',
+                    src: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+                    poster: mockValue({type: 'image'})
+                  }
                 }
               ],
               pipeIn: (value: any) => {
@@ -165,24 +210,43 @@ export class CarouselPlugin extends BasePlugin {
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
-                      }) =>
-                        item && item.hasOwnProperty('html')
-                          ? {
-                              type: 'html',
-                              content: item.html
-                            }
-                          : {
-                              type: 'image',
-                              content: item.image,
-                              title: item.title,
-                              href: item.href,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            }
+                        type?: string;
+                        src?: string;
+                        poster?: string;
+                        autoPlay?: boolean;
+                        muted?: boolean;
+                        isLive?: boolean;
+                      }) => {
+                        if (item && item.hasOwnProperty('html')) {
+                          return {
+                            type: 'html',
+                            content: item.html
+                          };
+                        } else if (item && item.type === 'video') {
+                          return {
+                            type: 'video',
+                            src: item.src,
+                            poster: item.poster,
+                            autoPlay: item.autoPlay,
+                            muted: item.muted,
+                            isLive: item.isLive
+                          };
+                        } else {
+                          return {
+                            type: 'image',
+                            content: item.image,
+                            title: item.title,
+                            href: item.href,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
+                      }
                     )
                   : [];
               },
+
               pipeOut: (value: any, originValue: any, data: any) => {
                 return Array.isArray(value) && value.length
                   ? value.map(
@@ -194,19 +258,35 @@ export class CarouselPlugin extends BasePlugin {
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
+                        src?: string;
+                        poster?: string;
+                        autoPlay?: boolean;
+                        muted?: boolean;
+                        isLive?: boolean;
                       }) => {
-                        return item.type === 'html'
-                          ? {
-                              html: item.content
-                            }
-                          : {
-                              image: item.content,
-                              href: item.href,
-                              title: item.title,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            };
+                        if (item.type === 'html') {
+                          return {
+                            html: item.content
+                          };
+                        } else if (item.type === 'video') {
+                          return {
+                            type: 'video',
+                            src: item.src,
+                            poster: item.poster,
+                            autoPlay: item.autoPlay,
+                            muted: item.muted,
+                            isLive: item.isLive
+                          };
+                        } else {
+                          return {
+                            image: item.content,
+                            href: item.href,
+                            title: item.title,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
                       }
                     )
                   : [];
