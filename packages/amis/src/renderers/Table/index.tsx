@@ -1146,6 +1146,7 @@ export default class Table<
 
   handleRowDbClick(item: IRow, index: number) {
     const {dispatchEvent, filterItemIndex, store, data} = this.props;
+
     return dispatchEvent(
       'rowDbClick',
       createObject(data, {
