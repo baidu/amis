@@ -1,5 +1,5 @@
 /*
- * @Descr''i''ption: Pagination分页组件
+ * @Description: Pagination分页组件
  * @Author: wangfeilong02@baidu.com
  * @Date: 2021-11-01 16:57:38
  */
@@ -157,7 +157,7 @@ export class Pagination extends React.Component<
 
   state = {
     pageNum: '',
-    internalPageNum: '2',
+    internalPageNum: '1',
     perPage: Number(this.props.perPage)
   };
 
@@ -189,7 +189,6 @@ export class Pagination extends React.Component<
   async handlePageNumChange(page: number, perPage?: number, dir?: string) {
     const {disabled, onPageChange} = this.props;
     const _page = isNaN(Number(page)) || Number(page) < 1 ? 1 : page;
-    console.log(disabled, page, perPage, dir);
 
     if (disabled) {
       return;

@@ -10,7 +10,7 @@ import {
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
-import type {MODE_TYPE} from 'amis-ui/src/components/Pagination';
+import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
 
 export interface PaginationSchema extends BaseSchema {
   type: 'pagination';
