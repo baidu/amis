@@ -324,6 +324,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       return;
     }
 
+    // 如果正在进行多图动画，则不允许新的滑动
+    const {multiple} = this.props;
+    if (this.loading && multiple && multiple.count > 1) {
+      return;
+    }
+
     switch (direction) {
       case 'left':
         current = this.getFrameId('next');
@@ -343,6 +349,20 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     );
     if (rendererEvent?.prevented) {
       return;
+    }
+
+    // 在状态更新前重置所有正在进行的动画
+    if (multiple && multiple.count > 1) {
+      const container = this.wrapperRef.current;
+      if (container) {
+        const items = container.getElementsByClassName('Carousel-item');
+        Array.from(items).forEach((item: HTMLElement) => {
+          item.style.transition = 'none';
+          // 强制重排以确保过渡被重置
+          void item.offsetHeight;
+          item.style.transition = '';
+        });
+      }
     }
 
     this.setState({

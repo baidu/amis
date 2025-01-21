@@ -23,6 +23,7 @@
   position: relative;
   display: block;
   background: var(--Carousel-bg);
+  user-select: none;
 
   &.#{$ns}Carousel--light {
     .#{$ns}Carousel-dot {
@@ -64,6 +65,7 @@
     height: 100%;
     overflow: hidden;
     touch-action: pan-y pinch-zoom;
+    user-select: none;
 
     .#{$ns}Carousel-item {
       width: 100%;
