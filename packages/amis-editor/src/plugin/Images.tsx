@@ -138,7 +138,7 @@ export class ImagesPlugin extends BasePlugin {
                         value: 'thumb'
                       },
                       {
-                        label: '大图模式',
+                        label: '画廊模式',
                         value: 'full'
                       }
                     ]
@@ -169,14 +169,6 @@ export class ImagesPlugin extends BasePlugin {
               //   name: 'showDimensions',
               //   label: '显示图片尺寸'
               // }),
-              {
-                name: 'galleryHeight',
-                type: 'input-text',
-                label: '画廊高度',
-                description: '支持单位: px, rem, vh等',
-                placeholder: '例如: 400px',
-                visibleOn: 'this.displayMode === "full"'
-              },
 
               {
                 name: 'thumbMode',

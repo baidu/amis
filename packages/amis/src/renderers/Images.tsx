@@ -276,20 +276,12 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
       );
   }
 
-  renderImageIndex() {
-    const {currentIndex} = this.state;
-    return (
-      <div className="Images-index">
-        {currentIndex + 1}/{this.list.length}
-      </div>
-    );
-  }
-
   getTransformStyle() {
     const {currentIndex} = this.state;
     return {
       transform: `translateX(-${currentIndex * 100}%)`,
-      transition: this.state.isSwiping ? 'none' : 'transform 0.3s ease-out'
+      transition: this.state.isSwiping ? 'none' : 'transform 0.3s ease-out',
+      height: '100%'
     };
   }
 
@@ -371,11 +363,9 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         )}
         style={{
           ...style,
-          ...(displayMode === 'full' && galleryHeight
+          ...(displayMode === 'full'
             ? {
-                '--gallery-height': /^\d+$/.test(String(galleryHeight))
-                  ? `${galleryHeight}px`
-                  : galleryHeight
+                height: 'auto'
               }
             : {})
         }}
@@ -393,21 +383,25 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
                 >
                   {list.map((item: any, index: number) => (
                     <div key={index} className={cx('Images-item')}>
-                      <img
-                        className={cx('Image-image')}
-                        src={
-                          (src
-                            ? filter(src, item, '| raw')
-                            : item && item.image) || item
-                        }
-                        alt={item && item.title}
-                        draggable={false}
-                        onDragStart={e => e.preventDefault()}
-                      />
+                      <div className={cx('Images-itemInner')}>
+                        <img
+                          className={cx('Image-image')}
+                          src={
+                            (src
+                              ? filter(src, item, '| raw')
+                              : item && item.image) || item
+                          }
+                          alt={item && item.title}
+                          draggable={false}
+                          onDragStart={e => e.preventDefault()}
+                        />
+                        <div className={cx('Images-itemIndex')}>
+                          {index + 1}/{list.length}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
-                {this.renderImageIndex()}
               </>
             ) : (
               list.map((item: any, index: number) => (
