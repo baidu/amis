@@ -2979,6 +2979,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         loading: store.loading,
         host: this,
         filterItemIndex: this.filterItemIndex,
+        onDbClick: this.props.rowDbClick,
         testIdBuilder: testIdBuilder?.getChild('body')
       }
     );
