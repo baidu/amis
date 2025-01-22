@@ -35,7 +35,7 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: auto;
+      height: 100%;
       cursor: grab;
 
       &-container {
@@ -47,7 +47,6 @@
       }
 
       &-item {
-        flex: 0 0 100%;
         width: 100%;
         margin: 0;
         display: flex;
