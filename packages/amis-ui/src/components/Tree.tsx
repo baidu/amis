@@ -1460,7 +1460,7 @@ export class TreeSelector extends React.Component<
     const {options, onlyChildren, valueField} = this.props;
     const flattendOptions = flattenTree(options, item =>
       onlyChildren
-        ? item.children
+        ? item.children?.length
           ? null
           : item
         : this.isEmptyOrNotExist(item[valueField || 'value'])
