@@ -158,6 +158,9 @@ export default class Preview extends Component<PreviewProps> {
   handlePanelChange() {
     if (this.layer && this.scrollLayer) {
       requestAnimationFrame(() => {
+        if (!this.layer) {
+          return;
+        }
         this.layer!.style.cssText += `transform: translate(0, -${
           this.scrollLayer!.scrollTop
         }px);`;
