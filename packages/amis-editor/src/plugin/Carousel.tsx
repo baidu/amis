@@ -152,6 +152,34 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'html',
                     content: '<p>html 片段</p>'
                   }
+                },
+
+                {
+                  label: '自定义容器',
+                  test: 'this.type === "container"',
+                  items: [
+                    {
+                      type: 'container',
+                      name: 'content',
+                      label: false,
+                      mode: 'horizontal',
+                      className: 'ae-Carousel-container',
+                      body: [
+                        {
+                          type: 'wrapper',
+                          size: 'xl',
+                          body: '拖拽组件到这里'
+                        }
+                      ]
+                    }
+                  ],
+                  scaffold: {
+                    type: 'container',
+                    content: {
+                      type: 'wrapper',
+                      body: '拖拽组件到这里'
+                    }
+                  }
                 }
               ],
               pipeIn: (value: any) => {
@@ -165,21 +193,30 @@ export class CarouselPlugin extends BasePlugin {
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
-                      }) =>
-                        item && item.hasOwnProperty('html')
-                          ? {
-                              type: 'html',
-                              content: item.html
-                            }
-                          : {
-                              type: 'image',
-                              content: item.image,
-                              title: item.title,
-                              href: item.href,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            }
+                        body?: any;
+                      }) => {
+                        if (item && item.hasOwnProperty('html')) {
+                          return {
+                            type: 'html',
+                            content: item.html
+                          };
+                        } else if (item && item.hasOwnProperty('body')) {
+                          return {
+                            type: 'container',
+                            content: item.body
+                          };
+                        } else {
+                          return {
+                            type: 'image',
+                            content: item.image,
+                            title: item.title,
+                            href: item.href,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
+                      }
                     )
                   : [];
               },
@@ -188,25 +225,31 @@ export class CarouselPlugin extends BasePlugin {
                   ? value.map(
                       (item: {
                         type: string;
-                        content: string;
+                        content: any;
                         href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
                       }) => {
-                        return item.type === 'html'
-                          ? {
-                              html: item.content
-                            }
-                          : {
-                              image: item.content,
-                              href: item.href,
-                              title: item.title,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            };
+                        if (item.type === 'html') {
+                          return {
+                            html: item.content
+                          };
+                        } else if (item.type === 'container') {
+                          return {
+                            body: item.content
+                          };
+                        } else {
+                          return {
+                            image: item.content,
+                            href: item.href,
+                            title: item.title,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
                       }
                     )
                   : [];
@@ -338,6 +381,35 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'button',
                     label: 'px'
                   }
+                }
+              ]
+            },
+            {
+              title: '高级',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'draggable',
+                  label: '允许拖拽组件',
+                  pipeIn: defaultValue(false)
+                }),
+
+                {
+                  type: 'input-array',
+                  name: 'acceptType',
+                  label: '可拖入的组件类型',
+                  items: {
+                    type: 'input-text',
+                    placeholder: '请输入组件type'
+                  },
+                  visibleOn: 'this.draggable'
+                },
+
+                {
+                  type: 'input-text',
+                  name: 'dragTip',
+                  label: '拖拽提示文案',
+                  visibleOn: 'this.draggable',
+                  pipeIn: defaultValue('拖拽组件到这里')
                 }
               ]
             },

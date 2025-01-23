@@ -126,6 +126,21 @@ export interface CarouselSchema extends BaseSchema {
     prev?: SchemaCollection;
     next?: SchemaCollection;
   };
+
+  /**
+   * 是否可以接受拖拽
+   */
+  draggable?: boolean;
+
+  /**
+   * 可接受拖拽的组件类型
+   */
+  acceptType?: string[];
+
+  /**
+   * 拖拽提示文案
+   */
+  dragTip?: string;
 }
 
 const animationStyles: {
@@ -171,6 +186,8 @@ const defaultSchema = {
           />
         ) : data.hasOwnProperty('html') ? (
           <Html html={data.html} filterHtml={props.env.filterHtml} />
+        ) : data.hasOwnProperty('body') ? (
+          props.render('body', data.body)
         ) : data.hasOwnProperty('item') ? (
           <span>{data.item}</span>
         ) : (
