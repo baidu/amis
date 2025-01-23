@@ -2843,7 +2843,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         onSubmit: this.handleFilterSubmit,
         onInit: this.handleFilterInit,
         formStore: undefined,
-        canAccessSuperData: filterCanAccessSuperData
+        canAccessSuperData:
+          filter?.canAccessSuperData ?? filterCanAccessSuperData
       }
     );
   }
