@@ -179,6 +179,7 @@ export class Pagination extends React.Component<
 
   componentWillReceiveProps(nextProps: PaginationProps) {
     if (
+      // 原本作用在simple上的样式和部分方法变成了normal的，这里需要重置内部状态
       this.props.mode !== 'simple' &&
       nextProps.activePage !== Number(this.state.internalPageNum)
     ) {
@@ -637,11 +638,9 @@ export class Pagination extends React.Component<
 
     const go = mobileUI ? null : (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        {!mobileUI ? (
-          <span className={cx('Pagination-inputGroup-left')} key="go-left">
-            {__('Pagination.goto')}
-          </span>
-        ) : null}
+        <span className={cx('Pagination-inputGroup-left')} key="go-left">
+          {__('Pagination.goto')}
+        </span>
         <input
           className={cx('Pagination-inputGroup-input')}
           key="go-input"
@@ -676,11 +675,9 @@ export class Pagination extends React.Component<
         </span>
       </div>
     );
-    const selection = mobileUI
-      ? null
-      : (perPageAvailable as Array<number>)
-          .filter(v => !!v)
-          .map(v => ({label: __('Pagination.select', {count: v}), value: v}));
+    const selection = (perPageAvailable as Array<number>)
+      .filter(v => !!v)
+      .map(v => ({label: __('Pagination.select', {count: v}), value: v}));
     const perPageEle = mobileUI ? null : (
       <Select
         key="perpage"
