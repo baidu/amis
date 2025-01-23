@@ -378,7 +378,7 @@ export const TREE_BASE_EVENTS = (schema: any) => {
       eventLabel: '节点点击',
       description: '点击节点触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {itemSchema} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -388,7 +388,11 @@ export const TREE_BASE_EVENTS = (schema: any) => {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  item: {
+                    type: 'object',
+                    title: '所点击的选项',
+                    properties: itemSchema
+                  }
                 }
               }
             }

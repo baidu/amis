@@ -92,12 +92,12 @@ function startPlainTextEdit({
   elem.focus();
 
   let caretRange = event
-    ? getMouseEventCaretRange(event)
+    ? getMouseEventCaretRange(event, elem)
     : createRangeAtTheEnd(elem);
 
   // Set a timer to allow the selection to happen and the dust settle first
   setTimeout(function () {
-    selectRange(caretRange);
+    selectRange(caretRange, elem);
   }, 10);
 }
 
@@ -146,6 +146,9 @@ async function startRichTextEdit({
       toolbarInline: true,
       charCounterCount: false,
       key: richTextToken,
+      // 不配置这个户自动包裹个 <p> 会出现跳动
+      // https://wysiwyg-editor.froala.help/hc/en-us/articles/115000461089-Can-I-disable-wrapping-content-with-P-tags
+      enter: FroalaEditor.ENTER_BR,
       // todo 现在这个按钮的位置又问题，先忽略
       // quickInsertEnabled: false,
       toolbarButtons: [
@@ -185,12 +188,12 @@ async function startRichTextEdit({
       origin = editor.html.get();
 
       let caretRange = event
-        ? getMouseEventCaretRange(event)
+        ? getMouseEventCaretRange(event, elem)
         : createRangeAtTheEnd(elem);
 
       // Set a timer to allow the selection to happen and the dust settle first
       setTimeout(function () {
-        selectRange(caretRange);
+        selectRange(caretRange, elem);
       }, 10);
     }
   );
@@ -203,7 +206,7 @@ async function startRichTextEdit({
  * @returns {Range} 创建的Range对象
  */
 function createRangeAtTheEnd(elem: HTMLElement) {
-  const range = document.createRange();
+  const range = elem.ownerDocument.createRange();
   range.selectNodeContents(elem);
   range.collapse(false);
   return range;
@@ -216,35 +219,49 @@ function createRangeAtTheEnd(elem: HTMLElement) {
  * @param {MouseEvent} evt - 鼠标事件对象
  * @returns {Range} 光标位置的Range对象
  */
-function getMouseEventCaretRange(evt: MouseEvent) {
+function getMouseEventCaretRange(evt: MouseEvent, elem: HTMLElement) {
   let range,
     x = evt.clientX,
     y = evt.clientY;
 
+  const target = evt.target as HTMLElement;
+  const doc = elem.ownerDocument;
+
+  if (target.ownerDocument !== doc) {
+    // 如果点击事件来自iframe外部，需要调整坐标
+    const iframe = doc.defaultView?.frameElement as HTMLIFrameElement;
+
+    if (iframe) {
+      const rect = iframe.getBoundingClientRect();
+      x -= rect.left;
+      y -= rect.top;
+    }
+  }
+
   // Try the simple IE way first
-  if ((document.body as any).createTextRange) {
-    range = (document.body as any).createTextRange();
+  if ((doc.body as any).createTextRange) {
+    range = (doc.body as any).createTextRange();
     range.moveToPoint(x, y);
-  } else if (typeof document.createRange != 'undefined') {
+  } else if (typeof doc.createRange != 'undefined') {
     // Try Mozilla's rangeOffset and rangeParent properties,
     // which are exactly what we want
     if (typeof (evt as any).rangeParent != 'undefined') {
-      range = document.createRange();
+      range = doc.createRange();
       range.setStart((evt as any).rangeParent, (evt as any).rangeOffset);
       range.collapse(true);
     }
 
     // Try the standards-based way next
-    else if ((document as any).caretPositionFromPoint) {
-      let pos: any = (document as any).caretPositionFromPoint(x, y);
-      range = document.createRange();
+    else if ((doc as any).caretPositionFromPoint) {
+      let pos: any = (doc as any).caretPositionFromPoint(x, y);
+      range = doc.createRange();
       range.setStart(pos.offsetNode, pos.offset);
       range.collapse(true);
     }
 
     // Next, the WebKit way
-    else if (document.caretRangeFromPoint) {
-      range = document.caretRangeFromPoint(x, y);
+    else if (doc.caretRangeFromPoint) {
+      range = doc.caretRangeFromPoint(x, y);
     }
   }
 
@@ -256,12 +273,15 @@ function getMouseEventCaretRange(evt: MouseEvent) {
  * 支持IE和标准浏览器两种方式
  * @param {Range} range - 要选中的Range对象
  */
-function selectRange(range: any) {
+function selectRange(range: any, elem: HTMLElement) {
+  const doc = elem.ownerDocument;
+  const win = doc.defaultView || (doc as any).parentWindow;
+
   if (range) {
     if (typeof range.select != 'undefined') {
       range.select();
-    } else if (typeof window.getSelection != 'undefined') {
-      let sel: any = window.getSelection();
+    } else if (typeof win.getSelection != 'undefined') {
+      let sel: any = win.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
     }

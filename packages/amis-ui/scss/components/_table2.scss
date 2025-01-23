@@ -246,7 +246,7 @@
 
     > tbody > tr {
       position: relative;
-      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+      border-top: unset !important;
 
       &.#{$ns}Table-summary-row {
         > td {
@@ -262,6 +262,10 @@
         white-space: nowrap;
         border-right: var(--Table-thead-borderWidth) solid
           var(--Table-thead-borderColor);
+      }
+
+      > td {
+        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
       }
 
       > td,

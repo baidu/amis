@@ -607,6 +607,10 @@
       > span {
         line-height: px2rem(32px);
         display: inline-block;
+
+        .#{$ns}Form-star {
+          top: px2rem(10px);
+        }
       }
     }
 

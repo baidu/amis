@@ -719,7 +719,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       showInvalidMatch,
       checkAll,
       checkAllLabel,
-      overlay
+      overlay,
+      valueField
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -776,6 +777,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           checkAllLabel={checkAllLabel}
           checkAll={checkAll}
           overlay={overlay}
+          valueField={valueField}
         />
 
         <Spinner

@@ -790,17 +790,7 @@ export default class Table<
   componentDidMount() {
     const currentNode = this.dom.current!;
 
-    if (this.props.autoFillHeight) {
-      this.toDispose.push(
-        resizeSensor(
-          currentNode.parentElement!,
-          this.updateAutoFillHeightLazy,
-          false,
-          'height'
-        )
-      );
-      this.updateAutoFillHeight();
-    }
+    this.initAutoFillHeight();
 
     // todo 因为没有监控里面内容的宽度变化，所以单元格内容变化撑开时可能看不到 fixed 的阴影
     // 应该加上 table 的宽度检测
@@ -848,6 +838,23 @@ export default class Table<
       env.notify('error', e.message);
     } finally {
       row.markLoading(false);
+    }
+  }
+
+  autoFillHeightDispose?: () => void;
+  initAutoFillHeight() {
+    const props = this.props;
+    const currentNode = this.dom.current!;
+
+    if (props.autoFillHeight) {
+      this.autoFillHeightDispose = resizeSensor(
+        currentNode.parentElement!,
+        this.updateAutoFillHeightLazy,
+        false,
+        'height'
+      );
+      this.toDispose.push(this.autoFillHeightDispose);
+      this.updateAutoFillHeight();
     }
   }
 
@@ -1025,6 +1032,24 @@ export default class Table<
         this.syncSelected();
       }
     }
+
+    // 检测属性变化，来切换功能
+    if (props.autoFillHeight !== prevProps.autoFillHeight) {
+      if (this.autoFillHeightDispose) {
+        const idx = this.toDispose.indexOf(this.autoFillHeightDispose);
+        if (idx !== -1) {
+          this.toDispose.splice(idx, 1);
+        }
+        this.autoFillHeightDispose();
+        delete this.autoFillHeightDispose;
+        const tableContent = this.table?.parentElement as HTMLElement;
+        if (tableContent) {
+          tableContent.style.height = '';
+        }
+      }
+
+      this.initAutoFillHeight();
+    }
   }
 
   componentWillUnmount() {
@@ -1032,6 +1057,7 @@ export default class Table<
 
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
+    delete this.autoFillHeightDispose;
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();
@@ -1120,6 +1146,7 @@ export default class Table<
 
   handleRowDbClick(item: IRow, index: number) {
     const {dispatchEvent, filterItemIndex, store, data} = this.props;
+
     return dispatchEvent(
       'rowDbClick',
       createObject(data, {
@@ -3060,6 +3087,9 @@ export class TableRendererBase<
       targets.forEach(target => {
         target.updateData(values);
       });
+    } else if (this.props?.host) {
+      // 如果在 CRUD 里面，优先让 CRUD 去更新状态
+      return this.props.host.setData?.(values, replace, index, condition);
     } else {
       const data = {
         ...values,

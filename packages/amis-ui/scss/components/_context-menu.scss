@@ -127,6 +127,12 @@
     &.has-child:hover > a::after {
       border-color: transparent transparent transparent var(--menu-active-color);
     }
+
+    &.is-danger {
+      > a {
+        color: var(--danger-color);
+      }
+    }
   }
 
   &-itemIcon {

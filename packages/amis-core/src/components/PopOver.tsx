@@ -185,6 +185,12 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
     });
   }
 
+  @autobind
+  handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    this.props.onHide?.();
+  }
+
   render() {
     const {
       placement,
@@ -233,7 +239,7 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
         {overlay ? (
           <div
             className={`${ns}PopOver-overlay`}
-            onClick={onHide}
+            onClick={this.handleOverlayClick}
             {...testIdBuilder?.getChild('overlay').getTestId()}
           />
         ) : null}

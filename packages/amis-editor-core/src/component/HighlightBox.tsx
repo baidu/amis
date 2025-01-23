@@ -232,7 +232,11 @@ export default observer(function ({
     );
     if (node) {
       const nodeId = node.getAttribute('data-editor-id')!;
-      store.setActiveId(nodeId);
+      // 如果已经进入了内联模式
+      // 不要再切选中了
+      setTimeout(() => {
+        store.activeElement || store.setActiveId(nodeId);
+      }, 350);
     }
   }, []);
 
