@@ -351,20 +351,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       return;
     }
 
-    // 在状态更新前重置所有正在进行的动画
-    if (multiple && multiple.count > 1) {
-      const container = this.wrapperRef.current;
-      if (container) {
-        const items = container.getElementsByClassName('Carousel-item');
-        Array.from(items).forEach((item: HTMLElement) => {
-          item.style.transition = 'none';
-          // 强制重排以确保过渡被重置
-          void item.offsetHeight;
-          item.style.transition = '';
-        });
-      }
-    }
-
     this.setState({
       current,
       nextAnimation
