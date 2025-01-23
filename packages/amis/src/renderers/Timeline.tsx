@@ -20,6 +20,16 @@ import type {
 } from '../Schema';
 import type {IconCheckedSchema} from 'amis-ui';
 
+type DotSize = 'sm' | 'md' | 'lg' | 'xl';
+
+enum DirectionMode {
+  left = 'left',
+  right = 'right',
+  top = 'top',
+  bottom = 'bottom',
+  alternate = 'alternate'
+}
+
 export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 时间点
@@ -72,6 +82,15 @@ export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
    * 节点详情的CSS类名（优先级高于统一配置的detailClassName）
    */
   detailClassName?: string;
+
+  // 节点大小，可选值为 sm md lg xl，默认为md
+  dotSize?: DotSize;
+
+  // 连线颜色，默认为空字符串（跟随主题色）
+  lineColor?: string;
+
+  // 隐藏当前节点的圆圈
+  hideDot?: boolean;
 }
 
 export interface TimelineSchema extends BaseSchema {
@@ -93,7 +112,7 @@ export interface TimelineSchema extends BaseSchema {
   /**
    * 文字相对于时间轴展示方向
    */
-  mode?: 'left' | 'right' | 'alternate';
+  mode?: DirectionMode;
 
   /**
    * 展示方向
