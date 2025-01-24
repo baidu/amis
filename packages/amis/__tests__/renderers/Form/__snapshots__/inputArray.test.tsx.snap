@@ -94,7 +94,6 @@ exports[`Renderer:inputArray 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -292,7 +291,6 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -368,7 +366,6 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -444,7 +441,6 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -634,7 +630,6 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -687,7 +682,6 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -862,7 +856,6 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -915,7 +908,6 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
@@ -1077,7 +1069,6 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                                 >
                                   <div
                                     class="cxd-Form-col"
-                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
