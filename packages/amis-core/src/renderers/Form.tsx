@@ -1838,6 +1838,8 @@ export default class Form extends React.Component<FormProps, object> {
                   flex:
                     colSize && !['1', 'auto'].includes(colSize)
                       ? `0 0 ${colSize}`
+                      : colSize === undefined || colSize === null
+                      ? undefined
                       : '1'
                 }}
               >
