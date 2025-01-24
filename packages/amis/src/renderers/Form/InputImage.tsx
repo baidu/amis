@@ -51,6 +51,18 @@ import Sortable from 'sortablejs';
  */
 export interface ImageControlSchema extends FormBaseControlSchema {
   /**
+   * 格式校验失败是否显示弹窗
+   * */
+  showErrorModal?: boolean;
+  /**
+   * 校验格式失败时显示的文字信息
+   * */
+  invalidTypeMessage?: string;
+  /**
+   * 校验文件大小失败时显示的文字信息
+   * */
+  invalidSizeMessage?: string;
+  /**
    * 指定为图片上传控件
    */
   type: 'input-image';
@@ -662,7 +674,9 @@ export default class ImageControl extends React.Component<
       onChange,
       maxLength,
       maxSize,
-      translate: __
+      translate: __,
+      invalidTypeMessage = '文件格式不正确', // 设置默认值
+      invalidSizeMessage = '文件大小超出限制' // 设置默认值
     } = this.props;
 
     let reFiles = rejectedFiles.map(item => item.file);
@@ -695,17 +709,13 @@ export default class ImageControl extends React.Component<
           .map(err => {
             // 类型错误
             if (err.code === ErrorCode.FileInvalidType) {
-              return __('File.invalidType', {
-                files: file.name,
-                accept
-              });
+              return invalidTypeMessage;
             }
             // 文件太大
             else if (err.code === ErrorCode.FileTooLarge) {
-              return __('File.sizeLimit', {
-                maxSize: prettyBytes(maxSize as number, 1024)
-              });
+              return invalidSizeMessage;
             }
+            return '';
           })
           .join('; ');
       }
@@ -1054,7 +1064,9 @@ export default class ImageControl extends React.Component<
         }, [])
         .join('\n');
 
-      this.props.env.alert(error);
+      if (this.props.showErrorModal == undefined || this.props.showErrorModal) {
+        this.props.env.alert(error);
+      }
       return;
     }
 
