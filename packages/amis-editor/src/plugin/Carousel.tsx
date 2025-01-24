@@ -163,12 +163,11 @@ export class CarouselPlugin extends BasePlugin {
                       name: 'content',
                       label: false,
                       mode: 'horizontal',
-                      className: 'ae-Carousel-container',
                       body: [
                         {
                           type: 'wrapper',
                           size: 'xl',
-                          body: '拖拽组件到这里'
+                          body: '自定义容器'
                         }
                       ]
                     }
@@ -381,35 +380,6 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'button',
                     label: 'px'
                   }
-                }
-              ]
-            },
-            {
-              title: '高级',
-              body: [
-                getSchemaTpl('switch', {
-                  name: 'draggable',
-                  label: '允许拖拽组件',
-                  pipeIn: defaultValue(false)
-                }),
-
-                {
-                  type: 'input-array',
-                  name: 'acceptType',
-                  label: '可拖入的组件类型',
-                  items: {
-                    type: 'input-text',
-                    placeholder: '请输入组件type'
-                  },
-                  visibleOn: 'this.draggable'
-                },
-
-                {
-                  type: 'input-text',
-                  name: 'dragTip',
-                  label: '拖拽提示文案',
-                  visibleOn: 'this.draggable',
-                  pipeIn: defaultValue('拖拽组件到这里')
                 }
               ]
             },
