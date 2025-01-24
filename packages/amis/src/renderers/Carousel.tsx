@@ -582,7 +582,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     let body: JSX.Element | null = null;
     let carouselStyles: {
       [propName: string]: string;
-    } = style || {};
+    } = style ? {...style} : {};
 
     // 不允许传0，需要有最小高度
     if (width) {
