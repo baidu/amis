@@ -189,9 +189,11 @@ export default class Preview extends Component<PreviewProps> {
       (e.button === 1 && window.event !== null) || e.button === 0;
     if (!this.props.editable || !isLeftButton || e.defaultPrevented) return;
 
+    const store = this.props.store;
     if (
       e.defaultPrevented ||
-      (e.target as HTMLElement)?.closest('[draggable]')
+      (e.target as HTMLElement)?.closest('[draggable]') ||
+      store.activeElement
     ) {
       return;
     }
