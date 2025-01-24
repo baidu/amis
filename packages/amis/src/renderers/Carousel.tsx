@@ -21,6 +21,7 @@ import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';
+import {DndContainer} from 'amis-ui';
 
 /**
  * Carousel 轮播图渲染器。
@@ -126,21 +127,6 @@ export interface CarouselSchema extends BaseSchema {
     prev?: SchemaCollection;
     next?: SchemaCollection;
   };
-
-  /**
-   * 是否可以接受拖拽
-   */
-  draggable?: boolean;
-
-  /**
-   * 可接受拖拽的组件类型
-   */
-  acceptType?: string[];
-
-  /**
-   * 拖拽提示文案
-   */
-  dragTip?: string;
 }
 
 const animationStyles: {
@@ -755,6 +741,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       );
     }
 
+    body = body ? (
+      <DndContainer className={cx('Carousel-container')}>{body}</DndContainer>
+    ) : null;
+
     return (
       <div
         className={cx(
@@ -788,7 +778,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         onTouchEnd={this.props.mouseEvent ? this.addMouseUpListener : undefined}
         style={carouselStyles}
       >
-        {body ? body : placeholder}
+        {body}
 
         {dots ? this.renderDots() : null}
         {arrows ? (
