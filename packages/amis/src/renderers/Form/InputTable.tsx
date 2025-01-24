@@ -2102,7 +2102,10 @@ export class TableControlRenderer extends FormTable {
       const indexs = String(index).split(',');
       indexs.forEach(i => {
         const indexes = i.split('.').map(item => parseInt(item, 10));
+
+        const originItems = items;
         items = spliceTree(items, indexes, 1, value);
+        this.reUseRowId(items, originItems, indexes);
       });
       this.setState({items, ...this.transformState(items)}, () => {
         this.emitValue();
@@ -2119,7 +2122,9 @@ export class TableControlRenderer extends FormTable {
           );
 
           if (isUpdate) {
+            const originItems = items;
             items = spliceTree(items, [...indexes, index], 1, value);
+            this.reUseRowId(items, originItems, [...indexes, index]);
           }
         });
 
