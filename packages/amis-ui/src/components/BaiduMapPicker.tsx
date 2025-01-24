@@ -114,6 +114,13 @@ export class BaiduMapPicker extends React.Component<
     delete this.map;
   }
 
+  componentDidUpdate(prevProps: Readonly<MapPickerProps>): void {
+    // 值更新后需要重绘地图
+    if (prevProps.value !== this.props.value) {
+      this.initMap();
+    }
+  }
+
   @autobind
   async initMap() {
     const autoSelectCurrentLoc = this.props.autoSelectCurrentLoc ?? false;
