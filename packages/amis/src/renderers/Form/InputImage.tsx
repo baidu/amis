@@ -7,7 +7,8 @@ import {
   resolveEventData,
   CustomStyle,
   setThemeClassName,
-  PlainObject
+  PlainObject,
+  localeFormatter
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -710,7 +711,10 @@ export default class ImageControl extends React.Component<
             // 类型错误
             if (err.code === ErrorCode.FileInvalidType) {
               if (invalidTypeMessage) {
-                return invalidTypeMessage;
+                return localeFormatter(invalidTypeMessage, {
+                  files: file.name,
+                  accept
+                });
               } else {
                 return __('File.invalidType', {
                   files: file.name,
@@ -721,7 +725,9 @@ export default class ImageControl extends React.Component<
             // 文件太大
             else if (err.code === ErrorCode.FileTooLarge) {
               if (invalidSizeMessage) {
-                return invalidSizeMessage;
+                return localeFormatter(invalidSizeMessage, {
+                  maxSize: prettyBytes(maxSize as number, 1024)
+                });
               } else {
                 return __('File.sizeLimit', {
                   maxSize: prettyBytes(maxSize as number, 1024)
