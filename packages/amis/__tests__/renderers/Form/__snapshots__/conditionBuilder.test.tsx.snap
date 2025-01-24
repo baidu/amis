@@ -26,7 +26,7 @@ exports[`Renderer:condition-builder 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -55,7 +55,7 @@ exports[`Renderer:condition-builder 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           条件组件
@@ -140,7 +140,7 @@ exports[`Renderer:condition-builder 1`] = `
                     </div>
                   </div>
                   <span
-                    class="cxd-TplField cxd-Form-description"
+                    class="cxd-TplField fr-view cxd-Form-description"
                   >
                     <span>
                       适合让用户自己拼查询条件，然后后端根据数据生成 query where

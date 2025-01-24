@@ -12,6 +12,7 @@ import {
   registerEditorPlugin,
   PluginInterface
 } from 'amis-editor-core';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class PanelPlugin extends BasePlugin {
   static id = 'PanelPlugin';
@@ -78,6 +79,14 @@ export class PanelPlugin extends BasePlugin {
       label: '按钮组',
       renderMethod: 'renderActions',
       preferTag: '按钮'
+    }
+  ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope.cxd-Panel .cxd-Panel-title',
+      key: 'title'
     }
   ];
 

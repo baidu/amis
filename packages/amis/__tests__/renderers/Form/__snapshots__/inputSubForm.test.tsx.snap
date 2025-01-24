@@ -17,7 +17,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           class="cxd-Panel-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               表单
@@ -46,7 +46,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     子Form
@@ -69,7 +69,7 @@ exports[`Renderer:InputSubForm base 1`] = `
                     class="cxd-SubForm-valueLabel"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         设置子表单
@@ -159,7 +159,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     A
@@ -199,7 +199,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     B
@@ -269,7 +269,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -298,7 +298,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -420,7 +420,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -449,7 +449,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   子Form
@@ -478,7 +478,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-b-change
@@ -519,7 +519,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-c
@@ -560,7 +560,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-d
@@ -631,7 +631,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -660,7 +660,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   子Form
@@ -681,7 +681,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-1-1
@@ -714,7 +714,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-2-1

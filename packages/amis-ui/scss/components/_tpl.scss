@@ -2,10 +2,48 @@
   &.is-inline {
     display: inline;
   }
+
+  table {
+    border: 0;
+    border-collapse: collapse;
+    empty-cells: show;
+    max-width: 100%;
+  }
+
+  table td {
+    min-width: 5px;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+  }
+
+  table td:empty,
+  table th:empty {
+    height: 20px;
+  }
+
+  table th {
+    background: #ececec;
+  }
+
+  hr {
+    clear: both;
+    user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-column-break-after: always;
+    break-after: always;
+    page-break-after: always;
+  }
 }
 
 .max-line {
-  overflow : hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;

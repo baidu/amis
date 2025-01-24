@@ -33,7 +33,7 @@ exports[`doAction:page reload 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -69,7 +69,7 @@ exports[`doAction:page reload 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的年龄：
@@ -146,7 +146,7 @@ exports[`doAction:page reload 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -182,7 +182,7 @@ exports[`doAction:page reload 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的年龄：
@@ -248,7 +248,7 @@ exports[`doAction:page reload with data 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -284,7 +284,7 @@ exports[`doAction:page reload with data 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的年龄：
@@ -361,7 +361,7 @@ exports[`doAction:page reload with data 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -397,7 +397,7 @@ exports[`doAction:page reload with data 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的年龄：
@@ -463,7 +463,7 @@ exports[`doAction:page reload with data(same name) 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -499,7 +499,7 @@ exports[`doAction:page reload with data(same name) 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     日期：
@@ -576,7 +576,7 @@ exports[`doAction:page reload with data(same name) 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     我的标题：
@@ -612,7 +612,7 @@ exports[`doAction:page reload with data(same name) 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     日期：

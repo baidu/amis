@@ -25,6 +25,8 @@ import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
 import type {EditorNodeType} from '../store/node';
 import {MobileDevTool} from 'amis-ui';
+import {LeftPanelsProps} from './Panel/LeftPanels';
+import {RightPanelsProps} from './Panel/RightPanels';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -149,6 +151,15 @@ export interface EditorProps extends PluginEventListener {
   onEditorUnmount?: (manager: EditorManager) => void;
 
   children?: React.ReactNode | ((manager: EditorManager) => React.ReactNode);
+
+  LeftPanelsComponent?: React.ComponentType<LeftPanelsProps>;
+  RightPanelsComponent?: React.ComponentType<RightPanelsProps>;
+
+  /**
+   * 富文本编辑器配置, 用于内联编辑
+   */
+  richTextOptions?: any;
+  richTextToken?: string;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -463,6 +474,11 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   async handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    // inline edit 模式不要右键
+    if (this.store.activeElement) {
+      return;
+    }
+
     e.persist();
     await closeContextMenus();
     let targetId: string = '';
@@ -611,8 +627,12 @@ export default class Editor extends Component<EditorProps> {
       isSubEditor,
       amisEnv,
       readonly,
-      children
+      children,
+      LeftPanelsComponent,
+      RightPanelsComponent
     } = this.props;
+    const FinalLeftPanels = LeftPanelsComponent ?? LeftPanels;
+    const FinalRightPanels = RightPanelsComponent ?? RightPanels;
 
     return (
       <div
@@ -633,7 +653,7 @@ export default class Editor extends Component<EditorProps> {
           onContextMenu={this.handleContextMenu}
         >
           {!preview && !readonly && (
-            <LeftPanels
+            <FinalLeftPanels
               store={this.store}
               manager={this.manager}
               theme={theme}
@@ -653,7 +673,9 @@ export default class Editor extends Component<EditorProps> {
             {isMobile && (
               <MobileDevTool
                 container={this.mainPreviewRef.current}
-                previewBody={this.mainPreviewBodyRef.current?.currentDom}
+                previewBody={
+                  this.mainPreviewBodyRef.current?.currentDom?.current
+                }
                 onChangeScale={scale => {
                   if (scale >= 0) {
                     this.store.setScale(scale / 100);
@@ -679,7 +701,7 @@ export default class Editor extends Component<EditorProps> {
           </div>
 
           {!preview && (
-            <RightPanels
+            <FinalRightPanels
               store={this.store}
               manager={this.manager}
               theme={theme}

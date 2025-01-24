@@ -188,7 +188,7 @@ export class BreadcrumbItem extends React.Component<
               classNameProp="Breadcrumb-icon"
             />
           ) : null}
-          <span className={cx('TplField')}>{label}</span>
+          <span className={cx('TplField fr-view')}>{label}</span>
         </a>
       );
     }
@@ -205,7 +205,7 @@ export class BreadcrumbItem extends React.Component<
             classNameProp="Breadcrumb-icon"
           />
         ) : null}
-        <span className={cx('TplField')}>{label}</span>
+        <span className={cx('TplField fr-view')}>{label}</span>
       </span>
     );
   }

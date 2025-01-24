@@ -1444,7 +1444,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       {__('File.clickUpload')}
                     </span>
                   </span>
-                  <div className={cx('FileControl-acceptTip-help', 'TplField')}>
+                  <div
+                    className={cx(
+                      'FileControl-acceptTip-help',
+                      'TplField fr-view'
+                    )}
+                  >
                     {documentLink ? (
                       <a href={documentLink} onClick={e => e.stopPropagation()}>
                         {documentation ? documentation : __('File.helpText')}

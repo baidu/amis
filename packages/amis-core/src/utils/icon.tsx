@@ -74,7 +74,7 @@ export const generateIcon = (
   ) : null;
 };
 
-type CustomVendorFn = (
+export type CustomVendorFn = (
   icon: string,
   options: {
     [propName: string]: any;
@@ -93,7 +93,7 @@ export function registerCustomVendor(vendor: string, fn: CustomVendorFn) {
 
 export function getCustomVendor(vendor?: string) {
   if (!vendor) {
-    return null;
+    return undefined;
   }
   return customVendor.get(vendor);
 }

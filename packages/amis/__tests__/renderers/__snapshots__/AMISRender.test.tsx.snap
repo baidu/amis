@@ -3,7 +3,7 @@
 exports[`Renderer:amisRender test 1`] = `
 <div>
   <span
-    class="cxd-TplField"
+    class="cxd-TplField fr-view"
   >
     <span>
       hello world

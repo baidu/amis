@@ -1259,7 +1259,7 @@ test('Renderer:table-each', () => {
   const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
 
   expect(td2?.innerHTML).toBe(
-    '<div class="cxd-Each"><span class="cxd-TplField"><span><span class="label label-info m-l-sm">a</span></span></span><span class="cxd-TplField"><span><span class="label label-info m-l-sm">b</span></span></span><span class="cxd-TplField"><span><span class="label label-info m-l-sm">c</span></span></span></div>'
+    '<div class="cxd-Each"><span class="cxd-TplField fr-view"><span><span class="label label-info m-l-sm">a</span></span></span><span class="cxd-TplField fr-view"><span><span class="label label-info m-l-sm">b</span></span></span><span class="cxd-TplField fr-view"><span><span class="label label-info m-l-sm">c</span></span></span></div>'
   );
 });
 

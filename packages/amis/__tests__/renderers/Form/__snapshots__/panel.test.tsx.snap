@@ -13,7 +13,7 @@ exports[`Renderer:panel 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -57,7 +57,7 @@ exports[`Renderer:panel 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           bla bla
@@ -85,7 +85,7 @@ exports[`Renderer:panel 1`] = `
                       class="bg-black"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           <p>
@@ -116,7 +116,7 @@ exports[`Renderer:panel 1`] = `
                       class="cxd-Panel-title"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           bla bla

@@ -12,7 +12,7 @@ exports[`Renderer:PopOver with offset: default 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -57,7 +57,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -98,7 +98,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
               class="cxd-Panel-body"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   我是提示内容
@@ -125,7 +125,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -166,7 +166,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
               class="cxd-Panel-body"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   我是提示内容

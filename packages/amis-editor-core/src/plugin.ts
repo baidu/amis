@@ -189,6 +189,18 @@ export interface RendererScaffoldInfo {
   scaffold?: any;
 }
 
+export interface InlineEditableElement {
+  // 元素选择器，当命中这个规则时支持内联编辑
+  match: string;
+
+  // 内联编辑模式
+  // 默认为 plain-text
+  mode?: 'plain-text' | 'rich-text';
+
+  // onChange?: (node: EditorNodeType, value: any, elem: HTMLElement) => void;
+  key: string;
+}
+
 /**
  * 渲染器信息。
  */
@@ -216,6 +228,11 @@ export interface RendererInfo extends RendererScaffoldInfo {
    * 配置区域。
    */
   regions?: Array<RegionConfig>;
+
+  /**
+   * 支持内联编辑的元素集合
+   */
+  inlineEditableElements?: Array<InlineEditableElement>;
 
   /**
    *  选中不需要高亮
@@ -466,9 +483,10 @@ export interface PanelProps {
 export interface PanelItem {
   nodeId?: string;
   key: string;
-  icon: string;
+  icon: React.ReactNode;
+  tooltip?: string;
   pluginIcon?: string; // 新版icon（svg）
-  title: string | JSX.Element; // 标题
+  title?: React.ReactNode; // 标题
   component?: React.ComponentType<PanelProps | any>;
   order: number;
   position?: 'left' | 'right';
@@ -1100,6 +1118,7 @@ export abstract class BasePlugin implements PluginInterface {
       return {
         name: curPluginName,
         regions: plugin.regions,
+        inlineEditableElements: plugin.inlineEditableElements,
         patchContainers: plugin.patchContainers,
         // wrapper: plugin.wrapper,
         vRendererConfig: plugin.vRendererConfig,

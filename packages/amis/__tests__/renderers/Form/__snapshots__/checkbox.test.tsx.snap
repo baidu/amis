@@ -13,7 +13,7 @@ exports[`Renderer:checkbox 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:checkbox 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -69,7 +69,7 @@ exports[`Renderer:checkbox 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     选项说明
@@ -98,7 +98,7 @@ exports[`Renderer:checkbox with checked 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -127,7 +127,7 @@ exports[`Renderer:checkbox with checked 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -155,7 +155,7 @@ exports[`Renderer:checkbox with checked 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     选项说明
@@ -184,7 +184,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -213,7 +213,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -240,7 +240,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     去吃饭
@@ -260,7 +260,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   您吃了吗

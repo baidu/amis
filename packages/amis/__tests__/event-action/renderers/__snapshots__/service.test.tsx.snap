@@ -26,7 +26,7 @@ exports[`doAction:service reload 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -55,7 +55,7 @@ exports[`doAction:service reload 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           名字：
@@ -91,7 +91,7 @@ exports[`doAction:service reload 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           年龄：
@@ -141,7 +141,7 @@ exports[`doAction:service reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -177,7 +177,7 @@ exports[`doAction:service reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -237,7 +237,7 @@ exports[`doAction:service reload 2`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -266,7 +266,7 @@ exports[`doAction:service reload 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           名字：
@@ -302,7 +302,7 @@ exports[`doAction:service reload 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           年龄：
@@ -352,7 +352,7 @@ exports[`doAction:service reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -388,7 +388,7 @@ exports[`doAction:service reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -469,7 +469,7 @@ exports[`doAction:service reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -505,7 +505,7 @@ exports[`doAction:service reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -575,7 +575,7 @@ exports[`doAction:service reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -611,7 +611,7 @@ exports[`doAction:service reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -692,7 +692,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -728,7 +728,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -798,7 +798,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -834,7 +834,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -915,7 +915,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -951,7 +951,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -1021,7 +1021,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1057,7 +1057,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -1138,7 +1138,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1174,7 +1174,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -1244,7 +1244,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1280,7 +1280,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：

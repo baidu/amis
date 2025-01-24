@@ -13,7 +13,7 @@ exports[`Renderer:checkboxes 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -42,7 +42,7 @@ exports[`Renderer:checkboxes 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkboxes
@@ -137,7 +137,7 @@ exports[`Renderer:checkboxes 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -182,7 +182,7 @@ exports[`Renderer:checkboxes 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -211,7 +211,7 @@ exports[`Renderer:checkboxes 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkboxes
@@ -306,7 +306,7 @@ exports[`Renderer:checkboxes 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -347,7 +347,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -376,7 +376,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -576,7 +576,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -605,7 +605,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -805,7 +805,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -834,7 +834,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -1034,7 +1034,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1063,7 +1063,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   显示两列的复选框
@@ -1207,7 +1207,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1236,7 +1236,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   数组形式显示的复选框
@@ -1384,7 +1384,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1413,7 +1413,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   有分组的情况下显示分列的复选框
@@ -1632,7 +1632,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1661,7 +1661,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -1812,7 +1812,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           class="cxd-Panel-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               表单
@@ -1841,7 +1841,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     复选框
@@ -2006,7 +2006,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名
@@ -2046,7 +2046,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     值
@@ -2147,7 +2147,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2176,7 +2176,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -2272,7 +2272,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -2396,7 +2396,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           class="cxd-Panel-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               表单
@@ -2425,7 +2425,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     复选框
@@ -2617,7 +2617,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     名
@@ -2657,7 +2657,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     值
@@ -2727,7 +2727,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2756,7 +2756,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -2912,7 +2912,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2941,7 +2941,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -3097,7 +3097,7 @@ exports[`Renderer:checkboxes with group 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -3126,7 +3126,7 @@ exports[`Renderer:checkboxes with group 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   城市选择
@@ -3318,7 +3318,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -3347,7 +3347,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -3374,7 +3374,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     <span
@@ -3402,7 +3402,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     <span
@@ -3430,7 +3430,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     <span
@@ -3458,7 +3458,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     <span
@@ -3507,7 +3507,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -3536,7 +3536,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框
@@ -3661,7 +3661,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
           class="cxd-Panel-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               表单
@@ -3690,7 +3690,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     复选框
@@ -3894,7 +3894,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -3923,7 +3923,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   复选框

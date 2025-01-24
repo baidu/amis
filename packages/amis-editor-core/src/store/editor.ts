@@ -65,6 +65,7 @@ import debounce from 'lodash/debounce';
 import type {DialogSchema} from 'amis/lib/renderers/Dialog';
 import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 import getLayoutInstance from '../layout';
+import {isAlive} from 'mobx-state-tree';
 
 export interface SchemaHistory {
   versionId: number;
@@ -173,6 +174,7 @@ export const MainStore = types
     hoverRegion: '',
     activeId: '',
     activeRegion: '', // 记录当前激活的子区域
+    activeElement: '', // 记录当前编辑的内联元素
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
     // 点选多个的时候用来记录， 单选单个的时候还是 activeId
@@ -1119,6 +1121,10 @@ export const MainStore = types
     );
 
     const observer = new ResizeObserver(entries => {
+      if (!isAlive(self)) {
+        return;
+      }
+
       (self as any).calculateHighlightBox([]);
       for (let entry of entries) {
         const target = entry.target as HTMLElement;
@@ -1406,6 +1412,10 @@ export const MainStore = types
             }
           }
         }
+      },
+
+      setActiveElement(selector: string) {
+        self.activeElement = selector;
       },
 
       setSelections(ids: Array<string>) {
@@ -2175,7 +2185,7 @@ export const MainStore = types
           }
         });
         setTimeout(() => {
-          this.calculateHighlightBox(ids);
+          isAlive(self) && this.calculateHighlightBox(ids);
         }, 200);
       },
 
@@ -2381,6 +2391,7 @@ export const MainStore = types
       },
 
       beforeDestroy() {
+        observer.disconnect();
         lazyUpdateTargetName.cancel();
       }
     };

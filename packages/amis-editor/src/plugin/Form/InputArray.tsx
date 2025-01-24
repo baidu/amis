@@ -110,7 +110,7 @@ export class ArrayControlPlugin extends BasePlugin {
         pipeIn: defaultValue(true)
       }),
 
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         name: 'deleteApi',
         label: '删除前的请求',
         visibleOn: 'this.removable'

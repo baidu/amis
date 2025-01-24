@@ -13,7 +13,7 @@ exports[`Renderer:button-toolbar 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -89,7 +89,7 @@ exports[`Renderer:button-toolbar 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -183,7 +183,7 @@ exports[`Renderer:button-toolbar 2`] = `
         role="dialog-body"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             对，你刚点击了！

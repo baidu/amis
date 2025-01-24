@@ -21,7 +21,7 @@ exports[`1. Renderer:Collapse 1`] = `
           />
         </span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题1
@@ -38,7 +38,7 @@ exports[`1. Renderer:Collapse 1`] = `
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容1
@@ -63,7 +63,7 @@ exports[`1. Renderer:Collapse 1`] = `
           />
         </span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题2
@@ -80,7 +80,7 @@ exports[`1. Renderer:Collapse 1`] = `
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容2
@@ -105,7 +105,7 @@ exports[`1. Renderer:Collapse 1`] = `
           />
         </span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题3
@@ -123,7 +123,7 @@ exports[`1. Renderer:Collapse 1`] = `
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容3
@@ -153,7 +153,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
           class="caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
         />
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题1
@@ -170,7 +170,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容1
@@ -190,7 +190,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
           class="caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
         />
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题2
@@ -207,7 +207,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容2
@@ -224,7 +224,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
         class="cxd-Collapse-header"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题3
@@ -241,7 +241,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容3
@@ -276,7 +276,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
           />
         </span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题1
@@ -311,7 +311,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
                     />
                   </span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       嵌套面板标题
@@ -328,7 +328,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
                       class="cxd-Collapse-content"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           嵌套面板内容
@@ -358,7 +358,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
           />
         </span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             标题3
@@ -375,7 +375,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
             class="cxd-Collapse-content"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 这里是内容3

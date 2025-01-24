@@ -23,7 +23,7 @@ exports[`Renderer:container 1`] = `
               class="cxd-Container-body"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   内容1
