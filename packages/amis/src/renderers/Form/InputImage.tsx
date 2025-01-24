@@ -675,8 +675,8 @@ export default class ImageControl extends React.Component<
       maxLength,
       maxSize,
       translate: __,
-      invalidTypeMessage = '文件格式不正确', // 设置默认值
-      invalidSizeMessage = '文件大小超出限制' // 设置默认值
+      invalidTypeMessage,
+      invalidSizeMessage
     } = this.props;
 
     let reFiles = rejectedFiles.map(item => item.file);
@@ -709,11 +709,24 @@ export default class ImageControl extends React.Component<
           .map(err => {
             // 类型错误
             if (err.code === ErrorCode.FileInvalidType) {
-              return invalidTypeMessage;
+              if (invalidTypeMessage) {
+                return invalidTypeMessage;
+              } else {
+                return __('File.invalidType', {
+                  files: file.name,
+                  accept
+                });
+              }
             }
             // 文件太大
             else if (err.code === ErrorCode.FileTooLarge) {
-              return invalidSizeMessage;
+              if (invalidSizeMessage) {
+                return invalidSizeMessage;
+              } else {
+                return __('File.sizeLimit', {
+                  maxSize: prettyBytes(maxSize as number, 1024)
+                });
+              }
             }
             return '';
           })
