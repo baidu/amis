@@ -63,7 +63,7 @@ const fns: {
   [propName: string]: TranslateFn;
 } = {};
 
-function format(str: string, data?: object) {
+export function format(str: string, data?: object) {
   return str.replace(/(\\)?\{\{([\s\S]+?)\}\}/g, (_, escape, key) => {
     if (escape) {
       return _.substring(1);
