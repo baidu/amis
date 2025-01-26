@@ -262,6 +262,17 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   } else if (exists) {
     // 如果已经存在，合并配置，并用合并后的配置
     Object.assign(exists, config);
+
+    // 如果已经有了占位渲染器，在注册异步渲染器的时候把占位渲染器删掉
+    // 否则会导致有些情况下无法渲染（设置了 visibleOn/hiddenOn 条件的无法渲染）
+    if (
+      exists.component === Placeholder &&
+      !config.component &&
+      config.getComponent
+    ) {
+      delete exists.component;
+      delete exists.Renderer;
+    }
     renderer = exists;
   }
 
