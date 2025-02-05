@@ -1151,3 +1151,72 @@ test('Renderer:Nav with updateItems', async () => {
     ).length
   ).toEqual(2);
 });
+
+// 14.Nav悬浮面板
+test('Render Nav with panel mode', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'nav',
+        stacked: false,
+        mode: 'panel',
+        links: [
+          {
+            label: 'Nav 1',
+            to: '?to=nav1',
+            children: [
+              {
+                label: 'Nav 1-1',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav1-1'
+              },
+              {
+                label: 'Nav 1-2',
+                icon: 'fa fa-user',
+                to: '?to=nav1-2'
+              }
+            ]
+          },
+          {
+            label: 'Nav 2',
+            to: '?to=nav2',
+            children: [
+              {
+                label: 'Nav 2-1',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav2-1',
+                children: [
+                  {
+                    label: 'Nav 2-1-1',
+                    icon: 'fa fa-user',
+                    to: '?to=nav2-1-1'
+                  },
+                  {
+                    label: 'Nav 2-1-2',
+                    icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                    to: 'http://www.baidu.com/',
+                    target: '_blank'
+                  }
+                ]
+              },
+              {
+                label: 'Nav 2-2',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav2-2'
+              }
+            ]
+          },
+          {
+            label: 'Nav 3',
+            to: '?to=nav3'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  expect(container).toMatchSnapshot();
+  let panelItemsSelector = '.cxd-Nav-Menu-panel-wrapper .cxd-Nav-Menu-panel-group-item';
+  expect(container.querySelectorAll(panelItemsSelector).length).toBe(2);
+});
