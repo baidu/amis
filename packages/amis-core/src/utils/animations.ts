@@ -74,10 +74,10 @@ export function createAnimationStyle(
 ) {
   let styleConfig = {};
   Object.keys(animationsConfig).forEach((key: keyof AnimationsProps) => {
-    if (!animationsConfig[key]) {
+    const animationConfig = animationsConfig[key];
+    if (!animationConfig) {
       return;
     }
-    const animationConfig = animationsConfig[key];
     styleConfig = Object.assign(
       styleConfig,
       key === 'hover'
