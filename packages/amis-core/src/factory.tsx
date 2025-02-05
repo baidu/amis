@@ -269,8 +269,8 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
       !config.component &&
       config.getComponent
     ) {
-      let {component, Renderer, ...rest} = renderer;
-      renderer = {...rest, ...config};
+      delete renderer.component;
+      delete renderer.Renderer;
     }
   }
 
