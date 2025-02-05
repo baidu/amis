@@ -14,6 +14,11 @@ export interface AnimationsProps {
     repeat?: string;
     delay?: number;
   };
+  hover?: {
+    type: string;
+    duration?: number;
+    delay?: number;
+  };
   exit?: {
     type: string;
     duration?: number;
@@ -28,7 +33,7 @@ function generateStyleByAnimation(
   animation: {
     name: string;
     duration?: number;
-    iterationCount?: string;
+    iterationCount?: string | number;
     delay?: number;
     fillMode?: string;
     timingFunction?: string;
@@ -46,53 +51,52 @@ function generateStyleByAnimation(
   };
 }
 
+function generateStyleByHover(
+  className: string[],
+  animation: {
+    name: string;
+    duration?: number;
+    delay?: number;
+  }
+) {
+  return {
+    [className.join(',')]: {
+      transition: `all ${animation.duration || 1}s ease ${
+        animation.delay || 0
+      }s`
+    }
+  };
+}
+
 export function createAnimationStyle(
   id: string,
   animationsConfig: AnimationsProps
 ) {
-  const enterAnimationConfig = animationsConfig.enter;
-  let enterStyle = {};
-  if (enterAnimationConfig?.type) {
-    enterStyle = generateStyleByAnimation(
-      [`.${enterAnimationConfig.type}-${id}-enter`],
-      {
-        name: enterAnimationConfig.type,
-        duration: enterAnimationConfig.duration,
-        delay: enterAnimationConfig.delay,
-        fillMode: 'backwards'
-      }
+  let styleConfig = {};
+  Object.keys(animationsConfig).forEach((key: keyof AnimationsProps) => {
+    if (!animationsConfig[key]) {
+      return;
+    }
+    const animationConfig = animationsConfig[key];
+    styleConfig = Object.assign(
+      styleConfig,
+      key === 'hover'
+        ? generateStyleByHover([`.${animationConfig.type}-${id}-${key}`], {
+            name: animationConfig.type,
+            duration: animationConfig.duration,
+            delay: animationConfig.delay
+          })
+        : generateStyleByAnimation([`.${animationConfig.type}-${id}-${key}`], {
+            name: animationConfig.type,
+            duration: animationConfig.duration,
+            iterationCount: key === 'attention' ? 'infinite' : 1,
+            delay: animationConfig.delay,
+            fillMode: key === 'attention' ? 'none' : 'forwards'
+          })
     );
-  }
-
-  const attentionAnimationConfig = animationsConfig.attention;
-  let attentionStyle = {};
-  if (attentionAnimationConfig?.type) {
-    attentionStyle = generateStyleByAnimation(
-      [`.${attentionAnimationConfig.type}-${id}-attention`],
-      {
-        name: attentionAnimationConfig.type,
-        duration: attentionAnimationConfig.duration,
-        iterationCount: attentionAnimationConfig.repeat || 'infinite',
-        delay: attentionAnimationConfig.delay
-      }
-    );
-  }
-
-  const exitAnimationConfig = animationsConfig.exit;
-  let exitStyle = {};
-  if (exitAnimationConfig?.type) {
-    exitStyle = generateStyleByAnimation(
-      [`.${exitAnimationConfig.type}-${id}-exit`],
-      {
-        name: exitAnimationConfig.type,
-        duration: exitAnimationConfig.duration,
-        delay: exitAnimationConfig.delay,
-        fillMode: 'forwards'
-      }
-    );
-  }
+  });
 
   styleManager.updateStyle({
-    [id]: Object.assign({}, enterStyle, attentionStyle, exitStyle)
+    [id]: styleConfig
   });
 }
