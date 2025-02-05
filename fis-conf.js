@@ -82,8 +82,8 @@ Resource.extend({
 fis.set('project.files', [
   'schema.json',
   '/examples/map.json',
-  '/scss/helper.scss',
   '/scss/themes/*.scss',
+  '/scss/helper.scss',
   '/examples/*.html',
   '/examples/app/*.html',
   '/examples/*.tpl',
