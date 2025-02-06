@@ -7,7 +7,14 @@ import TimelineItem, {
   TimelineTimeComponent,
   getAlignByDirection
 } from './TimelineItem';
-import {DirectionMode} from './type';
+
+export enum DirectionMode {
+  left = 'left',
+  right = 'right',
+  top = 'top',
+  bottom = 'bottom',
+  alternate = 'alternate'
+}
 
 export interface TimelineProps extends ThemeProps {
   items: Array<TimelineItemProps>;
