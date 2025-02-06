@@ -6,9 +6,10 @@ import {
   LocaleProps,
   render
 } from 'amis-core';
-import {Icon} from '../icons';
-import {DotSize} from './type';
-import type {IconCheckedSchema} from '../index';
+import {Icon} from './icons';
+import type {IconCheckedSchema} from './index';
+
+export type DotSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface TimelineItemProps {
   /**
