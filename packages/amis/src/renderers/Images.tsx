@@ -173,6 +173,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleTouchStart(e: React.TouchEvent) {
+    console.log('handleTouchStart');
     if (this.props.displayMode !== 'full') return;
 
     this.setState({
@@ -183,30 +184,51 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleTouchEnd(e: React.TouchEvent) {
+    console.log('handleTouchEnd');
     if (!this.state.isSwiping) return;
 
     const {currentIndex} = this.state;
     const deltaX = e.changedTouches[0].clientX - this.state.startX;
-    const threshold = 50; // 滑动阈值
+    const threshold = 50;
 
     if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0 && currentIndex > 0) {
-        // 向右滑，显示上一张
-        this.setState({currentIndex: currentIndex - 1});
-      } else if (deltaX < 0 && currentIndex < this.list.length - 1) {
-        // 向左滑，显示下一张
-        this.setState({currentIndex: currentIndex + 1});
+      if (deltaX > 0) {
+        // 向右滑
+        console.log('向右滑');
+        this.setState({currentIndex: currentIndex - 1}, () => {
+          // 如果到达克隆的最后一张,跳转到倒数第二张
+          if (currentIndex === 0) {
+            setTimeout(() => {
+              this.setState({
+                currentIndex: this.list.length - 1,
+                isSwiping: true
+              });
+            }, 300);
+          }
+        });
+      } else {
+        // 向左滑
+        console.log('向左滑');
+        this.setState({currentIndex: currentIndex + 1}, () => {
+          // 如果到达克隆的第一张,跳转到第二张
+          if (currentIndex === this.list.length - 1) {
+            setTimeout(() => {
+              this.setState({
+                currentIndex: 0,
+                isSwiping: true
+              });
+            }, 300);
+          }
+        });
       }
     }
 
     this.setState({isSwiping: false});
   }
 
-  componentDidMount() {}
-  componentWillUnmount() {}
-
   @autobind
   handleMouseDown(e: React.MouseEvent) {
+    console.log('handleMouseDown');
     if (this.props.displayMode !== 'full') return;
 
     // 阻止图片默认的拖拽行为
@@ -223,30 +245,51 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleMouseMove(e: MouseEvent) {
+    console.log('handleMouseMove');
     if (!this.state.isSwiping) return;
     e.preventDefault();
   }
 
   @autobind
   handleMouseUp(e: MouseEvent) {
+    console.log('handleMouseUp');
     if (!this.state.isSwiping) return;
 
     const {currentIndex} = this.state;
     const deltaX = e.clientX - this.state.startX;
-    const threshold = 50; // 滑动阈值
+    const threshold = 50;
 
     if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0 && currentIndex > 0) {
-        // 向右滑，显示上一张
-        this.setState({currentIndex: currentIndex - 1});
+      if (deltaX > 0 && currentIndex >= 0) {
+        // 向右滑
+        this.setState({currentIndex: currentIndex - 1}, () => {
+          // 如果到达克隆的最后一张,跳转到倒数第二张
+          if (currentIndex === -1) {
+            setTimeout(() => {
+              this.setState({
+                currentIndex: this.list.length - 1,
+                isSwiping: true
+              });
+            }, 300);
+          }
+        });
       } else if (deltaX < 0 && currentIndex < this.list.length - 1) {
-        // 向左滑，显示下一张
-        this.setState({currentIndex: currentIndex + 1});
+        // 向左滑
+        this.setState({currentIndex: currentIndex + 1}, () => {
+          // 如果到达克隆的第一张,跳转到第二张
+          if (currentIndex === this.list.length - 1) {
+            setTimeout(() => {
+              this.setState({
+                currentIndex: 0,
+                isSwiping: true
+              });
+            }, 300);
+          }
+        });
       }
     }
 
     this.setState({isSwiping: false});
-
     document.removeEventListener('mousemove', this.handleMouseMove);
     document.removeEventListener('mouseup', this.handleMouseUp);
   }
@@ -278,12 +321,14 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   getTransformStyle() {
     const {currentIndex} = this.state;
+    // 考虑到克隆图片,实际索引需要+1
     return {
-      transform: `translateX(-${currentIndex * 100}%)`,
+      transform: `translateX(-${(currentIndex + 1) * 100}%)`,
       transition: this.state.isSwiping ? 'none' : 'transform 0.3s ease-out',
       height: '100%',
       display: 'flex',
-      width: `${this.list.length * 100}%`
+      // 因为首尾各增加一张克隆图片,所以宽度需要增加200%
+      width: `${(this.list.length + 2) * 100}%`
     };
   }
 
@@ -381,6 +426,31 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
               <>
                 <div className={cx('Images-container')}>
                   <div style={this.getTransformStyle()}>
+                    {/* 在首尾添加克隆图片 */}
+                    <div
+                      className={cx('Images-item')}
+                      style={{flex: '0 0 100%'}}
+                    >
+                      <div className={cx('Images-itemInner')}>
+                        <img
+                          className={cx('Image-image')}
+                          src={
+                            (src
+                              ? filter(src, list[list.length - 1], '| raw')
+                              : list[list.length - 1]?.image) ||
+                            list[list.length - 1]
+                          }
+                          alt={list[list.length - 1]?.title}
+                          draggable={false}
+                          onDragStart={e => e.preventDefault()}
+                        />
+                        <div className={cx('Images-itemIndex')}>
+                          {list.length}/{list.length}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 原有图片列表 */}
                     {list.map((item: any, index: number) => (
                       <div
                         key={index}
@@ -405,6 +475,29 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
                         </div>
                       </div>
                     ))}
+
+                    {/* 添加第一张图片的克隆 */}
+                    <div
+                      className={cx('Images-item')}
+                      style={{flex: '0 0 100%'}}
+                    >
+                      <div className={cx('Images-itemInner')}>
+                        <img
+                          className={cx('Image-image')}
+                          src={
+                            (src
+                              ? filter(src, list[0], '| raw')
+                              : list[0]?.image) || list[0]
+                          }
+                          alt={list[0]?.title}
+                          draggable={false}
+                          onDragStart={e => e.preventDefault()}
+                        />
+                        <div className={cx('Images-itemIndex')}>
+                          1/{list.length}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </>
