@@ -161,8 +161,6 @@ export class CarouselPlugin extends BasePlugin {
                     {
                       type: 'container',
                       name: 'content',
-                      label: false,
-                      mode: 'horizontal',
                       body: [
                         {
                           type: 'wrapper',

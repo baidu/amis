@@ -21,7 +21,6 @@ import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {DndContainer} from 'amis-ui';
 
 /**
  * Carousel 轮播图渲染器。
@@ -741,10 +740,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       );
     }
 
-    body = body ? (
-      <DndContainer className={cx('Carousel-container')}>{body}</DndContainer>
-    ) : null;
-
     return (
       <div
         className={cx(
@@ -778,7 +773,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         onTouchEnd={this.props.mouseEvent ? this.addMouseUpListener : undefined}
         style={carouselStyles}
       >
-        {body}
+        {body ? body : placeholder}
 
         {dots ? this.renderDots() : null}
         {arrows ? (

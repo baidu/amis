@@ -64,10 +64,6 @@
     height: 100%;
     overflow: hidden;
 
-    &.is-dragenter {
-      background: rgba($color: $primary, $alpha: 0.1);
-    }
-
     .#{$ns}Carousel-item {
       width: 100%;
       height: 100%;
