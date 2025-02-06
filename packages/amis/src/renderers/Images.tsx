@@ -173,7 +173,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleTouchStart(e: React.TouchEvent) {
-    console.log('handleTouchStart');
     if (this.props.displayMode !== 'full') return;
 
     this.setState({
@@ -184,7 +183,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleTouchEnd(e: React.TouchEvent) {
-    console.log('handleTouchEnd');
     if (!this.state.isSwiping) return;
 
     const {currentIndex} = this.state;
@@ -194,7 +192,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     if (Math.abs(deltaX) > threshold) {
       if (deltaX > 0) {
         // 向右滑
-        console.log('向右滑');
         this.setState({currentIndex: currentIndex - 1}, () => {
           // 如果到达克隆的最后一张,跳转到倒数第二张
           if (currentIndex === 0) {
@@ -208,7 +205,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         });
       } else {
         // 向左滑
-        console.log('向左滑');
         this.setState({currentIndex: currentIndex + 1}, () => {
           // 如果到达克隆的第一张,跳转到第二张
           if (currentIndex === this.list.length - 1) {
@@ -228,7 +224,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleMouseDown(e: React.MouseEvent) {
-    console.log('handleMouseDown');
     if (this.props.displayMode !== 'full') return;
 
     // 阻止图片默认的拖拽行为
@@ -245,14 +240,12 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
   @autobind
   handleMouseMove(e: MouseEvent) {
-    console.log('handleMouseMove');
     if (!this.state.isSwiping) return;
     e.preventDefault();
   }
 
   @autobind
   handleMouseUp(e: MouseEvent) {
-    console.log('handleMouseUp');
     if (!this.state.isSwiping) return;
 
     const {currentIndex} = this.state;
