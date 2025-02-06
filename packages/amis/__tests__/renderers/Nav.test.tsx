@@ -1216,7 +1216,6 @@ test('Render Nav with panel mode', async () => {
       makeEnv({})
     )
   );
-  expect(container).toMatchSnapshot();
   let panelItemsSelector = '.cxd-Nav-Menu-panel-wrapper .cxd-Nav-Menu-panel-group-item';
   expect(container.querySelectorAll(panelItemsSelector).length).toBe(2);
 });

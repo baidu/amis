@@ -640,7 +640,6 @@ order: 58
             "children": [
                 {
                     "label": "Nav 9-1",
-                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
                     "to": "?to=nav9-1",
                     "children": [
                         {
@@ -650,7 +649,6 @@ order: 58
                         },
                         {
                             "label": "Nav 9-1-2",
-                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
                             "to": "?to=nav9-1-2"
                         }
                     ]
