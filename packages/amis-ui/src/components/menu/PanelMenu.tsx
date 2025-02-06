@@ -5,18 +5,11 @@
  */
 
 import React from 'react';
-import {NavigationItem} from './index';
+import type {NavigationItem} from './index';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Item as RcItem} from 'rc-menu';
 import {MenuContextProps, MenuContext} from './MenuContext';
-
-// 判断是否为图片路径
-function isImgPath(raw: string) {
-  return (
-    typeof raw === 'string' && (!!~raw.indexOf('.') || /^\/images\//.test(raw))
-  );
-}
-
+import Icon from '../Icon';
 interface PanelMenuProps extends NavigationItem {
   cx: ClassNamesFn;
 }
@@ -36,14 +29,13 @@ function PanelMenuItem(props: PanelMenuProps) {
   return (
     <RcItem key={props.id} {...props} onClick={onMenuClick}>
       <div className={cx('Nav-Menu-panel-item')}>
-        {isImgPath(link?.icon) ? (
-          <img
-            className={cx(`Nav-Menu-panel-item__icon`)}
-            width="14px"
-            src={link?.icon}
-          />
-        ) : (
-          <i className={cx(`Nav-Menu-panel-item__icon`, link.icon)} />
+        {!!link?.icon && (
+          <span className={cx(`Nav-Menu-panel-item__icon-wrapper`)}>
+            <Icon
+              className={cx(`Nav-Menu-panel-item__icon`)}
+              icon={link?.icon}
+            />
+          </span>
         )}
         <span
           className={cx(
@@ -78,15 +70,13 @@ function PanelMenuGroup(props: PanelMenuGroupProps) {
               isGroupHeader={true}
             ></PanelMenuItem>
           </div>
-          <div className={cx('Nav-Menu-panel-group-item__content')}>
-            {child?.children?.map((subChild: NavigationItem) => (
-              <PanelMenuItem
-                key={subChild.id}
-                cx={cx}
-                {...subChild}
-              ></PanelMenuItem>
-            ))}
-          </div>
+          {child?.children?.map((subChild: NavigationItem) => (
+            <PanelMenuItem
+              key={subChild.id}
+              cx={cx}
+              {...subChild}
+            ></PanelMenuItem>
+          ))}
         </div>
       ))}
     </div>
