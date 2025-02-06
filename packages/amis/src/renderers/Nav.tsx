@@ -244,7 +244,7 @@ export interface NavSchema extends BaseSchema {
   /**
    * 垂直模式 非折叠状态下 控制菜单打开方式
    */
-  mode?: 'float' | 'inline'; // float（悬浮）inline（内联） 默认inline
+  mode?: 'panel' | 'float' | 'inline'; // panel（悬浮面板） float（悬浮）inline（内联） 默认inline
 
   /**
    * 自定义展开图标
