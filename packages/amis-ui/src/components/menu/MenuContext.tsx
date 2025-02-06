@@ -6,7 +6,7 @@
 
 import {createContext} from 'react';
 import type {SubMenuProps} from './SubMenu';
-import {NavigationItem} from './index';
+import type {NavigationItem} from './';
 export interface MenuContextProps {
   /**
    * 主题色
