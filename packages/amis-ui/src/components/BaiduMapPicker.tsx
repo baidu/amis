@@ -43,6 +43,7 @@ interface MapPickerProps {
   onlySelectCurrentLoc?: boolean;
   showSug?: boolean;
   showGeoLoc?: boolean;
+  hideViewControl?: boolean;
   mapStyle?: React.CSSProperties;
 }
 
@@ -184,10 +185,12 @@ export class BaiduMapPicker extends React.Component<
       map.centerAndZoom(point, zoom);
     }
 
-    map.addControl(
-      // @ts-ignore
-      new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL})
-    );
+    if (!this.props.hideViewControl) {
+      map.addControl(
+        // @ts-ignore
+        new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL})
+      );
+    }
 
     const geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
