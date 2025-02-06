@@ -60,6 +60,45 @@ order: 53
 }
 ```
 
+## 展示模式
+
+通过配置 `displayMode` 可以设置图片集的展示模式,支持以下两种模式:
+
+- `thumb`: 缩略图模式(默认),将图片以缩略图网格的形式展示
+- `full`: 大图模式,以幻灯片形式展示单张大图,可左右滑动切换
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "images": [
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片1"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg",
+                "title": "图片2"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg",
+                "title": "图片3"
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "images",
+            "source": "${images}",
+            "displayMode": "full",
+            "galleryHeight": 300
+        }
+    ]
+}
+```
+
+在 `full` 模式下,可以通过 `galleryHeight` 设置画廊的高度。
+
 ## 值格式
 
 除了支持纯文本数组以外，也支持对象数组，如：
@@ -680,3 +719,5 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
 | showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
+| displayMode        | `'thumb' \| 'full'`                        | `'thumb'` | 展示模式,支持缩略图模式（thumb）和大图模式（full）                                                                                      |
+| galleryHeight      | `number \| string`                         | -         | 画廊高度,仅在大图模式下生效                                                                                                             |
