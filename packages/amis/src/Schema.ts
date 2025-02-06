@@ -136,6 +136,7 @@ import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';
 import {WordsSchema} from './renderers/Words';
 import {RadioControlSchema} from './renderers/Form/Radio';
+import {SliderSchema} from './renderers/Slider';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -365,7 +366,8 @@ export type SchemaType =
   | 'native-time'
   | 'native-number'
   | 'code'
-  | 'tooltip-wrapper';
+  | 'tooltip-wrapper'
+  | 'slider';
 
 export type SchemaObject =
   | PageSchema
@@ -498,7 +500,8 @@ export type SchemaObject =
   | DateRangeSchema
   | MultilineTextSchema
   | PasswordSchema
-  | WordsSchema;
+  | WordsSchema
+  | SliderSchema;
 
 export type SchemaCollection =
   | SchemaObject
