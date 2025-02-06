@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import type {NavigationItem} from './index';
+import type {NavigationItem} from './';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Item as RcItem} from 'rc-menu';
 import {MenuContextProps, MenuContext} from './MenuContext';
