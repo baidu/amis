@@ -59,6 +59,13 @@ interface MapPickerState {
   locIndex?: number;
   locs: Array<LocationItem>;
   sugs: Array<string>;
+  innerValue?: {
+    address: string;
+    lat: number;
+    lng: number;
+    city?: string;
+    zoom?: number;
+  };
 }
 
 export class BaiduMapPicker extends React.Component<
@@ -69,7 +76,8 @@ export class BaiduMapPicker extends React.Component<
     inputValue: '',
     locs: [],
     locIndex: -1,
-    sugs: []
+    sugs: [],
+    innerValue: this.props.value // 内部定位的值，用于内部更新地图定位点
   };
 
   id = uuid();
@@ -113,10 +121,41 @@ export class BaiduMapPicker extends React.Component<
     delete this.map;
   }
 
-  componentDidUpdate(prevProps: Readonly<MapPickerProps>): void {
+  componentDidUpdate(
+    prevProps: Readonly<MapPickerProps>,
+    prevState: Readonly<MapPickerState>
+  ): void {
     // 值更新后需要重绘地图
     if (prevProps.value !== this.props.value) {
-      this.initMap();
+      this.setState({
+        innerValue: this.props.value
+      });
+    } else if (
+      this.state.innerValue !== prevState.innerValue &&
+      this.state.innerValue
+    ) {
+      this.map.clearOverlays();
+
+      const value = this.state.innerValue;
+
+      let point = value
+        ? new BMap.Point(value.lng, value.lat)
+        : new BMap.Point(116.404, 39.915);
+      const zoom = value?.zoom || 15;
+
+      if (this.props.coordinatesType == 'gcj02') {
+        this.covertPoint(point, COORDINATES_GCJ02, COORDINATES_BD09).then(
+          point => this.map.centerAndZoom(point, zoom)
+        );
+      } else {
+        this.map.centerAndZoom(point, zoom);
+      }
+
+      const mk = new BMap.Marker(point);
+      // 增加定位点
+      this.map.addOverlay(mk);
+      // 移动到中心
+      this.map.panTo(point);
     }
   }
 
@@ -279,16 +318,10 @@ export class BaiduMapPicker extends React.Component<
 
     this.setState(
       {
-        locIndex: index
+        locIndex: index,
+        innerValue: loc
       },
       () => {
-        const point = new BMap.Point(loc.lng, loc.lat);
-
-        this.map.clearOverlays();
-        const mk = new BMap.Marker(point);
-        this.map.addOverlay(mk);
-        this.map.panTo(point);
-
         this.triggerOnChange(loc);
       }
     );
