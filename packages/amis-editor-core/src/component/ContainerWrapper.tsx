@@ -26,7 +26,13 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
    */
   @autobind
   renderChild(region: string, node: Schema, props: any) {
-    const {render, $$editor, $$node} = this.props;
+    const {render, $$editor, $$node, $schema} = this.props;
+
+    if (
+      $$editor.regions?.find(item => item.key === region)?.hiddenOn?.($schema)
+    ) {
+      return null;
+    }
 
     const child = render(region, node, props);
 

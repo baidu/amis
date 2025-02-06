@@ -140,6 +140,7 @@ import type CodeMirror from 'codemirror';
 import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
+import Slider from './Slider';
 
 import Shape from './Shape';
 import type {IShapeType} from './Shape';
@@ -288,5 +289,6 @@ export {
   Shape,
   IShapeType,
   MobileDevTool,
-  DropdownContextMenus
+  DropdownContextMenus,
+  Slider
 };

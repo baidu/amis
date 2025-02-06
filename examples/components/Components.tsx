@@ -1121,6 +1121,14 @@ export const components = [
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/shape.md').then(wrapDoc)
         )
+      },
+
+      {
+        label: 'Slider 滑动条',
+        path: '/zh-CN/components/slider',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/slider.md').then(wrapDoc)
+        )
       }
     ]
   },
