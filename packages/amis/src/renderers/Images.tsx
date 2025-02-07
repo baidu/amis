@@ -253,28 +253,51 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     const threshold = 50;
 
     if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0 && currentIndex >= 0) {
+      if (deltaX > 0) {
         // 向右滑
         this.setState({currentIndex: currentIndex - 1}, () => {
           // 如果到达克隆的最后一张,跳转到倒数第二张
-          if (currentIndex === -1) {
+          if (currentIndex === 0) {
+            // 等待前一个动画完成
             setTimeout(() => {
-              this.setState({
-                currentIndex: this.list.length - 1,
-                isSwiping: true
+              // 先禁用动画
+              this.setState({isSwiping: true}, () => {
+                // 在下一帧立即跳转
+                requestAnimationFrame(() => {
+                  this.setState(
+                    {
+                      currentIndex: this.list.length - 1
+                    },
+                    () => {
+                      // 重新启用动画
+                      requestAnimationFrame(() => {
+                        this.setState({isSwiping: false});
+                      });
+                    }
+                  );
+                });
               });
             }, 300);
           }
         });
-      } else if (deltaX < 0 && currentIndex < this.list.length - 1) {
+      } else {
         // 向左滑
         this.setState({currentIndex: currentIndex + 1}, () => {
-          // 如果到达克隆的第一张,跳转到第二张
           if (currentIndex === this.list.length - 1) {
             setTimeout(() => {
-              this.setState({
-                currentIndex: 0,
-                isSwiping: true
+              this.setState({isSwiping: true}, () => {
+                requestAnimationFrame(() => {
+                  this.setState(
+                    {
+                      currentIndex: 0
+                    },
+                    () => {
+                      requestAnimationFrame(() => {
+                        this.setState({isSwiping: false});
+                      });
+                    }
+                  );
+                });
               });
             }, 300);
           }
