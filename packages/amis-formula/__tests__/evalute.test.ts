@@ -488,11 +488,19 @@ test('evalute:array:func', () => {
 
   expect(evaluate('${ARRAYFINDINDEX(arr3, item => item === 2)}', data)).toBe(1);
 
+  expect(evaluate('${ARRAYFINDINDEX(arr3, item => item !== 1)}', data)).toBe(1);
+
   expect(
     evaluate('${ARRAYFIND(arr5, item => item.name === 1.3)}', data)
   ).toMatchObject({
     id: 1.1,
     name: 1.3
+  });
+
+  expect(
+    evaluate('${ARRAYFIND(arr5, item => item.id !== 1.1)}', data)
+  ).toMatchObject({
+    id: 2.2
   });
 
   expect(evaluate('${ARRAYSOME(arr5, item => item.name === 1.3)}', data)).toBe(

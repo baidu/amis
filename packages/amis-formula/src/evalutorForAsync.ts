@@ -544,18 +544,15 @@ export class AsyncEvaluator extends (Evaluator as any) {
     }
 
     let hitIndex = -1;
+    const items = Array.isArray(arr) ? arr : [];
 
-    await (Array.isArray(arr) ? arr : []).reduce(
-      async (promise: any, item: any, index: number) => {
-        await promise;
-        const hit = await this.callAnonymousFunction(iterator, [item, index]);
-
-        if (hit) {
-          hitIndex = index;
-        }
-      },
-      Promise.resolve()
-    );
+    for (const [index, item] of items.entries()) {
+      const hit = await this.callAnonymousFunction(iterator, [item, index]);
+      if (hit) {
+        hitIndex = index;
+        break;
+      }
+    }
 
     return hitIndex;
   }
@@ -580,18 +577,15 @@ export class AsyncEvaluator extends (Evaluator as any) {
     }
 
     let hitItem = undefined;
+    const items = Array.isArray(arr) ? arr : [];
 
-    await (Array.isArray(arr) ? arr : []).reduce(
-      async (promise: any, item: any, index: number) => {
-        await promise;
-        const hit = await this.callAnonymousFunction(iterator, [item, index]);
-
-        if (hit) {
-          hitItem = item;
-        }
-      },
-      Promise.resolve()
-    );
+    for (const [index, item] of items.entries()) {
+      const hit = await this.callAnonymousFunction(iterator, [item, index]);
+      if (hit) {
+        hitItem = item;
+        break;
+      }
+    }
 
     return hitItem;
   }
