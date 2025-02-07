@@ -8,7 +8,8 @@ icon:
 order: 53
 ---
 
-图片集展示，不支持配置初始化接口初始化数据域，所以需要搭配类似像`Service`、`Form`或`CRUD`这样的，具有配置接口初始化数据域功能的组件，或者手动进行数据域初始化，然后通过`source`属性，获取数据链中的数据，完成数据展示。
+图片集展示，不支持配置初始化接口初始化数据域，所以需要搭配类似像`Service`、`Form`或`CRUD`
+这样的，具有配置接口初始化数据域功能的组件，或者手动进行数据域初始化，然后通过`source`属性，获取数据链中的数据，完成数据展示。
 
 ## 基本用法
 
@@ -60,112 +61,169 @@ order: 53
 }
 ```
 
-图集排列方式，通过sortType字段调整布局方式`'sm-mm-mmm-m'| 'sss-ss-ms-m'| 'sms-ss-sms-l' | 'sm-mm-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-ms-ss' | 'ssss-ss-mss-ss' | 'sss-ss-mm-ss';`
+图集排列方式，通过sortType字段调整布局方式
+`'sm-mm-mmm-m'| 'sss-ss-ms-m'| 'sms-ss-sms-l' | 'sm-mm-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-ms-ss' | 'ssss-ss-mss-ss' | 'sss-ss-mm-ss';`
 可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
 
- ### 1 
- `sortType: 'sm-mm-mmm-m'`
+### 1
+
+`sortType: 'sm-mm-mmm-m'`
 
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
+      "hoverMode": "hover-slide",
       "sortType": "sm-mm-mmm-m",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+      ],
     },
   ]
 }
 ```
+
 ### 2
+
 `sortType: 'sss-ss-ms-m'`
 
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
+      "hoverMode": "pull-top",
+      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sss-ss-ms-m",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+      ],
     },
   ]
 }
 ```
+
 ### 3
+
 `sortType: 'sms-ss-sms-l'`
 
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
       "sortType": "sms-ss-sms-l",
+      "hoverMode": "scale-center",
+      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        }
+      ],
     },
   ]
 }
 ```
 
 ### 4
+
 `sortType: 'sm-mm-sss-ss'`
 
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
+      "hoverMode": "scale-top",
+      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-sss-ss",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        }
+      ]
     },
   ]
 }
 ```
+
 ### 5
 
 `sortType: 'ms-ss-sss-ss'`
@@ -173,22 +231,36 @@ order: 53
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
       "sortType": "ms-ss-sss-ss",
       "width":"200",
+      "hoverMode": "text-style-1",
+      "fontStyle": "{fontSize: '10px'}",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        }
+      ]
     },
   ]
 }
@@ -201,26 +273,41 @@ order: 53
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-    ]
-  },
   "body": [
     {
       "type": "images",
       "sortType": "sss-ss-ms-ss",
+      "hoverMode": "text-style-2",
+      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        }
+      ]
     },
   ]
 }
 ```
+
 ### 7
 
 `sortType: 'ssss-ss-mss-ss'`
@@ -228,25 +315,48 @@ order: 53
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      
-    ]
-  },
   "body": [
     {
       "type": "images",
       "sortType": "ssss-ss-mss-ss",
+      "hoverMode": "text-style-3",
+      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        }
+      ]
     },
   ]
 }
@@ -259,28 +369,40 @@ order: 53
 ```schema
 {
   "type": "page",
-  "data": {
-    "imageList": [
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
-      
-    ]
-  },
   "body": [
     {
       "type": "images",
       "sortType": "sss-ss-mm-ss",
+      "hoverMode": "text-style-4",
+      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
-      "source": "${imageList}"
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+      ]
     },
   ]
 }
 ```
-
 
 ## 值格式
 
@@ -841,7 +963,8 @@ List 的内容、Card 卡片的内容配置同上。
 
 > 2.2.0 及以上版本
 
-配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
+配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`
+属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
 
 ```schema
 {
@@ -886,19 +1009,21 @@ List 的内容、Card 卡片的内容配置同上。
 
 ## 属性表
 
-| 属性名             | 类型                                       | 默认值    | 说明                                                                                                                                    | 版本    |
-| ------------------ | ------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| type               | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"`                                                |
-| className          | `string`                                   |           | 外层 CSS 类名                                                                                                                           |
-| defaultImage       | `string`                                   |           | 默认展示图片                                                                                                                            |
-| value              | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                                                                |
-| source             | `string`                                   |           | 数据源                                                                                                                                  |
-| delimiter          | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                                                                         |
-| src                | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                                                                              |
-| originalSrc        | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                                                                |
-| enlargeAble        | `boolean`                                  |           | 支持放大预览                                                                                                                            |
-| enlargeWithGallary | `string`                                   |           | 默认在放大功能展示图片集的所有图片信息；表格中使用时，设置为`true`将展示所有行的图片信息；设置为`false`将关闭放大模式下图片集列表的展示 |
-| thumbMode          | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                                                                        |
-| thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
-| showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
-| toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
+| 属性名                | 类型                                                                                                                                         | 默认值                    | 说明                                                                         | 版本      |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------|---------|
+| type               | `string`                                                                                                                                   | `images`               | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"`      |
+| className          | `string`                                                                                                                                   |                        | 外层 CSS 类名                                                                  |
+| defaultImage       | `string`                                                                                                                                   |                        | 默认展示图片                                                                     |
+| value              | `string`或`Array<string>`或`Array<object>`                                                                                                   |                        | 图片数组                                                                       |
+| source             | `string`                                                                                                                                   |                        | 数据源                                                                        |
+| delimiter          | `string`                                                                                                                                   | `,`                    | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                                |
+| src                | `string`                                                                                                                                   |                        | 预览图地址，支持数据映射获取对象中图片变量                                                      |
+| originalSrc        | `string`                                                                                                                                   |                        | 原图地址，支持数据映射获取对象中图片变量                                                       |
+| enlargeAble        | `boolean`                                                                                                                                  |                        | 支持放大预览                                                                     |
+| enlargeWithGallary | `string`                                                                                                                                   |                        | 默认在放大功能展示图片集的所有图片信息；表格中使用时，设置为`true`将展示所有行的图片信息；设置为`false`将关闭放大模式下图片集列表的展示 |
+| thumbMode          | `string`                                                                                                                                   | `contain`              | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                    |
+| thumbRatio         | `string`                                                                                                                                   | `1:1`                  | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                        |
+| showToolbar        | `boolean`                                                                                                                                  | `false`                | 放大模式下是否展示图片的工具栏                                                            | `2.2.0` |
+| toolbarActions     | `ImageAction[]`                                                                                                                            |                        | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                     | `2.2.0` |
+| hoverMode          | `hover-slideh｜pull-top｜scale-center｜scale-top｜text-style-1｜text-style-2｜text-style-3｜text-style-4｜text-style-5｜text-style-6｜text-style-7 ` |                        | 鼠标悬浮时的展示状态                                                                 |         |
+| fontStyle          | `{"fontSize":"string", "color": "string", "fontFamily": "string"...}`                                                                      | `{"fontSize": "15px"}` | 字体样式                                                                       |         |
