@@ -90,14 +90,11 @@ order: 53
         {
             "type": "images",
             "source": "${images}",
-            "displayMode": "full",
-            "galleryHeight": 300
+            "displayMode": "full"
         }
     ]
 }
 ```
-
-在 `full` 模式下,可以通过 `galleryHeight` 设置画廊的高度。
 
 ## 值格式
 
@@ -720,4 +717,3 @@ List 的内容、Card 卡片的内容配置同上。
 | showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
 | displayMode        | `'thumb' \| 'full'`                        | `'thumb'` | 展示模式,支持缩略图模式（thumb）和大图模式（full）                                                                                      |
-| galleryHeight      | `number \| string`                         | -         | 画廊高度,仅在大图模式下生效                                                                                                             |

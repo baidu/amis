@@ -122,11 +122,6 @@ export interface ImagesSchema extends BaseSchema {
    * 当前展示图片索引
    */
   currentIndex?: number;
-
-  /**
-   * 画廊高度，仅在大图模式下生效
-   */
-  galleryHeight?: number | string;
 }
 
 export interface ImagesProps
@@ -326,8 +321,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
       env,
       themeCss,
       imagesControlClassName,
-      displayMode,
-      galleryHeight
+      displayMode
     } = this.props;
 
     const {currentIndex} = this.state;
