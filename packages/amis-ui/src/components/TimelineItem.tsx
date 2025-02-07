@@ -6,6 +6,7 @@ import {
   LocaleProps,
   render
 } from 'amis-core';
+import {CardSchema} from 'amis/src/renderers/Card';
 import {Icon} from './icons';
 import type {IconCheckedSchema} from './index';
 
@@ -82,7 +83,7 @@ export interface TimelineItemProps {
   /**
    * 卡片展示配置，如果传入则以卡片形式展示，传入对象转为卡片展示，传入的time、title、detail及相关属性将被忽略，只有连线配置和节点圆圈配置生效
    */
-  cardConfig?: any;
+  cardConfig?: CardSchema;
 }
 
 export interface TimelineItem
