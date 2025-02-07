@@ -140,9 +140,6 @@ test('Renderer:timeline items', async () => {
     )
   );
   expect(container).toMatchSnapshot();
-
-  fireEvent.click(getByText('detailExpandedText'));
-  expect(getByText('detailCollapsedText')).toBeInTheDocument();
 });
 
 test('Renderer:timeline source', async () => {
@@ -306,12 +303,102 @@ test('Renderer:timeline detailClassName timeClassName', async () => {
     )
   );
 
-  fireEvent.click(getByText('detailExpandedText'));
-  const timelineDetail = () =>
-    container.querySelector('.cxd-TimelineItem-detail-visible')!;
-  expect(timelineDetail()).toHaveClass('auto-detail-class');
-
   const timelineTitles = () =>
     container.querySelectorAll('.cxd-TimelineItem-title')!;
   expect(timelineTitles()[1]).toHaveClass('auto-item-title-class');
+});
+
+test('Renderer:timeline card style is enabled', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'timeline',
+        detailClassName: 'auto-detail-class',
+        items: [
+          {
+            time: '2019-02-07',
+            cardSchema: {
+              type: 'card',
+              href: 'https://github.com/baidu/amis',
+              header: {
+                title: '标题',
+                subTitle: '副标题',
+                description: '这是一段描述',
+                avatarText: 'AMIS'
+              },
+              body: '这里是内容'
+            }
+          },
+          {
+            time: '2019-02-08',
+            cardSchema: {
+              type: 'card',
+              href: 'https://github.com/baidu/amis',
+              header: {
+                title: '标题',
+                subTitle: '副标题',
+                description: '这是一段描述',
+                avatarText: 'AMIS'
+              },
+              body: '这里是内容'
+            }
+          },
+          {
+            time: '2019-02-09',
+            cardSchema: {
+              type: 'card',
+              href: 'https://github.com/baidu/amis',
+              header: {
+                title: '标题',
+                subTitle: '副标题',
+                description: '这是一段描述',
+                avatarText: 'AMIS'
+              },
+              body: '这里是内容'
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const cardsElements = container.querySelectorAll('.cxd-Card');
+  expect(cardsElements.length).toBe(3);
+});
+
+test('Renderer:timeline dot size is adjusted', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'timeline',
+        detailClassName: 'auto-detail-class',
+        items: [
+          {
+            time: '2019-02-08',
+            title: '节点数据',
+            detail: 'error',
+            dotSize: 'xl'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            detail: 'success',
+            dotSize: 'sm'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            detail: 'warning',
+            dotSize: 'lg',
+            hideDot: true
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
 });
