@@ -373,7 +373,6 @@ export default {
           {
             time: '2019-02-07',
             dotSize: 'sm',
-            align: 'left',
             color: 'info',
             hideDot: true,
             lineColor: '#2e86d3',
@@ -384,7 +383,6 @@ export default {
           {
             time: '2019-02-08',
             color: 'danger',
-            align: 'left',
             lineColor: '#2ee414',
             title: '卡片组说明',
             detail:
@@ -394,7 +392,6 @@ export default {
             time: '2019-02-09',
             color: 'warning',
             dotSize: 'lg',
-            align: 'right',
             lineColor: '#e45c14',
             title: '宫格导航说明',
             detail:
@@ -403,7 +400,6 @@ export default {
           {
             time: '2019-02-10',
             color: 'success',
-            align: 'right',
             dotSize: 'xl',
             lineColor: '#e4148a',
             hideDot: true,
