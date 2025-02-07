@@ -171,8 +171,6 @@ const defaultSchema = {
           />
         ) : data.hasOwnProperty('html') ? (
           <Html html={data.html} filterHtml={props.env.filterHtml} />
-        ) : data.hasOwnProperty('body') ? (
-          props.render('body', data.body)
         ) : data.hasOwnProperty('item') ? (
           <span>{data.item}</span>
         ) : (

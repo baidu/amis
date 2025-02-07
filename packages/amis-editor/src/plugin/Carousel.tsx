@@ -159,22 +159,33 @@ export class CarouselPlugin extends BasePlugin {
                   test: 'this.type === "container"',
                   items: [
                     {
-                      type: 'container',
+                      type: 'combo',
                       name: 'content',
-                      body: [
+                      label: false,
+                      multiple: false,
+                      items: [
                         {
-                          type: 'wrapper',
-                          size: 'xl',
-                          body: '自定义容器'
+                          type: 'input-text',
+                          name: 'itemSchema',
+                          value: {
+                            type: 'container',
+                            body: {
+                              type: 'tpl',
+                              tpl: '拖拽组件到这里'
+                            }
+                          }
                         }
                       ]
                     }
                   ],
                   scaffold: {
                     type: 'container',
-                    content: {
-                      type: 'wrapper',
-                      body: '拖拽组件到这里'
+                    itemSchema: {
+                      type: 'container',
+                      body: {
+                        type: 'tpl',
+                        tpl: '拖拽组件到这里'
+                      }
                     }
                   }
                 }
@@ -190,17 +201,19 @@ export class CarouselPlugin extends BasePlugin {
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
-                        body?: any;
+                        itemSchema?: any;
                       }) => {
                         if (item && item.hasOwnProperty('html')) {
                           return {
                             type: 'html',
                             content: item.html
                           };
-                        } else if (item && item.hasOwnProperty('body')) {
+                        } else if (item && item.hasOwnProperty('itemSchema')) {
                           return {
                             type: 'container',
-                            content: item.body
+                            content: {
+                              itemSchema: item.itemSchema
+                            }
                           };
                         } else {
                           return {
@@ -235,7 +248,7 @@ export class CarouselPlugin extends BasePlugin {
                           };
                         } else if (item.type === 'container') {
                           return {
-                            body: item.content
+                            itemSchema: item.content?.itemSchema
                           };
                         } else {
                           return {
