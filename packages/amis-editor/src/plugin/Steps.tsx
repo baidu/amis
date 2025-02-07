@@ -143,6 +143,137 @@ export class StepsPlugin extends BasePlugin {
               })
             ]
           },
+          getSchemaTpl('theme:base', {
+            label: '基本样式',
+            name: 'themeCss.base'
+          }),
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '图标样式',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'stepIcon',
+                  label: '显示图标'
+                }),
+                {
+                  type: 'select',
+                  name: 'stepIconType',
+                  label: '类型',
+                  options: [
+                    {
+                      label: '默认',
+                      value: ''
+                    },
+                    {
+                      label: '成功',
+                      value: 'success'
+                    },
+                    {
+                      label: '错误',
+                      value: 'error'
+                    },
+                    {
+                      label: '警告',
+                      value: 'warning'
+                    }
+                  ]
+                },
+                {
+                  type: 'select',
+                  name: 'stepIconSize',
+                  label: '尺寸',
+                  options: [
+                    {
+                      label: '小号',
+                      value: 'xs'
+                    },
+                    {
+                      label: '默认',
+                      value: ''
+                    },
+                    {
+                      label: '大号',
+                      value: 'lg'
+                    }
+                  ]
+                },
+                getSchemaTpl('theme:colorPicker', {
+                  label: '颜色',
+                  name: 'themeCss.iconControlClassName.colorPicker',
+                  labelMode: 'input'
+                }),
+                getSchemaTpl('switch', {
+                  name: 'stepIconCustom',
+                  label: '自定义图标',
+                  // 依赖 stepIcon
+                  dependencies: {
+                    stepIcon: true
+                  }
+                })
+              ]
+            }
+          ]),
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '标题样式',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'stepTitle',
+                  label: '显示标题'
+                }),
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.titleControlClassName.font'
+                })
+              ]
+            }
+          ]),
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '副标题样式',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'stepSubTitle',
+                  label: '显示副标题'
+                }),
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.subTitleControlClassName.font'
+                })
+              ]
+            }
+          ]),
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '描述样式',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'stepDescription',
+                  label: '显示描述'
+                }),
+                {
+                  type: 'select',
+                  name: 'stepDescriptionPosition',
+                  label: '描述位置',
+                  options: [
+                    {
+                      label: '顶部',
+                      value: 'top'
+                    },
+                    {
+                      label: '底部',
+                      value: 'bottom'
+                    }
+                  ]
+                },
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.descriptionControlClassName.font'
+                })
+              ]
+            }
+          ]),
+          getSchemaTpl('theme:cssCode'),
           getSchemaTpl('style:classNames', {isFormItem: false})
         ])
       }

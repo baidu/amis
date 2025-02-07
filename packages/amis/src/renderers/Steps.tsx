@@ -6,7 +6,9 @@ import {
   resolveVariable,
   resolveVariableAndFilter,
   filter,
-  getPropValue
+  getPropValue,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
@@ -182,10 +184,53 @@ const StepsWithRemoteConfig = withRemoteConfig()(
     RemoteOptionsProps & React.ComponentProps<typeof StepsCmpt>
   > {
     render() {
-      const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
+      const {
+        classnames: cx,
+        config,
+        deferLoad,
+        loading,
+        updateConfig,
+        id,
+        wrapperCustomStyle,
+        env,
+        themeCss,
+        ...rest
+      } = this.props;
       const sourceConfig = isPlainObject(config) ? config : null;
 
-      return <StepsCmpt {...rest} {...sourceConfig} />;
+      return (
+        <StepsCmpt
+          {...rest}
+          {...sourceConfig}
+          className={cx(
+            'Steps',
+            setThemeClassName({
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              name: 'wrapperClassName',
+              id,
+              themeCss: wrapperCustomStyle
+            })
+          )}
+        >
+          <CustomStyle
+            config={{
+              wrapperCustomStyle,
+              id,
+              themeCss,
+              classNames: [
+                {
+                  key: 'baseControlClassName'
+                }
+              ]
+            }}
+            env={env}
+          />
+        </StepsCmpt>
+      );
     }
   }
 );
