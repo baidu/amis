@@ -10,7 +10,7 @@ export default {
         direction: 'horizontal',
         items: [
           {
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -105,7 +105,7 @@ export default {
             dotSize: 'sm',
             color: 'info',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -121,7 +121,7 @@ export default {
             time: '2019-02-08',
             color: 'danger',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -138,7 +138,7 @@ export default {
             color: 'warning',
             dotSize: 'lg',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -155,7 +155,7 @@ export default {
             color: 'success',
             dotSize: 'xl',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -307,7 +307,7 @@ export default {
           {
             time: '2019-02-07',
             align: 'bottom',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -325,7 +325,7 @@ export default {
             time: '2019-02-08',
             align: 'top',
             icon: 'fa fa-adn',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -423,7 +423,7 @@ export default {
             dotSize: 'sm',
             color: 'info',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -439,7 +439,7 @@ export default {
             time: '2019-02-08',
             color: 'danger',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -456,7 +456,7 @@ export default {
             color: 'warning',
             dotSize: 'lg',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -473,7 +473,7 @@ export default {
             color: 'success',
             dotSize: 'xl',
             align: 'right',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {

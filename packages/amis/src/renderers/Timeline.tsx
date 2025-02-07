@@ -95,7 +95,7 @@ export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 卡片展示配置，如果传入则以卡片形式展示，传入对象转为卡片展示，传入的time、title、detail及相关属性将被忽略，只有连线配置和节点圆圈配置生效
    */
-  cardConfig?: CardSchema;
+  cardSchema?: CardSchema;
 }
 
 export interface TimelineSchema extends BaseSchema {
@@ -184,7 +184,7 @@ export function TimelineCmpt(props: TimelineProps) {
         timeClassName,
         titleClassName,
         detailClassName,
-        cardConfig
+        cardSchema
       } = timelineItem;
 
       return {
@@ -201,9 +201,9 @@ export function TimelineCmpt(props: TimelineProps) {
               data: createObject(data, timelineItem)
             })
           : resolveRender('title', title),
-        cardNode: cardConfig
-          ? render('card', cardConfig, {
-              data: createObject(data, cardConfig)
+        cardNode: cardSchema
+          ? render('card', cardSchema, {
+              data: createObject(data, cardSchema)
             })
           : undefined
       };
