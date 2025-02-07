@@ -518,8 +518,18 @@ test('evalute:array:func', async () => {
   ).toBe(1);
 
   expect(
+    await evaluateForAsync('${ARRAYFINDINDEX(arr3, item => item !== 1)}', data)
+  ).toBe(1);
+
+  expect(
+    await evaluateForAsync('${ARRAYFIND(arr5, item => item.id !== 1.1)}', data)
+  ).toMatchObject({
+    id: 1.2
+  });
+
+  expect(
     await evaluateForAsync(
-      '${ARRAYFIND(arr5, item => item.name === 1.3)}',
+      '${ARRAYFIND(arr5, item => item.name !== 1.3)}',
       data
     )
   ).toMatchObject({
