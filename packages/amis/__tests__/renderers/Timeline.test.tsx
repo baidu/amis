@@ -317,7 +317,7 @@ test('Renderer:timeline card style is enabled', async () => {
         items: [
           {
             time: '2019-02-07',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -331,7 +331,7 @@ test('Renderer:timeline card style is enabled', async () => {
           },
           {
             time: '2019-02-08',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
@@ -345,7 +345,7 @@ test('Renderer:timeline card style is enabled', async () => {
           },
           {
             time: '2019-02-09',
-            cardConfig: {
+            cardSchema: {
               type: 'card',
               href: 'https://github.com/baidu/amis',
               header: {
