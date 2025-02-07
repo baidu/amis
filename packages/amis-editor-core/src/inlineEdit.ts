@@ -62,10 +62,10 @@ function startPlainTextEdit({
       // 还是不要把内容都还原了，直接取消吧
       // forceCancel = true;
       cleanup();
-    } else if (code === 'enter') {
-      e.stopPropagation();
       e.preventDefault();
+    } else if (code === 'enter') {
       cleanup();
+      e.preventDefault();
     }
   };
 
