@@ -147,8 +147,6 @@ export interface ImagesProps
 
 export interface ImagesState {
   currentIndex: number;
-  isSwiping: boolean;
-  startX: number;
 }
 
 export class ImagesField extends React.Component<ImagesProps, ImagesState> {
@@ -163,13 +161,12 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
   };
 
   state: ImagesState = {
-    currentIndex: 0,
-    isSwiping: false,
-    startX: 0
+    currentIndex: 0
   };
 
+  private isSwiping: boolean = false;
+  private startX: number = 0;
   list: Array<any> = [];
-  containerRef = React.createRef<HTMLDivElement>();
 
   @autobind
   private handleSwipe(deltaX: number, currentIndex: number) {
@@ -182,19 +179,18 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
           // 如果到达克隆的最后一张,跳转到倒数第二张
           if (currentIndex === 0) {
             setTimeout(() => {
-              this.setState({isSwiping: true}, () => {
-                requestAnimationFrame(() => {
-                  this.setState(
-                    {
-                      currentIndex: this.list.length - 1
-                    },
-                    () => {
-                      requestAnimationFrame(() => {
-                        this.setState({isSwiping: false});
-                      });
-                    }
-                  );
-                });
+              this.isSwiping = true;
+              requestAnimationFrame(() => {
+                this.setState(
+                  {
+                    currentIndex: this.list.length - 1
+                  },
+                  () => {
+                    requestAnimationFrame(() => {
+                      this.isSwiping = false;
+                    });
+                  }
+                );
               });
             }, 300);
           }
@@ -204,19 +200,18 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         this.setState({currentIndex: currentIndex + 1}, () => {
           if (currentIndex === this.list.length - 1) {
             setTimeout(() => {
-              this.setState({isSwiping: true}, () => {
-                requestAnimationFrame(() => {
-                  this.setState(
-                    {
-                      currentIndex: 0
-                    },
-                    () => {
-                      requestAnimationFrame(() => {
-                        this.setState({isSwiping: false});
-                      });
-                    }
-                  );
-                });
+              this.isSwiping = true;
+              requestAnimationFrame(() => {
+                this.setState(
+                  {
+                    currentIndex: 0
+                  },
+                  () => {
+                    requestAnimationFrame(() => {
+                      this.isSwiping = false;
+                    });
+                  }
+                );
               });
             }, 300);
           }
@@ -229,19 +224,17 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
   handleTouchStart(e: React.TouchEvent) {
     if (this.props.displayMode !== 'full') return;
 
-    this.setState({
-      isSwiping: true,
-      startX: e.touches[0].clientX
-    });
+    this.isSwiping = true;
+    this.startX = e.touches[0].clientX;
   }
 
   @autobind
   handleTouchEnd(e: React.TouchEvent) {
-    if (!this.state.isSwiping) return;
+    if (!this.isSwiping) return;
 
-    const deltaX = e.changedTouches[0].clientX - this.state.startX;
+    const deltaX = e.changedTouches[0].clientX - this.startX;
     this.handleSwipe(deltaX, this.state.currentIndex);
-    this.setState({isSwiping: false});
+    this.isSwiping = false;
   }
 
   @autobind
@@ -251,21 +244,19 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     // 阻止图片默认的拖拽行为
     e.preventDefault();
 
-    this.setState({
-      isSwiping: true,
-      startX: e.clientX
-    });
+    this.isSwiping = true;
+    this.startX = e.clientX;
 
     document.addEventListener('mouseup', this.handleMouseUp);
   }
 
   @autobind
   handleMouseUp(e: MouseEvent) {
-    if (!this.state.isSwiping) return;
+    if (!this.isSwiping) return;
 
-    const deltaX = e.clientX - this.state.startX;
+    const deltaX = e.clientX - this.startX;
     this.handleSwipe(deltaX, this.state.currentIndex);
-    this.setState({isSwiping: false});
+    this.isSwiping = false;
     document.removeEventListener('mouseup', this.handleMouseUp);
   }
 
@@ -299,7 +290,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     // 考虑到克隆图片,实际索引需要+1
     return {
       transform: `translateX(-${(currentIndex + 1) * 100}%)`,
-      transition: this.state.isSwiping ? 'none' : 'transform 0.3s ease-out',
+      transition: this.isSwiping ? 'none' : 'transform 0.3s ease-out',
       height: '100%',
       display: 'flex',
       // 因为首尾各增加一张克隆图片,所以宽度需要增加200%
@@ -365,7 +356,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
     return (
       <div
-        ref={this.containerRef}
         className={cx(
           'ImagesField',
           className,
