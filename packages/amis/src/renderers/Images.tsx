@@ -172,21 +172,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
   containerRef = React.createRef<HTMLDivElement>();
 
   @autobind
-  handleTouchStart(e: React.TouchEvent) {
-    if (this.props.displayMode !== 'full') return;
-
-    this.setState({
-      isSwiping: true,
-      startX: e.touches[0].clientX
-    });
-  }
-
-  @autobind
-  handleTouchEnd(e: React.TouchEvent) {
-    if (!this.state.isSwiping) return;
-
-    const {currentIndex} = this.state;
-    const deltaX = e.changedTouches[0].clientX - this.state.startX;
+  private handleSwipe(deltaX: number, currentIndex: number) {
     const threshold = 50;
 
     if (Math.abs(deltaX) > threshold) {
@@ -196,80 +182,13 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
           // 如果到达克隆的最后一张,跳转到倒数第二张
           if (currentIndex === 0) {
             setTimeout(() => {
-              this.setState({
-                currentIndex: this.list.length - 1,
-                isSwiping: true
-              });
-            }, 300);
-          }
-        });
-      } else {
-        // 向左滑
-        this.setState({currentIndex: currentIndex + 1}, () => {
-          // 如果到达克隆的第一张,跳转到第二张
-          if (currentIndex === this.list.length - 1) {
-            setTimeout(() => {
-              this.setState({
-                currentIndex: 0,
-                isSwiping: true
-              });
-            }, 300);
-          }
-        });
-      }
-    }
-
-    this.setState({isSwiping: false});
-  }
-
-  @autobind
-  handleMouseDown(e: React.MouseEvent) {
-    if (this.props.displayMode !== 'full') return;
-
-    // 阻止图片默认的拖拽行为
-    e.preventDefault();
-
-    this.setState({
-      isSwiping: true,
-      startX: e.clientX
-    });
-
-    document.addEventListener('mousemove', this.handleMouseMove);
-    document.addEventListener('mouseup', this.handleMouseUp);
-  }
-
-  @autobind
-  handleMouseMove(e: MouseEvent) {
-    if (!this.state.isSwiping) return;
-    e.preventDefault();
-  }
-
-  @autobind
-  handleMouseUp(e: MouseEvent) {
-    if (!this.state.isSwiping) return;
-
-    const {currentIndex} = this.state;
-    const deltaX = e.clientX - this.state.startX;
-    const threshold = 50;
-
-    if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0) {
-        // 向右滑
-        this.setState({currentIndex: currentIndex - 1}, () => {
-          // 如果到达克隆的最后一张,跳转到倒数第二张
-          if (currentIndex === 0) {
-            // 等待前一个动画完成
-            setTimeout(() => {
-              // 先禁用动画
               this.setState({isSwiping: true}, () => {
-                // 在下一帧立即跳转
                 requestAnimationFrame(() => {
                   this.setState(
                     {
                       currentIndex: this.list.length - 1
                     },
                     () => {
-                      // 重新启用动画
                       requestAnimationFrame(() => {
                         this.setState({isSwiping: false});
                       });
@@ -304,9 +223,49 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         });
       }
     }
+  }
 
+  @autobind
+  handleTouchStart(e: React.TouchEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    this.setState({
+      isSwiping: true,
+      startX: e.touches[0].clientX
+    });
+  }
+
+  @autobind
+  handleTouchEnd(e: React.TouchEvent) {
+    if (!this.state.isSwiping) return;
+
+    const deltaX = e.changedTouches[0].clientX - this.state.startX;
+    this.handleSwipe(deltaX, this.state.currentIndex);
     this.setState({isSwiping: false});
-    document.removeEventListener('mousemove', this.handleMouseMove);
+  }
+
+  @autobind
+  handleMouseDown(e: React.MouseEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    // 阻止图片默认的拖拽行为
+    e.preventDefault();
+
+    this.setState({
+      isSwiping: true,
+      startX: e.clientX
+    });
+
+    document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  @autobind
+  handleMouseUp(e: MouseEvent) {
+    if (!this.state.isSwiping) return;
+
+    const deltaX = e.clientX - this.state.startX;
+    this.handleSwipe(deltaX, this.state.currentIndex);
+    this.setState({isSwiping: false});
     document.removeEventListener('mouseup', this.handleMouseUp);
   }
 
