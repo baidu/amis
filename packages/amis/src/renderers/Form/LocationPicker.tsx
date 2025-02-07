@@ -53,6 +53,11 @@ export interface LocationControlSchema extends FormBaseControlSchema {
    * 备注：区分下现有的placeholder（“请选择位置”）
    */
   getLocationPlaceholder?: string;
+
+  /**
+   * 是否隐藏地图控制组件，默认为false
+   */
+  hideViewControl?: boolean;
 }
 
 export interface LocationControlProps
@@ -144,7 +149,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
       value,
       staticSchema,
       ak,
-      coordinatesType
+      coordinatesType,
+      hideViewControl = false
     } = this.props;
     const __ = this.props.translate;
 
@@ -173,6 +179,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
               showSug={false}
               showGeoLoc={staticSchema.showGeoLoc}
               mapStyle={staticSchema.mapStyle}
+              hideViewControl={hideViewControl}
             />
           </>
         ) : (
