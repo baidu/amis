@@ -24,6 +24,8 @@ export default {
     {
       "type": "images",
       "sortType": "sm-mm-mmm-m",
+      "hoverMode": "text-style-7",
+      "fontStyle":"{fontSize: '20px'}",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",

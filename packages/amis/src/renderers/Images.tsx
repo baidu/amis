@@ -135,6 +135,32 @@ export interface ImagesSchema extends BaseSchema {
    * 高度（有sortType时生效）
    * */
   height?: string;
+  /**
+   * 鼠标悬浮时的展示状态（对应AIpage的文字6，9，10不存在）
+   * */
+  hoverMode?:
+    | 'hover-slide'
+    | 'pull-top'
+    | 'scale-center'
+    | 'scale-top'
+    | 'text-style-1'
+    | 'text-style-2'
+    | 'text-style-3'
+    | 'text-style-4'
+    | 'text-style-5'
+    | 'text-style-6'
+    | 'text-style-7';
+  /**
+   * 描述文字样式
+   * */
+  fontStyle?:
+    | {
+        fontSize?: string;
+        fontWeight?: string;
+        fontFamily?: string;
+        color: string;
+      }
+    | string;
 }
 
 export interface ImagesProps
@@ -301,7 +327,12 @@ export class ImagesField extends React.Component<ImagesProps> {
     const width = Number(this.props.width) || 800;
     const height = Number(this.props.height) || 450;
     const gap = 10;
-    let styleObj: any = {position: 'absolute', boxSizing: 'border-box'};
+    let styleObj: any = {
+      position: 'absolute',
+      boxSizing: 'border-box',
+      height: this.generateHeight(rootStyle, index) + 'px',
+      width: this.generateWidth(rootStyle, index) + 'px'
+    };
     if (rootStyle === 'sm-mm-mmm-m') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
@@ -401,11 +432,26 @@ export class ImagesField extends React.Component<ImagesProps> {
     }
     return styleObj;
   };
-
   /**
-   * 图集组件点击图片后出触发，用于放大图片
+   * 生成文字效果
    * */
-  enlargeImage = (url: string) => {};
+  generateFontStyle = () => {
+    if (!this.props.fontStyle) {
+      return {};
+    }
+    console.log(this.props.fontStyle);
+    let styleObj: object = {};
+    if (typeof this.props.fontStyle === 'string') {
+      let validJsonStr = this.props.fontStyle.replace(
+        /(['"])?([a-zA-Z0-9-_]+)\1\s*:\s*(['"])?([^'"]+)\3/g,
+        '"$2": "$4"'
+      );
+      styleObj = JSON.parse(validJsonStr);
+    } else if (typeof this.props.fontStyle === 'object') {
+      styleObj = this.props.fontStyle;
+    }
+    return styleObj;
+  };
 
   render() {
     const {
@@ -487,13 +533,16 @@ export class ImagesField extends React.Component<ImagesProps> {
         <div className={sortType}>
           {list.map((item: any, index: number) => (
             <div
-              className="Img-container"
+              className={`${this.props.hoverMode} Img-container`}
               style={this.generateTranslate(sortType, index)}
               key={index}
             >
               <div
                 className="mask"
-                style={{height: this.generateHeight(sortType, index) + 'px'}}
+                style={{
+                  height: this.generateHeight(sortType, index) + 'px',
+                  width: this.generateWidth(sortType, index) + 'px'
+                }}
                 onClick={() =>
                   this.handleEnlarge({
                     src: item.image,
@@ -501,7 +550,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                   } as ImageThumbProps)
                 }
               >
-                {item.desc}
+                <span style={{...this.generateFontStyle()}}>{item.desc}</span>
               </div>
               <img
                 alt=""
