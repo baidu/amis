@@ -1,12 +1,5 @@
 import React, {ReactNode} from 'react';
-import {
-  themeable,
-  ThemeProps,
-  localeable,
-  LocaleProps,
-  render
-} from 'amis-core';
-import {CardSchema} from 'amis/src/renderers/Card';
+import {themeable, ThemeProps, localeable, LocaleProps} from 'amis-core';
 import {Icon} from './icons';
 import type {IconCheckedSchema} from './index';
 
@@ -83,7 +76,7 @@ export interface TimelineItemProps {
   /**
    * 卡片展示配置，如果传入则以卡片形式展示，传入对象转为卡片展示，传入的time、title、detail及相关属性将被忽略，只有连线配置和节点圆圈配置生效
    */
-  cardConfig?: CardSchema;
+  cardNode?: ReactNode;
 }
 
 export interface TimelineItem
@@ -151,11 +144,11 @@ function TimelineContent(props: TimelineItem) {
     classnames: cx,
     detailClassName,
     translate: __,
-    cardConfig
+    cardNode
   } = props;
 
-  return cardConfig ? (
-    render(cardConfig)
+  return cardNode ? (
+    cardNode
   ) : (
     <>
       <div className={cx('TimelineItem-title', titleClassName)}>{title}</div>
