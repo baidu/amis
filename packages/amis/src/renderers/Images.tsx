@@ -435,9 +435,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
                         }
                       };
 
-                      console.log(animationStyles[status]);
-                      console.log(this.state.nextAnimation);
-
                       return (
                         <div
                           className={cx('Images-item')}
