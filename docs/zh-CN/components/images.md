@@ -67,6 +67,11 @@ order: 53
 - `thumb`: 缩略图模式(默认),将图片以缩略图网格的形式展示
 - `full`: 大图模式,以幻灯片形式展示单张大图,可左右滑动切换
 
+在大图模式下,可以通过`fullThumbMode`属性来控制图片的缩放模式:
+
+- `cover`: 保持图片比例,填充整个容器,可能会裁剪部分图片(默认)
+- `contain`: 保持图片比例,确保图片完整显示在容器内
+
 ```schema
 {
     "type": "page",
@@ -90,7 +95,8 @@ order: 53
         {
             "type": "images",
             "source": "${images}",
-            "displayMode": "full"
+            "displayMode": "full",
+            "fullThumbMode": "cover"
         }
     ]
 }
@@ -717,3 +723,4 @@ List 的内容、Card 卡片的内容配置同上。
 | showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
 | displayMode        | `'thumb' \| 'full'`                        | `'thumb'` | 展示模式,支持缩略图模式（thumb）和大图模式（full）                                                                                      |
+| fullThumbMode      | `'cover' \| 'contain'`                     | `'cover'` | 大图模式下的图片缩放模式                                                                                                                |

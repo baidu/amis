@@ -127,6 +127,11 @@ export interface ImagesSchema extends BaseSchema {
    * 当前展示图片索引
    */
   currentIndex?: number;
+
+  /**
+   * 大图模式下的缩放模式
+   */
+  fullThumbMode?: 'cover' | 'contain';
 }
 
 export interface ImagesProps
@@ -158,7 +163,8 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     placehoder: '-',
     thumbMode: 'contain',
     thumbRatio: '1:1',
-    displayMode: 'thumb'
+    displayMode: 'thumb',
+    fullThumbMode: 'cover'
   };
 
   state: ImagesState = {
@@ -330,7 +336,8 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
       env,
       themeCss,
       imagesControlClassName,
-      displayMode
+      displayMode,
+      fullThumbMode
     } = this.props;
 
     const {currentIndex} = this.state;
@@ -448,7 +455,10 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
                         >
                           <div className={cx('Images-itemInner')}>
                             <img
-                              className={cx('Image-image')}
+                              className={cx('Image-image', {
+                                [`Image-image--${fullThumbMode}`]:
+                                  displayMode === 'full'
+                              })}
                               src={
                                 (src
                                   ? filter(src, item, '| raw')

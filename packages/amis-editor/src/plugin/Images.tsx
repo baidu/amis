@@ -138,7 +138,7 @@ export class ImagesPlugin extends BasePlugin {
                         value: 'thumb'
                       },
                       {
-                        label: '画廊模式',
+                        label: '大图模式',
                         value: 'full'
                       }
                     ]
