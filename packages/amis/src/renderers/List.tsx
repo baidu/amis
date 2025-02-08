@@ -1077,9 +1077,7 @@ export default class List extends React.Component<
     const {indexField = 'title', store, listItem} = this.props;
     if (!store) return;
 
-    // 获取 listItem.title 配置的字段
     const titleField = listItem?.title?.substring(2, listItem.title.length - 1);
-    // 使用配置的字段名或 indexField 作为回退
     const fieldToUse = titleField || indexField;
 
     const targetItem = store.items.find(item => {
@@ -1093,22 +1091,25 @@ export default class List extends React.Component<
     });
 
     if (targetItem) {
-      // 找到目标元素
       const element = findDOMNode(this);
-      if (element instanceof HTMLElement) {
-        const domNode = element.querySelector(
-          `[data-index="${targetItem.index}"]`
-        ) as HTMLElement;
+      if (element) {
+        try {
+          const domNode = (element as Element).querySelector(
+            `[data-index="${targetItem.index}"]`
+          );
 
-        if (domNode) {
-          // 使用 scrollIntoView 进行滚动
-          domNode.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+          if (domNode) {
+            // 使用 scrollIntoView 进行滚动
+            (domNode as HTMLElement).scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
 
-          // 更新当前字母
-          this.setState({currentLetter: letter});
+            // 更新当前字母
+            this.setState({currentLetter: letter});
+          }
+        } catch (e) {
+          console.warn('Failed to scroll to target element:', e);
         }
       }
     }
@@ -1211,7 +1212,6 @@ export default class List extends React.Component<
             onLetterClick={this.handleLetterClick}
             classnames={cx}
             currentLetter={currentLetter}
-            parent={this.body}
           />
         )}
       </div>
