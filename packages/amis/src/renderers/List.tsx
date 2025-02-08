@@ -1020,7 +1020,7 @@ export default class List extends React.Component<
     template: ListItemSchema | undefined,
     item: IItem,
     itemClassName: string
-  ) {
+  ): React.ReactNode {
     const {
       render,
       multiple,
@@ -1073,16 +1073,23 @@ export default class List extends React.Component<
     );
   }
 
-  handleLetterClick(letter: string) {
-    const {indexField = 'title', store} = this.props;
+  handleLetterClick(letter: string): void {
+    const {indexField = 'title', store, listItem} = this.props;
     if (!store) return;
+
+    // 获取 listItem.title 配置的字段
+    const titleField = listItem?.title?.substring(2, listItem.title.length - 1);
+    // 使用配置的字段名或 indexField 作为回退
+    const fieldToUse = titleField || indexField;
 
     const targetItem = store.items.find(item => {
       const value = getPropValue(
         {data: item.data},
-        () => item.data[indexField]
+        () => item.data[fieldToUse]
       );
-      return value?.charAt(0)?.toUpperCase() === letter;
+      return typeof value === 'string'
+        ? value.charAt(0).toUpperCase() === letter
+        : false;
     });
 
     if (targetItem) {
@@ -1094,23 +1101,14 @@ export default class List extends React.Component<
         ) as HTMLElement;
 
         if (domNode) {
-          // 获取滚动容器
-          const scrollContainer = getScrollParent(domNode);
+          // 使用 scrollIntoView 进行滚动
+          domNode.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
 
-          if (scrollContainer) {
-            // 计算滚动位置
-            const containerRect = scrollContainer.getBoundingClientRect();
-            const targetRect = domNode.getBoundingClientRect();
-            const offset = targetRect.top - containerRect.top;
-
-            // 平滑滚动
-            scrollContainer.scrollTo({
-              top: scrollContainer.scrollTop + offset,
-              behavior: 'smooth'
-            });
-
-            this.setState({currentLetter: letter});
-          }
+          // 更新当前字母
+          this.setState({currentLetter: letter});
         }
       }
     }

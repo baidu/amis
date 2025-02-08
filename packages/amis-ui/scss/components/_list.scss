@@ -260,20 +260,31 @@
 // 修改索引条样式
 .#{$ns}AlphabetIndexer {
   position: fixed;
-  right: px2rem(30px);
+  right: px2rem(5px);
   top: 50%;
   transform: translateY(-50%);
-  z-index: $zindex-sticky;
   padding: px2rem(10px) px2rem(5px);
   background: var(--white);
   border-radius: var(--borderRadius);
   box-shadow: var(--boxShadow);
+  z-index: $zindex-sticky;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    right: px2rem(2px);
+    padding: px2rem(5px) px2rem(2px);
+  }
 
   &-letter {
     font-size: var(--fontSizeSm);
     padding: px2rem(2px) px2rem(4px);
     cursor: pointer;
     text-align: center;
+
+    @media (max-width: 768px) {
+      padding: px2rem(1px) px2rem(2px);
+    }
 
     &:hover {
       color: var(--primary);
