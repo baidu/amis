@@ -15,7 +15,12 @@ import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
-
+import Transition, {
+  ENTERED,
+  ENTERING,
+  EXITING,
+  EXITED
+} from 'react-transition-group/Transition';
 /**
  * 图片集展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
@@ -142,6 +147,7 @@ export interface ImagesProps
 
 export interface ImagesState {
   currentIndex: number;
+  nextAnimation: string;
 }
 
 export class ImagesField extends React.Component<ImagesProps, ImagesState> {
@@ -156,61 +162,64 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
   };
 
   state: ImagesState = {
-    currentIndex: 0
+    currentIndex: 0,
+    nextAnimation: ''
   };
 
   private isSwiping: boolean = false;
   private startX: number = 0;
   list: Array<any> = [];
 
+  wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  // 根据当前索引和方向获取下一帧的索引
   @autobind
-  private handleSwipe(deltaX: number, currentIndex: number) {
+  getFrameId(pos?: string) {
+    const {currentIndex} = this.state;
+    const total = this.list.length;
+    switch (pos) {
+      case 'prev':
+        return (currentIndex - 1 + total) % total;
+      case 'next':
+        return (currentIndex + 1) % total;
+      default:
+        return currentIndex;
+    }
+  }
+
+  // 根据方向和动画类型切换到下一帧
+  @autobind
+  async transitFramesTowards(direction: string, nextAnimation: string) {
+    let {currentIndex} = this.state;
+    let prevIndex = currentIndex;
+
+    switch (direction) {
+      case 'left':
+        currentIndex = this.getFrameId('next');
+        nextAnimation = 'slideLeft';
+        break;
+      case 'right':
+        currentIndex = this.getFrameId('prev');
+        nextAnimation = 'slideRight';
+        break;
+      default:
+        return;
+    }
+
+    this.setState({currentIndex, nextAnimation});
+  }
+
+  @autobind
+  private handleSwipe(deltaX: number) {
     const threshold = 50;
 
     if (Math.abs(deltaX) > threshold) {
       if (deltaX > 0) {
         // 向右滑
-        this.setState({currentIndex: currentIndex - 1}, () => {
-          // 如果到达克隆的最后一张,跳转到倒数第二张
-          if (currentIndex === 0) {
-            setTimeout(() => {
-              this.isSwiping = true;
-              requestAnimationFrame(() => {
-                this.setState(
-                  {
-                    currentIndex: this.list.length - 1
-                  },
-                  () => {
-                    requestAnimationFrame(() => {
-                      this.isSwiping = false;
-                    });
-                  }
-                );
-              });
-            }, 300);
-          }
-        });
+        this.transitFramesTowards('right', 'slideRight');
       } else {
         // 向左滑
-        this.setState({currentIndex: currentIndex + 1}, () => {
-          if (currentIndex === this.list.length - 1) {
-            setTimeout(() => {
-              this.isSwiping = true;
-              requestAnimationFrame(() => {
-                this.setState(
-                  {
-                    currentIndex: 0
-                  },
-                  () => {
-                    requestAnimationFrame(() => {
-                      this.isSwiping = false;
-                    });
-                  }
-                );
-              });
-            }, 300);
-          }
-        });
+        this.transitFramesTowards('left', 'slideLeft');
       }
     }
   }
@@ -228,7 +237,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     if (!this.isSwiping) return;
 
     const deltaX = e.changedTouches[0].clientX - this.startX;
-    this.handleSwipe(deltaX, this.state.currentIndex);
+    this.handleSwipe(deltaX);
     this.isSwiping = false;
   }
 
@@ -250,7 +259,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     if (!this.isSwiping) return;
 
     const deltaX = e.clientX - this.startX;
-    this.handleSwipe(deltaX, this.state.currentIndex);
+    this.handleSwipe(deltaX);
     this.isSwiping = false;
     document.removeEventListener('mouseup', this.handleMouseUp);
   }
@@ -350,6 +359,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
 
     return (
       <div
+        ref={this.wrapperRef}
         className={cx(
           'ImagesField',
           className,
@@ -382,84 +392,85 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {displayMode === 'full' ? (
-              <>
-                <div className={cx('Images-container')}>
-                  <div style={this.getTransformStyle()}>
-                    {/* 在首尾添加克隆图片 */}
-                    <div
-                      className={cx('Images-item')}
-                      style={{flex: '0 0 100%'}}
-                    >
-                      <div className={cx('Images-itemInner')}>
-                        <img
-                          className={cx('Image-image')}
-                          src={
-                            (src
-                              ? filter(src, list[list.length - 1], '| raw')
-                              : list[list.length - 1]?.image) ||
-                            list[list.length - 1]
-                          }
-                          alt={list[list.length - 1]?.title}
-                          draggable={false}
-                          onDragStart={e => e.preventDefault()}
-                        />
-                        <div className={cx('Images-itemIndex')}>
-                          {list.length}/{list.length}
-                        </div>
-                      </div>
-                    </div>
+              <div className={cx('Images-container')}>
+                {list.map((item: any, index: number) => (
+                  <Transition
+                    key={index}
+                    in={index === currentIndex}
+                    timeout={300}
+                    mountOnEnter
+                    unmountOnExit
+                  >
+                    {(status: string) => {
+                      if (status === ENTERING) {
+                        this.wrapperRef.current?.childNodes.forEach(
+                          (item: HTMLElement) => item.offsetHeight
+                        );
+                      }
 
-                    {/* 原有图片列表 */}
-                    {list.map((item: any, index: number) => (
-                      <div
-                        key={index}
-                        className={cx('Images-item')}
-                        style={{flex: '0 0 100%'}}
-                      >
-                        <div className={cx('Images-itemInner')}>
-                          <img
-                            className={cx('Image-image')}
-                            src={
-                              (src
-                                ? filter(src, item, '| raw')
-                                : item && item.image) || item
-                            }
-                            alt={item && item.title}
-                            draggable={false}
-                            onDragStart={e => e.preventDefault()}
-                          />
-                          <div className={cx('Images-itemIndex')}>
-                            {index + 1}/{list.length}
+                      const animationStyles: {
+                        [propName: string]: React.CSSProperties;
+                      } = {
+                        [ENTERING]: {
+                          opacity: 1,
+                          transform: 'translateX(0)'
+                        },
+                        [ENTERED]: {
+                          opacity: 1,
+                          transform: 'translateX(0)'
+                        },
+                        [EXITING]: {
+                          opacity: 0,
+                          transform:
+                            this.state.nextAnimation === 'slideRight'
+                              ? 'translateX(100%)'
+                              : 'translateX(-100%)'
+                        },
+                        [EXITED]: {
+                          opacity: 0,
+                          transform:
+                            this.state.nextAnimation === 'slideRight'
+                              ? 'translateX(-100%)'
+                              : 'translateX(100%)'
+                        }
+                      };
+
+                      console.log(animationStyles[status]);
+                      console.log(this.state.nextAnimation);
+
+                      return (
+                        <div
+                          className={cx('Images-item')}
+                          style={{
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            transition: 'all 300ms ease-in-out',
+                            ...animationStyles[status]
+                          }}
+                        >
+                          <div className={cx('Images-itemInner')}>
+                            <img
+                              className={cx('Image-image')}
+                              src={
+                                (src
+                                  ? filter(src, item, '| raw')
+                                  : item && item.image) || item
+                              }
+                              alt={item && item.title}
+                              draggable={false}
+                              onDragStart={e => e.preventDefault()}
+                            />
+                            <div className={cx('Images-itemIndex')}>
+                              {index + 1}/{list.length}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-
-                    {/* 添加第一张图片的克隆 */}
-                    <div
-                      className={cx('Images-item')}
-                      style={{flex: '0 0 100%'}}
-                    >
-                      <div className={cx('Images-itemInner')}>
-                        <img
-                          className={cx('Image-image')}
-                          src={
-                            (src
-                              ? filter(src, list[0], '| raw')
-                              : list[0]?.image) || list[0]
-                          }
-                          alt={list[0]?.title}
-                          draggable={false}
-                          onDragStart={e => e.preventDefault()}
-                        />
-                        <div className={cx('Images-itemIndex')}>
-                          1/{list.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
+                      );
+                    }}
+                  </Transition>
+                ))}
+              </div>
             ) : (
               list.map((item: any, index: number) => (
                 <Image

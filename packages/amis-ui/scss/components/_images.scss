@@ -39,26 +39,31 @@
       cursor: grab;
 
       &-container {
-        display: flex;
+        position: relative;
         width: 100%;
         height: 100%;
-        will-change: transform;
-        user-select: none;
+        min-height: 300px;
       }
 
       &-item {
-        width: 100%;
         margin: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         background: #fff;
+        will-change: transform, opacity;
+        backface-visibility: hidden;
       }
 
       &-itemInner {
         position: relative;
         max-width: 100%;
         max-height: 100vh;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .#{$ns}Image-image {
