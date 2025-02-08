@@ -295,19 +295,6 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
       );
   }
 
-  getTransformStyle() {
-    const {currentIndex} = this.state;
-    // 考虑到克隆图片,实际索引需要+1
-    return {
-      transform: `translateX(-${(currentIndex + 1) * 100}%)`,
-      transition: this.isSwiping ? 'none' : 'transform 0.3s ease-out',
-      height: '100%',
-      display: 'flex',
-      // 因为首尾各增加一张克隆图片,所以宽度需要增加200%
-      width: `${(this.list.length + 2) * 100}%`
-    };
-  }
-
   render() {
     const {
       className,
