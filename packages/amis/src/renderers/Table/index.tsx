@@ -1964,21 +1964,12 @@ export default class Table<
     );
     Object.assign(style, stickyStyle);
 
-    /** 如果当前列定宽，则不能操作drag bar */
-    const pristineWidth = store.columns?.[column.index]?.pristine?.width;
-    const disableColDrag =
-      '__' !== column.type.substring(0, 2) &&
-      typeof pristineWidth === 'number' &&
-      pristineWidth > 0;
-
     const resizeLine = (
       <div
-        className={cx('Table-content-colDragLine', {
-          'Table-content-colDragLine--disabled': disableColDrag
-        })}
+        className={cx('Table-content-colDragLine')}
         key={`resize-${column.id}`}
         data-index={column.index}
-        onMouseDown={disableColDrag ? noop : this.handleColResizeMouseDown}
+        onMouseDown={this.handleColResizeMouseDown}
       />
     );
 

@@ -637,6 +637,63 @@ export class TableCell2Plugin extends BasePlugin {
                 },
                 {
                   type: 'select',
+                  name: 'headerAlign',
+                  label: '表头对齐方式',
+                  pipeIn: defaultValue(''),
+                  options: [
+                    {label: '复用对齐方式', value: ''},
+                    {label: '左对齐', value: 'left'},
+                    {label: '居中对齐', value: 'center'},
+                    {label: '右对齐', value: 'right'}
+                  ]
+                },
+                {
+                  type: 'select',
+                  name: 'vAlign',
+                  label: '垂直对齐方式',
+                  pipeIn: defaultValue('middle'),
+                  options: [
+                    {label: '顶部对齐', value: 'top'},
+                    {label: '垂直居中', value: 'middle'},
+                    {label: '底部对齐', value: 'bottom'}
+                  ]
+                },
+                {
+                  name: 'textOverflow',
+                  type: 'button-group-select',
+                  label: '文本超出处理',
+                  size: 'xs',
+                  inputClassName: 'mt-1',
+                  pipeIn: defaultValue('default'),
+                  options: [
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '溢出隐藏',
+                      value: 'ellipsis'
+                    },
+                    {
+                      label: '取消换行',
+                      value: 'noWrap'
+                    }
+                  ]
+                },
+                getSchemaTpl('switch', {
+                  name: 'className',
+                  label: tipedLabel(
+                    '允许任意字符间断行',
+                    '开启此项，换行处理将在任意字母处断行，长英文单词或长英文字符会被切断，如url链接'
+                  ),
+                  pipeIn: (value: any) =>
+                    typeof value === 'string' && /\word\-break\b/.test(value),
+                  pipeOut: (value: any, originValue: any) =>
+                    (value ? 'word-break ' : '') +
+                    (originValue || '').replace(/\bword\-break\b/g, '').trim()
+                }),
+                {
+                  type: 'select',
                   name: 'fixed',
                   label: '固定当前列',
                   hidden: this._isOpColumn,
