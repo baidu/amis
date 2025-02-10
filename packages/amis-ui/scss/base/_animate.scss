@@ -1,0 +1,42 @@
+// 内容放大
+.amis-hoverZoomIn-show,
+.amis-hoverZoomIn:hover {
+  transform: scale(1.1);
+}
+
+// 内容缩小
+.amis-hoverZoomOut-show,
+.amis-hoverZoomOut:hover {
+  transform: scale(0.9);
+}
+
+// 阴影增强
+.amis-hoverShadow-show,
+.amis-hoverShadow:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+// 发光边框
+.amis-hoverBorder-show,
+.amis-hoverBorder:hover {
+  box-shadow: 0 0 10px var(--colors-brand-5),
+    0 0 10px var(--colors-brand-5) inset;
+}
+
+// 内容上升
+.amis-hoverUp-show,
+.amis-hoverUp:hover {
+  transform: translateY(-5px);
+}
+
+// 内容下降
+.amis-hoverDown-show,
+.amis-hoverDown:hover {
+  transform: translateY(5px);
+}
+
+// 内容翻转
+.amis-hoverFlip-show,
+.amis-hoverFlip:hover {
+  transform: rotateY(180deg);
+}

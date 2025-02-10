@@ -3785,15 +3785,19 @@
 
   // timeline
   --Timeline-time-color: var(--colors-neutral-text-5);
-  --Timeline-time-fontSize: var(--fonts-size-7);
-  --Timeline-time-fontWeight: var(--fonts-weight-6);
+  --Timeline-time-fontSize: var(--fonts-size-4);
+  --Timeline-time-fontWeight: var(--fonts-weight-3);
   --Timeline-title-color: var(--colors-neutral-text-2);
-  --Timeline-title-fontSize: var(--fonts-size-7);
+  --Timeline-title-fontSize: var(--fonts-size-6);
   --Timeline-title-fontWeight: var(--fonts-weight-6);
   --Timeline-type-info-color: var(--colors-info-5);
   --Timeline-type-success-color: var(--colors-success-5);
   --Timeline-type-warning-color: var(--colors-warning-5);
   --Timeline-type-danger-color: var(--colors-error-5);
+  --Timeline-dot-info-bg-color: var(--colors-info-5);
+  --Timeline-dot-success-bg-color: var(--colors-success-5);
+  --Timeline-dot-warning-bg-color: var(--colors-warning-5);
+  --Timeline-dot-danger-bg-color: var(--colors-error-5);
   --Timeline-detail-label-color: var(--colors-brand-5);
   --Timeline-detail-label-fontSize: var(--fonts-size-7);
   --Timeline-detail-label-fontWeight: var(--fonts-weight-6);
@@ -3811,13 +3815,17 @@
   --Timeline-visible-top-left-border-radius: var(--borders-radius-3);
   --Timeline-visible-bottom-right-border-radius: var(--borders-radius-3);
   --Timeline-visible-bottom-left-border-radius: var(--borders-radius-3);
-  --Timeline-left-size: var(--sizes-size-2);
+  --Timeline-left-size: var(--sizes-size-4);
   --Timeline-horizontal-top-size: var(--sizes-size-0);
   --Timeline-line-bg: #e6e6e8;
   --Timeline-round-bg: #dadbdd;
 
+  --TimelineItem-round-width-xl: #{px2rem(8px)};
+  --TimelineItem-round-width-lg: #{px2rem(6px)};
+  --TimelineItem-round-width-md: #{px2rem(4px)};
+  --TimelineItem-round-width-sm: #{px2rem(2px)};
   --TimelineItem--axle-flex: 0 0 #{px2rem(24px)};
-  --TimelineItem--left-line-width: #{px2rem(2px)};
+  --TimelineItem--left-line-width: #{px2rem(1px)};
   --TimelineItem--left-line-left: #{px2rem(13px)};
   --TimelineItem--left-line-top: #{px2rem(20px)};
   --TimelineItem--horizontal-left-line-top: #{px2rem(18px)};
@@ -3828,7 +3836,7 @@
   --TimelineItem--round-top: #{px2rem(8px)};
   --TimelineItem--icon-width: #{px2rem(16px)};
   --TimelineItem--icon-height: #{px2rem(16px)};
-  --TimelineItem--icon-left: #{px2rem(6px)};
+  --TimelineItem--icon-left: #{px2rem(12px)};
   --TimelineItem--content-padding-bottom: var(--gap-md);
   --TimelineItem--content-margin-left: var(--Timeline-left-size);
   --TimelineItem--content-time-margin-bottom: var(--gap-xs);
@@ -3860,10 +3868,14 @@
   --TimelineItem-custem-button-margin-left: var(--fontSizeSm);
   --TimelineItem-custem-time-padding-right: var(--fontSizeSm);
   --TimelineItem-round-bg: var(--Timeline-round-bg);
-  --Timeline--success-bg: var(--Timeline-type-success-color);
-  --Timeline--info-bg: var(--Timeline-type-info-color);
-  --Timeline--warning-bg: var(--Timeline-type-warning-color);
-  --Timeline--danger-bg: var(--Timeline-type-danger-color);
+  --Timeline--success-dot-color: var(--Timeline-type-success-color);
+  --Timeline--success-dot-bg-color: var(--Timeline-dot-success-bg-color);
+  --Timeline--info-dot-color: var(--Timeline-type-info-color);
+  --Timeline--info-dot-bg-color: var(--Timeline-dot-info-bg-color);
+  --Timeline--warning-dot-color: var(--Timeline-type-warning-color);
+  --Timeline--warning-dot-bg-color: var(--Timeline-dot-warning-bg-color);
+  --Timeline--danger-dot-color: var(--Timeline-type-danger-color);
+  --Timeline--danger-dot-bg-color: var(--Timeline-dot-danger-bg-color);
 
   --inputTag-option-height: var(--sizes-base-16);
   --inputTag-option-color: var(--colors-neutral-text-2);

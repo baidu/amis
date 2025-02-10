@@ -152,6 +152,42 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'html',
                     content: '<p>html 片段</p>'
                   }
+                },
+
+                {
+                  label: '自定义容器',
+                  test: 'this.type === "container"',
+                  items: [
+                    {
+                      type: 'combo',
+                      name: 'content',
+                      label: false,
+                      multiple: false,
+                      items: [
+                        {
+                          type: 'input-text',
+                          name: 'itemSchema',
+                          value: {
+                            type: 'container',
+                            body: {
+                              type: 'tpl',
+                              tpl: '拖拽组件到这里'
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  scaffold: {
+                    type: 'container',
+                    itemSchema: {
+                      type: 'container',
+                      body: {
+                        type: 'tpl',
+                        tpl: '拖拽组件到这里'
+                      }
+                    }
+                  }
                 }
               ],
               pipeIn: (value: any) => {
@@ -165,21 +201,32 @@ export class CarouselPlugin extends BasePlugin {
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
-                      }) =>
-                        item && item.hasOwnProperty('html')
-                          ? {
-                              type: 'html',
-                              content: item.html
+                        itemSchema?: any;
+                      }) => {
+                        if (item && item.hasOwnProperty('html')) {
+                          return {
+                            type: 'html',
+                            content: item.html
+                          };
+                        } else if (item && item.hasOwnProperty('itemSchema')) {
+                          return {
+                            type: 'container',
+                            content: {
+                              itemSchema: item.itemSchema
                             }
-                          : {
-                              type: 'image',
-                              content: item.image,
-                              title: item.title,
-                              href: item.href,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            }
+                          };
+                        } else {
+                          return {
+                            type: 'image',
+                            content: item.image,
+                            title: item.title,
+                            href: item.href,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
+                      }
                     )
                   : [];
               },
@@ -188,25 +235,31 @@ export class CarouselPlugin extends BasePlugin {
                   ? value.map(
                       (item: {
                         type: string;
-                        content: string;
+                        content: any;
                         href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
                         descriptionClassName?: string;
                       }) => {
-                        return item.type === 'html'
-                          ? {
-                              html: item.content
-                            }
-                          : {
-                              image: item.content,
-                              href: item.href,
-                              title: item.title,
-                              titleClassName: item.titleClassName,
-                              description: item.description,
-                              descriptionClassName: item.descriptionClassName
-                            };
+                        if (item.type === 'html') {
+                          return {
+                            html: item.content
+                          };
+                        } else if (item.type === 'container') {
+                          return {
+                            itemSchema: item.content?.itemSchema
+                          };
+                        } else {
+                          return {
+                            image: item.content,
+                            href: item.href,
+                            title: item.title,
+                            titleClassName: item.titleClassName,
+                            description: item.description,
+                            descriptionClassName: item.descriptionClassName
+                          };
+                        }
                       }
                     )
                   : [];

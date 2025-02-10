@@ -86,6 +86,7 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('dblclick', this.handleDBClick, true);
     currentDom.addEventListener('mouseover', this.handeMouseOver);
     currentDom.addEventListener('mousedown', this.handeMouseDown);
+    currentDom.addEventListener('submit', this.handleSubmit);
     this.props.manager.on('after-update', this.handlePanelChange);
   }
 
@@ -98,6 +99,7 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('dblclick', this.handleDBClick, true);
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
+      currentDom.removeEventListener('submit', this.handleSubmit);
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }
@@ -189,9 +191,11 @@ export default class Preview extends Component<PreviewProps> {
       (e.button === 1 && window.event !== null) || e.button === 0;
     if (!this.props.editable || !isLeftButton || e.defaultPrevented) return;
 
+    const store = this.props.store;
     if (
       e.defaultPrevented ||
-      (e.target as HTMLElement)?.closest('[draggable]')
+      (e.target as HTMLElement)?.closest('[draggable]') ||
+      store.activeElement
     ) {
       return;
     }
@@ -307,6 +311,8 @@ export default class Preview extends Component<PreviewProps> {
 
     // 处于编辑态时，不响应点击事件
     if (store.activeElement) {
+      // 同时阻止渲染器里面的 click 事件
+      e.preventDefault();
       return;
     }
 
@@ -491,6 +497,12 @@ export default class Preview extends Component<PreviewProps> {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  // 禁用内部的提交事件
+  handleSubmit(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   @autobind

@@ -660,37 +660,40 @@ app.listen(8080, function () {});
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名             | 类型                                                  | 默认值                 | 说明                                                                                                                                             |
-| ------------------ | ----------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| receiver           | [API](../../../docs/types/api)                        |                        | 上传文件接口                                                                                                                                     |
-| accept             | `string`                                              | `.jpeg,.jpg,.png,.gif` | 支持的图片类型格式，请配置此属性为图片后缀，例如`.jpg,.png`                                                                                      |
-| capture            | `string`                                              | `undefined`            | 用于控制 input[type=file] 标签的 capture 属性，在移动端可控制输入来源                                                                            |
-| maxSize            | `number`                                              |                        | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                                                  |
-| maxLength          | `number`                                              |                        | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                                                             |
-| multiple           | `boolean`                                             | `false`                | 是否多选。                                                                                                                                       |
-| joinValues         | `boolean`                                             | `true`                 | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                                       |
-| extractValue       | `boolean`                                             | `false`                | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                   |
-| delimiter          | `string`                                              | `,`                    | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                        |
-| autoUpload         | `boolean`                                             | `true`                 | 否选择完就自动开始上传                                                                                                                           |
-| hideUploadButton   | `boolean`                                             | `false`                | 隐藏上传按钮                                                                                                                                     |
-| fileField          | `string`                                              | `file`                 | 如果你不想自己存储，则可以忽略此属性。                                                                                                           |
-| crop               | `boolean`或`{"aspectRatio":""}`                       |                        | 用来设置是否支持裁剪。                                                                                                                           |
-| crop.aspectRatio   | `number`                                              |                        | 裁剪比例。浮点型，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。。                                               |
-| crop.rotatable     | `boolean`                                             | `false`                | 裁剪时是否可旋转                                                                                                                                 |
-| crop.scalable      | `boolean`                                             | `false`                | 裁剪时是否可缩放                                                                                                                                 |
-| crop.viewMode      | `number`                                              | `1`                    | 裁剪时的查看模式，0 是无限制                                                                                                                     |
-| cropFormat         | `string`                                              | `image/png`            | 裁剪文件格式                                                                                                                                     |
-| cropQuality        | `number`                                              | `1`                    | 裁剪文件格式的质量，用于 jpeg/webp，取值在 0 和 1 之间                                                                                           |
-| limit              | Limit                                                 |                        | 限制图片大小，超出不让上传。                                                                                                                     |
-| frameImage         | `string`                                              |                        | 默认占位图地址                                                                                                                                   |
-| fixedSize          | `boolean`                                             |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |
+| 属性名                | 类型                                                    | 默认值                    | 说明                                                                                |
+|--------------------|-------------------------------------------------------|------------------------|-----------------------------------------------------------------------------------|
+| receiver           | [API](../../../docs/types/api)                        |                        | 上传文件接口                                                                            |
+| accept             | `string`                                              | `.jpeg,.jpg,.png,.gif` | 支持的图片类型格式，请配置此属性为图片后缀，例如`.jpg,.png`                                               |
+| capture            | `string`                                              | `undefined`            | 用于控制 input[type=file] 标签的 capture 属性，在移动端可控制输入来源                                  |
+| maxSize            | `number`                                              |                        | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                 |
+| maxLength          | `number`                                              |                        | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                        |
+| multiple           | `boolean`                                             | `false`                | 是否多选。                                                                             |
+| joinValues         | `boolean`                                             | `true`                 | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                           |
+| extractValue       | `boolean`                                             | `false`                | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)       |
+| delimiter          | `string`                                              | `,`                    | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                            |
+| autoUpload         | `boolean`                                             | `true`                 | 否选择完就自动开始上传                                                                       |
+| hideUploadButton   | `boolean`                                             | `false`                | 隐藏上传按钮                                                                            |
+| fileField          | `string`                                              | `file`                 | 如果你不想自己存储，则可以忽略此属性。                                                               |
+| crop               | `boolean`或`{"aspectRatio":""}`                        |                        | 用来设置是否支持裁剪。                                                                       |
+| crop.aspectRatio   | `number`                                              |                        | 裁剪比例。浮点型，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。。        |
+| crop.rotatable     | `boolean`                                             | `false`                | 裁剪时是否可旋转                                                                          |
+| crop.scalable      | `boolean`                                             | `false`                | 裁剪时是否可缩放                                                                          |
+| crop.viewMode      | `number`                                              | `1`                    | 裁剪时的查看模式，0 是无限制                                                                   |
+| cropFormat         | `string`                                              | `image/png`            | 裁剪文件格式                                                                            |
+| cropQuality        | `number`                                              | `1`                    | 裁剪文件格式的质量，用于 jpeg/webp，取值在 0 和 1 之间                                               |
+| limit              | Limit                                                 |                        | 限制图片大小，超出不让上传。                                                                    |
+| frameImage         | `string`                                              |                        | 默认占位图地址                                                                           |
+| fixedSize          | `boolean`                                             |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                             |
 | fixedSizeClassName | `string`                                              |                        | 开启固定尺寸时，根据此值控制展示尺寸。例如`h-30`,即图片框高为 h-30,AMIS 将自动缩放比率设置默认图所占位置的宽度，最终上传图片根据此尺寸对应缩放。 |
-| initAutoFill       | `boolean`                                             | `false`                | 表单反显时是否执行 autoFill                                                                                                                      |
-| uploadBtnText      | `string` \| [SchemaNode](../../docs/types/schemanode) |                        | 上传按钮文案。支持 tpl、schema 形式配置。                                                                                                        |
-| dropCrop           | `boolean`                                             | `true`                 | 图片上传后是否进入裁剪模式                                                                                                                       |
-| initCrop           | `boolean`                                             | `false`                | 图片选择器初始化后是否立即进入裁剪模式                                                                                                           |
-| draggable          | `boolean`                                             | false                  | 开启后支持拖拽排序改变图片值顺序                                                                                                                 |
-| draggableTip       | `string`                                              | '拖拽排序'             | 拖拽提示文案                                                                                                                                     |
+| initAutoFill       | `boolean`                                             | `false`                | 表单反显时是否执行 autoFill                                                                |
+| uploadBtnText      | `string` \| [SchemaNode](../../docs/types/schemanode) |                        | 上传按钮文案。支持 tpl、schema 形式配置。                                                        |
+| dropCrop           | `boolean`                                             | `true`                 | 图片上传后是否进入裁剪模式                                                                     |
+| initCrop           | `boolean`                                             | `false`                | 图片选择器初始化后是否立即进入裁剪模式                                                               |
+| draggable          | `boolean`                                             | false                  | 开启后支持拖拽排序改变图片值顺序                                                                  |
+| draggableTip       | `string`                                              | '拖拽排序'                 | 拖拽提示文案                                                                            |
+| showErrorModal     | `boolean`                                             | `true`                 | 校验失败后是否弹窗提醒                                                                       |
+| invalidTypeMessage | `string`                                              | '文件格式不正确'              | 校验格式失败后的提示信息                                                                      |                                                                                   |
+| invalidSizeMessage | `string`                                              | '文件大小超出限制'             | 校验文件大小失败时显示的文字信息                                                                  |                                                                                   |
 
 ### Limit 属性表
 

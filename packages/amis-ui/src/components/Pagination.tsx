@@ -119,6 +119,13 @@ export interface BasicPaginationProps {
   size?: string;
 
   onPageChange?: (page: number, perPage?: number, dir?: string) => void;
+
+  /**
+   * 按钮类型
+   *
+   * @default 'icon'
+   */
+  buttonType?: string;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -144,7 +151,8 @@ export class Pagination extends React.Component<
     perPage: 10,
     perPageAvailable: [10, 20, 50, 100],
     ellipsisPageGap: 5,
-    size: 'md'
+    size: 'md',
+    buttonType: 'icon'
   };
 
   state = {
@@ -171,7 +179,8 @@ export class Pagination extends React.Component<
 
   componentWillReceiveProps(nextProps: PaginationProps) {
     if (
-      this.props.mode === 'simple' &&
+      // 原本作用在simple上的样式和部分方法变成了normal的，这里需要重置内部状态
+      this.props.mode !== 'simple' &&
       nextProps.activePage !== Number(this.state.internalPageNum)
     ) {
       this.setState({internalPageNum: String(nextProps.activePage)});
@@ -185,7 +194,6 @@ export class Pagination extends React.Component<
     if (disabled) {
       return;
     }
-
     onPageChange?.(_page, perPage, dir);
   }
 
@@ -400,16 +408,17 @@ export class Pagination extends React.Component<
       mobileUI,
       size,
       translate: __,
+      buttonType,
       testIdBuilder
     } = this.props;
     let maxButtons = this.props.maxButtons;
     const {pageNum, perPage, internalPageNum} = this.state;
     const lastPage = this.getLastPage();
 
-    let simplePager: React.ReactNode = null;
-    // 简洁模式
-    if (mode === 'simple') {
-      simplePager = (
+    let basePager: React.ReactNode = null;
+    // 非简洁模式
+    if ((mode !== 'simple' && mobileUI) || (mode === 'simple' && !mobileUI)) {
+      basePager = (
         <li className={cx('Pagination-simplego')} key="simple-go">
           <input
             className={cx('Pagination-simplego-input')}
@@ -428,6 +437,7 @@ export class Pagination extends React.Component<
           </span>
         </li>
       );
+
       return (
         <div
           className={cx(
@@ -451,12 +461,13 @@ export class Pagination extends React.Component<
           >
             <li
               className={cx('Pagination-prev', {
-                'is-disabled': activePage < 2
+                'is-disabled': Number(internalPageNum) < 2
               })}
               onClick={(e: any) => {
-                if (activePage < 2) {
+                if (Number(internalPageNum) < 2) {
                   return e.preventDefault();
                 }
+
                 return this.handlePageNumChange(
                   activePage - 1,
                   undefined,
@@ -466,16 +477,20 @@ export class Pagination extends React.Component<
               key="prev"
             >
               <span {...testIdBuilder?.getChild(`go-prev`).getTestId()}>
-                <Icon icon="left-arrow" className="icon" />
+                {buttonType === 'icon' ? (
+                  <Icon icon="left-arrow" className="icon" />
+                ) : buttonType === 'text' ? (
+                  '上一页'
+                ) : null}
               </span>
             </li>
-            {simplePager}
+            {basePager}
             <li
               className={cx('Pagination-next', {
-                'is-disabled': !hasNext
+                'is-disabled': Number(internalPageNum) >= lastPage
               })}
               onClick={(e: any) => {
-                if (!hasNext) {
+                if (Number(internalPageNum) === lastPage) {
                   return e.preventDefault();
                 }
                 return this.handlePageNumChange(
@@ -487,7 +502,11 @@ export class Pagination extends React.Component<
               key="next"
             >
               <span {...testIdBuilder?.getChild(`go-next`).getTestId()}>
-                <Icon icon="right-arrow" className="icon" />
+                {buttonType === 'icon' ? (
+                  <Icon icon="right-arrow" className="icon" />
+                ) : buttonType === 'text' ? (
+                  '下一页'
+                ) : null}
               </span>
             </li>
           </ul>
@@ -563,7 +582,6 @@ export class Pagination extends React.Component<
       pageButtons.push(this.renderEllipsis('next-ellipsis'));
       pageButtons.push(this.renderPageItem(lastPage));
     }
-
     pageButtons.unshift(
       <li
         className={cx('Pagination-prev', {
@@ -578,7 +596,11 @@ export class Pagination extends React.Component<
         key="prev"
       >
         <span {...testIdBuilder?.getChild('go-prev').getTestId()}>
-          <Icon icon="left-arrow" className="icon" />
+          {buttonType === 'icon' ? (
+            <Icon icon="left-arrow" className="icon" />
+          ) : buttonType === 'text' ? (
+            '上一页'
+          ) : null}
         </span>
       </li>
     );
@@ -597,7 +619,11 @@ export class Pagination extends React.Component<
         key="next"
       >
         <span {...testIdBuilder?.getChild('go-next').getTestId()}>
-          <Icon icon="right-arrow" className="icon" />
+          {buttonType === 'icon' ? (
+            <Icon icon="right-arrow" className="icon" />
+          ) : buttonType === 'text' ? (
+            '下一页'
+          ) : null}
         </span>
       </li>
     );
@@ -605,18 +631,16 @@ export class Pagination extends React.Component<
     if (mobileUI) {
       pageButtons = [
         pageButtons[0],
-        this.renderPageItem(activePage),
+        // this.renderPageItem(activePage),
         pageButtons[pageButtons.length - 1]
       ];
     }
 
-    const go = (
+    const go = mobileUI ? null : (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        {!mobileUI ? (
-          <span className={cx('Pagination-inputGroup-left')} key="go-left">
-            {__('Pagination.goto')}
-          </span>
-        ) : null}
+        <span className={cx('Pagination-inputGroup-left')} key="go-left">
+          {__('Pagination.goto')}
+        </span>
         <input
           className={cx('Pagination-inputGroup-input')}
           key="go-input"
@@ -654,14 +678,14 @@ export class Pagination extends React.Component<
     const selection = (perPageAvailable as Array<number>)
       .filter(v => !!v)
       .map(v => ({label: __('Pagination.select', {count: v}), value: v}));
-    const perPageEle = (
+    const perPageEle = mobileUI ? null : (
       <Select
         key="perpage"
         className={cx('Pagination-perpage', 'Pagination-item')}
         clearable={false}
         disabled={disabled}
         value={perPage}
-        options={selection}
+        options={selection || []}
         popOverContainer={popOverContainer}
         popOverContainerSelector={popOverContainerSelector}
         onChange={(p: any) => {
@@ -674,14 +698,16 @@ export class Pagination extends React.Component<
         {...testIdBuilder?.getChild('perpage').getTestId()}
       />
     );
+
     // total或者lastpage不存在，不渲染总数
-    const totalPage = !(total || lastPage) ? null : (
-      <div className={cx('Pagination-total Pagination-item')} key="total">
-        {total || total === 0
-          ? __('Pagination.totalCount', {total})
-          : __('Pagination.totalPage', {lastPage})}
-      </div>
-    );
+    const totalPage =
+      !(total || lastPage) || mobileUI ? null : (
+        <div className={cx('Pagination-total Pagination-item')} key="total">
+          {total || total === 0
+            ? __('Pagination.totalCount', {total})
+            : __('Pagination.totalPage', {lastPage})}
+        </div>
+      );
     return (
       <div
         className={cx(

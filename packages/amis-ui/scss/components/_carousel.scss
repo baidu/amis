@@ -215,8 +215,9 @@
         top: 0;
         justify-content: center;
       }
-      
-      &-leftArrow, &-rightArrow {
+
+      &-leftArrow,
+      &-rightArrow {
         height: 10%;
         width: 100%;
         left: 0;
@@ -238,27 +239,27 @@
           transform: translate(-50%, -50%) rotate(90deg);
         }
       }
-  
+
       &-item.slide {
         transform: translateY(100%);
       }
-  
+
       &-item.slide.in {
         transform: translateY(0);
       }
-  
+
       &-item.slide.out {
         transform: translateY(-100%);
       }
-  
+
       &-item.slideRight {
         transform: translateY(-100%);
       }
-  
+
       &-item.slideRight.in {
         transform: translateY(0);
       }
-  
+
       &-item.slideRight.out {
         transform: translateY(100%);
       }

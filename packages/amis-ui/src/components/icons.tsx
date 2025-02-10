@@ -287,12 +287,12 @@ function svgString2Dom(
   if (vendorFn) {
     const {icon: newIcon, style: newStyle} = vendorFn(icon, {
       ...extra,
-      width: style.width,
-      height: style.height
+      width: style?.width,
+      height: style?.height
     });
     icon = newIcon;
     style = {
-      ...style,
+      ...(style || {}),
       ...newStyle
     };
   }
@@ -310,18 +310,17 @@ function svgString2Dom(
 
 function LinkIcon({
   icon,
-  vendor,
+  vendorFn,
   options: {className, classNameProp, style, cx, classPrefix, events, extra}
 }: {
   icon: string;
-  vendor?: string;
+  vendorFn?: CustomVendorFn;
   options: {
     [propName: string]: any;
   };
 }) {
   const [svgIcon, setSvgIcon] = React.useState<string>(icon);
   const [svgType, setSvgType] = React.useState<string>('img');
-  const vendorFn = useMemo(() => getCustomVendor(vendor), [vendor]);
 
   useEffect(() => {
     if (icon.endsWith('.svg') && vendorFn) {
@@ -401,6 +400,7 @@ export function Icon({
   testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
+  const vendorFn = useMemo(() => getCustomVendor(vendor), [vendor]);
 
   // style = {
   //   ...(style || {}),
@@ -551,7 +551,7 @@ export function Icon({
         events,
         extra
       },
-      vendor
+      vendorFn
     );
   }
 
@@ -561,7 +561,7 @@ export function Icon({
     return (
       <LinkIcon
         icon={icon}
-        vendor={vendor}
+        vendorFn={vendorFn}
         options={{
           className,
           classNameProp,
