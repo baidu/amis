@@ -334,12 +334,10 @@ export default class List extends React.Component<
   parentNode?: any;
   body?: any;
   renderedToolbars: Array<string>;
+  private currentLetter?: string;
 
   constructor(props: ListProps) {
     super(props);
-    this.state = {
-      currentLetter: undefined
-    };
 
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -453,7 +451,7 @@ export default class List extends React.Component<
             )
               ?.charAt(0)
               .toUpperCase();
-            this.setState({currentLetter: letter});
+            this.currentLetter = letter;
           }
         });
       },
@@ -1099,14 +1097,12 @@ export default class List extends React.Component<
           );
 
           if (domNode) {
-            // 使用 scrollIntoView 进行滚动
             (domNode as HTMLElement).scrollIntoView({
               behavior: 'smooth',
               block: 'start'
             });
 
-            // 更新当前字母
-            this.setState({currentLetter: letter});
+            this.currentLetter = letter;
           }
         } catch (e) {
           console.warn('Failed to scroll to target element:', e);
@@ -1135,11 +1131,12 @@ export default class List extends React.Component<
       size,
       translate: __,
       loading = false,
-      loadingConfig
+      loadingConfig,
+      showIndexBar,
+      indexField = 'title'
     } = this.props;
 
-    const {showIndexBar, indexField = 'title'} = this.props;
-    const {currentLetter} = this.state;
+    const currentLetter = this.currentLetter;
 
     // 生成字母列表
     const letters = Array.from(
@@ -1180,40 +1177,45 @@ export default class List extends React.Component<
         style={style}
         ref={this.bodyRef}
       >
-        {affixHeader ? (
-          <div className={cx('List-fixedTop')}>
-            {header}
-            {heading}
-          </div>
-        ) : (
-          <>
-            {header}
-            {heading}
-          </>
-        )}
-
-        {store.items.length ? (
-          <div className={cx('List-items')}>
-            {store.items.map((item, index) =>
-              this.renderListItem(index, listItem, item, itemClassName)
+        <div className={cx('List-content-wrapper')}>
+          <div className={cx('List-main')}>
+            {affixHeader ? (
+              <div className={cx('List-fixedTop')}>
+                {header}
+                {heading}
+              </div>
+            ) : (
+              <>
+                {header}
+                {heading}
+              </>
             )}
-          </div>
-        ) : (
-          <div className={cx('List-placeholder')}>
-            {render('placeholder', __(placeholder))}
-          </div>
-        )}
 
-        {this.renderFooter()}
+            {store.items.length ? (
+              <div className={cx('List-items')}>
+                {store.items.map((item, index) =>
+                  this.renderListItem(index, listItem, item, itemClassName)
+                )}
+              </div>
+            ) : (
+              <div className={cx('List-placeholder')}>
+                {render('placeholder', __(placeholder))}
+              </div>
+            )}
+
+            {this.renderFooter()}
+          </div>
+
+          {showIndexBar && (
+            <AlphabetIndexer
+              letters={letters}
+              onLetterClick={this.handleLetterClick}
+              classnames={cx}
+              currentLetter={currentLetter}
+            />
+          )}
+        </div>
         <Spinner overlay show={loading} loadingConfig={loadingConfig} />
-        {showIndexBar && (
-          <AlphabetIndexer
-            letters={letters}
-            onLetterClick={this.handleLetterClick}
-            classnames={cx}
-            currentLetter={currentLetter}
-          />
-        )}
       </div>
     );
   }

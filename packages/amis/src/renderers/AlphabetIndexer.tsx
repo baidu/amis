@@ -46,9 +46,7 @@ const AlphabetIndexer: React.FC<AlphabetIndexerProps> = ({
       {letters.map(letter => (
         <div
           key={letter}
-          className={cx('AlphabetIndexer-letter', {
-            'is-active': currentLetter === letter
-          })}
+          className={cx('AlphabetIndexer-letter')}
           data-letter={letter}
           onClick={() => onLetterClick(letter)}
         >
