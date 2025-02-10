@@ -24,7 +24,7 @@ exports[`EventAction:ajax 1`] = `
             </span>
           </button>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               18岁的天空
@@ -39,7 +39,7 @@ exports[`EventAction:ajax 1`] = `
             </span>
           </button>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               18岁的天空，status:0，msg:ok
@@ -76,7 +76,7 @@ exports[`EventAction:ajax args 1`] = `
             </span>
           </button>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               18岁的天空
@@ -91,7 +91,7 @@ exports[`EventAction:ajax args 1`] = `
             </span>
           </button>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               18岁的天空，status:0，msg:ok

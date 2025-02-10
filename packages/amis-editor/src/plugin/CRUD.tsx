@@ -126,6 +126,36 @@ export class CRUDPlugin extends BasePlugin {
       ]
     },
     {
+      eventName: 'research',
+      eventLabel: '重新加载',
+      description: '重新加载或查询重置时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'selectedChange',
       eventLabel: '选择表格项',
       description: '手动选择表格项事件',
@@ -144,6 +174,10 @@ export class CRUDPlugin extends BasePlugin {
                 unSelectedItems: {
                   type: 'array',
                   title: '未选择行记录'
+                },
+                selectedIndexes: {
+                  type: 'array',
+                  title: '已选择行索引'
                 }
               }
             }
@@ -277,6 +311,36 @@ export class CRUDPlugin extends BasePlugin {
       eventName: 'rowClick',
       eventLabel: '行单击',
       description: '点击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                },
+                indexPath: {
+                  type: 'number',
+                  title: '行索引路劲'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowDbClick',
+      eventLabel: '行双击',
+      description: '双击整行事件',
       dataSchema: [
         {
           type: 'object',
@@ -998,7 +1062,8 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
-            visibleOn: 'this.api && this.api.url',
+            visibleOn:
+              'this.api && this.api.url || typeof this.api === "string" && this.api',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -1129,6 +1194,33 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider',
             hiddenOn: 'this.mode && this.mode !== "table" || this.pickerMode'
           },
+
+          getSchemaTpl('switch', {
+            name: 'selectable',
+            label: '开启选择',
+            pipeIn: defaultValue(false),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '开启后即便没有批量操作按钮也显示可点选',
+              placement: 'left'
+            }
+          }),
+
+          getSchemaTpl('switch', {
+            name: 'multiple',
+            label: '开启多选',
+            visibleOn: '${selectable}',
+            pipeIn: defaultValue(true),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '控制是单选还是多选',
+              placement: 'left'
+            }
+          }),
 
           getSchemaTpl('switch', {
             name: 'syncLocation',
@@ -2331,6 +2423,10 @@ export class CRUDPlugin extends BasePlugin {
               properties: itemsSchema
             }
           },
+          selectedIndexes: {
+            type: 'array',
+            title: '已选择行索引'
+          },
           count: {
             type: 'number',
             title: '总行数'
@@ -2347,7 +2443,7 @@ export class CRUDPlugin extends BasePlugin {
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
-    if (e === 'fetchInited') {
+    if (e === 'fetchInited' || e === 'research') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'crudFetchInitedData',

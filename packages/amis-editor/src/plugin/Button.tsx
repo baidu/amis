@@ -14,6 +14,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 import {buttonStateFunc} from '../renderer/style-control/helper';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class ButtonPlugin extends BasePlugin {
   static id = 'ButtonPlugin';
@@ -119,6 +120,14 @@ export class ButtonPlugin extends BasePlugin {
     //   eventLabel: '双击',
     //   description: '鼠标双击事件'
     // }
+  ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope>span',
+      key: 'label'
+    }
   ];
 
   // 动作定义
@@ -282,7 +291,12 @@ export class ButtonPlugin extends BasePlugin {
                 name: 'rightIcon',
                 label: '右侧图标'
               }),
-              getSchemaTpl('badge')
+              getSchemaTpl('badge'),
+              getSchemaTpl('switch', {
+                name: 'disabledOnAction',
+                label: '动作完成前禁用',
+                value: false
+              })
             ]
           },
           getSchemaTpl('status', {
@@ -427,7 +441,8 @@ export class ButtonPlugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        inlineEditableElements: plugin.inlineEditableElements
       };
     }
   }

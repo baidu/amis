@@ -11,7 +11,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {repeatArray} from 'amis-editor-core';
 import set from 'lodash/set';
-import {escapeFormula, resolveArrayDatasource} from '../util';
+import {escapeFormula, generateId, resolveArrayDatasource} from '../util';
 import merge from 'lodash/merge';
 
 export class List2Plugin extends BasePlugin {
@@ -59,7 +59,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:0597d8ab5c3a'
+              id: generateId()
             },
             {
               type: 'tpl',
@@ -67,7 +67,7 @@ export class List2Plugin extends BasePlugin {
               inline: true,
               wrapperComponent: '',
               style: {},
-              id: 'u:95d2a3ac3e70',
+              id: generateId(),
               themeCss: {
                 baseControlClassName: {
                   'padding-and-margin:default': {
@@ -96,7 +96,7 @@ export class List2Plugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:d153d5c33ebf'
+                  id: generateId()
                 },
                 {
                   type: 'tpl',
@@ -111,7 +111,7 @@ export class List2Plugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:4e03af905add'
+                  id: generateId()
                 }
               ],
               style: {
@@ -125,7 +125,7 @@ export class List2Plugin extends BasePlugin {
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false,
-              id: 'u:3e3e5dc43b6a'
+              id: generateId()
             }
           ],
           size: 'none',
@@ -156,7 +156,7 @@ export class List2Plugin extends BasePlugin {
               }
             }
           },
-          id: 'u:7a02e453c997'
+          id: generateId()
         },
         {
           type: 'container',
@@ -168,7 +168,7 @@ export class List2Plugin extends BasePlugin {
               wrapperComponent: '',
               style: {},
               maxLine: 1,
-              id: 'u:105ca9cda3ef',
+              id: generateId(),
               themeCss: {
                 baseControlClassName: {
                   'padding-and-margin:default': {
@@ -197,7 +197,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:d8e3f4be33db'
+              id: generateId()
             }
           ],
           size: 'none',
@@ -214,7 +214,7 @@ export class List2Plugin extends BasePlugin {
           wrapperBody: false,
           isFixedHeight: false,
           isFixedWidth: false,
-          id: 'u:0c0b56fd0c17'
+          id: generateId()
         },
         {
           type: 'container',
@@ -260,7 +260,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:0a2fe27eb501'
+              id: generateId()
             }
           ],
           size: 'xs',
@@ -277,7 +277,7 @@ export class List2Plugin extends BasePlugin {
           wrapperBody: false,
           isFixedHeight: false,
           isFixedWidth: false,
-          id: 'u:77cb3edb2288'
+          id: generateId()
         }
       ],
       wrapperBody: false,
@@ -317,13 +317,13 @@ export class List2Plugin extends BasePlugin {
           }
         }
       },
-      id: 'u:bb14c60372c6'
+      id: generateId()
     },
     placeholder: '',
     style: {
       gutterY: 10
     },
-    id: 'u:0fb820345fc1'
+    id: generateId()
   };
 
   previewSchema = {

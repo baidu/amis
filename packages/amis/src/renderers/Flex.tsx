@@ -151,6 +151,7 @@ export default class Flex extends React.Component<FlexProps, object> {
           })
         )}
         data-id={id}
+        data-role="container"
       >
         {(Array.isArray(items) ? items : items ? [items] : []).map(
           (item, key) =>

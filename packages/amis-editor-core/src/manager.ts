@@ -13,7 +13,9 @@ import {
   getRenderers,
   RenderOptions,
   JSONTraverse,
-  wrapFetcher
+  wrapFetcher,
+  GlobalVariableItem,
+  setVariable
 } from 'amis-core';
 import {
   PluginInterface,
@@ -42,7 +44,10 @@ import {
   RendererPluginEvent,
   PluginEvents,
   PluginActions,
-  BasePlugin
+  BasePlugin,
+  GlobalVariablesEventContext,
+  GlobalVariableEventContext,
+  InlineEditableElement
 } from './plugin';
 import {
   EditorStoreType,
@@ -63,7 +68,8 @@ import {
   scrollToActive,
   JSONPipeIn,
   generateNodeId,
-  JSONGetNodesById
+  JSONGetNodesById,
+  diff
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -76,6 +82,7 @@ import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {Api, Payload, RendererConfig, RendererEnv} from 'amis-core';
 import {loadAsyncRenderer} from 'amis-core';
+import {startInlineEdit} from './inlineEdit';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -399,6 +406,39 @@ export class EditorManager {
               )
               ?.classList.remove('is-region-active');
           }
+        }
+      ),
+
+      // 同步全局变量数据结构，以便支持fx 可视化操作
+      reaction(
+        () => store.globalVariables,
+        variables => {
+          const id = 'global-variables-schema';
+          const scope = this.dataSchema.root;
+          const globalSchema: any = {
+            type: 'object',
+            title: '全局变量',
+            properties: {}
+          };
+
+          variables.forEach(variable => {
+            globalSchema.properties[variable.key] = {
+              type: 'string',
+              title: variable.label || variable.key,
+              description: variable.description,
+              ...variable.valueSchema
+            };
+          });
+
+          const jsonschema: any = {
+            $id: id,
+            type: 'object',
+            properties: {
+              global: globalSchema
+            }
+          };
+          scope.removeSchema(jsonschema.$id);
+          scope.addSchema(jsonschema);
         }
       )
     );
@@ -1441,6 +1481,39 @@ export class EditorManager {
   closeContextMenu() {}
 
   /**
+   * 自由容器内元素置于顶层
+   */
+  moveTop() {
+    const store = this.store;
+    if (!store.activeId) {
+      return;
+    }
+
+    const node = store.getNodeById(store.activeId)!;
+    const regionNode = node.parent;
+    this.move(regionNode.id, regionNode.region, node.id);
+  }
+
+  /**
+   * 自由容器内元素置于底层
+   */
+  moveBottom() {
+    const store = this.store;
+    if (!store.activeId) {
+      return;
+    }
+    const node = store.getNodeById(store.activeId)!;
+    const regionNode = node.parent;
+
+    this.move(
+      regionNode.id,
+      regionNode.region,
+      node.id,
+      regionNode.children[0].id
+    );
+  }
+
+  /**
    * 将当前选中的节点上移
    */
   moveUp() {
@@ -2276,6 +2349,108 @@ export class EditorManager {
 
       scope = scope.parent;
     }
+  }
+
+  startInlineEdit(
+    node: EditorNodeType,
+    elem: HTMLElement,
+    config: InlineEditableElement,
+    event?: MouseEvent
+  ) {
+    const store = this.store;
+    store.setActiveId(node.id);
+    store.setActiveElement(config.match);
+
+    startInlineEdit({
+      node,
+      event,
+      elem,
+      config,
+      richTextToken: this.config.richTextToken,
+      richTextOptions: this.config.richTextOptions,
+      onCancel: () => {
+        store.setActiveElement('');
+      },
+      onConfirm: (value: string) => {
+        store.setActiveElement('');
+
+        if (config.key) {
+          const originValue = store.getValueOf(node.id);
+          const newValue = {...originValue};
+          setVariable(newValue, config.key, value);
+
+          const diffValue = diff(originValue, newValue);
+          // 没有变化时不触发onChange
+          if (!diffValue) {
+            return;
+          }
+          this.panelChangeValue(newValue, diffValue, undefined, node.id);
+        }
+      }
+    });
+  }
+
+  /**
+   * 初始化全局变量
+   */
+  async initGlobalVariables() {
+    let variables: Array<GlobalVariableItem & {id: string | number}> = [];
+    const context: GlobalVariablesEventContext = {
+      data: variables
+    };
+
+    // 从插件中获取全局变量
+    const event = this.trigger('global-variable-init', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    this.store.setGlobalVariables(event.data);
+  }
+
+  /**
+   * 获取全局变量详情
+   */
+  async getGlobalVariableDetail(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-detail', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    return event.data;
+  }
+
+  /**
+   * 保存全局变量，包括新增保存和编辑保存
+   */
+  async saveGlobalVariable(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-save', context);
+    if (event.pending) {
+      await event.pending;
+    }
+    return event.data;
+  }
+
+  /**
+   * 删除全局变量
+   */
+  async deleteGlobalVariable(variable: Partial<GlobalVariableItem>) {
+    const context: GlobalVariableEventContext = {
+      data: variable!
+    };
+
+    const event = this.trigger('global-variable-delete', context);
+    if (event.pending) {
+      await event.pending;
+    }
+
+    return event.data;
   }
 
   beforeDispatchEvent(

@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "6.9.0",
+  "version": "6.11.0",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -60,7 +60,6 @@
     "sortablejs": "^1.14.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -84,6 +83,7 @@
     "ajv": "^8.8.2",
     "autoprefixer": "^10.4.12",
     "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
     "i18n-command": "^0.0.23-beta.15",

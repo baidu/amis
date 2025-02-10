@@ -56,6 +56,14 @@ export interface RendererBasicConfig {
     prevProps: any
   ) => boolean | undefined;
   storeExtendsData?: boolean | ((props: any) => boolean); // 是否需要继承上层数据。
+  // 当全局渲染器关联的全局变量发生变化时执行
+  // 因为全局变量永远都是最新的，有些组件是 didUpdate 的时候比对有变化才更新
+  // 这里给组件一个自定义更新的机会
+  onGlobalVarChanged?: (
+    instance: React.Component,
+    schema: any,
+    data: any
+  ) => void | boolean;
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
   isFormItem?: boolean;
@@ -253,8 +261,17 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     );
   } else if (exists) {
     // 如果已经存在，合并配置，并用合并后的配置
-    Object.assign(exists, config);
-    renderer = exists;
+    renderer = Object.assign(exists, config);
+    // 如果已存在的配置有占位组件，并且新的配置是异步渲染器，在把占位组件删除
+    // 避免遇到设置了 visibleOn/hiddenOn 条件的 Schema 无法渲染的问题
+    if (
+      exists.component === Placeholder &&
+      !config.component &&
+      config.getComponent
+    ) {
+      delete renderer.component;
+      delete renderer.Renderer;
+    }
   }
 
   renderer.weight = renderer.weight || 0;

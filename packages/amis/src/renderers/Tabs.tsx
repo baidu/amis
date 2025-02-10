@@ -6,7 +6,7 @@ import {
   resolveEventData,
   setThemeClassName
 } from 'amis-core';
-import {ActionObject} from 'amis-core';
+import {ActionObject, isGlobalVarExpression} from 'amis-core';
 import find from 'lodash/find';
 import {
   isVisible,
@@ -921,6 +921,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ]
             }}
             env={this.props.env}
+            key={`customstyle_${index}`}
           />
         ) : null;
       });
@@ -981,7 +982,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         ) : null
       );
 
-      childrenCustomStyle = tabs.map(tab =>
+      childrenCustomStyle = tabs.map((tab, index) =>
         isVisible(tab, data) ? (
           <CustomStyle
             config={{
@@ -994,6 +995,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ]
             }}
             env={this.props.env}
+            key={`customstyle_${index}`}
           />
         ) : null
       );
@@ -1115,7 +1117,23 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 }
 @Renderer({
-  type: 'tabs'
+  type: 'tabs',
+  onGlobalVarChanged(instance, schema, data): any {
+    if (isGlobalVarExpression(schema.source)) {
+      // tabs 要靠手动刷新了
+      const [newLocalTabs, isFromSource] = (instance as any).initTabArray(
+        (instance.props as any).tabs,
+        (instance.props as any).source,
+        data
+      );
+
+      instance.setState({
+        localTabs: newLocalTabs,
+        isFromSource
+      });
+      return false;
+    }
+  }
 })
 export class TabsRenderer extends Tabs {
   static contextType = ScopedContext;

@@ -236,6 +236,7 @@ export default class Container<T> extends React.Component<
         onMouseLeave={this.handleMouseLeave}
         style={buildStyle(style, data)}
         data-id={id}
+        data-role="container"
       >
         {this.renderBody()}
         <CustomStyle

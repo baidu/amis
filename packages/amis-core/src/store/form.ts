@@ -549,9 +549,11 @@ export const FormStore = ServiceStore.named('FormStore')
 
     // 10s 内不要重复弹同一个错误
     const toastValidateError = throttle(
-      msg => {
+      (msg, validateError?: ValidateError) => {
         const env = getEnv(self);
-        env.notify('error', msg);
+        env.notify('error', msg, {
+          validateError
+        });
       },
       10000,
       {
@@ -699,7 +701,18 @@ export const FormStore = ServiceStore.named('FormStore')
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            msg && toastValidateError(msg);
+            const validateError = new ValidateError(
+              failedMessage || self.__('Form.validateFailed'),
+              self.errors,
+              {
+                items: self.items,
+                msg: {
+                  customMsg: failedMessage,
+                  defaultMsg: self.__('Form.validateFailed')
+                }
+              }
+            );
+            msg && toastValidateError(msg, validateError);
           }
         }
 

@@ -15,6 +15,7 @@ import {
   getEventControlConfig
 } from '../renderer/event-control/helper';
 import {getActionCommonProps} from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class CollapsePlugin extends BasePlugin {
   static id = 'CollapsePlugin';
@@ -38,7 +39,8 @@ export class CollapsePlugin extends BasePlugin {
         type: 'tpl',
         tpl: '内容',
         wrapperComponent: '',
-        inline: false
+        inline: false,
+        id: generateId()
       }
     ]
   };

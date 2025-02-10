@@ -17,6 +17,7 @@ exports[`Renderer:input table 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:input table 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -85,7 +86,7 @@ exports[`Renderer:input table 1`] = `
                                     class="cxd-TableCell--title"
                                   >
                                     <span
-                                      class="cxd-TplField"
+                                      class="cxd-TplField fr-view"
                                     >
                                       <span>
                                         A
@@ -105,7 +106,7 @@ exports[`Renderer:input table 1`] = `
                                     class="cxd-TableCell--title"
                                   >
                                     <span
-                                      class="cxd-TplField"
+                                      class="cxd-TplField fr-view"
                                     >
                                       <span>
                                         B
@@ -229,6 +230,7 @@ exports[`Renderer:input table add 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -237,7 +239,7 @@ exports[`Renderer:input table add 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -376,7 +378,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 A
@@ -396,7 +398,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 B
@@ -417,7 +419,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title v-middle nowrap"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 操作
@@ -438,7 +440,8 @@ exports[`Renderer:input table add 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -465,7 +468,8 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -567,6 +571,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -575,7 +580,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -604,7 +609,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Table
@@ -648,7 +653,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 选项
@@ -668,7 +673,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 普通文本
@@ -689,7 +694,8 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -803,6 +809,7 @@ exports[`Renderer:input-table init display 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -811,7 +818,7 @@ exports[`Renderer:input-table init display 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -840,7 +847,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   数字
@@ -908,7 +915,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   表格表单
@@ -958,7 +965,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 名称
@@ -978,7 +985,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 分数
@@ -998,7 +1005,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 分数(不在quickEdit里面)
@@ -1018,7 +1025,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 等级
@@ -1039,7 +1046,8 @@ exports[`Renderer:input-table init display 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1066,7 +1074,8 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1178,7 +1187,8 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1243,7 +1253,8 @@ exports[`Renderer:input-table init display 1`] = `
                         data-index="1"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1270,7 +1281,8 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1382,7 +1394,8 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1474,6 +1487,7 @@ exports[`Renderer:input-table verifty 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1482,7 +1496,7 @@ exports[`Renderer:input-table verifty 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1511,7 +1525,7 @@ exports[`Renderer:input-table verifty 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Table
@@ -1546,6 +1560,7 @@ exports[`Renderer:input-table with combo column 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1554,7 +1569,7 @@ exports[`Renderer:input-table with combo column 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1611,7 +1626,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 combo column
@@ -1632,7 +1647,8 @@ exports[`Renderer:input-table with combo column 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
@@ -1664,6 +1680,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                       >
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
@@ -1728,6 +1745,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                                         </div>
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"

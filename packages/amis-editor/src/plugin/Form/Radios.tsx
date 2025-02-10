@@ -168,7 +168,6 @@ export class RadiosControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('theme:formItem', {
-              hidSize: true,
               schema: [
                 getSchemaTpl('switch', {
                   label: '一行选项显示',
@@ -298,14 +297,14 @@ export class RadiosControlPlugin extends BasePlugin {
                 {
                   label: '隐藏勾选框',
                   type: 'switch',
-                  name: 'themeCss.radiosShowClassName.display',
+                  name: 'themeCss?.radiosShowClassName.display',
                   trueValue: 'none'
                 },
                 ...inputStateTpl('themeCss.radiosClassName', '', {
                   hideFont: true,
                   hideMargin: true,
                   hidePadding: true,
-                  hiddenOn: 'themeCss.radiosShowClassName.display === "none"',
+                  hiddenOn: 'themeCss?.radiosShowClassName.display === "none"',
                   backgroundToken: (state: string) => {
                     const s = state.split('-');
                     if (s[0] === 'checked' && s[1] !== 'disabled') {

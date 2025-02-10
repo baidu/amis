@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./lib",
+    "sourceMap": true,
     "sourceRoot": "./",
     "typeRoots": [
       "../../types",

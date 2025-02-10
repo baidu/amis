@@ -10,6 +10,7 @@ import {
   applyFilters,
   isEmpty,
   qsstringify,
+  findTreeIndex,
   getVariable
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, ActionObject, ApiObject} from '../types';
@@ -94,22 +95,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
       // 因为会把数据呈现在地址栏上。
-      return createObject(
-        createObject(self.data, {
-          items: self.items.concat(),
-          selectedItems: self.selectedItems.concat(),
-          unSelectedItems: self.unSelectedItems.concat()
-        }),
-        {...self.query}
-      );
+      return createObject(createObject(self.data, this.eventContext), {
+        ...self.query
+      });
     },
 
     get mergedData() {
       return extendObject(self.data, {
         ...self.query,
-        ...self.data,
-        selectedItems: self.selectedItems,
-        unSelectedItems: self.unSelectedItems
+        ...this.eventContext,
+        ...self.data
       });
     },
 
@@ -119,6 +114,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     get selectedItemsAsArray() {
       return self.selectedItems.concat();
+    },
+
+    get itemsAsArray() {
+      return self.items.concat();
     },
 
     fetchCtxOf(
@@ -134,6 +133,23 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         [options.perPageField || 'perPage']: self.perPage,
         ...data
       });
+    },
+
+    get eventContext() {
+      const context = {
+        items: self.items.concat(),
+        selectedItems: self.selectedItems.concat(),
+        unSelectedItems: self.unSelectedItems.concat(),
+        selectedIndexes: self.selectedItems.map(
+          item =>
+            findTreeIndex(
+              self.items,
+              i => (item.__pristine || item) === (i.__pristine || i)
+            )?.join('.') || '-1'
+        )
+      };
+
+      return context;
     }
   }))
   .actions(self => {
@@ -727,9 +743,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         total: self.total,
         page: self.page,
         perPage: self.perPage,
-        items: self.items.concat(),
-        selectedItems: self.selectedItems.concat(),
-        unSelectedItems: self.unSelectedItems.concat()
+        ...self.eventContext
       });
     };
 
@@ -776,7 +790,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       exportAsCSV,
       updateColumns,
       updateTotal,
-      resetSelection
+      resetSelection,
+      replaceItems(items: Array<any>) {
+        self.items.replace(items);
+      }
     };
   });
 

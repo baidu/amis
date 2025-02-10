@@ -169,12 +169,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       }
     }
     /**
-     * 非大数模式下，如果精度不满足要求，需要处理value值，遵循四舍五入的处理规则
+     * 非大数模式下，如果精度不满足要求，需要处理value值，只做精度处理，不做四舍五入
      */
     if (!isBig && getNumberPrecision(value) !== precision) {
-      value = getMiniDecimal(
-        toFixed(num2str(value), '.', precision)
-      ).toNumber();
+      const multiplier = Math.pow(10, precision);
+      const truncatedValue =
+        Math.trunc(getMiniDecimal(value).multi(multiplier).toNumber()) /
+        multiplier;
+      value = getMiniDecimal(truncatedValue).toNumber();
     }
 
     return value;

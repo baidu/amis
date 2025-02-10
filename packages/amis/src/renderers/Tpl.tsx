@@ -226,7 +226,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
     return (
       <Component
         className={cx(
-          'TplField',
+          'TplField fr-view',
           className,
           setThemeClassName({
             ...this.props,

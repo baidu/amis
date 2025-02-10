@@ -18,6 +18,8 @@ export interface Font {
   label: string;
   token: string;
   value?: string | number;
+  className?: string;
+  previewUrl?: string;
   body?: {value: string | number}[];
 }
 
@@ -98,7 +100,12 @@ export interface ThemeDefinition {
       base: {
         label: string;
         token: string;
-        body: {value: string}[];
+        body: {
+          value: string;
+          label?: string;
+          className?: string;
+          previewUrl?: string;
+        }[];
       };
       size: {
         label: string;

@@ -1009,6 +1009,66 @@ order: 54
 }
 ```
 
+## 支持 Range extraName 属性
+
+> 6.10.0 以上版本
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": true,
+    "data": {
+      "table": [
+        {
+          "a": "1212",
+          "begin": "06:00",
+          "end": "07:00"
+        }
+      ]
+    },
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "label": "Table",
+        "needConfirm": false,
+        "columns": [
+          {
+            "label": "A",
+            "name": "a"
+          },
+          {
+            "type": "input-time-range",
+            "name": "begin",
+            "extraName": "end"
+          },
+          {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+              {
+                "label": "删除",
+                "type": "button",
+                "level": "link"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "label": "Table新增一行",
+        "target": "table",
+        "actionType": "add"
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型                                      | 默认值          | 说明                                                                                                 |

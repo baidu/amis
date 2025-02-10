@@ -149,9 +149,7 @@ export class AjaxAction implements RendererAction {
           env.notify('error', e.message);
         }
       }
-
-      // 不阻塞后面执行
-      // throw e;
+      throw e;
     }
   }
 }

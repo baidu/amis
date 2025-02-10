@@ -38,6 +38,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     this.store.updateContext(props.context);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
+    this.store.setGlobalVars(props.globalVars);
 
     // 将数据里面的函数批量的绑定到 this 上
     bulkBindFunctions<RootRenderer /*为毛 this 的类型自动识别不出来？*/>(this, [
@@ -96,6 +97,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
   componentDidUpdate(prevProps: RootRendererProps) {
     const props = this.props;
+
+    // 更新全局变量
+    if (props.globalVars !== prevProps.globalVars) {
+      this.store.setGlobalVars(props.globalVars);
+    }
 
     if (props.location !== prevProps.location) {
       this.store.updateLocation(props.location, this.props.env?.parseLocation);
@@ -234,11 +240,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         );
       });
     } else if (action.actionType === 'toast') {
-      action.toast?.items?.forEach((item: any) => {
+      action.toast?.items?.forEach(({level, body, title, ...item}: any) => {
         env.notify(
-          item.level || 'info',
-          item.body
-            ? render('body', item.body, {
+          level || 'info',
+          body
+            ? render('body', body, {
                 ...this.props,
                 data: ctx,
                 context: store.context
@@ -247,8 +253,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...action.toast,
             ...item,
-            title: item.title
-              ? render('title', item.title, {
+            title: title
+              ? render('title', title, {
                   ...this.props,
                   data: ctx,
                   context: store.context
@@ -521,7 +527,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   }
 
   render() {
-    const {pathPrefix, schema, render, ...rest} = this.props;
+    const {pathPrefix, schema, render, globalVars, ...rest} = this.props;
     const store = this.store;
 
     if (store.runtimeError) {

@@ -629,6 +629,10 @@ export class TreeControlPlugin extends BasePlugin {
                 bulk: false,
                 name: 'itemActions',
                 formType: 'extend',
+                defaultData: {
+                  type: 'container',
+                  body: [{type: 'button', label: '按钮'}]
+                },
                 form: {
                   body: [
                     {
@@ -755,8 +759,7 @@ export class TreeControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
-                      min: 0,
-                      hiddenOn: 'this.initiallyOpen'
+                      min: 0
                     }
                   ]
                 }

@@ -52,7 +52,7 @@ export class BreadcrumbPlugin extends BasePlugin {
             type: 'input-text',
             name: 'separator'
           },
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '动态数据',
             name: 'source'
           }),

@@ -53,6 +53,11 @@ export interface LocationControlSchema extends FormBaseControlSchema {
    * 备注：区分下现有的placeholder（“请选择位置”）
    */
   getLocationPlaceholder?: string;
+
+  /**
+   * 是否隐藏地图控制组件，默认为false
+   */
+  hideViewControl?: boolean;
 }
 
 export interface LocationControlProps
@@ -139,7 +144,14 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   renderStatic(displayValue = '-') {
-    const {classnames: cx, value} = this.props;
+    const {
+      classnames: cx,
+      value,
+      staticSchema,
+      ak,
+      coordinatesType,
+      hideViewControl = false
+    } = this.props;
     const __ = this.props.translate;
 
     if (!value) {
@@ -153,7 +165,26 @@ export class LocationControl extends React.Component<LocationControlProps> {
         })}
         ref={this.domRef}
       >
-        <span>{value.address}</span>
+        {staticSchema?.embed ? (
+          <>
+            {staticSchema.showAddress === false ? null : (
+              <div className="mb-2">{value.address}</div>
+            )}
+            <BaiduMapPicker
+              ak={ak}
+              value={value}
+              coordinatesType={coordinatesType}
+              autoSelectCurrentLoc={false}
+              onlySelectCurrentLoc={true}
+              showSug={false}
+              showGeoLoc={staticSchema.showGeoLoc}
+              mapStyle={staticSchema.mapStyle}
+              hideViewControl={hideViewControl}
+            />
+          </>
+        ) : (
+          <span>{value.address}</span>
+        )}
       </div>
     );
   }

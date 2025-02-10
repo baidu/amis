@@ -15,6 +15,14 @@
 
 .#{$ns}Image {
   border: var(--borderWidth) solid var(--borderColor);
+  overflow: hidden;
+
+  &--original {
+    height: 100%;
+    .#{$ns}Image-origin--cover {
+      height: 100%;
+    }
+  }
 
   &--thumb {
     display: inline-block;
@@ -65,7 +73,7 @@
   }
 
   &--thumb &-info {
-    width: px2rem(110px);
+    width: 100%;
     padding: 0;
   }
 

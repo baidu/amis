@@ -63,7 +63,7 @@ const fns: {
   [propName: string]: TranslateFn;
 } = {};
 
-function format(str: string, data?: object) {
+export function format(str: string, data?: object) {
   return str.replace(/(\\)?\{\{([\s\S]+?)\}\}/g, (_, escape, key) => {
     if (escape) {
       return _.substring(1);
@@ -123,7 +123,7 @@ export function localeable<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `I18N(${
+      static displayName: string = `I18N(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = LocaleContext;

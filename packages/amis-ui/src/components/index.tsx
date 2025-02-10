@@ -141,8 +141,10 @@ import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
 
+import Shape from './Shape';
+import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
-
+import DropdownContextMenus from './DropdownContextMenus';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -283,5 +285,8 @@ export {
   OverflowTpl,
   Signature,
   VerificationCode,
-  MobileDevTool
+  Shape,
+  IShapeType,
+  MobileDevTool,
+  DropdownContextMenus
 };

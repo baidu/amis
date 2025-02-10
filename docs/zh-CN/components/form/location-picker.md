@@ -30,6 +30,47 @@ order: 30
 
 注意其中的 `ak` 参数只能在 amis 官网示例中使用，请前往[百度地图开放平台](http://lbsyun.baidu.com/)申请自己的 `ak`。
 
+## 静态展示
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "location-picker",
+      "name": "location",
+      "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+      "label": "默认展示方式",
+      "value": {
+        "address": "北京市西城区复兴门内大街97号",
+        "lat": 39.91404014231763,
+        "lng": 116.36857981150743,
+        "zoom": 12
+      },
+      "static": true
+    },
+    {
+      "type": "location-picker",
+      "name": "location",
+      "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+      "label": "内嵌地图展示",
+      "value": {
+        "address": "北京市西城区复兴门内大街97号",
+        "lat": 39.91404014231763,
+        "lng": 116.36857981150743,
+        "zoom": 12
+      },
+      "static": true,
+      "staticSchema": {
+        "embed": true,
+        "showAddress": true
+      }
+    }
+  ]
+}
+```
+
 ## 高德地图（暂不支持）
 
 ```schema: scope="body"
@@ -57,16 +98,21 @@ order: 30
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名               | 类型               | 默认值                               | 说明                                                                             |
-| -------------------- | ------------------ | ------------------------------------ | -------------------------------------------------------------------------------- |
-| value                | `LocationData`     | 参考 [`LocationData`](#LocationData) |                                                                                  |
-| vendor               | 'baidu' \| 'gaode' | 'baidu'                              | 地图厂商，目前只实现了百度地图和高德地图                                         |
-| ak                   | `string`           | 无                                   | 百度/高德地图的 ak                                                               |
-| clearable            | `boolean`          | false                                | 输入框是否可清空                                                                 |
-| placeholder          | `string`           | '请选择位置'                         | 默认提示                                                                         |
-| autoSelectCurrentLoc | `boolean`          | false                                | 是否自动选中当前地理位置                                                         |
-| onlySelectCurrentLoc | `boolean`          | false                                | 是否限制只能选中当前地理位置，设置为 true 后，可用于充当定位组件                 |
-| coordinatesType      | 'bd09' \| 'gcj02'  | 'bd09'                               | 坐标系类型，默认百度坐标，使用高德地图时应设置为'gcj02'， 高德地图不支持坐标转换 |
+| 属性名                   | 类型               | 默认值                               | 说明                                                                             |
+| ------------------------ | ------------------ | ------------------------------------ | -------------------------------------------------------------------------------- |
+| value                    | `LocationData`     | 参考 [`LocationData`](#LocationData) |                                                                                  |
+| vendor                   | 'baidu' \| 'gaode' | 'baidu'                              | 地图厂商，目前只实现了百度地图和高德地图                                         |
+| ak                       | `string`           | 无                                   | 百度/高德地图的 ak                                                               |
+| clearable                | `boolean`          | false                                | 输入框是否可清空                                                                 |
+| placeholder              | `string`           | '请选择位置'                         | 默认提示                                                                         |
+| autoSelectCurrentLoc     | `boolean`          | false                                | 是否自动选中当前地理位置                                                         |
+| onlySelectCurrentLoc     | `boolean`          | false                                | 是否限制只能选中当前地理位置，设置为 true 后，可用于充当定位组件                 |
+| coordinatesType          | 'bd09' \| 'gcj02'  | 'bd09'                               | 坐标系类型，默认百度坐标，使用高德地图时应设置为'gcj02'， 高德地图不支持坐标转换 |
+| staticSchema             | `object`           |                                      | 静态展示，内嵌模式`{static: true: embed: true}`时的额外配置                      |
+| staticSchema.embed       | `boolean`          | false                                | 是否内嵌地图展示地理位置                                                         |
+| staticSchema.showAddress | `boolean`          | true                                 | 内嵌模式是否展示文字地址                                                         |
+| staticSchema.showGeoLoc  | `boolean`          | false                                | 内嵌模式是否展示定位当当前控件                                                   |
+| staticSchema.mapStyle    | `object`           |                                      | 内嵌模式地图的样式，可以传宽高控制大小                                           |
 
 ### 坐标系说明
 

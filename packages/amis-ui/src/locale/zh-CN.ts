@@ -48,6 +48,7 @@ register('zh-CN', {
   'CRUD.stat': '{{page}}/{{lastPage}} 共：{{total}} 项',
   'CRUD.paginationGoText': '前往',
   'CRUD.paginationPageText': '页',
+  'CRUD.confirmLeaveUnSavedPage': '分页会丢失未保存的数据，请确认',
   'PaginationWrapper.placeholder': '请配置内容',
   'Pagination.select': '{{count}}条/页',
   'Pagination.goto': '跳转至',

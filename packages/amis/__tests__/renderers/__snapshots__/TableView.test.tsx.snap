@@ -30,7 +30,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         地区
@@ -41,7 +41,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         城市
@@ -52,7 +52,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         销量
@@ -66,7 +66,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         华北
@@ -77,7 +77,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         北京
@@ -88,7 +88,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         20
@@ -101,7 +101,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         天津
@@ -112,7 +112,7 @@ exports[`Renderer:tableview 1`] = `
                     style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         19
@@ -159,7 +159,7 @@ exports[`Renderer:tableview layout 1`] = `
                   style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       头部
@@ -173,7 +173,7 @@ exports[`Renderer:tableview layout 1`] = `
                   style="font-weight: normal; background: rgb(254, 241, 210); width: 200px; text-align: left; vertical-align: center;"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       侧边
@@ -185,7 +185,7 @@ exports[`Renderer:tableview layout 1`] = `
                   style="font-weight: normal; background: rgb(169, 253, 216); width: auto; text-align: center; vertical-align: center;"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       右上
@@ -211,7 +211,7 @@ exports[`Renderer:tableview layout 1`] = `
                           style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               栏目 1
@@ -223,7 +223,7 @@ exports[`Renderer:tableview layout 1`] = `
                           style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               栏目 2
@@ -235,7 +235,7 @@ exports[`Renderer:tableview layout 1`] = `
                           style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               栏目 3
@@ -254,7 +254,7 @@ exports[`Renderer:tableview layout 1`] = `
                   style="font-weight: normal; background: rgb(206, 197, 250); width: auto; text-align: center; vertical-align: center;"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       底部
@@ -296,7 +296,7 @@ exports[`Renderer:tableview visibleOn 1`] = `
                   style="font-weight: normal; width: auto; text-align: left; vertical-align: center; border-bottom-width: 0; border-left-width: 0;"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span

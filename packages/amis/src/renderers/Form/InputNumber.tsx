@@ -275,6 +275,7 @@ export default class NumberControl extends React.Component<
       // 大数下不需要进行精度处理，因为是字符串
       big !== true
     ) {
+      // 精度处理，遵循四舍五入的处理规则
       const normalizedValue = parseFloat(
         toFixed(value.toString(), '.', normalizedPrecision)
       );
@@ -498,7 +499,7 @@ export default class NumberControl extends React.Component<
           ) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              if (userTyping) {
+              if (userTyping || this.input === document.activeElement) {
                 // 如果是用户输入状态，则只进行千分隔处理，避免光标乱跳
                 let parts = value.toString().split('.');
                 parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');

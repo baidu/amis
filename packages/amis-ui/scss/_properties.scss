@@ -179,6 +179,7 @@ $Table-strip-bg: transparent;
   --ButtonGroup-divider-width: #{px2rem(1px)};
   --ButtonGroup-divider-color: #fff;
   --ButtonGroup-borderWidth: var(--borders-width-2);
+  --Button-onDisabled-opacity: 0.3;
 
   --Breadcrumb-item-fontSize: var(--fontSizeMd);
   --Breadcrumb-item-default-color: var(--colors-neutral-text-5);
@@ -463,7 +464,7 @@ $Table-strip-bg: transparent;
   --Layout-icon-size: #{px2rem(14px)};
   --Layout-light-backgroundColor: var(--colors-neutral-fill-11);
   --Layout-light-bgColor-onHover: var(--colors-brand-10);
-  --Layout-light-fontColor: var(--colors-neutral-text-1);
+  --Layout-light-fontColor: var(--colors-neutral-text-2);
   --Layout-fontColor--onHover: var(--colors-brand-5);
   --Layout-dark-fontColor: var(--colors-neutral-text-11);
   --Layout-fontColor--onActive: var(--colors-brand-4);
@@ -629,7 +630,10 @@ $Table-strip-bg: transparent;
   --Pagination-padding: 0 #{px2rem(8px)};
   --Pagination-padding-sm: 0 #{px2rem(4px)};
   --Pagination-light-color: var(--colors-neutral-text-4);
+  --Pagination-border: var(--borderWidth) var(--borders-style-2)
+    var(--colors-neutral-line-7);
 
+  --Panel--default-bg: var(--colors-neutral-fill-11);
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);
   --Panel--default-badgeColor: var(--colors-neutral-fill-10);
 

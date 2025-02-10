@@ -21,6 +21,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+              data-role="container"
             >
               <div
                 class="cxd-Panel-heading"
@@ -29,7 +30,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                   class="cxd-Panel-title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       表单
@@ -58,7 +59,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             选人
@@ -159,6 +160,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+              data-role="container"
             >
               <div
                 class="cxd-Panel-heading"
@@ -167,7 +169,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                   class="cxd-Panel-title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       表单
@@ -196,7 +198,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     >
                       <span>
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             选人
@@ -297,6 +299,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
           >
             <div
               class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+              data-role="container"
             >
               <div
                 class="cxd-Tabs-linksContainer-wrapper"
@@ -312,7 +315,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                       role="tablist"
                     >
                       <li
-                        class="cxd-Tabs-link is-active"
+                        class="cxd-Tabs-link is-active cxd-TabsTransfer-tab"
                       >
                         <a
                           title="成员"
@@ -325,7 +328,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </a>
                       </li>
                       <li
-                        class="cxd-Tabs-link"
+                        class="cxd-Tabs-link cxd-TabsTransfer-tab"
                       >
                         <a
                           title="角色"
@@ -338,7 +341,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         </a>
                       </li>
                       <li
-                        class="cxd-Tabs-link"
+                        class="cxd-Tabs-link cxd-TabsTransfer-tab"
                       >
                         <a
                           title="部门"
@@ -404,7 +407,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="法师"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -456,7 +459,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="诸葛亮"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -520,7 +523,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="战士"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -572,7 +575,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="曹操"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -631,7 +634,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="钟无艳"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -695,7 +698,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="打野"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -747,7 +750,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="李白"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -806,7 +809,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="韩信"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -865,7 +868,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="云中君"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -923,7 +926,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         class="cxd-GroupedSelection-itemLabel"
                       >
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             <div
@@ -960,7 +963,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         class="cxd-GroupedSelection-itemLabel"
                       >
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             <div
@@ -997,7 +1000,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         class="cxd-GroupedSelection-itemLabel"
                       >
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             <div
@@ -1034,7 +1037,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         class="cxd-GroupedSelection-itemLabel"
                       >
                         <span
-                          class="cxd-TplField"
+                          class="cxd-TplField fr-view"
                         >
                           <span>
                             <div
@@ -1097,7 +1100,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="总部"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1154,7 +1157,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="部门 1"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1206,7 +1209,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="部门 4"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1258,7 +1261,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="部门 5"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1310,7 +1313,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="部门 2"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1362,7 +1365,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                               title="部门 3"
                             >
                               <span
-                                class="cxd-TplField"
+                                class="cxd-TplField fr-view"
                               >
                                 <span>
                                   <div
@@ -1418,7 +1421,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     class="cxd-Selections-label"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         诸葛亮(zhugeliang)

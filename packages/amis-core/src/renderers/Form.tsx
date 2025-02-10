@@ -45,7 +45,11 @@ import {
 
 import {IComboStore} from '../store/combo';
 import {dataMapping} from '../utils/tpl-builtin';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  isApiOutdated,
+  isEffectiveApi,
+  shouldBlockedBySendOnApi
+} from '../utils/api';
 import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
@@ -1319,7 +1323,7 @@ export default class Form extends React.Component<FormProps, object> {
           }
 
           // 走到这里代表校验成功了
-          dispatchEvent('validateSucc', this.props.data);
+          dispatchEvent('validateSucc', createObject(this.props.data, values));
 
           if (target) {
             this.submitToTarget(filterTarget(target, values), values);
@@ -1439,6 +1443,9 @@ export default class Form extends React.Component<FormProps, object> {
                   __response: response
                 });
               });
+          } else if (shouldBlockedBySendOnApi(action.api || api, values)) {
+            // api存在，但是不满足sendOn时，走这里，不派发submitSucc事件
+            return;
           } else {
             clearPersistDataAfterSubmit && store.clearLocalPersistData();
             // type为submit，但是没有配api以及target时，只派发事件
@@ -1814,22 +1821,33 @@ export default class Form extends React.Component<FormProps, object> {
 
       return (
         <div className={cx('Form-row')}>
-          {children.map((control, key) =>
-            ~['hidden', 'formula'].indexOf((control as any).type) ||
-            (control as any).mode === 'inline' ? (
+          {children.map((control, key) => {
+            const split = control.colSize?.split('/');
+            const colSize =
+              split?.[0] && split?.[1]
+                ? (split[0] / split[1]) * 100 + '%'
+                : control.colSize;
+            return ~['hidden', 'formula'].indexOf((control as any).type) ||
+              (control as any).mode === 'inline' ? (
               this.renderChild(control, key, otherProps)
             ) : (
               <div
                 key={key}
                 className={cx(`Form-col`, (control as Schema).columnClassName)}
+                style={{
+                  flex:
+                    colSize && !['1', 'auto'].includes(colSize)
+                      ? `0 0 ${colSize}`
+                      : '1'
+                }}
               >
                 {this.renderChild(control, '', {
                   ...otherProps,
                   mode: 'row'
                 })}
               </div>
-            )
-          )}
+            );
+          })}
         </div>
       );
     }
@@ -2303,30 +2321,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 }
 
-@Renderer({
-  type: 'form',
-  storeType: FormStore.name,
-  isolateScope: true,
-  storeExtendsData: (props: any) => props.inheritData,
-  shouldSyncSuperStore: (store, props, prevProps) => {
-    // 如果是 QuickEdit，让 store 同步 __super 数据。
-    if (
-      props.quickEditFormRef &&
-      props.onQuickChange &&
-      (isObjectShallowModified(prevProps.data, props.data) ||
-        isObjectShallowModified(prevProps.data.__super, props.data.__super) ||
-        isObjectShallowModified(
-          prevProps.data.__super?.__super,
-          props.data.__super?.__super
-        ))
-    ) {
-      return true;
-    }
-
-    return undefined;
-  }
-})
-export class FormRenderer extends Form {
+export class FormRendererBase extends Form {
   static contextType = ScopedContext;
 
   constructor(props: FormProps, context: IScopedContext) {
@@ -2340,13 +2335,7 @@ export class FormRenderer extends Form {
     super.componentDidMount();
 
     if (this.props.autoFocus) {
-      const scoped = this.context as IScopedContext;
-      const inputs = scoped.getComponents();
-      let focuableInput = find(
-        inputs,
-        input => input.focus
-      ) as ScopedComponentType;
-      focuableInput && setTimeout(() => focuableInput.focus!(), 200);
+      this.focus();
     }
   }
 
@@ -2355,6 +2344,16 @@ export class FormRenderer extends Form {
     scoped.unRegisterComponent(this);
 
     super.componentWillUnmount();
+  }
+
+  focus() {
+    const scoped = this.context as IScopedContext;
+    const inputs = scoped.getComponents();
+    let focuableInput = find(
+      inputs,
+      input => input.focus
+    ) as ScopedComponentType;
+    focuableInput && setTimeout(() => focuableInput.focus!(), 200);
   }
 
   doAction(
@@ -2397,6 +2396,8 @@ export class FormRenderer extends Form {
           );
         })
       );
+    } else if (action.actionType === 'clearError') {
+      return super.clearErrors();
     } else {
       return super.handleAction(e, action, ctx, throwErrors, delegate);
     }
@@ -2517,3 +2518,29 @@ export class FormRenderer extends Form {
     return this.getValues();
   }
 }
+
+@Renderer({
+  type: 'form',
+  storeType: FormStore.name,
+  isolateScope: true,
+  storeExtendsData: (props: any) => props.inheritData,
+  shouldSyncSuperStore: (store, props, prevProps) => {
+    // 如果是 QuickEdit，让 store 同步 __super 数据。
+    if (
+      props.quickEditFormRef &&
+      props.onQuickChange &&
+      (isObjectShallowModified(prevProps.data, props.data) ||
+        isObjectShallowModified(prevProps.data.__super, props.data.__super) ||
+        isObjectShallowModified(
+          prevProps.data.__super?.__super,
+          props.data.__super?.__super
+        ))
+    ) {
+      return true;
+    }
+
+    return undefined;
+  }
+})
+// 装饰器装饰后的类无法继承父类上的方法，所以多包了一层FormRendererBase用来继承
+export class FormRenderer extends FormRendererBase {}

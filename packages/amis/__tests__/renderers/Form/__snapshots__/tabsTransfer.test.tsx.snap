@@ -17,6 +17,7 @@ exports[`Renderer:tabsTransfer 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -54,7 +55,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           组合穿梭器
@@ -73,6 +74,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                       >
                         <div
                           class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                          data-role="container"
                         >
                           <div
                             class="cxd-Tabs-linksContainer-wrapper"
@@ -88,7 +90,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                   role="tablist"
                                 >
                                   <li
-                                    class="cxd-Tabs-link is-active"
+                                    class="cxd-Tabs-link is-active cxd-TabsTransfer-tab"
                                   >
                                     <a
                                       title="成员"
@@ -101,7 +103,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                     </a>
                                   </li>
                                   <li
-                                    class="cxd-Tabs-link"
+                                    class="cxd-Tabs-link cxd-TabsTransfer-tab"
                                   >
                                     <a
                                       title="用户"
@@ -664,6 +666,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -672,7 +675,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -701,7 +704,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           组合穿梭器
@@ -720,6 +723,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                       >
                         <div
                           class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                          data-role="container"
                         >
                           <div
                             class="cxd-Tabs-linksContainer-wrapper"
@@ -735,7 +739,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                   role="tablist"
                                 >
                                   <li
-                                    class="cxd-Tabs-link is-active"
+                                    class="cxd-Tabs-link is-active cxd-TabsTransfer-tab"
                                   >
                                     <a
                                       title="成员"
@@ -748,7 +752,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                     </a>
                                   </li>
                                   <li
-                                    class="cxd-Tabs-link"
+                                    class="cxd-Tabs-link cxd-TabsTransfer-tab"
                                   >
                                     <a
                                       title="用户"

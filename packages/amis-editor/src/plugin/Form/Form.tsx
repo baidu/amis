@@ -43,7 +43,8 @@ import {
   getActionCommonProps
 } from '../../renderer/event-control/helper';
 import {FieldSetting} from '../../renderer/FieldSetting';
-import {_isModelComp} from '../../util';
+import {_isModelComp, generateId} from '../../util';
+import {InlineEditableElement} from 'amis-editor-core';
 
 import type {FormScaffoldConfig} from '../../builder';
 
@@ -99,6 +100,7 @@ export class FormPlugin extends BasePlugin {
       {
         label: '文本框',
         type: 'input-text',
+        id: generateId(),
         name: 'text'
       }
     ]
@@ -137,6 +139,14 @@ export class FormPlugin extends BasePlugin {
       label: '操作区',
       key: 'actions',
       preferTag: '按钮'
+    }
+  ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope.cxd-Panel .cxd-Panel-title',
+      key: 'title'
     }
   ];
 
@@ -387,6 +397,11 @@ export class FormPlugin extends BasePlugin {
       actionType: 'setValue',
       description: '触发组件数据更新',
       ...getActionCommonProps('setValue')
+    },
+    {
+      actionLabel: '清除校验状态',
+      actionType: 'clearError',
+      description: '清除表单校验产生的错误状态'
     }
   ];
 
@@ -650,7 +665,9 @@ export class FormPlugin extends BasePlugin {
       /\/crud2\/filter\/form$/.test(context.path) ||
       /body\/0\/filter$/.test(context.schemaPath);
     /** 表单是否位于Dialog内 */
-    const isInDialog: boolean = context.path?.includes?.('dialog/');
+    const isInDialog: boolean =
+      context.path?.includes?.('dialog/') ||
+      context.path?.includes?.('drawer/');
     /** 是否使用Panel包裹 */
     const isWrapped = 'this.wrapWithPanel !== false';
     const justifyLayout = (left: number = 2) => ({

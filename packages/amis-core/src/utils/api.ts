@@ -231,11 +231,21 @@ export function buildApi(
     return apiObject;
   };
 
+  let queryMapped = false;
   if (~idx) {
     const hashIdx = url.indexOf('#');
-    const params = qsparse(
+    let params = qsparse(
       url.substring(idx + 1, ~hashIdx && hashIdx > idx ? hashIdx : undefined)
     );
+
+    // 合并 api.query 的配置
+    params = dataMapping(
+      Object.assign(params, api.query),
+      data,
+      undefined,
+      api.convertKeyToPath
+    );
+    queryMapped = true;
 
     // 将里面的表达式运算完
     JSONTraverse(params, (value: any, key: string | number, host: any) => {
@@ -247,16 +257,13 @@ export function buildApi(
       }
     });
 
+    api.query = params;
     const left = replaceExpression(url.substring(0, idx), 'raw', '');
 
-    // 追加
-    Object.assign(params, api.query);
     api.url =
       left +
       (~left.indexOf('?') ? '&' : '?') +
-      queryStringify(
-        (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
-      ) +
+      queryStringify(api.query) +
       (~hashIdx && hashIdx > idx
         ? replaceExpression(url.substring(hashIdx))
         : '');
@@ -285,7 +292,7 @@ export function buildApi(
   }
 
   // 给 query 做数据映射
-  if (api.query) {
+  if (api.query && !queryMapped) {
     api.query = dataMapping(api.query, data, undefined, api.convertKeyToPath);
   }
 
@@ -557,8 +564,9 @@ export function wrapFetcher(
         api = (await adaptor.call(api, api, context)) || api;
 
         if (
-          api.query !== originQuery ||
-          (isPlainObject(api.query) && !isEqual(api.query, originQueryCopy))
+          typeof api.url === 'string' &&
+          (api.query !== originQuery ||
+            (isPlainObject(api.query) && !isEqual(api.query, originQueryCopy)))
         ) {
           // 如果 api.data 有变化，且是 get 请求，那么需要重新构建 url
           const idx = api.url.indexOf('?');
@@ -943,6 +951,16 @@ export function isEffectiveApi(
       return false;
     }
     return true;
+  }
+  return false;
+}
+
+// 判断api是否存在，且SendOn为不发送
+export function shouldBlockedBySendOnApi(api?: Api, data?: any) {
+  if (isObject(api) && (api as ApiObject).url) {
+    if ((api as ApiObject).sendOn && data) {
+      return !evalExpression((api as ApiObject).sendOn as string, data);
+    }
   }
   return false;
 }

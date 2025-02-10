@@ -17,6 +17,7 @@ exports[`Renderer:transfer 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:transfer 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -54,7 +55,7 @@ exports[`Renderer:transfer 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           默认
@@ -352,6 +353,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -360,7 +362,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -389,7 +391,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   关联选择模式
@@ -850,6 +852,7 @@ exports[`Renderer:transfer chained 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -858,7 +861,7 @@ exports[`Renderer:transfer chained 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -887,7 +890,7 @@ exports[`Renderer:transfer chained 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           级联选择
@@ -1066,6 +1069,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1074,7 +1078,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1103,7 +1107,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   分组
@@ -1490,6 +1494,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1498,7 +1503,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1527,7 +1532,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   树型展示
@@ -2168,6 +2173,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2176,7 +2182,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2205,7 +2211,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   树型展示
@@ -2867,6 +2873,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2875,7 +2882,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2904,7 +2911,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   分组
@@ -3199,6 +3206,7 @@ exports[`Renderer:transfer left tree 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -3207,7 +3215,7 @@ exports[`Renderer:transfer left tree 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -3236,7 +3244,7 @@ exports[`Renderer:transfer left tree 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           关联选择模式
@@ -3699,6 +3707,7 @@ exports[`Renderer:transfer table 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -3707,7 +3716,7 @@ exports[`Renderer:transfer table 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -3736,7 +3745,7 @@ exports[`Renderer:transfer table 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           表格形式
@@ -4106,6 +4115,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -4114,7 +4124,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -4143,7 +4153,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   分组
@@ -4977,6 +4987,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -4985,7 +4996,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -5014,7 +5025,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   分组
@@ -5462,6 +5473,7 @@ exports[`Renderer:transfer tree 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -5470,7 +5482,7 @@ exports[`Renderer:transfer tree 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -5499,7 +5511,7 @@ exports[`Renderer:transfer tree 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           树型展示
@@ -6049,7 +6061,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             默认

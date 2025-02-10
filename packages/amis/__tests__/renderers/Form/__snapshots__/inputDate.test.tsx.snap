@@ -4,6 +4,7 @@ exports[`Renderer:inputDate 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:inputDate 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -41,7 +42,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   date
@@ -105,6 +106,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -113,7 +115,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -142,7 +144,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           日期
@@ -225,7 +227,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           日期
@@ -341,6 +343,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -349,7 +352,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -378,7 +381,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           日期
@@ -458,6 +461,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -466,7 +470,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -495,7 +499,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           日期
@@ -607,6 +611,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -615,7 +620,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -644,7 +649,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           日期

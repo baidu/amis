@@ -9,7 +9,7 @@ exports[`Renderer:hbox 1`] = `
       class="cxd-Hbox-col w-xs"
     >
       <div
-        class="cxd-TplField bg-info"
+        class="cxd-TplField fr-view bg-info"
       >
         <span>
           w-xs
@@ -20,7 +20,7 @@ exports[`Renderer:hbox 1`] = `
       class="cxd-Hbox-col w-sm"
     >
       <div
-        class="cxd-TplField bg-info lter"
+        class="cxd-TplField fr-view bg-info lter"
       >
         <span>
           w-sm
@@ -31,7 +31,7 @@ exports[`Renderer:hbox 1`] = `
       class="cxd-Hbox-col w"
     >
       <div
-        class="cxd-TplField bg-info dk"
+        class="cxd-TplField fr-view bg-info dk"
       >
         <span>
           w
@@ -42,7 +42,7 @@ exports[`Renderer:hbox 1`] = `
       class="cxd-Hbox-col"
     >
       <div
-        class="cxd-TplField bg-success"
+        class="cxd-TplField fr-view bg-success"
       >
         <span>
           平均分配
@@ -53,7 +53,7 @@ exports[`Renderer:hbox 1`] = `
       class="cxd-Hbox-col"
     >
       <div
-        class="cxd-TplField bg-primary"
+        class="cxd-TplField fr-view bg-primary"
       >
         <span>
           平均分配

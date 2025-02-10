@@ -18,6 +18,7 @@ import type {FormSchema} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import fromPairs from 'lodash/fromPairs';
 import some from 'lodash/some';
+import pick from 'lodash/pick';
 
 export interface SwitchMoreProps extends FormControlProps {
   className?: string;
@@ -36,12 +37,18 @@ export interface SwitchMoreProps extends FormControlProps {
   overlay?: boolean;
   container?: HTMLElement | (() => HTMLElement);
   target?: React.ReactNode | Function;
-  trueValue?: any; // 开关开启时匹配的 value， 默认 true
-  falseValue?: any; // 开关关闭时匹配的 value， 默认 flase
   // editable?: boolean;
   removable?: boolean; // 是否可删除此项配置
   hiddenOnDefault?: boolean; // bulk且不配置时 默认收起
-  bulk?: boolean; // 是否是一个综合object属性，若是，最终提交所有项覆盖到表单data，否则提交为 [name] 一项,
+  /**
+   *
+   * bulk是指extend的内容是和name为平级还是子级，会产生几种情况：
+   * 1. 有name 且bulk为false时，代表这个属性不是一个boolean值，而是一个object，有值=开启，无值=关闭  {kaiguan: {extend: xxx}}
+   * 2. 有name 且bulk为true时，代表这个属性本身是开关，但还有其他同级别相关属性放在扩展中，因此需要bulk更新方式进行批量更新 {kaiguan: true, extend: xxx}
+   * 3. 没有name 且bulk为true时，代表没有属性对应这个开关，开关只是为了表达配置交互层面的收纳含义 {extend: xxx}
+   * 注意：不会出现没有name 且bulk为false的情况
+   */
+  bulk?: boolean;
   onRemove?: (e: React.UIEvent<any> | void) => void;
   onClose: (e: React.UIEvent<any> | void) => void;
   clearChildValuesOnOff?: boolean; // 关闭开关时，删除子表单字段，默认 true
@@ -52,6 +59,8 @@ export interface SwitchMoreProps extends FormControlProps {
     name?: string;
     bulk?: boolean;
   }) => boolean;
+  trueValue?: any; // 开关开启时name对应的值，当isChecked属性不配置时，也会通过这个匹配是不是开启状态
+  falseValue?: any; // 开关关闭时name对应的值
 }
 
 interface SwitchMoreState {
@@ -64,6 +73,11 @@ interface SwitchMoreState {
    * 是否开启编辑
    */
   checked: boolean;
+
+  /**
+   * 子表单的数据key
+   */
+  childFormNames: string[];
 }
 
 export default class SwitchMore extends React.Component<
@@ -93,8 +107,6 @@ export default class SwitchMore extends React.Component<
     // placement: 'left',
     overlay: true,
     rootClose: false,
-    trueValue: true,
-    falseValue: false,
     formType: 'pop',
     bulk: true,
     clearChildValuesOnOff: true
@@ -110,44 +122,37 @@ export default class SwitchMore extends React.Component<
   }
 
   initState() {
-    const {
-      data,
-      value,
-      trueValue,
-      falseValue,
-      name,
-      bulk,
-      hiddenOnDefault,
-      isChecked
-    } = this.props;
+    const {data, value, trueValue, name, bulk, hiddenOnDefault, isChecked} =
+      this.props;
     let checked = false;
-    let show = false;
+    const formNames = this.getFormItemNames();
 
+    // 优先用传入的是否选中函数来判断
     if (isChecked && typeof isChecked === 'function') {
       checked = isChecked({data, value, name, bulk});
-      show = checked;
     }
-    // 这个开关 无具体属性对应
-    else if (!name) {
-      // 子表单项是组件根属性，遍历看是否有值
-      if (bulk) {
-        const formNames = this.getFormItemNames();
-        checked = some(formNames, key => data[key] !== undefined);
-        show = checked;
-      } else {
-        checked = value === trueValue;
-      }
-    } else {
-      checked = !!value === trueValue;
+    // 其次使用trueValue，主要是类似于属性值是disableXX之类的反义但配置要改为可用XX等正向含义时，这里会trueValue为false
+    else if (trueValue != null) {
+      checked = value === trueValue;
+    }
+    // 有属性名，自己本身对应开关
+    else if (name) {
+      checked = data[name] != null && data[name] !== false;
+    }
+    // 这个开关 无具体属性对应, 子表单项任意一个开启表示开
+    else {
+      checked = some(formNames, key => data[key] !== undefined);
     }
 
     // 开关有属性对应
     return {
       checked,
-      show
+      show: hiddenOnDefault === true ? false : checked,
+      childFormNames: formNames
     };
   }
 
+  // 获取子表单项的内容
   getFormItemNames() {
     const {form} = this.props;
 
@@ -196,36 +201,85 @@ export default class SwitchMore extends React.Component<
       onBulkChange,
       onChange,
       bulk,
-      defaultData,
       name,
+      defaultData,
       trueValue,
       falseValue,
       clearChildValuesOnOff
     } = this.props;
 
-    this.setState({checked});
+    if (name) {
+      let newValue = checked
+        ? this.getInitTureValue()
+        : falseValue ?? undefined;
 
-    // 子表单项是组件根属性，用bulk处理所有属性
-    if (bulk) {
-      // 选中后，给一个默认 {} 或 配置的默认值
-      if (checked) {
-        let data = defaultData ? {...defaultData} : {};
-        name && (data[name] = trueValue);
-        onBulkChange && onBulkChange(data);
-      }
-      // 取消选中后，将所有字段重置
-      else {
-        const values = clearChildValuesOnOff
-          ? fromPairs(this.getFormItemNames().map(i => [i, undefined]))
-          : {};
-        name && (values[name] = falseValue);
-        onBulkChange && onBulkChange(values);
-      }
-      return;
+      onChange(newValue);
     }
-    onChange(checked ? defaultData || true : undefined);
+
+    // 子表单项是同级别的需要单独更新一下
+    if (bulk) {
+      // 选中情况下，值需要进行更新
+      if (checked) {
+        let newValue = defaultData ?? trueValue;
+        newValue && onBulkChange && onBulkChange(newValue);
+      }
+      // 这个逻辑感觉主要是为了一些本身有默认值的相关配置，不想删除，只是想保留初始
+      else if (clearChildValuesOnOff) {
+        onBulkChange &&
+          onBulkChange(
+            fromPairs(this.state.childFormNames.map(i => [i, undefined]))
+          );
+      }
+    }
+
+    this.setState({checked, show: checked});
   }
 
+  /**
+   * 返回子表单的数据，如果是同级，直接返回当前数据域，否则返回当前数据作为子表单
+   */
+  getExtendValues() {
+    const {name, data: ctx, bulk} = this.props;
+
+    if (!ctx) {
+      return {};
+    }
+
+    if (bulk) {
+      return ctx;
+    }
+
+    return name ? ctx[name] : {};
+  }
+
+  /**
+   * 打开后，首先遵循默认值设置，之后遵循选中值设置
+   * 当都不设置时，要看是否是object类型，是object类型，需要是空对象
+   *
+   * 关闭后，先遵循关闭值设置，否则一切回归原始删除属性状态
+   */
+  getInitTureValue() {
+    const {bulk, defaultData, trueValue} = this.props;
+
+    if (defaultData) {
+      return {...defaultData};
+    }
+
+    if (trueValue != null) {
+      return trueValue;
+    }
+
+    if (bulk) {
+      return true;
+    }
+
+    return {};
+  }
+
+  /**
+   * 弹窗配置的提交
+   * @param values
+   */
   @autobind
   handleSubmit(values: any) {
     const {onChange, onBulkChange, bulk} = this.props;
@@ -254,7 +308,7 @@ export default class SwitchMore extends React.Component<
   }
 
   renderActions() {
-    const {render, removable, disabled, form, formType, hiddenOnDefault, bulk} =
+    const {removable, disabled, form, formType, hiddenOnDefault, render} =
       this.props;
     const {checked, show} = this.state;
 
@@ -265,7 +319,7 @@ export default class SwitchMore extends React.Component<
     const actions = [];
     if (formType === 'dialog') {
       actions.push(
-        render('switch-more-form', this.renderDialogMore(), {
+        render('switch-more-dialog', this.renderDialogMore(), {
           key: 'edit',
           onSubmit: this.handleSubmit
         })
@@ -283,7 +337,7 @@ export default class SwitchMore extends React.Component<
           <Icon icon="pencil" className="icon" />
         </Button>
       );
-    } else if (bulk && hiddenOnDefault && formType === 'extend') {
+    } else if (hiddenOnDefault && formType === 'extend') {
       actions.push(
         <div
           key="open"
@@ -315,7 +369,6 @@ export default class SwitchMore extends React.Component<
 
   renderPopover() {
     const {
-      render,
       popOverclassName,
       overlay,
       offset,
@@ -324,7 +377,8 @@ export default class SwitchMore extends React.Component<
       placement,
       rootClose,
       style,
-      title
+      title,
+      render
     } = this.props;
 
     return (
@@ -357,10 +411,10 @@ export default class SwitchMore extends React.Component<
   }
 
   renderExtend() {
-    const {render, form, bulk, hiddenOnDefault} = this.props;
+    const {render} = this.props;
     const {show} = this.state;
 
-    if (hiddenOnDefault && !show) {
+    if (!show) {
       return null;
     }
 
@@ -390,15 +444,7 @@ export default class SwitchMore extends React.Component<
   }
 
   renderForm() {
-    const {
-      form,
-      name,
-      formType,
-      data: ctx,
-      bulk,
-      defaultData,
-      autoFocus
-    } = this.props;
+    const {form, formType, autoFocus, bulk} = this.props;
 
     return {
       type: 'form',
@@ -415,8 +461,8 @@ export default class SwitchMore extends React.Component<
       formLazyChange: true,
       preventEnterSubmit: true,
       submitOnChange: ['pop', 'extend'].includes(formType),
-      data:
-        ctx && name && !bulk ? ctx![name] ?? defaultData : defaultData ?? {},
+      canAccessSuperData: bulk, // 避免有同名的
+      data: this.getExtendValues(),
       ...form
     };
   }

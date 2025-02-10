@@ -42,6 +42,11 @@ export class CmptAction implements RendererAction {
 
     /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
     if (action.actionType === 'setValue' && path && typeof path === 'string') {
+      if (path.startsWith('global.')) {
+        const topStore = renderer.props.topStore;
+        topStore?.updateGlobalVarValue(path.substring(7), action.args.value);
+      }
+
       const beforeSetData = event?.context?.env?.beforeSetData;
       if (beforeSetData && typeof beforeSetData === 'function') {
         const res = await beforeSetData(renderer, action, event);
@@ -61,11 +66,7 @@ export class CmptAction implements RendererAction {
     // 如果key指定了，但是没找到组件，则报错
     if (key && !component) {
       const msg = `尝试执行一个不存在的目标组件动作（${key}），请检查目标组件非隐藏状态，且正确指定了componentId或componentName`;
-      if (action.ignoreError === false) {
-        throw Error(msg);
-      } else {
-        console.warn(msg);
-      }
+      throw Error(msg);
     }
 
     if (action.actionType === 'setValue') {

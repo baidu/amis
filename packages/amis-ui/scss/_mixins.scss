@@ -661,7 +661,8 @@
     line-height: calc(
       var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
     );
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-size: var(--Pick-base-value-fontSize);
     color: var(--Pick-base-value-color);
     font-weight: var(--Pick-base-value-fontWeight);
@@ -682,9 +683,6 @@
       var(--Pick-base-top-right-border-radius)
       var(--Pick-base-bottom-right-border-radius)
       var(--Pick-base-bottom-left-border-radius);
-    margin-right: var(--gap-xs);
-    margin-bottom: var(--gap-xs);
-    margin-top: var(--gap-xs);
     max-width: px2rem(150px);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -696,7 +694,10 @@
 
     &.is-disabled {
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+
+      .#{$ns}#{$component-prefix}-valueIcon {
+        opacity: var(--Button-onDisabled-opacity);
+      }
     }
   }
 
@@ -704,7 +705,7 @@
     color: var(--Pick-base-value-icon-color);
     cursor: pointer;
     border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    padding: 1px 5px;
+    padding: 0 5px;
 
     &:hover {
       background: var(--Pick-base-value-hover-icon-color);
@@ -713,6 +714,9 @@
 
   .#{$ns}#{$component-prefix}-valueLabel {
     padding: 0 var(--gap-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

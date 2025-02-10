@@ -165,15 +165,27 @@ export interface GridProps
     Omit<CardsSchema, 'className' | 'itemClassName'> {
   store: IListStore;
   selectable?: boolean;
+  // 已选清单
   selected?: Array<any>;
   checkAll?: boolean;
   multiple?: boolean;
   valueField?: string;
   draggable?: boolean;
   dragIcon?: SVGAElement;
+  // 行数据集合
+  items?: Array<object>;
+
+  // 原始数据集合，前端分页时用来保存原始数据
+  fullItems?: Array<object>;
   onSelect: (
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
+  ) => void;
+  // 单条修改时触发
+  onItemChange?: (
+    item: object,
+    diff: object,
+    rowIndex: string | number
   ) => void;
   onSave?: (
     items: Array<object> | object,
@@ -236,6 +248,7 @@ export default class Cards extends React.Component<GridProps, object> {
 
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -298,7 +311,7 @@ export default class Cards extends React.Component<GridProps, object> {
       }
     }
 
-    updateItems && store.initItems(items);
+    updateItems && store.initItems(items, props.fullItems, props.selected);
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateItems;
@@ -367,6 +380,29 @@ export default class Cards extends React.Component<GridProps, object> {
   handleCheck(item: IItem) {
     item.toggle();
     this.syncSelected();
+
+    const {store, dispatchEvent} = this.props;
+
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        ...store.eventContext,
+        item: item.data
+      })
+    );
+  }
+
+  handleClick(item: IItem) {
+    const {dispatchEvent, data} = this.props;
+    return dispatchEvent(
+      //增删改查卡片模式单击卡片
+      'rowClick',
+      createObject(data, {
+        item: item.data,
+        index: item.index
+      })
+    );
   }
 
   handleCheckAll() {
@@ -418,9 +454,17 @@ export default class Cards extends React.Component<GridProps, object> {
   ) {
     item.change(values, savePristine);
 
-    if (!saveImmediately || savePristine) {
+    const {onSave, onItemChange, primaryField} = this.props;
+
+    if (savePristine) {
       return;
     }
+
+    onItemChange?.(
+      item.data,
+      difference(item.data, item.pristine, ['id', primaryField]),
+      item.index
+    );
 
     if (saveImmediately && saveImmediately.api) {
       this.props.onAction(
@@ -435,9 +479,7 @@ export default class Cards extends React.Component<GridProps, object> {
       return;
     }
 
-    const {onSave, primaryField} = this.props;
-
-    if (!onSave) {
+    if (!saveImmediately || !onSave) {
       return;
     }
 
@@ -475,9 +517,17 @@ export default class Cards extends React.Component<GridProps, object> {
     );
   }
 
-  handleSaveOrder() {
-    const {store, onSaveOrder} = this.props;
+  async handleSaveOrder() {
+    const {store, onSaveOrder, data, dispatchEvent} = this.props;
+    const movedItems = store.movedItems.map(item => item.data);
 
+    const rendererEvent = await dispatchEvent(
+      'orderChange',
+      createObject(data, {movedItems})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
     if (!onSaveOrder || !store.movedItems.length) {
       return;
     }
@@ -698,9 +748,7 @@ export default class Cards extends React.Component<GridProps, object> {
       ? headerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data)
+            ...store.eventContext
           },
           this.renderToolbar
         )
@@ -749,9 +797,7 @@ export default class Cards extends React.Component<GridProps, object> {
       ? footerToolbarRender(
           {
             ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data)
+            ...store.eventContext
           },
           this.renderToolbar
         )
@@ -867,7 +913,7 @@ export default class Cards extends React.Component<GridProps, object> {
       return this.renderCheckAll();
     }
 
-    return void 0;
+    return;
   }
 
   // editor中重写，请勿更改前两个参数
@@ -909,6 +955,7 @@ export default class Cards extends React.Component<GridProps, object> {
       data: item.locals,
       onAction: this.handleAction,
       onCheck: this.handleCheck,
+      onClick: this.handleClick,
       onQuickChange: store.dragging ? null : this.handleQuickChange
     };
 
@@ -1185,6 +1232,9 @@ export class CardsRenderer extends Cards {
       targets.forEach(target => {
         target.updateData(values);
       });
+    } else if (this.props?.host) {
+      // 如果在 CRUD 里面，优先让 CRUD 去更新状态
+      return this.props.host.setData?.(values, replace, index, condition);
     } else {
       return store.updateData(values, undefined, replace);
     }
@@ -1193,6 +1243,10 @@ export class CardsRenderer extends Cards {
   getData() {
     const {store, data} = this.props;
     return store.getData(data);
+  }
+
+  hasModifiedItems() {
+    return this.props.store.modified;
   }
 
   async doAction(
@@ -1208,9 +1262,11 @@ export class CardsRenderer extends Cards {
       case 'selectAll':
         store.clear();
         store.toggleAll();
+        this.syncSelected();
         break;
       case 'clearAll':
         store.clear();
+        this.syncSelected();
         break;
       case 'select':
         const rows = await getMatchedEventTargets<IItem>(
@@ -1224,6 +1280,7 @@ export class CardsRenderer extends Cards {
           rows.map(item => item.data),
           valueField
         );
+        this.syncSelected();
         break;
       case 'initDrag':
         store.startDragging();

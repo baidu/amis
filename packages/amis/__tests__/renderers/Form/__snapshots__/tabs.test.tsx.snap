@@ -4,6 +4,7 @@ exports[`Renderer:tabs 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:tabs 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:tabs 1`] = `
         />
         <div
           class="cxd-Tabs cxd-Tabs--line"
+          data-role="container"
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"
@@ -84,7 +86,7 @@ exports[`Renderer:tabs 1`] = `
               class="in is-active cxd-Tabs-pane"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   <p>
@@ -106,7 +108,7 @@ exports[`Renderer:tabs 1`] = `
                 >
                   <span>
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         文本3
@@ -142,7 +144,7 @@ exports[`Renderer:tabs 1`] = `
                 >
                   <span>
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         文本4

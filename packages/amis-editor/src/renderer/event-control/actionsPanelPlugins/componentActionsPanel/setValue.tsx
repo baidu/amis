@@ -147,6 +147,8 @@ registerActionPanel('setValue', {
     const variableOptions = variableManager?.getVariableOptions() || [];
     const pageVariableOptions =
       variableManager?.getPageVariablesOptions() || [];
+    const globalVariableOptions =
+      variableManager?.getGlobalVariablesOptions() || [];
     return [
       {
         children: ({render, data}: any) => {
@@ -158,10 +160,13 @@ registerActionPanel('setValue', {
             mode: 'horizontal',
             options: [
               {label: '组件变量', value: 'cmpt'},
+              {label: '全局变量', value: 'global'},
               {label: '页面参数', value: 'page'},
               {label: '内存变量', value: 'app'}
             ],
-            value: /^appVariables/.test(path) // 只需要初始化时更新value
+            value: /^global/.test(path) // 只需要初始化时更新value
+              ? 'global'
+              : /^appVariables/.test(path) // 只需要初始化时更新value
               ? 'app'
               : /^(__page|__query)/.test(path)
               ? 'page'
@@ -457,6 +462,40 @@ registerActionPanel('setValue', {
               body: [
                 getCustomNodeTreeSelectSchema({
                   options: variableOptions,
+                  horizontal: {
+                    leftFixed: true
+                  }
+                }),
+                getSchemaTpl('formulaControl', {
+                  name: 'value',
+                  label: '数据设置',
+                  variables: '${variables}',
+                  size: 'lg',
+                  mode: 'horizontal',
+                  required: true,
+                  placeholder: '请输入变量值',
+                  horizontal: {
+                    leftFixed: true
+                  }
+                })
+              ]
+            }
+          ])
+        ]
+      },
+      // 全局变量
+      {
+        type: 'container',
+        visibleOn: '__actionSubType === "global"',
+        body: [
+          getArgsWrapper([
+            {
+              type: 'wrapper',
+              body: [
+                getCustomNodeTreeSelectSchema({
+                  options: globalVariableOptions,
+                  rootLabel: '全局变量',
+                  label: '全局变量',
                   horizontal: {
                     leftFixed: true
                   }

@@ -181,7 +181,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     }
   }
 
-  const panelRef = useRef(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const [isResizing, setResizing] = useState(false);
 
@@ -219,6 +219,19 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
       }
     };
   }, [isResizing]);
+
+  // 避免触发 modal 的 closeOnOutside 逻辑
+  useEffect(() => {
+    const handlePanelMouseUp = (e: Event) => {
+      e.preventDefault();
+    };
+
+    panelRef.current!.addEventListener('mouseup', handlePanelMouseUp);
+
+    return () => {
+      panelRef.current?.removeEventListener('mouseup', handlePanelMouseUp);
+    };
+  }, []);
 
   const handleInputKeyUp = React.useCallback((e: React.KeyboardEvent<any>) => {
     if (e.key === 'Enter') {
@@ -290,7 +303,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
                 store.tab = 'log';
               }}
             >
-              Log
+              Log({store.logs.length})
             </button>
             <button
               className={cx({active: store.tab === 'inspect'})}
@@ -609,6 +622,10 @@ export function debug(cat: Category, msg: string, ext?: any) {
     ext: ext
   };
   store.logs.push(log);
+  // 不要超过 200 条，担心性能问题
+  if (store.logs.length > 200) {
+    store.logs.splice(0, store.logs.length - 200);
+  }
 }
 
 /**

@@ -16,7 +16,7 @@ exports[`1. Renderer:Picker base 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               picker
@@ -28,25 +28,15 @@ exports[`1. Renderer:Picker base 1`] = `
         class="cxd-PickerControl cxd-Form-control"
       >
         <div
-          class="cxd-Picker cxd-Picker--single is-focused"
+          class="cxd-Picker cxd-Picker--single"
         >
           <div
-            class="cxd-Picker-input is-focused"
+            class="cxd-Picker-input"
           >
             <div
               class="cxd-Picker-placeholder"
             >
               picker-placeholder
-            </div>
-            <div
-              class="cxd-Picker-valueWrap"
-            >
-              <div
-                class="cxd-Picker-values"
-              />
-              <input
-                value=""
-              />
             </div>
             <span
               class="cxd-Picker-btn"
@@ -96,6 +86,7 @@ exports[`1. Renderer:Picker base 1`] = `
       >
         <div
           class="cxd-Crud"
+          data-role="container"
         >
           <div
             class="cxd-List cxd-Crud-body"
@@ -246,7 +237,7 @@ exports[`1. Renderer:Picker base 2`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             picker
@@ -258,31 +249,27 @@ exports[`1. Renderer:Picker base 2`] = `
       class="cxd-PickerControl cxd-Form-control"
     >
       <div
-        class="cxd-Picker cxd-Picker--single is-focused"
+        class="cxd-Picker cxd-Picker--single"
       >
         <div
-          class="cxd-Picker-input is-focused"
+          class="cxd-Picker-input"
         >
           <div
             class="cxd-Picker-valueWrap"
           >
             <div
-              class="cxd-Picker-values"
+              class="cxd-Picker-value"
             >
-              <div
-                class="cxd-Picker-value"
+              <span
+                class="cxd-Picker-valueIcon"
               >
-                <span
-                  class="cxd-Picker-valueIcon"
-                >
-                  ×
-                </span>
-                <span
-                  class="cxd-Picker-valueLabel"
-                >
-                  B
-                </span>
-              </div>
+                ×
+              </span>
+              <span
+                class="cxd-Picker-valueLabel"
+              >
+                B
+              </span>
             </div>
             <input
               value=""

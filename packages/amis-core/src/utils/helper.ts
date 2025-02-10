@@ -1762,15 +1762,18 @@ export class SkipOperation extends Error {}
 export class ValidateError extends Error {
   name: 'ValidateError';
   detail: {[propName: string]: Array<string> | string};
+  rawError?: {[propName: string]: any};
 
   constructor(
     message: string,
-    error: {[propName: string]: Array<string> | string}
+    error: {[propName: string]: Array<string> | string},
+    rawError?: {[propName: string]: any}
   ) {
     super();
     this.name = 'ValidateError';
     this.message = message;
     this.detail = error;
+    this.rawError = rawError;
   }
 }
 
@@ -2437,6 +2440,9 @@ export function supportsMjs() {
 }
 
 export function formateId(id: string) {
+  if (!id) {
+    return guid();
+  }
   // 将className非法字符替换为短横线
   id = id.replace(/[^a-zA-Z0-9-]/g, '-');
   // 将连续的-替换为单个-

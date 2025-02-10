@@ -1,4 +1,9 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
+import {
+  setSchemaTpl,
+  getSchemaTpl,
+  defaultValue,
+  tipedLabel
+} from 'amis-editor-core';
 import {createAnimationStyle, formateId, type SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 import {styleManager} from 'amis-core';
@@ -250,6 +255,36 @@ const animationOptions = {
     {
       value: 'rubberBand',
       label: '橡皮筋'
+    }
+  ],
+  hover: [
+    {
+      label: '放大效果',
+      value: 'hoverZoomIn'
+    },
+    {
+      label: '缩小效果',
+      value: 'hoverZoomOut'
+    },
+    {
+      label: '阴影增强',
+      value: 'hoverShadow'
+    },
+    {
+      label: '发光边框',
+      value: 'hoverBorder'
+    },
+    {
+      label: '内容上升',
+      value: 'hoverUp'
+    },
+    {
+      label: '内容下降',
+      value: 'hoverDown'
+    },
+    {
+      label: '内容翻转',
+      value: 'hoverFlip'
     }
   ],
   exit: [
@@ -1361,6 +1396,9 @@ setSchemaTpl('animation', () => {
     const el = doc.querySelector(`[name="${id}"]`);
     id = formateId(id);
     const className = `${animations[type].type}-${id}-${type}`;
+    if (type === 'hover') {
+      el?.classList.add(`amis-${animations[type].type}-show`);
+    }
     el?.classList.add(className);
     createAnimationStyle(id, animations);
 
@@ -1379,6 +1417,9 @@ setSchemaTpl('animation', () => {
 
     timeoutId = setTimeout(() => {
       el?.classList.remove(className);
+      if (type === 'hover') {
+        el?.classList.remove(`amis-${animations[type].type}-show`);
+      }
 
       if (highlightDom) {
         const editorId = el?.getAttribute('data-editor-id');
@@ -1393,7 +1434,7 @@ setSchemaTpl('animation', () => {
     }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000 + 200);
   }
   const animation = (
-    type: 'enter' | 'attention' | 'exit',
+    type: 'enter' | 'attention' | 'hover' | 'exit',
     label: string,
     schema: any = []
   ) => [
@@ -1532,7 +1573,26 @@ setSchemaTpl('animation', () => {
   return {
     title: '动画',
     body: [
-      ...animation('enter', '进入动画'),
+      ...animation('enter', '进入动画', [
+        {
+          label: tipedLabel('可见时触发', '组件进入可见区域才触发进入动画'),
+          type: 'switch',
+          name: 'animations.enter.inView',
+          value: true,
+          onChange: (value: any, oldValue: any, obj: any, props: any) => {
+            if (value === false) {
+              props.setValueByName('animations.enter.repeat', false);
+            }
+          }
+        },
+        {
+          label: tipedLabel('重复', '组件再次进入可见区域时重复播放动画'),
+          type: 'switch',
+          name: 'animations.enter.repeat',
+          visibleOn: 'animations.enter.inView',
+          value: false
+        }
+      ]),
       ...animation('attention', '强调动画', [
         {
           label: '重复',
@@ -1548,7 +1608,15 @@ setSchemaTpl('animation', () => {
           ]
         }
       ]),
-      ...animation('exit', '退出动画')
+      ...animation('hover', '悬浮动画'),
+      ...animation('exit', '退出动画', [
+        {
+          label: tipedLabel('不可见时触发', '组件退出可见区域触发进入动画'),
+          type: 'switch',
+          name: 'animations.exit.outView',
+          value: true
+        }
+      ])
     ]
   };
 });

@@ -780,7 +780,7 @@ export const getOldActionSchema = (
                 )
               },
 
-              getSchemaTpl('api', {
+              getSchemaTpl('getOldActionSchema', {
                 label: '目标API',
                 visibleOn: 'this.actionType == "ajax"'
               }),
@@ -953,8 +953,6 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
-  const globalEvents =
-    manager?.config.actionOptions?.globalEventGetter?.(manager);
   const allComponents = manager?.store?.getComponentTreeSource();
   return {
     showOldEntry:
@@ -966,7 +964,6 @@ export const getEventControlConfig = (
     events: manager?.pluginEvents,
     actionTree,
     commonActions,
-    globalEvents,
     owner: '',
     addBroadcast: manager?.addBroadcast.bind(manager),
     removeBroadcast: manager?.removeBroadcast.bind(manager),

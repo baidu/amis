@@ -14,7 +14,7 @@ import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
 import {RAW_TYPE_MAP} from './util';
-import type {RendererConfig, Schema} from 'amis-core';
+import type {GlobalVariableItem, RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
@@ -189,6 +189,18 @@ export interface RendererScaffoldInfo {
   scaffold?: any;
 }
 
+export interface InlineEditableElement {
+  // 元素选择器，当命中这个规则时支持内联编辑
+  match: string;
+
+  // 内联编辑模式
+  // 默认为 plain-text
+  mode?: 'plain-text' | 'rich-text';
+
+  // onChange?: (node: EditorNodeType, value: any, elem: HTMLElement) => void;
+  key: string;
+}
+
 /**
  * 渲染器信息。
  */
@@ -216,6 +228,11 @@ export interface RendererInfo extends RendererScaffoldInfo {
    * 配置区域。
    */
   regions?: Array<RegionConfig>;
+
+  /**
+   * 支持内联编辑的元素集合
+   */
+  inlineEditableElements?: Array<InlineEditableElement>;
 
   /**
    *  选中不需要高亮
@@ -466,9 +483,10 @@ export interface PanelProps {
 export interface PanelItem {
   nodeId?: string;
   key: string;
-  icon: string;
+  icon: React.ReactNode;
+  tooltip?: string;
   pluginIcon?: string; // 新版icon（svg）
-  title: string | JSX.Element; // 标题
+  title?: React.ReactNode; // 标题
   component?: React.ComponentType<PanelProps | any>;
   order: number;
   position?: 'left' | 'right';
@@ -610,6 +628,14 @@ export interface ResizeMoveEventContext extends EventContext {
   resizer: HTMLElement;
   node: EditorNodeType;
   store: EditorStoreType;
+}
+
+export interface GlobalVariablesEventContext extends EventContext {
+  data: Array<GlobalVariableItem>;
+}
+
+export interface GlobalVariableEventContext extends EventContext {
+  data: Partial<GlobalVariableItem>;
 }
 
 export interface AfterBuildPanelBody extends EventContext {
@@ -771,6 +797,24 @@ export interface PluginEventListener {
         onEnd(e: MouseEvent): void;
       }
     >
+  ) => void;
+
+  // 外部可以接管全局变量的增删改查
+  // 全局变量列表获取
+  onGlobalVariableInit?: (
+    event: PluginEvent<GlobalVariablesEventContext>
+  ) => void;
+  // 全局变量详情信息
+  onGlobalVariableDetail?: (
+    event: PluginEvent<GlobalVariableEventContext>
+  ) => void;
+  // 全局变量保存
+  onGlobalVariableSave?: (
+    event: PluginEvent<GlobalVariableEventContext>
+  ) => void;
+  // 全局变量删除
+  onGlobalVariableDelete?: (
+    event: PluginEvent<GlobalVariableEventContext>
   ) => void;
 }
 
@@ -1074,6 +1118,7 @@ export abstract class BasePlugin implements PluginInterface {
       return {
         name: curPluginName,
         regions: plugin.regions,
+        inlineEditableElements: plugin.inlineEditableElements,
         patchContainers: plugin.patchContainers,
         // wrapper: plugin.wrapper,
         vRendererConfig: plugin.vRendererConfig,

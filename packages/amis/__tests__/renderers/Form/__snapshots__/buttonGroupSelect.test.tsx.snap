@@ -4,6 +4,7 @@ exports[`Renderer:button-group with btnActiveLevel 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:button-group with btnActiveLevel 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -41,7 +42,7 @@ exports[`Renderer:button-group with btnActiveLevel 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   选项
@@ -88,6 +89,7 @@ exports[`Renderer:button-group with tiled 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -96,7 +98,7 @@ exports[`Renderer:button-group with tiled 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -125,7 +127,7 @@ exports[`Renderer:button-group with tiled 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -164,6 +166,7 @@ exports[`Renderer:button-group with vertical 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -172,7 +175,7 @@ exports[`Renderer:button-group with vertical 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -201,7 +204,7 @@ exports[`Renderer:button-group with vertical 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -240,6 +243,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -248,7 +252,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -277,7 +281,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -316,7 +320,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -348,6 +352,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -356,7 +361,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -385,7 +390,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -424,7 +429,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -456,6 +461,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -464,7 +470,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -493,7 +499,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -532,7 +538,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -564,6 +570,7 @@ exports[`Renderer:button-group-select 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -572,7 +579,7 @@ exports[`Renderer:button-group-select 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -601,7 +608,7 @@ exports[`Renderer:button-group-select 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   单选
@@ -640,7 +647,7 @@ exports[`Renderer:button-group-select 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值

@@ -115,7 +115,7 @@ export class TableCellPlugin extends BasePlugin {
               pipeIn: (value: any) => !!value
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '立即保存接口',
               description:
                 '是否单独给立即保存配置接口，如果不配置，则默认使用quickSaveItemApi。',

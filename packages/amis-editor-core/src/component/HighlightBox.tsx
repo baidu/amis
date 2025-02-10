@@ -196,6 +196,50 @@ export default observer(function ({
     manager.startDrag(id, e);
   }, []);
 
+  // 组件选中状态支持点击激活内部的组件
+  const handleClick = React.useCallback((e: React.MouseEvent) => {
+    let left = e.clientX;
+    let top = e.clientY;
+
+    const layer: HTMLElement = store.getLayer()!;
+    const layerRect = layer.getBoundingClientRect();
+    const iframe = store.getIframe();
+
+    // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+    let scrollTop = 0;
+    if (iframe) {
+      scrollTop = iframe.contentWindow?.scrollY || 0;
+      left -= layerRect.left;
+      top -= layerRect.top;
+      top += scrollTop;
+      // 如果有缩放比例，重新计算位置
+      const scale = store.getScale();
+      if (scale >= 0) {
+        left = left / scale;
+        top = top / scale;
+      }
+    } else {
+      scrollTop = document.querySelector('.ae-Preview-body')!.scrollTop || 0;
+      top += scrollTop;
+    }
+
+    let elements = store.getDoc().elementsFromPoint(left, top);
+
+    let node = elements.find(
+      (ele: Element) =>
+        ele.hasAttribute('data-editor-id') &&
+        ele.getAttribute('data-editor-id') !== id
+    );
+    if (node) {
+      const nodeId = node.getAttribute('data-editor-id')!;
+      // 如果已经进入了内联模式
+      // 不要再切选中了
+      setTimeout(() => {
+        store.activeElement || store.setActiveId(nodeId);
+      }, 350);
+    }
+  }, []);
+
   const mainRef = React.createRef<HTMLDivElement>();
   const toolbars = store.sortedToolbars;
   const secondaryToolbars = store.sortedSecondaryToolbars;
@@ -229,7 +273,9 @@ export default observer(function ({
         'ae-Editor-hlbox',
         {
           shake: id === store.insertOrigId,
-          selected: isActive || ~store.selections.indexOf(id),
+          focused: store.activeElement && isActive,
+          selected:
+            (isActive && !store.activeElement) || ~store.selections.indexOf(id),
           hover: isHover,
           regionOn: node.childRegions.some(region =>
             store.isRegionHighlighted(region.id, region.region)
@@ -251,12 +297,14 @@ export default observer(function ({
       onMouseEnter={handleMouseEnter}
       draggable={!!curFreeContainerId || isDraggableContainer}
       onDragStart={handleDragStart}
+      onClick={handleClick}
     >
-      {isActive && !readonly ? (
+      {isActive && !store.activeElement && !readonly ? (
         <div
           className={`ae-Editor-toolbarPopover ${
             isRightElem ? 'is-right-elem' : ''
           }`}
+          onClick={e => e.stopPropagation()}
         >
           <div className="ae-Editor-nav">
             {node.host ? (

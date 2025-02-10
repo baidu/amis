@@ -39,7 +39,10 @@ export * from './utils/index';
 export * from './utils/animations';
 export * from './types';
 export * from './store';
+export * from './globalVar';
 import * as utils from './utils/helper';
+import './globalVarClientHandler';
+import './globalVarDefaultValueHandler';
 import {getEnv} from 'mobx-state-tree';
 
 import {RegisterStore, registerStore, RendererStore} from './store';
@@ -51,7 +54,8 @@ import {
   register as registerLocale,
   extendLocale,
   removeLocaleData,
-  localeable
+  localeable,
+  format as localeFormatter
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
@@ -135,6 +139,8 @@ import styleManager from './StyleManager';
 
 import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
 
+import {getCustomVendor, registerCustomVendor} from './utils/icon';
+
 // @ts-ignore
 export const version = '__buildVersion';
 (window as any).amisVersionInfo = {
@@ -198,6 +204,7 @@ export {
   extendLocale,
   removeLocaleData,
   localeable,
+  localeFormatter,
   LocaleProps,
   TranslateFn,
   ClassNamesFn,
@@ -247,18 +254,21 @@ export {
   getGlobalOptions,
   setGlobalOptions,
   wrapFetcher,
-  SchemaRenderer
+  SchemaRenderer,
+  getCustomVendor,
+  registerCustomVendor
 };
 
 export function render(
   schema: Schema,
-  props: RootRenderProps = {},
+  {key, ...props}: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
   return (
     <AMISRenderer
       {...props}
+      key={key}
       schema={schema}
       pathPrefix={pathPrefix}
       options={options}
