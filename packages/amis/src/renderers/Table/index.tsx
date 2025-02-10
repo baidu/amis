@@ -728,6 +728,10 @@ export default class Table<
     const value = getPropValue(props, (props: TableProps) => props.items);
     let rows: Array<object> = [];
     let updateRows = false;
+    const resolved = resolveVariableAndFilter(source, props.data, '| raw');
+    const prev = prevProps
+      ? resolveVariableAndFilter(source, prevProps.data, '| raw')
+      : null;
 
     // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (
@@ -736,16 +740,12 @@ export default class Table<
         !isEqual(
           getPropValue(prevProps, (props: TableProps) => props.items),
           value
-        ))
+        ) ||
+        resolved !== prev)
     ) {
       updateRows = true;
       rows = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
-      const prev = prevProps
-        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
-        : null;
-
       if (prev === resolved) {
         updateRows = false;
       } else if (
