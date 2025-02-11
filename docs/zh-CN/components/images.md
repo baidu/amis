@@ -69,7 +69,7 @@ order: 53
 
 `sortType: 'sm-mm-mmm-m'`
 
-```schema
+```schema: scope="body"
 {
   "type": "page",
   "body": [
@@ -78,7 +78,7 @@ order: 53
       "sortType": "sm-mm-mmm-m",
       "width":"200",
       "height":"112.5",
-      "value": [
+      "value":[
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
           desc: "图片描述"
@@ -111,7 +111,6 @@ order: 53
   "body": [
     {
       "type": "images",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sss-ss-ms-m",
       "width":"200",
       "height":"112.5",
@@ -149,7 +148,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sms-ss-sms-l",
-      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -189,7 +187,6 @@ order: 53
   "body": [
     {
       "type": "images",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-sss-ss",
       "width":"200",
       "height":"112.5",
@@ -232,7 +229,6 @@ order: 53
       "type": "images",
       "sortType": "ms-ss-sss-ss",
       "width":"200",
-      "fontStyle": "{fontSize: '10px'}",
       "height":"112.5",
       "value":[
         {
@@ -272,7 +268,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-ms-ss",
-      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -313,7 +308,6 @@ order: 53
     {
       "type": "images",
       "sortType": "ssss-ss-mss-ss",
-      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -366,7 +360,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-mm-ss",
-      "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -401,20 +394,23 @@ order: 53
 
 ### 浮层滑动
 `"hoverMode": "hover-slide"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "hover-slide",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -434,26 +430,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 上拉
 `"hoverMode": "pull-top"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "pull-top",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -473,26 +472,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 缩小居中
 `"hoverMode": "scale-center"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "scale-center",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -512,26 +514,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 缩小居上
 `"hoverMode": "scale-top"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "scale-top",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -551,26 +556,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 文字效果一
 `"hoverMode": "text-style-1"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-1",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -590,26 +598,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 文字效果二
 `"hoverMode": "text-style-2"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-2",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -629,26 +640,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 文字效果三
 `"hoverMode": "text-style-3"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-3",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -668,26 +682,29 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 文字效果四
 `"hoverMode": "text-style-4"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-4",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -707,26 +724,70 @@ order: 53
         },
       ],
     },
-  ]
+  },
+}
+```
+
+### 文字效果五
+`"hoverMode": "text-style-5"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-5",
+      "sortType": "sm-mm-mmm-m",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+      ],
+    },
+  },
 }
 ```
 
 ### 文字效果六
 `"hoverMode": "text-style-6"`
-`"fontStyle": "{fontSize: '10px'}"`
 
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-6",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -746,26 +807,28 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
 ### 文字效果七
 `"hoverMode": "text-style-7"`
-`"fontStyle": "{fontSize: '10px'}"`
-
 
 ```schema
 {
   "type": "page",
-  "body": [
-    {
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "250px"
+    },
+    "body": {
       "type": "images",
       "hoverMode": "text-style-7",
-      "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-mmm-m",
-      "width":"200",
-      "height":"112.5",
+      "width":"400",
+      "height":"250",
       "value": [
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -785,7 +848,7 @@ order: 53
         },
       ],
     },
-  ]
+  },
 }
 ```
 
