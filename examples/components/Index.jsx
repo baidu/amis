@@ -24,7 +24,7 @@ export default {
     {
       "type": "images",
       "sortType": "sm-mm-mmm-m",
-      "hoverMode": "text-style-7",
+      "hoverMode": "text-style-6",
       "fontStyle":"{fontSize: '20px'}",
       "value": [
         {

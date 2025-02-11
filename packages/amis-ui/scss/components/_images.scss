@@ -470,18 +470,19 @@
     opacity: 1;
     background: rgba(48, 133, 163, 0.4);
     span{
-      position: relative;
+      position: absolute;
       transition: all 0.3s ease-in-out;
+      bottom: 40%;
     }
   }
   .mask::before,
   .mask::after{
     content: "";
     position: absolute;
-    top: 20px;
-    bottom: 20px;
-    left: 30px;
-    right: 30px;
+    top: 5%;
+    bottom: 5%;
+    left: 7%;
+    right: 7%;
     transition: all 0.3s ease-in-out;
     color: rgba(255, 255, 255, 0.7);
     opacity: 0;
@@ -507,7 +508,7 @@
   &:hover .mask{
     background: rgba(48, 133, 163, 0);
     span{
-      transform: translateY(200%);
+      bottom: 5%;
     }
   }
 }
@@ -534,7 +535,7 @@
   &:hover .mask{
     background: rgba(48, 133, 163, 0.4);
     span{
-      transform: translateY(100%);
+      top: 20%;
     }
   }
   &:hover .mask::before{
