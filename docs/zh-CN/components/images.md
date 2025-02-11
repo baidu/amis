@@ -65,7 +65,7 @@ order: 53
 `'sm-mm-mmm-m'| 'sss-ss-ms-m'| 'sms-ss-sms-l' | 'sm-mm-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-ms-ss' | 'ssss-ss-mss-ss' | 'sss-ss-mm-ss';`
 可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
 
-### 1
+### 主辅并排式
 
 `sortType: 'sm-mm-mmm-m'`
 
@@ -75,7 +75,6 @@ order: 53
   "body": [
     {
       "type": "images",
-      "hoverMode": "hover-slide",
       "sortType": "sm-mm-mmm-m",
       "width":"200",
       "height":"112.5",
@@ -102,7 +101,7 @@ order: 53
 }
 ```
 
-### 2
+### 上下分层式
 
 `sortType: 'sss-ss-ms-m'`
 
@@ -112,7 +111,6 @@ order: 53
   "body": [
     {
       "type": "images",
-      "hoverMode": "pull-top",
       "fontStyle": "{fontSize: '10px'}",
       "sortType": "sss-ss-ms-m",
       "width":"200",
@@ -140,7 +138,7 @@ order: 53
 }
 ```
 
-### 3
+### 侧边栏嵌入式
 
 `sortType: 'sms-ss-sms-l'`
 
@@ -151,7 +149,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sms-ss-sms-l",
-      "hoverMode": "scale-center",
       "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
@@ -182,7 +179,7 @@ order: 53
 }
 ```
 
-### 4
+### 黄金比例分割式
 
 `sortType: 'sm-mm-sss-ss'`
 
@@ -192,7 +189,6 @@ order: 53
   "body": [
     {
       "type": "images",
-      "hoverMode": "scale-top",
       "fontStyle": "{fontSize: '10px'}",
       "sortType": "sm-mm-sss-ss",
       "width":"200",
@@ -224,7 +220,7 @@ order: 53
 }
 ```
 
-### 5
+### 动态不对称式
 
 `sortType: 'ms-ss-sss-ss'`
 
@@ -236,7 +232,6 @@ order: 53
       "type": "images",
       "sortType": "ms-ss-sss-ss",
       "width":"200",
-      "hoverMode": "text-style-1",
       "fontStyle": "{fontSize: '10px'}",
       "height":"112.5",
       "value":[
@@ -266,7 +261,7 @@ order: 53
 }
 ```
 
-### 6
+### 焦点引导式
 
 `sortType: 'sss-ss-ms-ss'`
 
@@ -277,7 +272,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-ms-ss",
-      "hoverMode": "text-style-2",
       "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
@@ -308,7 +302,7 @@ order: 53
 }
 ```
 
-### 7
+### 模块化组合式
 
 `sortType: 'ssss-ss-mss-ss'`
 
@@ -319,7 +313,6 @@ order: 53
     {
       "type": "images",
       "sortType": "ssss-ss-mss-ss",
-      "hoverMode": "text-style-3",
       "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
@@ -362,7 +355,7 @@ order: 53
 }
 ```
 
-### 8
+### 阶梯错落式
 
 `sortType: 'sss-ss-mm-ss'`
 
@@ -373,7 +366,6 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-mm-ss",
-      "hoverMode": "text-style-4",
       "fontStyle": "{fontSize: '10px'}",
       "width":"200",
       "height":"112.5",
