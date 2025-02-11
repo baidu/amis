@@ -60,7 +60,8 @@ export default class BodyCell extends React.PureComponent<Props> {
         colSpan={colSpan && colSpan > 1 ? colSpan : null}
         className={cx('Table-cell', className, {
           [cx(`Table-cell-fix-${fixed}`)]: fixed,
-          [`text-${column?.align}`]: column?.align
+          [`text-${column?.align}`]: column?.align,
+          [`align-${column?.vAlign}`]: column?.vAlign
         })}
         style={fixed ? {position: 'sticky', zIndex, ...style} : {...style}}
         data-depth={depth || null}

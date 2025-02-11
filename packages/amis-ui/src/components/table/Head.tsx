@@ -284,23 +284,15 @@ export default class Head extends React.PureComponent<Props> {
                   cIndex = this.tdColumns.findIndex(c => c.name === item.name);
                 }
 
-                /** 如果当前列定宽，则不能操作drag bar */
-                const pristineWidth = item.width;
-                const disableColDrag =
-                  typeof pristineWidth === 'number' && pristineWidth > 0;
                 const children = !item.children?.length ? (
                   <>
                     {sort}
                     {filter}
                     {resizable ? (
                       <i
-                        className={cx('Table-thead-resizable', {
-                          'Table-thead-resizable--disabled': disableColDrag
-                        })}
+                        className={cx('Table-thead-resizable')}
                         onMouseDown={e => {
-                          disableColDrag
-                            ? noop
-                            : onResizeMouseDown?.(e, cIndex);
+                          onResizeMouseDown?.(e, cIndex);
                         }}
                       />
                     ) : null}
