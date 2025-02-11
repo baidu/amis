@@ -10,8 +10,7 @@
     border: var(--List-borderWidth) solid var(--List-borderColor);
     background: var(--List-bg);
     margin-bottom: var(--gap-sm);
-    position: relative;
-    margin-right: px2rem(30px);
+    margin-right: px2rem(15px);
   }
 
   &-toolbar {
