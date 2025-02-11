@@ -427,7 +427,7 @@ exports[`Renderer:input table add 1`] = `
                             </span>
                           </div>
                           <div
-                            class="cxd-Table-content-colDragLine cxd-Table-content-colDragLine--disabled"
+                            class="cxd-Table-content-colDragLine"
                             data-index="5"
                           />
                         </th>
