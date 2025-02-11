@@ -7,7 +7,8 @@ import {
   resolveEventData,
   CustomStyle,
   setThemeClassName,
-  PlainObject
+  PlainObject,
+  localeFormatter
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -50,6 +51,18 @@ import Sortable from 'sortablejs';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
  */
 export interface ImageControlSchema extends FormBaseControlSchema {
+  /**
+   * 格式校验失败是否显示弹窗
+   * */
+  showErrorModal?: boolean;
+  /**
+   * 校验格式失败时显示的文字信息
+   * */
+  invalidTypeMessage?: string;
+  /**
+   * 校验文件大小失败时显示的文字信息
+   * */
+  invalidSizeMessage?: string;
   /**
    * 指定为图片上传控件
    */
@@ -662,7 +675,9 @@ export default class ImageControl extends React.Component<
       onChange,
       maxLength,
       maxSize,
-      translate: __
+      translate: __,
+      invalidTypeMessage,
+      invalidSizeMessage
     } = this.props;
 
     let reFiles = rejectedFiles.map(item => item.file);
@@ -695,17 +710,31 @@ export default class ImageControl extends React.Component<
           .map(err => {
             // 类型错误
             if (err.code === ErrorCode.FileInvalidType) {
-              return __('File.invalidType', {
-                files: file.name,
-                accept
-              });
+              if (invalidTypeMessage) {
+                return localeFormatter(invalidTypeMessage, {
+                  files: file.name,
+                  accept
+                });
+              } else {
+                return __('File.invalidType', {
+                  files: file.name,
+                  accept
+                });
+              }
             }
             // 文件太大
             else if (err.code === ErrorCode.FileTooLarge) {
-              return __('File.sizeLimit', {
-                maxSize: prettyBytes(maxSize as number, 1024)
-              });
+              if (invalidSizeMessage) {
+                return localeFormatter(invalidSizeMessage, {
+                  maxSize: prettyBytes(maxSize as number, 1024)
+                });
+              } else {
+                return __('File.sizeLimit', {
+                  maxSize: prettyBytes(maxSize as number, 1024)
+                });
+              }
             }
+            return '';
           })
           .join('; ');
       }
@@ -1054,7 +1083,9 @@ export default class ImageControl extends React.Component<
         }, [])
         .join('\n');
 
-      this.props.env.alert(error);
+      if (this.props.showErrorModal == undefined || this.props.showErrorModal) {
+        this.props.env.alert(error);
+      }
       return;
     }
 
