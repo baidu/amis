@@ -166,6 +166,36 @@ export interface ImageSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+  /**
+   * 文字描述
+   * */
+  desc?: string;
+  /**
+   * 鼠标悬浮时的展示状态（对应AIpage的文字6，9，10不存在）
+   * */
+  hoverMode?:
+    | 'hover-slide'
+    | 'pull-top'
+    | 'scale-center'
+    | 'scale-top'
+    | 'text-style-1'
+    | 'text-style-2'
+    | 'text-style-3'
+    | 'text-style-4'
+    | 'text-style-5'
+    | 'text-style-6'
+    | 'text-style-7';
+  /**
+   * 描述文字样式
+   * */
+  fontStyle?:
+    | {
+        fontSize?: string;
+        fontWeight?: string;
+        fontFamily?: string;
+        color: string;
+      }
+    | string;
 }
 
 export interface ImageThumbProps
@@ -270,6 +300,9 @@ export class ImageThumb extends React.Component<
             alt={alt}
           />
         ) : null}
+        <div className="mask">
+          <span>{this.props.desc}</span>
+        </div>
         <img
           onLoad={this.handleImgLoaded}
           onError={this.handleImgError}
@@ -316,11 +349,12 @@ export class ImageThumb extends React.Component<
       >
         {imageMode === 'original' ? (
           <div
-            className={cx(
+            className={`
+            ${cx(
               'Image-origin',
               thumbMode ? `Image-origin--${thumbMode}` : '',
               imageContentClassName
-            )}
+            )} ${this.props.hoverMode} Img-container`}
             style={{height: height, width: width}}
           >
             {imageContent}
@@ -329,7 +363,7 @@ export class ImageThumb extends React.Component<
         ) : (
           <div className={cx('Image-thumbWrap')}>
             <div
-              className={cx(
+              className={`${cx(
                 'Image-thumb',
                 thumbClassName,
                 thumbMode ? `Image-thumb--${thumbMode}` : '',
@@ -337,7 +371,7 @@ export class ImageThumb extends React.Component<
                   ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}`
                   : '',
                 imageContentClassName
-              )}
+              )} ${this.props.hoverMode} Img-container`}
               style={{height: height, width: width}}
             >
               {imageContent}
@@ -571,6 +605,27 @@ export class ImageField extends React.Component<
     }
   }
 
+  /**
+   * 生成文字效果
+   * */
+  generateFontStyle = () => {
+    if (!this.props.fontStyle) {
+      return {};
+    }
+    console.log(this.props.fontStyle);
+    let styleObj: object = {};
+    if (typeof this.props.fontStyle === 'string') {
+      let validJsonStr = this.props.fontStyle.replace(
+        /(['"])?([a-zA-Z0-9-_]+)\1\s*:\s*(['"])?([^'"]+)\3/g,
+        '"$2": "$4"'
+      );
+      styleObj = JSON.parse(validJsonStr);
+    } else if (typeof this.props.fontStyle === 'object') {
+      styleObj = this.props.fontStyle;
+    }
+    return styleObj;
+  };
+
   render() {
     const {
       className,
@@ -678,7 +733,9 @@ export class ImageField extends React.Component<
             })}
           />
         ) : (
-          <span className="text-muted">{placeholder}</span>
+          <span style={{...this.generateFontStyle()}} className="text-muted">
+            {placeholder}
+          </span>
         )}
         <CustomStyle
           {...this.props}
