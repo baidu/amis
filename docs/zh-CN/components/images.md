@@ -391,7 +391,7 @@ order: 53
 
 ### 网格式
 
-`sortType: 'grid-${number}-${number}'` 其中X和Y可以是任意正整数
+`sortType: 'grid-${number}-${number}'` 其中number可以是任意正整数
 
 ```schema
 {
