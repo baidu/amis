@@ -126,7 +126,8 @@ export interface ImagesSchema extends BaseSchema {
     | 'ms-ss-sss-ss'
     | 'sss-ss-ms-ss'
     | 'ssss-ss-mss-ss'
-    | 'sss-ss-mm-ss';
+    | 'sss-ss-mm-ss'
+    | 'grid-x-y';
   /**
    * 宽度（有sortType时生效）
    * */
@@ -206,6 +207,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 
   list: Array<any> = [];
   gap = 10;
+  gridReg = /^grid-[1-9]\d*-[1-9]\d*$/;
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -255,6 +257,12 @@ export class ImagesField extends React.Component<ImagesProps> {
       rootStyle === 'sss-ss-mm-ss'
     ) {
       return height * 0.5;
+    } else if (this.gridReg.test(rootStyle || '')) {
+      const rows = Number(rootStyle?.split('-')[1]);
+      const columns = Number(rootStyle?.split('-')[2]);
+      if (index < rows * columns) {
+        return (height - this.gap * (columns - 1)) / columns;
+      }
     }
     return 0;
   };
@@ -315,6 +323,13 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return (width - this.gap) / 2;
       }
+    } else if (this.gridReg.test(rootStyle || '')) {
+      const rows = Number(rootStyle?.split('-')[1]);
+      const columns = Number(rootStyle?.split('-')[2]);
+      if (index < rows * columns) {
+        debugger;
+        return (width - this.gap * (rows - 1)) / rows;
+      }
     }
 
     return 0;
@@ -326,7 +341,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   generateTranslate = (rootStyle: string | undefined, index: number) => {
     const width = Number(this.props.width) || 800;
     const height = Number(this.props.height) || 450;
-    const gap = 10;
+    const gap = this.gap;
     let styleObj: any = {
       position: 'absolute',
       boxSizing: 'border-box',
@@ -428,6 +443,23 @@ export class ImagesField extends React.Component<ImagesProps> {
         styleObj.transform = `translate(${
           ((width - gap) / 2 + gap) * (index - 3)
         }px,${height / 2 + gap}px)`;
+      }
+    } else if (this.gridReg.test(rootStyle || '')) {
+      const rows = Number(rootStyle?.split('-')[1]);
+      const columns = Number(rootStyle?.split('-')[2]);
+      if (index < rows * columns) {
+        // 计算每个网格单元的宽度和高度
+        const cellWidth = (width - (columns - 1) * gap) / columns;
+        const cellHeight = (height - (rows - 1) * gap) / rows;
+
+        // 计算当前索引的行号和列号
+        const row = Math.floor(index / columns);
+        const col = index % columns;
+
+        // 计算图片的 x, y 坐标
+        const x = col * (cellWidth + gap);
+        const y = row * (cellHeight + gap);
+        styleObj.transform = `translate(${x}px,${y}px)`;
       }
     }
     return styleObj;
