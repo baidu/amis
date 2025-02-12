@@ -62,12 +62,12 @@ order: 53
 ```
 ## 图集排版方式
 图集排列方式，通过sortType字段调整布局方式
-`'sm-mm-mmm-m'| 'sss-ss-ms-m'| 'sms-ss-sms-l' | 'sm-mm-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-ms-ss' | 'ssss-ss-mss-ss' | 'sss-ss-mm-ss';`
+`'sm-ss-sss-m'| 'sss-ss-ms-m'| 'sms-ss-sms-m' | 'sm-ss-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-sm-ss' | 'mss-ss-ssm-ss' | 'sss-ss-mm-ss';`
 可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
 
 ### 主辅并排式
 
-`sortType: 'sm-mm-mmm-m'`
+`sortType: 'sm-ss-sss-m'`
 
 ```schema: scope="body"
 {
@@ -75,7 +75,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -139,7 +139,7 @@ order: 53
 
 ### 侧边栏嵌入式
 
-`sortType: 'sms-ss-sms-l'`
+`sortType: 'sms-ss-sms-m'`
 
 ```schema
 {
@@ -147,7 +147,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "sms-ss-sms-l",
+      "sortType": "sms-ss-sms-m",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -179,7 +179,7 @@ order: 53
 
 ### 黄金比例分割式
 
-`sortType: 'sm-mm-sss-ss'`
+`sortType: 'sm-ss-sss-ss'`
 
 ```schema
 {
@@ -187,7 +187,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "sm-mm-sss-ss",
+      "sortType": "sm-ss-sss-ss",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -259,7 +259,7 @@ order: 53
 
 ### 焦点引导式
 
-`sortType: 'sss-ss-ms-ss'`
+`sortType: 'sss-ss-sm-ss'`
 
 ```schema
 {
@@ -267,7 +267,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "sss-ss-ms-ss",
+      "sortType": "sss-ss-sm-ss",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -299,7 +299,7 @@ order: 53
 
 ### 模块化组合式
 
-`sortType: 'ssss-ss-mss-ss'`
+`sortType: 'mss-ss-ssm-ss'`
 
 ```schema
 {
@@ -307,7 +307,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "ssss-ss-mss-ss",
+      "sortType": "mss-ss-ssm-ss",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -464,7 +464,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "hover-slide",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -506,7 +506,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "pull-top",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -548,7 +548,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "scale-center",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -590,7 +590,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "scale-top",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -632,7 +632,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-1",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -674,7 +674,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-2",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -716,7 +716,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-3",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -758,7 +758,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-4",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -799,7 +799,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-5",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -841,7 +841,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-6",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -882,7 +882,7 @@ order: 53
     "body": {
       "type": "images",
       "hoverMode": "text-style-7",
-      "sortType": "sm-mm-mmm-m",
+      "sortType": "sm-ss-sss-m",
       "width":"400",
       "height":"250",
       "value": [
@@ -1529,6 +1529,6 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                                                                                                                                   | `1:1`                  | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                        |
 | showToolbar        | `boolean`                                                                                                                                                  | `false`                | 放大模式下是否展示图片的工具栏                                                            | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                                                                                                                                            |                        | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                     | `2.2.0` |
-| sortType           | `'sm-mm-mmm-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-l'｜'sm-mm-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-ms-ss'｜ 'ssss-ss-mss-ss'｜ 'sss-ss-mm-ss'｜ 'even-${number}-${number}'` |                        | 图集排列方式                                                                     |         |
+| sortType           | `'sm-ss-sss-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-m'｜'sm-ss-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-sm-ss'｜ 'mss-ss-ssm-ss'｜ 'sss-ss-mm-ss'｜ 'even-${number}-${number}'` |                        | 图集排列方式                                                                     |         |
 | hoverMode          | `hover-slideh｜pull-top｜scale-center｜scale-top｜text-style-1｜text-style-2｜text-style-3｜text-style-4｜text-style-5｜text-style-6｜text-style-7 `                 |                        | 鼠标悬浮时的展示状态                                                                 |         |
 | fontStyle          | `{"fontSize":"string", "color": "string", "fontFamily": "string"...}`                                                                                      | `{"fontSize": "15px"}` | 字体样式                                                                       |         |
