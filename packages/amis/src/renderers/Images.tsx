@@ -281,44 +281,37 @@ export class ImagesField extends React.Component<ImagesProps> {
         return width / 3;
       }
     } else if (sortType === 'sms-ss-sms-l') {
-      if (index === 0 || index === 2 || index === 4) {
+      if ([0, 2, 4].includes(index)) {
         return width / 4;
       } else if (index === 1 || index === 3) {
         return width / 2 + this.gap;
       }
     } else if (sortType === 'sm-mm-sss-ss') {
-      if (index === 0 || index === 2 || index === 3 || index === 4) {
+      if ([0, 2, 3, 4].includes(index)) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
     } else if (sortType === 'ms-ss-sss-ss') {
-      if (index === 1 || index === 2 || index === 3 || index === 4) {
+      if ([1, 2, 3, 4].includes(index)) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
     } else if (sortType === 'sss-ss-ms-ss') {
-      if (index === 0 || index === 1 || index === 2 || index === 4) {
+      if ([0, 1, 2, 4].includes(index)) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
     } else if (sortType === 'ssss-ss-mss-ss') {
-      if (
-        index === 0 ||
-        index === 1 ||
-        index === 2 ||
-        index === 3 ||
-        index === 5 ||
-        index === 6
-      ) {
+      if ([0, 1, 2, 3, 5, 6].includes(index)) {
         return width / 4;
       } else {
         return width / 2 + this.gap;
       }
     } else if (sortType === 'sss-ss-mm-ss') {
-      if (index === 0 || index === 1 || index === 2) {
+      if ([0, 1, 2].includes(index)) {
         return (width - this.gap * 2) / 3;
       } else {
         return (width - this.gap) / 2;
@@ -333,6 +326,32 @@ export class ImagesField extends React.Component<ImagesProps> {
 
     return 0;
   };
+
+  /**
+   * 计算网格布局
+   * */
+  generateEvenTranslate(sortType: string | undefined, index: number) {
+    let result = ``;
+    const width = Number(this.props.width) || 800;
+    const height = Number(this.props.height) || 450;
+    const rows = Number(sortType?.split('-')[1]);
+    const columns = Number(sortType?.split('-')[2]);
+    if (index < rows * columns) {
+      // 计算每个网格单元的宽度和高度
+      const cellWidth = (width - (columns - 1) * this.gap) / columns;
+      const cellHeight = (height - (rows - 1) * this.gap) / rows;
+
+      // 计算当前索引的行号和列号
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+
+      // 计算图片的 x, y 坐标
+      const x = col * (cellWidth + this.gap);
+      const y = row * (cellHeight + this.gap);
+      result = `translate(${x}px,${y}px)`;
+    }
+    return result;
+  }
 
   /**
    * 计算照片子元素平移位置
@@ -444,22 +463,7 @@ export class ImagesField extends React.Component<ImagesProps> {
         }px,${height / 2 + gap}px)`;
       }
     } else if (this.gridReg.test(sortType || '')) {
-      const rows = Number(sortType?.split('-')[1]);
-      const columns = Number(sortType?.split('-')[2]);
-      if (index < rows * columns) {
-        // 计算每个网格单元的宽度和高度
-        const cellWidth = (width - (columns - 1) * gap) / columns;
-        const cellHeight = (height - (rows - 1) * gap) / rows;
-
-        // 计算当前索引的行号和列号
-        const row = Math.floor(index / columns);
-        const col = index % columns;
-
-        // 计算图片的 x, y 坐标
-        const x = col * (cellWidth + gap);
-        const y = row * (cellHeight + gap);
-        styleObj.transform = `translate(${x}px,${y}px)`;
-      }
+      styleObj.transform = this.generateEvenTranslate(sortType, index);
     }
     return styleObj;
   };
