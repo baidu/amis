@@ -391,7 +391,7 @@ order: 53
 
 ### 网格式
 
-`sortType: 'grid-${number}-${number}'` 其中number可以是任意正整数
+`sortType: 'even-${number}-${number}'` 其中number可以是任意正整数
 
 ```schema
 {
@@ -399,7 +399,7 @@ order: 53
   "body": [
     {
       "type": "images",
-      "sortType": "grid-3-3",
+      "sortType": "even-3-3",
       "width":"180",
       "height":"180",
       "value":[
@@ -1529,6 +1529,6 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                                                                                                                                   | `1:1`                  | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                        |
 | showToolbar        | `boolean`                                                                                                                                                  | `false`                | 放大模式下是否展示图片的工具栏                                                            | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                                                                                                                                            |                        | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                     | `2.2.0` |
-| sortType           | `'sm-mm-mmm-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-l'｜'sm-mm-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-ms-ss'｜ 'ssss-ss-mss-ss'｜ 'sss-ss-mm-ss'｜ 'grid-${number}-${number}'` |                        | 图集排列方式                                                                     |         |
+| sortType           | `'sm-mm-mmm-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-l'｜'sm-mm-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-ms-ss'｜ 'ssss-ss-mss-ss'｜ 'sss-ss-mm-ss'｜ 'even-${number}-${number}'` |                        | 图集排列方式                                                                     |         |
 | hoverMode          | `hover-slideh｜pull-top｜scale-center｜scale-top｜text-style-1｜text-style-2｜text-style-3｜text-style-4｜text-style-5｜text-style-6｜text-style-7 `                 |                        | 鼠标悬浮时的展示状态                                                                 |         |
 | fontStyle          | `{"fontSize":"string", "color": "string", "fontFamily": "string"...}`                                                                                      | `{"fontSize": "15px"}` | 字体样式                                                                       |         |
