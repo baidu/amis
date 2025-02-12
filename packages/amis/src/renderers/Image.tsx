@@ -363,15 +363,17 @@ export class ImageThumb extends React.Component<
         ) : (
           <div className={cx('Image-thumbWrap')}>
             <div
-              className={`${cx(
+              className={cx(
                 'Image-thumb',
                 thumbClassName,
                 thumbMode ? `Image-thumb--${thumbMode}` : '',
                 thumbRatio
                   ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}`
                   : '',
-                imageContentClassName
-              )} ${this.props.hoverMode} Img-container`}
+                imageContentClassName,
+                'Img-container',
+                this.props.hoverMode
+              )}
               style={{height: height, width: width}}
             >
               {imageContent}

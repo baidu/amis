@@ -565,7 +565,7 @@ export class ImagesField extends React.Component<ImagesProps> {
         <div className={sortType}>
           {list.map((item: any, index: number) => (
             <div
-              className={`${this.props.hoverMode} Img-container`}
+              className={cx('Img-container', this.props.hoverMode)}
               style={this.generateTranslate(sortType, index)}
               key={index}
             >

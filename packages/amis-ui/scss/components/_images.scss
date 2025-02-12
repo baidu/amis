@@ -214,7 +214,7 @@
   content: var(--image-image-normal-icon);
 }
 
-.Img-container{
+.#{$ns}Img-container{
   position: relative;
 
   img{
