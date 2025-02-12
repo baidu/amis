@@ -127,7 +127,7 @@ export interface ImagesSchema extends BaseSchema {
     | 'sss-ss-ms-ss'
     | 'ssss-ss-mss-ss'
     | 'sss-ss-mm-ss'
-    | 'grid-x-y';
+    | 'grid-${number}-${number}';
   /**
    * 宽度（有sortType时生效）
    * */
@@ -237,12 +237,12 @@ export class ImagesField extends React.Component<ImagesProps> {
   /**
    * 计算照片子元素高度
    * */
-  generateHeight = (rootStyle: string | undefined, index: number) => {
+  generateHeight = (sortType: string | undefined, index: number) => {
     const height = Number(this.props.height) || 450;
     if (
-      rootStyle === 'sm-mm-mmm-m' ||
-      rootStyle === 'sss-ss-ms-m' ||
-      rootStyle === 'sms-ss-sms-l'
+      sortType === 'sm-mm-mmm-m' ||
+      sortType === 'sss-ss-ms-m' ||
+      sortType === 'sms-ss-sms-l'
     ) {
       if (index === 0) {
         return height + this.gap;
@@ -250,16 +250,16 @@ export class ImagesField extends React.Component<ImagesProps> {
         return height * 0.5;
       }
     } else if (
-      rootStyle === 'sm-mm-sss-ss' ||
-      rootStyle === 'ms-ss-sss-ss' ||
-      rootStyle === 'sss-ss-ms-ss' ||
-      rootStyle === 'ssss-ss-mss-ss' ||
-      rootStyle === 'sss-ss-mm-ss'
+      sortType === 'sm-mm-sss-ss' ||
+      sortType === 'ms-ss-sss-ss' ||
+      sortType === 'sss-ss-ms-ss' ||
+      sortType === 'ssss-ss-mss-ss' ||
+      sortType === 'sss-ss-mm-ss'
     ) {
       return height * 0.5;
-    } else if (this.gridReg.test(rootStyle || '')) {
-      const rows = Number(rootStyle?.split('-')[1]);
-      const columns = Number(rootStyle?.split('-')[2]);
+    } else if (this.gridReg.test(sortType || '')) {
+      const rows = Number(sortType?.split('-')[1]);
+      const columns = Number(sortType?.split('-')[2]);
       if (index < rows * columns) {
         return (height - this.gap * (rows - 1)) / rows;
       }
@@ -270,9 +270,9 @@ export class ImagesField extends React.Component<ImagesProps> {
   /**
    * 计算照片子元素宽度
    * */
-  generateWidth = (rootStyle: string | undefined, index: number) => {
+  generateWidth = (sortType: string | undefined, index: number) => {
     const width = Number(this.props.width) || 800;
-    if (rootStyle === 'sm-mm-mmm-m' || rootStyle === 'sss-ss-ms-m') {
+    if (sortType === 'sm-mm-mmm-m' || sortType === 'sss-ss-ms-m') {
       if (index === 0) {
         return width / 3;
       } else if (index === 1) {
@@ -280,31 +280,31 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return width / 3;
       }
-    } else if (rootStyle === 'sms-ss-sms-l') {
+    } else if (sortType === 'sms-ss-sms-l') {
       if (index === 0 || index === 2 || index === 4) {
         return width / 4;
       } else if (index === 1 || index === 3) {
         return width / 2 + this.gap;
       }
-    } else if (rootStyle === 'sm-mm-sss-ss') {
+    } else if (sortType === 'sm-mm-sss-ss') {
       if (index === 0 || index === 2 || index === 3 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'ms-ss-sss-ss') {
+    } else if (sortType === 'ms-ss-sss-ss') {
       if (index === 1 || index === 2 || index === 3 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'sss-ss-ms-ss') {
+    } else if (sortType === 'sss-ss-ms-ss') {
       if (index === 0 || index === 1 || index === 2 || index === 4) {
         return width / 3;
       } else {
         return (width / 3) * 2 + this.gap;
       }
-    } else if (rootStyle === 'ssss-ss-mss-ss') {
+    } else if (sortType === 'ssss-ss-mss-ss') {
       if (
         index === 0 ||
         index === 1 ||
@@ -317,15 +317,15 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return width / 2 + this.gap;
       }
-    } else if (rootStyle === 'sss-ss-mm-ss') {
+    } else if (sortType === 'sss-ss-mm-ss') {
       if (index === 0 || index === 1 || index === 2) {
         return (width - this.gap * 2) / 3;
       } else {
         return (width - this.gap) / 2;
       }
-    } else if (this.gridReg.test(rootStyle || '')) {
-      const rows = Number(rootStyle?.split('-')[1]);
-      const columns = Number(rootStyle?.split('-')[2]);
+    } else if (this.gridReg.test(sortType || '')) {
+      const rows = Number(sortType?.split('-')[1]);
+      const columns = Number(sortType?.split('-')[2]);
       if (index < rows * columns) {
         return (width - this.gap * (columns - 1)) / columns;
       }
@@ -337,17 +337,17 @@ export class ImagesField extends React.Component<ImagesProps> {
   /**
    * 计算照片子元素平移位置
    * */
-  generateTranslate = (rootStyle: string | undefined, index: number) => {
+  generateTranslate = (sortType: string | undefined, index: number) => {
     const width = Number(this.props.width) || 800;
     const height = Number(this.props.height) || 450;
     const gap = this.gap;
     let styleObj: any = {
       position: 'absolute',
       boxSizing: 'border-box',
-      height: this.generateHeight(rootStyle, index) + 'px',
-      width: this.generateWidth(rootStyle, index) + 'px'
+      height: this.generateHeight(sortType, index) + 'px',
+      width: this.generateWidth(sortType, index) + 'px'
     };
-    if (rootStyle === 'sm-mm-mmm-m') {
+    if (sortType === 'sm-mm-mmm-m') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -359,7 +359,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height * 0.5 + gap
         }px)`;
       }
-    } else if (rootStyle === 'sss-ss-ms-m') {
+    } else if (sortType === 'sss-ss-ms-m') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${
           height * 0.5 + gap
@@ -369,7 +369,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else if (index === 3) {
         styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
       }
-    } else if (rootStyle === 'sms-ss-sms-l') {
+    } else if (sortType === 'sms-ss-sms-l') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 4 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -383,7 +383,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'sm-mm-sss-ss') {
+    } else if (sortType === 'sm-mm-sss-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -397,7 +397,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'ms-ss-sss-ss') {
+    } else if (sortType === 'ms-ss-sss-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
       } else if (index === 2) {
@@ -411,7 +411,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'sss-ss-ms-ss') {
+    } else if (sortType === 'sss-ss-ms-ss') {
       if (index === 1) {
         styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
       } else if (index === 2) {
@@ -423,7 +423,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px`;
       }
-    } else if (rootStyle === 'ssss-ss-mss-ss') {
+    } else if (sortType === 'ssss-ss-mss-ss') {
       if (index === 1 || index === 2 || index === 3) {
         styleObj.transform = `translate(${(width / 4 + gap) * index}px,${0}px)`;
       } else if (index === 4) {
@@ -433,7 +433,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           height / 2 + gap
         }px)`;
       }
-    } else if (rootStyle === 'sss-ss-mm-ss') {
+    } else if (sortType === 'sss-ss-mm-ss') {
       if (index === 1 || index === 2) {
         styleObj.transform = `translate(${
           ((width - 2 * gap) / 3 + gap) * index
@@ -443,9 +443,9 @@ export class ImagesField extends React.Component<ImagesProps> {
           ((width - gap) / 2 + gap) * (index - 3)
         }px,${height / 2 + gap}px)`;
       }
-    } else if (this.gridReg.test(rootStyle || '')) {
-      const rows = Number(rootStyle?.split('-')[1]);
-      const columns = Number(rootStyle?.split('-')[2]);
+    } else if (this.gridReg.test(sortType || '')) {
+      const rows = Number(sortType?.split('-')[1]);
+      const columns = Number(sortType?.split('-')[2]);
       if (index < rows * columns) {
         // 计算每个网格单元的宽度和高度
         const cellWidth = (width - (columns - 1) * gap) / columns;
