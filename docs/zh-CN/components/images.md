@@ -389,6 +389,62 @@ order: 53
 }
 ```
 
+### 网格式
+
+`sortType: 'grid-X-Y'` 其中X和Y可以是任意正整数
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "grid-3-3",
+      "width":"180",
+      "height":"180",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          desc: "图片描述"
+        },
+      ]
+    },
+  ]
+}
+```
+
 ## 文字展示效果
 在图集组件中，通过配置 `hoverMode`字段，来控制鼠标移入图片时，图片蒙层及文字效果。通过 `fontStyle`字段控制文字css样式
 
@@ -1473,5 +1529,6 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                                                                                                                   | `1:1`                  | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                        |
 | showToolbar        | `boolean`                                                                                                                                  | `false`                | 放大模式下是否展示图片的工具栏                                                            | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                                                                                                                            |                        | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                     | `2.2.0` |
+| sortType           | `'sm-mm-mmm-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-l'｜'sm-mm-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-ms-ss'｜ 'ssss-ss-mss-ss'｜ 'sss-ss-mm-ss'｜ 'grid-x-y'` |                        | 图集排列方式                                                                     |         |
 | hoverMode          | `hover-slideh｜pull-top｜scale-center｜scale-top｜text-style-1｜text-style-2｜text-style-3｜text-style-4｜text-style-5｜text-style-6｜text-style-7 ` |                        | 鼠标悬浮时的展示状态                                                                 |         |
 | fontStyle          | `{"fontSize":"string", "color": "string", "fontFamily": "string"...}`                                                                      | `{"fontSize": "15px"}` | 字体样式                                                                       |         |
