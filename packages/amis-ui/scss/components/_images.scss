@@ -233,10 +233,11 @@
   }
 }
 
-.hover-slide:hover{
-  .mask{
+.hover-slide{
+  &:hover .mask{
     opacity: 1;
     transform: translate(5%, 5%);
+    z-index: 1;
   }
 }
 
@@ -414,6 +415,7 @@
     height: 0!important;
     transform-origin: bottom;
     color: #0b0a22;
+    z-index: 1;
     span{
       display: none;
     }
@@ -431,6 +433,7 @@
   .mask{
     opacity: 1;
     background: rgba(48, 133, 163, 0);
+    z-index: 1;
     span{
       position: relative;
       bottom: -10%;
@@ -468,6 +471,7 @@
 .text-style-6{
   .mask{
     opacity: 1;
+    z-index: 1;
     background: rgba(48, 133, 163, 0.4);
     span{
       position: absolute;
@@ -516,6 +520,7 @@
 .text-style-7{
   .mask{
     opacity: 1;
+    z-index: 1;
     background: rgba(48, 133, 163, 0);
     span{
       position: absolute;
