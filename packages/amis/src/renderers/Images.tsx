@@ -471,7 +471,6 @@ export class ImagesField extends React.Component<ImagesProps> {
     if (!this.props.fontStyle) {
       return {};
     }
-    console.log(this.props.fontStyle);
     let styleObj: object = {};
     if (typeof this.props.fontStyle === 'string') {
       let validJsonStr = this.props.fontStyle.replace(
@@ -544,9 +543,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       this.props.sortType === 'sm-mm-mmm-m' ||
       this.props.sortType === 'sss-ss-ms-m'
     ) {
-      console.log('before', list);
       this.list = list.slice(0, 5);
-      console.log('after', list);
     } else if (
       this.props.sortType === 'sms-ss-sms-l' ||
       this.props.sortType === 'sm-mm-sss-ss' ||
@@ -622,6 +619,7 @@ export class ImagesField extends React.Component<ImagesProps> {
             <div className={cx('Images', listClassName)}>
               {list.map((item: any, index: number) => (
                 <Image
+                  hoverMode={this.props.hoverMode}
                   index={index}
                   className={cx('Images-item')}
                   key={index}
@@ -635,6 +633,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                       : item && item.src) || item
                   }
                   title={item && item.title}
+                  desc={item && item.desc}
                   caption={item && (item.description || item.caption)}
                   thumbMode={thumbMode}
                   thumbRatio={thumbRatio}
@@ -657,6 +656,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           ) : defaultImage ? (
             <div className={cx('Images', listClassName)}>
               <Image
+                hoverMode={this.props.hoverMode}
                 className={cx('Images-item')}
                 src={defaultImage}
                 thumbMode={thumbMode}
