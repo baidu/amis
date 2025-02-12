@@ -261,7 +261,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       const rows = Number(rootStyle?.split('-')[1]);
       const columns = Number(rootStyle?.split('-')[2]);
       if (index < rows * columns) {
-        return (height - this.gap * (columns - 1)) / columns;
+        return (height - this.gap * (rows - 1)) / rows;
       }
     }
     return 0;
@@ -327,8 +327,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       const rows = Number(rootStyle?.split('-')[1]);
       const columns = Number(rootStyle?.split('-')[2]);
       if (index < rows * columns) {
-        debugger;
-        return (width - this.gap * (rows - 1)) / rows;
+        return (width - this.gap * (columns - 1)) / columns;
       }
     }
 
