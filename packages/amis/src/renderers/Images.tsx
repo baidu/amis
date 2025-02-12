@@ -127,7 +127,7 @@ export interface ImagesSchema extends BaseSchema {
     | 'sss-ss-ms-ss'
     | 'ssss-ss-mss-ss'
     | 'sss-ss-mm-ss'
-    | 'grid-${number}-${number}';
+    | 'even-${number}-${number}';
   /**
    * 宽度（有sortType时生效）
    * */
@@ -207,7 +207,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 
   list: Array<any> = [];
   gap = 10;
-  gridReg = /^grid-[1-9]\d*-[1-9]\d*$/;
+  evenReg = /^even-[1-9]\d*-[1-9]\d*$/;
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -257,7 +257,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       sortType === 'sss-ss-mm-ss'
     ) {
       return height * 0.5;
-    } else if (this.gridReg.test(sortType || '')) {
+    } else if (this.evenReg.test(sortType || '')) {
       const rows = Number(sortType?.split('-')[1]);
       const columns = Number(sortType?.split('-')[2]);
       if (index < rows * columns) {
@@ -316,7 +316,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       } else {
         return (width - this.gap) / 2;
       }
-    } else if (this.gridReg.test(sortType || '')) {
+    } else if (this.evenReg.test(sortType || '')) {
       const rows = Number(sortType?.split('-')[1]);
       const columns = Number(sortType?.split('-')[2]);
       if (index < rows * columns) {
@@ -462,7 +462,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           ((width - gap) / 2 + gap) * (index - 3)
         }px,${height / 2 + gap}px)`;
       }
-    } else if (this.gridReg.test(sortType || '')) {
+    } else if (this.evenReg.test(sortType || '')) {
       styleObj.transform = this.generateEvenTranslate(sortType, index);
     }
     return styleObj;
