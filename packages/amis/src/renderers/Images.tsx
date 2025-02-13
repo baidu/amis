@@ -357,7 +357,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     const gap = this.gap;
     let styleObj: any = {
       position: 'absolute',
-      boxSizing: 'border-box',
+      boxSizing: 'content-box',
       height: this.generateHeight(sortType, index) + 'px',
       width: this.generateWidth(sortType, index) + 'px'
     };
