@@ -526,7 +526,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -547,7 +547,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -568,7 +568,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -589,7 +589,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -610,7 +610,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -642,7 +642,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -663,7 +663,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -684,7 +684,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -705,7 +705,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -726,7 +726,7 @@ exports[`Renderer:images images:basic 1`] = `
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -777,7 +777,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -807,22 +807,6 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     </a>
                   </div>
                 </div>
-                <div
-                  class="cxd-Image-info"
-                >
-                  <div
-                    class="cxd-Image-title"
-                    title="图片1"
-                  >
-                    图片1
-                  </div>
-                  <div
-                    class="cxd-Image-caption"
-                    title="图片1的描述"
-                  >
-                    图片1的描述
-                  </div>
-                </div>
               </div>
               <div
                 class="cxd-Image cxd-Image--thumb cxd-Images-item"
@@ -831,7 +815,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -861,22 +845,6 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     </a>
                   </div>
                 </div>
-                <div
-                  class="cxd-Image-info"
-                >
-                  <div
-                    class="cxd-Image-title"
-                    title="图片2"
-                  >
-                    图片2
-                  </div>
-                  <div
-                    class="cxd-Image-caption"
-                    title="图片2的描述"
-                  >
-                    图片2的描述
-                  </div>
-                </div>
               </div>
               <div
                 class="cxd-Image cxd-Image--thumb cxd-Images-item"
@@ -885,7 +853,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                   class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container"
+                    class="cxd-Image-thumb cxd-Image-thumb--cover cxd-Image-thumb--1-1 cxd-Img-container text-style-4"
                   >
                     <div
                       class="mask"
@@ -913,22 +881,6 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                         icon="view"
                       />
                     </a>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Image-info"
-                >
-                  <div
-                    class="cxd-Image-title"
-                    title="图片3"
-                  >
-                    图片3
-                  </div>
-                  <div
-                    class="cxd-Image-caption"
-                    title="图片3的描述"
-                  >
-                    图片3的描述
                   </div>
                 </div>
               </div>
