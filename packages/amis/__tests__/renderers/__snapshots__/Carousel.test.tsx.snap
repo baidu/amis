@@ -22,7 +22,9 @@ exports[`Renderer:Carousel 1`] = `
             <div
               class="mask"
             >
-              <span />
+              <span>
+                标题
+              </span>
             </div>
             <img
               class="cxd-Image-image"
