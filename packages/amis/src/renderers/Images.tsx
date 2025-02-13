@@ -203,6 +203,8 @@ export class ImagesField extends React.Component<ImagesProps> {
   list: Array<any> = [];
   gap = 10;
   evenReg = /^even-[1-9]\d*-[1-9]\d*$/;
+  defaultWidth = 200;
+  defaultHeight = 112.5;
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -233,7 +235,7 @@ export class ImagesField extends React.Component<ImagesProps> {
    * 计算照片子元素高度
    * */
   generateHeight = (sortType: string | undefined, index: number) => {
-    const height = Number(this.props.height) || 450;
+    const height = Number(this.props.height) || this.defaultHeight;
     if (
       sortType === 'sm-ss-sss-m' ||
       sortType === 'sss-ss-ms-m' ||
@@ -266,7 +268,7 @@ export class ImagesField extends React.Component<ImagesProps> {
    * 计算照片子元素宽度
    * */
   generateWidth = (sortType: string | undefined, index: number) => {
-    const width = Number(this.props.width) || 800;
+    const width = Number(this.props.width) || this.defaultWidth;
     if (sortType === 'sm-ss-sss-m' || sortType === 'sss-ss-ms-m') {
       if (index === 0) {
         return width / 3;
@@ -327,8 +329,8 @@ export class ImagesField extends React.Component<ImagesProps> {
    * */
   generateEvenTranslate(sortType: string | undefined, index: number) {
     let result = ``;
-    const width = Number(this.props.width) || 800;
-    const height = Number(this.props.height) || 450;
+    const width = Number(this.props.width) || this.defaultWidth;
+    const height = Number(this.props.height) || this.defaultHeight;
     const rows = Number(sortType?.split('-')[1]);
     const columns = Number(sortType?.split('-')[2]);
     if (index < rows * columns) {
@@ -352,8 +354,8 @@ export class ImagesField extends React.Component<ImagesProps> {
    * 计算照片子元素平移位置
    * */
   generateTranslate = (sortType: string | undefined, index: number) => {
-    const width = Number(this.props.width) || 800;
-    const height = Number(this.props.height) || 450;
+    const width = Number(this.props.width) || this.defaultWidth;
+    const height = Number(this.props.height) || this.defaultHeight;
     const gap = this.gap;
     let styleObj: any = {
       position: 'absolute',
@@ -538,7 +540,13 @@ export class ImagesField extends React.Component<ImagesProps> {
     }
     if (this.props.sortType) {
       return (
-        <div className={sortType}>
+        <div
+          className={sortType}
+          style={{
+            width: (this.props.width || this.defaultWidth) + 'px',
+            height: (this.props.height || this.defaultHeight) + 'px'
+          }}
+        >
           {this.list.map((item: any, index: number) => (
             <Image
               fontStyle={this.props.fontStyle}
