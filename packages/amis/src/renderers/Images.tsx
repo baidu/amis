@@ -590,7 +590,6 @@ export class ImagesField extends React.Component<ImagesProps> {
                   : item && item.src) || item
               }
               title={item && item.title}
-              desc={item && item.desc}
               sortType={this.props.sortType}
               caption={item && (item.description || item.caption)}
               thumbMode={thumbMode}
@@ -652,7 +651,6 @@ export class ImagesField extends React.Component<ImagesProps> {
                       : item && item.src) || item
                   }
                   title={item && item.title}
-                  desc={item && item.desc}
                   caption={item && (item.description || item.caption)}
                   thumbMode={thumbMode}
                   thumbRatio={thumbRatio}
