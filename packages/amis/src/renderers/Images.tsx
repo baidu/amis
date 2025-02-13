@@ -200,9 +200,6 @@ export class ImagesField extends React.Component<ImagesProps> {
 
   constructor(props: ImagesProps) {
     super(props);
-    this.state = {
-      enLargeUrl: ''
-    };
   }
 
   list: Array<any> = [];
