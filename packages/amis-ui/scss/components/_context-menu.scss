@@ -154,7 +154,6 @@
 
   &-item:hover > &-subList {
     display: block;
-    min-width: var(--menu-min-width);
     animation-duration: var(--animation-duration);
     animation-fill-mode: both;
     animation-name: contextMenuIn;
