@@ -606,29 +606,6 @@ export class ImageField extends React.Component<
     }
   }
 
-  /**
-   * 生成文字效果
-   * */
-  generateFontStyle = () => {
-    if (!this.props.fontStyle) {
-      return {};
-    }
-    let styleObj: object = {};
-    if (typeof this.props.fontStyle === 'string') {
-      let validJsonStr = this.props.fontStyle.replace(
-        /(['"])?([a-zA-Z0-9-_]+)\1\s*:\s*(['"])?([^'"]+)\3/g,
-        '"$2": "$4"'
-      );
-      styleObj = JSON.parse(validJsonStr);
-    } else if (
-      typeof this.props.fontStyle === 'object' &&
-      this.props.fontStyle !== null
-    ) {
-      styleObj = this.props.fontStyle;
-    }
-    return styleObj;
-  };
-
   render() {
     const {
       className,
@@ -736,7 +713,7 @@ export class ImageField extends React.Component<
             })}
           />
         ) : (
-          <span style={{...this.generateFontStyle()}} className="text-muted">
+          <span style={this.props.fontStyle} className="text-muted">
             {placeholder}
           </span>
         )}
