@@ -300,7 +300,7 @@ export class ImagesField extends React.Component<ImagesProps> {
         return (width / 3) * 2 + this.gap;
       }
     } else if (sortType === 'mss-ss-ssm-ss') {
-      if ([0, 1, 2, 3, 5, 6].includes(index)) {
+      if ([1, 2, 4, 5].includes(index)) {
         return width / 4;
       } else {
         return width / 2 + this.gap;
@@ -438,12 +438,14 @@ export class ImagesField extends React.Component<ImagesProps> {
         }px`;
       }
     } else if (sortType === 'mss-ss-ssm-ss') {
-      if (index === 1 || index === 2 || index === 3) {
-        styleObj.transform = `translate(${(width / 4 + gap) * index}px,${0}px)`;
-      } else if (index === 4) {
+      if (index === 1 || index === 2) {
+        styleObj.transform = `translate(${
+          (width / 4 + gap) * (index + 1)
+        }px,${0}px)`;
+      } else if (index === 3) {
         styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
-      } else if (index === 5 || index === 6) {
-        styleObj.transform = `translate(${(width / 4 + gap) * (index - 3)}px,${
+      } else if (index === 4 || index === 5) {
+        styleObj.transform = `translate(${(width / 4 + gap) * (index - 2)}px,${
           height / 2 + gap
         }px)`;
       }
