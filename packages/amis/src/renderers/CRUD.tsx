@@ -550,6 +550,12 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
   );
 
+  private position: 'top' | 'bottom' = this.props.headerToolbar?.some(
+    (item: any) => item === 'load-more' || item?.type === 'load-more'
+  )
+    ? 'top'
+    : 'bottom';
+
   constructor(props: T) {
     super(props);
 
@@ -1388,7 +1394,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         syncResponse2Query,
         columns: store.columns ?? columns,
         matchFunc,
-        filterOnAllColumns: loadDataOnceFetchOnFilter === false
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false,
+        position: this.position
       });
       if (!isAlive(store)) {
         return value;

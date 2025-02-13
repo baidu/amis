@@ -228,6 +228,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
+        position?: 'top' | 'bottom';
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -241,6 +242,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         columns?: Array<any>;
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
+        position?: 'top' | 'bottom';
       } = {}
     ) {
       try {
@@ -381,8 +383,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           // 点击加载更多数据
           let rowsData: Array<any> = [];
-          if (options.loadDataMode && Array.isArray(self.data.items)) {
-            rowsData = self.data.items.concat(items);
+          if (options.loadDataMode) {
+            // 判断是否为顶部加载
+            const isHeaderLoadMore = options.position === 'top';
+
+            if (isHeaderLoadMore) {
+              // 顶部加载时,新数据放在前面
+              rowsData = items.concat(self.data.items || []);
+            } else {
+              // 底部加载时,新数据放在后面
+              rowsData = (self.data.items || []).concat(items);
+            }
           } else {
             // 第一次的时候就是直接加载请求的数据
             rowsData = items;
