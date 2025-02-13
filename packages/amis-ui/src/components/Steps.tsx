@@ -36,6 +36,9 @@ export type StepObject = {
   status?: StepStatus;
 
   iconClassName?: string;
+  subTitleClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
 };
 
 export interface StepsObject {
@@ -90,6 +93,11 @@ export interface StepsProps extends ThemeProps {
   progressDot?: boolean;
   onClickStep?: (i: number, step: StepObject) => void;
   iconPosition?: boolean;
+  iconClassName?: string;
+  subTitleClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+  stepsItemStatus?: string;
 }
 
 export function Steps(props: StepsProps) {
@@ -105,6 +113,11 @@ export function Steps(props: StepsProps) {
     progressDot = false,
     iconPosition,
     mobileUI,
+    iconClassName,
+    subTitleClassName,
+    titleClassName,
+    descriptionClassName,
+    stepsItemStatus,
     onClickStep
   } = props;
   const FINISH_ICON = 'check';
@@ -159,6 +172,7 @@ export function Steps(props: StepsProps) {
     >
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
+
         return (
           <li
             key={i}
@@ -194,7 +208,13 @@ export function Steps(props: StepsProps) {
                   )}
                   onClick={() => onClickStep && onClickStep(i, step)}
                 >
-                  <span className={cx('StepsItem-icon', step.iconClassName)}>
+                  <span
+                    className={cx(
+                      'StepsItem-icon',
+                      iconClassName,
+                      step.iconClassName
+                    )}
+                  >
                     {icon ? <Icon icon={icon} className="icon" /> : i + 1}
                   </span>
                 </div>
@@ -212,7 +232,7 @@ export function Steps(props: StepsProps) {
                     )}
                   >
                     <span
-                      className={cx('StepsItem-ellText')}
+                      className={cx('StepsItem-ellText', titleClassName)}
                       title={
                         typeof step.title === 'string' ? step.title : undefined
                       }
@@ -223,7 +243,8 @@ export function Steps(props: StepsProps) {
                       <span
                         className={cx(
                           'StepsItem-subTitle',
-                          'StepsItem-ellText'
+                          'StepsItem-ellText',
+                          subTitleClassName
                         )}
                         title={
                           typeof step.subTitle === 'string'
@@ -243,7 +264,9 @@ export function Steps(props: StepsProps) {
                         : undefined
                     }
                   >
-                    <span>{step.description}</span>
+                    <span className={cx(descriptionClassName)}>
+                      {step.description}
+                    </span>
                   </div>
                 </div>
                 {mode === 'simple' && i < stepsRow.length - 1 && (

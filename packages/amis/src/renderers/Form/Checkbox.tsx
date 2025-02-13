@@ -153,7 +153,6 @@ export default class CheckboxControl extends React.Component<
       env,
       themeCss
     } = this.props;
-
     const css = formateCheckThemeCss(themeCss, 'checkbox');
 
     return (

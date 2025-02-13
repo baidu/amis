@@ -4,7 +4,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-
+import {inputStateTpl} from '../renderer/style-control/helper';
 export class StepsPlugin extends BasePlugin {
   static id = 'StepsPlugin';
   // 关联渲染器名字
@@ -136,6 +136,31 @@ export class StepsPlugin extends BasePlugin {
                   }
                 ]
               },
+              {
+                name: 'stepItemStatus',
+                type: 'select',
+                label: '步骤状态',
+                value: '',
+                clearable: true,
+                options: [
+                  {
+                    label: '完成',
+                    value: 'finish'
+                  },
+                  {
+                    label: '进行中',
+                    value: 'process'
+                  },
+                  {
+                    label: '等待',
+                    value: 'wait'
+                  },
+                  {
+                    label: '出错',
+                    value: 'error'
+                  }
+                ]
+              },
               getSchemaTpl('switch', {
                 name: 'iconPosition',
                 label: '图标文字垂直展示',
@@ -152,63 +177,18 @@ export class StepsPlugin extends BasePlugin {
               title: '图标样式',
               body: [
                 getSchemaTpl('switch', {
-                  name: 'stepIcon',
-                  label: '显示图标'
+                  name: 'themeCss.iconControlClassName.display',
+                  label: '隐藏图标',
+                  trueValue: 'none'
                 }),
-                {
-                  type: 'select',
-                  name: 'stepIconType',
-                  label: '类型',
-                  options: [
-                    {
-                      label: '默认',
-                      value: ''
-                    },
-                    {
-                      label: '成功',
-                      value: 'success'
-                    },
-                    {
-                      label: '错误',
-                      value: 'error'
-                    },
-                    {
-                      label: '警告',
-                      value: 'warning'
-                    }
-                  ]
-                },
-                {
-                  type: 'select',
-                  name: 'stepIconSize',
+                getSchemaTpl('theme:select', {
                   label: '尺寸',
-                  options: [
-                    {
-                      label: '小号',
-                      value: 'xs'
-                    },
-                    {
-                      label: '默认',
-                      value: ''
-                    },
-                    {
-                      label: '大号',
-                      value: 'lg'
-                    }
-                  ]
-                },
+                  name: 'themeCss.iconControlClassName.iconSize'
+                }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '颜色',
-                  name: 'themeCss.iconControlClassName.colorPicker',
+                  name: 'themeCss.iconControlClassName.backgroundColor',
                   labelMode: 'input'
-                }),
-                getSchemaTpl('switch', {
-                  name: 'stepIconCustom',
-                  label: '自定义图标',
-                  // 依赖 stepIcon
-                  dependencies: {
-                    stepIcon: true
-                  }
                 })
               ]
             }
@@ -218,12 +198,13 @@ export class StepsPlugin extends BasePlugin {
               title: '标题样式',
               body: [
                 getSchemaTpl('switch', {
-                  name: 'stepTitle',
-                  label: '显示标题'
+                  name: 'themeCss.titleControlClassName.display',
+                  label: '隐藏标题',
+                  trueValue: 'none'
                 }),
-                getSchemaTpl('theme:font', {
-                  label: '文字',
-                  name: 'themeCss.titleControlClassName.font'
+                ...inputStateTpl('themeCss.titleControlClassName', '', {
+                  hideFont: false,
+                  hiddenOn: 'themeCss.titleControlClassName.display ==="none"'
                 })
               ]
             }
@@ -233,12 +214,14 @@ export class StepsPlugin extends BasePlugin {
               title: '副标题样式',
               body: [
                 getSchemaTpl('switch', {
-                  name: 'stepSubTitle',
-                  label: '显示副标题'
+                  name: 'themeCss.subTitleControlClassName.display',
+                  label: '隐藏副标题',
+                  trueValue: 'none'
                 }),
-                getSchemaTpl('theme:font', {
-                  label: '文字',
-                  name: 'themeCss.subTitleControlClassName.font'
+                ...inputStateTpl('themeCss.subTitleControlClassName', '', {
+                  hideFont: false,
+                  hiddenOn:
+                    'themeCss.subTitleControlClassName.display ==="none"'
                 })
               ]
             }
@@ -248,27 +231,14 @@ export class StepsPlugin extends BasePlugin {
               title: '描述样式',
               body: [
                 getSchemaTpl('switch', {
-                  name: 'stepDescription',
-                  label: '显示描述'
+                  name: 'themeCss.descriptionControlClassName.display',
+                  label: '隐藏描述',
+                  trueValue: 'none'
                 }),
-                {
-                  type: 'select',
-                  name: 'stepDescriptionPosition',
-                  label: '描述位置',
-                  options: [
-                    {
-                      label: '顶部',
-                      value: 'top'
-                    },
-                    {
-                      label: '底部',
-                      value: 'bottom'
-                    }
-                  ]
-                },
-                getSchemaTpl('theme:font', {
-                  label: '文字',
-                  name: 'themeCss.descriptionControlClassName.font'
+                ...inputStateTpl('themeCss.descriptionControlClassName', '', {
+                  hideFont: false,
+                  hiddenOn:
+                    'themeCss.descriptionControlClassName.display ==="none"'
                 })
               ]
             }
