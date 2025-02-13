@@ -154,14 +154,12 @@ export interface ImagesSchema extends BaseSchema {
   /**
    * 描述文字样式
    * */
-  fontStyle?:
-    | {
-        fontSize?: string;
-        fontWeight?: string;
-        fontFamily?: string;
-        color: string;
-      }
-    | string;
+  fontStyle?: {
+    fontSize?: string;
+    fontWeight?: string;
+    fontFamily?: string;
+    color?: string;
+  };
 }
 
 export interface ImagesProps
@@ -464,25 +462,6 @@ export class ImagesField extends React.Component<ImagesProps> {
     }
     return styleObj;
   };
-  /**
-   * 生成文字效果
-   * */
-  generateFontStyle = () => {
-    if (!this.props.fontStyle) {
-      return {};
-    }
-    let styleObj: object = {};
-    if (typeof this.props.fontStyle === 'string') {
-      let validJsonStr = this.props.fontStyle.replace(
-        /(['"])?([a-zA-Z0-9-_]+)\1\s*:\s*(['"])?([^'"]+)\3/g,
-        '"$2": "$4"'
-      );
-      styleObj = JSON.parse(validJsonStr);
-    } else if (typeof this.props.fontStyle === 'object') {
-      styleObj = this.props.fontStyle;
-    }
-    return styleObj;
-  };
 
   render() {
     const {
@@ -562,6 +541,7 @@ export class ImagesField extends React.Component<ImagesProps> {
         <div className={sortType}>
           {list.map((item: any, index: number) => (
             <Image
+              fontStyle={this.props.fontStyle}
               style={this.generateTranslate(sortType, index)}
               width={this.generateWidth(sortType, index)}
               height={this.generateHeight(sortType, index)}
@@ -596,36 +576,6 @@ export class ImagesField extends React.Component<ImagesProps> {
               })}`}
               toolbarActions={toolbarActions}
             />
-            // <div
-            //   className={cx('Img-container', this.props.hoverMode)}
-            //   style={this.generateTranslate(sortType, index)}
-            //   key={index}
-            // >
-            //   <div
-            //     className="mask"
-            //     style={{
-            //       height: this.generateHeight(sortType, index) + 'px',
-            //       width: this.generateWidth(sortType, index) + 'px'
-            //     }}
-            //     onClick={() =>
-            //       this.handleEnlarge({
-            //         src: item.image,
-            //         index
-            //       } as ImageThumbProps)
-            //     }
-            //   >
-            //     <span style={{...this.generateFontStyle()}}>{item.desc}</span>
-            //   </div>
-            //   <img
-            //     alt=""
-            //     src={
-            //       (src ? filter(src, item, '| raw') : item && item.image) ||
-            //       item
-            //     }
-            //     width={this.generateWidth(sortType, index)}
-            //     height={this.generateHeight(sortType, index)}
-            //   />
-            // </div>
           ))}
         </div>
       );
@@ -655,6 +605,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               {list.map((item: any, index: number) => (
                 <Image
                   hoverMode={this.props.hoverMode}
+                  fontStyle={this.props.fontStyle}
                   index={index}
                   className={cx('Images-item')}
                   key={index}

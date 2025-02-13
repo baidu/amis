@@ -188,14 +188,12 @@ export interface ImageSchema extends BaseSchema {
   /**
    * 描述文字样式
    * */
-  fontStyle?:
-    | {
-        fontSize?: string;
-        fontWeight?: string;
-        fontFamily?: string;
-        color: string;
-      }
-    | string;
+  fontStyle?: {
+    fontSize?: string;
+    fontWeight?: string;
+    fontFamily?: string;
+    color?: string;
+  };
 }
 
 export interface ImageThumbProps
@@ -422,6 +420,7 @@ export class ImageThumb extends React.Component<
     return image;
   }
 }
+
 const ThemedImageThumb = themeable(localeable(ImageThumb));
 export default ThemedImageThumb;
 
@@ -780,6 +779,7 @@ export class ImageField extends React.Component<
 })
 export class ImageFieldRenderer extends ImageField {
   static contextType = ScopedContext;
+
   constructor(props: ImageFieldProps, context: IScopedContext) {
     super(props);
 
