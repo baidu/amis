@@ -614,7 +614,6 @@ export class ImageField extends React.Component<
     if (!this.props.fontStyle) {
       return {};
     }
-    console.log(this.props.fontStyle);
     let styleObj: object = {};
     if (typeof this.props.fontStyle === 'string') {
       let validJsonStr = this.props.fontStyle.replace(
@@ -622,7 +621,10 @@ export class ImageField extends React.Component<
         '"$2": "$4"'
       );
       styleObj = JSON.parse(validJsonStr);
-    } else if (typeof this.props.fontStyle === 'object') {
+    } else if (
+      typeof this.props.fontStyle === 'object' &&
+      this.props.fontStyle !== null
+    ) {
       styleObj = this.props.fontStyle;
     }
     return styleObj;

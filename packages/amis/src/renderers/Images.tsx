@@ -115,7 +115,7 @@ export interface ImagesSchema extends BaseSchema {
 
   /**
    * 排列方式
-   * 类命名方式按照上下左右四个边命名，l=2m，m=2s，最小单位为s
+   * 类命名方式按照上右下左四个边命名，l=2m，m=2s，最小单位为s
    * 每条边的顺序都是从上到下，从左到右。
    * */
   sortType?:
