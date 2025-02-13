@@ -61,7 +61,7 @@ order: 53
 }
 ```
 ## 图集排版方式
-图集排列方式，通过sortType字段调整布局方式
+图集排列方式，通过sortType字段调整布局方式。四部分分别是上右下左方向顺时针排列，最小单位为s，m是s的2倍，l是m的2倍。
 `'sm-ss-sss-m'| 'sss-ss-ms-m'| 'sms-ss-sms-m' | 'sm-ss-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-sm-ss' | 'mss-ss-ssm-ss' | 'sss-ss-mm-ss';`
 可以通过改变width和height来调整图片大小。默认宽度是800，高度是450。
 
