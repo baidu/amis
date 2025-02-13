@@ -192,7 +192,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     delimiter: ',',
     defaultImage: imagePlaceholder,
     placehoder: '-',
-    thumbMode: 'contain',
+    thumbMode: 'cover',
     thumbRatio: '1:1'
   };
 
@@ -201,7 +201,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   }
 
   list: Array<any> = [];
-  gap = 10;
+  gap = 5;
   evenReg = /^even-[1-9]\d*-[1-9]\d*$/;
   defaultWidth = 200;
   defaultHeight = 112.5;
@@ -242,9 +242,9 @@ export class ImagesField extends React.Component<ImagesProps> {
       sortType === 'sms-ss-sms-m'
     ) {
       if (index === 0) {
-        return height + this.gap;
+        return height;
       } else {
-        return height * 0.5;
+        return (height - this.gap) * 0.5;
       }
     } else if (
       sortType === 'sm-ss-sss-ss' ||
@@ -253,7 +253,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       sortType === 'mss-ss-ssm-ss' ||
       sortType === 'sss-ss-mm-ss'
     ) {
-      return height * 0.5;
+      return (height - this.gap) * 0.5;
     } else if (this.evenReg.test(sortType || '')) {
       const rows = Number(sortType?.split('-')[1]);
       const columns = Number(sortType?.split('-')[2]);
@@ -271,41 +271,41 @@ export class ImagesField extends React.Component<ImagesProps> {
     const width = Number(this.props.width) || this.defaultWidth;
     if (sortType === 'sm-ss-sss-m' || sortType === 'sss-ss-ms-m') {
       if (index === 0) {
-        return width / 3;
+        return (width - 2 * this.gap) / 3;
       } else if (index === 1) {
-        return (width / 3) * 2 + this.gap;
+        return ((width - 2 * this.gap) / 3) * 2 + this.gap;
       } else {
-        return width / 3;
+        return (width - 2 * this.gap) / 3;
       }
     } else if (sortType === 'sms-ss-sms-m') {
       if ([0, 2, 4].includes(index)) {
-        return width / 4;
+        return (width - 2 * this.gap) / 4;
       } else if (index === 1 || index === 3) {
-        return width / 2 + this.gap;
+        return (width - 2 * this.gap) / 2 + this.gap;
       }
     } else if (sortType === 'sm-ss-sss-ss') {
       if ([0, 2, 3, 4].includes(index)) {
-        return width / 3;
+        return (width - 2 * this.gap) / 3;
       } else {
-        return (width / 3) * 2 + this.gap;
+        return ((width - 2 * this.gap) / 3) * 2 + this.gap;
       }
     } else if (sortType === 'ms-ss-sss-ss') {
       if ([1, 2, 3, 4].includes(index)) {
-        return width / 3;
+        return (width - 2 * this.gap) / 3;
       } else {
-        return (width / 3) * 2 + this.gap;
+        return ((width - 2 * this.gap) / 3) * 2 + this.gap;
       }
     } else if (sortType === 'sss-ss-sm-ss') {
       if ([0, 1, 2, 4].includes(index)) {
-        return width / 3;
+        return (width - 2 * this.gap) / 3;
       } else {
-        return (width / 3) * 2 + this.gap;
+        return ((width - 2 * this.gap) / 3) * 2 + this.gap;
       }
     } else if (sortType === 'mss-ss-ssm-ss') {
       if ([1, 2, 4, 5].includes(index)) {
-        return width / 4;
+        return (width - 2 * this.gap) / 4;
       } else {
-        return width / 2 + this.gap;
+        return (width - 2 * this.gap) / 2 + this.gap;
       }
     } else if (sortType === 'sss-ss-mm-ss') {
       if ([0, 1, 2].includes(index)) {
@@ -356,7 +356,6 @@ export class ImagesField extends React.Component<ImagesProps> {
   generateTranslate = (sortType: string | undefined, index: number) => {
     const width = Number(this.props.width) || this.defaultWidth;
     const height = Number(this.props.height) || this.defaultHeight;
-    const gap = this.gap;
     let styleObj: any = {
       position: 'absolute',
       boxSizing: 'content-box',
@@ -365,101 +364,127 @@ export class ImagesField extends React.Component<ImagesProps> {
     };
     if (sortType === 'sm-ss-sss-m') {
       if (index === 1) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${0}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${
-          height * 0.5 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${(height - this.gap) * 0.5 + this.gap}px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
-          height * 0.5 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${(height - this.gap) * 0.5 + this.gap}px)`;
       }
     } else if (sortType === 'sss-ss-ms-m') {
       if (index === 1) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${
-          height * 0.5 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${(height - this.gap) * 0.5 + this.gap}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${0}px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${0}px)`;
       }
     } else if (sortType === 'sms-ss-sms-m') {
       if (index === 1) {
-        styleObj.transform = `translate(${width / 4 + gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 4 + this.gap
+        }px,${0}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${(width / 4) * 3 + 3 * gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 4) * 3 + 3 * this.gap
+        }px,${0}px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${width / 4 + gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 4 + this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       } else if (index === 4) {
-        styleObj.transform = `translate(${(width / 4) * 3 + 3 * gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 4) * 3 + 3 * this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       }
     } else if (sortType === 'sm-ss-sss-ss') {
       if (index === 1) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${0}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
+        styleObj.transform = `translate(${0}px,${
+          (height - this.gap) / 2 + this.gap
+        }px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       } else if (index === 4) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       }
     } else if (sortType === 'ms-ss-sss-ss') {
       if (index === 1) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${0}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
+        styleObj.transform = `translate(${0}px,${
+          (height - this.gap) / 2 + this.gap
+        }px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       } else if (index === 4) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
-          height / 2 + gap
-        }px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       }
     } else if (sortType === 'sss-ss-sm-ss') {
       if (index === 1) {
-        styleObj.transform = `translate(${width / 3 + gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          (width - 2 * this.gap) / 3 + this.gap
+        }px,${0}px)`;
       } else if (index === 2) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${0}px)`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${0}px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
+        styleObj.transform = `translate(${0}px,${
+          (height - this.gap) / 2 + this.gap
+        }px)`;
       } else if (index === 4) {
-        styleObj.transform = `translate(${(width / 3) * 2 + 2 * gap}px,${
-          height / 2 + gap
-        }px`;
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 3) * 2 + 2 * this.gap
+        }px,${(height - this.gap) / 2 + this.gap}px`;
       }
     } else if (sortType === 'mss-ss-ssm-ss') {
       if (index === 1 || index === 2) {
         styleObj.transform = `translate(${
-          (width / 4 + gap) * (index + 1)
+          ((width - 2 * this.gap) / 4 + this.gap) * (index + 1)
         }px,${0}px)`;
       } else if (index === 3) {
-        styleObj.transform = `translate(${0}px,${height / 2 + gap}px)`;
-      } else if (index === 4 || index === 5) {
-        styleObj.transform = `translate(${(width / 4 + gap) * (index - 2)}px,${
-          height / 2 + gap
+        styleObj.transform = `translate(${0}px,${
+          (height - this.gap) / 2 + this.gap
         }px)`;
+      } else if (index === 4 || index === 5) {
+        styleObj.transform = `translate(${
+          ((width - 2 * this.gap) / 4 + this.gap) * (index - 2)
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       }
     } else if (sortType === 'sss-ss-mm-ss') {
       if (index === 1 || index === 2) {
         styleObj.transform = `translate(${
-          ((width - 2 * gap) / 3 + gap) * index
+          ((width - 2 * this.gap) / 3 + this.gap) * index
         }px,${0}px)`;
       } else if (index === 3 || index === 4) {
         styleObj.transform = `translate(${
-          ((width - gap) / 2 + gap) * (index - 3)
-        }px,${height / 2 + gap}px)`;
+          ((width - this.gap) / 2 + this.gap) * (index - 3)
+        }px,${(height - this.gap) / 2 + this.gap}px)`;
       }
     } else if (this.evenReg.test(sortType || '')) {
       styleObj.transform = this.generateEvenTranslate(sortType, index);
@@ -497,7 +522,6 @@ export class ImagesField extends React.Component<ImagesProps> {
       sortType,
       imagesControlClassName
     } = this.props;
-
     let value: any;
     let list: any;
 
@@ -568,7 +592,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               title={item && item.title}
               desc={item && item.desc}
               caption={item && (item.description || item.caption)}
-              thumbMode={thumbMode || 'cover'}
+              thumbMode={thumbMode}
               thumbRatio={thumbRatio}
               enlargeAble={enlargeAble!}
               enlargeWithGallary={enlargeWithGallary}

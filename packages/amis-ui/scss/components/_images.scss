@@ -1,5 +1,21 @@
 @use 'sass:math';
 
+.sm-ss-sss-m,
+.sss-ss-ms-m,
+.sms-ss-sms-m,
+.sm-ss-sss-ss,
+.ms-ss-sss-ss,
+.sss-ss-sm-ss,
+.mss-ss-ssm-ss,
+.sss-ss-mm-ss,
+[class^="even-"]{
+  .#{$ns}Image{
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
 .#{$ns}Images {
   display: flex;
   flex-wrap: wrap;
