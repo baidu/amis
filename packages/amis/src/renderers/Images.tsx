@@ -577,7 +577,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               style={this.generateTranslate(sortType, index)}
               width={this.generateWidth(sortType, index)}
               height={this.generateHeight(sortType, index)}
-              hoverMode={this.props.hoverMode}
+              hoverMode={this.props.hoverMode || 'text-style-4'}
               index={index}
               className={cx('Images-item')}
               key={index}
@@ -637,7 +637,7 @@ export class ImagesField extends React.Component<ImagesProps> {
             <div className={cx('Images', listClassName)}>
               {list.map((item: any, index: number) => (
                 <Image
-                  hoverMode={this.props.hoverMode}
+                  hoverMode={this.props.hoverMode || 'text-style-4'}
                   fontStyle={this.props.fontStyle}
                   index={index}
                   className={cx('Images-item')}
@@ -675,7 +675,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           ) : defaultImage ? (
             <div className={cx('Images', listClassName)}>
               <Image
-                hoverMode={this.props.hoverMode}
+                hoverMode={this.props.hoverMode || 'text-style-4'}
                 className={cx('Images-item')}
                 src={defaultImage}
                 thumbMode={thumbMode}
