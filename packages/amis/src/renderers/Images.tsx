@@ -520,10 +520,9 @@ export class ImagesField extends React.Component<ImagesProps> {
     /**
      * 截取图集图片数量，多余图片不显示
      * */
-    if (
-      this.props.sortType === 'sm-ss-sss-m' ||
-      this.props.sortType === 'sss-ss-ms-m'
-    ) {
+    if (this.props.sortType === 'sm-ss-sss-m') {
+      this.list = list.slice(0, 4);
+    } else if (this.props.sortType === 'sss-ss-ms-m') {
       this.list = list.slice(0, 5);
     } else if (
       this.props.sortType === 'sms-ss-sms-m' ||
@@ -537,11 +536,10 @@ export class ImagesField extends React.Component<ImagesProps> {
     } else if (this.props.sortType === 'sss-ss-mm-ss') {
       this.list = list.slice(0, 6);
     }
-
     if (this.props.sortType) {
       return (
         <div className={sortType}>
-          {list.map((item: any, index: number) => (
+          {this.list.map((item: any, index: number) => (
             <Image
               fontStyle={this.props.fontStyle}
               style={this.generateTranslate(sortType, index)}
