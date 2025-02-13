@@ -43,6 +43,8 @@ register('zh-CN', {
   'CRUD.invalidArray': 'data.items 必须是数组',
   'CRUD.invalidData': '返回数据格式不正确，data 没有数据',
   'CRUD.loadMore': '加载更多',
+  'CRUD.loading': '加载中...',
+  'CRUD.noMore': '没有更多数据了',
   'CRUD.loadMoreDisableTip': '无数据或最后一页',
   'CRUD.perPage': '每页显示',
   'CRUD.stat': '{{page}}/{{lastPage}} 共：{{total}} 项',

@@ -2425,13 +2425,23 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       translate: __,
       testIdBuilder
     } = this.props;
+
     const {page, lastPage} = store;
+
+    // 判断当前状态
+    const status = store.loading
+      ? 'loading'
+      : page >= lastPage
+      ? 'noMore'
+      : 'more';
 
     return (
       <div className={cx('Crud-loadMore')}>
         <Button
-          disabled={page >= lastPage}
-          disabledTip={__('CRUD.loadMoreDisableTip')}
+          disabled={status !== 'more'} // 只有more状态可点击
+          disabledTip={
+            status === 'noMore' ? __('CRUD.noMore') : __('CRUD.loading')
+          }
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -2439,7 +2449,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           size="sm"
           {...testIdBuilder?.getChild('loadMore').getTestId()}
         >
-          {__('CRUD.loadMore')}
+          {status === 'loading'
+            ? __('CRUD.loading')
+            : status === 'noMore'
+            ? __('CRUD.noMore')
+            : __('CRUD.loadMore')}
         </Button>
       </div>
     );
