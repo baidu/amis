@@ -167,10 +167,6 @@ export interface ImageSchema extends BaseSchema {
    */
   toolbarActions?: ImageToolbarAction[];
   /**
-   * 文字描述
-   * */
-  desc?: string;
-  /**
    * 鼠标悬浮时的展示状态（对应AIpage的文字6，9，10不存在）
    * */
   hoverMode?:
