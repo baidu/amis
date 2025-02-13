@@ -125,7 +125,9 @@ exports[`Renderer:image image:basic 1`] = `
           <div
             class="mask"
           >
-            <span />
+            <span>
+              图片
+            </span>
           </div>
           <img
             class="cxd-Image-image b"
@@ -369,7 +371,9 @@ exports[`Renderer:image image:title & imageCaption 1`] = `
           <div
             class="mask"
           >
-            <span />
+            <span>
+              这是标题
+            </span>
           </div>
           <img
             class="cxd-Image-image"
@@ -778,7 +782,9 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     <div
                       class="mask"
                     >
-                      <span />
+                      <span>
+                        图片1
+                      </span>
                     </div>
                     <img
                       class="cxd-Image-image"
@@ -830,7 +836,9 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     <div
                       class="mask"
                     >
-                      <span />
+                      <span>
+                        图片2
+                      </span>
                     </div>
                     <img
                       class="cxd-Image-image"
@@ -882,7 +890,9 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     <div
                       class="mask"
                     >
-                      <span />
+                      <span>
+                        图片3
+                      </span>
                     </div>
                     <img
                       class="cxd-Image-image"
