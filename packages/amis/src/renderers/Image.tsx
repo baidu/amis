@@ -186,6 +186,10 @@ export interface ImageSchema extends BaseSchema {
     | 'text-style-6'
     | 'text-style-7';
   /**
+   * 图集组件传入的排序方式
+   * */
+  sortType?: string;
+  /**
    * 描述文字样式
    * */
   fontStyle?: {
@@ -299,7 +303,7 @@ export class ImageThumb extends React.Component<
           />
         ) : null}
         <div className="mask">
-          <span>{this.props.desc}</span>
+          <span>{title}</span>
         </div>
         <img
           onLoad={this.handleImgLoaded}
@@ -380,7 +384,7 @@ export class ImageThumb extends React.Component<
           </div>
         )}
 
-        {title || caption ? (
+        {(title || caption) && !this.props.hoverMode && !this.props.sortType ? (
           <div key="caption" className={cx('Image-info')}>
             {title ? (
               <div
