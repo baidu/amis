@@ -154,7 +154,6 @@
 
   &-item:hover > &-subList {
     display: block;
-    min-width: var(--menu-min-width);
     animation-duration: var(--animation-duration);
     animation-fill-mode: both;
     animation-name: contextMenuIn;
@@ -176,21 +175,6 @@
 
     &:hover {
       display: block;
-    }
-
-    // 附加的边框线
-    &::before {
-      display: block;
-      position: absolute;
-      content: '';
-      top: -1px;
-      left: -1px;
-      bottom: -1px;
-      right: -1px;
-
-      border-radius: var(--menu-border-radius);
-      border: 1px solid var(--menu-border-color);
-      z-index: -1;
     }
   }
 
