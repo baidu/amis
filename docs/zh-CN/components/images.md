@@ -78,6 +78,7 @@ order: 53
       "sortType": "sm-ss-sss-m",
       "width":"200",
       "height":"112.5",
+      "thumbMode": "cover",
       "value":[
         {
           image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -112,6 +113,7 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-ms-m",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -148,6 +150,7 @@ order: 53
     {
       "type": "images",
       "sortType": "sms-ss-sms-m",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -188,6 +191,7 @@ order: 53
     {
       "type": "images",
       "sortType": "sm-ss-sss-ss",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -228,6 +232,7 @@ order: 53
     {
       "type": "images",
       "sortType": "ms-ss-sss-ss",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -268,6 +273,7 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-sm-ss",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -308,6 +314,7 @@ order: 53
     {
       "type": "images",
       "sortType": "mss-ss-ssm-ss",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -360,6 +367,7 @@ order: 53
     {
       "type": "images",
       "sortType": "sss-ss-mm-ss",
+      "thumbMode": "cover",
       "width":"200",
       "height":"112.5",
       "value":[
@@ -400,6 +408,7 @@ order: 53
     {
       "type": "images",
       "sortType": "even-3-3",
+      "thumbMode": "cover",
       "width":"180",
       "height":"180",
       "value":[
@@ -465,6 +474,7 @@ order: 53
       "type": "images",
       "hoverMode": "hover-slide",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -507,6 +517,7 @@ order: 53
       "type": "images",
       "hoverMode": "pull-top",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -549,6 +560,7 @@ order: 53
       "type": "images",
       "hoverMode": "scale-center",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -591,6 +603,7 @@ order: 53
       "type": "images",
       "hoverMode": "scale-top",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -633,6 +646,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-1",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -675,6 +689,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-2",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -717,6 +732,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-3",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -759,6 +775,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-4",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -800,6 +817,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-5",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -842,6 +860,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-6",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [
@@ -883,6 +902,7 @@ order: 53
       "type": "images",
       "hoverMode": "text-style-7",
       "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
       "width":"400",
       "height":"250",
       "value": [

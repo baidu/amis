@@ -561,36 +561,71 @@ export class ImagesField extends React.Component<ImagesProps> {
       return (
         <div className={sortType}>
           {list.map((item: any, index: number) => (
-            <div
-              className={cx('Img-container', this.props.hoverMode)}
+            <Image
               style={this.generateTranslate(sortType, index)}
+              width={this.generateWidth(sortType, index)}
+              height={this.generateHeight(sortType, index)}
+              hoverMode={this.props.hoverMode}
+              index={index}
+              className={cx('Images-item')}
               key={index}
-            >
-              <div
-                className="mask"
-                style={{
-                  height: this.generateHeight(sortType, index) + 'px',
-                  width: this.generateWidth(sortType, index) + 'px'
-                }}
-                onClick={() =>
-                  this.handleEnlarge({
-                    src: item.image,
-                    index
-                  } as ImageThumbProps)
-                }
-              >
-                <span style={{...this.generateFontStyle()}}>{item.desc}</span>
-              </div>
-              <img
-                alt=""
-                src={
-                  (src ? filter(src, item, '| raw') : item && item.image) ||
-                  item
-                }
-                width={this.generateWidth(sortType, index)}
-                height={this.generateHeight(sortType, index)}
-              />
-            </div>
+              src={
+                (src ? filter(src, item, '| raw') : item && item.image) || item
+              }
+              originalSrc={
+                (originalSrc
+                  ? filter(originalSrc, item, '| raw')
+                  : item && item.src) || item
+              }
+              title={item && item.title}
+              desc={item && item.desc}
+              caption={item && (item.description || item.caption)}
+              thumbMode={thumbMode || 'cover'}
+              thumbRatio={thumbRatio}
+              enlargeAble={enlargeAble!}
+              enlargeWithGallary={enlargeWithGallary}
+              onEnlarge={this.handleEnlarge}
+              showToolbar={showToolbar}
+              imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                {...this.props, name: 'imageGallaryClassName', id, themeCss}
+              )} ${setThemeClassName({
+                ...this.props,
+                name: 'galleryControlClassName',
+                id,
+                themeCss
+              })}`}
+              toolbarActions={toolbarActions}
+            />
+            // <div
+            //   className={cx('Img-container', this.props.hoverMode)}
+            //   style={this.generateTranslate(sortType, index)}
+            //   key={index}
+            // >
+            //   <div
+            //     className="mask"
+            //     style={{
+            //       height: this.generateHeight(sortType, index) + 'px',
+            //       width: this.generateWidth(sortType, index) + 'px'
+            //     }}
+            //     onClick={() =>
+            //       this.handleEnlarge({
+            //         src: item.image,
+            //         index
+            //       } as ImageThumbProps)
+            //     }
+            //   >
+            //     <span style={{...this.generateFontStyle()}}>{item.desc}</span>
+            //   </div>
+            //   <img
+            //     alt=""
+            //     src={
+            //       (src ? filter(src, item, '| raw') : item && item.image) ||
+            //       item
+            //     }
+            //     width={this.generateWidth(sortType, index)}
+            //     height={this.generateHeight(sortType, index)}
+            //   />
+            // </div>
           ))}
         </div>
       );
