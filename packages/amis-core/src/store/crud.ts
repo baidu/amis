@@ -229,6 +229,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
         position?: 'top' | 'bottom';
+        minLoadTime?: number;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -243,9 +244,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         position?: 'top' | 'bottom';
+        minLoadTime?: number;
       } = {}
     ) {
       try {
+        const startTime = Date.now();
+        let json: Payload;
+
         let rawItems = options.source
           ? resolveVariableAndFilter(
               options.source,
@@ -305,7 +310,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           delete ctx[options.perPageField || 'perPage'];
         }
 
-        const json: Payload = yield getEnv(self).fetcher(api, ctx, {
+        json = yield getEnv(self).fetcher(api, ctx, {
           ...options,
           cancelExecutor: (executor: Function) => (fetchCancel = executor)
         });
@@ -335,6 +340,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             throw new Error(self.__('CRUD.invalidData'));
           }
 
+          // 如果设置了最小加载时间，先等待
+          if (options.loadDataMode && options.minLoadTime) {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = options.minLoadTime - elapsedTime;
+
+            if (remainingTime > 0) {
+              yield new Promise(resolve => setTimeout(resolve, remainingTime));
+            }
+          }
+
+          // 更新数据
           self.updatedAt = Date.now();
           let result = normalizeApiResponseData(json.data);
 

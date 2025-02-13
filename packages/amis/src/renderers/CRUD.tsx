@@ -415,6 +415,12 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * 控制是否多选，默认为 false
    */
   multiple?: boolean;
+
+  /**
+   * 加载更多模式下的最小加载时间，避免闪烁
+   * @default 300
+   */
+  minLoadTime?: number;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -1344,7 +1350,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       loadDataOnceFetchOnFilter,
       source,
       columns,
-      dispatchEvent
+      dispatchEvent,
+      minLoadTime // 获取最小加载时间配置
     } = this.props;
 
     // reload 需要清空用户选择，无论是否开启keepItemSelectionOnPageChange
@@ -1395,7 +1402,9 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         columns: store.columns ?? columns,
         matchFunc,
         filterOnAllColumns: loadDataOnceFetchOnFilter === false,
-        position: this.position
+        position: this.position,
+        // 当 loadDataMode 为 true 时传入 minLoadTime
+        minLoadTime: loadDataMode ? minLoadTime : undefined
       });
       if (!isAlive(store)) {
         return value;
