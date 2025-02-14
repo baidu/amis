@@ -305,6 +305,16 @@
       text-align: right;
     }
 
+    & th.align-top,
+    & td.align-top {
+      vertical-align: top !important;
+    }
+
+    & th.align-bottom,
+    & td.align-bottom {
+      vertical-align: bottom !important;
+    }
+
     & td .#{$ns}SwitchControl {
       padding-top: 0;
     }

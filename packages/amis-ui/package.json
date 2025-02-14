@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "6.10.0",
+  "version": "6.11.0",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-core": "^6.10.0",
-    "amis-formula": "^6.10.0",
+    "amis-core": "^6.11.0",
+    "amis-formula": "^6.11.0",
     "animate.css": "4.1.1",
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
@@ -73,8 +73,8 @@
     "sortablejs": "1.15.0",
     "tinymce": "^6.1.2",
     "tslib": "^2.3.1",
-    "video-react": "0.15.0",
-    "uncontrollable": "7.2.1"
+    "uncontrollable": "7.2.1",
+    "video-react": "0.15.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",

@@ -423,6 +423,247 @@ order: 58
 }
 ```
 
+## 悬浮面板模式
+
+设置`mode`属性为 panel，开启悬浮面板模式，最多支持 3 级菜单
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": false,
+    "mode": "panel",
+    "overflow": {
+        "enable": true
+    },
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "?to=nav1",
+            "children": [
+                {
+                    "label": "Nav 1-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav1-1"
+                },
+                {
+                    "label": "Nav 1-2",
+                    "icon": "fa fa-user",
+                    "to": "?to=nav1-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 2",
+            "to": "?to=nav2",
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "icon": "fa fa-user",
+                            "to": "?to=nav2-1-1"
+                        },
+                        {
+                            "label": "Nav 2-1-2",
+                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                            "to": "http://www.baidu.com/",
+                            "target": "_blank"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "?to=nav3"
+        },
+        {
+            "label": "Nav 4",
+            "to": "?to=nav4"
+        },
+        {
+            "label": "Nav 5",
+            "to": "?to=nav5"
+        },
+        {
+            "label": "Nav 6",
+            "to": "?to=nav6"
+        },
+        {
+            "label": "Nav 7",
+            "to": "?to=nav7"
+        },
+        {
+            "label": "Nav 8",
+            "to": "?to=nav8",
+            "children": [
+                {
+                    "label": "Nav 8-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav8-1"
+                }
+            ]
+        },
+        {
+            "label": "Nav 9",
+            "to": "?to=nav9",
+            "children": [
+                {
+                    "label": "Nav 9-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav9-1",
+                    "children": [
+                        {
+                            "label": "Nav 9-1-1",
+                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                            "to": "?to=nav9-1-1"
+                        },
+                        {
+                            "label": "Nav 9-1-2",
+                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                            "to": "?to=nav13"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 9-2",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav9-2"
+                }
+            ]
+        }
+    ]
+}
+```
+
+设置竖向展示
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "mode": "panel",
+    "overflow": {
+        "enable": true
+    },
+    "style": {
+      "width": 200
+    },
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "?to=nav1",
+            "children": [
+                {
+                    "label": "Nav 1-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav1-1"
+                },
+                {
+                    "label": "Nav 1-2",
+                    "icon": "fa fa-user",
+                    "to": "?to=nav1-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 2",
+            "to": "?to=nav2",
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "icon": "fa fa-user",
+                            "to": "?to=nav2-1-1"
+                        },
+                        {
+                            "label": "Nav 2-1-2",
+                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                            "to": "http://www.baidu.com/",
+                            "target": "_blank"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "?to=nav3"
+        },
+        {
+            "label": "Nav 4",
+            "to": "?to=nav4"
+        },
+        {
+            "label": "Nav 5",
+            "to": "?to=nav5"
+        },
+        {
+            "label": "Nav 6",
+            "to": "?to=nav6"
+        },
+        {
+            "label": "Nav 7",
+            "to": "?to=nav7"
+        },
+        {
+            "label": "Nav 8",
+            "to": "?to=nav8",
+            "children": [
+                {
+                    "label": "Nav 8-1",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav8-1"
+                }
+            ]
+        },
+        {
+            "label": "Nav 9",
+            "to": "?to=nav9",
+            "children": [
+                {
+                    "label": "Nav 9-1",
+                    "to": "?to=nav9-1",
+                    "children": [
+                        {
+                            "label": "Nav 9-1-1",
+                            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                            "to": "?to=nav9-1-1"
+                        },
+                        {
+                            "label": "Nav 9-1-2",
+                            "to": "?to=nav9-1-2"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 9-2",
+                    "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+                    "to": "?to=nav9-2"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 导航缩起
 
 `collapsed`属性控制导航的展开和缩起，缩起状态下，导航内容仅展示图标或第一个文字，悬浮展开全部内容或子导航项
@@ -790,7 +1031,7 @@ order: 58
 | 属性名                            | 类型                                      | 默认值                          | 说明                                                                                     | 版本    |
 | --------------------------------- | ----------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
 | type                              | `string`                                  | `"nav"`                         | 指定为 Nav 渲染器                                                                        |
-| mode                              | `string`                                  | `"inline"`                      | 导航模式，悬浮或者内联，默认内联模式                                                     |
+| mode                              | `string`                                  | `"inline"`                      | 导航模式，悬浮/内联/悬浮面板，默认内联模式                                               |
 | collapsed                         | `boolean`                                 |                                 | 控制导航是否缩起                                                                         |
 | indentSize                        | `number`                                  | `16`                            | 层级缩进值，仅内联模式下生效                                                             |
 | level                             | `number`                                  |                                 | 控制导航最大展示层级数                                                                   |
