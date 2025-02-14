@@ -73,9 +73,16 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, [sign]);
   const confirm = React.useCallback(() => {
     if (sign) {
-      const base64 = sign.toDataURL();
-      setData(base64);
-      props.onChange?.(base64);
+      if (fullScreen) {
+        const canvas = sign.getRotateCanvas(-90);
+        const base64 = canvas.toDataURL();
+        setData(base64);
+        props.onChange?.(base64);
+      } else {
+        const base64 = sign.toDataURL();
+        setData(base64);
+        props.onChange?.(base64);
+      }
     }
   }, [sign]);
   const resize = React.useCallback(() => {
