@@ -1620,7 +1620,7 @@ order: 54
 
 ### deleteSuccess
 
-开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发。
+开启`needConfirm`并且配置`deleteApi`，点击“保存”后调用接口成功时触发。
 
 ```schema: scope="body"
 {
