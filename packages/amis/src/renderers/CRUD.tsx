@@ -1355,7 +1355,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       source,
       columns,
       dispatchEvent,
-      minLoadTime // 获取最小加载时间配置
+      loadMoreConfig
     } = this.props;
 
     // reload 需要清空用户选择，无论是否开启keepItemSelectionOnPageChange
@@ -1407,8 +1407,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         matchFunc,
         filterOnAllColumns: loadDataOnceFetchOnFilter === false,
         position: this.position,
-        // 当 loadDataMode 为 true 时传入 minLoadTime
-        minLoadTime: loadDataMode ? minLoadTime : undefined
+        // 修改这里,使用 loadMoreConfig 中的 minLoadTime
+        minLoadTime: loadDataMode ? loadMoreConfig?.minLoadTime : undefined
       });
       if (!isAlive(store)) {
         return value;

@@ -15,6 +15,7 @@ export type LoadMoreProps = {
     contentrefresh: string;
     contentnomore: string;
   };
+  minLoadTime?: number;
 };
 
 interface LoadMoreComponentProps extends LocaleProps, LoadMoreProps {
@@ -34,7 +35,8 @@ export class LoadMore extends React.Component<LoadMoreComponentProps> {
       contentdown: '点击显示更多',
       contentrefresh: '加载中...',
       contentnomore: '没有更多数据了'
-    }
+    },
+    minLoadTime: 300
   };
 
   render() {
@@ -48,7 +50,8 @@ export class LoadMore extends React.Component<LoadMoreComponentProps> {
       iconColor,
       color,
       contentText,
-      onClick
+      onClick,
+      minLoadTime
     } = this.props;
 
     const isLoading = status === 'loading';
