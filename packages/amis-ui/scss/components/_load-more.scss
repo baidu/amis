@@ -1,0 +1,26 @@
+.#{$ns}LoadMore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: var(--gap-base);
+  width: 100%;
+  user-select: none;
+
+  &.is-nomore {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.is-loading {
+    cursor: default;
+  }
+
+  &-icon {
+    margin-right: var(--gap-xs);
+  }
+
+  &-text {
+    font-size: var(--fontSizeSm);
+  }
+}

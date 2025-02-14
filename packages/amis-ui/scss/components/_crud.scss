@@ -120,6 +120,21 @@
       min-height: 0;
     }
   }
+
+  &-loadMore {
+    margin: var(--gap-base) 0;
+    text-align: center;
+
+    // 当在头部时的样式
+    &--top {
+      margin-top: 0;
+    }
+
+    // 当在底部时的样式
+    &--bottom {
+      margin-bottom: 0;
+    }
+  }
 }
 
 @include media-breakpoint-up(sm) {

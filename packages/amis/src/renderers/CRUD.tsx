@@ -69,7 +69,8 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
-
+import LoadMore from 'amis-ui/lib/components/LoadMore';
+import type {LoadMoreProps} from 'amis-ui/src/components/LoadMore';
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'
@@ -421,6 +422,8 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * @default 300
    */
   minLoadTime?: number;
+
+  loadMoreConfig?: LoadMoreProps;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -522,7 +525,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     'maxTagCount',
     'overflowTagPopover',
     'parsePrimitiveQuery',
-    'matchFunc'
+    'matchFunc',
+    'loadMoreConfig'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -2434,13 +2438,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   }
 
   renderLoadMore() {
-    const {
-      store,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      testIdBuilder
-    } = this.props;
+    const {store, classnames: cx, translate: __, loadMoreConfig} = this.props;
 
     const {page, lastPage} = store;
 
@@ -2448,29 +2446,40 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     const status = store.loading
       ? 'loading'
       : page >= lastPage
-      ? 'noMore'
+      ? 'no-more'
       : 'more';
 
+    const defaultConfig = {
+      iconSize: 20,
+      showIcon: true,
+      showText: true,
+      iconType: 'auto' as const,
+      contentText: {
+        contentdown: __('CRUD.loadMore'),
+        contentrefresh: __('CRUD.loading'),
+        contentnomore: __('CRUD.noMore')
+      }
+    };
+
+    const config = {...defaultConfig, ...loadMoreConfig};
+
     return (
-      <div className={cx('Crud-loadMore')}>
-        <Button
-          disabled={status !== 'more'} // 只有more状态可点击
-          disabledTip={
-            status === 'noMore' ? __('CRUD.noMore') : __('CRUD.loading')
-          }
-          classPrefix={ns}
+      <div
+        className={cx('Crud-loadMore', {
+          'Crud-loadMore--top': this.position === 'top',
+          'Crud-loadMore--bottom': this.position === 'bottom'
+        })}
+      >
+        <LoadMore
+          {...config}
+          status={status}
           onClick={() =>
-            this.search({page: page + 1, loadDataMode: 'load-more'})
+            this.search({
+              page: page + 1,
+              loadDataMode: 'load-more'
+            })
           }
-          size="sm"
-          {...testIdBuilder?.getChild('loadMore').getTestId()}
-        >
-          {status === 'loading'
-            ? __('CRUD.loading')
-            : status === 'noMore'
-            ? __('CRUD.noMore')
-            : __('CRUD.loadMore')}
-        </Button>
+        />
       </div>
     );
   }
