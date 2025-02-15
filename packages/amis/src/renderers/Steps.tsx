@@ -6,7 +6,10 @@ import {
   resolveVariable,
   resolveVariableAndFilter,
   filter,
-  getPropValue
+  getPropValue,
+  CustomStyle,
+  setThemeClassName,
+  formatStepsThemeCss
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
@@ -94,7 +97,9 @@ export interface StepsSchema extends BaseSchema {
 
 export interface StepsProps
   extends RendererProps,
-    Omit<StepsSchema, 'className'> {}
+    Omit<StepsSchema, 'className'> {
+  stepsItemStatus?: any;
+}
 
 export function StepsCmpt(props: StepsProps) {
   const {
@@ -109,8 +114,14 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     render,
-    mobileUI
+    mobileUI,
+    iconClassName,
+    titleClassName,
+    subTitleClassName,
+    descriptionClassName,
+    stepsItemStatus
   } = props;
+
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
     source,
     data,
@@ -166,6 +177,10 @@ export function StepsCmpt(props: StepsProps) {
       current={currentValue}
       steps={resolveSteps}
       className={className}
+      iconClassName={iconClassName}
+      subTitleClassName={subTitleClassName}
+      titleClassName={titleClassName}
+      descriptionClassName={descriptionClassName}
       style={style}
       status={statusValue}
       mode={mode}
@@ -173,7 +188,8 @@ export function StepsCmpt(props: StepsProps) {
       progressDot={progressDot}
       labelPlacement={labelPlacement}
       mobileUI={mobileUI}
-    ></Steps>
+      stepsItemStatus={stepsItemStatus}
+    />
   );
 }
 
@@ -182,10 +198,112 @@ const StepsWithRemoteConfig = withRemoteConfig()(
     RemoteOptionsProps & React.ComponentProps<typeof StepsCmpt>
   > {
     render() {
-      const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
+      const {
+        classnames: cx,
+        config,
+        deferLoad,
+        loading,
+        updateConfig,
+        id,
+        wrapperCustomStyle,
+        env,
+        themeCss,
+        className,
+        classPrefix: ns,
+        stepItemStatus,
+        ...rest
+      } = this.props;
       const sourceConfig = isPlainObject(config) ? config : null;
+      const css = formatStepsThemeCss(themeCss, 'steps');
+      console.log(themeCss, css);
 
-      return <StepsCmpt {...rest} {...sourceConfig} />;
+      return (
+        <>
+          <StepsCmpt
+            {...rest}
+            {...sourceConfig}
+            stepsItemStatus={stepItemStatus}
+            className={cx(
+              `${ns}StepsControl`,
+              className,
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss: css
+              })
+            )}
+            iconClassName={setThemeClassName({
+              ...this.props,
+              name: 'iconControlClassName',
+              id,
+              themeCss: css
+            })}
+            subTitleClassName={setThemeClassName({
+              ...this.props,
+              name: 'subTitleControlClassName',
+              id,
+              themeCss: css
+            })}
+            titleClassName={setThemeClassName({
+              ...this.props,
+              name: 'titleControlClassName',
+              id,
+              themeCss: css
+            })}
+            descriptionClassName={setThemeClassName({
+              ...this.props,
+              name: 'descriptionControlClassName',
+              id,
+              themeCss: css
+            })}
+          ></StepsCmpt>
+          <CustomStyle
+            {...this.props}
+            config={{
+              wrapperCustomStyle,
+              id,
+              themeCss: css,
+              classNames: [
+                {key: 'baseControlClassName'},
+                {
+                  key: 'iconControlClassName',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassName',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassName',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassName',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                }
+              ]
+            }}
+            env={env}
+          />
+        </>
+      );
     }
   }
 );

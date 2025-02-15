@@ -407,13 +407,27 @@
 
 .#{$ns}Steps-mobile.#{$ns}Steps--horizontal {
   .#{$ns}StepsItem {
+    overflow: visible;
     &-container {
+      &Tail:after {
+        display: none;
+      }
       &Wrapper {
+        transform: translateX(px2rem(-5px));
         .#{$ns}StepsItem-body {
           .#{$ns}StepsItem-title {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             &::after {
               display: none !important;
             }
+            span {
+              left: 0;
+            }
+          }
+          .#{$ns}StepsItem-description {
+            min-width: px2rem(140px);
           }
         }
 
@@ -429,6 +443,7 @@
       &Icon {
         position: relative;
         display: block;
+        margin-left: px2rem(40px);
 
         &:after {
           content: '';
@@ -436,8 +451,8 @@
           right: 0;
           top: px2rem(15px);
           height: 1px;
-          left: px2rem(40px);
-          width: 99999px;
+          left: px2rem(35px);
+          width: px2rem(80px);
           background-color: var(--Steps-line-bg);
         }
       }
