@@ -209,10 +209,10 @@ export default class ColumnToggler<
     });
   }
 
-  swapColumnPosition(oldIndex: number, newIndex: number) {
-    const columns = this.state.tempColumns;
+  moveColumn(oldIndex: number, newIndex: number) {
+    const columns = [...this.state.tempColumns];
 
-    columns[oldIndex] = columns.splice(newIndex, 1, columns[oldIndex])[0];
+    columns.splice(newIndex, 0, columns.splice(oldIndex, 1)[0]);
     this.setState({tempColumns: columns});
   }
 
@@ -266,23 +266,8 @@ export default class ColumnToggler<
         handle: `.${ns}ColumnToggler-menuItem-dragBar`,
         ghostClass: `${ns}ColumnToggler-menuItem--dragging`,
         onEnd: (e: any) => {
-          if (e.newIndex === e.oldIndex) {
-            return;
-          }
-
-          const parent = e.to as HTMLElement;
-          if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(
-              e.item,
-              parent.childNodes[
-                e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
-              ]
-            );
-          } else {
-            parent.appendChild(e.item);
-          }
-
-          this.swapColumnPosition(e.oldIndex, e.newIndex);
+          if (e.newIndex === e.oldIndex) return;
+          this.moveColumn(e.oldIndex, e.newIndex);
         }
       }
     );
@@ -389,10 +374,13 @@ export default class ColumnToggler<
           contentClassName={cx('ColumnToggler-modal')}
           container={modalContainer || this.target}
           overlay={typeof overlay === 'boolean' ? overlay : false}
+          draggable={true}
         >
           <header className={cx('ColumnToggler-modal-header')}>
             <span className={cx('ColumnToggler-modal-title')}>
-              {__('Table.columnsVisibility')}
+              {enableSorting
+                ? __('Table.columnsSorting')
+                : __('Table.columnsVisibility')}
             </span>
             <a
               data-tooltip={__('Dialog.close')}
