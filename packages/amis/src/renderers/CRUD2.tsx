@@ -308,9 +308,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
   stopingAutoRefresh: boolean = false;
 
-  private position: 'top' | 'bottom' = this.props.headerToolbar?.some(
-    (item: any) => item === 'load-more' || item?.type === 'load-more'
-  )
+  private position: 'top' | 'bottom' = ([] as any[])
+    .concat(this.props.headerToolbar || [])
+    .some((item: any) => item === 'load-more' || item?.type === 'load-more')
     ? 'top'
     : 'bottom';
 
@@ -1252,7 +1252,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     return toolbar.map((item, index) => {
       // 处理 load-more 类型
-      if (item === 'load-more' || item?.type === 'load-more') {
+      if (item === 'load-more') {
         return this.renderLoadMore();
       }
 
