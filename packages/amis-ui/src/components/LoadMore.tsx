@@ -49,7 +49,7 @@ export interface LoadMoreProps {
 
   /**
    * 最小加载时间(ms)
-   * @default 0
+   * @default 300
    */
   minLoadTime?: number;
 }

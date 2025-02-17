@@ -417,12 +417,6 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    */
   multiple?: boolean;
 
-  /**
-   * 加载更多模式下的最小加载时间，避免闪烁
-   * @default 300
-   */
-  minLoadTime?: number;
-
   loadMoreConfig?: LoadMoreProps;
 }
 
@@ -1407,7 +1401,6 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         matchFunc,
         filterOnAllColumns: loadDataOnceFetchOnFilter === false,
         position: this.position,
-        // 修改这里,使用 loadMoreConfig 中的 minLoadTime
         minLoadTime: loadDataMode ? loadMoreConfig?.minLoadTime : undefined
       });
       if (!isAlive(store)) {
