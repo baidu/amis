@@ -52,7 +52,8 @@ import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
 import isPlainObject from 'lodash/isPlainObject';
 import isEmpty from 'lodash/isEmpty';
-
+import LoadMore from 'amis-ui/lib/components/LoadMore';
+import type {LoadMoreProps} from 'amis-ui/src/components/LoadMore';
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
 export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
@@ -208,6 +209,11 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
         types?: ('boolean' | 'number')[];
       }
     | boolean;
+
+  /**
+   * 加载更多配置
+   */
+  loadMoreConfig?: LoadMoreProps;
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
@@ -301,6 +307,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   mounted: boolean;
 
   stopingAutoRefresh: boolean = false;
+
+  private position: 'top' | 'bottom' = this.props.headerToolbar?.some(
+    (item: any) => item === 'load-more' || item?.type === 'load-more'
+  )
+    ? 'top'
+    : 'bottom';
 
   constructor(props: CRUD2Props) {
     super(props);
@@ -642,7 +654,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       source,
       columns,
-      perPage
+      perPage,
+      loadMoreConfig
     } = this.props;
 
     // reload 需要清空用户选择
@@ -679,10 +692,11 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         silent,
         pageField,
         perPageField,
-        loadDataMode,
+        loadDataMode: loadMore ? 'load-more' : undefined,
         syncResponse2Query,
         columns: store.columns ?? columns,
-        isTable2: true
+        position: this.position,
+        minLoadTime: loadMore ? loadMoreConfig?.minLoadTime : undefined
       });
 
       value?.ok && // 接口正常返回才继续轮训
@@ -1236,11 +1250,16 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     toolbar = ([] as any).concat(toolbar) as any[];
 
-    return toolbar.map((item, index) =>
-      this.renderChild(`${region}/${index}`, item, {
+    return toolbar.map((item, index) => {
+      // 处理 load-more 类型
+      if (item === 'load-more' || item?.type === 'load-more') {
+        return this.renderLoadMore();
+      }
+
+      return this.renderChild(`${region}/${index}`, item, {
         key: index + ''
-      })
-    );
+      });
+    });
   }
 
   renderFilter(filterSchema: SchemaObject[] | SchemaObject) {
@@ -1468,6 +1487,63 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     ) {
       fixedHeader();
     }
+  }
+
+  renderLoadMore() {
+    const {
+      store,
+      classnames: cx,
+      translate: __,
+      loadMoreConfig,
+      loadType
+    } = this.props;
+
+    // 只有 loadType 为 pagination 时才支持 load-more
+    if (loadType !== 'pagination') {
+      return null;
+    }
+
+    const {page, lastPage} = store;
+
+    // 判断当前状态
+    const status = store.loading
+      ? 'loading'
+      : page >= lastPage
+      ? 'no-more'
+      : 'more';
+
+    const defaultConfig = {
+      iconSize: 20,
+      showIcon: true,
+      showText: true,
+      iconType: 'auto' as const,
+      contentText: {
+        contentdown: __('CRUD.loadMore'),
+        contentrefresh: __('CRUD.loading'),
+        contentnomore: __('CRUD.noMore')
+      }
+    };
+
+    const config = {...defaultConfig, ...loadMoreConfig};
+
+    return (
+      <div
+        className={cx('Crud-loadMore', {
+          'Crud-loadMore--top': this.position === 'top',
+          'Crud-loadMore--bottom': this.position === 'bottom'
+        })}
+      >
+        <LoadMore
+          {...config}
+          status={status}
+          onClick={() => {
+            // 先切换到下一页
+            store.changePage(store.page + 1);
+            this.getData(undefined, undefined, undefined, true);
+          }}
+        />
+      </div>
+    );
   }
 
   render() {
