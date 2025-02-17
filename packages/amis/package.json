@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^6.11.0",
-    "amis-ui": "^6.11.0",
+    "amis-core": "*",
+    "amis-ui": "*",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -64,6 +64,7 @@
     "mpegts.js": "^1.6.10",
     "office-viewer": "*",
     "prop-types": "^15.6.1",
+    "qrcode-react-next": "^0.0.3",
     "qrcode.react": "^3.1.0",
     "react-cropper": "^2.1.8",
     "react-dropzone": "^11.4.2",
