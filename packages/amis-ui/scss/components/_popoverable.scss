@@ -23,12 +23,13 @@
 
   .#{$ns}Field-popOverWrap {
     &-ellipsis {
-      width: 200px;
-      white-space: nowrap;
+      width: auto;
       overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: bottom;
-      display: inline-block;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      word-break: break-all;
     }
 
     &-noWrap {
