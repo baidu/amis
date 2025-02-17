@@ -3,20 +3,56 @@ import {LocaleProps, localeable} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Spinner} from './Spinner';
 
-export type LoadMoreProps = {
-  iconSize?: number;
+export interface LoadMoreProps {
+  /**
+   * 图标大小,支持 sm/lg 或不设置
+   * @default ''
+   */
+  size?: 'sm' | 'lg' | '';
+
+  /**
+   * 当前状态
+   * @default 'more'
+   */
   status?: 'more' | 'loading' | 'no-more';
+
+  /**
+   * 是否显示图标
+   * @default true
+   */
   showIcon?: boolean;
+
+  /**
+   * 是否显示文本
+   * @default true
+   */
   showText?: boolean;
-  iconColor?: string;
+
+  /**
+   * 文本颜色
+   */
   color?: string;
+
+  /**
+   * 自定义图标,支持传入React节点或icon字符串
+   */
+  icon?: string | React.ReactNode;
+
+  /**
+   * 自定义文案配置
+   */
   contentText?: {
     contentdown: string;
     contentrefresh: string;
     contentnomore: string;
   };
+
+  /**
+   * 最小加载时间(ms)
+   * @default 0
+   */
   minLoadTime?: number;
-};
+}
 
 interface LoadMoreComponentProps extends LocaleProps, LoadMoreProps {
   classnames: ClassNamesFn;
@@ -26,10 +62,9 @@ interface LoadMoreComponentProps extends LocaleProps, LoadMoreProps {
 
 export class LoadMore extends React.Component<LoadMoreComponentProps> {
   static defaultProps = {
-    iconSize: 20,
+    size: 'sm' as 'sm' | 'lg' | '',
     showIcon: true,
     showText: true,
-    iconColor: '',
     color: '',
     contentText: {
       contentdown: '点击显示更多',
@@ -46,12 +81,11 @@ export class LoadMore extends React.Component<LoadMoreComponentProps> {
       status,
       showIcon,
       showText,
-      iconSize,
-      iconColor,
+      size,
       color,
+      icon,
       contentText,
-      onClick,
-      minLoadTime
+      onClick
     } = this.props;
 
     const isLoading = status === 'loading';
@@ -69,19 +103,14 @@ export class LoadMore extends React.Component<LoadMoreComponentProps> {
         {showIcon && (
           <Spinner
             show={isLoading}
-            icon="loading-outline"
-            size="sm"
+            icon={icon || 'loading-outline'}
+            size={size}
             classnames={cx}
             classPrefix={ns}
             className={cx('LoadMore-icon')}
             spinnerClassName={cx({
               'is-spinning': isLoading
             })}
-            style={{
-              width: iconSize,
-              height: iconSize,
-              fill: iconColor || color
-            }}
           />
         )}
         {showText && (
