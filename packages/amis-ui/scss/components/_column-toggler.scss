@@ -203,6 +203,12 @@
           cursor: move;
         }
       }
+
+      @for $i from 1 through 10 {
+        &--column-#{$i} > .#{$ns}ColumnToggler-menuItem {
+          width: calc((100% - var(--ColumnToggler-item-margin) * $i * 2) / $i);
+        }
+      }
     }
 
     &-footer {
