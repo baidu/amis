@@ -893,15 +893,19 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | type            | `string`                                  |                    | `"dialog"` 指定为 Dialog 渲染器                                                                  |
 | title           | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                       |
 | body            | [SchemaNode](../../docs/types/schemanode) |                    | 往 Dialog 内容区加内容                                                                           |
-| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`、`full`                                     |
+| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`、`full`、`custom`                           |
+| width           | `number \| string`                        |                    | Dialog 宽度, size 为 `custom` 时生效                                                             |
+| height          | `number \| string`                        |                    | Dialog 高度, size 为 `custom` 时生效                                                             |
 | bodyClassName   | `string`                                  | `modal-body`       | Dialog body 区域的样式类名                                                                       |
 | closeOnEsc      | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                                     |
 | showCloseButton | `boolean`                                 | `true`             | 是否显示右上角的关闭按钮                                                                         |
 | showErrorMsg    | `boolean`                                 | `true`             | 是否在弹框左下角显示报错信息                                                                     |
 | showLoading     | `boolean`                                 | `true`             | 是否在弹框左下角显示 loading 动画                                                                |
 | disabled        | `boolean`                                 | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                                   |
+| draggable       | `boolean`                                 |                    | 是否支持拖拽 Dialog                                                                              |
 | actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                             |
 | data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+|                 |
 
 ## 事件表
 
