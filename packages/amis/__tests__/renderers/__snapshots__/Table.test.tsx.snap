@@ -6631,8 +6631,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -6874,8 +6879,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -7237,8 +7247,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"

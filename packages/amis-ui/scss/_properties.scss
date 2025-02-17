@@ -828,9 +828,12 @@ $Table-strip-bg: transparent;
   // ContextMenu
   --menu-background: #fff;
   --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
-  --menu-border-radius: 4px;
+  --menu-border-radius: 6px;
+  --menu-padding: 4px;
   --menu-font-color: #151b26;
   --menu-font-family: PingFangSC-Regular;
+  --menu-font-padding: 5px 8px;
+  --menu-font-size: 14px;
   --menu-border-color: #e8e9eb; // 默认的边框色
   --menu-active-color: var(--colors-brand-5);
   --menu-hover-bg-color: #e6f0ff;
@@ -839,6 +842,12 @@ $Table-strip-bg: transparent;
   --default-padding: 4px 12px; // 6px 12px
   --menu-min-width: 150px; // 一级子项最小宽度
   --menu-sub-min-width: 100px; // 二级子项最小宽度
+
+  --Context-menu-border-radius: 6px;
+  --Context-menu-active-color: #2468f2;
+  --Context-menu-hover-color: #151b26;
+  --Context-menu-hover-bg-color: #f2f2f4;
+  --Context-menu-hasChild-active-color: #151b26;
 
   --SearchBox-width: #{px2rem(150px)};
   --SearchBox-history-dropdown-maxWidth: calc(var(--SearchBox-width) * 2);
