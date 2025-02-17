@@ -69,8 +69,7 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
-import LoadMore from 'amis-ui/lib/components/LoadMore';
-import type {LoadMoreProps} from 'amis-ui/src/components/LoadMore';
+import {LoadMore, type LoadMoreProps} from 'amis-ui';
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'

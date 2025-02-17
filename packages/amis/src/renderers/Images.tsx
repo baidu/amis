@@ -15,7 +15,12 @@ import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
-
+import Transition, {
+  ENTERED,
+  ENTERING,
+  EXITING,
+  EXITED
+} from 'react-transition-group/Transition';
 /**
  * 图片集展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
@@ -114,6 +119,21 @@ export interface ImagesSchema extends BaseSchema {
   toolbarActions?: ImageToolbarAction[];
 
   /**
+   * 展示模式，支持缩略图模式（thumb）和大图模式（full）
+   */
+  displayMode?: 'thumb' | 'full';
+
+  /**
+   * 当前展示图片索引
+   */
+  currentIndex?: number;
+
+  /**
+   * 大图模式下的缩放模式
+   */
+  fullThumbMode?: 'cover' | 'contain';
+
+  /**
    * 排列方式
    * 类命名方式按照上右下左四个边命名，l=2m，m=2s，最小单位为s
    * 每条边的顺序都是从上到下，从左到右。
@@ -178,33 +198,132 @@ export interface ImagesProps
   ) => void;
 }
 
-export class ImagesField extends React.Component<ImagesProps> {
-  static defaultProps: Pick<
-    ImagesProps,
-    | 'className'
-    | 'delimiter'
-    | 'defaultImage'
-    | 'placehoder'
-    | 'thumbMode'
-    | 'thumbRatio'
-  > = {
+export interface ImagesState {
+  currentIndex: number;
+  nextAnimation: string;
+}
+
+export class ImagesField extends React.Component<ImagesProps, ImagesState> {
+  static defaultProps = {
     className: '',
     delimiter: ',',
     defaultImage: imagePlaceholder,
     placehoder: '-',
     thumbMode: 'cover',
-    thumbRatio: '1:1'
+    thumbRatio: '1:1',
+    displayMode: 'thumb',
+    fullThumbMode: 'cover'
   };
-
   constructor(props: ImagesProps) {
     super(props);
   }
+  state: ImagesState = {
+    currentIndex: 0,
+    nextAnimation: ''
+  };
+
+  private isSwiping: boolean = false;
+  private startX: number = 0;
 
   list: Array<any> = [];
   gap = 5;
   evenReg = /^even-[1-9]\d*-[1-9]\d*$/;
   defaultWidth = 200;
   defaultHeight = 112.5;
+
+  wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  // 根据当前索引和方向获取下一帧的索引
+  @autobind
+  getFrameId(pos?: string) {
+    const {currentIndex} = this.state;
+    const total = this.list.length;
+    switch (pos) {
+      case 'prev':
+        return (currentIndex - 1 + total) % total;
+      case 'next':
+        return (currentIndex + 1) % total;
+      default:
+        return currentIndex;
+    }
+  }
+
+  // 根据方向和动画类型切换到下一帧
+  @autobind
+  async transitFramesTowards(direction: string, nextAnimation: string) {
+    let {currentIndex} = this.state;
+    let prevIndex = currentIndex;
+
+    switch (direction) {
+      case 'left':
+        currentIndex = this.getFrameId('next');
+        nextAnimation = 'slideLeft';
+        break;
+      case 'right':
+        currentIndex = this.getFrameId('prev');
+        nextAnimation = 'slideRight';
+        break;
+      default:
+        return;
+    }
+
+    this.setState({currentIndex, nextAnimation});
+  }
+
+  @autobind
+  private handleSwipe(deltaX: number) {
+    const threshold = 50;
+
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0) {
+        // 向右滑
+        this.transitFramesTowards('right', 'slideRight');
+      } else {
+        // 向左滑
+        this.transitFramesTowards('left', 'slideLeft');
+      }
+    }
+  }
+
+  @autobind
+  handleTouchStart(e: React.TouchEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    this.isSwiping = true;
+    this.startX = e.touches[0].clientX;
+  }
+
+  @autobind
+  handleTouchEnd(e: React.TouchEvent) {
+    if (!this.isSwiping) return;
+
+    const deltaX = e.changedTouches[0].clientX - this.startX;
+    this.handleSwipe(deltaX);
+    this.isSwiping = false;
+  }
+
+  @autobind
+  handleMouseDown(e: React.MouseEvent) {
+    if (this.props.displayMode !== 'full') return;
+
+    // 阻止图片默认的拖拽行为
+    e.preventDefault();
+
+    this.isSwiping = true;
+    this.startX = e.clientX;
+
+    document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  @autobind
+  handleMouseUp(e: MouseEvent) {
+    if (!this.isSwiping) return;
+
+    const deltaX = e.clientX - this.startX;
+    this.handleSwipe(deltaX);
+    this.isSwiping = false;
+    document.removeEventListener('mouseup', this.handleMouseUp);
+  }
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
@@ -520,8 +639,12 @@ export class ImagesField extends React.Component<ImagesProps> {
       env,
       themeCss,
       sortType,
-      imagesControlClassName
+      imagesControlClassName,
+      displayMode,
+      fullThumbMode
     } = this.props;
+
+    const {currentIndex} = this.state;
     let value: any;
     let list: any;
 
@@ -614,9 +737,11 @@ export class ImagesField extends React.Component<ImagesProps> {
     } else {
       return (
         <div
+          ref={this.wrapperRef}
           className={cx(
             'ImagesField',
             className,
+            displayMode === 'full' ? 'ImagesField--full' : '',
             setThemeClassName({
               ...this.props,
               name: 'imagesControlClassName',
@@ -630,45 +755,142 @@ export class ImagesField extends React.Component<ImagesProps> {
               themeCss: wrapperCustomStyle
             })
           )}
-          style={style}
+          style={{
+            ...style,
+            ...(displayMode === 'full'
+              ? {
+                  height: 'auto'
+                }
+              : {})
+          }}
+          onTouchStart={this.handleTouchStart}
+          onTouchEnd={this.handleTouchEnd}
+          onMouseDown={this.handleMouseDown}
         >
           {Array.isArray(list) ? (
             <div className={cx('Images', listClassName)}>
-              {list.map((item: any, index: number) => (
-                <Image
-                  hoverMode={this.props.hoverMode || 'text-style-4'}
-                  fontStyle={this.props.fontStyle}
-                  index={index}
-                  className={cx('Images-item')}
-                  key={index}
-                  src={
-                    (src ? filter(src, item, '| raw') : item && item.image) ||
-                    item
-                  }
-                  originalSrc={
-                    (originalSrc
-                      ? filter(originalSrc, item, '| raw')
-                      : item && item.src) || item
-                  }
-                  title={item && item.title}
-                  caption={item && (item.description || item.caption)}
-                  thumbMode={thumbMode}
-                  thumbRatio={thumbRatio}
-                  enlargeAble={enlargeAble!}
-                  enlargeWithGallary={enlargeWithGallary}
-                  onEnlarge={this.handleEnlarge}
-                  showToolbar={showToolbar}
-                  imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
-                    {...this.props, name: 'imageGallaryClassName', id, themeCss}
-                  )} ${setThemeClassName({
-                    ...this.props,
-                    name: 'galleryControlClassName',
-                    id,
-                    themeCss
-                  })}`}
-                  toolbarActions={toolbarActions}
-                />
-              ))}
+              {displayMode === 'full' ? (
+                <div className={cx('Images-container')}>
+                  {list.map((item: any, index: number) => (
+                    <Transition
+                      key={index}
+                      in={index === currentIndex}
+                      timeout={300}
+                      mountOnEnter
+                      unmountOnExit
+                    >
+                      {(status: string) => {
+                        if (status === ENTERING) {
+                          this.wrapperRef.current?.childNodes.forEach(
+                            (item: HTMLElement) => item.offsetHeight
+                          );
+                        }
+
+                        const animationStyles: {
+                          [propName: string]: React.CSSProperties;
+                        } = {
+                          [ENTERING]: {
+                            opacity: 1,
+                            transform: 'translateX(0)'
+                          },
+                          [ENTERED]: {
+                            opacity: 1,
+                            transform: 'translateX(0)'
+                          },
+                          [EXITING]: {
+                            opacity: 0,
+                            transform:
+                              this.state.nextAnimation === 'slideRight'
+                                ? 'translateX(100%)'
+                                : 'translateX(-100%)'
+                          },
+                          [EXITED]: {
+                            opacity: 0,
+                            transform:
+                              this.state.nextAnimation === 'slideRight'
+                                ? 'translateX(-100%)'
+                                : 'translateX(100%)'
+                          }
+                        };
+
+                        return (
+                          <div
+                            className={cx('Images-item')}
+                            style={{
+                              position: 'absolute',
+                              width: '100%',
+                              height: '100%',
+                              transition: 'all 300ms ease-in-out',
+                              ...animationStyles[status]
+                            }}
+                          >
+                            <div className={cx('Images-itemInner')}>
+                              <img
+                                className={cx('Image-image', {
+                                  [`Image-image--${fullThumbMode}`]:
+                                    displayMode === 'full'
+                                })}
+                                src={
+                                  (src
+                                    ? filter(src, item, '| raw')
+                                    : item && item.image) || item
+                                }
+                                alt={item && item.title}
+                                draggable={false}
+                                onDragStart={e => e.preventDefault()}
+                              />
+                              <div className={cx('Images-itemIndex')}>
+                                {index + 1}/{list.length}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }}
+                    </Transition>
+                  ))}
+                </div>
+              ) : (
+                list.map((item: any, index: number) => (
+                  <Image
+                    hoverMode={this.props.hoverMode || 'text-style-4'}
+                    fontStyle={this.props.fontStyle}
+                    index={index}
+                    className={cx('Images-item')}
+                    key={index}
+                    src={
+                      (src ? filter(src, item, '| raw') : item && item.image) ||
+                      item
+                    }
+                    originalSrc={
+                      (originalSrc
+                        ? filter(originalSrc, item, '| raw')
+                        : item && item.src) || item
+                    }
+                    title={item && item.title}
+                    caption={item && (item.description || item.caption)}
+                    thumbMode={thumbMode}
+                    thumbRatio={thumbRatio}
+                    enlargeAble={enlargeAble!}
+                    enlargeWithGallary={enlargeWithGallary}
+                    onEnlarge={this.handleEnlarge}
+                    showToolbar={showToolbar}
+                    imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                      {
+                        ...this.props,
+                        name: 'imageGallaryClassName',
+                        id,
+                        themeCss
+                      }
+                    )} ${setThemeClassName({
+                      ...this.props,
+                      name: 'galleryControlClassName',
+                      id,
+                      themeCss
+                    })}`}
+                    toolbarActions={toolbarActions}
+                  />
+                ))
+              )}
             </div>
           ) : defaultImage ? (
             <div className={cx('Images', listClassName)}>

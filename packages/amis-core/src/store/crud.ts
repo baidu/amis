@@ -249,7 +249,6 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     ) {
       try {
         const startTime = Date.now();
-        let json: Payload;
 
         let rawItems = options.source
           ? resolveVariableAndFilter(
@@ -310,7 +309,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           delete ctx[options.perPageField || 'perPage'];
         }
 
-        json = yield getEnv(self).fetcher(api, ctx, {
+        const json: Payload = yield getEnv(self).fetcher(api, ctx, {
           ...options,
           cancelExecutor: (executor: Function) => (fetchCancel = executor)
         });

@@ -52,8 +52,7 @@ import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
 import isPlainObject from 'lodash/isPlainObject';
 import isEmpty from 'lodash/isEmpty';
-import LoadMore from 'amis-ui/lib/components/LoadMore';
-import type {LoadMoreProps} from 'amis-ui/src/components/LoadMore';
+import {LoadMore, type LoadMoreProps} from 'amis-ui';
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
 export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {

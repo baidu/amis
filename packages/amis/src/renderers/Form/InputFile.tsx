@@ -657,9 +657,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   handleSelect() {
-    const {disabled, multiple, maxLength} = this.props;
-    !disabled &&
-      !(multiple && maxLength && this.state.files.length >= maxLength) &&
+    const {disabled, multiple, maxLength, static: isStatic} = this.props;
+    !disabled && !isStatic;
+    !(multiple && maxLength && this.state.files.length >= maxLength) &&
       this.dropzone.current &&
       this.dropzone.current.open();
   }
@@ -1370,7 +1370,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       documentLink,
       env,
       container,
-      testIdBuilder
+      testIdBuilder,
+      static: isStatic
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1404,7 +1405,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         ) : null}
 
         <DropZone
-          disabled={disabled}
+          disabled={disabled || isStatic}
           key="drop-zone"
           ref={this.dropzone}
           onDrop={this.handleDrop}
@@ -1420,13 +1421,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               className={cx('FileControl-dropzone', {
                 'disabled':
                   disabled ||
+                  isStatic ||
                   (multiple && !!maxLength && files.length >= maxLength),
                 'is-empty': !files.length,
                 'is-active': isDragActive
               })}
             >
               <input
-                disabled={disabled}
+                disabled={disabled || isStatic}
                 {...getInputProps()}
                 capture={capture as any}
                 {...testIdBuilder?.getChild('input').getTestId()}
@@ -1464,7 +1466,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     </div>
                   ) : null}
                 </div>
-              ) : (
+              ) : !isStatic ? (
                 <>
                   <Button
                     level="enhance"
@@ -1491,7 +1493,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     </span>
                   </Button>
                 </>
-              )}
+              ) : null}
             </div>
           )}
         </DropZone>
@@ -1566,7 +1568,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         </span>
                       )}
 
-                      {!disabled ? (
+                      {!disabled && !isStatic ? (
                         <a
                           data-tooltip={__('Select.clear')}
                           data-position="left"
@@ -1606,7 +1608,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           </div>
         ) : null}
 
-        {!autoUpload && !hideUploadButton && files.length ? (
+        {!isStatic && !autoUpload && !hideUploadButton && files.length ? (
           <Button
             level="default"
             testIdBuilder={testIdBuilder?.getChild('upload')}
