@@ -416,65 +416,9 @@ exports[`2. EventAction:dialog 1`] = `
 </div>
 `;
 
-exports[`2. EventAction:dialog 2`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-body"
-          role="page-body"
-        >
-          <button
-            class="cxd-Button cxd-Button--default cxd-Button--size-default"
-            type="button"
-          >
-            <span>
-              打开弹窗
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
+exports[`2. EventAction:dialog 2`] = `<div />`;
 
-exports[`2. EventAction:dialog 3`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-body"
-          role="page-body"
-        >
-          <button
-            class="cxd-Button cxd-Button--default cxd-Button--size-default"
-            type="button"
-          >
-            <span>
-              打开弹窗
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
+exports[`2. EventAction:dialog 3`] = `<div />`;
 
 exports[`2. EventAction:dialog 4`] = `
 <div>
@@ -567,6 +511,66 @@ exports[`2. EventAction:dialog 6`] = `
 `;
 
 exports[`2. EventAction:dialog 7`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`2. EventAction:dialog 8`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`2. EventAction:dialog 9`] = `
 <div>
   <div
     class="cxd-Page"

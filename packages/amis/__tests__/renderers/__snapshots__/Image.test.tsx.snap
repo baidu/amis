@@ -196,52 +196,6 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
 </div>
 `;
 
-exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToolbar: Gallery 1`] = `
-<div>
-  <div
-    class="cxd-ImageField cxd-ImageField--thumb"
-    style="transform: scale(1);"
-  >
-    <div
-      class="cxd-Image cxd-Image--thumb"
-    >
-      <div
-        class="cxd-Image-thumbWrap"
-      >
-        <div
-          class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
-        >
-          <div
-            class="mask"
-          >
-            <span />
-          </div>
-          <img
-            class="cxd-Image-image"
-            src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-          />
-        </div>
-        <div
-          class="cxd-Image-overlay"
-        >
-          <a
-            class="cxd-Image-overlay-view-icon"
-            data-position="bottom"
-            data-tooltip="查看大图"
-            target="_blank"
-          >
-            <icon-mock
-              classname="icon icon-view"
-              icon="view"
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`Renderer:image image:href 1`] = `
 <div>
   <div
