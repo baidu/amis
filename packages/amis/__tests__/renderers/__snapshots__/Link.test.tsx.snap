@@ -48,6 +48,24 @@ exports[`Renderer:link with href & blank & htmlTarget 1`] = `
 </div>
 `;
 
+exports[`Renderer:link with maxLine 1`] = `
+<div>
+  <a
+    class="cxd-Link max-line"
+    href="https://www.baidu.com"
+    target="_blank"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam venenatis et lorem sit amet vehicula. Etiam vel nibh nec nisi euismod mollis ultrices condimentum velit. Proin velit libero, interdum ac rhoncus sit amet, pellentesque ac turpis. Quisque ac luctus turpis, vel efficitur ante. Cras convallis risus vel vehicula dapibus. Donec eget neque fringilla, faucibus mi quis, porttitor magna. Cras pellentesque leo est, et luctus neque rutrum eu. Aliquam consequat velit sed sem posuere, vitae sollicitudin mi consequat. Mauris eget ipsum sed dui rutrum fringilla. Donec varius vehicula magna sit amet auctor. Ut congue vehicula lectus in blandit. Vivamus suscipit eleifend turpis, nec sodales sem vulputate a. Curabitur pulvinar libero viverra, efficitur odio eu, finibus justo. Etiam eu vehicula felis.
+      </span>
+    </span>
+  </a>
+</div>
+`;
+
 exports[`Renderer:link with title & icon & rightIcon 1`] = `
 <div>
   <a
@@ -69,6 +87,64 @@ exports[`Renderer:link with title & icon & rightIcon 1`] = `
     <i
       class="fa fa-cloud cxd-Link-icon fa fa-cloud"
     />
+  </a>
+</div>
+`;
+
+exports[`Renderer:link with tooltip 1`] = `
+<div>
+  <a
+    class="cxd-Link"
+    href="https://www.baidu.com"
+    style="position: relative;"
+    target="_blank"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam venenatis et lorem sit amet vehicula. Etiam vel nibh nec nisi euismod mollis ultrices condimentum velit. Proin velit libero, interdum ac rhoncus sit amet, pellentesque ac turpis. Quisque ac luctus turpis, vel efficitur ante. Cras convallis risus vel vehicula dapibus. Donec eget neque fringilla, faucibus mi quis, porttitor magna. Cras pellentesque leo est, et luctus neque rutrum eu. Aliquam consequat velit sed sem posuere, vitae sollicitudin mi consequat. Mauris eget ipsum sed dui rutrum fringilla. Donec varius vehicula magna sit amet auctor. Ut congue vehicula lectus in blandit. Vivamus suscipit eleifend turpis, nec sodales sem vulputate a. Curabitur pulvinar libero viverra, efficitur odio eu, finibus justo. Etiam eu vehicula felis.
+      </span>
+    </span>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
   </a>
 </div>
 `;
