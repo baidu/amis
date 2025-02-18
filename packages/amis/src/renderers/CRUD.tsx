@@ -69,6 +69,20 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
+import {Spinner} from 'amis-ui';
+
+interface CRUDLoadMoreConfig {
+  size?: 'sm' | 'lg' | '';
+  showIcon?: boolean;
+  showText?: boolean;
+  color?: string;
+  icon?: string; // 移除 React.ReactNode
+  contentText?: {
+    contentdown: string;
+    contentrefresh: string;
+    contentnomore: string;
+  };
+}
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -415,6 +429,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * 控制是否多选，默认为 false
    */
   multiple?: boolean;
+
+  /**
+   * 加载更多配置
+   */
+  loadMoreProps?: CRUDLoadMoreConfig;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -516,7 +535,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     'maxTagCount',
     'overflowTagPopover',
     'parsePrimitiveQuery',
-    'matchFunc'
+    'matchFunc',
+    'loadMoreProps'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -534,7 +554,18 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     filterDefaultVisible: true,
     loadDataOnce: false,
     autoFillHeight: false,
-    parsePrimitiveQuery: true
+    parsePrimitiveQuery: true,
+    loadMoreProps: {
+      showIcon: true,
+      showText: true,
+      size: 'sm',
+      icon: 'loading-outline',
+      contentText: {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      }
+    }
   };
 
   control: any;
@@ -2423,24 +2454,40 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      testIdBuilder
+      testIdBuilder,
+      loadMoreProps
     } = this.props;
     const {page, lastPage} = store;
+    const {size, showIcon, showText, icon, contentText} = loadMoreProps || {};
+
+    const isLoading = store.loading;
+    const isNoMore = page >= lastPage;
 
     return (
-      <div className={cx('Crud-loadMore')}>
-        <Button
-          disabled={page >= lastPage}
-          disabledTip={__('CRUD.loadMoreDisableTip')}
-          classPrefix={ns}
-          onClick={() =>
-            this.search({page: page + 1, loadDataMode: 'load-more'})
+      <div
+        className={cx('Crud-loadMore-wrapper', {
+          'is-loading': isLoading,
+          'is-nomore': isNoMore
+        })}
+        onClick={() => {
+          if (isLoading || isNoMore) {
+            return;
           }
-          size="sm"
-          {...testIdBuilder?.getChild('loadMore').getTestId()}
-        >
-          {__('CRUD.loadMore')}
-        </Button>
+          this.search({page: page + 1, loadDataMode: 'load-more'});
+        }}
+      >
+        <div className={cx('Crud-loadMore')}>
+          {showIcon && <Spinner size={size} show={isLoading} icon={icon} />}
+          {showText && (
+            <span>
+              {isLoading
+                ? contentText?.contentrefresh
+                : isNoMore
+                ? contentText?.contentnomore
+                : contentText?.contentdown}
+            </span>
+          )}
+        </div>
       </div>
     );
   }
