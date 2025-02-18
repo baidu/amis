@@ -34,9 +34,9 @@ interface LoadMoreProps {
   color?: string;
 
   /**
-   * 自定义图标,支持传入React节点或icon字符串
+   * 自定义图标,支持传入icon字符串
    */
-  icon?: string | React.ReactNode;
+  icon?: string;
 
   /**
    * 自定义文案配置

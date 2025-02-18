@@ -77,7 +77,7 @@ interface CRUDLoadMoreConfig {
   showIcon?: boolean;
   showText?: boolean;
   color?: string;
-  icon?: string | React.ReactNode;
+  icon?: string;
   contentText?: {
     contentdown: string;
     contentrefresh: string;
