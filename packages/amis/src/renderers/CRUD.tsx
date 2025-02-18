@@ -69,7 +69,23 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
-import {LoadMore, type LoadMoreProps} from 'amis-ui';
+import {LoadMore} from 'amis-ui';
+
+interface CRUDLoadMoreConfig {
+  size?: 'sm' | 'lg' | '';
+  status?: 'more' | 'loading' | 'no-more';
+  showIcon?: boolean;
+  showText?: boolean;
+  color?: string;
+  icon?: string | React.ReactNode;
+  contentText?: {
+    contentdown: string;
+    contentrefresh: string;
+    contentnomore: string;
+  };
+  minLoadTime?: number;
+}
+
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'
@@ -416,7 +432,7 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    */
   multiple?: boolean;
 
-  loadMoreConfig?: LoadMoreProps;
+  loadMoreConfig?: CRUDLoadMoreConfig;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {

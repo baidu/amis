@@ -3,7 +3,7 @@ import {LocaleProps, localeable} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Spinner} from './Spinner';
 
-export interface LoadMoreProps {
+interface LoadMoreProps {
   /**
    * 图标大小,支持 sm/lg 或不设置
    * @default ''

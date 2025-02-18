@@ -52,7 +52,23 @@ import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
 import isPlainObject from 'lodash/isPlainObject';
 import isEmpty from 'lodash/isEmpty';
-import {LoadMore, type LoadMoreProps} from 'amis-ui';
+import {LoadMore} from 'amis-ui';
+
+interface CRUDLoadMoreConfig {
+  size?: 'sm' | 'lg' | '';
+  status?: 'more' | 'loading' | 'no-more';
+  showIcon?: boolean;
+  showText?: boolean;
+  color?: string;
+  icon?: string | React.ReactNode;
+  contentText?: {
+    contentdown: string;
+    contentrefresh: string;
+    contentnomore: string;
+  };
+  minLoadTime?: number;
+}
+
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
 export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
@@ -212,7 +228,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 加载更多配置
    */
-  loadMoreConfig?: LoadMoreProps;
+  loadMoreConfig?: CRUDLoadMoreConfig;
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {

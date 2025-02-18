@@ -140,7 +140,7 @@ import type CodeMirror from 'codemirror';
 import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
-import LoadMore, {type LoadMoreProps} from './LoadMore';
+import LoadMore from './LoadMore';
 import Slider from './Slider';
 
 import Shape from './Shape';
@@ -292,6 +292,5 @@ export {
   MobileDevTool,
   DropdownContextMenus,
   LoadMore,
-  type LoadMoreProps,
   Slider
 };
