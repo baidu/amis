@@ -439,30 +439,38 @@ export default class List extends React.Component<
   }
 
   observeItems() {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const index = entry.target.getAttribute('data-index');
-            const item = this.props.store.items[Number(index)];
-            const letter = getPropValue(
-              {data: item.data},
-              () => item.data[this.props.indexField || 'title']
-            )
-              ?.charAt(0)
-              .toUpperCase();
-            this.currentLetter = letter;
-          }
-        });
-      },
-      {threshold: 0.5}
-    );
-
-    const dom = findDOMNode(this);
-    if (dom instanceof HTMLElement) {
-      const items = dom.querySelectorAll('[data-index]');
-      items.forEach((item: Element) => observer.observe(item));
+    // 添加环境检查
+    if (typeof window === 'undefined' || !window.IntersectionObserver) {
+      return;
     }
+
+    // 使用 requestAnimationFrame 延迟创建 observer
+    requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const index = entry.target.getAttribute('data-index');
+              const item = this.props.store.items[Number(index)];
+              const letter = getPropValue(
+                {data: item.data},
+                () => item.data[this.props.indexField || 'title']
+              )
+                ?.charAt(0)
+                .toUpperCase();
+              this.currentLetter = letter;
+            }
+          });
+        },
+        {threshold: 0.5}
+      );
+
+      const dom = findDOMNode(this);
+      if (dom instanceof HTMLElement) {
+        const items = dom.querySelectorAll('[data-index]');
+        items.forEach((item: Element) => observer.observe(item));
+      }
+    });
   }
 
   static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
