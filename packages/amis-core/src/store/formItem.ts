@@ -312,11 +312,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       },
       splitExtraValue(value: any) {
         const delimiter = self.delimiter || ',';
-        const values = Array.isArray(value)
-          ? value
-          : typeof value === 'string'
-          ? value.split(delimiter || ',').map((v: string) => v.trim())
-          : [];
+        const values =
+          value === ''
+            ? ['', '']
+            : Array.isArray(value)
+            ? value
+            : typeof value === 'string'
+            ? value.split(delimiter || ',').map((v: string) => v.trim())
+            : [];
         return values;
       },
 
