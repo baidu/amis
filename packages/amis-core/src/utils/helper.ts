@@ -1124,7 +1124,8 @@ export function filterTree<T extends TreeItem>(
           : undefined;
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
-          item = {...item, children: children};
+          // issue#11604 不能改变item的引用，Tree组件折叠/展开状态保持会用到
+          item.children = children;
         }
 
         return item as T;
@@ -1145,7 +1146,8 @@ export function filterTree<T extends TreeItem>(
         );
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
-          item = {...item, children: children};
+          // issue#11604 不能改变item的引用，Tree组件折叠/展开状态保持会用到
+          item.children = children;
         }
       }
       return item as T;
