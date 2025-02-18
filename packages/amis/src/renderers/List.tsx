@@ -51,6 +51,7 @@ import {SchemaRemark} from './Remark';
 import type {IItem, IScopedContext} from 'amis-core';
 import type {OnEventProps} from 'amis-core';
 import find from 'lodash/find';
+import AlphabetIndexer from './AlphabetIndexer';
 
 /**
  * 不指定类型默认就是文本
@@ -241,6 +242,16 @@ export interface ListSchema extends BaseSchema {
    * 点击列表项的行为
    */
   itemAction?: ActionSchema;
+
+  /**
+   * 是否显示右侧字母索引条
+   */
+  showIndexBar?: boolean;
+
+  /**
+   * 索引依据字段
+   */
+  indexField?: string;
 }
 
 export interface Column {
@@ -286,7 +297,10 @@ export interface ListProps
   onQuery: (values: object) => any;
 }
 
-export default class List extends React.Component<ListProps, object> {
+export default class List extends React.Component<
+  ListProps,
+  {currentLetter?: string}
+> {
   static propsList: Array<keyof ListProps> = [
     'header',
     'headerToolbarRender',
@@ -320,6 +334,7 @@ export default class List extends React.Component<ListProps, object> {
   parentNode?: any;
   body?: any;
   renderedToolbars: Array<string>;
+  private currentLetter?: string;
 
   constructor(props: ListProps) {
     super(props);
@@ -335,6 +350,7 @@ export default class List extends React.Component<ListProps, object> {
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.bodyRef = this.bodyRef.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
+    this.handleLetterClick = this.handleLetterClick.bind(this);
 
     const {
       store,
@@ -365,42 +381,19 @@ export default class List extends React.Component<ListProps, object> {
     List.syncItems(store, this.props) && this.syncSelected();
   }
 
-  static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
-    const source = props.source;
-    const value = getPropValue(props, (props: ListProps) => props.items);
-    let items: Array<object> = [];
-    let updateItems = false;
-
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
-        getPropValue(prevProps, (props: ListProps) => props.items) !== value)
-    ) {
-      items = value;
-      updateItems = true;
-    } else if (typeof source === 'string') {
-      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
-      const prev = prevProps
-        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
-        : null;
-
-      if (prev === resolved) {
-        updateItems = false;
-      } else {
-        items = Array.isArray(resolved) ? resolved : [];
-        updateItems = true;
-      }
+  componentDidMount() {
+    if (this.props.showIndexBar) {
+      this.observeItems();
     }
-
-    updateItems && store.initItems(items, props.fullItems, props.selected);
-    Array.isArray(props.selected) &&
-      store.updateSelected(props.selected, props.valueField);
-    return updateItems;
   }
 
   componentDidUpdate(prevProps: ListProps) {
     const props = this.props;
     const store = props.store;
+
+    if (this.props.showIndexBar && !prevProps.showIndexBar) {
+      this.observeItems();
+    }
 
     if (
       anyChanged(
@@ -443,6 +436,74 @@ export default class List extends React.Component<ListProps, object> {
     } else if (prevProps.selected !== props.selected) {
       store.updateSelected(props.selected || [], props.valueField);
     }
+  }
+
+  observeItems() {
+    // 添加环境检查
+    if (typeof window === 'undefined' || !window.IntersectionObserver) {
+      return;
+    }
+
+    // 使用 requestAnimationFrame 延迟创建 observer
+    requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const index = entry.target.getAttribute('data-index');
+              const item = this.props.store.items[Number(index)];
+              const letter = getPropValue(
+                {data: item.data},
+                () => item.data[this.props.indexField || 'title']
+              )
+                ?.charAt(0)
+                .toUpperCase();
+              this.currentLetter = letter;
+            }
+          });
+        },
+        {threshold: 0.5}
+      );
+
+      const dom = findDOMNode(this);
+      if (dom instanceof HTMLElement) {
+        const items = dom.querySelectorAll('[data-index]');
+        items.forEach((item: Element) => observer.observe(item));
+      }
+    });
+  }
+
+  static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
+    const source = props.source;
+    const value = getPropValue(props, (props: ListProps) => props.items);
+    let items: Array<object> = [];
+    let updateItems = false;
+
+    if (
+      Array.isArray(value) &&
+      (!prevProps ||
+        getPropValue(prevProps, (props: ListProps) => props.items) !== value)
+    ) {
+      items = value;
+      updateItems = true;
+    } else if (typeof source === 'string') {
+      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
+        : null;
+
+      if (prev === resolved) {
+        updateItems = false;
+      } else {
+        items = Array.isArray(resolved) ? resolved : [];
+        updateItems = true;
+      }
+    }
+
+    updateItems && store.initItems(items, props.fullItems, props.selected);
+    Array.isArray(props.selected) &&
+      store.updateSelected(props.selected, props.valueField);
+    return updateItems;
   }
 
   bodyRef(ref: HTMLDivElement) {
@@ -965,7 +1026,7 @@ export default class List extends React.Component<ListProps, object> {
     template: ListItemSchema | undefined,
     item: IItem,
     itemClassName: string
-  ) {
+  ): React.ReactNode {
     const {
       render,
       multiple,
@@ -1018,6 +1079,46 @@ export default class List extends React.Component<ListProps, object> {
     );
   }
 
+  handleLetterClick(letter: string): void {
+    const {indexField = 'title', store, listItem} = this.props;
+    if (!store) return;
+
+    const titleField = listItem?.title?.substring(2, listItem.title.length - 1);
+    const fieldToUse = titleField || indexField;
+
+    const targetItem = store.items.find(item => {
+      const value = getPropValue(
+        {data: item.data},
+        () => item.data[fieldToUse]
+      );
+      return typeof value === 'string'
+        ? value.charAt(0).toUpperCase() === letter
+        : false;
+    });
+
+    if (targetItem) {
+      const element = findDOMNode(this);
+      if (element) {
+        try {
+          const domNode = (element as Element).querySelector(
+            `[data-index="${targetItem.index}"]`
+          );
+
+          if (domNode) {
+            (domNode as HTMLElement).scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+            this.currentLetter = letter;
+          }
+        } catch (e) {
+          console.warn('Failed to scroll to target element:', e);
+        }
+      }
+    }
+  }
+
   render() {
     const {
       className,
@@ -1038,8 +1139,38 @@ export default class List extends React.Component<ListProps, object> {
       size,
       translate: __,
       loading = false,
-      loadingConfig
+      loadingConfig,
+      showIndexBar,
+      indexField = 'title'
     } = this.props;
+
+    const currentLetter = this.currentLetter;
+
+    // 生成字母列表
+    const letters = Array.from(
+      new Set(
+        store.items
+          .map(item => {
+            // 获取 listItem.title 配置的字段
+            const titleField = listItem?.title?.substring(
+              2,
+              listItem.title.length - 1
+            );
+            // 使用配置的字段名或 indexField 作为回退
+            const fieldToUse = titleField || indexField;
+
+            const value = getPropValue(
+              {data: item.data},
+              () => item.data[fieldToUse]
+            );
+            return typeof value === 'string'
+              ? value.charAt(0).toUpperCase()
+              : '';
+          })
+          .filter(Boolean)
+          .sort()
+      )
+    );
 
     this.renderedToolbars = [];
     const heading = this.renderHeading();
@@ -1054,31 +1185,44 @@ export default class List extends React.Component<ListProps, object> {
         style={style}
         ref={this.bodyRef}
       >
-        {affixHeader ? (
-          <div className={cx('List-fixedTop')}>
-            {header}
-            {heading}
-          </div>
-        ) : (
-          <>
-            {header}
-            {heading}
-          </>
-        )}
-
-        {store.items.length ? (
-          <div className={cx('List-items')}>
-            {store.items.map((item, index) =>
-              this.renderListItem(index, listItem, item, itemClassName)
+        <div className={cx('List-content-wrapper')}>
+          <div className={cx('List-main')}>
+            {affixHeader ? (
+              <div className={cx('List-fixedTop')}>
+                {header}
+                {heading}
+              </div>
+            ) : (
+              <>
+                {header}
+                {heading}
+              </>
             )}
-          </div>
-        ) : (
-          <div className={cx('List-placeholder')}>
-            {render('placeholder', __(placeholder))}
-          </div>
-        )}
 
-        {this.renderFooter()}
+            {store.items.length ? (
+              <div className={cx('List-items')}>
+                {store.items.map((item, index) =>
+                  this.renderListItem(index, listItem, item, itemClassName)
+                )}
+              </div>
+            ) : (
+              <div className={cx('List-placeholder')}>
+                {render('placeholder', __(placeholder))}
+              </div>
+            )}
+
+            {this.renderFooter()}
+          </div>
+
+          {showIndexBar && (
+            <AlphabetIndexer
+              letters={letters}
+              onLetterClick={this.handleLetterClick}
+              classnames={cx}
+              currentLetter={currentLetter}
+            />
+          )}
+        </div>
         <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
@@ -1526,7 +1670,8 @@ export class ListItem extends React.Component<ListItemProps> {
       actionsPosition,
       itemAction,
       onEvent,
-      hasClickActions
+      hasClickActions,
+      itemIndex
     } = this.props;
     const avatar = filter(avatarTpl, data);
     const title = filter(titleTpl, data);
@@ -1535,6 +1680,7 @@ export class ListItem extends React.Component<ListItemProps> {
 
     return (
       <div
+        data-index={itemIndex}
         onClick={this.handleClick}
         className={cx(
           `ListItem ListItem--actions-at-${actionsPosition || 'right'}`,
