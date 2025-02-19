@@ -1,0 +1,27 @@
+.#{$ns}Slider {
+  display: flex;
+  &-BodyContainer {
+    width: 60%;
+  }
+  &-LeftContainer,
+  &-RightContainer {
+    flex: 1;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .#{$ns}Slider {
+    display: flex;
+    overflow: hidden;
+    &-BodyContainer {
+      flex: 1;
+    }
+    &-LeftContainer,
+    &-RightContainer {
+      flex: initial;
+      width: 0;
+      transition: width 0.3s;
+      overflow: hidden;
+    }
+  }
+}
