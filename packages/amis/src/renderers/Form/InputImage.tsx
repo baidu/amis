@@ -1638,7 +1638,8 @@ export default class ImageControl extends React.Component<
       translate: __,
       draggable,
       draggableTip,
-      env
+      env,
+      static: isStatic
     } = this.props;
 
     const {
@@ -1658,7 +1659,12 @@ export default class ImageControl extends React.Component<
     const hasPending = files.some(file => file.state == 'pending');
 
     const enableDraggable =
-      !!multiple && draggable && !disabled && !hasPending && files.length > 1;
+      !!multiple &&
+      draggable &&
+      !disabled &&
+      !isStatic &&
+      !hasPending &&
+      files.length > 1;
 
     return (
       <div
@@ -1722,7 +1728,7 @@ export default class ImageControl extends React.Component<
             onFileDialogCancel={this.handleFileCancel}
             accept={accept}
             multiple={dropMultiple}
-            disabled={disabled}
+            disabled={disabled || isStatic}
           >
             {({
               getRootProps,
@@ -1736,7 +1742,7 @@ export default class ImageControl extends React.Component<
                   onClick: preventEvent,
                   onPaste: this.handlePaste,
                   className: cx('ImageControl-dropzone', {
-                    'is-disabled': disabled,
+                    'is-disabled': disabled || isStatic,
                     'is-empty': !files.length,
                     'is-active': isDragActive
                   })
@@ -1820,7 +1826,7 @@ export default class ImageControl extends React.Component<
                                         <Icon icon="upload" className="icon" />
                                       </a>
 
-                                      {!disabled ? (
+                                      {!disabled && !isStatic ? (
                                         <a
                                           data-tooltip={__('Select.clear')}
                                           data-position="bottom"
@@ -1928,7 +1934,8 @@ export default class ImageControl extends React.Component<
 
                                       {!!crop &&
                                       reCropable !== false &&
-                                      !disabled ? (
+                                      !disabled &&
+                                      !isStatic ? (
                                         <a
                                           data-tooltip={__('Image.crop')}
                                           data-position="bottom"
@@ -1944,7 +1951,7 @@ export default class ImageControl extends React.Component<
                                         </a>
                                       ) : null}
 
-                                      {!disabled ? (
+                                      {!disabled && !isStatic ? (
                                         <a
                                           data-tooltip={__('Select.upload')}
                                           data-position="bottom"
@@ -1959,7 +1966,7 @@ export default class ImageControl extends React.Component<
                                         </a>
                                       ) : null}
 
-                                      {!disabled ? (
+                                      {!disabled && !isStatic ? (
                                         <a
                                           data-tooltip={__('Select.clear')}
                                           data-position="bottom"
@@ -1998,8 +2005,9 @@ export default class ImageControl extends React.Component<
                       </div>
                     ) : null}
 
-                    {(multiple && (!maxLength || files.length < maxLength)) ||
-                    (!multiple && !files.length) ? (
+                    {!isStatic &&
+                    ((multiple && (!maxLength || files.length < maxLength)) ||
+                      (!multiple && !files.length)) ? (
                       <TooltipWrapper
                         placement="top"
                         trigger="hover"
@@ -2071,7 +2079,10 @@ export default class ImageControl extends React.Component<
                       </TooltipWrapper>
                     ) : null}
 
-                    {!autoUpload && !hideUploadButton && files.length ? (
+                    {!isStatic &&
+                    !autoUpload &&
+                    !hideUploadButton &&
+                    files.length ? (
                       <Button
                         level="default"
                         className={cx('ImageControl-uploadBtn')}
