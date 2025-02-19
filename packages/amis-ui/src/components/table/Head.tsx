@@ -95,7 +95,7 @@ export default class Head extends React.PureComponent<Props> {
       }
 
       if (selfSticky) {
-        updateStickyRow(children as HTMLCollection, i, cols);
+        updateStickyRow(children as HTMLCollection, i);
       }
 
       if (hasFixedColumn(cols)) {
