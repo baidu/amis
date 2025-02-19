@@ -1032,7 +1032,11 @@
         border-top: none; // 不然会导致拖动时顶部露出内容
 
         &.#{$ns}Table-table--tableFillHeight {
-          min-height: 100%; // 为了让表格占满高度
+          > tbody {
+            height: calc(
+              var(--Table-content-height) - var(--Table-thead-height)
+            );
+          }
         }
       }
 
