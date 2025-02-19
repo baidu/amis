@@ -9,7 +9,8 @@ import {
   getBuildColumns,
   getAllSelectableRows,
   updateFixedRow,
-  hasFixedColumn
+  hasFixedColumn,
+  updateStickyRow
 } from './util';
 import {
   ColumnProps,
@@ -50,6 +51,7 @@ export interface Props extends ThemeProps {
   onFilter?: Function;
   onResizeMouseDown: Function;
   testIdBuilder?: TestIdBuilder;
+  selfSticky?: boolean;
 }
 
 export default class Head extends React.PureComponent<Props> {
@@ -83,13 +85,17 @@ export default class Head extends React.PureComponent<Props> {
   }
 
   updateFixedRow() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, selfSticky} = this.props;
     const thead = this.domRef.current;
     const children = thead?.children;
     for (let i = 0; i < (children?.length || 0); i++) {
       const cols = [...this.thColumns[i]];
       if (i === 0) {
         this.prependColumns(cols);
+      }
+
+      if (selfSticky) {
+        updateStickyRow(children as HTMLCollection, i, cols);
       }
 
       if (hasFixedColumn(cols)) {
@@ -134,7 +140,8 @@ export default class Head extends React.PureComponent<Props> {
       onFilter,
       onResizeMouseDown,
       testIdBuilder,
-      className
+      className,
+      selfSticky
     } = this.props;
 
     const {thColumns, tdColumns} = getBuildColumns(columns);
@@ -307,6 +314,7 @@ export default class Head extends React.PureComponent<Props> {
                     colSpan={item.colSpan}
                     classnames={cx}
                     classPrefix={classPrefix}
+                    selfSticky={selfSticky}
                     fixed={item.fixed === true ? 'left' : item.fixed}
                     className={cx({
                       'Table-cell-last': thIndex === maxCount
