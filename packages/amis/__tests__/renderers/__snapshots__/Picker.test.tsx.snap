@@ -106,6 +106,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="0"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-checkBtn"
@@ -140,6 +141,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right is-checked"
                     data-index="1"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-checkBtn"
@@ -174,6 +176,7 @@ exports[`1. Renderer:Picker base 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="2"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-checkBtn"

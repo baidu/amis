@@ -58,6 +58,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="0"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -127,6 +128,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="1"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -196,6 +198,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="2"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -265,6 +268,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="3"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -334,6 +338,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="4"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -403,6 +408,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="5"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -472,6 +478,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="6"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -541,6 +548,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="7"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -610,6 +618,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="8"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -679,6 +688,7 @@ exports[`Renderer:list 1`] = `
                         <div
                           class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                           data-index="9"
+                          style="scroll-margin-top: 0px;"
                         >
                           <div
                             class="cxd-ListItem-actions"
@@ -802,6 +812,7 @@ exports[`Renderer:list with itemAction 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                       data-index="0"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -847,6 +858,7 @@ exports[`Renderer:list with itemAction 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                       data-index="1"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -892,6 +904,7 @@ exports[`Renderer:list with itemAction 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
                       data-index="2"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -1042,6 +1055,7 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="0"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-actions"
@@ -1099,6 +1113,7 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="1"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-actions"
@@ -1156,6 +1171,7 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="2"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-actions"
@@ -1254,6 +1270,7 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="0"
+                    style="scroll-margin-top: 0px;"
                   >
                     <span
                       class="cxd-ListItem-avatar avatarClassNameForTest"
@@ -1307,6 +1324,7 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="1"
+                    style="scroll-margin-top: 0px;"
                   >
                     <span
                       class="cxd-ListItem-avatar avatarClassNameForTest"
@@ -1360,6 +1378,7 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="2"
+                    style="scroll-margin-top: 0px;"
                   >
                     <span
                       class="cxd-ListItem-avatar avatarClassNameForTest"
@@ -1454,6 +1473,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="0"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-content"
@@ -1518,6 +1538,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="1"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-content"
@@ -1582,6 +1603,7 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
                   <div
                     class="cxd-ListItem cxd-ListItem--actions-at-right"
                     data-index="2"
+                    style="scroll-margin-top: 0px;"
                   >
                     <div
                       class="cxd-ListItem-content"

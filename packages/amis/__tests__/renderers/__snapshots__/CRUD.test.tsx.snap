@@ -860,6 +860,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="0"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -881,6 +882,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="1"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -902,6 +904,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="2"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -923,6 +926,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="3"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -944,6 +948,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="4"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -965,6 +970,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="5"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -986,6 +992,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="6"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -1007,6 +1014,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="7"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -1028,6 +1036,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="8"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
@@ -1049,6 +1058,7 @@ exports[`4. Renderer:crud list 1`] = `
                     <div
                       class="cxd-ListItem cxd-ListItem--actions-at-right"
                       data-index="9"
+                      style="scroll-margin-top: 0px;"
                     >
                       <div
                         class="cxd-ListItem-content"
