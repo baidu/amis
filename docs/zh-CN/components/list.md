@@ -416,7 +416,6 @@ order: 56
     "type": "list",
     "source": "$rows",
     "showIndexBar": true,
-    "indexBarOffset": 60,
     "listItem": {
       "title": "${name}",
       "subTitle": "${title}",

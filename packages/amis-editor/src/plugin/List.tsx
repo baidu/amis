@@ -46,7 +46,7 @@ export class ListPlugin extends BasePlugin {
   scaffold = {
     type: 'list',
     showIndexBar: false,
-    indexBarOffset: 60,
+    indexBarOffset: 0,
     listItem: {
       body: [
         {
@@ -177,7 +177,7 @@ export class ListPlugin extends BasePlugin {
                       type: 'input-number',
                       name: 'indexBarOffset',
                       label: '顶部偏移量',
-                      value: 60,
+                      value: 0,
                       min: 0,
                       max: 200,
                       unit: 'px',

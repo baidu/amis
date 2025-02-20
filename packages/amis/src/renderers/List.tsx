@@ -331,8 +331,7 @@ export default class List extends React.Component<
     selectable: false,
     headerClassName: '',
     footerClassName: '',
-    affixHeader: true,
-    indexBarOffset: 0
+    affixHeader: true
   };
 
   dragTip?: HTMLElement;
@@ -1686,7 +1685,6 @@ export class ListItem extends React.Component<ListItemProps> {
     const title = filter(titleTpl, data);
     const subTitle = filter(subTitleTpl, data);
     const desc = filter(descTpl, data);
-
     return (
       <div
         data-index={itemIndex}
@@ -1698,7 +1696,12 @@ export class ListItem extends React.Component<ListItemProps> {
           },
           className
         )}
-        style={{scrollMarginTop: `${indexBarOffset}px`}}
+        style={{
+          scrollMarginTop:
+            indexBarOffset !== undefined
+              ? `${indexBarOffset}px`
+              : 'var(--affix-offset-top)'
+        }}
       >
         {this.renderLeft()}
         {this.renderRight()}
