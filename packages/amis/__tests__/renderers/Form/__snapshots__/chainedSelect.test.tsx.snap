@@ -238,7 +238,7 @@ exports[`Renderer:chained-select 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              class="cxd-Select cxd-Select--inline is-focused"
+              class="cxd-Select cxd-Select--inline"
               role="combobox"
               tabindex="0"
             >
