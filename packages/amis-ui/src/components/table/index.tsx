@@ -690,7 +690,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       onSelectAll,
       onFilter,
       testIdBuilder,
-      headerClassName
+      headerClassName,
+      sticky,
+      autoFillHeight
     } = this.props;
 
     const rowSelectionKeyField = this.getRowSelectionKeyField();
@@ -705,6 +707,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return (
       <Head
         key="thead"
+        selfSticky={sticky && !!autoFillHeight}
         columns={columns}
         draggable={!!draggable}
         selectable={!!rowSelection}
@@ -1649,6 +1652,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       resizable,
       columns,
       sticky,
+      autoFillHeight,
       classnames: cx
     } = this.props;
 
@@ -1677,10 +1681,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </div>
         ) : null}
 
-        {hasScrollY || sticky ? (
+        {hasScrollY || (sticky && !autoFillHeight) ? (
           this.renderScrollTable()
         ) : (
-          <div className={cx('Table-container')} ref={this.containerDom}>
+          <div
+            className={cx('Table-container', {
+              [cx('Table-container-self-sticky')]: sticky && !!autoFillHeight
+            })}
+            ref={this.containerDom}
+          >
             {this.renderTable()}
           </div>
         )}
