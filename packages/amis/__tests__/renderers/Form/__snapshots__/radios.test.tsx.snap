@@ -486,7 +486,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
               <span
                 class="cxd-PlainField"
               >
-                aa
+                cc
               </span>
             </div>
           </div>

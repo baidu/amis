@@ -51,7 +51,7 @@ import {SchemaRemark} from './Remark';
 import type {IItem, IScopedContext} from 'amis-core';
 import type {OnEventProps} from 'amis-core';
 import find from 'lodash/find';
-import AlphabetIndexer from './AlphabetIndexer';
+import {AlphabetIndexer} from 'amis-ui';
 
 /**
  * 不指定类型默认就是文本

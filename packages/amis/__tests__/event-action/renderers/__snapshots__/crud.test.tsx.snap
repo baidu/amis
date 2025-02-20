@@ -1077,6 +1077,17 @@ exports[`doAction:crud reload 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <div
+                  class="cxd-Spinner-overlay"
+                />
+                <div
+                  class="cxd-Spinner cxd-Spinner--overlay"
+                  data-testid="spinner"
+                >
+                  <div
+                    class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                  />
+                </div>
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"

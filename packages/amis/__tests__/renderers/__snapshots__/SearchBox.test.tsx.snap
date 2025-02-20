@@ -16,17 +16,6 @@ exports[`Renderer:Searchbox 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Spinner-overlay in"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay in"
-            data-testid="spinner"
-          >
-            <div
-              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-            />
-          </div>
-          <div
             class="cxd-SearchBox is-active"
           >
             <input

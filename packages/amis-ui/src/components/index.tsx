@@ -145,6 +145,7 @@ import Shape from './Shape';
 import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
 import DropdownContextMenus from './DropdownContextMenus';
+import AlphabetIndexer from './AlphabetIndexer';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -288,5 +289,6 @@ export {
   Shape,
   IShapeType,
   MobileDevTool,
-  DropdownContextMenus
+  DropdownContextMenus,
+  AlphabetIndexer
 };
