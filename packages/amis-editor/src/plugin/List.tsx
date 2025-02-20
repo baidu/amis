@@ -45,6 +45,8 @@ export class ListPlugin extends BasePlugin {
   pluginIcon = 'list-plugin';
   scaffold = {
     type: 'list',
+    showIndexBar: false,
+    indexBarOffset: 60,
     listItem: {
       body: [
         {
@@ -158,6 +160,37 @@ export class ListPlugin extends BasePlugin {
                           配置底部
                         </Button>
                       )
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                formType: 'extend',
+                label: '字母索引条',
+                name: 'showIndexBar',
+                value: false,
+                form: {
+                  body: [
+                    {
+                      type: 'input-number',
+                      name: 'indexBarOffset',
+                      label: '顶部偏移量',
+                      value: 60,
+                      min: 0,
+                      max: 200,
+                      unit: 'px',
+                      description: '点击索引条跳转时，与顶部保持的距离'
+                    },
+                    {
+                      type: 'input-text',
+                      name: 'indexField',
+                      label: '索引字段',
+                      value: 'title',
+                      placeholder: '请输入索引字段名',
+                      description:
+                        '根据指定字段的首字母进行索引，默认使用 title 字段'
                     }
                   ]
                 }
