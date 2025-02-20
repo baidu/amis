@@ -1681,7 +1681,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </div>
         ) : null}
 
-        {hasScrollY || (sticky && !autoFillHeight) ? (
+        {(hasScrollY || sticky) && !autoFillHeight ? (
           this.renderScrollTable()
         ) : (
           <div
