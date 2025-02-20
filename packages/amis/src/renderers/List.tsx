@@ -252,6 +252,11 @@ export interface ListSchema extends BaseSchema {
    * 索引依据字段
    */
   indexField?: string;
+
+  /**
+   * 索引条偏移量
+   */
+  indexBarOffset?: number;
 }
 
 export interface Column {
@@ -326,7 +331,8 @@ export default class List extends React.Component<
     selectable: false,
     headerClassName: '',
     footerClassName: '',
-    affixHeader: true
+    affixHeader: true,
+    indexBarOffset: 0
   };
 
   dragTip?: HTMLElement;
@@ -1038,7 +1044,8 @@ export default class List extends React.Component<
       itemAction,
       classnames: cx,
       translate: __,
-      testIdBuilder
+      testIdBuilder,
+      indexBarOffset
     } = this.props;
     const hasClickActions =
       onEvent &&
@@ -1074,7 +1081,8 @@ export default class List extends React.Component<
         dragging: store.dragging,
         data: item.locals,
         onQuickChange: store.dragging ? null : this.handleQuickChange,
-        popOverContainer: this.getPopOverContainer
+        popOverContainer: this.getPopOverContainer,
+        indexBarOffset
       }
     );
   }
@@ -1105,17 +1113,10 @@ export default class List extends React.Component<
           );
 
           if (domNode) {
-            const offset = 60; // 可以根据需要调整这个值
-            const elementPosition = (
-              domNode as HTMLElement
-            ).getBoundingClientRect().top;
-            const offsetPosition = elementPosition - offset;
-
-            window.scrollBy({
-              top: offsetPosition,
-              behavior: 'smooth'
+            (domNode as HTMLElement).scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
             });
-
             this.currentLetter = letter;
           }
         } catch (e) {
@@ -1147,7 +1148,8 @@ export default class List extends React.Component<
       loading = false,
       loadingConfig,
       showIndexBar,
-      indexField = 'title'
+      indexField = 'title',
+      indexBarOffset
     } = this.props;
 
     const currentLetter = this.currentLetter;
@@ -1677,7 +1679,8 @@ export class ListItem extends React.Component<ListItemProps> {
       itemAction,
       onEvent,
       hasClickActions,
-      itemIndex
+      itemIndex,
+      indexBarOffset
     } = this.props;
     const avatar = filter(avatarTpl, data);
     const title = filter(titleTpl, data);
@@ -1695,6 +1698,7 @@ export class ListItem extends React.Component<ListItemProps> {
           },
           className
         )}
+        style={{scrollMarginTop: `${indexBarOffset}px`}}
       >
         {this.renderLeft()}
         {this.renderRight()}

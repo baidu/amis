@@ -247,6 +247,8 @@ order: 56
 
 设置 `showIndexBar: true` 可以在列表右侧显示字母索引条，点击字母可以快速定位到以该字母开头的列表项。默认使用 `title` 字段作为索引依据，也可以通过 `indexField` 指定其他字段。
 
+设置 `indexBarOffset` 可以设置字母索引条偏移量，用于设置点击索引条跳转时的滚动位置偏移。
+
 ```schema: scope="body"
 {
   "type": "service",
@@ -414,6 +416,7 @@ order: 56
     "type": "list",
     "source": "$rows",
     "showIndexBar": true,
+    "indexBarOffset": 60,
     "listItem": {
       "title": "${name}",
       "subTitle": "${title}",
@@ -448,6 +451,7 @@ order: 56
 | listItem.actionsPosition | 'left' or 'right'                    | 默认在右侧            | 按钮位置                                                                     |
 | showIndexBar             | `boolean`                            | `false`               | 是否显示右侧字母索引条                                                       |
 | indexField               | `string`                             | `'title'`             | 索引依据字段，默认使用 `title` 字段或列表项标题                              |
+| indexBarOffset           | `number`                             | `0`                   | 索引条偏移量，用于设置点击索引条跳转时的滚动位置偏移                         |
 
 ### ListBodyField
 
