@@ -1105,9 +1105,15 @@ export default class List extends React.Component<
           );
 
           if (domNode) {
-            (domNode as HTMLElement).scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
+            const offset = 60; // 可以根据需要调整这个值
+            const elementPosition = (
+              domNode as HTMLElement
+            ).getBoundingClientRect().top;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollBy({
+              top: offsetPosition,
+              behavior: 'smooth'
             });
 
             this.currentLetter = letter;
