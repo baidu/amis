@@ -148,6 +148,16 @@ export interface ColumnSchema {
   align?: string;
 
   /**
+   * 标题内容居左、居中、居右
+   */
+  headerAlign?: 'left' | 'center' | 'right';
+
+  /**
+   * 列垂直对齐方式
+   */
+  vAlign?: 'top' | 'middle' | 'bottom';
+
+  /**
    * 是否固定在左侧/右侧
    */
   fixed?: boolean | string;
@@ -905,8 +915,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
           titleSchema = {type: 'plain', tpl: title};
         }
 
-        if (column.align) {
-          titleSchema.align = column.align;
+        if (column.headerAlign || column.align) {
+          titleSchema.align = column.headerAlign || column.align;
           titleSchema.className = 'flex-1';
         }
 

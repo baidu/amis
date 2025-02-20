@@ -172,7 +172,7 @@ export const HocPopOver =
         if (
           this.getClassName() === 'ellipsis' &&
           e &&
-          e.offsetWidth >= e.scrollWidth
+          e.clientHeight >= e.scrollHeight
         ) {
           return;
         }
@@ -436,7 +436,6 @@ export const HocPopOver =
                       : ''
                   )}
                   {...triggerProps}
-                  style={{width: selectClassName && width}}
                   ref={config.targetOutter ? undefined : this.targetRef}
                 >
                   <Component {...this.props} contentsOnly noHoc />
