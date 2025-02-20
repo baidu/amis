@@ -6049,6 +6049,8 @@ exports[`Renderer:transfer tree 1`] = `
 </div>
 `;
 
+exports[`Renderer:transfer with searchApi 1`] = `<div />`;
+
 exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
 <div>
   <div
