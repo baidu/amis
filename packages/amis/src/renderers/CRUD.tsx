@@ -71,17 +71,18 @@ import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
 
-interface CRUDLoadMoreConfig {
-  size?: 'sm' | 'lg' | '';
+interface LoadMoreConfig {
+  iconSize?: 'sm' | 'lg' | '';
   showIcon?: boolean;
   showText?: boolean;
   color?: string;
-  icon?: string; // 移除 React.ReactNode
+  iconType?: string;
   contentText?: {
     contentdown: string;
     contentrefresh: string;
     contentnomore: string;
   };
+  minLoadingTime?: number;
 }
 
 export type CRUDBultinToolbarType =
@@ -433,7 +434,7 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 加载更多配置
    */
-  loadMoreProps?: CRUDLoadMoreConfig;
+  loadMoreProps?: LoadMoreConfig;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -558,8 +559,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     loadMoreProps: {
       showIcon: true,
       showText: true,
-      size: 'sm',
-      icon: 'loading-outline',
+      iconSize: 'sm',
+      iconType: 'loading-outline',
       contentText: {
         contentdown: '点击加载更多',
         contentrefresh: '加载中...',
@@ -1419,7 +1420,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         syncResponse2Query,
         columns: store.columns ?? columns,
         matchFunc,
-        filterOnAllColumns: loadDataOnceFetchOnFilter === false
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false,
+        minLoadingTime: values?.minLoadingTime
       });
       if (!isAlive(store)) {
         return value;
@@ -2455,39 +2457,61 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       classnames: cx,
       translate: __,
       testIdBuilder,
-      loadMoreProps
+      loadMoreProps = {}
     } = this.props;
     const {page, lastPage} = store;
-    const {size, showIcon, showText, icon, contentText} = loadMoreProps || {};
+
+    const {
+      iconSize = 'sm',
+      showIcon = true,
+      showText = true,
+      iconType = 'loading-outline',
+      contentText = {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      },
+      minLoadingTime,
+      color
+    } = loadMoreProps;
 
     const isLoading = store.loading;
     const isNoMore = page >= lastPage;
 
     return (
       <div
-        className={cx('Crud-loadMore-wrapper', {
-          'is-loading': isLoading,
-          'is-nomore': isNoMore
-        })}
+        className={cx('Crud-loadMore')}
+        style={
+          color
+            ? ({
+                '--Spinner-color': color,
+                'color': color
+              } as React.CSSProperties)
+            : undefined
+        }
         onClick={() => {
           if (isLoading || isNoMore) {
             return;
           }
-          this.search({page: page + 1, loadDataMode: 'load-more'});
+          this.search({
+            page: page + 1,
+            loadDataMode: 'load-more',
+            minLoadingTime
+          });
         }}
       >
-        <div className={cx('Crud-loadMore')}>
-          {showIcon && <Spinner size={size} show={isLoading} icon={icon} />}
-          {showText && (
-            <span>
-              {isLoading
-                ? contentText?.contentrefresh
-                : isNoMore
-                ? contentText?.contentnomore
-                : contentText?.contentdown}
-            </span>
-          )}
-        </div>
+        {showIcon && (
+          <Spinner size={iconSize} show={isLoading} icon={iconType} />
+        )}
+        {showText && (
+          <span>
+            {isLoading
+              ? contentText.contentrefresh
+              : isNoMore
+              ? contentText.contentnomore
+              : contentText.contentdown}
+          </span>
+        )}
       </div>
     );
   }

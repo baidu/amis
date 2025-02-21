@@ -227,14 +227,6 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   };
 
   const loadingDom = (className: string) => {
-    console.log('[PullRefresh] render loadingDom:', {
-      status: state.status,
-      showIcon,
-      showText,
-      iconType,
-      className
-    });
-
     return (
       <div
         className={className}
