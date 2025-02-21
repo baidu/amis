@@ -219,12 +219,6 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
     disabled?: boolean;
 
     /**
-     * 指定图标大小
-     * @default 'sm'
-     */
-    iconSize?: 'xs' | 'sm' | 'md' | 'lg';
-
-    /**
      * 是否显示loading图标
      * @default true
      */
@@ -368,7 +362,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     parsePrimitiveQuery: true,
     pullRefresh: {
       disabled: false,
-      iconSize: 'sm',
       showIcon: true,
       showText: true,
       iconType: 'auto',

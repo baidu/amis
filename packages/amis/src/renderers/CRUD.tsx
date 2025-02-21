@@ -72,7 +72,6 @@ import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
 
 interface LoadMoreConfig {
-  iconSize?: 'sm' | 'lg' | '';
   showIcon?: boolean;
   showText?: boolean;
   color?: string;
@@ -559,7 +558,6 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     loadMoreProps: {
       showIcon: true,
       showText: true,
-      iconSize: 'sm',
       iconType: 'loading-outline',
       contentText: {
         contentdown: '点击加载更多',
@@ -2462,7 +2460,6 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     const {page, lastPage} = store;
 
     const {
-      iconSize = 'sm',
       showIcon = true,
       showText = true,
       iconType = 'loading-outline',
@@ -2500,9 +2497,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           });
         }}
       >
-        {showIcon && (
-          <Spinner size={iconSize} show={isLoading} icon={iconType} />
-        )}
+        {showIcon && <Spinner show={isLoading} icon={iconType} size="sm" />}
         {showText && (
           <span>
             {isLoading
