@@ -168,40 +168,129 @@ order: 61
 }
 ```
 
-### 挖孔嵌入
+### 码眼\码点样式
 
-设置`excavate: true`，可以在二维码图片中挖孔，视觉上使图片和二维码处于同一图层。
+- 码眼类型`eyeType`可配置`default`、`rounded`、`circle`
+- 码眼边框大小`eyeBorderSize`可配置`default`、`sm`、`xs`
+- 码眼边框`eyeBorderColor`和内部颜色`eyeInnerColor`可分别配置，默认使用`foregroundColor`
+- 码点类型`pointType`可配置`default`、`circle`
+- 码点大小`pointTypeSize`可配置`default`、`sm`、`xs`
+- 码点大小可`pointSizeRandom`，增加大小随机
 
 ```schema: scope="body"
-
 {
-  "type": "hbox",
-  "columns": [
-    {
-      "type": "qr-code",
-      "codeSize": 128,
-      "level": "Q",
-      "value": "https://www.baidu.com",
-      "imageSettings": {
-        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg",
-        "width": "50",
-        "height": "30",
-        "excavate": false
+  "type": "page",
+  "body": [{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com"
+
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeType": "rounded"
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeType": "circle"
       }
-    },
-    {
-      "type": "qr-code",
-      "codeSize": 128,
-      "level": "Q",
-      "value": "https://www.baidu.com",
-      "imageSettings": {
-        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg",
-        "width": "50",
-        "height": "30",
-        "excavate": true
+    ]
+  },{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeBorderSize": "sm"
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeBorderSize": "xs"
       }
-    }
-  ]
+    ]
+  },{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeBorderColor": "red"
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeInnerColor": "blue"
+      }
+    ]
+  },{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com"
+
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "pointType": "circle"
+      }
+    ]
+  },{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "pointSize": "sm"
+      },
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "pointSize": "xs"
+      }
+    ]
+  },{
+    "type": "hbox",
+    "columns": [
+      {
+        "type": "qr-code",
+        "codeSize": 128,
+        "value": "https://www.baidu.com",
+        "eyeType": "rounded",
+        "eyeBorderSize": "sm",
+        "pointType": "circle",
+        "pointSizeRandom": true
+      }
+    ]
+  }]
 }
 ```
 
@@ -243,23 +332,30 @@ order: 61
 
 ## 属性表
 
-| 属性名                 | 类型                                 | 默认值                    | 说明                                                                                                                                  |
-| ---------------------- | ------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| type                   | `string`                             | `"qr-code"`               | 指定为 QRCode 渲染器                                                                                                                  |
-| className              | `string`                             |                           | 外层 Dom 的类名                                                                                                                       |
-| qrcodeClassName        | `string`                             |                           | 二维码的类名                                                                                                                          |
-| codeSize               | `number`                             | `128`                     | 二维码的宽高大小                                                                                                                      |
-| backgroundColor        | `string`                             | `"#fff"`                  | 二维码背景色                                                                                                                          |
-| foregroundColor        | `string`                             | `"#000"`                  | 二维码前景色                                                                                                                          |
-| level                  | `string`                             | `"L"`                     | 二维码复杂级别，有（'L' 'M' 'Q' 'H'）四种                                                                                             |
-| value                  | [模板](../../docs/concepts/template) | `"https://www.baidu.com"` | 扫描二维码后显示的文本，如果要显示某个页面请输入完整 url（`"http://..."`或`"https://..."`开头），支持使用 [模板](./concepts/template) |
-| imageSettings          | `object`                             |                           | QRCode 图片配置                                                                                                                       |
-| imageSettings.src      | `string`                             |                           | 图片链接地址                                                                                                                          |
-| imageSettings.width    | `number`                             | 默认为`codeSize`的 10%    | 图片宽度                                                                                                                              |
-| imageSettings.height   | `number`                             | 默认为`codeSize`的 10%    | 图片高度                                                                                                                              |
-| imageSettings.x        | `number`                             | 默认水平居中              | 图片水平方向偏移量                                                                                                                    |
-| imageSettings.y        | `number`                             | 默认垂直居中              | 图片垂直方向偏移量                                                                                                                    |
-| imageSettings.excavate | `boolean`                            | `false`                   | 图片是否挖孔嵌入                                                                                                                      |
+| 属性名               | 类型                                 | 默认值                    | 说明                                                                                                                                  |
+| -------------------- | ------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| type                 | `string`                             | `"qr-code"`               | 指定为 QRCode 渲染器                                                                                                                  |
+| mode                 | `string`                             | `"canvas"`                | 渲染模式，有`canvas`和`svg`两种                                                                                                       |
+| className            | `string`                             |                           | 外层 Dom 的类名                                                                                                                       |
+| qrcodeClassName      | `string`                             |                           | 二维码的类名                                                                                                                          |
+| codeSize             | `number`                             | `128`                     | 二维码的宽高大小                                                                                                                      |
+| backgroundColor      | `string`                             | `"#fff"`                  | 二维码背景色                                                                                                                          |
+| foregroundColor      | `string`                             | `"#000"`                  | 二维码前景色                                                                                                                          |
+| level                | `string`                             | `"L"`                     | 二维码复杂级别，有（'L' 'M' 'Q' 'H'）四种                                                                                             |
+| value                | [模板](../../docs/concepts/template) | `"https://www.baidu.com"` | 扫描二维码后显示的文本，如果要显示某个页面请输入完整 url（`"http://..."`或`"https://..."`开头），支持使用 [模板](./concepts/template) |
+| imageSettings        | `object`                             |                           | QRCode 图片配置                                                                                                                       |
+| imageSettings.src    | `string`                             |                           | 图片链接地址                                                                                                                          |
+| imageSettings.width  | `number`                             | 默认为`codeSize`的 10%    | 图片宽度                                                                                                                              |
+| imageSettings.height | `number`                             | 默认为`codeSize`的 10%    | 图片高度                                                                                                                              |
+| imageSettings.x      | `number`                             | 默认水平居中              | 图片水平方向偏移量                                                                                                                    |
+| imageSettings.y      | `number`                             | 默认垂直居中              | 图片垂直方向偏移量                                                                                                                    |
+| eyeType              | `string`                             | `"default"`               | 码眼类型，有`default`、`circle`、`rounded`三种                                                                                        |
+| eyeBorderColor       | `string`                             | `"#000000"`               | 码眼边框颜色                                                                                                                          |
+| eyeBorderSize        | `string`                             | `"default"`               | 码眼边框大小，有`default`、`sm`、`xs`三种                                                                                             |
+| eyeInnerColor        | `string`                             | `"#000000"`               | 码眼内部颜色                                                                                                                          |
+| pointType            | `string`                             | `"default"`               | 码点类型，有`default`、`circle`两种                                                                                                   |
+| pointSize            | `string`                             | `"default"`               | 码点大小，有`default`、`sm`、`xs`三种                                                                                                 |
+| pointSizeRandom      | `boolean`                            | `false`                   | 码点大小随机                                                                                                                          |
 
 ## 动作表
 
