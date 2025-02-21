@@ -208,6 +208,75 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
         types?: ('boolean' | 'number')[];
       }
     | boolean;
+
+  /**
+   * 下拉刷新配置
+   */
+  pullRefresh?: {
+    /**
+     * 是否禁用下拉刷新
+     */
+    disabled?: boolean;
+
+    /**
+     * 是否显示loading图标
+     * @default true
+     */
+    showIcon?: boolean;
+
+    /**
+     * 是否显示文本
+     * @default true
+     */
+    showText?: boolean;
+
+    /**
+     * 指定图标样式
+     * @default 'loading-outline'
+     */
+    iconType?: string;
+
+    /**
+     * 图标和文字颜色
+     * @default '#777777'
+     */
+    color?: string;
+
+    /**
+     * 各状态文字说明
+     */
+    contentText?: {
+      /** 下拉刷新的默认文字 */
+      normalText?: string;
+      /** 下拉过程中的文字 */
+      pullingText?: string;
+      /** 释放立即刷新的文字 */
+      loosingText?: string;
+      /** 加载中的文字 */
+      loadingText?: string;
+      /** 加载成功的文字 */
+      successText?: string;
+      /** 全部加载完成的文字 */
+      completedText?: string;
+    };
+
+    /**
+     * 新数据追加的位置
+     * @default 'bottom'
+     */
+    dataAppendTo?: 'top' | 'bottom';
+
+    /**
+     * 加载状态的最短显示时间(毫秒)
+     * @default 0
+     */
+    minLoadingTime?: number;
+    /**
+     * 手势方向
+     * @default 'up'
+     */
+    gestureDirection?: 'up' | 'down';
+  };
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
@@ -277,7 +346,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     'headerToolbarClassName',
     'footerToolbarClassName',
     'primaryField',
-    'parsePrimitiveQuery'
+    'parsePrimitiveQuery',
+    'pullRefresh'
   ];
 
   static defaultProps = {
@@ -289,7 +359,25 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     autoFillHeight: false,
     showSelection: true,
     primaryField: 'id',
-    parsePrimitiveQuery: true
+    parsePrimitiveQuery: true,
+    pullRefresh: {
+      disabled: false,
+      showIcon: true,
+      showText: true,
+      iconType: 'auto',
+      color: '#777777',
+      dataAppendTo: 'bottom',
+      gestureDirection: 'up',
+      minLoadingTime: 0,
+      contentText: {
+        normalText: '点击加载更多',
+        pullingText: '加载中...',
+        loosingText: '释放立即刷新',
+        loadingText: '加载中...',
+        successText: '加载成功',
+        completedText: '没有更多数据了'
+      }
+    }
   };
 
   control: any;
@@ -642,7 +730,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       source,
       columns,
-      perPage
+      perPage,
+      pullRefresh
     } = this.props;
 
     // reload 需要清空用户选择
@@ -680,9 +769,11 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         pageField,
         perPageField,
         loadDataMode,
+        dataAppendTo: pullRefresh?.dataAppendTo || 'bottom',
         syncResponse2Query,
         columns: store.columns ?? columns,
-        isTable2: true
+        isTable2: true,
+        minLoadingTime: pullRefresh?.minLoadingTime
       });
 
       value?.ok && // 接口正常返回才继续轮训
@@ -1652,7 +1743,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             {...pullRefresh}
             translate={__}
             onRefresh={this.handlePullRefresh}
-            direction="up"
+            direction={pullRefresh.gestureDirection ?? 'up'}
             loading={store.loading}
             completed={
               !store.loading &&
