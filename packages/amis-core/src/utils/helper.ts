@@ -2460,6 +2460,7 @@ export function formateCheckThemeCss(themeCss: any, type: string) {
   if (!themeCss) {
     return {};
   }
+
   const className = themeCss[`${type}ClassName`] || {};
   const controlClassName = themeCss[`${type}ControlClassName`] || {};
   const defaultControlThemeCss: any = {};
