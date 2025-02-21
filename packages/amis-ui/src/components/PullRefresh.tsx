@@ -251,7 +251,14 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       <div
         className={className}
         ref={loadingRef}
-        style={color ? {color: color} : undefined}
+        style={
+          color
+            ? ({
+                '--Spinner-color': color,
+                'color': color
+              } as React.CSSProperties)
+            : undefined
+        }
       >
         {showIcon && props.loading && (
           <Spinner
