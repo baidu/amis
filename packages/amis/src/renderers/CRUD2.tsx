@@ -208,6 +208,67 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
         types?: ('boolean' | 'number')[];
       }
     | boolean;
+
+  /**
+   * 下拉刷新配置
+   */
+  pullRefresh?: {
+    /**
+     * 是否禁用下拉刷新
+     */
+    disabled?: boolean;
+
+    /**
+     * 指定图标大小
+     * @default 'sm'
+     */
+    iconSize?: 'xs' | 'sm' | 'md' | 'lg';
+
+    /**
+     * 是否显示loading图标
+     * @default true
+     */
+    showIcon?: boolean;
+
+    /**
+     * 是否显示文本
+     * @default true
+     */
+    showText?: boolean;
+
+    /**
+     * 指定图标样式
+     * @default 'loading-outline'
+     */
+    iconType?: string;
+
+    /**
+     * 图标和文字颜色
+     * @default '#777777'
+     */
+    color?: string;
+
+    /**
+     * 各状态文字说明
+     */
+    contentText?: {
+      contentdown?: string;
+      contentrefresh?: string;
+      contentnomore?: string;
+    };
+
+    /**
+     * 新数据追加的位置
+     * @default 'bottom'
+     */
+    appendTo?: 'top' | 'bottom';
+
+    /**
+     * 加载状态的最短显示时间(毫秒)
+     * @default 0
+     */
+    minLoadingTime?: number;
+  };
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
@@ -277,7 +338,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     'headerToolbarClassName',
     'footerToolbarClassName',
     'primaryField',
-    'parsePrimitiveQuery'
+    'parsePrimitiveQuery',
+    'pullRefresh'
   ];
 
   static defaultProps = {
@@ -289,7 +351,22 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     autoFillHeight: false,
     showSelection: true,
     primaryField: 'id',
-    parsePrimitiveQuery: true
+    parsePrimitiveQuery: true,
+    pullRefresh: {
+      disabled: false,
+      iconSize: 'sm',
+      showIcon: true,
+      showText: true,
+      iconType: 'auto',
+      color: '#777777',
+      appendTo: 'bottom',
+      minLoadingTime: 0,
+      contentText: {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      }
+    }
   };
 
   control: any;
@@ -642,7 +719,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       loadDataOnce,
       source,
       columns,
-      perPage
+      perPage,
+      pullRefresh
     } = this.props;
 
     // reload 需要清空用户选择
@@ -682,7 +760,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         loadDataMode,
         syncResponse2Query,
         columns: store.columns ?? columns,
-        isTable2: true
+        isTable2: true,
+        minLoadingTime: pullRefresh?.minLoadingTime
       });
 
       value?.ok && // 接口正常返回才继续轮训
@@ -1652,7 +1731,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             {...pullRefresh}
             translate={__}
             onRefresh={this.handlePullRefresh}
-            direction="up"
+            direction="down"
             loading={store.loading}
             completed={
               !store.loading &&

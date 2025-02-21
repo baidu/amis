@@ -10,6 +10,7 @@ import {useOnScreen, useSetState} from '../hooks';
 import useTouch from '../hooks/use-touch';
 import {Icon} from './icons';
 import {TranslateFn} from 'amis-core';
+import {Spinner} from './Spinner';
 
 export interface PullRefreshProps {
   classnames: ClassNamesFn;
@@ -17,8 +18,16 @@ export interface PullRefreshProps {
   translate: TranslateFn;
   disabled?: boolean;
   completed?: boolean;
-  // 划屏方向，默认是下拉
   direction?: 'up' | 'down';
+  showIcon?: boolean;
+  showText?: boolean;
+  iconType?: string;
+  color?: string;
+  contentText?: {
+    contentdown?: string;
+    contentrefresh?: string;
+    contentnomore?: string;
+  };
   normalText?: string;
   pullingText?: string;
   loosingText?: string;
@@ -43,10 +52,16 @@ const defaultProps: {
   successDuration: number;
   loadingDuration: number;
   direction?: 'up' | 'down';
+  showIcon: boolean;
+  showText: boolean;
+  iconType: string;
 } = {
   successDuration: 0,
   loadingDuration: 0,
-  direction: 'down'
+  direction: 'down',
+  showIcon: true,
+  showText: true,
+  iconType: 'loading-outline'
 };
 
 const defaultHeaderHeight = 28;
@@ -59,16 +74,36 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     successDuration,
     loadingDuration,
     direction,
-    completed
+    completed,
+    showIcon,
+    showText,
+    iconType,
+    color,
+    contentText
   } = props;
 
   const refreshText = {
-    normalText: props.normalText ?? __('pullRefresh.normalText'),
-    pullingText: props.pullingText ?? __('pullRefresh.pullingText'),
-    loosingText: props.loosingText ?? __('pullRefresh.loosingText'),
-    loadingText: props.loadingText ?? __('pullRefresh.loadingText'),
+    normalText:
+      contentText?.contentdown ??
+      props.normalText ??
+      __('pullRefresh.normalText'),
+    pullingText:
+      contentText?.contentdown ??
+      props.pullingText ??
+      __('pullRefresh.pullingText'),
+    loosingText:
+      contentText?.contentdown ??
+      props.loosingText ??
+      __('pullRefresh.loosingText'),
+    loadingText:
+      contentText?.contentrefresh ??
+      props.loadingText ??
+      __('pullRefresh.loadingText'),
     successText: props.successText ?? __('pullRefresh.successText'),
-    completedText: props.completedText ?? __('pullRefresh.completedText')
+    completedText:
+      contentText?.contentnomore ??
+      props.completedText ??
+      __('pullRefresh.completedText')
   };
 
   const touch = useTouch();
@@ -203,14 +238,35 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     return refreshText[`${status}Text`];
   };
 
-  const loadingDom = (className: string) => (
-    <div className={className} ref={loadingRef}>
-      {state.status === 'loading' && (
-        <Icon icon="loading-outline" className="icon loading-icon" />
-      )}
-      {getStatusText(state.status)}
-    </div>
-  );
+  const loadingDom = (className: string) => {
+    console.log('[PullRefresh] render loadingDom:', {
+      status: state.status,
+      showIcon,
+      showText,
+      iconType,
+      className
+    });
+
+    return (
+      <div
+        className={className}
+        ref={loadingRef}
+        style={color ? {color: color} : undefined}
+      >
+        {showIcon && props.loading && (
+          <Spinner
+            show={true}
+            icon={iconType}
+            size="sm"
+            className="PullRefresh-spinner"
+            classnames={cx}
+            classPrefix={props.classPrefix}
+          />
+        )}
+        {showText && getStatusText(state.status)}
+      </div>
+    );
+  };
 
   return (
     <div

@@ -228,6 +228,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
+        minLoadingTime?: number; // 最小加载时间
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -241,9 +242,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         columns?: Array<any>;
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
+        minLoadingTime?: number; // 最小加载时间
       } = {}
     ) {
       try {
+        const startTime = Date.now();
         let rawItems = options.source
           ? resolveVariableAndFilter(
               options.source,
@@ -331,6 +334,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         } else {
           if (!json.data) {
             throw new Error(self.__('CRUD.invalidData'));
+          }
+
+          console.log('options.minLoadingTime', options.minLoadingTime);
+
+          if (options.minLoadingTime) {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = options.minLoadingTime - elapsedTime;
+            if (remainingTime > 0) {
+              yield new Promise(resolve => setTimeout(resolve, remainingTime));
+            }
           }
 
           self.updatedAt = Date.now();
