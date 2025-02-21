@@ -243,6 +243,188 @@ order: 56
 }
 ```
 
+## 字母索引条
+
+设置 `showIndexBar: true` 可以在列表右侧显示字母索引条，点击字母可以快速定位到以该字母开头的列表项。默认使用 `title` 字段作为索引依据，也可以通过 `indexField` 指定其他字段。
+
+设置 `indexBarOffset` 可以设置字母索引条偏移量，用于设置点击索引条跳转时的滚动位置偏移。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "data": {
+    "rows": [
+      {
+        "id": 1,
+        "name": "Alice Smith",
+        "title": "软件工程师",
+        "desc": "alice@example.com"
+      },
+      {
+        "id": 2,
+        "name": "Bob Johnson",
+        "title": "产品经理",
+        "desc": "bob@example.com"
+      },
+      {
+        "id": 3,
+        "name": "Charlie Brown",
+        "title": "设计师",
+        "desc": "charlie@example.com"
+      },
+      {
+        "id": 4,
+        "name": "David Wang",
+        "title": "开发工程师",
+        "desc": "david@example.com"
+      },
+      {
+        "id": 5,
+        "name": "Eve Johnson",
+        "title": "产品经理",
+        "desc": "eve@example.com"
+      },
+      {
+        "id": 6,
+        "name": "Frank Smith",
+        "title": "设计师",
+        "desc": "frank@example.com"
+      },
+      {
+        "id": 7,
+        "name": "Grace Brown",
+        "title": "产品经理",
+        "desc": "grace@example.com"
+      },
+      {
+        "id": 8,
+        "name": "Henry Davis",
+        "title": "开发工程师",
+        "desc": "henry@example.com"
+      },
+      {
+        "id": 9,
+        "name": "Ivy Evans",
+        "title": "产品经理",
+        "desc": "ivy@example.com"
+      },
+      {
+        "id": 10,
+        "name": "Jack White",
+        "title": "设计师",
+        "desc": "jack@example.com"
+      },
+      {
+        "id": 11,
+        "name": "Kate Green",
+        "title": "产品经理",
+        "desc": "kate@example.com"
+      },
+      {
+        "id": 12,
+        "name": "Leo Brown",
+        "title": "开发工程师",
+        "desc": "leo@example.com"
+      },
+      {
+        "id": 13,
+        "name": "Mia Davis",
+        "title": "产品经理",
+        "desc": "mia@example.com"
+      },
+      {
+        "id": 14,
+        "name": "Noah White",
+        "title": "设计师",
+        "desc": "noah@example.com"
+      },
+      {
+        "id": 15,
+        "name": "Olivia Green",
+        "title": "产品经理",
+        "desc": "olivia@example.com"
+      },
+      {
+        "id": 16,
+        "name": "Paul Brown",
+        "title": "开发工程师",
+        "desc": "paul@example.com"
+      },
+      {
+        "id": 17,
+        "name": "Quinn Davis",
+        "title": "产品经理",
+        "desc": "quinn@example.com"
+      },
+      {
+        "id": 18,
+        "name": "Ryan Evans",
+        "title": "设计师",
+        "desc": "ryan@example.com"
+      },
+      {
+        "id": 19,
+        "name": "Samuel White",
+        "title": "开发工程师",
+        "desc": "samuel@example.com"
+      },
+      {
+        "id": 20,
+        "name": "Thomas Green",
+        "title": "产品经理",
+        "desc": "thomas@example.com"
+      },
+      {
+        "id": 21,
+        "name": "Uma Davis",
+        "title": "设计师",
+        "desc": "uma@example.com"
+      },
+      {
+        "id": 22,
+        "name": "Vincent Brown",
+        "title": "开发工程师",
+        "desc": "vincent@example.com"
+      },
+      {
+        "id": 23,
+        "name": "Wendy Evans",
+        "title": "产品经理",
+        "desc": "wendy@example.com"
+      },
+      {
+        "id": 24,
+        "name": "Xavier Davis",
+        "title": "设计师",
+        "desc": "xavier@example.com"
+      },
+      {
+        "id": 25,
+        "name": "Yvonne White",
+        "title": "开发工程师",
+        "desc": "yvonne@example.com"
+      },
+      {
+        "id": 26,
+        "name": "Zachary Brown",
+        "title": "产品经理",
+        "desc": "zachary@example.com"
+      }
+    ]
+  },
+  "body": {
+    "type": "list",
+    "source": "$rows",
+    "showIndexBar": true,
+    "listItem": {
+      "title": "${name}",
+      "subTitle": "${title}",
+      "desc": "${desc}"
+    }
+  }
+}
+```
+
 ## 属性表
 
 | 属性名                   | 类型                                 | 默认值                | 说明                                                                         |
@@ -266,6 +448,9 @@ order: 56
 | listItem.body            | `ListBodyField[]`                    |                       | 内容容器，主要用来放置非表单项组件                                           |
 | listItem.actions         | Array<[Action](./action)>            |                       | 按钮区域                                                                     |
 | listItem.actionsPosition | 'left' or 'right'                    | 默认在右侧            | 按钮位置                                                                     |
+| showIndexBar             | `boolean`                            | `false`               | 是否显示右侧字母索引条                                                       |
+| indexField               | `string`                             | `'title'`             | 索引依据字段，默认使用 `title` 字段或列表项标题                              |
+| indexBarOffset           | `number`                             | `0`                   | 索引条偏移量，用于设置点击索引条跳转时的滚动位置偏移                         |
 
 ### ListBodyField
 
