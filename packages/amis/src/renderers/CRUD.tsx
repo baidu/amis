@@ -82,6 +82,7 @@ interface LoadMoreConfig {
     contentnomore: string;
   };
   minLoadingTime?: number;
+  dataAppendTo?: 'top' | 'bottom';
 }
 
 export type CRUDBultinToolbarType =
@@ -1419,7 +1420,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         columns: store.columns ?? columns,
         matchFunc,
         filterOnAllColumns: loadDataOnceFetchOnFilter === false,
-        minLoadingTime: values?.minLoadingTime
+        minLoadingTime: values?.minLoadingTime,
+        dataAppendTo: values?.dataAppendTo
       });
       if (!isAlive(store)) {
         return value;
@@ -2469,6 +2471,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         contentnomore: '没有更多数据了'
       },
       minLoadingTime,
+      dataAppendTo,
       color
     } = loadMoreProps;
 
@@ -2493,7 +2496,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           this.search({
             page: page + 1,
             loadDataMode: 'load-more',
-            minLoadingTime
+            minLoadingTime,
+            dataAppendTo
           });
         }}
       >

@@ -264,7 +264,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
      * 新数据追加的位置
      * @default 'bottom'
      */
-    appendTo?: 'top' | 'bottom';
+    dataAppendTo?: 'top' | 'bottom';
 
     /**
      * 加载状态的最短显示时间(毫秒)
@@ -366,7 +366,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       showText: true,
       iconType: 'auto',
       color: '#777777',
-      appendTo: 'bottom',
+      dataAppendTo: 'bottom',
       gestureDirection: 'up',
       minLoadingTime: 0,
       contentText: {
@@ -769,6 +769,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         pageField,
         perPageField,
         loadDataMode,
+        dataAppendTo: pullRefresh?.dataAppendTo || 'bottom',
         syncResponse2Query,
         columns: store.columns ?? columns,
         isTable2: true,
