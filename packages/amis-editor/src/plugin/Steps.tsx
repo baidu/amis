@@ -4,7 +4,11 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {inputStateTpl} from '../renderer/style-control/helper';
+import {
+  inputStepStateTpl,
+  inputSwitchStateTpl
+} from '../renderer/style-control/helper';
+import {StepStatus} from 'amis-ui';
 export class StepsPlugin extends BasePlugin {
   static id = 'StepsPlugin';
   // 关联渲染器名字
@@ -39,7 +43,6 @@ export class StepsPlugin extends BasePlugin {
   previewSchema = {
     ...this.scaffold
   };
-
   panelTitle = 'Steps';
   panelBody = [
     getSchemaTpl('tabs', [
@@ -137,27 +140,31 @@ export class StepsPlugin extends BasePlugin {
                 ]
               },
               {
-                name: 'stepItemStatus',
+                name: '__editorStateStep',
                 type: 'select',
                 label: '步骤状态',
-                value: '',
+                value: 'Default',
                 clearable: true,
                 options: [
                   {
+                    label: '常规',
+                    value: 'Default'
+                  },
+                  {
                     label: '完成',
-                    value: 'finish'
+                    value: 'Finish'
                   },
                   {
                     label: '进行中',
-                    value: 'process'
+                    value: 'Process'
                   },
                   {
                     label: '等待',
-                    value: 'wait'
+                    value: 'Wait'
                   },
                   {
                     label: '出错',
-                    value: 'error'
+                    value: 'Error'
                   }
                 ]
               },
@@ -176,20 +183,39 @@ export class StepsPlugin extends BasePlugin {
             {
               title: '图标样式',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'themeCss.iconControlClassName.display',
-                  label: '隐藏图标',
-                  trueValue: 'none'
-                }),
-                getSchemaTpl('theme:select', {
-                  label: '尺寸',
-                  name: 'themeCss.iconControlClassName.iconSize'
-                }),
-                getSchemaTpl('theme:colorPicker', {
-                  label: '颜色',
-                  name: 'themeCss.iconControlClassName.backgroundColor',
-                  labelMode: 'input'
-                })
+                ...inputSwitchStateTpl('themeCss.iconControlClassName', {}, [
+                  getSchemaTpl('switch', {
+                    name: 'themeCss.iconControlClassName.display',
+                    label: '隐藏图标',
+                    trueValue: 'none'
+                  })
+                ]),
+                ...inputSwitchStateTpl(
+                  'themeCss.iconControlClassName',
+                  {
+                    hiddenOn:
+                      'themeCss.iconControlClassNameFinish.display ==="none"' +
+                      '||' +
+                      'themeCss.iconControlClassNameDefault.display ==="none"' +
+                      '||' +
+                      'themeCss.iconControlClassNameProcess.display ==="none"' +
+                      '||' +
+                      'themeCss.iconControlClassNameWait.display ==="none"' +
+                      '||' +
+                      'themeCss.iconControlClassNameError.display ==="none"'
+                  },
+                  [
+                    getSchemaTpl('theme:select', {
+                      label: '尺寸',
+                      name: 'themeCss.iconControlClassName.iconSize'
+                    }),
+                    getSchemaTpl('theme:colorPicker', {
+                      label: '颜色',
+                      name: 'themeCss.iconControlClassName.backgroundColor',
+                      labelMode: 'input'
+                    })
+                  ]
+                )
               ]
             }
           ]),
@@ -197,14 +223,25 @@ export class StepsPlugin extends BasePlugin {
             {
               title: '标题样式',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'themeCss.titleControlClassName.display',
-                  label: '隐藏标题',
-                  trueValue: 'none'
-                }),
-                ...inputStateTpl('themeCss.titleControlClassName', '', {
+                ...inputSwitchStateTpl('themeCss.titleControlClassName', {}, [
+                  getSchemaTpl('switch', {
+                    name: 'themeCss.titleControlClassName.display',
+                    label: '隐藏标题',
+                    trueValue: 'none'
+                  })
+                ]),
+                ...inputStepStateTpl('themeCss.titleControlClassName', '', {
                   hideFont: false,
-                  hiddenOn: 'themeCss.titleControlClassName.display ==="none"'
+                  hiddenOn:
+                    'themeCss.titleControlClassNameFinish.display ==="none"' +
+                    '||' +
+                    'themeCss.titleControlClassNameDefault.display ==="none"' +
+                    '||' +
+                    'themeCss.titleControlClassNameProcess.display ==="none"' +
+                    '||' +
+                    'themeCss.titleControlClassNameWait.display ==="none"' +
+                    '||' +
+                    'themeCss.titleControlClassNameError.display ==="none"'
                 })
               ]
             }
@@ -213,15 +250,29 @@ export class StepsPlugin extends BasePlugin {
             {
               title: '副标题样式',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'themeCss.subTitleControlClassName.display',
-                  label: '隐藏副标题',
-                  trueValue: 'none'
-                }),
-                ...inputStateTpl('themeCss.subTitleControlClassName', '', {
+                ...inputSwitchStateTpl(
+                  'themeCss.subTitleControlClassName',
+                  {},
+                  [
+                    getSchemaTpl('switch', {
+                      name: 'themeCss.subTitleControlClassName.display',
+                      label: '隐藏副标题',
+                      trueValue: 'none'
+                    })
+                  ]
+                ),
+                ...inputStepStateTpl('themeCss.subTitleControlClassName', '', {
                   hideFont: false,
                   hiddenOn:
-                    'themeCss.subTitleControlClassName.display ==="none"'
+                    'themeCss.subTitleControlClassNameFinish.display ==="none"' +
+                    '||' +
+                    'themeCss.subTitleControlClassNameDefault.display ==="none"' +
+                    '||' +
+                    'themeCss.subTitleControlClassNameProcess.display ==="none"' +
+                    '||' +
+                    'themeCss.subTitleControlClassNameWait.display ==="none"' +
+                    '||' +
+                    'themeCss.subTitleControlClassNameError.display ==="none"'
                 })
               ]
             }
@@ -230,16 +281,34 @@ export class StepsPlugin extends BasePlugin {
             {
               title: '描述样式',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'themeCss.descriptionControlClassName.display',
-                  label: '隐藏描述',
-                  trueValue: 'none'
-                }),
-                ...inputStateTpl('themeCss.descriptionControlClassName', '', {
-                  hideFont: false,
-                  hiddenOn:
-                    'themeCss.descriptionControlClassName.display ==="none"'
-                })
+                ...inputSwitchStateTpl(
+                  'themeCss.descriptionControlClassName',
+                  {},
+                  [
+                    getSchemaTpl('switch', {
+                      name: 'themeCss.descriptionControlClassName.display',
+                      label: '隐藏描述',
+                      trueValue: 'none'
+                    })
+                  ]
+                ),
+                ...inputStepStateTpl(
+                  'themeCss.descriptionControlClassName',
+                  '',
+                  {
+                    hideFont: false,
+                    hiddenOn:
+                      'themeCss.descriptionControlClassNameFinish.display ==="none"' +
+                      '||' +
+                      'themeCss.descriptionControlClassNameDefault.display ==="none"' +
+                      '||' +
+                      'themeCss.descriptionControlClassNameProcess.display ==="none"' +
+                      '||' +
+                      'themeCss.descriptionControlClassNameWait.display ==="none"' +
+                      '||' +
+                      'themeCss.descriptionControlClassNameError.display ==="none"'
+                  }
+                )
               ]
             }
           ]),

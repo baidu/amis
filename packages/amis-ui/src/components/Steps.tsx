@@ -97,7 +97,6 @@ export interface StepsProps extends ThemeProps {
   subTitleClassName?: string;
   titleClassName?: string;
   descriptionClassName?: string;
-  stepsItemStatus?: string;
 }
 
 export function Steps(props: StepsProps) {
@@ -117,7 +116,6 @@ export function Steps(props: StepsProps) {
     subTitleClassName,
     titleClassName,
     descriptionClassName,
-    stepsItemStatus,
     onClickStep
   } = props;
   const FINISH_ICON = 'check';

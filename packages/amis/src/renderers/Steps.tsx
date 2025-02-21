@@ -8,8 +8,7 @@ import {
   filter,
   getPropValue,
   CustomStyle,
-  setThemeClassName,
-  formatStepsThemeCss
+  setThemeClassName
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
@@ -97,9 +96,7 @@ export interface StepsSchema extends BaseSchema {
 
 export interface StepsProps
   extends RendererProps,
-    Omit<StepsSchema, 'className'> {
-  stepsItemStatus?: any;
-}
+    Omit<StepsSchema, 'className'> {}
 
 export function StepsCmpt(props: StepsProps) {
   const {
@@ -118,8 +115,7 @@ export function StepsCmpt(props: StepsProps) {
     iconClassName,
     titleClassName,
     subTitleClassName,
-    descriptionClassName,
-    stepsItemStatus
+    descriptionClassName
   } = props;
 
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
@@ -188,7 +184,6 @@ export function StepsCmpt(props: StepsProps) {
       progressDot={progressDot}
       labelPlacement={labelPlacement}
       mobileUI={mobileUI}
-      stepsItemStatus={stepsItemStatus}
     />
   );
 }
@@ -210,19 +205,15 @@ const StepsWithRemoteConfig = withRemoteConfig()(
         themeCss,
         className,
         classPrefix: ns,
-        stepItemStatus,
         ...rest
       } = this.props;
       const sourceConfig = isPlainObject(config) ? config : null;
-      const css = formatStepsThemeCss(themeCss, 'steps');
-      console.log(themeCss, css);
 
       return (
         <>
           <StepsCmpt
             {...rest}
             {...sourceConfig}
-            stepsItemStatus={stepItemStatus}
             className={cx(
               `${ns}StepsControl`,
               className,
@@ -230,32 +221,58 @@ const StepsWithRemoteConfig = withRemoteConfig()(
                 ...this.props,
                 name: 'baseControlClassName',
                 id,
-                themeCss: css
+                themeCss
               })
             )}
             iconClassName={setThemeClassName({
               ...this.props,
-              name: 'iconControlClassName',
+              name: [
+                'iconControlClassNameDefault',
+                'iconControlClassNameFinish',
+                'iconControlClassNameProcess',
+                'iconControlClassNameWait',
+                'iconControlClassNameError'
+              ],
               id,
-              themeCss: css
+              themeCss
             })}
             subTitleClassName={setThemeClassName({
               ...this.props,
-              name: 'subTitleControlClassName',
+              name: [
+                'subTitleControlClassNameDefault',
+                'subTitleControlClassNameFinish',
+                'subTitleControlClassNameProcess',
+                'subTitleControlClassNameWait',
+                'subTitleControlClassNameError'
+              ],
               id,
-              themeCss: css
+              themeCss
             })}
-            titleClassName={setThemeClassName({
-              ...this.props,
-              name: 'titleControlClassName',
-              id,
-              themeCss: css
-            })}
+            titleClassName={cx(
+              setThemeClassName({
+                ...this.props,
+                name: [
+                  'titleControlClassNameDefault',
+                  'titleControlClassNameFinish',
+                  'titleControlClassNameProcess',
+                  'titleControlClassNameWait',
+                  'titleControlClassNameError'
+                ],
+                id,
+                themeCss
+              })
+            )}
             descriptionClassName={setThemeClassName({
               ...this.props,
-              name: 'descriptionControlClassName',
+              name: [
+                'descriptionControlClassNameDefault',
+                'descriptionControlClassNameFinish',
+                'descriptionControlClassNameProcess',
+                'descriptionControlClassNameWait',
+                'descriptionControlClassNameError'
+              ],
               id,
-              themeCss: css
+              themeCss
             })}
           ></StepsCmpt>
           <CustomStyle
@@ -263,11 +280,11 @@ const StepsWithRemoteConfig = withRemoteConfig()(
             config={{
               wrapperCustomStyle,
               id,
-              themeCss: css,
+              themeCss,
               classNames: [
                 {key: 'baseControlClassName'},
                 {
-                  key: 'iconControlClassName',
+                  key: 'iconControlClassNameDefault',
                   weights: {
                     default: {
                       important: true
@@ -275,7 +292,43 @@ const StepsWithRemoteConfig = withRemoteConfig()(
                   }
                 },
                 {
-                  key: 'subTitleControlClassName',
+                  key: 'iconControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameDefault',
                   weights: {
                     default: {
                       important: true
@@ -283,7 +336,43 @@ const StepsWithRemoteConfig = withRemoteConfig()(
                   }
                 },
                 {
-                  key: 'titleControlClassName',
+                  key: 'subTitleControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameDefault',
                   weights: {
                     default: {
                       important: true
@@ -291,10 +380,82 @@ const StepsWithRemoteConfig = withRemoteConfig()(
                   }
                 },
                 {
-                  key: 'descriptionControlClassName',
+                  key: 'titleControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameDefault',
                   weights: {
                     default: {
                       important: true
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
                     }
                   }
                 }

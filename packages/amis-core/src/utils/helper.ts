@@ -2455,61 +2455,6 @@ export function formateId(id: string) {
   }
   return id;
 }
-export function formatStepsThemeCss(themeCss: any, type: string) {
-  if (!themeCss) {
-    return '';
-  }
-
-  // 需要包裹的子样式
-  const commonStyles = {
-    descriptionControlClassName: themeCss.descriptionControlClassName || {},
-    iconControlClassName: themeCss.iconControlClassName || {},
-    subTitleControlClassName: themeCss.subTitleControlClassName || {},
-    titleControlClassName: themeCss.titleControlClassName || {}
-  };
-
-  const controlClassName = themeCss[`${type}ControlClassName`] || {};
-  const defaultControlThemeCss: any = {};
-  const finishControlThemeCss: any = {};
-  const processControlThemeCss: any = {};
-  const waitControlThemeCss: any = {};
-  const errorControlThemeCss: any = {};
-
-  Object.keys(controlClassName).forEach(key => {
-    if (key.includes('finish-')) {
-      const newKey = key.replace('finish-', '');
-      finishControlThemeCss[newKey] = controlClassName[key];
-    } else if (key.includes('process-')) {
-      const newKey = key.replace('process-', '');
-      processControlThemeCss[newKey] = controlClassName[key];
-    } else if (key.includes('wait-')) {
-      const newKey = key.replace('wait-', '');
-      waitControlThemeCss[newKey] = controlClassName[key];
-    } else if (key.includes('error-')) {
-      const newKey = key.replace('error-', '');
-      errorControlThemeCss[newKey] = controlClassName[key];
-    } else if (key.includes(`${type}-`)) {
-      const newKey = key.replace(`${type}-`, '');
-      defaultControlThemeCss[newKey] = controlClassName[key];
-    } else {
-      defaultControlThemeCss[key] = controlClassName[key];
-    }
-  });
-
-  return {
-    ...themeCss,
-    [`${type}FinishControlClassName`]: {
-      ...finishControlThemeCss,
-      ...commonStyles
-    },
-    [`${type}ProcessControlClassName`]: {
-      ...processControlThemeCss,
-      ...commonStyles
-    },
-    [`${type}WaitControlClassName`]: {...waitControlThemeCss, ...commonStyles},
-    [`${type}ErrorControlClassName`]: {...errorControlThemeCss, ...commonStyles}
-  };
-}
 
 export function formateCheckThemeCss(themeCss: any, type: string) {
   if (!themeCss) {
