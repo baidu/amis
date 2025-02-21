@@ -252,9 +252,18 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
      * 各状态文字说明
      */
     contentText?: {
-      contentdown?: string;
-      contentrefresh?: string;
-      contentnomore?: string;
+      /** 下拉刷新的默认文字 */
+      normalText?: string;
+      /** 下拉过程中的文字 */
+      pullingText?: string;
+      /** 释放立即刷新的文字 */
+      loosingText?: string;
+      /** 加载中的文字 */
+      loadingText?: string;
+      /** 加载成功的文字 */
+      successText?: string;
+      /** 全部加载完成的文字 */
+      completedText?: string;
     };
 
     /**
@@ -268,6 +277,11 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
      * @default 0
      */
     minLoadingTime?: number;
+    /**
+     * 手势方向
+     * @default 'up'
+     */
+    gestureDirection?: 'up' | 'down';
   };
 }
 
@@ -360,11 +374,15 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       iconType: 'auto',
       color: '#777777',
       appendTo: 'bottom',
+      gestureDirection: 'up',
       minLoadingTime: 0,
       contentText: {
-        contentdown: '点击加载更多',
-        contentrefresh: '加载中...',
-        contentnomore: '没有更多数据了'
+        normalText: '点击加载更多',
+        pullingText: '加载中...',
+        loosingText: '释放立即刷新',
+        loadingText: '加载中...',
+        successText: '加载成功',
+        completedText: '没有更多数据了'
       }
     }
   };
@@ -1731,7 +1749,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             {...pullRefresh}
             translate={__}
             onRefresh={this.handlePullRefresh}
-            direction="down"
+            direction={pullRefresh.gestureDirection ?? 'up'}
             loading={store.loading}
             completed={
               !store.loading &&

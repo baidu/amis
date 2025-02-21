@@ -24,9 +24,12 @@ export interface PullRefreshProps {
   iconType?: string;
   color?: string;
   contentText?: {
-    contentdown?: string;
-    contentrefresh?: string;
-    contentnomore?: string;
+    normalText?: string;
+    pullingText?: string;
+    loosingText?: string;
+    loadingText?: string;
+    successText?: string;
+    completedText?: string;
   };
   normalText?: string;
   pullingText?: string;
@@ -83,27 +86,12 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   } = props;
 
   const refreshText = {
-    normalText:
-      contentText?.contentdown ??
-      props.normalText ??
-      __('pullRefresh.normalText'),
-    pullingText:
-      contentText?.contentdown ??
-      props.pullingText ??
-      __('pullRefresh.pullingText'),
-    loosingText:
-      contentText?.contentdown ??
-      props.loosingText ??
-      __('pullRefresh.loosingText'),
-    loadingText:
-      contentText?.contentrefresh ??
-      props.loadingText ??
-      __('pullRefresh.loadingText'),
-    successText: props.successText ?? __('pullRefresh.successText'),
-    completedText:
-      contentText?.contentnomore ??
-      props.completedText ??
-      __('pullRefresh.completedText')
+    normalText: contentText?.normalText ?? __('pullRefresh.normalText'),
+    pullingText: contentText?.pullingText ?? __('pullRefresh.pullingText'),
+    loosingText: contentText?.loosingText ?? __('pullRefresh.loosingText'),
+    loadingText: contentText?.loadingText ?? __('pullRefresh.loadingText'),
+    successText: contentText?.successText ?? __('pullRefresh.successText'),
+    completedText: contentText?.completedText ?? __('pullRefresh.completedText')
   };
 
   const touch = useTouch();
