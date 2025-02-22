@@ -267,6 +267,22 @@ const animationOptions = {
       value: 'hoverZoomOut'
     },
     {
+      label: '向上滑动',
+      value: 'hoverUp'
+    },
+    {
+      label: '向下滑动',
+      value: 'hoverDown'
+    },
+    {
+      label: '向左滑动',
+      value: 'hoverLeft'
+    },
+    {
+      label: '向右滑动',
+      value: 'hoverRight'
+    },
+    {
       label: '阴影增强',
       value: 'hoverShadow'
     },
@@ -275,16 +291,16 @@ const animationOptions = {
       value: 'hoverBorder'
     },
     {
-      label: '内容上升',
-      value: 'hoverUp'
-    },
-    {
-      label: '内容下降',
-      value: 'hoverDown'
-    },
-    {
       label: '内容翻转',
       value: 'hoverFlip'
+    },
+    {
+      label: '闪烁',
+      value: 'hoverFlash'
+    },
+    {
+      label: '抖动',
+      value: 'hoverShake'
     }
   ],
   exit: [
@@ -1398,6 +1414,7 @@ setSchemaTpl('animation', () => {
     const className = `${animations[type].type}-${id}-${type}`;
     if (type === 'hover') {
       el?.classList.add(`amis-${animations[type].type}-show`);
+      el?.classList.add(`${animations[type].type}-${id}-hover-show`);
     }
     el?.classList.add(className);
     createAnimationStyle(id, animations);
@@ -1419,6 +1436,7 @@ setSchemaTpl('animation', () => {
       el?.classList.remove(className);
       if (type === 'hover') {
         el?.classList.remove(`amis-${animations[type].type}-show`);
+        el?.classList.remove(`${animations[type].type}-${id}-hover-show`);
       }
 
       if (highlightDom) {
@@ -1608,7 +1626,22 @@ setSchemaTpl('animation', () => {
           ]
         }
       ]),
-      ...animation('hover', '悬浮动画'),
+      ...animation('hover', '悬浮动画', [
+        {
+          label: '重复',
+          type: 'select',
+          name: 'animations.hover.repeat',
+          value: '2',
+          visibleOn:
+            'animations.hover.type =="hoverFlash" || animations.hover.type =="hoverShake"',
+          options: [
+            ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
+              label: i,
+              value: i
+            }))
+          ]
+        }
+      ]),
       ...animation('exit', '退出动画', [
         {
           label: tipedLabel('不可见时触发', '组件退出可见区域触发进入动画'),
