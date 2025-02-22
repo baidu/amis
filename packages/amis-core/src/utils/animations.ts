@@ -18,6 +18,7 @@ export interface AnimationsProps {
     type: string;
     duration?: number;
     delay?: number;
+    repeat?: string;
   };
   exit?: {
     type: string;
@@ -52,19 +53,31 @@ function generateStyleByAnimation(
 }
 
 function generateStyleByHover(
-  className: string[],
+  className: string,
   animation: {
     name: string;
     duration?: number;
     delay?: number;
+    repeat?: string;
   }
 ) {
+  let style = {};
+  if (['hoverFlash', 'hoverShake'].includes(animation.name)) {
+    style = {
+      [`${className}:hover,${className}-show`]: {
+        animation: `${animation.name} ${animation.duration || 1}s ease ${
+          animation.delay || 0
+        }s ${animation.repeat || 1}`
+      }
+    };
+  }
   return {
-    [className.join(',')]: {
+    [className]: {
       transition: `all ${animation.duration || 1}s ease ${
         animation.delay || 0
       }s`
-    }
+    },
+    ...style
   };
 }
 
@@ -81,10 +94,11 @@ export function createAnimationStyle(
     styleConfig = Object.assign(
       styleConfig,
       key === 'hover'
-        ? generateStyleByHover([`.${animationConfig.type}-${id}-${key}`], {
+        ? generateStyleByHover(`.${animationConfig.type}-${id}-${key}`, {
             name: animationConfig.type,
             duration: animationConfig.duration,
-            delay: animationConfig.delay
+            delay: animationConfig.delay,
+            repeat: animationConfig.repeat as string
           })
         : generateStyleByAnimation([`.${animationConfig.type}-${id}-${key}`], {
             name: animationConfig.type,
