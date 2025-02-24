@@ -69,6 +69,9 @@ interface MapPickerState {
   };
 }
 
+// 记录百度地图SDK加载状态
+let BMapLoadingPromise: Promise<any> | null = null;
+
 export class BaiduMapPicker extends React.Component<
   MapPickerProps,
   MapPickerState
@@ -107,10 +110,17 @@ export class BaiduMapPicker extends React.Component<
   componentDidMount() {
     if ((window as any).BMap) {
       this.initMap();
+    } else if (BMapLoadingPromise) {
+      BMapLoadingPromise.then(this.initMap).then(() => {
+        BMapLoadingPromise = null;
+      });
     } else {
-      loadScript(
+      BMapLoadingPromise = loadScript(
         `//api.map.baidu.com/api?v=3.0&ak=${this.props.ak}&callback={{callback}}`
-      ).then(this.initMap);
+      );
+      BMapLoadingPromise.then(this.initMap).then(() => {
+        BMapLoadingPromise = null;
+      });
     }
   }
 
