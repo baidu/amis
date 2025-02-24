@@ -1548,7 +1548,7 @@ export class TreeSelector extends React.Component<
       return (
         <div ref={this.virtualListRef}>
           <VirtualList
-            height={virtualHeight !== undefined ? virtualHeight : 266}
+            height={virtualHeight || 266}
             itemCount={list.length}
             prefix={this.renderCheckAll()}
             itemSize={itemHeight}
