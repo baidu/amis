@@ -8,7 +8,6 @@ import {
   inputStepStateTpl,
   inputSwitchStateTpl
 } from '../renderer/style-control/helper';
-import {StepStatus} from 'amis-ui';
 export class StepsPlugin extends BasePlugin {
   static id = 'StepsPlugin';
   // 关联渲染器名字
