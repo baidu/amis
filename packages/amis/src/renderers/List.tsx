@@ -444,6 +444,20 @@ export default class List extends React.Component<ListProps, ListState> {
     }
   }
 
+  private getIndexDataField(listItem: any, indexField?: string): string {
+    // 确定用于索引的配置字段名，默认为 'title'
+    const configFieldName = indexField || 'title';
+
+    // 从配置中提取实际数据字段名（假设格式为 ${fieldName}）
+    const dataFieldNameTemplate = listItem?.[configFieldName];
+    // 从 "${fieldName}" 格式中提取出 "fieldName"
+    return dataFieldNameTemplate?.substring(
+      2,
+      dataFieldNameTemplate?.length - 1
+    );
+  }
+
+  // 修改 IntersectionObserver 部分
   observeItems() {
     // 添加环境检查
     if (!window.IntersectionObserver) {
@@ -456,15 +470,24 @@ export default class List extends React.Component<ListProps, ListState> {
         entries => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              const index = entry.target.getAttribute('data-index');
-              const item = this.props.store.items[Number(index)];
-              const letter = getPropValue(
-                {data: item.data},
-                () => item.data[this.props.indexField || 'title']
+              const {listItem, indexField} = this.props;
+              const itemIndex = entry.target.getAttribute('data-index');
+              const listItemData = this.props.store.items[Number(itemIndex)];
+
+              const dataFieldName = this.getIndexDataField(
+                listItem,
+                indexField
+              );
+
+              // 获取数据中对应字段的值的首字母并转为大写
+              const firstLetter = getPropValue(
+                {data: listItemData.data},
+                () => listItemData.data[dataFieldName]
               )
                 ?.charAt(0)
                 .toUpperCase();
-              this.currentLetter = letter;
+
+              this.currentLetter = firstLetter;
             }
           });
         },
@@ -1091,13 +1114,12 @@ export default class List extends React.Component<ListProps, ListState> {
     const {indexField = 'title', store, listItem} = this.props;
     if (!store) return;
 
-    const titleField = listItem?.title?.substring(2, listItem.title.length - 1);
-    const fieldToUse = titleField || indexField;
+    const dataFieldName = this.getIndexDataField(listItem, indexField);
 
     const targetItem = store.items.find(item => {
       const value = getPropValue(
         {data: item.data},
-        () => item.data[fieldToUse]
+        () => item.data[dataFieldName]
       );
       return typeof value === 'string'
         ? value.charAt(0).toUpperCase() === letter
@@ -1159,17 +1181,11 @@ export default class List extends React.Component<ListProps, ListState> {
       new Set(
         store.items
           .map(item => {
-            // 获取 listItem.title 配置的字段
-            const titleField = listItem?.title?.substring(
-              2,
-              listItem.title.length - 1
-            );
-            // 使用配置的字段名或 indexField 作为回退
-            const fieldToUse = titleField || indexField;
+            const dataFieldName = this.getIndexDataField(listItem, indexField);
 
             const value = getPropValue(
               {data: item.data},
-              () => item.data[fieldToUse]
+              () => item.data[dataFieldName]
             );
             return typeof value === 'string'
               ? value.charAt(0).toUpperCase()
