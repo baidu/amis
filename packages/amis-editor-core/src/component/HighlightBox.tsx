@@ -330,7 +330,12 @@ export default observer(function ({
             ) : null}
           </div>
 
-          <div className="ae-Editor-toolbar" key="toolbar">
+          <div
+            className={cx('ae-Editor-toolbar', {
+              invisible: toolbars.length === 0
+            })}
+            key="toolbar"
+          >
             {toolbars.map(item => (
               <button
                 key={item.id}
