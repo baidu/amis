@@ -2929,18 +2929,6 @@ interface CRUDMatchFunc {
 }
 ```
 
-可以通过 `loadMoreProps` 来自定义加载更多的属性：
-
-| 属性名         | 类型                | 默认值                                                                                          | 说明               |
-| -------------- | ------------------- | ----------------------------------------------------------------------------------------------- | ------------------ |
-| showIcon       | `boolean`           | `true`                                                                                          | 是否显示图标       |
-| showText       | `boolean`           | `true`                                                                                          | 是否显示文本       |
-| iconType       | `string`            | `'loading-outline'`                                                                             | 图标类型           |
-| contentText    | `object`            | `{ contentdown: '点击加载更多', contentrefresh: '加载中...', contentnomore: '没有更多数据了' }` | 显示的文本内容配置 |
-| minLoadingTime | `number`            | -                                                                                               | 最小加载时间(ms)   |
-| dataAppendTo   | `'top' \| 'bottom'` | -                                                                                               | 数据追加位置       |
-| color          | `string`            | -                                                                                               | 自定义颜色         |
-
 ### 导出 CSV
 
 在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
