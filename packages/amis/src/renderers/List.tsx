@@ -1172,26 +1172,6 @@ export default class List extends React.Component<ListProps, ListState> {
 
     const currentLetter = this.currentLetter;
 
-    // 生成字母列表
-    const letters = Array.from(
-      new Set(
-        store.items
-          .map(item => {
-            const dataFieldName = this.getIndexDataField(listItem, indexField);
-
-            const value = getPropValue(
-              {data: item.data},
-              () => item.data[dataFieldName]
-            );
-            return typeof value === 'string'
-              ? value.charAt(0).toUpperCase()
-              : '';
-          })
-          .filter(Boolean)
-          .sort()
-      )
-    );
-
     this.renderedToolbars = [];
     const heading = this.renderHeading();
     const header = this.renderHeader();
@@ -1236,7 +1216,17 @@ export default class List extends React.Component<ListProps, ListState> {
 
           {showIndexBar && (
             <AlphabetIndexer
-              letters={letters}
+              items={store.items}
+              getItemLetter={item => {
+                const dataFieldName = this.getIndexDataField(
+                  listItem,
+                  indexField
+                );
+                return getPropValue(
+                  {data: item.data},
+                  () => item.data[dataFieldName]
+                );
+              }}
               onLetterClick={this.handleLetterClick}
               classnames={cx}
               currentLetter={currentLetter}

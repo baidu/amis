@@ -2,21 +2,38 @@ import React, {useRef, useEffect} from 'react';
 import {ClassNamesFn} from 'amis-core';
 
 interface AlphabetIndexerProps {
-  letters: string[];
+  items: Array<any>;
+  getItemLetter: (item: any) => string;
   onLetterClick: (letter: string) => void;
   classnames: ClassNamesFn;
   currentLetter?: string;
 }
 
 const AlphabetIndexer: React.FC<AlphabetIndexerProps> = ({
-  letters,
+  items,
+  getItemLetter,
   onLetterClick,
   classnames: cx,
   currentLetter
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 处理触摸滑动
+  const letters = React.useMemo(() => {
+    return Array.from(
+      new Set(
+        items
+          .map(item => {
+            const value = getItemLetter(item);
+            return typeof value === 'string'
+              ? value.charAt(0).toUpperCase()
+              : '';
+          })
+          .filter(Boolean)
+          .sort()
+      )
+    );
+  }, [items, getItemLetter]);
+
   const handleTouchMove = (e: TouchEvent) => {
     e.preventDefault();
     const touch = e.touches[0];
@@ -46,7 +63,9 @@ const AlphabetIndexer: React.FC<AlphabetIndexerProps> = ({
       {letters.map(letter => (
         <div
           key={letter}
-          className={cx('AlphabetIndexer-letter')}
+          className={cx('AlphabetIndexer-letter', {
+            'is-active': letter === currentLetter
+          })}
           data-letter={letter}
           onClick={() => onLetterClick(letter)}
         >
