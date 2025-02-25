@@ -2080,6 +2080,34 @@ export class CRUDPlugin extends BasePlugin {
                 visibleOn: 'this.loadMoreProps && this.loadMoreProps.showIcon'
               },
               {
+                name: 'loadMoreProps.minLoadingTime',
+                type: 'input-number',
+                label: tipedLabel(
+                  '最小加载时间',
+                  '指定加载时显示loading的最小时间(毫秒)'
+                ),
+                value: 0
+              },
+              {
+                name: 'loadMoreProps.dataAppendTo',
+                type: 'select',
+                label: tipedLabel(
+                  '数据追加方式',
+                  '指定新加载的数据追加到已有数据的位置'
+                ),
+                value: 'bottom',
+                options: [
+                  {
+                    label: '追加到底部',
+                    value: 'bottom'
+                  },
+                  {
+                    label: '追加到顶部',
+                    value: 'top'
+                  }
+                ]
+              },
+              {
                 type: 'group',
                 label: '文本配置',
                 visibleOn: 'this.loadMoreProps && this.loadMoreProps.showText',
