@@ -459,9 +459,8 @@
   position: absolute;
   top: -24px;
   left: -2px;
-  z-index: 20;
+  z-index: 199; // 图层需要高于尺寸重置框，不遮挡工具栏按钮提示浮层
   border: 0;
-  padding-right: 8px;
   white-space: nowrap;
   background: $Editor-hlbox--onActive-bg;
   // border-radius: 3px 3px 0px 0px;
@@ -529,7 +528,7 @@
 
 .ae-Editor-toolbar {
   position: relative;
-  padding-left: 8px;
+  padding: 0 8px;
   display: inline-flex !important;
   pointer-events: all;
   align-items: center;
