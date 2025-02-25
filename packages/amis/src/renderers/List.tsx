@@ -302,10 +302,11 @@ export interface ListProps
   onQuery: (values: object) => any;
 }
 
-export default class List extends React.Component<
-  ListProps,
-  {currentLetter?: string}
-> {
+export interface ListState {
+  currentLetter?: string;
+}
+
+export default class List extends React.Component<ListProps, ListState> {
   static propsList: Array<keyof ListProps> = [
     'header',
     'headerToolbarRender',
