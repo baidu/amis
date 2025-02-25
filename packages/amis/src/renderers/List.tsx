@@ -305,6 +305,7 @@ export interface ListProps
 export interface ListState {
   currentLetter?: string;
   visibleItems: Set<number>;
+  isScrollingToLetter: boolean;
 }
 
 export default class List extends React.Component<ListProps, ListState> {
@@ -348,7 +349,8 @@ export default class List extends React.Component<ListProps, ListState> {
 
     this.state = {
       currentLetter: undefined,
-      visibleItems: new Set()
+      visibleItems: new Set(),
+      isScrollingToLetter: false
     };
 
     this.handleAction = this.handleAction.bind(this);
@@ -1089,6 +1091,9 @@ export default class List extends React.Component<ListProps, ListState> {
 
     const dataFieldName = this.getIndexDataField(listItem, indexField);
 
+    // 设置当前字母，但不触发 updateCurrentLetter
+    this.setState({currentLetter: letter, isScrollingToLetter: true});
+
     const targetItem = store.items.find(item => {
       const value = getPropValue(
         {data: item.data},
@@ -1099,21 +1104,54 @@ export default class List extends React.Component<ListProps, ListState> {
         : false;
     });
 
-    if (targetItem) {
-      this.setState({currentLetter: letter}, () => {
-        if (this.body) {
-          const itemElement = this.body.querySelector(
-            `[data-index="${targetItem.index}"]`
-          );
+    if (targetItem && this.body) {
+      const itemElement = this.body.querySelector(
+        `[data-index="${targetItem.index}"]`
+      );
 
-          if (itemElement) {
-            itemElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
+      if (itemElement) {
+        // 执行滚动
+        itemElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        // 使用简单的方法：监听滚动事件，当一段时间没有滚动时认为滚动结束
+        let isScrolling: number | null = null;
+        const scrollEndHandler = () => {
+          // 清除之前的定时器
+          if (isScrolling !== null) {
+            window.clearTimeout(isScrolling);
           }
-        }
-      });
+
+          // 设置新的定时器
+          isScrolling = window.setTimeout(() => {
+            // 滚动已停止
+            window.removeEventListener('scroll', scrollEndHandler);
+            this.setState({isScrollingToLetter: false});
+
+            // 滚动结束后，重新计算当前可见项并更新当前字母
+            this.clearObservers();
+            this.observeItems();
+          }, 150); // 滚动停止150ms后触发
+        };
+
+        // 添加滚动事件监听
+        window.addEventListener('scroll', scrollEndHandler);
+
+        // 安全措施：最长等待2秒
+        setTimeout(() => {
+          if (isScrolling !== null) {
+            window.clearTimeout(isScrolling);
+          }
+          window.removeEventListener('scroll', scrollEndHandler);
+          this.setState({isScrollingToLetter: false});
+
+          // 滚动结束后，重新计算当前可见项并更新当前字母
+          this.clearObservers();
+          this.observeItems();
+        }, 2000);
+      }
     }
   }
 
@@ -1278,6 +1316,8 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   private handleItemVisibilityChange(itemIndex: number, isVisible: boolean) {
+    if (this.state.isScrollingToLetter) return;
+
     this.setState(prevState => {
       const newVisibleItems = new Set(prevState.visibleItems);
       if (isVisible) {
@@ -1290,7 +1330,9 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   private updateCurrentLetter() {
-    const {store, listItem, indexField = 'title', indexBarOffset} = this.props;
+    if (this.state.isScrollingToLetter) return;
+
+    const {store, listItem, indexField = 'title'} = this.props;
     const {visibleItems} = this.state;
 
     if (visibleItems.size === 0) return;
