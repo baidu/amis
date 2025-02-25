@@ -340,10 +340,13 @@ export default class List extends React.Component<ListProps, ListState> {
   parentNode?: any;
   body?: any;
   renderedToolbars: Array<string>;
-  private currentLetter?: string;
 
   constructor(props: ListProps) {
     super(props);
+
+    this.state = {
+      currentLetter: undefined
+    };
 
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -389,7 +392,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   componentDidMount() {
     if (this.props.showIndexBar) {
-      this.observeItems();
+      // 删除 observeItems 调用
     }
   }
 
@@ -398,7 +401,7 @@ export default class List extends React.Component<ListProps, ListState> {
     const store = props.store;
 
     if (this.props.showIndexBar && !prevProps.showIndexBar) {
-      this.observeItems();
+      // 删除 observeItems 调用
     }
 
     if (
@@ -457,49 +460,8 @@ export default class List extends React.Component<ListProps, ListState> {
     );
   }
 
-  // 修改 IntersectionObserver 部分
-  observeItems() {
-    // 添加环境检查
-    if (!window.IntersectionObserver) {
-      return;
-    }
-
-    // 使用 requestAnimationFrame 延迟创建 observer
-    requestAnimationFrame(() => {
-      const observer = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const {listItem, indexField} = this.props;
-              const itemIndex = entry.target.getAttribute('data-index');
-              const listItemData = this.props.store.items[Number(itemIndex)];
-
-              const dataFieldName = this.getIndexDataField(
-                listItem,
-                indexField
-              );
-
-              // 获取数据中对应字段的值的首字母并转为大写
-              const firstLetter = getPropValue(
-                {data: listItemData.data},
-                () => listItemData.data[dataFieldName]
-              )
-                ?.charAt(0)
-                .toUpperCase();
-
-              this.currentLetter = firstLetter;
-            }
-          });
-        },
-        {threshold: 0.5}
-      );
-
-      const dom = findDOMNode(this);
-      if (dom instanceof HTMLElement) {
-        const items = dom.querySelectorAll('[data-index]');
-        items.forEach((item: Element) => observer.observe(item));
-      }
-    });
+  bodyRef(ref: HTMLDivElement) {
+    this.body = ref;
   }
 
   static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
@@ -533,10 +495,6 @@ export default class List extends React.Component<ListProps, ListState> {
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateItems;
-  }
-
-  bodyRef(ref: HTMLDivElement) {
-    this.body = ref;
   }
 
   getPopOverContainer() {
@@ -1170,7 +1128,7 @@ export default class List extends React.Component<ListProps, ListState> {
       indexBarOffset
     } = this.props;
 
-    const currentLetter = this.currentLetter;
+    const currentLetter = this.state.currentLetter;
 
     this.renderedToolbars = [];
     const heading = this.renderHeading();
