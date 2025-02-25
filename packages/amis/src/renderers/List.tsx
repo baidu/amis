@@ -304,6 +304,7 @@ export interface ListProps
 
 export interface ListState {
   currentLetter?: string;
+  visibleItems: Set<number>;
 }
 
 export default class List extends React.Component<ListProps, ListState> {
@@ -340,12 +341,14 @@ export default class List extends React.Component<ListProps, ListState> {
   parentNode?: any;
   body?: any;
   renderedToolbars: Array<string>;
+  private observers: Map<number, IntersectionObserver> = new Map();
 
   constructor(props: ListProps) {
     super(props);
 
     this.state = {
-      currentLetter: undefined
+      currentLetter: undefined,
+      visibleItems: new Set()
     };
 
     this.handleAction = this.handleAction.bind(this);
@@ -360,6 +363,9 @@ export default class List extends React.Component<ListProps, ListState> {
     this.bodyRef = this.bodyRef.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleLetterClick = this.handleLetterClick.bind(this);
+    this.handleItemVisibilityChange =
+      this.handleItemVisibilityChange.bind(this);
+    this.updateCurrentLetter = this.updateCurrentLetter.bind(this);
 
     const {
       store,
@@ -392,7 +398,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   componentDidMount() {
     if (this.props.showIndexBar) {
-      // 删除 observeItems 调用
+      this.observeItems();
     }
   }
 
@@ -400,8 +406,13 @@ export default class List extends React.Component<ListProps, ListState> {
     const props = this.props;
     const store = props.store;
 
-    if (this.props.showIndexBar && !prevProps.showIndexBar) {
-      // 删除 observeItems 调用
+    if (this.props.showIndexBar) {
+      if (!prevProps.showIndexBar || prevProps.items !== props.items) {
+        this.clearObservers();
+        this.observeItems();
+      }
+    } else if (prevProps.showIndexBar) {
+      this.clearObservers();
     }
 
     if (
@@ -445,6 +456,10 @@ export default class List extends React.Component<ListProps, ListState> {
     } else if (prevProps.selected !== props.selected) {
       store.updateSelected(props.selected || [], props.valueField);
     }
+  }
+
+  componentWillUnmount() {
+    this.clearObservers();
   }
 
   private getIndexDataField(listItem: any, indexField?: string): string {
@@ -1194,6 +1209,110 @@ export default class List extends React.Component<ListProps, ListState> {
         <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
+  }
+
+  private observeItems() {
+    setTimeout(() => {
+      if (!this.body) return;
+
+      const {
+        store,
+        listItem,
+        indexField = 'title',
+        indexBarOffset
+      } = this.props;
+      const dataFieldName = this.getIndexDataField(listItem, indexField);
+
+      // 获取偏移量，优先使用 indexBarOffset
+      let offsetTop = 0;
+
+      if (indexBarOffset !== undefined) {
+        offsetTop = indexBarOffset;
+      } else {
+        try {
+          if (this.body.parentElement) {
+            const parentStyle = getComputedStyle(this.body.parentElement);
+            const parentCssVar = parentStyle
+              .getPropertyValue('--affix-offset-top')
+              .trim();
+            if (parentCssVar && parentCssVar !== '0px') {
+              offsetTop = parseInt(parentCssVar, 10) || 0;
+            }
+          }
+        } catch (e) {
+          console.warn('获取固定头部高度失败:', e);
+        }
+      }
+
+      // 确保至少有一个最小值
+      offsetTop = Math.max(offsetTop, 0);
+
+      store.items.forEach(item => {
+        const itemElement = this.body.querySelector(
+          `[data-index="${item.index}"]`
+        );
+        if (!itemElement) return;
+
+        const observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              this.handleItemVisibilityChange(item.index, entry.isIntersecting);
+            });
+          },
+          {
+            root: null,
+            rootMargin: `-${offsetTop}px 0px 0px 0px`,
+            threshold: 0.1
+          }
+        );
+
+        observer.observe(itemElement);
+        this.observers.set(item.index, observer);
+      });
+    }, 100);
+  }
+
+  private clearObservers() {
+    this.observers.forEach(observer => observer.disconnect());
+    this.observers.clear();
+  }
+
+  private handleItemVisibilityChange(itemIndex: number, isVisible: boolean) {
+    this.setState(prevState => {
+      const newVisibleItems = new Set(prevState.visibleItems);
+      if (isVisible) {
+        newVisibleItems.add(itemIndex);
+      } else {
+        newVisibleItems.delete(itemIndex);
+      }
+      return {visibleItems: newVisibleItems};
+    }, this.updateCurrentLetter);
+  }
+
+  private updateCurrentLetter() {
+    const {store, listItem, indexField = 'title', indexBarOffset} = this.props;
+    const {visibleItems} = this.state;
+
+    if (visibleItems.size === 0) return;
+
+    // 找到可见项中索引最小的（最靠近顶部的）
+    const topVisibleIndex = Math.min(...Array.from(visibleItems));
+    const topItem = store.items.find(item => item.index === topVisibleIndex);
+
+    if (topItem) {
+      const dataFieldName = this.getIndexDataField(listItem, indexField);
+      const value = getPropValue(
+        {data: topItem.data},
+        () => topItem.data[dataFieldName]
+      );
+
+      if (typeof value === 'string') {
+        const letter = value.charAt(0).toUpperCase();
+        if (letter !== this.state.currentLetter) {
+          this.setState({currentLetter: letter});
+        }
+      }
+    }
   }
 }
 
