@@ -1127,24 +1127,20 @@ export default class List extends React.Component<ListProps, ListState> {
     });
 
     if (targetItem) {
-      const element = findDOMNode(this);
-      if (element) {
-        try {
-          const domNode = (element as Element).querySelector(
+      this.setState({currentLetter: letter}, () => {
+        if (this.body) {
+          const itemElement = this.body.querySelector(
             `[data-index="${targetItem.index}"]`
           );
 
-          if (domNode) {
-            (domNode as HTMLElement).scrollIntoView({
+          if (itemElement) {
+            itemElement.scrollIntoView({
               behavior: 'smooth',
               block: 'start'
             });
-            this.currentLetter = letter;
           }
-        } catch (e) {
-          console.warn('Failed to scroll to target element:', e);
         }
-      }
+      });
     }
   }
 
