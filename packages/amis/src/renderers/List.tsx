@@ -446,7 +446,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   observeItems() {
     // 添加环境检查
-    if (typeof window === 'undefined' || !window.IntersectionObserver) {
+    if (!window.IntersectionObserver) {
       return;
     }
 
