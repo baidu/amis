@@ -175,7 +175,6 @@ export const MainStore = types
     activeId: '',
     activeRegion: '', // 记录当前激活的子区域
     activeElement: '', // 记录当前编辑的内联元素
-    mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
     // 点选多个的时候用来记录， 单选单个的时候还是 activeId
     selections: types.optional(types.frozen<Array<string>>(), []),
@@ -366,17 +365,12 @@ export const MainStore = types
         );
       },
 
-      isRegionHighlightHover(id: string, region: string) {
-        return id === self.hoverId && region === self.mouseMoveRegion;
-      },
-
       isRegionActive(id: string, region: string): boolean {
         return (
           this.isActive(id) ||
           id === self.dropId ||
           id === self.planDropId || // 欲拖拽区域
-          this.isRegionHighlighted(id, region) ||
-          this.isRegionHighlightHover(id, region)
+          this.isRegionHighlighted(id, region)
         );
       },
 
@@ -1437,10 +1431,6 @@ export const MainStore = types
 
         self.hoverId = id;
         self.hoverRegion = region || '';
-      },
-
-      setMouseMoveRegion(region: string) {
-        self.mouseMoveRegion = region;
       },
 
       setInsertId(id: string) {

@@ -1722,10 +1722,12 @@ export default class Form extends React.Component<FormProps, object> {
       submitText,
       body,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      wrapWithPanel
     } = this.props;
 
     if (
+      wrapWithPanel === false ||
       typeof actions !== 'undefined' ||
       !submitText ||
       (Array.isArray(body) &&
