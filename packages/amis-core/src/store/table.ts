@@ -419,6 +419,7 @@ export const Row = types
       let data = immutableExtends(self.data, values);
 
       Object.isExtensible(data) &&
+        !data.__pristine &&
         Object.defineProperty(data, '__pristine', {
           value: savePristine ? data : self.pristine,
           enumerable: false,
@@ -511,6 +512,7 @@ export const Row = types
       };
 
       Object.isExtensible(data) &&
+        !data.__pristine &&
         Object.defineProperty(data, '__pristine', {
           value: self.data.__pristine || self.pristine,
           enumerable: false,
