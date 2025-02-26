@@ -92,108 +92,122 @@ exports[`1. Renderer:Picker base 1`] = `
             class="cxd-List cxd-Crud-body"
           >
             <div
-              class="cxd-List-fixedTop"
-            />
-            <div
-              class="cxd-List-items"
+              class="cxd-List-content-wrapper"
             >
               <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
+                class="cxd-List-main"
               >
                 <div
-                  class="cxd-ListItem-checkBtn"
-                >
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default"
-                    data-role="checkbox"
-                  >
-                    <input
-                      type="radio"
-                    />
-                    <i>
-                      <div
-                        class="radio-icon icon"
-                      />
-                    </i>
-                    <span
-                      class=""
-                    />
-                  </label>
-                </div>
+                  class="cxd-List-fixedTop"
+                />
                 <div
-                  class="cxd-ListItem-content"
+                  class="cxd-List-items"
                 >
-                  <p
-                    class="cxd-ListItem-title h5"
+                  <div
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="0"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    A
-                  </p>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right is-checked"
-              >
-                <div
-                  class="cxd-ListItem-checkBtn"
-                >
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
-                    data-role="checkbox"
+                    <div
+                      class="cxd-ListItem-checkBtn"
+                    >
+                      <label
+                        class="cxd-Checkbox cxd-Checkbox--radio--default"
+                        data-role="checkbox"
+                      >
+                        <input
+                          type="radio"
+                        />
+                        <i>
+                          <div
+                            class="radio-icon icon"
+                          />
+                        </i>
+                        <span
+                          class=""
+                        />
+                      </label>
+                    </div>
+                    <div
+                      class="cxd-ListItem-content"
+                    >
+                      <p
+                        class="cxd-ListItem-title h5"
+                      >
+                        A
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-ListItem cxd-ListItem--actions-at-right is-checked"
+                    data-index="1"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <input
-                      type="radio"
-                    />
-                    <i>
-                      <div
-                        class="radio-icon icon"
-                      />
-                    </i>
-                    <span
-                      class=""
-                    />
-                  </label>
-                </div>
-                <div
-                  class="cxd-ListItem-content"
-                >
-                  <p
-                    class="cxd-ListItem-title h5"
+                    <div
+                      class="cxd-ListItem-checkBtn"
+                    >
+                      <label
+                        class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
+                        data-role="checkbox"
+                      >
+                        <input
+                          type="radio"
+                        />
+                        <i>
+                          <div
+                            class="radio-icon icon"
+                          />
+                        </i>
+                        <span
+                          class=""
+                        />
+                      </label>
+                    </div>
+                    <div
+                      class="cxd-ListItem-content"
+                    >
+                      <p
+                        class="cxd-ListItem-title h5"
+                      >
+                        B
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="2"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    B
-                  </p>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <div
-                  class="cxd-ListItem-checkBtn"
-                >
-                  <label
-                    class="cxd-Checkbox cxd-Checkbox--radio--default"
-                    data-role="checkbox"
-                  >
-                    <input
-                      type="radio"
-                    />
-                    <i>
-                      <div
-                        class="radio-icon icon"
-                      />
-                    </i>
-                    <span
-                      class=""
-                    />
-                  </label>
-                </div>
-                <div
-                  class="cxd-ListItem-content"
-                >
-                  <p
-                    class="cxd-ListItem-title h5"
-                  >
-                    C
-                  </p>
+                    <div
+                      class="cxd-ListItem-checkBtn"
+                    >
+                      <label
+                        class="cxd-Checkbox cxd-Checkbox--radio--default"
+                        data-role="checkbox"
+                      >
+                        <input
+                          type="radio"
+                        />
+                        <i>
+                          <div
+                            class="radio-icon icon"
+                          />
+                        </i>
+                        <span
+                          class=""
+                        />
+                      </label>
+                    </div>
+                    <div
+                      class="cxd-ListItem-content"
+                    >
+                      <p
+                        class="cxd-ListItem-title h5"
+                      >
+                        C
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

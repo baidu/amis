@@ -10,6 +10,7 @@
     border: var(--List-borderWidth) solid var(--List-borderColor);
     background: var(--List-bg);
     margin-bottom: var(--gap-sm);
+    margin-right: px2rem(15px);
   }
 
   &-toolbar {
@@ -90,6 +91,16 @@
     bottom: var(--affix-offset-bottom);
     background: var(--Table-bg);
     z-index: $zindex-sticky;
+  }
+
+  &-content-wrapper {
+    display: flex;
+    position: relative;
+  }
+
+  &-main {
+    flex: 1;
+    min-width: 0; // 防止内容溢出
   }
 }
 
@@ -252,5 +263,51 @@
   &--hasItemAction:hover {
     color: var(--ListMenu-item--onHover-color);
     background: var(--ListMenu-item--onHover-bg);
+  }
+}
+
+// 修改索引条样式
+.#{$ns}AlphabetIndexer {
+  position: sticky;
+  top: calc(var(--affix-offset-top) + var(--gap-base));
+  right: px2rem(5px);
+  height: fit-content;
+  padding: px2rem(10px) px2rem(5px);
+  background: var(--white);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--boxShadow);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  overflow-y: auto;
+
+  // 移动端样式
+  @media (max-width: 768px) {
+    position: sticky;
+    top: calc(var(--affix-offset-top) + var(--gap-base));
+    right: px2rem(5px);
+    align-self: flex-start;
+  }
+
+  &-letter {
+    font-size: var(--fontSizeSm);
+    padding: px2rem(2px) px2rem(4px);
+    cursor: pointer;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      padding: px2rem(1px) px2rem(2px);
+    }
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &.is-active {
+      color: var(--white);
+      background: var(--primary);
+      border-radius: var(--borderRadius-sm);
+    }
   }
 }
