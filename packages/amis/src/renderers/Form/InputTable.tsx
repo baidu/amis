@@ -1273,6 +1273,7 @@ export default class FormTable<
       rowProps.quickEditEnabled = true;
       return rowProps;
     } else if (
+      !this.props.static &&
       !this.props.editable &&
       !this.props.addable &&
       !this.state.isCreateMode
