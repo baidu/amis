@@ -306,6 +306,7 @@ export interface ListState {
   currentLetter?: string;
   visibleItems: Set<number>;
   isScrollingToLetter: boolean;
+  itemRefs: Map<number, HTMLElement>;
 }
 
 export default class List extends React.Component<ListProps, ListState> {
@@ -343,7 +344,6 @@ export default class List extends React.Component<ListProps, ListState> {
   body?: any;
   renderedToolbars: Array<string>;
   private observers: Map<number, IntersectionObserver> = new Map();
-  private itemRefs: Map<number, HTMLElement | null> = new Map();
 
   constructor(props: ListProps) {
     super(props);
@@ -351,7 +351,8 @@ export default class List extends React.Component<ListProps, ListState> {
     this.state = {
       currentLetter: undefined,
       visibleItems: new Set(),
-      isScrollingToLetter: false
+      isScrollingToLetter: false,
+      itemRefs: new Map()
     };
 
     this.handleAction = this.handleAction.bind(this);
@@ -369,6 +370,7 @@ export default class List extends React.Component<ListProps, ListState> {
     this.handleItemVisibilityChange =
       this.handleItemVisibilityChange.bind(this);
     this.updateCurrentLetter = this.updateCurrentLetter.bind(this);
+    this.setItemRef = this.setItemRef.bind(this);
 
     const {
       store,
@@ -502,29 +504,13 @@ export default class List extends React.Component<ListProps, ListState> {
     // 确定用于索引的配置字段名，默认为 'title'
     const configFieldName = indexField || 'title';
 
-    try {
-      // 从配置中提取实际数据字段名（假设格式为 ${fieldName}）
-      const dataFieldNameTemplate = listItem?.[configFieldName];
-      if (!dataFieldNameTemplate || typeof dataFieldNameTemplate !== 'string') {
-        return configFieldName; // 如果没有模板，直接使用配置字段名
-      }
-
-      // 从 "${fieldName}" 格式中提取出 "fieldName"
-      if (
-        dataFieldNameTemplate.startsWith('${') &&
-        dataFieldNameTemplate.endsWith('}')
-      ) {
-        return dataFieldNameTemplate.substring(
-          2,
-          dataFieldNameTemplate.length - 1
-        );
-      }
-
-      return configFieldName;
-    } catch (e) {
-      console.warn('获取索引数据字段失败:', e);
-      return configFieldName;
-    }
+    // 从配置中提取实际数据字段名（假设格式为 ${fieldName}）
+    const dataFieldNameTemplate = listItem?.[configFieldName];
+    // 从 "${fieldName}" 格式中提取出 "fieldName"
+    return dataFieldNameTemplate?.substring(
+      2,
+      dataFieldNameTemplate?.length - 1
+    );
   }
 
   bodyRef(ref: HTMLDivElement) {
@@ -1098,7 +1084,7 @@ export default class List extends React.Component<ListProps, ListState> {
         onQuickChange: store.dragging ? null : this.handleQuickChange,
         popOverContainer: this.getPopOverContainer,
         indexBarOffset,
-        itemRef: this.createItemRefCallback(item.index)
+        itemRef: this.setItemRef
       }
     );
   }
@@ -1108,47 +1094,50 @@ export default class List extends React.Component<ListProps, ListState> {
     if (!store) return;
 
     const dataFieldName = this.getIndexDataField(listItem, indexField);
-    if (!dataFieldName) return;
 
+    // 设置当前字母，但不触发 updateCurrentLetter
     this.setState({currentLetter: letter, isScrollingToLetter: true});
 
     const targetItem = store.items.find(item => {
-      if (!item?.data) return false;
-
       const value = getPropValue(
         {data: item.data},
         () => item.data[dataFieldName]
       );
-
       return typeof value === 'string'
         ? value.charAt(0).toUpperCase() === letter
         : false;
     });
 
-    if (targetItem?.index !== undefined) {
-      const itemElement = this.itemRefs.get(targetItem.index);
-
-      if (itemElement && this.body) {
+    if (targetItem) {
+      const itemElement = this.state.itemRefs.get(targetItem.index);
+      if (itemElement) {
+        // 执行滚动
         itemElement.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
 
-        // 监听滚动结束
+        // 使用简单的方法：监听滚动事件，当一段时间没有滚动时认为滚动结束
         let isScrolling: number | null = null;
         const scrollEndHandler = () => {
+          // 清除之前的定时器
           if (isScrolling !== null) {
             window.clearTimeout(isScrolling);
           }
 
+          // 设置新的定时器
           isScrolling = window.setTimeout(() => {
+            // 滚动已停止
             window.removeEventListener('scroll', scrollEndHandler);
             this.setState({isScrollingToLetter: false});
+
+            // 滚动结束后，重新计算当前可见项并更新当前字母
             this.clearObservers();
             this.observeItems();
-          }, 150);
+          }, 150); // 滚动停止150ms后触发
         };
 
+        // 添加滚动事件监听
         window.addEventListener('scroll', scrollEndHandler);
 
         // 安全措施：最长等待2秒
@@ -1158,6 +1147,8 @@ export default class List extends React.Component<ListProps, ListState> {
           }
           window.removeEventListener('scroll', scrollEndHandler);
           this.setState({isScrollingToLetter: false});
+
+          // 滚动结束后，重新计算当前可见项并更新当前字母
           this.clearObservers();
           this.observeItems();
         }, 2000);
@@ -1261,7 +1252,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
   private observeItems() {
     setTimeout(() => {
-      if (!this.body || !this.props.store?.items?.length) return;
+      if (!this.body) return;
 
       const {
         store,
@@ -1269,24 +1260,34 @@ export default class List extends React.Component<ListProps, ListState> {
         indexField = 'title',
         indexBarOffset
       } = this.props;
+      const dataFieldName = this.getIndexDataField(listItem, indexField);
 
-      // 获取偏移量
-      let offsetTop = indexBarOffset !== undefined ? indexBarOffset : 0;
+      // 获取偏移量，优先使用 indexBarOffset
+      let offsetTop = 0;
 
-      if (offsetTop === 0 && this.body.parentElement) {
-        const parentStyle = getComputedStyle(this.body.parentElement);
-        const parentCssVar = parentStyle
-          .getPropertyValue('--affix-offset-top')
-          .trim();
-        if (parentCssVar && parentCssVar !== '0px') {
-          offsetTop = parseInt(parentCssVar, 10) || 0;
+      if (indexBarOffset !== undefined) {
+        offsetTop = indexBarOffset;
+      } else {
+        try {
+          if (this.body.parentElement) {
+            const parentStyle = getComputedStyle(this.body.parentElement);
+            const parentCssVar = parentStyle
+              .getPropertyValue('--affix-offset-top')
+              .trim();
+            if (parentCssVar && parentCssVar !== '0px') {
+              offsetTop = parseInt(parentCssVar, 10) || 0;
+            }
+          }
+        } catch (e) {
+          console.warn('获取固定头部高度失败:', e);
         }
       }
 
-      store.items.forEach(item => {
-        if (!item || item.index === undefined) return;
+      // 确保至少有一个最小值
+      offsetTop = Math.max(offsetTop, 0);
 
-        const itemElement = this.itemRefs.get(item.index);
+      store.items.forEach(item => {
+        const itemElement = this.state.itemRefs.get(item.index);
         if (!itemElement) return;
 
         const observer = new IntersectionObserver(
@@ -1355,11 +1356,21 @@ export default class List extends React.Component<ListProps, ListState> {
     }
   }
 
-  createItemRefCallback = (index: number) => (element: HTMLElement | null) => {
-    if (index !== undefined) {
-      this.itemRefs.set(index, element);
+  setItemRef(index: number, ref: HTMLElement | null) {
+    if (ref) {
+      this.setState(prevState => {
+        const newItemRefs = new Map(prevState.itemRefs);
+        newItemRefs.set(index, ref);
+        return {itemRefs: newItemRefs};
+      });
+    } else if (this.state.itemRefs.has(index)) {
+      this.setState(prevState => {
+        const newItemRefs = new Map(prevState.itemRefs);
+        newItemRefs.delete(index);
+        return {itemRefs: newItemRefs};
+      });
     }
-  };
+  }
 }
 
 @Renderer({
@@ -1538,7 +1549,7 @@ export interface ListItemProps
   itemAction?: ActionSchema;
   onEvent?: OnEventProps['onEvent'];
   hasClickActions?: boolean;
-  itemRef?: (element: HTMLElement | null) => void;
+  itemRef?: (index: number, ref: HTMLElement | null) => void;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1830,7 +1841,9 @@ export class ListItem extends React.Component<ListItemProps> {
               ? `${indexBarOffset}px`
               : 'var(--affix-offset-top)'
         }}
-        ref={itemRef}
+        ref={ref =>
+          itemRef && itemIndex !== undefined && itemRef(itemIndex, ref)
+        }
       >
         {this.renderLeft()}
         {this.renderRight()}
