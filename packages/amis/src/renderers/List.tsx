@@ -306,6 +306,7 @@ export interface ListState {
   currentLetter?: string;
   visibleItems: Set<number>;
   isScrollingToLetter: boolean;
+  itemRefs: Map<number, HTMLElement>;
 }
 
 export default class List extends React.Component<ListProps, ListState> {
@@ -350,7 +351,8 @@ export default class List extends React.Component<ListProps, ListState> {
     this.state = {
       currentLetter: undefined,
       visibleItems: new Set(),
-      isScrollingToLetter: false
+      isScrollingToLetter: false,
+      itemRefs: new Map()
     };
 
     this.handleAction = this.handleAction.bind(this);
@@ -368,6 +370,7 @@ export default class List extends React.Component<ListProps, ListState> {
     this.handleItemVisibilityChange =
       this.handleItemVisibilityChange.bind(this);
     this.updateCurrentLetter = this.updateCurrentLetter.bind(this);
+    this.setItemRef = this.setItemRef.bind(this);
 
     const {
       store,
@@ -1080,7 +1083,8 @@ export default class List extends React.Component<ListProps, ListState> {
         data: item.locals,
         onQuickChange: store.dragging ? null : this.handleQuickChange,
         popOverContainer: this.getPopOverContainer,
-        indexBarOffset
+        indexBarOffset,
+        itemRef: this.setItemRef
       }
     );
   }
@@ -1104,11 +1108,8 @@ export default class List extends React.Component<ListProps, ListState> {
         : false;
     });
 
-    if (targetItem && this.body) {
-      const itemElement = this.body.querySelector(
-        `[data-index="${targetItem.index}"]`
-      );
-
+    if (targetItem) {
+      const itemElement = this.state.itemRefs.get(targetItem.index);
       if (itemElement) {
         // 执行滚动
         itemElement.scrollIntoView({
@@ -1286,9 +1287,7 @@ export default class List extends React.Component<ListProps, ListState> {
       offsetTop = Math.max(offsetTop, 0);
 
       store.items.forEach(item => {
-        const itemElement = this.body.querySelector(
-          `[data-index="${item.index}"]`
-        );
+        const itemElement = this.state.itemRefs.get(item.index);
         if (!itemElement) return;
 
         const observer = new IntersectionObserver(
@@ -1354,6 +1353,22 @@ export default class List extends React.Component<ListProps, ListState> {
           this.setState({currentLetter: letter});
         }
       }
+    }
+  }
+
+  setItemRef(index: number, ref: HTMLElement | null) {
+    if (ref) {
+      this.setState(prevState => {
+        const newItemRefs = new Map(prevState.itemRefs);
+        newItemRefs.set(index, ref);
+        return {itemRefs: newItemRefs};
+      });
+    } else if (this.state.itemRefs.has(index)) {
+      this.setState(prevState => {
+        const newItemRefs = new Map(prevState.itemRefs);
+        newItemRefs.delete(index);
+        return {itemRefs: newItemRefs};
+      });
     }
   }
 }
@@ -1534,6 +1549,7 @@ export interface ListItemProps
   itemAction?: ActionSchema;
   onEvent?: OnEventProps['onEvent'];
   hasClickActions?: boolean;
+  itemRef?: (index: number, ref: HTMLElement | null) => void;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1801,7 +1817,8 @@ export class ListItem extends React.Component<ListItemProps> {
       onEvent,
       hasClickActions,
       itemIndex,
-      indexBarOffset
+      indexBarOffset,
+      itemRef
     } = this.props;
     const avatar = filter(avatarTpl, data);
     const title = filter(titleTpl, data);
@@ -1824,6 +1841,9 @@ export class ListItem extends React.Component<ListItemProps> {
               ? `${indexBarOffset}px`
               : 'var(--affix-offset-top)'
         }}
+        ref={ref =>
+          itemRef && itemIndex !== undefined && itemRef(itemIndex, ref)
+        }
       >
         {this.renderLeft()}
         {this.renderRight()}
