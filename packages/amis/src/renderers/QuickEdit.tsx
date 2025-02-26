@@ -657,7 +657,8 @@ export const HocQuickEdit =
           render,
           noHoc,
           canAccessSuperData,
-          disabled
+          disabled,
+          static: isStatic
         } = this.props;
 
         // 静态渲染等情况也把 InputTable 相关的回调函数剔除，防止嵌套渲染表格时出问题
@@ -668,6 +669,7 @@ export const HocQuickEdit =
           ...restProps
         } = this.props;
         if (
+          isStatic ||
           !quickEdit ||
           !onQuickChange ||
           (!(typeof quickEdit === 'object' && quickEdit?.isQuickEditFormMode) &&
