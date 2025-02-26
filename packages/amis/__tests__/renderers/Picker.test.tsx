@@ -68,7 +68,7 @@ test('1. Renderer:Picker base', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('2. Renderer:Picker with pickerSchema & valueField & labelField & multiple & value & size', async () => {
+test('2. Renderer:Picker with pickerSchema & valueField & labelField & multiple & value & modalSize', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
       data: {
@@ -110,7 +110,7 @@ test('2. Renderer:Picker with pickerSchema & valueField & labelField & multiple 
           labelField: 'engine',
           label: '多选',
           source: '/api/mock2/sample',
-          size: 'lg',
+          modalSize: 'lg',
           value: 'a,b',
           multiple: true,
           pickerSchema: {
@@ -205,7 +205,7 @@ test('3. Renderer:Picker with embed', async () => {
           labelField: 'engine',
           label: '多选',
           source: '/api/mock2/sample',
-          size: 'lg',
+          modalSize: 'lg',
           value: 'a,b',
           multiple: true,
           embed: true,
@@ -451,7 +451,7 @@ test('6. picker with toolbar form', async () => {
             }
           }
         },
-        size: 'lg',
+        modalSize: 'lg',
         value: '4,5',
         multiple: true,
         pickerSchema: {
