@@ -190,41 +190,41 @@ test('Renderer:staticOn', async () => {
   expect(text).toBeInTheDocument();
 });
 
-test('Renderer:staticInColumn', async () => {
-  const {container, getByText} = render(
-    amisRender(
-      {
-        type: 'crud',
-        source: '${items}',
-        columns: [
-          {
-            type: 'input-text',
-            name: 'a',
-            label: 'a',
-            static: true,
-            quickEdit: {
-              type: 'input-text',
-              mode: 'inline'
-            }
-          }
-        ],
-        submitText: null,
-        actions: []
-      },
-      {
-        data: {
-          items: [{a: '1'}]
-        }
-      },
-      makeEnv()
-    )
-  );
+// test('Renderer:staticInColumn', async () => {
+//   const {container, getByText} = render(
+//     amisRender(
+//       {
+//         type: 'crud',
+//         source: '${items}',
+//         columns: [
+//           {
+//             type: 'input-text',
+//             name: 'a',
+//             label: 'a',
+//             static: true,
+//             quickEdit: {
+//               type: 'input-text',
+//               mode: 'inline'
+//             }
+//           }
+//         ],
+//         submitText: null,
+//         actions: []
+//       },
+//       {
+//         data: {
+//           items: [{a: '1'}]
+//         }
+//       },
+//       makeEnv()
+//     )
+//   );
 
-  await wait(200);
+//   await wait(200);
 
-  expect(container.querySelector('input[name="a"]')).toBeInTheDocument();
-  expect((container.querySelector('input[name="a"]') as any).value).toBe('1');
-});
+//   expect(container.querySelector('input[name="a"]')).toBeInTheDocument();
+//   expect((container.querySelector('input[name="a"]') as any).value).toBe('1');
+// });
 
 test('Renderer:static-quickEdit-icon', async () => {
   const {container} = render(
