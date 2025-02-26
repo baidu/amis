@@ -17,18 +17,10 @@ import {QRCode as QRCodeRender} from 'qrcode-react-next';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {getPropValue} from 'amis-core';
 import mapValues from 'lodash/mapValues';
+import {saveAs} from 'file-saver';
 
 function downloadBlob(blob: Blob, filename: string) {
-  const objectUrl = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = objectUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  setTimeout(() => URL.revokeObjectURL(objectUrl), 500);
+  return saveAs(blob, filename);
 }
 
 export interface QRCodeImageSettings {

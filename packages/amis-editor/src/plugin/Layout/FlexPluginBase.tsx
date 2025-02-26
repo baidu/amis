@@ -449,7 +449,8 @@ export class FlexPluginBase extends LayoutBasePlugin {
   regions: Array<RegionConfig> = [
     {
       key: 'items',
-      label: '子节点集合'
+      label: '子节点集合',
+      renderMethod: 'renderItems'
     }
   ];
 
