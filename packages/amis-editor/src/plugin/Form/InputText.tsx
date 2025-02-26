@@ -322,8 +322,19 @@ export class TextControlPlugin extends BasePlugin {
                         ? autoComplete
                         : undefined
                     });
-                    form.changeValue('validations', {...validations});
-                    form.changeValue('validationErrors', {...validationErrors});
+
+                    form.changeValue(
+                      'validations',
+                      Object.keys(validations).length > 0
+                        ? {...validations}
+                        : undefined
+                    );
+                    form.changeValue(
+                      'validationErrors',
+                      Object.keys(validationErrors).length > 0
+                        ? {...validationErrors}
+                        : undefined
+                    );
                   }
                 }),
                 getSchemaTpl('tplFormulaControl', {
