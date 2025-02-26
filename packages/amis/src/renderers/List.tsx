@@ -344,6 +344,7 @@ export default class List extends React.Component<ListProps, ListState> {
   body?: any;
   renderedToolbars: Array<string>;
   private observers: Map<number, IntersectionObserver> = new Map();
+  private _scrollTimeout: number | null = null;
 
   constructor(props: ListProps) {
     super(props);
@@ -498,6 +499,11 @@ export default class List extends React.Component<ListProps, ListState> {
 
   componentWillUnmount() {
     this.clearObservers();
+
+    // 清除可能存在的滚动超时
+    if (this._scrollTimeout) {
+      clearTimeout(this._scrollTimeout);
+    }
   }
 
   private getIndexDataField(listItem: any, indexField?: string): string {
@@ -1095,8 +1101,11 @@ export default class List extends React.Component<ListProps, ListState> {
 
     const dataFieldName = this.getIndexDataField(listItem, indexField);
 
-    // 设置当前字母，但不触发 updateCurrentLetter
     this.setState({currentLetter: letter, isScrollingToLetter: true});
+
+    if (this._scrollTimeout) {
+      clearTimeout(this._scrollTimeout);
+    }
 
     const targetItem = store.items.find(item => {
       const value = getPropValue(
@@ -1111,47 +1120,16 @@ export default class List extends React.Component<ListProps, ListState> {
     if (targetItem) {
       const itemElement = this.state.itemRefs.get(targetItem.index);
       if (itemElement) {
-        // 执行滚动
         itemElement.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
 
-        // 使用简单的方法：监听滚动事件，当一段时间没有滚动时认为滚动结束
-        let isScrolling: number | null = null;
-        const scrollEndHandler = () => {
-          // 清除之前的定时器
-          if (isScrolling !== null) {
-            window.clearTimeout(isScrolling);
-          }
-
-          // 设置新的定时器
-          isScrolling = window.setTimeout(() => {
-            // 滚动已停止
-            window.removeEventListener('scroll', scrollEndHandler);
-            this.setState({isScrollingToLetter: false});
-
-            // 滚动结束后，重新计算当前可见项并更新当前字母
-            this.clearObservers();
-            this.observeItems();
-          }, 150); // 滚动停止150ms后触发
-        };
-
-        // 添加滚动事件监听
-        window.addEventListener('scroll', scrollEndHandler);
-
-        // 安全措施：最长等待2秒
-        setTimeout(() => {
-          if (isScrolling !== null) {
-            window.clearTimeout(isScrolling);
-          }
-          window.removeEventListener('scroll', scrollEndHandler);
+        this._scrollTimeout = window.setTimeout(() => {
           this.setState({isScrollingToLetter: false});
-
-          // 滚动结束后，重新计算当前可见项并更新当前字母
           this.clearObservers();
           this.observeItems();
-        }, 2000);
+        }, 800);
       }
     }
   }
@@ -1315,6 +1293,7 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   private handleItemVisibilityChange(itemIndex: number, isVisible: boolean) {
+    // 如果正在通过字母导航滚动，不更新可见性
     if (this.state.isScrollingToLetter) return;
 
     this.setState(prevState => {
