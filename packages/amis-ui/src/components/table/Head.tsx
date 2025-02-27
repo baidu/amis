@@ -194,6 +194,7 @@ export default class Head extends React.PureComponent<Props> {
                   wrapperComponent="th"
                   rowSpan={this.thColumns.length}
                   className={cx('Table-dragCell')}
+                  selfSticky={selfSticky}
                   col="drag"
                   classnames={cx}
                   classPrefix={classPrefix}
@@ -207,6 +208,7 @@ export default class Head extends React.PureComponent<Props> {
                   rowSpan={this.thColumns.length}
                   fixed={rowSelectionFixed ? 'left' : ''}
                   className={cx('Table-checkCell')}
+                  selfSticky={selfSticky}
                   col="select"
                   classnames={cx}
                   classPrefix={classPrefix}
