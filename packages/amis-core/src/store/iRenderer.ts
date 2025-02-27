@@ -85,6 +85,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         changeReason &&
           Object.isExtensible(data) &&
+          !(data as any).__changeReason &&
           Object.defineProperty(data, '__changeReason', {
             value: changeReason,
             enumerable: false,
@@ -135,6 +136,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         changeReason &&
           Object.isExtensible(newData) &&
+          !(newData as any).__changeReason &&
           Object.defineProperty(newData, '__changeReason', {
             value: changeReason,
             enumerable: false,
@@ -210,6 +212,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         changeReason &&
           Object.isExtensible(data) &&
+          !data.__changeReason &&
           Object.defineProperty(data, '__changeReason', {
             value: changeReason,
             enumerable: false,

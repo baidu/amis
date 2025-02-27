@@ -13,22 +13,14 @@ import {
 } from 'amis-core';
 import {FormItem, FormControlProps} from 'amis-core';
 import {filter} from 'amis-core';
-import QRCodeRender from 'qrcode.react';
+import {QRCode as QRCodeRender} from 'qrcode-react-next';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {getPropValue} from 'amis-core';
 import mapValues from 'lodash/mapValues';
+import {saveAs} from 'file-saver';
 
 function downloadBlob(blob: Blob, filename: string) {
-  const objectUrl = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = objectUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  setTimeout(() => URL.revokeObjectURL(objectUrl), 500);
+  return saveAs(blob, filename);
 }
 
 export interface QRCodeImageSettings {
@@ -92,6 +84,46 @@ export interface QRCodeSchema extends BaseSchema {
    * 渲染模式
    */
   mode?: 'canvas' | 'svg';
+
+  /**
+   * 码眼类型
+   */
+  eyeType?: 'default' | 'circle' | 'rounded';
+
+  /**
+   * 码眼边框颜色
+   * @default '#000000'
+   */
+  eyeBorderColor?: string;
+
+  /**
+   * 码眼边框大小
+   * @default 'default'
+   */
+  eyeBorderSize?: 'default' | 'sm' | 'xs';
+
+  /**
+   * 码眼内部颜色
+   * @default '#000000'
+   */
+  eyeInnerColor?: string;
+
+  /**
+   * 码点类型
+   */
+  pointType?: 'default' | 'circle';
+
+  /**
+   * 码点大小
+   * @default 'default'
+   */
+  pointSize?: 'default' | 'sm' | 'xs';
+
+  /**
+   * 码点大小随机
+   * @default false
+   */
+  pointSizeRandom?: boolean;
 }
 
 export interface QRCodeProps
@@ -203,6 +235,13 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       defaultValue,
       data,
       mode,
+      eyeType,
+      eyeBorderColor,
+      eyeBorderSize,
+      eyeInnerColor,
+      pointType,
+      pointSize,
+      pointSizeRandom,
       translate: __,
       classPrefix: ns
     } = this.props;
@@ -227,15 +266,27 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
           </span>
         ) : (
           <QRCodeRender
-            // @ts-ignore 其实是支持的
-            className={qrcodeClassName}
+            className={qrcodeClassName as string}
             value={finalValue}
-            size={codeSize}
-            bgColor={backgroundColor}
-            fgColor={foregroundColor}
-            level={level || 'L'}
-            imageSettings={this.getImageSettings()}
-            renderAs={mode}
+            config={{
+              level: level || 'L',
+              minVersion: 2,
+              boostLevel: true
+            }}
+            styleConfig={{
+              size: codeSize,
+              bgColor: backgroundColor,
+              color: foregroundColor,
+              eyeType,
+              eyeBorderColor,
+              eyeBorderSize,
+              eyeInnerColor,
+              pointType,
+              pointSize,
+              pointSizeRandom
+            }}
+            logoConfig={this.getImageSettings()}
+            mode={mode}
           />
         )}
       </div>

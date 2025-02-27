@@ -246,6 +246,14 @@ export interface FileControlSchema extends FormBaseControlSchema {
    * 是否为拖拽上传
    */
   drag?: boolean;
+  /**
+   * 校验格式失败时显示的文字信息
+   */
+  invalidTypeMessage?: string;
+  /**
+   * 校验文件大小失败时显示的文字信息
+   */
+  invalidSizeMessage?: string;
 }
 
 export interface FileProps
@@ -579,7 +587,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     if (evt.type !== 'change' && evt.type !== 'drop') {
       return;
     }
-    const {multiple, env, accept, translate: __} = this.props;
+    const {
+      multiple,
+      env,
+      accept,
+      translate: __,
+      invalidTypeMessage
+    } = this.props;
     const nameField = this.props.nameField || 'name';
 
     const files = rejectedFiles.map(fileRejection => ({
@@ -598,7 +612,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // });
 
     env.alert(
-      __('File.invalidType', {
+      __(invalidTypeMessage ?? 'File.invalidType', {
         files: files.map((item: any) => `「${item[nameField]}」`).join(' '),
         accept
       })
@@ -1342,6 +1356,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
   }
 
+  // 文件大小限制 提示信息
+  sizeLimitTip(maxSize: number, file?: FileValue | FileX) {
+    let {translate: __, invalidSizeMessage} = this.props;
+    return __(invalidSizeMessage ?? 'File.sizeLimit', {
+      filename: file?.name,
+      actualSize: prettyBytes(file?.size || 0, 1024),
+      maxSize: prettyBytes(maxSize, 1024)
+    });
+  }
+
   render() {
     const {
       btnLabel,
@@ -1460,9 +1484,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
-                      {__('File.sizeLimit', {
-                        maxSize: prettyBytes(maxSize, 1024)
-                      })}
+                      {this.sizeLimitTip(maxSize)}
                     </div>
                   ) : null}
                 </div>
@@ -1505,7 +1527,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           : null}
         {maxSize && !drag ? (
           <div className={cx('FileControl-sizeTip')}>
-            {__('File.sizeLimit', {maxSize: prettyBytes(maxSize, 1024)})}
+            {this.sizeLimitTip(maxSize)}
           </div>
         ) : null}
 
@@ -1531,11 +1553,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       file.state === 'invalid' || file.state === 'error'
                         ? (file as FileValue).error ||
                           (maxSize && file.size > maxSize
-                            ? __('File.maxSize', {
-                                filename: file.name,
-                                actualSize: prettyBytes(file.size, 1024),
-                                maxSize: prettyBytes(maxSize, 1024)
-                              })
+                            ? this.sizeLimitTip(maxSize, file)
                             : '')
                         : filename
                     }

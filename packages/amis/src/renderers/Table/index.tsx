@@ -952,6 +952,10 @@ export default class Table<
         )}px`;
 
     tableContent.style[heightField] = tableContentHeight;
+    tableContent.style.setProperty(
+      `--Table-content-${heightField}`,
+      tableContentHeight
+    );
   }
 
   componentDidUpdate(prevProps: TableProps) {
