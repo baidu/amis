@@ -14,6 +14,7 @@ import {
   getVariable,
   createObject
 } from '../utils/helper';
+import {str2rules} from '../utils/validations';
 import {
   isNeedFormula,
   isExpression,
@@ -201,6 +202,12 @@ export function wrapControl<
               rowIndex: rowIndex !== undefined ? rowIndex : undefined
             }) as IFormItemStore;
             this.model = model;
+            // 如果组件有默认验证器类型，则合并
+            const rules =
+              validations && model && config.validations
+                ? {...validations, ...str2rules(config.validations)}
+                : validations;
+
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
             model.config({
@@ -215,7 +222,7 @@ export function wrapControl<
               unique,
               value,
               isValueSchemaExp: isExpression(value),
-              rules: validations,
+              rules: rules,
               messages: validationErrors,
               delimiter,
               valueField,
