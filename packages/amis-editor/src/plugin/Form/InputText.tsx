@@ -303,14 +303,24 @@ export class TextControlPlugin extends BasePlugin {
                     const is_old_email = oldValue === 'input-email';
                     const is_old_url = oldValue === 'input-url';
 
+                    const removeField = (fieldName: string) => {
+                      const {[fieldName]: removed, ...newValidations} =
+                        validations;
+                      const {
+                        [fieldName]: removedError,
+                        ...newValidationErrors
+                      } = validationErrors;
+
+                      form.changeValue('validations', newValidations);
+                      form.changeValue('validationErrors', newValidationErrors);
+                    };
+
                     if (is_old_email) {
-                      validations && delete validations.isEmail;
-                      validationErrors && delete validationErrors.isEmail;
+                      removeField('isEmail');
                     }
 
                     if (is_old_url) {
-                      validations && delete validations.isUrl;
-                      validationErrors && delete validationErrors.isUrl;
+                      removeField('isUrl');
                     }
 
                     form.setValues({
@@ -322,8 +332,6 @@ export class TextControlPlugin extends BasePlugin {
                         ? autoComplete
                         : undefined
                     });
-                    form.changeValue('validations', {...validations});
-                    form.changeValue('validationErrors', {...validationErrors});
                   }
                 }),
                 getSchemaTpl('tplFormulaControl', {
