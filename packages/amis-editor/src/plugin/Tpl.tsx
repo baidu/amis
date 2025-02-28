@@ -10,8 +10,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import {ValidatorTag} from '../validator';
 import {InlineEditableElement} from 'amis-editor-core';
 
-setSchemaTpl(
-  'tpl:content',
+setSchemaTpl('tpl:content', () =>
   getSchemaTpl('textareaFormulaControl', {
     label: '文字内容',
     mode: 'normal',
