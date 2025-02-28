@@ -111,6 +111,32 @@
   }
 }
 
+@include media-breakpoint-up(xs) {
+  .#{$ns}Cards--masonryXs1 {
+    column-count: 12;
+  }
+
+  .#{$ns}Cards--masonryXs2 {
+    column-count: 6;
+  }
+
+  .#{$ns}Cards--masonryXs3 {
+    column-count: 4;
+  }
+
+  .#{$ns}Cards--masonryXs4 {
+    column-count: 3;
+  }
+
+  .#{$ns}Cards--masonryXs6 {
+    column-count: 2;
+  }
+
+  .#{$ns}Cards--masonryXs12 {
+    column-count: 1;
+  }
+}
+
 @include media-breakpoint-up(sm) {
   .#{$ns}Cards--masonrySm1 {
     column-count: 12;

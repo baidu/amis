@@ -377,6 +377,12 @@ export class List2Plugin extends BasePlugin {
               title: '组件',
               body: [
                 {
+                  name: 'masonryLayout',
+                  type: 'switch',
+                  label: '瀑布流布局',
+                  description: '开启后将以瀑布流的形式展示卡片'
+                },
+                {
                   name: 'columnsCount',
                   type: 'input-range',
                   visibleOn: '!this.leftFixed',
