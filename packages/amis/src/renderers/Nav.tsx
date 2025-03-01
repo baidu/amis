@@ -40,6 +40,7 @@ import {Spinner, Menu} from 'amis-ui';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
+import {HorizontalScroll} from 'amis-ui/lib/components/HorizontalScroll';
 
 import type {Payload} from 'amis-core';
 import type {
@@ -149,6 +150,14 @@ export interface NavOverflow {
    * 自定义样式
    */
   style?: React.CSSProperties;
+
+  /**
+   * 导航超出后响应式收纳方案。
+   * @default "popup"
+   * popup 导航被收纳到下拉菜单中
+   * swipe 导航展示在一个可左右滑动的菜单中，通过左右箭头滚动查看。只在横向布局有效
+   */
+  mode?: 'popup' | 'swipe';
 }
 
 /**
@@ -407,6 +416,10 @@ export class Navigation extends React.Component<
     y: 0,
     x: 0
   };
+
+  // 导航容器引用
+  menuParentRef: React.RefObject<any> = React.createRef<any>();
+
   state: NavigationState = {
     keyword: '',
     filteredLinks: []
@@ -854,7 +867,8 @@ export class Navigation extends React.Component<
       popOverContainer,
       env,
       searchable,
-      testIdBuilder
+      testIdBuilder,
+      classPrefix
     } = this.props;
     const {dropIndicator, filteredLinks} = this.state;
 
@@ -904,7 +918,8 @@ export class Navigation extends React.Component<
       Array.isArray(filteredLinks) && filteredLinks.length > 0
         ? filteredLinks
         : links;
-    const menuDom = (
+    // 菜单导航，区分滚动和不滚动，以及横向箭头滚动情况，调用滚动方式
+    const menuDom = (disabledOverflow: boolean, showSelect?: () => void) => (
       <>
         {Array.isArray(navigations) ? (
           <Menu
@@ -923,7 +938,14 @@ export class Navigation extends React.Component<
             mode={mode}
             testIdBuilder={testIdBuilder}
             themeColor={themeColor}
-            onSelect={this.handleClick}
+            onSelect={(link: any, depth: number) => {
+              this.handleClick(link, depth);
+
+              // 这里设置一个延时，等待样式被设置到dom后才执行外层showSelect，判断是否需要滚动展示当前元素
+              setTimeout(() => {
+                showSelect?.();
+              }, 100);
+            }}
             onToggle={this.toggleLink}
             onChange={this.handleChange}
             renderLink={(link: MenuItemProps) => link.link}
@@ -959,6 +981,7 @@ export class Navigation extends React.Component<
             data={data}
             disabled={disabled}
             onDragStart={this.handleDragStart}
+            disabledOverflow={disabledOverflow}
             popOverContainer={
               popOverContainer
                 ? popOverContainer
@@ -972,6 +995,32 @@ export class Navigation extends React.Component<
       </>
     );
 
+    const renderMenuDom =
+      !stacked && overflow?.enable && overflow.mode === 'swipe' ? (
+        Array.isArray(navigations) ? (
+          <HorizontalScroll
+            classPrefix={classPrefix}
+            classnames={cx}
+            getScrollParentElement={() => {
+              const navRootClassName = cx('Nav-Menu-root');
+              return this.menuParentRef.current
+                ? this.menuParentRef.current.querySelector(
+                    `.${navRootClassName}`
+                  )
+                : undefined;
+            }}
+            activeChildClassName={[
+              cx('Nav-Menu-item-selected'),
+              cx('Nav-Menu-submenu-selected')
+            ]}
+          >
+            {(showSelect: () => void) => menuDom(true, showSelect)}
+          </HorizontalScroll>
+        ) : null
+      ) : (
+        menuDom(false)
+      );
+
     return (
       <div
         className={cx('Nav', className, {
@@ -979,14 +1028,15 @@ export class Navigation extends React.Component<
           ['Nav--searchable']: !!searchable
         })}
         style={styleConfig}
+        ref={this.menuParentRef}
       >
         {searchable ? (
           <>
             {this.renderSearchBox()}
-            {menuDom}
+            {renderMenuDom}
           </>
         ) : (
-          menuDom
+          renderMenuDom
         )}
         {dropIndicator ? (
           <div className={cx('Nav-dropIndicator')} style={dropIndicator} />

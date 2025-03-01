@@ -640,6 +640,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             depth={level || 1}
             testIdBuilder={testIdBuilder?.getChild(link.testid || index)}
             popupClassName={popupClassName}
+            onTitleClick={this.handleItemClick}
           >
             {mode === 'panel' ? (
               <PanelMenu {...item} data={data} />
@@ -784,6 +785,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           defaultOpenKeys={disableOpen ? undefined : defaultOpenKeys}
           openKeys={disableOpen ? undefined : openKeys}
           onClick={this.handleItemClick}
+          disabledOverflow={disabledOverflow} // 这里不传rc-menu会和maxCount有冲突异常覆盖，导致子菜单不能唤起
         >
           {this.renderMenuContent(navigations, 0, mode)}
         </RcMenu>

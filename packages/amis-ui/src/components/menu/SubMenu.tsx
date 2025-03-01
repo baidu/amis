@@ -83,10 +83,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
   ];
 
   @autobind
-  handleSubmenuTitleActived({key, domEvent}: MenuItemTitleInfo) {
+  handleSubmenuTitleActived(menuItemTitleInfo: MenuItemTitleInfo) {
+    const {key, domEvent} = menuItemTitleInfo;
     const {onSubmenuClick, stacked} = this.context;
+    const {onTitleClick} = this.props;
 
     stacked && onSubmenuClick?.({key, domEvent, props: this.props});
+
+    onTitleClick?.({...menuItemTitleInfo, keyPath: [key]} as any);
   }
 
   /** 检查icon参数值是否为文件路径 */
@@ -209,16 +213,16 @@ export class SubMenu extends React.Component<SubMenuProps> {
           }
           data={createObject(defaultData, link)}
         >
-          <a
+          {/* 使用a会直接跳转导致页面刷新，不走路由跳转 */}
+          <span
             className={cx(`Nav-Menu-item-link`)}
             data-id={link?.__id || id}
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
             {...testIdBuilder?.getTestId()}
-            href={stacked === false && link?.to}
           >
             {renderContent()}
-          </a>
+          </span>
         </Badge>
         {extra ? (
           <div className={cx('Nav-Menu-item-extra')}>{extra}</div>
