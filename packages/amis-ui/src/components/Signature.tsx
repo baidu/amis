@@ -39,7 +39,7 @@ const Signature: React.FC<ISignatureProps> = props => {
   const embedMobile = props.embed && isMobile();
   const [sign, setSign] = React.useState<SmoothSignature | null>(null);
   const [open, setOpen] = React.useState(false);
-  const [fullScreen, setFullScreen] = React.useState(embedMobile || false);
+  const [fullScreen, setFullScreen] = React.useState(!!embedMobile);
   const [embed, setEmbed] = React.useState(props.embed || false);
   const [data, setData] = React.useState<string | undefined>(props.value);
   const wrapper = React.useRef<HTMLDivElement>(null);
@@ -97,11 +97,7 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, []);
   const handleCloseModal = React.useCallback(() => {
     setOpen(false);
-    if (embedMobile) {
-      setFullScreen(true);
-    } else {
-      setFullScreen(false);
-    }
+    setFullScreen(!!embedMobile);
     setSign(null);
   }, []);
   const handleConfirmModal = React.useCallback(() => {
