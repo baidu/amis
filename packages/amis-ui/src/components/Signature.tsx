@@ -5,14 +5,13 @@
  */
 
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps, isMobile} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {resizeSensor} from 'amis-core';
 import {SmoothSignature} from '../utils';
 import Button from './Button';
 import {Icon} from '../index';
 import Modal from './Modal';
-
 export interface ISignatureProps extends LocaleProps, ThemeProps {
   value?: string;
   width?: number;
@@ -37,13 +36,13 @@ export interface ISignatureProps extends LocaleProps, ThemeProps {
 
 const Signature: React.FC<ISignatureProps> = props => {
   const {translate: __, classnames: cx, className, width, height} = props;
+  const embedMobile = props.embed && isMobile();
   const [sign, setSign] = React.useState<SmoothSignature | null>(null);
   const [open, setOpen] = React.useState(false);
-  const [fullScreen, setFullScreen] = React.useState(false);
+  const [fullScreen, setFullScreen] = React.useState(embedMobile || false);
   const [embed, setEmbed] = React.useState(props.embed || false);
   const [data, setData] = React.useState<string | undefined>(props.value);
   const wrapper = React.useRef<HTMLDivElement>(null);
-
   React.useEffect(() => {
     if (!wrapper.current) {
       return;
@@ -98,7 +97,11 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, []);
   const handleCloseModal = React.useCallback(() => {
     setOpen(false);
-    setFullScreen(false);
+    if (embedMobile) {
+      setFullScreen(true);
+    } else {
+      setFullScreen(false);
+    }
     setSign(null);
   }, []);
   const handleConfirmModal = React.useCallback(() => {
@@ -156,6 +159,7 @@ const Signature: React.FC<ISignatureProps> = props => {
       ebmedCancelLabel,
       ebmedCancelIcon
     } = props;
+
     return (
       <div className={cx('Signature-Tool')}>
         <div className="actions">
@@ -180,8 +184,7 @@ const Signature: React.FC<ISignatureProps> = props => {
                 className={cx('icon', {'ml-1': undoBtnLabel})}
               />
             </Button>
-
-            {fullScreen ? (
+            {embedMobile ? null : fullScreen ? (
               <Button onClick={handleUnFullScreen}>
                 <Icon icon="un-fullscreen" className="icon" />
               </Button>
