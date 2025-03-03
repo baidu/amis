@@ -97,11 +97,7 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, []);
   const handleCloseModal = React.useCallback(() => {
     setOpen(false);
-    if (embedMobile) {
-      setFullScreen(true);
-    } else {
-      setFullScreen(false);
-    }
+    setFullScreen(embedMobile || false);
     setSign(null);
   }, []);
   const handleConfirmModal = React.useCallback(() => {
