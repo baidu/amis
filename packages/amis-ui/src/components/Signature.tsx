@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {themeable, ThemeProps, isMobile} from 'amis-core';
+import {themeable, ThemeProps, isMobileDevice} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {resizeSensor} from 'amis-core';
 import {SmoothSignature} from '../utils';
@@ -36,7 +36,8 @@ export interface ISignatureProps extends LocaleProps, ThemeProps {
 
 const Signature: React.FC<ISignatureProps> = props => {
   const {translate: __, classnames: cx, className, width, height} = props;
-  const embedMobile = props.embed && isMobile();
+  const embedMobile =
+    props.embed && isMobileDevice() && window.innerWidth < 768;
   const [sign, setSign] = React.useState<SmoothSignature | null>(null);
   const [open, setOpen] = React.useState(false);
   const [fullScreen, setFullScreen] = React.useState(!!embedMobile);
