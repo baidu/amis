@@ -62,10 +62,12 @@ export function preventDefault(event: TouchEvent | Event): void {
   }
 }
 
+// isMobile根据media宽度判断是否是移动端
 export function isMobile() {
   return (window as any).matchMedia?.('(max-width: 768px)').matches;
 }
 
+// isMobileDevice根据userAgent判断是否为移动端设备
 export function isMobileDevice() {
   const userAgent = navigator.userAgent;
   const isMobileUA =
