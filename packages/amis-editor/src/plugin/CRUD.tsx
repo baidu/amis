@@ -523,8 +523,8 @@ export class CRUDPlugin extends BasePlugin {
         {
           type: 'button',
           label: '格式校验并自动生成列配置',
-          className: 'm-t-xs m-b-xs',
-          visibleOn: '!!this.api.url',
+          className: 'm-b-sm',
+          visibleOn: '${api.url || api && ISTYPE(api, "string")}',
           onClick: async (e: Event, props: any) => {
             const data = props.data;
             const schemaFilter = getEnv(
@@ -564,12 +564,6 @@ export class CRUDPlugin extends BasePlugin {
               props.formStore.setValues({
                 columns: autoFillKeyValues
               });
-              // 查询条件的字段列表
-              props.formStore.setValues({
-                filterSettingSource: autoFillKeyValues.map(column => {
-                  return column.name;
-                })
-              });
             } else {
               toast.warning(
                 'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求'
@@ -603,7 +597,8 @@ export class CRUDPlugin extends BasePlugin {
               label: '启用的查询字段',
               name: 'filterEnabledList',
               joinValues: false,
-              source: '${filterSettingSource}'
+              source:
+                '${ARRAYMAP(ARRAYFILTER(columns, item => item.name), item => ({label: item.label || item.name, value: item.name}))}'
             },
             {
               columnRatio: 2,
