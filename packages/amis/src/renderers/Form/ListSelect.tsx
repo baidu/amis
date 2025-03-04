@@ -99,9 +99,9 @@ export default class ListControl extends React.Component<ListProps, any> {
     onToggle(option);
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   renderStatic(displayValue = '-') {

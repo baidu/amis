@@ -96,9 +96,9 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     onChange && onChange(value);
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   @autobind

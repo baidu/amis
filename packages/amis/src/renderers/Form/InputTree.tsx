@@ -376,9 +376,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     );
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
