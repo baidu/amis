@@ -838,8 +838,7 @@ export class BaseCRUDPlugin extends BasePlugin {
               value: true,
               visibleOn: '!data.pullRefresh?.disabled'
             },
-            {
-              type: 'input-text',
+            getSchemaTpl('icon', {
               name: 'pullRefresh.iconType',
               label: tipedLabel(
                 '图标类型',
@@ -848,14 +847,13 @@ export class BaseCRUDPlugin extends BasePlugin {
               placeholder: '默认为loading-outline',
               visibleOn:
                 '!data.pullRefresh?.disabled && data.pullRefresh?.showIcon'
-            },
-            {
-              type: 'input-color',
+            }),
+            getSchemaTpl('theme:colorPicker', {
               name: 'pullRefresh.color',
               label: '文字和图标颜色',
               placeholder: '默认为#777777',
               visibleOn: '!data.pullRefresh?.disabled'
-            },
+            }),
             {
               type: 'select',
               name: 'pullRefresh.dataAppendTo',

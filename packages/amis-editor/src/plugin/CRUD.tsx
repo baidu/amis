@@ -2069,16 +2069,15 @@ export class CRUDPlugin extends BasePlugin {
                   }
                 ]
               },
-              {
+              getSchemaTpl('icon', {
                 name: 'loadMoreProps.iconType',
                 label: tipedLabel(
                   '图标类型',
                   '支持 fontawesome v4 图标、iconfont 图标。如需使用 fontawesome v5/v6 版本,需设置 vendor 为空字符串。默认为 loading-outline'
                 ),
-                type: 'input-text',
                 value: 'loading-outline',
                 visibleOn: 'this.loadMoreProps && this.loadMoreProps.showIcon'
-              },
+              }),
               {
                 name: 'loadMoreProps.minLoadingTime',
                 type: 'input-number',
@@ -2132,11 +2131,10 @@ export class CRUDPlugin extends BasePlugin {
                   }
                 ]
               },
-              {
+              getSchemaTpl('theme:colorPicker', {
                 name: 'loadMoreProps.color',
-                label: '文字颜色',
-                type: 'input-color'
-              }
+                label: '文字颜色'
+              })
             ]
           }
         ]
