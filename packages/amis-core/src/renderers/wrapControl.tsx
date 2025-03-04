@@ -221,7 +221,9 @@ export function wrapControl<
               required: props.required || required,
               unique,
               value,
-              isValueSchemaExp: isExpression(value),
+              isValueSchemaExp:
+                isExpression(value) &&
+                value.replace(/\s/g, '') !== `\${${name}}`,
               rules: rules,
               messages: validationErrors,
               delimiter,
@@ -366,7 +368,10 @@ export function wrapControl<
                   ...changes,
 
                   // todo 优化后面两个
-                  isValueSchemaExp: isExpression(props.$schema.value),
+                  isValueSchemaExp:
+                    isExpression(props.$schema.value) &&
+                    props.$schema.value.replace(/\s/g, '') !==
+                      `\${${props.$schema.name}}`,
                   inputGroupControl: props?.inputGroupControl
                 } as any);
 
@@ -395,6 +400,8 @@ export function wrapControl<
             } else if (
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue) &&
+              (props.defaultValue as string).replace(/\s/g, '') !==
+                `\${${props.name}}` &&
               (!isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (props.data !== prevProps.data &&
                   isNeedFormula(
@@ -485,8 +492,19 @@ export function wrapControl<
 
           setInitialValue(value: any) {
             const model = this.model!;
-            const {formStore: form, data, canAccessSuperData} = this.props;
-            const isExp = isExpression(value);
+            const {
+              formStore: form,
+              data,
+              canAccessSuperData,
+              name
+            } = this.props;
+            let isExp = isExpression(value);
+
+            if (isExp && value.replace(/\s/g, '') === `\${${name}}`) {
+              console.warn('value 不要使用表达式关联自己');
+              isExp = false;
+              value = undefined;
+            }
 
             let initialValue = model.extraName
               ? [
