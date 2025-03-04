@@ -66,6 +66,15 @@ export function isMobile() {
   return (window as any).matchMedia?.('(max-width: 768px)').matches;
 }
 
+export function isMobileDevice() {
+  const userAgent = navigator.userAgent;
+  const isMobileUA =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone|Opera Mini|IEMobile|Mobile/i.test(
+      userAgent
+    );
+  return isMobileUA;
+}
+
 export function range(num: number, min: number, max: number): number {
   return Math.min(Math.max(num, min), max);
 }
