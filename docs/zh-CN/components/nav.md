@@ -239,6 +239,90 @@ order: 58
 }
 ```
 
+横向导航默认使用下拉框收纳折叠的导航，设置`overflow.mode`为`swipe`可以使用左右滚动收纳。
+
+```schema: scope="body"
+{
+    type: 'nav',
+    stacked: false,
+    overflow: {
+      enable: true,
+      mode: 'swipe'
+    },
+    links: [
+      {
+        label: 'Nav 1',
+        to: '?to=nav1'
+      },
+      {
+        label: 'Nav 2',
+        to: '?to=nav2'
+      },
+      {
+        label: 'Nav 3',
+        to: '?to=nav3'
+      },
+      {
+        label: 'Nav 4',
+        to: '?to=nav4'
+      },
+      {
+        label: 'Nav 5',
+        to: '?to=nav5'
+      },
+      {
+        label: 'Nav 6',
+        to: '?to=nav6'
+      },
+      {
+        label: 'Nav 7',
+        to: '?to=nav7'
+      },
+      {
+        label: 'Nav 8',
+        to: '?to=nav8'
+      },
+      {
+        label: 'Nav 9',
+        to: '?to=nav9'
+      },
+      {
+        label: 'Nav 10',
+        to: '?to=nav10'
+      },
+      {
+        label: 'Nav 11',
+        to: '?to=nav11',
+      },
+      {
+        label: 'Nav 12',
+        to: '?to=nav12'
+      },{
+        label: 'Nav 13',
+        to: '?to=nav13'
+      },{
+        label: 'Nav 14',
+        to: '?to=nav14'
+      },{
+        label: 'Nav 15',
+        to: '?to=nav15'
+      },{
+        label: 'Nav 16',
+        to: '?to=nav16'
+      },{
+        label: 'Nav 17',
+        to: '?to=nav17'
+      },{
+        label: 'Nav 18',
+        to: '?to=nav18'
+      },{
+        label: 'Nav 19',
+        to: '?to=nav19'
+      }
+    ]
+  }
+```
+
 ### 导航项收纳
 
 垂直（`"stack": true`）模式下，如果子导航项比较多，也可以给导航项设置收纳模式，配置同`overflow`，仅支持一次性展开
