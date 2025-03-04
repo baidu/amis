@@ -872,7 +872,7 @@ export class Navigation extends React.Component<
     } = this.props;
     const {dropIndicator, filteredLinks} = this.state;
 
-    let overflowedIndicator = null;
+    let overflowedIndicator: React.ReactNode = null;
     if (overflow && isObject(overflow) && overflow.enable) {
       const {
         overflowIndicator = 'fa fa-ellipsis-h',
@@ -881,12 +881,10 @@ export class Navigation extends React.Component<
       } = overflow;
       overflowedIndicator = (
         <span className={cx(overflowClassName)}>
-          <>
-            <Icon icon={overflowIndicator} className="icon Nav-item-icon" />
-            {overflowLabel && isObject(overflowLabel)
-              ? render('nav-overflow-label', overflowLabel)
-              : overflowLabel}
-          </>
+          <Icon icon={overflowIndicator} className="icon Nav-item-icon" />
+          {overflowLabel && isObject(overflowLabel)
+            ? render('nav-overflow-label', overflowLabel)
+            : (overflowLabel as string)}
         </span>
       );
     }
