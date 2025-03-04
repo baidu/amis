@@ -304,12 +304,12 @@ export default class PickerControl extends React.PureComponent<
     this.crud = ref;
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     if (this.crud) {
-      this.crud.search();
+      this.crud.reload(subpath, query);
     } else {
       const reload = this.props.reloadOptions;
-      reload && reload();
+      reload && reload(subpath, query);
     }
   }
 
