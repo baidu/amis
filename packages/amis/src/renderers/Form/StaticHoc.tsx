@@ -108,7 +108,11 @@ export function supportStatic<T extends FormControlProps>() {
         } = props;
 
         let body;
-        const displayValue = getPropValue(props);
+        const displayValue = getPropValue(
+          props,
+          undefined,
+          props.canAccessSuperData ?? false
+        );
         const isValueEmpty = displayValue == null || displayValue === '';
 
         if (
