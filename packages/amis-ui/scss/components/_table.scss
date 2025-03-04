@@ -1020,6 +1020,18 @@
     > .#{$ns}Table-contentWrap {
       > .#{$ns}Table-content table {
         border-top: none; // 不然会导致拖动时顶部露出内容
+
+        &.#{$ns}Table-table--tableFillHeight {
+          > tbody {
+            height: calc(
+              var(--Table-content-height) - var(--Table-thead-height) - 20px
+            );
+
+            > tr > td {
+              border-bottom: none;
+            }
+          }
+        }
       }
 
       > .#{$ns}Table-content table thead {
