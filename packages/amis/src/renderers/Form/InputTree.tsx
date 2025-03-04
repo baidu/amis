@@ -25,15 +25,11 @@ import {
   setThemeClassName,
   CustomStyle,
   resizeSensor,
-  anyChanged
+  anyChanged,
+  calculateHeight
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
-import {
-  FormOptionsSchema,
-  SchemaApi,
-  SchemaCollection,
-  SchemaClassName
-} from '../../Schema';
+import {FormOptionsSchema, SchemaApi, SchemaCollection} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
@@ -222,7 +218,7 @@ interface TreeState {
   keyword: string;
   allowSearch: boolean;
   virtualListHeight: number;
-  othersHeight: number;
+  treeHeight: number;
 }
 
 export default class TreeControl extends React.Component<TreeProps, TreeState> {
@@ -246,7 +242,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       filteredOptions: this.props.options ?? [],
       allowSearch: false,
       virtualListHeight: 0,
-      othersHeight: 0
+      treeHeight: 0
     };
     this.handleSearch = debounce(this.handleSearch.bind(this), 250, {
       trailing: true,
@@ -255,23 +251,37 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   }
 
   componentDidMount() {
-    if (this.props.heightAuto) {
-      this.initOthersHeight();
-      this.handleVirtualListHeight();
-      this.unSensor = resizeSensor(
-        this.rootRef.current?.parentElement!,
-        () => {
-          this.handleVirtualListHeight();
-        },
-        false,
-        'height'
-      );
+    const formElement = this.rootRef.current?.parentElement;
+    this.handleHeight();
+
+    this.unSensor = resizeSensor(
+      formElement!,
+      () => {
+        this.handleHeight();
+      },
+      false,
+      'height'
+    );
+  }
+
+  handleHeight() {
+    if (!this.props.heightAuto) {
+      // form-item 对应元素
+      const formElement = this.rootRef.current?.parentElement;
+      // tree 对应元素
+      const treeElement = this.treeRef.root.current;
+
+      const treeHeight =
+        formElement!.offsetHeight - calculateHeight(formElement!, treeElement!);
+
+      this.setState({treeHeight: treeHeight});
+    } else {
+      this.setState({treeHeight: 0});
     }
   }
 
-  componentDidUpdate(prevProps: TreeProps, preState: TreeState) {
+  componentDidUpdate(prevProps: TreeProps) {
     const props = this.props;
-    const state = this.state;
     const keyword = this.state.keyword;
 
     if (
@@ -299,14 +309,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         ],
         prevProps,
         props
-      ) &&
-      props.heightAuto
+      )
     ) {
-      this.initOthersHeight();
-    }
-
-    if (preState.othersHeight !== state.othersHeight && props.heightAuto) {
-      this.handleVirtualListHeight();
+      this.handleHeight();
     }
   }
 
@@ -317,66 +322,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
   }
 
-  initOthersHeight() {
-    const treeElement = this.rootRef.current;
-    const treeParentElement = this.rootRef.current?.parentElement;
-    const virtualElement = this.treeRef.virtualListRef.current;
-    const virtualParentElement: HTMLElement | null | undefined =
-      this.treeRef.virtualListRef.current?.parentElement;
-
-    if (
-      !treeParentElement ||
-      !virtualParentElement ||
-      !virtualElement ||
-      !treeElement
-    )
-      return;
-
-    const calculateHeight = (
-      element: HTMLElement,
-      excludeElement: HTMLElement
-    ) => {
-      return Array.from(element.children)
-        .filter(item => item !== excludeElement)
-        .reduce((prev, current: HTMLElement) => {
-          return (
-            prev + current.offsetHeight + this.getElementVerticalMargin(current)
-          );
-        }, 0);
-    };
-
-    // 计算元素的高度+padding+margin等值
-    const othersHeight =
-      calculateHeight(treeParentElement, treeElement) +
-      this.getElementVerticalMargin(treeElement) +
-      calculateHeight(virtualParentElement, virtualElement) +
-      treeElement.offsetHeight -
-      virtualParentElement.offsetHeight;
-
-    this.setState({othersHeight});
-  }
-
-  handleVirtualListHeight() {
-    const {othersHeight} = this.state;
-    const parentElement = this.rootRef.current?.parentElement;
-    if (!parentElement) return;
-
-    const virtualListHeight = parentElement.offsetHeight - othersHeight;
-
-    this.setState({
-      virtualListHeight: virtualListHeight > 0 ? virtualListHeight : 0
-    });
-  }
-
-  // 获取边距高度
-  getElementVerticalMargin(element: HTMLElement) {
-    const styles: any = window.getComputedStyle(element, null);
-    return (
-      parseInt(styles.marginTop || '0') + parseInt(styles.marginBottom || '0')
-    );
-  }
-
-  reload(subpath?: string, query?: any) {
+  reload() {
     const reload = this.props.reloadOptions;
     reload && reload(subpath, query);
   }
@@ -719,8 +665,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       env
     } = this.props;
     let {highlightTxt} = this.props;
-    const {filteredOptions, keyword, allowSearch, virtualListHeight} =
-      this.state;
+    const {filteredOptions, keyword, allowSearch, treeHeight} = this.state;
 
     if (isPureVariable(highlightTxt)) {
       highlightTxt = resolveVariableAndFilter(highlightTxt, data);
@@ -779,11 +724,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
         virtualThreshold={virtualThreshold}
-        virtualHeight={
-          toNumber(virtualListHeight) >= 0
-            ? toNumber(virtualListHeight)
-            : undefined
-        }
+        height={treeHeight}
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
