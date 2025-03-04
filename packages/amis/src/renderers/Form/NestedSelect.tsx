@@ -462,9 +462,9 @@ export default class NestedSelectControl extends React.Component<
     });
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   @autobind

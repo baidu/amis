@@ -55,6 +55,7 @@ import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import type {Option} from '../types';
 import {deleteVariable, resolveEventData} from '../utils';
+import {extendObject} from '../utils/object';
 
 export {Option};
 
@@ -228,11 +229,7 @@ export interface OptionsControlProps
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
-  reloadOptions: (
-    setError?: boolean,
-    isInit?: boolean,
-    data?: Record<string, any>
-  ) => void;
+  reloadOptions: (subpath?: string, query?: any) => void;
   deferLoad: (option: Option) => void;
   leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
@@ -722,8 +719,15 @@ export class OptionsControlBase<
 
   // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
   @autobind
-  reload() {
-    return this.reloadOptions();
+  reload(subpath?: string, query?: any) {
+    let data = this.props.data;
+
+    if (query) {
+      this.props.onBulkChange?.(query);
+      data = extendObject(data, query);
+    }
+
+    return this.reloadOptions(false, false, data);
   }
 
   @autobind

@@ -238,10 +238,9 @@ export class BaseTransferRenderer<
 
   tranferRef?: any;
 
-  reload() {
-    const {reloadOptions} = this.props;
-
-    reloadOptions?.();
+  reload(subpath?: string, query?: any) {
+    const reload = this.props.reloadOptions;
+    reload && reload(subpath, query);
   }
 
   @autobind
