@@ -176,8 +176,8 @@ export default class FlexLayout implements LayoutInterface {
     // 如果移动的元素是整行，则需要将后续的元素的row减1
     let preCurrentRow = body[preCurrentIndex]?.row;
 
-    // 如果preCurrentRow不存在，说明是新增的元素，把他当做最后一个整行元素处理
-    if (!preCurrentRow && currentIndex > -1) {
+    // 如果preCurrentIndex为-1，说明是新增的元素，把他当做最后一个整行元素处理
+    if (preCurrentIndex === -1 && currentIndex > -1) {
       preCurrentRow = body[body.length - 1].row + 1;
     }
 
