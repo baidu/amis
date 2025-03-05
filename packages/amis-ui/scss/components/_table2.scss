@@ -629,6 +629,10 @@
 
       .#{$ns}Table-table {
         border-collapse: separate;
+
+        > tbody > tr > td {
+          border-top: none;
+        }
       }
 
       .#{$ns}Table-row {
