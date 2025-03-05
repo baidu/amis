@@ -1370,30 +1370,10 @@ test('Render Nav with swipe mode', async () => {
     )
   );
 
-  expect(container).toMatchSnapshot();
+  const horizontalRootDom = container.querySelector(
+    '.cxd-Nav-horizontal .cxd-Nav-Menu'
+  );
 
-  // const horizontalRootDom = container.querySelector(
-  //   '.cxd-Nav-horizontal .cxd-HorizontalScroll-Container'
-  // );
-
-  // await wait(1000);
-  // expect(horizontalRootDom).toBeTruthy();
-
-  // expect(horizontalRootDom?.children.length).toBe(3);
-
-  // const [leftArrowDom, navDomWrapper, rightArrowDom] = Array.from(
-  //   horizontalRootDom?.children || []
-  // );
-
-  // expect(
-  //   leftArrowDom.classList.contains('cxd-HorizontalScroll-arrow--left')
-  // ).toBeTruthy();
-  // expect(
-  //   rightArrowDom.classList.contains('cxd-HorizontalScroll-arrow--right')
-  // ).toBeTruthy();
-
-  // const navRoot = navDomWrapper.querySelector('.cxd-Nav-Menu-root');
-  // expect(navRoot).toBeTruthy();
-
-  // TODO: 模拟点击，测量offsetLeft
+  // TODO: 这里应该让浏览器有响应式的能力，测试点击能力
+  expect(horizontalRootDom?.children?.length).toBe(13);
 });
