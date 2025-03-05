@@ -173,7 +173,6 @@ export default class FlexLayout implements LayoutInterface {
     const currentIndex = regionList.findIndex(
       (item: any) => item.$$id === context.sourceId
     );
-    // 如果移动的元素是整行，则需要将后续的元素的row减1
     let preCurrentRow = body[preCurrentIndex]?.row;
 
     // 如果preCurrentIndex为-1，说明是新增的元素，把他当做最后一个整行元素处理
@@ -181,6 +180,7 @@ export default class FlexLayout implements LayoutInterface {
       preCurrentRow = body[body.length - 1].row + 1;
     }
 
+    // 如果移动的元素是整行，则需要将后续的元素的row减1
     if (body.filter((item: any) => item.row === preCurrentRow).length === 1) {
       for (let i = preCurrentIndex; i < regionList.length; i++) {
         if (regionList[i].row > preCurrentRow) {
