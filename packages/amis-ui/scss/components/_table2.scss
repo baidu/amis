@@ -627,6 +627,10 @@
         overflow-x: unset !important;
       }
 
+      .#{$ns}Table-table {
+        border-collapse: separate;
+      }
+
       .#{$ns}Table-row {
         z-index: 1;
       }
