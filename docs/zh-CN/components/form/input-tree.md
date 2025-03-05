@@ -1364,7 +1364,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 ## 虚拟列表
 
-> 6.9.0 以上版本, 开启 heightAuto 后，虚拟列表将自适应高度
+> 6.9.0 以上版本, 若设置 固定高度 时，虚拟列表将自适应高度
 
 ```schema: scope="body"
 {
@@ -1375,15 +1375,15 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
         "direction": "column",
         "isFixedHeight": true,
         "style": {
-          "height": "300px"
+          "height": "300px",
+          "paddingRight": "10px"
         },
         "items": [
           {
             "type": "input-tree",
             "id": "tree",
             "name": "tree",
-            "label": false,
-            "heightAuto": true,
+            "label": "Tree",
             "virtualThreshold": 5,
             "options": [
               {
@@ -1453,7 +1453,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
     "body": [
       {
         "type": "tpl",
-        "tpl": "开启heightAuto后，设置tree的高度，虚拟列表将自适应"
+        "tpl": "设置 tree 为固定高度时，虚拟列表将自适应"
       }
     ]
 }
