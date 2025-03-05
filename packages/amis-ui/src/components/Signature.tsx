@@ -235,11 +235,7 @@ const Signature: React.FC<ISignatureProps> = props => {
         {data ? (
           <div className={cx('Signature-Embed-Preview')}>
             <img src={data} />
-            <Icon
-              className="preview-close"
-              icon="fas fa-close"
-              onClick={clear}
-            />
+            <Icon className="preview-close icon" icon="close" onClick={clear} />
           </div>
         ) : null}
 
