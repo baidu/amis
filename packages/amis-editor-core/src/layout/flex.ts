@@ -174,7 +174,13 @@ export default class FlexLayout implements LayoutInterface {
       (item: any) => item.$$id === context.sourceId
     );
     // 如果移动的元素是整行，则需要将后续的元素的row减1
-    const preCurrentRow = body[preCurrentIndex].row;
+    let preCurrentRow = body[preCurrentIndex]?.row;
+
+    // 如果preCurrentRow不存在，说明是新增的元素，把他当做最后一个整行元素处理
+    if (!preCurrentRow && currentIndex > -1) {
+      preCurrentRow = body[body.length - 1].row + 1;
+    }
+
     if (body.filter((item: any) => item.row === preCurrentRow).length === 1) {
       for (let i = preCurrentIndex; i < regionList.length; i++) {
         if (regionList[i].row > preCurrentRow) {
