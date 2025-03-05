@@ -1,5 +1,554 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Render Nav with swipe mode 1`] = `
+<div>
+  <div
+    class="cxd-Nav cxd-Nav-horizontal"
+  >
+    <div
+      class="cxd-HorizontalScroll-wrapper"
+    >
+      <div
+        class="cxd-HorizontalScroll-Container"
+      >
+        <div
+          class="cxd-HorizontalScroll-Container-main"
+        >
+          <ul
+            class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-horizontal cxd-Nav-Menu-ltr cxd-Nav-Menu-light"
+            data-menu-list="true"
+            dir="ltr"
+            role="menu"
+            tabindex="0"
+          >
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 0;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-1"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="1beab705e179"
+                    title="Nav 1"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 1"
+                    >
+                      Nav 1
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 1;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-2"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="3bb21a33a0c1"
+                    title="Nav 2"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 2"
+                    >
+                      Nav 2
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 2;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-3"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="f7b908f4c51b"
+                    title="Nav 3"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 3"
+                    >
+                      Nav 3
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 3;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-4"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="4c204c8940aa"
+                    title="Nav 4"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 4"
+                    >
+                      Nav 4
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 4;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-5"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="86c25322e613"
+                    title="Nav 5"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 5"
+                    >
+                      Nav 5
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 5;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-6"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="a44fff2f6f4a"
+                    title="Nav 6"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 6"
+                    >
+                      Nav 6
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 6;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-7"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="3074310fef93"
+                    title="Nav 7"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 7"
+                    >
+                      Nav 7
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 7;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-8"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="94868bfc885b"
+                    title="Nav 8"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 8"
+                    >
+                      Nav 8
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 8;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-9"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="242fb5f5442c"
+                    title="Nav 9"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 9"
+                    >
+                      Nav 9
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 9;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-10"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="87d04cd08a93"
+                    title="Nav 10"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 10"
+                    >
+                      Nav 10
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 10;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-11"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="3eb40f7f2ac9"
+                    title="Nav 11"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 11"
+                    >
+                      Nav 11
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 11;"
+            >
+              <li
+                aria-disabled="false"
+                class="cxd-Nav-Menu-item"
+                data-menu-id="rc-menu-uuid-test-12"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="632ceebfd52a"
+                    title="Nav 12"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label"
+                      title="Nav 12"
+                    >
+                      Nav 12
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <li
+              class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-horizontal cxd-Nav-Menu-submenu"
+              role="none"
+            >
+              <div
+                aria-controls="rc-menu-uuid-test-13-popup"
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="cxd-Nav-Menu-submenu-title"
+                data-menu-id="rc-menu-uuid-test-13"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <div
+                  class="cxd-Nav-Menu-item-wrap"
+                >
+                  <a
+                    class="cxd-Nav-Menu-item-link"
+                    data-depth="1"
+                    data-id="5ef98156f7f8"
+                    href="?to=nav13"
+                  >
+                    <span
+                      class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
+                      title="Nav 13"
+                    >
+                      Nav 13
+                    </span>
+                    <span
+                      class="cxd-Nav-Menu-submenu-arrow"
+                    >
+                      <icon-mock
+                        classname="icon icon-right-arrow-bold"
+                        icon="right-arrow-bold"
+                      />
+                    </span>
+                  </a>
+                </div>
+                <i
+                  class="cxd-Nav-Menu-submenu-arrow"
+                />
+              </div>
+            </li>
+          </ul>
+          <div
+            aria-hidden="true"
+            style="display: none;"
+          >
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 0;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 1;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 2;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 3;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 4;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 5;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 6;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 7;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 8;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 9;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 10;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 11;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 0;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 1;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 2;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 3;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 4;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 5;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 1;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 2;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 0;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 1;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 2;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 3;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 4;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 5;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 4;"
+            />
+            <ul
+              class="cxd-Nav-Menu-item-tooltip-wrap"
+              style="order: 5;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:Nav 1`] = `
 <div>
   <div
@@ -1761,6 +2310,7 @@ exports[`Renderer:Nav with overflow 1`] = `
               >
                 <div
                   aria-controls="rc-menu-uuid-test-rc-menu-more-popup"
+                  aria-disabled="false"
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="cxd-Nav-Menu-submenu-title"
@@ -2088,6 +2638,7 @@ exports[`Renderer:Nav with stacked 1`] = `
       >
         <div
           aria-controls="rc-menu-uuid-test-rc-menu-more-popup"
+          aria-disabled="false"
           aria-expanded="false"
           aria-haspopup="true"
           class="cxd-Nav-Menu-submenu-title"

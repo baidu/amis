@@ -936,14 +936,18 @@ export class Navigation extends React.Component<
             mode={mode}
             testIdBuilder={testIdBuilder}
             themeColor={themeColor}
-            onSelect={(link: any, depth: number) => {
-              this.handleClick(link, depth);
+            onSelect={(link: any, depth: number) =>
+              // 这里需要返回 promise 让事件在rc-menu之后处理
+              new Promise(resolve => {
+                this.handleClick(link, depth);
 
-              // 这里设置一个延时，等待样式被设置到dom后才执行外层showSelect，判断是否需要滚动展示当前元素
-              setTimeout(() => {
-                showSelect?.();
-              }, 100);
-            }}
+                // 这里设置一个延时，等待样式被设置到dom后才执行外层showSelect，判断是否需要滚动展示当前元素
+                setTimeout(() => {
+                  showSelect?.();
+                  resolve(undefined);
+                }, 100);
+              })
+            }
             onToggle={this.toggleLink}
             onChange={this.handleChange}
             renderLink={(link: MenuItemProps) => link.link}

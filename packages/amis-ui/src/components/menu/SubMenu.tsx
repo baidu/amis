@@ -213,16 +213,30 @@ export class SubMenu extends React.Component<SubMenuProps> {
           }
           data={createObject(defaultData, link)}
         >
-          {/* 使用a会直接跳转导致页面刷新，不走路由跳转 */}
-          <span
+          {/* 这里使用a标签来做事件传递标签定位 */}
+          <a
             className={cx(`Nav-Menu-item-link`)}
             data-id={link?.__id || id}
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
             {...testIdBuilder?.getTestId()}
+            href={stacked === false && link?.to}
+            onClick={e => {
+              e.preventDefault();
+
+              const clickEvent = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+              });
+
+              // 这里跳过a标签本身的跳转事件，让它继续传递让rc menu来处理
+              (e.target as HTMLDivElement).parentNode?.dispatchEvent?.(
+                clickEvent
+              );
+            }}
           >
             {renderContent()}
-          </span>
+          </a>
         </Badge>
         {extra ? (
           <div className={cx('Nav-Menu-item-extra')}>{extra}</div>
