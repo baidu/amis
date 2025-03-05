@@ -180,6 +180,10 @@ export interface ImagesSchema extends BaseSchema {
     fontFamily?: string;
     color?: string;
   };
+  /**
+   *蒙层颜色
+   * */
+  maskColor?: string;
 }
 
 export interface ImagesProps
@@ -695,7 +699,8 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
       sortType,
       imagesControlClassName,
       displayMode,
-      fullThumbMode
+      fullThumbMode,
+      maskColor
     } = this.props;
 
     const {currentIndex} = this.state;
@@ -751,6 +756,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
         >
           {this.list.map((item: any, index: number) => (
             <Image
+              maskColor={maskColor}
               fontStyle={this.props.fontStyle}
               style={this.generateTranslate(sortType, index)}
               width={this.generateWidth(sortType, index)}
