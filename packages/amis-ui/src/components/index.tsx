@@ -149,6 +149,7 @@ import DropdownContextMenus from './DropdownContextMenus';
 import {HorizontalScroll} from './HorizontalScroll';
 import type {HorizontalScrollProps} from './HorizontalScroll';
 
+import AlphabetIndexer from './AlphabetIndexer';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -293,6 +294,7 @@ export {
   IShapeType,
   MobileDevTool,
   DropdownContextMenus,
+  AlphabetIndexer,
   Slider,
   HorizontalScroll,
   HorizontalScrollProps
