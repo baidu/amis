@@ -6,7 +6,9 @@ import {
   resolveVariable,
   resolveVariableAndFilter,
   filter,
-  getPropValue
+  getPropValue,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
@@ -109,8 +111,13 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     render,
-    mobileUI
+    mobileUI,
+    iconClassName,
+    titleClassName,
+    subTitleClassName,
+    descriptionClassName
   } = props;
+
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
     source,
     data,
@@ -166,6 +173,10 @@ export function StepsCmpt(props: StepsProps) {
       current={currentValue}
       steps={resolveSteps}
       className={className}
+      iconClassName={iconClassName}
+      subTitleClassName={subTitleClassName}
+      titleClassName={titleClassName}
+      descriptionClassName={descriptionClassName}
       style={style}
       status={statusValue}
       mode={mode}
@@ -173,7 +184,7 @@ export function StepsCmpt(props: StepsProps) {
       progressDot={progressDot}
       labelPlacement={labelPlacement}
       mobileUI={mobileUI}
-    ></Steps>
+    />
   );
 }
 
@@ -182,10 +193,268 @@ const StepsWithRemoteConfig = withRemoteConfig()(
     RemoteOptionsProps & React.ComponentProps<typeof StepsCmpt>
   > {
     render() {
-      const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
+      const {
+        classnames: cx,
+        config,
+        deferLoad,
+        loading,
+        updateConfig,
+        id,
+        wrapperCustomStyle,
+        env,
+        themeCss,
+        className,
+        classPrefix: ns,
+        ...rest
+      } = this.props;
       const sourceConfig = isPlainObject(config) ? config : null;
 
-      return <StepsCmpt {...rest} {...sourceConfig} />;
+      return (
+        <>
+          <StepsCmpt
+            {...rest}
+            {...sourceConfig}
+            className={cx(`${ns}StepsControl`, className)}
+            iconClassName={setThemeClassName({
+              ...this.props,
+              name: [
+                'iconControlClassNameDefault',
+                'iconControlClassNameFinish',
+                'iconControlClassNameProcess',
+                'iconControlClassNameWait',
+                'iconControlClassNameError'
+              ],
+              id,
+              themeCss
+            })}
+            subTitleClassName={setThemeClassName({
+              ...this.props,
+              name: [
+                'subTitleControlClassNameDefault',
+                'subTitleControlClassNameFinish',
+                'subTitleControlClassNameProcess',
+                'subTitleControlClassNameWait',
+                'subTitleControlClassNameError'
+              ],
+              id,
+              themeCss
+            })}
+            titleClassName={cx(
+              setThemeClassName({
+                ...this.props,
+                name: [
+                  'titleControlClassNameDefault',
+                  'titleControlClassNameFinish',
+                  'titleControlClassNameProcess',
+                  'titleControlClassNameWait',
+                  'titleControlClassNameError'
+                ],
+                id,
+                themeCss
+              })
+            )}
+            descriptionClassName={setThemeClassName({
+              ...this.props,
+              name: [
+                'descriptionControlClassNameDefault',
+                'descriptionControlClassNameFinish',
+                'descriptionControlClassNameProcess',
+                'descriptionControlClassNameWait',
+                'descriptionControlClassNameError'
+              ],
+              id,
+              themeCss
+            })}
+          ></StepsCmpt>
+          <CustomStyle
+            {...this.props}
+            config={{
+              wrapperCustomStyle,
+              id,
+              themeCss,
+              classNames: [
+                {
+                  key: 'iconControlClassNameDefault',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'iconControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameDefault',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'subTitleControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameDefault',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'titleControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameDefault',
+                  weights: {
+                    default: {
+                      important: true
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameFinish',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-finish'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameProcess',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-process'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameWait',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-wait'
+                    }
+                  }
+                },
+                {
+                  key: 'descriptionControlClassNameError',
+                  weights: {
+                    default: {
+                      important: true,
+                      parent: '.is-error'
+                    }
+                  }
+                }
+              ]
+            }}
+            env={env}
+          />
+        </>
+      );
     }
   }
 );
