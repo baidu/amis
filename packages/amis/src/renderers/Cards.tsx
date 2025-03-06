@@ -68,7 +68,7 @@ export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 卡片 CSS 类名
    *
-   * @default Grid-col--sm6 Grid-col--md4 Grid-col--lg3
+   * @default Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3
    */
   itemClassName?: SchemaClassName;
 
@@ -228,7 +228,7 @@ export default class Cards extends React.Component<GridProps, object> {
     selectable: false,
     headerClassName: '',
     footerClassName: '',
-    itemClassName: 'Grid-col--sm6 Grid-col--md4 Grid-col--lg3',
+    itemClassName: 'Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3',
     hideCheckToggler: false,
     masonryLayout: false,
     affixHeader: true,
@@ -1014,7 +1014,11 @@ export default class Cards extends React.Component<GridProps, object> {
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const itemFinalClassName: string = columnsCount
-      ? `Grid-col--sm${Math.round(12 / columnsCount)}`
+      ? `Grid-col--xs${Math.round(12 / columnsCount)} Grid-col--sm${Math.round(
+          12 / columnsCount
+        )} Grid-col--md${Math.round(
+          12 / columnsCount
+        )} Grid-col--lg${Math.round(12 / columnsCount)}`
       : itemClassName || '';
 
     const header = this.renderHeader();
