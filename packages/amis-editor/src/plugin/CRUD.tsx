@@ -1631,6 +1631,50 @@ export class CRUDPlugin extends BasePlugin {
             ]
           },
 
+          {
+            type: 'switch',
+            name: 'showIndexBar',
+            label: '显示索引条',
+            visibleOn: 'this.mode === "list"',
+            pipeIn: defaultValue(false),
+            onChange: (
+              value: boolean,
+              oldValue: boolean,
+              model: any,
+              form: any
+            ) => {
+              if (value) {
+                form.setValueByName('indexBarOffset', 0);
+                form.setValueByName('indexField', 'title');
+              }
+            }
+          },
+
+          {
+            type: 'container',
+            visibleOn: 'this.mode === "list" && this.showIndexBar',
+            body: [
+              {
+                type: 'input-number',
+                name: 'indexBarOffset',
+                label: '顶部偏移量',
+                value: 0,
+                min: 0,
+                max: 200,
+                unit: 'px',
+                description: '点击索引条跳转时，与顶部保持的距离'
+              },
+              {
+                type: 'input-text',
+                name: 'indexField',
+                label: '索引字段',
+                value: 'title',
+                placeholder: '请输入索引字段名',
+                description: '根据指定字段的首字母进行索引，默认使用 title 字段'
+              }
+            ]
+          },
+
           getSchemaTpl('combo-container', {
             name: 'headerToolbar',
             type: 'combo',
