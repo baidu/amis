@@ -1204,7 +1204,7 @@ export default class List extends React.Component<ListProps, ListState> {
             {this.renderFooter()}
           </div>
 
-          {showIndexBar && (
+          {showIndexBar && store.items.length > 0 && (
             <AlphabetIndexer
               items={store.items}
               getItemLetter={item => {
@@ -1212,10 +1212,14 @@ export default class List extends React.Component<ListProps, ListState> {
                   listItem,
                   indexField
                 );
-                return getPropValue(
+                const value = getPropValue(
                   {data: item.data},
                   () => item.data[dataFieldName]
                 );
+
+                return typeof value === 'string' && /^[A-Za-z]/.test(value)
+                  ? value
+                  : '';
               }}
               onLetterClick={this.handleLetterClick}
               classnames={cx}
