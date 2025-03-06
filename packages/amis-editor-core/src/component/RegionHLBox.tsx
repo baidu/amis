@@ -37,7 +37,6 @@ export default observer(function (props: HighlightBoxProps) {
   }, [id, name, manager]);
 
   let isHiglight = store.isRegionHighlighted(id, name);
-  let isHiglightHover = store.isRegionHighlightHover(id, name);
   let isDragEnter = store.isRegionDragEnter(id, name);
   const host = store.getNodeById(id)!;
   const dx = node.x - host.x;
@@ -51,7 +50,7 @@ export default observer(function (props: HighlightBoxProps) {
         'ae-Editor-rhlbox',
         isDragEnter ? 'is-dragenter' : '',
         store.planDropId === id ? 'region-can-be-drop' : '',
-        !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
+        // !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
         isOnlyChildRegion || isHiglight ? 'is-highlight' : ''
         // dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
       )}

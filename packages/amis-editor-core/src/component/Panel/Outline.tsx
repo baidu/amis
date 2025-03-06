@@ -102,7 +102,9 @@ export class OutlinePanel extends React.Component<PanelProps> {
       const id = dom.getAttribute('data-node-id')!;
       const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
 
-      id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
+      id &&
+        region &&
+        manager.dnd.switchToRegion(e.nativeEvent, id, region, true);
     }, 100);
   }
 
@@ -258,6 +260,11 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const children = option.uniqueChildren as Array<EditorNodeType>;
     const store = this.props.store;
 
+    // 当前是当前正拖拽的元素，则不显示
+    if (store.dragId && option.id === store.dragId) {
+      return null;
+    }
+
     const doms: any = children
       .map((option, index) => this.renderDropItem(option, index))
       .filter(item => item);
@@ -392,9 +399,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
               onDrop={this.handleDrop}
             >
               {store.dragging ? (
-                <div className="ae-Outline-tip">
-                  拖拽过程中按下功能键可切换容器，或拖入以下区域切换
-                </div>
+                <div className="ae-Outline-tip">可拖入以下区域固定拖入容器</div>
               ) : null}
 
               {options.length ? (
