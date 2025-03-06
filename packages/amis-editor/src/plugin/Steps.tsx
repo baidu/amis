@@ -174,10 +174,6 @@ export class StepsPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('theme:base', {
-            label: '基本样式',
-            name: 'themeCss.base'
-          }),
           getSchemaTpl('collapseGroup', [
             {
               title: '图标样式',
