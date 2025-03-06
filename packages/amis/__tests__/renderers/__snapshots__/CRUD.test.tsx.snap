@@ -1262,7 +1262,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 class="cxd-Cards-body cxd-Grid"
               >
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1331,7 +1331,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1400,7 +1400,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1469,7 +1469,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1538,7 +1538,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1607,7 +1607,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1676,7 +1676,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1745,7 +1745,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1814,7 +1814,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
@@ -1883,7 +1883,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
+                  class="cxd-Grid-col--xs6 cxd-Grid-col--sm6 cxd-Grid-col--md6 cxd-Grid-col--lg6"
                   style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
