@@ -611,12 +611,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
-    let filtedOptions: Array<Option> =
+    let filtedOptions: Array<Option> = (
       inputValue && checkAllBySearch !== false
         ? filterOption(options, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
-        : options.concat();
+        : options.concat()
+    ).filter(option => option && !option.disabled);
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
     const checkedAll = optionsValues.every(
