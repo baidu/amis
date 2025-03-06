@@ -20,6 +20,105 @@ interface InputStateOptions {
   borderToken?: (state: string) => string | object;
 }
 
+export const inputSwitchStateTpl = (
+  className: string,
+  options?: InputStateOptions,
+  body?: any[]
+) => {
+  const stateOptions = [
+    {
+      label: '常规',
+      value: 'Default'
+    },
+    {
+      label: '完成',
+      value: 'Finish'
+    },
+    {
+      label: '进行中',
+      value: 'Process'
+    },
+    {
+      label: '等待',
+      value: 'Wait'
+    },
+    {
+      label: '出错',
+      value: 'Error'
+    }
+  ];
+  const hiddenOnCondition = options?.hiddenOn
+    ? ` && !(${options.hiddenOn})`
+    : '';
+  const res: any = [
+    ...stateOptions.map((item: any) => {
+      return {
+        type: 'container',
+        visibleOn:
+          `\${__editorStateStep == '${item.value}'` +
+          (item.value === 'Default' ? ` || !__editorStateStep` : '') +
+          hiddenOnCondition +
+          `}`,
+        body: body?.map((b: any) => ({
+          ...b,
+          name: b.name.replace(/name/gi, (match: any) => match + item.value)
+        }))
+      };
+    })
+  ];
+  return res;
+};
+export const inputStepStateTpl = (
+  className: string,
+  token: string,
+  options?: InputStateOptions,
+  body?: any[]
+) => {
+  const stateOptions = options?.state || [
+    {
+      label: '常规',
+      value: 'Default'
+    },
+    {
+      label: '完成',
+      value: 'Finish'
+    },
+    {
+      label: '进行中',
+      value: 'Process'
+    },
+    {
+      label: '等待',
+      value: 'Wait'
+    },
+    {
+      label: '出错',
+      value: 'Error'
+    }
+  ];
+  const hiddenOnCondition = options?.hiddenOn
+    ? ` && !(${options.hiddenOn})`
+    : '';
+  const res: any = [
+    ...stateOptions.map((item: any) => {
+      return {
+        type: 'container',
+        visibleOn:
+          `\${__editorStateStep == '${item.value}'` +
+          (item.value === 'Default' ? ` || !__editorStateStep` : '') +
+          hiddenOnCondition +
+          `}`,
+        body: inputStateFunc(
+          'default',
+          className + item.value,
+          item.token || token,
+          options
+        )
+      };
+    })
+  ];
+  return res;
+};
 export const inputStateTpl = (
   className: string,
   token: string = '',
@@ -87,7 +186,6 @@ export const inputStateFunc = (
       token = `${token}-${cssTokenState}`;
     }
   }
-
   return [
     !options?.hideFont &&
       getSchemaTpl('theme:font', {
