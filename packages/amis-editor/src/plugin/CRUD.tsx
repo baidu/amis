@@ -2088,7 +2088,7 @@ export class CRUDPlugin extends BasePlugin {
 
           {
             type: 'container',
-            visibleOn: `this.headerToolbar && this.headerToolbar.some(item => item === 'load-more' || item.type === 'load-more') || 
+            visibleOn: `this.headerToolbar && this.headerToolbar.some(item => item === 'load-more' || item.type === 'load-more') ||
                       this.footerToolbar && this.footerToolbar.some(item => item === 'load-more' || item.type === 'load-more')`,
             body: [
               {
@@ -2427,7 +2427,7 @@ export class CRUDPlugin extends BasePlugin {
     const {$$editor, style, ...rest} = props;
     const renderer = $$editor.renderer;
     return (
-      <div className="ae-CRUDEditor" style={style}>
+      <div className="ae-CRUDEditor" style={style} data-role="container">
         {this.renderEditableComponents(props)}
         <renderer.component $$editor={$$editor} {...rest} />
       </div>
