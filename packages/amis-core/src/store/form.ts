@@ -267,6 +267,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
       changeReason &&
         Object.isExtensible(data) &&
+        !data.__changeReason &&
         Object.defineProperty(data, '__changeReason', {
           value: changeReason,
           enumerable: false,
@@ -307,6 +308,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
       changeReason &&
         Object.isExtensible(data) &&
+        !data.__changeReason &&
         Object.defineProperty(data, '__changeReason', {
           value: changeReason,
           enumerable: false,

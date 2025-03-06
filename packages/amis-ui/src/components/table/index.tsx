@@ -692,7 +692,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       testIdBuilder,
       headerClassName,
       sticky,
-      autoFillHeight
+      autoFillHeight,
+      scroll
     } = this.props;
 
     const rowSelectionKeyField = this.getRowSelectionKeyField();
@@ -704,10 +705,13 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           })
         : dataSource;
 
+    const hasScrollY = scroll && scroll.y;
+    const selfSticky = !!(hasScrollY || (sticky && autoFillHeight));
+
     return (
       <Head
         key="thead"
-        selfSticky={sticky && !!autoFillHeight}
+        selfSticky={selfSticky}
         columns={columns}
         draggable={!!draggable}
         selectable={!!rowSelection}
@@ -1665,6 +1669,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     // 是否设置了横向滚动
     const hasScrollX = scroll && scroll.x;
 
+    const style = {};
+    if (hasScrollY) {
+      Object.assign(style, {
+        overflow: 'auto scroll',
+        maxHeight: scroll.y
+      });
+    }
+
     return (
       <div
         ref={this.tableDom}
@@ -1681,13 +1693,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </div>
         ) : null}
 
-        {hasScrollY || (sticky && !autoFillHeight) ? (
+        {!hasScrollY && !(sticky && autoFillHeight) ? (
           this.renderScrollTable()
         ) : (
           <div
             className={cx('Table-container', {
-              [cx('Table-container-self-sticky')]: sticky && !!autoFillHeight
+              [cx('Table-container-self-sticky')]:
+                hasScrollY || (sticky && autoFillHeight)
             })}
+            style={style}
             ref={this.containerDom}
           >
             {this.renderTable()}

@@ -272,9 +272,9 @@ export default class ChainedSelectControl extends React.Component<
     onChange(valueRes);
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   renderStatic(displayValue = '-') {

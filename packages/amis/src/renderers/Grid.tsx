@@ -204,7 +204,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         )}
         style={styleVar}
       >
-        {this.renderChild(`column/${key}`, (column as any).body || '', length, {
+        {this.renderChild(`column/${key}`, (column as any).body || [], length, {
           disabled,
           formMode: column.mode || subFormMode || formMode,
           formHorizontal:

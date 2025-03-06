@@ -255,14 +255,17 @@ export class FormulaEditor extends React.Component<
   }
 
   async componentDidMount() {
+    const functionList = await FormulaEditor.buildFunctions();
+    if (this.unmounted) {
+      return;
+    }
     if (!this.state.functions) {
-      const functionList = await FormulaEditor.buildFunctions();
-      if (this.unmounted) {
-        return;
-      }
-
       this.setState({
         functions: functionList
+      });
+    } else {
+      this.setState({
+        functions: [...functionList, ...this.state.functions]
       });
     }
   }

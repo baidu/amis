@@ -228,6 +228,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
+        minLoadingTime?: number; // 最小加载时间
+        dataAppendTo?: 'top' | 'bottom';
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -241,9 +243,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         columns?: Array<any>;
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
+        minLoadingTime?: number; // 最小加载时间
       } = {}
     ) {
       try {
+        const startTime = Date.now();
         let rawItems = options.source
           ? resolveVariableAndFilter(
               options.source,
@@ -333,6 +337,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             throw new Error(self.__('CRUD.invalidData'));
           }
 
+          if (options.minLoadingTime) {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = options.minLoadingTime - elapsedTime;
+            if (remainingTime > 0) {
+              yield new Promise(resolve => setTimeout(resolve, remainingTime));
+            }
+          }
+
           self.updatedAt = Date.now();
           let result = normalizeApiResponseData(json.data);
 
@@ -382,7 +394,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           // 点击加载更多数据
           let rowsData: Array<any> = [];
           if (options.loadDataMode && Array.isArray(self.data.items)) {
-            rowsData = self.data.items.concat(items);
+            if (options.dataAppendTo === 'top') {
+              rowsData = items.concat(self.data.items);
+            } else {
+              rowsData = self.data.items.concat(items);
+            }
           } else {
             // 第一次的时候就是直接加载请求的数据
             rowsData = items;
