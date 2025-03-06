@@ -2040,7 +2040,98 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('className', {
             name: 'bodyClassName',
             label: '内容 CSS 类名'
-          })
+          }),
+
+          {
+            type: 'container',
+            visibleOn: `this.headerToolbar && this.headerToolbar.some(item => item === 'load-more' || item.type === 'load-more') || 
+                      this.footerToolbar && this.footerToolbar.some(item => item === 'load-more' || item.type === 'load-more')`,
+            body: [
+              {
+                type: 'group',
+                body: [
+                  {
+                    name: 'loadMoreProps.showIcon',
+                    label: '显示图标',
+                    type: 'switch',
+                    value: true
+                  },
+                  {
+                    name: 'loadMoreProps.showText',
+                    label: '显示文本',
+                    type: 'switch',
+                    value: true
+                  }
+                ]
+              },
+              getSchemaTpl('icon', {
+                name: 'loadMoreProps.iconType',
+                label: tipedLabel(
+                  '图标类型',
+                  '支持 fontawesome v4 图标、iconfont 图标。如需使用 fontawesome v5/v6 版本,需设置 vendor 为空字符串。默认为 loading-outline'
+                ),
+                value: 'loading-outline',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showIcon'
+              }),
+              {
+                name: 'loadMoreProps.minLoadingTime',
+                type: 'input-number',
+                label: tipedLabel(
+                  '最小加载时间',
+                  '指定加载时显示loading的最小时间(毫秒)'
+                ),
+                value: 0
+              },
+              {
+                name: 'loadMoreProps.dataAppendTo',
+                type: 'select',
+                label: tipedLabel(
+                  '数据追加方式',
+                  '指定新加载的数据追加到已有数据的位置'
+                ),
+                value: 'bottom',
+                options: [
+                  {
+                    label: '追加到底部',
+                    value: 'bottom'
+                  },
+                  {
+                    label: '追加到顶部',
+                    value: 'top'
+                  }
+                ]
+              },
+              {
+                type: 'group',
+                label: '文本配置',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showText',
+                body: [
+                  {
+                    name: 'loadMoreProps.contentText.contentdown',
+                    label: '加载前',
+                    type: 'input-text',
+                    value: '点击加载更多'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentrefresh',
+                    label: '加载中',
+                    type: 'input-text',
+                    value: '加载中...'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentnomore',
+                    label: '加载完成',
+                    type: 'input-text',
+                    value: '没有更多数据了'
+                  }
+                ]
+              },
+              getSchemaTpl('theme:colorPicker', {
+                name: 'loadMoreProps.color',
+                label: '文字颜色'
+              })
+            ]
+          }
         ]
       },
 
