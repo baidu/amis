@@ -54,6 +54,11 @@ export class EditorDNDManager {
   dragImage?: HTMLElement;
 
   /**
+   * 是否锁定自动切换
+   */
+  lockAutoSwitch = false;
+
+  /**
    * 记录上次鼠标位置信息，协助拖拽计算的。
    */
   lastX: number = 0;
@@ -125,7 +130,15 @@ export class EditorDNDManager {
    * @param id
    * @param region
    */
-  switchToRegion(e: DragEvent, id: string, region: string): boolean {
+  switchToRegion(
+    e: DragEvent,
+    id: string,
+    region: string,
+    lockAutoSwitch = false
+  ): boolean {
+    // 如果锁定了，将不会自动切换容器了
+    // 拖完后释放
+    this.lockAutoSwitch = lockAutoSwitch || this.lockAutoSwitch;
     const store = this.store;
     if (
       !id ||
@@ -141,7 +154,11 @@ export class EditorDNDManager {
     const json = store.dragSchema;
 
     if (
-      config?.accept?.(json) === false ||
+      config?.accept?.(
+        json,
+        node,
+        store.dragId ? store.getNodeById(store.dragId) : undefined
+      ) === false ||
       node.host?.memberImmutable(region)
     ) {
       return false;
@@ -347,13 +364,10 @@ export class EditorDNDManager {
 
     const dx = e.clientX - this.lastX;
     const dy = e.clientY - this.lastY;
-    const d = Math.max(Math.abs(dx), Math.abs(dy));
+    const d = Math.hypot(dx, dy);
 
-    if (
-      d > 0 &&
-      this.curDragId &&
-      this.manager.draggableContainer(this.curDragId)
-    ) {
+    // 自由容器里面的拖拽分支
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置
       const doc = store.getDoc();
       const parentDoc = parent?.window.document;
@@ -424,52 +438,55 @@ export class EditorDNDManager {
       return;
     }
 
-    if (!store.dropId || !target) {
+    if (!store.dropId || !target || d < 5) {
       return;
     }
 
-    const curRegion = target.closest(`[data-region][data-region-host]`);
-    const hostId = curRegion?.getAttribute('data-region-host');
-    const region = curRegion?.getAttribute('data-region');
-    const containerElem = target.closest('[data-editor-id][data-container]');
-    const containerId = containerElem?.getAttribute('data-editor-id');
+    const curRegion = target.closest(
+      `[data-region][data-region-host]`
+    ) as HTMLElement;
+    let hostId = curRegion?.getAttribute('data-region-host');
+    let region = curRegion?.getAttribute('data-region');
 
-    const isMetaPressed = e.ctrlKey || e.metaKey || e.altKey;
+    let parentRegion: HTMLElement | null = null;
+    const containerElem: HTMLElement | null = target.closest(
+      '[data-editor-id][data-container]'
+    ) as HTMLElement;
 
-    if (isMetaPressed) {
-      if (region && hostId && containerElem!.contains(curRegion)) {
-        store.setPlanDropId(hostId, region);
-      } else if (containerId) {
-        store.setPlanDropId(containerId, '');
-      }
-      return;
-    }
-
-    // 没移动还是不要处理，免得晃动个不停。
-    if (d < 5) {
-      // if (!curRegion || hostId === store.dropId) {
-      //   return;
-      // }
-
-      // 通过左侧的导航来确定要拖入到哪儿容器里面。
-      // 跨容器组件切换，增加200毫秒的延迟
-      // if (now - this.lastMoveAt > 200 && region && hostId) {
-      //   this.switchToRegion(e, hostId!, region!);
-      // }
-
-      // if (now - this.lastMoveAt > 200 && region && hostId) {
-      //   store.setPlanDropId(hostId, region);
-      // }
-      return;
+    if (
+      curRegion &&
+      containerElem &&
+      curRegion.contains(containerElem) &&
+      containerElem.querySelector(`[data-region-host="${store.dropId}"]`)
+    ) {
+      // 如果拖拽所在的组件，包含当前dropId ， 且这次是打算切到外层去，则不允许
+      // 就是拖拽还发生在当前组件，不要把拖入容器切到上层去
+      // 比如你打算将 form 的按钮拖到内容区，但是离开了按钮区时因为有一段时间不在任何form 的任何区域
+      // 里面，这个时候一下跑到 form 所在的区域去了，这个时候就不应该切换。
+      hostId = '';
+      region = '';
+    } else if (
+      (parentRegion = curRegion?.parentElement?.closest(
+        '[data-region][data-region-host]'
+      ) as HTMLElement) &&
+      containerElem &&
+      this.isInEdgeRegion(e, containerElem)
+    ) {
+      // 如果当前区域是边缘区域，且有父级区域，则切换到父级区域
+      hostId = parentRegion.getAttribute('data-region-host');
+      region = parentRegion.getAttribute('data-region');
     }
 
     this.lastX = e.clientX;
     this.lastY = e.clientY;
 
-    // 同一个容器组件下面的区域可以快速切换。
-    if (store.dropId === hostId && region && region !== store.dropRegion) {
-      this.switchToRegion(e, store.dropId, region);
-      return;
+    if (
+      !this.lockAutoSwitch &&
+      region &&
+      hostId &&
+      (store.dropId !== hostId || region !== store.dropRegion)
+    ) {
+      this.switchToRegion(e, hostId, region);
     }
 
     store.setPlanDropId('', '');
@@ -573,6 +590,7 @@ export class EditorDNDManager {
     this.store.setPlanDropId('', '');
     this.disposeDragImage();
     this.dragEnterCount = 0;
+    this.lockAutoSwitch = false;
   }
 
   /**
@@ -627,6 +645,17 @@ export class EditorDNDManager {
         )
         ?.classList.add('is-dragenter');
     }
+  }
+
+  isInEdgeRegion(e: DragEvent, target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const w = rect.width;
+    const h = rect.height;
+    const xEdge = 5;
+    const yEdge = 5;
+    return x < xEdge || y < yEdge || x > w - xEdge || y > h - yEdge;
   }
 
   // /**

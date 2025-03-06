@@ -187,7 +187,7 @@ export default class Panel<
   renderActions() {
     const {actions, render} = this.props;
 
-    if (Array.isArray(actions) && actions.length) {
+    if (Array.isArray(actions)) {
       return actions.map((action, key) =>
         render('action', action, {
           type: action.type || 'button',
@@ -239,8 +239,7 @@ export default class Panel<
     const collapsed = this.state.collapsed;
 
     if (!collapsed) {
-      const actions = this.renderActions();
-      actions &&
+      if (Array.isArray(this.props.actions) && this.props.actions.length) {
         footerDoms.push(
           <div
             key="actions"
@@ -250,9 +249,10 @@ export default class Panel<
               actionsControlClassName
             )}
           >
-            {actions}
+            {this.renderActions()}
           </div>
         );
+      }
 
       footer &&
         footerDoms.push(

@@ -2,6 +2,9 @@
   width: 100%;
   height: 100%;
   background: var(--Page-main-bg);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 
   &-header {
     padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
@@ -17,7 +20,7 @@
   &-content {
     padding: var(--Page-content-paddingY) var(--Page-content-paddingX);
     position: relative;
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 
@@ -107,6 +110,29 @@
 
 .#{$ns}Page-aside {
   // background: var(--Page-aside-bg);
+}
+
+@include media-breakpoint-down(sm) {
+  .#{$ns}Page {
+    flex-direction: column;
+  }
+
+  .#{$ns}Page-aside {
+    flex-shrink: 0;
+  }
+
+  .#{$ns}Page-content {
+    flex-grow: 1;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+  }
+
+  .#{$ns}Page-main {
+    height: auto;
+    width: 100%;
+  }
 }
 
 @include media-breakpoint-up(md) {

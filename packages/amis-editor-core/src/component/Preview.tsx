@@ -191,6 +191,7 @@ export default class Preview extends Component<PreviewProps> {
       (e.button === 1 && window.event !== null) || e.button === 0;
     if (!this.props.editable || !isLeftButton || e.defaultPrevented) return;
 
+    // todo highlight 改成可拖拽后，框选逻辑异常了，需要修复
     const store = this.props.store;
     if (
       e.defaultPrevented ||
@@ -241,7 +242,7 @@ export default class Preview extends Component<PreviewProps> {
         h: Math.abs(h)
       };
 
-      if (rect.w < 10 && rect.h < 10) {
+      if (Math.hypot(w, h) < 10) {
         return;
       }
 
@@ -316,10 +317,13 @@ export default class Preview extends Component<PreviewProps> {
       return;
     }
 
-    const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
-
-    if ((e.target as HTMLElement).closest('.ae-editor-action-btn')) {
+    if (
+      (e.target as HTMLElement).closest(
+        '.ae-editor-action-btn,.ae-Editor-toolbarPopover '
+      )
+    ) {
       // 设计器内容区中允许点击的元素，比如：回到顶部功能按钮。
+      // 或者高亮区的操作按钮
       return;
     }
 
@@ -328,30 +332,60 @@ export default class Preview extends Component<PreviewProps> {
       return;
     }
 
-    if (target) {
-      const curActiveId = target.getAttribute('data-editor-id');
-      let curRegion: string = '';
+    const target = (e.target as HTMLElement).closest(
+      `[data-editor-id],[data-hlbox-id]`
+    );
 
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curActiveId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curRegion = targetRegion.getAttribute('data-region')!;
-        }
-      }
+    if (target?.matches('[data-editor-id]')) {
+      const curActiveId = target.getAttribute('data-editor-id');
 
       e.metaKey
         ? this.props.manager.toggleSelection(curActiveId!)
-        : store.setActiveId(curActiveId!, curRegion);
+        : store.setActiveId(curActiveId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      const id = target.getAttribute('data-hlbox-id')!;
+      let left = e.clientX;
+      let top = e.clientY;
+
+      const layer: HTMLElement = store.getLayer()!;
+      const layerRect = layer.getBoundingClientRect();
+      const iframe = store.getIframe();
+
+      // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+      let scrollTop = 0;
+      if (iframe) {
+        scrollTop = iframe.contentWindow?.scrollY || 0;
+        left -= layerRect.left;
+        top -= layerRect.top;
+        top += scrollTop;
+        // 如果有缩放比例，重新计算位置
+        const scale = store.getScale();
+        if (scale >= 0) {
+          left = left / scale;
+          top = top / scale;
+        }
+      } else {
+        // 下面那行不加反而是对的，不要加
+        // scrollTop = document.querySelector('.ae-Preview-body')!.scrollTop || 0;
+        top += scrollTop;
+      }
+
+      let elements = store.getDoc().elementsFromPoint(left, top);
+
+      let node = elements.find(
+        (ele: Element) =>
+          ele.hasAttribute('data-editor-id') &&
+          ele.getAttribute('data-editor-id') !== id &&
+          !ele.querySelector(`[data-editor-id="${id}"]`)
+      );
+      if (node) {
+        const nodeId = node.getAttribute('data-editor-id')!;
+        // 如果已经进入了内联模式
+        // 不要再切选中了
+        setTimeout(() => {
+          store.activeElement || store.setActiveId(nodeId);
+        }, 350);
+      }
     }
 
     if (!this.layer?.contains(e.target as HTMLElement) && this.props.editable) {
@@ -447,47 +481,52 @@ export default class Preview extends Component<PreviewProps> {
     const store = this.props.store;
     const dom = e.target as HTMLElement;
 
-    if (this.layer?.contains(dom)) {
-      return;
-    }
-
     if ((e.target as HTMLElement).closest('.ignore-hover-elem')) {
       // 设计器内容区中忽略hover的元素，比如：region头部标签。
       return;
     }
 
-    const target = dom.closest(`[data-editor-id]`);
+    const target = dom.closest(`[data-editor-id],[data-hlbox-id]`);
 
-    if (target) {
+    if (target?.matches('[data-editor-id]')) {
       const curHoverId = target.getAttribute('data-editor-id');
-      let curHoverRegion: string = '';
+      store.setHoverId(curHoverId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      let x = e.clientX;
+      let y = e.clientY;
 
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curHoverId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curHoverRegion = targetRegion.getAttribute('data-region')!;
+      const layer: HTMLElement = store.getLayer()!;
+      const layerRect = layer.getBoundingClientRect();
+      const iframe = store.getIframe();
+
+      // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+      let scrollTop = 0;
+      if (iframe) {
+        scrollTop = iframe.contentWindow?.scrollY || 0;
+        x -= layerRect.left;
+        y -= layerRect.top;
+        y += scrollTop;
+      }
+      const elements = store.getDoc().elementsFromPoint(x, y);
+      let hostElem: HTMLElement | null = null;
+      for (const ele of elements) {
+        hostElem = ele.closest(`[data-editor-id]`) as HTMLElement;
+        if (hostElem) {
+          break;
         }
       }
 
-      store.setMouseMoveRegion(curHoverRegion);
-      store.setHoverId(curHoverId!);
+      if (hostElem) {
+        // 判断当前是否在子区域
+        const curHoverId = hostElem.getAttribute('data-editor-id');
+        store.setHoverId(curHoverId!);
+      }
     }
   }
 
   @autobind
   handleMouseLeave() {
     const store = this.props.store;
-    store.setMouseMoveRegion('');
     store.setHoverId('');
   }
 
