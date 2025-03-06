@@ -49,6 +49,7 @@ export interface Props extends ThemeProps {
   selectable: boolean;
   rowSelectionFixed?: boolean;
   rowSelectionType?: 'radio' | 'checkbox';
+  rowClickIgControl?: boolean;
   hasChildrenRow: boolean;
   hasChildrenChecked: boolean;
   expandedRowClassName: string;
@@ -90,7 +91,7 @@ class BodyRow extends React.PureComponent<Props> {
     record?: any,
     rowIndex?: number
   ) {
-    if (isClickOnInput(e)) {
+    if (isClickOnInput(e) && !this.props.rowClickIgControl) {
       return;
     }
 
