@@ -344,33 +344,8 @@ export default class Preview extends Component<PreviewProps> {
         : store.setActiveId(curActiveId!);
     } else if (target?.matches('[data-hlbox-id]')) {
       const id = target.getAttribute('data-hlbox-id')!;
-      let left = e.clientX;
-      let top = e.clientY;
-
-      const layer: HTMLElement = store.getLayer()!;
-      const layerRect = layer.getBoundingClientRect();
-      const iframe = store.getIframe();
-
-      // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
-      let scrollTop = 0;
-      if (iframe) {
-        scrollTop = iframe.contentWindow?.scrollY || 0;
-        left -= layerRect.left;
-        top -= layerRect.top;
-        top += scrollTop;
-        // 如果有缩放比例，重新计算位置
-        const scale = store.getScale();
-        if (scale >= 0) {
-          left = left / scale;
-          top = top / scale;
-        }
-      } else {
-        // 下面那行不加反而是对的，不要加
-        // scrollTop = document.querySelector('.ae-Preview-body')!.scrollTop || 0;
-        top += scrollTop;
-      }
-
-      let elements = store.getDoc().elementsFromPoint(left, top);
+      const {x, y} = this.getElementPoint(e);
+      let elements = store.getDoc().elementsFromPoint(x, y);
 
       let node = elements.find(
         (ele: Element) =>
@@ -412,21 +387,7 @@ export default class Preview extends Component<PreviewProps> {
       // 自由容器里面的高亮区域是可以点击的
       // 当点击来自高亮区域时，需要根据位置计算出组件上点击的元素
       if (hlbox) {
-        let x = e.clientX;
-        let y = e.clientY;
-
-        const layer: HTMLElement = store.getLayer()!;
-        const layerRect = layer.getBoundingClientRect();
-        const iframe = store.getIframe();
-
-        // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
-        let scrollTop = 0;
-        if (iframe) {
-          scrollTop = iframe.contentWindow?.scrollY || 0;
-          x -= layerRect.left;
-          y -= layerRect.top;
-          y += scrollTop;
-        }
+        const {x, y} = this.getElementPoint(e);
         const elements = store.getDoc().elementsFromPoint(x, y);
         target = elements.find((ele: Element) => {
           hostElem = ele.closest(
@@ -492,21 +453,7 @@ export default class Preview extends Component<PreviewProps> {
       const curHoverId = target.getAttribute('data-editor-id');
       store.setHoverId(curHoverId!);
     } else if (target?.matches('[data-hlbox-id]')) {
-      let x = e.clientX;
-      let y = e.clientY;
-
-      const layer: HTMLElement = store.getLayer()!;
-      const layerRect = layer.getBoundingClientRect();
-      const iframe = store.getIframe();
-
-      // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
-      let scrollTop = 0;
-      if (iframe) {
-        scrollTop = iframe.contentWindow?.scrollY || 0;
-        x -= layerRect.left;
-        y -= layerRect.top;
-        y += scrollTop;
-      }
+      const {x, y} = this.getElementPoint(e);
       const elements = store.getDoc().elementsFromPoint(x, y);
       let hostElem: HTMLElement | null = null;
       for (const ele of elements) {
@@ -522,6 +469,32 @@ export default class Preview extends Component<PreviewProps> {
         store.setHoverId(curHoverId!);
       }
     }
+  }
+
+  getElementPoint(e: MouseEvent) {
+    const store = this.props.store;
+    let x = e.clientX;
+    let y = e.clientY;
+
+    const iframe = store.getIframe();
+
+    // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+    if (iframe) {
+      const preview: HTMLElement = (store.getLayer() as HTMLElement)
+        .previousSibling?.firstChild as HTMLElement;
+      const previewRect = preview.getBoundingClientRect();
+
+      x -= previewRect.left;
+      y -= previewRect.top;
+      // 如果有缩放比例，重新计算位置
+      const scale = store.getScale();
+      if (scale >= 0) {
+        x = x / scale;
+        y = y / scale;
+      }
+    }
+
+    return {x, y};
   }
 
   @autobind
