@@ -427,5 +427,6 @@ register('zh-CN', {
   'Signature.confirm': '确认',
   'Signature.cancel': '取消',
   'Signature.embedLabel': '点击签名',
+  'Signature.embedUpdateLabel': '更新签名',
   'QRCode.tooLong': '二维码值过长，请设置{{max}}个字符以下的文本'
 });
