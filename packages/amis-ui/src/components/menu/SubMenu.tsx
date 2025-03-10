@@ -83,10 +83,14 @@ export class SubMenu extends React.Component<SubMenuProps> {
   ];
 
   @autobind
-  handleSubmenuTitleActived({key, domEvent}: MenuItemTitleInfo) {
+  handleSubmenuTitleActived(menuItemTitleInfo: MenuItemTitleInfo) {
+    const {key, domEvent} = menuItemTitleInfo;
     const {onSubmenuClick, stacked} = this.context;
+    const {onTitleClick} = this.props;
 
     stacked && onSubmenuClick?.({key, domEvent, props: this.props});
+
+    onTitleClick?.({...menuItemTitleInfo, keyPath: [key]} as any);
   }
 
   /** 检查icon参数值是否为文件路径 */
@@ -209,6 +213,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
           }
           data={createObject(defaultData, link)}
         >
+          {/* 这里使用a标签来做事件传递标签定位 */}
           <a
             className={cx(`Nav-Menu-item-link`)}
             data-id={link?.__id || id}
@@ -216,6 +221,19 @@ export class SubMenu extends React.Component<SubMenuProps> {
             onDragStart={onDragStart?.(link)}
             {...testIdBuilder?.getTestId()}
             href={stacked === false && link?.to}
+            onClick={e => {
+              e.preventDefault();
+
+              const clickEvent = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+              });
+
+              // 这里跳过a标签本身的跳转事件，让它继续传递让rc menu来处理
+              (e.target as HTMLDivElement).parentNode?.dispatchEvent?.(
+                clickEvent
+              );
+            }}
           >
             {renderContent()}
           </a>

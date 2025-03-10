@@ -1034,8 +1034,12 @@
         &.#{$ns}Table-table--tableFillHeight {
           > tbody {
             height: calc(
-              var(--Table-content-height) - var(--Table-thead-height)
+              var(--Table-content-height) - var(--Table-thead-height) - 20px
             );
+
+            > tr > td {
+              border-bottom: none;
+            }
           }
         }
       }

@@ -813,6 +813,117 @@ export class BaseCRUDPlugin extends BasePlugin {
             });
           }
         },
+        {
+          type: 'container',
+          visibleOn: 'this.loadType === "more"',
+          body: [
+            {
+              type: 'switch',
+              name: 'pullRefresh.disabled',
+              label: '禁用加载更多',
+              pipeIn: (value: any) => !!value,
+              pipeOut: (value: boolean) => value
+            },
+            {
+              type: 'switch',
+              name: 'pullRefresh.showIcon',
+              label: '显示图标',
+              value: true,
+              visibleOn: '!data.pullRefresh?.disabled'
+            },
+            {
+              type: 'switch',
+              name: 'pullRefresh.showText',
+              label: '显示文本',
+              value: true,
+              visibleOn: '!data.pullRefresh?.disabled'
+            },
+            getSchemaTpl('icon', {
+              name: 'pullRefresh.iconType',
+              label: tipedLabel(
+                '图标类型',
+                '支持 fontawesome v4 图标、iconfont 图标。如需使用 fontawesome v5/v6 版本,需设置 vendor 为空字符串。默认为 loading-outline'
+              ),
+              placeholder: '默认为loading-outline',
+              visibleOn:
+                '!data.pullRefresh?.disabled && data.pullRefresh?.showIcon'
+            }),
+            getSchemaTpl('theme:colorPicker', {
+              name: 'pullRefresh.color',
+              label: '文字和图标颜色',
+              placeholder: '默认为#777777',
+              visibleOn: '!data.pullRefresh?.disabled'
+            }),
+            {
+              type: 'select',
+              name: 'pullRefresh.dataAppendTo',
+              label: '新数据追加位置',
+              options: [
+                {label: '底部', value: 'bottom'},
+                {label: '顶部', value: 'top'}
+              ],
+              value: 'bottom',
+              visibleOn: '!data.pullRefresh?.disabled'
+            },
+            {
+              type: 'input-number',
+              name: 'pullRefresh.minLoadingTime',
+              label: '最短加载时间(ms)',
+              min: 0,
+              step: 100,
+              visibleOn: '!data.pullRefresh?.disabled'
+            },
+            {
+              type: 'select',
+              name: 'pullRefresh.gestureDirection',
+              label: '手势方向',
+              options: [
+                {label: '向上', value: 'up'},
+                {label: '向下', value: 'down'}
+              ],
+              value: 'up',
+              visibleOn: '!data.pullRefresh?.disabled'
+            },
+            {
+              type: 'fieldset',
+              title: '文本配置',
+              visibleOn:
+                '!data.pullRefresh?.disabled && data.pullRefresh?.showText',
+              body: [
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.normalText',
+                  label: '默认文字'
+                },
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.pullingText',
+                  label: '下拉过程文字'
+                },
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.loosingText',
+                  label: '释放刷新文字'
+                },
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.loadingText',
+                  label: '加载中文字'
+                },
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.successText',
+                  label: '加载成功文字'
+                },
+                {
+                  type: 'input-text',
+                  name: 'pullRefresh.contentText.completedText',
+                  label: '加载完成文字'
+                }
+              ]
+            }
+          ]
+        },
         getSchemaTpl('switch', {
           name: 'loadDataOnce',
           label: '前端分页',

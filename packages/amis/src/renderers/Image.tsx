@@ -194,6 +194,10 @@ export interface ImageSchema extends BaseSchema {
     fontFamily?: string;
     color?: string;
   };
+  /**
+   * 蒙层颜色
+   * */
+  maskColor?: string;
 }
 
 export interface ImageThumbProps
@@ -298,7 +302,7 @@ export class ImageThumb extends React.Component<
             alt={alt}
           />
         ) : null}
-        <div className="mask">
+        <div className="mask" style={{background: this.props.maskColor}}>
           <span>{title}</span>
         </div>
         <img
