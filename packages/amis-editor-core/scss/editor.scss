@@ -1314,7 +1314,7 @@
 
   &.layout-content {
     height: 100%;
-    min-height: 30px;
+    min-height: $Editor-placehoder-height;
   }
 
   &.fill-placeholder {
@@ -1337,7 +1337,7 @@
 
 [data-region] {
   position: relative;
-  min-height: 34px;
+  min-height: $Editor-placehoder-height;
 
   &:empty {
     min-width: 20px;
