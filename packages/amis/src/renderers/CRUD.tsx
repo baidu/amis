@@ -1449,7 +1449,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         const rendererEvent = await dispatchEvent?.(
           'research',
           createObject(this.props.data, {
-            responseData: value?.ok ? data ?? {} : value,
+            responseData: value?.ok ? store.data ?? {} : value,
             responseStatus:
               value?.status === undefined ? (error ? 1 : 0) : value?.status,
             responseMsg: msg
@@ -1457,7 +1457,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         );
 
         if (rendererEvent?.prevented) {
-          return;
+          return store.data;
         }
       }
 
