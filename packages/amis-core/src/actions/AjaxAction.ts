@@ -19,6 +19,7 @@ export interface IAjaxAction extends ListenerAction {
     failed: string;
   };
   options?: Record<string, any>;
+
   [propName: string]: any;
 }
 
@@ -31,6 +32,7 @@ export interface IAjaxAction extends ListenerAction {
  */
 export class AjaxAction implements RendererAction {
   fetcherType: string;
+
   constructor(fetcherType: string = 'ajax') {
     this.fetcherType = fetcherType;
   }
@@ -95,6 +97,7 @@ export class AjaxAction implements RendererAction {
       event.setData(
         createObject(event.data, {
           ...responseData, // 兼容历史配置
+          ...event.data,
           responseData: responseData,
           [action.outputVar || 'responseResult']: {
             ...responseData,
@@ -117,16 +120,16 @@ export class AjaxAction implements RendererAction {
             result.msg ??
             result.defaultMsg;
           msg &&
-            env.notify(
-              'success',
-              msg,
-              result.msgTimeout !== undefined
-                ? {
-                    closeButton: true,
-                    timeout: result.msgTimeout
-                  }
-                : undefined
-            );
+          env.notify(
+            'success',
+            msg,
+            result.msgTimeout !== undefined
+              ? {
+                closeButton: true,
+                timeout: result.msgTimeout
+              }
+              : undefined
+          );
         }
       }
 
@@ -140,9 +143,9 @@ export class AjaxAction implements RendererAction {
             e.message,
             result.msgTimeout !== undefined
               ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
+                closeButton: true,
+                timeout: result.msgTimeout
+              }
               : undefined
           );
         } else {
