@@ -96,8 +96,8 @@ export class AjaxAction implements RendererAction {
       // 记录请求返回的数据
       event.setData(
         createObject(event.data, {
-          ...responseData, // 兼容历史配置
           ...event.data,
+          ...responseData, // 兼容历史配置
           responseData: responseData,
           [action.outputVar || 'responseResult']: {
             ...responseData,
