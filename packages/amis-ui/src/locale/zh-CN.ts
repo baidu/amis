@@ -236,6 +236,7 @@ register('zh-CN', {
   'Table.subAddRow': '新增孩子',
   'Table.copyRow': '复制一行',
   'Table.columnsVisibility': '点击选择显示列',
+  'Table.columnsSorting': '拖拽列修改显示顺序',
   'Table.deleteRow': '删除当前行',
   'Table.discard': '放弃',
   'Table.dragTip': '请拖动左边的按钮进行排序',
