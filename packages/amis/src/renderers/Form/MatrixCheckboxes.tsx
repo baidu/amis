@@ -419,13 +419,14 @@ export default class MatrixCheckbox extends React.Component<
       textAlign,
       xCheckAll,
       yCheckAll,
-      testIdBuilder
+      testIdBuilder,
+      mobileUI
     } = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
 
     return (
-      <div className={cx('Table m-b-none', {'is-mobile': isMobile()})}>
+      <div className={cx('Table m-b-none', {'is-mobile': mobileUI})}>
         <div className={cx('Table-content')}>
           <table className={cx('Table-table')}>
             <thead>
