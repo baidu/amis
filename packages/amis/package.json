@@ -48,6 +48,7 @@
     "echarts-wordcloud": "^2.1.0",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.2",
+    "file64": "^1.0.4",
     "hls.js": "1.1.3",
     "hoist-non-react-statics": "^3.3.2",
     "hotkeys-js": "^3.8.7",
