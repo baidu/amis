@@ -3065,14 +3065,15 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       classnames: cx,
       translate: __,
       testIdBuilder,
-      id
+      id,
+      mobileUI
     } = this.props;
 
     return (
       <div
         className={cx('Crud', className, {
           'is-loading': store.loading,
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
         style={style}
         data-id={id}

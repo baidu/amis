@@ -150,7 +150,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
       staticSchema,
       ak,
       coordinatesType,
-      hideViewControl = false
+      hideViewControl = false,
+      mobileUI
     } = this.props;
     const __ = this.props.translate;
 
@@ -161,7 +162,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
     return (
       <div
         className={this.props.classnames('LocationControl', {
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
         ref={this.domRef}
       >
@@ -191,12 +192,12 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @supportStatic()
   render() {
-    const {style, env} = this.props;
+    const {style, env, mobileUI} = this.props;
     const ak = filter(this.props.ak, this.props.data) || env.locationPickerAK!;
     return (
       <div
         className={this.props.classnames('LocationControl', {
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
       >
         <LocationPicker
