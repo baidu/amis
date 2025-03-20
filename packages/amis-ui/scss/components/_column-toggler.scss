@@ -92,6 +92,10 @@
       background: var(--DropDown-menu-borderColor);
       padding: 0;
     }
+
+    > label {
+      margin: 0;
+    }
   }
 
   &-menu:not(.is-mobile) > li {
