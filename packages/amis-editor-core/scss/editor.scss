@@ -421,7 +421,7 @@
   // min-height: 100%;
   width: 100%;
   // height: auto !important;
-  min-height: calc(100% - 46px);
+  min-height: 100%;
 }
 
 .ae-IFramePreview {
@@ -459,9 +459,8 @@
   position: absolute;
   top: -24px;
   left: -2px;
-  z-index: 20;
+  z-index: 199; // 图层需要高于尺寸重置框，不遮挡工具栏按钮提示浮层
   border: 0;
-  padding-right: 8px;
   white-space: nowrap;
   background: $Editor-hlbox--onActive-bg;
   // border-radius: 3px 3px 0px 0px;
@@ -529,7 +528,7 @@
 
 .ae-Editor-toolbar {
   position: relative;
-  padding-left: 8px;
+  padding: 0 8px;
   display: inline-flex !important;
   pointer-events: all;
   align-items: center;
@@ -713,6 +712,11 @@
     background: rgba($Editor-hlbox--onActive-bg, 0.05);
     border: 2px solid $Editor-hlbox--onActive-bg;
 
+    &[draggable='true'] {
+      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      cursor: move;
+    }
+
     .ae-Editor-toolbar {
       background: $Editor-hlbox--onActive-bg;
 
@@ -748,10 +752,10 @@
     // 自由容器的直接子元素拖拽剔除过渡
     transition: none !important;
 
-    &.selected {
-      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
-      cursor: move;
-    }
+    // &.selected {
+    //   pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+    //   cursor: move;
+    // }
   }
 
   .ae-Editor-toolbar {
@@ -1239,10 +1243,22 @@
   cursor: move;
 }
 
-[data-editor-id].ae-is-draging,
-.ae-is-draging {
-  // opacity: 0.6;
-  display: none; // 有 ghost 了，这个不应该显示
+[data-editor-id].ae-is-draging {
+  position: relative !important;
+  pointer-events: none;
+
+  &:before {
+    pointer-events: none;
+    content: '';
+    z-index: 10;
+    background: rgba(10, 19, 37, 0.15);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 [data-editor-id][data-visible='false'] {
@@ -1298,7 +1314,7 @@
 
   &.layout-content {
     height: 100%;
-    min-height: 88px;
+    min-height: $Editor-placehoder-height;
   }
 
   &.fill-placeholder {
@@ -1314,12 +1330,14 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
+    flex-grow: 1;
   }
 }
 
 [data-region] {
   position: relative;
-  min-height: 34px;
+  min-height: $Editor-placehoder-height;
 
   &:empty {
     min-width: 20px;
@@ -1352,68 +1370,68 @@
     display: none;
   }
 
-  &.is-dragenter > [data-editor-id],
-  &.is-dragenter > *:not([data-editor-id]) > [data-editor-id] {
-    position: relative;
+  //   &.is-dragenter > [data-editor-id],
+  //   &.is-dragenter > *:not([data-editor-id]) > [data-editor-id] {
+  //     position: relative;
 
-    &::before {
-      position: absolute;
-      content: '';
-      pointer-events: none;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      z-index: 10;
-      background: rgba($Editor-rgion-bg, 0.05);
-      border: 1px solid rgba($Editor-rgion-bg, 0.2);
-      -webkit-backdrop-filter: blur(0.5px);
-      backdrop-filter: blur(0.5px);
-      filter: blur(0.5px);
-    }
-  }
+  //     &::before {
+  //       position: absolute;
+  //       content: '';
+  //       pointer-events: none;
+  //       top: -1px;
+  //       left: -1px;
+  //       right: -1px;
+  //       bottom: -1px;
+  //       z-index: 10;
+  //       background: rgba($Editor-rgion-bg, 0.05);
+  //       border: 1px solid rgba($Editor-rgion-bg, 0.2);
+  //       -webkit-backdrop-filter: blur(0.5px);
+  //       backdrop-filter: blur(0.5px);
+  //       filter: blur(0.5px);
+  //     }
+  //   }
 
-  &.is-dragenter > span[data-editor-id] {
-    display: inline-block;
-  }
+  //   &.is-dragenter > span[data-editor-id] {
+  //     display: inline-block;
+  //   }
 
-  &.is-entering:not(.is-dragenter) {
-    position: relative;
+  //   &.is-entering:not(.is-dragenter) {
+  //     position: relative;
 
-    &::before {
-      z-index: 10;
-      content: '';
-      position: absolute;
-      pointer-events: none;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      animation: growing 1s infinite linear;
-      // transform: translate3d(0, 0, 0);
-    }
+  //     &::before {
+  //       z-index: 10;
+  //       content: '';
+  //       position: absolute;
+  //       pointer-events: none;
+  //       left: 0;
+  //       top: 0;
+  //       right: 0;
+  //       bottom: 0;
+  //       animation: growing 1s infinite linear;
+  //       // transform: translate3d(0, 0, 0);
+  //     }
 
-    &::after {
-      z-index: 20;
-      content: '保持3s不动切换';
-      pointer-events: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 10%;
-      background: $Editor-theme;
-      border-radius: 5px;
-      font-size: 12px;
-      color: #fff;
-      padding: 2px 5px;
-    }
-  }
+  //     &::after {
+  //       z-index: 20;
+  //       content: '保持3s不动切换';
+  //       pointer-events: none;
+  //       position: absolute;
+  //       left: 50%;
+  //       transform: translateX(-50%);
+  //       top: 10%;
+  //       background: $Editor-theme;
+  //       border-radius: 5px;
+  //       font-size: 12px;
+  //       color: #fff;
+  //       padding: 2px 5px;
+  //     }
+  //   }
 }
 
-[data-renderer='switch-container'],
-[data-renderer='container'] {
-  min-height: 0;
-}
+// [data-renderer='switch-container'],
+// [data-renderer='container'] {
+//   min-height: 0;
+// }
 
 // 移动端有问题，先注释了
 
@@ -1636,30 +1654,42 @@ div.ae-DragImage {
 .ae-DragGhost {
   margin-bottom: 12px;
 
-  > * {
-    // opacity: 0.6;
-    position: relative;
+  // > * {
+  //   // opacity: 0.6;
+  //   position: relative;
 
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: 10;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      min-width: 100%;
-      min-height: 100%;
-      background: rgba($Editor-rgion-bg, 0.2);
-      border: 1px solid $Editor-rgion-bg;
-    }
+  //   &::before {
+  //     content: '';
+  //     position: absolute;
+  //     z-index: 10;
+  //     top: -1px;
+  //     left: -1px;
+  //     right: -1px;
+  //     bottom: -1px;
+  //     min-width: 100%;
+  //     min-height: 100%;
+  //     background: rgba($Editor-rgion-bg, 0.2);
+  //     border: 1px solid $Editor-rgion-bg;
+  //   }
+  // }
+
+  --ae-DragGhost-size: 3px;
+
+  &.use-indicator {
+    position: absolute;
+    background: $Editor-rgion-bg;
+    display: inline-block;
+    z-index: 5;
+    height: var(--ae-DragGhost-size);
+    width: var(--ae-DragGhost-size);
+    // transition: all 0.15s ease-out;
   }
 
   &.use-position {
     display: inline-block;
     position: absolute;
     background: $Editor-rgion-bg;
-    height: 5px;
+    height: var(--ae-DragGhost-size);
     width: 100%;
     z-index: 5;
 
@@ -1668,7 +1698,7 @@ div.ae-DragImage {
     }
 
     &.is-horizontal {
-      width: 5px;
+      width: var(--ae-DragGhost-size);
       height: 100%;
     }
   }

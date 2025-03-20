@@ -26,7 +26,13 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
    */
   @autobind
   renderChild(region: string, node: Schema, props: any) {
-    const {render, $$editor, $$node} = this.props;
+    const {render, $$editor, $$node, $schema} = this.props;
+
+    if (
+      $$editor.regions?.find(item => item.key === region)?.hiddenOn?.($schema)
+    ) {
+      return null;
+    }
 
     const child = render(region, node, props);
 
@@ -83,22 +89,22 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
         }
 
         let defaultRegion: any[] = [];
-        /**
-         * form表单的按钮组特殊处理
-         * 原因：确保编辑态也显示默认的提交按钮
-         */
-        if (
-          key === 'actions' &&
-          (typeof rest.submitText === 'undefined' || rest.submitText)
-        ) {
-          defaultRegion = [
-            {
-              type: 'submit',
-              label: rest.submitText || '提交',
-              primary: true
-            }
-          ];
-        }
+        // /**
+        //  * form表单的按钮组特殊处理
+        //  * 原因：确保编辑态也显示默认的提交按钮
+        //  */
+        // if (
+        //   key === 'actions' &&
+        //   (typeof rest.submitText === 'undefined' || rest.submitText)
+        // ) {
+        //   defaultRegion = [
+        //     {
+        //       type: 'submit',
+        //       label: rest.submitText || '提交',
+        //       primary: true
+        //     }
+        //   ];
+        // }
 
         let region = Array.isArray(rest[key])
           ? rest[key]

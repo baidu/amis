@@ -564,8 +564,9 @@ export function wrapFetcher(
         api = (await adaptor.call(api, api, context)) || api;
 
         if (
-          api.query !== originQuery ||
-          (isPlainObject(api.query) && !isEqual(api.query, originQueryCopy))
+          typeof api.url === 'string' &&
+          (api.query !== originQuery ||
+            (isPlainObject(api.query) && !isEqual(api.query, originQueryCopy)))
         ) {
           // 如果 api.data 有变化，且是 get 请求，那么需要重新构建 url
           const idx = api.url.indexOf('?');

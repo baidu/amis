@@ -30,24 +30,24 @@ export class BasicToolbarPlugin extends BasePlugin {
     const parent = store.getSchemaParentById(id);
     const draggableContainer = this.manager.draggableContainer(id);
     // 判断是否为吸附容器
-    const isSorptionContainer = schema?.isSorptionContainer || false;
+    // const isSorptionContainer = schema?.isSorptionContainer || false;
     // let vertical = true;
     const regionNode = node.parent as EditorNodeType; // 父级节点
     if ((Array.isArray(parent) && regionNode?.isRegion) || draggableContainer) {
       const host = node.host as EditorNodeType;
 
-      if ((node.draggable || draggableContainer) && !isSorptionContainer) {
-        toolbars.push({
-          id: 'drag',
-          iconSvg: 'drag-btn',
-          icon: 'fa fa-arrows',
-          tooltip: '按住拖动调整位置',
-          placement: 'bottom',
-          draggable: true,
-          order: -1000,
-          onDragStart: this.manager.startDrag.bind(this.manager, id)
-        });
-      }
+      // if ((node.draggable || draggableContainer) && !isSorptionContainer) {
+      //   toolbars.push({
+      //     id: 'drag',
+      //     iconSvg: 'drag-btn',
+      //     icon: 'fa fa-arrows',
+      //     tooltip: '按住拖动调整位置',
+      //     placement: 'bottom',
+      //     draggable: true,
+      //     order: -1000,
+      //     onDragStart: this.manager.startDrag.bind(this.manager, id)
+      //   });
+      // }
 
       const idx = parent?.indexOf(schema);
 

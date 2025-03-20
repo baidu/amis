@@ -1,0 +1,51 @@
+.#{$ns}HorizontalScroll-wrapper {
+  .#{$ns}HorizontalScroll {
+    &-Container {
+      display: flex;
+      max-width: 100%;
+    }
+    &-Container-main {
+      flex: 1 1 auto;
+      scrollbar-width: none;
+      max-width: calc(100% - 64px);
+      position: relative;
+    }
+
+    &-arrow {
+      flex: 0 0 16px;
+      height: 100%;
+      cursor: pointer;
+      box-sizing: content-box;
+
+      .icon {
+        top: 0;
+        width: var(--Remark-icon-fontSize);
+        height: var(--Remark-icon-fontSize);
+      }
+
+      &:hover {
+        color: var(--icon-onHover-color);
+      }
+
+      &--left {
+        margin-right: 16px;
+        .icon {
+          transform: rotate(180deg);
+        }
+      }
+      &--right {
+        margin-left: 16px;
+      }
+      &--disabled {
+        .iconfont {
+          cursor: not-allowed;
+          color: var(--Number-handler-onDisabled-color);
+        }
+
+        &:hover {
+          color: var(--Number-handler-onDisabled-color);
+        }
+      }
+    }
+  }
+}

@@ -123,7 +123,16 @@ export interface RegionConfig {
   /**
    * 可以用来判断是否允许拖入当前节点。
    */
-  accept?: (json: any) => boolean;
+  accept?: (
+    json: any,
+    node: EditorNodeType,
+    dragNode?: EditorNodeType
+  ) => boolean;
+
+  /**
+   * 当前区域是否隐藏
+   */
+  hiddenOn?: (schema: Schema) => boolean;
 }
 
 export interface VRendererConfig {

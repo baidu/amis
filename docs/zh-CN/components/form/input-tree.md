@@ -1364,7 +1364,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 ## 虚拟列表
 
-> 6.9.0 以上版本, 开启 heightAuto 后，虚拟列表将自适应高度
+> 6.9.0 以上版本, 若设置 固定高度 时，虚拟列表将自适应高度
 
 ```schema: scope="body"
 {
@@ -1375,15 +1375,15 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
         "direction": "column",
         "isFixedHeight": true,
         "style": {
-          "height": "300px"
+          "height": "300px",
+          "paddingRight": "10px"
         },
         "items": [
           {
             "type": "input-tree",
             "id": "tree",
             "name": "tree",
-            "label": false,
-            "heightAuto": true,
+            "label": "Tree",
             "virtualThreshold": 5,
             "options": [
               {
@@ -1453,7 +1453,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
     "body": [
       {
         "type": "tpl",
-        "tpl": "开启heightAuto后，设置tree的高度，虚拟列表将自适应"
+        "tpl": "设置 tree 为固定高度时，虚拟列表将自适应"
       }
     ]
 }
@@ -1529,7 +1529,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 编辑节点提交时触发           |
 | deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 删除节点提交时触发           |
 | deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合                                                                                                                                                                          | 懒加载接口远程请求成功时触发 |
-| itemClick (6.9.0 以上版本)           | `value: any`表单项的值，值格式取决于具体配置<br/>`item: object` 点击的节点信息                                                                                                                                                                                                                 | 节点点击时触发               |
+| itemClick (6.9.0 以上版本)           | `item: Option` 所点击的选项 息                                                                                                                                                                                                                                                                 | 节点点击时触发               |
 | add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 新增节点提交时触发           |
 | edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 编辑节点提交时触发           |
 | delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 删除节点提交时触发           |
@@ -1838,7 +1838,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
               {
                 "actionType": "toast",
                 "args": {
-                  "msg": "${event.data.tree|json}"
+                  "msg": "${event.data.item|json}"
                 }
               }
             ]

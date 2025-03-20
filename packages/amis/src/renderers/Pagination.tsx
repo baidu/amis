@@ -127,6 +127,7 @@ export default class Pagination extends React.Component<PaginationProps> {
 
   render() {
     const {maxButtons, activePage, total, perPage} = this.props;
+
     return (
       <BasicPagination
         {...this.props}

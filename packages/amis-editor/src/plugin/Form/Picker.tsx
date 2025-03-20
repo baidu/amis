@@ -338,7 +338,7 @@ export class PickerControlPlugin extends BasePlugin {
               {
                 label: '弹框尺寸',
                 type: 'select',
-                name: 'size',
+                name: 'modalSize',
                 pipeIn: defaultValue(''),
                 visibleOn: '${modalMode !== "inner"}',
                 options: [

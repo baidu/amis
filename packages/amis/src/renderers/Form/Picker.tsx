@@ -68,6 +68,11 @@ export interface PickerControlSchema extends FormOptionsSchema {
   modalMode?: 'dialog' | 'drawer';
 
   /**
+   * 弹窗的尺寸，可选值为 'sm'、'md'、'lg'、'xl'
+   */
+  modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  /**
    * 弹窗的标题，默认为情选择
    */
   modalTitle?: string;
@@ -110,6 +115,7 @@ export interface PickerControlSchema extends FormOptionsSchema {
 
 export interface PickerProps extends OptionsControlProps {
   modalMode: 'dialog' | 'drawer';
+  modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   pickerSchema: PlainObject;
   labelField: string;
 }
@@ -127,6 +133,7 @@ export default class PickerControl extends React.PureComponent<
   static propsList: Array<string> = [
     'modalTitle',
     'modalMode',
+    'modalSize',
     'pickerSchema',
     'labelField',
     'onChange',
@@ -297,12 +304,12 @@ export default class PickerControl extends React.PureComponent<
     this.crud = ref;
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     if (this.crud) {
-      this.crud.search();
+      this.crud.reload(subpath, query);
     } else {
       const reload = this.props.reloadOptions;
-      reload && reload();
+      reload && reload(subpath, query);
     }
   }
 
@@ -756,7 +763,7 @@ export default class PickerControl extends React.PureComponent<
       render,
       modalMode,
       source,
-      size,
+      modalSize,
       clearable,
       multiple,
       placeholder,
@@ -860,7 +867,7 @@ export default class PickerControl extends React.PureComponent<
                   modalTitle && typeof modalTitle === 'string'
                     ? filter(modalTitle, data)
                     : __('Select.placeholder'),
-                size: size,
+                size: modalSize,
                 type: modalMode,
                 className: modalClassName,
                 body: {

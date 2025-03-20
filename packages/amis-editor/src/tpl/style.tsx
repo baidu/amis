@@ -257,6 +257,52 @@ const animationOptions = {
       label: '橡皮筋'
     }
   ],
+  hover: [
+    {
+      label: '放大效果',
+      value: 'hoverZoomIn'
+    },
+    {
+      label: '缩小效果',
+      value: 'hoverZoomOut'
+    },
+    {
+      label: '向上滑动',
+      value: 'hoverUp'
+    },
+    {
+      label: '向下滑动',
+      value: 'hoverDown'
+    },
+    {
+      label: '向左滑动',
+      value: 'hoverLeft'
+    },
+    {
+      label: '向右滑动',
+      value: 'hoverRight'
+    },
+    {
+      label: '阴影增强',
+      value: 'hoverShadow'
+    },
+    {
+      label: '发光边框',
+      value: 'hoverBorder'
+    },
+    {
+      label: '内容翻转',
+      value: 'hoverFlip'
+    },
+    {
+      label: '闪烁',
+      value: 'hoverFlash'
+    },
+    {
+      label: '抖动',
+      value: 'hoverShake'
+    }
+  ],
   exit: [
     {
       label: '淡出',
@@ -1366,6 +1412,10 @@ setSchemaTpl('animation', () => {
     const el = doc.querySelector(`[name="${id}"]`);
     id = formateId(id);
     const className = `${animations[type].type}-${id}-${type}`;
+    if (type === 'hover') {
+      el?.classList.add(`amis-${animations[type].type}-show`);
+      el?.classList.add(`${animations[type].type}-${id}-hover-show`);
+    }
     el?.classList.add(className);
     createAnimationStyle(id, animations);
 
@@ -1384,6 +1434,10 @@ setSchemaTpl('animation', () => {
 
     timeoutId = setTimeout(() => {
       el?.classList.remove(className);
+      if (type === 'hover') {
+        el?.classList.remove(`amis-${animations[type].type}-show`);
+        el?.classList.remove(`${animations[type].type}-${id}-hover-show`);
+      }
 
       if (highlightDom) {
         const editorId = el?.getAttribute('data-editor-id');
@@ -1398,7 +1452,7 @@ setSchemaTpl('animation', () => {
     }, ((animations[type].duration || 1) + (animations[type].delay || 0)) * 1000 + 200);
   }
   const animation = (
-    type: 'enter' | 'attention' | 'exit',
+    type: 'enter' | 'attention' | 'hover' | 'exit',
     label: string,
     schema: any = []
   ) => [
@@ -1569,6 +1623,22 @@ setSchemaTpl('animation', () => {
               value: i
             })),
             {label: '无限', value: 'infinite'}
+          ]
+        }
+      ]),
+      ...animation('hover', '悬浮动画', [
+        {
+          label: '重复',
+          type: 'select',
+          name: 'animations.hover.repeat',
+          value: '2',
+          visibleOn:
+            'animations.hover.type =="hoverFlash" || animations.hover.type =="hoverShake"',
+          options: [
+            ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => ({
+              label: i,
+              value: i
+            }))
           ]
         }
       ]),

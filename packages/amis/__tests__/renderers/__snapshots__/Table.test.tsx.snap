@@ -6631,8 +6631,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -6748,88 +6753,104 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Functionality Technician
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            nisi ex eum
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Functionality Technician
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                nisi ex eum
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          District Applications Specialist
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ipsam ratione voluptas
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              District Applications Specialist
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ipsam ratione voluptas
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Future Operations Manager
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ducimus fugit debitis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Future Operations Manager
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ducimus fugit debitis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Dynamic Solutions Associate
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            saepe consequatur aut
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Dynamic Solutions Associate
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                saepe consequatur aut
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -6874,8 +6895,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -6991,208 +7017,236 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Dynamic Assurance Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ea ullam voluptates
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Dynamic Assurance Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ea ullam voluptates
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Internal Division Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            illum deleniti qui
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Internal Division Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                illum deleniti qui
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          International Usability Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sit voluptatem quia
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              International Usability Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sit voluptatem quia
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Lead Optimization Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            autem et blanditiis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Lead Optimization Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                autem et blanditiis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="4"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Future Division Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            dolor cupiditate sint
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Future Division Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                dolor cupiditate sint
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="5"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Program Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            quia distinctio voluptas
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Program Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                quia distinctio voluptas
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="6"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Human Implementation Technician
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            consequatur quaerat ullam
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Human Implementation Technician
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                consequatur quaerat ullam
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="7"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          National Identity Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ipsa et reiciendis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              National Identity Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ipsa et reiciendis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="8"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Regional Factors Planner
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed deserunt natus
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Regional Factors Planner
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed deserunt natus
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="9"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Human Data Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            rerum consequatur odit
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Human Data Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                rerum consequatur odit
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -7237,8 +7291,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -7353,168 +7412,192 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Corporate Metrics Liason
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            aspernatur natus qui
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Corporate Metrics Liason
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                aspernatur natus qui
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Central Paradigm Analyst
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sequi numquam ad
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Central Paradigm Analyst
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sequi numquam ad
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          International Data Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed libero eum
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              International Data Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed libero eum
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Optimization Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            officiis accusantium dolorem
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Optimization Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                officiis accusantium dolorem
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="4"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Senior Metrics Executive
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            commodi sint quod
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Senior Metrics Executive
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                commodi sint quod
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="5"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Corporate Quality Facilitator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            aut aperiam est
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Corporate Quality Facilitator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                aut aperiam est
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="6"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Operations Producer
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed corporis eaque
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Operations Producer
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed corporis eaque
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="7"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          National Integration Analyst
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            quasi ab cumque
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              National Integration Analyst
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                quasi ab cumque
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

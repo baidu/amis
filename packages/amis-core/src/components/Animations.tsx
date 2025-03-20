@@ -108,19 +108,29 @@ function Animations({
   }
 
   const handleEntered = useCallback((node: HTMLElement) => {
-    const {attention, exit, enter} = schema.animations || {};
+    const {attention, exit, enter, hover} = schema.animations || {};
     if (attention) {
       node.classList.add(`${attention.type}-${id}-attention`);
     }
+
+    if (hover) {
+      node.classList.add(`${hover.type}-${id}-hover`);
+      node.classList.add(`amis-${hover.type}`);
+    }
+
     if (exit?.outView || enter?.repeat) {
       observer.observe(node);
     }
   }, []);
 
   const handleExit = useCallback((node: HTMLElement) => {
-    const {attention} = schema.animations || {};
+    const {attention, hover} = schema.animations || {};
     if (attention) {
       node.classList.remove(`${attention.type}-${id}-attention`);
+    }
+    if (hover) {
+      node.classList.remove(`${hover.type}-${id}-hover`);
+      node.classList.remove(`amis-${hover.type}`);
     }
   }, []);
 

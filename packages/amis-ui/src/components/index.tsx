@@ -140,11 +140,16 @@ import type CodeMirror from 'codemirror';
 import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
+import Slider from './Slider';
 
 import Shape from './Shape';
 import type {IShapeType} from './Shape';
 import MobileDevTool from './MobileDevTool';
+import DropdownContextMenus from './DropdownContextMenus';
+import {HorizontalScroll} from './HorizontalScroll';
+import type {HorizontalScrollProps} from './HorizontalScroll';
 
+import AlphabetIndexer from './AlphabetIndexer';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -287,5 +292,10 @@ export {
   VerificationCode,
   Shape,
   IShapeType,
-  MobileDevTool
+  MobileDevTool,
+  DropdownContextMenus,
+  AlphabetIndexer,
+  Slider,
+  HorizontalScroll,
+  HorizontalScrollProps
 };

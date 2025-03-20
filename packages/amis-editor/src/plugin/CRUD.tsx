@@ -587,8 +587,8 @@ export class CRUDPlugin extends BasePlugin {
         {
           type: 'button',
           label: '格式校验并自动生成列配置',
-          className: 'm-t-xs m-b-xs',
-          visibleOn: '!!this.api.url',
+          className: 'm-b-sm',
+          visibleOn: '${api.url || api && ISTYPE(api, "string")}',
           onClick: async (e: Event, props: any) => {
             const data = props.data;
             const schemaFilter = getEnv(
@@ -628,12 +628,6 @@ export class CRUDPlugin extends BasePlugin {
               props.formStore.setValues({
                 columns: autoFillKeyValues
               });
-              // 查询条件的字段列表
-              props.formStore.setValues({
-                filterSettingSource: autoFillKeyValues.map(column => {
-                  return column.name;
-                })
-              });
             } else {
               toast.warning(
                 'API返回格式不正确，请点击接口地址右侧示例查看CRUD数据接口结构要求'
@@ -667,7 +661,8 @@ export class CRUDPlugin extends BasePlugin {
               label: '启用的查询字段',
               name: 'filterEnabledList',
               joinValues: false,
-              source: '${filterSettingSource}'
+              source:
+                '${ARRAYMAP(ARRAYFILTER(columns, item => item.name), item => ({label: item.label || item.name, value: item.name}))}'
             },
             {
               columnRatio: 2,
@@ -1636,6 +1631,50 @@ export class CRUDPlugin extends BasePlugin {
             ]
           },
 
+          {
+            type: 'switch',
+            name: 'showIndexBar',
+            label: '显示索引条',
+            visibleOn: 'this.mode === "list"',
+            pipeIn: defaultValue(false),
+            onChange: (
+              value: boolean,
+              oldValue: boolean,
+              model: any,
+              form: any
+            ) => {
+              if (value) {
+                form.setValueByName('indexBarOffset', 0);
+                form.setValueByName('indexField', 'title');
+              }
+            }
+          },
+
+          {
+            type: 'container',
+            visibleOn: 'this.mode === "list" && this.showIndexBar',
+            body: [
+              {
+                type: 'input-number',
+                name: 'indexBarOffset',
+                label: '顶部偏移量',
+                value: 0,
+                min: 0,
+                max: 200,
+                unit: 'px',
+                description: '点击索引条跳转时，与顶部保持的距离'
+              },
+              {
+                type: 'input-text',
+                name: 'indexField',
+                label: '索引字段',
+                value: 'title',
+                placeholder: '请输入索引字段名',
+                description: '根据指定字段的首字母进行索引，默认使用 title 字段'
+              }
+            ]
+          },
+
           getSchemaTpl('combo-container', {
             name: 'headerToolbar',
             type: 'combo',
@@ -2045,7 +2084,98 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('className', {
             name: 'bodyClassName',
             label: '内容 CSS 类名'
-          })
+          }),
+
+          {
+            type: 'container',
+            visibleOn: `this.headerToolbar && this.headerToolbar.some(item => item === 'load-more' || item.type === 'load-more') ||
+                      this.footerToolbar && this.footerToolbar.some(item => item === 'load-more' || item.type === 'load-more')`,
+            body: [
+              {
+                type: 'group',
+                body: [
+                  {
+                    name: 'loadMoreProps.showIcon',
+                    label: '显示图标',
+                    type: 'switch',
+                    value: true
+                  },
+                  {
+                    name: 'loadMoreProps.showText',
+                    label: '显示文本',
+                    type: 'switch',
+                    value: true
+                  }
+                ]
+              },
+              getSchemaTpl('icon', {
+                name: 'loadMoreProps.iconType',
+                label: tipedLabel(
+                  '图标类型',
+                  '支持 fontawesome v4 图标、iconfont 图标。如需使用 fontawesome v5/v6 版本,需设置 vendor 为空字符串。默认为 loading-outline'
+                ),
+                value: 'loading-outline',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showIcon'
+              }),
+              {
+                name: 'loadMoreProps.minLoadingTime',
+                type: 'input-number',
+                label: tipedLabel(
+                  '最小加载时间',
+                  '指定加载时显示loading的最小时间(毫秒)'
+                ),
+                value: 0
+              },
+              {
+                name: 'loadMoreProps.dataAppendTo',
+                type: 'select',
+                label: tipedLabel(
+                  '数据追加方式',
+                  '指定新加载的数据追加到已有数据的位置'
+                ),
+                value: 'bottom',
+                options: [
+                  {
+                    label: '追加到底部',
+                    value: 'bottom'
+                  },
+                  {
+                    label: '追加到顶部',
+                    value: 'top'
+                  }
+                ]
+              },
+              {
+                type: 'group',
+                label: '文本配置',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showText',
+                body: [
+                  {
+                    name: 'loadMoreProps.contentText.contentdown',
+                    label: '加载前',
+                    type: 'input-text',
+                    value: '点击加载更多'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentrefresh',
+                    label: '加载中',
+                    type: 'input-text',
+                    value: '加载中...'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentnomore',
+                    label: '加载完成',
+                    type: 'input-text',
+                    value: '没有更多数据了'
+                  }
+                ]
+              },
+              getSchemaTpl('theme:colorPicker', {
+                name: 'loadMoreProps.color',
+                label: '文字颜色'
+              })
+            ]
+          }
         ]
       },
 
@@ -2297,7 +2427,7 @@ export class CRUDPlugin extends BasePlugin {
     const {$$editor, style, ...rest} = props;
     const renderer = $$editor.renderer;
     return (
-      <div className="ae-CRUDEditor" style={style}>
+      <div className="ae-CRUDEditor" style={style} data-role="container">
         {this.renderEditableComponents(props)}
         <renderer.component $$editor={$$editor} {...rest} />
       </div>

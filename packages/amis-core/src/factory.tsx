@@ -261,8 +261,17 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     );
   } else if (exists) {
     // 如果已经存在，合并配置，并用合并后的配置
-    Object.assign(exists, config);
-    renderer = exists;
+    renderer = Object.assign(exists, config);
+    // 如果已存在的配置有占位组件，并且新的配置是异步渲染器，在把占位组件删除
+    // 避免遇到设置了 visibleOn/hiddenOn 条件的 Schema 无法渲染的问题
+    if (
+      exists.component === Placeholder &&
+      !config.component &&
+      config.getComponent
+    ) {
+      delete renderer.component;
+      delete renderer.Renderer;
+    }
   }
 
   renderer.weight = renderer.weight || 0;

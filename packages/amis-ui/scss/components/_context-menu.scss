@@ -57,10 +57,11 @@
     position: absolute;
 
     margin: 0;
-    padding: 4px 0;
+    padding: var(--menu-padding);
 
     background: var(--menu-background);
     box-shadow: var(--menu-box-shadow);
+    border-radius: var(--Context-menu-border-radius);
 
     color: var(--menu-font-color);
     font-family: var(--menu-font-family);
@@ -89,16 +90,24 @@
     > a {
       white-space: nowrap;
       display: block;
-      padding: var(--default-padding);
-      color: inherit;
+      padding: var(--menu-font-padding);
+      font-size: var(--menu-font-size);
+      color: var(--menu-font-color);
       border-top: none;
       border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      > i {
+        font-size: 12px;
+      }
     }
 
     &:not(.is-disabled):hover > a {
       text-decoration: none;
-      color: var(--menu-active-color);
-      background: var(--menu-hover-bg-color);
+      background: var(--Context-menu-hover-bg-color);
+      border-radius: var(--Context-menu-border-radius);
+      color: var(--Context-menu-hover-color);
       cursor: pointer;
       border-top: none;
       border-bottom: none;
@@ -109,23 +118,27 @@
       pointer-events: none;
     }
 
-    &.has-child > a::after {
-      content: '';
-      width: 0;
-      height: 0;
-      border-width: 4px 7px;
-      border-style: solid;
-      border-color: transparent transparent transparent
-        var(--default-icon-color);
-      text-shadow: var(--menu-box-shadow);
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
+    &.is-active > a {
+      color: var(--Context-menu-active-color);
     }
 
-    &.has-child:hover > a::after {
-      border-color: transparent transparent transparent var(--menu-active-color);
+    &.has-child {
+      &::after {
+        position: absolute;
+        content: '';
+        width: 12px;
+        position: absolute;
+        right: -12px;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+
+    &.is-danger {
+      > a {
+        color: var(--danger-color);
+      }
     }
   }
 
@@ -141,43 +154,28 @@
 
   &-item:hover > &-subList {
     display: block;
+    min-width: var(--menu-min-width);
     animation-duration: var(--animation-duration);
     animation-fill-mode: both;
     animation-name: contextMenuIn;
     position: absolute;
-    left: 100%; // calc(100% + 3px);
+    left: calc(100% + 8px);
     top: -3px;
-    min-width: var(--menu-sub-min-width);
-
     margin: 0;
-    padding: 0;
-
+    padding: var(--menu-padding);
     background: var(--menu-background);
     box-shadow: var(--menu-box-shadow);
-    border-radius: var(--menu-border-radius);
+    border-radius: var(--Context-menu-border-radius);
 
-    color: var(--menu-font-color);
+    color: var(--Context-menu-hover-color);
     font-family: var(--menu-font-family);
     font-size: 12px;
     line-height: 20px;
+    max-height: 500px;
+    overflow-y: auto;
 
     &:hover {
       display: block;
-    }
-
-    // 附加的边框线
-    &::before {
-      display: block;
-      position: absolute;
-      content: '';
-      top: -1px;
-      left: -1px;
-      bottom: -1px;
-      right: -1px;
-
-      border-radius: var(--menu-border-radius);
-      border: 1px solid var(--menu-border-color);
-      z-index: -1;
     }
   }
 

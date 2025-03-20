@@ -86,6 +86,7 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('dblclick', this.handleDBClick, true);
     currentDom.addEventListener('mouseover', this.handeMouseOver);
     currentDom.addEventListener('mousedown', this.handeMouseDown);
+    currentDom.addEventListener('submit', this.handleSubmit);
     this.props.manager.on('after-update', this.handlePanelChange);
   }
 
@@ -98,6 +99,7 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('dblclick', this.handleDBClick, true);
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
+      currentDom.removeEventListener('submit', this.handleSubmit);
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }
@@ -158,6 +160,9 @@ export default class Preview extends Component<PreviewProps> {
   handlePanelChange() {
     if (this.layer && this.scrollLayer) {
       requestAnimationFrame(() => {
+        if (!this.layer) {
+          return;
+        }
         this.layer!.style.cssText += `transform: translate(0, -${
           this.scrollLayer!.scrollTop
         }px);`;
@@ -186,9 +191,12 @@ export default class Preview extends Component<PreviewProps> {
       (e.button === 1 && window.event !== null) || e.button === 0;
     if (!this.props.editable || !isLeftButton || e.defaultPrevented) return;
 
+    // todo highlight 改成可拖拽后，框选逻辑异常了，需要修复
+    const store = this.props.store;
     if (
       e.defaultPrevented ||
-      (e.target as HTMLElement)?.closest('[draggable]')
+      (e.target as HTMLElement)?.closest('[draggable]') ||
+      store.activeElement
     ) {
       return;
     }
@@ -234,7 +242,7 @@ export default class Preview extends Component<PreviewProps> {
         h: Math.abs(h)
       };
 
-      if (rect.w < 10 && rect.h < 10) {
+      if (Math.hypot(w, h) < 10) {
         return;
       }
 
@@ -304,13 +312,18 @@ export default class Preview extends Component<PreviewProps> {
 
     // 处于编辑态时，不响应点击事件
     if (store.activeElement) {
+      // 同时阻止渲染器里面的 click 事件
+      e.preventDefault();
       return;
     }
 
-    const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
-
-    if ((e.target as HTMLElement).closest('.ae-editor-action-btn')) {
+    if (
+      (e.target as HTMLElement).closest(
+        '.ae-editor-action-btn,.ae-Editor-toolbarPopover '
+      )
+    ) {
       // 设计器内容区中允许点击的元素，比如：回到顶部功能按钮。
+      // 或者高亮区的操作按钮
       return;
     }
 
@@ -319,30 +332,35 @@ export default class Preview extends Component<PreviewProps> {
       return;
     }
 
-    if (target) {
-      const curActiveId = target.getAttribute('data-editor-id');
-      let curRegion: string = '';
+    const target = (e.target as HTMLElement).closest(
+      `[data-editor-id],[data-hlbox-id]`
+    );
 
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curActiveId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curRegion = targetRegion.getAttribute('data-region')!;
-        }
-      }
+    if (target?.matches('[data-editor-id]')) {
+      const curActiveId = target.getAttribute('data-editor-id');
 
       e.metaKey
         ? this.props.manager.toggleSelection(curActiveId!)
-        : store.setActiveId(curActiveId!, curRegion);
+        : store.setActiveId(curActiveId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      const id = target.getAttribute('data-hlbox-id')!;
+      const {x, y} = this.getElementPoint(e);
+      let elements = store.getDoc().elementsFromPoint(x, y);
+
+      let node = elements.find(
+        (ele: Element) =>
+          ele.hasAttribute('data-editor-id') &&
+          ele.getAttribute('data-editor-id') !== id &&
+          !ele.querySelector(`[data-editor-id="${id}"]`)
+      );
+      if (node) {
+        const nodeId = node.getAttribute('data-editor-id')!;
+        // 如果已经进入了内联模式
+        // 不要再切选中了
+        setTimeout(() => {
+          store.activeElement || store.setActiveId(nodeId);
+        }, 350);
+      }
     }
 
     if (!this.layer?.contains(e.target as HTMLElement) && this.props.editable) {
@@ -369,21 +387,7 @@ export default class Preview extends Component<PreviewProps> {
       // 自由容器里面的高亮区域是可以点击的
       // 当点击来自高亮区域时，需要根据位置计算出组件上点击的元素
       if (hlbox) {
-        let x = e.clientX;
-        let y = e.clientY;
-
-        const layer: HTMLElement = store.getLayer()!;
-        const layerRect = layer.getBoundingClientRect();
-        const iframe = store.getIframe();
-
-        // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
-        let scrollTop = 0;
-        if (iframe) {
-          scrollTop = iframe.contentWindow?.scrollY || 0;
-          x -= layerRect.left;
-          y -= layerRect.top;
-          y += scrollTop;
-        }
+        const {x, y} = this.getElementPoint(e);
         const elements = store.getDoc().elementsFromPoint(x, y);
         target = elements.find((ele: Element) => {
           hostElem = ele.closest(
@@ -438,47 +442,64 @@ export default class Preview extends Component<PreviewProps> {
     const store = this.props.store;
     const dom = e.target as HTMLElement;
 
-    if (this.layer?.contains(dom)) {
-      return;
-    }
-
     if ((e.target as HTMLElement).closest('.ignore-hover-elem')) {
       // 设计器内容区中忽略hover的元素，比如：region头部标签。
       return;
     }
 
-    const target = dom.closest(`[data-editor-id]`);
+    const target = dom.closest(`[data-editor-id],[data-hlbox-id]`);
 
-    if (target) {
+    if (target?.matches('[data-editor-id]')) {
       const curHoverId = target.getAttribute('data-editor-id');
-      let curHoverRegion: string = '';
-
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curHoverId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curHoverRegion = targetRegion.getAttribute('data-region')!;
+      store.setHoverId(curHoverId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      const {x, y} = this.getElementPoint(e);
+      const elements = store.getDoc().elementsFromPoint(x, y);
+      let hostElem: HTMLElement | null = null;
+      for (const ele of elements) {
+        hostElem = ele.closest(`[data-editor-id]`) as HTMLElement;
+        if (hostElem) {
+          break;
         }
       }
 
-      store.setMouseMoveRegion(curHoverRegion);
-      store.setHoverId(curHoverId!);
+      if (hostElem) {
+        // 判断当前是否在子区域
+        const curHoverId = hostElem.getAttribute('data-editor-id');
+        store.setHoverId(curHoverId!);
+      }
     }
+  }
+
+  getElementPoint(e: MouseEvent) {
+    const store = this.props.store;
+    let x = e.clientX;
+    let y = e.clientY;
+
+    const iframe = store.getIframe();
+
+    // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+    if (iframe) {
+      const preview: HTMLElement = (store.getLayer() as HTMLElement)
+        .previousSibling?.firstChild as HTMLElement;
+      const previewRect = preview.getBoundingClientRect();
+
+      x -= previewRect.left;
+      y -= previewRect.top;
+      // 如果有缩放比例，重新计算位置
+      const scale = store.getScale();
+      if (scale >= 0) {
+        x = x / scale;
+        y = y / scale;
+      }
+    }
+
+    return {x, y};
   }
 
   @autobind
   handleMouseLeave() {
     const store = this.props.store;
-    store.setMouseMoveRegion('');
     store.setHoverId('');
   }
 
@@ -488,6 +509,12 @@ export default class Preview extends Component<PreviewProps> {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  // 禁用内部的提交事件
+  handleSubmit(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   @autobind

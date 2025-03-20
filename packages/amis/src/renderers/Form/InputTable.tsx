@@ -280,6 +280,7 @@ export interface TableState {
   filteredItems: Array<TableDataItem>;
   columns: Array<any>;
   editIndex: string;
+  rowIndex?: string;
   isCreateMode?: boolean;
   page?: number;
   total?: number;
@@ -968,11 +969,12 @@ export default class FormTable<
    */
   async dispatchEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent} = this.props;
-    const {items} = this.state;
+    const {items, rowIndex} = this.state;
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(this.props, {
         value: [...items],
+        rowIndex,
         ...eventData
       })
     );
@@ -1221,7 +1223,7 @@ export default class FormTable<
 
   convertToRawPath(path: string, state?: Partial<TableState>) {
     const {filteredItems, items} = {...this.state, ...state};
-    const list = path.split('.').map((item: any) => parseInt(item, 10));
+    const list = `${path}`.split('.').map((item: any) => parseInt(item, 10));
     const firstRow = filteredItems[list[0]];
     list[0] = items.findIndex(item => item === firstRow);
     if (list[0] === -1) {
@@ -1271,6 +1273,7 @@ export default class FormTable<
       rowProps.quickEditEnabled = true;
       return rowProps;
     } else if (
+      !this.props.static &&
       !this.props.editable &&
       !this.props.addable &&
       !this.state.isCreateMode
@@ -1777,6 +1780,7 @@ export default class FormTable<
               filteredItems: state.filteredItems.map(a =>
                 a === origin ? value : a
               ),
+              rowIndex: editIndex,
               /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
               ...(lastModifiedRow?.index === editIndex
                 ? {}
@@ -1804,6 +1808,7 @@ export default class FormTable<
 
         Object.assign(newState, {
           items,
+          rowIndex: rowIndexes as string,
           ...this.transformState(items, state)
         });
         callback = this.lazyEmitValue;
@@ -2092,13 +2097,20 @@ export class TableControlRenderer extends FormTable {
     index?: number | string,
     condition?: any
   ) {
-    const len = this.state.items.length;
     if (index !== undefined) {
       let items = [...this.state.items];
       const indexs = String(index).split(',');
       indexs.forEach(i => {
         const indexes = i.split('.').map(item => parseInt(item, 10));
-        items = spliceTree(items, indexes, 1, value);
+
+        const originItems = items;
+        items = spliceTree(
+          items,
+          indexes,
+          1,
+          replace ? value : {...getTree(items, indexes), ...value}
+        );
+        this.reUseRowId(items, originItems, indexes);
       });
       this.setState({items, ...this.transformState(items)}, () => {
         this.emitValue();
@@ -2115,7 +2127,16 @@ export class TableControlRenderer extends FormTable {
           );
 
           if (isUpdate) {
-            items = spliceTree(items, [...indexes, index], 1, value);
+            const originItems = items;
+            items = spliceTree(
+              items,
+              [...indexes, index],
+              1,
+              replace
+                ? value
+                : {...getTree(items, [...indexes, index]), ...value}
+            );
+            this.reUseRowId(items, originItems, [...indexes, index]);
           }
         });
 
@@ -2238,12 +2259,25 @@ export class TableControlRenderer extends FormTable {
       const deletedItems: any = [];
 
       if (args?.index !== undefined) {
-        const indexs = String(args.index).split(',');
-        indexs.forEach(i => {
-          const indexes = i.split('.').map(item => parseInt(item, 10));
-          deletedItems.push(getTree(items, indexes));
-          items = spliceTree(items, indexes, 1);
-        });
+        String(args.index)
+          .split(',')
+          .map(i => i.split('.').map(item => parseInt(item, 10)))
+          // 从右向左遍历，这样才不会出现索引失效
+          .sort((a, b) => {
+            const len = Math.max(a.length, b.length);
+            for (let i = 0; i < len; i++) {
+              const aVal = a[i] || 0;
+              const bVal = b[i] || 0;
+              if (aVal !== bVal) {
+                return bVal - aVal;
+              }
+            }
+            return 0;
+          })
+          .forEach(indexes => {
+            deletedItems.push(getTree(items, indexes));
+            items = spliceTree(items, indexes, 1);
+          });
       } else if (args?.condition !== undefined) {
         const promises: Array<() => Promise<any>> = [];
         everyTree(items, (item, index, level, paths, indexes) => {

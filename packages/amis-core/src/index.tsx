@@ -54,7 +54,8 @@ import {
   register as registerLocale,
   extendLocale,
   removeLocaleData,
-  localeable
+  localeable,
+  format as localeFormatter
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
@@ -203,6 +204,7 @@ export {
   extendLocale,
   removeLocaleData,
   localeable,
+  localeFormatter,
   LocaleProps,
   TranslateFn,
   ClassNamesFn,
@@ -361,7 +363,7 @@ function AMISRenderer({
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
   schema = React.useMemo(() => {
-    schema = envOverwrite(schema, locale);
+    schema = envOverwrite(schema, locale, env.isMobile() ? 'mobile' : 'pc');
     // todo 和 envOverwrite 一起处理，减少循环次数
     schema = replaceText(
       schema,

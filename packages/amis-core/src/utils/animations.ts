@@ -14,6 +14,12 @@ export interface AnimationsProps {
     repeat?: string;
     delay?: number;
   };
+  hover?: {
+    type: string;
+    duration?: number;
+    delay?: number;
+    repeat?: string;
+  };
   exit?: {
     type: string;
     duration?: number;
@@ -28,7 +34,7 @@ function generateStyleByAnimation(
   animation: {
     name: string;
     duration?: number;
-    iterationCount?: string;
+    iterationCount?: string | number;
     delay?: number;
     fillMode?: string;
     timingFunction?: string;
@@ -46,53 +52,65 @@ function generateStyleByAnimation(
   };
 }
 
+function generateStyleByHover(
+  className: string,
+  animation: {
+    name: string;
+    duration?: number;
+    delay?: number;
+    repeat?: string;
+  }
+) {
+  let style = {};
+  if (['hoverFlash', 'hoverShake'].includes(animation.name)) {
+    style = {
+      [`${className}:hover,${className}-show`]: {
+        animation: `${animation.name} ${animation.duration || 1}s ease ${
+          animation.delay || 0
+        }s ${animation.repeat || 1}`
+      }
+    };
+  }
+  return {
+    [className]: {
+      transition: `all ${animation.duration || 1}s ease ${
+        animation.delay || 0
+      }s`
+    },
+    ...style
+  };
+}
+
 export function createAnimationStyle(
   id: string,
   animationsConfig: AnimationsProps
 ) {
-  const enterAnimationConfig = animationsConfig.enter;
-  let enterStyle = {};
-  if (enterAnimationConfig?.type) {
-    enterStyle = generateStyleByAnimation(
-      [`.${enterAnimationConfig.type}-${id}-enter`],
-      {
-        name: enterAnimationConfig.type,
-        duration: enterAnimationConfig.duration,
-        delay: enterAnimationConfig.delay,
-        fillMode: 'backwards'
-      }
+  let styleConfig = {};
+  Object.keys(animationsConfig).forEach((key: keyof AnimationsProps) => {
+    const animationConfig = animationsConfig[key];
+    if (!animationConfig) {
+      return;
+    }
+    styleConfig = Object.assign(
+      styleConfig,
+      key === 'hover'
+        ? generateStyleByHover(`.${animationConfig.type}-${id}-${key}`, {
+            name: animationConfig.type,
+            duration: animationConfig.duration,
+            delay: animationConfig.delay,
+            repeat: animationConfig.repeat as string
+          })
+        : generateStyleByAnimation([`.${animationConfig.type}-${id}-${key}`], {
+            name: animationConfig.type,
+            duration: animationConfig.duration,
+            iterationCount: key === 'attention' ? 'infinite' : 1,
+            delay: animationConfig.delay,
+            fillMode: key === 'attention' ? 'none' : 'forwards'
+          })
     );
-  }
-
-  const attentionAnimationConfig = animationsConfig.attention;
-  let attentionStyle = {};
-  if (attentionAnimationConfig?.type) {
-    attentionStyle = generateStyleByAnimation(
-      [`.${attentionAnimationConfig.type}-${id}-attention`],
-      {
-        name: attentionAnimationConfig.type,
-        duration: attentionAnimationConfig.duration,
-        iterationCount: attentionAnimationConfig.repeat || 'infinite',
-        delay: attentionAnimationConfig.delay
-      }
-    );
-  }
-
-  const exitAnimationConfig = animationsConfig.exit;
-  let exitStyle = {};
-  if (exitAnimationConfig?.type) {
-    exitStyle = generateStyleByAnimation(
-      [`.${exitAnimationConfig.type}-${id}-exit`],
-      {
-        name: exitAnimationConfig.type,
-        duration: exitAnimationConfig.duration,
-        delay: exitAnimationConfig.delay,
-        fillMode: 'forwards'
-      }
-    );
-  }
+  });
 
   styleManager.updateStyle({
-    [id]: Object.assign({}, enterStyle, attentionStyle, exitStyle)
+    [id]: styleConfig
   });
 }

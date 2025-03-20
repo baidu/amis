@@ -63,8 +63,10 @@ const fns: {
   [propName: string]: TranslateFn;
 } = {};
 
-function format(str: string, data?: object) {
-  return str.replace(/(\\)?\{\{([\s\S]+?)\}\}/g, (_, escape, key) => {
+export function format(str: string, data?: object) {
+  if (!str.includes('{{')) return str; // 先快速检查，避免无谓的正则执行
+
+  return str.replace(/(\\)?\{\{([^{}]+?)\}\}/g, (_, escape, key) => {
     if (escape) {
       return _.substring(1);
     }

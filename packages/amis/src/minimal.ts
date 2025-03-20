@@ -826,5 +826,10 @@ registerRenderer({
   getComponent: () => import('./renderers/AMIS')
 });
 
+registerRenderer({
+  type: 'slider',
+  getComponent: () => import('./renderers/Slider')
+});
+
 import './compat';
 import './schemaExtend';

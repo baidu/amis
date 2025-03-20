@@ -377,13 +377,163 @@ export class List2Plugin extends BasePlugin {
               title: '组件',
               body: [
                 {
+                  type: 'select',
+                  name: 'columnsSetting',
+                  label: '列数设置方式',
+                  value: 'columnsCount', // 默认使用columnsCount
+                  options: [
+                    {
+                      label: '固定列数',
+                      value: 'columnsCount'
+                    },
+                    {
+                      label: '响应式布局',
+                      value: 'itemClassName'
+                    }
+                  ],
+                  onChange: (
+                    value: string,
+                    oldValue: string,
+                    model: any,
+                    form: any
+                  ) => {
+                    // 切换时清空另一个配置
+                    if (value === 'columnsCount') {
+                      form.setValueByName('itemClassName', '');
+                    } else {
+                      form.setValueByName('columnsCount', undefined);
+                    }
+                  }
+                },
+                {
                   name: 'columnsCount',
                   type: 'input-range',
-                  visibleOn: '!this.leftFixed',
+                  visibleOn: 'this.columnsSetting === "columnsCount"',
                   min: 1,
                   max: 12,
                   step: 1,
-                  label: '每行个数'
+                  label: '每行列数'
+                },
+                {
+                  type: 'container',
+                  visibleOn: 'this.columnsSetting === "itemClassName"',
+                  label: '响应式列数',
+                  body: [
+                    {
+                      type: 'select',
+                      name: 'xs',
+                      label: '超小屏幕 (xs)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--xs12'},
+                        {label: '2列', value: 'Grid-col--xs6'},
+                        {label: '3列', value: 'Grid-col--xs4'},
+                        {label: '4列', value: 'Grid-col--xs3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--xs\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'sm',
+                      label: '小屏幕 (sm)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--sm12'},
+                        {label: '2列', value: 'Grid-col--sm6'},
+                        {label: '3列', value: 'Grid-col--sm4'},
+                        {label: '4列', value: 'Grid-col--sm3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--sm\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'md',
+                      label: '中等屏幕 (md)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--md12'},
+                        {label: '2列', value: 'Grid-col--md6'},
+                        {label: '3列', value: 'Grid-col--md4'},
+                        {label: '4列', value: 'Grid-col--md3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--md\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'lg',
+                      label: '大屏幕 (lg)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--lg12'},
+                        {label: '2列', value: 'Grid-col--lg6'},
+                        {label: '3列', value: 'Grid-col--lg4'},
+                        {label: '4列', value: 'Grid-col--lg3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--lg\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    }
+                  ]
+                },
+                {
+                  name: 'masonryLayout',
+                  type: 'switch',
+                  label: '瀑布流布局',
+                  description: '开启后将以瀑布流的形式展示卡片'
                 },
                 {
                   type: 'input-number',

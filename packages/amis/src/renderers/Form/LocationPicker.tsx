@@ -53,6 +53,11 @@ export interface LocationControlSchema extends FormBaseControlSchema {
    * 备注：区分下现有的placeholder（“请选择位置”）
    */
   getLocationPlaceholder?: string;
+
+  /**
+   * 是否隐藏地图控制组件，默认为false
+   */
+  hideViewControl?: boolean;
 }
 
 export interface LocationControlProps
@@ -144,7 +149,9 @@ export class LocationControl extends React.Component<LocationControlProps> {
       value,
       staticSchema,
       ak,
-      coordinatesType
+      coordinatesType,
+      hideViewControl = false,
+      mobileUI
     } = this.props;
     const __ = this.props.translate;
 
@@ -155,7 +162,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
     return (
       <div
         className={this.props.classnames('LocationControl', {
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
         ref={this.domRef}
       >
@@ -173,6 +180,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
               showSug={false}
               showGeoLoc={staticSchema.showGeoLoc}
               mapStyle={staticSchema.mapStyle}
+              hideViewControl={hideViewControl}
             />
           </>
         ) : (
@@ -184,12 +192,12 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @supportStatic()
   render() {
-    const {style, env} = this.props;
+    const {style, env, mobileUI} = this.props;
     const ak = filter(this.props.ak, this.props.data) || env.locationPickerAK!;
     return (
       <div
         className={this.props.classnames('LocationControl', {
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
       >
         <LocationPicker

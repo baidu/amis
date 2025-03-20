@@ -14,6 +14,7 @@ const zIndex = 1;
 
 export interface Props extends ThemeProps {
   fixed?: string | boolean; // left | right
+  selfSticky?: boolean;
   rowSpan?: number | any;
   colSpan?: number | any;
   key?: string | number;
@@ -33,6 +34,7 @@ export interface Props extends ThemeProps {
 export default class BodyCell extends React.PureComponent<Props> {
   static defaultProps = {
     fixed: '',
+    selfSticky: false,
     wrapperComponent: 'td',
     rowSpan: null,
     colSpan: null
@@ -41,6 +43,7 @@ export default class BodyCell extends React.PureComponent<Props> {
   render() {
     const {
       fixed,
+      selfSticky,
       rowSpan,
       colSpan,
       children,
@@ -54,15 +57,27 @@ export default class BodyCell extends React.PureComponent<Props> {
       testIdBuilder
     } = this.props;
 
+    let _style: object = {...style};
+
+    if (fixed || selfSticky) {
+      _style = {
+        position: 'sticky',
+        zIndex,
+        ..._style
+      };
+    }
+
     return (
       <Component
         rowSpan={rowSpan && rowSpan > 1 ? rowSpan : null}
         colSpan={colSpan && colSpan > 1 ? colSpan : null}
         className={cx('Table-cell', className, {
           [cx(`Table-cell-fix-${fixed}`)]: fixed,
-          [`text-${column?.align}`]: column?.align
+          [`Table-cell-self-sticky`]: selfSticky,
+          [`text-${column?.align}`]: column?.align,
+          [`align-${column?.vAlign}`]: column?.vAlign
         })}
-        style={fixed ? {position: 'sticky', zIndex, ...style} : {...style}}
+        style={_style}
         data-depth={depth || null}
         data-col={col}
         {...testIdBuilder?.getTestId()}

@@ -501,9 +501,13 @@ export default class Editor extends Component<EditorProps> {
 
     // 没找到就近找
     if (!targetId) {
-      targetId = (e.target as HTMLElement)
-        .closest('[data-editor-id]')
-        ?.getAttribute('data-editor-id')!;
+      const dom = (e.target as HTMLElement).closest(
+        '[data-editor-id], [data-hlbox-id]'
+      );
+      targetId =
+        dom?.getAttribute('data-editor-id') ||
+        dom?.getAttribute('data-hlbox-id') ||
+        '';
     }
 
     // 没找到看看是不是在大纲中的右键

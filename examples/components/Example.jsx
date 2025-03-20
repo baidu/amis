@@ -32,6 +32,7 @@ import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
 import AnchorNav from './Form/AnchorNav';
 import InputKVSSchema from './Form/InputKVS';
+import TimelineSchema from "./Timeline";
 import Tree from './Form/Tree';
 
 import TableCrudSchema from './CRUD/Table';
@@ -943,6 +944,12 @@ export const examples = [
         icon: 'fa fa-desktop',
         path: '/examples/wizard-page',
         component: makeSchemaRenderer(WizardPage)
+      },
+      {
+        label: '时间轴',
+        icon: 'fa fa-list-ol',
+        path: '/examples/timeline',
+        component: makeSchemaRenderer(TimelineSchema)
       }
 
       // {

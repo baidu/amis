@@ -19,6 +19,7 @@ export interface IAjaxAction extends ListenerAction {
     failed: string;
   };
   options?: Record<string, any>;
+
   [propName: string]: any;
 }
 
@@ -31,6 +32,7 @@ export interface IAjaxAction extends ListenerAction {
  */
 export class AjaxAction implements RendererAction {
   fetcherType: string;
+
   constructor(fetcherType: string = 'ajax') {
     this.fetcherType = fetcherType;
   }
@@ -94,6 +96,7 @@ export class AjaxAction implements RendererAction {
       // 记录请求返回的数据
       event.setData(
         createObject(event.data, {
+          ...event.data,
           ...responseData, // 兼容历史配置
           responseData: responseData,
           [action.outputVar || 'responseResult']: {
@@ -149,9 +152,7 @@ export class AjaxAction implements RendererAction {
           env.notify('error', e.message);
         }
       }
-
-      // 不阻塞后面执行
-      // throw e;
+      throw e;
     }
   }
 }

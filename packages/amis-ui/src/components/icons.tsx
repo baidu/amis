@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React, {createElement, useEffect} from 'react';
+import React, {createElement, useEffect, useMemo} from 'react';
 import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -111,7 +111,11 @@ import If from '../icons/if.svg';
 import RotateScreen from '../icons/rotate-screen.svg';
 
 import isObject from 'lodash/isObject';
-import {getCustomVendor, type TestIdBuilder} from 'amis-core';
+import {
+  type CustomVendorFn,
+  getCustomVendor,
+  type TestIdBuilder
+} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -277,18 +281,20 @@ function svgString2Dom(
   }: {
     [propName: string]: any;
   },
-  vendor?: string
+  vendorFn?: CustomVendorFn
 ) {
   icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-  const fn = getCustomVendor(vendor);
-  if (fn) {
-    const {icon: newIcon, style: newStyle} = fn(icon, {
+  if (vendorFn) {
+    const {icon: newIcon, style: newStyle} = vendorFn(icon, {
       ...extra,
-      width: style.width,
-      height: style.height
+      width: style?.width,
+      height: style?.height
     });
     icon = newIcon;
-    style = Object.assign(style, newStyle);
+    style = {
+      ...(style || {}),
+      ...newStyle
+    };
   }
   const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
   const viewBox = /viewBox="(.*?)"/.exec(icon);
@@ -304,68 +310,61 @@ function svgString2Dom(
 
 function LinkIcon({
   icon,
-  vendor,
+  vendorFn,
   options: {className, classNameProp, style, cx, classPrefix, events, extra}
 }: {
   icon: string;
-  vendor?: string;
+  vendorFn?: CustomVendorFn;
   options: {
     [propName: string]: any;
   };
 }) {
-  const [svgIcon, setSvgIcon] = React.useState<string | undefined>(undefined);
-  if (icon.endsWith('.svg')) {
-    useEffect(() => {
+  const [svgIcon, setSvgIcon] = React.useState<string>(icon);
+  const [svgType, setSvgType] = React.useState<string>('img');
+
+  useEffect(() => {
+    if (icon.endsWith('.svg') && vendorFn) {
       try {
         fetch(icon)
           .then(res => res.text())
           .then(svg => {
+            setSvgType('svg');
             setSvgIcon(svg);
           })
-          .catch(() => {
-            setSvgIcon('error');
+          .catch(e => {
+            console.warn(e);
+            setSvgType('img');
+            setSvgIcon(icon);
           });
-      } catch (error) {
-        setSvgIcon('error');
+      } catch (warn) {
+        console.warn(warn);
+        setSvgType('img');
+        setSvgIcon(icon);
       }
-    }, [icon]);
-    if (svgIcon) {
-      if (svgIcon === 'error') {
-        return (
-          <img
-            {...events}
-            className={cx(`${classPrefix}Icon`, className, classNameProp)}
-            src={icon}
-            style={style}
-          />
-        );
-      } else {
-        return svgString2Dom(
-          svgIcon,
-          {
-            className,
-            classNameProp,
-            style,
-            cx,
-            events,
-            extra
-          },
-          vendor
-        );
-      }
-    } else {
-      return null;
     }
-  } else {
-    return (
-      <img
-        {...events}
-        className={cx(`${classPrefix}Icon`, className, classNameProp)}
-        src={icon}
-        style={style}
-      />
-    );
-  }
+  }, [icon, vendorFn]);
+
+  return svgType === 'img' ? (
+    <img
+      {...events}
+      className={cx(`${classPrefix}Icon`, className, classNameProp)}
+      src={icon}
+      style={style}
+    />
+  ) : (
+    svgString2Dom(
+      svgIcon,
+      {
+        className,
+        classNameProp,
+        style,
+        cx,
+        events,
+        extra
+      },
+      vendorFn
+    )
+  );
 }
 
 export function Icon({
@@ -401,6 +400,7 @@ export function Icon({
   testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
+  const vendorFn = useMemo(() => getCustomVendor(vendor), [vendor]);
 
   // style = {
   //   ...(style || {}),
@@ -551,7 +551,7 @@ export function Icon({
         events,
         extra
       },
-      vendor
+      vendorFn
     );
   }
 
@@ -561,7 +561,7 @@ export function Icon({
     return (
       <LinkIcon
         icon={icon}
-        vendor={vendor}
+        vendorFn={vendorFn}
         options={{
           className,
           classNameProp,

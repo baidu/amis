@@ -730,16 +730,17 @@ export default class Table<
     let updateRows = false;
 
     // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
+    if (Array.isArray(value)) {
+      if (
+        !prevProps ||
         !isEqual(
           getPropValue(prevProps, (props: TableProps) => props.items),
           value
-        ))
-    ) {
-      updateRows = true;
-      rows = value;
+        )
+      ) {
+        updateRows = true;
+        rows = value;
+      }
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
@@ -790,17 +791,7 @@ export default class Table<
   componentDidMount() {
     const currentNode = this.dom.current!;
 
-    if (this.props.autoFillHeight) {
-      this.toDispose.push(
-        resizeSensor(
-          currentNode.parentElement!,
-          this.updateAutoFillHeightLazy,
-          false,
-          'height'
-        )
-      );
-      this.updateAutoFillHeight();
-    }
+    this.initAutoFillHeight();
 
     // todo 因为没有监控里面内容的宽度变化，所以单元格内容变化撑开时可能看不到 fixed 的阴影
     // 应该加上 table 的宽度检测
@@ -848,6 +839,23 @@ export default class Table<
       env.notify('error', e.message);
     } finally {
       row.markLoading(false);
+    }
+  }
+
+  autoFillHeightDispose?: () => void;
+  initAutoFillHeight() {
+    const props = this.props;
+    const currentNode = this.dom.current!;
+
+    if (props.autoFillHeight) {
+      this.autoFillHeightDispose = resizeSensor(
+        currentNode.parentElement!,
+        this.updateAutoFillHeightLazy,
+        false,
+        'height'
+      );
+      this.toDispose.push(this.autoFillHeightDispose);
+      this.updateAutoFillHeight();
     }
   }
 
@@ -940,10 +948,14 @@ export default class Table<
     const tableContentHeight = heightValue
       ? `${heightValue}px`
       : `${Math.round(
-          viewportHeight - tableContentTop - tableContentBottom
+          viewportHeight - tableContentTop - tableContentBottom - 1
         )}px`;
 
     tableContent.style[heightField] = tableContentHeight;
+    tableContent.style.setProperty(
+      `--Table-content-${heightField}`,
+      tableContentHeight
+    );
   }
 
   componentDidUpdate(prevProps: TableProps) {
@@ -1025,6 +1037,24 @@ export default class Table<
         this.syncSelected();
       }
     }
+
+    // 检测属性变化，来切换功能
+    if (props.autoFillHeight !== prevProps.autoFillHeight) {
+      if (this.autoFillHeightDispose) {
+        const idx = this.toDispose.indexOf(this.autoFillHeightDispose);
+        if (idx !== -1) {
+          this.toDispose.splice(idx, 1);
+        }
+        this.autoFillHeightDispose();
+        delete this.autoFillHeightDispose;
+        const tableContent = this.table?.parentElement as HTMLElement;
+        if (tableContent) {
+          tableContent.style.height = '';
+        }
+      }
+
+      this.initAutoFillHeight();
+    }
   }
 
   componentWillUnmount() {
@@ -1032,6 +1062,7 @@ export default class Table<
 
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
+    delete this.autoFillHeightDispose;
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();
@@ -1120,6 +1151,7 @@ export default class Table<
 
   handleRowDbClick(item: IRow, index: number) {
     const {dispatchEvent, filterItemIndex, store, data} = this.props;
+
     return dispatchEvent(
       'rowDbClick',
       createObject(data, {
@@ -1937,21 +1969,12 @@ export default class Table<
     );
     Object.assign(style, stickyStyle);
 
-    /** 如果当前列定宽，则不能操作drag bar */
-    const pristineWidth = store.columns?.[column.index]?.pristine?.width;
-    const disableColDrag =
-      '__' !== column.type.substring(0, 2) &&
-      typeof pristineWidth === 'number' &&
-      pristineWidth > 0;
-
     const resizeLine = (
       <div
-        className={cx('Table-content-colDragLine', {
-          'Table-content-colDragLine--disabled': disableColDrag
-        })}
+        className={cx('Table-content-colDragLine')}
         key={`resize-${column.id}`}
         data-index={column.index}
-        onMouseDown={disableColDrag ? noop : this.handleColResizeMouseDown}
+        onMouseDown={this.handleColResizeMouseDown}
       />
     );
 
@@ -3060,6 +3083,9 @@ export class TableRendererBase<
       targets.forEach(target => {
         target.updateData(values);
       });
+    } else if (this.props?.host) {
+      // 如果在 CRUD 里面，优先让 CRUD 去更新状态
+      return this.props.host.setData?.(values, replace, index, condition);
     } else {
       const data = {
         ...values,

@@ -171,11 +171,13 @@ function InnerComponent({
     const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
     closeContextMenus();
 
-    if (store.activeElement) {
+    if (e.defaultPrevented) {
       return;
     }
 
-    if (e.defaultPrevented) {
+    if (store.activeElement) {
+      // 禁用内部的点击事件
+      e.preventDefault();
       return;
     }
 
@@ -234,6 +236,12 @@ function InnerComponent({
     }
   }, []);
 
+  // 禁用内部的提交事件
+  const handleSubmit = React.useCallback((e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
   const syncIframeHeight = React.useCallback(() => {
     const iframe = manager.store.getIframe()!;
     iframe.style.cssText += `height: ${doc!.body.offsetHeight}px`;
@@ -249,6 +257,7 @@ function InnerComponent({
     layer!.addEventListener('click', handleClick, true);
     layer!.addEventListener('dblclick', handleDBClick);
     layer!.addEventListener('mouseover', handeMouseOver);
+    layer!.addEventListener('submit', handleSubmit);
 
     const unSensor = resizeSensor(doc!.body, () => {
       syncIframeHeight();
@@ -262,6 +271,7 @@ function InnerComponent({
       layer!.removeEventListener('click', handleClick);
       layer!.removeEventListener('mouseover', handeMouseOver);
       layer!.removeEventListener('dblclick', handleDBClick);
+      layer!.removeEventListener('submit', handleSubmit);
       store.setDoc(document);
       unSensor();
     };

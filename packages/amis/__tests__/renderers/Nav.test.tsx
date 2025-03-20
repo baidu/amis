@@ -1151,3 +1151,229 @@ test('Renderer:Nav with updateItems', async () => {
     ).length
   ).toEqual(2);
 });
+
+// 14.Nav悬浮面板
+test('Render Nav with panel mode', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'nav',
+        stacked: false,
+        mode: 'panel',
+        links: [
+          {
+            label: 'Nav 1',
+            to: '?to=nav1',
+            children: [
+              {
+                label: 'Nav 1-1',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav1-1'
+              },
+              {
+                label: 'Nav 1-2',
+                icon: 'fa fa-user',
+                to: '?to=nav1-2'
+              }
+            ]
+          },
+          {
+            label: 'Nav 2',
+            to: '?to=nav2',
+            children: [
+              {
+                label: 'Nav 2-1',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav2-1',
+                children: [
+                  {
+                    label: 'Nav 2-1-1',
+                    icon: 'fa fa-user',
+                    to: '?to=nav2-1-1'
+                  },
+                  {
+                    label: 'Nav 2-1-2',
+                    icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                    to: 'http://www.baidu.com/',
+                    target: '_blank'
+                  }
+                ]
+              },
+              {
+                label: 'Nav 2-2',
+                icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                to: '?to=nav2-2'
+              }
+            ]
+          },
+          {
+            label: 'Nav 3',
+            to: '?to=nav3'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  let panelItemsSelector =
+    '.cxd-Nav-Menu-panel-wrapper .cxd-Nav-Menu-panel-group-item';
+  expect(container.querySelectorAll(panelItemsSelector).length).toBe(2);
+});
+
+// 15. 横向滚动模式
+test('Render Nav with swipe mode', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'nav',
+        stacked: false,
+        overflow: {
+          enable: true,
+          mode: 'swipe'
+        },
+        links: [
+          {
+            label: 'Nav 1',
+            to: '?to=nav1'
+          },
+          {
+            label: 'Nav 2',
+            to: '?to=nav2'
+          },
+          {
+            label: 'Nav 3',
+            to: '?to=nav3'
+          },
+          {
+            label: 'Nav 4',
+            to: '?to=nav4'
+          },
+          {
+            label: 'Nav 5',
+            to: '?to=nav5'
+          },
+          {
+            label: 'Nav 6',
+            to: '?to=nav6'
+          },
+          {
+            label: 'Nav 7',
+            to: '?to=nav7'
+          },
+          {
+            label: 'Nav 8',
+            to: '?to=nav8'
+          },
+          {
+            label: 'Nav 9',
+            to: '?to=nav9'
+          },
+          {
+            label: 'Nav 10',
+            to: '?to=nav10'
+          },
+          {
+            label: 'Nav 11',
+            to: '?to=nav11'
+          },
+          {
+            label: 'Nav 12',
+            to: '?to=nav12'
+          },
+          {
+            label: 'Nav 13',
+            to: '?to=nav13',
+            children: [
+              {
+                label: 'Nav 14',
+                to: '?to=nav14',
+                children: [
+                  {
+                    label: 'Nav 20',
+                    to: '?to=nav20'
+                  },
+                  {
+                    label: 'Nav 21',
+                    to: '?to=nav21'
+                  },
+                  {
+                    label: 'Nav 22',
+                    to: '?to=nav22'
+                  },
+                  {
+                    label: 'Nav 23',
+                    to: '?to=nav23'
+                  },
+                  {
+                    label: 'Nav 24',
+                    to: '?to=nav24'
+                  },
+                  {
+                    label: 'Nav 25',
+                    to: '?to=nav25'
+                  }
+                ]
+              },
+              {
+                label: 'Nav 15',
+                to: '?to=nav15'
+              },
+              {
+                label: 'Nav 16',
+                to: '?to=nav16'
+              },
+              {
+                label: 'Nav 17',
+                to: '?to=nav17',
+                children: [
+                  {
+                    label: 'Nav 26',
+                    to: '?to=nav26'
+                  },
+                  {
+                    label: 'Nav 27',
+                    to: '?to=nav27'
+                  },
+                  {
+                    label: 'Nav 28',
+                    to: '?to=nav28'
+                  },
+                  {
+                    label: 'Nav 29',
+                    to: '?to=nav29'
+                  },
+                  {
+                    label: 'Nav 30',
+                    to: '?to=nav30'
+                  },
+                  {
+                    label: 'Nav 31',
+                    to: '?to=nav31'
+                  }
+                ]
+              },
+              {
+                label: 'Nav 18',
+                to: '?to=nav18'
+              },
+              {
+                label: 'Nav 19',
+                to: '?to=nav19'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const horizontalRootDom = container.querySelector(
+    '.cxd-Nav-horizontal .cxd-Nav-Menu'
+  );
+
+  // TODO: 这里应该让浏览器有响应式的能力，测试点击能力
+  expect(horizontalRootDom?.children?.length).toBe(13);
+});

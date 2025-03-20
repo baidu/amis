@@ -43,6 +43,7 @@ interface MapPickerProps {
   onlySelectCurrentLoc?: boolean;
   showSug?: boolean;
   showGeoLoc?: boolean;
+  hideViewControl?: boolean;
   mapStyle?: React.CSSProperties;
 }
 
@@ -59,7 +60,17 @@ interface MapPickerState {
   locIndex?: number;
   locs: Array<LocationItem>;
   sugs: Array<string>;
+  innerValue?: {
+    address: string;
+    lat: number;
+    lng: number;
+    city?: string;
+    zoom?: number;
+  };
 }
+
+// 记录百度地图SDK加载状态
+let BMapLoadingPromise: Promise<any> | null = null;
 
 export class BaiduMapPicker extends React.Component<
   MapPickerProps,
@@ -69,7 +80,8 @@ export class BaiduMapPicker extends React.Component<
     inputValue: '',
     locs: [],
     locIndex: -1,
-    sugs: []
+    sugs: [],
+    innerValue: this.props.value // 内部定位的值，用于内部更新地图定位点
   };
 
   id = uuid();
@@ -98,10 +110,17 @@ export class BaiduMapPicker extends React.Component<
   componentDidMount() {
     if ((window as any).BMap) {
       this.initMap();
+    } else if (BMapLoadingPromise) {
+      BMapLoadingPromise.then(this.initMap).then(() => {
+        BMapLoadingPromise = null;
+      });
     } else {
-      loadScript(
+      BMapLoadingPromise = loadScript(
         `//api.map.baidu.com/api?v=3.0&ak=${this.props.ak}&callback={{callback}}`
-      ).then(this.initMap);
+      );
+      BMapLoadingPromise.then(this.initMap).then(() => {
+        BMapLoadingPromise = null;
+      });
     }
   }
 
@@ -111,6 +130,44 @@ export class BaiduMapPicker extends React.Component<
 
     delete this.placeholderInput;
     delete this.map;
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<MapPickerProps>,
+    prevState: Readonly<MapPickerState>
+  ): void {
+    // 值更新后需要重绘地图
+    if (prevProps.value !== this.props.value) {
+      this.setState({
+        innerValue: this.props.value
+      });
+    } else if (
+      this.state.innerValue !== prevState.innerValue &&
+      this.state.innerValue
+    ) {
+      this.map.clearOverlays();
+
+      const value = this.state.innerValue;
+
+      let point = value
+        ? new BMap.Point(value.lng, value.lat)
+        : new BMap.Point(116.404, 39.915);
+      const zoom = value?.zoom || 15;
+
+      if (this.props.coordinatesType == 'gcj02') {
+        this.covertPoint(point, COORDINATES_GCJ02, COORDINATES_BD09).then(
+          point => this.map.centerAndZoom(point, zoom)
+        );
+      } else {
+        this.map.centerAndZoom(point, zoom);
+      }
+
+      const mk = new BMap.Marker(point);
+      // 增加定位点
+      this.map.addOverlay(mk);
+      // 移动到中心
+      this.map.panTo(point);
+    }
   }
 
   @autobind
@@ -138,10 +195,12 @@ export class BaiduMapPicker extends React.Component<
       map.centerAndZoom(point, zoom);
     }
 
-    map.addControl(
-      // @ts-ignore
-      new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL})
-    );
+    if (!this.props.hideViewControl) {
+      map.addControl(
+        // @ts-ignore
+        new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL})
+      );
+    }
 
     const geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
@@ -272,16 +331,10 @@ export class BaiduMapPicker extends React.Component<
 
     this.setState(
       {
-        locIndex: index
+        locIndex: index,
+        innerValue: loc
       },
       () => {
-        const point = new BMap.Point(loc.lng, loc.lat);
-
-        this.map.clearOverlays();
-        const mk = new BMap.Marker(point);
-        this.map.addOverlay(mk);
-        this.map.panTo(point);
-
         this.triggerOnChange(loc);
       }
     );

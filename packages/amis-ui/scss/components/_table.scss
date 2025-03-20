@@ -305,6 +305,16 @@
       text-align: right;
     }
 
+    & th.align-top,
+    & td.align-top {
+      vertical-align: top !important;
+    }
+
+    & th.align-bottom,
+    & td.align-bottom {
+      vertical-align: bottom !important;
+    }
+
     & td .#{$ns}SwitchControl {
       padding-top: 0;
     }
@@ -1022,7 +1032,15 @@
         border-top: none; // 不然会导致拖动时顶部露出内容
 
         &.#{$ns}Table-table--tableFillHeight {
-          min-height: 100%; // 为了让表格占满高度
+          > tbody {
+            height: calc(
+              var(--Table-content-height) - var(--Table-thead-height) - 20px
+            );
+
+            > tr > td {
+              border-bottom: none;
+            }
+          }
         }
       }
 
