@@ -185,6 +185,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       pickerIcon,
       env,
       popOverContainer,
+      mobileUI,
       ...rest
     } = this.props;
 
@@ -203,7 +204,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       <div
         className={cx(
           `ConditionBuilderControl`,
-          {'is-mobile': isMobile()},
+          {'is-mobile': mobileUI},
           className
         )}
       >

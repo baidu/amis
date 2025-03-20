@@ -1761,6 +1761,7 @@ exports[`Renderer:Nav with overflow 1`] = `
               >
                 <div
                   aria-controls="rc-menu-uuid-test-rc-menu-more-popup"
+                  aria-disabled="false"
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="cxd-Nav-Menu-submenu-title"
@@ -2088,6 +2089,7 @@ exports[`Renderer:Nav with stacked 1`] = `
       >
         <div
           aria-controls="rc-menu-uuid-test-rc-menu-more-popup"
+          aria-disabled="false"
           aria-expanded="false"
           aria-haspopup="true"
           class="cxd-Nav-Menu-submenu-title"

@@ -104,11 +104,21 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
   panelJustify = true; // 右侧配置项默认左右展示
 
+  getChildNodes = (node: EditorNodeType) => {
+    let nodes = node.children || [];
+
+    if (nodes.length === 1 && nodes[0].isRegion) {
+      nodes = nodes[0].children || [];
+    }
+
+    return nodes;
+  };
+
   // 设置分栏的默认布局比例
   setFlexLayout = (node: EditorNodeType, value: string) => {
     if (/^[\d:]+$/.test(value) && isAlive(node)) {
       let list = value.trim().split(':');
-      let children = node.children || [];
+      let children = this.getChildNodes(node);
       const isColumn = String(node.schema?.style?.flexDirection).includes(
         'column'
       );
@@ -164,7 +174,8 @@ export class FlexPluginBase extends LayoutBasePlugin {
       String(flexSetting.flexDirection).includes('column') &&
       !schema?.style?.height
     ) {
-      (node.children || []).forEach(child => {
+      const children = this.getChildNodes(node);
+      children.forEach(child => {
         if (
           !child.schema?.style?.height ||
           /^0/.test(child.schema?.style?.flexBasis)
@@ -449,7 +460,8 @@ export class FlexPluginBase extends LayoutBasePlugin {
   regions: Array<RegionConfig> = [
     {
       key: 'items',
-      label: '子节点集合'
+      label: '子节点集合',
+      renderMethod: 'renderItems'
     }
   ];
 

@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^6.12.0-alpha.0",
-    "amis-ui": "^6.12.0-alpha.0",
+    "amis-core": "*",
+    "amis-ui": "*",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -48,6 +48,7 @@
     "echarts-wordcloud": "^2.1.0",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.2",
+    "file64": "^1.0.4",
     "hls.js": "1.1.3",
     "hoist-non-react-statics": "^3.3.2",
     "hotkeys-js": "^3.8.7",

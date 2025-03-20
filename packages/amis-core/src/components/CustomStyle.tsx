@@ -68,6 +68,7 @@ export default function (props: CustomStyleProps) {
       insertEditCustomStyle({
         customStyle: wrapperCustomStyle,
         id,
+        customStyleClassPrefix: env?.customStyleClassPrefix,
         doc: env?.getModalContainer?.()?.ownerDocument,
         data
       });
