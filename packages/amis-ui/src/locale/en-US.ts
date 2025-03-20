@@ -232,6 +232,7 @@ register('en-US', {
   'Table.subAddRow': 'Add sub row',
   'Table.copyRow': 'Copy row',
   'Table.columnsVisibility': 'Click to control columns visibility',
+  'Table.columnsSorting': 'Drag column to sort',
   'Table.deleteRow': 'Delete current row',
   'Table.discard': 'Discard',
   'Table.dragTip': 'Drag the button on the left to sort',
