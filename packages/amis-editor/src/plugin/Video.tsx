@@ -33,19 +33,72 @@ export class VideoPlugin extends BasePlugin {
       eventName: 'play',
       eventLabel: '开始播放',
       description: '视频播放时触发',
-      dataSchema: []
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            currentTime: {
+              type: 'number',
+              title: '当前播放时间',
+              description: '视频当前播放的时间点（秒）'
+            },
+            duration: {
+              type: 'number',
+              title: '视频总时长',
+              description: '视频的总时长（秒）'
+            },
+            src: {
+              type: 'string',
+              title: '视频地址',
+              description: '当前播放的视频资源地址'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'pause',
       eventLabel: '暂停播放',
       description: '视频暂停时触发',
-      dataSchema: []
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            currentTime: {
+              type: 'number',
+              title: '当前播放时间',
+              description: '视频暂停时的时间点（秒）'
+            },
+            src: {
+              type: 'string',
+              title: '视频地址',
+              description: '当前播放的视频资源地址'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'ended',
       eventLabel: '播放结束',
       description: '视频播放结束时触发',
-      dataSchema: []
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            duration: {
+              type: 'number',
+              title: '视频总时长',
+              description: '视频的总时长（秒）'
+            },
+            src: {
+              type: 'string',
+              title: '视频地址',
+              description: '当前播放的视频资源地址'
+            }
+          }
+        }
+      ]
     }
   ];
   panelTitle = '视频';
@@ -63,26 +116,17 @@ export class VideoPlugin extends BasePlugin {
                   getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                   getSchemaTpl('formulaControl', {
                     name: 'src',
-                    label: tipedLabel(
-                      '视频地址',
-                      '可以写静态值，也可以用变量取比如：<code>\\${videoSrc}</code>'
-                    ),
-                    placeholder: '请输入视频地址'
+                    label: '视频地址'
                   }),
                   getSchemaTpl('formulaControl', {
                     name: 'poster',
-                    label: tipedLabel(
-                      '视频封面',
-                      '可以写静态值，也可以用变量取比如：<code>\\${videoPoster}</code>'
-                    ),
-                    placeholder: '请输入视频封面地址'
+                    label: '视频封面'
                   }),
                   {
                     name: 'aspectRatio',
                     label: '视频比例',
                     type: 'button-group-select',
                     size: 'sm',
-
                     value: 'auto',
                     options: [
                       {
@@ -140,7 +184,8 @@ export class VideoPlugin extends BasePlugin {
                     placeholder: ''
                   })
                 ]
-              }
+              },
+              getSchemaTpl('status')
             ])
           ]
         },
@@ -152,9 +197,7 @@ export class VideoPlugin extends BasePlugin {
                 hideBackground: true
               }),
               body: [
-                // 原有的状态选择器
                 ...getSchemaTpl('theme:base', {hideBackground: true}).body,
-                // 将宽度配置插入到状态选择器下面
                 getSchemaTpl('theme:select', {
                   label: '宽度',
                   name: 'themeCss.baseControlClassName.width'
@@ -177,34 +220,6 @@ export class VideoPlugin extends BasePlugin {
             })
           ]
         }
-        // {
-        //   title: '其他',
-        //   body: [
-        //     getSchemaTpl('ref'),
-        //     {
-        //       type: 'input-text',
-        //       name: 'rates',
-        //       label: '视频速率',
-        //       multiple: true,
-        //       joinValues: false,
-        //       extractValue: true,
-        //       options: [0.5, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(
-        //         item => ({
-        //           label: item,
-        //           value: item
-        //         })
-        //       )
-        //     },
-
-        //     {
-        //       name: 'frames',
-        //       type: 'input-text',
-        //       label: '视频帧信息',
-        //       description:
-        //         '比如填写：<code>\\${videoFrames}</code>会在当前作用域中查找 videoFrames 变量，如果是对象，将生成视频截图列表，点击后可跳转到对应的帧。'
-        //     }
-        //   ]
-        // }
       ])
     ];
   };

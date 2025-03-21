@@ -12,7 +12,7 @@ import {
   PlaybackRateMenuButton
   // @ts-ignore
 } from 'video-react';
-import {getPropValue, padArr} from 'amis-core';
+import {autobind, getPropValue, padArr} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {resolveVariable} from 'amis-core';
 import {filter} from 'amis-core';
@@ -421,7 +421,48 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     this.onClick = this.onClick.bind(this);
     this.setError = this.setError.bind(this);
   }
-
+  @autobind
+  async handleVideoPlay(
+    currentTime: Array<string | number>,
+    duration: string | number,
+    src: string
+  ) {
+    const {dispatchEvent} = this.props;
+    const renderEvent = await dispatchEvent('play', {
+      currentTime,
+      duration,
+      src
+    });
+    if (renderEvent?.prevented) {
+      return;
+    }
+  }
+  @autobind
+  async handleVideoPause(
+    currentTime: Array<string | number>,
+    duration: string | number,
+    src: string
+  ) {
+    const {dispatchEvent} = this.props;
+    const renderEvent = await dispatchEvent('pause', {
+      currentTime,
+      duration,
+      src
+    });
+    if (renderEvent?.prevented) {
+      return;
+    }
+  }
+  @autobind
+  async handleVideoEnded(duration: string | number) {
+    const {dispatchEvent} = this.props;
+    const renderEvent = await dispatchEvent('ended', {
+      duration
+    });
+    if (renderEvent?.prevented) {
+      return;
+    }
+  }
   onImageLoaded(e: Event) {
     let image: any = new Image();
     image.onload = () => {
@@ -694,6 +735,9 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           src={src}
           autoPlay={autoPlay}
           muted={muted}
+          onPlay={this.handleVideoPlay}
+          onPause={this.handleVideoPause}
+          onEnded={this.handleVideoEnded}
           aspectRatio={aspectRatio}
           loop={loop}
         >
