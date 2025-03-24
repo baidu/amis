@@ -148,6 +148,11 @@ export interface TimelineSchema extends BaseSchema {
    * 节点详情的CSS类名
    */
   detailClassName?: string;
+
+  /**
+   * 卡片展示配置，如果传入则将items数据传入cardSchema中循环渲染，itemTitleSchema、titleClassName、detailClassName将不生效。配置后 timeline item中的数据都将可以在cardSchema中通过数据方式引用。如果子节点也配置了cardSchema，则子节点的cardSchema优先级高于timeline的cardSchema
+   */
+  cardSchema?: CardSchema;
 }
 
 export interface TimelineProps
@@ -167,6 +172,7 @@ export function TimelineCmpt(props: TimelineProps) {
     timeClassName,
     titleClassName,
     detailClassName,
+    cardSchema: commonCardSchema,
     render
   } = props;
 
@@ -187,6 +193,8 @@ export function TimelineCmpt(props: TimelineProps) {
         cardSchema
       } = timelineItem;
 
+      const cardRenderer = cardSchema || commonCardSchema;
+
       return {
         ...timelineItem,
         iconClassName,
@@ -201,9 +209,9 @@ export function TimelineCmpt(props: TimelineProps) {
               data: createObject(data, timelineItem)
             })
           : resolveRender('title', title),
-        cardNode: cardSchema
-          ? render('card', cardSchema, {
-              data: createObject(data, cardSchema)
+        cardNode: cardRenderer
+          ? render('card', cardRenderer, {
+              data: createObject(data, timelineItem) // 当前继承的data和本身节点的数据作为当前卡片schema的渲染数据
             })
           : undefined
       };

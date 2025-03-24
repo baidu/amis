@@ -622,6 +622,59 @@ order: 73
 }
 ```
 
+如果当前所有节点均需要以卡片形式展示，可以通过 timeline 节点增加 `cardSchema`以统一卡片渲染模板。在这种情况下，每个 `timelineItem`内的数据都可以作为数据引用，在 `cardSchema` 中引用展示。
+
+```schema
+{
+  type: 'page',
+  data: {
+    content: '这里是卡片主体内容，在所有的卡片都会展示'
+  },
+  body: {
+    type: 'timeline',
+    mode: 'alternate',
+    direction: 'horizontal',
+    cardSchema: {
+      type: 'card',
+      href: 'https://github.com/baidu/amis',
+      header: {
+        title: '${title}',
+        subTitle: '${time}',
+        description: '${detail}'
+      },
+      body: '${content}'
+    },
+    items: [
+      {
+        cardSchema: {
+          type: 'card',
+          href: 'https://github.com/baidu/amis',
+          header: {
+            title: '标题',
+            subTitle: '副标题',
+            description: '这是一段描述',
+            avatarText: 'AMIS'
+          },
+          body: '这里是内容'
+        }
+      },
+      {
+        time: '2019-02-08',
+        title: '卡片组说明',
+        detail:
+          'Content'
+      },
+      {
+        time: '2019-02-09',
+        title: '表格展现说明',
+        detail:
+          'Content'
+      }
+    ]
+  }
+}
+```
+
 ## 动态数据
 
 ### 远程数据
