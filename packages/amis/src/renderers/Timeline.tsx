@@ -187,6 +187,8 @@ export function TimelineCmpt(props: TimelineProps) {
         icon,
         iconClassName,
         title,
+        time,
+        detail,
         timeClassName,
         titleClassName,
         detailClassName,
@@ -209,6 +211,8 @@ export function TimelineCmpt(props: TimelineProps) {
               data: createObject(data, timelineItem)
             })
           : resolveRender('title', title),
+        time: resolveRender('time', time),
+        detail: resolveRender('detail', detail),
         cardNode: cardRenderer
           ? render('card', cardRenderer, {
               data: createObject(data, timelineItem) // 当前继承的data和本身节点的数据作为当前卡片schema的渲染数据
