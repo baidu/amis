@@ -251,6 +251,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   pageDirectionField?: string;
 
   /**
+   * 设置总条数的字段名。
+   */
+  totalField?: string;
+
+  /**
    * 快速编辑后用来批量保存的 API
    */
   quickSaveApi?: SchemaApi;
@@ -496,6 +501,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'totalField',
     'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
@@ -547,6 +553,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    totalField: 'total',
     pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
@@ -613,6 +620,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       pageField,
       perPageField,
+      totalField,
       syncLocation,
       loadDataOnce
     } = props;
@@ -761,7 +769,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
 
       if (!this.lastData || this.lastData !== next) {
         store.initFromScope(props.data, props.source, {
-          columns: store.columns ?? props.columns
+          columns: store.columns ?? props.columns,
+          totalField: props.totalField
         });
 
         if (this.props.pickerMode && (val = getPropValue(this.props))) {
@@ -1046,6 +1055,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       orderBy,
       orderDir,
+      totalField,
       dispatchEvent
     } = this.props;
     const params: any = {...defaultParams};
@@ -1078,7 +1088,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         '${items}',
         {
           columns: store.columns ?? columns,
-          matchFunc
+          matchFunc,
+          totalField
         }
       );
       let val: any;
@@ -1357,6 +1368,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       messages,
       pageField,
       perPageField,
+      totalField,
       interval,
       stopAutoRefreshWhen,
       stopAutoRefreshWhenModalIsOpen,
@@ -1415,6 +1427,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         silent,
         pageField,
         perPageField,
+        totalField,
         loadDataMode,
         syncResponse2Query,
         columns: store.columns ?? columns,
@@ -1499,7 +1512,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     } else if (source) {
       store.initFromScope(data, source, {
         columns: store.columns ?? columns,
-        matchFunc
+        matchFunc,
+        totalField
       });
     }
 

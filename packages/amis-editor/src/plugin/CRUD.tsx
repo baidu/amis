@@ -2238,6 +2238,13 @@ export class CRUDPlugin extends BasePlugin {
           },
 
           {
+            name: 'totalField',
+            label: '总条数字段名',
+            type: 'input-text',
+            pipeIn: defaultValue('total')
+          },
+
+          {
             name: 'orderField',
             label: '排序权重字段',
             type: 'input-text',
