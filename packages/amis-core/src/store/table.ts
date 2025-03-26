@@ -4,7 +4,8 @@ import {
   SnapshotIn,
   IAnyModelType,
   isAlive,
-  Instance
+  Instance,
+  getEnv
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {
@@ -842,6 +843,10 @@ export const TableStore = iRendererStore
     }
 
     return {
+      get __() {
+        return getEnv(self).translate;
+      },
+
       getSelectionUpperLimit,
 
       get columnsKey() {
@@ -1267,31 +1272,35 @@ export const TableStore = iRendererStore
           });
         }
 
-        if (self.showIndex) {
+        if (self.showIndex && !columns.some(item => item.type === '__index')) {
           columns.unshift({
             type: '__index',
+            label: self.__('Table.index'),
             width: 50
           });
         }
 
-        columns.unshift({
-          type: '__expandme',
-          toggable: false,
-          className: 'Table-expandCell'
-        });
+        columns.some(item => item.type === '__expandme') ||
+          columns.unshift({
+            type: '__expandme',
+            toggable: false,
+            className: 'Table-expandCell'
+          });
 
-        columns.unshift({
-          type: '__checkme',
-          fixed: 'left',
-          toggable: false,
-          className: 'Table-checkCell'
-        });
+        columns.some(item => item.type === '__checkme') ||
+          columns.unshift({
+            type: '__checkme',
+            fixed: 'left',
+            toggable: false,
+            className: 'Table-checkCell'
+          });
 
-        columns.unshift({
-          type: '__dragme',
-          toggable: false,
-          className: 'Table-dragCell'
-        });
+        columns.some(item => item.type === '__dragme') ||
+          columns.unshift({
+            type: '__dragme',
+            toggable: false,
+            className: 'Table-dragCell'
+          });
 
         const originColumns = self.columns.concat();
         const ids: Array<any> = [];
