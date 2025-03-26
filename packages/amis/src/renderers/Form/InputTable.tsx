@@ -1283,6 +1283,15 @@ export default class FormTable<
 
     rowProps.quickEditEnabled =
       this.state.editIndex === this.convertToRawPath(item.path);
+
+    /**
+     * 非编辑态使用静态展示
+     * 编辑态仅当前编辑行使用静态展示
+     */
+    if (this.props.enableStaticTransform && this.props.needConfirm !== false) {
+      rowProps.static = !rowProps.quickEditEnabled;
+    }
+
     return rowProps;
   }
 
@@ -1291,7 +1300,7 @@ export default class FormTable<
     isCreateMode = false,
     editRowIndex?: string
   ): Array<any> {
-    const {env, enableStaticTransform, mobileUI, testIdBuilder} = this.props;
+    const {env, mobileUI, testIdBuilder} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
       ? props.columns.concat()
       : [];
@@ -1483,14 +1492,7 @@ export default class FormTable<
                   mode: 'inline',
                   disabled
                 }
-              }),
-          /**
-           * 非编辑态使用静态展示
-           * 编辑态仅当前编辑行使用静态展示
-           */
-          ...(enableStaticTransform && props.needConfirm !== false
-            ? {staticOn: `${!isCreateMode} || data.index !== '${editRowIndex}'`}
-            : {})
+              })
         };
       });
 
