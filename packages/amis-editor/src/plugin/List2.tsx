@@ -34,7 +34,6 @@ export class List2Plugin extends BasePlugin {
   pluginIcon = 'cards-plugin';
   scaffold = {
     type: 'cards',
-    columnsCount: 1,
     card: {
       type: 'container',
       body: [
@@ -377,10 +376,17 @@ export class List2Plugin extends BasePlugin {
               title: '组件',
               body: [
                 {
+                  name: 'masonryLayout',
+                  type: 'switch',
+                  label: '瀑布流布局',
+                  description: '开启后将以瀑布流的形式展示卡片'
+                },
+                {
                   type: 'select',
                   name: 'columnsSetting',
                   label: '列数设置方式',
-                  value: 'columnsCount', // 默认使用columnsCount
+                  visibleOn: 'this.masonryLayout',
+                  value: 'columnsCount',
                   options: [
                     {
                       label: '固定列数',
@@ -397,7 +403,6 @@ export class List2Plugin extends BasePlugin {
                     model: any,
                     form: any
                   ) => {
-                    // 切换时清空另一个配置
                     if (value === 'columnsCount') {
                       form.setValueByName('itemClassName', '');
                     } else {
@@ -408,7 +413,8 @@ export class List2Plugin extends BasePlugin {
                 {
                   name: 'columnsCount',
                   type: 'input-range',
-                  visibleOn: 'this.columnsSetting === "columnsCount"',
+                  visibleOn:
+                    'this.masonryLayout && this.columnsSetting === "columnsCount"',
                   min: 1,
                   max: 12,
                   step: 1,
@@ -416,7 +422,8 @@ export class List2Plugin extends BasePlugin {
                 },
                 {
                   type: 'container',
-                  visibleOn: 'this.columnsSetting === "itemClassName"',
+                  visibleOn:
+                    'this.masonryLayout && this.columnsSetting === "itemClassName"',
                   label: '响应式列数',
                   body: [
                     {
@@ -530,16 +537,10 @@ export class List2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  name: 'masonryLayout',
-                  type: 'switch',
-                  label: '瀑布流布局',
-                  description: '开启后将以瀑布流的形式展示卡片'
-                },
-                {
                   type: 'input-number',
                   label: '左右间距',
                   name: 'style.gutterX',
-                  visibleOn: 'this.columnsCount > 1'
+                  visibleOn: 'this.masonryLayout && this.columnsCount > 1'
                 },
                 {
                   type: 'input-number',
