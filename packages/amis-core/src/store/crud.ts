@@ -230,6 +230,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         isTable2?: Boolean; // 是否是 CRUD2
         minLoadingTime?: number; // 最小加载时间
         dataAppendTo?: 'top' | 'bottom';
+        totalField?: string;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -244,6 +245,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         minLoadingTime?: number; // 最小加载时间
+        totalField?: string;
       } = {}
     ) {
       try {
@@ -277,13 +279,15 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           const data = {
             ...self.data,
-            total: items.length,
+            [options.totalField || 'total']: items.length,
             items: items.slice(
               (self.page - 1) * self.perPage,
               self.page * self.perPage
             )
           };
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           self.reInitData(data);
           return;
         }
@@ -456,7 +460,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               options.perPageField || 'perPage'
             );
 
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
           // 分页情况不清楚，只能知道有没有下一页。
@@ -647,6 +653,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: {
         columns?: Array<any>;
         matchFunc?: MatchFunc | null;
+        totalField?: string;
       }
     ) {
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
@@ -680,7 +687,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         total: items.length
       };
 
-      self.total = parseInt(data.total ?? data.count, 10) || 0;
+      self.total =
+        parseInt(data[options.totalField || 'total'] ?? data.count, 10) || 0;
       self.items.replace(items);
       self.reInitData(data);
     };
