@@ -657,12 +657,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         targetStep <= steps.length &&
         targetStep >= 0
       ) {
-        this.gotoStep((data as any).step);
+        return this.gotoStep((data as any).step);
       }
     } else if (action.actionType === 'submit') {
-      this.finalSubmit();
+      return this.finalSubmit();
     } else if (onAction) {
-      onAction(e, action, data, throwErrors, delegate || this.context);
+      return onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 
