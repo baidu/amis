@@ -225,6 +225,18 @@ function getPreviousLeftWidth(
   return width;
 }
 
+function getPreviousTopHeight(thead: HTMLCollection, rowIndex: number) {
+  let height = 0;
+
+  for (let i = 0; i < rowIndex; i++) {
+    if (thead && thead[i]) {
+      const dom = thead[i] as HTMLElement;
+      height += dom.offsetHeight;
+    }
+  }
+  return height;
+}
+
 function getAfterRightWidth(
   doms: HTMLCollection,
   index: number,
@@ -289,6 +301,18 @@ export function updateFixedRow(
         cx('Table-cell-fix-right-first-prev')
       );
     }
+  }
+}
+
+// 更新一个tr下的th的top
+export function updateStickyRow(thead: HTMLCollection, rowIndex: number) {
+  const children = thead[rowIndex]?.children || [];
+
+  for (let i = 0; i < children.length; i++) {
+    const dom = children[i] as HTMLElement;
+    dom.style.removeProperty('top');
+    dom.style.top =
+      rowIndex > 0 ? getPreviousTopHeight(thead, rowIndex) + 'px' : '0';
   }
 }
 

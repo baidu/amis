@@ -9,12 +9,16 @@ import {
   IScopedContext,
   FormItem,
   FormControlProps,
-  ScopedContext
+  ScopedContext,
+  normalizeApi,
+  createObject,
+  Payload,
+  autobind
 } from 'amis-core';
 import {Signature} from 'amis-ui';
 import pick from 'lodash/pick';
-import {FormBaseControlSchema} from '../../Schema';
-
+import {FormBaseControlSchema, SchemaApi} from '../../Schema';
+import {base64ToBlob} from 'file64';
 export interface InputSignatureSchema extends FormBaseControlSchema {
   type: 'input-signature';
   /**
@@ -94,6 +98,10 @@ export interface InputSignatureSchema extends FormBaseControlSchema {
    * 弹窗按钮文案
    */
   embedBtnLabel?: string;
+  /**
+   *  上传签名图片api, 仅在内嵌模式下生效
+   */
+  uploadApi?: SchemaApi;
 }
 
 export interface IInputSignatureProps extends FormControlProps {}
@@ -106,8 +114,51 @@ export default class InputSignatureComp extends React.Component<
   IInputSignatureProps,
   IInputSignatureState
 > {
+  @autobind
+  async uploadFile(file: string, uploadApi: string): Promise<Payload> {
+    const api = normalizeApi(uploadApi, 'post');
+    if (!api.data) {
+      const fd = new FormData();
+      const fileBlob = await base64ToBlob(file);
+      fd.append('file', fileBlob, 'signature.png');
+      api.data = fd;
+    }
+
+    return this.props.env!.fetcher(
+      api,
+      createObject(this.props.data, {
+        file
+      })
+    );
+  }
+
+  @autobind
+  async handleChange(val: any) {
+    const {translate: __, uploadApi, embed, onChange} = this.props;
+    // 非内嵌模式 没有上传api 或是清空直接onChange
+    if (!embed || !uploadApi || val === undefined) {
+      onChange?.(val);
+      return;
+    }
+
+    try {
+      // 用api进行上传，上传结果回传表单数据
+      const res = await this.uploadFile(val, uploadApi as string);
+      if (!res.ok || (res.status && (res as any).status !== '0') || !res.data) {
+        throw new Error(res.msg || __('File.errorRetry'));
+      }
+      const value =
+        (res.data as any).value || (res.data as any).url || res.data;
+      onChange?.(value);
+    } catch (error) {
+      // 失败清空签名组件内的数据，传空字符串会重新触发amis的渲染，underfined不会被重新渲染（连续的空字符串不会被重新渲染，amis底层会对value值进行diff对比）
+      onChange?.('');
+      this.props.env?.alert?.(error.message || __('File.errorRetry'));
+    }
+  }
+
   render() {
-    const {classnames: cx, className, onChange} = this.props;
+    const {classnames: cx, className} = this.props;
     const props = pick(this.props, [
       'value',
       'width',
@@ -127,14 +178,15 @@ export default class InputSignatureComp extends React.Component<
       'ebmedCancelLabel',
       'ebmedCancelIcon',
       'embedBtnIcon',
-      'embedBtnLabel'
+      'embedBtnLabel',
+      'uploadApi'
     ]);
 
     return (
       <Signature
         classnames={cx}
         className={className}
-        onChange={onChange}
+        onChange={this.handleChange}
         {...props}
       />
     );

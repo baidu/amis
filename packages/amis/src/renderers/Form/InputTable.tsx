@@ -1273,6 +1273,7 @@ export default class FormTable<
       rowProps.quickEditEnabled = true;
       return rowProps;
     } else if (
+      !this.props.static &&
       !this.props.editable &&
       !this.props.addable &&
       !this.state.isCreateMode
@@ -1282,6 +1283,15 @@ export default class FormTable<
 
     rowProps.quickEditEnabled =
       this.state.editIndex === this.convertToRawPath(item.path);
+
+    /**
+     * 非编辑态使用静态展示
+     * 编辑态仅当前编辑行使用静态展示
+     */
+    if (this.props.enableStaticTransform && this.props.needConfirm !== false) {
+      rowProps.static = !rowProps.quickEditEnabled;
+    }
+
     return rowProps;
   }
 
@@ -1290,7 +1300,7 @@ export default class FormTable<
     isCreateMode = false,
     editRowIndex?: string
   ): Array<any> {
-    const {env, enableStaticTransform, mobileUI, testIdBuilder} = this.props;
+    const {env, mobileUI, testIdBuilder} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
       ? props.columns.concat()
       : [];
@@ -1482,14 +1492,7 @@ export default class FormTable<
                   mode: 'inline',
                   disabled
                 }
-              }),
-          /**
-           * 非编辑态使用静态展示
-           * 编辑态仅当前编辑行使用静态展示
-           */
-          ...(enableStaticTransform && props.needConfirm !== false
-            ? {staticOn: `${!isCreateMode} || data.index !== '${editRowIndex}'`}
-            : {})
+              })
         };
       });
 
@@ -2096,7 +2099,6 @@ export class TableControlRenderer extends FormTable {
     index?: number | string,
     condition?: any
   ) {
-    const len = this.state.items.length;
     if (index !== undefined) {
       let items = [...this.state.items];
       const indexs = String(index).split(',');
@@ -2104,7 +2106,12 @@ export class TableControlRenderer extends FormTable {
         const indexes = i.split('.').map(item => parseInt(item, 10));
 
         const originItems = items;
-        items = spliceTree(items, indexes, 1, value);
+        items = spliceTree(
+          items,
+          indexes,
+          1,
+          replace ? value : {...getTree(items, indexes), ...value}
+        );
         this.reUseRowId(items, originItems, indexes);
       });
       this.setState({items, ...this.transformState(items)}, () => {
@@ -2123,7 +2130,14 @@ export class TableControlRenderer extends FormTable {
 
           if (isUpdate) {
             const originItems = items;
-            items = spliceTree(items, [...indexes, index], 1, value);
+            items = spliceTree(
+              items,
+              [...indexes, index],
+              1,
+              replace
+                ? value
+                : {...getTree(items, [...indexes, index]), ...value}
+            );
             this.reUseRowId(items, originItems, [...indexes, index]);
           }
         });
@@ -2247,12 +2261,25 @@ export class TableControlRenderer extends FormTable {
       const deletedItems: any = [];
 
       if (args?.index !== undefined) {
-        const indexs = String(args.index).split(',');
-        indexs.forEach(i => {
-          const indexes = i.split('.').map(item => parseInt(item, 10));
-          deletedItems.push(getTree(items, indexes));
-          items = spliceTree(items, indexes, 1);
-        });
+        String(args.index)
+          .split(',')
+          .map(i => i.split('.').map(item => parseInt(item, 10)))
+          // 从右向左遍历，这样才不会出现索引失效
+          .sort((a, b) => {
+            const len = Math.max(a.length, b.length);
+            for (let i = 0; i < len; i++) {
+              const aVal = a[i] || 0;
+              const bVal = b[i] || 0;
+              if (aVal !== bVal) {
+                return bVal - aVal;
+              }
+            }
+            return 0;
+          })
+          .forEach(indexes => {
+            deletedItems.push(getTree(items, indexes));
+            items = spliceTree(items, indexes, 1);
+          });
       } else if (args?.condition !== undefined) {
         const promises: Array<() => Promise<any>> = [];
         everyTree(items, (item, index, level, paths, indexes) => {

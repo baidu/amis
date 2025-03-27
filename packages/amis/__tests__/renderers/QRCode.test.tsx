@@ -54,8 +54,10 @@ describe('Renderer:qr-code', () => {
       mode: 'svg'
     });
 
-    expect(svgEl?.firstElementChild?.getAttribute('fill')).toBe('#108cee');
-    expect(svgEl?.lastElementChild?.getAttribute('fill')).toBe('yellow');
+    expect(svgEl?.getAttribute('style')).toBe(
+      'background-color: rgb(16, 140, 238);'
+    );
+    expect(svgEl?.firstElementChild?.getAttribute('fill')).toBe('yellow');
     expect(container).toMatchSnapshot();
   });
 
@@ -70,7 +72,7 @@ describe('Renderer:qr-code', () => {
         y: 30
       }
     });
-    const imageEl = svgEl?.lastElementChild;
+    const imageEl = svgEl?.querySelector('image');
 
     expect(imageEl).not.toBeNull();
     expect(imageEl?.getAttribute('xlink:href')).not.toBeUndefined();

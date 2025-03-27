@@ -619,6 +619,34 @@
     .#{$ns}Table-header {
       padding: 0;
     }
+
+    &-self-sticky {
+      position: relative !important;
+
+      .#{$ns}Table-content {
+        overflow-x: unset !important;
+      }
+
+      .#{$ns}Table-table {
+        border-collapse: separate;
+
+        > tbody > tr > td {
+          border-top: none;
+        }
+      }
+
+      .#{$ns}Table-row {
+        z-index: 1;
+      }
+
+      .#{$ns}Table-cell-self-sticky {
+        z-index: 2 !important;
+      }
+
+      .#{$ns}Table-cell-fix-left {
+        z-index: 3 !important;
+      }
+    }
   }
 
   &.#{$ns}Table-ping-left {

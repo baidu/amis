@@ -1100,7 +1100,7 @@ order: 54
 | confirmBtnIcon               | `string`                                  | `"check"`       | 确认编辑按钮图标                                                                                     |
 | cancelBtnLabel               | `string`                                  | `""`            | 取消编辑按钮名称                                                                                     |
 | cancelBtnIcon                | `string`                                  | `"times"`       | 取消编辑按钮图标                                                                                     |
-| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
+| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，可用来控制表格的操作交互                                                       |
 | canAccessSuperData           | `boolean`                                 | `false`         | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
 | strictMode                   | `boolean`                                 | `true`          | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
 | minLength                    | `number`                                  | `0`             | 最小行数, `2.4.1`版本后支持变量                                                                      |
@@ -1620,7 +1620,7 @@ order: 54
 
 ### deleteSuccess
 
-开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发。
+开启`needConfirm`并且配置`deleteApi`，点击“保存”后调用接口成功时触发。
 
 ```schema: scope="body"
 {

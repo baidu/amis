@@ -69,6 +69,21 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
+import {Spinner} from 'amis-ui';
+
+interface LoadMoreConfig {
+  showIcon?: boolean;
+  showText?: boolean;
+  color?: string;
+  iconType?: string;
+  contentText?: {
+    contentdown: string;
+    contentrefresh: string;
+    contentnomore: string;
+  };
+  minLoadingTime?: number;
+  dataAppendTo?: 'top' | 'bottom';
+}
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -234,6 +249,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * @default pageDir
    */
   pageDirectionField?: string;
+
+  /**
+   * 设置总条数的字段名。
+   */
+  totalField?: string;
 
   /**
    * 快速编辑后用来批量保存的 API
@@ -415,6 +435,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * 控制是否多选，默认为 false
    */
   multiple?: boolean;
+
+  /**
+   * 加载更多配置
+   */
+  loadMoreProps?: LoadMoreConfig;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -476,6 +501,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'totalField',
     'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
@@ -516,7 +542,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     'maxTagCount',
     'overflowTagPopover',
     'parsePrimitiveQuery',
-    'matchFunc'
+    'matchFunc',
+    'loadMoreProps'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -526,6 +553,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    totalField: 'total',
     pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
@@ -534,7 +562,17 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     filterDefaultVisible: true,
     loadDataOnce: false,
     autoFillHeight: false,
-    parsePrimitiveQuery: true
+    parsePrimitiveQuery: true,
+    loadMoreProps: {
+      showIcon: true,
+      showText: true,
+      iconType: 'loading-outline',
+      contentText: {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      }
+    }
   };
 
   control: any;
@@ -582,6 +620,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       pageField,
       perPageField,
+      totalField,
       syncLocation,
       loadDataOnce
     } = props;
@@ -730,7 +769,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
 
       if (!this.lastData || this.lastData !== next) {
         store.initFromScope(props.data, props.source, {
-          columns: store.columns ?? props.columns
+          columns: store.columns ?? props.columns,
+          totalField: props.totalField
         });
 
         if (this.props.pickerMode && (val = getPropValue(this.props))) {
@@ -1015,6 +1055,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       orderBy,
       orderDir,
+      totalField,
       dispatchEvent
     } = this.props;
     const params: any = {...defaultParams};
@@ -1047,7 +1088,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         '${items}',
         {
           columns: store.columns ?? columns,
-          matchFunc
+          matchFunc,
+          totalField
         }
       );
       let val: any;
@@ -1326,6 +1368,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       messages,
       pageField,
       perPageField,
+      totalField,
       interval,
       stopAutoRefreshWhen,
       stopAutoRefreshWhenModalIsOpen,
@@ -1384,11 +1427,14 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         silent,
         pageField,
         perPageField,
+        totalField,
         loadDataMode,
         syncResponse2Query,
         columns: store.columns ?? columns,
         matchFunc,
-        filterOnAllColumns: loadDataOnceFetchOnFilter === false
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false,
+        minLoadingTime: values?.minLoadingTime,
+        dataAppendTo: values?.dataAppendTo
       });
       if (!isAlive(store)) {
         return value;
@@ -1416,7 +1462,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         const rendererEvent = await dispatchEvent?.(
           'research',
           createObject(this.props.data, {
-            responseData: value?.ok ? data ?? {} : value,
+            responseData: value?.ok ? store.data ?? {} : value,
             responseStatus:
               value?.status === undefined ? (error ? 1 : 0) : value?.status,
             responseMsg: msg
@@ -1424,7 +1470,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         );
 
         if (rendererEvent?.prevented) {
-          return;
+          return store.data;
         }
       }
 
@@ -1466,7 +1512,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     } else if (source) {
       store.initFromScope(data, source, {
         columns: store.columns ?? columns,
-        matchFunc
+        matchFunc,
+        totalField
       });
     }
 
@@ -2423,24 +2470,61 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      testIdBuilder
+      testIdBuilder,
+      loadMoreProps = {}
     } = this.props;
     const {page, lastPage} = store;
 
+    const {
+      showIcon = true,
+      showText = true,
+      iconType = 'loading-outline',
+      contentText = {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      },
+      minLoadingTime,
+      dataAppendTo,
+      color
+    } = loadMoreProps;
+
+    const isLoading = store.loading;
+    const isNoMore = page >= lastPage;
+
     return (
-      <div className={cx('Crud-loadMore')}>
-        <Button
-          disabled={page >= lastPage}
-          disabledTip={__('CRUD.loadMoreDisableTip')}
-          classPrefix={ns}
-          onClick={() =>
-            this.search({page: page + 1, loadDataMode: 'load-more'})
+      <div
+        className={cx('Crud-loadMore')}
+        style={
+          color
+            ? ({
+                '--Spinner-color': color,
+                'color': color
+              } as React.CSSProperties)
+            : undefined
+        }
+        onClick={() => {
+          if (isLoading || isNoMore) {
+            return;
           }
-          size="sm"
-          {...testIdBuilder?.getChild('loadMore').getTestId()}
-        >
-          {__('CRUD.loadMore')}
-        </Button>
+          this.search({
+            page: page + 1,
+            loadDataMode: 'load-more',
+            minLoadingTime,
+            dataAppendTo
+          });
+        }}
+      >
+        {showIcon && <Spinner show={isLoading} icon={iconType} size="sm" />}
+        {showText && (
+          <span>
+            {isLoading
+              ? contentText.contentrefresh
+              : isNoMore
+              ? contentText.contentnomore
+              : contentText.contentdown}
+          </span>
+        )}
       </div>
     );
   }
@@ -2995,14 +3079,15 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       classnames: cx,
       translate: __,
       testIdBuilder,
-      id
+      id,
+      mobileUI
     } = this.props;
 
     return (
       <div
         className={cx('Crud', className, {
           'is-loading': store.loading,
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
         style={style}
         data-id={id}

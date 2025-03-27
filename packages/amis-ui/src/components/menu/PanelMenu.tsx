@@ -27,7 +27,8 @@ function PanelMenuItem(props: PanelMenuProps) {
   }
 
   return (
-    <RcItem key={props.id} {...props} onClick={onMenuClick}>
+    // eventKey不传会影响rc-menu构建keyPath，影响父级菜单选中状态
+    <RcItem key={props.id} eventKey={props.id} {...props} onClick={onMenuClick}>
       <div className={cx('Nav-Menu-panel-item')}>
         {!!link?.icon && (
           <span className={cx(`Nav-Menu-panel-item__icon-wrapper`)}>
