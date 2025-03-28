@@ -678,7 +678,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     // 所以这里应该忽略 autoGenerateFilter 情况
     if (
       (!this.props.filter && !autoGenerateFilter) ||
-      (store.filterTogggable && !store.filterVisible)
+      (store.filterTogglable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
     }
@@ -2532,7 +2532,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   renderFilterToggler() {
     const {store, classnames: cx, translate: __, filterTogglable} = this.props;
 
-    if (!store.filterTogggable) {
+    if (!store.filterTogglable) {
       return null;
     }
 
@@ -2901,7 +2901,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       filterCanAccessSuperData = true
     } = this.props;
 
-    if (!filter && (!store.filterTogggable || store.filterVisible)) {
+    if (!filter || (store.filterTogglable && !store.filterVisible)) {
       return null;
     }
 
