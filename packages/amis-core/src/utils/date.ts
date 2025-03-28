@@ -49,17 +49,17 @@ export const filterDate = (
     const from = m[1]
       ? filterDate(m[1], data, format, utc)
       : mm(
-          /(minute|min|hour|second)s?/.test(m[4])
-            ? [
-                date.getFullYear(),
-                date.getMonth(),
-                date.getDate(),
-                date.getHours(),
-                date.getMinutes(),
-                date.getSeconds()
-              ]
-            : [date.getFullYear(), date.getMonth(), date.getDate()]
-        );
+        /(minute|min|hour|second)s?/.test(m[4])
+          ? [
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+          ]
+          : [date.getFullYear(), date.getMonth(), date.getDate()]
+      );
 
     return m[2] === '-'
       ? from.subtract(step, timeUnitMap[m[4]] as moment.DurationInputArg2)
@@ -71,12 +71,18 @@ export const filterDate = (
     const date = new Date();
     return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
+    if (format !== '') {
+      //如果指定了format，则优先使用format解析
+      return utc
+        ? mm(value, format).local()
+        : mm(value, format);
+    }
     const result = utc ? mm(value).local() : mm(value);
     return result.isValid()
       ? result
       : utc
-      ? mm(value, format).local()
-      : mm(value, format);
+        ? mm(value, format).local()
+        : mm(value, format);
   }
 };
 
