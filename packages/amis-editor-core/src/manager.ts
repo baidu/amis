@@ -1013,8 +1013,8 @@ export class EditorManager {
       // crud 和 table 等表格类容器
       regionNodeId = curActiveId;
       regionNodeRegion = 'columns';
-    } else if (node.schema.items && isLayoutPlugin(node.schema)) {
-      // 当前节点是布局类容器节点
+    } else if (node.schema.items && (isLayoutPlugin(node.schema) || node.type === 'combo')) {
+      // 当前节点是布局类容器节点或 combo 组件
       regionNodeId = curActiveId;
       regionNodeRegion = 'items';
     } else if (node.schema.body) {
