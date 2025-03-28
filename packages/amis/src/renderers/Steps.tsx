@@ -214,7 +214,16 @@ const StepsWithRemoteConfig = withRemoteConfig()(
           <StepsCmpt
             {...rest}
             {...sourceConfig}
-            className={cx(`${ns}StepsControl`, className)}
+            className={cx(
+              `${ns}StepsControl`,
+              className,
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss
+              })
+            )}
             iconClassName={setThemeClassName({
               ...this.props,
               name: [
@@ -273,6 +282,7 @@ const StepsWithRemoteConfig = withRemoteConfig()(
               id,
               themeCss,
               classNames: [
+                {key: 'baseControlClassName'},
                 {
                   key: 'iconControlClassNameDefault',
                   weights: {
