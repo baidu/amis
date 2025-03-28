@@ -241,6 +241,7 @@ register('de-DE', {
   'Table.copyRow': 'Zeile kopieren',
   'Table.columnsVisibility':
     'Klicken, um die Sichtbarkeit der Spalten zu steuern',
+  'Table.columnsSorting': 'Spalte ziehen, um zu sortieren',
   'Table.deleteRow': 'Aktuele Zeile löschen',
   'Table.discard': 'Verwerfen',
   'Table.dragTip': 'Schaltfläche links zum Sortieren ziehen',
