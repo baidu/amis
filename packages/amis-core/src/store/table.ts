@@ -35,6 +35,7 @@ import {
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
+import {getPageId} from '../utils/getPageId';
 
 /**
  * 内部列的数量 '__checkme' | '__dragme' | '__expandme'
@@ -850,7 +851,7 @@ export const TableStore = iRendererStore
       getSelectionUpperLimit,
 
       get columnsKey() {
-        return location.pathname + self.path;
+        return getPageId() + self.path;
       },
 
       get columnsData() {
