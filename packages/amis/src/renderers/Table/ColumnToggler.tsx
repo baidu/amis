@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
-import {isMobile, RendererProps} from 'amis-core';
+import {RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {Modal} from 'amis-ui';
@@ -13,7 +13,6 @@ import {TooltipWrapper} from 'amis-ui';
 import {noop, autobind, anyChanged, createObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {getIcon} from 'amis-ui';
 import {RootClose} from 'amis-core';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 import {IColumn} from 'amis-core';
@@ -124,6 +123,10 @@ export interface ColumnTogglerProps extends RendererProps {
   onColumnToggle: (columns: Array<IColumn>) => void;
   modalContainer?: () => HTMLElement;
   tooltipContainer?: any;
+  modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'full' | 'custom';
+  modalWidth?: string;
+  modalHeight?: string;
+  modalColumnCount?: number;
 }
 
 export interface ColumnTogglerState {
@@ -375,11 +378,28 @@ export default class ColumnToggler<
       translate: __,
       footerBtnSize,
       children,
+      modalSize,
+      modalWidth,
+      modalHeight,
+      modalColumnCount,
       env
     } = this.props;
 
     const {enableSorting, tempColumns} = this.state;
     const inDragging = enableSorting && draggable && tempColumns.length > 1;
+    const style = {
+      width: !modalSize
+        ? undefined
+        : modalSize === 'custom'
+        ? modalWidth
+        : 'unset',
+      height: modalSize !== 'custom' ? undefined : modalHeight
+    };
+    const listClasses = ['ColumnToggler-modal-content'];
+    if (modalColumnCount)
+      listClasses.push(
+        `ColumnToggler-modal-content--column-${modalColumnCount}`
+      );
     return (
       <>
         <Modal
@@ -389,6 +409,9 @@ export default class ColumnToggler<
           contentClassName={cx('ColumnToggler-modal')}
           container={modalContainer || this.target}
           overlay={typeof overlay === 'boolean' ? overlay : false}
+          draggable={true}
+          size={modalSize}
+          style={style}
         >
           <header className={cx('ColumnToggler-modal-header')}>
             <span className={cx('ColumnToggler-modal-title')}>
@@ -406,7 +429,7 @@ export default class ColumnToggler<
           {!inDragging && (
             <ul className={cx('ColumnToggler-modal-content')}>{children}</ul>
           )}
-          <ul className={cx('ColumnToggler-modal-content')} ref={this.dragRef}>
+          <ul className={cx(listClasses)} ref={this.dragRef}>
             {Array.isArray(tempColumns)
               ? tempColumns.map((column, index) => (
                   <TooltipWrapper
