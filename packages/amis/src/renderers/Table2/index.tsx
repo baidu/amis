@@ -1574,7 +1574,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const {onAction} = this.props;
 
     // todo
-    onAction && onAction(e, action, ctx);
+    return onAction?.(e, action, ctx);
   }
 
   renderActions(region: string) {

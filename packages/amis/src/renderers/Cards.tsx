@@ -374,7 +374,7 @@ export default class Cards extends React.Component<GridProps, object> {
     const {onAction} = this.props;
 
     // 需要支持特殊事件吗？
-    onAction(e, action, ctx);
+    return onAction?.(e, action, ctx);
   }
 
   handleCheck(item: IItem) {
