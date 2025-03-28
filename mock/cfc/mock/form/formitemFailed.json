@@ -1,0 +1,6 @@
+{
+  "status": 422,
+  "msg": "",
+  "errors": "当前用户已存在",
+  "data": null
+}
