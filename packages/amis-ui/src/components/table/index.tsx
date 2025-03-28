@@ -86,6 +86,7 @@ export interface RowSelectionOptionProps {
 export interface RowSelectionProps {
   type: string;
   rowClick?: boolean; // 点击复选框选中还是点击整行选中
+  rowClickIgControl?: boolean; // 点击行或控件，均触发Row的onClick事件
   fixed: boolean; // 只能固定在左边
   selectedRowKeys: Array<string | number>;
   keyField?: string; // 默认是key，可自定义
@@ -1060,6 +1061,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         selectable={!!rowSelection}
         rowSelectionFixed={!!rowSelection?.fixed}
         rowSelectionType={rowSelection?.type || 'checkbox'}
+        rowClickIgControl={!!rowSelection?.rowClickIgControl}
         expandable={!!expandable}
         expandableFixed={expandable?.fixed}
         expandedRowClassName={expandedRowClassName}
