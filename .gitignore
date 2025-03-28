@@ -11,7 +11,7 @@ yarn.lock
 .sass-cache
 gh_pages
 _site
-node_modules
+**/node_modules
 /dist
 /lib
 **/esm
