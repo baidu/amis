@@ -1683,9 +1683,10 @@ export default class FormTable<
     }
 
     if (btns.length) {
-      let operation = columns.find(item => item.type === 'operation');
+      let idx = columns.findIndex(item => item.type === 'operation');
+      let operation = columns[idx];
 
-      if (!operation) {
+      if (idx === -1) {
         operation = {
           type: 'operation',
           buttons: [],
@@ -1696,6 +1697,11 @@ export default class FormTable<
           innerClassName: 'm-n'
         };
         columns.push(operation);
+      } else {
+        operation = {
+          ...operation
+        };
+        columns.splice(idx, 1, operation);
       }
 
       operation.buttons = Array.isArray(operation.buttons)
