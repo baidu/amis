@@ -1519,7 +1519,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
 
     let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+    if (
+      this.props.pickerMode &&
+      this.props.onSelect && // embed 模式下才同步外部选择，否则是弹窗模式，props.value 不会变化，所以不会记录分页选择，会出现错误
+      (val = getPropValue(this.props))
+    ) {
       this.syncSelectedFromPicker(val);
     }
 
