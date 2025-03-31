@@ -151,7 +151,9 @@ export const bindEvent = (renderer: any) => {
     for (let key of Object.keys(listeners)) {
       const listener = rendererEventListeners.find(
         (item: RendererEventListener) =>
-          item.renderer === renderer && item.type === key
+          item.renderer === renderer &&
+          item.type === key &&
+          item.actions === listeners[key].actions
       );
       if (listener?.executing) {
         listener?.debounceInstance?.cancel?.();
@@ -322,7 +324,10 @@ export async function dispatchEvent(
     .filter(
       (item: RendererEventListener) =>
         item.type === eventName &&
-        (broadcast ? true : item.renderer === renderer)
+        (broadcast
+          ? true
+          : item.renderer === renderer &&
+            item.actions === renderer.props?.onEvent?.[eventName].actions)
     )
     .sort(
       (prev: RendererEventListener, next: RendererEventListener) =>
