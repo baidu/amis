@@ -29,7 +29,7 @@ import type {RendererEnv} from './env';
 import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 import {StatusScopedProps} from './StatusScoped';
-
+import type {IScopedContext} from './Scoped';
 export interface TestFunc {
   (
     path: string,
@@ -99,9 +99,10 @@ export interface RendererProps
   };
   onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
   dispatchEvent: (
-    e: React.UIEvent<any> | React.BaseSyntheticEvent<any> | string,
+    e: string | React.MouseEvent<any>,
     data: any,
-    renderer?: React.Component<RendererProps>
+    renderer?: React.Component<RendererProps>,
+    scoped?: IScopedContext
   ) => Promise<RendererEvent<any>>;
   mobileUI?: boolean;
   [propName: string]: any;
