@@ -507,8 +507,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     }
 
     function persistSaveToggledColumns() {
+      const fn = getEnv(self).getPageId || getPageId;
       const key =
-        getPageId() +
+        fn() +
         self.path +
         self.toggableColumns.map(item => item.name || item.index).join('-');
       localStorage.setItem(
@@ -823,8 +824,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           if (!isAlive(self)) {
             return;
           }
+          const fn = getEnv(self).getPageId || getPageId;
           const key =
-            getPageId() +
+            fn() +
             self.path +
             self.toggableColumns.map(item => item.name || item.index).join('-');
 

@@ -851,7 +851,8 @@ export const TableStore = iRendererStore
       getSelectionUpperLimit,
 
       get columnsKey() {
-        return getPageId() + self.path;
+        const fn = getEnv(self).getPageId || getPageId;
+        return fn() + self.path;
       },
 
       get columnsData() {

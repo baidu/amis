@@ -30,6 +30,7 @@ import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 import {StatusScopedProps} from './StatusScoped';
 import type {IScopedContext} from './Scoped';
+import {getPageId} from './utils/getPageId';
 export interface TestFunc {
   (
     path: string,
@@ -555,7 +556,8 @@ export const defaultOptions: RenderOptions = {
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
   filterHtml: (input: string) => input,
-  isMobile: isMobile
+  isMobile: isMobile,
+  getPageId: getPageId
 };
 
 export const stores: {
