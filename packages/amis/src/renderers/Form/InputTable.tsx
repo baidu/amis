@@ -39,6 +39,7 @@ import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
+import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
 import {sortArray, str2function} from 'amis-core';
 
@@ -1302,7 +1303,7 @@ export default class FormTable<
   ): Array<any> {
     const {env, mobileUI, testIdBuilder} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
-      ? props.columns.concat()
+      ? cloneDeep(props.columns)
       : [];
     const ns = this.props.classPrefix;
     const __ = this.props.translate;
