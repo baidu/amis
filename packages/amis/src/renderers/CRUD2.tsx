@@ -1208,6 +1208,24 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
   }
 
+  @autobind
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 如果事件是 selectedChange 并且是当前组件触发的，
+    // 则以当前组件的选择信息为准
+    if (e === 'selectedChange' && this.control === renderer) {
+      const store = this.props.store;
+      data.selectedItems = store.selectedItems.concat();
+      data.unSelectedItems = store.unSelectedItems.concat();
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
+  }
+
   unSelectItem(item: any, index: number) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
@@ -1695,6 +1713,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         onSort: this.handleQuerySearch,
         onSelect: this.handleSelect,
         onAction: this.handleAction,
+        dispatchEvent: this.dispatchEvent,
         data: store.mergedData,
         loading: store.loading,
         host: this

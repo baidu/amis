@@ -596,6 +596,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleFilterInit = this.handleFilterInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleBulkAction = this.handleBulkAction.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleBulkGo = this.handleBulkGo.bind(this);
@@ -2155,6 +2156,24 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 如果事件是 selectedChange 并且是当前组件触发的，
+    // 则以当前组件的选择信息为准
+    if (e === 'selectedChange' && this.control === renderer) {
+      const store = this.props.store;
+      data.selectedItems = store.selectedItems.concat();
+      data.unSelectedItems = store.unSelectedItems.concat();
+      // selectedIndexes  还不支持
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
+  }
+
   unSelectItem(item: any, index: number) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
@@ -3048,6 +3067,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         orderDir: store.query.orderDir,
         popOverContainer,
         onAction: this.handleAction,
+        dispatchEvent: this.dispatchEvent,
         onItemChange: this.handleItemChange,
         onSave: this.handleSave,
         onSaveOrder: this.handleSaveOrder,
