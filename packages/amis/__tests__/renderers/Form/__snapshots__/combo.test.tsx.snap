@@ -1029,6 +1029,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                             </button>
                             <ul
                               class="cxd-DropDown-menu-root cxd-DropDown-menu"
+                              style="width: 0px;"
                             >
                               <li
                                 class="cxd-DropDown-button"
