@@ -9,7 +9,7 @@ export interface TimelineItemProps {
   /**
    * 时间点
    */
-  time?: string;
+  time?: string | ReactNode;
 
   /**
    * 事件名称
@@ -19,7 +19,7 @@ export interface TimelineItemProps {
   /**
    * 详细内容
    */
-  detail?: string;
+  detail?: string | ReactNode;
 
   /**
    * 时间点圆圈颜色,可传入英文/颜色值/level样式（info、success、warning、danger）
