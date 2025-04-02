@@ -705,6 +705,7 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | click               | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标点击时触发                                      |
 | mouseover           | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标悬浮时触发                                      |
 | legendselectchanged | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 切换图例选中状态时触发                              |
+| finished | {echarts: echarts.init(ref, theme)} | echarts 图表绘制完成, version > 6.11.0                              |
 
 ### init
 
@@ -1000,6 +1001,111 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
         }
         ]
     }
+    },
+    "config": {
+    "title": {
+        "text": "极坐标双数值轴"
+    },
+    "legend": {
+        "data": [
+        "line"
+        ]
+    },
+    "polar": {
+        "center": [
+        "50%",
+        "54%"
+        ]
+    },
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+        "type": "cross"
+        }
+    },
+    "angleAxis": {
+        "type": "value",
+        "startAngle": 0
+    },
+    "radiusAxis": {
+        "min": 0
+    },
+    "series": [
+        {
+        "coordinateSystem": "polar",
+        "name": "line",
+        "type": "line",
+        "showSymbol": false,
+        "data": [
+            [
+            0,
+            0
+            ],
+            [
+            0.03487823687206265,
+            1
+            ],
+            [
+            0.06958655048003272,
+            2
+            ],
+            [
+            0.10395584540887964,
+            3
+            ],
+            [
+            0.13781867790849958,
+            4
+            ],
+            [
+            0.17101007166283433,
+            5
+            ],
+            [
+            0.2033683215379001,
+            6
+            ],
+            [
+            0.2347357813929454,
+            7
+            ],
+            [
+            0.26495963211660245,
+            8
+            ],
+            [
+            0.2938926261462365,
+            9
+            ],
+            [
+            0.3213938048432697,
+            10
+            ]
+        ]
+        }
+    ],
+    "animationDuration": 2000
+    }
+}
+```
+
+
+### finished
+
+echarts渲染完触发`finished`事件, version>6.11.0。
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "onEvent": {
+      "finished": {
+          "actions": [
+            {
+                "actionType": "custom",
+                "script": "console.log(event);alert(event.data.echarts.getDataURL({type: 'png',pixelRatio: 2,backgroundColor: '#fff',excludeComponents: ['toolbox']}))"
+            }
+          ]
+      }
     },
     "config": {
     "title": {
