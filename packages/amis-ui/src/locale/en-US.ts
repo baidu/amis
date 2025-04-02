@@ -232,6 +232,7 @@ register('en-US', {
   'Table.subAddRow': 'Add sub row',
   'Table.copyRow': 'Copy row',
   'Table.columnsVisibility': 'Click to control columns visibility',
+  'Table.columnsSorting': 'Drag column to sort',
   'Table.deleteRow': 'Delete current row',
   'Table.discard': 'Discard',
   'Table.dragTip': 'Drag the button on the left to sort',
@@ -434,6 +435,7 @@ register('en-US', {
   'Signature.confirm': 'confirm',
   'Signature.cancel': 'cancel',
   'Signature.embedLabel': 'Click to sign',
+  'Signature.embedUpdateLabel': 'Update to sign',
   'QRCode.tooLong':
     'The QR code value is too long, please set the text to be below {{max}} characters.'
 });

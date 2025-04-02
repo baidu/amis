@@ -4,7 +4,8 @@ import {
   SnapshotIn,
   IAnyModelType,
   isAlive,
-  Instance
+  Instance,
+  getEnv
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {
@@ -34,6 +35,7 @@ import {
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
+import {getPageId} from '../utils/getPageId';
 
 /**
  * 内部列的数量 '__checkme' | '__dragme' | '__expandme'
@@ -419,6 +421,7 @@ export const Row = types
       let data = immutableExtends(self.data, values);
 
       Object.isExtensible(data) &&
+        !data.__pristine &&
         Object.defineProperty(data, '__pristine', {
           value: savePristine ? data : self.pristine,
           enumerable: false,
@@ -511,6 +514,7 @@ export const Row = types
       };
 
       Object.isExtensible(data) &&
+        !data.__pristine &&
         Object.defineProperty(data, '__pristine', {
           value: self.data.__pristine || self.pristine,
           enumerable: false,
@@ -840,10 +844,15 @@ export const TableStore = iRendererStore
     }
 
     return {
+      get __() {
+        return getEnv(self).translate;
+      },
+
       getSelectionUpperLimit,
 
       get columnsKey() {
-        return location.pathname + self.path;
+        const fn = getEnv(self).getPageId || getPageId;
+        return fn() + self.path;
       },
 
       get columnsData() {
@@ -1265,31 +1274,35 @@ export const TableStore = iRendererStore
           });
         }
 
-        if (self.showIndex) {
+        if (self.showIndex && !columns.some(item => item.type === '__index')) {
           columns.unshift({
             type: '__index',
+            label: self.__('Table.index'),
             width: 50
           });
         }
 
-        columns.unshift({
-          type: '__expandme',
-          toggable: false,
-          className: 'Table-expandCell'
-        });
+        columns.some(item => item.type === '__expandme') ||
+          columns.unshift({
+            type: '__expandme',
+            toggable: false,
+            className: 'Table-expandCell'
+          });
 
-        columns.unshift({
-          type: '__checkme',
-          fixed: 'left',
-          toggable: false,
-          className: 'Table-checkCell'
-        });
+        columns.some(item => item.type === '__checkme') ||
+          columns.unshift({
+            type: '__checkme',
+            fixed: 'left',
+            toggable: false,
+            className: 'Table-checkCell'
+          });
 
-        columns.unshift({
-          type: '__dragme',
-          toggable: false,
-          className: 'Table-dragCell'
-        });
+        columns.some(item => item.type === '__dragme') ||
+          columns.unshift({
+            type: '__dragme',
+            toggable: false,
+            className: 'Table-dragCell'
+          });
 
         const originColumns = self.columns.concat();
         const ids: Array<any> = [];

@@ -210,7 +210,8 @@ export function InputJSONSchemaObject(
           },
           value: value?.[key] ?? ''
         });
-      } else {
+      } else if (exists) {
+        // 当 value 的 key 在 members 中存在时，再修改
         arr.splice(idx, 1, {
           ...exists,
           value: value?.[key]

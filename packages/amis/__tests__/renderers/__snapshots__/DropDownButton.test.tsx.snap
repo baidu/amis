@@ -19,6 +19,7 @@ exports[`Renderer:dropdown-button 1`] = `
     </button>
     <ul
       class="cxd-DropDown-menu-root cxd-DropDown-menu"
+      style="width: 0px;"
     >
       <li
         class="cxd-DropDown-button"
@@ -132,6 +133,7 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
     </button>
     <ul
       class="cxd-DropDown-menu-root cxd-DropDown-menu"
+      style="width: 0px;"
     >
       <div
         class="cxd-DropDown-menu"
@@ -272,6 +274,7 @@ exports[`Renderer:dropdown-button with closeOnClick & closeOnOutside 1`] = `
             </button>
             <ul
               class="cxd-DropDown-menu-root cxd-DropDown-menu"
+              style="width: 0px;"
             >
               <li
                 class="cxd-DropDown-button"

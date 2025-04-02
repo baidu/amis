@@ -737,7 +737,7 @@ export default class Service extends React.Component<ServiceProps> {
 
     if (api && action.actionType === 'ajax') {
       store.setCurrentAction(action, this.props.resolveDefinitions);
-      store
+      return store
         .saveRemote(action.api as string, data, {
           successMessage: __(action.messages && action.messages.success),
           errorMessage: __(action.messages && action.messages.failed)
@@ -764,7 +764,7 @@ export default class Service extends React.Component<ServiceProps> {
           }
         });
     } else {
-      onAction(e, action, data, throwErrors, delegate || this.context);
+      return onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 

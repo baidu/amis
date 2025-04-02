@@ -236,6 +236,7 @@ register('zh-CN', {
   'Table.subAddRow': '新增孩子',
   'Table.copyRow': '复制一行',
   'Table.columnsVisibility': '点击选择显示列',
+  'Table.columnsSorting': '拖拽列修改显示顺序',
   'Table.deleteRow': '删除当前行',
   'Table.discard': '放弃',
   'Table.dragTip': '请拖动左边的按钮进行排序',
@@ -428,5 +429,6 @@ register('zh-CN', {
   'Signature.confirm': '确认',
   'Signature.cancel': '取消',
   'Signature.embedLabel': '点击签名',
+  'Signature.embedUpdateLabel': '更新签名',
   'QRCode.tooLong': '二维码值过长，请设置{{max}}个字符以下的文本'
 });

@@ -715,9 +715,9 @@ export default class TextControl extends React.PureComponent<
     }
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   valueToString(value: any) {

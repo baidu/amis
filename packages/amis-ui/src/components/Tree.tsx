@@ -28,11 +28,13 @@ import {
   getTreeAncestors,
   flattenTree,
   flattenTreeWithLeafNodes,
-  TestIdBuilder
+  TestIdBuilder,
+  resizeSensor,
+  calculateHeight
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
-import {Icon, getIcon} from './icons';
+import {Icon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
@@ -143,8 +145,6 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   createTip?: string;
   // 是否开启虚拟滚动
   virtualThreshold?: number;
-  // 虚拟滚动列表高度
-  virtualHeight?: number;
   itemHeight?: number;
   onAdd?: (
     idx?: number | Array<number>,
@@ -176,6 +176,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
 
   testIdBuilder?: TestIdBuilder;
   actionClassName?: string;
+
+  height?: number;
 }
 
 interface TreeSelectorState {
@@ -192,6 +194,8 @@ interface TreeSelectorState {
 
   // 拖拽指示器
   dropIndicator?: IDropIndicator;
+
+  virtualHeight: number;
 }
 
 export class TreeSelector extends React.Component<
@@ -253,6 +257,7 @@ export class TreeSelector extends React.Component<
   };
   root = React.createRef<HTMLDivElement>();
   virtualListRef = React.createRef<any>();
+  unSensor?: () => void;
 
   constructor(props: TreeSelectorProps) {
     super(props);
@@ -277,7 +282,8 @@ export class TreeSelector extends React.Component<
       isAdding: false,
       isEditing: false,
       editingItem: null,
-      dropIndicator: undefined
+      dropIndicator: undefined,
+      virtualHeight: 0
     };
 
     this.syncUnFolded(props, undefined, true);
@@ -290,10 +296,24 @@ export class TreeSelector extends React.Component<
     // onRef只有渲染器的情况才会使用
     this.props.onRef?.(this);
     enableNodePath && this.expandLazyLoadNodes();
+
+    this.handleVirtualHeight();
+    this.unSensor = resizeSensor(
+      this.root.current!,
+      () => {
+        this.handleVirtualHeight();
+      },
+      false,
+      'height'
+    );
   }
 
-  componentDidUpdate(prevProps: TreeSelectorProps) {
+  componentDidUpdate(
+    prevProps: TreeSelectorProps,
+    prevState: TreeSelectorState
+  ) {
     const props = this.props;
+    const state = this.state;
 
     if (prevProps.options !== props.options) {
       this.syncUnFolded(props);
@@ -321,11 +341,20 @@ export class TreeSelector extends React.Component<
         valueSet: new Set(newValue)
       });
     }
+
+    if (prevState.isAdding !== state.isAdding) {
+      this.handleVirtualHeight();
+    }
   }
 
   componentWillUnmount(): void {
     // clear data
     this.relations = this.unfolded = this.levels = new WeakMap() as any;
+
+    if (this.unSensor) {
+      this.unSensor();
+      delete this.unSensor;
+    }
   }
 
   /**
@@ -546,7 +575,8 @@ export class TreeSelector extends React.Component<
       withChildren,
       cascade,
       autoCheckChildren,
-      autoCancelParent
+      autoCancelParent,
+      valueField
     } = props;
     if (checked) {
       if (!value.has(item)) {
@@ -631,7 +661,7 @@ export class TreeSelector extends React.Component<
           while (true) {
             const parent = getTreeParent(props.options, toCheck);
             // 判断 parent 节点是否已经勾选，避免重复值
-            if (parent?.value && !value.has(parent)) {
+            if (parent?.[valueField || 'value'] && !value.has(parent)) {
               // 如果所有孩子节点都勾选了，应该自动勾选父级。
 
               if (parent.children.every((child: any) => value.has(child))) {
@@ -1542,13 +1572,14 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
-  renderList(list: Options, value: any[]) {
-    const {virtualThreshold, itemHeight = 32, virtualHeight} = this.props;
+  renderList(list: Options) {
+    const {virtualThreshold, itemHeight = 32} = this.props;
+    const {virtualHeight} = this.state;
     if (virtualThreshold && list.length > virtualThreshold) {
       return (
         <div ref={this.virtualListRef}>
           <VirtualList
-            height={virtualHeight !== undefined ? virtualHeight : 266}
+            height={virtualHeight}
             itemCount={list.length}
             prefix={this.renderCheckAll()}
             itemSize={itemHeight}
@@ -1567,6 +1598,28 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  handleVirtualHeight() {
+    const {virtualThreshold, itemHeight = 32, height} = this.props;
+    const {flattenedOptions} = this.state;
+
+    if (virtualThreshold && flattenedOptions.length > virtualThreshold) {
+      if (height && height > 0) {
+        // tree 对应元素
+        const treeElement = this.root.current!;
+        // 虚拟列表 对应元素
+        const virtualElement = this.virtualListRef.current!;
+
+        const virtualHeight =
+          treeElement!.offsetHeight -
+          calculateHeight(treeElement!, virtualElement!);
+
+        this.setState({virtualHeight: virtualHeight});
+      } else {
+        this.setState({virtualHeight: flattenedOptions.length * itemHeight});
+      }
+    }
+  }
+
   render() {
     const {
       className,
@@ -1583,7 +1636,8 @@ export class TreeSelector extends React.Component<
       draggable,
       translate: __,
       testIdBuilder,
-      actionClassName
+      actionClassName,
+      height
     } = this.props;
     const {
       value,
@@ -1611,6 +1665,14 @@ export class TreeSelector extends React.Component<
       );
     }
 
+    let style = {};
+    if (height && height > 0) {
+      style = {
+        height: `${height}px`,
+        maxHeight: 'none'
+      };
+    }
+
     return (
       <div
         className={cx(`Tree ${className || ''}`, {
@@ -1618,6 +1680,7 @@ export class TreeSelector extends React.Component<
           'is-disabled': disabled,
           'is-draggable': draggable
         })}
+        style={style}
         ref={this.root}
         {...testIdBuilder?.getTestId()}
       >
@@ -1632,7 +1695,7 @@ export class TreeSelector extends React.Component<
                   <li className={cx('Tree-item')}>{this.renderInput()}</li>
                 ) : null}
 
-                {this.renderList(flattenedOptions, value)}
+                {this.renderList(flattenedOptions)}
               </>
             ) : (
               <li
@@ -1676,7 +1739,7 @@ export class TreeSelector extends React.Component<
                   {isAdding && !addingParent ? (
                     <li className={cx('Tree-item')}>{this.renderInput()}</li>
                   ) : null}
-                  {this.renderList(flattenedOptions, value)}
+                  {this.renderList(flattenedOptions)}
                 </ul>
               </li>
             )}

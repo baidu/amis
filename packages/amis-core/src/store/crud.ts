@@ -73,7 +73,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     items: types.optional(types.array(types.frozen()), []),
     selectedItems: types.optional(types.array(types.frozen()), []),
     unSelectedItems: types.optional(types.array(types.frozen()), []),
-    filterTogggable: false,
+    filterTogglable: false,
     filterVisible: true,
     hasInnerModalOpen: false
   })
@@ -228,6 +228,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
+        minLoadingTime?: number; // 最小加载时间
+        dataAppendTo?: 'top' | 'bottom';
+        totalField?: string;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -241,9 +244,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         columns?: Array<any>;
         matchFunc?: MatchFunc;
         filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
+        minLoadingTime?: number; // 最小加载时间
+        totalField?: string;
       } = {}
     ) {
       try {
+        const startTime = Date.now();
         let rawItems = options.source
           ? resolveVariableAndFilter(
               options.source,
@@ -273,13 +279,15 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           const data = {
             ...self.data,
-            total: items.length,
+            [options.totalField || 'total']: items.length,
             items: items.slice(
               (self.page - 1) * self.perPage,
               self.page * self.perPage
             )
           };
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           self.reInitData(data);
           return;
         }
@@ -333,6 +341,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             throw new Error(self.__('CRUD.invalidData'));
           }
 
+          if (options.minLoadingTime) {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = options.minLoadingTime - elapsedTime;
+            if (remainingTime > 0) {
+              yield new Promise(resolve => setTimeout(resolve, remainingTime));
+            }
+          }
+
           self.updatedAt = Date.now();
           let result = normalizeApiResponseData(json.data);
 
@@ -382,7 +398,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           // 点击加载更多数据
           let rowsData: Array<any> = [];
           if (options.loadDataMode && Array.isArray(self.data.items)) {
-            rowsData = self.data.items.concat(items);
+            if (options.dataAppendTo === 'top') {
+              rowsData = items.concat(self.data.items);
+            } else {
+              rowsData = self.data.items.concat(items);
+            }
           } else {
             // 第一次的时候就是直接加载请求的数据
             rowsData = items;
@@ -440,7 +460,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               options.perPageField || 'perPage'
             );
 
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
           // 分页情况不清楚，只能知道有没有下一页。
@@ -593,8 +615,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    const setFilterTogglable = (toggable: boolean, filterVisible?: boolean) => {
-      self.filterTogggable = toggable;
+    const setFilterTogglable = (
+      togglable: boolean,
+      filterVisible?: boolean
+    ) => {
+      self.filterTogglable = togglable;
 
       filterVisible !== void 0 && (self.filterVisible = filterVisible);
     };
@@ -631,6 +656,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: {
         columns?: Array<any>;
         matchFunc?: MatchFunc | null;
+        totalField?: string;
       }
     ) {
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
@@ -664,7 +690,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         total: items.length
       };
 
-      self.total = parseInt(data.total ?? data.count, 10) || 0;
+      self.total =
+        parseInt(data[options.totalField || 'total'] ?? data.count, 10) || 0;
       self.items.replace(items);
       self.reInitData(data);
     };

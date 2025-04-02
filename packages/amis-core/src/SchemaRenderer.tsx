@@ -291,16 +291,17 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.cRef = ref;
   }
 
-  async dispatchEvent(
+  dispatchEvent(
     e: React.MouseEvent<any>,
     data: any,
-    renderer?: React.Component<RendererProps> // for didmount
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(
+    return this.props.dispatchEvent(
       e,
-      this.cRef || renderer,
-      this.context as IScopedContext,
-      data
+      data,
+      renderer || this.cRef,
+      scoped || (this.context as IScopedContext)
     );
   }
 

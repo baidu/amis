@@ -10,8 +10,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import {ValidatorTag} from '../validator';
 import {InlineEditableElement} from 'amis-editor-core';
 
-setSchemaTpl(
-  'tpl:content',
+setSchemaTpl('tpl:content', () =>
   getSchemaTpl('textareaFormulaControl', {
     label: '文字内容',
     mode: 'normal',
@@ -290,7 +289,7 @@ export class TplPlugin extends BasePlugin {
     ]);
   };
 
-  popOverBody = [
+  popOverBody?: any[] = [
     getSchemaTpl('tpl:content'),
     getSchemaTpl('tpl:rich-text'),
     getSchemaTpl('tpl:wrapperComponent')

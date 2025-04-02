@@ -241,6 +241,7 @@ register('de-DE', {
   'Table.copyRow': 'Zeile kopieren',
   'Table.columnsVisibility':
     'Klicken, um die Sichtbarkeit der Spalten zu steuern',
+  'Table.columnsSorting': 'Spalte ziehen, um zu sortieren',
   'Table.deleteRow': 'Aktuele Zeile löschen',
   'Table.discard': 'Verwerfen',
   'Table.dragTip': 'Schaltfläche links zum Sortieren ziehen',
@@ -450,6 +451,7 @@ register('de-DE', {
   'Signature.confirm': 'bestätigen',
   'Signature.cancel': 'Abbrechen',
   'Signature.embedLabel': 'Klicken Sie zum Signieren',
+  'Signature.embedUpdateLabel': 'Aktualisiert zum Signieren',
   'QRCode.tooLong':
     'Der QR-Code-Wert ist zu lang, bitte setzen Sie den Text auf weniger als {{max}} Zeichen.'
 });

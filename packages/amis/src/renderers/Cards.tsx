@@ -68,7 +68,7 @@ export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 卡片 CSS 类名
    *
-   * @default Grid-col--sm6 Grid-col--md4 Grid-col--lg3
+   * @default Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3
    */
   itemClassName?: SchemaClassName;
 
@@ -228,7 +228,7 @@ export default class Cards extends React.Component<GridProps, object> {
     selectable: false,
     headerClassName: '',
     footerClassName: '',
-    itemClassName: 'Grid-col--sm6 Grid-col--md4 Grid-col--lg3',
+    itemClassName: 'Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3',
     hideCheckToggler: false,
     masonryLayout: false,
     affixHeader: true,
@@ -374,7 +374,7 @@ export default class Cards extends React.Component<GridProps, object> {
     const {onAction} = this.props;
 
     // 需要支持特殊事件吗？
-    onAction(e, action, ctx);
+    return onAction?.(e, action, ctx);
   }
 
   handleCheck(item: IItem) {
@@ -1013,9 +1013,22 @@ export default class Cards extends React.Component<GridProps, object> {
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
-    const itemFinalClassName: string = columnsCount
-      ? `Grid-col--sm${Math.round(12 / columnsCount)}`
-      : itemClassName || '';
+
+    const itemFinalClassName: string = (() => {
+      // 移动端且非砖石布局时不使用网格类名
+      if (mobileUI && !masonryLayout) {
+        return '';
+      }
+
+      // 砖石布局且设置了固定列数时使用计算的网格类名
+      if (masonryLayout && columnsCount) {
+        const colWidth = Math.round(12 / columnsCount);
+        return `Grid-col--xs${colWidth} Grid-col--sm${colWidth} Grid-col--md${colWidth} Grid-col--lg${colWidth}`;
+      }
+
+      // 其他情况使用配置的类名或空字符串
+      return itemClassName || '';
+    })();
 
     const header = this.renderHeader();
     const heading = this.renderHeading();
@@ -1049,11 +1062,6 @@ export default class Cards extends React.Component<GridProps, object> {
 
     if (style?.gutterY >= 0) {
       itemStyles.marginBottom = style?.gutterY + 'px';
-    }
-    // 修正grid多列计算错误，另外移动端目前只显示一列
-    if (columnsCount && !masonryLayout && !mobileUI) {
-      itemStyles.flex = `0 0 ${100 / columnsCount}%`;
-      itemStyles.maxWidth = `${100 / columnsCount}%`;
     }
 
     return (

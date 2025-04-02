@@ -619,6 +619,29 @@ export class Chart extends React.Component<ChartProps> {
 
   reloadEcharts(config: any) {
     this.echarts?.setOption(config!, this.props.replaceChartOption);
+    this.echarts.on('finished', async () => {
+      const {data, dispatchEvent} = this.props;
+
+      const rendererEvent = await dispatchEvent(
+        'finished',
+        createObject(
+          data,
+          {},
+          {
+            echarts: {
+              value: this.echarts,
+              enumerable: false,
+              configurable: true,
+              writable: true
+            }
+          }
+        )
+      );
+
+      if (rendererEvent?.prevented) {
+        return;
+      }
+    });
   }
 
   render() {

@@ -246,6 +246,14 @@ export interface FileControlSchema extends FormBaseControlSchema {
    * 是否为拖拽上传
    */
   drag?: boolean;
+  /**
+   * 校验格式失败时显示的文字信息
+   */
+  invalidTypeMessage?: string;
+  /**
+   * 校验文件大小失败时显示的文字信息
+   */
+  invalidSizeMessage?: string;
 }
 
 export interface FileProps
@@ -579,7 +587,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     if (evt.type !== 'change' && evt.type !== 'drop') {
       return;
     }
-    const {multiple, env, accept, translate: __} = this.props;
+    const {
+      multiple,
+      env,
+      accept,
+      translate: __,
+      invalidTypeMessage
+    } = this.props;
     const nameField = this.props.nameField || 'name';
 
     const files = rejectedFiles.map(fileRejection => ({
@@ -598,7 +612,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // });
 
     env.alert(
-      __('File.invalidType', {
+      __(invalidTypeMessage ?? 'File.invalidType', {
         files: files.map((item: any) => `「${item[nameField]}」`).join(' '),
         accept
       })
@@ -657,9 +671,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   handleSelect() {
-    const {disabled, multiple, maxLength} = this.props;
-    !disabled &&
-      !(multiple && maxLength && this.state.files.length >= maxLength) &&
+    const {disabled, multiple, maxLength, static: isStatic} = this.props;
+    !disabled && !isStatic;
+    !(multiple && maxLength && this.state.files.length >= maxLength) &&
       this.dropzone.current &&
       this.dropzone.current.open();
   }
@@ -1342,6 +1356,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
   }
 
+  // 文件大小限制 提示信息
+  sizeLimitTip(maxSize: number, file?: FileValue | FileX) {
+    let {translate: __, invalidSizeMessage} = this.props;
+    return __(invalidSizeMessage ?? 'File.sizeLimit', {
+      filename: file?.name,
+      actualSize: prettyBytes(file?.size || 0, 1024),
+      maxSize: prettyBytes(maxSize, 1024)
+    });
+  }
+
   render() {
     const {
       btnLabel,
@@ -1370,7 +1394,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       documentLink,
       env,
       container,
-      testIdBuilder
+      testIdBuilder,
+      static: isStatic
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1404,7 +1429,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         ) : null}
 
         <DropZone
-          disabled={disabled}
+          disabled={disabled || isStatic}
           key="drop-zone"
           ref={this.dropzone}
           onDrop={this.handleDrop}
@@ -1420,13 +1445,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               className={cx('FileControl-dropzone', {
                 'disabled':
                   disabled ||
+                  isStatic ||
                   (multiple && !!maxLength && files.length >= maxLength),
                 'is-empty': !files.length,
                 'is-active': isDragActive
               })}
             >
               <input
-                disabled={disabled}
+                disabled={disabled || isStatic}
                 {...getInputProps()}
                 capture={capture as any}
                 {...testIdBuilder?.getChild('input').getTestId()}
@@ -1458,13 +1484,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
-                      {__('File.sizeLimit', {
-                        maxSize: prettyBytes(maxSize, 1024)
-                      })}
+                      {this.sizeLimitTip(maxSize)}
                     </div>
                   ) : null}
                 </div>
-              ) : (
+              ) : !isStatic ? (
                 <>
                   <Button
                     level="enhance"
@@ -1491,7 +1515,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     </span>
                   </Button>
                 </>
-              )}
+              ) : null}
             </div>
           )}
         </DropZone>
@@ -1503,7 +1527,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           : null}
         {maxSize && !drag ? (
           <div className={cx('FileControl-sizeTip')}>
-            {__('File.sizeLimit', {maxSize: prettyBytes(maxSize, 1024)})}
+            {this.sizeLimitTip(maxSize)}
           </div>
         ) : null}
 
@@ -1529,11 +1553,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       file.state === 'invalid' || file.state === 'error'
                         ? (file as FileValue).error ||
                           (maxSize && file.size > maxSize
-                            ? __('File.maxSize', {
-                                filename: file.name,
-                                actualSize: prettyBytes(file.size, 1024),
-                                maxSize: prettyBytes(maxSize, 1024)
-                              })
+                            ? this.sizeLimitTip(maxSize, file)
                             : '')
                         : filename
                     }
@@ -1566,7 +1586,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         </span>
                       )}
 
-                      {!disabled ? (
+                      {!disabled && !isStatic ? (
                         <a
                           data-tooltip={__('Select.clear')}
                           data-position="left"
@@ -1606,7 +1626,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           </div>
         ) : null}
 
-        {!autoUpload && !hideUploadButton && files.length ? (
+        {!isStatic && !autoUpload && !hideUploadButton && files.length ? (
           <Button
             level="default"
             testIdBuilder={testIdBuilder?.getChild('upload')}

@@ -757,6 +757,7 @@ test('13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
     ).toBe(4);
   });
   replaceReactAriaIds(container);
+  await wait(20);
   expect(container).toMatchSnapshot();
 });
 
