@@ -124,13 +124,22 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
-
   /**
    * 是否默认收起
    *
    * @default true
    */
   defaultCollapsed?: boolean;
+
+  /**
+   * 是否启用多选框
+   */
+  enableBulkActions?: boolean;
+
+  /**
+   * 启用批量操作的表达式
+   */
+  enableBulkActionsOn?: SchemaExpression;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
@@ -2203,7 +2212,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   }
 
   hasBulkActionsToolbar() {
-    const {headerToolbar, footerToolbar} = this.props;
+    const {headerToolbar, footerToolbar, enableBulkActions} = this.props;
+
+    if (enableBulkActions === false) {
+      return false;
+    }
 
     const isBulkActions = (item: any) =>
       ~['bulkActions', 'bulk-actions'].indexOf(item.type || item);
@@ -2242,10 +2255,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       render,
       classnames: cx,
-      primaryField
+      primaryField,
+      enableBulkActions
     } = this.props;
 
-    if (!bulkActions || !bulkActions.length) {
+    if (!bulkActions || !bulkActions.length || enableBulkActions === false) {
       return null;
     }
 
