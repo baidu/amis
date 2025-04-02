@@ -5,12 +5,10 @@ import {SchemaNode, ActionObject} from 'amis-core';
 import TableRow from './TableRow';
 import {filter} from 'amis-core';
 import {observer} from 'mobx-react';
-import {trace, reaction} from 'mobx';
-import {createObject, flattenTree} from 'amis-core';
+import {createObject} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
 import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
-import {clone, cloneDeep} from 'lodash';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
