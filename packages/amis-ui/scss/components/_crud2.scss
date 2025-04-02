@@ -17,6 +17,7 @@
     margin-top: var(--gap-xs);
   }
 
+  @include tag-item(Crud);
   &-value {
     cursor: pointer;
     vertical-align: middle;
