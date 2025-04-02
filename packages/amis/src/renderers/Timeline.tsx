@@ -8,7 +8,8 @@ import {
   createObject,
   isEffectiveApi,
   ApiObject,
-  autobind
+  autobind,
+  isObject
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -173,6 +174,9 @@ export function TimelineCmpt(props: TimelineProps) {
     titleClassName,
     detailClassName,
     cardSchema: commonCardSchema,
+    name,
+    itemKeyName,
+    indexKeyName,
     render
   } = props;
 
@@ -196,6 +200,13 @@ export function TimelineCmpt(props: TimelineProps) {
       } = timelineItem;
 
       const cardRenderer = cardSchema || commonCardSchema;
+      const ctx = createObject(data, {
+        ...(isObject(timelineItem)
+          ? {index, ...timelineItem}
+          : {[name]: timelineItem}),
+        [itemKeyName || 'item']: timelineItem,
+        [indexKeyName || 'index']: index
+      });
 
       return {
         ...timelineItem,
@@ -204,18 +215,18 @@ export function TimelineCmpt(props: TimelineProps) {
         titleClassName,
         detailClassName,
         icon: isPureVariable(icon)
-          ? resolveVariableAndFilter(icon, data, '| raw')
+          ? resolveVariableAndFilter(icon, ctx, '| raw')
           : icon,
         title: itemTitleSchema
           ? render(`${index}/body`, itemTitleSchema, {
-              data: createObject(data, timelineItem)
+              data: ctx
             })
           : resolveRender('title', title),
         time: resolveRender('time', time),
         detail: resolveRender('detail', detail),
         cardNode: cardRenderer
           ? render('card', cardRenderer, {
-              data: createObject(data, timelineItem) // 当前继承的data和本身节点的数据作为当前卡片schema的渲染数据
+              data: ctx // 当前继承的data和本身节点的数据作为当前卡片schema的渲染数据
             })
           : undefined
       };
