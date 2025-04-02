@@ -10,6 +10,7 @@ import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
 import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
+import {clone, cloneDeep} from 'lodash';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
@@ -230,7 +231,7 @@ export class TableBody<
       [propName: string]: any;
     }> = items
       .map((item, index) => {
-        let colIdxs: number[] = [offset + index];
+        const colIdxs: number[] = [offset + index];
         if (item.colSpan > 1) {
           for (let i = 1; i < item.colSpan; i++) {
             colIdxs.push(offset + index + i);
@@ -262,8 +263,8 @@ export class TableBody<
     }
 
     // 缺少的单元格补齐
-    let appendLen =
-      columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+    const resultLen = result.reduce((p, c) => p + (c.colSpan || 1), 0);
+    let appendLen = columns.length - resultLen;
 
     // 多了则干掉一些
     while (appendLen < 0) {
@@ -275,20 +276,25 @@ export class TableBody<
     }
 
     // 少了则补个空的
+    // 只补空的时，当存在fixed:right时会导致样式有问题 会把其他列的盖住
     if (appendLen) {
-      const item = /*result.length
-        ? result.pop()
-        : */ {
+      const item = {
         type: 'html',
         html: '&nbsp;'
       };
-      const column = store.filteredColumns[store.filteredColumns.length - 1];
-      result.push({
-        ...item,
-        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen,
-        firstColumn: column,
-        lastColumn: column
-      });
+
+      for (let i = resultLen; i < store.filteredColumns.length; i++) {
+        const matchedColumns = [i]
+          .map(idx => store.filteredColumns.find(col => col.rawIndex === idx))
+          .filter(item => item);
+
+        result.push({
+          ...item,
+          colSpan: matchedColumns.length,
+          firstColumn: matchedColumns[0]!,
+          lastColumn: matchedColumns[matchedColumns.length - 1]!
+        });
+      }
     }
 
     const ctx = createObject(data, {
