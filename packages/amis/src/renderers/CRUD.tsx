@@ -2018,7 +2018,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       enableBulkActions
     } = this.props;
 
-    if (!bulkActions || !bulkActions.length || enableBulkActions !== false) {
+    if (!bulkActions || !bulkActions.length || enableBulkActions === false) {
       return null;
     }
 
