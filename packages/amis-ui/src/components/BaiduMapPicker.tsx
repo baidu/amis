@@ -143,7 +143,8 @@ export class BaiduMapPicker extends React.Component<
       });
     } else if (
       this.state.innerValue !== prevState.innerValue &&
-      this.state.innerValue
+      this.state.innerValue &&
+      this.map
     ) {
       this.map.clearOverlays();
 
