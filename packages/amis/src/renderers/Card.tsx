@@ -303,6 +303,7 @@ export class CardRenderer extends React.Component<CardProps> {
       itemAction,
       onAction,
       onCheck,
+      onClick,
       selectable,
       checkOnItemClick
     } = this.props;
@@ -326,6 +327,7 @@ export class CardRenderer extends React.Component<CardProps> {
     }
 
     selectable && checkOnItemClick && onCheck?.(item);
+    onClick && onClick(item);
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
@@ -414,7 +416,8 @@ export class CardRenderer extends React.Component<CardProps> {
               ...(action as any)
             },
             {
-              key: index
+              key: index,
+              onClick: undefined
             }
           )
         )
@@ -479,7 +482,8 @@ export class CardRenderer extends React.Component<CardProps> {
                   }
                 ),
                 componentClass: 'a',
-                onAction: this.handleAction
+                onAction: this.handleAction,
+                onClick: undefined
               }
             );
           })}
@@ -509,14 +513,14 @@ export class CardRenderer extends React.Component<CardProps> {
       }) as JSX.Element;
     }
 
-    return this.renderFeild(region, childNode, key, this.props);
+    return this.renderField(region, childNode, key, this.props);
   }
 
   itemRender(field: any, index: number, props: any) {
-    return this.renderFeild(`column/${index}`, field, index, props);
+    return this.renderField(`column/${index}`, field, index, props);
   }
 
-  renderFeild(region: string, field: Schema, key: any, props: any) {
+  renderField(region: string, field: Schema, key: any, props: any) {
     const {render, classnames: cx, itemIndex} = props;
     const useCardLabel = props?.useCardLabel !== false;
     const data = this.props.data;

@@ -4,6 +4,7 @@ exports[`Renderer:textarea 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:textarea 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:textarea 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:textarea 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   textarea
@@ -72,6 +74,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -80,7 +83,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -101,6 +104,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--maxLength"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -108,7 +112,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   textarea
@@ -185,6 +189,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -193,7 +198,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -214,6 +219,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -221,7 +227,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   textarea
@@ -270,6 +276,7 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -278,7 +285,7 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -299,6 +306,7 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -306,7 +314,7 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   textarea

@@ -1,64 +1,62 @@
+import {PlainObject, filter} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 
+const THEME_CSS_VAR = [
+  '--colors',
+  '--sizes',
+  '--borders',
+  '--fonts',
+  '--shadows'
+];
+
+function getCssKey(key: string) {
+  return key?.replace('var(', '').replace(')', '');
+}
+
+function isThemeCssVar(key: string) {
+  // 是否以主题变量开头
+  return THEME_CSS_VAR.some(item => getCssKey(key)?.startsWith(item));
+}
 /**
  * 根据路径获取默认值
  */
-export function getValueByPath(path: string | string[], data: any): any {
-  try {
-    if (!path || !data) {
-      return null;
-    }
-    let res = {};
-    const getValue = (p: string) => {
-      const keys = p.split('.');
-      let value = cloneDeep(data.themeConfig.component);
-      let defaultToken = '';
-      for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        const isVar = /\$\{(.*)\}/.exec(key) || [];
-        if (isVar[1]) {
-          key = data[isVar[1]] || 'default';
+export function getDefaultValue(
+  editorValue?: string | {[key: string]: string},
+  data?: any
+): any {
+  if (editorValue) {
+    if (typeof editorValue === 'string') {
+      const key = filter(editorValue, data);
+      const value = data.cssVars[key]?.replace(/\n/g, '').replace(/\s/g, '');
+      if (!value) {
+        if (key.startsWith('--')) {
+          return undefined;
         }
-
-        if (Array.isArray(value)) {
-          value = value.find(n => n.type === key);
-        } else {
-          if (key === 'hover' || key === 'active' || key === 'disabled') {
-            defaultToken = value['default'].token;
-          }
-          value = value[key];
-        }
+        return key;
+      } else if (isThemeCssVar(value)) {
+        return value;
+      } else {
+        return getDefaultValue(getCssKey(value), data);
       }
-      if (defaultToken && value) {
-        // 继承default
-        if (typeof value === 'object') {
-          for (let key in value) {
-            if (value[key] === `var(${defaultToken}${key})`) {
-              value[key] = 'inherit';
-            }
-          }
-        } else {
-          if (value === `var(${defaultToken}${keys[keys.length - 1]})`) {
-            value = 'inherit';
-          }
-        }
-      }
-      return value;
-    };
-    if (Array.isArray(path)) {
-      path.forEach(p => {
-        let value = getValue(p);
-        if (typeof value === 'string') {
-          value = {color: value};
-        }
-        res = Object.assign(res, value);
-      });
     } else {
-      res = getValue(path);
+      const res: PlainObject = {};
+      Object.keys(editorValue).forEach(k => {
+        const key = filter(editorValue[k], data);
+        const value = data.cssVars[key];
+        if (!value) {
+          if (key.startsWith('--')) {
+            return;
+          }
+          res[k] = key;
+        } else if (isThemeCssVar(value)) {
+          res[k] = value;
+        } else {
+          res[k] = getDefaultValue(getCssKey(value), data);
+        }
+        return;
+      });
+      return res;
     }
-    return res;
-  } catch (e) {
-    return null;
   }
 }
 

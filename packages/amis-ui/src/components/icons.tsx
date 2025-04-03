@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React, {createElement} from 'react';
+import React, {createElement, useEffect, useMemo} from 'react';
 import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -108,9 +108,14 @@ import RotateLeft from '../icons/rotate-left.svg';
 import RotateRight from '../icons/rotate-right.svg';
 import ScaleOrigin from '../icons/scale-origin.svg';
 import If from '../icons/if.svg';
+import RotateScreen from '../icons/rotate-screen.svg';
 
 import isObject from 'lodash/isObject';
-import type {TestIdBuilder} from 'amis-core';
+import {
+  type CustomVendorFn,
+  getCustomVendor,
+  type TestIdBuilder
+} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -251,6 +256,7 @@ registerIcon('rotate-left', RotateLeft);
 registerIcon('rotate-right', RotateRight);
 registerIcon('scale-origin', ScaleOrigin);
 registerIcon('if', If);
+registerIcon('rotate-screen', RotateScreen);
 
 export interface IconCheckedSchema {
   id: string;
@@ -261,6 +267,104 @@ export interface IconCheckedSchema {
 export interface IconCheckedSchemaNew {
   type: 'icon';
   icon: IconCheckedSchema;
+}
+
+function svgString2Dom(
+  icon: string,
+  {
+    className,
+    classNameProp,
+    style,
+    cx,
+    events,
+    extra
+  }: {
+    [propName: string]: any;
+  },
+  vendorFn?: CustomVendorFn
+) {
+  icon = icon.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+  if (vendorFn) {
+    const {icon: newIcon, style: newStyle} = vendorFn(icon, {
+      ...extra,
+      width: style?.width,
+      height: style?.height
+    });
+    icon = newIcon;
+    style = {
+      ...(style || {}),
+      ...newStyle
+    };
+  }
+  const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+  const viewBox = /viewBox="(.*?)"/.exec(icon);
+  const svgHTML = createElement('svg', {
+    ...events,
+    className: cx('icon', className, classNameProp),
+    style,
+    dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+    viewBox: viewBox?.[1] || '0 0 16 16'
+  });
+  return svgHTML;
+}
+
+function LinkIcon({
+  icon,
+  vendorFn,
+  options: {className, classNameProp, style, cx, classPrefix, events, extra}
+}: {
+  icon: string;
+  vendorFn?: CustomVendorFn;
+  options: {
+    [propName: string]: any;
+  };
+}) {
+  const [svgIcon, setSvgIcon] = React.useState<string>(icon);
+  const [svgType, setSvgType] = React.useState<string>('img');
+
+  useEffect(() => {
+    if (icon.endsWith('.svg') && vendorFn) {
+      try {
+        fetch(icon)
+          .then(res => res.text())
+          .then(svg => {
+            setSvgType('svg');
+            setSvgIcon(svg);
+          })
+          .catch(e => {
+            console.warn(e);
+            setSvgType('img');
+            setSvgIcon(icon);
+          });
+      } catch (warn) {
+        console.warn(warn);
+        setSvgType('img');
+        setSvgIcon(icon);
+      }
+    }
+  }, [icon, vendorFn]);
+
+  return svgType === 'img' ? (
+    <img
+      {...events}
+      className={cx(`${classPrefix}Icon`, className, classNameProp)}
+      src={icon}
+      style={style}
+    />
+  ) : (
+    svgString2Dom(
+      svgIcon,
+      {
+        className,
+        classNameProp,
+        style,
+        cx,
+        events,
+        extra
+      },
+      vendorFn
+    )
+  );
 }
 
 export function Icon({
@@ -286,6 +390,9 @@ export function Icon({
   onTouchEnd,
   onTouchCancel,
   style,
+  width,
+  height,
+  extra,
   testIdBuilder
 }: {
   icon: string;
@@ -293,12 +400,32 @@ export function Icon({
   testIdBuilder?: TestIdBuilder;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
+  const vendorFn = useMemo(() => getCustomVendor(vendor), [vendor]);
+
+  // style = {
+  //   ...(style || {}),
+  //   width: width || style?.width,
+  //   height: height || style?.height
+  // };
+
+  if (width !== undefined) {
+    style = {
+      ...style,
+      width
+    };
+  }
+  if (height !== undefined) {
+    style = {
+      ...style,
+      height
+    };
+  }
 
   if (typeof jest !== 'undefined' && icon) {
     iconContent = '';
   }
 
-  if (!icon) {
+  if (!icon && !iconContent) {
     return null;
   }
 
@@ -414,27 +541,36 @@ export function Icon({
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
-    const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
-    const viewBox = /viewBox="(.*?)"/.exec(icon);
-    const svgHTML = createElement('svg', {
-      ...events,
-      className: cx('icon', className, classNameProp),
-      style,
-      dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
-      viewBox: viewBox?.[1] || '0 0 16 16'
-    });
-    return svgHTML;
+    return svgString2Dom(
+      icon,
+      {
+        className,
+        classNameProp,
+        style,
+        cx,
+        events,
+        extra
+      },
+      vendorFn
+    );
   }
 
   // icon是链接
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
   if (isURLIcon) {
     return (
-      <img
-        {...events}
-        className={cx(`${classPrefix}Icon`, className, classNameProp)}
-        src={icon}
-        style={style}
+      <LinkIcon
+        icon={icon}
+        vendorFn={vendorFn}
+        options={{
+          className,
+          classNameProp,
+          style,
+          cx,
+          classPrefix,
+          events,
+          extra
+        }}
       />
     );
   }
@@ -466,6 +602,8 @@ export function Icon({
   // 没有合适的图标
   return <span className="text-danger">没有 icon {icon}</span>;
 }
+
+export default Icon;
 
 export {
   InputClearIcon,

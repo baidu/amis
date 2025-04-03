@@ -91,6 +91,16 @@ const makeUrlRegexp = memoize(function (options: any) {
   return new RegExp(regex, 'i');
 });
 
+const valueToString = (value: any) => {
+  return typeof value === 'undefined' || value === null
+    ? ''
+    : typeof value === 'string'
+    ? value
+    : value instanceof Date
+    ? value.toISOString()
+    : JSON.stringify(value);
+};
+
 export interface ValidateFn {
   (
     values: {[propsName: string]: any},
@@ -177,9 +187,7 @@ export const validations: {
   },
   isLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    if (typeof value === 'number') {
-      value = String(value);
-    }
+    value = valueToString(value);
 
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
@@ -191,16 +199,14 @@ export const validations: {
   },
   maxLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    if (typeof value === 'number') {
-      value = String(value);
-    }
+    value = valueToString(value);
+
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
     // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
-    if (typeof value === 'number') {
-      value = String(value);
-    }
+    value = valueToString(value);
+
     return !isExisty(value) || isEmpty(value) || value.length >= length;
   },
   isUrlPath: function (values, value, regexp) {
@@ -250,14 +256,16 @@ export const validations: {
   },
   isPhoneNumber: function (values, value) {
     return (
-      !isExisty(value) || isEmpty(value) || /^[1]([3-9])[0-9]{9}$/.test(value)
+      !isExisty(value) ||
+      isEmpty(value) ||
+      /^(\+\d{2}-)?[1]([3-9])[0-9]{9}$/.test(value)
     );
   },
   isTelNumber: function (values, value) {
     return (
       !isExisty(value) ||
       isEmpty(value) ||
-      /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value)
+      /^(\+\d{2}-)?(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(value)
     );
   },
   isZipcode: function (values, value) {

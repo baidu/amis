@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="186px" height="231px" viewBox="0 0 186 231" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>sortDown</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="sortDown">
-            <polygon id="Path" fill="#323130" fill-rule="nonzero" points="113 172.593818 120.432357 165.292299 144.358438 189.022234 144.358438 22 154.743375 22 154.743375 189.022234 178.669456 165.292299 186 172.593818 149.550907 209"></polygon>
-            <text id="A" font-family="Helvetica" font-size="96" font-weight="normal" fill="#108CEE">
-                <tspan x="0" y="209">A</tspan>
-            </text>
-            <text id="Z" font-family="Helvetica" font-size="96" font-weight="normal" fill="#323130">
-                <tspan x="0" y="93">Z</tspan>
-            </text>
-        </g>
-    </g>
-</svg>
+<svg width="186" height="231" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#323130" fill-rule="nonzero" d="m113 172.594 7.432-7.302 23.926 23.73V22h10.385v167.022l23.926-23.73 7.331 7.302L149.55 209z"/><text font-family="Helvetica" font-size="96" fill="#108CEE"> <tspan x="0" y="209">A</tspan> </text><text font-family="Helvetica" font-size="96" fill="#323130"> <tspan x="0" y="93">Z</tspan> </text></g></svg>

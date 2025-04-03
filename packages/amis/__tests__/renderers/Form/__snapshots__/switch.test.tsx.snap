@@ -4,6 +4,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -33,6 +34,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal block"
+          data-amis-name="switch"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   开关
@@ -49,7 +51,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
             </span>
           </label>
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch is-checked"
@@ -86,6 +88,7 @@ exports[`Renderer:Switch Switch size 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -94,7 +97,7 @@ exports[`Renderer:Switch Switch size 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -115,6 +118,7 @@ exports[`Renderer:Switch Switch size 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="switch"
           data-role="form-item"
         >
           <label
@@ -122,7 +126,7 @@ exports[`Renderer:Switch Switch size 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   开关
@@ -131,7 +135,7 @@ exports[`Renderer:Switch Switch size 1`] = `
             </span>
           </label>
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch  cxd-Switch--sm"

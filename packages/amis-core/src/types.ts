@@ -2,7 +2,8 @@
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
-import type {TestIdBuilder} from './utils/helper';
+import type {TestIdBuilder, ValidateError} from './utils/helper';
+import {AnimationsProps} from './utils/animations';
 
 export interface Option {
   /**
@@ -216,6 +217,18 @@ export type ClassName =
       [propName: string]: boolean | undefined | null | string;
     };
 
+export type RequestAdaptor = (
+  api: ApiObject,
+  context: any
+) => ApiObject | Promise<ApiObject>;
+
+export type ResponseAdaptor = (
+  payload: object,
+  response: fetcherResult,
+  api: ApiObject,
+  context: any
+) => any;
+
 export interface ApiObject extends BaseApiObject {
   config?: {
     withCredentials?: boolean;
@@ -227,17 +240,13 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
-  mockResponse?: PlainObject;
-  adaptor?: (
-    payload: object,
-    response: fetcherResult,
-    api: ApiObject,
-    context: any
-  ) => any;
-  requestAdaptor?: (
-    api: ApiObject,
-    context: any
-  ) => ApiObject | Promise<ApiObject>;
+  mockResponse?: {
+    status: number;
+    data?: any;
+    delay?: number;
+  };
+  adaptor?: ResponseAdaptor;
+  requestAdaptor?: RequestAdaptor;
   /**
    * api 发送上下文，可以用来传递一些数据给 api 的 adaptor
    * @readonly
@@ -263,7 +272,7 @@ export interface fetcherResult {
     [propName: string]: any; // 为了兼容其他返回格式
   };
   status: number;
-  headers: object;
+  headers?: object;
 }
 
 export interface fetchOptions {
@@ -303,6 +312,7 @@ export interface Schema {
   static?: boolean;
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
   definitions?: Definitions;
+  animations?: AnimationsProps;
   [propName: string]: any;
 }
 
@@ -363,7 +373,8 @@ export interface ActionObject extends ButtonObject {
     | 'initDrag'
     | 'cancelDrag'
     | 'toggleExpanded'
-    | 'setExpanded';
+    | 'setExpanded'
+    | 'clearError';
 
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
@@ -401,9 +412,38 @@ export interface PlainObject {
   [propsName: string]: any;
 }
 
+export interface DataChangeReason {
+  type:
+    | 'input' // 用户输入
+    | 'api' // api 接口返回触发
+    | 'formula' // 公式计算触发
+    | 'hide' // 隐藏属性变化触发
+    | 'init' // 表单项初始化触发
+    | 'action'; // 事件动作触发
+
+  // 变化的字段名
+  // 如果是整体变化，那么是 undefined
+  name?: string;
+
+  // 变化的值
+  value?: any;
+}
+
 export interface RendererData {
   [propsName: string]: any;
+  /**
+   * 记录变化前的数据
+   */
   __prev?: RendererDataAlias;
+
+  /**
+   * 记录变化的信息
+   */
+  __changeReason?: DataChangeReason;
+
+  /**
+   * 记录上层数据
+   */
   __super?: RendererData;
 }
 type RendererDataAlias = RendererData;
@@ -417,6 +457,7 @@ export type FunctionPropertyNames<T> = {
 export type JSONSchema = JSONSchema7 & {
   group?: string; // 分组
   typeLabel?: string; // 类型说明
+  rawType?: string; // 类型
 };
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
@@ -502,6 +543,7 @@ export type ToastConf = {
   className?: string;
   items?: Array<any>;
   useMobileUI?: boolean;
+  validateError?: ValidateError;
 };
 
 export interface OptionProps {

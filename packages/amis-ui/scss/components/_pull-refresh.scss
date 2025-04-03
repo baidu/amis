@@ -1,5 +1,4 @@
 .#{$ns}PullRefresh {
-
   &-wrap {
     position: relative;
     height: 100%;
@@ -16,6 +15,12 @@
     min-height: var(--gap-lg);
     line-height: var(--gap-lg);
     color: #999;
+  }
+  &-footer {
+    text-align: center;
+    color: #999;
+    margin-bottom: 12px;
+    font-size: var(--fontSizeMd);
   }
 
   .loading-icon {

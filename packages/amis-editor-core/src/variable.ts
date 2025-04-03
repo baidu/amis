@@ -270,4 +270,25 @@ export class VariableManager {
       ? node[labelField ?? 'label'] ?? node[valueField ?? 'value'] ?? ''
       : '';
   }
+
+  /**
+   * 获取全局变量树形结构
+   * @returns
+   */
+  getGlobalVariablesOptions() {
+    let options: Option[] = [];
+
+    const rootScope = this.dataSchema?.root;
+    if (rootScope) {
+      options = rootScope
+        .getDataPropsAsOptions()
+        .filter((item: any) => ['global'].includes(item.value));
+    }
+    eachTree(options, item => {
+      if (item.type === 'array') {
+        delete item.children;
+      }
+    });
+    return options;
+  }
 }

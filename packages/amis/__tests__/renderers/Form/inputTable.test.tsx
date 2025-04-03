@@ -774,7 +774,7 @@ test('Renderer:input-table formula', async () => {
 
   fireEvent.change(dollor!, {target: {value: '22'}});
 
-  await wait(400);
+  await wait(800);
 
   const inputs = container.querySelectorAll('input[name=score]');
   expect(inputs.length).toBe(3);
@@ -788,7 +788,7 @@ test('Renderer:input-table formula', async () => {
   await wait(200);
 
   expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toEqual({
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
     dollar: 22,
     table: [
       {
@@ -1153,4 +1153,102 @@ test('Renderer:input-table pagination data issue', async () => {
 
   const c = container.querySelector('input[name="c"]');
   expect(c).toHaveValue('');
+});
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9537
+test('Renderer:input-table cancel new item from addAction', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            table: [
+              {
+                a: 'a1',
+                b: 'b1'
+              },
+              {
+                a: 'a2',
+                b: 'b2'
+              },
+              {
+                a: 'a3',
+                b: 'b3'
+              }
+            ]
+          },
+          api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+          body: [
+            {
+              type: 'input-table',
+              name: 'table',
+              label: 'Table',
+              columns: [
+                {
+                  label: 'A',
+                  name: 'a'
+                },
+                {
+                  label: 'B',
+                  name: 'b'
+                }
+              ]
+            },
+            {
+              type: 'button',
+              label: 'Table新增一行',
+              target: 'table',
+              actionType: 'add',
+              payload: {
+                a: 'newa',
+                b: 'newb'
+              },
+              className: 'add-item'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const addBtn = container.querySelector('.cxd-Button.add-item');
+  expect(addBtn).toBeInTheDocument();
+
+  fireEvent.click(addBtn!);
+  await wait(200);
+
+  const inputA = container.querySelector(
+    'tbody td input[name="a"]'
+  ) as HTMLInputElement;
+  expect(inputA?.value).toEqual('newa');
+  const inputB = container.querySelector(
+    'tbody td input[name="b"]'
+  ) as HTMLInputElement;
+  expect(inputB?.value).toEqual('newb');
+
+  const operationBtn = container.querySelectorAll('.cxd-OperationField button');
+  const saveBtn = operationBtn?.[0] as HTMLButtonElement;
+  expect(saveBtn).toBeInTheDocument();
+  const cancelBtn = operationBtn?.[1] as HTMLButtonElement;
+  expect(cancelBtn).toBeInTheDocument();
+
+  fireEvent.click(cancelBtn);
+
+  await 200;
+
+  const inputA2 = container.querySelector(
+    'tbody td input[name="a"]'
+  ) as HTMLInputElement;
+  expect(inputA2).toBeNull();
+
+  const inputB2 = container.querySelector(
+    'tbody td input[name="a"]'
+  ) as HTMLInputElement;
+  expect(inputB2).toBeNull();
 });

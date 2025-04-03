@@ -35,9 +35,9 @@ order: 29
 | level            | `'link' \| 'primary' \| 'enhance' \| 'secondary' \| 'info'\|'success' \| 'warning' \| 'danger' \| 'light'\| 'dark' \| 'default'` | default | 设置按钮样式                                          |
 | tooltip          | `'string' \| 'TooltipObject'`                                                                                                    |         | 气泡提示内容                                          |
 | tooltipPlacement | `'top' \| 'right' \| 'bottom' \| 'left' `                                                                                        | top     | 气泡框位置器                                          |
-| tooltipTrigger   | `'hover' \| 'focus'`                                                                                                             |         | 触发 tootip                                           |
+| tooltipTrigger   | `'hover' \| 'focus'`                                                                                                             |         | 触发 tooltip                                          |
 | disabled         | `'boolean'`                                                                                                                      | false   | 按钮失效状态                                          |
-| disabledTip         | `'string' \| 'TooltipObject'`                                                                                                                      |    | 按钮失效状态下的提示                                          |
+| disabledTip      | `'string' \| 'TooltipObject'`                                                                                                    |         | 按钮失效状态下的提示                                  |
 | block            | `'boolean'`                                                                                                                      | false   | 将按钮宽度调整为其父宽度的选项                        |
 | loading          | `'boolean'`                                                                                                                      | false   | 显示按钮 loading 效果                                 |
 | loadingOn        | `'string'`                                                                                                                       |         | 显示按钮 loading 表达式                               |

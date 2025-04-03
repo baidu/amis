@@ -146,7 +146,20 @@ fis.match('/node_modules/**.{js,cjs}', {
   isMod: true,
   rExt: 'js'
 });
-fis.set('project.fileType.text', 'cjs');
+
+fis.match('pdfjs-dist/**/pdf.mjs', {
+  isMod: true,
+  rExt: 'js',
+  parser: fis.plugin('typescript', {
+    sourceMap: false,
+    importHelpers: true,
+    esModuleInterop: true,
+    emitDecoratorMetadata: false,
+    experimentalDecorators: false
+  })
+});
+
+fis.set('project.fileType.text', 'cjs,mjs');
 
 fis.match('tinymce/{tinymce.js,plugins/**.js,themes/silver/theme.js}', {
   ignoreDependencies: true
@@ -254,7 +267,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/**.js,zrender/**.js,echarts-wordcloud/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js,axios/**.js,downshift/**.js,react-intersection-observer/**.js}',
+  '{echarts/**.js,zrender/**.js,echarts-wordcloud/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js,axios/**.js,downshift/**.js,react-intersection-observer/**.js,react-pdf/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
@@ -343,7 +356,7 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
   sourceMap: false,
-  extList: ['.js', '.jsx', '.tsx', '.ts', '.cjs'],
+  extList: ['.js', '.jsx', '.tsx', '.ts', '.cjs', '.mjs'],
   paths: {
     'monaco-editor': '/examples/loadMonacoEditor'
   }
@@ -505,6 +518,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-ui/lib/components/Tinymce.js',
         '!amis-ui/lib/components/ColorPicker.js',
         '!amis-ui/lib/components/PdfViewer.js',
+        '!react-pdf/**',
+        '!pdfjs-dist/**',
         '!react-color/**',
         '!material-colors/**',
         '!reactcss/**',
@@ -564,10 +579,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'tinycolor2/**'
       ],
 
-      'pdf-viewer.js': [
-        'amis-ui/lib/components/PdfViewer.js',
-        'pdfjs-dist/build/pdf.worker.min.js'
-      ],
+      'pdf-viewer.js': ['amis-ui/lib/components/PdfViewer.js', 'react-pdf/**'],
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
@@ -591,8 +603,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!react-pdf/**',
         '!pdfjs-dist/**',
-
         '!amis-ui/lib/components/RichText.js',
         '!zrender/**',
         '!echarts/**',
@@ -638,19 +650,14 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       // 如果 sdk 和 worker 不是部署在一个地方，请通过指定 MonacoEnvironment.getWorkerUrl
       if (
         file.subpath === '/node_modules/amis-ui/lib/components/Editor.js' ||
-        file.subpath === '/examples/loadMonacoEditor.ts'
+        file.subpath === '/examples/loadMonacoEditor.ts' ||
+        file.subpath === '/examples/loadPdfjsWorker.ts'
       ) {
         contents = contents.replace(
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
           function () {
-            return `var _path = '';
-    try {
-      throw new Error()
-    } catch (e) {
-      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
-    }
-    function filterUrl(url) {
-      return _path + url.substring(1);`;
+            return `function filterUrl(url) {
+      return amis['sdk@${package.version}BasePath'] + url.substring(1);`;
           }
         );
 
@@ -701,6 +708,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     'examples/app/index.html',
     '/examples/static/*.docx',
     '/examples/static/*.xlsx'
+    // '/examples/map.json'
   ]);
 
   ghPages.match('*.scss', {
@@ -848,7 +856,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
-        '!amis/**'
+        '!amis/**',
+        '!react-pdf/**',
+        '!pdfjs-dist/**'
       ],
 
       'pkg/rich-text.js': [
@@ -879,6 +889,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'markdown-it/**',
         'markdown-it-html5-media/**',
         'punycode/**'
+      ],
+
+      'pkg/pdf-viewer.js': [
+        'amis-ui/lib/components/PdfViewer.js',
+        'react-pdf/**'
       ],
 
       'pkg/color-picker.js': [

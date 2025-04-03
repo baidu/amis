@@ -27,6 +27,7 @@ export type SchemaEditorItemPlaceholder = Partial<
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   label?: string;
   value?: JSONSchema;
+  dataName?: string;
   onChange: (value: JSONSchema) => void;
   types: Array<{
     label: string;
@@ -175,6 +176,7 @@ export class SchemaEditorItemCommon<
             simpleValue
             mobileUI={mobileUI}
             popOverContainer={popOverContainer}
+            dataName={onRequiredChange ? `${this.props.dataName}-type` : ''}
           />
         ) : null}
 
@@ -185,6 +187,7 @@ export class SchemaEditorItemCommon<
             value={required}
             onChange={onRequiredChange}
             disabled={disabled}
+            dataName={`${this.props.dataName}-required`}
           />
         ) : null}
 
@@ -371,9 +374,14 @@ export class SchemaEditorItemCommon<
         className={cx('SchemaEditorItem', {
           'SchemaEditorItem--mini': mini
         })}
+        data-amis-name={this.props.dataName}
       >
         {this.renderCommon()}
       </div>
     );
   }
 }
+
+export const ITEMMAP: {
+  [propsName: string]: typeof SchemaEditorItemCommon;
+} = {};

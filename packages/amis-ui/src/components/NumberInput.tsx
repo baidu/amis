@@ -74,6 +74,16 @@ export interface NumberProps extends ThemeProps {
   resetValue?: any;
 
   /**
+   * 后缀
+   */
+  suffix?: string;
+
+  /**
+   * 用来开启百分号的展示形式，搭配suffix使用
+   */
+  showAsPercent?: boolean;
+
+  /**
    * 是否在清空内容时从数据域中删除该表单项对应的值
    */
   clearValueOnEmpty?: boolean;
@@ -159,12 +169,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       }
     }
     /**
-     * 非大数模式下，如果精度不满足要求，需要处理value值，遵循四舍五入的处理规则
+     * 非大数模式下，如果精度不满足要求，需要处理value值，只做精度处理，不做四舍五入
      */
     if (!isBig && getNumberPrecision(value) !== precision) {
-      value = getMiniDecimal(
-        toFixed(num2str(value), '.', precision)
-      ).toNumber();
+      const multiplier = Math.pow(10, precision);
+      const truncatedValue =
+        Math.trunc(getMiniDecimal(value).multi(multiplier).toNumber()) /
+        multiplier;
+      value = getMiniDecimal(truncatedValue).toNumber();
     }
 
     return value;
@@ -242,11 +254,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
 
   @autobind
   handleChange(value: any) {
-    const {min, max, step, precision, resetValue, clearValueOnEmpty, onChange} =
+    const {min, max, step, resetValue, clearValueOnEmpty, onChange} =
       this.props;
-    /*
-    // 备注1: 输入过程中不立即进行normalizeValue数值处理（比如 四舍五入）
-    // 备注2: rc-input-number自身会进行数据纠正操作
+    let {suffix, precision, showAsPercent} = this.props;
+    //在显示百分号情况下，需先将数值恢复到实际value值
+    if (showAsPercent && suffix == '%') {
+      value = value / 100;
+      precision = (precision || 0) + 2;
+    }
     const finalPrecision = NumberInput.normalizePrecision(precision, step);
     const result = NumberInput.normalizeValue(
       value,
@@ -256,13 +271,6 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       resetValue,
       clearValueOnEmpty,
       this.isBig
-    );
-    onChange?.(result);
-    */
-    const result = NumberInput.normalizeValue2(
-      value,
-      resetValue,
-      clearValueOnEmpty
     );
     onChange?.(result);
   }
@@ -343,15 +351,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       className,
       classPrefix: ns,
       classnames: cx,
-      value,
       step,
       precision,
-      max,
-      min,
       disabled,
       placeholder,
       showSteps,
       formatter,
+      suffix,
+      showAsPercent,
       parser,
       borderMode,
       readOnly,
@@ -363,6 +370,14 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       name,
       testIdBuilder
     } = this.props;
+
+    let {value, max, min} = this.props;
+    //需要展示百分号的情况下,数值乘100显示,注意精度丢失问题
+    if (showAsPercent && suffix == '%' && value) {
+      value = parseFloat((Number(value) * 100).toFixed(precision));
+      max = max != null ? Math.round(Number(max) * 100) : max;
+      min = min != null ? Math.round(Number(min) * 100) : min;
+    }
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
     };
@@ -372,7 +387,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
         name={name}
         className={cx(
           className,
-          showSteps === false ? 'no-steps' : '',
+          showSteps === false || readOnly ? 'no-steps' : '',
           displayMode === 'enhance'
             ? 'Number--enhance-input'
             : inputControlClassName,

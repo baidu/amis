@@ -4,6 +4,7 @@ exports[`Renderer:group 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:group 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -39,6 +40,7 @@ exports[`Renderer:group 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--horizontal"
+              data-amis-name="test1"
               data-role="form-item"
             >
               <label
@@ -46,7 +48,7 @@ exports[`Renderer:group 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Label
@@ -82,6 +84,7 @@ exports[`Renderer:group 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--horizontal"
+              data-amis-name="test2"
               data-role="form-item"
             >
               <label
@@ -89,7 +92,7 @@ exports[`Renderer:group 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Label
@@ -126,6 +129,7 @@ exports[`Renderer:group 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--inline"
+            data-amis-name="test1"
             data-role="form-item"
           >
             <label
@@ -133,7 +137,7 @@ exports[`Renderer:group 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     Label
@@ -165,6 +169,7 @@ exports[`Renderer:group 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--inline"
+            data-amis-name="test2"
             data-role="form-item"
           >
             <label
@@ -172,7 +177,7 @@ exports[`Renderer:group 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     Label
@@ -208,6 +213,7 @@ exports[`Renderer:group 1`] = `
         >
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="test1"
             data-role="form-item"
           >
             <label
@@ -215,7 +221,7 @@ exports[`Renderer:group 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     Label
@@ -243,6 +249,7 @@ exports[`Renderer:group 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="test2"
             data-role="form-item"
           >
             <label
@@ -250,7 +257,7 @@ exports[`Renderer:group 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     Label

@@ -45,6 +45,8 @@ register('en-US', {
   'CRUD.stat': '{{page}} of {{lastPage}} total: {{total}}.',
   'CRUD.paginationGoText': 'Go to',
   'CRUD.paginationPageText': 'page',
+  'CRUD.confirmLeaveUnSavedPage':
+    'Change page will loss unsaved data, please confirm.',
   'PaginationWrapper.placeholder': 'please config body',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',
@@ -230,6 +232,7 @@ register('en-US', {
   'Table.subAddRow': 'Add sub row',
   'Table.copyRow': 'Copy row',
   'Table.columnsVisibility': 'Click to control columns visibility',
+  'Table.columnsSorting': 'Drag column to sort',
   'Table.deleteRow': 'Delete current row',
   'Table.discard': 'Discard',
   'Table.dragTip': 'Drag the button on the left to sort',
@@ -387,10 +390,15 @@ register('en-US', {
   'FormulaEditor.function': 'Function',
   'FormulaEditor.invalidData': 'invalid data, position or reason is {{err}}',
   'FormulaEditor.invalidValue': 'invalid value, reason is wrong value format',
+  'pullRefresh.normalText': '',
   'pullRefresh.pullingText': 'Pull down to refresh...',
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
   'pullRefresh.successText': 'Loading success',
+  'pullRefresh.completedText': 'No more data',
+  'pullRefresh.crud2NormalText': 'Swipe up to load more',
+  'pullRefresh.crud2PullingText': 'Swipe up to load more',
+  'pullRefresh.crud2LoosingText': 'Release to load',
   'Picker.placeholder': 'Click icon on the right',
   'UserSelect.edit': 'edit',
   'UserSelect.save': 'preservation',
@@ -426,5 +434,8 @@ register('en-US', {
   'Signature.undo': 'undo',
   'Signature.confirm': 'confirm',
   'Signature.cancel': 'cancel',
-  'Signature.embedLabel': 'Click to sign'
+  'Signature.embedLabel': 'Click to sign',
+  'Signature.embedUpdateLabel': 'Update to sign',
+  'QRCode.tooLong':
+    'The QR code value is too long, please set the text to be below {{max}} characters.'
 });

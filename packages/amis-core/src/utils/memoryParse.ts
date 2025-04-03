@@ -1,6 +1,10 @@
 import {parse} from 'amis-formula';
+import type {ASTNode} from 'amis-formula';
+import VisitedCache from './visitedCache';
 
-const cache = <any>{};
+// NOTE 缓存前40条表达式
+const cache = new VisitedCache<string, ASTNode>(40);
+
 export function memoryParse(
   input: string,
   options: {
@@ -26,17 +30,22 @@ export function memoryParse(
     evalMode: false
   }
 ) {
-  // @todo 优化内存缓存释放，比如只缓存最高频的模版
+  // 优化内存缓存释放，比如只缓存最高频的模版
   if (typeof input !== 'string') {
     return;
   }
 
   const key = input + JSON.stringify(options);
-  if (cache[key]) {
-    return cache[key];
+
+  // get cache result
+  if (cache.has(key)) {
+    return cache.get(key);
   }
 
+  // run parse function and cache
   const ast = parse(input, options);
-  cache[key] = ast;
+
+  cache.set(key, ast);
+
   return ast;
 }

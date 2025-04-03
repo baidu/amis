@@ -4,6 +4,7 @@ exports[`Renderer:radios 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:radios 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:radios 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:radios 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   radios
@@ -49,16 +51,20 @@ exports[`Renderer:radios 1`] = `
             </span>
           </label>
           <div
-            class="cxd-RadiosControl cxd-Form-control is-inline"
+            class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -66,13 +72,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -80,13 +90,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -94,13 +108,17 @@ exports[`Renderer:radios 1`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -111,6 +129,7 @@ exports[`Renderer:radios 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -118,7 +137,7 @@ exports[`Renderer:radios 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -154,6 +173,7 @@ exports[`Renderer:radios 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -162,7 +182,7 @@ exports[`Renderer:radios 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -183,6 +203,7 @@ exports[`Renderer:radios 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -190,7 +211,7 @@ exports[`Renderer:radios 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   radios
@@ -199,16 +220,20 @@ exports[`Renderer:radios 2`] = `
             </span>
           </label>
           <div
-            class="cxd-RadiosControl cxd-Form-control is-inline"
+            class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -216,13 +241,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -230,13 +259,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -244,13 +277,17 @@ exports[`Renderer:radios 2`] = `
               </span>
             </label>
             <label
-              class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--radio--default"
               data-role="checkbox"
             >
               <input
                 type="radio"
               />
-              <i />
+              <i>
+                <div
+                  class="radio-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
@@ -261,6 +298,7 @@ exports[`Renderer:radios 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -268,7 +306,7 @@ exports[`Renderer:radios 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -300,6 +338,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -308,7 +347,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -329,6 +368,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -336,7 +376,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   radios
@@ -345,7 +385,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
             </span>
           </label>
           <div
-            class="cxd-RadiosControl cxd-Form-control"
+            class="cxd-RadiosControl cxd-Form-control is-thin"
           >
             <div
               class="cxd-Grid"
@@ -354,13 +394,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -372,13 +416,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -390,13 +438,17 @@ exports[`Renderer:radios source & autoFill 1`] = `
                 class="cxd-Grid-col--sm4"
               >
                 <label
-                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                  class="cxd-Checkbox cxd-Checkbox--radio--default checked cxd-Checkbox--radio--default--checked"
                   data-role="checkbox"
                 >
                   <input
                     type="radio"
                   />
-                  <i />
+                  <i>
+                    <div
+                      class="radio-icon icon"
+                    />
+                  </i>
                   <span
                     class="class-a"
                   >
@@ -409,6 +461,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="radios"
           data-role="form-item"
         >
           <label
@@ -416,7 +469,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   当前值
@@ -439,7 +492,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
           </div>
         </div>
         <span
-          class="cxd-TplField autoFillClass"
+          class="cxd-TplField fr-view autoFillClass"
         >
           <span>
             13

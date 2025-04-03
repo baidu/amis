@@ -8,6 +8,7 @@ import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {AnchorNavSection} from 'amis-ui';
 import {registerFilter} from 'amis-formula';
+import {generateId} from '../util';
 registerFilter('appTranslate', (input: any) => translateSchema(input));
 
 export class AnchorNavPlugin extends BasePlugin {
@@ -36,7 +37,8 @@ export class AnchorNavPlugin extends BasePlugin {
             type: 'tpl',
             tpl: '这里是锚点内容1',
             wrapperComponent: '',
-            inline: false
+            inline: false,
+            id: generateId()
           }
         ]
       },
@@ -48,7 +50,8 @@ export class AnchorNavPlugin extends BasePlugin {
             type: 'tpl',
             tpl: '这里是锚点内容2',
             wrapperComponent: '',
-            inline: false
+            inline: false,
+            id: generateId()
           }
         ]
       },
@@ -60,7 +63,8 @@ export class AnchorNavPlugin extends BasePlugin {
             type: 'tpl',
             tpl: '这里是锚点内容3',
             wrapperComponent: '',
-            inline: false
+            inline: false,
+            id: generateId()
           }
         ]
       }
@@ -80,6 +84,7 @@ export class AnchorNavPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'properties-basic',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('combo-container', {
@@ -163,6 +168,7 @@ export class AnchorNavPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'appearance-basic',
             body: [
               {
                 type: 'button-group-select',

@@ -1,3 +1,4 @@
+import {DataChangeReason} from 'amis-core';
 import type {ActionSchema} from './renderers/Action';
 import {SchemaApi, SchemaApiObject} from './Schema';
 
@@ -44,11 +45,11 @@ export interface fetchOptions {
   [propName: string]: any;
 }
 
-export interface Payload {
+export interface Payload<T = any> {
   ok: boolean;
   msg: string;
   msgTimeout?: number;
-  data: any;
+  data: T;
   status: number;
   errors?: {
     [propName: string]: string;
@@ -156,7 +157,20 @@ export interface PlainObject {
 
 export interface RendererData {
   [propsName: string]: any;
+
+  /**
+   * 记录变化前的数据
+   */
   __prev?: RendererDataAlias;
+
+  /**
+   * 记录变化的信息
+   */
+  __changeReason?: DataChangeReason;
+
+  /**
+   * 记录上层数据
+   */
   __super?: RendererData;
 }
 type RendererDataAlias = RendererData;

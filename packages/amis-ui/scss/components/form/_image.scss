@@ -26,20 +26,6 @@
     cursor: pointer;
     margin-right: var(--gap-base);
 
-    &-bg {
-      position: absolute;
-      z-index: 0;
-      overflow: hidden;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-
-      .#{$ns}Image {
-        border: 0;
-      }
-    }
-
     @include button-variant(
       var(--ImageControl-addBtn-bg),
       var(--ImageControl-addBtn-color),
@@ -102,6 +88,20 @@
       var(--inputImage-base-disabled-left-border-style),
       var(--shadows-shadow-none)
     );
+
+    &-bg {
+      position: absolute;
+      z-index: 0;
+      overflow: hidden;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      .#{$ns}Image {
+        border: 0;
+      }
+    }
 
     svg {
       top: 0;
@@ -230,6 +230,7 @@
     padding: 0;
     border: none;
     display: block;
+    overflow: initial;
   }
 
   &-itemClear {
@@ -319,7 +320,7 @@
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 
     > a {
-      color: var(--Form-item-fontColor);
+      color: var(--Form-item-color);
       padding: 2px 5px;
       cursor: pointer;
       font-size: 18px;

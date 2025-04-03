@@ -4,6 +4,7 @@ exports[`Renderer:inputDate 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:inputDate 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:inputDate 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test1"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test1
@@ -68,6 +70,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test"
           data-role="form-item"
         >
           <label
@@ -75,7 +78,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test2(test)
@@ -103,6 +106,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test1"
           data-role="form-item"
         >
           <label
@@ -110,7 +114,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test3(test1)
@@ -138,6 +142,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test4"
           data-role="form-item"
         >
           <label
@@ -145,7 +150,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test4
@@ -173,6 +178,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test5"
           data-role="form-item"
         >
           <label
@@ -180,7 +186,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test5
@@ -208,10 +214,11 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="switch"
           data-role="form-item"
         >
           <div
-            class="cxd-SwitchControl cxd-Form-control"
+            class="cxd-SwitchControl cxd-Form-control is-thin"
           >
             <label
               class="cxd-Switch"
@@ -238,6 +245,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test6"
           data-role="form-item"
         >
           <label
@@ -245,7 +253,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test6
@@ -273,6 +281,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test7"
           data-role="form-item"
         >
           <label
@@ -280,7 +289,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test7(test6)
@@ -308,6 +317,7 @@ exports[`Renderer:inputDate 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test8"
           data-role="form-item"
         >
           <label
@@ -315,7 +325,7 @@ exports[`Renderer:inputDate 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   test8

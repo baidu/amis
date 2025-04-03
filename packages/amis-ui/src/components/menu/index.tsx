@@ -27,6 +27,7 @@ import {Icon} from '../icons';
 import {BadgeObject} from '../Badge';
 import MenuItem, {MenuItemProps} from './MenuItem';
 import SubMenu, {SubMenuProps} from './SubMenu';
+import PanelMenu from './PanelMenu';
 import {MenuContext} from './MenuContext';
 
 const INVALIDATE = 'invalidate';
@@ -74,7 +75,7 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
   /**
    * 垂直模式 非折叠状态下 控制菜单打开方式
    */
-  mode?: 'inline' | 'float'; // float（悬浮）inline（内联） 默认inline
+  mode?: 'inline' | 'float' | 'panel'; // float（悬浮）inline（内联） 默认inline
 
   /**
    * 主题配色
@@ -421,7 +422,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }) {
     // 菜单项里面可能会有按钮
     // 如果里面事件执行了e.preventDefault() 则不执行后面的
-    if (domEvent && domEvent.defaultPrevented) {
+    // model:panel RcMenu收集itemClick key为空的情况
+    if ((domEvent && domEvent.defaultPrevented) || !key) {
       return;
     }
     const {onSelect} = this.props;
@@ -454,6 +456,20 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     this.selectSubItem({key, domEvent, props});
+  }
+
+  @autobind
+  handlePanelMenuClick({
+    key,
+    domEvent,
+    keyPath
+  }: {
+    key: string;
+    domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+    props: NavigationItem;
+    keyPath: string[];
+  }) {
+    this.handleItemClick({key, domEvent, keyPath});
   }
 
   selectSubItem({
@@ -573,7 +589,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     );
   }
 
-  renderMenuContent(list: NavigationItem[], level?: number) {
+  renderMenuContent(list: NavigationItem[], level?: number, mode?: string) {
     const {
       renderLink,
       classnames: cx,
@@ -624,8 +640,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             depth={level || 1}
             testIdBuilder={testIdBuilder?.getChild(link.testid || index)}
             popupClassName={popupClassName}
+            onTitleClick={this.handleItemClick}
           >
-            {this.renderMenuContent(item.children || [], item.depth + 1)}
+            {mode === 'panel' ? (
+              <PanelMenu {...item} data={data} />
+            ) : (
+              this.renderMenuContent(item.children || [], item.depth + 1)
+            )}
           </SubMenu>
         );
       }
@@ -686,11 +707,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const {navigations, activeKey, defaultOpenKeys, openKeys} = this.state;
     const isDarkTheme = themeColor === 'dark';
     const rcMode = stacked
-      ? mode === 'float'
+      ? mode === 'float' || mode === 'panel'
         ? 'vertical-left'
         : 'vertical'
       : 'horizontal';
-    const disableOpen = collapsed || !stacked || (stacked && mode === 'float');
+    const disableOpen =
+      collapsed ||
+      !stacked ||
+      (stacked && (mode === 'float' || mode === 'panel'));
 
     return (
       <MenuContext.Provider
@@ -705,7 +729,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           accordion,
           draggable,
           onDragStart,
-          onSubmenuClick: this.handleSubMenuTitleClick
+          onSubmenuClick: this.handleSubMenuTitleClick,
+          onPanelMenuClick: this.handlePanelMenuClick
         }}
       >
         <RcMenu
@@ -760,8 +785,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           defaultOpenKeys={disableOpen ? undefined : defaultOpenKeys}
           openKeys={disableOpen ? undefined : openKeys}
           onClick={this.handleItemClick}
+          disabledOverflow={disabledOverflow} // 这里不传rc-menu会和maxCount有冲突异常覆盖，导致子菜单不能唤起
         >
-          {this.renderMenuContent(navigations)}
+          {this.renderMenuContent(navigations, 0, mode)}
         </RcMenu>
       </MenuContext.Provider>
     );

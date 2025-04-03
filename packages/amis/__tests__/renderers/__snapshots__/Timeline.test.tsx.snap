@@ -1,5 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Renderer:timeline dot size is adjusted 1`] = `
+<div>
+  <div
+    class="cxd-Timeline cxd-Timeline-vertical cxd-Timeline-right"
+  >
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-xl cxd-TimelineItem-point-align--top"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-08
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+        <div
+          class="cxd-TimelineItem-detail"
+        >
+          <div
+            class="cxd-TimelineItem-detail-visible auto-detail-class"
+          >
+            error
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-sm cxd-TimelineItem-point-align--top"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-09
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+        <div
+          class="cxd-TimelineItem-detail"
+        >
+          <div
+            class="cxd-TimelineItem-detail-visible auto-detail-class"
+          >
+            success
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-lg cxd-TimelineItem-hide-dot cxd-TimelineItem-point-align--top"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-09
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+        <div
+          class="cxd-TimelineItem-detail"
+        >
+          <div
+            class="cxd-TimelineItem-detail-visible auto-detail-class"
+          >
+            warning
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:timeline itemTitleSchema 1`] = `
 <div>
   <div
@@ -9,7 +150,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
@@ -35,7 +176,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -50,20 +191,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            detailExpandedText
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             detail
           </div>
@@ -74,15 +202,22 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -96,7 +231,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -113,14 +248,21 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -134,7 +276,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -151,14 +293,21 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -172,7 +321,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               <div
@@ -198,7 +347,7 @@ exports[`Renderer:timeline items 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
@@ -229,20 +378,7 @@ exports[`Renderer:timeline items 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            detailExpandedText
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             detail
           </div>
@@ -253,15 +389,22 @@ exports[`Renderer:timeline items 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -282,14 +425,21 @@ exports[`Renderer:timeline items 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -310,14 +460,21 @@ exports[`Renderer:timeline items 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -347,15 +504,22 @@ exports[`Renderer:timeline mode direction 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(255, 178, 0);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(255, 178, 0);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -376,15 +540,22 @@ exports[`Renderer:timeline mode direction 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -405,14 +576,21 @@ exports[`Renderer:timeline mode direction 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -433,14 +611,21 @@ exports[`Renderer:timeline mode direction 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -470,15 +655,22 @@ exports[`Renderer:timeline mode direction 2`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(255, 178, 0);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(255, 178, 0);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -499,15 +691,22 @@ exports[`Renderer:timeline mode direction 2`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -528,14 +727,21 @@ exports[`Renderer:timeline mode direction 2`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -556,14 +762,21 @@ exports[`Renderer:timeline mode direction 2`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -593,15 +806,22 @@ exports[`Renderer:timeline mode direction 3`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(255, 178, 0);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(255, 178, 0);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -622,15 +842,22 @@ exports[`Renderer:timeline mode direction 3`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -651,14 +878,21 @@ exports[`Renderer:timeline mode direction 3`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -679,14 +913,21 @@ exports[`Renderer:timeline mode direction 3`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -710,119 +951,175 @@ exports[`Renderer:timeline mode direction 3`] = `
 exports[`Renderer:timeline mode direction 4`] = `
 <div>
   <div
-    class="cxd-Timeline cxd-Timeline-horizontal cxd-Timeline-right"
+    class="cxd-Timeline cxd-Timeline-horizontal cxd-Timeline-top"
   >
     <div
-      class="cxd-TimelineItem"
+      class="cxd-Timeline-first-line"
     >
       <div
-        class="cxd-TimelineItem-axle"
-      >
-        <div
-          class="cxd-TimelineItem-line"
-        />
-        <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(255, 178, 0);"
-        />
-      </div>
-      <div
-        class="cxd-TimelineItem-content"
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
       >
         <div
           class="cxd-TimelineItem-time"
         >
           2019-02-07
         </div>
-        <div
-          class="cxd-TimelineItem-title"
-        >
-          节点数据
-        </div>
-      </div>
-    </div>
-    <div
-      class="cxd-TimelineItem"
-    >
-      <div
-        class="cxd-TimelineItem-axle"
-      >
-        <div
-          class="cxd-TimelineItem-line"
-        />
-        <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
       </div>
       <div
-        class="cxd-TimelineItem-content"
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
       >
         <div
           class="cxd-TimelineItem-time"
         >
           2019-02-08
         </div>
-        <div
-          class="cxd-TimelineItem-title"
-        >
-          节点数据
-        </div>
-      </div>
-    </div>
-    <div
-      class="cxd-TimelineItem"
-    >
-      <div
-        class="cxd-TimelineItem-axle"
-      >
-        <div
-          class="cxd-TimelineItem-line"
-        />
-        <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-        />
       </div>
       <div
-        class="cxd-TimelineItem-content"
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
       >
         <div
           class="cxd-TimelineItem-time"
         >
           2019-02-09
         </div>
-        <div
-          class="cxd-TimelineItem-title"
-        >
-          节点数据
-        </div>
-      </div>
-    </div>
-    <div
-      class="cxd-TimelineItem"
-    >
-      <div
-        class="cxd-TimelineItem-axle"
-      >
-        <div
-          class="cxd-TimelineItem-line"
-        />
-        <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
       </div>
       <div
-        class="cxd-TimelineItem-content"
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
       >
         <div
           class="cxd-TimelineItem-time"
         >
           2019-02-09
         </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Timeline-line"
+    >
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--center"
+      >
         <div
-          class="cxd-TimelineItem-title"
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
         >
-          节点数据
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(255, 178, 0);"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--center"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--center"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--center"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Timeline-second-line"
+    >
+      <div
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
+      >
+        <div
+          class="cxd-Timeline-inner-content-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-title"
+          >
+            节点数据
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
+      >
+        <div
+          class="cxd-Timeline-inner-content-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-title"
+          >
+            节点数据
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
+      >
+        <div
+          class="cxd-Timeline-inner-content-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-title"
+          >
+            节点数据
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-TimelineItem-content cxd-TimelineItem-content-align--center"
+      >
+        <div
+          class="cxd-Timeline-inner-content-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-title"
+          >
+            节点数据
+          </div>
         </div>
       </div>
     </div>
@@ -839,15 +1136,21 @@ exports[`Renderer:timeline mode direction 5`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-          style=""
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -868,15 +1171,21 @@ exports[`Renderer:timeline mode direction 5`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
-          style=""
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--success"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--success"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -897,15 +1206,22 @@ exports[`Renderer:timeline mode direction 5`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(79, 134, 244);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(79, 134, 244);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -926,15 +1242,22 @@ exports[`Renderer:timeline mode direction 5`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-          style="background-color: rgb(255, 178, 0);"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+            style="background-color: rgb(255, 178, 0);"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -964,7 +1287,7 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
@@ -995,20 +1318,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-07detail
           </div>
@@ -1019,14 +1329,21 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -1045,20 +1362,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-08detail
           </div>
@@ -1069,14 +1373,21 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round cxd-TimelineItem-round-background--warning"
+          />
+          <div
+            class="cxd-TimelineItem-dot cxd-TimelineItem-round--warning"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -1095,20 +1406,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-09detail
           </div>
@@ -1119,7 +1417,7 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
@@ -1150,20 +1448,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-10detail
           </div>
@@ -1174,14 +1459,21 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
         />
         <div
-          class="cxd-TimelineItem-round"
-        />
+          class="cxd-TimelineItem-round-wrapper"
+        >
+          <div
+            class="cxd-TimelineItem-round"
+          />
+          <div
+            class="cxd-TimelineItem-dot"
+          />
+        </div>
       </div>
       <div
         class="cxd-TimelineItem-content"
@@ -1200,20 +1492,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-11detail
           </div>
@@ -1224,7 +1503,7 @@ exports[`Renderer:timeline source 1`] = `
       class="cxd-TimelineItem"
     >
       <div
-        class="cxd-TimelineItem-axle"
+        class="cxd-TimelineItem-axle cxd-TimelineItem-size-md cxd-TimelineItem-point-align--top"
       >
         <div
           class="cxd-TimelineItem-line"
@@ -1255,20 +1534,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-detail"
         >
           <div
-            class="cxd-TimelineItem-detail-button"
-          >
-            展开
-            <div
-              class="cxd-TimelineItem-detail-arrow false"
-            >
-              <icon-mock
-                classname="icon-down-arrow-bold"
-                icon="down-arrow-bold"
-              />
-            </div>
-          </div>
-          <div
-            class="cxd-TimelineItem-detail-invisible"
+            class="cxd-TimelineItem-detail-visible"
           >
             2019-02-12detail
           </div>

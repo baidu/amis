@@ -6,13 +6,16 @@
 
 import React from 'react';
 import {InView} from 'react-intersection-observer';
+import {themeable, ThemeProps} from '../theme';
 
-export interface LazyComponentProps {
+export interface LazyComponentProps extends ThemeProps {
   component?: React.ElementType;
   getComponent?: () => Promise<React.ElementType>;
   placeholder?: React.ReactNode;
   unMountOnHidden?: boolean;
   childProps?: object;
+  defaultVisible?: boolean;
+  className?: string;
   [propName: string]: any;
 }
 
@@ -21,7 +24,7 @@ export interface LazyComponentState {
   component?: React.ElementType;
 }
 
-export default class LazyComponent extends React.Component<
+export class LazyComponent extends React.Component<
   LazyComponentProps,
   LazyComponentState
 > {
@@ -39,14 +42,14 @@ export default class LazyComponent extends React.Component<
     this.mounted = true;
 
     this.state = {
-      visible: false,
+      visible: props.defaultVisible ?? false,
       component: props.component as React.ElementType
     };
   }
 
   componentDidMount() {
     // jest 里面有点异常，先手动让它总是可见
-    if (typeof jest !== 'undefined') {
+    if (typeof jest !== 'undefined' || this.state.visible) {
       this.handleVisibleChange(true);
     }
   }
@@ -92,8 +95,10 @@ export default class LazyComponent extends React.Component<
       childProps,
       partialVisibility,
       children,
+      className,
       ...rest
     } = this.props;
+    const cx = this.props.classnames;
 
     const {visible, component: Component} = this.state;
 
@@ -144,6 +149,10 @@ export default class LazyComponent extends React.Component<
       return children;
     }
 
-    return <div>{placeholder}</div>;
+    return <div className={cx('LazyComponent', className)}>{placeholder}</div>;
   }
 }
+
+const themedLazyComponent = themeable(LazyComponent);
+(themedLazyComponent as any).defaultProps = LazyComponent.defaultProps;
+export default themedLazyComponent;

@@ -160,6 +160,11 @@ export interface ButtonSchema extends BaseSchema {
   loadingOn?: string;
 
   /**
+   * 是否在动作结束前禁用按钮
+   */
+  disabledOnAction?: boolean;
+
+  /**
    * 自定义事件处理函数
    */
   onClick?: string | any;
@@ -168,6 +173,8 @@ export interface ButtonSchema extends BaseSchema {
    * 子内容
    */
   body?: SchemaCollection;
+
+  tabIndex?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -707,9 +714,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
   render() {
     const {
       type,
-      icon,
       iconClassName,
-      rightIcon,
       rightIconClassName,
       loadingClassName,
       primary,
@@ -748,7 +753,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       css,
       id,
       testIdBuilder,
-      env
+      env,
+      tabIndex
     } = this.props;
 
     if (actionType !== 'email' && body) {
@@ -790,6 +796,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         timeLeft: this.state.timeLeft
       }) as string;
       disabled = true;
+    }
+    let icon = this.props.icon;
+    let rightIcon = this.props.rightIcon;
+    if (typeof icon === 'string') {
+      icon = filter(this.props.icon, data);
+    }
+    if (typeof rightIcon === 'string') {
+      rightIcon = filter(this.props.rightIcon, data);
     }
 
     const iconElement = (
@@ -872,6 +886,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
           tooltipRootClose={tooltipRootClose}
           block={block}
           iconOnly={!!(icon && !label && level !== 'link')}
+          tabIndex={tabIndex}
         >
           {!loading ? iconElement : ''}
           {label ? <span>{filter(String(label), data)}</span> : null}
@@ -935,12 +950,17 @@ export type ActionRendererProps = RendererProps &
   };
 
 @Renderer({
-  type: 'action'
+  type: 'action',
+  alias: ['button', 'submit', 'reset']
 })
 // @ts-ignore 类型没搞定
 @withBadge
 export class ActionRenderer extends React.Component<ActionRendererProps> {
   static contextType = ScopedContext;
+
+  state = {
+    actionDisabled: false
+  };
 
   constructor(props: ActionRendererProps, scoped: IScopedContext) {
     super(props);
@@ -974,33 +994,60 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     e: React.MouseEvent<any> | string | void | null,
     action: any
   ) {
-    const {env, onAction, data, ignoreConfirm, dispatchEvent, $schema} =
-      this.props;
-    let mergedData = data;
+    try {
+      const {env, onAction, data, ignoreConfirm, dispatchEvent, $schema} =
+        this.props;
+      let mergedData = data;
+      this.setState({actionDisabled: true});
 
-    if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, action.args);
-    }
+      if (action?.actionType === 'click' && isObject(action?.args)) {
+        mergedData = createObject(data, action.args);
+      }
 
-    const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
-    let confirmText: string = '';
-    // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
-    if (
-      (!ignoreConfirm || hasOnEvent) &&
-      action.confirmText &&
-      env.confirm &&
-      (confirmText = filter(action.confirmText, mergedData))
-    ) {
-      let confirmed = await env.confirm(
-        confirmText,
-        filter(action.confirmTitle, mergedData) || undefined
-      );
-      if (confirmed) {
+      const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
+      let confirmText: string = '';
+      // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
+      if (
+        this.props.showConfirmBox !== false && // 外部判断是否开启二次确认弹窗的验证,勿删
+        (!ignoreConfirm || hasOnEvent) &&
+        action.confirmText &&
+        env.confirm &&
+        (confirmText = filter(action.confirmText, mergedData))
+      ) {
+        let confirmed = await env.confirm(
+          confirmText,
+          filter(action.confirmTitle, mergedData) || undefined
+        );
+        if (confirmed) {
+          // 触发渲染器事件
+          const rendererEvent = await dispatchEvent(
+            e as React.MouseEvent<any> | string,
+            mergedData,
+            this // 保证renderer可以拿到，避免因交互设计导致的清空情况，例如crud内itemAction
+          );
+
+          // 阻止原有动作执行
+          if (rendererEvent?.prevented) {
+            return;
+          }
+
+          // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
+          await onAction(
+            e,
+            {...action, ignoreConfirm: !!hasOnEvent},
+            mergedData,
+            undefined,
+            undefined,
+            rendererEvent
+          );
+        } else if (action.countDown) {
+          throw new Error('cancel');
+        }
+      } else {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
-          mergedData,
-          this // 保证renderer可以拿到，避免因交互设计导致的清空情况，例如crud内itemAction
+          mergedData
         );
 
         // 阻止原有动作执行
@@ -1008,38 +1055,17 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
           return;
         }
 
-        // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
         await onAction(
           e,
-          {...action, ignoreConfirm: !!hasOnEvent},
+          action,
           mergedData,
           undefined,
           undefined,
           rendererEvent
         );
-      } else if (action.countDown) {
-        throw new Error('cancel');
       }
-    } else {
-      // 触发渲染器事件
-      const rendererEvent = await dispatchEvent(
-        e as React.MouseEvent<any> | string,
-        mergedData
-      );
-
-      // 阻止原有动作执行
-      if (rendererEvent?.prevented) {
-        return;
-      }
-
-      await onAction(
-        e,
-        action,
-        mergedData,
-        undefined,
-        undefined,
-        rendererEvent
-      );
+    } finally {
+      this.setState({actionDisabled: false});
     }
   }
 
@@ -1072,13 +1098,16 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
   }
 
   render() {
-    const {env, disabled, btnDisabled, loading, ...rest} = this.props;
-
+    const {env, disabled, btnDisabled, disabledOnAction, loading, ...rest} =
+      this.props;
+    const {actionDisabled} = this.state;
     return (
       <Action
         {...(rest as any)}
         env={env}
-        disabled={disabled || btnDisabled}
+        disabled={
+          disabled || btnDisabled || (disabledOnAction ? actionDisabled : false)
+        }
         onAction={this.handleAction}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -1089,18 +1118,3 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     );
   }
 }
-
-@Renderer({
-  type: 'button'
-})
-export class ButtonRenderer extends ActionRenderer {}
-
-@Renderer({
-  type: 'submit'
-})
-export class SubmitRenderer extends ActionRenderer {}
-
-@Renderer({
-  type: 'reset'
-})
-export class ResetRenderer extends ActionRenderer {}

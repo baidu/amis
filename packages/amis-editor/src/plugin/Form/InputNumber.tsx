@@ -1,25 +1,24 @@
 import {
   EditorNodeType,
   getI18nEnabled,
+  RAW_TYPE_MAP,
   RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import flatten from 'lodash/flatten';
-import {ContainerWrapper} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {isObject} from 'amis-editor-core';
-import {
+  RendererPluginEvent,
   BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  registerEditorPlugin,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {inputStateTpl} from '../../renderer/style-control/helper';
 import {Schema} from 'amis-core';
+import type {SchemaType} from 'amis';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NumberControlPlugin extends BasePlugin {
   static id = 'NumberControlPlugin';
@@ -40,7 +39,9 @@ export class NumberControlPlugin extends BasePlugin {
     type: 'input-number',
     label: '数字',
     name: 'number',
-    keyboard: true
+    showSteps: true,
+    keyboard: true,
+    kilobitSeparator: true
   };
   previewSchema: any = {
     type: 'form',
@@ -135,17 +136,20 @@ export class NumberControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空数字框内容'
+      description: '清空数字框内容',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '重置为默认值'
+      description: '重置为默认值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -209,12 +213,20 @@ export class NumberControlPlugin extends BasePlugin {
                   valueType: 'number'
                 }),
                 {
+                  type: 'switch',
+                  label: '显示上下按钮',
+                  name: 'showSteps',
+                  value: true,
+                  inputClassName: 'is-inline'
+                },
+                {
                   type: 'input-number',
                   name: 'step',
                   label: '步长',
                   min: 0,
                   value: 1,
                   precision: '${precision}',
+                  visibleOn: '${showSteps}',
                   strictMode: false
                 },
                 {
@@ -289,8 +301,7 @@ export class NumberControlPlugin extends BasePlugin {
           getSchemaTpl(
             'collapseGroup',
             [
-              getSchemaTpl('style:formItem', {
-                renderer: context.info.renderer,
+              getSchemaTpl('theme:formItem', {
                 schema: [
                   {
                     label: '快捷编辑',
@@ -317,20 +328,30 @@ export class NumberControlPlugin extends BasePlugin {
                 body: [
                   ...inputStateTpl(
                     'themeCss.inputControlClassName',
-                    'inputNumber.base.base'
+                    '--inputNumber-${displayMode || "base"}'
                   )
                 ]
               },
-              getSchemaTpl('theme:cssCode', {
-                themeClass: [
+              getSchemaTpl('theme:singleCssCode', {
+                selectors: [
                   {
-                    name: '数字输入框',
-                    value: '',
-                    className: 'inputControlClassName',
-                    state: ['default', 'hover', 'active']
+                    label: '表单项基本样式',
+                    isRoot: true,
+                    selector: '.cxd-from-item'
+                  },
+                  {
+                    label: '标题样式',
+                    selector: '.cxd-Form-label'
+                  },
+                  {
+                    label: '数字框基本样式',
+                    selector: '.cxd-Number'
+                  },
+                  {
+                    label: '输入框样式',
+                    selector: '.cxd-Number-input'
                   }
-                ],
-                isFormItem: true
+                ]
               })
             ],
             {...context?.schema, configTitle: 'style'}
@@ -354,6 +375,7 @@ export class NumberControlPlugin extends BasePlugin {
     return {
       type: 'number',
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
   }

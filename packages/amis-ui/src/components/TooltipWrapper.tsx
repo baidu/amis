@@ -82,6 +82,11 @@ export interface TooltipObject {
   tooltipClassName?: string;
 
   /**
+   * 箭头CSS类名
+   */
+  tooltipArrowClassName?: string;
+
+  /**
    * 文字提示浮层Body的CSS类名
    */
   tooltipBodyClassName?: string;
@@ -305,6 +310,7 @@ export class TooltipWrapper extends React.Component<
       trigger,
       rootClose,
       tooltipClassName,
+      tooltipArrowClassName,
       tooltipBodyClassName,
       style,
       disabled = false,
@@ -354,6 +360,7 @@ export class TooltipWrapper extends React.Component<
           className={tooltipClassName}
           tooltipTheme={tooltipTheme}
           showArrow={showArrow}
+          arrowClassName={tooltipArrowClassName}
           bodyClassName={tooltipBodyClassName}
           onMouseEnter={
             ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}

@@ -85,11 +85,12 @@ export interface OptionProps {
   virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
   hasError?: boolean;
   block?: boolean;
+  controlStyle?: any;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
     skipForm?: boolean,
-    closePopOver?: () => void
+    callback?: () => void
   ) => void;
   editable?: boolean;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
@@ -401,6 +402,8 @@ export interface SelectProps
    * 检索函数
    */
   filterOption?: FilterOption;
+
+  dataName?: string;
 }
 
 interface SelectState {
@@ -608,12 +611,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
-    let filtedOptions: Array<Option> =
+    let filtedOptions: Array<Option> = (
       inputValue && checkAllBySearch !== false
         ? filterOption(options, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
-        : options.concat();
+        : options.concat()
+    ).filter(option => option && !option.disabled);
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
     const checkedAll = optionsValues.every(
@@ -764,7 +768,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   handleAddClick() {
     const {onAdd} = this.props;
-    onAdd && onAdd(undefined, undefined, false, this.close);
+    onAdd && onAdd();
   }
 
   @autobind
@@ -1092,6 +1096,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 }}
                 disabled={item.disabled}
                 testIdBuilder={optTestIdBudr?.getChild('chekbx')}
+                size="sm"
               >
                 {renderMenu(item, {
                   multiple,
@@ -1327,7 +1332,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileUI,
       hasError,
       testIdBuilder,
-      loadingConfig
+      loadingConfig,
+      controlStyle
     } = this.props;
 
     const selection = this.state.selection;
@@ -1375,6 +1381,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 },
                 className
               )}
+              data-amis-name={this.props.dataName}
+              style={controlStyle}
             >
               <div
                 className={cx(`Select-valueWrap`, {
@@ -1421,12 +1429,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 }
 
-const EnhancedSelect = themeable(
-  localeable(
-    uncontrollable(Select, {
-      value: 'onChange'
-    })
-  )
+const methods = ['focus', 'blur'];
+const EnhancedSelect = uncontrollable(
+  themeable(localeable(Select, methods), methods),
+  {
+    value: 'onChange'
+  },
+  methods
 );
 
 export default EnhancedSelect;

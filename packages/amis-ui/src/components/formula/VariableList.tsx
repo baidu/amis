@@ -5,6 +5,7 @@ import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
+import {Icon} from '../icons';
 
 import type {VariableItem} from './CodeEditor';
 import type {ItemRenderStates} from '../Selection';
@@ -19,52 +20,55 @@ import TooltipWrapper from '../TooltipWrapper';
 // 数组成员读取
 const memberOpers = [
   {
-    label: '取该成员的记录',
+    label: '取列值',
     value: 'ARRAYMAP(${arr}, item => item.${member})',
-    description: '即该列所有记录'
+    description: '取当前列的所有值（数组）'
   },
   {
-    label: '取符合条件的该成员的记录',
+    label: '取条件值',
     value:
       'ARRAYFILTER(ARRAYMAP(${arr}, item => item.${member}), item => item === 条件)',
-    description: '即该列所有记录中符合条件的记录，需补充条件，例如：item === 1'
+    description: '取当前列中符合配置条件的值（数组）'
   },
   {
-    label: '取列表中符合该成员条件的记录',
+    label: '取表值',
     value: 'ARRAYFILTER(${arr}, item => item.${member} === 条件)',
-    description:
-      '即当前列表中所有符合该成员条件的记录，需补充成员条件，例如：item.xxx === 1'
+    description: '取列表中符合配置条件的值（数组）'
   },
   {
-    label: '取列表中符合该成员条件的记录总数',
+    label: '计数',
     value: 'COUNT(ARRAYFILTER(${arr}, item => item.${member} === 条件))',
-    description:
-      '即当前列表中所有符合该成员条件的记录总数，需补充成员条件，例如：item.xxx === 1'
+    description: '统计表中符合配置条件的值的总数'
   },
   {
-    label: '取该成员去重之后的总数',
+    label: '去重计数',
     value: 'COUNT(UNIQ(${arr}, item.${member}))',
-    description: '即对该成员记录进行去重，并统计总数'
+    description: '对表中当前值进行去重，并统计去重后的值的数量',
+    simple: true
   },
   {
-    label: '取该成员的总和',
+    label: '求和',
     value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
+    description: '求当前列的所有值之和',
+    simple: true
   },
   {
-    label: '取该成员的平均值',
+    label: '平均值',
     value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的平均值，需确认该成员记录均为数字类型'
+    description: '求当前列的平均值',
+    simple: true
   },
   {
-    label: '取该成员的最大值',
+    label: '最大值',
     value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录中最大值，需确认该成员记录均为数字类型'
+    description: '取当前列的最大值',
+    simple: true
   },
   {
-    label: '取该成员的最小值',
+    label: '最小值',
     value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录中最小值，需确认该成员记录均为数字类型'
+    description: '取当前列的最小值',
+    simple: true
   }
 ];
 
@@ -80,6 +84,8 @@ export interface VariableListProps extends ThemeProps, SpinnerExtraProps {
   onSelect?: (item: VariableItem) => void;
   selfVariableName?: string;
   expandTree?: boolean;
+  simplifyMemberOprs?: boolean;
+  popOverContainer?: () => HTMLElement;
 }
 
 function VariableList(props: VariableListProps) {
@@ -94,7 +100,9 @@ function VariableList(props: VariableListProps) {
     onSelect,
     placeholderRender,
     selfVariableName,
-    expandTree
+    expandTree,
+    simplifyMemberOprs,
+    popOverContainer
   } = props;
   const [variables, setVariables] = React.useState<Array<VariableItem>>([]);
   const [filterVars, setFilterVars] = React.useState<Array<VariableItem>>([]);
@@ -166,33 +174,39 @@ function VariableList(props: VariableListProps) {
                 (!selfVariableName || option.value !== selfVariableName) ? (
                   option.memberDepth < 2 ? (
                     <PopOverContainer
-                      popOverContainer={() =>
-                        document.querySelector(`.${cx('FormulaPicker-Modal')}`)
+                      popOverContainer={
+                        popOverContainer ||
+                        (() =>
+                          document.querySelector(
+                            `.${cx('FormulaPicker-Modal')}`
+                          ))
                       }
                       popOverRender={({onClose}) => (
                         <ul className={cx(`${classPrefix}-item-oper`)}>
-                          {memberOpers.map((item, i) => {
-                            return (
-                              <TooltipWrapper
-                                key={i}
-                                tooltip={item.description}
-                                tooltipTheme="dark"
-                              >
-                                <li
+                          {memberOpers
+                            .filter(item => !simplifyMemberOprs || item.simple)
+                            .map((item, i) => {
+                              return (
+                                <TooltipWrapper
                                   key={i}
-                                  onClick={() =>
-                                    handleMemberClick(
-                                      {...item, isMember: true},
-                                      option,
-                                      onClose
-                                    )
-                                  }
+                                  tooltip={item.description}
+                                  tooltipTheme="dark"
                                 >
-                                  <span>{item.label}</span>
-                                </li>
-                              </TooltipWrapper>
-                            );
-                          })}
+                                  <li
+                                    key={i}
+                                    onClick={() =>
+                                      handleMemberClick(
+                                        {...item, isMember: true},
+                                        option,
+                                        onClose
+                                      )
+                                    }
+                                  >
+                                    <span>{item.label}</span>
+                                  </li>
+                                </TooltipWrapper>
+                              );
+                            })}
                         </ul>
                       )}
                     >
@@ -201,7 +215,14 @@ function VariableList(props: VariableListProps) {
                           tooltip={option.description ?? option.label}
                           tooltipTheme="dark"
                         >
-                          <label onClick={onClick}>{option.label}</label>
+                          <>
+                            <label onClick={onClick}>{option.label}</label>
+                            <Icon
+                              onClick={onClick}
+                              icon="ellipsis-v"
+                              className="icon"
+                            />
+                          </>
                         </TooltipWrapper>
                       )}
                     </PopOverContainer>

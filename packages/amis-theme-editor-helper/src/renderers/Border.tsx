@@ -12,12 +12,7 @@ import {Select} from 'amis-ui';
 import ColorPicker from './ColorPicker';
 import ThemeSelect from './ThemeSelect';
 import {i18n as _i18n} from 'i18n-runtime';
-import {
-  getValueByPath,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface BorderProps {
   custom?: boolean;
@@ -104,7 +99,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     label,
     needColorCustom,
     state,
-    editorThemePath
+    editorValueToken
   } = props;
   const [borderWidthOptions, setBorderWidthOptions] = useState(
     cloneDeep(
@@ -113,48 +108,68 @@ function BoxBorder(props: BorderProps & FormControlProps) {
         defaultBorderWidthOptions
     )
   );
-  const [borderStyleOptions, setBorderStyleOptions] = useState(
-    cloneDeep(
-      props.borderStyleOptions || data.borderStyleOptions || defaultStyleOptions
-    )
-  );
+  const [borderStyleOptions, setBorderStyleOptions] = useState([
+    ...(props.borderStyleOptions ||
+      data.borderStyleOptions ||
+      defaultStyleOptions),
+    {
+      label: '分别配置',
+      value: 'custom',
+      realValue: 'custom',
+      hidden: true
+    }
+  ]);
   const [colorOptions, setColorOptions] = useState(
     cloneDeep(props.colorOptions || data.colorOptions)
   );
   const [borderType, setBorderType] = useState<string>('all');
-  const editorDefaultValue = formatData(getValueByPath(editorThemePath, data));
-  const editorInheritValue = getInheritValue(editorThemePath, data);
-  const borderData = formatData(value || {});
 
-  useEffect(() => {
-    if (state && state !== 'default') {
-      const type = borderType === 'all' ? 'top' : borderType;
-      const styleOptions = cloneDeep(borderStyleOptions);
-      if (styleOptions[0].parent) {
-        styleOptions[0].value = editorThemePath
-          ? 'inherit'
-          : `var(${data.default.token}${type}-border-style)`;
-        styleOptions[0].realValue = '继承常规';
-      } else {
-        styleOptions.unshift({
-          label: '继承常规',
-          value: editorThemePath
-            ? 'inherit'
-            : `var(${data?.default?.token}${type}-border-style)`,
-          parent: true,
-          realValue: '继承常规'
+  let borderToken: any;
+
+  if (editorValueToken) {
+    borderToken = {
+      'top-border-color': `${editorValueToken}-top-border-color`,
+      'top-border-width': `${editorValueToken}-top-border-width`,
+      'top-border-style': `${editorValueToken}-top-border-style`,
+      'right-border-color': `${editorValueToken}-right-border-color`,
+      'right-border-width': `${editorValueToken}-right-border-width`,
+      'right-border-style': `${editorValueToken}-right-border-style`,
+      'bottom-border-color': `${editorValueToken}-bottom-border-color`,
+      'bottom-border-width': `${editorValueToken}-bottom-border-width`,
+      'bottom-border-style': `${editorValueToken}-bottom-border-style`,
+      'left-border-color': `${editorValueToken}-left-border-color`,
+      'left-border-width': `${editorValueToken}-left-border-width`,
+      'left-border-style': `${editorValueToken}-left-border-style`
+    };
+    if (typeof editorValueToken === 'object') {
+      Object.keys(borderToken).forEach(key => {
+        // 短横线转驼峰
+        const tokenKey = key.replace(/-([a-z])/g, function (all, letter) {
+          return letter.toUpperCase();
         });
-      }
-      setBorderStyleOptions(styleOptions);
+        borderToken[key] =
+          editorValueToken[tokenKey] || `${editorValueToken['*']}-${key}`;
+        if (key.includes('color') && editorValueToken.color) {
+          borderToken[key] = editorValueToken.color;
+        }
+        if (key.includes('width') && editorValueToken.width) {
+          borderToken[key] = editorValueToken.width;
+        }
+        if (key.includes('style') && editorValueToken.style) {
+          borderToken[key] = editorValueToken.style;
+        }
+      });
     }
-  }, [borderType]);
+  }
+  const editorDefaultValue = formatData(getDefaultValue(borderToken, data));
+  const borderData = formatData(value || {});
 
   function formatData(sourceData: any) {
     if (!sourceData) {
       return null;
     }
 
-    const data = formatInheritData(cloneDeep(sourceData));
+    const data = cloneDeep(sourceData);
 
     const fn = (type: string) => {
       if (
@@ -174,9 +189,6 @@ function BoxBorder(props: BorderProps & FormControlProps) {
   }
 
   function getLabel(value?: string, option?: any) {
-    if (value === 'inherit') {
-      return '继承常规';
-    }
     const res = option?.find((item: any) => item.value === value);
     if (res) {
       return res.label;
@@ -222,7 +234,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
         };
       }
 
-      onChange(setInheritData(changeValue, editorInheritValue));
+      onChange(changeValue);
     };
   }
 
@@ -269,7 +281,6 @@ function BoxBorder(props: BorderProps & FormControlProps) {
               borderType === 'all' ? 'top' : borderType
             }-border-width`}
             state={state}
-            inheritValue={editorThemePath ? 'inherit' : ''}
             placeholder={editorDefaultValue?.[getKey('width')] || '边框粗细'}
           />
           <div className="Theme-Border-settings-style-color">
@@ -300,18 +311,22 @@ function BoxBorder(props: BorderProps & FormControlProps) {
                 );
               }}
               renderValueLabel={(item: Options) => {
-                return item.realValue === 'none' ? (
-                  <span>无</span>
-                ) : item.parent ? (
-                  <span>{item.label}</span>
-                ) : (
-                  <div className="Theme-Border-style">
-                    <div
-                      className="Theme-Border-style-line"
-                      style={{borderStyle: item.realValue}}
-                    ></div>
-                  </div>
-                );
+                if (item?.realValue === 'none') {
+                  return <span>无</span>;
+                } else if (item.parent) {
+                  return <span>{item.label}</span>;
+                } else if (item.realValue === 'custom') {
+                  return <span>分别配置</span>;
+                } else {
+                  return (
+                    <div className="Theme-Border-style">
+                      <div
+                        className="Theme-Border-style-line"
+                        style={{borderStyle: item.realValue}}
+                      ></div>
+                    </div>
+                  );
+                }
               }}
             />
             <ColorPicker

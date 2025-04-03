@@ -54,11 +54,15 @@ export class EditorDNDManager {
   dragImage?: HTMLElement;
 
   /**
+   * 是否锁定自动切换
+   */
+  lockAutoSwitch = false;
+
+  /**
    * 记录上次鼠标位置信息，协助拖拽计算的。
    */
   lastX: number = 0;
   lastY: number = 0;
-  lastMoveAt: number = 0;
   curDragId: string;
   startX: number = 0;
   startY: number = 0;
@@ -79,15 +83,15 @@ export class EditorDNDManager {
       reactionWithOldValue(
         () => ({id: store.dropId, region: store.dropRegion}),
         this.updateDropRegion
-      ),
-
-      /**
-       * 自动给即将激活的区域添加高亮。
-       */
-      reactionWithOldValue(
-        () => ({id: store.planDropId, region: store.planDropRegion}),
-        this.updatePlanDropRegion
       )
+
+      // /**
+      //  * 自动给即将激活的区域添加高亮。
+      //  */
+      // reactionWithOldValue(
+      //   () => ({id: store.planDropId, region: store.planDropRegion}),
+      //   this.updatePlanDropRegion
+      // )
     );
 
     this.dragGhost = document.createElement('div');
@@ -126,7 +130,15 @@ export class EditorDNDManager {
    * @param id
    * @param region
    */
-  switchToRegion(e: DragEvent, id: string, region: string): boolean {
+  switchToRegion(
+    e: DragEvent,
+    id: string,
+    region: string,
+    lockAutoSwitch = false
+  ): boolean {
+    // 如果锁定了，将不会自动切换容器了
+    // 拖完后释放
+    this.lockAutoSwitch = lockAutoSwitch || this.lockAutoSwitch;
     const store = this.store;
     if (
       !id ||
@@ -142,7 +154,11 @@ export class EditorDNDManager {
     const json = store.dragSchema;
 
     if (
-      config?.accept?.(json) === false ||
+      config?.accept?.(
+        json,
+        node,
+        store.dragId ? store.getNodeById(store.dragId) : undefined
+      ) === false ||
       node.host?.memberImmutable(region)
     ) {
       return false;
@@ -168,6 +184,7 @@ export class EditorDNDManager {
     store.setDropId(id, region);
     this.makeDNDModeInstance(node);
     this.dndMode?.enter(e, this.dragGhost!);
+    store.calculateHighlightBox([id]);
     return true;
   }
 
@@ -347,18 +364,10 @@ export class EditorDNDManager {
 
     const dx = e.clientX - this.lastX;
     const dy = e.clientY - this.lastY;
-    const d = Math.max(Math.abs(dx), Math.abs(dy));
-    const now = Date.now();
+    const d = Math.hypot(dx, dy);
 
-    const curElem = target.closest(`[data-region][data-region-host]`);
-    const hostId = curElem?.getAttribute('data-region-host');
-    const region = curElem?.getAttribute('data-region');
-
-    if (
-      d > 0 &&
-      this.curDragId &&
-      this.manager.draggableContainer(this.curDragId)
-    ) {
+    // 自由容器里面的拖拽分支
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置
       const doc = store.getDoc();
       const parentDoc = parent?.window.document;
@@ -429,39 +438,58 @@ export class EditorDNDManager {
       return;
     }
 
-    if (!store.dropId || !target) {
+    if (!store.dropId || !target || d < 5) {
       return;
     }
 
-    // 没移动还是不要处理，免得晃动个不停。
-    if (d < 5) {
-      if (!curElem || hostId === store.dropId) {
-        return;
-      }
+    const curRegion = target.closest(
+      `[data-region][data-region-host]`
+    ) as HTMLElement;
+    let hostId = curRegion?.getAttribute('data-region-host');
+    let region = curRegion?.getAttribute('data-region');
 
-      // 跨容器组件切换，增加200毫秒的延迟
-      if (now - this.lastMoveAt > 200 && region && hostId) {
-        this.switchToRegion(e, hostId!, region!);
-      }
+    let parentRegion: HTMLElement | null = null;
+    const containerElem: HTMLElement | null = target.closest(
+      '[data-editor-id][data-container]'
+    ) as HTMLElement;
 
-      /*
-      else if (now - this.lastMoveAt > 200 && region && hostId) {
-        store.setPlanDropId(hostId, region);
-      }
-      */
-      return;
+    if (
+      curRegion &&
+      containerElem &&
+      curRegion.contains(containerElem) &&
+      containerElem.querySelector(`[data-region-host="${store.dropId}"]`)
+    ) {
+      // 如果拖拽所在的组件，包含当前dropId ， 且这次是打算切到外层去，则不允许
+      // 就是拖拽还发生在当前组件，不要把拖入容器切到上层去
+      // 比如你打算将 form 的按钮拖到内容区，但是离开了按钮区时因为有一段时间不在任何form 的任何区域
+      // 里面，这个时候一下跑到 form 所在的区域去了，这个时候就不应该切换。
+      hostId = '';
+      region = '';
+    } else if (
+      (parentRegion = curRegion?.parentElement?.closest(
+        '[data-region][data-region-host]'
+      ) as HTMLElement) &&
+      containerElem &&
+      this.isInEdgeRegion(e, containerElem)
+    ) {
+      // 如果当前区域是边缘区域，且有父级区域，则切换到父级区域
+      hostId = parentRegion.getAttribute('data-region-host');
+      region = parentRegion.getAttribute('data-region');
     }
 
-    store.setPlanDropId('', '');
-    this.lastMoveAt = now;
     this.lastX = e.clientX;
     this.lastY = e.clientY;
 
-    // 同一个容器组件下面的区域可以快速切换。
-    if (store.dropId === hostId && region && region !== store.dropRegion) {
-      this.switchToRegion(e, store.dropId, region);
+    if (
+      !this.lockAutoSwitch &&
+      region &&
+      hostId &&
+      (store.dropId !== hostId || region !== store.dropRegion)
+    ) {
+      this.switchToRegion(e, hostId, region);
     }
 
+    store.setPlanDropId('', '');
     this.dndMode?.over(e, this.dragGhost!);
   }
 
@@ -559,8 +587,10 @@ export class EditorDNDManager {
     this.dragGhost.innerHTML = '';
     this.store.setDragId('');
     this.store.setDropId('');
+    this.store.setPlanDropId('', '');
     this.disposeDragImage();
     this.dragEnterCount = 0;
+    this.lockAutoSwitch = false;
   }
 
   /**
@@ -617,38 +647,49 @@ export class EditorDNDManager {
     }
   }
 
-  /**
-   * 自动给即将激活的区域添加高亮。
-   */
-  @autobind
-  updatePlanDropRegion(
-    value: {id: string; region: string},
-    oldValue?: {id: string; region: string}
-  ) {
-    if (
-      this.store.dragId &&
-      this.manager.draggableContainer(this.store.dragId)
-    ) {
-      return;
-    }
-    if (oldValue?.id && oldValue.region) {
-      this.store
-        .getDoc()
-        .querySelector(
-          `[data-region="${oldValue.region}"][data-region-host="${oldValue.id}"]`
-        )
-        ?.classList.remove('is-entering');
-    }
-
-    if (value.id && value.region) {
-      this.store
-        .getDoc()
-        .querySelector(
-          `[data-region="${value.region}"][data-region-host="${value.id}"]`
-        )
-        ?.classList.add('is-entering');
-    }
+  isInEdgeRegion(e: DragEvent, target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const w = rect.width;
+    const h = rect.height;
+    const xEdge = 5;
+    const yEdge = 5;
+    return x < xEdge || y < yEdge || x > w - xEdge || y > h - yEdge;
   }
+
+  // /**
+  //  * 自动给即将激活的区域添加高亮。
+  //  */
+  // @autobind
+  // updatePlanDropRegion(
+  //   value: {id: string; region: string},
+  //   oldValue?: {id: string; region: string}
+  // ) {
+  //   if (
+  //     this.store.dragId &&
+  //     this.manager.draggableContainer(this.store.dragId)
+  //   ) {
+  //     return;
+  //   }
+  //   if (oldValue?.id && oldValue.region) {
+  //     this.store
+  //       .getDoc()
+  //       .querySelector(
+  //         `[data-region="${oldValue.region}"][data-region-host="${oldValue.id}"]`
+  //       )
+  //       ?.classList.remove('is-entering');
+  //   }
+
+  //   if (value.id && value.region) {
+  //     this.store
+  //       .getDoc()
+  //       .querySelector(
+  //         `[data-region="${value.region}"][data-region-host="${value.id}"]`
+  //       )
+  //       ?.classList.add('is-entering');
+  //   }
+  // }
 
   /**
    * 销毁函数。

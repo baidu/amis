@@ -15,6 +15,8 @@ export class OutlinePanel extends React.Component<PanelProps> {
     curSearchElemKey: '' // 用于记录用户当前输入的关键字
   };
 
+  dragEnterCount = 0;
+
   @autobind
   handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
     const store = this.props.store;
@@ -79,8 +81,11 @@ export class OutlinePanel extends React.Component<PanelProps> {
     this.props.manager.startDrag(id, e);
   }
 
+  timer: any;
+
   @autobind
-  handleDragOver(e: React.DragEvent) {
+  handleDragEnter(e: React.DragEvent) {
+    // this.dragEnterCount++;
     const target = e.target as HTMLElement;
     const dom = target.closest(`[data-node-id][data-node-region]`);
 
@@ -88,12 +93,42 @@ export class OutlinePanel extends React.Component<PanelProps> {
       return;
     }
 
-    const manager = this.props.manager;
-    const id = dom.getAttribute('data-node-id')!;
-    const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
-
     e.preventDefault();
-    id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
+
+    // 避免切换太快
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      const manager = this.props.manager;
+      const id = dom.getAttribute('data-node-id')!;
+      const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
+
+      id &&
+        region &&
+        manager.dnd.switchToRegion(e.nativeEvent, id, region, true);
+    }, 100);
+  }
+
+  // @autobind
+  // handleDragLeave() {
+  //   this.dragEnterCount--;
+  // }
+
+  @autobind
+  handleDragOver(e: React.DragEvent) {
+    // const target = e.target as HTMLElement;
+    // const dom = target.closest(`[data-node-id][data-node-region]`);
+
+    // if (!dom) {
+    //   return;
+    // }
+
+    // const manager = this.props.manager;
+    // const id = dom.getAttribute('data-node-id')!;
+    // const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
+
+    // 这个得有，否则无法触发 drop 事件
+    e.preventDefault();
+    // id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
   }
 
   @autobind
@@ -136,25 +171,27 @@ export class OutlinePanel extends React.Component<PanelProps> {
   renderItem(
     option: EditorNodeType,
     index: number,
-    type?: 'dialog' | 'dialogView'
+    type?: 'dialog' | 'dialogView',
+    indent = 0
   ) {
     const store = this.props.store;
     const {curSearchElemKey} = this.state;
 
-    const children = (
-      !store.dragging && option.singleRegion
+    const children = /*!store.dragging && */ (
+      option.singleRegion
         ? option.uniqueChildren[0]!.uniqueChildren
         : option.uniqueChildren
     ) as Array<EditorNodeType>;
 
     const hasChildren = children.length;
 
-    if (store.dragging && !option.isRegion && !option.children.length) {
-      return null;
-    }
+    // if (store.dragging && !option.isRegion && !option.children.length) {
+    //   return null;
+    // }
 
     return (
       <li
+        style={{'--indent': indent} as any}
         className={cx('ae-Outline-node', {
           'is-folded': option.folded,
           'is-active':
@@ -166,12 +203,10 @@ export class OutlinePanel extends React.Component<PanelProps> {
               store.activeId === option.id &&
               store.activeRegion === option.region),
           'is-region': option.isRegion,
-          'is-hover':
-            !option.isRegion &&
-            (store.isHoved(option.id) || store.isContextOn(option.id)),
-          'has-children': hasChildren,
-          'is-dragging':
-            store.dragId === option.id && store.dragType === 'schema'
+          'is-hover': !option.isRegion && store.isContextOn(option.id),
+          'has-children': hasChildren
+          // 'is-dragging':
+          //   store.dragId === option.id && store.dragType === 'schema'
         })}
         key={index}
       >
@@ -181,6 +216,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
           data-node-id={option.id}
           data-node-region={option.region}
           data-node-common-config={option.schema?.$$commonSchema}
+          data-node-form-config={option.schema?.$$formSchema}
           draggable={option.draggable}
           onDragStart={this.handleDragStart}
         >
@@ -195,10 +231,14 @@ export class OutlinePanel extends React.Component<PanelProps> {
             >
               <Icon icon="down-arrow" />
             </span>
-          ) : null}
+          ) : (
+            <span className={cx('ae-Outline-textIndent')}></span>
+          )}
           <span className="ae-Outline-node-text">
             {option.isCommonConfig
               ? `${option.label}-[公共配置]`
+              : option.isFormConfig
+              ? `${option.label}-[表单配置]`
               : this.renderTitleByKeyword(
                   this.getDialogNodeLabel(option, type),
                   curSearchElemKey
@@ -208,12 +248,51 @@ export class OutlinePanel extends React.Component<PanelProps> {
         {hasChildren ? (
           <ul className="ae-Outline-sublist">
             {children.map((option, index) =>
-              this.renderItem(option, index, type)
+              this.renderItem(option, index, type, indent + 1)
             )}
           </ul>
         ) : null}
       </li>
     );
+  }
+
+  renderDropItem(option: EditorNodeType, index: number) {
+    const children = option.uniqueChildren as Array<EditorNodeType>;
+    const store = this.props.store;
+
+    // 当前是当前正拖拽的元素，则不显示
+    if (store.dragId && option.id === store.dragId) {
+      return null;
+    }
+
+    const doms: any = children
+      .map((option, index) => this.renderDropItem(option, index))
+      .filter(item => item);
+
+    if (!doms.length && !option.isRegion) {
+      return null;
+    } else if (option.isRegion) {
+      return (
+        <div
+          className={cx('ae-Outline-dropNode', {
+            'is-active':
+              store.dropId === option.id && store.dropRegion === option.region
+          })}
+          data-node-id={option.id}
+          data-node-region={option.region}
+          key={`${option.id}-${index}`}
+        >
+          <a>
+            {option.host.singleRegion
+              ? option.host.label
+              : `(${option.host.label})${option.label}`}
+          </a>
+          {doms}
+        </div>
+      );
+    } else {
+      return doms;
+    }
   }
 
   getDialogNodeLabel(option: EditorNodeType, type?: 'dialog' | 'dialogView') {
@@ -315,20 +394,28 @@ export class OutlinePanel extends React.Component<PanelProps> {
                 'ae-Outline--draging': store.dragging
               })}
               onDragOver={this.handleDragOver}
+              onDragEnter={this.handleDragEnter}
+              // onDragLeave={this.handleDragLeave}
               onDrop={this.handleDrop}
             >
               {store.dragging ? (
-                <div className="ae-Outline-tip">
-                  将目标拖入导航中的节点可以切换容器
-                </div>
+                <div className="ae-Outline-tip">可拖入以下区域固定拖入容器</div>
               ) : null}
 
               {options.length ? (
-                <ul className="ae-Outline-list">
-                  {options.map((option, index) =>
-                    this.renderItem(option, index)
-                  )}
-                </ul>
+                store.dragging ? (
+                  <div className="ae-Outline-drop">
+                    {options.map((option, index) =>
+                      this.renderDropItem(option, index)
+                    )}
+                  </div>
+                ) : (
+                  <ul className="ae-Outline-list">
+                    {options.map((option, index) =>
+                      this.renderItem(option, index)
+                    )}
+                  </ul>
+                )
               ) : (
                 <div>加载中，请稍等...</div>
               )}

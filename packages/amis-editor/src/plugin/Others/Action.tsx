@@ -205,7 +205,7 @@ export class ActionPlugin extends BasePlugin {
         )
       },
 
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         label: '目标API',
         visibleOn: 'this.actionType == "ajax" || this.actionType == "download"'
       }),

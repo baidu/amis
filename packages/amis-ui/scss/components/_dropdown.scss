@@ -47,7 +47,6 @@
     &-root {
       position: absolute;
       z-index: $zindex-dropdown;
-      top: 100%;
       left: 0;
       margin: px2rem(1px) 0 0;
       border: var(--Form-select-outer-borderWidth) solid

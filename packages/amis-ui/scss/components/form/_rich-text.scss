@@ -3,6 +3,7 @@
 }
 
 .#{$ns}RichTextControl {
+  position: relative;
   > .tox-tinymce {
     border: 0;
   }

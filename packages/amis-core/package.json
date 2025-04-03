@@ -1,12 +1,22 @@
 {
   "name": "amis-core",
-  "version": "6.4.1",
+  "version": "6.12.0-alpha.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "author": "fex",
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
@@ -35,8 +45,8 @@
     "typescript": "^4.6.4"
   },
   "scripts": {
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "dev": "rollup -c -w",
     "test": "jest",
     "update-snapshot": "jest --updateSnapshot",
@@ -49,8 +59,9 @@
   ],
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-formula": "^6.4.1",
+    "amis-formula": "*",
     "classnames": "2.3.2",
+    "cross-env": "^7.0.3",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
     "lodash": "^4.17.15",
@@ -64,6 +75,7 @@
     "qs": "6.9.7",
     "react-intersection-observer": "9.5.2",
     "react-json-view": "1.21.3",
+    "react-overlays": "5.1.1",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1"
   },

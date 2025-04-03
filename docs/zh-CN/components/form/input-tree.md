@@ -249,6 +249,8 @@ order: 59
 
 `cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值（1.9.0 之前的版本 cascade 配置为 true 的效果为：选中父节点不默认选中子节点）
 
+> 6.9.0 以上版本 autoCancelParent 配置为 true 的效果为：取消子节点，自动去除父节点的值（仅在多选和 cascade 为 true 时生效）
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -292,12 +294,51 @@ order: 59
     {
         "type": "divider"
     },
-     {
+    {
       "type": "input-tree",
       "name": "tree2",
       "label": "子节点可以反选，值包含父子节点值",
       "multiple": true,
       "cascade": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    },
+    {
+        "type": "divider"
+    },
+    {
+      "type": "input-tree",
+      "name": "tree3",
+      "label": "子节点可以反选，值包含父子节点值，取消子节点，自动去除父节点的值",
+      "multiple": true,
+      "cascade": true,
+      "autoCancelParent": true,
       "options": [
         {
           "label": "A",
@@ -1086,6 +1127,338 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景。未配置 searchApi 是前端检索，配置之后就只能通过后端检索。
 
+## 节点行为配置
+
+> 6.9.0 以上版本
+
+设置`nodeBehavior`属性，可以更改节点的行为，默认为选中行为，支持配置多个行为。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree1",
+        "label": "选中",
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2,
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 3
+          }
+        ]
+      },
+      {
+        "type": "input-tree",
+        "name": "tree2",
+        "label": "展开",
+        "nodeBehavior": ["unfold"],
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 4,
+            "children": [
+              {
+                "label": "file A",
+                "value": 5,
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 6
+          }
+        ]
+      },
+      {
+        "type": "input-tree",
+        "name": "tree3",
+        "label": "选中+展开",
+        "nodeBehavior": ["check", "unfold"],
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 7,
+            "children": [
+              {
+                "label": "file A",
+                "value": 8,
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 9
+          }
+        ]
+      }
+    ]
+}
+```
+
+## 自定义选项操作
+
+> 6.9.0 以上版本
+
+> 使用`itemActions`属性，自定义下拉选项的操作。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "iconField": "icon",
+        "options": [
+          {
+            "label": "采购单",
+            "value": "order",
+            "tag": "数据模型",
+            "icon": "fa fa-database",
+            "children": [
+              {
+                "label": "ID",
+                "value": "id",
+                "tag": "数字",
+                "icon": "fa fa-check"
+              },
+              {
+                "label": "采购人",
+                "value": "name",
+                "tag": "字符串",
+                "icon": "fa fa-check"
+              },
+              {
+                "label": "采购时间",
+                "value": "time",
+                "tag": "日期时间",
+                "icon": "fa fa-check"
+              }
+            ]
+          }
+        ],
+        "itemActions": [
+          {
+            "type": "button",
+            "icon": "fa fa-plus",
+            "level": "link",
+            "size": "xs",
+            "onEvent": {
+              "click": {
+                "weight": 0,
+                "actions": [
+                  {
+                    "ignoreError": false,
+                    "actionType": "toast",
+                    "args": {
+                      "msgType": "info",
+                      "position": "top-right",
+                      "closeButton": true,
+                      "showIcon": true,
+                      "msg": "自定义操作",
+                      "className": "theme-toast-action-scope"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+}
+```
+
+## 工具栏区域
+
+> 6.9.0 以上版本
+> 使用`toolbar`属性，自定义工具栏区域。（仅开启检索时生效）
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "searchable": true,
+        "toolbar": [
+          {
+            "type": "button",
+            "label": "弹窗",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "actionType": "dialog",
+                    "dialog": {
+                      "type": "dialog",
+                      "title": "未命名弹窗",
+                      "body": [
+                        {
+                          "type": "tpl",
+                          "tpl": "弹窗内容"
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "type": "button",
+                          "actionType": "cancel",
+                          "label": "取消"
+                        },
+                        {
+                          "type": "button",
+                          "actionType": "confirm",
+                          "label": "确定",
+                          "primary": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "collapsed": true,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file D",
+            "value": 4
+          }
+        ]
+      }
+    ]
+}
+```
+
+## 虚拟列表
+
+> 6.9.0 以上版本, 若设置 固定高度 时，虚拟列表将自适应高度
+
+```schema: scope="body"
+{
+    "type": "page",
+    "aside": [
+      {
+        "type": "flex",
+        "direction": "column",
+        "isFixedHeight": true,
+        "style": {
+          "height": "300px",
+          "paddingRight": "10px"
+        },
+        "items": [
+          {
+            "type": "input-tree",
+            "id": "tree",
+            "name": "tree",
+            "label": "Tree",
+            "virtualThreshold": 5,
+            "options": [
+              {
+                "label": "Folder A",
+                "value": 1,
+                "children": [
+                  {
+                    "label": "file A",
+                    "value": 2
+                  },
+                  {
+                    "label": "file B",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "label": "file C",
+                "value": 4
+              },
+              {
+                "label": "file D",
+                "value": 5
+              },
+              {
+                "label": "file E",
+                "value": 6
+              },
+              {
+                "label": "file F",
+                "value": 7
+              },
+              {
+                "label": "file G",
+                "value": 8
+              },
+              {
+                "label": "file H",
+                "value": 9
+              },
+              {
+                "label": "file I",
+                "value": 10
+              },
+              {
+                "label": "file J",
+                "value": 11
+              },
+              {
+                "label": "file K",
+                "value": 12
+              },
+              {
+                "label": "file L",
+                "value": 13
+              }
+            ],
+            "wrapperCustomStyle": {
+              "root": {
+                "height": "100%"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "设置 tree 为固定高度时，虚拟列表将自适应"
+      }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -1137,6 +1510,11 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | menuTpl                | `string`                                     |                  | 选项自定义渲染 HTML 片段                                                                                                             | `2.8.0`                      |
 | enableDefaultIcon      | `boolean`                                    | `true`           | 是否为选项添加默认的前缀 Icon，父节点默认为`folder`，叶节点默认为`file`                                                              | `2.8.0`                      |
 | heightAuto             | `boolean`                                    | `false`          | 默认高度会有个 maxHeight，即超过一定高度就会内部滚动，如果希望自动增长请设置此属性                                                   | `3.0.0`                      |
+| nodeBehavior           | `Array<'unfold' \| 'check' \| ''>`           | `['check']`      | 节点行为配置，支持配置多个行为                                                                                                       | `6.9.0`                      |
+| autoCancelParent       | `boolean`                                    | `false`          | 子节点取消时自动取消父节点的值，仅在多选且 cascade 为 true 时生效                                                                    | `6.9.0`                      |
+| toolbar                | `SchemaNode`                                 |                  | 工具栏区域，仅开启检索时生效                                                                                                         | `6.9.0`                      |
+| toolbarClassName       | `string`                                     |                  | 工具栏区域类名                                                                                                                       | `6.9.0`                      |
+| itemActions            | `SchemaNode`                                 |                  | 节点操作栏区域                                                                                                                       | `6.9.0`                      |
 
 ## 事件表
 
@@ -1151,6 +1529,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 编辑节点提交时触发           |
 | deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 删除节点提交时触发           |
 | deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合                                                                                                                                                                          | 懒加载接口远程请求成功时触发 |
+| itemClick (6.9.0 以上版本)           | `item: Option` 所点击的选项 息                                                                                                                                                                                                                                                                 | 节点点击时触发               |
 | add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 新增节点提交时触发           |
 | edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 编辑节点提交时触发           |
 | delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 删除节点提交时触发           |
@@ -1440,6 +1819,60 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 }
 ```
 
+### itemClick
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "nodeBehavior": [],
+        "onEvent": {
+          "itemClick": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.item|json}"
+                }
+              }
+            ]
+          }
+        },
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
@@ -1455,6 +1888,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | clear    | -                                      | 清空                                                                                                       |
 | reset    | -                                      | 将值重置为初始值。6.3.0 及以下版本为`resetValue`                                                           |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                    |
+| search   | `keyword: string` 检索的值             | 检索数据                                                                                                   |
 
 ### clear
 
@@ -1586,6 +2020,70 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
                 }
             }
         }
+    ]
+}
+```
+
+### search
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keyword",
+        "className": "mb-4",
+        "style": {
+          "width": "100%"
+        },
+        "onEvent": {
+          "change": {
+            "actions": [
+              {
+                "componentId": "tree",
+                "groupType": "component",
+                "actionType": "search",
+                "args": {
+                  "keyword": "${event.data.value}"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-tree",
+        "id": "tree",
+        "name": "tree",
+        "label": false,
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ]
+      }
     ]
 }
 ```

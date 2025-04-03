@@ -52,6 +52,7 @@ export class TableCell extends React.Component<TableCellProps> {
       children,
       width,
       align,
+      vAlign,
       innerClassName,
       label,
       tabIndex,
@@ -67,6 +68,7 @@ export class TableCell extends React.Component<TableCellProps> {
       row,
       showBadge,
       itemBadge,
+      textOverflow,
       testIdBuilder,
       ...rest
     } = this.props;
@@ -80,6 +82,11 @@ export class TableCell extends React.Component<TableCellProps> {
 
     const schema = {
       ...column,
+      // 因为列本身已经做过显隐判断了，单元格不应该再处理
+      visibleOn: '',
+      hiddenOn: '',
+      visible: true,
+      hidden: false,
       style: column.innerStyle, // column的innerStyle配置 作为内部组件的style 覆盖column的style
       className: innerClassName,
       type: (column && column.type) || 'plain'
@@ -115,6 +122,13 @@ export class TableCell extends React.Component<TableCellProps> {
       style = {
         ...style,
         textAlign: align
+      };
+    }
+
+    if (vAlign) {
+      style = {
+        ...style,
+        verticalAlign: vAlign
       };
     }
 
@@ -175,7 +189,11 @@ export class TableCell extends React.Component<TableCellProps> {
           />
         ) : null}
         {cellPrefix}
-        {body}
+        {textOverflow === 'ellipsis' && width ? (
+          <div className={cx(`TableCell-ellipsis`)}>{body}</div>
+        ) : (
+          body
+        )}
         {cellAffix}
       </Component>
     );
@@ -183,13 +201,13 @@ export class TableCell extends React.Component<TableCellProps> {
 }
 
 @Renderer({
-  test: /(^|\/)table\/(?:.*\/)?cell$/,
+  type: 'cell',
   name: 'table-cell'
 })
-@QuickEdit()
 @PopOverable({
   targetOutter: true
 })
+@QuickEdit()
 @Copyable()
 @observer
 export class TableCellRenderer extends TableCell {

@@ -6,10 +6,9 @@ import {
   resolveEventData,
   getVariable
 } from 'amis-core';
-import {LazyComponent} from 'amis-core';
+import {DiffEditor} from 'amis-ui';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
-import {autobind} from 'amis-core';
 
 import type {Position} from 'monaco-editor';
 import type {ListenerAction} from 'amis-core';
@@ -42,10 +41,6 @@ export interface DiffControlSchema extends FormBaseControlSchema {
 
 export type DiffEditorRendererEvent = 'blur' | 'focus';
 
-function loadComponent(): Promise<any> {
-  return import('amis-ui/lib/components/Editor').then(item => item.default);
-}
-
 export interface DiffEditorProps
   extends FormControlProps,
     Omit<
@@ -68,10 +63,17 @@ function normalizeValue(value: any, language?: string) {
     } catch (e) {}
   }
 
-  return value;
+  return value || '';
 }
 
-export class DiffEditor extends React.Component<DiffEditorProps, any> {
+export interface DiffEditorState {
+  focused: boolean;
+}
+
+export class DiffEditorRenderer extends React.Component<
+  DiffEditorProps,
+  DiffEditorState
+> {
   static defaultProps: Partial<DiffEditorProps> = {
     language: 'javascript',
     editorTheme: 'vs',
@@ -92,25 +94,14 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   };
 
   editor: any;
-  monaco: any;
-  originalEditor: any;
-  modifiedEditor: any;
-  toDispose: Array<Function> = [];
-  divRef = React.createRef<HTMLDivElement>();
 
   constructor(props: DiffEditorProps) {
     super(props);
 
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.editorFactory = this.editorFactory.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
-    this.handleModifiedEditorChange =
-      this.handleModifiedEditorChange.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.toDispose.forEach(fn => fn());
+    this.handleChange = this.handleChange.bind(this);
   }
 
   doAction(
@@ -134,7 +125,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   }
 
   focus() {
-    this.editor.focus();
+    this.editor?.focus();
     this.setState({focused: true});
 
     // 最近一次光标位置
@@ -180,97 +171,8 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     onBlur?.(e);
   }
 
-  componentDidUpdate(prevProps: any) {
-    const {data, value, diffValue, language} = this.props;
-
-    if (
-      this.originalEditor &&
-      (diffValue !== prevProps.diffValue || data !== prevProps.data)
-    ) {
-      this.originalEditor.getModel().setValue(
-        isPureVariable(diffValue as string)
-          ? normalizeValue(
-              resolveVariableAndFilter(
-                diffValue || '',
-                data,
-                '| raw',
-                () => ''
-              ),
-              language
-            )
-          : normalizeValue(diffValue, language)
-      );
-    }
-
-    if (
-      this.modifiedEditor &&
-      value !== prevProps.value &&
-      !this.state.focused
-    ) {
-      this.modifiedEditor.getModel().setValue(
-        isPureVariable(value as string)
-          ? normalizeValue(
-              resolveVariableAndFilter(value || '', data, '| raw', () => ''),
-              language
-            )
-          : normalizeValue(value, language)
-      );
-    }
-  }
-
-  editorFactory(containerElement: any, monaco: any, options: any) {
-    return monaco.editor.createDiffEditor(containerElement, options);
-  }
-
-  handleEditorMounted(editor: any, monaco: any) {
-    const {value, data, language, diffValue} = this.props;
-
-    this.monaco = monaco;
-    this.editor = editor;
-    this.modifiedEditor = editor.getModifiedEditor();
-    this.originalEditor = editor.getOriginalEditor();
-
-    this.toDispose.push(
-      this.modifiedEditor.onDidFocusEditorWidget(this.handleFocus).dispose
-    );
-    this.toDispose.push(
-      this.modifiedEditor.onDidBlurEditorWidget(this.handleBlur).dispose
-    );
-    this.toDispose.push(
-      this.modifiedEditor.onDidChangeModelContent(
-        this.handleModifiedEditorChange
-      ).dispose
-    );
-
-    this.toDispose.push(
-      this.modifiedEditor.onDidChangeModelDecorations(() => {
-        this.updateContainerSize(this.modifiedEditor, monaco); // typing
-        requestAnimationFrame(
-          this.updateContainerSize.bind(this, this.modifiedEditor, monaco)
-        ); // folding
-      }).dispose
-    );
-
-    this.editor.setModel({
-      original: this.monaco.editor.createModel(
-        isPureVariable(diffValue as string)
-          ? normalizeValue(
-              resolveVariableAndFilter(diffValue || '', data, '| raw'),
-              language
-            )
-          : normalizeValue(diffValue, language),
-        language
-      ),
-      modified: this.monaco.editor.createModel(
-        normalizeValue(value, language),
-        language
-      )
-    });
-  }
-
-  async handleModifiedEditorChange() {
+  async handleChange(value: any) {
     const {onChange, dispatchEvent} = this.props;
-    const value = this.modifiedEditor.getModel().getValue();
 
     const rendererEvent = await dispatchEvent(
       'change',
@@ -284,22 +186,8 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     onChange && onChange(value);
   }
 
-  prevHeight = 0;
-  @autobind
-  updateContainerSize(editor: any, monaco: any) {
-    if (!this.divRef.current) {
-      return;
-    }
-
-    const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
-    const lineCount = editor.getModel()?.getLineCount() || 1;
-    const height = editor.getTopForLineNumber(lineCount + 1) + lineHeight;
-
-    if (this.prevHeight !== height) {
-      this.prevHeight = height;
-      this.divRef.current.style.height = `${height}px`;
-      editor.layout();
-    }
+  handleEditorMounted(editor: any) {
+    this.editor = editor;
   }
 
   render() {
@@ -313,12 +201,22 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       options,
       language,
       editorTheme,
-      classnames: cx
+      diffValue,
+      classnames: cx,
+      data
     } = this.props;
+
+    const originValue = isPureVariable(diffValue as string)
+      ? normalizeValue(
+          resolveVariableAndFilter(diffValue || '', data, '| raw'),
+          language
+        )
+      : normalizeValue(diffValue, language);
+
+    const finalValue = normalizeValue(value, language);
 
     return (
       <div
-        ref={this.divRef}
         className={cx(
           'EditorControl',
           size ? `EditorControl--${size}` : '',
@@ -328,20 +226,17 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
           }
         )}
       >
-        <LazyComponent
-          getComponent={loadComponent}
-          value={value}
-          onChange={onChange}
+        <DiffEditor
+          value={finalValue}
+          originValue={originValue}
+          onChange={this.handleChange}
           disabled={disabled}
           language={language}
           editorTheme={editorTheme}
+          options={options}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
           editorDidMount={this.handleEditorMounted}
-          editorFactory={this.editorFactory}
-          options={{
-            ...options,
-            readOnly: disabled
-          }}
-          isDiffEditor
         />
       </div>
     );
@@ -352,9 +247,9 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   type: `diff-editor`,
   sizeMutable: false
 })
-export class DiffEditorControlRenderer extends DiffEditor {
+export class DiffEditorControlRenderer extends DiffEditorRenderer {
   static defaultProps = {
-    ...DiffEditor.defaultProps
+    ...DiffEditorRenderer.defaultProps
   };
 }
 

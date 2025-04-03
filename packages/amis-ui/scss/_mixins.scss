@@ -1,3 +1,4 @@
+@use 'sass:color';
 // 媒体查询最小阈值
 @mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
   $min: breakpoint-min($name, $breakpoints);
@@ -53,14 +54,16 @@
   }
 }
 
-// @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background: saturate(darken($bg-color, $percent), $sat-percent);
+  background: color.adjust(
+    color.adjust($bg-color, $lightness: -$percent),
+    $saturation: $sat-percent
+  );
 }
 
-// @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background: desaturate(lighten($bg-color, $percent), $sat-percent);
+  $lightened-color: color.adjust($bg-color, $lightness: $percent);
+  background: color.adjust($lightened-color, $saturation: $sat-percent);
 }
 
 // @deprecated 不建议用了
@@ -101,8 +104,14 @@
 
 // @deprecated 不建议用了
 @mixin font-variant($bg-color) {
-  $font-color: desaturate(lighten($bg-color, 40%), 10%);
-  $link-color: desaturate(lighten($bg-color, 50%), 10%);
+  $font-color: color.adjust(
+    color.adjust($bg-color, $lightness: 40%),
+    $saturation: -10%
+  );
+  $link-color: color.adjust(
+    color.adjust($bg-color, $lightness: 50%),
+    $saturation: -10%
+  );
   $hover-color: #fff;
   color: $font-color;
 
@@ -124,11 +133,11 @@
   }
 
   & .text-muted {
-    color: darken($text-color, 10%) !important;
+    color: color.adjust($text-color, $lightness: -10%) !important;
   }
 
   & .text-lt {
-    color: lighten($text-color, 25%) !important;
+    color: color.adjust($text-color, $lightness: 25%) !important;
   }
 
   // &.auto,
@@ -150,11 +159,11 @@
 // @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
-    background: darken($bg-color, 5%);
+    background: color.adjust($bg-color, $lightness: -5%);
   }
 
   a.text-#{'' + $name}:hover {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name} {
@@ -162,19 +171,19 @@
   }
 
   .text-#{'' + $name}-lt {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name}-lter {
-    color: darken($bg-color, 10%);
+    color: color.adjust($bg-color, $lightness: -10%);
   }
 
   .text-#{'' + $name}-dk {
-    color: darken($bg-color, 5%);
+    color: color.adjust($bg-color, $lightness: -5%);
   }
 
   .text-#{'' + $name}-dker {
-    color: darken($bg-color, 10%);
+    color: color.adjust($bg-color, $lightness: -10%);
   }
 }
 
@@ -652,7 +661,8 @@
     line-height: calc(
       var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
     );
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-size: var(--Pick-base-value-fontSize);
     color: var(--Pick-base-value-color);
     font-weight: var(--Pick-base-value-fontWeight);
@@ -673,9 +683,6 @@
       var(--Pick-base-top-right-border-radius)
       var(--Pick-base-bottom-right-border-radius)
       var(--Pick-base-bottom-left-border-radius);
-    margin-right: var(--gap-xs);
-    margin-bottom: var(--gap-xs);
-    margin-top: var(--gap-xs);
     max-width: px2rem(150px);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -687,7 +694,10 @@
 
     &.is-disabled {
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+
+      .#{$ns}#{$component-prefix}-valueIcon {
+        opacity: var(--Button-onDisabled-opacity);
+      }
     }
   }
 
@@ -695,7 +705,7 @@
     color: var(--Pick-base-value-icon-color);
     cursor: pointer;
     border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    padding: 1px 5px;
+    padding: 0 5px;
 
     &:hover {
       background: var(--Pick-base-value-hover-icon-color);
@@ -704,5 +714,91 @@
 
   .#{$ns}#{$component-prefix}-valueLabel {
     padding: 0 var(--gap-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+}
+
+@function resolve-params($params...) {
+  @if length($params) == 1 {
+    @return (
+      nth($params, 1),
+      nth($params, 1),
+      nth($params, 1),
+      nth($params, 1)
+    );
+  } @else if length($params) == 2 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 1),
+      nth($params, 2)
+    );
+  } @else if length($params) == 3 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 3),
+      nth($params, 2)
+    );
+  } @else if length($params) == 4 {
+    @return (
+      nth($params, 1),
+      nth($params, 2),
+      nth($params, 3),
+      nth($params, 4)
+    );
+  } @else {
+    @warn "Please provide 1 to 4 params values.";
+    @return null;
+  }
+}
+
+@mixin borderRadius($token, $radius...) {
+  $resolved: resolve-params($radius...);
+  #{$token}-top-left-border-radius: nth($resolved, 1);
+  #{$token}-top-right-border-radius: nth($resolved, 2);
+  #{$token}-bottom-right-border-radius: nth($resolved, 3);
+  #{$token}-bottom-left-border-radius: nth($resolved, 4);
+}
+
+@mixin borderColor($token, $color...) {
+  $resolved: resolve-params($color...);
+  #{$token}-top-border-color: nth($resolved, 1);
+  #{$token}-right-border-color: nth($resolved, 2);
+  #{$token}-bottom-border-color: nth($resolved, 3);
+  #{$token}-left-border-color: nth($resolved, 4);
+}
+
+@mixin borderWidth($token, $width...) {
+  $resolved: resolve-params($width...);
+  #{$token}-top-border-width: nth($resolved, 1);
+  #{$token}-right-border-width: nth($resolved, 2);
+  #{$token}-bottom-border-width: nth($resolved, 3);
+  #{$token}-left-border-width: nth($resolved, 4);
+}
+
+@mixin borderStyle($token, $style...) {
+  $resolved: resolve-params($style...);
+  #{$token}-top-border-style: nth($resolved, 1);
+  #{$token}-right-border-style: nth($resolved, 2);
+  #{$token}-bottom-border-style: nth($resolved, 3);
+  #{$token}-left-border-style: nth($resolved, 4);
+}
+
+@mixin padding($token, $padding...) {
+  $resolved: resolve-params($padding...);
+  #{$token}-paddingTop: nth($resolved, 1);
+  #{$token}-paddingRight: nth($resolved, 2);
+  #{$token}-paddingBottom: nth($resolved, 3);
+  #{$token}-paddingLeft: nth($resolved, 4);
+}
+
+@mixin margin($token, $margin...) {
+  $resolved: resolve-params($margin...);
+  #{$token}-marginTop: nth($resolved, 1);
+  #{$token}-marginRight: nth($resolved, 2);
+  #{$token}-marginBottom: nth($resolved, 3);
+  #{$token}-marginLeft: nth($resolved, 4);
 }

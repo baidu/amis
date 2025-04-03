@@ -27,7 +27,7 @@ export function withStore<K extends IAnyStateTreeNode>(
 
     const result = hoistNonReactStatic(
       class extends React.Component<OuterProps> {
-        static displayName = `WithStore(${
+        static displayName: string = `WithStore(${
           ComposedComponent.displayName || 'Unkown'
         })`;
         static ComposedComponent = ComposedComponent as React.ComponentType<T>;
@@ -71,3 +71,5 @@ export function withStore<K extends IAnyStateTreeNode>(
     };
   };
 }
+
+export default withStore;

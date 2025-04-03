@@ -90,8 +90,8 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
   ) => void;
   receive?: (values: RendererData, subPath?: string, replace?: boolean) => void;
   reload?: (
-    subPath?: string,
-    query?: RendererData | null,
+    subpath?: string,
+    query?: any,
     ctx?: RendererData,
     silent?: boolean,
     replace?: boolean,
@@ -115,7 +115,7 @@ export interface IScopedContext {
     ignoreScope?: IScopedContext
   ) => ScopedComponentType | undefined;
   getComponents: () => Array<ScopedComponentType>;
-  reload: (target: string, ctx: RendererData) => void;
+  reload: (target: string, ctx: RendererData) => void | Promise<void>;
   send: (target: string, ctx: RendererData) => void;
   close: (target: string) => void;
   closeById: (target: string) => void;
@@ -156,6 +156,9 @@ function createScopedTools(
     unRegisterComponent(component: ScopedComponentType) {
       // 自己本身实际上注册在父级 Scoped 上。
       if (component.props.$path === path && parent) {
+        // 如果是自己，尝试把自己从父级 Scoped 上移除，否则在某些场景下会导致父级的 children 一直增长。
+        const idx = parent.children!.indexOf(self);
+        ~idx && parent.children!.splice(idx, 1);
         return parent.unRegisterComponent(component);
       }
 

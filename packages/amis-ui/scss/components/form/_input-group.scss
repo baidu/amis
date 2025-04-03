@@ -22,10 +22,10 @@
     white-space: nowrap;
   }
 
-  & > .#{$ns}Form-control {
-    flex: 1;
-    min-width: 0;
-  }
+  // & > .#{$ns}Form-control {
+  //   flex: 1;
+  //   min-width: 0;
+  // }
 
   &-addOn {
     background: var(--InputGroup-addOn-bg);

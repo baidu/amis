@@ -9,12 +9,7 @@ import {FormItem, RendererProps, resolveVariableAndFilter} from 'amis-core';
 import type {FormControlProps} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 import ThemeSelect from './ThemeSelect';
-import {
-  getValueByPath,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 
 interface RadiusProps {
   custom: boolean;
@@ -48,7 +43,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
     label,
     borderRadiusOptions,
     state,
-    editorThemePath
+    editorValueToken
   } = props;
 
   let options = cloneDeep(borderRadiusOptions || data.borderRadiusOptions);
@@ -57,10 +52,32 @@ function BoxRadius(props: RadiusProps & RendererProps) {
     options = resolveVariableAndFilter(borderRadiusOptions, data, '| raw');
   }
   const [radiusType, setRadiusType] = useState<string>('all');
-  const [isInherit, setIsInherit] = useState<boolean>(false);
 
-  const editorDefaultValue = formatData(getValueByPath(editorThemePath, data));
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  let radiusToken: any;
+
+  if (editorValueToken) {
+    radiusToken = {
+      'top-right-border-radius': `${editorValueToken}-top-right-border-radius`,
+      'top-left-border-radius': `${editorValueToken}-top-left-border-radius`,
+      'bottom-right-border-radius': `${editorValueToken}-bottom-right-border-radius`,
+      'bottom-left-border-radius': `${editorValueToken}-bottom-left-border-radius`
+    };
+  }
+  if (typeof editorValueToken === 'object') {
+    Object.keys(radiusToken).forEach(key => {
+      // 短横线转驼峰
+      const tokenKey = key.replace(/-([a-z])/g, function (all, letter) {
+        return letter.toUpperCase();
+      });
+      if (editorValueToken['*']) {
+        radiusToken[key] = editorValueToken['*'];
+      } else {
+        radiusToken[key] = editorValueToken[tokenKey];
+      }
+    });
+  }
+
+  const editorDefaultValue = formatData(getDefaultValue(radiusToken, data));
   const borderData = formatData(value || {});
 
   function formatData(sourceData: any) {
@@ -68,7 +85,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
       return null;
     }
 
-    const data = formatInheritData(cloneDeep(sourceData));
+    const data = cloneDeep(sourceData);
     if (
       data[`top-right-border-radius`] === data[`top-left-border-radius`] &&
       data[`top-left-border-radius`] === data[`bottom-right-border-radius`] &&
@@ -99,17 +116,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
         const items = radiusItems;
         items.forEach(item => {
           let itemKey = `${item.item}-border-radius`;
-          if (
-            state &&
-            state !== 'default' &&
-            val?.includes('all-border-radius')
-          ) {
-            const defaultToken = (key: string) =>
-              `var(${data.default.token}${key})`;
-            newValue[itemKey] = defaultToken(itemKey);
-          } else {
-            newValue[itemKey] = val;
-          }
+          newValue[itemKey] = val;
         });
         changeValue = {
           ...value,
@@ -121,31 +128,9 @@ function BoxRadius(props: RadiusProps & RendererProps) {
           [field]: val
         };
       }
-      onChange(setInheritData(changeValue, editorInheritValue));
-      setIsInherit(false);
+      onChange(changeValue);
     };
   }
-
-  useEffect(() => {
-    if (state && state !== 'default') {
-      if (
-        value['top-left-border-radius']?.includes(
-          'default-top-left-border-radius'
-        ) &&
-        value['top-right-border-radius']?.includes(
-          'default-top-right-border-radius'
-        ) &&
-        value['bottom-left-border-radius']?.includes(
-          'default-bottom-left-border-radius'
-        ) &&
-        value['bottom-right-border-radius']?.includes(
-          'default-bottom-right-border-radius'
-        )
-      ) {
-        setIsInherit(true);
-      }
-    }
-  }, [value]);
 
   useEffect(() => {
     if (borderData['all-border-radius'] === 'custom') {
@@ -185,17 +170,12 @@ function BoxRadius(props: RadiusProps & RendererProps) {
           <ThemeSelect
             {...props}
             options={options}
-            value={
-              isInherit
-                ? `var(${data.default.token}all-border-radius)`
-                : borderData[getKey('all')]
-            }
+            value={borderData[getKey('all')]}
             onChange={changeItem('all')}
             extraUnit={['px']}
             disabled={radiusType === 'custom'}
             itemName={'all-border-radius'}
             state={state}
-            inheritValue={editorThemePath ? 'inherit' : ''}
             placeholder={editorDefaultValue?.[getKey('all')] || '圆角'}
           />
         </div>
@@ -217,7 +197,6 @@ function BoxRadius(props: RadiusProps & RendererProps) {
                     extraUnit={['px']}
                     itemName={position + '-border-radius'}
                     state={state}
-                    inheritValue={editorThemePath ? 'inherit' : ''}
                     placeholder={editorDefaultValue?.[getKey(position)]}
                     menuTpl="realValue"
                   />

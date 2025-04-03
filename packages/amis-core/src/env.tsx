@@ -163,6 +163,16 @@ export interface RendererEnv {
     action: ICmptAction,
     event: RendererEvent<any, any>
   ) => Promise<void | boolean>;
+
+  /**
+   * 渲染器包裹组件可以外部指定
+   */
+  SchemaRenderer?: React.ComponentType<any>;
+
+  /**
+   * 获取当前页面标识
+   */
+  getPageId?: () => string;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);
@@ -183,7 +193,7 @@ export function withRendererEnv<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `WithEnv(${
+      static displayName: string = `WithEnv(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = EnvContext;

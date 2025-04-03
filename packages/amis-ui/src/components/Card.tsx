@@ -17,6 +17,7 @@ export interface CardProps extends ThemeProps {
   footerClassName?: string;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
+  mediaActionPosition?: 'outside';
   toolbar?: React.ReactNode;
   children?: React.ReactNode;
   actions?: React.ReactNode;
@@ -80,6 +81,7 @@ export class Card extends React.Component<CardProps> {
       footerClassName,
       media,
       mediaPosition,
+      mediaActionPosition,
       actions,
       children,
       onClick,
@@ -150,6 +152,20 @@ export class Card extends React.Component<CardProps> {
 
     const body = children;
 
+    const actionView =
+      secondary || actions ? (
+        <div className={cx('Card-footer-wrapper', footerClassName)}>
+          {secondary ? (
+            <div className={cx('Card-secondary', secondaryClassName)}>
+              {secondary}
+            </div>
+          ) : null}
+          {actions ? (
+            <div className={cx('Card-actions-wrapper')}>{actions}</div>
+          ) : null}
+        </div>
+      ) : null;
+
     return (
       <div
         onClick={this.handleClick}
@@ -159,45 +175,26 @@ export class Card extends React.Component<CardProps> {
         style={style}
       >
         {media ? (
-          <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
-            {media}
-            <div className={cx('Card-multiMedia-flex')}>
-              {heading}
-              {body ? (
-                <div className={cx('Card-body', bodyClassName)}>{body}</div>
-              ) : null}
-              {secondary || actions ? (
-                <div className={cx('Card-footer-wrapper', footerClassName)}>
-                  {secondary ? (
-                    <div className={cx('Card-secondary', secondaryClassName)}>
-                      {secondary}
-                    </div>
-                  ) : null}
-                  {actions ? (
-                    <div className={cx('Card-actions-wrapper')}>{actions}</div>
-                  ) : null}
-                </div>
-              ) : null}
+          <>
+            <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
+              {media}
+              <div className={cx('Card-multiMedia-flex')}>
+                {heading}
+                {body ? (
+                  <div className={cx('Card-body', bodyClassName)}>{body}</div>
+                ) : null}
+                {!mediaActionPosition ? actionView : null}
+              </div>
             </div>
-          </div>
+            {mediaActionPosition === 'outside' ? actionView : null}
+          </>
         ) : (
           <>
             {heading}
             {body ? (
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
             ) : null}
-            {secondary || actions ? (
-              <div className={cx('Card-footer-wrapper', footerClassName)}>
-                {secondary ? (
-                  <div className={cx('Card-secondary', secondaryClassName)}>
-                    {secondary}
-                  </div>
-                ) : null}
-                {actions ? (
-                  <div className={cx('Card-actions-wrapper')}>{actions}</div>
-                ) : null}
-              </div>
-            ) : null}
+            {actionView}
           </>
         )}
       </div>

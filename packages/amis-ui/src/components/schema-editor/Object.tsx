@@ -3,7 +3,7 @@ import {autobind, guid, JSONSchema} from 'amis-core';
 import Button from '../Button';
 import {Icon} from '../icons';
 import InputBox from '../InputBox';
-import {SchemaEditorItemCommon} from './Common';
+import {ITEMMAP, SchemaEditorItemCommon} from './Common';
 import {SchemaEditorItem} from './Item';
 
 import type {SchemaEditorItemCommonProps} from './Common';
@@ -288,7 +288,8 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       placeholder,
       mobileUI,
       mini,
-      addButtonText
+      addButtonText,
+      dataName
     } = this.props;
     const members = this.state.members;
 
@@ -299,74 +300,88 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
         })}
       >
         {members.length ? (
-          members.map((member, index) => (
-            <SchemaEditorItem
-              mobileUI={mobileUI}
-              mini={mini}
-              key={member.id}
-              types={types}
-              onTypeChange={onTypeChange}
-              enableAdvancedSetting={enableAdvancedSetting}
-              popOverContainer={popOverContainer}
-              prefix={
-                mini ? undefined : (
-                  <>
-                    <InputBox
-                      className={cx('SchemaEditor-key')}
-                      hasError={member.hasError}
-                      value={member.key || ''}
-                      onChange={this.handlePropKeyChange.bind(this, index)}
-                      placeholder={__(placeholder?.key ?? '')}
-                      disabled={disabled || !!value?.$ref}
-                      mobileUI={mobileUI}
-                    />
+          members.map((member, index) => {
+            const memberKey = dataName
+              ? dataName + '-' + member.key
+              : member.key;
+            return (
+              <SchemaEditorItem
+                dataName={memberKey}
+                mobileUI={mobileUI}
+                mini={mini}
+                key={member.id}
+                types={types}
+                onTypeChange={onTypeChange}
+                enableAdvancedSetting={enableAdvancedSetting}
+                popOverContainer={popOverContainer}
+                prefix={
+                  mini ? undefined : (
+                    <>
+                      <InputBox
+                        className={cx('SchemaEditor-key')}
+                        hasError={member.hasError}
+                        value={member.key || ''}
+                        onChange={this.handlePropKeyChange.bind(this, index)}
+                        placeholder={__(placeholder?.key ?? '')}
+                        disabled={disabled || !!value?.$ref}
+                        mobileUI={mobileUI}
+                        dataName={`${memberKey}-key`}
+                      />
 
-                    <InputBox
-                      className={cx('SchemaEditor-title')}
-                      value={member.schema.title || ''}
-                      onChange={this.handlePropTitleChange.bind(this, index)}
-                      placeholder={__(placeholder?.title ?? '')}
-                      disabled={disabled || !!value?.$ref}
-                      mobileUI={mobileUI}
-                    />
-                  </>
-                )
-              }
-              affix={
-                <Button
-                  className={cx('SchemaEditor-btn')}
-                  onClick={this.handlePropRemove.bind(this, index)}
-                  iconOnly={!mini}
-                  level={mini ? 'link' : 'default'}
-                  disabled={disabled || !!value?.$ref}
-                >
-                  <Icon icon="remove" className="icon" />
-                </Button>
-              }
-              value={
-                mini
-                  ? ({
-                      ...member.schema,
-                      key: member.key,
-                      isRequired: member.required
-                    } as any)
-                  : member.schema
-              }
-              onChange={this.handlePropChange.bind(this, index)}
-              onFormConfirm={this.handleEditProppertyConfirm.bind(this, index)}
-              renderExtraProps={renderExtraProps}
-              renderModalProps={renderModalProps}
-              locale={locale}
-              translate={__}
-              classnames={cx}
-              classPrefix={classPrefix}
-              disabled={disabled || !!value?.$ref}
-              required={member.required}
-              onRequiredChange={this.handlePropRequiredChange.bind(this, index)}
-              placeholder={placeholder}
-              formPrefixRender={this.renderFormPrefix}
-            />
-          ))
+                      <InputBox
+                        className={cx('SchemaEditor-title')}
+                        value={member.schema.title || ''}
+                        onChange={this.handlePropTitleChange.bind(this, index)}
+                        placeholder={__(placeholder?.title ?? '')}
+                        disabled={disabled || !!value?.$ref}
+                        mobileUI={mobileUI}
+                        dataName={`${memberKey}-title`}
+                      />
+                    </>
+                  )
+                }
+                affix={
+                  <Button
+                    className={cx('SchemaEditor-btn')}
+                    onClick={this.handlePropRemove.bind(this, index)}
+                    iconOnly={!mini}
+                    level={mini ? 'link' : 'default'}
+                    disabled={disabled || !!value?.$ref}
+                  >
+                    <Icon icon="remove" className="icon" />
+                  </Button>
+                }
+                value={
+                  mini
+                    ? ({
+                        ...member.schema,
+                        key: member.key,
+                        isRequired: member.required
+                      } as any)
+                    : member.schema
+                }
+                onChange={this.handlePropChange.bind(this, index)}
+                onFormConfirm={this.handleEditProppertyConfirm.bind(
+                  this,
+                  index
+                )}
+                renderExtraProps={renderExtraProps}
+                renderModalProps={renderModalProps}
+                locale={locale}
+                translate={__}
+                classnames={cx}
+                classPrefix={classPrefix}
+                disabled={disabled || !!value?.$ref}
+                required={member.required}
+                onRequiredChange={this.handlePropRequiredChange.bind(
+                  this,
+                  index
+                )}
+                placeholder={placeholder}
+                formPrefixRender={this.renderFormPrefix}
+              />
+            );
+          })
         ) : (
           <div className={cx('SchemaEditorProps-placeholder')}>
             {__(placeholder?.empty ?? '')}
@@ -492,6 +507,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
           'is-collapsed': this.state.collapsed,
           'SchemaEditorItem--mini': mini
         })}
+        data-amis-name={this.props.dataName}
       >
         {showInfo !== false ? (
           <>
@@ -515,3 +531,5 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
     );
   }
 }
+
+ITEMMAP.object = SchemaEditorItemObject;

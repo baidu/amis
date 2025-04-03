@@ -10,6 +10,7 @@ import {
 import Modal from './Modal';
 import Button from './Button';
 import ConfirmBox, {ConfirmBoxProps} from './ConfirmBox';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface PickerContainerProps
   extends ThemeProps,
@@ -34,6 +35,7 @@ export interface PickerContainerProps
   disabled?: boolean;
   onPickerOpen?: (props: PickerContainerProps) => any;
   popOverContainer?: any;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface PickerContainerState {
@@ -140,7 +142,8 @@ export class PickerContainer extends React.Component<
       closeOnEsc,
       popOverContainer,
       mobileUI,
-      disabled
+      disabled,
+      testIdBuilder
     } = this.props;
     return (
       <>
@@ -166,9 +169,10 @@ export class PickerContainer extends React.Component<
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
           disabled={disabled}
+          testIdBuilder={testIdBuilder?.getChild('confirm-box')}
         >
           {({popOverContainer, loading, onConfirm, bodyRef}) =>
-            popOverRender({
+            popOverRender?.({
               ...(this.state as any),
               ref: bodyRef,
               setState: this.updateState,

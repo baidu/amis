@@ -8,6 +8,7 @@ exports[`Renderer:InputSubForm base 1`] = `
   <div>
     <div
       class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+      data-role="container"
     >
       <div
         class="cxd-Panel-heading"
@@ -16,7 +17,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           class="cxd-Panel-title"
         >
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               表单
@@ -37,6 +38,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="form"
             data-role="form-item"
           >
             <label
@@ -44,7 +46,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     子Form
@@ -67,7 +69,7 @@ exports[`Renderer:InputSubForm base 1`] = `
                     class="cxd-SubForm-valueLabel"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         设置子表单
@@ -149,6 +151,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="a"
             data-role="form-item"
           >
             <label
@@ -156,7 +159,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     A
@@ -188,6 +191,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
+            data-amis-name="b"
             data-role="form-item"
           >
             <label
@@ -195,7 +199,7 @@ exports[`Renderer:InputSubForm base 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     B
@@ -256,6 +260,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -264,7 +269,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -285,6 +290,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form2"
           data-role="form-item"
         >
           <label
@@ -292,7 +298,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   多选
@@ -405,6 +411,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -413,7 +420,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -434,6 +441,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form"
           data-role="form-item"
         >
           <label
@@ -441,7 +449,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   子Form
@@ -470,7 +478,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-b-change
@@ -511,7 +519,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-c
@@ -552,7 +560,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-d
@@ -614,6 +622,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -622,7 +631,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -643,6 +652,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="form"
           data-role="form-item"
         >
           <label
@@ -650,7 +660,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   子Form
@@ -671,7 +681,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-1-1
@@ -704,7 +714,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   class="cxd-SubForm-valueLabel"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       设置val-2-1

@@ -54,15 +54,12 @@ export default class RenderersPanel extends React.Component<
     const current = e.currentTarget;
     const id = current.getAttribute('data-id')!;
     e.dataTransfer.setData(`dnd-dom/[data-id="${id}"]`, '');
-    /*
+
+    // 将鼠标位置调整到最左侧，以免拖入的时候挡住容器信息引来混淆
+    e.dataTransfer!.setDragImage(e.target as any, 0, 0);
+
     // 增加默认拖拽过程中元素
-    e.dataTransfer!.effectAllowed = 'move';
-    e.dataTransfer!.setDragImage(
-      this.props.manager?.dnd?.createDragImage(label),
-      0,
-      0
-    );
-    */
+    e.dataTransfer!.effectAllowed = 'copy';
   }
 
   // 组件点选使用

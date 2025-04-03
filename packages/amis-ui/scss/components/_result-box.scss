@@ -1,6 +1,4 @@
 .#{$ns}ResultBox {
-  @include input-input();
-  @include input-border();
   flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
@@ -24,6 +22,8 @@
     var(--select-base-default-paddingBottom)
     var(--select-base-default-paddingLeft);
 
+  @include input-input();
+  @include input-border();
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
@@ -319,10 +319,15 @@
     font-size: var(--fontSizeLg);
     border: none;
     justify-content: flex-end;
+    width: 100%;
 
     &.is-focused,
     &:hover {
       border: none !important;
+    }
+
+    .#{$ns}ResultBox-value-wrap {
+      text-align: left;
     }
 
     .#{$ns}ResultBox-clear {
@@ -357,7 +362,6 @@
         width: 10px;
         height: 10px;
         top: 0;
-        transform: rotate(-90deg);
       }
     }
   }

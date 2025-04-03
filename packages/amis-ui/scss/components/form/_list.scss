@@ -122,14 +122,6 @@
       border-color: var(--ListControl-item-onActive-borderColor);
       color: var(--ListControl-item-onActive-color);
 
-      &:hover {
-        background: var(--ListControl-item-onActive-onHover-bg);
-      }
-
-      .b-inherit {
-        border-color: var(--ListControl-item-onActive-color);
-      }
-
       border-width: var(--listSelect-base-active-top-border-width)
         var(--listSelect-base-active-right-border-width)
         var(--listSelect-base-active-bottom-border-width)
@@ -147,6 +139,14 @@
         var(--listSelect-base-active-bottom-right-border-radius)
         var(--listSelect-base-active-bottom-left-border-radius);
       background: var(--listSelect-base-active-bg-color);
+
+      &:hover {
+        background: var(--ListControl-item-onActive-onHover-bg);
+      }
+
+      .b-inherit {
+        border-color: var(--ListControl-item-onActive-color);
+      }
 
       &:before {
         content: '';
@@ -166,8 +166,8 @@
         right: px2rem(2px);
         bottom: px2rem(6px);
         transform: rotate(-40deg);
-        width: var(--Checkbox--full-inner-size);
-        height: calc(var(--Checkbox--full-inner-size) / 2);
+        width: px2rem(8px);
+        height: px2rem(4px);
         border-color: #fff;
       }
     }

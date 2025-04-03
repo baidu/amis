@@ -18,7 +18,7 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   borderMode?: 'full' | 'half' | 'none';
 
   onFocus?: () => void;
-
+  onItemClick?: (item: Object) => void;
   onBlur?: () => void;
   popOverContainer?: any;
 }
@@ -45,7 +45,7 @@ export class TransferPicker extends React.Component<
   }
 
   @autobind
-  onFoucs() {
+  onFocus() {
     this.props.onFocus?.();
   }
 
@@ -65,6 +65,7 @@ export class TransferPicker extends React.Component<
       disabled,
       className,
       onChange,
+      onItemClick,
       size,
       borderMode,
       labelField = 'label',
@@ -88,7 +89,7 @@ export class TransferPicker extends React.Component<
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        onFocus={this.onFoucs}
+        onFocus={this.onFocus}
         onClose={this.onBlur}
         mobileUI={mobileUI}
         popOverContainer={popOverContainer}
@@ -129,6 +130,7 @@ export class TransferPicker extends React.Component<
             )}
             allowInput={false}
             result={value}
+            onItemClick={onItemClick}
             onResultChange={onChange}
             onResultClick={onClick}
             placeholder={placeholder ?? __('Select.placeholder')}

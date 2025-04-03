@@ -26,7 +26,7 @@ import {
   isIntegerInRange,
   setThemeClassName
 } from 'amis-core';
-import {Html, Icon, TooltipWrapper} from 'amis-ui';
+import {Html, Icon, OverflowTpl, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
 import type {TooltipWrapperSchema} from '../TooltipWrapper';
@@ -68,6 +68,11 @@ export interface PickerControlSchema extends FormOptionsSchema {
   modalMode?: 'dialog' | 'drawer';
 
   /**
+   * 弹窗的尺寸，可选值为 'sm'、'md'、'lg'、'xl'
+   */
+  modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  /**
    * 弹窗的标题，默认为情选择
    */
   modalTitle?: string;
@@ -101,10 +106,16 @@ export interface PickerControlSchema extends FormOptionsSchema {
      */
     overflowTagPopoverInCRUD?: TooltipWrapperSchema;
   };
+
+  /**
+   * 选中项可删除，默认为true
+   */
+  itemClearable?: boolean;
 }
 
 export interface PickerProps extends OptionsControlProps {
   modalMode: 'dialog' | 'drawer';
+  modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   pickerSchema: PlainObject;
   labelField: string;
 }
@@ -122,6 +133,7 @@ export default class PickerControl extends React.PureComponent<
   static propsList: Array<string> = [
     'modalTitle',
     'modalMode',
+    'modalSize',
     'pickerSchema',
     'labelField',
     'onChange',
@@ -141,10 +153,7 @@ export default class PickerControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {
-      mode: 'list',
-      listItem: {
-        title: '${label|raw}'
-      }
+      mode: 'list'
     },
     embed: false,
     overflowConfig: {
@@ -155,13 +164,13 @@ export default class PickerControl extends React.PureComponent<
         placement: 'top',
         trigger: 'hover',
         showArrow: false,
-        offset: [0, -10]
+        offset: [0, -5]
       },
       overflowTagPopoverInCRUD: {
         placement: 'bottom',
         trigger: 'hover',
         showArrow: false,
-        offset: [0, 10]
+        offset: [0, 0]
       }
     }
   };
@@ -263,6 +272,9 @@ export default class PickerControl extends React.PureComponent<
 
     return {
       checkOnItemClick: true,
+      listItem: {
+        title: `\${${props.labelField || 'label'}|raw}`
+      },
       ...props.pickerSchema,
       labelTpl: props.pickerSchema?.labelTpl ?? props.labelTpl,
       type: 'crud',
@@ -292,12 +304,12 @@ export default class PickerControl extends React.PureComponent<
     this.crud = ref;
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     if (this.crud) {
-      this.crud.search();
+      this.crud.reload(subpath, query);
     } else {
       const reload = this.props.reloadOptions;
-      reload && reload();
+      reload && reload(subpath, query);
     }
   }
 
@@ -451,7 +463,9 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  handleFocus() {
+  handleFocus(e: React.MouseEvent<HTMLElement>) {
+    this.input.current && this.input.current.focus();
+    e.stopPropagation();
     this.setState({
       isFocused: true
     });
@@ -466,12 +480,12 @@ export default class PickerControl extends React.PureComponent<
 
   @autobind
   handleClick() {
-    this.input.current && this.input.current.focus();
     this.open();
   }
 
   @autobind
-  clearValue() {
+  clearValue(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
     const {onChange, resetValue} = this.props;
 
     onChange(resetValue !== void 0 ? resetValue : '');
@@ -523,6 +537,7 @@ export default class PickerControl extends React.PureComponent<
 
   renderTag(item: Option, index: number) {
     const {
+      itemClearable = true,
       classPrefix: ns,
       classnames: cx,
       labelField,
@@ -551,47 +566,54 @@ export default class PickerControl extends React.PureComponent<
           }
         )}
       >
-        <span
-          className={cx(
-            `${ns}Picker-valueIcon`,
-            setThemeClassName({
-              ...this.props,
-              name: 'pickValueIconClassName',
-              id,
-              themeCss: themeCss || css
-            })
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            this.removeItem(index);
-          }}
+        {itemClearable && (
+          <span
+            className={cx(
+              `${ns}Picker-valueIcon`,
+              setThemeClassName({
+                ...this.props,
+                name: 'pickValueIconClassName',
+                id,
+                themeCss: themeCss || css
+              })
+            )}
+            onClick={e => {
+              e.stopPropagation();
+              this.removeItem(index);
+            }}
+          >
+            ×
+          </span>
+        )}
+        <OverflowTpl
+          inline={false}
+          tooltip={getVariable(item, labelField || 'label')}
         >
-          ×
-        </span>
-        <span
-          className={cx(
-            `${ns}Picker-valueLabel`,
-            setThemeClassName({
-              ...this.props,
-              name: 'pickFontClassName',
-              id,
-              themeCss: themeCss || css
-            })
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            this.handleItemClick(item);
-          }}
-        >
-          {labelTpl ? (
-            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
-          ) : (
-            `${
-              getVariable(item, labelField || 'label') ||
-              getVariable(item, 'id')
-            }`
-          )}
-        </span>
+          <span
+            className={cx(
+              `${ns}Picker-valueLabel`,
+              setThemeClassName({
+                ...this.props,
+                name: 'pickFontClassName',
+                id,
+                themeCss: themeCss || css
+              })
+            )}
+            onClick={e => {
+              e.stopPropagation();
+              this.handleItemClick(item);
+            }}
+          >
+            {labelTpl ? (
+              <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+            ) : (
+              `${
+                getVariable(item, labelField || 'label') ||
+                getVariable(item, 'id')
+              }`
+            )}
+          </span>
+        </OverflowTpl>
       </div>
     );
   }
@@ -629,7 +651,7 @@ export default class PickerControl extends React.PureComponent<
     }
 
     return (
-      <div className={`${ns}Picker-values`}>
+      <>
         {tags.map((item, index) => {
           if (enableOverflow && index === maxTagCount) {
             return (
@@ -685,8 +707,15 @@ export default class PickerControl extends React.PureComponent<
 
           return this.renderTag(item, index);
         })}
-      </div>
+      </>
     );
+  }
+
+  @autobind
+  overrideCRUDProps() {
+    // 自定义参数，用于外部透传给 crud 组件外围需要的属性值。
+    // 需要保留这个函数和函数名存在即可，返回值是一个对象
+    return {};
   }
 
   @autobind
@@ -719,7 +748,8 @@ export default class PickerControl extends React.PureComponent<
       ...(embed ||
       (Array.isArray(displayPosition) && displayPosition.includes('crud'))
         ? {maxTagCount, overflowTagPopover: overflowTagPopoverInCRUD}
-        : {})
+        : {}),
+      ...this.overrideCRUDProps()
     }) as JSX.Element;
   }
   @supportStatic()
@@ -733,7 +763,7 @@ export default class PickerControl extends React.PureComponent<
       render,
       modalMode,
       source,
-      size,
+      modalSize,
       clearable,
       multiple,
       placeholder,
@@ -770,15 +800,11 @@ export default class PickerControl extends React.PureComponent<
               onClick={this.handleClick}
               className={cx(
                 'Picker-input',
+                disabled && 'is-disabled',
+                this.state.isFocused && 'is-focused',
                 setThemeClassName({
                   ...this.props,
                   name: 'pickControlClassName',
-                  id,
-                  themeCss: themeCss || css
-                }),
-                setThemeClassName({
-                  ...this.props,
-                  name: 'pickControlDisabledClassName',
                   id,
                   themeCss: themeCss || css
                 })
@@ -788,24 +814,24 @@ export default class PickerControl extends React.PureComponent<
                 <div className={cx('Picker-placeholder')}>
                   {__(placeholder)}
                 </div>
-              ) : null}
+              ) : (
+                <div
+                  className={cx('Picker-valueWrap')}
+                  {...testIdBuilder?.getTestId()}
+                >
+                  {this.renderValues()}
 
-              <div
-                className={cx('Picker-valueWrap')}
-                {...testIdBuilder?.getTestId()}
-              >
-                {this.renderValues()}
-
-                <input
-                  onChange={noop}
-                  value={''}
-                  ref={this.input}
-                  onKeyDown={this.handleKeyDown}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  readOnly={mobileUI}
-                />
-              </div>
+                  <input
+                    onChange={noop}
+                    value={''}
+                    ref={this.input}
+                    onKeyDown={this.handleKeyDown}
+                    onClick={this.handleFocus}
+                    onBlur={this.handleBlur}
+                    readOnly={mobileUI}
+                  />
+                </div>
+              )}
 
               {clearable && !disabled && selectedOptions.length ? (
                 <a onClick={this.clearValue} className={cx('Picker-clear')}>
@@ -841,7 +867,7 @@ export default class PickerControl extends React.PureComponent<
                   modalTitle && typeof modalTitle === 'string'
                     ? filter(modalTitle, data)
                     : __('Select.placeholder'),
-                size: size,
+                size: modalSize,
                 type: modalMode,
                 className: modalClassName,
                 body: {
@@ -873,24 +899,13 @@ export default class PickerControl extends React.PureComponent<
                   hover: {
                     important: true
                   },
-                  active: {
-                    important: true
+                  focused: {
+                    important: true,
+                    parent: `.${ns}Picker.is-focused >`
                   },
                   disabled: {
-                    important: true
-                  }
-                }
-              },
-              {
-                key: 'pickControlDisabledClassName',
-                weights: {
-                  default: {
-                    pre: `${ns}Picker.is-disabled> .${setThemeClassName({
-                      ...this.props,
-                      name: 'pickControlDisabledClassName',
-                      id,
-                      themeCss: themeCss || css
-                    })}, `
+                    important: true,
+                    parent: `.${ns}Picker.is-disabled >`
                   }
                 }
               },

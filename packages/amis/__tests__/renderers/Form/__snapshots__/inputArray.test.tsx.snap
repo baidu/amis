@@ -17,6 +17,7 @@ exports[`Renderer:inputArray 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:inputArray 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -46,6 +47,7 @@ exports[`Renderer:inputArray 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="array"
                   data-role="form-item"
                 >
                   <label
@@ -53,7 +55,7 @@ exports[`Renderer:inputArray 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           颜色集合
@@ -92,9 +94,11 @@ exports[`Renderer:inputArray 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -198,6 +202,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -206,7 +211,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -227,6 +232,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="array"
                   data-role="form-item"
                 >
                   <label
@@ -234,7 +240,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           颜色集合
@@ -286,9 +292,11 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -360,9 +368,11 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -434,9 +444,11 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -545,6 +557,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -553,7 +566,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -574,6 +587,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="array"
                   data-role="form-item"
                 >
                   <label
@@ -581,7 +595,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           颜色集合
@@ -620,9 +634,11 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -671,9 +687,11 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -767,6 +785,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -775,7 +794,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -796,6 +815,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="array"
                   data-role="form-item"
                 >
                   <label
@@ -803,7 +823,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           颜色集合
@@ -842,9 +862,11 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -893,9 +915,11 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 1`]
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div
@@ -976,6 +1000,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -984,7 +1009,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1005,6 +1030,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
+                  data-amis-name="array"
                   data-role="form-item"
                 >
                   <label
@@ -1012,7 +1038,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           颜色集合
@@ -1051,9 +1077,11 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                                 >
                                   <div
                                     class="cxd-Form-col"
+                                    style="flex: 1;"
                                   >
                                     <div
                                       class="cxd-Form-item cxd-Form-item--row"
+                                      data-amis-name="flat"
                                       data-role="form-item"
                                     >
                                       <div

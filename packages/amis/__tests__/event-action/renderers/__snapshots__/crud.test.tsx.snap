@@ -24,12 +24,14 @@ exports[`doAction:crud reload 1`] = `
             </span>
           </button>
           <div
-            class="cxd-Crud is-loading"
+            class="cxd-Crud"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              data-id="crud_reload"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -107,7 +109,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -127,7 +129,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -147,7 +149,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -167,7 +169,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -187,7 +189,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -207,7 +209,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -227,7 +229,7 @@ exports[`doAction:crud reload 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 操作
@@ -243,61 +245,999 @@ exports[`doAction:crud reload 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-placeholder"
-                      />
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-index="0"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            1
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - pbz7l
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Internet Explorer 4.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 95+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            X
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm text-danger"
+                              type="button"
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-index="1"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            2
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - tir4m8
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Internet Explorer 5.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 95+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            C
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm text-danger"
+                              type="button"
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-index="2"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            3
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - wcn6f
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Internet Explorer 5.5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 95+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            5.5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-index="3"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - uwmcbf
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Internet Explorer 6
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            6
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-index="4"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - yjgst7
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Internet Explorer 7
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win XP SP2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            7
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-index="5"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            6
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident - w9ee2k
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            AOL browser (AOL desktop)
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win XP
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            6
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-index="6"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            7
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Gecko - hi6cd
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Firefox 1.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            1.7
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-index="7"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            8
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Gecko - 4kxz6
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Firefox 1.5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            1.8
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
+                        data-index="8"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            9
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Gecko - x0u91o
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Firefox 2.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            1.8
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
+                        data-index="9"
+                      >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            10
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Gecko - iou01
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Firefox 3.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 2k+ / OSX.3+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            1.9
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            A
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <div
+                            class="cxd-OperationField"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
+                            >
+                              <span>
+                                详情
+                              </span>
+                            </button>
+                            <div
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm is-disabled text-danger"
+                              disabled=""
+                            >
+                              <span>
+                                删除
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
-                <div
-                  class="cxd-Spinner-overlay in"
-                />
-                <div
-                  class="cxd-Spinner cxd-Spinner--overlay in"
-                  data-testid="spinner"
-                >
-                  <div
-                    class="cxd-Spinner-icon cxd-Spinner-icon--default"
-                  />
-                </div>
               </div>
               <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
-                
-  
                 <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  class="cxd-Crud-toolbar"
                 >
-                  
-    
                   <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
+                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                  >
+                    <div
+                      class="cxd-Crud-statistics"
+                    >
+                      1/18 共：171 项
+                    </div>
+                  </div>
                   <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
+                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--right"
+                  >
+                    <div
+                      class="cxd-Crud-pager"
+                    >
+                      <div
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
+                      >
+                        <ul
+                          class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+                        >
+                          <li
+                            class="cxd-Pagination-prev is-disabled"
+                          >
+                            <span>
+                              <icon-mock
+                                classname="icon icon-left-arrow"
+                                icon="left-arrow"
+                              />
+                            </span>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item is-active"
+                          >
+                            <a
+                              role="button"
+                            >
+                              1
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              2
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              3
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              4
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              5
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              6
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              7
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-ellipsis"
+                          >
+                            <a
+                              role="button"
+                            >
+                              ...
+                            </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
+                          </li>
+                          <li
+                            class="cxd-Pagination-pager-item"
+                          >
+                            <a
+                              role="button"
+                            >
+                              18
+                            </a>
+                          </li>
+                          <li
+                            class="cxd-Pagination-next"
+                          >
+                            <span>
+                              <icon-mock
+                                classname="icon icon-right-arrow"
+                                icon="right-arrow"
+                              />
+                            </span>
+                          </li>
+                        </ul>
+                        <div
+                          class="cxd-Pagination-inputGroup cxd-Pagination-item"
+                        >
+                          <span
+                            class="cxd-Pagination-inputGroup-left"
+                          >
+                            跳转至
+                          </span>
+                          <input
+                            class="cxd-Pagination-inputGroup-input"
+                            type="text"
+                            value=""
+                          />
+                          <span
+                            class="cxd-Pagination-inputGroup-right"
+                          >
+                            前往
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -334,10 +1274,12 @@ exports[`doAction:crud reload with data1 1`] = `
           <div
             class="cxd-Crud is-loading"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              data-id="crud_reload"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -415,7 +1357,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -435,7 +1377,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -455,7 +1397,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -475,7 +1417,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -495,7 +1437,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -515,7 +1457,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -535,7 +1477,7 @@ exports[`doAction:crud reload with data1 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 操作
@@ -567,45 +1509,6 @@ exports[`doAction:crud reload with data1 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -642,10 +1545,12 @@ exports[`doAction:crud reload with data2 1`] = `
           <div
             class="cxd-Crud is-loading"
             data-id="crud_reload"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; position: relative;"
+              data-id="crud_reload"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -723,7 +1628,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -743,7 +1648,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -763,7 +1668,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -783,7 +1688,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -803,7 +1708,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -823,7 +1728,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -843,7 +1748,7 @@ exports[`doAction:crud reload with data2 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 操作
@@ -875,45 +1780,6 @@ exports[`doAction:crud reload with data2 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>

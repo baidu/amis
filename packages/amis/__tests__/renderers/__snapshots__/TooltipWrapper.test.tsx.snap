@@ -18,54 +18,14 @@ exports[`Renderer:TooltipWrapper with context data 1`] = `
           >
             <div
               class="cxd-TooltipWrapper"
-              style="position: relative;"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   body:this-is-text
                 </span>
               </span>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -73,10 +33,10 @@ exports[`Renderer:TooltipWrapper with context data 1`] = `
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="left: 0px; top: 0px; position: relative;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -95,45 +55,6 @@ exports[`Renderer:TooltipWrapper with context data 1`] = `
       >
         info:this-is-text
       </span>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </body>
@@ -157,54 +78,14 @@ exports[`Renderer:TooltipWrapper with offset 1`] = `
           >
             <div
               class="cxd-TooltipWrapper mb-1"
-              style="position: relative;"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   激活文字提示
                 </span>
               </span>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -212,10 +93,10 @@ exports[`Renderer:TooltipWrapper with offset 1`] = `
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="19,-22"
     role="tooltip"
-    style="left: 19px; top: -22px; position: relative;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -229,162 +110,6 @@ exports[`Renderer:TooltipWrapper with offset 1`] = `
       >
         提示文字
       </span>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
-  </div>
-</body>
-`;
-
-exports[`Renderer:TooltipWrapper with placement 1`] = `
-<body>
-  <div>
-    <div
-      class="cxd-TooltipWrapper"
-      style="position: relative;"
-    >
-      <span
-        class="cxd-TplField"
-      >
-        <span>
-          激活文字提示
-        </span>
-      </span>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    class="cxd-Tooltip cxd-Tooltip--bottom cxd-Tooltip--light"
-    offset="0,0"
-    role="tooltip"
-    style="left: 0px; top: 0px; position: relative;"
-    theme="cxd"
-  >
-    <div
-      class="cxd-Tooltip-arrow"
-    />
-    <div
-      class="cxd-Tooltip-body"
-    >
-      <span
-        class="cxd-Html"
-      >
-        提示文字
-      </span>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </body>
@@ -395,61 +120,21 @@ exports[`Renderer:TooltipWrapper with showArrow 1`] = `
   <div>
     <div
       class="cxd-TooltipWrapper"
-      style="position: relative;"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           没有箭头
         </span>
       </span>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="left: 0px; top: 0px; position: relative;"
+    style="left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -466,45 +151,6 @@ exports[`Renderer:TooltipWrapper with showArrow 1`] = `
         提示内容
       </span>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </body>
 `;
@@ -514,61 +160,22 @@ exports[`Renderer:TooltipWrapper with style & tooltipStyle 1`] = `
   <div>
     <span
       class="cxd-TooltipWrapper cxd-TooltipWrapper--inline"
-      style="font-style: italic; position: relative;"
+      style="font-style: italic;"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           一段文案
         </span>
       </span>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </span>
   </div>
   <div
-    class="cxd-Tooltip cxd-Tooltip--top cxd-Tooltip--light"
+    class="cxd-Tooltip cxd-Tooltip--light"
     offset="0,0"
     role="tooltip"
-    style="font-weight: bold; left: 0px; top: 0px; position: relative;"
+    style="font-weight: bold; left: 0px; top: 0px; visibility: hidden;"
     theme="cxd"
   >
     <div
@@ -582,45 +189,6 @@ exports[`Renderer:TooltipWrapper with style & tooltipStyle 1`] = `
       >
         文字提示(加粗)
       </span>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </body>
@@ -645,7 +213,7 @@ exports[`Renderer:TooltipWrapper with trigger & title 1`] = `
             class="cxd-TooltipWrapper mb-1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 hover激活文字提示
@@ -656,7 +224,7 @@ exports[`Renderer:TooltipWrapper with trigger & title 1`] = `
             class="cxd-TooltipWrapper mb-1"
           >
             <span
-              class="cxd-TplField"
+              class="cxd-TplField fr-view"
             >
               <span>
                 click激活文字提示
@@ -677,7 +245,7 @@ exports[`Renderer:TooltipWrapper with wrapperComponent 1`] = `
       class="cxd-TooltipWrapper"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-TplField fr-view"
       >
         <span>
           function HelloWorld() {

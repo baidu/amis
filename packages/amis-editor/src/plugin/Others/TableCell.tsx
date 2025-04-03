@@ -1,7 +1,11 @@
 import {Button} from 'amis';
 import React from 'react';
 import get from 'lodash/get';
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  getI18nEnabled,
+  registerEditorPlugin,
+  tipedLabel
+} from 'amis-editor-core';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -111,7 +115,7 @@ export class TableCellPlugin extends BasePlugin {
               pipeIn: (value: any) => !!value
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '立即保存接口',
               description:
                 '是否单独给立即保存配置接口，如果不配置，则默认使用quickSaveItemApi。',
@@ -322,13 +326,49 @@ export class TableCellPlugin extends BasePlugin {
           title: '外观',
           body: [
             {
+              type: 'select',
+              name: 'align',
+              label: '对齐方式',
+              pipeIn: defaultValue('left'),
+              options: [
+                {label: '左对齐', value: 'left'},
+                {label: '居中对齐', value: 'center'},
+                {label: '右对齐', value: 'right'},
+                {label: '两端对齐', value: 'justify'}
+              ]
+            },
+            {
+              type: 'select',
+              name: 'headerAlign',
+              label: '表头对齐方式',
+              pipeIn: defaultValue(''),
+              options: [
+                {label: '复用对齐方式', value: ''},
+                {label: '左对齐', value: 'left'},
+                {label: '居中对齐', value: 'center'},
+                {label: '右对齐', value: 'right'},
+                {label: '两端对齐', value: 'justify'}
+              ]
+            },
+            {
+              type: 'select',
+              name: 'vAlign',
+              label: '垂直对齐方式',
+              pipeIn: defaultValue('middle'),
+              options: [
+                {label: '顶部对齐', value: 'top'},
+                {label: '垂直居中', value: 'middle'},
+                {label: '底部对齐', value: 'bottom'}
+              ]
+            },
+            {
               name: 'fixed',
               type: 'button-group-select',
               label: '固定位置',
               pipeIn: defaultValue(''),
               size: 'xs',
               mode: 'inline',
-              className: 'w-full',
+              inputClassName: 'mt-1 w-full',
               options: [
                 {
                   value: '',
@@ -391,10 +431,35 @@ export class TableCellPlugin extends BasePlugin {
                   ? value.replace(/\*\s*,\s*|\s*,\s*\*/g, '')
                   : value
             },
-
+            {
+              name: 'textOverflow',
+              type: 'button-group-select',
+              label: '文本超出处理',
+              size: 'xs',
+              mode: 'inline',
+              inputClassName: 'mt-1 w-full',
+              pipeIn: defaultValue('default'),
+              options: [
+                {
+                  label: '默认',
+                  value: 'default'
+                },
+                {
+                  label: '溢出隐藏',
+                  value: 'ellipsis'
+                },
+                {
+                  label: '取消换行',
+                  value: 'noWrap'
+                }
+              ]
+            },
             getSchemaTpl('switch', {
               name: 'className',
-              label: '内容强制换行',
+              label: tipedLabel(
+                '允许任意字符间断行',
+                '开启此项，换行处理将在任意字母处断行，长英文单词或长英文字符会被切断，如url链接'
+              ),
               pipeIn: (value: any) =>
                 typeof value === 'string' && /\word\-break\b/.test(value),
               pipeOut: (value: any, originValue: any) =>

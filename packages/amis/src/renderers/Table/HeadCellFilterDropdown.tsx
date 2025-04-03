@@ -419,6 +419,7 @@ export class HeadCellFilterDropDown extends React.Component<
                             option.visible && (
                               <li key={index}>
                                 <Checkbox
+                                  size="sm"
                                   classPrefix={ns}
                                   onChange={this.handleCheck.bind(
                                     this,

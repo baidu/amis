@@ -4,6 +4,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -104,6 +106,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -112,7 +115,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -133,6 +136,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -140,7 +144,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -204,6 +208,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -212,7 +217,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -233,6 +238,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -240,7 +246,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label

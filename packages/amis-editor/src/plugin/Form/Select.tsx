@@ -1,26 +1,12 @@
-import React from 'react';
-import omit from 'lodash/omit';
-import {findObjectsWithKey} from 'amis-core';
-import {Button, Icon} from 'amis-ui';
+import type {Schema, SchemaType} from 'amis';
 import {
   registerEditorPlugin,
   getSchemaTpl,
   BasePlugin,
   tipedLabel,
-  JSONPipeOut,
-  undefinedPipeOut
+  undefinedPipeOut,
+  RAW_TYPE_MAP
 } from 'amis-editor-core';
-
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  OPTION_EDIT_EVENTS,
-  OPTION_EDIT_EVENTS_OLD,
-  resolveOptionEventDataSchame,
-  resolveOptionType
-} from '../../util';
-
-import type {Schema} from 'amis';
 import type {
   EditorNodeType,
   RendererPluginAction,
@@ -28,6 +14,20 @@ import type {
   BaseEventContext,
   EditorManager
 } from 'amis-editor-core';
+
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
+import {
+  OPTION_EDIT_EVENTS,
+  OPTION_EDIT_EVENTS_OLD,
+  resolveOptionEventDataSchame,
+  resolveOptionType
+} from '../../util';
+
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class SelectControlPlugin extends BasePlugin {
   static id = 'SelectControlPlugin';
@@ -171,22 +171,26 @@ export class SelectControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -197,6 +201,7 @@ export class SelectControlPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: '基本',
+            id: 'properties-basic',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               getSchemaTpl('formItemName', {
@@ -230,6 +235,7 @@ export class SelectControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
+            id: 'properties-options',
             body: [
               getSchemaTpl('optionControlV2'),
               getSchemaTpl('selectFirst', {
@@ -301,7 +307,35 @@ export class SelectControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:formItem'),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '选择框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.selectControlClassName',
+                  '--select-base'
+                )
+              ]
+            },
+            {
+              title: '下拉框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.selectPopoverClassName',
+                  '--select-base-${state}-option',
+                  {
+                    state: [
+                      {label: '常规', value: 'default'},
+                      {label: '悬浮', value: 'hover'},
+                      {label: '选中', value: 'focused'}
+                    ]
+                  }
+                )
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
             getSchemaTpl('style:classNames')
           ])
         ]
@@ -325,6 +359,7 @@ export class SelectControlPlugin extends BasePlugin {
     let dataSchema: any = {
       type,
       title: node.schema?.label || node.schema?.name,
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
 

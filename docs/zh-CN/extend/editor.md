@@ -259,7 +259,7 @@ schema
 - `docLink?: string` 组件文档链接
 - `previewSchema?: any` 用来生成预览图
 - `tags ?:string | Array<string>` 分类, 决定会在哪个 tab 下面显示的
-- `scaffold ?: any` 当编辑讲此组件拖入时，默认的配置项是啥
+- `scaffold ?: any` 在编辑器中拖入该组件时生成的默认配置项
 - `scaffolds ?: Array<any>` 脚手架也可以是多个，比如 Grid 组件，两栏，三栏组件都是用 grid 构建的，只是拖入时的初始配置不一样。
 - `$schema?: string` json schema 定义。如： `/schemas/UnkownSchema.json` 目前这个不支持自定义，只有内置渲染器才有这些信息。
 - `isBaseComponent?: boolean` 是否为内置渲染器，决定组建列表出现在内置 tab 下还是自定义 tab 下。
@@ -410,7 +410,7 @@ regions: Array<RegionConfig> = [
 ];
 ```
 
-插件内部会根据这个这个信息，自动在 `render('body', body as any, {disabled})` 的地方包裹个 `RegionWrapper`。这种方式主要是通过篡改 `this.props.render` 方法实现的。
+插件内部会根据这个信息，自动在 `render('body', body as any, {disabled})` 的地方包裹个 `RegionWrapper`。这种方式主要是通过篡改 `this.props.render` 方法实现的。
 
 再看个复杂点的情况如 `Form` 的 `actions` 区块输出。
 
@@ -593,118 +593,13 @@ export class MyRenderer extends React.Component {
 }
 ```
 
-然后插件中加入以下代码即可完成拖拽调整宽高
+然后[插件](https://github.com/aisuda/amis-editor-demo?tab=readme-ov-file#%E6%89%A9%E5%85%85%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E5%99%A8%E6%96%B0%E7%89%88)中修改继承类，即可完成拖拽调整宽高：
 
 ```tsx
-onActive(event: PluginEvent<ActiveEventContext>) {
-  const context = event.context;
+import {LayoutBasePlugin} from 'amis-editor';
 
-  if (context.info?.plugin !== this || !context.node) {
-    return;
-  }
-
-  const node = context.node!;
-  node.setHeightMutable(true);
-  node.setWidthMutable(true);
-}
-
-onWidthChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >
-) {
-  return this.onSizeChangeStart(event, 'horizontal');
-}
-
-onHeightChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >
-) {
-  return this.onSizeChangeStart(event, 'vertical');
-}
-
-onSizeChangeStart(
-  event: PluginEvent<
-    ResizeMoveEventContext,
-    {
-      onMove(e: MouseEvent): void;
-      onEnd(e: MouseEvent): void;
-    }
-  >,
-  direction: 'both' | 'vertical' | 'horizontal' = 'both'
-) {
-  const context = event.context;
-  const node = context.node;
-  if (node.info?.plugin !== this) {
-    return;
-  }
-
-  const resizer = context.resizer;
-  const dom = context.dom;
-  const frameRect = dom.parentElement!.getBoundingClientRect();
-  const rect = dom.getBoundingClientRect();
-  const startX = context.nativeEvent.pageX;
-  const startY = context.nativeEvent.pageY;
-
-  event.setData({
-    onMove: (e: MouseEvent) => {
-      const dy = e.pageY - startY;
-      const dx = e.pageX - startX;
-      const height = Math.max(50, rect.height + dy);
-      const width = Math.max(100, Math.min(rect.width + dx, frameRect.width));
-      const state: any = {
-        width,
-        height
-      };
-
-      if (direction === 'both') {
-        resizer.setAttribute('data-value', `${width}px x ${height}px`);
-      } else if (direction === 'vertical') {
-        resizer.setAttribute('data-value', `${height}px`);
-        delete state.width;
-      } else {
-        resizer.setAttribute('data-value', `${width}px`);
-        delete state.height;
-      }
-
-      node.updateState(state);
-
-      requestAnimationFrame(() => {
-        node.calculateHighlightBox();
-      });
-    },
-    onEnd: (e: MouseEvent) => {
-      const dy = e.pageY - startY;
-      const dx = e.pageX - startX;
-      const height = Math.max(50, rect.height + dy);
-      const width = Math.max(100, Math.min(rect.width + dx, frameRect.width));
-      const state: any = {
-        width,
-        height
-      };
-
-      if (direction === 'vertical') {
-        delete state.width;
-      } else if (direction === 'horizontal') {
-        delete state.height;
-      }
-
-      resizer.removeAttribute('data-value');
-      node.updateSchema(state);
-      requestAnimationFrame(() => {
-        node.calculateHighlightBox();
-      });
-    }
-  });
+export class MyRendererPlugin extends LayoutBasePlugin {
+  // ...
 }
 ```
 

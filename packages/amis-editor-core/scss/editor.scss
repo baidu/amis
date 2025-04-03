@@ -43,6 +43,7 @@
 @import './control/_flex-setting-control';
 @import './control/table-column-width-control.scss';
 @import './control/crud2-control';
+@import './control/global-var';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -53,7 +54,10 @@
 @import './style-control/size';
 @import './style-control/style-common';
 @import './style-control/theme-css-code';
+@import './style-control/single-theme-css-code';
 @import './style-control/flex-layout';
+@import './style-control/col-count';
+@import './style-control/col-size';
 
 /* 组件样式 */
 @import './components/button';
@@ -81,6 +85,7 @@
   min-width: 980px;
   overflow: hidden;
   user-select: none;
+  position: relative;
 
   // 覆盖amis默认top值，避免导致未垂直居中
   .ae-Editor-toolbar svg.icon {
@@ -107,17 +112,37 @@
 }
 
 // 公共组件专有样式
-.ae-Editor-common-config {
+.ae-Editor-common-config,
+.ae-Editor-form-config {
   outline: 2px solid rgba($Editor-hlbox--onActiveConfig-bg, 0.2);
 }
 
 // 公共组件占位样式
 .ae-Editor-common-config div[class*='Wrapper']:empty,
-.ae-Editor-common-config div[class*='Container']:empty {
+.ae-Editor-common-config div[class*='Container']:empty,
+.ae-Editor-form-config div[class*='Wrapper']:empty,
+.ae-Editor-form-config div[class*='Container']:empty {
   margin: 4px;
   min-height: 88px;
   background: #f7f7f8;
   border: 1px dashed rgb(206, 208, 211);
+}
+
+.subEditor-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  & .subEditor-dialog {
+    height: 100%;
+    margin: 0;
+  }
+  &-back {
+    position: absolute;
+    bottom: 46px;
+    left: 20px;
+  }
 }
 
 // 弹窗编辑器面板
@@ -201,7 +226,7 @@
     .ae-Preview-inner {
       position: relative;
       // display: flex;
-      min-height: calc(100% - 40px);
+      min-height: calc(100% - 16px);
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
       border-radius: 4px;
@@ -263,9 +288,8 @@
       border-color: #222;
       border-style: solid;
       border-radius: 30px;
-      width: 375px;
-      height: 96%;
-      max-height: 812px;
+      width: 100%;
+      height: 100%;
       flex-grow: unset;
       min-height: unset;
       min-width: unset;
@@ -394,8 +418,10 @@
 .ae-PreviewIFrame {
   pointer-events: all !important;
   border: 0 !important;
-  min-height: calc(100% - 46px);
+  // min-height: 100%;
   width: 100%;
+  // height: auto !important;
+  min-height: 100%;
 }
 
 .ae-IFramePreview {
@@ -433,9 +459,8 @@
   position: absolute;
   top: -24px;
   left: -2px;
-  z-index: 20;
+  z-index: 199; // 图层需要高于尺寸重置框，不遮挡工具栏按钮提示浮层
   border: 0;
-  padding-right: 8px;
   white-space: nowrap;
   background: $Editor-hlbox--onActive-bg;
   // border-radius: 3px 3px 0px 0px;
@@ -503,7 +528,7 @@
 
 .ae-Editor-toolbar {
   position: relative;
-  padding-left: 8px;
+  padding: 0 8px;
   display: inline-flex !important;
   pointer-events: all;
   align-items: center;
@@ -687,6 +712,11 @@
     background: rgba($Editor-hlbox--onActive-bg, 0.05);
     border: 2px solid $Editor-hlbox--onActive-bg;
 
+    &[draggable='true'] {
+      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      cursor: move;
+    }
+
     .ae-Editor-toolbar {
       background: $Editor-hlbox--onActive-bg;
 
@@ -705,6 +735,14 @@
     }
   }
 
+  &.focused {
+    border: 1px solid $Editor-hlbox--onActive-bg;
+    padding: 5px;
+    box-sizing: content-box;
+    transform: translate(-5px, -5px);
+    box-shadow: inset 0 0 10px rgba($Editor-hlbox--onActive-bg, 0.5);
+  }
+
   &.regionOn {
     background: transparent;
     z-index: 5;
@@ -714,10 +752,10 @@
     // 自由容器的直接子元素拖拽剔除过渡
     transition: none !important;
 
-    &.selected {
-      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
-      cursor: move;
-    }
+    // &.selected {
+    //   pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+    //   cursor: move;
+    // }
   }
 
   .ae-Editor-toolbar {
@@ -864,6 +902,11 @@
   box-sizing: border-box;
   z-index: 1000;
   pointer-events: none;
+}
+.ae-Preview-widgets--no-transition {
+  .ae-Editor-hlbox {
+    transition: none;
+  }
 }
 
 .ae-Editor-rendererCol {
@@ -1082,6 +1125,7 @@
 .ae-RendererPanel,
 .ae-Outline-panel,
 .ae-InsertPanel,
+.ae-GlobalVarPanel,
 .ae-CodePanel {
   // 左侧面板Header
   .panel-header {
@@ -1108,6 +1152,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-shrink: 0;
 
     &:hover {
       border-color: $editor-active-color !important;
@@ -1198,9 +1243,22 @@
   cursor: move;
 }
 
-[data-editor-id].ae-is-draging,
-.ae-is-draging {
-  opacity: 0.6;
+[data-editor-id].ae-is-draging {
+  position: relative !important;
+  pointer-events: none;
+
+  &:before {
+    pointer-events: none;
+    content: '';
+    z-index: 10;
+    background: rgba(10, 19, 37, 0.15);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 [data-editor-id][data-visible='false'] {
@@ -1233,6 +1291,17 @@
   position: relative !important;
 }
 
+[data-editor-id] [contenteditable]:focus {
+  outline: 0px solid transparent;
+}
+
+[data-editor-id] {
+  .fr-quick-insert,
+  .fr-qi-helper {
+    transform: translateX(60px);
+  }
+}
+
 .ae-Region-placeholder {
   display: none;
   text-align: center;
@@ -1245,7 +1314,7 @@
 
   &.layout-content {
     height: 100%;
-    min-height: 88px;
+    min-height: $Editor-placehoder-height;
   }
 
   &.fill-placeholder {
@@ -1261,12 +1330,14 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
+    flex-grow: 1;
   }
 }
 
 [data-region] {
   position: relative;
-  min-height: 34px;
+  min-height: $Editor-placehoder-height;
 
   &:empty {
     min-width: 20px;
@@ -1299,65 +1370,68 @@
     display: none;
   }
 
-  &.is-dragenter > [data-editor-id],
-  &.is-dragenter > *:not([data-editor-id]) > [data-editor-id] {
-    position: relative;
+  //   &.is-dragenter > [data-editor-id],
+  //   &.is-dragenter > *:not([data-editor-id]) > [data-editor-id] {
+  //     position: relative;
 
-    &::before {
-      position: absolute;
-      content: '';
-      pointer-events: none;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      z-index: 10;
-      background: rgba($Editor-rgion-bg, 0.05);
-      border: 1px solid rgba($Editor-rgion-bg, 0.2);
-    }
-  }
+  //     &::before {
+  //       position: absolute;
+  //       content: '';
+  //       pointer-events: none;
+  //       top: -1px;
+  //       left: -1px;
+  //       right: -1px;
+  //       bottom: -1px;
+  //       z-index: 10;
+  //       background: rgba($Editor-rgion-bg, 0.05);
+  //       border: 1px solid rgba($Editor-rgion-bg, 0.2);
+  //       -webkit-backdrop-filter: blur(0.5px);
+  //       backdrop-filter: blur(0.5px);
+  //       filter: blur(0.5px);
+  //     }
+  //   }
 
-  &.is-dragenter > span[data-editor-id] {
-    display: inline-block;
-  }
+  //   &.is-dragenter > span[data-editor-id] {
+  //     display: inline-block;
+  //   }
 
-  &.is-entering:not(.is-dragenter) {
-    position: relative;
+  //   &.is-entering:not(.is-dragenter) {
+  //     position: relative;
 
-    &::before {
-      z-index: 10;
-      content: '';
-      position: absolute;
-      pointer-events: none;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      animation: growing 1s infinite linear;
-      // transform: translate3d(0, 0, 0);
-    }
+  //     &::before {
+  //       z-index: 10;
+  //       content: '';
+  //       position: absolute;
+  //       pointer-events: none;
+  //       left: 0;
+  //       top: 0;
+  //       right: 0;
+  //       bottom: 0;
+  //       animation: growing 1s infinite linear;
+  //       // transform: translate3d(0, 0, 0);
+  //     }
 
-    &::after {
-      z-index: 20;
-      content: '保持3s不动切换';
-      pointer-events: none;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 10%;
-      background: $Editor-theme;
-      border-radius: 5px;
-      font-size: 12px;
-      color: #fff;
-      padding: 2px 5px;
-    }
-  }
+  //     &::after {
+  //       z-index: 20;
+  //       content: '保持3s不动切换';
+  //       pointer-events: none;
+  //       position: absolute;
+  //       left: 50%;
+  //       transform: translateX(-50%);
+  //       top: 10%;
+  //       background: $Editor-theme;
+  //       border-radius: 5px;
+  //       font-size: 12px;
+  //       color: #fff;
+  //       padding: 2px 5px;
+  //     }
+  //   }
 }
 
-[data-renderer='switch-container'],
-[data-renderer='container'] {
-  min-height: 0;
-}
+// [data-renderer='switch-container'],
+// [data-renderer='container'] {
+//   min-height: 0;
+// }
 
 // 移动端有问题，先注释了
 
@@ -1398,7 +1472,7 @@
   > .region-tip {
     position: absolute;
     right: 50%;
-    top: -19px;
+    top: -17px;
     transform: translateX(50%);
     background: $Editor-rgion-bg; // $Editor-rgion-bg;
     color: #fff;
@@ -1450,17 +1524,33 @@
   }
 
   // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
-  > div.region-tip.is-only-child-region,
-  &.region-label-within > .region-tip {
-    top: 1px;
-    border-radius: 0 0 3px 3px;
-  }
+  // > div.region-tip.is-only-child-region,
+  // &.region-label-within > .region-tip {
+  //   top: 1px;
+  //   border-radius: 0 0 3px 3px;
+  // }
 
   // 高亮区域hover态
   &.region-hover {
     &:before,
     > .region-tip {
       visibility: visible;
+    }
+  }
+
+  &.region-can-be-drop {
+    &:before,
+    > .region-tip {
+      visibility: visible;
+    }
+
+    > .region-tip .region-text {
+      animation: growing 1s infinite linear;
+      margin: -3px -8px;
+      padding: 3px 8px;
+      // border: 1px solid #f39000;
+      background-color: #fff;
+      color: #333;
     }
   }
 
@@ -1564,30 +1654,42 @@ div.ae-DragImage {
 .ae-DragGhost {
   margin-bottom: 12px;
 
-  > * {
-    // opacity: 0.6;
-    position: relative;
+  // > * {
+  //   // opacity: 0.6;
+  //   position: relative;
 
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: 10;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      min-width: 100%;
-      min-height: 100%;
-      background: rgba($Editor-rgion-bg, 0.2);
-      border: 1px solid $Editor-rgion-bg;
-    }
+  //   &::before {
+  //     content: '';
+  //     position: absolute;
+  //     z-index: 10;
+  //     top: -1px;
+  //     left: -1px;
+  //     right: -1px;
+  //     bottom: -1px;
+  //     min-width: 100%;
+  //     min-height: 100%;
+  //     background: rgba($Editor-rgion-bg, 0.2);
+  //     border: 1px solid $Editor-rgion-bg;
+  //   }
+  // }
+
+  --ae-DragGhost-size: 3px;
+
+  &.use-indicator {
+    position: absolute;
+    background: $Editor-rgion-bg;
+    display: inline-block;
+    z-index: 5;
+    height: var(--ae-DragGhost-size);
+    width: var(--ae-DragGhost-size);
+    // transition: all 0.15s ease-out;
   }
 
   &.use-position {
     display: inline-block;
     position: absolute;
     background: $Editor-rgion-bg;
-    height: 5px;
+    height: var(--ae-DragGhost-size);
     width: 100%;
     z-index: 5;
 
@@ -1596,7 +1698,7 @@ div.ae-DragImage {
     }
 
     &.is-horizontal {
-      width: 5px;
+      width: var(--ae-DragGhost-size);
       height: 100%;
     }
   }
@@ -1607,8 +1709,10 @@ div.ae-DragImage {
     .col-edit {
       width: 30px;
       flex-grow: 0;
+      min-width: auto;
 
       > button {
+        cursor: pointer;
         border: 0;
         background-color: transparent;
         outline: none;
@@ -1906,7 +2010,6 @@ div[class*='Form-group']:empty {
   justify-content: space-between;
   background: #fff;
   align-items: center;
-  border-bottom: 1px solid $editor-border-color;
   .ae-Breadcrumb {
     flex: 1;
     max-width: 100%;
@@ -1915,5 +2018,20 @@ div[class*='Form-group']:empty {
   &-Right-Container {
     z-index: 1001;
     background-color: #fff;
+  }
+}
+
+.ae-Editor-inner--mobile {
+  .ae-Main {
+    position: relative;
+    .ae-Preview {
+      position: absolute;
+      transform: translateX(-50%);
+      transform-origin: top;
+      top: 10%;
+      left: 50%;
+      width: 395px;
+      height: 687px;
+    }
   }
 }

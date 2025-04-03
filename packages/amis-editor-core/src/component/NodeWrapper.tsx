@@ -63,6 +63,12 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
       dom.setAttribute('name', this.props.id);
       dom.setAttribute('data-visible', visible ? '' : 'false');
       dom.setAttribute('data-hide-text', visible ? '' : '<隐藏状态>');
+
+      if (info.regions) {
+        dom.setAttribute('data-container', '');
+      } else {
+        dom.removeAttribute('data-container');
+      }
     });
     info.plugin?.markDom?.(dom, this.props);
   }
@@ -97,13 +103,14 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
         $$editor
       );
     }
+    const Component = renderer.component!;
 
     const supportRef =
-      renderer.component.prototype?.isReactComponent ||
-      (renderer.component as any).$$typeof === Symbol.for('react.forward_ref');
+      Component.prototype?.isReactComponent ||
+      (Component as any).$$typeof === Symbol.for('react.forward_ref');
 
     return (
-      <renderer.component
+      <Component
         {...rest}
         store={store}
         {...$$node?.state}

@@ -4,6 +4,7 @@ exports[`Renderer:button 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:button 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:button 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test"
           data-role="form-item"
         >
           <button
@@ -96,6 +98,7 @@ exports[`Renderer:button 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -104,7 +107,7 @@ exports[`Renderer:button 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -125,6 +128,7 @@ exports[`Renderer:button 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="test"
           data-role="form-item"
         >
           <button
@@ -215,7 +219,7 @@ exports[`Renderer:button 2`] = `
         role="dialog-body"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             对，你刚点击了！

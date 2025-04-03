@@ -26,13 +26,38 @@
           display: none;
         }
       }
+      .add-event-dropdown-global-event {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '全局事件';
+          display: flex;
+          align-items: center;
+          padding: 0 6px;
+          right: 4px;
+          top: 4px;
+          bottom: 4px;
+          font-size: 12px;
+          color: #fff;
+          background-color: #2468f2;
+          border-radius: 4px;
+          transform: scale(0.8);
+          transform-origin: center;
+        }
+      }
     }
     ul {
       width: 100%;
     }
   }
-  &-content-oldentry {
-    margin-top: 100px !important;
+  &-header-m {
+    margin-top: #{px2rem(45px)} !important;
+  }
+  &-content-m {
+    margin-top: #{px2rem(97px)} !important;
+  }
+  &-content-l {
+    margin-top: #{px2rem(150px)} !important;
   }
   &-content {
     padding: 0;
@@ -68,6 +93,32 @@
             margin-right: #{px2rem(12px)};
             &:last-child {
               margin-right: 0;
+            }
+          }
+        }
+
+        .event-label {
+          display: flex;
+          align-items: center;
+          .event-label-key {
+            flex: 1;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .global-event-tip {
+            width: 48px;
+            display: flex;
+            > span {
+              transform: scale(0.7);
+              transform-origin: left;
+              background-color: #2468f2;
+              border-radius: 4px;
+              font-size: 12px;
+              color: #fff;
+              padding: 4px 6px;
+              flex-shrink: 0;
+              text-align: center;
             }
           }
         }
@@ -147,13 +198,31 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            .variable-left {
-              color: #2468f2;
-              margin-left: #{px2rem(4px)};
-            }
-            .variable-right {
-              color: #2468f2;
-              margin-right: #{px2rem(4px)};
+            .action-desc {
+              display: flex;
+              .desc-tag {
+                max-width: 133px;
+                color: #2468f2;
+                display: inline-block;
+                margin-bottom: -5px;
+              }
+              .variable-left {
+                margin-left: #{px2rem(4px)};
+              }
+              .variable-right {
+                margin-right: #{px2rem(4px)};
+              }
+              .component-action-tag {
+                background-color: rgb(82, 142, 255);
+                display: inline-block;
+                color: #fff;
+                padding: 0 5px;
+                border-radius: 3px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                width: 100%;
+              }
             }
           }
           &--dragging {
@@ -252,7 +321,7 @@
   }
 }
 
-.action-config-dialog {
+.ae-action-config-dialog {
   *:not(svg) {
     font-size: 12px;
   }
@@ -377,12 +446,9 @@
       overflow-y: auto;
       height: 100%;
       padding: 0 8px 0 0;
-      .event-action-radio {
-        padding-top: 5px;
-      }
       .action-desc {
         margin-left: 16px;
-        color: var(--Form-item-fontColor);
+        color: var(--Form-item-color);
       }
 
       .cmpt-action-select,
@@ -423,7 +489,7 @@
   }
 }
 
-.event-item-header-tip {
+.ae-event-item-header-tip {
   background: #070c14d9 !important;
   box-shadow: 0 px2rem(2px) px2rem(8px) 0 rgba(7, 12, 20, 0.12);
   border: none;
@@ -431,13 +497,21 @@
     font-size: 12px;
     color: #fff;
   }
-}
-
-.event-item-header-tip {
   & > div {
     &:after {
       border-top-color: #070c14d9 !important;
       border-bottom-color: #070c14d9 !important;
+    }
+  }
+}
+
+.ae-action-relation-panel {
+  width: 255px;
+  max-height: 360px;
+  overflow: auto;
+  .variables-select-panel-tree {
+    *:not(svg) {
+      font-size: 12px;
     }
   }
 }

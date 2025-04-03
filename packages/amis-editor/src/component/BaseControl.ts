@@ -3,12 +3,11 @@
  */
 
 import flatten from 'lodash/flatten';
-import {
-  getEventControlConfig,
-  SUPPORT_STATIC_FORMITEM_CMPTS
-} from '../renderer/event-control/helper';
+import {NO_SUPPORT_STATIC_FORMITEM_CMPTS} from '../renderer/event-control/constants';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
+import {getRendererByName} from 'amis-core';
 
 // 默认动作
 export const BUTTON_DEFAULT_ACTION = {
@@ -199,7 +198,9 @@ export const formItemControl: (
   context?: BaseEventContext
 ) => Array<any> = (panels, context) => {
   const type = context?.schema?.type || '';
-  const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
+  const render = getRendererByName(type);
+  const supportStatic =
+    !!render?.isFormItem && !NO_SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
   const collapseProps = {
     type: 'collapse',
     headingClassName: 'ae-formItemControl-header ae-Collapse-header',
@@ -401,23 +402,11 @@ export function remarkTpl(config: {
       : config.label,
     bulk: false,
     name: config.name,
-    pipeIn: (value: any) => !!value,
-    pipeOut: (value: any) => {
-      // 更新内容
-      if (isObject(value)) {
-        return value;
-      }
-      // 关到开
-      if (value) {
-        return {
-          icon: 'fa fa-question-circle',
-          trigger: ['hover'],
-          className: 'Remark--warning',
-          placement: 'top'
-        };
-      }
-      // 开到关
-      return undefined;
+    defaultData: {
+      icon: 'fa fa-question-circle',
+      trigger: ['hover'],
+      className: 'Remark--warning',
+      placement: 'top'
     },
     form: {
       size: 'md',

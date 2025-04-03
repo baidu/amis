@@ -2,6 +2,11 @@
   position: relative;
   border-radius: var(--Table-borderRadius);
 
+  .#{$ns}Table-cell-wrapper .#{$ns}Table-badge {
+    width: 100%;
+    height: 100%;
+  }
+
   &.#{$ns}Table-bordered {
     border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0
       var(--Table-borderWidth);
@@ -193,6 +198,8 @@
 
     > thead > tr {
       > th {
+        height: var(--table-body-line-height);
+        vertical-align: middle;
         background: var(--Table-thead-bg);
         padding: var(--table-paddingTop) var(--table-paddingRight)
           var(--table-paddingBottom) var(--table-paddingLeft);
@@ -239,7 +246,7 @@
 
     > tbody > tr {
       position: relative;
-      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+      border-top: unset !important;
 
       &.#{$ns}Table-summary-row {
         > td {
@@ -257,8 +264,14 @@
           var(--Table-thead-borderColor);
       }
 
+      > td {
+        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+      }
+
       > td,
       > th {
+        height: px2rem(40px);
+        vertical-align: middle;
         padding: var(--table-paddingTop) var(--table-paddingRight)
           var(--table-paddingBottom) var(--table-paddingLeft);
 
@@ -269,6 +282,10 @@
         &:last-child {
           padding-right: var(--TableCell--edge-paddingX-default);
         }
+
+        .#{$ns}Form-static {
+          min-height: auto;
+        }
       }
 
       .#{$ns}Table-cell-wrapper-prefix {
@@ -277,6 +294,16 @@
         .#{$ns}Table-expandBtn {
           margin-right: 5px;
         }
+      }
+
+      .#{$ns}Form-static {
+        padding: 0;
+        margin: 0;
+        min-height: inherit;
+        line-height: inherit;
+        font-size: inherit;
+        color: inherit;
+        font-weight: inherit;
       }
 
       .#{$ns}Table-cell-height-large {
@@ -591,6 +618,34 @@
   .#{$ns}Table-container {
     .#{$ns}Table-header {
       padding: 0;
+    }
+
+    &-self-sticky {
+      position: relative !important;
+
+      .#{$ns}Table-content {
+        overflow-x: unset !important;
+      }
+
+      .#{$ns}Table-table {
+        border-collapse: separate;
+
+        > tbody > tr > td {
+          border-top: none;
+        }
+      }
+
+      .#{$ns}Table-row {
+        z-index: 1;
+      }
+
+      .#{$ns}Table-cell-self-sticky {
+        z-index: 2 !important;
+      }
+
+      .#{$ns}Table-cell-fix-left {
+        z-index: 3 !important;
+      }
     }
   }
 

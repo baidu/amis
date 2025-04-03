@@ -46,6 +46,8 @@
     box-shadow: var(--DropDown-menu-boxShadow);
     min-width: var(--DropDown-menu-minWidth);
     text-align: left;
+    max-height: 500px;
+    overflow: auto;
   }
 
   &--alignRight &-menu {
@@ -89,6 +91,10 @@
       overflow: hidden;
       background: var(--DropDown-menu-borderColor);
       padding: 0;
+    }
+
+    > label {
+      margin: 0;
     }
   }
 
@@ -161,41 +167,35 @@
         background: var(--ColumnToggler-item-backgroundColor);
         border-radius: px2rem(2px);
         font-size: var(--fontSizeSm);
-        padding: var(--ColumnToggler-item-paddingY)
-          var(--ColumnToggler-item-paddingX);
+        padding: 0 var(--ColumnToggler-item-paddingX);
+        line-height: var(--ColumnToggler-lineHeight);
         height: var(--ColumnToggler-lineHeight);
         width: calc((100% - var(--ColumnToggler-item-margin) * 6) / 3);
         margin: var(--ColumnToggler-item-margin);
         float: left;
+        display: flex;
 
+        > span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 0;
+        }
+        > label {
+          width: 100%;
+        }
+        &-label {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 0;
+        }
         &:hover {
           background: var(--ColumnToggler-item-backgroundColor-onHover);
         }
 
         &--dragging {
           border: 1px solid var(--link-color);
-        }
-
-        &-label {
-          display: inline-block;
-          width: calc(100% - var(--Checkbox--sm-size));
-
-          > span {
-            display: inline-block;
-            max-width: 100%;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            user-select: none;
-          }
-        }
-
-        label {
-          > i {
-            height: var(--fontSizeLg);
-            width: var(--fontSizeLg);
-            vertical-align: top;
-          }
         }
 
         &-dragBar {
@@ -205,6 +205,12 @@
           vertical-align: super;
           color: var(--ColumnToggler-item-dragBar-color);
           cursor: move;
+        }
+      }
+
+      @for $i from 1 through 10 {
+        &--column-#{$i} > .#{$ns}ColumnToggler-menuItem {
+          width: calc((100% - var(--ColumnToggler-item-margin) * $i * 2) / $i);
         }
       }
     }

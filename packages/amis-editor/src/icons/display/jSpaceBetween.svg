@@ -1,10 +1,1 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" preserveAspectRatio="xMidYMid meet"
-  width="20" height="20" viewBox="0 0 24 17">
-  <g fillRule="evenodd">
-    <path opacity=".5" d="M0 0h1v17H0zm23 0h1v17h-1z"></path>
-    <path d="M17 4h5v9h-5z"></path>
-    <path opacity=".4" d="M3 5h3v7H3z"></path>
-    <path d="M3 5v7h3V5H3zM2 4h5v9H2V4z"></path>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 24 17"><path opacity=".5" d="M0 0h1v17H0zm23 0h1v17h-1z"/><path d="M17 4h5v9h-5z"/><path opacity=".4" d="M3 5h3v7H3z"/><path d="M3 5v7h3V5H3zM2 4h5v9H2V4z"/></svg>

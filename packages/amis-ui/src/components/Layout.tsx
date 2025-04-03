@@ -22,15 +22,15 @@ interface LayoutProps {
   header?: boolean | React.ReactNode;
   headerClassName?: string;
   aside?: boolean | React.ReactNode;
-  asideClassName: string;
+  asideClassName?: string;
   boxed?: boolean;
   folded?: boolean;
-  asideFixed: boolean;
-  headerFixed: boolean;
+  asideFixed?: boolean;
+  headerFixed?: boolean;
   className?: string;
   contentClassName?: string;
-  footer: boolean | React.ReactNode;
-  offScreen: boolean;
+  footer?: boolean | React.ReactNode;
+  offScreen?: boolean;
   classPrefix: string;
   classnames: ClassNamesFn;
   size?: 'sm' | 'base' | 'md' | 'lg';
@@ -43,15 +43,15 @@ export function Layout({
   header,
   headerClassName,
   aside,
-  asideClassName,
+  asideClassName = '',
   children,
   className,
   contentClassName,
   folded,
-  asideFixed,
-  headerFixed,
-  footer,
-  offScreen,
+  asideFixed = true,
+  headerFixed = true,
+  footer = false,
+  offScreen = false,
   size,
   boxed,
   classnames: cx,
@@ -115,14 +115,5 @@ export function Layout({
     </div>
   );
 }
-
-Layout.defaultProps = {
-  // asideWide: false,
-  asideFixed: true,
-  asideClassName: '',
-  headerFixed: true,
-  offScreen: false,
-  footer: false
-};
 
 export default themeable(Layout);

@@ -5,15 +5,13 @@
  */
 
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps, getGlobalOptions} from 'amis-core';
 import {Document, Page, pdfjs} from 'react-pdf';
-
 import {Icon} from './icons';
 import Input from './Input';
 import Spinner from './Spinner';
-import * as pdfJSWorkerURL from 'pdfjs-dist/build/pdf.worker.min';
-pdfjs.GlobalWorkerOptions.workerSrc = pdfJSWorkerURL;
 
+pdfjs.GlobalWorkerOptions.workerSrc = getGlobalOptions().pdfjsWorkerSrc;
 export interface PdfViewerProps extends ThemeProps {
   file?: ArrayBuffer;
   width?: number;
@@ -29,7 +27,6 @@ const PdfViewer: React.FC<PdfViewerProps> = props => {
   const [page, setPage] = React.useState(1);
   const [scale, setScale] = React.useState(1);
   const [total, setTotal] = React.useState(1);
-  const wrapper = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>();
 
   React.useEffect(() => {
@@ -112,7 +109,7 @@ const PdfViewer: React.FC<PdfViewerProps> = props => {
   }
 
   return (
-    <div className={cx(className, 'PdfViewer')} ref={wrapper}>
+    <div className={cx(className, 'PdfViewer')}>
       {!file || loading ? (
         renderLoading()
       ) : (
@@ -121,6 +118,7 @@ const PdfViewer: React.FC<PdfViewerProps> = props => {
             <Document
               file={file}
               onLoadSuccess={handleLoadSuccess}
+              onLoadError={err => console.log(err)}
               loading={renderLoading()}
             >
               <Page

@@ -2,6 +2,9 @@
   width: 100%;
   height: 100%;
   background: var(--Page-main-bg);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 
   &-header {
     padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
@@ -17,7 +20,7 @@
   &-content {
     padding: var(--Page-content-paddingY) var(--Page-content-paddingX);
     position: relative;
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 
@@ -109,6 +112,29 @@
   // background: var(--Page-aside-bg);
 }
 
+@include media-breakpoint-down(sm) {
+  .#{$ns}Page {
+    flex-direction: column;
+  }
+
+  .#{$ns}Page-aside {
+    flex-shrink: 0;
+  }
+
+  .#{$ns}Page-content {
+    flex-grow: 1;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+  }
+
+  .#{$ns}Page-main {
+    height: auto;
+    width: 100%;
+  }
+}
+
 @include media-breakpoint-up(md) {
   .#{$ns}Page-aside {
     &::before {
@@ -141,6 +167,21 @@
     > .#{$ns}PullRefresh {
       width: 0;
       flex-grow: 1;
+    }
+  }
+
+  // 右侧侧边栏时，调整侧边栏相关的样式
+  .#{$ns}Page--rightAside {
+    flex-direction: row-reverse;
+
+    > .#{$ns}Page-aside {
+      border-left: var(--borderWidth) solid var(--borderColor);
+      border-right: unset;
+
+      > .#{$ns}Page-asideResizor {
+        left: px2rem(-6px);
+        right: unset;
+      }
     }
   }
 

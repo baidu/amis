@@ -166,6 +166,38 @@ export interface ImageSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+  /**
+   * 鼠标悬浮时的展示状态（对应AIpage的文字6，9，10不存在）
+   * */
+  hoverMode?:
+    | 'hover-slide'
+    | 'pull-top'
+    | 'scale-center'
+    | 'scale-top'
+    | 'text-style-1'
+    | 'text-style-2'
+    | 'text-style-3'
+    | 'text-style-4'
+    | 'text-style-5'
+    | 'text-style-6'
+    | 'text-style-7';
+  /**
+   * 图集组件传入的排序方式
+   * */
+  sortType?: string;
+  /**
+   * 描述文字样式
+   * */
+  fontStyle?: {
+    fontSize?: string;
+    fontWeight?: string;
+    fontFamily?: string;
+    color?: string;
+  };
+  /**
+   * 蒙层颜色
+   * */
+  maskColor?: string;
 }
 
 export interface ImageThumbProps
@@ -177,6 +209,7 @@ export interface ImageThumbProps
   onLoad?: React.EventHandler<any>;
   overlays?: JSX.Element;
   imageControlClassName?: string;
+  imageContentClassName?: string;
   titleControlClassName?: string;
   desControlClassName?: string;
   iconControlClassName?: string;
@@ -254,6 +287,7 @@ export class ImageThumb extends React.Component<
       titleControlClassName,
       iconControlClassName,
       imageControlClassName,
+      imageContentClassName,
       desControlClassName
     } = this.props;
 
@@ -268,6 +302,9 @@ export class ImageThumb extends React.Component<
             alt={alt}
           />
         ) : null}
+        <div className="mask" style={{background: this.props.maskColor}}>
+          <span>{title}</span>
+        </div>
         <img
           onLoad={this.handleImgLoaded}
           onError={this.handleImgError}
@@ -314,10 +351,12 @@ export class ImageThumb extends React.Component<
       >
         {imageMode === 'original' ? (
           <div
-            className={cx(
+            className={`
+            ${cx(
               'Image-origin',
-              thumbMode ? `Image-origin--${thumbMode}` : ''
-            )}
+              thumbMode ? `Image-origin--${thumbMode}` : '',
+              imageContentClassName
+            )} ${this.props.hoverMode} Img-container`}
             style={{height: height, width: width}}
           >
             {imageContent}
@@ -332,7 +371,10 @@ export class ImageThumb extends React.Component<
                 thumbMode ? `Image-thumb--${thumbMode}` : '',
                 thumbRatio
                   ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}`
-                  : ''
+                  : '',
+                imageContentClassName,
+                'Img-container',
+                this.props.hoverMode
               )}
               style={{height: height, width: width}}
             >
@@ -342,7 +384,7 @@ export class ImageThumb extends React.Component<
           </div>
         )}
 
-        {title || caption ? (
+        {(title || caption) && !this.props.hoverMode && !this.props.sortType ? (
           <div key="caption" className={cx('Image-info')}>
             {title ? (
               <div
@@ -382,6 +424,7 @@ export class ImageThumb extends React.Component<
     return image;
   }
 }
+
 const ThemedImageThumb = themeable(localeable(ImageThumb));
 export default ThemedImageThumb;
 
@@ -619,7 +662,7 @@ export class ImageField extends React.Component<
             themeCss: wrapperCustomStyle
           })
         )}
-        style={{...style, transform: `scale(${this.state.scale})`}}
+        style={{transform: `scale(${this.state.scale})`, ...style}}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -648,6 +691,12 @@ export class ImageField extends React.Component<
               id,
               themeCss
             })}
+            imageContentClassName={setThemeClassName({
+              ...this.props,
+              name: 'imageContentClassName',
+              id,
+              themeCss
+            })}
             titleControlClassName={setThemeClassName({
               ...this.props,
               name: 'titleControlClassName',
@@ -668,7 +717,9 @@ export class ImageField extends React.Component<
             })}
           />
         ) : (
-          <span className="text-muted">{placeholder}</span>
+          <span style={this.props.fontStyle} className="text-muted">
+            {placeholder}
+          </span>
         )}
         <CustomStyle
           {...this.props}
@@ -679,6 +730,9 @@ export class ImageField extends React.Component<
             classNames: [
               {
                 key: 'imageControlClassName'
+              },
+              {
+                key: 'imageContentClassName'
               },
               {
                 key: 'titleControlClassName'
@@ -706,6 +760,7 @@ export class ImageField extends React.Component<
 })
 export class ImageFieldRenderer extends ImageField {
   static contextType = ScopedContext;
+
   constructor(props: ImageFieldProps, context: IScopedContext) {
     super(props);
 

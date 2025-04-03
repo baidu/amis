@@ -4,6 +4,7 @@ exports[`Renderer:button-toolbar 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal show"
+    data-amis-name="button-toolbar"
     data-role="form-item"
   >
     <label
@@ -11,7 +12,7 @@ exports[`Renderer:button-toolbar 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             button-toolbar

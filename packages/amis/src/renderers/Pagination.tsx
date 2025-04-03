@@ -127,6 +127,7 @@ export default class Pagination extends React.Component<PaginationProps> {
 
   render() {
     const {maxButtons, activePage, total, perPage} = this.props;
+
     return (
       <BasicPagination
         {...this.props}
@@ -141,7 +142,8 @@ export default class Pagination extends React.Component<PaginationProps> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:pagination|pager)$/,
+  type: 'pagination',
+  alias: ['pager'],
   name: 'pagination'
 })
 export class PaginationRenderer extends Pagination {}

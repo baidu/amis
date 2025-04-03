@@ -65,6 +65,9 @@ export interface ImageGalleryState {
   imageGallaryClassName?: string;
   /** 工具栏配置 */
   actions?: ImageAction[];
+
+  scrollBarLeading?: boolean;
+  scrollBarTrailing?: boolean;
 }
 
 export class ImageGallery extends React.Component<
@@ -147,6 +150,12 @@ export class ImageGallery extends React.Component<
 
   @autobind
   onMouseDown(event: MouseEvent) {
+    const isLeftButton =
+      (event.button === 1 && window.event !== null) || event.button === 0;
+    if (!isLeftButton || event.defaultPrevented) return;
+
+    event.preventDefault();
+
     this.galleryMain?.classList.add('is-dragging');
     document.body.addEventListener('mousemove', this.onMouseMove);
     document.body.addEventListener('mouseup', this.onMouseUp);
@@ -210,7 +219,10 @@ export class ImageGallery extends React.Component<
         ? info.toolbarActions.filter(action =>
             validActionKeys.includes(action?.key)
           )
-        : actions
+        : actions,
+
+      scrollBarLeading: true,
+      scrollBarTrailing: false
     });
   }
 
@@ -295,6 +307,67 @@ export class ImageGallery extends React.Component<
     {leading: true, trailing: false}
   );
 
+  @autobind
+  handleModalEntered() {
+    if (this.scrollBar.current) {
+      const item = this.scrollBar.current.querySelector(
+        `div[data-index="${this.state.index}"]`
+      );
+      item?.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  scrollBar = React.createRef<HTMLDivElement>();
+
+  @autobind
+  handleBarScroll() {
+    const scrollBar = this.scrollBar.current!;
+    const inner = scrollBar.firstElementChild as HTMLElement;
+
+    this.setState({
+      scrollBarLeading: scrollBar.scrollLeft === 0,
+      scrollBarTrailing:
+        scrollBar.offsetWidth + scrollBar.scrollLeft >= inner.offsetWidth
+    });
+  }
+
+  scroll(direction = 1) {
+    const scrollBar = this.scrollBar.current!;
+    const inner = scrollBar.firstElementChild as HTMLElement;
+    const gap = inner.offsetWidth - scrollBar.offsetWidth;
+
+    scrollBar.scrollTo({
+      left: scrollBar.scrollLeft + gap * 0.1 * direction,
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    let timer = setInterval(() => {
+      scrollBar.scrollTo({
+        left: scrollBar.scrollLeft + 5 * direction,
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 50);
+    let onMouseUp = () => {
+      document.body.removeEventListener('mouseup', onMouseUp);
+      clearInterval(timer);
+    };
+    document.body.addEventListener('mouseup', onMouseUp);
+  }
+
+  @autobind
+  scrollRight() {
+    this.scroll(1);
+  }
+
+  @autobind
+  scrollLeft() {
+    this.scroll(-1);
+  }
+
   renderToolbar(actions: ImageAction[]) {
     const {classnames: cx, translate: __, className} = this.props;
     const scale = this.state.scale;
@@ -345,7 +418,9 @@ export class ImageGallery extends React.Component<
       showToolbar,
       enlargeWithGallary,
       actions,
-      imageGallaryClassName
+      imageGallaryClassName,
+      scrollBarLeading,
+      scrollBarTrailing
     } = this.state;
     const __ = this.props.translate;
 
@@ -363,6 +438,7 @@ export class ImageGallery extends React.Component<
           show={this.state.isOpened}
           contentClassName={cx('ImageGallery', imageGallaryClassName)}
           container={modalContainer}
+          onEntered={this.handleModalEntered}
         >
           <a
             data-tooltip={__('Dialog.close')}
@@ -434,10 +510,20 @@ export class ImageGallery extends React.Component<
 
           {items.length > 1 && enlargeWithGallary !== false ? (
             <div className={cx('ImageGallery-footer')}>
-              <a className={cx('ImageGallery-prevList is-disabled')}>
+              <a
+                className={cx(
+                  'ImageGallery-prevList',
+                  scrollBarLeading ? 'is-disabled' : ''
+                )}
+                onMouseDown={this.scrollLeft}
+              >
                 <Icon icon="prev" className="icon" />
               </a>
-              <div className={cx('ImageGallery-itemsWrap')}>
+              <div
+                className={cx('ImageGallery-itemsWrap')}
+                ref={this.scrollBar}
+                onScroll={this.handleBarScroll}
+              >
                 <div className={cx('ImageGallery-items')}>
                   {items.map((item, i) => (
                     <div
@@ -454,7 +540,13 @@ export class ImageGallery extends React.Component<
                   ))}
                 </div>
               </div>
-              <a className={cx('ImageGallery-nextList is-disabled')}>
+              <a
+                className={cx(
+                  'ImageGallery-nextList',
+                  scrollBarTrailing ? 'is-disabled' : ''
+                )}
+                onMouseDown={this.scrollRight}
+              >
                 <Icon icon="next" className="icon" />
               </a>
             </div>

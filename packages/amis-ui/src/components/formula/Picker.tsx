@@ -24,7 +24,6 @@ import Modal from '../Modal';
 import PopUp from '../PopUp';
 import FormulaInput from './Input';
 import {FuncGroup, VariableItem} from './CodeEditor';
-import {functionDocs} from 'amis-formula';
 
 export const InputSchemaType = [
   'text',
@@ -230,7 +229,9 @@ export class FormulaPicker extends React.Component<
 
     if (anyChanged(['variables', 'data'], this.props, prevProps)) {
       const {variables, data} = this.props;
-      if (typeof variables === 'function') {
+      if (Array.isArray(variables) && variables !== prevProps.variables) {
+        this.setState({variables});
+      } else if (typeof variables === 'function') {
         const list = await variables(this.props);
         this.setState({variables: list});
       } else if (typeof variables === 'string' && isExpression(variables)) {

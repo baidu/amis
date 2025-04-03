@@ -6,12 +6,17 @@ import {
   getSchemaTpl,
   defaultValue
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 import omit from 'lodash/omit';
+import {generateId} from '../util';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
   static id = 'PagePlugin';
@@ -36,7 +41,8 @@ export class PagePlugin extends BasePlugin {
     body: [
       {
         type: 'tpl',
-        tpl: '内容'
+        tpl: '内容',
+        id: generateId()
       }
     ]
   };
@@ -110,12 +116,14 @@ export class PagePlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -125,6 +133,19 @@ export class PagePlugin extends BasePlugin {
     {key: 'aside', label: '边栏', placeholder: '边栏内容'},
     {key: 'body', label: '内容区', placeholder: '页面内容'}
   ];
+
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: '.cxd-Page-title',
+      key: 'title'
+    },
+    {
+      match: '.cxd-Page-subTitle',
+      key: 'subTitle'
+    }
+  ];
+
   wrapper = ContainerWrapper;
 
   panelTitle = '页面';
@@ -222,6 +243,24 @@ export class PagePlugin extends BasePlugin {
                     inputClassName: 'is-inline',
                     pipeIn: defaultValue(true),
                     hiddenOn: 'this.regions && !this.regions.includes("aside")'
+                  },
+                  {
+                    type: 'button-group-select',
+                    name: 'asidePosition',
+                    size: 'sm',
+                    label: '边栏位置',
+                    pipeIn: defaultValue('left'),
+                    options: [
+                      {
+                        label: '左',
+                        value: 'left'
+                      },
+                      {
+                        label: '右',
+                        value: 'right'
+                      }
+                    ],
+                    hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   }
                 ]
               },
@@ -288,7 +327,7 @@ export class PagePlugin extends BasePlugin {
           body: [
             getSchemaTpl('collapseGroup', [
               ...getSchemaTpl('theme:common', {
-                exclude: ['layout'],
+                exclude: ['layout', 'theme-css-code'],
                 classname: 'baseControlClassName',
                 baseTitle: '基本样式',
                 extra: [
@@ -319,6 +358,31 @@ export class PagePlugin extends BasePlugin {
                     title: '边栏样式',
                     hiddenOn: 'this.regions && !this.regions.includes("aside")'
                   })
+                ]
+              }),
+              getSchemaTpl('theme:singleCssCode', {
+                selectors: [
+                  {
+                    label: '页面基本样式',
+                    isRoot: true,
+                    selector: '.cxd-Page'
+                  },
+                  {
+                    label: '页面内容区样式',
+                    selector: '.cxd-Page-body'
+                  },
+                  {
+                    label: '页面标题栏样式',
+                    selector: '.cxd-Page-title'
+                  },
+                  {
+                    label: '页面工具栏样式',
+                    selector: '.cxd-Page-toolbar'
+                  },
+                  {
+                    label: '页面边栏样式',
+                    selector: '.cxd-Page-aside'
+                  }
                 ]
               })
             ])

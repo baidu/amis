@@ -9,11 +9,15 @@
 
   &-selection {
     margin-bottom: var(--gap-base);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
+    line-height: 1;
 
     &-overflow {
       &-wrapper {
         display: flex;
-        flex-flow: column nowrap;
+        flex-wrap: wrap;
         justify-content: flex-start;
         align-items: flex-start;
         overflow-x: hidden;
@@ -25,6 +29,7 @@
           (var(--Picker-tag-height) + var(--Picker-tag-marginBottom)) * 5
         );
 
+        gap: var(--gap-xs);
         @include tag-item(Crud);
       }
     }

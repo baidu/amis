@@ -13,6 +13,7 @@ import {Options} from './Select';
 import {BaseSelection, BaseSelectionProps} from './Selection';
 
 import DropDownSelection from './DropDownSelection';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface ChainedDropDownSelectionProps
   extends ThemeProps,
@@ -24,6 +25,7 @@ export interface ChainedDropDownSelectionProps
   disabled?: boolean;
   searchable?: boolean;
   popOverContainer?: any;
+  testIdBuilder?: TestIdBuilder;
 }
 
 interface ChainedDropdownSelectionState {
@@ -113,7 +115,7 @@ export class ChainedDropdownSelection extends BaseSelection<
 
   render() {
     const {stacks, values} = this.state;
-    const {className, classnames: cx} = this.props;
+    const {className, classnames: cx, testIdBuilder} = this.props;
 
     return (
       <div className={cx('ChainedDropdownSelection', className)}>
@@ -124,6 +126,7 @@ export class ChainedDropdownSelection extends BaseSelection<
               value={values[index]}
               options={item}
               onChange={value => this.handleSelect(index, value)}
+              testIdBuilder={testIdBuilder?.getChild(`chained-${index}`)}
             />
           </div>
         ))}

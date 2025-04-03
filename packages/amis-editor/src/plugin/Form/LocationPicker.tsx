@@ -1,8 +1,17 @@
-import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  EditorNodeType,
+  getSchemaTpl,
+  tipedLabel,
+  registerEditorPlugin,
+  BasePlugin,
+  BaseEventContext,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 import {ValidatorTag} from '../../validator';
 
@@ -90,17 +99,20 @@ export class LocationControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 

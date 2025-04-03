@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "6.4.1",
+  "version": "6.12.0-alpha.0",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -21,8 +21,8 @@
   },
   "scripts": {
     "test": "echo \"Warnings: no test specified\"",
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "clean-dist": "rimraf lib/** esm/**",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "^6.4.1",
+    "amis-editor-core": "*",
     "amis-postcss": "1.0.0",
     "amis-theme-editor-helper": "*",
     "i18n-runtime": "*",
@@ -56,7 +56,6 @@
     "@rollup/plugin-typescript": "^8.3.2",
     "@svgr/rollup": "^6.2.1",
     "@types/async": "^2.0.45",
-    "@types/classnames": "^2.2.3",
     "@types/codemirror": "5.60.10",
     "@types/deep-diff": "^1.0.0",
     "@types/history": "^4.6.0",
@@ -73,6 +72,7 @@
     "ajv": "^8.8.2",
     "axios": "0.21.1",
     "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "faker": "^5.5.3",
     "i18n-command": "^0.0.23-beta.15",

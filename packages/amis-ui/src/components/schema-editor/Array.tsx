@@ -1,7 +1,7 @@
 import React from 'react';
 import {autobind} from 'amis-core';
 import {Icon} from '../icons';
-import {SchemaEditorItemCommon} from './Common';
+import {ITEMMAP, SchemaEditorItemCommon} from './Common';
 import {SchemaEditorItem} from './Item';
 import {Controller} from '../FormField';
 
@@ -57,6 +57,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         })}
       >
         <SchemaEditorItem
+          dataName={this.props.dataName}
           types={types}
           onTypeChange={onTypeChange}
           label={
@@ -135,6 +136,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
         className={cx('SchemaEditorItem SchemaEditorArray', {
           'SchemaEditorItem--mini': mini
         })}
+        data-amis-name={this.props.dataName}
       >
         {showInfo !== false ? (
           <>
@@ -156,3 +158,5 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
     );
   }
 }
+
+ITEMMAP.array = SchemaEditorItemArray;

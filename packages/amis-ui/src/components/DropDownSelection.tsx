@@ -20,6 +20,7 @@ import {matchSorter} from 'match-sorter';
 import {Icon} from './icons';
 import SearchBox from './SearchBox';
 import {Option} from './Select';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface DropDownSelectionProps
   extends ThemeProps,
@@ -33,6 +34,7 @@ export interface DropDownSelectionProps
   searchable?: boolean;
   popOverContainer?: any;
   mode?: 'list' | 'tree';
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface DropDownSelectionState {
@@ -98,17 +100,25 @@ class DropDownSelection extends BaseSelection<
       option2value,
       loadingConfig,
       popOverContainer,
-      mobileUI
+      testIdBuilder,
+      mobileUI,
+      classPrefix: ns
     } = this.props;
 
     return (
       <PopOverContainer
         mobileUI={mobileUI}
+        overlayWidthField="width"
         popOverContainer={popOverContainer || (() => findDOMNode(this))}
         popOverRender={({onClose}) => (
           <div>
             {searchable ? (
-              <SearchBox mini={false} onSearch={this.onSearch} />
+              <SearchBox
+                className={cx(`${ns}DropDownSelection-searchbox`)}
+                mini={false}
+                onSearch={this.onSearch}
+                testIdBuilder={testIdBuilder?.getChild('searchbox')}
+              />
             ) : null}
             {mode === 'list' ? (
               <ListSelection
@@ -117,6 +127,7 @@ class DropDownSelection extends BaseSelection<
                 options={this.filterOptions(this.props.options)}
                 value={value}
                 option2value={option2value}
+                testIdBuilder={testIdBuilder?.getChild('selection')}
                 onChange={(value: any) => {
                   onChange(Array.isArray(value) ? value[0] : value);
                 }}
@@ -128,6 +139,7 @@ class DropDownSelection extends BaseSelection<
                 options={this.filterOptions(this.props.options)}
                 value={value}
                 loadingConfig={loadingConfig}
+                testIdBuilder={testIdBuilder?.getChild('selection')}
                 onChange={(value: any) => {
                   this.onPopClose(onClose);
                   onChange(value[valueField]);
@@ -156,6 +168,7 @@ class DropDownSelection extends BaseSelection<
               placeholder={__('Condition.field_placeholder')}
               disabled={disabled}
               mobileUI={mobileUI}
+              testIdBuilder={testIdBuilder?.getChild('resultbox')}
             >
               {!mobileUI ? (
                 <span className={cx('DropDownSelection-caret')}>

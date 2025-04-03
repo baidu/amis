@@ -17,10 +17,11 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -87,7 +88,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -107,7 +108,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -127,7 +128,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -807,45 +808,6 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -872,378 +834,407 @@ exports[`4. Renderer:crud list 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-List cxd-Crud-body"
             >
               <div
-                class="cxd-List-fixedTop"
+                class="cxd-List-content-wrapper"
               >
                 <div
-                  class="cxd-List-heading"
-                >
-                  list title
-                </div>
-              </div>
-              <div
-                class="cxd-List-items"
-              >
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
+                  class="cxd-List-main"
                 >
                   <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Trident
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Internet Explorer 4.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Trident
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Internet Explorer 4.2
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Trident
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        AOL browser (AOL desktop)
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Trident
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        AOL browser (AOL desktop)
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Trident
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        AOL browser (AOL desktop)
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Gecko
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Firefox 1.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Gecko
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Firefox 1.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Gecko
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Firefox 2.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Gecko
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Firefox 2.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
-                    <p
-                      class="cxd-ListItem-title h5"
-                    >
-                      Gecko
-                    </p>
-                    <div>
-                      <small
-                        class="cxd-ListItem-subtitle"
-                      >
-                        Firefox 2.0
-                      </small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-List-toolbar"
-              >
-                <div
-                  class="cxd-Crud-toolbar"
-                >
-                  <div
-                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                    class="cxd-List-fixedTop"
                   >
                     <div
-                      class="cxd-Crud-statistics"
+                      class="cxd-List-heading"
                     >
-                      1/15 共：144 项
+                      list title
                     </div>
                   </div>
                   <div
-                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--right"
+                    class="cxd-List-items"
                   >
                     <div
-                      class="cxd-Crud-pager"
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="0"
+                      style="scroll-margin-top: var(--affix-offset-top);"
                     >
                       <div
-                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
+                        class="cxd-ListItem-content"
                       >
-                        <ul
-                          class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+                        <p
+                          class="cxd-ListItem-title h5"
                         >
-                          <li
-                            class="cxd-Pagination-prev is-disabled"
+                          Trident
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <span>
-                              <icon-mock
-                                classname="icon icon-left-arrow"
-                                icon="left-arrow"
-                              />
-                            </span>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item is-active"
+                            Internet Explorer 4.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="1"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Trident
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              1
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            Internet Explorer 4.2
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="2"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Trident
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              2
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            AOL browser (AOL desktop)
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="3"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Trident
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              3
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            AOL browser (AOL desktop)
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="4"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Trident
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              4
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            AOL browser (AOL desktop)
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="5"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Gecko
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              5
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            Firefox 1.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="6"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Gecko
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              6
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            Firefox 1.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="7"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Gecko
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              7
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-ellipsis"
+                            Firefox 2.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="8"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Gecko
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              ...
-                            </a>
-                            <span
-                              class="icon"
-                            >
-                              <icon-mock
-                                classname="icon icon-arrow-double-right"
-                                icon="arrow-double-right"
-                              />
-                            </span>
-                          </li>
-                          <li
-                            class="cxd-Pagination-pager-item"
+                            Firefox 2.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      data-index="9"
+                      style="scroll-margin-top: var(--affix-offset-top);"
+                    >
+                      <div
+                        class="cxd-ListItem-content"
+                      >
+                        <p
+                          class="cxd-ListItem-title h5"
+                        >
+                          Gecko
+                        </p>
+                        <div>
+                          <small
+                            class="cxd-ListItem-subtitle"
                           >
-                            <a
-                              role="button"
-                            >
-                              15
-                            </a>
-                          </li>
-                          <li
-                            class="cxd-Pagination-next"
-                          >
-                            <span>
-                              <icon-mock
-                                classname="icon icon-right-arrow"
-                                icon="right-arrow"
-                              />
-                            </span>
-                          </li>
-                        </ul>
+                            Firefox 2.0
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-List-toolbar"
+                  >
+                    <div
+                      class="cxd-Crud-toolbar"
+                    >
+                      <div
+                        class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                      >
                         <div
-                          class="cxd-Pagination-inputGroup cxd-Pagination-item"
+                          class="cxd-Crud-statistics"
                         >
-                          <span
-                            class="cxd-Pagination-inputGroup-left"
+                          1/15 共：144 项
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--right"
+                      >
+                        <div
+                          class="cxd-Crud-pager"
+                        >
+                          <div
+                            class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                           >
-                            跳转至
-                          </span>
-                          <input
-                            class="cxd-Pagination-inputGroup-input"
-                            type="text"
-                            value=""
-                          />
-                          <span
-                            class="cxd-Pagination-inputGroup-right"
-                          >
-                            前往
-                          </span>
+                            <ul
+                              class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
+                            >
+                              <li
+                                class="cxd-Pagination-prev is-disabled"
+                              >
+                                <span>
+                                  <icon-mock
+                                    classname="icon icon-left-arrow"
+                                    icon="left-arrow"
+                                  />
+                                </span>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item is-active"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  1
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  2
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  3
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  4
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  5
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  6
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  7
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-ellipsis"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  ...
+                                </a>
+                                <span
+                                  class="icon"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-arrow-double-right"
+                                    icon="arrow-double-right"
+                                  />
+                                </span>
+                              </li>
+                              <li
+                                class="cxd-Pagination-pager-item"
+                              >
+                                <a
+                                  role="button"
+                                >
+                                  15
+                                </a>
+                              </li>
+                              <li
+                                class="cxd-Pagination-next"
+                              >
+                                <span>
+                                  <icon-mock
+                                    classname="icon icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
+                                </span>
+                              </li>
+                            </ul>
+                            <div
+                              class="cxd-Pagination-inputGroup cxd-Pagination-item"
+                            >
+                              <span
+                                class="cxd-Pagination-inputGroup-left"
+                              >
+                                跳转至
+                              </span>
+                              <input
+                                class="cxd-Pagination-inputGroup-input"
+                                type="text"
+                                value=""
+                              />
+                              <span
+                                class="cxd-Pagination-inputGroup-right"
+                              >
+                                前往
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1287,6 +1278,7 @@ exports[`5. Renderer:crud cards 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Cards cxd-Crud-body"
@@ -1298,8 +1290,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 class="cxd-Cards-body cxd-Grid"
               >
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1322,7 +1313,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1333,7 +1324,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1344,7 +1335,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1357,7 +1348,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1367,8 +1358,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1391,7 +1381,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1402,7 +1392,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1413,7 +1403,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1426,7 +1416,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1436,8 +1426,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1460,7 +1449,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1471,7 +1460,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1482,7 +1471,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1495,7 +1484,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1505,8 +1494,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1529,7 +1517,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1540,7 +1528,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1551,7 +1539,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1564,7 +1552,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1574,8 +1562,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1598,7 +1585,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1609,7 +1596,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1620,7 +1607,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Trident
@@ -1633,7 +1620,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1643,8 +1630,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1667,7 +1653,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1678,7 +1664,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1689,7 +1675,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1702,7 +1688,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1712,8 +1698,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1736,7 +1721,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1747,7 +1732,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1758,7 +1743,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1771,7 +1756,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1781,8 +1766,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1805,7 +1789,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1816,7 +1800,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1827,7 +1811,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1840,7 +1824,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1850,8 +1834,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1874,7 +1857,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1885,7 +1868,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1896,7 +1879,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1909,7 +1892,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -1919,8 +1902,7 @@ exports[`5. Renderer:crud cards 1`] = `
                   </div>
                 </div>
                 <div
-                  class="cxd-Grid-col--sm6"
-                  style="flex: 0 0 50%; max-width: 50%;"
+                  class="cxd-Grid-col--xs12 cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1943,7 +1925,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-title"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1954,7 +1936,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-subTitle"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1965,7 +1947,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           class="cxd-Card-desc"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               Gecko
@@ -1978,7 +1960,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Card-body padder"
                     >
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           hello
@@ -2186,10 +2168,11 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2226,7 +2209,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -2246,7 +2229,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2266,7 +2249,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2677,45 +2660,6 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -2742,6 +2686,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
         >
           <div
             class="cxd-Crud"
+            data-role="container"
           >
             <div
               class="cxd-Crud-selection"
@@ -2831,7 +2776,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             </div>
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative; --Table-column-1-width: 0px;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-1-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2891,13 +2836,17 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -2915,7 +2864,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -2964,7 +2913,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2989,13 +2938,17 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3021,6 +2974,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3040,13 +2994,17 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3072,6 +3030,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3091,13 +3050,17 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3123,6 +3086,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3142,13 +3106,17 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default checked cxd-Checkbox--checkbox--default--checked"
                             data-role="checkbox"
                           >
                             <input
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3174,6 +3142,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3193,14 +3162,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3226,6 +3199,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3245,14 +3219,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3278,6 +3256,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3297,14 +3276,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3330,6 +3313,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3349,14 +3333,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3382,6 +3370,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3401,14 +3390,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3434,6 +3427,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3453,14 +3447,18 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox--default disabled cxd-Checkbox--checkbox--default--disabled--unchecked"
                             data-role="checkbox"
                           >
                             <input
                               disabled=""
                               type="checkbox"
                             />
-                            <i />
+                            <i>
+                              <div
+                                class="checkbox-icon icon"
+                              />
+                            </i>
                             <span
                               class=""
                             />
@@ -3486,6 +3484,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           </span>
                           <button
                             class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            tabindex="-1"
                             type="button"
                           >
                             <icon-mock
@@ -3498,45 +3497,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"

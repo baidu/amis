@@ -12,16 +12,16 @@ comment: |
 # - values are array of string patterns to match against title + body in issues/prs
 labels:
   'bug':
-    - '\bbug[s]?\b'
+    - '(?i)\bbug[s]?\b'
   'help wanted':
-    - '\bhelp( wanted)?\b'
+    - '(?i)\bhelp( wanted)?\b'
   'feat':
-    - '\bfeat'
+    - '(?i)\bfeat'
   'fix':
-    - '\bfix'
+    - '(?i)\bfix'
   'style':
-    - '\bstyle'
+    - '(?i)\bstyle'
   'chore':
-    - '\bchore'
+    - '(?i)\bchore'
   'doc':
-    - '\bdoc[s]?'
+    - '(?i)\bdoc[s]?'

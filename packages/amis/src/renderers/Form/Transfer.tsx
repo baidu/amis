@@ -238,10 +238,9 @@ export class BaseTransferRenderer<
 
   tranferRef?: any;
 
-  reload() {
-    const {reloadOptions} = this.props;
-
-    reloadOptions?.();
+  reload(subpath?: string, query?: any) {
+    const reload = this.props.reloadOptions;
+    reload && reload(subpath, query);
   }
 
   @autobind
@@ -363,6 +362,12 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  getResult(payload: any) {
+    const result = payload.data.options || payload.data.items || payload.data;
+    return result;
+  }
+
+  @autobind
   async handleSearch(
     term: string,
     cancelExecutor: Function,
@@ -393,8 +398,7 @@ export class BaseTransferRenderer<
           throw new Error(__(payload.msg || 'networkError'));
         }
 
-        const result =
-          payload.data.options || payload.data.items || payload.data;
+        const result = this.getResult(payload);
         if (!Array.isArray(result)) {
           throw new Error(__('CRUD.invalidArray'));
         }

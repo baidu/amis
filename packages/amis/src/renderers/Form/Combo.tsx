@@ -621,7 +621,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       scaffold,
       disabled,
       submitOnChange,
-      dispatchEvent
+      dispatchEvent,
+      store
     } = this.props;
 
     if (disabled) {
@@ -656,11 +657,14 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
+    let activeIndex = this.keys.length - 1;
     if (addattop === true) {
       this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
+      activeIndex = 0;
     }
 
+    store.setActiveKey(activeIndex);
     this.props.onChange(value, submitOnChange, true);
   }
 
@@ -1433,7 +1437,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               ) : null}
               <div className={cx(`Combo-itemInner`)}>
                 {finnalControls ? (
-                  this.renderItems(finnalControls, data, index)
+                  this.renderItems(finnalControls, data, index, value)
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
                     {__('Combo.invalidData')}
@@ -1754,7 +1758,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   ) : null}
                   <div className={cx(`Combo-itemInner`)}>
                     {finnalControls ? (
-                      this.renderItems(finnalControls, data, index)
+                      this.renderItems(finnalControls, data, index, value)
                     ) : (
                       <Alert2 level="warning" className="m-b-none">
                         {__('Combo.invalidData')}
@@ -1866,7 +1870,12 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   // 为了给 editor 重写使用
-  renderItems(finnalControls: ComboSubControl[], data: object, index?: number) {
+  renderItems(
+    finnalControls: ComboSubControl[],
+    data: object,
+    index?: number,
+    originData?: any
+  ) {
     const {
       classnames: cx,
       formClassName,
@@ -1914,11 +1923,16 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled: disabled,
           static: isStatic,
           data,
+          originData,
           onChange: this.handleSingleFormChange,
           ref: this.makeFormRef(0),
           onValidChange: this.handleSubFormValid,
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
+          lazyChange: changeImmediately ? false : true,
+          formLazyChange: false,
+          value: undefined,
+          formItemValue: undefined,
           formStore: undefined,
           updatePristineAfterStoreDataReInit:
             updatePristineAfterStoreDataReInit ?? false
@@ -1941,6 +1955,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled,
           static: isStatic,
           data,
+          originData,
           onChange: this.handleChange,
           onInit: this.handleFormInit,
           onAction: this.handleAction,

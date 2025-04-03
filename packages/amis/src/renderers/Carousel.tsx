@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEvent, TouchEvent} from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
@@ -33,6 +33,22 @@ export interface CarouselSchema extends BaseSchema {
   type: 'carousel';
 
   /**
+   * 轮播图方向，默认为水平方向
+   */
+  direction?: 'horizontal' | 'vertical';
+
+  /**
+   * 是否循环播放, 默认为 true。
+   */
+  loop?: boolean;
+
+  /**
+   * 是否支持鼠标事件
+   * 默认为 true。
+   */
+  mouseEvent?: boolean;
+
+  /**
    * 是否自动播放
    */
   auto?: boolean;
@@ -50,12 +66,12 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 设置宽度
    */
-  width?: number;
+  width?: number | string;
 
   /**
    * 设置高度
    */
-  height?: number;
+  height?: number | string;
 
   controlsTheme?: 'light' | 'dark';
 
@@ -72,7 +88,7 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 动画类型
    */
-  animation?: 'fade' | 'slide';
+  animation?: 'fade' | 'slide' | 'marquee';
 
   /**
    * 配置单条呈现模板
@@ -130,6 +146,8 @@ export interface CarouselState {
   current: number;
   options: any[];
   nextAnimation: string;
+  mouseStartLocation: number | null;
+  isPaused: boolean;
 }
 
 const defaultSchema = {
@@ -164,6 +182,8 @@ const defaultSchema = {
   }
 };
 
+const SCROLL_THRESHOLD = 20;
+
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
   wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
   intervalTimeout: NodeJS.Timer | number;
@@ -195,13 +215,22 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   state = {
     current: 0,
     options: this.props.options || getPropValue(this.props) || [],
-    nextAnimation: ''
+    nextAnimation: '',
+    mouseStartLocation: null,
+    isPaused: false
   };
 
   loading: boolean = false;
+  marqueeRef = React.createRef<HTMLDivElement>();
+  contentRef = React.createRef<HTMLDivElement>();
+  marqueeRequestId: number;
 
   componentDidMount() {
     this.prepareAutoSlide();
+    // 跑马灯效果
+    if (this.props.animation === 'marquee') {
+      this.marquee();
+    }
   }
 
   componentDidUpdate(prevProps: CarouselProps) {
@@ -215,10 +244,51 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         options: nextOptions
       });
     }
+
+    if (
+      this.props.animation === 'marquee' &&
+      prevProps.animation !== 'marquee'
+    ) {
+      this.marquee();
+    }
   }
 
   componentWillUnmount() {
     this.clearAutoTimeout();
+    cancelAnimationFrame(this.marqueeRequestId);
+  }
+
+  marquee() {
+    if (!this.marqueeRef.current || !this.contentRef.current) {
+      return;
+    }
+
+    let positionNum = 0;
+    let lastTime = performance.now();
+
+    const contentDom = this.contentRef.current;
+    const animate = (time: number) => {
+      const diffTime = time - lastTime;
+      lastTime = time;
+      const wrapWidth = this.marqueeRef.current?.offsetWidth ?? 0;
+
+      if (!this.state.isPaused) {
+        // 计算每帧移动距离
+        const moveDistance = wrapWidth * (diffTime / this.props.duration!);
+        positionNum += -moveDistance;
+
+        // 检查是否需要重置位置
+        const contentWidth = contentDom.scrollWidth / 2;
+        if (Math.abs(positionNum) >= contentWidth) {
+          positionNum = 0;
+        }
+        contentDom.style.transform = `translateX(${positionNum}px)`;
+      }
+
+      this.marqueeRequestId = requestAnimationFrame(animate);
+    };
+
+    this.marqueeRequestId = requestAnimationFrame(animate);
   }
 
   doAction(
@@ -284,6 +354,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   async transitFramesTowards(direction: string, nextAnimation: string) {
     let {current} = this.state;
     let prevIndex = current;
+
+    // 如果这里是不循环状态，需要阻止切换到第一张或者最后一张图片
+    if (
+      this.props.loop === false &&
+      ((current === 0 && direction === 'right') ||
+        (current === this.state.options.length - 1 && direction === 'left'))
+    ) {
+      return;
+    }
+
     switch (direction) {
       case 'left':
         current = this.getFrameId('next');
@@ -445,6 +525,84 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     return newOptions;
   }
 
+  /**
+   * 获取事件发生的屏幕坐标，兼容鼠标事件和触摸事件。
+   *
+   * @param event 事件对象，可以是鼠标事件或触摸事件
+   * @returns 返回包含屏幕横纵坐标的对象
+   */
+  getEventScreenXY(
+    event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
+  ) {
+    let screenX, screenY;
+    if ((event as MouseEvent<HTMLDivElement>).screenX !== undefined) {
+      screenX = (event as MouseEvent<HTMLDivElement>).screenX;
+      screenY = (event as MouseEvent<HTMLDivElement>).screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).touches?.length) {
+      // touchStart 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).touches[0]?.screenY;
+    } else if ((event as TouchEvent<HTMLDivElement>).changedTouches?.length) {
+      // touchEnd 事件
+      screenX = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenX;
+      screenY = (event as TouchEvent<HTMLDivElement>).changedTouches[0]
+        ?.screenY;
+    }
+
+    return {
+      screenX,
+      screenY
+    };
+  }
+
+  /**
+   * 添加鼠标按下事件监听器, 用于判断滑动方向
+   * @param event 鼠标事件对象
+   */
+  @autobind
+  addMouseDownListener(
+    event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
+  ) {
+    const {direction} = this.props;
+
+    const {screenX, screenY} = this.getEventScreenXY(event);
+
+    // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
+    const location = direction === 'vertical' ? screenY : screenX;
+
+    location !== undefined &&
+      this.setState({
+        mouseStartLocation: location
+      });
+  }
+
+  /**
+   * 添加鼠标抬起事件监听器, 用于判断滑动方向
+   * @param event 鼠标事件对象
+   */
+  @autobind
+  addMouseUpListener(
+    event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
+  ) {
+    const {screenX, screenY} = this.getEventScreenXY(event);
+
+    // 根据当前滑动方向确定是应该使用x坐标还是y坐标做mark
+    const {direction} = this.props;
+    const location = direction === 'vertical' ? screenY : screenX;
+
+    if (this.state.mouseStartLocation !== null && location !== undefined) {
+      if (location - this.state.mouseStartLocation > SCROLL_THRESHOLD) {
+        this.autoSlide('prev');
+      } else if (this.state.mouseStartLocation - location > SCROLL_THRESHOLD) {
+        this.autoSlide();
+      }
+      this.setState({
+        mouseStartLocation: null
+      });
+    }
+  }
+
   render() {
     const {
       render,
@@ -474,12 +632,25 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     let body: JSX.Element | null = null;
     let carouselStyles: {
       [propName: string]: string;
-    } = style || {};
-    width ? (carouselStyles.width = width + 'px') : '';
-    height ? (carouselStyles.height = height + 'px') : '';
+    } = style ? {...style} : {};
+
+    // 不允许传0，需要有最小高度
+    if (width) {
+      // 数字类型认为是px单位，否则传入字符串直接赋给style对象
+      !isNaN(Number(width))
+        ? (carouselStyles.width = width + 'px')
+        : (carouselStyles.width = width as string);
+    }
+
+    if (height) {
+      !isNaN(Number(height))
+        ? (carouselStyles.height = height + 'px')
+        : (carouselStyles.height = height as string);
+    }
+
     const [dots, arrows] = [
-      controls!.indexOf('dots') > -1,
-      controls!.indexOf('arrows') > -1
+      controls!.indexOf('dots') > -1 && animation !== 'marquee',
+      controls!.indexOf('arrows') > -1 && animation !== 'marquee'
     ];
     const animationName = nextAnimation || animation;
 
@@ -503,95 +674,77 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       const timeout =
         multipleCount > 1 && typeof duration === 'number' ? duration : 500;
 
-      body = (
-        <div
-          ref={this.wrapperRef}
-          className={cx('Carousel-container')}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-        >
-          {options.map((option: any, key: number) => (
-            <Transition
-              mountOnEnter
-              unmountOnExit
-              in={key === current}
-              timeout={timeout}
-              key={key}
-            >
-              {(status: string) => {
-                if (status === ENTERING) {
-                  this.wrapperRef.current &&
-                    this.wrapperRef.current.childNodes.forEach(
-                      (item: HTMLElement) => item.offsetHeight
-                    );
-                }
-                if (multipleCount > 1) {
-                  if (
-                    (status === ENTERING || status === EXITING) &&
-                    !this.loading
-                  ) {
-                    this.loading = true;
-                  } else if (
-                    (status === ENTERED || status === EXITED) &&
-                    this.loading
-                  ) {
-                    this.loading = false;
+      const transformStyles: {
+        [propName: string]: number;
+      } = {
+        [ENTERING]: 0,
+        [ENTERED]: 0,
+        [EXITING]:
+          animationName === 'slideRight'
+            ? 100 / multipleCount
+            : -100 / multipleCount,
+        [EXITED]:
+          animationName === 'slideRight'
+            ? -100 / multipleCount
+            : 100 / multipleCount
+      };
+      const itemStyle =
+        multipleCount > 1
+          ? {
+              transitionTimingFunction: 'linear',
+              transitionDuration: transitionDuration,
+              ...(animation === 'slide'
+                ? {
+                    transform: `translateX(${transformStyles[status]}%)`
                   }
-                }
+                : {})
+            }
+          : {};
+      const itemRender = (option: any) => {
+        const {itemSchema: optionItemSchema, ...restOption} = option;
+        return render(
+          `${current}/body`,
+          optionItemSchema || itemSchema
+            ? optionItemSchema || itemSchema
+            : (defaultSchema as any),
+          {
+            thumbMode: this.props.thumbMode,
+            data: createObject(
+              data,
+              isObject(option) ? restOption : {item: option, [name!]: option}
+            )
+          }
+        );
+      };
 
-                const transformStyles: {
-                  [propName: string]: number;
-                } = {
-                  [ENTERING]: 0,
-                  [ENTERED]: 0,
-                  [EXITING]:
-                    animationName === 'slideRight'
-                      ? 100 / multipleCount
-                      : -100 / multipleCount,
-                  [EXITED]:
-                    animationName === 'slideRight'
-                      ? -100 / multipleCount
-                      : 100 / multipleCount
-                };
-                const itemStyle =
-                  multipleCount > 1
-                    ? {
-                        transitionTimingFunction: 'linear',
-                        transitionDuration: transitionDuration,
-                        ...(animation === 'slide'
-                          ? {
-                              transform: `translateX(${transformStyles[status]}%)`
-                            }
-                          : {})
-                      }
-                    : {};
-                const itemRender = (option: any) =>
-                  render(
-                    `${current}/body`,
-                    itemSchema ? itemSchema : (defaultSchema as any),
-                    {
-                      thumbMode: this.props.thumbMode,
-                      data: createObject(
-                        data,
-                        isObject(option)
-                          ? option
-                          : {item: option, [name!]: option}
-                      )
-                    }
-                  );
-
-                return (
-                  <div
-                    className={cx(
-                      'Carousel-item',
-                      animationName,
-                      animationStyles[status]
-                    )}
-                    style={itemStyle}
-                  >
-                    {multipleCount === 1 ? itemRender(option) : null}
-                    {multipleCount > 1
-                      ? newOptions[key].map((option: any, index: number) => (
+      body =
+        animation === 'marquee' ? (
+          <div
+            ref={this.marqueeRef}
+            className={cx('Marquee-container')}
+            onMouseEnter={() =>
+              this.setState({
+                isPaused: true
+              })
+            }
+            onMouseLeave={() =>
+              this.setState({
+                isPaused: false
+              })
+            }
+            style={{
+              width: '100%',
+              height
+            }}
+          >
+            <div className={cx('Marquee-content')} ref={this.contentRef}>
+              {options.concat(options).map((option, key) => (
+                <div key={key} className={cx('Marquee-item')}>
+                  {multipleCount === 1 ? itemRender(option) : null}
+                  {multipleCount > 1
+                    ? newOptions
+                        .concat(newOptions)
+                        [key].map((option: any, index: number) => (
                           <div
                             key={index}
                             style={{
@@ -603,14 +756,78 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                             {itemRender(option)}
                           </div>
                         ))
-                      : null}
-                  </div>
-                );
-              }}
-            </Transition>
-          ))}
-        </div>
-      );
+                    : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div
+            ref={this.wrapperRef}
+            className={cx('Carousel-container')}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          >
+            {options.map((option: any, key: number) => (
+              <Transition
+                mountOnEnter
+                unmountOnExit
+                in={key === current}
+                timeout={timeout}
+                key={key}
+              >
+                {(status: string) => {
+                  if (status === ENTERING) {
+                    this.wrapperRef.current &&
+                      this.wrapperRef.current.childNodes.forEach(
+                        (item: HTMLElement) => item.offsetHeight
+                      );
+                  }
+                  if (multipleCount > 1) {
+                    if (
+                      (status === ENTERING || status === EXITING) &&
+                      !this.loading
+                    ) {
+                      this.loading = true;
+                    } else if (
+                      (status === ENTERED || status === EXITED) &&
+                      this.loading
+                    ) {
+                      this.loading = false;
+                    }
+                  }
+
+                  return (
+                    <div
+                      className={cx(
+                        'Carousel-item',
+                        animationName,
+                        animationStyles[status]
+                      )}
+                      style={itemStyle}
+                    >
+                      {multipleCount === 1 ? itemRender(option) : null}
+                      {multipleCount > 1
+                        ? newOptions[key].map((option: any, index: number) => (
+                            <div
+                              key={index}
+                              style={{
+                                width: 100 / multipleCount + '%',
+                                height: '100%',
+                                float: 'left'
+                              }}
+                            >
+                              {itemRender(option)}
+                            </div>
+                          ))
+                        : null}
+                    </div>
+                  );
+                }}
+              </Transition>
+            ))}
+          </div>
+        );
     }
 
     return (
@@ -630,8 +847,20 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             name: 'wrapperCustomStyle',
             id,
             themeCss: wrapperCustomStyle
-          })
+          }),
+          {'Carousel-vertical': this.props.direction === 'vertical'}
         )}
+        onMouseDown={
+          this.props.mouseEvent ? this.addMouseDownListener : undefined
+        }
+        onMouseUp={this.props.mouseEvent ? this.addMouseUpListener : undefined}
+        onMouseLeave={
+          this.props.mouseEvent ? this.addMouseUpListener : undefined
+        }
+        onTouchStart={
+          this.props.mouseEvent ? this.addMouseDownListener : undefined
+        }
+        onTouchEnd={this.props.mouseEvent ? this.addMouseUpListener : undefined}
         style={carouselStyles}
       >
         {body ? body : placeholder}

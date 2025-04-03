@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="217px" height="217px" viewBox="0 0 217 217" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>filter</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="filter" transform="translate(2, 2)" stroke="#717171">
-            <rect id="Rectangle" stroke-width="4" fill="#FFFFFF" x="0" y="0" width="213" height="213"></rect>
-            <g id="Group" transform="translate(57, 79.7096)" stroke-linecap="square" stroke-width="8">
-                <line x1="0" y1="0.290367902" x2="48.9405681" y2="48.9300718" id="Line"></line>
-                <line x1="49.5" y1="48.7903679" x2="98.2903679" y2="1.0658141e-14" id="Line-2"></line>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="217" height="217" xmlns="http://www.w3.org/2000/svg"><g stroke="#717171" fill="none" fill-rule="evenodd"><path stroke-width="4" fill="#FFF" d="M2 2h213v213H2z"/><path d="m59 82 48.941 48.64m.559-.14 48.79-48.79" stroke-linecap="square" stroke-width="8"/></g></svg>

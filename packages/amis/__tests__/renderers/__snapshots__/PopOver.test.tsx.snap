@@ -4,6 +4,7 @@ exports[`Renderer:PopOver with offset: default 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -11,7 +12,7 @@ exports[`Renderer:PopOver with offset: default 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -48,6 +49,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -55,7 +57,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -76,111 +78,33 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
         </span>
         <span
           class="cxd-Field-popOverBtn"
-          style="position: relative;"
         >
           <icon-mock
             classname="icon icon-zoom-in"
             icon="zoom-in"
           />
-          <div
-            class="resize-sensor"
-            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-  
-            <div
-              class="resize-sensor-expand"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-shrink"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-appear"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-            />
-          </div>
         </span>
         <div
-          class="cxd-PopOver cxd-PopOverAble-popover cxd-PopOver--right"
+          class="cxd-PopOver cxd-PopOverAble-popover"
           role="popover"
-          style="display: block; left: 0px; top: 0px; position: relative;"
+          style="display: block; left: 0px; top: 0px; visibility: hidden;"
           theme="cxd"
         >
           <div
             class="cxd-Panel cxd-Panel--default"
+            data-role="container"
           >
             <div
               class="cxd-Panel-body"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   我是提示内容
                 </span>
               </span>
             </div>
-          </div>
-          <div
-            class="resize-sensor"
-            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-  
-            <div
-              class="resize-sensor-expand"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-shrink"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-appear"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-            />
           </div>
         </div>
       </div>
@@ -193,6 +117,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
+    data-amis-name="static"
     data-role="form-item"
   >
     <label
@@ -200,7 +125,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
     >
       <span>
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             静态展示
@@ -221,111 +146,33 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
         </span>
         <span
           class="cxd-Field-popOverBtn"
-          style="position: relative;"
         >
           <icon-mock
             classname="icon icon-zoom-in"
             icon="zoom-in"
           />
-          <div
-            class="resize-sensor"
-            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-  
-            <div
-              class="resize-sensor-expand"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-shrink"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-appear"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-            />
-          </div>
         </span>
         <div
-          class="cxd-PopOver cxd-PopOverAble-popover cxd-PopOver--right"
+          class="cxd-PopOver cxd-PopOverAble-popover"
           role="popover"
-          style="display: block; left: 101px; top: 102px; position: relative;"
+          style="display: block; left: 101px; top: 102px; visibility: hidden;"
           theme="cxd"
         >
           <div
             class="cxd-Panel cxd-Panel--default"
+            data-role="container"
           >
             <div
               class="cxd-Panel-body"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   我是提示内容
                 </span>
               </span>
             </div>
-          </div>
-          <div
-            class="resize-sensor"
-            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-  
-            <div
-              class="resize-sensor-expand"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-shrink"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-    
-              <div
-                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-              />
-              
-  
-            </div>
-            
-  
-            <div
-              class="resize-sensor-appear"
-              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-            />
           </div>
         </div>
       </div>

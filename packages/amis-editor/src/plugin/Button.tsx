@@ -13,6 +13,8 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import {getOldActionSchema} from '../renderer/event-control/helper';
+import {buttonStateFunc} from '../renderer/style-control/helper';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class ButtonPlugin extends BasePlugin {
   static id = 'ButtonPlugin';
@@ -120,6 +122,14 @@ export class ButtonPlugin extends BasePlugin {
     // }
   ];
 
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope>span',
+      key: 'label'
+    }
+  ];
+
   // 动作定义
   actions: RendererPluginAction[] = [];
 
@@ -132,50 +142,6 @@ export class ButtonPlugin extends BasePlugin {
     // TODO: 旧方法无法判断，context 中没有 dropdown-button 的信息，临时实现
     // const isInDropdown = /(?:\/|^)dropdown-button\/.+$/.test(context.path);
     const isInDropdown = /^button-group\/.+$/.test(context.path);
-
-    const buttonStateFunc = (visibleOn: string, state: string) => {
-      return [
-        getSchemaTpl('theme:font', {
-          label: '文字',
-          name: `themeCss.className.font:${state}`,
-          visibleOn: visibleOn,
-          editorThemePath: [
-            `button1.type.\${level}.${state}.body.font-color`,
-            `button1.size.\${size}.body.font`
-          ]
-        }),
-        getSchemaTpl('theme:colorPicker', {
-          label: '背景',
-          name: `themeCss.className.background:${state}`,
-          labelMode: 'input',
-          needGradient: true,
-          needImage: true,
-          visibleOn: visibleOn,
-          editorThemePath: `button1.type.\${level}.${state}.body.bg-color`
-        }),
-        getSchemaTpl('theme:border', {
-          name: `themeCss.className.border:${state}`,
-          visibleOn: visibleOn,
-          editorThemePath: `button1.type.\${level}.${state}.body.border`
-        }),
-        getSchemaTpl('theme:paddingAndMargin', {
-          name: `themeCss.className.padding-and-margin:${state}`,
-          visibleOn: visibleOn,
-          editorThemePath: `button1.size.\${size}.body.padding-and-margin`
-        }),
-        getSchemaTpl('theme:radius', {
-          name: `themeCss.className.radius:${state}`,
-          visibleOn: visibleOn,
-          editorThemePath: `button1.size.\${size}.body.border`
-        }),
-        getSchemaTpl('theme:select', {
-          label: '图标尺寸',
-          name: `themeCss.iconClassName.iconSize:${state}`,
-          visibleOn: visibleOn,
-          editorThemePath: `button1.size.\${size}.body.icon-size`
-        })
-      ];
-    };
 
     return getSchemaTpl('tabs', [
       {
@@ -247,6 +213,7 @@ export class ButtonPlugin extends BasePlugin {
                 formType: 'extend',
                 mode: 'normal',
                 label: '气泡提示',
+                id: 'button-tooltip', //便于扩充定位
                 hidden: isInDropdown,
                 form: {
                   body: [
@@ -324,7 +291,12 @@ export class ButtonPlugin extends BasePlugin {
                 name: 'rightIcon',
                 label: '右侧图标'
               }),
-              getSchemaTpl('badge')
+              getSchemaTpl('badge'),
+              getSchemaTpl('switch', {
+                name: 'disabledOnAction',
+                label: '动作完成前禁用',
+                value: false
+              })
             ]
           },
           getSchemaTpl('status', {
@@ -394,11 +366,16 @@ export class ButtonPlugin extends BasePlugin {
               ...buttonStateFunc("${__editorState == 'active'}", 'active')
             ]
           },
-          getSchemaTpl('theme:cssCode', {
-            themeClass: [
+          getSchemaTpl('theme:singleCssCode', {
+            selectors: [
               {
-                value: '',
-                state: ['default', 'hover', 'active']
+                label: '按钮基本样式',
+                isRoot: true,
+                selector: '.cxd-Button'
+              },
+              {
+                label: '按钮内容样式',
+                selector: 'span'
               }
             ]
           })
@@ -464,7 +441,8 @@ export class ButtonPlugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        inlineEditableElements: plugin.inlineEditableElements
       };
     }
   }

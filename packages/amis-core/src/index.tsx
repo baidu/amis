@@ -10,6 +10,9 @@ import {
   Renderer,
   getRendererByName,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
   registerRenderer,
   unRegisterRenderer,
   resolveRenderer,
@@ -19,19 +22,30 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  extendDefaultEnv
+  extendDefaultEnv,
+  getGlobalOptions,
+  setGlobalOptions
 } from './factory';
-import type {RenderOptions, RendererConfig, RendererProps} from './factory';
+import type {
+  RenderOptions,
+  RendererConfig,
+  RendererProps,
+  hasAsyncRenderers
+} from './factory';
 import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
 export * from './utils/index';
+export * from './utils/animations';
 export * from './types';
 export * from './store';
+export * from './globalVar';
 import * as utils from './utils/helper';
+import './globalVarClientHandler';
+import './globalVarDefaultValueHandler';
 import {getEnv} from 'mobx-state-tree';
 
-import {RegisterStore, RendererStore} from './store';
+import {RegisterStore, registerStore, RendererStore} from './store';
 import type {IColumn, IColumn2, IRow, IRow2} from './store';
 import {
   setDefaultLocale,
@@ -40,7 +54,8 @@ import {
   register as registerLocale,
   extendLocale,
   removeLocaleData,
-  localeable
+  localeable,
+  format as localeFormatter
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
@@ -70,7 +85,11 @@ import type {
   FormControlProps,
   FormItemProps
 } from './renderers/Item';
-import {OptionsControl, registerOptionsControl} from './renderers/Options';
+import {
+  OptionsControl,
+  registerOptionsControl,
+  OptionsControlBase
+} from './renderers/Options';
 import type {OptionsControlProps} from './renderers/Options';
 import type {FormOptionsControl} from './renderers/Options';
 import {Schema} from './types';
@@ -108,15 +127,29 @@ import {
 } from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
-import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
+import {
+  RENDERER_TRANSMISSION_OMIT_PROPS,
+  SchemaRenderer
+} from './SchemaRenderer';
 import type {IItem} from './store/list';
 import CustomStyle from './components/CustomStyle';
 import {StatusScoped} from './StatusScoped';
 
+import styleManager from './StyleManager';
+
+import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
+
+import {getCustomVendor, registerCustomVendor} from './utils/icon';
+
 // @ts-ignore
 export const version = '__buildVersion';
+(window as any).amisVersionInfo = {
+  version: '__buildVersion',
+  buildTime: '__buildTime'
+};
 
 export {
+  styleManager,
   clearStoresCache,
   updateEnv,
   Renderer,
@@ -125,6 +158,7 @@ export {
   RendererEnv,
   EnvContext,
   RegisterStore,
+  registerStore,
   FormItem,
   FormItemWrap,
   FormItemProps,
@@ -137,6 +171,10 @@ export {
   registerRenderer,
   unRegisterRenderer,
   getRenderers,
+  loadAllAsyncRenderers,
+  loadAsyncRenderersByType,
+  loadAsyncRenderer,
+  hasAsyncRenderers,
   registerFormItem,
   getFormItemByName,
   registerOptionsControl,
@@ -155,6 +193,9 @@ export {
   getClassPrefix,
   classnames,
   makeClassnames,
+  // 全局广播事件
+  bindGlobalEvent,
+  dispatchGlobalEvent,
   // 多语言相关
   getDefaultLocale,
   setDefaultLocale,
@@ -163,6 +204,7 @@ export {
   extendLocale,
   removeLocaleData,
   localeable,
+  localeFormatter,
   LocaleProps,
   TranslateFn,
   ClassNamesFn,
@@ -186,6 +228,7 @@ export {
   ErrorBoundary,
   addSchemaFilter,
   OptionsControlProps,
+  OptionsControlBase,
   FormOptionsControl,
   FormControlProps,
   FormBaseControl,
@@ -207,18 +250,25 @@ export {
   CustomStyle,
   enableDebug,
   disableDebug,
-  envOverwrite
+  envOverwrite,
+  getGlobalOptions,
+  setGlobalOptions,
+  wrapFetcher,
+  SchemaRenderer,
+  getCustomVendor,
+  registerCustomVendor
 };
 
 export function render(
   schema: Schema,
-  props: RootRenderProps = {},
+  {key, ...props}: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
   return (
     <AMISRenderer
       {...props}
+      key={key}
       schema={schema}
       pathPrefix={pathPrefix}
       options={options}
@@ -313,7 +363,7 @@ function AMISRenderer({
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
   schema = React.useMemo(() => {
-    schema = envOverwrite(schema, locale);
+    schema = envOverwrite(schema, locale, env.isMobile() ? 'mobile' : 'pc');
     // todo 和 envOverwrite 一起处理，减少循环次数
     schema = replaceText(
       schema,
@@ -321,7 +371,7 @@ function AMISRenderer({
       env.replaceTextIgnoreKeys
     );
     return schema;
-  }, [schema, locale]);
+  }, [schema, locale, options.replaceText]);
 
   return (
     <EnvContext.Provider value={env}>

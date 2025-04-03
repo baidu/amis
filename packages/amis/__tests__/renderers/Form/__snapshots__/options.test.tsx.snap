@@ -12,6 +12,7 @@ exports[`options:linkage 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -19,7 +20,7 @@ exports[`options:linkage 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -65,6 +66,7 @@ exports[`options:linkage 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -72,7 +74,7 @@ exports[`options:linkage 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -81,16 +83,20 @@ exports[`options:linkage 1`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -98,13 +104,17 @@ exports[`options:linkage 1`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -129,6 +139,7 @@ exports[`options:linkage 2`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -136,7 +147,7 @@ exports[`options:linkage 2`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -182,6 +193,7 @@ exports[`options:linkage 2`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -189,7 +201,7 @@ exports[`options:linkage 2`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -198,17 +210,21 @@ exports[`options:linkage 2`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default disabled cxd-Checkbox--radio--default--disabled--unchecked"
           data-role="checkbox"
         >
           <input
             disabled=""
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -216,13 +232,17 @@ exports[`options:linkage 2`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -247,6 +267,7 @@ exports[`options:linkage 3`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -254,7 +275,7 @@ exports[`options:linkage 3`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -300,6 +321,7 @@ exports[`options:linkage 3`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -307,7 +329,7 @@ exports[`options:linkage 3`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -316,16 +338,20 @@ exports[`options:linkage 3`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -350,6 +376,7 @@ exports[`options:linkage 4`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <label
@@ -357,7 +384,7 @@ exports[`options:linkage 4`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项x
@@ -403,6 +430,7 @@ exports[`options:linkage 4`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <label
@@ -410,7 +438,7 @@ exports[`options:linkage 4`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               选项y
@@ -419,16 +447,20 @@ exports[`options:linkage 4`] = `
         </span>
       </label>
       <div
-        class="cxd-RadiosControl cxd-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline is-thin"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -436,13 +468,17 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >
@@ -450,13 +486,17 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio--default"
           data-role="checkbox"
         >
           <input
             type="radio"
           />
-          <i />
+          <i>
+            <div
+              class="radio-icon icon"
+            />
+          </i>
           <span
             class="text-muted"
           >

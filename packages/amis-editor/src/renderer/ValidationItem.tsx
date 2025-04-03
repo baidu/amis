@@ -9,7 +9,7 @@ import {render, Button, Switch} from 'amis';
 import {autobind, getI18nEnabled} from 'amis-editor-core';
 import {Validator} from '../validator';
 import {tipedLabel} from 'amis-editor-core';
-import type {ConditionBuilderFields, SchemaCollection} from 'amis';
+import type {ConditionBuilderFields, Schema, SchemaCollection} from 'amis';
 
 export type ValidatorData = {
   name: string;
@@ -37,6 +37,8 @@ export interface ValidationItemProps {
   validator: Validator;
 
   fields?: ConditionBuilderFields;
+
+  rendererSchema?: Schema | Schema[];
 
   onEdit?: (data: ValidatorData) => void;
   onDelete?: (name: string) => void;
@@ -136,7 +138,7 @@ export default class ValidationItem extends React.Component<
 
   renderInputControl() {
     const {value, message, checked} = this.state;
-    const {fields} = this.props;
+    const {fields, rendererSchema} = this.props;
     const i18nEnabled = getI18nEnabled();
     let control: any = [];
 
@@ -144,7 +146,19 @@ export default class ValidationItem extends React.Component<
       return null;
     }
 
-    if (this.validator.schema) {
+    if (rendererSchema) {
+      const rendererSchemaArr = Array.isArray(rendererSchema)
+        ? rendererSchema
+        : [rendererSchema];
+
+      let filteredControl = rendererSchemaArr.filter(
+        item => item.validateName === this.validator.name
+      );
+      if (!filteredControl.length && this.validator.schema) {
+        filteredControl = filteredControl.concat(this.validator.schema);
+      }
+      control = filteredControl;
+    } else if (this.validator.schema) {
       control = control.concat(this.validator.schema as SchemaCollection);
     }
 
@@ -156,10 +170,6 @@ export default class ValidationItem extends React.Component<
           '错误提示',
           `系统默认提示：${this.validator.message}`
         ),
-        pipeIn: (value: string, data: any) => {
-          // value中 $1 会被运算，导致无法正确回显$1。此处从this.props.data中获取该校验项的错误提示
-          return this.props.data.message;
-        },
         placeholder: '默认使用系统定义提示'
       });
     }
@@ -185,14 +195,10 @@ export default class ValidationItem extends React.Component<
             },
             preventEnterSubmit: true,
             submitOnChange: true,
-            body: control,
-            data: {value, message}
+            body: control
           },
           {
-            data: {
-              ...this.props.data,
-              fields
-            },
+            data: {value, message, fields},
             onSubmit: this.handleEdit
           }
         )}

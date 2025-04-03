@@ -1,6 +1,6 @@
 .#{$ns}Picker {
-  @include input-text();
   outline: none;
+  @include input-text();
 
   &-input:hover {
     background: var(--Pick-status-hover-bgColor);
@@ -71,7 +71,8 @@
     font-size: var(--Pick-base-placeholder-fontSize);
     font-weight: var(--Pick-base-placeholder-fontWeight);
     user-select: none;
-    position: absolute;
+    flex: 1;
+    min-width: 0;
     // margin-top: 2 * var(--Form-input-borderWidth);
     line-height: var(--Form-input-lineHeight);
     padding: var(--Pick-base-paddingTop) var(--Pick-base-paddingRight)
@@ -95,9 +96,15 @@
       var(--Pick-base-left-border-color);
   }
 
-  .#{$ns}Picker-values {
-    display: inline;
-  }
+  // .#{$ns}Picker-values {
+  //   display: inline;
+
+  //   .#{$ns}OverflowTpl {
+  //     .#{$ns}Picker-valueLabel {
+  //       pointer-events: auto;
+  //     }
+  //   }
+  // }
 
   &-valueWrap {
     flex-grow: 1;
@@ -111,8 +118,9 @@
   }
 
   .#{$ns}Picker-valueWrap {
-    margin-bottom: calc(var(--gap-xs) * -1);
-    line-height: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
   }
 
   /* tag 样式 */
@@ -120,7 +128,7 @@
 
   &-btn {
     cursor: pointer;
-    color: var(--Picker-iconColor);
+    color: var(--Pick-base-icon-color);
     flex: 30px 0 0;
     display: flex;
     align-items: center;
@@ -158,7 +166,7 @@
   &-overflow {
     &-wrapper {
       display: flex;
-      flex-flow: column nowrap;
+      flex-wrap: wrap;
       justify-content: flex-start;
       align-items: flex-start;
       overflow-x: hidden;
@@ -170,6 +178,7 @@
         (var(--Picker-tag-height) + var(--Picker-tag-marginBottom)) * 5
       );
 
+      gap: var(--gap-xs);
       @include tag-item(Picker);
     }
   }

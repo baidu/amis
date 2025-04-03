@@ -795,6 +795,15 @@ export const components = [
             wrapDoc
           )
         )
+      },
+      {
+        label: 'InputVerificationCode 验证码',
+        path: '/zh-CN/components/form/input-verification-code',
+        component: React.lazy(() =>
+          import(
+            '../../docs/zh-CN/components/form/input-verification-code.md'
+          ).then(wrapDoc)
+        )
       }
     ]
   },
@@ -1104,6 +1113,21 @@ export const components = [
         path: '/zh-CN/components/timeline',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/timeline.md').then(wrapDoc)
+        )
+      },
+      {
+        label: 'Shape 形状',
+        path: '/zh-CN/components/shape',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/shape.md').then(wrapDoc)
+        )
+      },
+
+      {
+        label: 'Slider 滑动条',
+        path: '/zh-CN/components/slider',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/slider.md').then(wrapDoc)
         )
       }
     ]

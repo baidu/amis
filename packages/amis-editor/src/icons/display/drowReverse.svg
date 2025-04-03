@@ -1,9 +1,1 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" preserveAspectRatio="xMidYMid meet"
-  width="20" height="20" viewBox="0 0 19 9">
-  <g fillRule="evenodd">
-    <path d="M16 4h-4v1h4v2l3-2.5L16 2v2zM6 0h5v9H6z"></path>
-    <path opacity=".4" d="M1 1h3v7H1z"></path>
-    <path d="M1 1v7h3V1H1zM0 0h5v9H0V0z"></path>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 19 9"><path d="M16 4h-4v1h4v2l3-2.5L16 2v2zM6 0h5v9H6z"/><path opacity=".4" d="M1 1h3v7H1z"/><path d="M1 1v7h3V1H1zM0 0h5v9H0V0z"/></svg>

@@ -4,6 +4,7 @@ exports[`Renderer:tabs as form item 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:tabs as form item 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -33,10 +34,10 @@ exports[`Renderer:tabs as form item 1`] = `
         />
         <div
           class="cxd-Tabs cxd-Tabs--line"
+          data-role="container"
         >
           <div
             class="cxd-Tabs-linksContainer-wrapper"
-            style="position: relative;"
           >
             <div
               class="cxd-Tabs-linksContainer"
@@ -77,45 +78,6 @@ exports[`Renderer:tabs as form item 1`] = `
                 </ul>
               </div>
             </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
-            </div>
           </div>
           <div
             class="cxd-Tabs-content"
@@ -124,7 +86,7 @@ exports[`Renderer:tabs as form item 1`] = `
               class="cxd-Tabs-pane"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Content 1
@@ -135,7 +97,7 @@ exports[`Renderer:tabs as form item 1`] = `
               class="in is-active cxd-Tabs-pane"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Content 2
@@ -170,10 +132,10 @@ exports[`Renderer:tabs change active tab 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -230,45 +192,6 @@ exports[`Renderer:tabs change active tab 1`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -277,7 +200,7 @@ exports[`Renderer:tabs change active tab 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -295,10 +218,10 @@ exports[`Renderer:tabs change active tab 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line tabs-wrapper"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -355,45 +278,6 @@ exports[`Renderer:tabs change active tab 2`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -402,7 +286,7 @@ exports[`Renderer:tabs change active tab 2`] = `
         class="cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -416,6 +300,7 @@ exports[`Renderer:tabs change active tab 2`] = `
       >
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
           data-role="form-item"
         >
           <label
@@ -423,7 +308,7 @@ exports[`Renderer:tabs change active tab 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   文本3
@@ -451,6 +336,7 @@ exports[`Renderer:tabs change active tab 2`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="d"
           data-role="form-item"
         >
           <label
@@ -458,7 +344,7 @@ exports[`Renderer:tabs change active tab 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   文本4
@@ -494,10 +380,10 @@ exports[`Renderer:tabs tabsMode 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--card"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -538,45 +424,6 @@ exports[`Renderer:tabs tabsMode 1`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -585,7 +432,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -603,10 +450,10 @@ exports[`Renderer:tabs tabsMode 2`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--radio"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -647,45 +494,6 @@ exports[`Renderer:tabs tabsMode 2`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -694,7 +502,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -712,50 +520,11 @@ exports[`Renderer:tabs tabsMode 3`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--vertical"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -795,7 +564,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -813,50 +582,11 @@ exports[`Renderer:tabs tabsMode 4`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--chrome"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -936,7 +666,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -954,50 +684,11 @@ exports[`Renderer:tabs tabsMode 5`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--simple"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1045,7 +736,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1063,50 +754,11 @@ exports[`Renderer:tabs tabsMode 6`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--strong"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1154,7 +806,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1172,50 +824,11 @@ exports[`Renderer:tabs tabsMode 7`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <div
         class="cxd-Tabs-linksContainer"
       >
@@ -1263,7 +876,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1281,50 +894,11 @@ exports[`Renderer:tabs tabsMode 8`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--sidebar sidebar--right"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksWrapper"
-      style="position: relative;"
     >
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
       <ul
         class="cxd-Tabs-links"
         role="tablist"
@@ -1364,7 +938,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1382,10 +956,10 @@ exports[`Renderer:tabs toolbar 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--line"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -1438,45 +1012,6 @@ exports[`Renderer:tabs toolbar 1`] = `
           </ul>
         </div>
       </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
     <div
       class="cxd-Tabs-content"
@@ -1485,7 +1020,7 @@ exports[`Renderer:tabs toolbar 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             <p>
@@ -1503,10 +1038,10 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
 <div>
   <div
     class="cxd-Tabs cxd-Tabs--tiled has-popover"
+    data-role="container"
   >
     <div
       class="cxd-Tabs-linksContainer-wrapper"
-      style="position: relative;"
     >
       <div
         class="cxd-Tabs-linksContainer"
@@ -1546,7 +1081,6 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
             </li>
             <li
               class="cxd-Tabs-link"
-              style="position: relative;"
             >
               <a
                 class="cxd-Tabs-togglor is-opened"
@@ -1563,87 +1097,9 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
                   />
                 </span>
               </a>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
       </div>
     </div>
     <div
@@ -1653,7 +1109,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
         class="in is-active cxd-Tabs-pane"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             Content 1
@@ -1662,9 +1118,9 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
       </div>
     </div>
     <div
-      class="cxd-PopOver cxd-Tabs-PopOver cxd-PopOver--centerBottomCenterTop cxd-PopOver--v-top"
+      class="cxd-PopOver cxd-Tabs-PopOver"
       role="popover"
-      style="display: block; min-width: auto; left: 0px; top: 0px; position: relative;"
+      style="display: block; min-width: auto; left: 0px; top: 0px; visibility: hidden;"
       theme="cxd"
     >
       <div
@@ -1713,45 +1169,6 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
           </a>
         </li>
       </ul>
-      <div
-        class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-  
-        <div
-          class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-    
-          <div
-            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-          />
-          
-  
-        </div>
-        
-  
-        <div
-          class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-        />
-      </div>
     </div>
   </div>
 </div>

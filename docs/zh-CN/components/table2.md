@@ -265,9 +265,9 @@ order: 67
 }
 ```
 
-### 已选择 - 正则表达式
+### 已选择 - 表达式
 
-还可以使用正则表达式的方式来匹配已选中的项，`rowSelection.selectedRowKeysExpr`可以配置表达式。
+还可以使用表达式的方式来匹配已选中的项，`rowSelection.selectedRowKeysExpr`可以配置表达式。
 
 ```schema: scope="body"
 {
@@ -606,9 +606,9 @@ order: 67
 }
 ```
 
-### 默认展开 - 正则表达式
+### 默认展开 - 表达式
 
-也可以通过设置`expandable.expandedRowKeysExpr`使用正则表达式来控制默认展开项。
+也可以通过设置`expandable.expandedRowKeysExpr`使用表达式来控制默认展开项。
 
 ```schema: scope="body"
 {
@@ -789,7 +789,7 @@ order: 67
 }
 ```
 
-也可以通过正则表达式一次控制多行展开关闭。
+也可以通过表达式一次控制多行展开关闭。
 
 ```schema: scope="body"
 {
@@ -3314,6 +3314,56 @@ order: 67
 }
 ```
 
+可以给列配置上`textOverflow`属性，设置为`ellipsis`，可实现内容超出省略，悬浮查看更多。
+可搭配`popOver`属性，来控制弹出框的信息，需要设置图标不展示。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/sample?perPage=6",
+  "body": [
+    {
+      "type": "table2",
+      "source": "$rows",
+      "columns": [
+        {
+          "title": "Engine",
+          "name": "engine",
+        },
+        {
+          "title": "Version",
+          "name": "version"
+        },
+        {
+          "type": "tpl",
+          "title": "Browser",
+          "name": "browser",
+          "tpl": "${browser+'--'+browser}",
+          "textOverflow": "ellipsis",
+          "popOver": {
+            "trigger": "hover",
+            "position": "right-top-center-bottom",
+            "showIcon": false,
+            "body": {
+              "type": "tpl",
+              "tpl": "${browser}"
+            }
+          }
+        },
+        {
+          "title": "Badge",
+          "name": "badgeText"
+        },
+        {
+          "title": "Platform",
+          "name": "platform"
+        }
+      ]
+    }
+  ]
+}
+```
+
 可以给列配置`popOverEnableOn`属性，该属性为表达式，来控制当前行是否启动`popOver`功能。
 
 ```schema: scope="body"
@@ -3558,6 +3608,7 @@ order: 67
   "body": {
     "type": "service",
     "api": "/api/sample?perPage=5",
+    "id": "service-container",
     "body": [
       {
         "type": "table2",
@@ -3565,6 +3616,25 @@ order: 67
         "quickSaveApi": {
           "url": "/api/mock2/sample/bulkUpdate",
           "method": "put"
+        },
+        "draggable": true,
+        "onEvent": {
+          "quickSaveSubmitted": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "service-container"
+              }
+            ]
+          },
+          "orderChange": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "service-container"
+              }
+            ]
+          }
         },
         "columns": [
           {
@@ -4106,7 +4176,7 @@ order: 67
 | disableOn           | `string`                           |            | 当前行是否可选择条件，要用 [表达式](../../docs/concepts/expression)                                                |
 | selections          | `selections`                       |            | 自定义筛选菜单，内置`all`（全选）、`invert`（反选）、`none`（取消选择）、`odd`（选择奇数项）、`even`（选择偶数项） |
 | selectedRowKeys     | `Array<string>` \| `Array<number>` |            | 已选择项                                                                                                           |
-| selectedRowKeysExpr | `string`                           |            | 已选择项正则表达式                                                                                                 |
+| selectedRowKeysExpr | `string`                           |            | 已选择项表达式                                                                                                 |
 | columnWidth         | `number`                           |            | 自定义选择列列宽                                                                                                   |
 | rowClick            | `boolean`                          |            | 单条任意区域选中                                                                                                   |
 
@@ -4126,7 +4196,7 @@ order: 67
 | disableOn           | `string`                           |        | 当前行是否可选择条件，要用 [表达式](../../docs/concepts/expression)                                                |
 | selections          | `selections`                       |        | 自定义筛选菜单，内置`all`（全选）、`invert`（反选）、`none`（取消选择）、`odd`（选择奇数项）、`even`（选择偶数项） |
 | selectedRowKeys     | `Array<string>` \| `Array<number>` |        | 已选择项                                                                                                           |
-| selectedRowKeysExpr | `string`                           |        | 已选择项正则表达式                                                                                                 |
+| selectedRowKeysExpr | `string`                           |        | 已选择项表达式                                                                                                 |
 | columnWidth         | `number`                           |        | 自定义选择列列宽                                                                                                   |
 
 ## 列配置属性表
@@ -4143,6 +4213,7 @@ order: 67
 | searchable | `boolean` \| `Schema`                         | `false` | 是否可快速搜索   |
 | width      | `number` \| `string`                          | 列宽    |
 | remark     |                                               |         | 提示信息         |
+| textOverflow | `string`                                    |`default`| 文本溢出后展示形式，默认换行处理。可选值 `ellipsis` 溢出隐藏展示， `noWrap` 不换行展示(仅在列为静态文本时生效)   |
 
 ## 事件表
 
@@ -4160,6 +4231,7 @@ order: 67
 | rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引                    | 双击整行时触发       |
 | rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
 | rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+| quickSaveSubmitted | `item: object` 快速编辑相关数据，包括源数据、修改后的数据、修改的行数索引、没有变动的数据 | 成功调用 `quickSaveApi` 之后触发  |
 
 ### selectedChange
 
@@ -4792,6 +4864,63 @@ order: 67
       ]
     }
   ]
+}
+```
+
+### quickSaveSubmitted
+
+快速编辑点击 `submit` , 成功调用 `quickSaveSubmitted`之后触发
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "page",
+    "body": {
+      "type": "service",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+      "id": "service-container",
+      "body": [
+        {
+          "type": "table2",
+          "source": "$rows",
+          "quickSaveApi": {
+            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/bulkUpdate",
+            "method": "put"
+          },
+          "onEvent": {
+            "quickSaveSubmitted": {
+              "actions": [
+                {
+                  "actionType": "reload",
+                  "componentId": "service-container"
+                }
+              ]
+            },
+          },
+          "columns": [
+            {
+              "title": "Engine",
+              "name": "engine",
+              "quickEdit": true
+            },
+            {
+              "title": "Version",
+              "name": "version"
+            },
+            {
+              "title": "Browser",
+              "name": "browser"
+            },
+            {
+              "title": "Badge",
+              "name": "badgeText"
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 ```
 

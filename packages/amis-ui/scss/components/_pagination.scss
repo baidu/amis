@@ -65,7 +65,9 @@
       border-radius: var(--borderRadius);
     }
   }
+
   &-simple {
+    color: var(--Pagination-light-color);
     > ul > li {
       &:hover,
       &:focus {
@@ -267,7 +269,6 @@
 
   .#{$ns}Pagination-item {
     margin-left: px2rem(4px);
-
     > li {
       > a,
       > span {
@@ -280,7 +281,7 @@
 
     .#{$ns}Pagination-inputGroup,
     .#{$ns}Pagination-simplego {
-      height: var(--Pagination-height-sm);
+      height: var(--Pagination-height);
       &-input {
         min-width: px2rem(40px);
         width: px2rem(40px);
@@ -302,11 +303,102 @@
       }
     }
   }
-
   .#{$ns}Pagination-perpage {
     margin-left: px2rem(4px);
     padding: 0 px2rem(6px);
     min-height: px2rem(24px);
     vertical-align: baseline;
+  }
+}
+@include media-breakpoint-down(sm) {
+  .#{$ns}Pagination-wrap-size--sm {
+    .#{$ns}Pagination-item {
+      display: flex;
+      justify-content: center;
+      gap: px2rem(16px);
+      > li {
+        > a,
+        > span {
+          border: var(--borderWidth) solid var(--borderColor);
+          padding: var(--Pagination-padding);
+          min-width: var(--Pagination-minWidth);
+          height: var(--Pagination-height);
+          line-height: var(--Pagination-height);
+          border-radius: var(--borderRadius);
+        }
+        &.disabled {
+          > a,
+          > span {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .#{$ns}Pagination-inputGroup,
+      .#{$ns}Pagination-simplego {
+        &-input {
+          border: none;
+          padding: 0;
+          margin-left: 0;
+        }
+        &-right {
+          border: none;
+        }
+      }
+    }
+  }
+  .#{$ns}Pagination-wrap-size--md {
+    .#{$ns}Pagination-item {
+      display: flex;
+      justify-content: space-between;
+      > li {
+        > a,
+        > span {
+          border: var(--Pagination-border);
+          border-radius: var(--borderRadius);
+        }
+        &.disabled {
+          > a,
+          > span {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .#{$ns}Pagination-inputGroup,
+      .#{$ns}Pagination-simplego {
+        &-input {
+          border: none;
+        }
+        &-right {
+          border: none;
+        }
+      }
+    }
+  }
+  .#{$ns}Pagination {
+    &-simplego {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      height: var(--Pagination-height);
+    }
+    input {
+      display: inline-block;
+      min-width: var(--Pagination-minWidth);
+      width: px2rem(32px);
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      font-size: var(--fontSizeSm);
+      margin-right: 0;
+      padding: 0;
+      &:focus,
+      &:hover {
+        outline: none;
+        border-color: var(--primary);
+      }
+    }
   }
 }

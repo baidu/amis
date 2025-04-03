@@ -1,4 +1,9 @@
 .#{$ns}Cards {
+  // 黑科技，让 scrollIntoView 能够跑正确的位置
+  // margin-top: calc(var(--affix-offset-top) * -1);
+  // padding-top: var(--affix-offset-top);
+  scroll-margin-top: var(--affix-offset-top);
+
   &-toolbar {
     @include clearfix();
     padding: var(--Cards-toolbar-marginY) var(--Cards-toolbar-marginX)
@@ -103,6 +108,32 @@
     bottom: var(--affix-offset-bottom);
     background: var(--Table-bg);
     z-index: $zindex-sticky;
+  }
+}
+
+@include media-breakpoint-up(xs) {
+  .#{$ns}Cards--masonryXs1 {
+    column-count: 12;
+  }
+
+  .#{$ns}Cards--masonryXs2 {
+    column-count: 6;
+  }
+
+  .#{$ns}Cards--masonryXs3 {
+    column-count: 4;
+  }
+
+  .#{$ns}Cards--masonryXs4 {
+    column-count: 3;
+  }
+
+  .#{$ns}Cards--masonryXs6 {
+    column-count: 2;
+  }
+
+  .#{$ns}Cards--masonryXs12 {
+    column-count: 1;
   }
 }
 

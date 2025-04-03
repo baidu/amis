@@ -7,8 +7,10 @@ import {
   createObject,
   isObjectShallowModified,
   sortArray,
+  applyFilters,
   isEmpty,
   qsstringify,
+  findTreeIndex,
   getVariable
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, ActionObject, ApiObject} from '../types';
@@ -71,7 +73,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     items: types.optional(types.array(types.frozen()), []),
     selectedItems: types.optional(types.array(types.frozen()), []),
     unSelectedItems: types.optional(types.array(types.frozen()), []),
-    filterTogggable: false,
+    filterTogglable: false,
     filterVisible: true,
     hasInnerModalOpen: false
   })
@@ -93,22 +95,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       // 包两层，主要是为了处理以下 case
       // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
       // 因为会把数据呈现在地址栏上。
-      return createObject(
-        createObject(self.data, {
-          items: self.items.concat(),
-          selectedItems: self.selectedItems.concat(),
-          unSelectedItems: self.unSelectedItems.concat()
-        }),
-        {...self.query}
-      );
+      return createObject(createObject(self.data, this.eventContext), {
+        ...self.query
+      });
     },
 
     get mergedData() {
       return extendObject(self.data, {
         ...self.query,
-        ...self.data,
-        selectedItems: self.selectedItems,
-        unSelectedItems: self.unSelectedItems
+        ...this.eventContext,
+        ...self.data
       });
     },
 
@@ -118,6 +114,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     get selectedItemsAsArray() {
       return self.selectedItems.concat();
+    },
+
+    get itemsAsArray() {
+      return self.items.concat();
     },
 
     fetchCtxOf(
@@ -133,6 +133,23 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         [options.perPageField || 'perPage']: self.perPage,
         ...data
       });
+    },
+
+    get eventContext() {
+      const context = {
+        items: self.items.concat(),
+        selectedItems: self.selectedItems.concat(),
+        unSelectedItems: self.unSelectedItems.concat(),
+        selectedIndexes: self.selectedItems.map(
+          item =>
+            findTreeIndex(
+              self.items,
+              i => (item.__pristine || item) === (i.__pristine || i)
+            )?.join('.') || '-1'
+        )
+      };
+
+      return context;
     }
   }))
   .actions(self => {
@@ -208,7 +225,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        matchFunc?: MatchFunc;
+        filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
         isTable2?: Boolean; // 是否是 CRUD2
+        minLoadingTime?: number; // 最小加载时间
+        dataAppendTo?: 'top' | 'bottom';
+        totalField?: string;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -221,67 +243,34 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         syncResponse2Query?: boolean;
         columns?: Array<any>;
         matchFunc?: MatchFunc;
+        filterOnAllColumns?: boolean; // 前端是否让所有字段参与过滤
+        minLoadingTime?: number; // 最小加载时间
+        totalField?: string;
       } = {}
     ) {
       try {
-        if (!options.forceReload && options.loadDataOnce && self.total) {
+        const startTime = Date.now();
+        let rawItems = options.source
+          ? resolveVariableAndFilter(
+              options.source,
+              createObject(self.mergedData, {
+                items: self.data.itemsRaw,
+                rows: self.data.itemsRaw
+              }),
+              '| raw'
+            )
+          : self.items.concat();
+
+        if (!options.forceReload && options.loadDataOnce && rawItems?.length) {
           const matchFunc = options.matchFunc;
-          let items = options.source
-            ? resolveVariableAndFilter(
-                options.source,
-                createObject(self.mergedData, {
-                  items: self.data.itemsRaw,
-                  rows: self.data.itemsRaw
-                }),
-                '| raw'
-              )
-            : self.items.concat();
+          let items = rawItems;
 
-          /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
-          if (matchFunc && typeof matchFunc === 'function') {
-            items = matchFunc(items, self.data.itemsRaw, {
-              query: self.query,
-              columns: options.columns,
-              matchSorter: matchSorter
-            });
-          } else {
-            if (Array.isArray(options.columns)) {
-              options.columns.forEach((column: any) => {
-                let value: any =
-                  typeof column.name === 'string'
-                    ? getVariable(self.query, column.name)
-                    : undefined;
-                const key = column.name;
-
-                if (value != null && key) {
-                  // value可能为null、undefined、''、0
-                  if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                      const arr = [...items];
-                      let arrItems: Array<any> = [];
-                      value.forEach(item => {
-                        arrItems = [
-                          ...arrItems,
-                          ...matchSorter(arr, item, {
-                            keys: [key],
-                            threshold: matchSorter.rankings.CONTAINS
-                          })
-                        ];
-                      });
-                      items = items.filter((item: any) =>
-                        arrItems.find(a => a === item)
-                      );
-                    }
-                  } else {
-                    items = matchSorter(items, value, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    });
-                  }
-                }
-              });
-            }
-          }
+          items = applyFilters(items, {
+            query: self.query,
+            columns: options.columns,
+            matchFunc: matchFunc,
+            filterOnAllColumns: options.filterOnAllColumns
+          });
 
           if (self.query.orderBy) {
             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -290,13 +279,15 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           const data = {
             ...self.data,
-            total: items.length,
+            [options.totalField || 'total']: items.length,
             items: items.slice(
               (self.page - 1) * self.perPage,
               self.page * self.perPage
             )
           };
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           self.reInitData(data);
           return;
         }
@@ -350,6 +341,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             throw new Error(self.__('CRUD.invalidData'));
           }
 
+          if (options.minLoadingTime) {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = options.minLoadingTime - elapsedTime;
+            if (remainingTime > 0) {
+              yield new Promise(resolve => setTimeout(resolve, remainingTime));
+            }
+          }
+
           self.updatedAt = Date.now();
           let result = normalizeApiResponseData(json.data);
 
@@ -399,7 +398,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           // 点击加载更多数据
           let rowsData: Array<any> = [];
           if (options.loadDataMode && Array.isArray(self.data.items)) {
-            rowsData = self.data.items.concat(items);
+            if (options.dataAppendTo === 'top') {
+              rowsData = items.concat(self.data.items);
+            } else {
+              rowsData = self.data.items.concat(items);
+            }
           } else {
             // 第一次的时候就是直接加载请求的数据
             rowsData = items;
@@ -419,43 +422,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
              * 2. 接口返回中没有 items 和 rows 字段，则直接用查到的数据。
              */
             data.itemsRaw = oItems || oRows || rowsData.concat();
-            let filteredItems = rowsData.concat();
-
-            if (Array.isArray(options.columns)) {
-              options.columns.forEach((column: any) => {
-                let value: any;
-                const key = column.name;
-                if (
-                  column.searchable &&
-                  key &&
-                  (value = getVariable(self.query, key))
-                ) {
-                  if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                      const arr = [...filteredItems];
-                      let arrItems: Array<any> = [];
-                      value.forEach(item => {
-                        arrItems = [
-                          ...arrItems,
-                          ...matchSorter(arr, item, {
-                            keys: [key],
-                            threshold: matchSorter.rankings.CONTAINS
-                          })
-                        ];
-                      });
-                      filteredItems = filteredItems.filter(item =>
-                        arrItems.find(a => a === item)
-                      );
-                    }
-                  } else {
-                    filteredItems = matchSorter(filteredItems, value, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    });
-                  }
-                }
-              });
-            }
+            let filteredItems = applyFilters(rowsData, {
+              query: self.query,
+              columns: options.columns,
+              filterOnAllColumns: false,
+              matchFunc: options.matchFunc
+            });
 
             if (self.query.orderBy) {
               const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -488,7 +460,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               options.perPageField || 'perPage'
             );
 
-          self.total = parseInt(data.total ?? data.count, 10) || 0;
+          self.total =
+            parseInt(data[options.totalField || 'total'] ?? data.count, 10) ||
+            0;
           typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
           // 分页情况不清楚，只能知道有没有下一页。
@@ -641,8 +615,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    const setFilterTogglable = (toggable: boolean, filterVisible?: boolean) => {
-      self.filterTogggable = toggable;
+    const setFilterTogglable = (
+      togglable: boolean,
+      filterVisible?: boolean
+    ) => {
+      self.filterTogglable = togglable;
 
       filterVisible !== void 0 && (self.filterVisible = filterVisible);
     };
@@ -679,67 +656,25 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: {
         columns?: Array<any>;
         matchFunc?: MatchFunc | null;
+        totalField?: string;
       }
     ) {
-      const matchFunc = options.matchFunc;
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
       if (!Array.isArray(items) && !self.items.length) {
         return;
       }
 
-      items = Array.isArray(items) ? items : [];
-
-      /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
-      if (matchFunc && typeof matchFunc === 'function') {
-        items = matchFunc(items, items.concat(), {
-          query: self.query,
-          columns: options.columns,
-          matchSorter: matchSorter
-        });
-      } else {
-        if (Array.isArray(options.columns)) {
-          options.columns.forEach((column: any) => {
-            let value: any =
-              typeof column.name === 'string'
-                ? getVariable(self.query, column.name)
-                : undefined;
-            const key = column.name;
-
-            if (value != null && key) {
-              // value可能为null、undefined、''、0
-              if (Array.isArray(value)) {
-                if (value.length > 0) {
-                  const arr = [...items];
-                  let arrItems: Array<any> = [];
-                  /** 搜索 query 值为数组的情况 */
-                  value.forEach(item => {
-                    arrItems = [
-                      ...arrItems,
-                      ...matchSorter(arr, item, {
-                        keys: [key],
-                        threshold: matchSorter.rankings.CONTAINS
-                      })
-                    ];
-                  });
-                  items = items.filter((item: any) =>
-                    arrItems.find(a => a === item)
-                  );
-                }
-              } else {
-                items = matchSorter(items, value, {
-                  keys: [key],
-                  threshold: matchSorter.rankings.CONTAINS
-                });
-              }
-            }
-          });
-        }
-      }
+      items = applyFilters(Array.isArray(items) ? items : [], {
+        query: self.query,
+        columns: options.columns,
+        matchFunc: options.matchFunc,
+        filterOnAllColumns: true
+      });
 
       if (self.query.orderBy) {
         const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
-        items = sortArray(items, self.query.orderBy, dir);
+        items = sortArray(items.concat(), self.query.orderBy, dir);
       }
 
       const data = {
@@ -755,7 +690,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         total: items.length
       };
 
-      self.total = parseInt(data.total ?? data.count, 10) || 0;
+      self.total =
+        parseInt(data[options.totalField || 'total'] ?? data.count, 10) || 0;
       self.items.replace(items);
       self.reInitData(data);
     };
@@ -834,9 +770,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         total: self.total,
         page: self.page,
         perPage: self.perPage,
-        items: self.items.concat(),
-        selectedItems: self.selectedItems.concat(),
-        unSelectedItems: self.unSelectedItems.concat()
+        ...self.eventContext
       });
     };
 
@@ -883,7 +817,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       exportAsCSV,
       updateColumns,
       updateTotal,
-      resetSelection
+      resetSelection,
+      replaceItems(items: Array<any>) {
+        self.items.replace(items);
+      }
     };
   });
 

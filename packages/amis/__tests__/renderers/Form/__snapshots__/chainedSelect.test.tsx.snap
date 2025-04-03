@@ -4,6 +4,7 @@ exports[`Renderer:chained-select 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:chained-select 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -165,6 +166,7 @@ exports[`Renderer:chained-select 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select3"
           data-role="form-item"
         >
           <label
@@ -172,7 +174,7 @@ exports[`Renderer:chained-select 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   级联下拉

@@ -139,11 +139,17 @@ test('formula:math', async () => {
   expect(await evalFormual('UPPERMONEY(7682.01)')).toBe('柒仟陆佰捌拾贰元壹分');
   expect(await evalFormual('UPPERMONEY(7682)')).toBe('柒仟陆佰捌拾贰元整');
 
+  expect(await evalFormual('POW(2,3)')).toBe(8);
+  expect(await evalFormual('POW(4,2)')).toBe(16);
+
   // 非数字类型转换是否正常？
   expect(await evalFormual('"3" + "3"')).toBe(6);
   expect(await evalFormual('"3" - "3"')).toBe(0);
   expect(await evalFormual('AVG(4, "6", "10", 10, 10)')).toBe(8);
   expect(await evalFormual('MAX(4, "6", "10", 2, 3)')).toBe(10);
+  expect(await evalFormual('POW("2","3")')).toBe(8);
+  expect(await evalFormual('POW("22.3",2)')).toBe(497.29);
+  expect(await evalFormual('POW("word2",2)')).toBe('word2');
 
   expect(await evalFormual('"a" + "b"')).toBe('ab');
 });
@@ -336,9 +342,9 @@ test('formula:date', async () => {
       'CONCATENATE(STARTOF("2023-02-28", "day"), "," ,ENDOF("2023-02-28", "day"))'
     )
   ).toBe(
-    `${moment('2023-02-28').startOf('day').toDate()},${moment('2023-02-28')
+    `${moment('2023-02-28').startOf('day').format()},${moment('2023-02-28')
       .endOf('day')
-      .toDate()}`
+      .format()}`
   );
   expect(
     await evalFormual(

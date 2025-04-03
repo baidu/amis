@@ -146,21 +146,26 @@ order: 54
 
 还能通过 `copyable` 来增加一个复制按钮来复制当前行
 
+> 6.6.0 起支持配置 `copyData` 属性，来指定复制的数据。默认值为 `{&: "$$"}`
+
 ```schema: scope="body"
 {
   "type": "form",
   "api": "/api/mock2/form/saveForm",
+  "debug": true,
   "body": [
     {
     "type":"input-table",
     "name":"table",
     "addable": true,
     "copyable": true,
+    "copyData": {"&": "$$$$", "id": "$${'__undefined'}", "copyFrom": "$${id}"},
     "editable": true,
     "value": [
       {
         "a": "a1",
-        "b": "b1"
+        "b": "b1",
+        "id": 1
       }
     ],
     "columns":[
@@ -473,19 +478,112 @@ order: 54
   },
   "body": [
     {
-      "showIndex": true,
       "type":"input-table",
       "perPage": 5,
       "name":"table",
+      "addable": true,
+      "showIndex": true,
       "columns":[
           {
             "name": "a",
-            "label": "A"
+            "label": "A",
+            "searchable": true
           },
           {
             "name": "b",
-            "label": "B"
+            "label": "B",
+            "sortable": true
           }
+      ]
+    }
+  ]
+}
+```
+
+## 前端过滤与排序
+
+> 6.10.0 及以上版本
+
+在列上配置 `searchable`、`sortable` 或者 `filterable` 来开启对应功能，用法与 [CRUD](../crud#快速搜索) 一致。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "initApi": "/api/mock2/sample",
+  "body": [
+    {
+      "type":"input-table",
+      "perPage": 10,
+      "name":"rows",
+      "addable": true,
+      "copyable": true,
+      "editable": true,
+      "removable": true,
+      "showIndex": true,
+      "columns":[
+        {
+          "name": "grade",
+          "label": "CSS grade",
+          "filterable": {
+            "options": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "X"
+            ]
+          }
+        },
+        {
+          "name": "version",
+          "label": "Version",
+          "searchable": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+默认前端只是简单的过滤，如果要有复杂过滤，请通过 `matchFunc` 来实现，函数签名 `(items: Record<string, any>[], itemsRaw: Record<string, any>[], options: {query: string, columns: Column[], matchSorter: (a: any, b: any) => number}) => Record<string, any>[]`
+
+- `items` 当前表格数据
+- `itemsRaw` 与 items 一样，（历史用法，保持不变）
+- `options` 配置
+- `options.query` 查询条件
+- `options.columns` 列配置
+- `options.matchSorter` 系统默认的排序方法
+
+```schema: scope="body"
+{
+  "type": "form",
+  "initApi": "/api/mock2/sample",
+  "body": [
+    {
+      "type":"input-table",
+      "perPage": 10,
+      "name":"rows",
+      "addable": true,
+      "matchFunc": "const query = options.query;if (query.version === '>=20') {items = items.filter(item => parseFloat(item.version) >= 20);} else if (query.version ==='<20') {items = items.filter(item => parseFloat(item.version) < 20);}return items;",
+      "columns":[
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "name": "version",
+          "label": "Version",
+          "filterable": {
+            "options": [
+              ">=20",
+              "<20"
+            ]
+          }
+        }
       ]
     }
   ]
@@ -911,12 +1009,74 @@ order: 54
 }
 ```
 
+## 支持 Range extraName 属性
+
+> 6.10.0 以上版本
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": true,
+    "data": {
+      "table": [
+        {
+          "a": "1212",
+          "begin": "06:00",
+          "end": "07:00"
+        }
+      ]
+    },
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "label": "Table",
+        "needConfirm": false,
+        "columns": [
+          {
+            "label": "A",
+            "name": "a"
+          },
+          {
+            "type": "input-time-range",
+            "name": "begin",
+            "extraName": "end"
+          },
+          {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+              {
+                "label": "删除",
+                "type": "button",
+                "level": "link"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "label": "Table新增一行",
+        "target": "table",
+        "actionType": "add"
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型                                      | 默认值          | 说明                                                                                                 |
 | ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
 | type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
 | addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
+| copyable                     | `boolean`                                 | `false`         | 是否可复制一行                                                                                       |
+| copyData                     | `PlainObject`                             |                 | 控制复制时的数据映射，不配置时复制整行数据                                                           |
 | childrenAddable              | `boolean`                                 | `false`         | 是否可增加子级节点                                                                                   |
 | editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
 | removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
@@ -940,7 +1100,7 @@ order: 54
 | confirmBtnIcon               | `string`                                  | `"check"`       | 确认编辑按钮图标                                                                                     |
 | cancelBtnLabel               | `string`                                  | `""`            | 取消编辑按钮名称                                                                                     |
 | cancelBtnIcon                | `string`                                  | `"times"`       | 取消编辑按钮图标                                                                                     |
-| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
+| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，可用来控制表格的操作交互                                                       |
 | canAccessSuperData           | `boolean`                                 | `false`         | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
 | strictMode                   | `boolean`                                 | `true`          | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
 | minLength                    | `number`                                  | `0`             | 最小行数, `2.4.1`版本后支持变量                                                                      |
@@ -1460,7 +1620,7 @@ order: 54
 
 ### deleteSuccess
 
-开启`needConfirm`并且配置`updateApi`，点击“保存”后调用接口成功时触发。
+开启`needConfirm`并且配置`deleteApi`，点击“保存”后调用接口成功时触发。
 
 ```schema: scope="body"
 {

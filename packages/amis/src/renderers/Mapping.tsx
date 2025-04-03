@@ -91,6 +91,8 @@ export const Store = StoreNode.named('MappingStore')
                 ? data.options
                 : Array.isArray(data.items)
                 ? data.items
+                : Array.isArray(data.records)
+                ? data.records
                 : data
             );
           } else {
@@ -144,6 +146,8 @@ export interface MappingProps
   extends Omit<RendererProps, 'store'>,
     Omit<MappingSchema, 'type' | 'className'> {
   store: IStore;
+  renderValue: (map: any, key: any) => String;
+  renderViewValue: (value: any, key: any) => React.ReactNode;
 }
 
 export const MappingField = withStore(props =>
@@ -231,14 +235,14 @@ export const MappingField = withStore(props =>
         typeof key !== 'undefined' &&
         map &&
         (value =
-          map[key] ??
+          this.renderValue(map, key) ??
           (key === true && map['1']
             ? map['1']
             : key === false && map['0']
             ? map['0']
             : map['*'])) !== undefined
       ) {
-        viewValue = this.renderViewValue(value);
+        viewValue = this.renderViewValue(value, key);
       }
 
       return (
@@ -251,9 +255,14 @@ export const MappingField = withStore(props =>
         </span>
       );
     }
-
-    renderViewValue(value: any) {
-      const {render, itemSchema, data, labelField, name} = this.props;
+    renderViewValue(value: any, key: any) {
+      const {render, itemSchema, renderViewValue, data, labelField, name} =
+        this.props;
+      // 检查是否有外部renderViewValue函数传入
+      if (renderViewValue) {
+        // 使用外部传入的renderViewValue函数
+        return renderViewValue(value, key);
+      }
 
       if (!itemSchema) {
         let label = value;
@@ -296,6 +305,15 @@ export const MappingField = withStore(props =>
       });
     }
 
+    // 扩展函数,用于外围扩充
+    renderValue(map: any, key: any) {
+      const {renderValue} = this.props;
+      if (renderValue) {
+        return renderValue(map, key);
+      }
+      return map[key];
+    }
+
     render() {
       const {style, defaultValue, data} = this.props;
       let mapKey = getPropValue(this.props);
@@ -324,7 +342,8 @@ export const MappingField = withStore(props =>
 );
 
 @Renderer({
-  test: /(^|\/)(?:map|mapping)$/,
+  type: 'mapping',
+  alias: ['map'],
   name: 'mapping'
 })
 export class MappingFieldRenderer extends React.Component<RendererProps> {

@@ -15,15 +15,13 @@ import {
   localeable,
   LocaleProps
 } from 'amis-core';
-import type {FunctionDocMap} from 'amis-formula/lib/types';
-
 import {editorFactory} from './plugin';
 import FuncList from './FuncList';
 import VariableList from './VariableList';
 import {toast} from '../Toast';
 import Switch from '../Switch';
 import CodeEditor, {FuncGroup, FuncItem, VariableItem} from './CodeEditor';
-import {functionDocs} from 'amis-formula';
+import {getFunctionsDoc} from 'amis-formula';
 import Transition, {
   EXITED,
   ENTERING,
@@ -84,6 +82,10 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 编辑器配置
    */
   editorOptions?: any;
+
+  enableRunPanel?: boolean;
+
+  simplifyMemberOprs?: boolean;
 }
 
 export interface FunctionsProps {
@@ -126,49 +128,13 @@ export class FormulaEditor extends React.Component<
   unmounted: boolean = false;
   editor = React.createRef<any>();
 
-  static buildDefaultFunctions(
-    doc: Array<{
-      namespace: string;
-      name: string;
-      [propName: string]: any;
-    }>
-  ) {
-    const funcs: Array<FuncGroup> = [];
-
-    doc.forEach(item => {
-      const namespace = item.namespace || 'Others';
-      let exists = funcs.find(item => item.groupName === namespace);
-      if (!exists) {
-        exists = {
-          groupName: namespace,
-          items: []
-        };
-        funcs.push(exists);
-      }
-      exists.items.push(item);
-    });
-
-    return funcs;
-  }
-
-  static buildCustomFunctions(map: FunctionDocMap = {}) {
-    return Object.entries(map).map(([k, items]) => ({
-      groupName: k,
-      items
-    }));
-  }
-
   static async buildFunctions(
     functions?: Array<any>,
     functionsFilter?: (functions: Array<FuncGroup>) => Array<FuncGroup>
   ): Promise<any> {
-    const {doc} = await import('amis-formula/lib/doc');
+    const builtInFunctions = await getFunctionsDoc();
     const customFunctions = Array.isArray(functions) ? functions : [];
-    const functionList = [
-      ...FormulaEditor.buildDefaultFunctions(doc),
-      ...FormulaEditor.buildCustomFunctions(functionDocs),
-      ...customFunctions
-    ];
+    const functionList = [...builtInFunctions, ...customFunctions];
 
     if (functionsFilter) {
       return functionsFilter(functionList);
@@ -212,7 +178,8 @@ export class FormulaEditor extends React.Component<
   static highlightValue(
     value: string,
     variables: Array<VariableItem>,
-    evalMode: boolean = true
+    evalMode: boolean = true,
+    sourceCode: boolean = true
   ) {
     if (!Array.isArray(variables) || !variables.length || !value) {
       return;
@@ -266,7 +233,7 @@ export class FormulaEditor extends React.Component<
         if (reg.test(encodeHtml)) {
           html = encodeHtml.replace(
             REPLACE_KEY,
-            `<span class="c-field">${v}</span>`
+            `<span class="c-field">${sourceCode ? v : varMap[v]}</span>`
           );
         } else {
           html = encodeHtml.replace(REPLACE_KEY, v);
@@ -288,14 +255,17 @@ export class FormulaEditor extends React.Component<
   }
 
   async componentDidMount() {
+    const functionList = await FormulaEditor.buildFunctions();
+    if (this.unmounted) {
+      return;
+    }
     if (!this.state.functions) {
-      const functionList = await FormulaEditor.buildFunctions();
-      if (this.unmounted) {
-        return;
-      }
-
       this.setState({
         functions: functionList
+      });
+    } else {
+      this.setState({
+        functions: [...functionList, ...this.state.functions]
       });
     }
   }
@@ -484,7 +454,9 @@ export class FormulaEditor extends React.Component<
       functionClassName,
       classPrefix,
       selfVariableName,
-      evalMode
+      evalMode,
+      simplifyMemberOprs,
+      enableRunPanel = true
     } = this.props;
     const {
       focused,
@@ -514,10 +486,12 @@ export class FormulaEditor extends React.Component<
           <div className={cx(`FormulaEditor-content`)}>
             <header className={cx(`FormulaEditor-header`)}>
               {__(header || 'FormulaEditor.title')}
-              <div className={cx(`FormulaEditor-header-toolbar m-l`)}>
-                <span>{__('FormulaEditor.run')}</span>
-                <Switch value={showRunPanel} onChange={this.toggleRunPanel} />
-              </div>
+              {enableRunPanel ? (
+                <div className={cx(`FormulaEditor-header-toolbar m-l`)}>
+                  <span>{__('FormulaEditor.run')}</span>
+                  <Switch value={showRunPanel} onChange={this.toggleRunPanel} />
+                </div>
+              ) : null}
               <div className={cx(`FormulaEditor-header-toolbar`)}>
                 <span>{__('FormulaEditor.sourceMode')}</span>
                 <Switch
@@ -616,6 +590,7 @@ export class FormulaEditor extends React.Component<
                 data={variables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
+                simplifyMemberOprs={simplifyMemberOprs}
               />
             </div>
           </div>

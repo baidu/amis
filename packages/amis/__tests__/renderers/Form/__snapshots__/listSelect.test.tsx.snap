@@ -4,6 +4,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -33,6 +34,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:listSelect with image option & listClassName 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   单选
@@ -117,6 +119,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -125,7 +128,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -146,6 +149,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="select"
           data-role="form-item"
         >
           <label
@@ -153,7 +157,7 @@ exports[`Renderer:listSelect with multiple & clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   单选

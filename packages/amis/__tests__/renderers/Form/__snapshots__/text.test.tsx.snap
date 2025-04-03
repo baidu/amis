@@ -4,6 +4,7 @@ exports[`Renderer:text 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:text 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -33,6 +34,7 @@ exports[`Renderer:text 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:text 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -92,6 +94,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -100,7 +103,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -121,6 +124,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--isEmail"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -128,7 +132,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -187,6 +191,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -195,7 +200,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -216,6 +221,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -223,7 +229,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -275,6 +281,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -283,7 +290,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -304,6 +311,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -311,7 +319,7 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -363,6 +371,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -371,7 +380,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -392,6 +401,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -399,7 +409,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -459,6 +469,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -467,7 +478,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -488,6 +499,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -495,7 +507,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -555,6 +567,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -563,7 +576,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -584,6 +597,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--isUrl"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -591,7 +605,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -650,6 +664,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -658,7 +673,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -679,6 +694,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -686,7 +702,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -738,6 +754,7 @@ exports[`Renderer:text with addOn 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -746,7 +763,7 @@ exports[`Renderer:text with addOn 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -767,6 +784,7 @@ exports[`Renderer:text with addOn 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -774,7 +792,7 @@ exports[`Renderer:text with addOn 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -838,6 +856,7 @@ exports[`Renderer:text with clearable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -846,7 +865,7 @@ exports[`Renderer:text with clearable 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -867,6 +886,7 @@ exports[`Renderer:text with clearable 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -874,7 +894,7 @@ exports[`Renderer:text with clearable 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -934,6 +954,7 @@ exports[`Renderer:text with counter 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -942,7 +963,7 @@ exports[`Renderer:text with counter 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -963,6 +984,7 @@ exports[`Renderer:text with counter 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -970,7 +992,7 @@ exports[`Renderer:text with counter 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1027,6 +1049,7 @@ exports[`Renderer:text with counter 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1035,7 +1058,7 @@ exports[`Renderer:text with counter 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1056,6 +1079,7 @@ exports[`Renderer:text with counter 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1063,7 +1087,7 @@ exports[`Renderer:text with counter 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1120,6 +1144,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1128,7 +1153,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1149,6 +1174,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1156,7 +1182,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1214,6 +1240,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1222,7 +1249,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1243,6 +1270,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1250,7 +1278,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1308,6 +1336,7 @@ exports[`Renderer:text with minLength 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1316,7 +1345,7 @@ exports[`Renderer:text with minLength 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1337,6 +1366,7 @@ exports[`Renderer:text with minLength 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error has-error--maxLength"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1344,7 +1374,7 @@ exports[`Renderer:text with minLength 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1405,6 +1435,7 @@ exports[`Renderer:text with options 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1413,7 +1444,7 @@ exports[`Renderer:text with options 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1434,6 +1465,7 @@ exports[`Renderer:text with options 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1441,7 +1473,7 @@ exports[`Renderer:text with options 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1497,6 +1529,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1505,7 +1538,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1526,6 +1559,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1533,7 +1567,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1550,7 +1584,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -1577,9 +1610,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -1616,90 +1649,13 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -1742,6 +1698,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1750,7 +1707,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1771,6 +1728,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -1778,7 +1736,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -1795,7 +1753,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
@@ -1809,9 +1766,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -1858,90 +1815,13 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -1988,6 +1868,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1996,7 +1877,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2017,6 +1898,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2024,7 +1906,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2041,7 +1923,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2068,9 +1949,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -2107,90 +1988,13 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2233,6 +2037,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2241,7 +2046,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2262,6 +2067,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2269,7 +2075,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2286,7 +2092,6 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
               aria-owns="downshift-1-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2326,9 +2131,9 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -2355,90 +2160,13 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2481,6 +2209,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2489,7 +2218,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2510,6 +2239,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2517,7 +2247,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2588,6 +2318,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <div
@@ -2630,6 +2361,7 @@ exports[`Renderer:text with options: options is open 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2638,7 +2370,7 @@ exports[`Renderer:text with options: options is open 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2659,6 +2391,7 @@ exports[`Renderer:text with options: options is open 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2666,7 +2399,7 @@ exports[`Renderer:text with options: options is open 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2683,7 +2416,6 @@ exports[`Renderer:text with options: options is open 1`] = `
               aria-owns="downshift-0-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened has-popover"
               role="combobox"
-              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
@@ -2697,9 +2429,9 @@ exports[`Renderer:text with options: options is open 1`] = `
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                class="cxd-PopOver cxd-TextControl-popover"
                 role="popover"
-                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; visibility: hidden;"
                 theme="cxd"
               >
                 <div
@@ -2726,84 +2458,6 @@ exports[`Renderer:text with options: options is open 1`] = `
                     </span>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -2834,6 +2488,7 @@ exports[`Renderer:text with options: select first option 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2842,7 +2497,7 @@ exports[`Renderer:text with options: select first option 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2863,6 +2518,7 @@ exports[`Renderer:text with options: select first option 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2870,7 +2526,7 @@ exports[`Renderer:text with options: select first option 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text
@@ -2882,15 +2538,13 @@ exports[`Renderer:text with options: select first option 1`] = `
             class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
-              aria-expanded="true"
+              aria-expanded="false"
               aria-haspopup="listbox"
-              aria-owns="downshift-0-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC"
               role="combobox"
             >
               <input
                 aria-autocomplete="list"
-                aria-controls="downshift-0-menu"
                 autocomplete="off"
                 class=""
                 id="downshift-0-input"
@@ -2928,6 +2582,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -2936,7 +2591,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -2957,6 +2612,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
           data-role="form-item"
         >
           <label
@@ -2964,7 +2620,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   text

@@ -2,13 +2,9 @@ import {
   defaultValue,
   getSchemaTpl,
   undefinedPipeOut,
-  valuePipeOut
-} from 'amis-editor-core';
-import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import type {
+  registerEditorPlugin,
+  BasePlugin,
+  BaseEventContext,
   EditorManager,
   EditorNodeType,
   RendererPluginAction,
@@ -16,6 +12,11 @@ import type {
 } from 'amis-editor-core';
 import {isExpression, isPureVariable} from 'amis-core';
 import omit from 'lodash/omit';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 
 export class SwitchControlPlugin extends BasePlugin {
   static id = 'SwitchControlPlugin';
@@ -97,17 +98,20 @@ export class SwitchControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -141,7 +145,6 @@ export class SwitchControlPlugin extends BasePlugin {
               },
               {
                 type: 'ae-switch-more',
-                hiddenOnDefault: false,
                 mode: 'normal',
                 label: '值格式',
                 formType: 'extend',

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./lib",
+    "sourceMap": true,
+    "sourceRoot": "./",
     "typeRoots": [
       "../../types",
       "./node_modules/@types",

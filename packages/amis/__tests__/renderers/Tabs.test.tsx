@@ -14,6 +14,7 @@
  10. disabled 可禁用
  11. tabs 作为表单项
  12. collapseOnExceed 配置超出折叠
+ 13. tabs 删除事件动作
  */
 
 import {
@@ -544,4 +545,91 @@ test('Renderer:tabs with collapseOnExceed', async () => {
   expect(
     container.querySelector('.is-active.cxd-Tabs-pane')!
   ).toHaveTextContent('Content 5');
+});
+
+// 13. tabs 删除事件动作
+test('Renderer:Tabs delete actions', async () => {
+  const {container, getByText} = render(
+    amisRender({
+      type: 'page',
+      body: [
+        {
+          type: 'tabs',
+          name: 'tabs',
+          id: 'tabs',
+          tabs: [
+            {
+              title: '选项卡1',
+              hash: 'tab1',
+              body: '选项卡内容1'
+            },
+            {
+              title: '选项卡2',
+              hash: 'tab2',
+              body: '选项卡内容2'
+            },
+            {
+              title: '选项卡3',
+              hash: 'tab3',
+              body: '选项卡内容3'
+            }
+          ]
+        },
+        {
+          type: 'button',
+          label: '删除选项卡1',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'deleteTab',
+                  componentId: 'tabs',
+                  args: {
+                    deleteHash: 'tab1'
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          type: 'button',
+          label: '删除选项卡3',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'deleteTab',
+                  componentId: 'tabs',
+                  args: {
+                    deleteHash: 'tab3'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    })
+  );
+
+  const tabs = container.querySelectorAll('.cxd-Tabs-links .cxd-Tabs-link');
+
+  expect(tabs.length).toBe(3);
+  expect(tabs[0].textContent).toBe('选项卡1');
+  expect(tabs[1].textContent).toBe('选项卡2');
+  expect(tabs[2].textContent).toBe('选项卡3');
+
+  fireEvent.click(getByText('删除选项卡1'));
+  await wait(300);
+  const tabs1 = container.querySelectorAll('.cxd-Tabs-links .cxd-Tabs-link');
+  expect(tabs1.length).toBe(2);
+  expect(tabs1[0].textContent).toBe('选项卡2');
+  expect(tabs1[1].textContent).toBe('选项卡3');
+
+  fireEvent.click(getByText('删除选项卡3'));
+  await wait(300);
+  const tabs2 = container.querySelectorAll('.cxd-Tabs-links .cxd-Tabs-link');
+  expect(tabs2.length).toBe(1);
+  expect(tabs2[0].textContent).toBe('选项卡2');
 });

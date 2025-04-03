@@ -79,13 +79,36 @@ order: 11
 }
 ```
 
+
+## hexa (8 digits HEX)
+
+将 `format` 设置为 hexa 支持 8位 HEX，参考 `https://drafts.csswg.org/css-color/`。
+
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-color",
+            "name": "color",
+            "label": "带透明度调节的色盘, 8 digits HEX",
+            "value": "#73E3EC88",
+            "format": "hexa"
+        }
+    ]
+}
+```
+
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
 | 属性名           | 类型            | 默认值                                                                                                     | 说明                                                          |
 | ---------------- | --------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| format           | `string`        | `hex`                                                                                                      | 请选择 `hex`、`hls`、`rgb`或者`rgba`。                        |
+| format           | `string`        | `hex`                                                                                                      | 请选择 `hex`、`hexa`、`hls`、`rgb`或者`rgba`。                        |
 | presetColors     | `Array<string>` | [选择器预设颜色值](./input-color#%E9%80%89%E6%8B%A9%E5%99%A8%E9%A2%84%E8%AE%BE%E9%A2%9C%E8%89%B2%E5%80%BC) | 选择器底部的默认颜色，数组内为空则不显示默认颜色              |
 | allowCustomColor | `boolean`       | `true`                                                                                                     | 为`false`时只能选择颜色，使用 `presetColors` 设定颜色选择范围 |
 | clearable        | `boolean`       | `"label"`                                                                                                  | 是否显示清除按钮                                              |

@@ -17,6 +17,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -46,6 +47,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="range"
                   data-role="form-item"
                 >
                   <label
@@ -53,7 +55,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           滑块
@@ -76,7 +78,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                         />
                         <div
                           class="cxd-InputRange-handle"
-                          style="left: 10%; z-index: 1; position: relative;"
+                          style="left: 10%; z-index: 1;"
                         >
                           <div
                             class="cxd-InputRange-handle-icon"
@@ -88,89 +90,10 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                           </div>
                           <div
                             class="cxd-InputRange-label pos-top"
-                            style="position: relative;"
                           >
                             <span>
                               12
                             </span>
-                            <div
-                              class="resize-sensor"
-                              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                            >
-                              
-  
-                              <div
-                                class="resize-sensor-expand"
-                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                              >
-                                
-    
-                                <div
-                                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                                />
-                                
-  
-                              </div>
-                              
-  
-                              <div
-                                class="resize-sensor-shrink"
-                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                              >
-                                
-    
-                                <div
-                                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                                />
-                                
-  
-                              </div>
-                              
-  
-                              <div
-                                class="resize-sensor-appear"
-                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                              />
-                            </div>
-                          </div>
-                          <div
-                            class="resize-sensor"
-                            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                          >
-                            
-  
-                            <div
-                              class="resize-sensor-expand"
-                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                            >
-                              
-    
-                              <div
-                                style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                              />
-                              
-  
-                            </div>
-                            
-  
-                            <div
-                              class="resize-sensor-shrink"
-                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                            >
-                              
-    
-                              <div
-                                style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                              />
-                              
-  
-                            </div>
-                            
-  
-                            <div
-                              class="resize-sensor-appear"
-                              style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                            />
                           </div>
                         </div>
                       </div>
@@ -265,6 +188,7 @@ exports[`Renderer:range with marks 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -273,7 +197,7 @@ exports[`Renderer:range with marks 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -294,6 +218,7 @@ exports[`Renderer:range with marks 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -329,7 +254,7 @@ exports[`Renderer:range with marks 1`] = `
                 </div>
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 0%; z-index: 1; position: relative;"
+                  style="left: 0%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -341,89 +266,10 @@ exports[`Renderer:range with marks 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       0
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
                 <div
@@ -486,6 +332,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -494,7 +341,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -515,6 +362,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -582,7 +430,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
                 />
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 20%; z-index: 1; position: relative;"
+                  style="left: 20%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -594,94 +442,15 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       0.2
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 80%; z-index: 1; position: relative;"
+                  style="left: 80%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -693,89 +462,10 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       0.8
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>
@@ -866,6 +556,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -874,7 +565,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -895,6 +586,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -962,7 +654,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
                 />
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 7%; z-index: 1; position: relative;"
+                  style="left: 7%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -974,94 +666,15 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       7
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 13%; z-index: 1; position: relative;"
+                  style="left: 13%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -1073,89 +686,10 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       13
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>
@@ -1214,6 +748,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -1240,6 +775,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1248,7 +784,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -1269,6 +805,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -1286,7 +823,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
                 />
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 7%; z-index: 1; position: relative;"
+                  style="left: 7%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -1298,89 +835,10 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       7个
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>
@@ -1460,6 +918,7 @@ exports[`Renderer:range with showSteps 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1468,7 +927,7 @@ exports[`Renderer:range with showSteps 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -1489,6 +948,7 @@ exports[`Renderer:range with showSteps 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -1544,7 +1004,7 @@ exports[`Renderer:range with showSteps 1`] = `
                 </div>
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 0%; z-index: 1; position: relative;"
+                  style="left: 0%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -1556,89 +1016,10 @@ exports[`Renderer:range with showSteps 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="position: relative;"
                   >
                     <span>
                       0
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>
@@ -1713,6 +1094,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1721,7 +1103,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -1742,6 +1124,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="range"
           data-role="form-item"
         >
           <div
@@ -1759,7 +1142,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
                 />
                 <div
                   class="cxd-InputRange-handle"
-                  style="left: 41%; z-index: 1; position: relative;"
+                  style="left: 41%; z-index: 1;"
                 >
                   <div
                     class="cxd-InputRange-handle-icon"
@@ -1771,89 +1154,10 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-right cxd-InputRange-label-visible"
-                    style="position: relative;"
                   >
                     <span>
                       41
                     </span>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>

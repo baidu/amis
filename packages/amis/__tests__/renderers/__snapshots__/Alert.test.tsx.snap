@@ -25,7 +25,7 @@ exports[`Renderer:alert 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     提示内容
@@ -74,7 +74,7 @@ exports[`Renderer:alert var 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     百度一下，你就知道
@@ -115,7 +115,7 @@ exports[`Renderer:alert with level 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     提示类文案
@@ -134,7 +134,7 @@ exports[`Renderer:alert with level 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     成功类文案
@@ -153,7 +153,7 @@ exports[`Renderer:alert with level 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     警告类文案
@@ -172,7 +172,7 @@ exports[`Renderer:alert with level 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     危险类文案
@@ -213,7 +213,7 @@ exports[`Renderer:alert with showCloseButton & closeButtonClassName 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     提示信息
@@ -276,7 +276,7 @@ exports[`Renderer:alert with title & showIcon & icon & iconClassName 1`] = `
                 class="cxd-Alert-desc"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     提示类文案

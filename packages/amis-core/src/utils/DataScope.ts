@@ -222,6 +222,7 @@ export class DataScope {
       value: schema.title === '成员' ? '' : path.value,
       path: schema.title === '成员' ? '' : path.label,
       type: schema.type,
+      rawType: schema.rawType,
       tag:
         schema.typeLabel ??
         DATASCHEMA_TYPE_MAP[schema.type as string] ??

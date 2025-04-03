@@ -10,7 +10,7 @@ import {ThemeProps, themeable} from 'amis-core';
 import {autobind} from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import find from 'lodash/find';
-import type {PlainObject, Schema} from 'amis-core';
+import type {Schema} from 'amis-core';
 
 export interface AnchorNavSectionProps extends ThemeProps {
   title?: string; // 标题
@@ -26,10 +26,14 @@ class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProp
   contentRef = (ref: any) => (this.contentDom = ref);
 
   render() {
-    const {classnames: cx, children, className} = this.props;
+    const {classnames: cx, children, className, name} = this.props;
 
     return (
-      <div ref={this.contentRef} className={cx('AnchorNav-section', className)}>
+      <div
+        ref={this.contentRef}
+        className={cx('AnchorNav-section', className)}
+        data-id={name + ''}
+      >
         {children}
       </div>
     );
@@ -52,17 +56,7 @@ export interface AnchorNavProps extends ThemeProps {
   children?: React.ReactNode | Array<React.ReactNode>;
 }
 
-interface SectionOffset {
-  key: string | number;
-  offsetTop: number;
-}
-
-export interface AnchorNavState {
-  offsetArr: SectionOffset[]; // 记录每个段落的offsetTop
-  fromSelect: boolean; // 标识滚动触发来源
-}
-
-export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
+export class AnchorNav extends React.Component<AnchorNavProps> {
   static defaultProps: Pick<
     AnchorNavProps,
     'linkClassName' | 'sectionClassName' | 'direction'
@@ -76,97 +70,66 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
   contentDom: React.RefObject<HTMLDivElement> = React.createRef();
 
   // 后代节点观察器
-  observer: MutationObserver;
+  observer: IntersectionObserver;
 
   sections: {
     key: string | number;
     element: HTMLDivElement;
+    isIntersecting?: boolean;
   }[] = [];
 
-  componentDidMount() {
-    // 初始化滚动标识
-    this.setState({fromSelect: false});
+  fromSelect: boolean = false;
+  fromSelectTimer: any;
 
-    const sectionRootDom =
-      this.contentDom && (this.contentDom.current as HTMLElement);
-    sectionRootDom.addEventListener('scroll', this.scrollToNav);
+  componentDidMount() {
+    this.observer = new IntersectionObserver(this.scrollToNav);
+    this.sections.forEach(item => {
+      this.observer.observe(item.element);
+    });
+    if (this.props.active) {
+      this.scrollToSection(this.props.active);
+    }
   }
 
   componentWillUnmount() {
-    if (this.contentDom && this.contentDom.current) {
-      this.contentDom.current.removeEventListener('scroll', this.scrollToNav);
-    }
+    this.observer.disconnect();
   }
 
   @autobind
-  scrollToNav(e: Event) {
-    if (this.state.fromSelect) {
-      return;
-    }
-
-    // 获取滚动的scrollTop
-    const {scrollTop, scrollHeight, clientHeight} = e.target as HTMLElement;
-
-    // 是否到达最底部，以防最后一个因为高度不够无法高亮
-    const isReachBottom = scrollTop + clientHeight >= scrollHeight;
-
-    // 判断scrollTop所在区域
-    const firstSection = this.sections[0];
-    const lastSection = this.sections[this.sections.length - 1];
-    // 首层偏移
-    const offset = scrollTop + firstSection.element.offsetTop;
-
-    // 首层
-    if (offset <= firstSection.element.offsetTop) {
-      this.fireSelect(firstSection.key);
-    }
-    // 最后一层
-    else if (isReachBottom || offset >= lastSection.element.offsetTop) {
-      this.fireSelect(lastSection.key);
+  scrollToNav(entries: IntersectionObserverEntry[]) {
+    entries.forEach(entry => {
+      const key = entry.target.getAttribute('data-id');
+      const currentSection = this.sections.find(item => item.key === key);
+      if (currentSection) {
+        currentSection.isIntersecting = entry.isIntersecting;
+      }
+    });
+    // 找到第一个可见的区域
+    const firstIntersectingSection = this.sections.find(
+      item => item.isIntersecting
+    );
+    if (!this.fromSelect) {
+      firstIntersectingSection && this.fireSelect(firstIntersectingSection.key);
     } else {
-      // 段落区间判断
-      this.sections.forEach((item, index) => {
-        if (
-          offset >= item.element.offsetTop &&
-          offset < this.sections[index + 1].element.offsetTop
-        ) {
-          this.fireSelect(item.key);
-        }
-      });
+      // 滚动结束后，重置fromSelect状态
+      if (this.fromSelectTimer) {
+        clearTimeout(this.fromSelectTimer);
+      }
+      this.fromSelectTimer = setTimeout(() => {
+        this.fromSelect = false;
+      }, 300);
     }
   }
 
   scrollToSection(key: string | number) {
-    // 获取指定段落的offsettop
-    const node = find(this.sections, item => item.key === key);
-    const sectionRootDom =
-      this.contentDom && (this.contentDom.current as HTMLElement);
-
-    // 滚动到指定段落
-    node &&
-      (sectionRootDom.scrollTop =
-        node.element.offsetTop - this.sections[0].element.offsetTop);
+    this.fromSelect = true;
+    const node = find(this.sections, item => item.key === key)?.element;
+    node?.scrollIntoView?.({behavior: 'smooth'});
   }
 
   handleSelect(key: string | number) {
-    // 标记滚动来自导航选择
-    this.setState({fromSelect: true});
-    // 滚动到对应段落
     this.scrollToSection(key);
-    const sectionRootDom =
-      this.contentDom && (this.contentDom.current as HTMLElement);
-
-    // 如果已经滚到底就不去更新导航选中了
-    if (
-      sectionRootDom.scrollHeight - sectionRootDom.scrollTop <
-      sectionRootDom.clientHeight
-    ) {
-      // fire event
-      this.fireSelect(key);
-    }
-
-    // 取消标记
-    this.setState({fromSelect: false});
+    this.fireSelect(key);
   }
 
   fireSelect(key: string | number) {
@@ -215,7 +178,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
       classnames,
       active,
       ref: (props: any) => {
-        if (props && !this.sections.find(item => item.key === key)) {
+        if (props && !this.sections.find(item => item.key === name)) {
           // 收集每个段落的真实dom节点
           this.sections.push({key: name, element: props.ref.contentDom});
         }

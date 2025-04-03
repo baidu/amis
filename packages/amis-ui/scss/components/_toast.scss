@@ -59,12 +59,6 @@
   justify-content: space-between;
   align-items: flex-start;
 
-  &-wrap {
-    pointer-events: none;
-    position: fixed;
-    z-index: $zindex-toast;
-  }
-
   max-width: var(--Toast-width);
   pointer-events: auto;
   margin-bottom: var(--gap-xs);
@@ -82,6 +76,12 @@
   opacity: 0;
   transform: translateZ(0);
   width: px2rem(400px);
+
+  &-wrap {
+    pointer-events: none;
+    position: fixed;
+    z-index: $zindex-toast;
+  }
 
   &.in,
   &.out {
@@ -162,6 +162,22 @@
       width: var(--Toast-icon-width);
       height: var(--Toast-icon-height);
       color: inherit;
+
+      &.icon-warning {
+        color: var(--Status-warning-color);
+      }
+
+      &.icon-fail {
+        color: var(--Status-fail-color);
+      }
+
+      &.icon-success {
+        color: var(--Status-success-color);
+      }
+
+      &.icon-schedule {
+        color: var(--Status-schedule-color);
+      }
     }
   }
 

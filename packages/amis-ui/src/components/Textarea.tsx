@@ -185,7 +185,8 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
       maxLength,
       showCounter,
       clearable,
-      testIdBuilder
+      testIdBuilder,
+      style
     } = this.props;
     const counter = showCounter ? this.valueToString(value).length : 0;
 
@@ -200,6 +201,7 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
           },
           className
         )}
+        style={style}
       >
         <BaseTextArea
           className={cx(`TextareaControl-input`, {

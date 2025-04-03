@@ -2,7 +2,13 @@
  * @file Tag
  */
 import React from 'react';
-import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
+import {
+  autobind,
+  createObject,
+  labelToString,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -137,7 +143,7 @@ export class TagField extends React.Component<TagProps, object> {
       style = {}
     } = this.props;
 
-    const label = this.resolveLabel();
+    const label = labelToString(this.resolveLabel());
 
     if (isPureVariable(icon)) {
       icon = resolveVariableAndFilter(icon, data);

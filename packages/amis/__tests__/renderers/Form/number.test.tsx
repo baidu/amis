@@ -356,3 +356,19 @@ test('Renderer:number with static', async () => {
   expect(stringValInput.value).toEqual('123');
   expect(numberValInput.value).toEqual('123');
 });
+
+test('Renderer:number with showAsPercent', async () => {
+  const {input} = await setup({
+    suffix: '%',
+    showAsPercent: true,
+    value: 1.123,
+    precision: 3
+  });
+
+  expect(input.value).toEqual('112.3%');
+
+  fireEvent.change(input, {target: {value: 23.1234}});
+  fireEvent.blur(input);
+  await wait(300);
+  expect(input.value).toEqual('23.123%');
+});

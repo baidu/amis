@@ -3,7 +3,7 @@ import React from 'react';
 import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {escapeFormula} from '../util';
+import {escapeFormula, generateId} from '../util';
 import merge from 'lodash/merge';
 import set from 'lodash/set';
 
@@ -49,7 +49,7 @@ export class EachPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:7fb7aa9c1c43'
+              id: generateId()
             },
             {
               type: 'tpl',
@@ -66,7 +66,7 @@ export class EachPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:5b5f4735dcb0'
+              id: generateId()
             }
           ],
           style: {
@@ -86,7 +86,7 @@ export class EachPlugin extends BasePlugin {
               }
             }
           },
-          id: 'u:ee96c8898ee8'
+          id: generateId()
         },
         {
           type: 'container',
@@ -107,7 +107,7 @@ export class EachPlugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:d7c386d27b64'
+              id: generateId()
             }
           ],
           style: {
@@ -115,7 +115,7 @@ export class EachPlugin extends BasePlugin {
             display: 'block'
           },
           wrapperBody: false,
-          id: 'u:ba92a34b6492'
+          id: generateId()
         }
       ],
       size: 'none',
@@ -147,7 +147,7 @@ export class EachPlugin extends BasePlugin {
           }
         }
       },
-      id: 'u:7484a2c497ed'
+      id: generateId()
     },
     placeholder: '',
     style: {
@@ -162,7 +162,7 @@ export class EachPlugin extends BasePlugin {
     isFixedHeight: false,
     isFixedWidth: false,
     size: 'none',
-    id: 'u:330fe2b1f73e'
+    id: generateId()
   };
 
   previewSchema = {
@@ -397,19 +397,24 @@ export class EachPlugin extends BasePlugin {
       node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
     let field = node.schema.name || match?.[1];
     const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
-    const schema = scope?.parent?.getSchemaByPath(field);
 
-    if (isObject(schema?.items)) {
-      dataSchema = {
-        ...dataSchema,
-        ...(schema!.items as any)
-      };
+    if (scope) {
+      const origin = this.manager.dataSchema.current;
+      this.manager.dataSchema.switchTo(scope.parent!);
+      const schema = this.manager.dataSchema.getSchemaByPath(field);
+      this.manager.dataSchema.switchTo(origin);
+      if (isObject(schema?.items)) {
+        dataSchema = {
+          ...dataSchema,
+          ...(schema!.items as any)
+        };
 
-      // 循环添加索引方便渲染序号
-      set(dataSchema, 'properties.index', {
-        type: 'number',
-        title: '索引'
-      });
+        // 列表添加序号方便处理
+        set(dataSchema, 'properties.index', {
+          type: 'number',
+          title: '索引'
+        });
+      }
     }
 
     return dataSchema;

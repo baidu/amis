@@ -6,7 +6,7 @@
 
 import {createContext} from 'react';
 import type {SubMenuProps} from './SubMenu';
-
+import type {NavigationItem} from './';
 export interface MenuContextProps {
   /**
    * 主题色
@@ -26,10 +26,10 @@ export interface MenuContextProps {
   /**
    * 布局
    *
-   * @type {('inline' | 'float')}
+   * @type {('inline' | 'float' | 'panel')}
    * @memberof MenuContextProps
    */
-  mode?: 'inline' | 'float';
+  mode?: 'inline' | 'float' | 'panel';
 
   /**
    * mode不为horizontal时
@@ -77,6 +77,16 @@ export interface MenuContextProps {
     key: string;
     domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
     props: SubMenuProps;
+  }) => void;
+
+  /**
+   * 面板菜单中的菜单项点击事件
+   */
+  onPanelMenuClick?: (PanelItemMenuInfo: {
+    key: string;
+    domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+    keyPath: string[];
+    props: NavigationItem;
   }) => void;
 
   onDragStart?: (

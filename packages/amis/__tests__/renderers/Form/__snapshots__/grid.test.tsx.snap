@@ -4,6 +4,7 @@ exports[`Renderer:hbox 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:hbox 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -37,12 +38,14 @@ exports[`Renderer:hbox 1`] = `
         >
           <div
             class="cxd-Grid"
+            data-role="container"
           >
             <div
               class="cxd-Grid-col--md3 bg-white"
             >
               <div
                 class="cxd-Form-item cxd-Form-item--normal"
+                data-amis-name="text"
                 data-role="form-item"
               >
                 <div
@@ -68,7 +71,7 @@ exports[`Renderer:hbox 1`] = `
               class="cxd-Grid-col--md9"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   其他渲染器类型

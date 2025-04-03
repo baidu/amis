@@ -17,6 +17,7 @@ exports[`doAction:service reload 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`doAction:service reload 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -46,6 +47,7 @@ exports[`doAction:service reload 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -53,7 +55,7 @@ exports[`doAction:service reload 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           名字：
@@ -81,6 +83,7 @@ exports[`doAction:service reload 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
                   data-role="form-item"
                 >
                   <label
@@ -88,7 +91,7 @@ exports[`doAction:service reload 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           年龄：
@@ -130,6 +133,7 @@ exports[`doAction:service reload 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -137,7 +141,7 @@ exports[`doAction:service reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -165,6 +169,7 @@ exports[`doAction:service reload 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -172,7 +177,7 @@ exports[`doAction:service reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -223,6 +228,7 @@ exports[`doAction:service reload 2`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -231,7 +237,7 @@ exports[`doAction:service reload 2`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -252,6 +258,7 @@ exports[`doAction:service reload 2`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -259,7 +266,7 @@ exports[`doAction:service reload 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           名字：
@@ -287,6 +294,7 @@ exports[`doAction:service reload 2`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="age"
                   data-role="form-item"
                 >
                   <label
@@ -294,7 +302,7 @@ exports[`doAction:service reload 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           年龄：
@@ -336,6 +344,7 @@ exports[`doAction:service reload 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -343,7 +352,7 @@ exports[`doAction:service reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -371,6 +380,7 @@ exports[`doAction:service reload 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -378,7 +388,7 @@ exports[`doAction:service reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -451,6 +461,7 @@ exports[`doAction:service reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -458,7 +469,7 @@ exports[`doAction:service reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -486,6 +497,7 @@ exports[`doAction:service reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -493,7 +505,7 @@ exports[`doAction:service reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -555,6 +567,7 @@ exports[`doAction:service reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -562,7 +575,7 @@ exports[`doAction:service reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -590,6 +603,7 @@ exports[`doAction:service reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -597,7 +611,7 @@ exports[`doAction:service reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -670,6 +684,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -677,7 +692,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -705,6 +720,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -712,7 +728,7 @@ exports[`doAction:service(schemaApi) reload 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -774,6 +790,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -781,7 +798,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -809,6 +826,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -816,7 +834,7 @@ exports[`doAction:service(schemaApi) reload 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -889,6 +907,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -896,7 +915,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -924,6 +943,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -931,7 +951,7 @@ exports[`doAction:service(schemaApi) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -993,6 +1013,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1000,7 +1021,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1028,6 +1049,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -1035,7 +1057,7 @@ exports[`doAction:service(schemaApi) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -1108,6 +1130,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1115,7 +1138,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1143,6 +1166,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -1150,7 +1174,7 @@ exports[`doAction:service(schemaApi+data) reload with data 1`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：
@@ -1212,6 +1236,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
           >
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="name"
               data-role="form-item"
             >
               <label
@@ -1219,7 +1244,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的名字：
@@ -1247,6 +1272,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="age"
               data-role="form-item"
             >
               <label
@@ -1254,7 +1280,7 @@ exports[`doAction:service(schemaApi+data) reload with data 2`] = `
               >
                 <span>
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       我的年龄：

@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g id="应用多语言" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
-    stroke-linecap="round" stroke-linejoin="round">
-    <g id="4、设计器-应用多语言交互说明" transform="translate(-444.000000, -439.000000)" stroke="currentColor">
-      <g id="编组" transform="translate(445.000000, 440.000000)">
-        <circle id="1-FL" cx="6.5" cy="6.5" r="6.5"></circle>
-        <ellipse id="1-FL" cx="6.5" cy="6.5" rx="6.5" ry="2.5"></ellipse>
-        <ellipse id="1-FL"
-          transform="translate(6.500000, 6.500000) rotate(-90.000000) translate(-6.500000, -6.500000) "
-          cx="6.5" cy="6.5" rx="6.5" ry="2.5"></ellipse>
-      </g>
-    </g>
-  </g>
-</svg>
+<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg"><g transform="translate(1 1)" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="6.5"/><ellipse cx="6.5" cy="6.5" rx="6.5" ry="2.5"/><ellipse transform="rotate(-90 6.5 6.5)" cx="6.5" cy="6.5" rx="6.5" ry="2.5"/></g></svg>

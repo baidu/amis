@@ -63,8 +63,10 @@ const fns: {
   [propName: string]: TranslateFn;
 } = {};
 
-function format(str: string, data?: object) {
-  return str.replace(/(\\)?\{\{([\s\S]+?)\}\}/g, (_, escape, key) => {
+export function format(str: string, data?: object) {
+  if (!str.includes('{{')) return str; // 先快速检查，避免无谓的正则执行
+
+  return str.replace(/(\\)?\{\{([^{}]+?)\}\}/g, (_, escape, key) => {
     if (escape) {
       return _.substring(1);
     }
@@ -112,7 +114,7 @@ export const LocaleContext = React.createContext('');
 
 export function localeable<
   T extends React.ComponentType<React.ComponentProps<T> & LocaleProps>
->(ComposedComponent: T) {
+>(ComposedComponent: T, methods?: Array<string>) {
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
     Omit<React.ComponentProps<T>, keyof LocaleProps>
@@ -123,7 +125,7 @@ export function localeable<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `I18N(${
+      static displayName: string = `I18N(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = LocaleContext;
@@ -188,6 +190,17 @@ export function localeable<
     },
     ComposedComponent
   );
+
+  if (Array.isArray(methods)) {
+    methods.forEach(method => {
+      if (ComposedComponent.prototype[method]) {
+        (result as any).prototype[method] = function () {
+          const fn = this.ref?.[method];
+          return fn ? fn.apply(this.ref, arguments) : undefined;
+        };
+      }
+    });
+  }
 
   return result as typeof result & {
     ComposedComponent: T;

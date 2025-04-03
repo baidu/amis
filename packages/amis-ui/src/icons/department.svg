@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg  viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(-3271.000000, -1246.000000)" >
-            <g transform="translate(3271.000000, 1246.000000)">
-                <rect  fill-opacity="0.01" fill="currentColor" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
-                <circle  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="4.66666667" cy="9.66666667" r="1.66666667"></circle>
-                <circle  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="11.3333333" cy="9.66666667" r="1.66666667"></circle>
-                <circle  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="3" r="1.66666667"></circle>
-                <path d="M8,14.6666667 C8,12.8257333 6.5076,11.3333333 4.66666667,11.3333333 C2.82571667,11.3333333 1.33333333,12.8257333 1.33333333,14.6666667"  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M14.6666667,14.6666667 C14.6666667,12.8257333 13.1742667,11.3333333 11.3333333,11.3333333 C9.4924,11.3333333 8,12.8257333 8,14.6666667"  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M11.3333333,8 C11.3333333,6.15906667 9.84093333,4.66666667 8,4.66666667 C6.15906667,4.66666667 4.66666667,6.15906667 4.66666667,8"  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill-opacity=".01" fill="currentColor" fill-rule="nonzero" d="M0 0h16v16H0z"/><circle stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="4.667" cy="9.667" r="1.667"/><circle stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="11.333" cy="9.667" r="1.667"/><circle stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="3" r="1.667"/><path d="M8 14.667a3.333 3.333 0 0 0-6.667 0m13.334 0a3.333 3.333 0 0 0-6.667 0M11.333 8a3.333 3.333 0 0 0-6.666 0" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g></svg>

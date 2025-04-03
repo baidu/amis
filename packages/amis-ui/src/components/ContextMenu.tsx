@@ -27,12 +27,13 @@ interface ContextMenuProps {
 
 export type MenuItem = {
   id?: string;
-  label: string;
+  label: string | React.ReactNode;
   icon?: string;
   disabled?: boolean;
   children?: Array<MenuItem | MenuDivider>;
   data?: any;
   className?: string;
+  selected?: boolean;
   onSelect?: (data: any) => void;
   onHighlight?: (isHiglight: boolean, data: any) => void;
 };
@@ -49,6 +50,7 @@ interface ContextMenuState {
   align?: 'left' | 'right';
   onClose?: (ctx: ContextMenu) => void;
   contentClassName?: string;
+  preventClose?: (e?: Event) => boolean;
 }
 
 export class ContextMenu extends React.Component<
@@ -130,6 +132,7 @@ export class ContextMenu extends React.Component<
     onClose?: (ctx: ContextMenu) => void,
     options?: {
       contentClassName?: string;
+      preventClose?: (e?: Event) => boolean;
     }
   ) {
     if (this.state.isOpened) {
@@ -147,7 +150,8 @@ export class ContextMenu extends React.Component<
           cursorY,
           menus: menus,
           onClose,
-          contentClassName: options?.contentClassName
+          contentClassName: options?.contentClassName,
+          preventClose: options?.preventClose
         },
         () => {
           this.handleEnter(this.menuRef.current as HTMLElement);
@@ -162,14 +166,19 @@ export class ContextMenu extends React.Component<
         cursorY: info.y,
         menus: menus,
         onClose,
-        contentClassName: options?.contentClassName
+        contentClassName: options?.contentClassName,
+        preventClose: options?.preventClose
       });
     }
     this.prevInfo = info;
   }
 
   @autobind
-  close() {
+  close(e?: Event) {
+    if (this.state.preventClose?.(e)) {
+      return;
+    }
+    e?.preventDefault?.();
     this.menuEntered = false;
     this.resizeObserver?.disconnect();
     const onClose = this.state.onClose;
@@ -181,7 +190,8 @@ export class ContextMenu extends React.Component<
         cursorX: -99999,
         cursorY: -99999,
         menus: [],
-        contentClassName: ''
+        contentClassName: '',
+        preventClose: undefined
       },
       () => {
         onClose?.(this);
@@ -200,8 +210,7 @@ export class ContextMenu extends React.Component<
       return;
     }
     if (this.state.isOpened) {
-      e.preventDefault();
-      this.close();
+      this.close(e);
     }
   }
 
@@ -228,8 +237,7 @@ export class ContextMenu extends React.Component<
   @autobind
   handleKeyDown(e: KeyboardEvent) {
     if (e.keyCode === 27 && this.state.isOpened) {
-      e.preventDefault();
-      this.close();
+      this.close(e);
     }
   }
 
@@ -300,7 +308,8 @@ export class ContextMenu extends React.Component<
           key={`${item.label}-${index}`}
           className={cx('ContextMenu-item', item.className, {
             'has-child': hasChildren,
-            'is-disabled': item.disabled
+            'is-disabled': item.disabled,
+            'is-active': item.selected
           })}
         >
           <a
@@ -312,6 +321,8 @@ export class ContextMenu extends React.Component<
               <span className={cx('ContextMenu-itemIcon', item.icon)} />
             ) : null}
             {item.label}
+            {hasChildren ? <i className="fas fa-chevron-right" /> : null}
+            {item.selected ? <i className="fas fa-check" /> : null}
           </a>
           {hasChildren ? (
             <ul className={cx('ContextMenu-subList')}>
@@ -386,6 +397,7 @@ export async function openContextMenus(
   onClose?: (ctx: ContextMenu) => void,
   options?: {
     contentClassName?: string;
+    preventClose?: (e?: Event) => boolean;
   }
 ) {
   return ContextMenu.getInstance().then(instance =>

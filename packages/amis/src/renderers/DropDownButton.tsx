@@ -1,5 +1,11 @@
 import React from 'react';
-import {createObject, Renderer, RendererProps} from 'amis-core';
+import {
+  createObject,
+  CustomStyle,
+  Renderer,
+  RendererProps,
+  setThemeClassName
+} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
@@ -187,7 +193,7 @@ export default class DropDownButton extends React.Component<
 
   toogle(e: React.MouseEvent<any>) {
     e.preventDefault();
-
+    e.stopPropagation();
     this.setState({
       isOpened: !this.state.isOpened
     });
@@ -258,7 +264,8 @@ export default class DropDownButton extends React.Component<
       classnames: cx,
       data,
       ignoreConfirm,
-      testIdBuilder
+      testIdBuilder,
+      mobileUI
     } = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
@@ -266,7 +273,7 @@ export default class DropDownButton extends React.Component<
       return (
         <div
           key={index}
-          className={cx('DropDown-menu', {'is-mobile': isMobile()})}
+          className={cx('DropDown-menu', {'is-mobile': mobileUI})}
         >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
             {button.icon ? (
@@ -339,7 +346,8 @@ export default class DropDownButton extends React.Component<
       closeOnOutside,
       menuClassName,
       overlayPlacement,
-      trigger
+      trigger,
+      mobileUI
     } = this.props;
 
     const buttons =
@@ -359,13 +367,14 @@ export default class DropDownButton extends React.Component<
                 'DropDown-menu-root',
                 'DropDown-menu',
                 {
-                  'is-mobile': isMobile()
+                  'is-mobile': mobileUI
                 },
                 menuClassName
               )}
               onClick={closeOnClick ? this.close : noop}
               onMouseEnter={this.keepOpen}
               ref={ref}
+              style={{width: this.target?.offsetWidth}}
             >
               {children
                 ? children
@@ -433,7 +442,11 @@ export default class DropDownButton extends React.Component<
       data,
       hideCaret,
       env,
-      testIdBuilder
+      testIdBuilder,
+      id,
+      wrapperCustomStyle,
+      themeCss,
+      mobileUI
     } = this.props;
 
     return (
@@ -445,7 +458,7 @@ export default class DropDownButton extends React.Component<
             'DropDown--alignRight': align === 'right',
             'is-opened': this.state.isOpened,
             'is-actived': isActived,
-            'is-mobile': isMobile()
+            'is-mobile': mobileUI
           },
           className
         )}
@@ -478,13 +491,49 @@ export default class DropDownButton extends React.Component<
                 'Button--primary': primary,
                 'Button--iconOnly': iconOnly
               },
-              `Button--size-${size}`
+              `Button--size-${size}`,
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id,
+                themeCss: wrapperCustomStyle
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'className',
+                id,
+                themeCss: themeCss
+              })
             )}
           >
-            <Icon c={cx} icon={icon} className="icon m-r-xs" />
+            <Icon
+              c={cx}
+              icon={icon}
+              className={cx(
+                'icon m-r-xs',
+                setThemeClassName({
+                  ...this.props,
+                  name: 'iconClassName',
+                  id,
+                  themeCss: themeCss
+                })
+              )}
+            />
             {typeof label === 'string' ? filter(label, data) : label}
             {rightIcon && (
-              <Icon cx={cx} icon={rightIcon} className="icon m-l-xs" />
+              <Icon
+                cx={cx}
+                icon={rightIcon}
+                className={cx(
+                  'icon m-l-xs',
+                  setThemeClassName({
+                    ...this.props,
+                    name: 'iconClassName',
+                    id,
+                    themeCss: themeCss
+                  })
+                )}
+              />
             )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
@@ -494,6 +543,43 @@ export default class DropDownButton extends React.Component<
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
+
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'className',
+                weights: {
+                  hover: {
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  },
+                  active: {suf: ':not(:disabled):not(.is-disabled)'}
+                }
+              },
+              {
+                key: 'iconClassName',
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true,
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  },
+                  active: {
+                    important: true,
+                    suf: ':not(:disabled):not(.is-disabled)'
+                  }
+                }
+              }
+            ],
+            wrapperCustomStyle,
+            id
+          }}
+          env={env}
+        />
       </div>
     );
   }

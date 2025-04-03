@@ -10,6 +10,8 @@ import Downshift from 'downshift';
 import find from 'lodash/find';
 import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
+import compact from 'lodash/compact';
+import uniq from 'lodash/uniq';
 import {findDOMNode} from 'react-dom';
 import {PopUp, ResultBox, SpinnerExtraProps} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
@@ -172,13 +174,15 @@ export default class TagControl extends React.PureComponent<
 
   /** 处理输入的内容 */
   normalizeInputValue(inputValue: string): Option[] {
-    const {enableBatchAdd, separator, valueField, labelField} = this.props;
+    const {enableBatchAdd, separator, valueField, labelField, delimiter} =
+      this.props;
     let batchValues = [];
 
     if (enableBatchAdd && separator && typeof separator === 'string') {
       batchValues = inputValue.split(separator);
     } else {
-      batchValues.push(inputValue);
+      const inputValueArr = uniq(compact(inputValue.split(delimiter || ',')));
+      batchValues.push(...inputValueArr);
     }
 
     return batchValues.filter(Boolean).map(item => ({
@@ -475,10 +479,9 @@ export default class TagControl extends React.PureComponent<
       this.props;
 
     const value = this.state.inputValue.trim();
-    const selectedItems = selectedOptions.concat({
-      [`${labelField || 'label'}`]: value,
-      [`${valueField || 'value'}`]: value
-    });
+    const selectedItems = selectedOptions.concat(
+      this.normalizeMergedValue(value, false) as Option[]
+    );
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
       const newValueRes = this.getValue('pop');
@@ -539,9 +542,9 @@ export default class TagControl extends React.PureComponent<
     return this.input.current && findDOMNode(this.input.current)!.parentElement;
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload?.();
+    reload && reload(subpath, query);
   }
 
   @autobind

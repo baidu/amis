@@ -51,11 +51,20 @@ export class CustomAction implements RendererAction {
         'event'
       ) as any;
     }
-
+    const proxy = new Proxy(
+      {},
+      {
+        get(target: {}, p: string | symbol, receiver: any): any {
+          if (typeof p === 'string') {
+            return event.context.scoped?.getComponentByName?.(p);
+          }
+        }
+      }
+    );
     // 外部可以直接调用doAction来完成动作调用
     // 可以通过上下文直接编排动作调用，通过event来进行动作干预
     let result = await (scriptFunc as any)?.call(
-      null,
+      proxy,
       renderer,
       (action: ListenerAction) => runActions(action, renderer, event),
       event,

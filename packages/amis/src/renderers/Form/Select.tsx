@@ -16,7 +16,9 @@ import {
   createObject,
   autobind,
   TestIdBuilder,
-  getVariable
+  getVariable,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -226,8 +228,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input = ref;
   }
 
-  foucs() {
-    this.input && this.input.focus();
+  focus() {
+    this.input && this.input?.focus?.();
   }
 
   getValue(
@@ -426,9 +428,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     });
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   option2value() {}
@@ -458,6 +460,64 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
   }
 
+  @autobind
+  handleOptionAdd(
+    idx: number | Array<number> = -1,
+    value?: any,
+    skipForm: boolean = false,
+    callback?: (value: any) => any
+  ) {
+    const {onAdd, autoComplete} = this.props;
+
+    onAdd?.(idx, value, skipForm, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
+  @autobind
+  handleOptionEdit(
+    value: Option,
+    origin?: Option,
+    skipForm?: boolean,
+    callback?: (value: any) => any
+  ) {
+    const {onEdit, autoComplete} = this.props;
+
+    onEdit?.(value, origin, skipForm, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
+  @autobind
+  handleOptionDelete(value: any, callback?: (value: any) => any) {
+    const {onDelete, autoComplete} = this.props;
+
+    onDelete?.(value, async () => {
+      callback?.(value);
+
+      if (autoComplete) {
+        await this.loadRemote(this.lastTerm);
+        return false;
+      }
+
+      return;
+    });
+  }
+
   @supportStatic()
   render() {
     let {
@@ -466,6 +526,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       showInvalidMatch,
       options,
       className,
+      popoverClassName,
       style,
       loading,
       value,
@@ -489,13 +550,17 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       filterOption,
       ...rest
     } = this.props;
+    const {classPrefix: ns, themeCss} = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
 
     return (
-      <div className={cx(`${classPrefix}SelectControl`, className)}>
+      <div
+        className={cx(`${classPrefix}SelectControl`, className)}
+        style={style}
+      >
         {['table', 'list', 'group', 'tree', 'chained', 'associated'].includes(
           selectMode
         ) ? (
@@ -503,6 +568,26 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            onAdd={this.handleOptionAdd}
+            onEdit={this.handleOptionEdit}
+            onDelete={this.handleOptionDelete}
+            className={cx(
+              setThemeClassName({
+                ...this.props,
+                name: 'selectControlClassName',
+                id,
+                themeCss: themeCss
+              })
+            )}
+            popoverClassName={cx(
+              popoverClassName,
+              setThemeClassName({
+                ...this.props,
+                name: 'selectPopoverClassName',
+                id,
+                themeCss: themeCss
+              })
+            )}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -535,6 +620,41 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             overlay={overlay}
           />
         )}
+        <CustomStyle
+          {...this.props}
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'selectControlClassName',
+                weights: {
+                  focused: {
+                    suf: '.is-opened:not(.is-mobile)'
+                  },
+                  disabled: {
+                    suf: '.is-disabled'
+                  }
+                }
+              },
+              {
+                key: 'selectPopoverClassName',
+                weights: {
+                  default: {
+                    suf: ` .${ns}Select-option`
+                  },
+                  hover: {
+                    suf: ` .${ns}Select-option.is-highlight`
+                  },
+                  focused: {
+                    inner: `.${ns}Select-option.is-active`
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }
@@ -599,7 +719,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       showInvalidMatch,
       checkAll,
       checkAllLabel,
-      overlay
+      overlay,
+      valueField
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -656,6 +777,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           checkAllLabel={checkAllLabel}
           checkAll={checkAll}
           overlay={overlay}
+          valueField={valueField}
         />
 
         <Spinner

@@ -45,9 +45,6 @@
     }
   }
 
-  &--block {
-    display: flex;
-  }
   vertical-align: middle;
   text-align: left;
   align-items: center;
@@ -71,6 +68,10 @@
   cursor: pointer;
   color: var(--Form-select-color);
   transition: all var(--animation-duration) ease-in-out;
+
+  &--block {
+    display: flex;
+  }
 
   &:hover {
     background: var(--Form-select-onHover-bg);
@@ -280,10 +281,10 @@
     min-height: var(--Form-select-height);
     border: none;
     padding: 0;
-    font-size: var(--fontSizeLg);
+    font-size: var(--select-base-default-fontSize);
 
     .#{$ns}Select-valueWrap {
-      text-align: right;
+      text-align: left;
       padding-right: 4px;
     }
     .#{$ns}Select-arrow {
@@ -362,33 +363,33 @@
     background: var(--select-base-default-option-bg-color);
     line-height: var(--select-base-default-option-line-height);
 
-    &-checkbox {
+    .#{$ns}Checkbox {
       width: 100%;
       display: flex;
+      align-items: center;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      align-items: center;
-      > label {
-        width: 100%;
-        display: flex;
+      margin: 0;
+      > i {
+        flex-shrink: 0;
+      }
+
+      > span {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        align-items: center;
-
-        > i {
-          flex-shrink: 0;
-        }
-
-        > span {
+        width: 100%;
+        font-size: var(--select-base-default-option-fontSize);
+        font-weight: var(--select-base-default-option-fontWeight);
+        color: var(--select-base-default-option-color);
+      }
+      .#{$ns}TplField {
+        > span > p {
+          margin: 0;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          width: 100%;
-          font-size: var(--select-base-default-option-fontSize);
-          font-weight: var(--select-base-default-option-fontWeight);
-          color: var(--select-base-default-option-color);
         }
       }
     }

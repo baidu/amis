@@ -450,6 +450,8 @@ export default class Drawer extends React.Component<DrawerProps> {
     const {lazySchema, store} = this.props;
 
     store.setEntered(true);
+    // 可能还没来得及关闭，事件动作又打开了这个弹窗，这时候需要重置 busying 状态
+    store.markBusying(false);
     if (typeof lazySchema === 'function') {
       store.setSchema(lazySchema(this.props));
     }
@@ -461,6 +463,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     if (isAlive(store)) {
       store.reset();
       store.clearMessage();
+      store.markBusying(false);
       store.setEntered(false);
       if (typeof lazySchema === 'function') {
         store.setSchema('');
@@ -493,6 +496,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
+      btnDisabled: store.loading,
       syncLocation: false
     };
 
@@ -551,6 +555,7 @@ export default class Drawer extends React.Component<DrawerProps> {
           render(`action/${key}`, action, {
             onAction: this.handleAction,
             onActionSensor: undefined,
+            btnDisabled: store.loading,
             data: store.formData,
             key,
             disabled: action.disabled || store.loading
@@ -686,7 +691,8 @@ export default class Drawer extends React.Component<DrawerProps> {
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction,
-                  onActionSensor: undefined
+                  onActionSensor: undefined,
+                  btnDisabled: store.loading
                 })}
               </div>
             ) : null}
@@ -696,7 +702,8 @@ export default class Drawer extends React.Component<DrawerProps> {
                   onConfirm: this.handleDrawerConfirm,
                   onClose: this.handleDrawerClose,
                   onAction: this.handleAction,
-                  onActionSensor: undefined
+                  onActionSensor: undefined,
+                  btnDisabled: store.loading
                 })
               : null}
           </div>
@@ -939,10 +946,11 @@ export class DrawerRenderer extends Drawer {
     delegate?: IScopedContext,
     rendererEvent?: RendererEvent<any>
   ) {
-    const {onClose, onAction, store, env, dispatchEvent} = this.props;
+    const {onClose, onAction, store, env, dispatchEvent, show} = this.props;
 
-    if (action.from === this.$$id) {
+    if (action.from === this.$$id || !show) {
       // 如果是从 children 里面委托过来的，那就直接向上冒泡。
+      // 或者自己已经关闭了，那就不处理。
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
         : false;

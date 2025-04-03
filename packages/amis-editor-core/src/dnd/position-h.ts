@@ -3,13 +3,23 @@
  * 比如 Table 里面的列位置的移动，如果真要移动dom，那可能要命。
  */
 import findIndex from 'lodash/findIndex';
-import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
+import {EditorNodeType} from '../store/node';
+import {EditorDNDManager} from './index';
 
-export class PositionHDNDMode
-  extends DefaultDNDMode
-  implements DNDModeInterface
-{
+export class PositionHDNDMode implements DNDModeInterface {
+  readonly dndContainer: HTMLElement; // 记录当前拖拽区域
+  dropBeforeId?: string;
+
+  constructor(readonly dnd: EditorDNDManager, readonly region: EditorNodeType) {
+    // 初始化时，默认将元素所在区域设置为当前拖拽区域
+    this.dndContainer = this.dnd.store
+      .getDoc()
+      .querySelector(
+        `[data-region="${region.region}"][data-region-host="${region.id}"]`
+      ) as HTMLElement;
+  }
+
   enter(e: DragEvent, ghost: HTMLElement) {
     ghost.innerHTML = '';
     ghost.classList.add('use-position');
@@ -43,8 +53,10 @@ export class PositionHDNDMode
   }
 
   leave(e: DragEvent, ghost: HTMLElement) {
+    ghost.style.cssText = '';
     ghost.classList.remove('use-position');
     ghost.classList.remove('is-horizontal');
+    this.dndContainer.removeChild(ghost);
   }
 
   over(e: DragEvent, ghost: HTMLElement) {
@@ -64,23 +76,64 @@ export class PositionHDNDMode
     }
 
     const regionRect = this.dndContainer.getBoundingClientRect();
-    const list: Array<any> = Array.isArray(this.region.schema)
-      ? this.region.schema
-      : [];
 
     const rect = target.getBoundingClientRect();
-    if (
+    const leading = (e.clientX - rect.left) / rect.width < 0.5;
+
+    if (leading) {
+      ghost.style.cssText += `left: ${rect.x - regionRect.x}px;`;
+      this.dropBeforeId = target.getAttribute('data-editor-id')!;
+    } else if (
       target.nextElementSibling &&
       target.nextElementSibling.hasAttribute('data-editor-id')
     ) {
-      ghost.style.cssText += `left: ${rect.x - regionRect.x}px;`;
-      this.dropBeforeId = target.getAttribute('data-editor-id')!;
-    } else if (e.clientX > rect.x + rect.width / 2) {
+      ghost.style.cssText += `top: 0; left: ${rect.right - regionRect.x}px;`;
+      this.dropBeforeId =
+        target.nextElementSibling.getAttribute('data-editor-id')!;
+    } else {
       ghost.style.cssText += `top: 0; left: ${rect.right - regionRect.x}px;`;
       delete this.dropBeforeId;
-    } else {
-      ghost.style.cssText += `left: ${rect.x - regionRect.x}px;`;
-      this.dropBeforeId = target.getAttribute('data-editor-id')!;
     }
+  }
+
+  /**
+   * 获取当时拖动到了哪个节点上面。
+   */
+  getTarget(e: DragEvent) {
+    let target = (e.target as HTMLElement).closest(
+      '[data-editor-id]:not(.ae-is-draging)'
+    ) as HTMLElement;
+
+    while (target) {
+      const region = target.parentElement?.closest('[data-region]');
+
+      if (region === this.dndContainer) {
+        const renderer = target.getAttribute('data-renderer');
+        if (renderer === 'grid') {
+          // grid 组件中的分栏的子栏也可以拖入 选中分栏组件同级组件拖动时有问题 兼容一下
+          return target.parentElement;
+        } else {
+          return target;
+        }
+      }
+
+      target =
+        (target.parentElement?.closest(
+          '[data-editor-id]:not(.ae-is-draging)'
+        ) as HTMLElement) || null;
+    }
+
+    return null;
+  }
+
+  getDropBeforeId() {
+    return this.dropBeforeId;
+  }
+
+  /**
+   * 销毁
+   */
+  dispose() {
+    delete this.dropBeforeId;
   }
 }

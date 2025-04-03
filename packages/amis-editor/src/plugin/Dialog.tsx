@@ -18,10 +18,13 @@ import {
   ChangeEventContext,
   JSONPipeOut
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
 import type {RendererConfig, Schema} from 'amis-core';
-import {ModalProps} from 'amis-ui/src/components/Modal';
+import {ModalProps} from 'amis-ui/lib/components/Modal';
 import ModalSettingPanel from '../component/ModalSettingPanel';
 import find from 'lodash/find';
 
@@ -119,7 +122,8 @@ export class DialogPlugin extends BasePlugin {
     {
       actionType: 'confirm',
       actionLabel: '确认',
-      description: '触发弹窗确认操作'
+      description: '触发弹窗确认操作',
+      descDetail: (info: any) => <div>打开确认对话框</div>
     },
     {
       actionType: 'cancel',
@@ -129,7 +133,8 @@ export class DialogPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -292,6 +297,8 @@ export class DialogPlugin extends BasePlugin {
                 type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 name: 'title'
               },
+
+              getSchemaTpl('button-manager'),
 
               getSchemaTpl('switch', {
                 label: '展示关闭按钮',

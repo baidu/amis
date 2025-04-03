@@ -6,6 +6,7 @@
  */
 
 import {ApiObject} from '../types';
+import {saveAs} from 'file-saver';
 
 export function attachmentAdpator(
   response: any,
@@ -28,6 +29,8 @@ export function attachmentAdpator(
         let matches = disposition.match(filenameRegex);
         if (matches && matches.length) {
           filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
+        } else {
+          filename = disposition?.split(';')[1];
         }
 
         // 很可能是中文被 url-encode 了
@@ -43,32 +46,8 @@ export function attachmentAdpator(
         response.data.toString() === '[object Blob]'
           ? response.data
           : new Blob([response.data], {type: type});
-      if (typeof (window.navigator as any).msSaveBlob !== 'undefined') {
-        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-        (window.navigator as any).msSaveBlob(blob, filename);
-      } else {
-        let URL = window.URL || (window as any).webkitURL;
-        let downloadUrl = URL.createObjectURL(blob);
-        if (filename) {
-          // use HTML5 a[download] attribute to specify filename
-          let a = document.createElement('a');
-          // safari doesn't support this yet
-          if (typeof a.download === 'undefined') {
-            (window as any).location = downloadUrl;
-          } else {
-            a.href = downloadUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-          }
-        } else {
-          (window as any).location = downloadUrl;
-        }
-        setTimeout(function () {
-          URL.revokeObjectURL(downloadUrl);
-        }, 100); // cleanup
-      }
 
+      saveAs(blob, filename);
       return {
         ...response,
         data: {

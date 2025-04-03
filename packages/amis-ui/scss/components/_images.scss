@@ -1,5 +1,21 @@
 @use 'sass:math';
 
+.sm-ss-sss-m,
+.sss-ss-ms-m,
+.sms-ss-sms-m,
+.sm-ss-sss-ss,
+.ms-ss-sss-ss,
+.sss-ss-sm-ss,
+.mss-ss-ssm-ss,
+.sss-ss-mm-ss,
+[class^="even-"]{
+  .#{$ns}Image{
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
 .#{$ns}Images {
   display: flex;
   flex-wrap: wrap;
@@ -15,6 +31,14 @@
 
 .#{$ns}Image {
   border: var(--borderWidth) solid var(--borderColor);
+  overflow: hidden;
+
+  &--original {
+    height: 100%;
+    .#{$ns}Image-origin--cover {
+      height: 100%;
+    }
+  }
 
   &--thumb {
     display: inline-block;
@@ -65,7 +89,7 @@
   }
 
   &--thumb &-info {
-    width: px2rem(110px);
+    width: 100%;
     padding: 0;
   }
 
@@ -188,6 +212,351 @@
   &-thumbWrap:hover &-overlay {
     display: flex;
   }
+
+  .#{$ns}Img-container{
+    position: relative;
+
+    img{
+      transition: all ease-in-out .3s;
+
+    }
+
+    .mask{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      font-weight: bold;
+      font-size: px2rem(15px);
+      background-color: rgb(44, 63, 82);
+      color: #fff;
+      transition: all ease-in-out .3s;
+    }
+  }
+
+  .hover-slide{
+    &:hover .mask{
+      opacity: 1;
+      transform: translate(5%, 5%);
+      z-index: 1;
+    }
+  }
+
+  .pull-top{
+    .mask{
+      opacity: 1;
+    }
+    img{
+      position: absolute;
+    }
+    &:hover img{
+      transform: translateY(-70%);
+    }
+  }
+
+  .scale-center{
+    .mask{
+      scale: 0.5;
+
+      span{
+        position: absolute;
+        top: 5%;
+        left: 5%;
+      }
+    }
+
+    &:hover .mask{
+      transform: scale(2);
+      opacity: 1;
+    }
+
+    &:hover img{
+      transform: scale(0.5);
+    }
+  }
+
+  .scale-top{
+    img{
+      position: absolute;
+    }
+    .mask {
+      opacity: 1;
+      span{
+        position: absolute;
+        bottom: 5%;
+        left: 5%;
+      }
+    }
+    &:hover img{
+      transform: translateY(-50%) scale(0.5);
+    }
+  }
+
+  .text-style-1{
+    overflow: hidden;
+    .mask{
+      z-index: 1;
+      opacity: 1;
+      background: rgba(48, 133, 163, 0.4);
+      span{
+        position: absolute;
+        left: 5%;
+        bottom: 5%;
+        transition: all ease-in-out .3s;
+      }
+    }
+    img{
+      scale: 1.2;
+      transform: translateX(-5%);
+    }
+    &:hover .mask{
+      background: rgba(48, 133, 163, 0);
+      span{
+        transform: translateY(-200%);
+      }
+    }
+    &:hover img{
+      transform: translateX(5%);
+    }
+  }
+
+  .text-style-2{
+    .mask{
+      opacity: 1;
+      background: transparent;
+      span{
+        z-index: 1;
+        transition: all ease-in-out .3s;
+      }
+    }
+    .mask::before{
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0%;
+      background: linear-gradient(to bottom, rgba(72, 76, 97, 0) 0, rgba(72, 76, 97, .8) 75%);
+      transition: all ease-in-out .3s;
+    }
+    &:hover .mask::before{
+      height: 100%;
+    }
+    &:hover .mask span{
+      transform: translateY(-200%);
+    }
+  }
+
+  .text-style-3{
+    overflow: hidden;
+    .mask{
+      z-index: 1;
+      opacity: 1;
+      background: transparent;
+      span{
+        position: absolute;
+        top: 10%;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+    img{
+      scale: 1.2;
+      transition: all 0.3s ease-in-out;
+    }
+    .mask::before,
+    .mask::after{
+      content: "";
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      left: 15%;
+      right: 15%;
+      transition: all 0.3s ease-in-out;
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 0;
+    }
+    .mask::before{
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+      transform: scaleX(0); /* 初始状态：水平方向缩放为0 */
+      transform-origin: left; /* 设置变换的原点为左侧 */
+    }
+    .mask::after {
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #ffffff;
+      transform: scaleY(0); /* 初始状态：垂直方向缩放为0 */
+      transform-origin: top; /* 设置变换的原点为顶部 */
+    }
+    &:hover .mask::before{
+      opacity: 1;
+      transform: scaleX(1.2) translateX(-10%); /* 鼠标悬停时：水平方向缩放为1 */
+    }
+    &:hover .mask::after{
+      opacity: 1;
+      transform: scaleY(1.2) translateY(-10%); /* 鼠标悬停时：垂直方向缩放为1 */
+    }
+    &:hover .mask{
+      background: rgba(48, 133, 163, 0.4);
+      span{
+        top: 20%;
+      }
+    }
+    &:hover img{
+      transform: translateY(10%);
+    }
+  }
+
+  .text-style-4{
+    .mask{
+      background: #fff;
+      opacity: 1;
+      left: 0;
+      bottom: 0;
+      top: auto;
+      height: 0!important;
+      transform-origin: bottom;
+      color: #0b0a22;
+      z-index: 1;
+      span{
+        display: none;
+      }
+    }
+
+    &:hover .mask{
+      height: 40%!important;
+      span{
+        display: block;
+      }
+    }
+  }
+
+  .text-style-5{
+    .mask{
+      opacity: 1;
+      background: rgba(48, 133, 163, 0);
+      z-index: 1;
+      span{
+        position: relative;
+        bottom: -10%;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+    .mask::before{
+      content: "";
+      border: 1px solid #ffffff;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 0;
+      height: 0;
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+    }
+    &:hover .mask::before{
+      width: 90%;
+      height: 90%;
+      opacity: 1;
+    }
+
+    &:hover .mask{
+      background: rgba(48, 133, 163, 0.4);
+      span{
+        bottom: 10%;
+      }
+    }
+  }
+
+  .text-style-6{
+    .mask{
+      opacity: 1;
+      z-index: 1;
+      background: rgba(48, 133, 163, 0.4);
+      span{
+        position: absolute;
+        transition: all 0.3s ease-in-out;
+        bottom: 40%;
+      }
+    }
+    .mask::before,
+    .mask::after{
+      content: "";
+      position: absolute;
+      top: 5%;
+      bottom: 5%;
+      left: 7%;
+      right: 7%;
+      transition: all 0.3s ease-in-out;
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 0;
+    }
+    .mask::before{
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+      transform: scaleX(0); /* 初始状态：水平方向缩放为0 */
+    }
+    .mask::after {
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #ffffff;
+      transform: scaleY(0); /* 初始状态：垂直方向缩放为0 */
+    }
+    &:hover .mask::before{
+      opacity: 1;
+      transform: scaleX(1); /* 鼠标悬停时：水平方向缩放为1 */
+    }
+    &:hover .mask::after{
+      opacity: 1;
+      transform: scaleY(1); /* 鼠标悬停时：垂直方向缩放为1 */
+    }
+    &:hover .mask{
+      background: rgba(48, 133, 163, 0);
+      span{
+        bottom: 5%;
+      }
+    }
+  }
+
+  .text-style-7{
+    .mask{
+      opacity: 1;
+      z-index: 1;
+      background: rgba(48, 133, 163, 0);
+      span{
+        position: absolute;
+        top: 10%;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+    .mask::before,
+    .mask::after{
+      content: "";
+      width: 80%;
+      height: 1px;
+      background: #ffffff;
+      position: absolute;
+      transition: all 0.3s ease-in-out;
+    }
+    &:hover .mask{
+      background: rgba(48, 133, 163, 0.4);
+      span{
+        top: 20%;
+      }
+    }
+    &:hover .mask::before{
+      transform: rotateZ(45deg);
+    }
+    &:hover .mask::after{
+      transform: rotateZ(-45deg);
+    }
+  }
 }
 
 .#{$ns}ImageField--thumb {
@@ -200,8 +569,82 @@
 .#{$ns}ImagesField {
   position: relative;
   @include clearfix();
+
+  &--full {
+    position: relative;
+
+    .#{$ns}Images {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+
+      &-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 300px;
+      }
+
+      &-item {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+      }
+
+      &-itemInner {
+        position: relative;
+        max-width: 100%;
+        max-height: 100vh;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .#{$ns}Image-image {
+        display: block;
+        max-width: 100%;
+        height: auto;
+
+        &--contain {
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
+        }
+
+        &--cover {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      &-itemIndex {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        z-index: 10;
+        pointer-events: none;
+      }
+    }
+  }
 }
 
 .Image-view-icon {
   content: var(--image-image-normal-icon);
 }
+
+
+

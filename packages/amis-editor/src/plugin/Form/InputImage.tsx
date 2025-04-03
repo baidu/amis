@@ -5,28 +5,31 @@ import {
   RendererPluginEvent,
   BasePlugin,
   BaseEventContext,
-  registerEditorPlugin
+  registerEditorPlugin,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 
 const addBtnCssClassName = 'themeCss.addBtnControlClassName';
 const IconCssClassName = 'themeCss.iconControlClassName';
-const editorPath = 'inputImage.base';
+const editorPath = '--inputImage-base';
 const inputStateFunc = (visibleOn: string, state: string) => {
   return [
     getSchemaTpl('theme:border', {
       name: `${addBtnCssClassName}.border:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.border`
+      editorValueToken: `${editorPath}-${state}`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '文字',
       name: `${addBtnCssClassName}.color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.color`
+      editorValueToken: `${editorPath}-${state}-color`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '背景',
@@ -35,14 +38,14 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       needGradient: true,
       needImage: true,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.bg-color`
+      editorValueToken: `${editorPath}-${state}-bg-color`
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '图标',
       name: `${addBtnCssClassName}.icon-color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.icon-color`
+      editorValueToken: `${editorPath}-${state}-icon-color`
     })
   ];
 };
@@ -189,12 +192,14 @@ export class ImageControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空数据',
-      description: '清除选择的文件'
+      description: '清除选择的文件',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -365,6 +370,18 @@ export class ImageControlPlugin extends BasePlugin {
                       {label: '绘图区域', value: 1}
                     ],
                     pipeOut: valuePipeOut
+                  },
+                  {
+                    name: 'cropQuality',
+                    type: 'input-number',
+                    label: tipedLabel(
+                      '压缩质量',
+                      '裁剪后会重新生成，体积可能会变大，需要设置压缩质量降低体积，数值越小压缩率越高'
+                    ),
+                    step: 0.1,
+                    min: 0.1,
+                    max: 1,
+                    value: 0.7
                   }
                 ]
               },
@@ -506,7 +523,7 @@ export class ImageControlPlugin extends BasePlugin {
                 getSchemaTpl('theme:radius', {
                   name: `${addBtnCssClassName}.border-radius`,
                   label: '圆角',
-                  editorThemePath: `${editorPath}.default.body.border`
+                  editorValueToken: `${editorPath}-default`
                 }),
                 {
                   name: `${addBtnCssClassName}.--inputImage-base-default-icon`,
@@ -517,12 +534,12 @@ export class ImageControlPlugin extends BasePlugin {
                 getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.iconSize`,
                   label: '图标大小',
-                  editorThemePath: `${editorPath}.default.body.icon-size`
+                  editorValueToken: `${editorPath}-default-icon-size`
                 }),
                 getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.margin-bottom`,
                   label: '图标底边距',
-                  editorThemePath: `${editorPath}.default.body.icon-margin`
+                  editorValueToken: `${editorPath}-default-icon-margin`
                 })
               ]
             },

@@ -31,7 +31,7 @@ import {normalizeApiResponseData} from '../utils/api';
 import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ServiceStore} from './service';
 import {IFormStore} from './form';
-
+import {getPageId} from '../utils/getPageId';
 class ServerError extends Error {
   type = 'ServerError';
 }
@@ -507,8 +507,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     }
 
     function persistSaveToggledColumns() {
+      const fn = getEnv(self).getPageId || getPageId;
       const key =
-        location.pathname +
+        fn() +
         self.path +
         self.toggableColumns.map(item => item.name || item.index).join('-');
       localStorage.setItem(
@@ -823,8 +824,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           if (!isAlive(self)) {
             return;
           }
+          const fn = getEnv(self).getPageId || getPageId;
           const key =
-            location.pathname +
+            fn() +
             self.path +
             self.toggableColumns.map(item => item.name || item.index).join('-');
 

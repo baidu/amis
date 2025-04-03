@@ -8,7 +8,8 @@ icon:
 order: 53
 ---
 
-图片集展示，不支持配置初始化接口初始化数据域，所以需要搭配类似像`Service`、`Form`或`CRUD`这样的，具有配置接口初始化数据域功能的组件，或者手动进行数据域初始化，然后通过`source`属性，获取数据链中的数据，完成数据展示。
+图片集展示，不支持配置初始化接口初始化数据域，所以需要搭配类似像`Service`、`Form`或`CRUD`
+这样的，具有配置接口初始化数据域功能的组件，或者手动进行数据域初始化，然后通过`source`属性，获取数据链中的数据，完成数据展示。
 
 ## 基本用法
 
@@ -57,6 +58,981 @@ order: 53
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
         ]
     }
+}
+```
+
+## 展示模式
+
+通过配置 `displayMode` 可以设置图片集的展示模式,支持以下两种模式:
+
+- `thumb`: 缩略图模式(默认),将图片以缩略图网格的形式展示
+- `full`: 大图模式,以幻灯片形式展示单张大图,可左右滑动切换
+
+在大图模式下,可以通过`fullThumbMode`属性来控制图片的缩放模式:
+
+- `cover`: 保持图片比例,填充整个容器,可能会裁剪部分图片(默认)
+- `contain`: 保持图片比例,确保图片完整显示在容器内
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "images": [
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片1"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg",
+                "title": "图片2"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg",
+                "title": "图片3"
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "images",
+            "source": "${images}",
+            "displayMode": "full",
+            "fullThumbMode": "cover"
+        }
+    ]
+}
+```
+
+## 图集排版方式
+
+图集排列方式，通过 sortType 字段调整布局方式。四部分分别是上右下左方向顺时针排列，最小单位为 s，m 是 s 的 2 倍，l 是 m 的 2 倍。
+`'sm-ss-sss-m'| 'sss-ss-ms-m'| 'sms-ss-sms-m' | 'sm-ss-sss-ss' | 'ms-ss-sss-ss'| 'sss-ss-sm-ss' | 'mss-ss-ssm-ss' | 'sss-ss-mm-ss';`
+可以通过改变 width 和 height 来调整图片大小。默认宽度是 800，高度是 450。
+
+### 主辅并排式
+
+`sortType: 'sm-ss-sss-m'`
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sm-ss-sss-m",
+      "width":"200",
+      "height":"112.5",
+      "thumbMode": "cover",
+      "value":[
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_520,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_552,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 上下分层式
+
+`sortType: 'sss-ss-ms-m'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-ms-m",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_520,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        },
+        {
+          "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          "title": "图片描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 侧边栏嵌入式
+
+`sortType: 'sms-ss-sms-m'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sms-ss-sms-m",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_520,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        }
+      ],
+    },
+  ]
+}
+```
+
+### 黄金比例分割式
+
+`sortType: 'sm-ss-sss-ss'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sm-ss-sss-ss",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 动态不对称式
+
+`sortType: 'ms-ss-sss-ss'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "ms-ss-sss-ss",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 焦点引导式
+
+`sortType: 'sss-ss-sm-ss'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-sm-ss",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 模块化组合式
+
+`sortType: 'mss-ss-ssm-ss'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "mss-ss-ssm-ss",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        }
+      ]
+    },
+  ]
+}
+```
+
+### 阶梯错落式
+
+`sortType: 'sss-ss-mm-ss'`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "sss-ss-mm-ss",
+      "thumbMode": "cover",
+      "width":"200",
+      "height":"112.5",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_520,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ]
+    },
+  ]
+}
+```
+
+### 网格式
+
+`sortType: 'even-${number}-${number}'` 其中 number 可以是任意正整数
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "images",
+      "sortType": "even-3-3",
+      "thumbMode": "cover",
+      "width":"180",
+      "height":"180",
+      "value":[
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ]
+    },
+  ]
+}
+```
+
+## 文字展示效果
+
+在图集组件中，通过配置 `hoverMode`字段，来控制鼠标移入图片时，图片蒙层及文字效果。通过 `fontStyle`字段控制文字 css 样式
+
+### 浮层滑动
+
+`"hoverMode": "hover-slide"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "hover-slide",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 上拉
+
+`"hoverMode": "pull-top"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "pull-top",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value":  [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 缩小居中
+
+`"hoverMode": "scale-center"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "scale-center",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 缩小居上
+
+`"hoverMode": "scale-top"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "scale-top",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value":  [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果一
+
+`"hoverMode": "text-style-1"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-1",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value":  [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果二
+
+`"hoverMode": "text-style-2"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-2",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value":  [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果三
+
+`"hoverMode": "text-style-3"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-3",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value":  [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果四
+
+`"hoverMode": "text-style-4"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-4",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果五
+
+`"hoverMode": "text-style-5"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-5",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果六
+
+`"hoverMode": "text-style-6"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-6",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
+}
+```
+
+### 文字效果七
+
+`"hoverMode": "text-style-7"`
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "container",
+    "style":{
+        width: "400px",
+        height: "260px"
+    },
+    "body": {
+      "type": "images",
+      "hoverMode": "text-style-7",
+      "sortType": "sm-ss-sss-m",
+      "thumbMode": "cover",
+      "width":"400",
+      "height":"250",
+      "value": [
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,h_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_270,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_250,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+        {
+          image: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_240,l_1,f_jpg,q_80",
+          title: "图片描述",
+          description: "这是一段描述"
+        },
+      ],
+    },
+  },
 }
 ```
 
@@ -619,7 +1595,8 @@ List 的内容、Card 卡片的内容配置同上。
 
 > 2.2.0 及以上版本
 
-配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
+配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`
+属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
 
 ```schema
 {
@@ -664,19 +1641,25 @@ List 的内容、Card 卡片的内容配置同上。
 
 ## 属性表
 
-| 属性名             | 类型                                       | 默认值    | 说明                                                                                                                                    | 版本    |
-| ------------------ | ------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| type               | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"`                                                |
-| className          | `string`                                   |           | 外层 CSS 类名                                                                                                                           |
-| defaultImage       | `string`                                   |           | 默认展示图片                                                                                                                            |
-| value              | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                                                                |
-| source             | `string`                                   |           | 数据源                                                                                                                                  |
-| delimiter          | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                                                                         |
-| src                | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                                                                              |
-| originalSrc        | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                                                                |
-| enlargeAble        | `boolean`                                  |           | 支持放大预览                                                                                                                            |
-| enlargeWithGallary | `string`                                   |           | 默认在放大功能展示图片集的所有图片信息；表格中使用时，设置为`true`将展示所有行的图片信息；设置为`false`将关闭放大模式下图片集列表的展示 |
-| thumbMode          | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                                                                        |
-| thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
-| showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
-| toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
+| 属性名                | 类型                                                                                                                                                        | 默认值                    | 说明                                                                         | 版本      |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------|---------|
+| type               | `string`                                                                                                                                                  | `images`               | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"`      |
+| className          | `string`                                                                                                                                                  |                        | 外层 CSS 类名                                                                  |
+| defaultImage       | `string`                                                                                                                                                  |                        | 默认展示图片                                                                     |
+| value              | `string`或`Array<string>`或`Array<object>`                                                                                                                  |                        | 图片数组                                                                       |
+| source             | `string`                                                                                                                                                  |                        | 数据源                                                                        |
+| delimiter          | `string`                                                                                                                                                  | `,`                    | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                                |
+| src                | `string`                                                                                                                                                  |                        | 预览图地址，支持数据映射获取对象中图片变量                                                      |
+| originalSrc        | `string`                                                                                                                                                  |                        | 原图地址，支持数据映射获取对象中图片变量                                                       |
+| enlargeAble        | `boolean`                                                                                                                                                 |                        | 支持放大预览                                                                     |
+| enlargeWithGallary | `string`                                                                                                                                                  |                        | 默认在放大功能展示图片集的所有图片信息；表格中使用时，设置为`true`将展示所有行的图片信息；设置为`false`将关闭放大模式下图片集列表的展示 |
+| thumbMode          | `string`                                                                                                                                                  | `contain`              | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                    |
+| thumbRatio         | `string`                                                                                                                                                  | `1:1`                  | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                        |
+| showToolbar        | `boolean`                                                                                                                                                 | `false`                | 放大模式下是否展示图片的工具栏                                                            | `2.2.0` |
+| toolbarActions     | `ImageAction[]`                                                                                                                                           |                        | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                     | `2.2.0` |
+| sortType           | `'sm-ss-sss-m'｜ 'sss-ss-ms-m'｜'sms-ss-sms-m'｜'sm-ss-sss-ss'｜ 'ms-ss-sss-ss'｜ 'sss-ss-sm-ss'｜ 'mss-ss-ssm-ss'｜ 'sss-ss-mm-ss'｜ 'even-${number}-${number}'` |                        | 图集排列方式                                                                     |         |
+| hoverMode          | `hover-slide｜pull-top｜scale-center｜scale-top｜text-style-1｜text-style-2｜text-style-3｜text-style-4｜text-style-5｜text-style-6｜text-style-7 `                 |                        | 鼠标悬浮时的展示状态                                                                 |         |
+| fontStyle          | `{"fontSize":"string", "color": "string", "fontFamily": "string"...}`                                                                                     | `{"fontSize": "15px"}` | 字体样式                                                                       |         |
+| maskColor          | `string`                                                                                                                                                  |                        | 遮罩层颜色，可以是rgba值，可以是图片                                                       |         |
+| displayMode        | `'thumb' \| 'full'`                                                                                                                                       | `'thumb'`              | 展示模式,支持缩略图模式（thumb）和大图模式（full）                                             |
+| fullThumbMode      | `'cover' \| 'contain'`                                                                                                                                    | `'cover'`              | 大图模式下的图片缩放模式                                                               |

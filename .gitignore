@@ -11,7 +11,7 @@ yarn.lock
 .sass-cache
 gh_pages
 _site
-node_modules
+**/node_modules
 /dist
 /lib
 **/esm
@@ -24,7 +24,6 @@ node_modules
 /toolkit/amis-renderer
 /toolkit/output
 /coverage
-/schema.json
 /npm
 /mock/cfc/cfc.zip
 .rollup.cache

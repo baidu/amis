@@ -5,16 +5,19 @@
 import React from 'react';
 import cx from 'classnames';
 import {reaction} from 'mobx';
-import {CodeMirrorEditor, FormulaCodeEditor, FormulaEditor} from 'amis-ui';
-import type {VariableItem, CodeMirror} from 'amis-ui';
+import {CodeMirrorEditor, FormulaEditor} from 'amis-ui';
 import {Icon, Button, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps} from 'amis-core';
+import {Overlay, PopOver, VariableList} from 'amis-ui';
+import {RootClose, isMobile} from 'amis-core';
 import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
 import {renderFormulaValue} from './FormulaControl';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
-import {getVariables} from 'amis-editor-core';
+import {getVariables, getQuickVariables} from 'amis-editor-core';
+
+import type {VariableItem, CodeMirror} from 'amis-ui';
 
 export interface TplFormulaControlProps extends FormControlProps {
   /**
@@ -47,12 +50,29 @@ export interface TplFormulaControlProps extends FormControlProps {
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+
+  /**
+   * 简化成员操作
+   */
+  simplifyMemberOprs?: boolean;
+
+  /**
+   * 支付支持快捷变量
+   */
+  quickVariables?: boolean;
+
+  /**
+   * 额外的快捷变量
+   */
+  quickVars?: Array<VariableItem>;
 }
 
 interface TplFormulaControlState {
   value: string; // 当前文本值
 
   variables: Array<VariableItem>; // 变量数据
+
+  quickVariables: Array<VariableItem>; // 快捷变量数据
 
   formulaPickerOpen: boolean; // 是否打开公式编辑器
 
@@ -63,6 +83,9 @@ interface TplFormulaControlState {
   tooltipStyle: {[key: string]: string}; // 提示框样式
 
   loading: boolean;
+
+  menuIsOpened: boolean;
+  quickVariablesIsOpened: boolean;
 }
 
 // 暂时记录输入的字符，用于快捷键判断
@@ -83,6 +106,7 @@ export class TplFormulaControl extends React.Component<
 
   wrapRef = React.createRef<HTMLDivElement>();
   tooltipRef = React.createRef<HTMLDivElement>();
+  buttonTarget: HTMLElement;
 
   editorPlugin: FormulaPlugin;
   unReaction: any;
@@ -94,12 +118,15 @@ export class TplFormulaControl extends React.Component<
     this.state = {
       value: '',
       variables: [],
+      quickVariables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
       tooltipStyle: {
         display: 'none'
       },
-      loading: false
+      loading: false,
+      menuIsOpened: false,
+      quickVariablesIsOpened: false
     };
   }
 
@@ -130,7 +157,11 @@ export class TplFormulaControl extends React.Component<
     }
 
     const variables = await getVariables(this);
-    this.setState({variables});
+    const quickVariables = await getQuickVariables(this);
+    this.setState({
+      variables,
+      quickVariables
+    });
   }
 
   componentWillUnmount() {
@@ -145,6 +176,11 @@ export class TplFormulaControl extends React.Component<
     }
     this.editorPlugin?.dispose();
     this.unReaction?.();
+  }
+
+  @autobind
+  menuRef(ref: HTMLDivElement) {
+    this.buttonTarget = ref;
   }
 
   @autobind
@@ -355,9 +391,13 @@ export class TplFormulaControl extends React.Component<
 
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    const variables = this.props.variables || this.state.variables;
+    const variables = this.state.variables;
+    const quickVariables = this.state.quickVariables;
     this.editorPlugin = new FormulaPlugin(editor, {
-      getProps: () => ({...this.props, variables}),
+      getProps: () => ({
+        ...this.props,
+        variables: [...variables, ...quickVariables]
+      }),
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       showPopover: false,
       showClearIcon: true
@@ -369,6 +409,155 @@ export class TplFormulaControl extends React.Component<
     this.editorPlugin?.autoMark();
   }
 
+  @autobind
+  closeMenuOuter() {
+    this.setState({menuIsOpened: false});
+  }
+
+  @autobind
+  closeQuickVariablesOuter() {
+    this.setState({quickVariablesIsOpened: false});
+  }
+
+  @autobind
+  renderMenuOuter() {
+    const {popOverContainer, classnames: cx, classPrefix: ns} = this.props;
+    const {menuIsOpened} = this.state;
+
+    return (
+      <Overlay
+        container={popOverContainer || this.wrapRef.current}
+        target={() => this.wrapRef.current}
+        placement="right-bottom-right-top"
+        show
+      >
+        <PopOver classPrefix={ns} className={cx('DropDown-popover')}>
+          <RootClose disabled={!menuIsOpened} onRootClose={this.closeMenuOuter}>
+            {(ref: any) => {
+              return (
+                <ul
+                  className={cx('DropDown-menu-root', 'DropDown-menu', {
+                    'is-mobile': isMobile()
+                  })}
+                  onClick={this.closeMenuOuter}
+                  ref={ref}
+                >
+                  <li
+                    onClick={() =>
+                      this.setState({quickVariablesIsOpened: true})
+                    }
+                  >
+                    快捷变量
+                  </li>
+                  <li onClick={this.handleFormulaClick}>函数计算</li>
+                </ul>
+              );
+            }}
+          </RootClose>
+        </PopOver>
+      </Overlay>
+    );
+  }
+
+  @autobind
+  renderQuickVariablesOuter() {
+    const {popOverContainer, classnames: cx, classPrefix: ns} = this.props;
+    const {quickVariables, quickVariablesIsOpened} = this.state;
+    return (
+      <Overlay
+        container={popOverContainer || this.wrapRef.current}
+        target={() => this.wrapRef.current}
+        placement="right-bottom-right-top"
+        show
+      >
+        <PopOver classPrefix={ns} className={cx('DropDown-popover')}>
+          <RootClose
+            disabled={!quickVariablesIsOpened}
+            onRootClose={this.closeQuickVariablesOuter}
+          >
+            {(ref: any) => {
+              return (
+                <ul
+                  className={cx('DropDown-menu-root', 'DropDown-menu', {
+                    'is-mobile': isMobile()
+                  })}
+                  ref={ref}
+                >
+                  <VariableList
+                    className={cx(
+                      'FormulaEditor-VariableList',
+                      'FormulaEditor-VariableList-root'
+                    )}
+                    data={quickVariables}
+                    onSelect={this.handleQuickVariableSelect}
+                    popOverContainer={popOverContainer}
+                    simplifyMemberOprs
+                  />
+                </ul>
+              );
+            }}
+          </RootClose>
+        </PopOver>
+      </Overlay>
+    );
+  }
+
+  @autobind
+  handleQuickVariableSelect(item: VariableItem) {
+    const value = this.props.value || '';
+    const newValue = value + '${' + item.value + '}';
+    this.handleOnChange(newValue);
+    this.closeQuickVariablesOuter();
+    setTimeout(() => {
+      this.editorAutoMark();
+    }, 100);
+  }
+
+  @autobind
+  renderButton() {
+    const {loading, quickVariables} = this.props;
+    const {menuIsOpened, quickVariablesIsOpened} = this.state;
+
+    return (
+      <div className="ae-TplFormulaControl-buttonWrapper" ref={this.menuRef}>
+        {quickVariables ? (
+          <Button
+            className="ae-TplFormulaControl-buttonWrapper-button"
+            size="sm"
+            onClick={() => this.setState({menuIsOpened: true})}
+          >
+            <Icon
+              icon="add"
+              className={cx('ae-TplFormulaControl-icon', 'icon')}
+            />
+          </Button>
+        ) : (
+          <Button
+            className="ae-TplFormulaControl-button"
+            size="sm"
+            tooltip={{
+              enterable: false,
+              content: '点击新增表达式',
+              tooltipTheme: 'dark',
+              placement: 'left',
+              mouseLeaveDelay: 0
+            }}
+            onClick={this.handleFormulaClick}
+            loading={loading}
+          >
+            <Icon
+              icon="input-add-fx"
+              className={cx('ae-TplFormulaControl-icon', 'icon')}
+            />
+          </Button>
+        )}
+
+        {menuIsOpened ? this.renderMenuOuter() : null}
+        {quickVariablesIsOpened ? this.renderQuickVariablesOuter() : null}
+      </div>
+    );
+  }
+
   render() {
     const {
       className,
@@ -377,6 +566,8 @@ export class TplFormulaControl extends React.Component<
       placeholder,
       customFormulaPicker,
       clearable,
+      quickVariables,
+      simplifyMemberOprs,
       ...rest
     } = this.props;
     const {
@@ -425,25 +616,7 @@ export class TplFormulaControl extends React.Component<
             />
           )}
         </div>
-        <Button
-          className="ae-TplFormulaControl-button"
-          size="sm"
-          tooltip={{
-            enterable: false,
-            content: '点击新增表达式',
-            tooltipTheme: 'dark',
-            placement: 'left',
-            mouseLeaveDelay: 0
-          }}
-          onClick={this.handleFormulaClick}
-          loading={loading}
-        >
-          <Icon
-            icon="input-add-fx"
-            className={cx('ae-TplFormulaControl-icon', 'icon')}
-          />
-        </Button>
-
+        {this.renderButton()}
         <TooltipWrapper
           trigger="hover"
           placement="top"

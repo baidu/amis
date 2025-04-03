@@ -112,8 +112,11 @@ export const RendererStore = types
 export type IRendererStore = Instance<typeof RendererStore>;
 export {iRendererStore, IIRendererStore};
 export const RegisterStore = function (store: any) {
-  allowedStoreList.push(store as any);
+  // 外部注册的 store 优先级更高
+  // 方便外部扩充系统 Store
+  allowedStoreList.unshift(store as any);
 };
+export const registerStore = RegisterStore;
 
 export {
   ServiceStore,

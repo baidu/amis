@@ -4,7 +4,7 @@ exports[`Renderer:table 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -44,7 +44,7 @@ exports[`Renderer:table 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -64,7 +64,7 @@ exports[`Renderer:table 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Version
@@ -323,45 +323,6 @@ exports[`Renderer:table 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -370,7 +331,7 @@ exports[`Renderer:table align 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -410,7 +371,7 @@ exports[`Renderer:table align 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -457,7 +418,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -484,7 +445,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -511,7 +472,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -538,7 +499,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     3
@@ -565,7 +526,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -592,7 +553,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     4
@@ -619,7 +580,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -646,7 +607,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -673,7 +634,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -700,7 +661,7 @@ exports[`Renderer:table align 1`] = `
                 style="text-align: right;"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     5
@@ -711,45 +672,6 @@ exports[`Renderer:table align 1`] = `
           </tbody>
         </table>
       </div>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </div>
@@ -775,7 +697,7 @@ exports[`Renderer:table children 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -829,7 +751,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -849,7 +771,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -869,7 +791,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -889,7 +811,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -909,7 +831,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 ID
@@ -929,7 +851,7 @@ exports[`Renderer:table children 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -1303,45 +1225,6 @@ exports[`Renderer:table children 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -1355,7 +1238,7 @@ exports[`Renderer:table classNameExpr 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -1395,7 +1278,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -1415,7 +1298,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Version
@@ -1674,45 +1557,6 @@ exports[`Renderer:table classNameExpr 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1721,7 +1565,7 @@ exports[`Renderer:table column head style className 1`] = `
 <div>
   <div
     class="cxd-Table className"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -1761,7 +1605,7 @@ exports[`Renderer:table column head style className 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -1782,7 +1626,7 @@ exports[`Renderer:table column head style className 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Platform
@@ -2051,45 +1895,6 @@ exports[`Renderer:table column head style className 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2114,7 +1919,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2157,7 +1962,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2177,7 +1982,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2197,7 +2002,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -2217,7 +2022,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -2237,7 +2042,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -2620,45 +2425,6 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -2689,7 +2455,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2732,7 +2498,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Rendering engine
@@ -2752,7 +2518,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -2772,7 +2538,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform(s)
@@ -2792,7 +2558,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine version
@@ -2812,7 +2578,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 CSS grade
@@ -3266,45 +3032,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -3334,7 +3061,7 @@ exports[`Renderer:table groupName-default 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -3403,7 +3130,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -3417,7 +3144,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -3436,7 +3163,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -3456,7 +3183,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -3476,7 +3203,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -3496,7 +3223,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -3516,7 +3243,7 @@ exports[`Renderer:table groupName-default 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -4044,45 +3771,6 @@ exports[`Renderer:table groupName-default 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -4113,7 +3801,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -4182,7 +3870,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -4199,7 +3887,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -4221,7 +3909,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -4240,7 +3928,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -4259,7 +3947,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -4279,7 +3967,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -4299,7 +3987,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -4827,45 +4515,6 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -4896,7 +4545,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -4968,7 +4617,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -4990,7 +4639,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -5012,7 +4661,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -5031,7 +4680,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -5050,7 +4699,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -5070,7 +4719,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -5598,45 +5247,6 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>
@@ -5667,7 +5277,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -5736,7 +5346,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组1
@@ -5750,7 +5360,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           rowspan="1"
                         >
                           <span
-                            class="cxd-TplField"
+                            class="cxd-TplField fr-view"
                           >
                             <span>
                               分组2
@@ -5769,7 +5379,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Engine
@@ -5789,7 +5399,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Grade
@@ -5809,7 +5419,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Version
@@ -5829,7 +5439,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Browser
@@ -5849,7 +5459,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 Platform
@@ -6378,45 +5988,6 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -6430,7 +6001,7 @@ exports[`Renderer:table isHead fixed 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -6470,7 +6041,7 @@ exports[`Renderer:table isHead fixed 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Engine
@@ -6491,7 +6062,7 @@ exports[`Renderer:table isHead fixed 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       Platform
@@ -6760,45 +6331,6 @@ exports[`Renderer:table isHead fixed 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -6807,7 +6339,7 @@ exports[`Renderer:table list 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; --Table-column-10-width: 0px; --Table-column-11-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; --Table-column-10-width: 0px; --Table-column-11-width: 0px;"
   >
     <div
       class="cxd-Table-toolbar cxd-Table-headToolbar"
@@ -6887,7 +6419,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       ID
@@ -6907,7 +6439,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       文本
@@ -6927,7 +6459,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       图片
@@ -6947,7 +6479,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       日期
@@ -6967,7 +6499,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       进度
@@ -6987,7 +6519,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       状态
@@ -7007,7 +6539,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       开关
@@ -7027,7 +6559,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       映射
@@ -7047,7 +6579,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-TableCell--title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       List
@@ -7099,8 +6631,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -7142,7 +6679,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         22%
@@ -7167,7 +6704,7 @@ exports[`Renderer:table list 1`] = `
                 class=""
               >
                 <div
-                  class="cxd-SwitchControl cxd-Form-control"
+                  class="cxd-SwitchControl cxd-Form-control is-thin"
                 >
                   <label
                     class="cxd-Switch is-checked"
@@ -7197,7 +6734,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span
@@ -7216,88 +6753,104 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Functionality Technician
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            nisi ex eum
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Functionality Technician
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                nisi ex eum
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          District Applications Specialist
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ipsam ratione voluptas
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              District Applications Specialist
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ipsam ratione voluptas
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Future Operations Manager
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ducimus fugit debitis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Future Operations Manager
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ducimus fugit debitis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Dynamic Solutions Associate
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            saepe consequatur aut
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Dynamic Solutions Associate
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                saepe consequatur aut
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -7342,8 +6895,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -7385,7 +6943,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         85%
@@ -7410,7 +6968,7 @@ exports[`Renderer:table list 1`] = `
                 class=""
               >
                 <div
-                  class="cxd-SwitchControl cxd-Form-control"
+                  class="cxd-SwitchControl cxd-Form-control is-thin"
                 >
                   <label
                     class="cxd-Switch is-checked"
@@ -7440,7 +6998,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span
@@ -7459,208 +7017,236 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Dynamic Assurance Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ea ullam voluptates
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Dynamic Assurance Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ea ullam voluptates
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Internal Division Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            illum deleniti qui
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Internal Division Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                illum deleniti qui
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          International Usability Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sit voluptatem quia
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              International Usability Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sit voluptatem quia
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Lead Optimization Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            autem et blanditiis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Lead Optimization Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                autem et blanditiis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="4"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Future Division Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            dolor cupiditate sint
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Future Division Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                dolor cupiditate sint
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="5"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Program Orchestrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            quia distinctio voluptas
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Program Orchestrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                quia distinctio voluptas
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="6"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Human Implementation Technician
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            consequatur quaerat ullam
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Human Implementation Technician
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                consequatur quaerat ullam
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="7"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          National Identity Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            ipsa et reiciendis
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              National Identity Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                ipsa et reiciendis
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="8"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Regional Factors Planner
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed deserunt natus
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Regional Factors Planner
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed deserunt natus
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="9"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Human Data Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            rerum consequatur odit
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Human Data Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                rerum consequatur odit
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -7705,8 +7291,13 @@ exports[`Renderer:table list 1`] = `
                       class="cxd-Image-thumbWrap"
                     >
                       <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1 cxd-Img-container"
                       >
+                        <div
+                          class="mask"
+                        >
+                          <span />
+                        </div>
                         <img
                           class="cxd-Image-image"
                           src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
@@ -7748,7 +7339,7 @@ exports[`Renderer:table list 1`] = `
                     class="cxd-Progress-line-text"
                   >
                     <span
-                      class="cxd-TplField"
+                      class="cxd-TplField fr-view"
                     >
                       <span>
                         72%
@@ -7773,7 +7364,7 @@ exports[`Renderer:table list 1`] = `
                 class=""
               >
                 <div
-                  class="cxd-SwitchControl cxd-Form-control"
+                  class="cxd-SwitchControl cxd-Form-control is-thin"
                 >
                   <label
                     class="cxd-Switch"
@@ -7802,7 +7393,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-MappingField"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       <span
@@ -7821,168 +7412,192 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-fixedTop"
+                      />
+                      <div
+                        class="cxd-List-items"
                       >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Corporate Metrics Liason
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            aspernatur natus qui
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Corporate Metrics Liason
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                aspernatur natus qui
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Central Paradigm Analyst
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sequi numquam ad
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Central Paradigm Analyst
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sequi numquam ad
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          International Data Administrator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed libero eum
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              International Data Administrator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed libero eum
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Optimization Assistant
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            officiis accusantium dolorem
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Optimization Assistant
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                officiis accusantium dolorem
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="4"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Senior Metrics Executive
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            commodi sint quod
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Senior Metrics Executive
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                commodi sint quod
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="5"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Corporate Quality Facilitator
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            aut aperiam est
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Corporate Quality Facilitator
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                aut aperiam est
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="6"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          Forward Operations Producer
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            sed corporis eaque
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              Forward Operations Producer
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                sed corporis eaque
+                              </small>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right"
-                    >
-                      <div
-                        class="cxd-ListItem-content"
-                      >
-                        <p
-                          class="cxd-ListItem-title h5"
+                        <div
+                          class="cxd-ListItem cxd-ListItem--actions-at-right"
+                          data-index="7"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
-                          National Integration Analyst
-                        </p>
-                        <div>
-                          <small
-                            class="cxd-ListItem-subtitle"
+                          <div
+                            class="cxd-ListItem-content"
                           >
-                            quasi ab cumque
-                          </small>
+                            <p
+                              class="cxd-ListItem-title h5"
+                            >
+                              National Integration Analyst
+                            </p>
+                            <div>
+                              <small
+                                class="cxd-ListItem-subtitle"
+                              >
+                                quasi ab cumque
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -7993,45 +7608,6 @@ exports[`Renderer:table list 1`] = `
           </tbody>
         </table>
       </div>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </div>

@@ -12,23 +12,29 @@ import {
   RendererPluginAction,
   tipedLabel,
   getI18nEnabled,
-  repeatArray,
-  mockValue,
   EditorNodeType,
-  EditorManager
+  EditorManager,
+  RAW_TYPE_MAP
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {someTree} from 'amis-core';
+import type {SchemaType} from 'amis';
+import {isObject} from 'amis';
+import set from 'lodash/set';
 import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  generateId,
   resolveArrayDatasource,
   resolveInputTableEventDataSchame
 } from '../../util';
+import React from 'react';
 
 export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
@@ -55,6 +61,7 @@ export class TableControlPlugin extends BasePlugin {
         name: 'name',
         quickEdit: {
           type: 'input-text',
+          id: generateId(),
           name: 'name1'
         }
       },
@@ -64,6 +71,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'input-number',
           mode: 'inline',
+          id: generateId(),
           name: 'score'
         }
       },
@@ -73,6 +81,7 @@ export class TableControlPlugin extends BasePlugin {
         quickEdit: {
           type: 'select',
           name: 'level',
+          id: generateId(),
           options: [
             {
               label: 'A',
@@ -949,13 +958,22 @@ export class TableControlPlugin extends BasePlugin {
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     },
     {
       actionType: 'addItem',
       actionLabel: '添加行',
       description: '添加行数据',
       innerArgs: ['item', 'index'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            添加行
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'container',
         body: [
@@ -1024,6 +1042,14 @@ export class TableControlPlugin extends BasePlugin {
       actionLabel: '删除行',
       description: '删除某一行数据',
       innerArgs: ['condition', 'index'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {buildLinkActionDesc(props.manager, info)}
+            删除行
+          </div>
+        );
+      },
       schema: getArgsWrapper({
         type: 'container',
         body: [
@@ -1099,17 +1125,36 @@ export class TableControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清空组件数据'
+      description: '清空组件数据',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'initDrag',
       actionLabel: '开启排序',
-      description: '开启表格拖拽排序功能'
+      description: '开启表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            开启
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     },
     {
       actionType: 'cancelDrag',
       actionLabel: '取消排序',
-      description: '取消表格拖拽排序功能'
+      description: '取消表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            取消
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     }
   ];
 
@@ -1142,6 +1187,8 @@ export class TableControlPlugin extends BasePlugin {
                   '确认模式',
                   '开启时，新增、编辑需要点击表格右侧的“保存”按钮才能变更组件数据。未开启时，新增、编辑、删除操作直接改变组件数据。'
                 ),
+                isChecked: (v: any) => v.value !== false,
+                falseValue: false,
                 mode: 'normal',
                 formType: 'extend',
                 hiddenOnDefault: true,
@@ -1416,26 +1463,11 @@ export class TableControlPlugin extends BasePlugin {
       const arr = resolveArrayDatasource(props);
       let value: Array<any> = [];
 
-      /** 可 */
-      if (!Array.isArray(arr) || !arr.length) {
-        const mockedData: any = {};
-
-        if (Array.isArray(props.columns)) {
-          props.columns.forEach((column: any) => {
-            /** 可编辑状态下不写入 Mock 数据，避免误导用户 */
-            if (column.name && !props.editable) {
-              setVariable(mockedData, column.name, mockValue(column));
-            }
-          });
-        }
-
-        value = repeatArray(mockedData, 1).map((item, index) => ({
-          ...item,
-          id: index + 1
-        }));
-      } else {
-        // 只取10条预览，否则太多卡顿
+      // 只取10条预览，否则太多卡顿
+      if (Array.isArray(arr) && arr.length) {
         value = arr.slice(0, 10);
+      } else {
+        value.push({});
       }
       node.updateState({value});
     }
@@ -1468,7 +1500,7 @@ export class TableControlPlugin extends BasePlugin {
     trigger?: EditorNodeType,
     parent?: EditorNodeType
   ) {
-    const itemsSchema: any = {
+    let itemsSchema: any = {
       $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
@@ -1527,6 +1559,23 @@ export class TableControlPlugin extends BasePlugin {
         }
       }
     }
+    let match =
+      node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
+    let field = node.schema.name || match?.[1];
+    const origin = this.manager.dataSchema.current;
+    const schema = this.manager.dataSchema.getSchemaByPath(field);
+    this.manager.dataSchema.switchTo(origin);
+    if (isObject(schema?.items)) {
+      itemsSchema = {
+        ...itemsSchema,
+        ...(schema!.items as any)
+      };
+
+      set(itemsSchema, 'properties.index', {
+        type: 'number',
+        title: '索引'
+      });
+    }
 
     if (region?.region === 'columns') {
       return itemsSchema;
@@ -1542,6 +1591,7 @@ export class TableControlPlugin extends BasePlugin {
     return {
       $id: `${node.id}-${node.type}-tableData`,
       type: 'array',
+      rawType: RAW_TYPE_MAP[node.schema.type as SchemaType] || 'string',
       title: node.schema?.label || node.schema?.name,
       items: itemsSchema
     };

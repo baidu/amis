@@ -2,7 +2,15 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
+import partition from 'lodash/partition';
+import {
+  Renderer,
+  RendererProps,
+  createObjectFromChain,
+  filterTarget,
+  mapTree,
+  findTree
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {
@@ -15,7 +23,8 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isIntegerInRange
+  isIntegerInRange,
+  spliceTree
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
@@ -29,7 +38,7 @@ import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import {Html} from 'amis-ui';
-import {Icon} from 'amis-ui';
+import {Icon, confirm} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -39,7 +48,8 @@ import {
   SchemaName,
   SchemaObject,
   SchemaTokenizeableString,
-  SchemaTpl
+  SchemaTpl,
+  SchemaCollection
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
@@ -59,6 +69,21 @@ import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
+import {Spinner} from 'amis-ui';
+
+interface LoadMoreConfig {
+  showIcon?: boolean;
+  showText?: boolean;
+  color?: string;
+  iconType?: string;
+  contentText?: {
+    contentdown: string;
+    contentrefresh: string;
+    contentnomore: string;
+  };
+  minLoadingTime?: number;
+  dataAppendTo?: 'top' | 'bottom';
+}
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -99,13 +124,22 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
-
   /**
    * 是否默认收起
    *
    * @default true
    */
   defaultCollapsed?: boolean;
+
+  /**
+   * 是否启用多选框
+   */
+  enableBulkActions?: boolean;
+
+  /**
+   * 启用批量操作的表达式
+   */
+  enableBulkActionsOn?: SchemaExpression;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
@@ -226,6 +260,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   pageDirectionField?: string;
 
   /**
+   * 设置总条数的字段名。
+   */
+  totalField?: string;
+
+  /**
    * 快速编辑后用来批量保存的 API
    */
   quickSaveApi?: SchemaApi;
@@ -245,6 +284,13 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * @default true
    */
   syncLocation?: boolean;
+
+  toolbar?: SchemaCollection;
+
+  /**
+   * 工具栏是否为 inline 模式
+   */
+  toolbarInline?: boolean;
 
   /**
    * 顶部工具栏
@@ -325,6 +371,15 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
 
   /**
    * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+   *
+   * 参数说明
+   *
+   *  * `items` 当前表格数据
+   *  * `itemsRaw` 当前表格数据（未处理）
+   *  * `options` 配置
+   *  * `options.query` 查询条件
+   *  * `options.columns` 列配置
+   *  * `options.matchSorter` 系统默认的排序方法
    * @since 3.5.0
    */
   matchFunc?: string | any;
@@ -378,6 +433,22 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
         types?: ('boolean' | 'number')[];
       }
     | boolean;
+
+  /**
+   * 是否开启行选择功能, 默认为 false
+   * 开启后将支持行选择功能,需要结合事件动作使用
+   */
+  selectable?: boolean;
+
+  /**
+   * 控制是否多选，默认为 false
+   */
+  multiple?: boolean;
+
+  /**
+   * 加载更多配置
+   */
+  loadMoreProps?: LoadMoreConfig;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -420,7 +491,7 @@ const INNER_EVENTS: Array<CRUDRendererEvent> = [
   'selected'
 ];
 
-export default class CRUD extends React.Component<CRUDProps, any> {
+export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   static propsList: Array<keyof CRUDProps> = [
     'bulkActions',
     'itemActions',
@@ -439,6 +510,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'totalField',
     'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
@@ -479,7 +551,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'maxTagCount',
     'overflowTagPopover',
     'parsePrimitiveQuery',
-    'matchFunc'
+    'matchFunc',
+    'loadMoreProps'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -489,6 +562,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    totalField: 'total',
     pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
@@ -497,7 +571,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterDefaultVisible: true,
     loadDataOnce: false,
     autoFillHeight: false,
-    parsePrimitiveQuery: true
+    parsePrimitiveQuery: true,
+    loadMoreProps: {
+      showIcon: true,
+      showText: true,
+      iconType: 'loading-outline',
+      contentText: {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      }
+    }
   };
 
   control: any;
@@ -513,7 +597,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
   );
 
-  constructor(props: CRUDProps) {
+  constructor(props: T) {
     super(props);
 
     this.controlRef = this.controlRef.bind(this);
@@ -521,11 +605,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleFilterInit = this.handleFilterInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleBulkAction = this.handleBulkAction.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleBulkGo = this.handleBulkGo.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleItemChange = this.handleItemChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleSaveOrder = this.handleSaveOrder.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -537,12 +623,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
+    this.filterItemIndex = this.filterItemIndex.bind(this);
 
     const {
       location,
       store,
       pageField,
       perPageField,
+      totalField,
       syncLocation,
       loadDataOnce
     } = props;
@@ -584,7 +672,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // 因此需要将componentDidMount中的设置选中项提前到constructor，否则handleSelect里拿不到的选中项
     let val: any;
     if (this.props.pickerMode && (val = getPropValue(this.props))) {
-      store.setSelectedItems(val);
+      this.syncSelectedFromPicker(val);
     }
   }
 
@@ -600,7 +688,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // 所以这里应该忽略 autoGenerateFilter 情况
     if (
       (!this.props.filter && !autoGenerateFilter) ||
-      (store.filterTogggable && !store.filterVisible)
+      (store.filterTogglable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
     }
@@ -634,7 +722,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
        * 更新链：Table -> CRUD -> Picker -> Form
        * 对于Picker模式来说，执行到这里的时候store.selectedItems已经更新过了，所以需要额外判断一下
        */
-      store.setSelectedItems(val);
+      this.syncSelectedFromPicker(val);
     }
 
     if (!!this.props.filterTogglable !== !!prevProps.filterTogglable) {
@@ -691,8 +779,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       if (!this.lastData || this.lastData !== next) {
         store.initFromScope(props.data, props.source, {
-          columns: store.columns ?? props.columns
+          columns: store.columns ?? props.columns,
+          totalField: props.totalField
         });
+
+        if (this.props.pickerMode && (val = getPropValue(this.props))) {
+          this.syncSelectedFromPicker(val);
+        }
+
         this.lastData = next;
       }
     }
@@ -796,6 +890,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const redirect = action.redirect && filter(action.redirect, data);
       redirect && action.blank && env.jumpTo(redirect, action, data);
 
+      // 如果 api 无效，或者不满足发送条件，则直接返回
+      if (!isEffectiveApi(action.api, data)) {
+        return;
+      }
+
       return store
         .saveRemote(action.api!, data, {
           successMessage:
@@ -876,15 +975,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       .filter(item => item)
       .join(',');
 
-    const ctx = createObject(store.mergedData, {
-      ...selectedItems[0],
-      currentPageData: (store.mergedData?.items || []).concat(),
-      rows: selectedItems,
-      items: selectedItems,
-      selectedItems,
-      unSelectedItems: unSelectedItems,
-      ids
-    });
+    const ctx = createObjectFromChain([
+      store.mergedData,
+      {
+        event: e // 固定事件数据从event.data中获取，方便批量操作按钮绑定动作时获取动作产生的数据
+      },
+      {
+        ...selectedItems[0],
+        ...store.eventContext,
+        currentPageData: (store.mergedData?.items || []).concat(),
+        rows: selectedItems,
+        items: selectedItems,
+        ids
+      }
+    ]);
 
     let fn = () => {
       if (action.actionType === 'dialog') {
@@ -954,9 +1058,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterInit(values: object) {
-    const {defaultParams, data, store, orderBy, orderDir, dispatchEvent} =
-      this.props;
-    const params = {...defaultParams};
+    const {
+      defaultParams,
+      columns,
+      matchFunc,
+      store,
+      orderBy,
+      orderDir,
+      totalField,
+      dispatchEvent
+    } = this.props;
+    const params: any = {...defaultParams};
 
     if (orderBy) {
       params['orderBy'] = orderBy;
@@ -978,11 +1090,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     store.setPristineQuery();
 
     const {pickerMode, options} = this.props;
-
-    pickerMode &&
-      store.updateData({
-        items: options || []
-      });
+    if (pickerMode) {
+      store.initFromScope(
+        {
+          items: options || []
+        },
+        '${items}',
+        {
+          columns: store.columns ?? columns,
+          matchFunc,
+          totalField
+        }
+      );
+      let val: any;
+      if ((val = getPropValue(this.props))) {
+        this.syncSelectedFromPicker(val);
+      }
+    }
   }
 
   handleFilterReset(values: object, action: any) {
@@ -1241,7 +1365,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     });
   }
 
-  search(
+  async search(
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
@@ -1254,6 +1378,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       messages,
       pageField,
       perPageField,
+      totalField,
       interval,
       stopAutoRefreshWhen,
       stopAutoRefreshWhenModalIsOpen,
@@ -1263,6 +1388,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
+      loadDataOnceFetchOnFilter,
       source,
       columns,
       dispatchEvent
@@ -1300,105 +1426,124 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             'options'
           ) as any)
         : undefined;
-    isEffectiveApi(api, data)
-      ? store
-          .fetchInitData(api, data, {
-            successMessage: messages && messages.fetchSuccess,
-            errorMessage: messages && messages.fetchFailed,
-            autoAppend: true,
-            forceReload,
-            loadDataOnce,
-            source,
-            silent,
-            pageField,
-            perPageField,
-            loadDataMode,
-            syncResponse2Query,
-            columns: store.columns ?? columns,
-            matchFunc
+    if (isEffectiveApi(api, data)) {
+      const value = await store.fetchInitData(api, data, {
+        successMessage: messages && messages.fetchSuccess,
+        errorMessage: messages && messages.fetchFailed,
+        autoAppend: true,
+        forceReload,
+        loadDataOnce,
+        source,
+        silent,
+        pageField,
+        perPageField,
+        totalField,
+        loadDataMode,
+        syncResponse2Query,
+        columns: store.columns ?? columns,
+        matchFunc,
+        filterOnAllColumns: loadDataOnceFetchOnFilter === false,
+        minLoadingTime: values?.minLoadingTime,
+        dataAppendTo: values?.dataAppendTo
+      });
+      if (!isAlive(store)) {
+        return value;
+      }
+
+      const {page, lastPage, msg, error} = store;
+
+      if (isInit) {
+        // 初始化请求完成
+        const rendererEvent = await dispatchEvent?.(
+          'fetchInited',
+          createObject(this.props.data, {
+            responseData: value?.ok ? store.data ?? {} : value,
+            responseStatus:
+              value?.status === undefined ? (error ? 1 : 0) : value?.status,
+            responseMsg: msg
           })
-          .then(async value => {
-            if (!isAlive(store)) {
-              return value;
-            }
+        );
 
-            const {page, lastPage, data, msg, error} = store;
-
-            if (isInit) {
-              // 初始化请求完成
-              const rendererEvent = await dispatchEvent?.(
-                'fetchInited',
-                createObject(this.props.data, {
-                  responseData: value?.ok ? data ?? {} : value,
-                  responseStatus:
-                    value?.status === undefined
-                      ? error
-                        ? 1
-                        : 0
-                      : value?.status,
-                  responseMsg: msg
-                })
-              );
-
-              if (rendererEvent?.prevented) {
-                return;
-              }
-            }
-
-            // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
-            if (
-              !store.data.items.length &&
-              !interval &&
-              page > 1 &&
-              lastPage < page
-            ) {
-              this.search(
-                {
-                  ...store.query,
-                  [pageField || 'page']: lastPage
-                },
-                false,
-                undefined
-              );
-            }
-
-            value?.ok && // 接口正常返回才继续轮训
-              interval &&
-              this.mounted &&
-              (!stopAutoRefreshWhen ||
-                !(
-                  (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(
-                    stopAutoRefreshWhen,
-                    createObject(store.data, store.query)
-                  )
-                )) &&
-              (this.timer = setTimeout(
-                silentPolling
-                  ? this.silentSearch.bind(this, undefined, undefined, true)
-                  : this.search.bind(
-                      this,
-                      undefined,
-                      undefined,
-                      undefined,
-                      true
-                    ),
-                Math.max(interval, 1000)
-              ));
-            return value;
+        if (rendererEvent?.prevented) {
+          return store.data;
+        }
+      } else {
+        // 重新加载或查询重置完成后触发
+        const rendererEvent = await dispatchEvent?.(
+          'research',
+          createObject(this.props.data, {
+            responseData: value?.ok ? store.data ?? {} : value,
+            responseStatus:
+              value?.status === undefined ? (error ? 1 : 0) : value?.status,
+            responseMsg: msg
           })
-      : source &&
-        store.initFromScope(data, source, {
-          columns: store.columns ?? columns,
-          matchFunc
-        });
+        );
+
+        if (rendererEvent?.prevented) {
+          return store.data;
+        }
+      }
+
+      // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
+      if (
+        !loadDataOnce &&
+        !store.data.items.length &&
+        !interval &&
+        page > 1 &&
+        lastPage < page
+      ) {
+        await this.search(
+          {
+            ...store.query,
+            [pageField || 'page']: lastPage
+          },
+          false,
+          undefined
+        );
+      }
+
+      value?.ok && // 接口正常返回才继续轮训
+        interval &&
+        this.mounted &&
+        (!stopAutoRefreshWhen ||
+          !(
+            (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
+            evalExpression(
+              stopAutoRefreshWhen,
+              createObject(store.data, store.query)
+            )
+          )) &&
+        (this.timer = setTimeout(
+          silentPolling
+            ? this.silentSearch.bind(this, undefined, undefined, true)
+            : this.search.bind(this, undefined, undefined, undefined, true),
+          Math.max(interval, 1000)
+        ));
+    } else if (source) {
+      store.initFromScope(data, source, {
+        columns: store.columns ?? columns,
+        matchFunc,
+        totalField
+      });
+    }
+
+    let val: any;
+    if (
+      this.props.pickerMode &&
+      this.props.onSelect && // embed 模式下才同步外部选择，否则是弹窗模式，props.value 不会变化，所以不会记录分页选择，会出现错误
+      (val = getPropValue(this.props))
+    ) {
+      this.syncSelectedFromPicker(val);
+    }
+
+    return store.data;
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
     return this.search(values, true, clearSelection, forceReload);
   }
 
-  handleChangePage(
+  async handleChangePage(
     page: number,
     perPage?: number,
     dir?: 'forward' | 'backward'
@@ -1410,8 +1555,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       pageDirectionField,
-      autoJumpToTopOnPagerChange
+      autoJumpToTopOnPagerChange,
+      translate: __,
+      api,
+      loadDataOnce
     } = this.props;
+
+    if (api && !loadDataOnce && this.control?.hasModifiedItems()) {
+      const confirmed = await confirm(__('CRUD.confirmLeaveUnSavedPage'));
+      if (!confirmed) {
+        return;
+      }
+    }
 
     let query: any = {
       [pageField || 'page']: page
@@ -1435,10 +1590,47 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.search(undefined, undefined, undefined);
 
     if (autoJumpToTopOnPagerChange && this.control) {
-      (findDOMNode(this.control) as HTMLElement).scrollIntoView();
-      const scrolledY = window.scrollY;
-      scrolledY && window.scroll(0, scrolledY);
+      if (this.control.scrollToTop) {
+        this.control.scrollToTop();
+      } else {
+        (findDOMNode(this.control) as HTMLElement).scrollIntoView();
+        const scrolledY = window.scrollY;
+        scrolledY && window.scroll(0, scrolledY);
+      }
     }
+  }
+
+  syncSelectedFromPicker(value: Array<any>) {
+    const {store, primaryField, strictMode} = this.props;
+    const isSameValue = (
+      a: Record<string, unknown>,
+      b: Record<string, unknown>
+    ) => {
+      const oldValue = a[primaryField || 'id'];
+      const itemValue = b[primaryField || 'id'];
+      const isSame = strictMode
+        ? oldValue === itemValue
+        : oldValue == itemValue;
+      return !!(a === b || (oldValue && isSame));
+    };
+
+    const selectedItems = value.map(item => {
+      if (!isPlainObject(item)) {
+        item = {[primaryField || 'id']: item};
+      }
+      return findTree(store.items, a => isSameValue(a, item)) || item;
+    });
+
+    this.props.store.setSelectedItems(selectedItems);
+  }
+
+  handleItemChange(item: object, diff: object, index: string | number) {
+    const {store} = this.props;
+
+    const indexes = `${index}`.split('.').map(item => parseInt(item, 10));
+    const items = spliceTree(store.items, indexes, 1, item);
+
+    store.replaceItems(items);
   }
 
   handleSave(
@@ -1724,68 +1916,108 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSelect
     } = this.props;
     let newItems = items;
-    let newUnSelectedItems = unSelectedItems;
+
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
-      const oldItems = store.selectedItems.concat();
-      const oldUnselectedItems = store.unSelectedItems.concat();
+      let compareFn: Function;
+      // 这个是 loadDataOnce 前端分页模式
+      if (store.items.length > items.length + unSelectedItems.length) {
+        compareFn = (a: any, b: any) =>
+          (a.__pristine || a) === (b.__pristine || b);
+      } else {
+        // 这个是后端分页模式
+        compareFn = (a: any, b: any) => {
+          const oldValue = a[primaryField || 'id'];
+          const itemValue = b[primaryField || 'id'];
+          const isSame = strictMode
+            ? oldValue === itemValue
+            : oldValue == itemValue;
+          return a === b || (oldValue && isSame);
+        };
+      }
 
-      const isSameValue = (
-        a: Record<string, unknown>,
-        item: Record<string, unknown>
-      ) => {
-        const oldValue = a[primaryField || 'id'];
-        const itemValue = item[primaryField || 'id'];
-        const isSame = strictMode
-          ? oldValue === itemValue
-          : oldValue == itemValue;
-        return a === item || (oldValue && isSame);
-      };
+      const itemsRest = items.concat();
 
-      items.forEach(item => {
-        const idx = findIndex(oldItems, a => isSameValue(a, item));
+      newItems = store.selectedItems
+        .map(item => {
+          const idx = itemsRest.findIndex(a => compareFn(a, item));
 
-        if (~idx) {
-          oldItems[idx] = item;
-        } else {
-          oldItems.push(item);
-        }
+          if (~idx) {
+            return itemsRest.splice(idx, 1)[0];
+          }
 
-        const idx2 = findIndex(oldUnselectedItems, a => isSameValue(a, item));
-
-        if (~idx2) {
-          oldUnselectedItems.splice(idx2, 1);
-        }
-      });
-
-      unSelectedItems.forEach(item => {
-        const idx = findIndex(oldUnselectedItems, a => isSameValue(a, item));
-
-        const idx2 = findIndex(oldItems, a => isSameValue(a, item));
-
-        if (~idx) {
-          oldUnselectedItems[idx] = item;
-        } else {
-          oldUnselectedItems.push(item);
-        }
-        !~idx && ~idx2 && oldItems.splice(idx2, 1);
-      });
-
-      newItems = oldItems;
-      newUnSelectedItems = oldUnselectedItems;
-
-      // const thisBatch = items.concat(unSelectedItems);
-      // let notInThisBatch = (item: any) =>
-      //   !find(
-      //     thisBatch,
-      //     a => a[primaryField || 'id'] == item[primaryField || 'id']
-      //   );
-
-      // newItems = store.selectedItems.filter(notInThisBatch);
-      // newUnSelectedItems = store.unSelectedItems.filter(notInThisBatch);
-
-      // newItems.push(...items);
-      // newUnSelectedItems.push(...unSelectedItems);
+          return findTree(unSelectedItems, a => compareFn(a, item))
+            ? null
+            : item;
+        })
+        .filter(item => item)
+        .concat(itemsRest);
     }
+
+    const newUnSelectedItems = store.items
+      .filter(item => !newItems.find(a => (a.__pristine || a) === item))
+      .map(item => unSelectedItems.find(a => a.__pristine === item) || item);
+
+    // if (keepItemSelectionOnPageChange && store.selectedItems.length) {
+    //   const oldItems = store.selectedItems.concat();
+    //   const oldUnselectedItems = store.unSelectedItems.concat();
+
+    //   const isSameValue = (
+    //     a: Record<string, unknown>,
+    //     item: Record<string, unknown>
+    //   ) => {
+    //     const oldValue = a[primaryField || 'id'];
+    //     const itemValue = item[primaryField || 'id'];
+    //     const isSame = strictMode
+    //       ? oldValue === itemValue
+    //       : oldValue == itemValue;
+    //     return a === item || (oldValue && isSame);
+    //   };
+
+    //   items.forEach(item => {
+    //     const idx = findIndex(oldItems, a => isSameValue(a, item));
+
+    //     if (~idx) {
+    //       oldItems[idx] = item;
+    //     } else {
+    //       oldItems.push(item);
+    //     }
+
+    //     const idx2 = findIndex(oldUnselectedItems, a => isSameValue(a, item));
+
+    //     if (~idx2) {
+    //       oldUnselectedItems.splice(idx2, 1);
+    //     }
+    //   });
+
+    //   unSelectedItems.forEach(item => {
+    //     const idx = findIndex(oldUnselectedItems, a => isSameValue(a, item));
+
+    //     const idx2 = findIndex(oldItems, a => isSameValue(a, item));
+
+    //     if (~idx) {
+    //       oldUnselectedItems[idx] = item;
+    //     } else {
+    //       oldUnselectedItems.push(item);
+    //     }
+    //     !~idx && ~idx2 && oldItems.splice(idx2, 1);
+    //   });
+
+    //   newItems = oldItems;
+    //   newUnSelectedItems = oldUnselectedItems;
+
+    //   // const thisBatch = items.concat(unSelectedItems);
+    //   // let notInThisBatch = (item: any) =>
+    //   //   !find(
+    //   //     thisBatch,
+    //   //     a => a[primaryField || 'id'] == item[primaryField || 'id']
+    //   //   );
+
+    //   // newItems = store.selectedItems.filter(notInThisBatch);
+    //   // newUnSelectedItems = store.unSelectedItems.filter(notInThisBatch);
+
+    //   // newItems.push(...items);
+    //   // newUnSelectedItems.push(...unSelectedItems);
+    // }
 
     if (pickerMode && multiple === false && newItems.length > 1) {
       newUnSelectedItems.push.apply(
@@ -1858,7 +2090,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(
+    return this.search(
       undefined,
       undefined,
       clearSelection ?? replace,
@@ -1869,14 +2101,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   reload(
     subpath?: string,
     query?: any,
+    ctx?: any,
+    silent?: boolean,
     replace?: boolean,
-    resetPage?: boolean,
     args?: any
   ) {
     if (query) {
-      return this.receive(query, undefined, replace, resetPage, true);
+      return this.receive(query, undefined, replace, args?.resetPage, true);
     } else {
-      this.search(undefined, undefined, true, true);
+      return this.search(undefined, undefined, true, true);
     }
   }
 
@@ -1887,7 +2120,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     resetPage?: boolean,
     clearSelection?: boolean
   ) {
-    this.handleQuery(values, true, replace, resetPage, clearSelection);
+    return this.handleQuery(values, true, replace, resetPage, clearSelection);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1912,14 +2145,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'toggleExpanded',
         'setExpanded',
         'initDrag',
-        'cancelDrag'
+        'cancelDrag',
+        'selectAll',
+        'clearAll'
       ].includes(action.actionType)
     ) {
       return this.control?.doAction(action, data, throwErrors, args);
-    } else if (action.actionType === 'selectAll') {
-      return this.handleSelect(store.items.concat(), []);
-    } else if (action.actionType === 'clearAll') {
-      return this.handleSelect([], store.items.concat());
     } else if (action.actionType === 'select') {
       const selectedItems = await getMatchedEventTargets(
         store.items,
@@ -1930,10 +2161,30 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const unSelectedItems = store.items.filter(
         item => !selectedItems.includes(item)
       );
+      // todo 这里的 selected 和 unselected 不是修改后的
+      //
       return this.handleSelect(selectedItems, unSelectedItems);
     }
 
     return this.handleAction(undefined, action, data, throwErrors);
+  }
+
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 如果事件是 selectedChange 并且是当前组件触发的，
+    // 则以当前组件的选择信息为准
+    if (e === 'selectedChange' && this.control === renderer) {
+      const store = this.props.store;
+      data.selectedItems = store.selectedItems.concat();
+      data.unSelectedItems = store.unSelectedItems.concat();
+      // selectedIndexes  还不支持
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
   }
 
   unSelectItem(item: any, index: number) {
@@ -1949,16 +2200,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   clearSelection() {
-    const {store} = this.props;
-    const selected = store.selectedItems.concat();
-    const unSelected = store.unSelectedItems.concat(selected);
+    const {store, itemCheckableOn} = this.props;
+    const [unchecked, checked] = partition(
+      store.selectedItems,
+      item => !itemCheckableOn || evalExpression(itemCheckableOn, item)
+    );
+    const unSelected = store.unSelectedItems.concat(unchecked);
 
-    store.setSelectedItems([]);
+    store.setSelectedItems(checked);
     store.setUnSelectedItems(unSelected);
   }
 
   hasBulkActionsToolbar() {
-    const {headerToolbar, footerToolbar} = this.props;
+    const {headerToolbar, footerToolbar, enableBulkActions} = this.props;
+
+    if (enableBulkActions === false) {
+      return false;
+    }
 
     const isBulkActions = (item: any) =>
       ~['bulkActions', 'bulk-actions'].indexOf(item.type || item);
@@ -1997,10 +2255,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store,
       render,
       classnames: cx,
-      primaryField
+      primaryField,
+      enableBulkActions
     } = this.props;
 
-    if (!bulkActions || !bulkActions.length) {
+    if (!bulkActions || !bulkActions.length || enableBulkActions === false) {
       return null;
     }
 
@@ -2011,10 +2270,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let itemBtns: Array<ActionSchema> = [];
     const ctx = createObject(store.mergedData, {
       currentPageData: (store.mergedData?.items || []).concat(),
+      ...store.eventContext,
       rows: selectedItems.concat(),
       items: selectedItems.concat(),
-      selectedItems: selectedItems.concat(),
-      unSelectedItems: unSelectedItems.concat(),
       ids: selectedItems
         .map(item =>
           item.hasOwnProperty(primaryField)
@@ -2249,24 +2507,61 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      testIdBuilder
+      testIdBuilder,
+      loadMoreProps = {}
     } = this.props;
     const {page, lastPage} = store;
 
+    const {
+      showIcon = true,
+      showText = true,
+      iconType = 'loading-outline',
+      contentText = {
+        contentdown: '点击加载更多',
+        contentrefresh: '加载中...',
+        contentnomore: '没有更多数据了'
+      },
+      minLoadingTime,
+      dataAppendTo,
+      color
+    } = loadMoreProps;
+
+    const isLoading = store.loading;
+    const isNoMore = page >= lastPage;
+
     return (
-      <div className={cx('Crud-loadMore')}>
-        <Button
-          disabled={page >= lastPage}
-          disabledTip={__('CRUD.loadMoreDisableTip')}
-          classPrefix={ns}
-          onClick={() =>
-            this.search({page: page + 1, loadDataMode: 'load-more'})
+      <div
+        className={cx('Crud-loadMore')}
+        style={
+          color
+            ? ({
+                '--Spinner-color': color,
+                'color': color
+              } as React.CSSProperties)
+            : undefined
+        }
+        onClick={() => {
+          if (isLoading || isNoMore) {
+            return;
           }
-          size="sm"
-          {...testIdBuilder?.getChild('loadMore').getTestId()}
-        >
-          {__('CRUD.loadMore')}
-        </Button>
+          this.search({
+            page: page + 1,
+            loadDataMode: 'load-more',
+            minLoadingTime,
+            dataAppendTo
+          });
+        }}
+      >
+        {showIcon && <Spinner show={isLoading} icon={iconType} size="sm" />}
+        {showText && (
+          <span>
+            {isLoading
+              ? contentText.contentrefresh
+              : isNoMore
+              ? contentText.contentnomore
+              : contentText.contentdown}
+          </span>
+        )}
       </div>
     );
   }
@@ -2274,7 +2569,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   renderFilterToggler() {
     const {store, classnames: cx, translate: __, filterTogglable} = this.props;
 
-    if (!store.filterTogggable) {
+    if (!store.filterTogglable) {
       return null;
     }
 
@@ -2377,7 +2672,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
-        .filter((toolbar: any) => isVisible(toolbar, store.filterData))
+        .filter((toolbar: any) => isVisible(toolbar, store.toolbarData))
         .map((toolbar, index) => ({
           dom: this.renderToolbar(toolbar, index, childProps, toolbarRenderer),
           toolbar
@@ -2450,12 +2745,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (toolbar) {
       if (Array.isArray(headerToolbar)) {
         headerToolbar = toolbarInline
-          ? headerToolbar.concat(toolbar)
-          : [headerToolbar, toolbar];
+          ? headerToolbar.concat(toolbar as any)
+          : ([headerToolbar, toolbar] as any);
       } else if (headerToolbar) {
-        headerToolbar = [headerToolbar, toolbar];
+        headerToolbar = [headerToolbar, toolbar] as any;
       } else {
-        headerToolbar = toolbar;
+        headerToolbar = toolbar as any;
       }
     }
 
@@ -2475,13 +2770,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (toolbar) {
       if (Array.isArray(footerToolbar)) {
-        footerToolbar = toolbarInline
-          ? footerToolbar.concat(toolbar)
-          : [footerToolbar, toolbar];
+        footerToolbar = (
+          toolbarInline
+            ? footerToolbar.concat(toolbar as any)
+            : [footerToolbar, toolbar]
+        ) as any;
       } else if (footerToolbar) {
-        footerToolbar = [footerToolbar, toolbar];
+        footerToolbar = [footerToolbar, toolbar] as any;
       } else {
-        footerToolbar = toolbar;
+        footerToolbar = toolbar as any;
       }
     }
 
@@ -2496,11 +2793,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       valueField,
       translate: __,
-      env
+      env,
+      itemCheckableOn
     } = this.props;
 
+    const checkable = itemCheckableOn
+      ? evalExpression(itemCheckableOn, item)
+      : true;
+
     return (
-      <div key={index} className={cx(`Crud-value`)}>
+      <div
+        key={index}
+        className={cx(`Crud-value`, checkable ? '' : 'is-disabled')}
+      >
         <span
           className={cx('Crud-valueIcon')}
           onClick={this.unSelectItem.bind(this, item, index)}
@@ -2533,10 +2838,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       popOverContainer,
       multiple,
       maxTagCount,
-      overflowTagPopover
+      overflowTagPopover,
+      keepItemSelectionOnPageChange
     } = this.props;
 
-    if (!store.selectedItems.length) {
+    if (
+      !store.selectedItems.length ||
+      !keepItemSelectionOnPageChange ||
+      multiple === false
+    ) {
       return null;
     }
 
@@ -2617,7 +2927,72 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
-  render() {
+  renderFilter() {
+    const {
+      store,
+      render,
+      classnames: cx,
+      filter,
+      translate: __,
+      testIdBuilder,
+      filterCanAccessSuperData = true
+    } = this.props;
+
+    if (!filter || (store.filterTogglable && !store.filterVisible)) {
+      return null;
+    }
+
+    return render(
+      'filter',
+      {
+        title: __('CRUD.filter'),
+        mode: 'inline',
+        submitText: __('search'),
+        ...filter,
+        type: 'form',
+        api: null,
+        testIdBuilder: testIdBuilder?.getChild('filter')
+      },
+      {
+        key: 'filter',
+        panelClassName: cx(
+          'Crud-filter',
+          filter!.panelClassName || 'Panel--default'
+        ),
+        data: store.filterData,
+        onReset: this.handleFilterReset,
+        onSubmit: this.handleFilterSubmit,
+        onInit: this.handleFilterInit,
+        formStore: undefined,
+        canAccessSuperData:
+          filter?.canAccessSuperData ?? filterCanAccessSuperData
+      }
+    );
+  }
+
+  filterItemIndex(index: number | string) {
+    const {store} = this.props;
+    const indexes = `${index}`.split('.').map(index => parseInt(index, 10));
+
+    if (!Array.isArray(store.data.items)) {
+      // something wrong.
+      return index;
+    }
+
+    const top = store.data.items?.[indexes[0]];
+    if (top) {
+      indexes[0] = store.items.findIndex(
+        a => (a.__pristine || a) === (top.__pristine || top)
+      );
+    }
+    return indexes.join('.');
+  }
+
+  filterBodySchema(subSchema: any) {
+    return subSchema;
+  }
+
+  renderBody() {
     const {
       className,
       style,
@@ -2661,109 +3036,106 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       testIdBuilder,
       id,
       filterCanAccessSuperData = true,
+      selectable = false,
       ...rest
+    } = this.props;
+
+    return render(
+      'body',
+      {
+        ...this.filterBodySchema(rest),
+        id,
+        // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
+        // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
+        onEvent: this.filterOnEvent(onEvent),
+        columns: store.columns ?? rest.columns,
+        type: mode || 'table'
+      },
+      {
+        key: 'body',
+        className: cx('Crud-body', bodyClassName),
+        ref: this.controlRef,
+        autoGenerateFilter: !filter && autoGenerateFilter,
+        filterCanAccessSuperData,
+        autoFillHeight: autoFillHeight,
+        selectable: !!(
+          (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
+          pickerMode ||
+          selectable
+        ),
+        itemActions,
+        multiple:
+          multiple === void 0
+            ? bulkActions && bulkActions.length > 0
+              ? true
+              : false
+            : multiple,
+        selected: store.selectedItemsAsArray,
+        strictMode,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        maxItemSelectionLength,
+        valueField: valueField || primaryField,
+        primaryField: primaryField,
+        hideQuickSaveBtn,
+        items: store.data.items,
+        fullItems: store.itemsAsArray,
+        query: store.query,
+        orderBy: store.query.orderBy,
+        orderDir: store.query.orderDir,
+        popOverContainer,
+        onAction: this.handleAction,
+        dispatchEvent: this.dispatchEvent,
+        onItemChange: this.handleItemChange,
+        onSave: this.handleSave,
+        onSaveOrder: this.handleSaveOrder,
+        onQuery: this.handleQuery,
+        onSelect: this.handleSelect,
+        onPopOverOpened: this.handleChildPopOverOpen,
+        onPopOverClosed: this.handleChildPopOverClose,
+        onSearchableFromReset: this.handleFilterReset,
+        onSearchableFromSubmit: this.handleFilterSubmit,
+        onSearchableFromInit: this.handleFilterInit,
+        headerToolbarRender: this.renderHeaderToolbar,
+        footerToolbarRender: this.renderFooterToolbar,
+        data: store.mergedData,
+        loading: store.loading,
+        host: this,
+        filterItemIndex: this.filterItemIndex,
+        onDbClick: this.props.rowDbClick,
+        testIdBuilder: testIdBuilder?.getChild('body')
+      }
+    );
+  }
+
+  render() {
+    const {
+      className,
+      style,
+      render,
+      store,
+      classnames: cx,
+      translate: __,
+      testIdBuilder,
+      id,
+      mobileUI
     } = this.props;
 
     return (
       <div
         className={cx('Crud', className, {
           'is-loading': store.loading,
-          'is-mobile': isMobile()
+          'is-mobile': mobileUI
         })}
         style={style}
         data-id={id}
+        data-role="container"
         {...testIdBuilder?.getChild('wrapper').getTestId()}
       >
-        {filter && (!store.filterTogggable || store.filterVisible)
-          ? render(
-              'filter',
-              {
-                title: __('CRUD.filter'),
-                mode: 'inline',
-                submitText: __('search'),
-                ...filter,
-                type: 'form',
-                api: null,
-                testIdBuilder: testIdBuilder?.getChild('filter')
-              },
-              {
-                key: 'filter',
-                panelClassName: cx(
-                  'Crud-filter',
-                  filter.panelClassName || 'Panel--default'
-                ),
-                data: store.filterData,
-                onReset: this.handleFilterReset,
-                onSubmit: this.handleFilterSubmit,
-                onInit: this.handleFilterInit,
-                formStore: undefined,
-                canAccessSuperData: filterCanAccessSuperData
-              }
-            )
-          : null}
+        {this.renderFilter()}
+        {this.renderSelection()}
+        {this.renderBody()}
 
-        {keepItemSelectionOnPageChange && multiple !== false
-          ? this.renderSelection()
-          : null}
-
-        {render(
-          'body',
-          {
-            ...rest,
-            // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
-            // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: this.filterOnEvent(onEvent),
-            columns: store.columns ?? rest.columns,
-            type: mode || 'table'
-          },
-          {
-            key: 'body',
-            className: cx('Crud-body', bodyClassName),
-            ref: this.controlRef,
-            autoGenerateFilter: !filter && autoGenerateFilter,
-            filterCanAccessSuperData,
-            autoFillHeight: autoFillHeight,
-            selectable: !!(
-              (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
-              pickerMode
-            ),
-            itemActions,
-            multiple:
-              multiple === void 0
-                ? bulkActions && bulkActions.length > 0
-                  ? true
-                  : false
-                : multiple,
-            selected: store.selectedItemsAsArray,
-            strictMode,
-            keepItemSelectionOnPageChange,
-            maxKeepItemSelectionLength,
-            maxItemSelectionLength,
-            valueField: valueField || primaryField,
-            primaryField: primaryField,
-            hideQuickSaveBtn,
-            items: store.data.items,
-            query: store.query,
-            orderBy: store.query.orderBy,
-            orderDir: store.query.orderDir,
-            popOverContainer,
-            onAction: this.handleAction,
-            onSave: this.handleSave,
-            onSaveOrder: this.handleSaveOrder,
-            onQuery: this.handleQuery,
-            onSelect: this.handleSelect,
-            onPopOverOpened: this.handleChildPopOverOpen,
-            onPopOverClosed: this.handleChildPopOverClose,
-            onSearchableFromReset: this.handleFilterReset,
-            onSearchableFromSubmit: this.handleFilterSubmit,
-            onSearchableFromInit: this.handleFilterInit,
-            headerToolbarRender: this.renderHeaderToolbar,
-            footerToolbarRender: this.renderFooterToolbar,
-            data: store.mergedData,
-            loading: store.loading,
-            host: this
-          }
-        )}
         {render(
           'dialog',
           {
@@ -2784,15 +3156,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 }
 
-@Renderer({
-  type: 'crud',
-  storeType: CRUDStore.name,
-  isolateScope: true
-})
-export class CRUDRenderer extends CRUD {
+export class CRUDRendererBase<T extends CRUDProps> extends CRUD<T> {
   static contextType = ScopedContext;
 
-  constructor(props: CRUDProps, context: IScopedContext) {
+  constructor(props: T, context: IScopedContext) {
     super(props);
 
     const scoped = context;
@@ -2825,10 +3192,10 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query, replace, args?.resetPage ?? true);
+    return super.reload(subpath, query, ctx, silent, replace, args);
   }
 
-  receive(
+  async receive(
     values: any,
     subPath?: string,
     replace?: boolean,
@@ -2888,3 +3255,10 @@ export class CRUDRenderer extends CRUD {
     return store.getData(data);
   }
 }
+
+@Renderer({
+  type: 'crud',
+  storeType: CRUDStore.name,
+  isolateScope: true
+})
+export class CRUDRenderer extends CRUDRendererBase<CRUDProps> {}

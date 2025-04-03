@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Modal, Button} from 'amis';
-import {FormControlProps} from 'amis-core';
+import {FormControlProps, resolveVariableAndFilter} from 'amis-core';
 import cx from 'classnames';
 import {FormulaEditor} from 'amis-ui';
 
@@ -16,6 +16,7 @@ export interface FormulaPickerProps extends FormControlProps {
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+  simplifyMemberOprs?: boolean;
 }
 
 export interface CustomFormulaPickerProps extends FormulaPickerProps {
@@ -25,12 +26,17 @@ export interface CustomFormulaPickerProps extends FormulaPickerProps {
 const FormulaPicker: React.FC<FormulaPickerProps> = props => {
   const {variables, variableMode, evalMode = true} = props;
   const [formula, setFormula] = React.useState<string | undefined>(undefined);
+  const [header, setHeader] = React.useState<string>(props.header);
   useEffect(() => {
     const {initable, value} = props;
     if (initable) {
       setFormula(value);
     }
   }, [props.value]);
+
+  useEffect(() => {
+    setHeader(resolveVariableAndFilter(props.header, props.data));
+  }, [props.data]);
 
   const handleChange = (data: any) => {
     setFormula(data);
@@ -58,7 +64,7 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
       <Modal.Body>
         <FormulaEditor
           {...props}
-          header={props.header || '表达式'}
+          header={header || '表达式'}
           variables={variables}
           variableMode={variableMode}
           value={formula}

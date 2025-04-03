@@ -22,7 +22,12 @@ import ConditionFunc from './Func';
 import {ConditionBuilderConfig} from './config';
 import Formula from './Formula';
 import {FormulaPickerProps} from '../formula/Picker';
-import type {ExpressionComplex, OperatorType, ExpressionFunc} from 'amis-core';
+import type {
+  ExpressionComplex,
+  OperatorType,
+  ExpressionFunc,
+  TestIdBuilder
+} from 'amis-core';
 
 /**
  * 支持4中表达式设置方式
@@ -51,6 +56,7 @@ export interface ExpressionProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree' | 'chained';
+  testIdBuilder?: TestIdBuilder;
 }
 
 const fieldMap = {
@@ -131,7 +137,8 @@ export class Expression extends React.Component<ExpressionProps> {
       formula,
       popOverContainer,
       selectMode,
-      renderEtrValue
+      renderEtrValue,
+      testIdBuilder
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -162,6 +169,7 @@ export class Expression extends React.Component<ExpressionProps> {
             formula={formula}
             popOverContainer={popOverContainer}
             renderEtrValue={renderEtrValue}
+            testIdBuilder={testIdBuilder?.getChild('tValue')}
           />
         ) : null}
 
@@ -174,6 +182,7 @@ export class Expression extends React.Component<ExpressionProps> {
             searchable={searchable}
             popOverContainer={popOverContainer}
             selectMode={selectMode}
+            testIdBuilder={testIdBuilder?.getChild('tField')}
             options={
               valueField
                 ? filterTree(
@@ -197,6 +206,7 @@ export class Expression extends React.Component<ExpressionProps> {
             fields={fields}
             allowedTypes={allowedTypes}
             disabled={disabled}
+            testIdBuilder={testIdBuilder?.getChild('tFunc')}
           />
         ) : null}
 
@@ -206,6 +216,7 @@ export class Expression extends React.Component<ExpressionProps> {
             value={inputType}
             popOverContainer={popOverContainer}
             onChange={this.handleInputTypeChange}
+            testIdBuilder={testIdBuilder?.getChild('tSwitch')}
             options={types.map(item => ({
               label: fieldMap[item],
               value: item

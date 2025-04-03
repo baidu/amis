@@ -234,7 +234,7 @@ test('Renderer:text with options', async () => {
 
   // 展开 options
   fireEvent.click(
-    container.querySelector('.cxd-TextControl-input') as HTMLElement
+    container.querySelector('.cxd-TextControl-input > input') as HTMLElement
   );
   await wait(300);
 

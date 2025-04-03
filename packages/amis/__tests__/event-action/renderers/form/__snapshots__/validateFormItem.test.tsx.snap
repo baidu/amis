@@ -33,6 +33,7 @@ exports[`doAction:formItem validate 1`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -40,7 +41,7 @@ exports[`doAction:formItem validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -70,6 +71,7 @@ exports[`doAction:formItem validate 1`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -77,7 +79,7 @@ exports[`doAction:formItem validate 1`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -105,6 +107,7 @@ exports[`doAction:formItem validate 1`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -113,7 +116,7 @@ exports[`doAction:formItem validate 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -134,6 +137,7 @@ exports[`doAction:formItem validate 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -141,7 +145,7 @@ exports[`doAction:formItem validate 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -181,6 +185,7 @@ exports[`doAction:formItem validate 1`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -188,7 +193,7 @@ exports[`doAction:formItem validate 1`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -278,6 +283,7 @@ exports[`doAction:formItem validate 2`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -285,7 +291,7 @@ exports[`doAction:formItem validate 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -315,6 +321,7 @@ exports[`doAction:formItem validate 2`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -322,7 +329,7 @@ exports[`doAction:formItem validate 2`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -350,6 +357,7 @@ exports[`doAction:formItem validate 2`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -358,7 +366,7 @@ exports[`doAction:formItem validate 2`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -379,6 +387,7 @@ exports[`doAction:formItem validate 2`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -386,7 +395,7 @@ exports[`doAction:formItem validate 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -426,6 +435,7 @@ exports[`doAction:formItem validate 2`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -433,7 +443,7 @@ exports[`doAction:formItem validate 2`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -530,6 +540,7 @@ exports[`doAction:formItem validate 3`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -537,7 +548,7 @@ exports[`doAction:formItem validate 3`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -568,6 +579,7 @@ exports[`doAction:formItem validate 3`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -575,7 +587,7 @@ exports[`doAction:formItem validate 3`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -603,6 +615,7 @@ exports[`doAction:formItem validate 3`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -611,7 +624,7 @@ exports[`doAction:formItem validate 3`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -632,6 +645,7 @@ exports[`doAction:formItem validate 3`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -639,7 +653,7 @@ exports[`doAction:formItem validate 3`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -679,6 +693,7 @@ exports[`doAction:formItem validate 3`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isEmail"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -686,7 +701,7 @@ exports[`doAction:formItem validate 3`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -783,6 +798,7 @@ exports[`doAction:formItem validate 4`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -790,7 +806,7 @@ exports[`doAction:formItem validate 4`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -821,6 +837,7 @@ exports[`doAction:formItem validate 4`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -828,7 +845,7 @@ exports[`doAction:formItem validate 4`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -856,6 +873,7 @@ exports[`doAction:formItem validate 4`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -864,7 +882,7 @@ exports[`doAction:formItem validate 4`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -885,6 +903,7 @@ exports[`doAction:formItem validate 4`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -892,7 +911,7 @@ exports[`doAction:formItem validate 4`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -925,6 +944,7 @@ exports[`doAction:formItem validate 4`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -932,7 +952,7 @@ exports[`doAction:formItem validate 4`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -1022,6 +1042,7 @@ exports[`doAction:formItem validate 5`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -1029,7 +1050,7 @@ exports[`doAction:formItem validate 5`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -1060,6 +1081,7 @@ exports[`doAction:formItem validate 5`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -1067,7 +1089,7 @@ exports[`doAction:formItem validate 5`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -1095,6 +1117,7 @@ exports[`doAction:formItem validate 5`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1103,7 +1126,7 @@ exports[`doAction:formItem validate 5`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1124,6 +1147,7 @@ exports[`doAction:formItem validate 5`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -1131,7 +1155,7 @@ exports[`doAction:formItem validate 5`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -1164,6 +1188,7 @@ exports[`doAction:formItem validate 5`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -1171,7 +1196,7 @@ exports[`doAction:formItem validate 5`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：
@@ -1261,6 +1286,7 @@ exports[`doAction:formItem validate 6`] = `
           </button>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_info"
             data-role="form-item"
           >
             <label
@@ -1268,7 +1294,7 @@ exports[`doAction:formItem validate 6`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证信息：
@@ -1299,6 +1325,7 @@ exports[`doAction:formItem validate 6`] = `
           </div>
           <div
             class="cxd-Form-item cxd-Form-item--normal"
+            data-amis-name="validate_res"
             data-role="form-item"
           >
             <label
@@ -1306,7 +1333,7 @@ exports[`doAction:formItem validate 6`] = `
             >
               <span>
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     验证结果：
@@ -1334,6 +1361,7 @@ exports[`doAction:formItem validate 6`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -1342,7 +1370,7 @@ exports[`doAction:formItem validate 6`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -1363,6 +1391,7 @@ exports[`doAction:formItem validate 6`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="name"
                   data-role="form-item"
                 >
                   <label
@@ -1370,7 +1399,7 @@ exports[`doAction:formItem validate 6`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           姓名：
@@ -1403,6 +1432,7 @@ exports[`doAction:formItem validate 6`] = `
                 </div>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal is-required"
+                  data-amis-name="email"
                   data-role="form-item"
                 >
                   <label
@@ -1410,7 +1440,7 @@ exports[`doAction:formItem validate 6`] = `
                   >
                     <span>
                       <span
-                        class="cxd-TplField"
+                        class="cxd-TplField fr-view"
                       >
                         <span>
                           邮箱：

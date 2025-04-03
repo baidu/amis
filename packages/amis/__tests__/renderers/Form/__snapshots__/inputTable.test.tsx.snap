@@ -17,6 +17,7 @@ exports[`Renderer:input table 1`] = `
         >
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            data-role="container"
           >
             <div
               class="cxd-Panel-heading"
@@ -25,7 +26,7 @@ exports[`Renderer:input table 1`] = `
                 class="cxd-Panel-title"
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     表单
@@ -46,6 +47,7 @@ exports[`Renderer:input table 1`] = `
                 />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
+                  data-amis-name="table"
                   data-role="form-item"
                 >
                   <div
@@ -53,7 +55,7 @@ exports[`Renderer:input table 1`] = `
                   >
                     <div
                       class="cxd-Table"
-                      style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+                      style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
                     >
                       <div
                         class="cxd-Table-contentWrap"
@@ -84,7 +86,7 @@ exports[`Renderer:input table 1`] = `
                                     class="cxd-TableCell--title"
                                   >
                                     <span
-                                      class="cxd-TplField"
+                                      class="cxd-TplField fr-view"
                                     >
                                       <span>
                                         A
@@ -104,7 +106,7 @@ exports[`Renderer:input table 1`] = `
                                     class="cxd-TableCell--title"
                                   >
                                     <span
-                                      class="cxd-TplField"
+                                      class="cxd-TplField fr-view"
                                     >
                                       <span>
                                         B
@@ -195,45 +197,6 @@ exports[`Renderer:input table 1`] = `
                           </table>
                         </div>
                       </div>
-                      <div
-                        class="resize-sensor"
-                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-  
-                        <div
-                          class="resize-sensor-expand"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                        >
-                          
-    
-                          <div
-                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                          />
-                          
-  
-                        </div>
-                        
-  
-                        <div
-                          class="resize-sensor-shrink"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                        >
-                          
-    
-                          <div
-                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                          />
-                          
-  
-                        </div>
-                        
-  
-                        <div
-                          class="resize-sensor-appear"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -267,6 +230,7 @@ exports[`Renderer:input table add 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -275,7 +239,7 @@ exports[`Renderer:input table add 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -371,6 +335,7 @@ exports[`Renderer:input table add 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
           data-role="form-item"
         >
           <div
@@ -378,7 +343,7 @@ exports[`Renderer:input table add 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -413,7 +378,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 A
@@ -433,7 +398,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 B
@@ -454,7 +419,7 @@ exports[`Renderer:input table add 1`] = `
                             class="cxd-TableCell--title v-middle nowrap"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 操作
@@ -462,7 +427,7 @@ exports[`Renderer:input table add 1`] = `
                             </span>
                           </div>
                           <div
-                            class="cxd-Table-content-colDragLine cxd-Table-content-colDragLine--disabled"
+                            class="cxd-Table-content-colDragLine"
                             data-index="5"
                           />
                         </th>
@@ -475,10 +440,12 @@ exports[`Renderer:input table add 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="a"
                             data-role="form-item"
                           >
                             <div
@@ -501,10 +468,12 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="b"
                             data-role="form-item"
                           >
                             <div
@@ -558,45 +527,6 @@ exports[`Renderer:input table add 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
             <div
               class="cxd-InputTable-toolbar"
@@ -641,6 +571,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -649,7 +580,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -670,6 +601,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
           data-role="form-item"
         >
           <label
@@ -677,7 +609,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Table
@@ -690,7 +622,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -721,7 +653,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 选项
@@ -741,7 +673,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 普通文本
@@ -762,10 +694,12 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="select"
                             data-role="form-item"
                           >
                             <div
@@ -846,45 +780,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -914,6 +809,7 @@ exports[`Renderer:input-table init display 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -922,7 +818,7 @@ exports[`Renderer:input-table init display 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -943,6 +839,7 @@ exports[`Renderer:input-table init display 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="aaa"
           data-role="form-item"
         >
           <label
@@ -950,7 +847,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   数字
@@ -1010,6 +907,7 @@ exports[`Renderer:input-table init display 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="tableList"
           data-role="form-item"
         >
           <label
@@ -1017,7 +915,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   表格表单
@@ -1030,7 +928,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -1067,7 +965,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 名称
@@ -1087,7 +985,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 分数
@@ -1107,7 +1005,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 分数(不在quickEdit里面)
@@ -1127,7 +1025,7 @@ exports[`Renderer:input-table init display 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 等级
@@ -1148,10 +1046,12 @@ exports[`Renderer:input-table init display 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="name"
                             data-role="form-item"
                           >
                             <div
@@ -1174,10 +1074,12 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="score"
                             data-role="form-item"
                           >
                             <div
@@ -1285,10 +1187,12 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="level"
                             data-role="form-item"
                           >
                             <div
@@ -1349,10 +1253,12 @@ exports[`Renderer:input-table init display 1`] = `
                         data-index="1"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="name"
                             data-role="form-item"
                           >
                             <div
@@ -1375,10 +1281,12 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="score"
                             data-role="form-item"
                           >
                             <div
@@ -1486,10 +1394,12 @@ exports[`Renderer:input-table init display 1`] = `
                           </div>
                         </td>
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="level"
                             data-role="form-item"
                           >
                             <div
@@ -1548,45 +1458,6 @@ exports[`Renderer:input-table init display 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -1616,6 +1487,7 @@ exports[`Renderer:input-table verifty 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1624,7 +1496,7 @@ exports[`Renderer:input-table verifty 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1645,6 +1517,7 @@ exports[`Renderer:input-table verifty 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
           data-role="form-item"
         >
           <label
@@ -1652,7 +1525,7 @@ exports[`Renderer:input-table verifty 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Table
@@ -1687,6 +1560,7 @@ exports[`Renderer:input-table with combo column 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -1695,7 +1569,7 @@ exports[`Renderer:input-table with combo column 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             表单
@@ -1716,6 +1590,7 @@ exports[`Renderer:input-table with combo column 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="table"
           data-role="form-item"
         >
           <div
@@ -1723,7 +1598,7 @@ exports[`Renderer:input-table with combo column 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -1751,7 +1626,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                             class="cxd-TableCell--title"
                           >
                             <span
-                              class="cxd-TplField"
+                              class="cxd-TplField fr-view"
                             >
                               <span>
                                 combo column
@@ -1772,10 +1647,12 @@ exports[`Renderer:input-table with combo column 1`] = `
                         data-index="0"
                       >
                         <td
-                          class=""
+                          class="cxd-Field--quickEditable"
+                          tabindex="0"
                         >
                           <div
                             class="cxd-Form-item cxd-Form-item--normal"
+                            data-amis-name="q1"
                             data-role="form-item"
                           >
                             <div
@@ -1803,9 +1680,11 @@ exports[`Renderer:input-table with combo column 1`] = `
                                       >
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
+                                            data-amis-name="score"
                                             data-role="form-item"
                                           >
                                             <div
@@ -1866,9 +1745,11 @@ exports[`Renderer:input-table with combo column 1`] = `
                                         </div>
                                         <div
                                           class="cxd-Form-col"
+                                          style="flex: 1;"
                                         >
                                           <div
                                             class="cxd-Form-item cxd-Form-item--row"
+                                            data-amis-name="comment"
                                             data-role="form-item"
                                           >
                                             <div
@@ -1906,45 +1787,6 @@ exports[`Renderer:input-table with combo column 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>

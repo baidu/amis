@@ -16,7 +16,7 @@ import isEqual from 'lodash/isEqual';
 import {ThemeWrapperHeader} from './ThemeWrapper';
 import ColorPicker from './ColorPicker';
 import {Icon as ThemeIcon} from '../icons/index';
-import {getValueByPath, getInheritValue, setInheritData} from '../util';
+import {getDefaultValue} from '../util';
 
 interface ShadowEditorProps extends FormControlProps {}
 
@@ -81,7 +81,7 @@ function ShadowEditor(props: ShadowEditorProps) {
     colorOptions,
     state,
     itemName,
-    editorThemePath
+    editorValueToken
   } = props;
   const target = React.useRef<HTMLDivElement>(null);
   const [open, toggleOpen] = React.useState(true);
@@ -107,20 +107,13 @@ function ShadowEditor(props: ShadowEditorProps) {
     ? [...options, customShadow]
     : [...cloneDeep(data.shadowOptions || []), customShadow];
 
-  if (state && state !== 'default') {
-    shadowOptions.unshift({
-      value: editorThemePath ? 'inherit' : `var(${data.default.token}shadow)`,
-      label: '继承常规',
-      realValue: editorThemePath
-        ? ['继承常规']
-        : [`var(${data.default.token}${itemName})`]
-    });
+  let shadowToken;
+  if (editorValueToken) {
+    shadowToken = `${editorValueToken}-shadow`;
   }
-  const editorDefaultValue = getValueByPath(editorThemePath, data);
-  const editorInheritValue = getInheritValue(editorThemePath, data);
+  const editorDefaultValue = getDefaultValue(shadowToken, data);
   const defaultValue = value
-    ? (value.indexOf('inherit:') > -1 && 'inherit') ||
-      find(cloneDeep(shadowOptions), item => item.value === value) ||
+    ? find(cloneDeep(shadowOptions), item => item.value === value) ||
       formateCustomValue(value)
     : null;
 
@@ -136,6 +129,20 @@ function ShadowEditor(props: ShadowEditorProps) {
       setShadowData(defaultValue);
     }
   }, [defaultValue]);
+
+  React.useEffect(() => {
+    if (shadowData?.value === 'custom') {
+      toggleSenior(true);
+    }
+  }, []);
+
+  function getLabel(value?: string, option?: any) {
+    const res = option?.find((item: any) => item.value === value);
+    if (res) {
+      return res.label;
+    }
+    return value;
+  }
 
   function formateCustomValue(value: string) {
     const color: PlainObject = {};
@@ -192,7 +199,7 @@ function ShadowEditor(props: ShadowEditorProps) {
       const findItem = find(shadowOptions, item => item.value === value);
       if (findItem?.value) {
         setShadowData(findItem);
-        onChange(setInheritData(findItem.value, editorInheritValue));
+        onChange(findItem.value);
       }
     } else {
       setShadowData(undefined);
@@ -255,7 +262,7 @@ function ShadowEditor(props: ShadowEditorProps) {
     if (type !== 'color') {
       value += 'px';
     }
-    (shadowData!.realValue[index][type] as string) = value;
+    shadowData!.realValue[index][type] = value as never;
     const newData = changeToCustom(shadowData!);
     setShadowData(newData);
     onChange(formatRealValue(newData.realValue).value);
@@ -303,8 +310,19 @@ function ShadowEditor(props: ShadowEditorProps) {
               close={() => {
                 toggleViewShow(false);
               }}
-              name={shadowData?.label || '无阴影'}
-              value={formatRealValue(shadowData?.realValue).source}
+              name={
+                shadowData?.label ||
+                getLabel(editorDefaultValue, shadowOptions) ||
+                '无阴影'
+              }
+              value={
+                formatRealValue(
+                  shadowData?.realValue ||
+                    shadowOptions.find(
+                      item => item.value === editorDefaultValue
+                    )?.realValue
+                ).source
+              }
             />
             <div className="Theme-ShadowEditor-item">
               <Select
@@ -314,11 +332,13 @@ function ShadowEditor(props: ShadowEditorProps) {
                 onChange={(res: any) => {
                   onShadowSelect(res.value);
                 }}
-                placeholder={editorDefaultValue || '无阴影'}
+                placeholder={
+                  getLabel(editorDefaultValue, shadowOptions) || '无阴影'
+                }
               />
             </div>
           </div>
-          {senior || shadowData?.value === 'custom' ? (
+          {senior ? (
             <div className="Theme-ShadowEditor-customContent">
               <div className="Theme-Wrapper-header Theme-ShadowEditor-sub-header">
                 <div className="Theme-Wrapper-header-left">阴影层</div>

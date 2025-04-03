@@ -12,9 +12,30 @@
   }
 }
 
+.#{$ns}TableCell-ellipsis {
+  display: flex;
+  align-items: center;
+}
+
 .#{$ns}Field--popOverAble {
   outline: none;
   position: relative;
+
+  .#{$ns}Field-popOverWrap {
+    &-ellipsis {
+      width: auto;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      word-break: break-all;
+    }
+
+    &-noWrap {
+      white-space: nowrap;
+    }
+  }
 }
 
 .#{$ns}PopOverAble-popover {

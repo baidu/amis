@@ -2,15 +2,21 @@ import {
   EditorManager,
   EditorNodeType,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  getSchemaTpl,
+  registerEditorPlugin,
+  BasePlugin,
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
+import {ValidatorTag} from '../../validator';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../../renderer/event-control/helper';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NestedSelectControlPlugin extends BasePlugin {
   static id = 'NestedSelectControlPlugin';
@@ -125,7 +131,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '值变化',
       description: '选中值变化时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -135,7 +141,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  selectedItems
                 }
               }
             }
@@ -148,7 +155,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -158,7 +165,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  selectedItems
                 }
               }
             }
@@ -171,7 +179,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
       eventLabel: '失去焦点',
       description: '输入框失去焦点时触发',
       dataSchema: (manager: EditorManager) => {
-        const {value} = resolveOptionEventDataSchame(manager);
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
 
         return [
           {
@@ -181,7 +189,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 type: 'object',
                 title: '数据',
                 properties: {
-                  value
+                  value,
+                  selectedItems
                 }
               }
             }
@@ -196,22 +205,26 @@ export class NestedSelectControlPlugin extends BasePlugin {
     {
       actionType: 'clear',
       actionLabel: '清空',
-      description: '清除选中值'
+      description: '清除选中值',
+      ...getActionCommonProps('clear')
     },
     {
       actionType: 'reset',
       actionLabel: '重置',
-      description: '将值重置为初始值'
+      description: '将值重置为初始值',
+      ...getActionCommonProps('reset')
     },
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
   panelBodyCreator = (context: BaseEventContext) => {
@@ -342,23 +355,40 @@ export class NestedSelectControlPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer}),
-          {
-            title: '边框',
-            key: 'borderMode',
-            body: [getSchemaTpl('borderMode')]
-          },
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              })
-            ]
-          })
-        ])
+        body: [
+          getSchemaTpl('collapseGroup', [
+            getSchemaTpl('theme:formItem'),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '选择框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.nestedSelectControlClassName',
+                  '--select-base'
+                )
+              ]
+            },
+            {
+              title: '下拉框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.nestedSelectPopoverClassName',
+                  '--select-base-${state}-option',
+                  {
+                    state: [
+                      {label: '常规', value: 'default'},
+                      {label: '悬浮', value: 'hover'},
+                      {label: '选中', value: 'focused'}
+                    ]
+                  }
+                )
+              ]
+            },
+            getSchemaTpl('theme:cssCode'),
+            getSchemaTpl('style:classNames')
+          ])
+        ]
       },
       {
         title: '事件',

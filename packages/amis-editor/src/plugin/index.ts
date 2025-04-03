@@ -119,6 +119,7 @@ export * from './Divider'; // 分隔线
 export * from './CodeView'; // 代码高亮
 export * from './Markdown';
 export * from './Collapse'; // 折叠器
+export * from './Slider'; // 滑动条
 export * from './OfficeViewer'; // 文档预览
 export * from './PdfViewer'; // PDF预览
 export * from './Log'; // 日志
@@ -160,3 +161,5 @@ export * from './Reset';
 export * from './Submit';
 export * from './Wrapper';
 export * from './ColumnToggler';
+
+export * from './GlobalVar';

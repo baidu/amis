@@ -125,6 +125,8 @@ export type InputTextRendererEvent =
   | 'focus'
   | 'click'
   | 'change'
+  | 'review' // 查看密码事件
+  | 'encrypt' // 隐藏密码事件
   | 'enter';
 
 export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
@@ -277,6 +279,10 @@ export default class TextControl extends React.PureComponent<
       this.clearValue();
     } else if (actionType === 'focus') {
       this.focus();
+    } else if (actionType === 'review') {
+      this.setState({revealPassword: true});
+    } else if (actionType === 'encrypt') {
+      this.setState({revealPassword: false});
     }
   }
 
@@ -323,7 +329,7 @@ export default class TextControl extends React.PureComponent<
         inputValue: pristineVal
       },
       () => {
-        this.focus();
+        //this.focus();
         this.loadAutoComplete();
       }
     );
@@ -361,7 +367,7 @@ export default class TextControl extends React.PureComponent<
         inputValue: resetValue
       },
       () => {
-        this.focus();
+        //this.focus();
         this.loadAutoComplete();
       }
     );
@@ -376,8 +382,8 @@ export default class TextControl extends React.PureComponent<
     onChange(this.normalizeValue(newValue));
   }
 
-  async handleClick() {
-    const {dispatchEvent, value} = this.props;
+  async handleClick(event: React.MouseEvent) {
+    const {dispatchEvent, value, multiple} = this.props;
     const rendererEvent = await dispatchEvent(
       'click',
       resolveEventData(this.props, {
@@ -388,11 +394,14 @@ export default class TextControl extends React.PureComponent<
     if (rendererEvent?.prevented) {
       return;
     }
-    // 已经 focus 的就不重复执行，否则总重新定位光标
-    this.state.isFocused || this.focus();
-    this.setState({
-      isOpen: true
-    });
+
+    if (multiple || event.target === this.input) {
+      // 已经 focus 的就不重复执行，否则总重新定位光标
+      this.state.isFocused || this.focus();
+      this.setState({
+        isOpen: true
+      });
+    }
   }
 
   async handleFocus(e: any) {
@@ -569,8 +578,14 @@ export default class TextControl extends React.PureComponent<
 
     if (multiple) {
       const newValue = selectedOptions.concat();
-      toggledOption && newValue.push(toggledOption);
-
+      if (toggledOption) {
+        newValue.push(toggledOption);
+      } else if (value && creatable !== false) {
+        newValue.push({
+          label: value,
+          value
+        });
+      }
       onChange(this.normalizeValue(newValue));
     } else {
       onChange(toggledOption ? this.normalizeValue(toggledOption) : value);
@@ -709,9 +724,9 @@ export default class TextControl extends React.PureComponent<
     }
   }
 
-  reload() {
+  reload(subpath?: string, query?: any) {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload && reload(subpath, query);
   }
 
   valueToString(value: any) {
@@ -986,7 +1001,21 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  toggleRevealPassword() {
+  async toggleRevealPassword() {
+    const {dispatchEvent, value} = this.props;
+    const eventName = this.state.revealPassword ? 'encrypt' : 'review';
+
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      resolveEventData(this.props, {
+        value
+      })
+    );
+
+    if (rendererEvent?.prevented || rendererEvent?.stoped) {
+      return;
+    }
+
     this.setState({revealPassword: !this.state.revealPassword});
   }
 
@@ -1211,7 +1240,7 @@ export default class TextControl extends React.PureComponent<
         });
 
     return (
-      <div className={classNames}>
+      <div className={classNames} style={style}>
         {addOn && addOn.position === 'left' ? addOnDom : null}
         {body}
         {addOn && addOn.position !== 'left' ? addOnDom : null}
@@ -1251,11 +1280,11 @@ export default class TextControl extends React.PureComponent<
               {
                 key: 'inputControlClassName',
                 weights: {
-                  active: {
-                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}, `
+                  focused: {
+                    parent: `.${ns}TextControl.is-focused`
+                  },
+                  disabled: {
+                    parent: `.${ns}TextControl.is-disabled`
                   }
                 }
               }
@@ -1278,11 +1307,12 @@ export default class TextControl extends React.PureComponent<
                   hover: {
                     inner: 'input'
                   },
-                  active: {
-                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
-                      'u:',
-                      ''
-                    )}, `,
+                  focused: {
+                    parent: `.${ns}TextControl.is-focused`,
+                    inner: 'input'
+                  },
+                  disabled: {
+                    parent: `.${ns}TextControl.is-disabled`,
                     inner: 'input'
                   }
                 }
@@ -1325,14 +1355,10 @@ export function mapItemIndex(
 }
 
 @OptionsControl({
-  type: 'input-text'
+  type: 'input-text',
+  alias: ['input-password', 'native-date', 'native-time', 'native-number']
 })
 export class TextControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'input-password'
-})
-export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
   type: 'input-email',
@@ -1345,18 +1371,3 @@ export class EmailControlRenderer extends TextControl {}
   validations: 'isUrl'
 })
 export class UrlControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-date'
-})
-export class NativeDateControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-time'
-})
-export class NativeTimeControlRenderer extends TextControl {}
-
-@OptionsControl({
-  type: 'native-number'
-})
-export class NativeNumberControlRenderer extends TextControl {}

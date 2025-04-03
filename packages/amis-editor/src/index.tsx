@@ -1,10 +1,13 @@
 import 'amis';
-import './locale/index';
+export * from './locale/index';
 export * from 'amis-editor-core';
 export * from './builder';
 import './tpl/index';
 export * from './plugin';
 export * from './validator';
+export * from './renderer/event-control/actionsPanelManager';
+export * from './renderer/event-control/helper';
+export * from './renderer/global-var-control/index';
 
 import './renderer/OptionControl';
 import './renderer/ValueFormatControl';
@@ -45,6 +48,10 @@ import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
 import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
+import './renderer/style-control/SingleThemeCssCode';
+import './renderer/style-control/ColCount';
+import './renderer/style-control/ColSize';
+import './renderer/style-control/LabelAlign';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
 import './renderer/FieldSetting';

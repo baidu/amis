@@ -45,6 +45,7 @@ export interface UserSelectProps
   controlled?: boolean;
   displayFields: Array<string>;
   isTab?: boolean;
+  disabled?: boolean;
   fetcher?: (
     api: Api,
     data?: any,
@@ -312,8 +313,10 @@ export class UserSelect extends React.Component<
         option.children = flatten(res);
       } else {
         // 只加载部门
-        const res = await deferLoad(option, false, deferParam);
-        option.children = res || [];
+        if (option.deferApi) {
+          const res = await deferLoad(option, false, deferParam);
+          option.children = res || [];
+        }
       }
     }
 
@@ -993,6 +996,7 @@ export class UserSelect extends React.Component<
       showResultBox,
       labelField = 'label',
       valueField = 'value',
+      disabled,
       mobileUI
     } = this.props;
 
@@ -1005,6 +1009,7 @@ export class UserSelect extends React.Component<
             className={cx('UserSelect-input', isOpened ? 'is-active' : '')}
             allowInput={false}
             result={this.getResult()}
+            disabled={disabled}
             itemRender={(option: any) => {
               if (labelField !== 'avatar') {
                 return (

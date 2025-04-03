@@ -1,7 +1,10 @@
 import {toast, normalizeApiResponseData} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  getActionCommonProps
+} from '../renderer/event-control/helper';
 import {genCodeSchema} from '../renderer/APIAdaptorControl';
 import {
   getI18nEnabled,
@@ -20,12 +23,12 @@ import {
   RendererEventContext,
   RendererInfoResolveEventContext,
   ScaffoldForm,
-  SubRendererInfo
+  SubRendererInfo,
+  defaultValue,
+  getSchemaTpl,
+  JSONPipeIn
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {isObject, JSONPipeIn} from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
-import type {ActionSchema} from 'amis';
+import {setVariable, someTree, normalizeApi} from 'amis-core';
 import type {CRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
 import type {
@@ -33,7 +36,6 @@ import type {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import findLastIndex from 'lodash/findLastIndex';
 
@@ -124,6 +126,36 @@ export class CRUDPlugin extends BasePlugin {
       ]
     },
     {
+      eventName: 'research',
+      eventLabel: '重新加载',
+      description: '重新加载或查询重置时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'selectedChange',
       eventLabel: '选择表格项',
       description: '手动选择表格项事件',
@@ -142,6 +174,10 @@ export class CRUDPlugin extends BasePlugin {
                 unSelectedItems: {
                   type: 'array',
                   title: '未选择行记录'
+                },
+                selectedIndexes: {
+                  type: 'array',
+                  title: '已选择行索引'
                 }
               }
             }
@@ -302,6 +338,36 @@ export class CRUDPlugin extends BasePlugin {
       ]
     },
     {
+      eventName: 'rowDbClick',
+      eventLabel: '行双击',
+      description: '双击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                },
+                indexPath: {
+                  type: 'number',
+                  title: '行索引路劲'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'rowMouseEnter',
       eventLabel: '鼠标移入行事件',
       description: '移入整行时触发',
@@ -367,12 +433,14 @@ export class CRUDPlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionLabel: '变量赋值',
       actionType: 'setValue',
-      description: '更新列表记录'
+      description: '更新列表记录',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -389,7 +457,7 @@ export class CRUDPlugin extends BasePlugin {
         title: '新增',
         body: {
           type: 'form',
-          api: 'xxx/create',
+          api: '',
           body: []
         }
       }
@@ -406,7 +474,8 @@ export class CRUDPlugin extends BasePlugin {
         title: '编辑',
         body: {
           type: 'form',
-          api: 'xxx/update',
+          api: '',
+          initApi: '',
           body: []
         }
       }
@@ -423,7 +492,7 @@ export class CRUDPlugin extends BasePlugin {
         title: '查看详情',
         body: {
           type: 'form',
-          api: 'xxx/update',
+          initApi: '',
           body: []
         }
       }
@@ -435,7 +504,7 @@ export class CRUDPlugin extends BasePlugin {
       level: 'link',
       className: 'text-danger',
       confirmText: '确定要删除？',
-      api: 'delete:/xxx/delete',
+      api: '',
       editorSetting: {
         behavior: 'delete'
       }
@@ -446,7 +515,7 @@ export class CRUDPlugin extends BasePlugin {
       label: '批量删除',
       actionType: 'ajax',
       confirmText: '确定要删除？',
-      api: '/xxx/batch-delete',
+      api: '',
       editorSetting: {
         behavior: 'bulkDelete'
       }
@@ -463,7 +532,7 @@ export class CRUDPlugin extends BasePlugin {
         size: 'md',
         body: {
           type: 'form',
-          api: '/xxx/bacth-edit',
+          api: '',
           body: [
             {
               label: '字段1',
@@ -478,7 +547,7 @@ export class CRUDPlugin extends BasePlugin {
     //   type: 'button',
     //   level: 'danger',
     //   label: '删除',
-    //   api: '/xxx/delete-one',
+    //   api: '',
     //   actionType: 'ajax',
     //   confirmText: '确定要删除？'
     // },
@@ -518,8 +587,8 @@ export class CRUDPlugin extends BasePlugin {
         {
           type: 'button',
           label: '格式校验并自动生成列配置',
-          className: 'm-t-xs m-b-xs',
-          visibleOn: '!!this.api.url',
+          className: 'm-b-sm',
+          visibleOn: '${api.url || api && ISTYPE(api, "string")}',
           onClick: async (e: Event, props: any) => {
             const data = props.data;
             const schemaFilter = getEnv(
@@ -547,7 +616,7 @@ export class CRUDPlugin extends BasePlugin {
               }
             }
 
-            if (Array.isArray(items)) {
+            if (Array.isArray(items) && items[0]) {
               Object.keys(items[0]).forEach((key: any) => {
                 const value = items[0][key];
                 autoFillKeyValues.push({
@@ -558,12 +627,6 @@ export class CRUDPlugin extends BasePlugin {
               });
               props.formStore.setValues({
                 columns: autoFillKeyValues
-              });
-              // 查询条件的字段列表
-              props.formStore.setValues({
-                filterSettingSource: autoFillKeyValues.map(column => {
-                  return column.name;
-                })
               });
             } else {
               toast.warning(
@@ -598,7 +661,8 @@ export class CRUDPlugin extends BasePlugin {
               label: '启用的查询字段',
               name: 'filterEnabledList',
               joinValues: false,
-              source: '${filterSettingSource}'
+              source:
+                '${ARRAYMAP(ARRAYFILTER(columns, item => item.name), item => ({label: item.label || item.name, value: item.name}))}'
             },
             {
               columnRatio: 2,
@@ -993,7 +1057,8 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
-            visibleOn: 'this.api && this.api.url',
+            visibleOn:
+              'this.api && this.api.url || typeof this.api === "string" && this.api',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -1124,6 +1189,33 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider',
             hiddenOn: 'this.mode && this.mode !== "table" || this.pickerMode'
           },
+
+          getSchemaTpl('switch', {
+            name: 'selectable',
+            label: '开启选择',
+            pipeIn: defaultValue(false),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '开启后即便没有批量操作按钮也显示可点选',
+              placement: 'left'
+            }
+          }),
+
+          getSchemaTpl('switch', {
+            name: 'multiple',
+            label: '开启多选',
+            visibleOn: '${selectable}',
+            pipeIn: defaultValue(true),
+            labelRemark: {
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              content: '控制是单选还是多选',
+              placement: 'left'
+            }
+          }),
 
           getSchemaTpl('switch', {
             name: 'syncLocation',
@@ -1539,6 +1631,50 @@ export class CRUDPlugin extends BasePlugin {
             ]
           },
 
+          {
+            type: 'switch',
+            name: 'showIndexBar',
+            label: '显示索引条',
+            visibleOn: 'this.mode === "list"',
+            pipeIn: defaultValue(false),
+            onChange: (
+              value: boolean,
+              oldValue: boolean,
+              model: any,
+              form: any
+            ) => {
+              if (value) {
+                form.setValueByName('indexBarOffset', 0);
+                form.setValueByName('indexField', 'title');
+              }
+            }
+          },
+
+          {
+            type: 'container',
+            visibleOn: 'this.mode === "list" && this.showIndexBar',
+            body: [
+              {
+                type: 'input-number',
+                name: 'indexBarOffset',
+                label: '顶部偏移量',
+                value: 0,
+                min: 0,
+                max: 200,
+                unit: 'px',
+                description: '点击索引条跳转时，与顶部保持的距离'
+              },
+              {
+                type: 'input-text',
+                name: 'indexField',
+                label: '索引字段',
+                value: 'title',
+                placeholder: '请输入索引字段名',
+                description: '根据指定字段的首字母进行索引，默认使用 title 字段'
+              }
+            ]
+          },
+
           getSchemaTpl('combo-container', {
             name: 'headerToolbar',
             type: 'combo',
@@ -1948,7 +2084,98 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('className', {
             name: 'bodyClassName',
             label: '内容 CSS 类名'
-          })
+          }),
+
+          {
+            type: 'container',
+            visibleOn: `this.headerToolbar && this.headerToolbar.some(item => item === 'load-more' || item.type === 'load-more') ||
+                      this.footerToolbar && this.footerToolbar.some(item => item === 'load-more' || item.type === 'load-more')`,
+            body: [
+              {
+                type: 'group',
+                body: [
+                  {
+                    name: 'loadMoreProps.showIcon',
+                    label: '显示图标',
+                    type: 'switch',
+                    value: true
+                  },
+                  {
+                    name: 'loadMoreProps.showText',
+                    label: '显示文本',
+                    type: 'switch',
+                    value: true
+                  }
+                ]
+              },
+              getSchemaTpl('icon', {
+                name: 'loadMoreProps.iconType',
+                label: tipedLabel(
+                  '图标类型',
+                  '支持 fontawesome v4 图标、iconfont 图标。如需使用 fontawesome v5/v6 版本,需设置 vendor 为空字符串。默认为 loading-outline'
+                ),
+                value: 'loading-outline',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showIcon'
+              }),
+              {
+                name: 'loadMoreProps.minLoadingTime',
+                type: 'input-number',
+                label: tipedLabel(
+                  '最小加载时间',
+                  '指定加载时显示loading的最小时间(毫秒)'
+                ),
+                value: 0
+              },
+              {
+                name: 'loadMoreProps.dataAppendTo',
+                type: 'select',
+                label: tipedLabel(
+                  '数据追加方式',
+                  '指定新加载的数据追加到已有数据的位置'
+                ),
+                value: 'bottom',
+                options: [
+                  {
+                    label: '追加到底部',
+                    value: 'bottom'
+                  },
+                  {
+                    label: '追加到顶部',
+                    value: 'top'
+                  }
+                ]
+              },
+              {
+                type: 'group',
+                label: '文本配置',
+                visibleOn: 'this.loadMoreProps && this.loadMoreProps.showText',
+                body: [
+                  {
+                    name: 'loadMoreProps.contentText.contentdown',
+                    label: '加载前',
+                    type: 'input-text',
+                    value: '点击加载更多'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentrefresh',
+                    label: '加载中',
+                    type: 'input-text',
+                    value: '加载中...'
+                  },
+                  {
+                    name: 'loadMoreProps.contentText.contentnomore',
+                    label: '加载完成',
+                    type: 'input-text',
+                    value: '没有更多数据了'
+                  }
+                ]
+              },
+              getSchemaTpl('theme:colorPicker', {
+                name: 'loadMoreProps.color',
+                label: '文字颜色'
+              })
+            ]
+          }
         ]
       },
 
@@ -2011,6 +2238,13 @@ export class CRUDPlugin extends BasePlugin {
           },
 
           {
+            name: 'totalField',
+            label: '总条数字段名',
+            type: 'input-text',
+            pipeIn: defaultValue('total')
+          },
+
+          {
             name: 'orderField',
             label: '排序权重字段',
             type: 'input-text',
@@ -2033,7 +2267,7 @@ export class CRUDPlugin extends BasePlugin {
               type: 'input-number',
               required: true
             },
-            value: [10]
+            value: [5, 10, 20, 50, 100]
           },
 
           getSchemaTpl('name'),
@@ -2200,7 +2434,7 @@ export class CRUDPlugin extends BasePlugin {
     const {$$editor, style, ...rest} = props;
     const renderer = $$editor.renderer;
     return (
-      <div className="ae-CRUDEditor" style={style}>
+      <div className="ae-CRUDEditor" style={style} data-role="container">
         {this.renderEditableComponents(props)}
         <renderer.component $$editor={$$editor} {...rest} />
       </div>
@@ -2326,6 +2560,10 @@ export class CRUDPlugin extends BasePlugin {
               properties: itemsSchema
             }
           },
+          selectedIndexes: {
+            type: 'array',
+            title: '已选择行索引'
+          },
           count: {
             type: 'number',
             title: '总行数'
@@ -2342,7 +2580,7 @@ export class CRUDPlugin extends BasePlugin {
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
-    if (e === 'fetchInited') {
+    if (e === 'fetchInited' || e === 'research') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'crudFetchInitedData',

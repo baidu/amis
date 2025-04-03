@@ -4,6 +4,7 @@ exports[`Renderer:checkbox 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:checkbox 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -33,6 +34,7 @@ exports[`Renderer:checkbox 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="checkbox"
           data-role="form-item"
         >
           <label
@@ -40,7 +42,7 @@ exports[`Renderer:checkbox 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -49,21 +51,25 @@ exports[`Renderer:checkbox 1`] = `
             </span>
           </label>
           <div
-            class="cxd-CheckboxControl cxd-Form-control"
+            class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     选项说明
@@ -83,6 +89,7 @@ exports[`Renderer:checkbox with checked 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -91,7 +98,7 @@ exports[`Renderer:checkbox with checked 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -112,6 +119,7 @@ exports[`Renderer:checkbox with checked 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="checkbox"
           data-role="form-item"
         >
           <label
@@ -119,7 +127,7 @@ exports[`Renderer:checkbox with checked 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -128,22 +136,26 @@ exports[`Renderer:checkbox with checked 1`] = `
             </span>
           </label>
           <div
-            class="cxd-CheckboxControl cxd-Form-control"
+            class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--default first last checked cxd-Checkbox--checkbox--default--checked"
               data-role="checkbox"
             >
               <input
                 checked=""
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     选项说明
@@ -163,6 +175,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -171,7 +184,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -192,6 +205,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="checkbox"
           data-role="form-item"
         >
           <label
@@ -199,7 +213,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Checkbox
@@ -208,21 +222,25 @@ exports[`Renderer:checkbox with optionType 1`] = `
             </span>
           </label>
           <div
-            class="cxd-CheckboxControl cxd-Form-control"
+            class="cxd-CheckboxControl cxd-Form-control is-thin"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--button cxd-Checkbox--button--checked"
+              class="cxd-Checkbox cxd-Checkbox--checkbox--button first last checked cxd-Checkbox--checkbox--button--checked"
               data-role="checkbox"
             >
               <input
                 type="checkbox"
               />
-              <i />
+              <i>
+                <div
+                  class="checkbox-icon icon"
+                />
+              </i>
               <span
                 class=""
               >
                 <span
-                  class="cxd-TplField"
+                  class="cxd-TplField fr-view"
                 >
                   <span>
                     去吃饭
@@ -234,6 +252,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="checkbox"
           data-role="form-item"
         >
           <label
@@ -241,7 +260,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   您吃了吗

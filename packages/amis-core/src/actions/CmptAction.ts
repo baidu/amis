@@ -1,5 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {createObject} from '../utils/helper';
+import {createObject, extendObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -11,6 +11,7 @@ import {getRendererByName} from '../factory';
 export interface ICmptAction extends ListenerAction {
   actionType: string;
   args: {
+    resetPage?: boolean; // reload时，是否重置分页
     path?: string; // setValue时，目标变量的path
     value?: string | {[key: string]: string}; // setValue时，目标变量的值
     index?: number; // setValue时，支持更新指定索引的数据，一般用于数组类型
@@ -41,6 +42,11 @@ export class CmptAction implements RendererAction {
 
     /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
     if (action.actionType === 'setValue' && path && typeof path === 'string') {
+      if (path.startsWith('global.')) {
+        const topStore = renderer.props.topStore;
+        topStore?.updateGlobalVarValue(path.substring(7), action.args.value);
+      }
+
       const beforeSetData = event?.context?.env?.beforeSetData;
       if (beforeSetData && typeof beforeSetData === 'function') {
         const res = await beforeSetData(renderer, action, event);
@@ -60,11 +66,7 @@ export class CmptAction implements RendererAction {
     // 如果key指定了，但是没找到组件，则报错
     if (key && !component) {
       const msg = `尝试执行一个不存在的目标组件动作（${key}），请检查目标组件非隐藏状态，且正确指定了componentId或componentName`;
-      if (action.ignoreError === false) {
-        throw Error(msg);
-      } else {
-        console.warn(msg);
-      }
+      throw Error(msg);
     }
 
     if (action.actionType === 'setValue') {
@@ -82,14 +84,27 @@ export class CmptAction implements RendererAction {
 
     // 刷新
     if (action.actionType === 'reload') {
-      return component?.reload?.(
+      const result = await component?.reload?.(
         undefined,
         action.data,
         event.data,
         undefined,
         dataMergeMode === 'override',
-        action.args
+        {
+          ...action.args,
+          resetPage: action.args?.resetPage ?? action.resetPage
+        }
       );
+
+      if (result && action.outputVar) {
+        event.setData(
+          extendObject(event.data, {
+            [action.outputVar]: result
+          })
+        );
+      }
+
+      return result;
     }
 
     // 校验表单项
@@ -99,7 +114,9 @@ export class CmptAction implements RendererAction {
     ) {
       const {dispatchEvent, data} = component?.props || {};
       try {
-        const valid = await component?.props.onValidate?.();
+        const valid =
+          (await component?.props.onValidate?.()) ||
+          (await component?.validate?.());
         if (valid) {
           event.setData(
             createObject(event.data, {

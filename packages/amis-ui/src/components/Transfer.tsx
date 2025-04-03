@@ -713,6 +713,7 @@ export class Transfer<
       checkAll,
       checkAllLabel,
       onlyChildren,
+      autoCheckChildren,
       testIdBuilder
     } = props;
     const {isTreeDeferLoad, searchResult, inputValue} = this.state;
@@ -767,6 +768,7 @@ export class Transfer<
         itemHeight={itemHeight}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        autoCheckChildren={autoCheckChildren}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection

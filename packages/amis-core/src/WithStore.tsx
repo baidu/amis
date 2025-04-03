@@ -246,12 +246,20 @@ export function HocStoreFactory(renderer: {
           ) {
             store.initData(
               extendObject(props.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
                 ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
               }),
               (props.updatePristineAfterStoreDataReInit ??
-                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false,
+              props.data?.__changeReason
             );
           }
         } else if (
@@ -265,9 +273,15 @@ export function HocStoreFactory(renderer: {
         ) {
           if (props.store && props.scope === props.data) {
             store.initData(
-              createObject(
-                props.store.data,
-                props.syncSuperStore === false
+              createObject(props.store.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
+                ...(props.syncSuperStore === false
                   ? {
                       ...store.data
                     }
@@ -277,18 +291,26 @@ export function HocStoreFactory(renderer: {
                       prevProps.scope,
                       store,
                       props.syncSuperStore === true
-                    )
-              ),
+                    ))
+              }),
               (props.updatePristineAfterStoreDataReInit ??
-                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false,
+
+              props.data?.__changeReason
             );
           } else if (props.data && (props.data as any).__super) {
             store.initData(
-              extendObject(
-                props.data,
-                // 有远程数据
+              extendObject(props.data, {
+                ...this.formatData(
+                  dataMapping(
+                    this.props.defaultData,
+                    this.props.data,
+                    ignoreSchemaProps
+                  )
+                ),
+                ...// 有远程数据
                 // 或者顶级 store
-                store.hasRemoteData || !store.path.includes('/')
+                (store.hasRemoteData || !store.path.includes('/')
                   ? {
                       ...store.data,
                       ...props.data
@@ -298,21 +320,23 @@ export function HocStoreFactory(renderer: {
                   props.store?.storeType === 'ComboStore'
                   ? undefined
                   : syncDataFromSuper(
-                      {...store.data, ...props.data},
+                      {...store.pristineDiff, ...props.data},
                       (props.data as any).__super,
                       (prevProps.data as any).__super,
                       store,
                       false
-                    )
-              ),
+                    ))
+              }),
               (props.updatePristineAfterStoreDataReInit ??
-                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false,
+              props.data?.__changeReason
             );
           } else {
             store.initData(
               createObject(props.scope, props.data),
               (props.updatePristineAfterStoreDataReInit ??
-                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
+                props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false,
+              props.data?.__changeReason
             );
           }
         } else if (
@@ -339,7 +363,9 @@ export function HocStoreFactory(renderer: {
               (props.updatePristineAfterStoreDataReInit ??
                 props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false ||
                 (store.storeType === 'FormStore' &&
-                  prevProps.store?.storeType === 'CRUDStore')
+                  prevProps.store?.storeType === 'CRUDStore'),
+
+              props.data?.__changeReason
             );
           }
           // nextProps.data.__super !== props.data.__super) &&
@@ -357,7 +383,9 @@ export function HocStoreFactory(renderer: {
               ...store.data
             }),
             (props.updatePristineAfterStoreDataReInit ??
-              props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false
+              props.dataUpdatedAt !== prevProps.dataUpdatedAt) === false,
+
+            props.data?.__changeReason
           );
         }
       }

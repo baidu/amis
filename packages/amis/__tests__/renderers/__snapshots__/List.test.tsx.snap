@@ -20,6 +20,7 @@ exports[`Renderer:list 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default"
+              data-role="container"
             >
               <div
                 class="cxd-Panel-heading"
@@ -28,7 +29,7 @@ exports[`Renderer:list 1`] = `
                   class="cxd-Panel-title"
                 >
                   <span
-                    class="cxd-TplField"
+                    class="cxd-TplField fr-view"
                   >
                     <span>
                       简单 List 示例
@@ -43,685 +44,713 @@ exports[`Renderer:list 1`] = `
                   class="cxd-List"
                 >
                   <div
-                    class="cxd-List-fixedTop"
-                  />
-                  <div
-                    class="cxd-List-items"
+                    class="cxd-List-content-wrapper"
                   >
                     <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                      class="cxd-List-main"
                     >
                       <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
+                        class="cxd-List-fixedTop"
+                      />
                       <div
-                        class="cxd-ListItem-content"
+                        class="cxd-List-items"
                       >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="0"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Trident
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  4
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Trident
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      4
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="1"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Trident
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  4
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Trident
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      4
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="2"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Trident
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  4
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Trident
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      4
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="3"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Trident
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  3
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Trident
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      3
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="4"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Trident
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  4
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Trident
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      4
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="5"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Gecko
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  4
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Gecko
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      4
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="6"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Gecko
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  5
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Gecko
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      5
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="7"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Gecko
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  5
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Gecko
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      5
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="8"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Gecko
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  5
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Gecko
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      5
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                    >
-                      <div
-                        class="cxd-ListItem-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                          type="button"
-                        >
-                          <span>
-                            查看详情
-                          </span>
-                        </button>
-                      </div>
-                      <div
-                        class="cxd-ListItem-content"
-                      >
                         <div
-                          class="cxd-Hbox cxd-Hbox--xs"
+                          class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                          data-index="9"
+                          style="scroll-margin-top: var(--affix-offset-top);"
                         >
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-actions"
                           >
-                            <div
-                              class="cxd-ListItem-field"
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                              type="button"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Engine
-                              </label>
-                              <div
-                                class="cxd-ListItem-fieldValue"
-                              >
-                                <span
-                                  class="cxd-PlainField"
-                                >
-                                  Gecko
-                                </span>
-                              </div>
-                            </div>
+                              <span>
+                                查看详情
+                              </span>
+                            </button>
                           </div>
                           <div
-                            class="cxd-Hbox-col"
+                            class="cxd-ListItem-content"
                           >
                             <div
-                              class="cxd-ListItem-field"
+                              class="cxd-Hbox cxd-Hbox--xs"
                             >
-                              <label
-                                class="cxd-ListItem-fieldLabel"
-                              >
-                                Version
-                              </label>
                               <div
-                                class="cxd-ListItem-fieldValue"
+                                class="cxd-Hbox-col"
                               >
-                                <span
-                                  class="cxd-PlainField"
+                                <div
+                                  class="cxd-ListItem-field"
                                 >
-                                  5
-                                </span>
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Engine
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      Gecko
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Hbox-col"
+                              >
+                                <div
+                                  class="cxd-ListItem-field"
+                                >
+                                  <label
+                                    class="cxd-ListItem-fieldLabel"
+                                  >
+                                    Version
+                                  </label>
+                                  <div
+                                    class="cxd-ListItem-fieldValue"
+                                  >
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      5
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -763,145 +792,159 @@ exports[`Renderer:list with itemAction 1`] = `
               class="cxd-List"
             >
               <div
-                class="cxd-List-fixedTop"
+                class="cxd-List-content-wrapper"
               >
                 <div
-                  class="cxd-List-heading"
-                >
-                  listTitleForTest
-                </div>
-              </div>
-              <div
-                class="cxd-List-items"
-              >
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                  class="cxd-List-main"
                 >
                   <div
-                    class="cxd-ListItem-content"
+                    class="cxd-List-fixedTop"
                   >
                     <div
-                      class="cxd-ListItem-field"
+                      class="cxd-List-heading"
                     >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Engine
-                      </label>
-                      <div
-                        class="cxd-ListItem-fieldValue"
-                      >
-                        <span
-                          class="cxd-PlainField"
-                        >
-                          Trident
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem-field"
-                    >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Version
-                      </label>
-                      <div
-                        class="cxd-ListItem-fieldValue"
-                      >
-                        <span
-                          class="cxd-PlainField"
-                        >
-                          4
-                        </span>
-                      </div>
+                      listTitleForTest
                     </div>
                   </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                >
                   <div
-                    class="cxd-ListItem-content"
+                    class="cxd-List-items"
                   >
                     <div
-                      class="cxd-ListItem-field"
+                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                      data-index="0"
+                      style="scroll-margin-top: var(--affix-offset-top);"
                     >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Engine
-                      </label>
                       <div
-                        class="cxd-ListItem-fieldValue"
+                        class="cxd-ListItem-content"
                       >
-                        <span
-                          class="cxd-PlainField"
+                        <div
+                          class="cxd-ListItem-field"
                         >
-                          Trident
-                        </span>
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Engine
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              Trident
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-ListItem-field"
+                        >
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Version
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              4
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div
-                      class="cxd-ListItem-field"
+                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                      data-index="1"
+                      style="scroll-margin-top: var(--affix-offset-top);"
                     >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Version
-                      </label>
                       <div
-                        class="cxd-ListItem-fieldValue"
+                        class="cxd-ListItem-content"
                       >
-                        <span
-                          class="cxd-PlainField"
+                        <div
+                          class="cxd-ListItem-field"
                         >
-                          4
-                        </span>
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Engine
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              Trident
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-ListItem-field"
+                        >
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Version
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              4
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
-                >
-                  <div
-                    class="cxd-ListItem-content"
-                  >
                     <div
-                      class="cxd-ListItem-field"
+                      class="cxd-ListItem cxd-ListItem--actions-at-right cxd-ListItem--hasItemAction"
+                      data-index="2"
+                      style="scroll-margin-top: var(--affix-offset-top);"
                     >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Engine
-                      </label>
                       <div
-                        class="cxd-ListItem-fieldValue"
+                        class="cxd-ListItem-content"
                       >
-                        <span
-                          class="cxd-PlainField"
+                        <div
+                          class="cxd-ListItem-field"
                         >
-                          Trident
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-ListItem-field"
-                    >
-                      <label
-                        class="cxd-ListItem-fieldLabel"
-                      >
-                        Version
-                      </label>
-                      <div
-                        class="cxd-ListItem-fieldValue"
-                      >
-                        <span
-                          class="cxd-PlainField"
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Engine
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              Trident
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-ListItem-field"
                         >
-                          4
-                        </span>
+                          <label
+                            class="cxd-ListItem-fieldLabel"
+                          >
+                            Version
+                          </label>
+                          <div
+                            class="cxd-ListItem-fieldValue"
+                          >
+                            <span
+                              class="cxd-PlainField"
+                            >
+                              4
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -947,7 +990,7 @@ exports[`Renderer:list with itemAction 1`] = `
         role="dialog-body"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             当前行的数据 browser: Internet Explorer 4.0, version: 4
@@ -998,175 +1041,189 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
             class="cxd-List"
           >
             <div
-              class="cxd-List-fixedTop"
-            />
-            <div
-              class="cxd-List-items"
+              class="cxd-List-content-wrapper"
             >
               <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
+                class="cxd-List-main"
               >
                 <div
-                  class="cxd-ListItem-actions"
-                >
-                  <button
-                    class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                    type="button"
-                  >
-                    <span>
-                      查看详情
-                    </span>
-                  </button>
-                </div>
+                  class="cxd-List-fixedTop"
+                />
                 <div
-                  class="cxd-ListItem-content"
+                  class="cxd-List-items"
                 >
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="0"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-actions"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <button
+                        class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                        type="button"
                       >
-                        Trident
-                      </span>
+                        <span>
+                          查看详情
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      class="cxd-ListItem-content"
+                    >
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="1"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-actions"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <button
+                        class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                        type="button"
                       >
-                        4
-                      </span>
+                        <span>
+                          查看详情
+                        </span>
+                      </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <div
-                  class="cxd-ListItem-actions"
-                >
-                  <button
-                    class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                    type="button"
-                  >
-                    <span>
-                      查看详情
-                    </span>
-                  </button>
-                </div>
-                <div
-                  class="cxd-ListItem-content"
-                >
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        Trident
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        4
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <div
-                  class="cxd-ListItem-actions"
-                >
-                  <button
-                    class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                    type="button"
-                  >
-                    <span>
-                      查看详情
-                    </span>
-                  </button>
-                </div>
-                <div
-                  class="cxd-ListItem-content"
-                >
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
-                      >
-                        Trident
-                      </span>
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="2"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-actions"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <button
+                        class="cxd-Button cxd-Button--link cxd-Button--size-sm"
+                        type="button"
                       >
-                        4
-                      </span>
+                        <span>
+                          查看详情
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      class="cxd-ListItem-content"
+                    >
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1199,163 +1256,177 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
             class="cxd-List"
           >
             <div
-              class="cxd-List-fixedTop"
-            />
-            <div
-              class="cxd-List-items"
+              class="cxd-List-content-wrapper"
             >
               <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
+                class="cxd-List-main"
               >
-                <span
-                  class="cxd-ListItem-avatar avatarClassNameForTest"
-                >
-                  <img
-                    alt="..."
-                    src="/path/avatar/0"
-                  />
-                </span>
                 <div
-                  class="cxd-ListItem-content"
-                >
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
-                      >
-                        Trident
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
-                      >
-                        4
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <span
-                  class="cxd-ListItem-avatar avatarClassNameForTest"
-                >
-                  <img
-                    alt="..."
-                    src="/path/avatar/1"
-                  />
-                </span>
+                  class="cxd-List-fixedTop"
+                />
                 <div
-                  class="cxd-ListItem-content"
+                  class="cxd-List-items"
                 >
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="0"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
+                    <span
+                      class="cxd-ListItem-avatar avatarClassNameForTest"
                     >
-                      Engine
-                    </label>
+                      <img
+                        alt="..."
+                        src="/path/avatar/0"
+                      />
+                    </span>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        Trident
-                      </span>
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="1"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
+                    <span
+                      class="cxd-ListItem-avatar avatarClassNameForTest"
                     >
-                      Version
-                    </label>
+                      <img
+                        alt="..."
+                        src="/path/avatar/1"
+                      />
+                    </span>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        4
-                      </span>
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <span
-                  class="cxd-ListItem-avatar avatarClassNameForTest"
-                >
-                  <img
-                    alt="..."
-                    src="/path/avatar/2"
-                  />
-                </span>
-                <div
-                  class="cxd-ListItem-content"
-                >
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="2"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
+                    <span
+                      class="cxd-ListItem-avatar avatarClassNameForTest"
                     >
-                      Engine
-                    </label>
+                      <img
+                        alt="..."
+                        src="/path/avatar/2"
+                      />
+                    </span>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        Trident
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
                       >
-                        4
-                      </span>
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1388,196 +1459,210 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
             class="cxd-List"
           >
             <div
-              class="cxd-List-fixedTop"
-            />
-            <div
-              class="cxd-List-items"
+              class="cxd-List-content-wrapper"
             >
               <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
+                class="cxd-List-main"
               >
                 <div
-                  class="cxd-ListItem-content"
-                >
-                  <p
-                    class="cxd-ListItem-title classForItemTitle"
-                  >
-                    Win 95+
-                  </p>
-                  <div>
-                    <small
-                      class="cxd-ListItem-subtitle"
-                    >
-                      等级为：A
-                    </small>
-                  </div>
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      this is list item desc
-                    </span>
-                  </span>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
-                      >
-                        Trident
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
-                      <span
-                        class="cxd-PlainField"
-                      >
-                        4
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
+                  class="cxd-List-fixedTop"
+                />
                 <div
-                  class="cxd-ListItem-content"
+                  class="cxd-List-items"
                 >
-                  <p
-                    class="cxd-ListItem-title classForItemTitle"
-                  >
-                    Win 95+
-                  </p>
-                  <div>
-                    <small
-                      class="cxd-ListItem-subtitle"
-                    >
-                      等级为：B
-                    </small>
-                  </div>
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      this is list item desc
-                    </span>
-                  </span>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="0"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <p
+                        class="cxd-ListItem-title classForItemTitle"
                       >
-                        Trident
+                        Win 95+
+                      </p>
+                      <div>
+                        <small
+                          class="cxd-ListItem-subtitle"
+                        >
+                          等级为：A
+                        </small>
+                      </div>
+                      <span
+                        class="cxd-TplField fr-view"
+                      >
+                        <span>
+                          this is list item desc
+                        </span>
                       </span>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="1"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <p
+                        class="cxd-ListItem-title classForItemTitle"
                       >
-                        4
+                        Win 95+
+                      </p>
+                      <div>
+                        <small
+                          class="cxd-ListItem-subtitle"
+                        >
+                          等级为：B
+                        </small>
+                      </div>
+                      <span
+                        class="cxd-TplField fr-view"
+                      >
+                        <span>
+                          this is list item desc
+                        </span>
                       </span>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div
-                class="cxd-ListItem cxd-ListItem--actions-at-right"
-              >
-                <div
-                  class="cxd-ListItem-content"
-                >
-                  <p
-                    class="cxd-ListItem-title classForItemTitle"
-                  >
-                    Win 95+
-                  </p>
-                  <div>
-                    <small
-                      class="cxd-ListItem-subtitle"
-                    >
-                      等级为：C
-                    </small>
-                  </div>
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      this is list item desc
-                    </span>
-                  </span>
                   <div
-                    class="cxd-ListItem-field"
+                    class="cxd-ListItem cxd-ListItem--actions-at-right"
+                    data-index="2"
+                    style="scroll-margin-top: var(--affix-offset-top);"
                   >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Engine
-                    </label>
                     <div
-                      class="cxd-ListItem-fieldValue"
+                      class="cxd-ListItem-content"
                     >
-                      <span
-                        class="cxd-PlainField"
+                      <p
+                        class="cxd-ListItem-title classForItemTitle"
                       >
-                        Trident
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-ListItem-field"
-                  >
-                    <label
-                      class="cxd-ListItem-fieldLabel"
-                    >
-                      Version
-                    </label>
-                    <div
-                      class="cxd-ListItem-fieldValue"
-                    >
+                        Win 95+
+                      </p>
+                      <div>
+                        <small
+                          class="cxd-ListItem-subtitle"
+                        >
+                          等级为：C
+                        </small>
+                      </div>
                       <span
-                        class="cxd-PlainField"
+                        class="cxd-TplField fr-view"
                       >
-                        4
+                        <span>
+                          this is list item desc
+                        </span>
                       </span>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Engine
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Trident
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-ListItem-field"
+                      >
+                        <label
+                          class="cxd-ListItem-fieldLabel"
+                        >
+                          Version
+                        </label>
+                        <div
+                          class="cxd-ListItem-fieldValue"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            4
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1610,47 +1695,55 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
             class="cxd-List"
           >
             <div
-              class="cxd-List-fixedTop"
+              class="cxd-List-content-wrapper"
             >
               <div
-                class="cxd-List-header headerTplClassName"
+                class="cxd-List-main"
               >
-                <span
-                  class="cxd-TplField"
+                <div
+                  class="cxd-List-fixedTop"
                 >
-                  <span>
-                    头部标题
+                  <div
+                    class="cxd-List-header headerTplClassName"
+                  >
+                    <span
+                      class="cxd-TplField fr-view"
+                    >
+                      <span>
+                        头部标题
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-List-heading"
+                  >
+                    listTitleForTest
+                  </div>
+                </div>
+                <div
+                  class="cxd-List-placeholder"
+                >
+                  <span
+                    class="cxd-TplField fr-view"
+                  >
+                    <span>
+                      暂无数据
+                    </span>
                   </span>
-                </span>
+                </div>
+                <div
+                  class="cxd-List-footer footerButtonClassName"
+                >
+                  <button
+                    class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                    type="button"
+                  >
+                    <span>
+                      底部按钮
+                    </span>
+                  </button>
+                </div>
               </div>
-              <div
-                class="cxd-List-heading"
-              >
-                listTitleForTest
-              </div>
-            </div>
-            <div
-              class="cxd-List-placeholder"
-            >
-              <span
-                class="cxd-TplField"
-              >
-                <span>
-                  暂无数据
-                </span>
-              </span>
-            </div>
-            <div
-              class="cxd-List-footer footerButtonClassName"
-            >
-              <button
-                class="cxd-Button cxd-Button--default cxd-Button--size-default"
-                type="button"
-              >
-                <span>
-                  底部按钮
-                </span>
-              </button>
             </div>
           </div>
         </div>

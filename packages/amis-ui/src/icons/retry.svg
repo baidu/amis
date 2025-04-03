@@ -1,8 +1,1 @@
-<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g  transform="translate(2.000000, 1.000000)" fill="currentColor" fill-rule="nonzero">
-    <polygon points="5 0 5 5 8.75 2.5"></polygon>
-    <path
-      d="M6,2 L6,3.44 C3.4814604,3.44 1.44,5.4814604 1.44,8 C1.44,10.5185396 3.4814604,12.56 6,12.56 C8.5185396,12.56 10.56,10.5185396 10.56,8 L12,8 C12,11.3138296 9.31382964,14 6,14 C2.68617036,14 0,11.3138296 0,8 C0,4.68617036 2.68617036,2 6,2 Z"></path>
-  </g>
-</svg>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M7 1v5l3.75-2.5z"/><path d="M8 3v1.44A4.56 4.56 0 1 0 12.56 9H14a6 6 0 1 1-6-6Z"/></g></svg>

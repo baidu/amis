@@ -5,7 +5,9 @@ import {isValidElementType} from 'react-is';
 import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
-  loadRenderer,
+  loadRendererError,
+  loadAsyncRenderer,
+  registerRenderer,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -16,9 +18,20 @@ import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents, autobind, TestIdBuilder} from './utils/helper';
+import {
+  anyChanged,
+  chainEvents,
+  autobind,
+  TestIdBuilder,
+  formateId
+} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
-import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
+import {
+  bindEvent,
+  bindGlobalEventForRenderer as bindGlobalEvent,
+  dispatchEvent,
+  RendererEvent
+} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
@@ -26,6 +39,9 @@ import {buildStyle} from './utils/style';
 import {isExpression} from './utils/formula';
 import {StatusScopedProps} from './StatusScoped';
 import {evalExpression, filter} from './utils/tpl';
+import Animations from './components/Animations';
+import {cloneObject} from './utils/object';
+import {observeGlobalVars} from './globalVar';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -42,6 +58,7 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'className',
   'style',
   'data',
+  'originData',
   'children',
   'ref',
   'visible',
@@ -86,46 +103,56 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   schema: any;
   path: string;
 
-  reaction: any;
+  tmpData: any;
+
+  toDispose: Array<() => any> = [];
   unbindEvent: (() => void) | undefined = undefined;
+  unbindGlobalEvent: (() => void) | undefined = undefined;
   isStatic: any = undefined;
 
   constructor(props: SchemaRendererProps) {
     super(props);
+
     this.refFn = this.refFn.bind(this);
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.handleGlobalVarChange = this.handleGlobalVarChange.bind(this);
+
+    const schema = props.schema;
 
     // 监听statusStore更新
-    this.reaction = reaction(
-      () => {
-        const id = filter(props.schema.id, props.data);
-        const name = filter(props.schema.name, props.data);
-        return `${
-          props.statusStore.visibleState[id] ??
-          props.statusStore.visibleState[name]
-        }${
-          props.statusStore.disableState[id] ??
-          props.statusStore.disableState[name]
-        }${
-          props.statusStore.staticState[id] ??
-          props.statusStore.staticState[name]
-        }`;
-      },
-      () => this.forceUpdate()
+    this.toDispose.push(
+      reaction(
+        () => {
+          const id = filter(schema.id, props.data);
+          const name = filter(schema.name, props.data);
+          return `${
+            props.statusStore.visibleState[id] ??
+            props.statusStore.visibleState[name]
+          }${
+            props.statusStore.disableState[id] ??
+            props.statusStore.disableState[name]
+          }${
+            props.statusStore.staticState[id] ??
+            props.statusStore.staticState[name]
+          }`;
+        },
+        () => this.forceUpdate()
+      )
+    );
+
+    this.toDispose.push(
+      observeGlobalVars(schema, props.topStore, this.handleGlobalVarChange)
     );
   }
 
-  componentDidMount() {
-    // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
-    this.unbindEvent = bindEvent(this.cRef);
-  }
-
   componentWillUnmount() {
-    this.reaction?.();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
     this.unbindEvent?.();
+    this.unbindGlobalEvent?.();
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -154,6 +181,21 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     return false;
+  }
+
+  handleGlobalVarChange() {
+    const handler = this.renderer?.onGlobalVarChanged;
+    const newData = cloneObject(this.props.data);
+
+    // 如果渲染器自己做了实现，且返回 false，则不再继续往下执行
+    if (handler?.(this.cRef, this.props.schema, newData) === false) {
+      return;
+    }
+
+    this.tmpData = newData;
+    this.forceUpdate(() => {
+      delete this.tmpData;
+    });
   }
 
   resolveRenderer(props: SchemaRendererProps, force = false): any {
@@ -221,7 +263,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   @autobind
   childRef(ref: any) {
-    while (ref && ref.getWrappedInstance) {
+    // todo 这里有个问题，就是注意以下的这段注释
+    // > // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
+    // > 而 visibleOn 和 hiddenOn 是无效的，
+    // > 这个本来就是个bug，但是已经被广泛使用了
+    // > 我只能继续实现这个bug了
+    // 这样会让子组件去根据是 hidden 的情况去渲染个 null，这样会导致这里 ref 有值，但是 ref.getWrappedInstance() 为 null
+    // 这样会和直接渲染的组件时有些区别，至少 cRef 的指向是不一样的
+    while (ref?.getWrappedInstance?.()) {
       ref = ref.getWrappedInstance();
     }
 
@@ -231,19 +280,28 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       });
     }
 
+    if (ref) {
+      // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
+      this.unbindEvent?.();
+      this.unbindGlobalEvent?.();
+
+      this.unbindEvent = bindEvent(ref);
+      this.unbindGlobalEvent = bindGlobalEvent(ref);
+    }
     this.cRef = ref;
   }
 
-  async dispatchEvent(
+  dispatchEvent(
     e: React.MouseEvent<any>,
     data: any,
-    renderer?: React.Component<RendererProps> // for didmount
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
   ): Promise<RendererEvent<any> | void> {
-    return await dispatchEvent(
+    return this.props.dispatchEvent(
       e,
-      this.cRef || renderer,
-      this.context as IScopedContext,
-      data
+      data,
+      renderer || this.cRef,
+      scoped || (this.context as IScopedContext)
     );
   }
 
@@ -261,7 +319,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const omitList = RENDERER_TRANSMISSION_OMIT_PROPS.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
-      Component.propsList &&
+      Component?.propsList &&
         omitList.push.apply(omitList, Component.propsList as Array<string>);
     }
 
@@ -277,7 +335,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           ? evalExpression(_.staticOn, rest.data)
           : _.static ?? rest.defaultStatic),
       ...subProps,
-      data: subProps.data || rest.data,
+      data:
+        this.tmpData && subProps.data === this.props.data
+          ? this.tmpData
+          : subProps.data || rest.data,
       env: env
     });
   }
@@ -395,8 +456,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } else if (!this.renderer) {
       return rest.invisible ? null : (
         <LazyComponent
-          {...rest}
-          {...exprProps}
+          defaultVisible={true}
           getComponent={async () => {
             const result = await rest.env.loadRenderer(
               schema,
@@ -410,14 +470,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             }
 
             this.reRender();
-            return () => loadRenderer(schema, $path);
+            return () => loadRendererError(schema, $path);
           }}
-          $path={$path}
-          $schema={schema}
-          retry={this.reRender}
-          rootStore={rootStore}
-          statusStore={statusStore}
-          dispatchEvent={this.dispatchEvent}
+        />
+      );
+    } else if (this.renderer.getComponent && !this.renderer.component) {
+      // 处理异步渲染器
+      return rest.invisible ? null : (
+        <LazyComponent
+          defaultVisible={true}
+          getComponent={async () => {
+            await loadAsyncRenderer(this.renderer as RendererConfig);
+            this.reRender();
+            return () => null;
+          }}
         />
       );
     }
@@ -427,11 +493,13 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {
       data: defaultData,
       value: defaultValue,
-      key: propKey,
       activeKey: defaultActiveKey,
+      key: propKey,
       ...restSchema
     } = schema;
-    const Component = renderer.component;
+    const Component = renderer.component!;
+
+    let animationShow = true;
 
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
@@ -444,7 +512,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         !renderer.isFormItem ||
         (schema.visible !== false && !schema.hidden))
     ) {
-      return null;
+      if (schema.animations) {
+        animationShow = false;
+      } else {
+        return null;
+      }
     }
 
     // withStore 里面会处理，而且会实时处理
@@ -457,6 +529,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       Component.prototype?.isReactComponent ||
       (Component as any).$$typeof === Symbol.for('react.forward_ref');
     let props: any = {
+      ...renderer.defaultProps?.(schema.type, schema),
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
       ...chainEvents(rest, restSchema),
@@ -474,6 +547,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       dispatchEvent: this.dispatchEvent,
       mobileUI: schema.useMobileUI === false ? false : rest.mobileUI
     };
+
+    // 用于全局变量刷新
+    props.data = this.tmpData || props.data;
 
     // style 支持公式
     if (schema.style) {
@@ -511,11 +587,21 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       }
     }
 
-    const component = supportRef ? (
+    let component = supportRef ? (
       <Component {...props} ref={this.childRef} />
     ) : (
       <Component {...props} forwardedRef={this.childRef} />
     );
+
+    if (schema.animations) {
+      component = (
+        <Animations
+          schema={schema}
+          component={component}
+          show={animationShow}
+        />
+      );
+    }
 
     return this.props.env.enableAMISDebug ? (
       <DebugWrapper renderer={renderer}>{component}</DebugWrapper>

@@ -31,8 +31,7 @@ export class DataDebugPlugin extends BasePlugin {
     // if (!renderInfo || !renderInfo.storeType) {
     //   return;
     // }
-    const store = comp.props.store;
-    if (store.toolbarMode === 'default') {
+    if (this.manager.store.toolbarMode === 'default') {
       toolbars.push({
         icon: 'fa fa-bug',
         order: -1000,

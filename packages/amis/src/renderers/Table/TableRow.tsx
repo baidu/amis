@@ -7,6 +7,7 @@ import {
   RendererProps,
   TestIdBuilder,
   autobind,
+  keyToPath,
   setVariable,
   traceProps
 } from 'amis-core';
@@ -14,7 +15,7 @@ import {Action} from '../Action';
 import {isClickOnInput} from 'amis-core';
 import {useInView} from 'react-intersection-observer';
 
-interface TableRowProps extends Pick<RendererProps, 'render'> {
+export interface TableRowProps extends Pick<RendererProps, 'render'> {
   store: ITableStore;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => Promise<void>;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
@@ -50,8 +51,10 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   [propName: string]: any;
 }
 
-export class TableRow extends React.PureComponent<
-  TableRowProps & {
+export class TableRow<
+  T extends TableRowProps = TableRowProps
+> extends React.PureComponent<
+  T & {
     // 这些属性纯粹是为了监控变化，不要在 render 里面使用
     expanded: boolean;
     parentExpanded?: boolean;
@@ -131,7 +134,7 @@ export class TableRow extends React.PureComponent<
   @autobind
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
     const {onAction, item} = this.props;
-    onAction && onAction(e, action, ctx || item.locals);
+    return onAction && onAction(e, action, ctx || item.locals);
   }
 
   @autobind
@@ -162,6 +165,11 @@ export class TableRow extends React.PureComponent<
 
     const {item, onQuickChange} = this.props;
     const data: any = {};
+    const keyPath = keyToPath(name);
+    // 如果是带路径的值变化，最好是能保留原来的对象的其他属性
+    if (keyPath.length > 1) {
+      data[keyPath[0]] = {...item.data[keyPath[0]]};
+    }
     setVariable(data, name, value);
 
     onQuickChange?.(item, data, submit, changePristine);
@@ -239,13 +247,13 @@ export class TableRow extends React.PureComponent<
               <tbody>
                 {ignoreFootableContent
                   ? columns.map(column => (
-                      <tr key={column.index}>
+                      <tr key={column.id}>
                         {column.label !== false ? <th></th> : null}
                         <td></td>
                       </tr>
                     ))
                   : columns.map(column => (
-                      <tr key={column.index}>
+                      <tr key={column.id}>
                         {column.label !== false ? (
                           <th>
                             {render(
@@ -267,14 +275,14 @@ export class TableRow extends React.PureComponent<
                               rowIndexPath: item.path,
                               colIndex: column.index,
                               rowPath,
-                              key: column.index,
+                              key: column.id,
                               onAction: this.handleAction,
                               onQuickChange: this.handleQuickChange,
                               onChange: this.handleChange
                             }
                           )
                         ) : (
-                          <td key={column.index}>
+                          <td key={column.id}>
                             <div className={cx('Table-emptyBlock')}>&nbsp;</div>
                           </td>
                         )}

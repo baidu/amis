@@ -45,6 +45,15 @@
       color: var(--collapse-default-header-hover-color);
     }
 
+    &.noTitle {
+      padding: 0;
+      background-color: unset;
+      &:hover {
+        background: unset;
+        color: inherit;
+      }
+    }
+
     &.is-mobile {
       background: none;
       border-radius: 0 !important;
@@ -125,7 +134,10 @@
     transform: rotate(var(--collapse-icon-rotate));
   }
 
-  &--title-bottom.is-active &-arrow {
+  &--title-bottom.is-active
+    > .#{$ns}Collapse-header
+    > .#{$ns}Collapse-arrow-wrap
+    > &-arrow {
     top: 0;
     transform: rotate(calc(-1 * var(--collapse-icon-rotate)));
   }

@@ -12,6 +12,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="nestedSelect"
       data-role="form-item"
     >
       <label
@@ -19,7 +20,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
       >
         <span>
           <span
-            class="cxd-TplField"
+            class="cxd-TplField fr-view"
           >
             <span>
               NestedSelect
@@ -42,6 +43,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="0"
               >
                 <span
                   class="cxd-Select-valueLabel"
@@ -70,6 +72,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="1"
               >
                 <span
                   class="cxd-Select-valueLabel"
@@ -98,6 +101,7 @@ exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
             >
               <span
                 class="cxd-ResultBox-valueLabel"
+                data-index="2"
               >
                 <span
                   class="cxd-Select-valueLabel"

@@ -12,6 +12,7 @@ import {
   registerEditorPlugin,
   PluginInterface
 } from 'amis-editor-core';
+import {InlineEditableElement} from 'amis-editor-core';
 
 export class PanelPlugin extends BasePlugin {
   static id = 'PanelPlugin';
@@ -81,6 +82,14 @@ export class PanelPlugin extends BasePlugin {
     }
   ];
 
+  // 定义可以内联编辑的元素
+  inlineEditableElements: Array<InlineEditableElement> = [
+    {
+      match: ':scope.cxd-Panel .cxd-Panel-title',
+      key: 'title'
+    }
+  ];
+
   panelTitle = '面板';
 
   panelJustify = true;
@@ -97,6 +106,7 @@ export class PanelPlugin extends BasePlugin {
             getSchemaTpl('collapseGroup', [
               {
                 className: 'p-none',
+                id: 'properties-basic',
                 title: '基本',
                 body: [
                   getSchemaTpl('layout:originPosition', {value: 'left-top'}),
@@ -129,42 +139,77 @@ export class PanelPlugin extends BasePlugin {
           title: '外观',
           body: [
             getSchemaTpl('collapseGroup', [
-              {
-                className: 'p-none',
-                title: '基本',
-                body: [
-                  getSchemaTpl('switch', {
-                    name: 'affixFooter',
-                    label: '固定底部',
-                    value: false
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'baseControlClassName',
+                needState: false,
+                baseTitle: '基本样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    needState: false,
+                    title: '标题区样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'themeCss.titleControlClassName.font'
+                      })
+                    ]
                   }),
-
-                  getSchemaTpl('horizontal', {
-                    visibleOn:
-                      '(data.mode || data.$$formMode) == "horizontal" && data.$$mode == "form"'
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyControlClassName',
+                    needState: false,
+                    title: '内容区样式',
+                    extra: [
+                      getSchemaTpl('subFormItemMode', {label: '表单展示模式'}),
+                      getSchemaTpl('subFormHorizontalMode', {
+                        label: '表单水平占比'
+                      }),
+                      getSchemaTpl('subFormHorizontal')
+                    ]
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'footerControlClassName',
+                    needState: false,
+                    title: '底部区样式',
+                    extra: [
+                      getSchemaTpl('switch', {
+                        name: 'affixFooter',
+                        label: '固定底部',
+                        value: false
+                      })
+                    ]
                   })
                 ]
-              },
-              {
-                className: 'p-none',
-                title: '内容区域展示',
-                body: [
-                  getSchemaTpl('subFormItemMode', {label: '表单展示模式'}),
-                  getSchemaTpl('subFormHorizontalMode', {
-                    label: '表单水平占比'
+              }),
+              getSchemaTpl('style:classNames', {
+                isFormItem: false,
+                schema: [
+                  getSchemaTpl('className', {
+                    name: 'headerClassName',
+                    label: '头部区域'
                   }),
-                  getSchemaTpl('subFormHorizontal')
-                ]
-              },
-              {
-                className: 'p-none',
-                title: 'CSS 类名',
-                body: [
+
+                  getSchemaTpl('className', {
+                    name: 'bodyClassName',
+                    label: '内容区域'
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'footerClassName',
+                    label: '底部区域'
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'actionsClassName',
+                    label: '按钮外层'
+                  }),
                   {
                     name: isForm ? 'panelClassName' : 'className',
                     label: '主题',
                     type: 'select',
                     size: 'sm',
+                    id: 'panel-settings-panelClassName',
                     pipeIn: (value: any) =>
                       typeof value === 'string' &&
                       /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(value)
@@ -205,34 +250,9 @@ export class PanelPlugin extends BasePlugin {
                         value: 'Panel--danger'
                       }
                     ]
-                  },
-                  getSchemaTpl('className', {
-                    label: '外层',
-                    name: isForm ? 'panelClassName' : 'className',
-                    pipeIn: defaultValue('Panel--default')
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'headerClassName',
-                    label: '头部区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'bodyClassName',
-                    label: '内容区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'footerClassName',
-                    label: '底部区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'actionsClassName',
-                    label: '按钮外层'
-                  })
+                  }
                 ]
-              }
+              })
             ])
           ]
         }

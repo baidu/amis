@@ -3,11 +3,16 @@
  */
 
 import React from 'react';
-import {render as renderAmis, autobind, FormControlProps} from 'amis-core';
+import {
+  render as renderAmis,
+  autobind,
+  FormControlProps,
+  flattenTree
+} from 'amis-core';
 import cx from 'classnames';
 import {FormItem, Button, PickerContainer, ConditionBuilderFields} from 'amis';
 import {reaction} from 'mobx';
-import {getVariables} from 'amis-editor-core';
+import {getConditionVariables} from 'amis-editor-core';
 
 interface ConditionFormulaControlProps extends FormControlProps {
   /**
@@ -94,34 +99,19 @@ export default class ConditionFormulaControl extends React.Component<
     let fieldsArr: ConditionBuilderFields = [];
     const {requiredDataPropsFields, fields} = this.props;
     if (requiredDataPropsFields) {
-      const variablesArr = await getVariables(this);
+      const variablesArr = await getConditionVariables(this);
 
-      // 自身字段
-      const selfName = this.props?.data?.name;
-      const vars =
-        variablesArr?.filter((item: any) => item?.label === '组件上下文')?.[0]
-          ?.children?.[0]?.children || [];
+      fieldsArr = flattenTree(variablesArr, (item: any) => {
+        if (PropsFieldsMapping[item.type]) {
+          let obj: any = {
+            label: item.label,
+            type: PropsFieldsMapping[item.type],
+            name: item.value
+          };
 
-      fieldsArr = vars
-        .map((item: any) => {
-          if (item && item.type && PropsFieldsMapping[item.type]) {
-            let obj: any = {
-              label: item.label,
-              type: PropsFieldsMapping[item.type],
-              name: item.value
-            };
-
-            if (selfName === item.value) {
-              obj = {
-                ...obj,
-                label: item.label + '（self）',
-                disabled: true
-              };
-            }
-            return obj;
-          }
-        })
-        ?.filter((item: any) => item);
+          return obj;
+        }
+      })?.filter(item => item);
     }
     return fieldsArr.concat(fields || []);
   }
@@ -152,7 +142,7 @@ export default class ConditionFormulaControl extends React.Component<
   }
 
   render() {
-    const {name, className, size} = this.props;
+    const {name, className, modalSize} = this.props;
     const {formulaPickerValue, fields} = this.state;
     return (
       <div className={cx('ae-ExpressionFormulaControl', className)}>
@@ -181,7 +171,7 @@ export default class ConditionFormulaControl extends React.Component<
           }}
           value={formulaPickerValue}
           onConfirm={this.handleConfirm}
-          size={size ?? 'lg'}
+          size={modalSize ?? 'lg'}
         >
           {({onClick}: {onClick: (e: React.MouseEvent) => any}) => (
             <Button

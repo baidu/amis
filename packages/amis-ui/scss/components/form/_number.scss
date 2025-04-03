@@ -98,7 +98,12 @@
       var(--inputNumber-base-disabled-bottom-left-border-radius);
     background: var(--inputNumber-base-disabled-bg-color);
   }
-
+  &-readonly {
+    border-color: var(--inputNumber-base-default-top-border-color)
+      var(--inputNumber-base-default-right-border-color)
+      var(--inputNumber-base-default-bottom-border-color)
+      var(--inputNumber-base-default-left-border-color);
+  }
   @include input-border();
 
   &-handler {
@@ -129,6 +134,7 @@
     display: none;
   }
 
+  &-readonly:hover,
   &-disabled:hover {
     border-color: var(--Form-input-onDisabled-borderColor);
   }
@@ -334,6 +340,12 @@
         var(--inputNumber-base-hover-top-right-border-radius)
         var(--inputNumber-base-hover-bottom-right-border-radius)
         var(--inputNumber-base-hover-bottom-left-border-radius);
+      &-readonly {
+        border-color: var(--Form-input-onDisabled-borderColor);
+      }
+    }
+    .#{$ns}NumberControl-readonly {
+      border-color: var(--Form-input-onDisabled-borderColor);
     }
   }
   .#{$ns}Number {
@@ -360,6 +372,9 @@
       var(--inputNumber-base-active-top-right-border-radius)
       var(--inputNumber-base-active-bottom-right-border-radius)
       var(--inputNumber-base-active-bottom-left-border-radius);
+  }
+  .#{$ns}Number-focused + .#{$ns}NumberControl-readonly {
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 
   & .#{$ns}NumberControl-unit {

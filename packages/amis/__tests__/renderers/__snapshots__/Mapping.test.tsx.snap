@@ -34,7 +34,7 @@ exports[`Renderer:mapping html 2`] = `
     class="cxd-MappingField"
   >
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         <span
@@ -54,7 +54,7 @@ exports[`Renderer:mapping html 3`] = `
     class="cxd-MappingField"
   >
     <span
-      class="cxd-TplField"
+      class="cxd-TplField fr-view"
     >
       <span>
         其他

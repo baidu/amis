@@ -1,12 +1,21 @@
+import React from 'react';
 import {
   RendererPluginAction,
   RendererPluginEvent,
   getI18nEnabled,
-  registerEditorPlugin
+  registerEditorPlugin,
+  BasePlugin,
+  RegionConfig,
+  BaseEventContext,
+  defaultValue,
+  getSchemaTpl
 } from 'amis-editor-core';
-import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  buildLinkActionDesc,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
+import {getActionCommonProps} from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class CollapsePlugin extends BasePlugin {
   static id = 'CollapsePlugin';
@@ -30,7 +39,8 @@ export class CollapsePlugin extends BasePlugin {
         type: 'tpl',
         tpl: '内容',
         wrapperComponent: '',
-        inline: false
+        inline: false,
+        id: generateId()
       }
     ]
   };
@@ -114,12 +124,21 @@ export class CollapsePlugin extends BasePlugin {
     {
       actionType: 'expand',
       actionLabel: '组件展开',
-      description: '组件折叠状态变更为展开'
+      description: '组件折叠状态变更为展开',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            展开
+            {buildLinkActionDesc(props.manager, info)}
+          </div>
+        );
+      }
     },
     {
       actionLabel: '组件收起',
       actionType: 'collapse',
-      description: '组件折叠状态变更为收起'
+      description: '组件折叠状态变更为收起',
+      ...getActionCommonProps('collapse')
     }
   ];
 
@@ -194,6 +213,31 @@ export class CollapsePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            hideAnimation: true,
+            classname: 'baseControlClassName',
+            needState: false,
+            baseTitle: '基本样式',
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headerControlClassName',
+                title: '标题区样式',
+                state: ['default', 'hover'],
+                extra: [
+                  getSchemaTpl('theme:font', {
+                    label: '文字',
+                    name: 'themeCss.headerControlClassName.font'
+                  })
+                ]
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'bodyControlClassName',
+                needState: false,
+                title: '内容区样式'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [

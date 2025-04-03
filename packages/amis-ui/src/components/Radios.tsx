@@ -27,7 +27,7 @@ import {TestIdBuilder} from 'amis-core';
 interface RadioProps extends OptionProps {
   id?: string;
   type: string;
-  optionType?: string;
+  optionType?: 'default' | 'button';
   value?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -52,7 +52,6 @@ const defaultLabelRender = (item: Option, props: RadioProps) => (
 export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
     type: 'radio',
-    optionType: 'default',
     btnActiveLevel: 'primary',
     resetValue: '',
     inline: true,
@@ -110,7 +109,7 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderItem(option: Option, index: number, valueArray: Array<Option>) {
-    if (option.children) {
+    if (option.children?.length) {
       return this.renderGroup(option, index, valueArray);
     }
 
@@ -130,21 +129,21 @@ export class Radios extends React.Component<RadioProps, any> {
     } = this.props;
     const itemTestIdBuilder = testIdBuilder?.getChild(option.value || index);
 
-    if (optionType === 'button') {
-      const active = !!~valueArray.indexOf(option);
-      return (
-        <Button
-          key={index}
-          active={active}
-          onClick={() => this.toggleOption(option)}
-          className={cx(itemClassName, option.className)}
-          disabled={disabled || option.disabled}
-          level={(active ? btnActiveLevel : '') || level}
-        >
-          <span>{renderLabel(option, this.props)}</span>
-        </Button>
-      );
-    }
+    // if (optionType === 'button') {
+    //   const active = !!~valueArray.indexOf(option);
+    //   return (
+    //     <Button
+    //       key={index}
+    //       active={active}
+    //       onClick={() => this.toggleOption(option)}
+    //       className={cx(itemClassName, option.className)}
+    //       disabled={disabled || option.disabled}
+    //       level={(active ? btnActiveLevel : '') || level}
+    //     >
+    //       <span>{renderLabel(option, this.props)}</span>
+    //     </Button>
+    //   );
+    // }
 
     return (
       <Checkbox
@@ -158,6 +157,7 @@ export class Radios extends React.Component<RadioProps, any> {
         inline={inline}
         labelClassName={labelClassName}
         testIdBuilder={itemTestIdBuilder}
+        optionType={optionType}
       >
         {renderLabel(option, this.props)}
       </Checkbox>

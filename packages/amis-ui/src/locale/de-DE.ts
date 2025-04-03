@@ -50,6 +50,8 @@ register('de-DE', {
   'CRUD.stat': '{{page}} von {{lastPage}} insgesamt: {{total}}.',
   'CRUD.paginationGoText': 'Wechseln zu',
   'CRUD.paginationPageText': 'Seite',
+  'CRUD.confirmLeaveUnSavedPage':
+    'Ändern Seite wird nicht gespeicherte Daten verlieren, bestätigen Sie bitte.',
   'PaginationWrapper.placeholder': 'Textkörper konfigurieren',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',
@@ -239,6 +241,7 @@ register('de-DE', {
   'Table.copyRow': 'Zeile kopieren',
   'Table.columnsVisibility':
     'Klicken, um die Sichtbarkeit der Spalten zu steuern',
+  'Table.columnsSorting': 'Spalte ziehen, um zu sortieren',
   'Table.deleteRow': 'Aktuele Zeile löschen',
   'Table.discard': 'Verwerfen',
   'Table.dragTip': 'Schaltfläche links zum Sortieren ziehen',
@@ -405,10 +408,15 @@ register('de-DE', {
     'Überprüfungsfehler, position or reason is {{err}}',
   'FormulaEditor.invalidValue':
     'Überprüfungsfehler, reason is Falsches Werteformat',
+  'pullRefresh.normalText': '',
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
   'pullRefresh.successText': 'Laden erfolgreich',
+  'pullRefresh.completedText': 'Keine weiteren Daten',
+  'pullRefresh.crud2NormalText': 'Wischen Sie nach oben, um mehr zu laden',
+  'pullRefresh.crud2PullingText': 'Wischen Sie nach oben, um mehr zu laden',
+  'pullRefresh.crud2LoosingText': 'Freigabe zum Laden',
   'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
   'UserSelect.edit': 'bearbeiten',
   'UserSelect.save': 'Konservierung',
@@ -442,5 +450,8 @@ register('de-DE', {
   'Signature.undo': 'widerrufen',
   'Signature.confirm': 'bestätigen',
   'Signature.cancel': 'Abbrechen',
-  'Signature.embedLabel': 'Klicken Sie zum Signieren'
+  'Signature.embedLabel': 'Klicken Sie zum Signieren',
+  'Signature.embedUpdateLabel': 'Aktualisiert zum Signieren',
+  'QRCode.tooLong':
+    'Der QR-Code-Wert ist zu lang, bitte setzen Sie den Text auf weniger als {{max}} Zeichen.'
 });

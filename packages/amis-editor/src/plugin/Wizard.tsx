@@ -1,27 +1,28 @@
+import React from 'react';
 import {
   EditorNodeType,
   getI18nEnabled,
   jsonToJsonSchema,
-  registerEditorPlugin
-} from 'amis-editor-core';
-import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   BasicToolbarItem,
   RendererInfo,
-  VRendererConfig
+  VRendererConfig,
+  getSchemaTpl,
+  VRenderer,
+  mapReactElement,
+  RegionWrapper as Region,
+  RendererPluginAction,
+  RendererPluginEvent
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import React from 'react';
-import {VRenderer} from 'amis-editor-core';
-import {mapReactElement} from 'amis-editor-core';
-import {RegionWrapper as Region} from 'amis-editor-core';
-
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {
   getArgsWrapper,
-  getEventControlConfig
+  getEventControlConfig,
+  getActionCommonProps,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
+import {generateId} from '../util';
 
 export class WizardPlugin extends BasePlugin {
   static id = 'WizardPlugin';
@@ -47,7 +48,8 @@ export class WizardPlugin extends BasePlugin {
           {
             type: 'input-text',
             label: '文本',
-            name: 'var1'
+            name: 'var1',
+            id: generateId()
           }
         ]
       },
@@ -58,7 +60,8 @@ export class WizardPlugin extends BasePlugin {
           {
             type: 'input-text',
             label: '文本2',
-            name: 'var2'
+            name: 'var2',
+            id: generateId()
           }
         ]
       }
@@ -252,17 +255,19 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'submit',
       actionLabel: '全部提交',
-      description: '提交全部数据'
+      description: '提交全部数据',
+      ...getActionCommonProps('submit')
     },
     {
       actionType: 'stepSubmit',
       actionLabel: '分步提交',
       description: '提交当前步骤数据',
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            提交当前步骤数据
+          <div className="action-desc">
+            提交
+            {buildLinkActionDesc(props.manager, info)}
+            当前步骤数据
           </div>
         );
       }
@@ -270,23 +275,46 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'prev',
       actionLabel: '上一步',
-      description: '返回上一步'
+      description: '返回上一步',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '返回' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至上一张' : null}
+            {info?.__rendererName === 'wizard' ? '前一步' : null}
+          </div>
+        );
+      }
     },
     {
       actionType: 'next',
       actionLabel: '下一步',
-      description: '提交当前步骤数据'
+      description: '提交当前步骤数据',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            {info?.__rendererName === 'carousel' ? '滚动' : null}
+            {info?.__rendererName === 'wizard' ? '提交' : null}
+            {buildLinkActionDesc(props.manager, info)}
+            {info?.__rendererName === 'carousel' ? '至下一张' : null}
+            {info?.__rendererName === 'wizard' ? '当前步骤数据' : null}
+          </div>
+        );
+      }
     },
     {
       actionType: 'goto-step',
       actionLabel: '定位步骤',
       description: '切换到指定步骤',
       innerArgs: ['step'],
-      descDetail: (info: any) => {
+      descDetail: (info: any, context: any, props: any) => {
         return (
-          <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
-            切换到第
+          <div className="action-desc">
+            切换
+            {buildLinkActionDesc(props.manager, info)}
+            到第
             <span className="variable-left variable-right">
               {info?.args?.step}
             </span>
@@ -308,12 +336,14 @@ export class WizardPlugin extends BasePlugin {
     {
       actionType: 'reload',
       actionLabel: '重新加载',
-      description: '触发组件数据刷新并重新渲染'
+      description: '触发组件数据刷新并重新渲染',
+      ...getActionCommonProps('reload')
     },
     {
       actionType: 'setValue',
       actionLabel: '变量赋值',
-      description: '触发组件数据更新'
+      description: '触发组件数据更新',
+      ...getActionCommonProps('setValue')
     }
   ];
 
@@ -386,7 +416,7 @@ export class WizardPlugin extends BasePlugin {
                       visibleOn: 'this.mode == "horizontal"'
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       label: '保存接口',
                       description:
                         '如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步'
@@ -408,7 +438,7 @@ export class WizardPlugin extends BasePlugin {
                       pipeOut: (value: any) => (value ? '' : undefined)
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'asyncApi',
                       label: '异步检测接口',
                       visibleOn: 'this.asyncApi != null',
@@ -420,7 +450,7 @@ export class WizardPlugin extends BasePlugin {
                       type: 'divider'
                     },
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'initApi',
                       label: '初始化接口',
                       description: '用来初始化表单数据'
@@ -442,7 +472,7 @@ export class WizardPlugin extends BasePlugin {
                       pipeOut: (value: any) => (value ? '' : undefined)
                     }),
 
-                    getSchemaTpl('api', {
+                    getSchemaTpl('apiControl', {
                       name: 'initAsyncApi',
                       label: '异步检测接口',
                       visibleOn: 'this.initAsyncApi != null',
@@ -476,7 +506,7 @@ export class WizardPlugin extends BasePlugin {
         {
           title: '接口',
           body: [
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initApi',
               label: '初始化接口',
               description:
@@ -500,7 +530,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initAsyncApi',
               label: '异步检测接口',
               visibleOn: 'this.initAsyncApi != null',
@@ -545,7 +575,7 @@ export class WizardPlugin extends BasePlugin {
               type: 'divider'
             },
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '保存接口',
               description:
                 '用来保存表单数据, 最后一步点击完成触发，<code>如果最后一步中已经设置保存接口，则此处设置无效。</code>'
@@ -567,7 +597,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'asyncApi',
               label: '异步检测接口',
               visibleOn: 'this.asyncApi != null',
@@ -737,7 +767,7 @@ export class WizardPlugin extends BasePlugin {
             getSchemaTpl('title', {
               pipeIn: (value: any, data: any) => value || data.label
             }),
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '保存接口',
               description:
                 '如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步'
@@ -759,7 +789,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'asyncApi',
               label: '异步检测接口',
               visibleOn: 'this.asyncApi != null',
@@ -769,7 +799,7 @@ export class WizardPlugin extends BasePlugin {
             {
               type: 'divider'
             },
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initApi',
               label: '初始化接口',
               description: '用来初始化表单数据'
@@ -791,7 +821,7 @@ export class WizardPlugin extends BasePlugin {
               pipeOut: (value: any) => (value ? '' : undefined)
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               name: 'initAsyncApi',
               label: '异步检测接口',
               visibleOn: 'this.initAsyncApi != null',

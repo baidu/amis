@@ -33,6 +33,10 @@ import {resolveArrayDatasource} from '../util';
 import type {SchemaObject} from 'amis';
 import type {IFormItemStore, IFormStore} from 'amis-core';
 import type {EditorManager} from 'amis-editor-core';
+import {getActionCommonProps} from '../renderer/event-control/helper';
+import cloneDeep from 'lodash/cloneDeep';
+import {addSchema2Toolbar, deepRemove} from './CRUD2/utils';
+import {is} from '@babel/types';
 
 export const Table2RenderereEvent: RendererPluginEvent[] = [
   {
@@ -307,7 +311,8 @@ export const Table2RendererAction: RendererPluginAction[] = [
   {
     actionType: 'selectAll',
     actionLabel: '设置全部选中',
-    description: '设置表格全部项选中'
+    description: '设置表格全部项选中',
+    ...getActionCommonProps('selectAll')
   },
   {
     actionType: 'clearAll',
@@ -325,10 +330,13 @@ export type Table2DynamicControls = Partial<
     | 'quickSaveItemApi'
     | 'draggable'
     | 'itemDraggableOn'
-    | 'saveOrderApi'
-    | 'columnTogglable',
+    | 'saveOrderApi',
     (context: BaseEventContext) => any
-  >
+  > &
+    Record<
+      'columnTogglable',
+      (context: BaseEventContext, isCRUDContext: boolean) => any
+    >
 >;
 
 export class Table2Plugin extends BasePlugin {
@@ -602,7 +610,6 @@ export class Table2Plugin extends BasePlugin {
         ];
       }
 
-      props.expandable.keyField = 'id';
       props.expandable.expandedRowKeys = [1];
     }
 
@@ -808,14 +815,14 @@ export class Table2Plugin extends BasePlugin {
     rowSelectionKeyField: context => {
       return {
         type: 'input-text',
-        name: 'rowSelection.keyField',
+        name: 'keyField',
         label: '数据源key'
       };
     },
     expandableKeyField: context => {
       return {
         type: 'input-text',
-        name: 'rowSelection.keyField',
+        name: 'keyField',
         label: '数据源key'
       };
     },
@@ -840,7 +847,45 @@ export class Table2Plugin extends BasePlugin {
         }
       });
     },
-    columnTogglable: context => false
+    columnTogglable: (context: BaseEventContext, isCRUDContext: boolean) => {
+      return getSchemaTpl('switch', {
+        name: 'columnsTogglable',
+        label: tipedLabel('自定义显示列', '自动即列数量大于10自动开启。'),
+        onChange: (
+          value: boolean,
+          oldValue: boolean,
+          model: IFormItemStore,
+          form: IFormStore
+        ) => {
+          // 单独table2使用时不需要放到顶部容器，由table2内部自己处理即可
+          if (!isCRUDContext) {
+            return undefined;
+          }
+
+          const schema = cloneDeep(form.data);
+          if (value === true) {
+            addSchema2Toolbar(
+              schema,
+              {type: 'column-toggler', btnClassName: 'm-l-xs'},
+              'header',
+              'right'
+            );
+          } else {
+            deepRemove(
+              schema.headerToolbar,
+              item => item.type === 'column-toggler'
+            );
+            schema.columns.forEach((item: any) => {
+              if (item.toggled !== undefined) {
+                delete item.toggled;
+              }
+            });
+          }
+          form.setValues(schema);
+          return undefined;
+        }
+      });
+    }
   };
 
   /** 需要动态控制的控件 */
@@ -961,58 +1006,18 @@ export class Table2Plugin extends BasePlugin {
               {
                 title: '列设置',
                 body: [
-                  dc?.columnTogglable?.(context),
+                  dc?.columnTogglable?.(context, isCRUDContext),
                   getSchemaTpl('switch', {
                     name: 'resizable',
                     label: tipedLabel('可调整列宽', '用户可通过拖拽调整列宽度'),
                     pipeIn: (value: any) => !!value,
                     pipeOut: (value: any) => value
-                  }),
-                  isCRUDContext
-                    ? null
-                    : {
-                        type: 'ae-Switch-More',
-                        mode: 'normal',
-                        name: 'columnsTogglable',
-                        hiddenOnDefault: true,
-                        formType: 'extend',
-                        label: tipedLabel(
-                          '自定义显示列',
-                          '自动即列数量大于10自动开启。'
-                        ),
-                        pipeOut: (value: any) => {
-                          if (value && value.columnsTogglable) {
-                            return {columnsTogglable: {type: 'column-toggler'}};
-                          }
-                          return value;
-                        },
-                        form: {
-                          body: [
-                            {
-                              mode: 'normal',
-                              type: 'ae-columnControl'
-                            }
-                          ]
-                        }
-                      }
+                  })
                 ].filter(Boolean)
               },
               {
                 title: '行设置',
                 body: [
-                  {
-                    name: 'lineHeight',
-                    label: '行高度',
-                    type: 'select',
-                    placeholder: '请选择高度',
-                    options: [
-                      {label: '跟随内容', value: ''},
-                      {label: '高', value: 'large'},
-                      {label: '中', value: 'middle'}
-                    ],
-                    clearable: false,
-                    value: ''
-                  },
                   {
                     type: 'ae-Switch-More',
                     mode: 'normal',
@@ -1020,6 +1025,7 @@ export class Table2Plugin extends BasePlugin {
                     label: '可选择',
                     hiddenOnDefault: true,
                     formType: 'extend',
+                    bulk: false,
                     form: {
                       body: [
                         /** 如果为 CRUD 背景下，主键配置、选择类型在 CRUD 面板中，此处应该隐藏 */
@@ -1029,7 +1035,7 @@ export class Table2Plugin extends BasePlugin {
                         isCRUDContext
                           ? null
                           : {
-                              name: 'rowSelection.type',
+                              name: 'type',
                               label: '选择类型',
                               type: 'button-group-select',
                               options: [
@@ -1060,19 +1066,19 @@ export class Table2Plugin extends BasePlugin {
                               }
                             },
                         getSchemaTpl('switch', {
-                          name: 'rowSelection.fixed',
+                          name: 'fixed',
                           label: '固定选择列'
                         }),
                         {
                           type: 'input-number',
-                          name: 'rowSelection.columnWidth',
+                          name: 'columnWidth',
                           label: '选择列列宽',
                           min: 0,
                           pipeOut: (data: number) => data || undefined
                         },
                         {
                           label: '可选区域',
-                          name: 'rowSelection.rowClick',
+                          name: 'rowClick',
                           type: 'button-group-select',
                           value: false,
                           options: [
@@ -1087,11 +1093,11 @@ export class Table2Plugin extends BasePlugin {
                           ]
                         },
                         getSchemaTpl('formulaControl', {
-                          name: 'rowSelection.disableOn',
+                          name: 'disableOn',
                           label: '行禁用条件'
                         }),
                         {
-                          name: 'rowSelection.selections',
+                          name: 'selections',
                           label: '选择菜单项',
                           type: 'checkboxes',
                           joinValues: false,
@@ -1142,13 +1148,14 @@ export class Table2Plugin extends BasePlugin {
                     label: '可展开',
                     hiddenOnDefault: true,
                     formType: 'extend',
+                    bulk: false,
                     form: {
                       body: [
                         dc?.expandableKeyField?.(context),
                         {
                           type: 'select',
                           label: '展开按钮位置',
-                          name: 'expandable.position',
+                          name: 'position',
                           options: [
                             {
                               label: '默认',
@@ -1169,7 +1176,7 @@ export class Table2Plugin extends BasePlugin {
                           ]
                         },
                         getSchemaTpl('formulaControl', {
-                          name: 'expandable.expandableOn',
+                          name: 'expandableOn',
                           visibleOn: 'this.expandable',
                           label: '可展开条件'
                         }),
@@ -1185,21 +1192,18 @@ export class Table2Plugin extends BasePlugin {
                             data,
                             form
                           }: any) => {
-                            const newValue = {
-                              ...value,
-                              ...(value && value.type
-                                ? {}
-                                : {
-                                    type: 'container',
-                                    body: [
-                                      {
-                                        type: 'tpl',
-                                        tpl: '展开行内容',
-                                        inline: false
-                                      }
-                                    ]
-                                  })
-                            };
+                            const newValue = value?.type
+                              ? value
+                              : {
+                                  type: 'container',
+                                  body: [
+                                    {
+                                      type: 'tpl',
+                                      tpl: '展开行内容',
+                                      inline: false
+                                    }
+                                  ]
+                                };
                             return (
                               <Button
                                 className="w-full flex flex-col items-center"
@@ -1208,9 +1212,7 @@ export class Table2Plugin extends BasePlugin {
                                     title: '配置展开区域',
                                     value: newValue,
                                     onChange: value => {
-                                      onBulkChange({
-                                        [name]: value
-                                      });
+                                      onBulkChange(value);
                                     },
                                     data: {
                                       ...this.manager.store.ctx
@@ -1248,22 +1250,18 @@ export class Table2Plugin extends BasePlugin {
                     mode: 'normal',
                     formType: 'extend',
                     bulk: true,
-                    defaultData: {
-                      itemBadge: {
-                        mode: 'dot'
-                      }
-                    },
-                    isChecked: (e: any) => {
-                      const {data, name} = e;
-                      return data[name];
-                    },
                     form: {
                       body: [
                         {
                           type: 'ae-badge',
                           label: false,
                           name: 'itemBadge',
-                          contentsOnly: true
+                          node: context.node,
+                          contentsOnly: true,
+                          value: {
+                            mode: 'dot',
+                            offset: [0, 0]
+                          }
                         }
                       ]
                     }
@@ -1337,31 +1335,31 @@ export class Table2Plugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('switch', {
-                  name: 'bordered',
-                  label: '边框',
-                  pipeIn: defaultValue(false)
-                }),
-                {
-                  name: 'size',
-                  label: '控件尺寸',
-                  type: 'select',
-                  pipeIn: defaultValue('default'),
-                  options: [
-                    {
-                      label: '小',
-                      value: 'small'
-                    },
-                    {
-                      label: '默认',
-                      value: 'default'
-                    },
-                    {
-                      label: '大',
-                      value: 'large'
-                    }
-                  ]
-                },
+                // getSchemaTpl('switch', {
+                //   name: 'bordered',
+                //   label: '边框',
+                //   pipeIn: defaultValue(false)
+                // }),
+                // {
+                //   name: 'size',
+                //   label: '控件尺寸',
+                //   type: 'select',
+                //   pipeIn: defaultValue('default'),
+                //   options: [
+                //     {
+                //       label: '小',
+                //       value: 'small'
+                //     },
+                //     {
+                //       label: '默认',
+                //       value: 'default'
+                //     },
+                //     {
+                //       label: '大',
+                //       value: 'large'
+                //     }
+                //   ]
+                // },
                 getSchemaTpl('switch', {
                   name: 'autoFillHeight',
                   label: '高度自适应'
@@ -1384,20 +1382,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
+                  type: 'amis-theme-select',
+                  name: 'scroll.y',
                   visibleOn: 'this.scroll && this.scroll.y !== null',
-                  label: '高度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.y'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  label: '高度值'
                 },
 
                 {
@@ -1422,21 +1410,10 @@ export class Table2Plugin extends BasePlugin {
                   ]
                 },
                 {
-                  type: 'input-group',
-                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  type: 'amis-theme-select',
                   name: 'scroll.x',
-                  label: '宽度值',
-                  body: [
-                    {
-                      type: 'input-number',
-                      name: 'scroll.x'
-                    },
-                    {
-                      type: 'tpl',
-                      addOnclassName: 'border-0 bg-none',
-                      tpl: 'px'
-                    }
-                  ]
+                  visibleOn: 'this.scroll && this.scroll.x !== null',
+                  label: '宽度值'
                 },
                 {
                   name: 'indentSize',
@@ -1464,7 +1441,86 @@ export class Table2Plugin extends BasePlugin {
                 }
               ]
             },
+            {
+              title: '表头',
+              body: [
+                getSchemaTpl('theme:colorPicker', {
+                  name: 'themeCss.tableHeadClassname.background',
+                  needCustom: true,
+                  needGradient: true,
+                  needImage: true,
+                  labelMode: 'input',
+                  label: '背景',
+                  editorValueToken: '--table-header-bg-color'
+                }),
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableHeadClassname.paddingAndMargin',
+                  hideMargin: true,
+                  editorValueToken: '--table'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableHeadClassname.border',
+                  label: '边框',
+                  editorValueToken: {
+                    'rightBorderColor': '--Table-thead-borderColor',
+                    'rightBorderWidth': '--Table-thead-borderWidth',
+                    '*': '--table-header'
+                  }
+                }),
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableHeadClassname.font',
+                  hasVertical: false,
+                  textAlign: false,
+                  editorValueToken: '--table-header'
+                })
+              ]
+            },
 
+            getSchemaTpl('theme:base', {
+              title: '单元格',
+              classname: 'tableBodyClassname',
+              editorValueToken: '--table-body',
+              hideShadow: true,
+              hideRadius: true,
+              hideBorder: true,
+              hidePaddingAndMargin: true,
+              state: ['default', 'hover'],
+              extra: [
+                {
+                  type: 'amis-theme-select',
+                  label: '行高',
+                  name: 'themeCss.tableBodyClassname.height',
+                  editorValueToken: '--table-body-line-height',
+                  mode: 'default'
+                },
+                getSchemaTpl('theme:paddingAndMargin', {
+                  name: 'themeCss.tableRowClassname.paddingAndMargin',
+                  hideMargin: true,
+                  editorValueToken: '--table'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.tableRowClassname.border',
+                  editorValueToken: {
+                    'bottomBorderColor': '--Table-borderColor',
+                    'bottomBorderWidth': '--Table-borderWidth',
+                    '*': '--table'
+                  }
+                }),
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.tableBodyClassname.font',
+                  editorValueToken: '--table-body'
+                })
+              ]
+            }),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
+              ]
+            },
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

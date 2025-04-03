@@ -1,5 +1,5 @@
 import React from 'react';
-import {uncontrollable, flattenTree} from 'amis-core';
+import {uncontrollable, flattenTree, TestIdBuilder} from 'amis-core';
 
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from 'amis-core';
@@ -15,7 +15,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     option: Option,
     index: number,
     key: string = `${index}`,
-    styles: object = {}
+    styles: object = {},
+    testIdBuilder?: TestIdBuilder
   ): JSX.Element {
     const {
       disabled,
@@ -25,12 +26,13 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       labelField = 'label'
     } = this.props;
 
+    const tBuilder = testIdBuilder?.getChild(index);
     if (Array.isArray(option.children)) {
       if (!option[labelField]) {
         return (
           <>
             {option.children.map((child: Option, index: number) =>
-              this.renderOption(child, index)
+              this.renderOption(child, index, `${index}`, {}, tBuilder)
             )}
           </>
         );
@@ -49,20 +51,21 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
               onChange: () => undefined,
               disabled: disabled || option.disabled,
               labelField,
-              classnames: cx
+              classnames: cx,
+              testIdBuilder: tBuilder?.getChild('label')
             })}
           </div>
 
           <div className={cx('GroupedSelection-items', option.className)}>
             {option.children.map((child, index) =>
-              this.renderOption(child, index)
+              this.renderOption(child, index, `${index}`, {}, tBuilder)
             )}
           </div>
         </div>
       );
     }
 
-    return this.renderPureOption(option, index, key, styles);
+    return this.renderPureOption(option, index, key, styles, tBuilder);
   }
 
   renderOptionOrLabel(
@@ -120,7 +123,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     option: Option,
     index: number,
     key: string = `${index}`,
-    styles: object = {}
+    styles: object = {},
+    testIdBuilder?: TestIdBuilder
   ): JSX.Element {
     const {
       labelClassName,
@@ -129,12 +133,11 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       itemClassName,
       itemRender,
       multiple,
-      labelField,
-      testIdBuilder
+      labelField
     } = this.props;
 
     const valueArray = this.valueArray;
-    const itemTIB = testIdBuilder?.getChild(`item-${option.value || index}`);
+    const itemTIB = testIdBuilder?.getChild(`item-${index}`);
 
     return (
       <div
@@ -168,7 +171,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             onChange: () => this.toggleOption(option),
             disabled: disabled || option.disabled,
             labelField,
-            classnames: cx
+            classnames: cx,
+            testIdBuilder: itemTIB?.getChild('label')
           })}
         </div>
       </div>
@@ -231,7 +235,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       placeholderRender,
       virtualThreshold = 1000,
       itemHeight = 32,
-      virtualListHeight
+      virtualListHeight,
+      testIdBuilder
     } = this.props;
     const __ = this.props.translate;
 
@@ -281,7 +286,9 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
         ) : (
           <>
             {this.renderCheckAll()}
-            {options.map((option, key) => this.renderOption(option, key))}
+            {options.map((option, key) =>
+              this.renderOption(option, key, `${key}`, {}, testIdBuilder)
+            )}
           </>
         );
     }

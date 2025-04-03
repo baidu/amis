@@ -131,7 +131,7 @@ export function themeable<
   T extends React.ComponentType<React.ComponentProps<T> & ThemeProps> & {
     themeKey?: string;
   }
->(ComposedComponent: T) {
+>(ComposedComponent: T, methods?: Array<string>) {
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
     Omit<React.ComponentProps<T>, keyof ThemeProps>
@@ -140,7 +140,7 @@ export function themeable<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `Themeable(${
+      static displayName: string = `Themeable(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = ThemeContext;
@@ -210,6 +210,17 @@ export function themeable<
     },
     ComposedComponent
   );
+
+  if (Array.isArray(methods)) {
+    methods.forEach(method => {
+      if (ComposedComponent.prototype[method]) {
+        (result as any).prototype[method] = function () {
+          const fn = this.ref?.[method];
+          return fn ? fn.apply(this.ref, arguments) : undefined;
+        };
+      }
+    });
+  }
 
   return result as typeof result & {
     ComposedComponent: T;

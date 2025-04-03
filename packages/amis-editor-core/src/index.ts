@@ -41,9 +41,18 @@ import {OutlinePlugin} from './plugin/Outline';
 import {UnknownRendererPlugin} from './plugin/Unknown';
 import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
-import {SchemaFrom} from './component/base/SchemaForm';
+import {SchemaForm} from './component/base/SchemaForm';
+import {RendererThumb} from './component/RendererThumb';
+import {AvailableRenderersPanel} from './component/Panel/AvailableRenderersPanel';
+import {deepSplice} from './deepSplice';
+import type {RightPanelsProps} from './component/Panel/RightPanels';
+import type {LeftPanelsProps} from './component/Panel/LeftPanels';
 
 export const version = '__buildVersion';
+(window as any).amisEditorVersionInfo = {
+  version: '__buildVersion',
+  buildTime: '__buildTime'
+};
 
 export default Editor;
 
@@ -51,6 +60,7 @@ export {
   Editor,
   MiniEditor,
   utils,
+  deepSplice,
   mapReactElement,
   RendererEditor,
   BasicEditor,
@@ -64,12 +74,17 @@ export {
   EditorStoreType,
   ContainerWrapper,
   AvailableRenderersPlugin,
+  AvailableRenderersPanel,
   BasicToolbarPlugin,
   CodePlugin,
   ErrorRendererPlugin,
   OutlinePlugin,
   UnknownRendererPlugin,
   ShortcutKey,
-  SchemaFrom,
-  WidthDraggableContainer
+  SchemaForm as SchemaFrom, // 兼容老版本
+  SchemaForm,
+  WidthDraggableContainer,
+  RendererThumb,
+  LeftPanelsProps,
+  RightPanelsProps
 };

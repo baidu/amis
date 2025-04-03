@@ -1,6 +1,11 @@
 .#{$ns}Table {
   position: relative;
 
+  // 黑科技，让 scrollIntoView 能够跑正确的位置
+  // margin-top: calc(var(--affix-offset-top) * -1);
+  // padding-top: var(--affix-offset-top);
+  scroll-margin-top: var(--affix-offset-top);
+
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
 
@@ -219,6 +224,7 @@
     & th,
     & td {
       text-align: left;
+      border-color: transparent;
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       &.is-sticky {
@@ -253,6 +259,21 @@
       & .label {
         font-size: 90%;
       }
+
+      & > .#{$ns}Form,
+      & > .#{$ns}Form-item > .#{$ns}Form-control:not(.is-thin) {
+        min-width: var(--Form-control-widthBase);
+
+        &.#{$ns}CheckboxControl,
+        &.#{$ns}SwitchControl,
+        &.#{$ns}RadiosControl {
+          min-width: auto;
+        }
+      }
+
+      .#{$ns}Form-static {
+        min-height: auto;
+      }
     }
 
     &.is-layout-fixed td {
@@ -282,6 +303,16 @@
     & th.text-right,
     & td.text-right {
       text-align: right;
+    }
+
+    & th.align-top,
+    & td.align-top {
+      vertical-align: top !important;
+    }
+
+    & th.align-bottom,
+    & td.align-bottom {
+      vertical-align: bottom !important;
     }
 
     & td .#{$ns}SwitchControl {
@@ -997,8 +1028,20 @@
     margin-bottom: 0;
 
     > .#{$ns}Table-contentWrap {
-      > .#{$ns}Table-content table {
+      > .#{$ns}Table-content > table {
         border-top: none; // 不然会导致拖动时顶部露出内容
+
+        &.#{$ns}Table-table--tableFillHeight {
+          > tbody {
+            height: calc(
+              var(--Table-content-height) - var(--Table-thead-height) - 20px
+            );
+
+            > tr > td {
+              border-bottom: none;
+            }
+          }
+        }
       }
 
       > .#{$ns}Table-content table thead {

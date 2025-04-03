@@ -418,6 +418,7 @@ order: 60
 | editConfirm (3.6.4 及以上版本)       | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                     | 编辑节点提交时触发           |
 | deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                     | 删除节点提交时触发           |
 | deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合         | 懒加载接口远程请求成功时触发 |
+| itemClick (6.9.0 以上版本)           | `item: Option` 所点击的选项                                                                                                   | 节点点击时触发               |
 | add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 新增节点提交时触发           |
 | edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 编辑节点提交时触发           |
 | delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                               | 删除节点提交时触发           |
@@ -809,6 +810,60 @@ order: 60
       ]
     }
   ]
+}
+```
+
+### itemClick
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "nodeBehavior": [],
+        "onEvent": {
+          "itemClick": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.item|json}"
+                }
+              }
+            ]
+          }
+        },
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ]
+      }
+    ]
 }
 ```
 

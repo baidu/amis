@@ -5,13 +5,19 @@
  */
 
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
-import {resizeSensor} from 'amis-core';
+import {
+  themeable,
+  ThemeProps,
+  isMobileDevice,
+  LocaleProps,
+  localeable,
+  resizeSensor
+} from 'amis-core';
 import SmoothSignature from 'smooth-signature';
 import Button from './Button';
 import {Icon} from '../index';
 import Modal from './Modal';
+import Spinner from './Spinner';
 
 export interface ISignatureProps extends LocaleProps, ThemeProps {
   value?: string;
@@ -32,18 +38,21 @@ export interface ISignatureProps extends LocaleProps, ThemeProps {
   ebmedCancelIcon?: string;
   embedBtnIcon?: string;
   embedBtnLabel?: string;
-  onChange?: (value?: string) => void;
+  onChange?: (value?: string) => Promise<void>;
 }
 
 const Signature: React.FC<ISignatureProps> = props => {
   const {translate: __, classnames: cx, className, width, height} = props;
+  const embedMobile =
+    props.embed && isMobileDevice() && window.innerWidth < 768;
+
   const [sign, setSign] = React.useState<SmoothSignature | null>(null);
   const [open, setOpen] = React.useState(false);
-  const [fullScreen, setFullScreen] = React.useState(false);
+  const [uploading, setUploading] = React.useState(false);
+  const [fullScreen, setFullScreen] = React.useState(!!embedMobile);
   const [embed, setEmbed] = React.useState(props.embed || false);
   const [data, setData] = React.useState<string | undefined>(props.value);
   const wrapper = React.useRef<HTMLDivElement>(null);
-
   React.useEffect(() => {
     if (!wrapper.current) {
       return;
@@ -58,6 +67,7 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, []);
 
   React.useEffect(() => setData(props.value), [props.value]);
+
   React.useEffect(() => setEmbed(props.embed || false), [props.embed]);
 
   const clear = React.useCallback(() => {
@@ -71,12 +81,21 @@ const Signature: React.FC<ISignatureProps> = props => {
       sign.undo();
     }
   }, [sign]);
+
   const confirm = React.useCallback(() => {
-    if (sign) {
-      const base64 = sign.toDataURL();
-      setData(base64);
-      props.onChange?.(base64);
+    if (!sign) {
+      return;
     }
+
+    const base64 = fullScreen
+      ? sign.getRotateCanvas(-90).toDataURL()
+      : sign.toDataURL();
+
+    setData(base64);
+    setUploading(true);
+    props.onChange?.(base64).then(() => {
+      setUploading(false);
+    });
   }, [sign]);
   const resize = React.useCallback(() => {
     setSign(null);
@@ -91,7 +110,7 @@ const Signature: React.FC<ISignatureProps> = props => {
   }, []);
   const handleCloseModal = React.useCallback(() => {
     setOpen(false);
-    setFullScreen(false);
+    setFullScreen(!!embedMobile);
     setSign(null);
   }, []);
   const handleConfirmModal = React.useCallback(() => {
@@ -143,6 +162,7 @@ const Signature: React.FC<ISignatureProps> = props => {
       ebmedCancelLabel,
       ebmedCancelIcon
     } = props;
+
     return (
       <div className={cx('Signature-Tool')}>
         <div className="actions">
@@ -167,8 +187,7 @@ const Signature: React.FC<ISignatureProps> = props => {
                 className={cx('icon', {'ml-1': undoBtnLabel})}
               />
             </Button>
-
-            {fullScreen ? (
+            {embedMobile ? null : fullScreen ? (
               <Button onClick={handleUnFullScreen}>
                 <Icon icon="un-fullscreen" className="icon" />
               </Button>
@@ -217,16 +236,28 @@ const Signature: React.FC<ISignatureProps> = props => {
       <div className={cx('Signature-Embed')}>
         <Button onClick={() => setOpen(true)}>
           <Icon className="icon mr-1" icon={icon || 'fas fa-pen'}></Icon>
-          {embedBtnLabel || __('Signature.embedLabel')}
+          {embedBtnLabel || data
+            ? __('Signature.embedUpdateLabel')
+            : __('Signature.embedLabel')}
         </Button>
         {data ? (
           <div className={cx('Signature-Embed-Preview')}>
-            <img src={data} />
-            <Icon
-              className="preview-close"
-              icon="fas fa-close"
-              onClick={clear}
-            />
+            {uploading ? (
+              <Spinner show={uploading} />
+            ) : (
+              <>
+                <img src={data} />
+                <Icon
+                  className="preview-close icon"
+                  icon="close"
+                  onClick={clear}
+                />
+              </>
+            )}
+          </div>
+        ) : uploading ? (
+          <div className={cx('Signature-Embed-Preview')}>
+            <Spinner show={uploading} />
           </div>
         ) : null}
 

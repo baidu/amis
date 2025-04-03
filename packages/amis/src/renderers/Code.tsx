@@ -199,7 +199,7 @@ export default class Code extends React.Component<CodeProps> {
 
     if (this?.monaco?.editor && dom) {
       const {tabSize} = props;
-      const sourceCode = getPropValue(this.props);
+      const sourceCode = getPropValue(this.props) ?? '';
       const language = this.resolveLanguage();
       const theme = this.registerAndGetTheme();
       /**
@@ -230,7 +230,7 @@ export default class Code extends React.Component<CodeProps> {
 
     this.monaco = monaco;
     const {tabSize} = this.props;
-    const sourceCode = getPropValue(this.props);
+    const sourceCode = getPropValue(this.props) ?? '';
     const language = this.resolveLanguage();
     const dom = this.codeRef.current;
 

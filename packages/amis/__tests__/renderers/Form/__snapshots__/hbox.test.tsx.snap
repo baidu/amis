@@ -4,6 +4,7 @@ exports[`Renderer:hbox 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -12,7 +13,7 @@ exports[`Renderer:hbox 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -43,6 +44,7 @@ exports[`Renderer:hbox 1`] = `
             >
               <div
                 class="cxd-Form-item cxd-Form-item--normal"
+                data-amis-name="text"
                 data-role="form-item"
               >
                 <div
@@ -68,7 +70,7 @@ exports[`Renderer:hbox 1`] = `
               class="cxd-Hbox-col"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   其他类型的渲染器

@@ -1,4 +1,12 @@
-import {render, toast, resolveRenderer, Modal, Icon, resizeSensor} from 'amis';
+import {
+  render,
+  toast,
+  resolveRenderer,
+  Modal,
+  Icon,
+  resizeSensor,
+  Spinner
+} from 'amis';
 import React, {Component} from 'react';
 import cx from 'classnames';
 import {autobind, guid, noop, reactionWithOldValue} from '../util';
@@ -6,7 +14,6 @@ import {clearStoresCache, RenderOptions} from 'amis-core';
 import type {Schema} from 'amis';
 import {EditorStoreType} from '../store/editor';
 import {observer} from 'mobx-react';
-import {findDOMNode} from 'react-dom';
 import {EditorManager} from '../manager';
 import HighlightBox from './HighlightBox';
 import RegionHighlightBox from './RegionHLBox';
@@ -39,6 +46,9 @@ export interface PreviewProps {
   autoFocus?: boolean;
 
   toolbarContainer?: () => any;
+
+  readonly?: boolean;
+  ref?: any;
 }
 
 export interface PreviewState {
@@ -47,7 +57,7 @@ export interface PreviewState {
 
 @observer
 export default class Preview extends Component<PreviewProps> {
-  currentDom: HTMLElement; // 用于记录当前dom元素
+  currentDom = React.createRef<HTMLDivElement>();
   dialogReaction: any;
   env: RenderOptions = {
     ...this.props.manager.env,
@@ -69,25 +79,27 @@ export default class Preview extends Component<PreviewProps> {
   doingSelection = false;
 
   componentDidMount() {
-    this.currentDom = findDOMNode(this) as HTMLElement;
-
-    this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
-    this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick, true);
-    this.currentDom.addEventListener('mouseover', this.handeMouseOver);
-
-    this.currentDom.addEventListener('mousedown', this.handeMouseDown);
-
+    const currentDom = this.currentDom.current!;
+    currentDom.addEventListener('mouseleave', this.handleMouseLeave);
+    currentDom.addEventListener('mousemove', this.handleMouseMove);
+    currentDom.addEventListener('click', this.handleClick, true);
+    currentDom.addEventListener('dblclick', this.handleDBClick, true);
+    currentDom.addEventListener('mouseover', this.handeMouseOver);
+    currentDom.addEventListener('mousedown', this.handeMouseDown);
+    currentDom.addEventListener('submit', this.handleSubmit);
     this.props.manager.on('after-update', this.handlePanelChange);
   }
 
   componentWillUnmount() {
-    if (this.currentDom) {
-      this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
-      this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-      this.currentDom.removeEventListener('click', this.handleClick, true);
-      this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
-      this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
+    if (this.currentDom.current) {
+      const currentDom = this.currentDom.current!;
+      currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
+      currentDom.removeEventListener('mousemove', this.handleMouseMove);
+      currentDom.removeEventListener('click', this.handleClick, true);
+      currentDom.removeEventListener('dblclick', this.handleDBClick, true);
+      currentDom.removeEventListener('mouseover', this.handeMouseOver);
+      currentDom.removeEventListener('mousedown', this.handeMouseDown);
+      currentDom.removeEventListener('submit', this.handleSubmit);
       this.props.manager.off('after-update', this.handlePanelChange);
       this.dialogReaction?.();
     }
@@ -130,14 +142,16 @@ export default class Preview extends Component<PreviewProps> {
     () => [this.getHighlightNodes(), this.props.store.activeId],
     ([ids]: [Array<string>], oldValue: [Array<string>]) => {
       const store = this.props.store;
-      requestAnimationFrame(() => {
-        this.calculateHighlightBox(ids);
-      });
+      // requestAnimationFrame(() => {
+      //   this.calculateHighlightBox(ids);
+      // });
+      store.activeHighlightNodes(ids);
       let oldIds = oldValue?.[0];
 
       if (Array.isArray(oldIds)) {
         oldIds = oldIds.filter(id => !~ids.indexOf(id));
-        store.resetHighlightBox(oldIds);
+        store.deActiveHighlightNodes(oldIds);
+        // store.resetHighlightBox(oldIds);
       }
     }
   );
@@ -146,6 +160,9 @@ export default class Preview extends Component<PreviewProps> {
   handlePanelChange() {
     if (this.layer && this.scrollLayer) {
       requestAnimationFrame(() => {
+        if (!this.layer) {
+          return;
+        }
         this.layer!.style.cssText += `transform: translate(0, -${
           this.scrollLayer!.scrollTop
         }px);`;
@@ -174,9 +191,12 @@ export default class Preview extends Component<PreviewProps> {
       (e.button === 1 && window.event !== null) || e.button === 0;
     if (!this.props.editable || !isLeftButton || e.defaultPrevented) return;
 
+    // todo highlight 改成可拖拽后，框选逻辑异常了，需要修复
+    const store = this.props.store;
     if (
       e.defaultPrevented ||
-      (e.target as HTMLElement)?.closest('[draggable]')
+      (e.target as HTMLElement)?.closest('[draggable]') ||
+      store.activeElement
     ) {
       return;
     }
@@ -222,7 +242,7 @@ export default class Preview extends Component<PreviewProps> {
         h: Math.abs(h)
       };
 
-      if (rect.w < 10 && rect.h < 10) {
+      if (Math.hypot(w, h) < 10) {
         return;
       }
 
@@ -247,7 +267,7 @@ export default class Preview extends Component<PreviewProps> {
   /** 拖拽多选 */
   doSelection(rect: {x: number; y: number; w: number; h: number}) {
     const layer = this.layer;
-    const dom = findDOMNode(this) as HTMLElement;
+    const dom = this.currentDom.current;
     if (!layer || !dom) {
       return;
     }
@@ -289,10 +309,21 @@ export default class Preview extends Component<PreviewProps> {
   @autobind
   handleClick(e: MouseEvent) {
     const store = this.props.store;
-    const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
 
-    if ((e.target as HTMLElement).closest('.ae-editor-action-btn')) {
+    // 处于编辑态时，不响应点击事件
+    if (store.activeElement) {
+      // 同时阻止渲染器里面的 click 事件
+      e.preventDefault();
+      return;
+    }
+
+    if (
+      (e.target as HTMLElement).closest(
+        '.ae-editor-action-btn,.ae-Editor-toolbarPopover '
+      )
+    ) {
       // 设计器内容区中允许点击的元素，比如：回到顶部功能按钮。
+      // 或者高亮区的操作按钮
       return;
     }
 
@@ -301,30 +332,35 @@ export default class Preview extends Component<PreviewProps> {
       return;
     }
 
-    if (target) {
-      const curActiveId = target.getAttribute('data-editor-id');
-      let curRegion: string = '';
+    const target = (e.target as HTMLElement).closest(
+      `[data-editor-id],[data-hlbox-id]`
+    );
 
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curActiveId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curRegion = targetRegion.getAttribute('data-region')!;
-        }
-      }
+    if (target?.matches('[data-editor-id]')) {
+      const curActiveId = target.getAttribute('data-editor-id');
 
       e.metaKey
         ? this.props.manager.toggleSelection(curActiveId!)
-        : store.setActiveId(curActiveId!, curRegion);
+        : store.setActiveId(curActiveId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      const id = target.getAttribute('data-hlbox-id')!;
+      const {x, y} = this.getElementPoint(e);
+      let elements = store.getDoc().elementsFromPoint(x, y);
+
+      let node = elements.find(
+        (ele: Element) =>
+          ele.hasAttribute('data-editor-id') &&
+          ele.getAttribute('data-editor-id') !== id &&
+          !ele.querySelector(`[data-editor-id="${id}"]`)
+      );
+      if (node) {
+        const nodeId = node.getAttribute('data-editor-id')!;
+        // 如果已经进入了内联模式
+        // 不要再切选中了
+        setTimeout(() => {
+          store.activeElement || store.setActiveId(nodeId);
+        }, 350);
+      }
     }
 
     if (!this.layer?.contains(e.target as HTMLElement) && this.props.editable) {
@@ -336,6 +372,57 @@ export default class Preview extends Component<PreviewProps> {
       if (!event.prevented && !event.stoped) {
         e.preventDefault();
         e.stopPropagation();
+      }
+    }
+  }
+
+  @autobind
+  handleDBClick(e: MouseEvent) {
+    const store = this.props.store;
+    let target = e.target as HTMLElement;
+    let hostElem = target.closest(`[data-editor-id]`) as HTMLElement;
+
+    if (!hostElem) {
+      const hlbox = target.closest(`[data-hlbox-id]`) as HTMLElement;
+      // 自由容器里面的高亮区域是可以点击的
+      // 当点击来自高亮区域时，需要根据位置计算出组件上点击的元素
+      if (hlbox) {
+        const {x, y} = this.getElementPoint(e);
+        const elements = store.getDoc().elementsFromPoint(x, y);
+        target = elements.find((ele: Element) => {
+          hostElem = ele.closest(
+            `[data-editor-id="${hlbox.getAttribute('data-hlbox-id')}"]`
+          ) as HTMLElement;
+          return hostElem;
+        }) as HTMLElement;
+      }
+    }
+
+    if (hostElem) {
+      const node = store.getNodeById(hostElem.getAttribute('data-editor-id')!);
+      if (!node) {
+        return;
+      }
+      e.preventDefault();
+      const rendererInfo = node.info;
+
+      // 需要支持 :scope > xxx 语法，所以才这么写
+      let inlineElem: HTMLElement | undefined | null = null;
+      const inlineSetting = (rendererInfo.inlineEditableElements || []).find(
+        elem => {
+          inlineElem = (
+            [].slice.call(
+              hostElem.querySelectorAll(elem.match)
+            ) as Array<HTMLElement>
+          ).find(dom => dom.contains(target));
+          return !!inlineElem;
+        }
+      )!;
+
+      // 如果命中了支持内联编辑的元素，则开始内联编辑
+      if (inlineElem && inlineSetting) {
+        const manager = this.props.manager;
+        manager.startInlineEdit(node, inlineElem, inlineSetting, e);
       }
     }
   }
@@ -355,47 +442,64 @@ export default class Preview extends Component<PreviewProps> {
     const store = this.props.store;
     const dom = e.target as HTMLElement;
 
-    if (this.layer?.contains(dom)) {
-      return;
-    }
-
     if ((e.target as HTMLElement).closest('.ignore-hover-elem')) {
       // 设计器内容区中忽略hover的元素，比如：region头部标签。
       return;
     }
 
-    const target = dom.closest(`[data-editor-id]`);
+    const target = dom.closest(`[data-editor-id],[data-hlbox-id]`);
 
-    if (target) {
+    if (target?.matches('[data-editor-id]')) {
       const curHoverId = target.getAttribute('data-editor-id');
-      let curHoverRegion: string = '';
-
-      // 判断当前是否在子区域
-      const targetRegion = (e.target as HTMLElement).closest(
-        `[data-region-host]`
-      );
-      if (targetRegion) {
-        // 特殊区域允许点击事件
-        const curRegionId = targetRegion.getAttribute('data-region-host');
-        if (
-          curRegionId &&
-          curRegionId === curHoverId &&
-          targetRegion.getAttribute('data-region')
-        ) {
-          // 确保点击的是当前预选中元素的子区域
-          curHoverRegion = targetRegion.getAttribute('data-region')!;
+      store.setHoverId(curHoverId!);
+    } else if (target?.matches('[data-hlbox-id]')) {
+      const {x, y} = this.getElementPoint(e);
+      const elements = store.getDoc().elementsFromPoint(x, y);
+      let hostElem: HTMLElement | null = null;
+      for (const ele of elements) {
+        hostElem = ele.closest(`[data-editor-id]`) as HTMLElement;
+        if (hostElem) {
+          break;
         }
       }
 
-      store.setMouseMoveRegion(curHoverRegion);
-      store.setHoverId(curHoverId!);
+      if (hostElem) {
+        // 判断当前是否在子区域
+        const curHoverId = hostElem.getAttribute('data-editor-id');
+        store.setHoverId(curHoverId!);
+      }
     }
+  }
+
+  getElementPoint(e: MouseEvent) {
+    const store = this.props.store;
+    let x = e.clientX;
+    let y = e.clientY;
+
+    const iframe = store.getIframe();
+
+    // 计算鼠标位置在页面中的实际位置，如果iframe存在，需要考虑iframe偏移量以及iframe的缩放比例
+    if (iframe) {
+      const preview: HTMLElement = (store.getLayer() as HTMLElement)
+        .previousSibling?.firstChild as HTMLElement;
+      const previewRect = preview.getBoundingClientRect();
+
+      x -= previewRect.left;
+      y -= previewRect.top;
+      // 如果有缩放比例，重新计算位置
+      const scale = store.getScale();
+      if (scale >= 0) {
+        x = x / scale;
+        y = y / scale;
+      }
+    }
+
+    return {x, y};
   }
 
   @autobind
   handleMouseLeave() {
     const store = this.props.store;
-    store.setMouseMoveRegion('');
     store.setHoverId('');
   }
 
@@ -405,6 +509,12 @@ export default class Preview extends Component<PreviewProps> {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  // 禁用内部的提交事件
+  handleSubmit(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   @autobind
@@ -445,14 +555,31 @@ export default class Preview extends Component<PreviewProps> {
   }
 
   @autobind
+  handleWidgetsDragEnter(e: React.DragEvent) {
+    const target = e.target as HTMLElement;
+    const dom = target.closest(`[data-node-id][data-node-region].region-tip`);
+
+    if (!dom) {
+      return;
+    }
+
+    e.preventDefault();
+    const manager = this.props.manager;
+    const id = dom.getAttribute('data-node-id')!;
+    const region = dom.getAttribute('data-node-region')!; // 大纲树中的容器节点
+
+    id && region && manager.dnd.switchToRegion(e.nativeEvent, id, region);
+  }
+
+  @autobind
   getCurrentTarget() {
     const isMobile = this.props.isMobile;
     if (isMobile) {
-      return this.currentDom.querySelector(
+      return this.currentDom.current!.querySelector(
         '.ae-Preview-inner'
       ) as HTMLDivElement;
     } else {
-      return this.currentDom.querySelector(
+      return this.currentDom.current!.querySelector(
         '.ae-Preview-body'
       ) as HTMLDivElement;
     }
@@ -516,6 +643,7 @@ export default class Preview extends Component<PreviewProps> {
           className,
           isMobile ? 'is-mobile-body' : 'is-pc-body'
         )}
+        ref={this.currentDom}
       >
         <div
           key={
@@ -532,7 +660,11 @@ export default class Preview extends Component<PreviewProps> {
           ref={this.contentsRef}
         >
           <div className="ae-Preview-inner">
-            {isMobile ? (
+            {!store.ready ? (
+              <div className="ae-Preview-loading">
+                <Spinner overlay size="lg" />
+              </div>
+            ) : isMobile ? (
               <IFramePreview
                 {...rest}
                 key="mobile"
@@ -556,7 +688,7 @@ export default class Preview extends Component<PreviewProps> {
               />
             )}
           </div>
-          {this.currentDom && (
+          {this.currentDom.current && (
             <BackTop
               key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
               className="ae-editor-action-btn"
@@ -570,7 +702,11 @@ export default class Preview extends Component<PreviewProps> {
           )}
         </div>
 
-        <div className="ae-Preview-widgets" id="aePreviewHighlightBox">
+        <div
+          onDragEnter={this.handleWidgetsDragEnter}
+          className="ae-Preview-widgets"
+          id="aePreviewHighlightBox"
+        >
           {store.highlightNodes.map(node => (
             <HighlightBox
               node={node}
@@ -581,9 +717,12 @@ export default class Preview extends Component<PreviewProps> {
               toolbarContainer={toolbarContainer}
               onSwitch={this.handleNavSwitch}
               manager={manager}
+              readonly={this.props.readonly}
             >
               {node.childRegions.map(region =>
                 !node.memberImmutable(region.region) &&
+                !store.activeElement &&
+                !this.props.readonly &&
                 store.isRegionActive(region.id, region.region) ? (
                   <RegionHighlightBox
                     manager={manager}
@@ -636,9 +775,11 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
             item => !item.isRegion && item.clickable
           );
           if (first && isAlive(store)) {
-            const region = first.childRegions.find(
-              (i: any) => i.region
+            let region = first.childRegions.find(
+              (item: any) => item.region === 'body'
             )?.region;
+            region =
+              region ?? first.childRegions.find((i: any) => i.region)?.region;
             store.setActiveId(first.id, region);
           }
         }
@@ -676,6 +817,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
         {render(
           editable ? store.filteredSchema : store.filteredSchemaForPreview,
           {
+            globalVars: store.globalVariables,
             ...rest,
             key: editable ? 'edit-mode' : 'preview-mode',
             theme: env.theme,
@@ -684,7 +826,11 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
             locale: appLocale,
             editorDialogMountNode: this.getDialogMountRef
           },
-          env
+          {
+            ...env,
+            session: editable ? 'edit-mode' : 'preview-mode',
+            enableAMISDebug: !editable
+          }
         )}
       </div>
     );

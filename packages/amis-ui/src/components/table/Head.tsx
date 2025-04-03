@@ -9,7 +9,8 @@ import {
   getBuildColumns,
   getAllSelectableRows,
   updateFixedRow,
-  hasFixedColumn
+  hasFixedColumn,
+  updateStickyRow
 } from './util';
 import {
   ColumnProps,
@@ -50,6 +51,7 @@ export interface Props extends ThemeProps {
   onFilter?: Function;
   onResizeMouseDown: Function;
   testIdBuilder?: TestIdBuilder;
+  selfSticky?: boolean;
 }
 
 export default class Head extends React.PureComponent<Props> {
@@ -83,13 +85,17 @@ export default class Head extends React.PureComponent<Props> {
   }
 
   updateFixedRow() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, selfSticky} = this.props;
     const thead = this.domRef.current;
     const children = thead?.children;
     for (let i = 0; i < (children?.length || 0); i++) {
       const cols = [...this.thColumns[i]];
       if (i === 0) {
         this.prependColumns(cols);
+      }
+
+      if (selfSticky) {
+        updateStickyRow(children as HTMLCollection, i);
       }
 
       if (hasFixedColumn(cols)) {
@@ -133,7 +139,9 @@ export default class Head extends React.PureComponent<Props> {
       onSelectAll,
       onFilter,
       onResizeMouseDown,
-      testIdBuilder
+      testIdBuilder,
+      className,
+      selfSticky
     } = this.props;
 
     const {thColumns, tdColumns} = getBuildColumns(columns);
@@ -142,7 +150,7 @@ export default class Head extends React.PureComponent<Props> {
 
     // 获取一行最多th个数
     let maxCount = 0;
-    columns.forEach(cols => {
+    this.thColumns.forEach(cols => {
       if (cols.length > maxCount) {
         maxCount = cols.length;
       }
@@ -174,9 +182,9 @@ export default class Head extends React.PureComponent<Props> {
     const selectedKeys = selectedRowKeys.filter((key: number | string) =>
       rowKeys.includes(key)
     );
-
+    let thIndex = 0;
     return (
-      <thead ref={this.domRef} className={cx('Table-thead')}>
+      <thead ref={this.domRef} className={cx('Table-thead', className)}>
         {this.thColumns.map((data, index) => {
           return (
             <tr key={'th-cell-' + index}>
@@ -186,6 +194,7 @@ export default class Head extends React.PureComponent<Props> {
                   wrapperComponent="th"
                   rowSpan={this.thColumns.length}
                   className={cx('Table-dragCell')}
+                  selfSticky={selfSticky}
                   col="drag"
                   classnames={cx}
                   classPrefix={classPrefix}
@@ -199,6 +208,7 @@ export default class Head extends React.PureComponent<Props> {
                   rowSpan={this.thColumns.length}
                   fixed={rowSelectionFixed ? 'left' : ''}
                   className={cx('Table-checkCell')}
+                  selfSticky={selfSticky}
                   col="select"
                   classnames={cx}
                   classPrefix={classPrefix}
@@ -239,6 +249,7 @@ export default class Head extends React.PureComponent<Props> {
               ) : null}
               {isLeftExpandable && index === 0 ? expandableCell : null}
               {data.map((item: any, colIndex: number) => {
+                thIndex++;
                 let sort = null;
                 if (item.sorter) {
                   sort = (
@@ -282,23 +293,15 @@ export default class Head extends React.PureComponent<Props> {
                   cIndex = this.tdColumns.findIndex(c => c.name === item.name);
                 }
 
-                /** 如果当前列定宽，则不能操作drag bar */
-                const pristineWidth = item.width;
-                const disableColDrag =
-                  typeof pristineWidth === 'number' && pristineWidth > 0;
                 const children = !item.children?.length ? (
                   <>
                     {sort}
                     {filter}
                     {resizable ? (
                       <i
-                        className={cx('Table-thead-resizable', {
-                          'Table-thead-resizable--disabled': disableColDrag
-                        })}
+                        className={cx('Table-thead-resizable')}
                         onMouseDown={e => {
-                          disableColDrag
-                            ? noop
-                            : onResizeMouseDown?.(e, cIndex);
+                          onResizeMouseDown?.(e, cIndex);
                         }}
                       />
                     ) : null}
@@ -313,11 +316,10 @@ export default class Head extends React.PureComponent<Props> {
                     colSpan={item.colSpan}
                     classnames={cx}
                     classPrefix={classPrefix}
+                    selfSticky={selfSticky}
                     fixed={item.fixed === true ? 'left' : item.fixed}
                     className={cx({
-                      'Table-cell-last':
-                        colIndex === maxCount - 1 &&
-                        colIndex === data.length - 1
+                      'Table-cell-last': thIndex === maxCount
                     })}
                     depth={item.depth}
                     col={String(colIndex)}

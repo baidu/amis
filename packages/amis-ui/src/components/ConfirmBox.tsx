@@ -6,6 +6,7 @@ import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
 import Spinner from './Spinner';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
+import type {TestIdBuilder} from 'amis-core';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
@@ -39,6 +40,9 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   headerClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
+  testIdBuilder?: TestIdBuilder;
+  onExited?: () => void;
+  onEntered?: () => void;
 }
 
 export function ConfirmBox({
@@ -63,7 +67,10 @@ export function ConfirmBox({
   bodyClassName,
   footerClassName,
   mobileUI,
-  disabled
+  disabled,
+  testIdBuilder,
+  onEntered,
+  onExited
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -98,6 +105,7 @@ export function ConfirmBox({
       setError(e.message);
     } finally {
       setLoading(false);
+      setTimeout(() => setError(''), 5000);
     }
   }, [onConfirm, beforeConfirm]);
   React.useEffect(() => {
@@ -112,6 +120,8 @@ export function ConfirmBox({
         onConfirm={handleConfirm}
         onHide={onCancel}
         container={popOverContainer}
+        onEntered={onEntered}
+        onExited={onExited}
       >
         {typeof children === 'function'
           ? children({
@@ -130,6 +140,8 @@ export function ConfirmBox({
         onHide={onCancel!}
         container={popOverContainer}
         className={className}
+        onEntered={onEntered}
+        onExited={onExited}
       >
         {showTitle !== false && title ? (
           <Modal.Header onClose={onCancel} className={headerClassName}>
@@ -156,13 +168,18 @@ export function ConfirmBox({
                 ) : null}
               </div>
             ) : null}
-            <Button disabled={loading} onClick={onCancel}>
+            <Button
+              disabled={loading}
+              onClick={onCancel}
+              testIdBuilder={testIdBuilder?.getChild('cancel')}
+            >
               {__('cancel')}
             </Button>
             <Button
               disabled={loading || disabled}
               onClick={handleConfirm}
               level="primary"
+              testIdBuilder={testIdBuilder?.getChild('confirm')}
             >
               {__('confirm')}
             </Button>

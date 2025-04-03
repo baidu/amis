@@ -82,6 +82,7 @@
 
         .CodeMirror-lines {
           line-height: 20px;
+          padding: 5px 0;
         }
       }
     }
@@ -96,8 +97,12 @@
     }
   }
 
-  &-button {
+  &-buttonWrapper {
     height: auto;
+  }
+  &-button,
+  &-buttonWrapper-button {
+    height: 100%;
     background-color: #f7f7f9;
     padding: 4px 8px;
     border-radius: 0 var(--input-default-default-top-left-border-radius)

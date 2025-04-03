@@ -5,7 +5,13 @@ import toPairs from 'lodash/toPairs';
 import pick from 'lodash/pick';
 import {ServiceStore} from './service';
 import type {IFormItemStore} from './formItem';
-import {Api, ApiObject, fetchOptions, Payload} from '../types';
+import {
+  Api,
+  ApiObject,
+  DataChangeReason,
+  fetchOptions,
+  Payload
+} from '../types';
 import {ServerError} from '../utils/errors';
 import {
   getVariable,
@@ -62,18 +68,21 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     return {
-      get loading() {
-        return self.saving || self.fetching;
-      },
-
       get items() {
         return getItems();
+      }
+    };
+  })
+  .views(self => {
+    return {
+      get loading() {
+        return self.saving || self.fetching;
       },
 
       /** 获取InputGroup的子元素 */
       get inputGroupItems() {
         const formItems: Record<string, IFormItemStore[]> = {};
-        const children: Array<any> = this.items.concat();
+        const children: Array<any> = self.items.concat();
 
         while (children.length) {
           const current = children.shift();
@@ -97,7 +106,7 @@ export const FormStore = ServiceStore.named('FormStore')
           [propName: string]: Array<string>;
         } = {};
 
-        getItems().forEach(item => {
+        self.items.forEach(item => {
           if (!item.valid) {
             errors[item.name] = Array.isArray(errors[item.name])
               ? errors[item.name].concat(item.errors)
@@ -120,26 +129,26 @@ export const FormStore = ServiceStore.named('FormStore')
       },
 
       getItemById(id: string) {
-        return getItems().find(item => item.itemId === id);
+        return self.items.find(item => item.itemId === id);
       },
 
       getItemByName(name: string) {
-        return getItems().find(item => item.name === name);
+        return self.items.find(item => item.name === name);
       },
 
       getItemsByName(name: string) {
-        return getItems().filter(item => item.name === name);
+        return self.items.filter(item => item.name === name);
       },
 
       get valid() {
         return (
-          getItems().every(item => item.valid) &&
+          self.items.every(item => item.valid) &&
           (!self.restError || !self.restError.length)
         );
       },
 
       get validating() {
-        return getItems().some(item => item.validating);
+        return self.items.some(item => item.validating);
       },
 
       get isPristine() {
@@ -168,9 +177,10 @@ export const FormStore = ServiceStore.named('FormStore')
       values: object,
       tag?: object,
       replace?: boolean,
-      concatFields?: string | string[]
+      concatFields?: string | string[],
+      changeReason?: DataChangeReason
     ) {
-      self.updateData(values, tag, replace, concatFields);
+      self.updateData(values, tag, replace, concatFields, changeReason);
 
       // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
       self.items.forEach(item => {
@@ -209,7 +219,8 @@ export const FormStore = ServiceStore.named('FormStore')
       name: string,
       value: any,
       isPristine: boolean = false,
-      force: boolean = false
+      force: boolean = false,
+      changeReason?: DataChangeReason
     ) {
       // 没有变化就不跑了。
       const origin = getVariable(self.data, name, false);
@@ -257,13 +268,23 @@ export const FormStore = ServiceStore.named('FormStore')
         });
       }
 
+      changeReason &&
+        Object.isExtensible(data) &&
+        !data.__changeReason &&
+        Object.defineProperty(data, '__changeReason', {
+          value: changeReason,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        });
+
       self.data = data;
 
       // 同步 options
       syncOptions();
     }
 
-    function deleteValueByName(name: string) {
+    function deleteValueByName(name: string, changeReason?: DataChangeReason) {
       const prev = self.data;
       const data = cloneObject(self.data);
 
@@ -287,6 +308,16 @@ export const FormStore = ServiceStore.named('FormStore')
       }
 
       deleteVariable(data, name);
+
+      changeReason &&
+        Object.isExtensible(data) &&
+        !data.__changeReason &&
+        Object.defineProperty(data, '__changeReason', {
+          value: changeReason,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        });
       self.data = data;
     }
 
@@ -374,7 +405,10 @@ export const FormStore = ServiceStore.named('FormStore')
                 }
               : undefined,
             !!(api as ApiObject).replaceData,
-            (api as ApiObject).concatDataFields
+            (api as ApiObject).concatDataFields,
+            {
+              type: 'api'
+            }
           );
         }
 
@@ -520,9 +554,11 @@ export const FormStore = ServiceStore.named('FormStore')
 
     // 10s 内不要重复弹同一个错误
     const toastValidateError = throttle(
-      msg => {
+      (msg, validateError?: ValidateError) => {
         const env = getEnv(self);
-        env.notify('error', msg);
+        env.notify('error', msg, {
+          validateError
+        });
       },
       10000,
       {
@@ -670,7 +706,18 @@ export const FormStore = ServiceStore.named('FormStore')
             dispatcher = yield dispatcher;
           }
           if (!dispatcher?.prevented) {
-            msg && toastValidateError(msg);
+            const validateError = new ValidateError(
+              failedMessage || self.__('Form.validateFailed'),
+              self.errors,
+              {
+                items: self.items,
+                msg: {
+                  customMsg: failedMessage,
+                  defaultMsg: self.__('Form.validateFailed')
+                }
+              }
+            );
+            msg && toastValidateError(msg, validateError);
           }
         }
 
@@ -710,6 +757,10 @@ export const FormStore = ServiceStore.named('FormStore')
     function clearErrors() {
       const items = self.items.concat();
       items.forEach(item => item.reset());
+    }
+
+    function setPristine(data: object) {
+      self.pristine = data;
     }
 
     function reset(cb?: (data: any) => void, resetData: boolean = true) {
@@ -797,6 +848,7 @@ export const FormStore = ServiceStore.named('FormStore')
       getLocalPersistData,
       setLocalPersistData,
       clearLocalPersistData,
+      setPristine,
       setPersistData,
       clear,
       updateSavedData,

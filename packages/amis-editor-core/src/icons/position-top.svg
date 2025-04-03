@@ -1,6 +1,1 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path d="M8.76923 11L6 8.23077M6 8.23077L8.76923 5.46154M6 8.23077L13 8.23077"
-    stroke="currentColor" stroke-width="1.4"></path>
-  <line x1="3.3" y1="14" x2="3.3" y2="2" stroke="currentColor" stroke-width="1.4"></line>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"><path d="M8.77 11 6 8.23m0 0 2.77-2.768M6 8.23h7M3.3 14V2" stroke="currentColor" stroke-width="1.4"/></svg>

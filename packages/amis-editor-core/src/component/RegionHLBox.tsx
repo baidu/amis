@@ -37,7 +37,6 @@ export default observer(function (props: HighlightBoxProps) {
   }, [id, name, manager]);
 
   let isHiglight = store.isRegionHighlighted(id, name);
-  let isHiglightHover = store.isRegionHighlightHover(id, name);
   let isDragEnter = store.isRegionDragEnter(id, name);
   const host = store.getNodeById(id)!;
   const dx = node.x - host.x;
@@ -50,9 +49,10 @@ export default observer(function (props: HighlightBoxProps) {
       className={cx(
         'ae-Editor-rhlbox',
         isDragEnter ? 'is-dragenter' : '',
-        !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
-        isOnlyChildRegion || isHiglight ? 'is-highlight' : '',
-        dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
+        store.planDropId === id ? 'region-can-be-drop' : '',
+        // !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
+        isOnlyChildRegion || isHiglight ? 'is-highlight' : ''
+        // dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
       )}
       style={{
         width: node.w,
@@ -70,19 +70,21 @@ export default observer(function (props: HighlightBoxProps) {
           isOnlyChildRegion ? 'is-only-child-region' : ''
         } ignore-hover-elem`}
       >
-        {title}
-        <span className="margin-space">|</span>
+        <span className="region-text">{title}</span>
+        {store.dragging ? null : <span className="margin-space">|</span>}
 
-        <button
-          type="button"
-          className="clear-icon-btn"
-          title={''}
-          data-tooltip={'点击清空当前区域'}
-          data-position={'bottom'}
-          onClick={handleClick}
-        >
-          <Icon icon="clear-btn" />
-        </button>
+        {store.dragging ? null : (
+          <button
+            type="button"
+            className="clear-icon-btn"
+            title={''}
+            data-tooltip={'点击清空当前区域'}
+            data-position={'bottom'}
+            onClick={handleClick}
+          >
+            <Icon icon="clear-btn" />
+          </button>
+        )}
       </div>
     </div>
   );

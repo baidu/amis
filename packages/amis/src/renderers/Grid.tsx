@@ -17,6 +17,11 @@ export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
 export type GridColumnObject = {
   /**
+   * 组件唯一 id
+   */
+  id?: string;
+
+  /**
    * 极小屏（<768px）时宽度占比
    */
   xs?: number | 'auto';
@@ -62,6 +67,10 @@ export type GridColumnObject = {
    * 样式
    */
   style?: any;
+
+  wrapperCustomStyle?: any;
+
+  themeCss?: any;
 };
 
 export type GridColumn = GridColumnObject;
@@ -165,9 +174,12 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       formHorizontal,
       translate: __,
       disabled,
-      data
+      data,
+      env
     } = this.props;
     const styleVar = buildStyle(column.style, data);
+
+    const {id, themeCss, wrapperCustomStyle} = column;
     return (
       <div
         key={key}
@@ -176,16 +188,43 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           fromBsClass((column as any).columnClassName!),
           {
             [`Grid-col--v${ucFirst(column.valign)}`]: column.valign
-          }
+          },
+          setThemeClassName({
+            ...column,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...column,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss
+          })
         )}
         style={styleVar}
       >
-        {this.renderChild(`column/${key}`, (column as any).body || '', length, {
+        {this.renderChild(`column/${key}`, (column as any).body || [], length, {
           disabled,
           formMode: column.mode || subFormMode || formMode,
           formHorizontal:
             column.horizontal || subFormHorizontal || formHorizontal
         })}
+
+        <CustomStyle
+          {...column}
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
@@ -240,6 +279,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         )}
         style={styleVar}
         data-id={id}
+        data-role="container"
       >
         {this.renderColumns(this.props.columns)}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />

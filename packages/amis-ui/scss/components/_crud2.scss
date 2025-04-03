@@ -17,6 +17,7 @@
     margin-top: var(--gap-xs);
   }
 
+  @include tag-item(Crud);
   &-value {
     cursor: pointer;
     vertical-align: middle;
@@ -30,21 +31,21 @@
     font-weight: var(--Pick-base-value-fontWeight);
     background: var(--Pick-base-value-bgColor);
     border-width: var(--Pick-base-value-top-border-width)
-        var(--Pick-base-value-right-border-width)
-        var(--Pick-base-value-bottom-border-width)
-        var(--Pick-base-value-left-border-width);
+      var(--Pick-base-value-right-border-width)
+      var(--Pick-base-value-bottom-border-width)
+      var(--Pick-base-value-left-border-width);
     border-style: var(--Pick-base-value-top-border-style)
-        var(--Pick-base-value-right-border-style)
-        var(--Pick-base-value-bottom-border-style)
-        var(--Pick-base-value-left-border-style);
+      var(--Pick-base-value-right-border-style)
+      var(--Pick-base-value-bottom-border-style)
+      var(--Pick-base-value-left-border-style);
     border-color: var(--Pick-base-value-top-border-color)
-        var(--Pick-base-value-right-border-color)
-        var(--Pick-base-value-bottom-border-color)
-        var(--Pick-base-value-left-border-color);
+      var(--Pick-base-value-right-border-color)
+      var(--Pick-base-value-bottom-border-color)
+      var(--Pick-base-value-left-border-color);
     border-radius: var(--Pick-base-top-left-border-radius)
-        var(--Pick-base-top-right-border-radius)
-        var(--Pick-base-bottom-right-border-radius)
-        var(--Pick-base-bottom-left-border-radius);
+      var(--Pick-base-top-right-border-radius)
+      var(--Pick-base-bottom-right-border-radius)
+      var(--Pick-base-bottom-left-border-radius);
     margin-right: var(--gap-xs);
     margin-top: var(--gap-xs);
 
@@ -130,8 +131,176 @@
     align-self: flex-start;
   }
 
-  &-filter {
+  &-filter:not(:empty) {
     margin-bottom: var(--gap-base);
+  }
+
+  &.is-mobile.is-mobile-cards {
+    // 移动端卡片模式不需要列选择器
+    .#{$ns}ColumnToggler {
+      display: none;
+    }
+
+    .#{$ns}SearchBox {
+      border-radius: var(--Form-input-borderRadius);
+      width: 100%;
+    }
+
+    .#{$ns}Cards-placeholder {
+      font-size: var(--fonts-size-7);
+    }
+
+    .#{$ns}Card {
+      --Card-borderRadius: var(--sizes-size-5);
+      --gap-base: var(--sizes-size-9);
+      --fontSizeBase: var(--fonts-size-7);
+      --body-lineHeight: var(--sizes-base-11);
+      --Card-actions-borderColor: #f2f2f4;
+      --Card-actions-fontSize: var(--fontSizeBase);
+      font-size: var(--fontSizeBase);
+      border: 0;
+      box-shadow: var(--boxShadowSm);
+      &-field {
+        margin-bottom: var(--sizes-size-3);
+      }
+      &-fieldLabel {
+        color: var(--colors-neutral-text-5);
+        font-size: var(--fontSizeBase);
+        flex-basis: var(--sizes-base-28);
+        line-height: var(--body-lineHeight);
+        margin-right: var(--sizes-size-6);
+      }
+      &-fieldValue {
+        color: var(--colors-neutral-text-2);
+      }
+
+      &-actions {
+        padding-top: var(--sizes-base-4);
+        padding-bottom: var(--sizes-base-4);
+        gap: var(--sizes-base-5);
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        &-wrapper {
+          padding-left: var(--gap-md);
+          padding-right: var(--gap-md);
+        }
+        & > a {
+          line-height: var(--sizes-base-14);
+          background: var(--colors-link-10);
+          border-radius: var(--sizes-base-7);
+          font-size: var(--fontSizeBase);
+          color: var(--colors-link-5);
+          flex-grow: 0;
+          text-align: center;
+          padding: 0 var(--sizes-base-10);
+          &.text-danger {
+            background-color: var(--colors-error-10);
+            color: var(--colors-error-5);
+          }
+        }
+      }
+
+      .#{$ns}Form-item {
+        .#{$ns}Form-value,
+        .#{$ns}Form-control {
+          font-size: var(--fontSizeBase);
+        }
+      }
+
+      &-multiMedia {
+        &--right {
+          align-items: flex-start;
+        }
+        &-img {
+          width: var(--sizes-base-45);
+          height: var(--sizes-base-45);
+        }
+      }
+
+      .#{$ns}Image {
+        border: 0;
+
+        &--thumb {
+          padding-left: 0;
+          img {
+            border-radius: var(--sizes-size-5);
+          }
+        }
+      }
+    }
+
+    .#{$ns}Panel {
+      --Panel-bodyPadding: var(--gap-md);
+      --Panel-headingPadding: var(--gap-sm) var(--gap-md);
+      --Panel-body-paddingTop: var(--gap-md);
+      --Panel-body-paddingBottom: var(--gap-md);
+      --Panel-body-paddingLeft: var(--gap-md);
+      --Panel-body-paddingRight: var(--gap-md);
+      &--form {
+        margin: 0;
+        margin-bottom: var(--gap-md);
+        border-radius: var(--sizes-size-5);
+        box-shadow: var(--boxShadowSm);
+      }
+      &-body {
+        padding-top: 0;
+      }
+      .#{$ns}Form {
+        &--column {
+          margin-left: 0;
+          margin-right: 0;
+        }
+        &-item {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .#{$ns}Button.is-fixed-right-bottom {
+      position: fixed;
+      right: 12px;
+      bottom: 70px;
+      z-index: 1300;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #528eff;
+      box-shadow: 0 2px 12px 0 rgba(22, 27, 67, 0.2);
+      border: 0 !important;
+      .#{$ns}Button-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .is-fixed-right-bottom-wrapper {
+      flex: 0 !important;
+      & + div {
+        position: sticky !important;
+        top: 0;
+        margin-top: 0;
+        .#{$ns}SearchBox {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .#{$ns}Crud2-header-toolbar.is-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 1300;
+      background-color: #fff;
+      padding: 5px 16px;
+      margin-top: calc(-1 * var(--Page-body-padding));
+      margin-left: calc(-1 * var(--Page-body-padding));
+      margin-right: calc(-1 * var(--Page-body-padding));
+      .#{$ns}SearchBox {
+        background: #f7f7f9;
+        border-radius: 4px;
+        border-bottom: 0;
+      }
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 // Import TinyMCE
 // @ts-ignore
-import tinymce from 'tinymce/tinymce';
+import tinymce, {Editor} from 'tinymce/tinymce';
 
 // A theme is also required
 import 'tinymce/icons/default/index';
@@ -63,7 +63,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     outputFormat: 'html'
   };
   config?: any;
-  editor?: any;
+  editor?: Editor;
   unmounted = false;
   editorInitialized?: boolean = false;
   currentContent?: string;
@@ -85,14 +85,25 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         this.editor?.setContent((this.currentContent = props.model || ''));
     }
 
-    if (!isEqual(this.props.config, prevProps.config)) {
+    if (this.editor && !isEqual(this.props.config, prevProps.config)) {
+      this.editor.contentWindow.removeEventListener(
+        'unload',
+        this.handleIframeUnload
+      );
       tinymce.remove(this.editor);
       this.initTiny();
     }
   }
 
   componentWillUnmount() {
-    tinymce.remove(this.editor);
+    if (this.editor) {
+      this.editor.contentWindow.removeEventListener(
+        'unload',
+        this.handleIframeUnload
+      );
+      tinymce.remove(this.editor);
+    }
+
     this.unmounted = true;
   }
 
@@ -199,7 +210,19 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     this.unmounted || tinymce.init(this.config);
   }
 
-  initEditor(e: any, editor: any) {
+  @autobind
+  handleIframeUnload() {
+    this.editor!.contentWindow.removeEventListener(
+      'unload',
+      this.handleIframeUnload
+    );
+    requestAnimationFrame(() => {
+      tinymce.remove(this.editor!);
+      this.initTiny();
+    });
+  }
+
+  initEditor(e: any, editor: Editor) {
     const {model, onModelChange, outputFormat, onFocus, onBlur} = this.props;
 
     const value = model || '';
@@ -218,6 +241,10 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
 
     onFocus && editor.on('focus', onFocus);
     onBlur && editor.on('blur', onBlur);
+
+    // iframe 移动后，就不可用了，那只能重新初始化
+    // https://poeticcode.wordpress.com/2010/06/08/iframe-reloads-when-moved-around-the-dom-tree/
+    editor.contentWindow.addEventListener('unload', this.handleIframeUnload);
   }
 
   render() {
@@ -670,3 +697,5 @@ tinymce.addI18n('zh_CN', {
   'Caption': '\u6807\u9898',
   'Insert template': '\u63d2\u5165\u6a21\u677f'
 });
+
+export {tinymce};

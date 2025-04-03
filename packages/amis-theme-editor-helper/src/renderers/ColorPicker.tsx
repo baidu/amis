@@ -28,12 +28,7 @@ import type {GlobalData} from '../helper/getGlobalData';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import {i18n as _i18n} from 'i18n-runtime';
-import {
-  getValueByPath,
-  getInheritValue,
-  formatInheritData,
-  setInheritData
-} from '../util';
+import {getDefaultValue} from '../util';
 import {Icon as ThemeIcon} from '../icons/index';
 
 interface ColorPickerProps {
@@ -53,7 +48,6 @@ interface ColorPickerProps {
   placeholder?: string;
   disabled?: boolean;
   readOnly?: boolean;
-  editorInheritValue?: string;
 }
 
 interface ColorPickerControlProps extends FormControlProps {
@@ -62,7 +56,7 @@ interface ColorPickerControlProps extends FormControlProps {
   needImage?: boolean; // 图片
   needTheme?: boolean; // 主题色
   needCustom?: boolean; // 自定义颜色
-  editorThemePath?: string;
+  editorValueToken?: string;
 }
 
 interface ColorSelectProps {
@@ -112,33 +106,23 @@ function findColor(value: string | undefined, tree: any) {
       res = {label: '继承常规', value: value};
     }
   }
-  if (value === 'transparent') {
+  if (value === 'transparent' || value?.includes('none')) {
     res = {label: '透明', value: 'transparent'};
   }
   if (value === 'custom') {
     res = {label: '分别配置', value: 'transparent'};
   }
-  if (value === 'inherit') {
-    res = {label: '继承常规', value: value};
-  }
   return res;
 }
 
 function ThemeColorList(props: ThemeColorProps) {
-  const {themeList, onChange, value, data, itemName, state, editorThemePath} =
-    props;
-  const editorInheritValue =
-    props.editorInheritValue || getInheritValue(editorThemePath, data);
-  const defaultVar =
-    state && state !== 'default'
-      ? 'inherit'
-      : `var(${data?.default?.token}${itemName})`;
+  const {themeList, onChange, value, data, itemName, state} = props;
 
   const [colorList, setColorList] = useState(cloneDeep(themeList || []));
   const [showFlag, setShowFlag] = useState(true);
 
   function setColor(value: string | undefined) {
-    onChange(setInheritData(value, editorInheritValue));
+    onChange(value);
   }
 
   function searchColor(value: string) {
@@ -213,36 +197,6 @@ function ThemeColorList(props: ThemeColorProps) {
               </div>
             </div>
           </TooltipWrapper>
-          {(data?.state && data.state !== 'default') ||
-          (state && state !== 'default') ? (
-            <TooltipWrapper
-              trigger="hover"
-              placement="top"
-              tooltip={{
-                children: () => <div>继承常规</div>
-              }}
-            >
-              <div
-                className={cx(
-                  'ThemeColorList-content-label',
-                  value === defaultVar && 'ThemeColorList-content-label--active'
-                )}
-                onClick={() => setColor(defaultVar)}
-              >
-                <div
-                  className={cx(
-                    'ThemeColorList-content-label-inner',
-                    'ThemeColor--transparent'
-                  )}
-                >
-                  <div
-                    className="ThemeColorList-content-label-inner"
-                    style={{background: defaultVar}}
-                  ></div>
-                </div>
-              </div>
-            </TooltipWrapper>
-          ) : null}
         </div>
         <div className="ThemeColorList-content--search">
           <SearchBox placeholder="输入色值或名称搜索" onChange={searchColor} />
@@ -489,6 +443,7 @@ function GradientColor(props: ThemeColorProps) {
     currentIndex = i;
     window.addEventListener('mousemove', handleMoveSliderItem);
     window.addEventListener('mouseup', handleUpSliderItem);
+    document.body.classList.add('gradientColor-move');
   }
 
   // 移动渐变点
@@ -502,7 +457,6 @@ function GradientColor(props: ThemeColorProps) {
       tempColors.splice(currentIndex, 1);
       setIndex(0);
       setColors(tempColors);
-      gradientChange(range, tempColors);
     }
     // 限制不能超过最大、最小值
     else if (itemPosition >= 0 && itemPosition <= 100) {
@@ -528,7 +482,6 @@ function GradientColor(props: ThemeColorProps) {
         setIndex(currentIndex + 1);
       }
       setColors(tempColors);
-      gradientChange(range, tempColors);
     }
   }
 
@@ -536,9 +489,15 @@ function GradientColor(props: ThemeColorProps) {
   function handleUpSliderItem() {
     window.removeEventListener('mousemove', handleMoveSliderItem);
     window.removeEventListener('mouseup', handleUpSliderItem);
+    document.body.classList.remove('gradientColor-move');
     setTimeout(() => {
       setMove(false);
     }, 0);
+
+    setColors(colors => {
+      gradientChange(range, colors);
+      return colors;
+    });
   }
 
   // 通过角度计算位置
@@ -554,6 +513,7 @@ function GradientColor(props: ThemeColorProps) {
 
   // 按下渐变角度句柄
   function handleDownRange() {
+    document.body.classList.add('gradientColor-move');
     window.addEventListener('mousemove', handleMoveRange);
     window.addEventListener('mouseup', handleUpRange);
   }
@@ -579,13 +539,22 @@ function GradientColor(props: ThemeColorProps) {
       angle = 360 - angle;
     }
     setRange(angle);
-    gradientChange(angle, colors);
   }
 
   // 抬起渐变角度句柄
   function handleUpRange() {
+    document.body.classList.remove('gradientColor-move');
     window.removeEventListener('mousemove', handleMoveRange);
     window.removeEventListener('mouseup', handleUpRange);
+    setRange(range => {
+      gradientChange(range, colors);
+      return range;
+    });
+  }
+
+  function handelSetRange() {
+    setRangeShow(false);
+    window.removeEventListener('click', handelSetRange);
   }
 
   return (
@@ -623,23 +592,17 @@ function GradientColor(props: ThemeColorProps) {
             );
           })}
         </div>
-        <div
-          className="Theme-GradientColor-range"
-          ref={rangeRef}
-          onClick={e => {
-            setRangeShow(true);
-            e.stopPropagation();
-            window.addEventListener('click', () => {
-              setRangeShow(false);
-            });
-          }}
-        >
+        <div className="Theme-GradientColor-range" ref={rangeRef}>
           <NumberInput
             formatter={(value: string | number) => value + '°'}
             max={360}
             min={0}
             value={range}
             onChange={rangeChange}
+            onFocus={() => {
+              setRangeShow(true);
+              window.addEventListener('click', handelSetRange);
+            }}
           />
           <Overlay
             // @ts-ignore
@@ -708,12 +671,15 @@ function ImageInput(props: ThemeColorProps) {
     if (imgRes) {
       let img = imgRes[1];
       setImage(img);
-      let res = value.replace(imgRes[0] + ' ', '');
+      let res = value;
+      !res.endsWith(' ') && (res += ' ');
+      res = value.replace(imgRes[0] + ' ', '');
       let list = res.split(' ');
       // 解析position
       let position = list[0] + ' ' + list[1];
       const index = POSITION_MAP.findIndex(n => n === position);
       setPosition(index);
+      !res.endsWith(' ') && (res += ' ');
       res = res.replace(position + ' / ', '');
       list = res.split(' ');
       // 解析mode
@@ -725,6 +691,7 @@ function ImageInput(props: ThemeColorProps) {
         mode = '100% 100% no-repeat';
       }
       setMode(mode);
+      !res.endsWith(' ') && (res += ' ');
       // 解析color
       const color = res.replace(mode + ' ', '');
       setColor(color);
@@ -807,7 +774,7 @@ function ImageInput(props: ThemeColorProps) {
           value={color}
           onChange={(value: string) => {
             onChange(
-              `url(${image}) ${POSITION_MAP[position]} / ${mode} ${value}`
+              `url(${image}) ${POSITION_MAP[position]} / ${mode} ${value || ''}`
             );
           }}
         />
@@ -1169,22 +1136,21 @@ function ColorSelect(props: ColorSelectProps) {
     needCustom
   } = props;
   const [tab, setTab] = useState('color');
-  const [subTab, setSubTab] = useState(0);
   const presetColorRef = useRef<any>();
 
   const tabMap: any = {
-    color: {name: 'color'}
+    color: {name: 'color', label: '主题颜色'}
   };
+  if (needCustom) {
+    tabMap['custom'] = {name: 'custom', label: '自定义颜色'};
+  }
   if (needGradient) {
-    tabMap['gradient'] = {name: 'gradient'};
+    tabMap['gradient'] = {name: 'gradient', label: '渐变'};
   }
   if (needImage) {
-    tabMap['img'] = {
-      name: 'img',
-      icon: <ThemeIcon icon="color-picker-img" />,
-      activeIcon: <ThemeIcon icon="color-picker-img-active" />
-    };
+    tabMap['img'] = {name: 'img', label: '图片'};
   }
+
   const subTabList: any[] = [
     needTheme &&
       themeList &&
@@ -1192,72 +1158,27 @@ function ColorSelect(props: ColorSelectProps) {
     needCustom && {name: '自定义颜色', parent: 'color', id: 1}
   ].filter(n => n);
 
-  function setSubTabCheck() {
-    if (
-      needTheme &&
-      value.indexOf('#') !== 0 &&
-      value.indexOf('rgba') !== 0 &&
-      subTabList.find(item => item.id === 0)
-    ) {
-      setSubTab(0);
-    } else if (needCustom && subTabList.find(item => item.id === 1)) {
-      setSubTab(1);
-    }
-  }
-
   useEffect(() => {
     if (
       needTheme &&
-      (value?.indexOf('var') === 0 || value === 'transparent' || !value) &&
-      subTabList.find(item => item.id === 0)
+      (value?.indexOf('var') === 0 || value === 'transparent' || !value)
     ) {
       setTab('color');
-      setSubTab(0);
+    } else if (
+      needCustom &&
+      (value?.startsWith('rgb') || value?.startsWith('#'))
+    ) {
+      setTab('custom');
     } else if (needGradient && value?.indexOf('linear-gradient') === 0) {
       setTab('gradient');
     } else if (needImage && value?.indexOf('url') === 0) {
       setTab('img');
-    } else if (needCustom && subTabList.find(item => item.id === 1)) {
-      setTab('color');
-      setSubTab(1);
     }
   }, [show]);
-
-  useEffect(() => {
-    if (needTheme) {
-      setSubTab(0);
-    } else if (needCustom) {
-      setSubTab(1);
-    }
-  }, [needCustom, needTheme]);
 
   function colorOnChange(value: string) {
     onChange(value);
     presetColorRef.current?.setPresetColor(value);
-  }
-
-  function renderSubTab() {
-    const list = subTabList.filter(item => item.parent === tab);
-    if (list.length > 0) {
-      return (
-        <div className="Theme-ColorSelect-tab-sub">
-          {list.map((item: any) => (
-            <div
-              key={item.id}
-              className={cx(
-                'Theme-ColorSelect-tab-sub-item',
-                subTab === item.id && 'Theme-ColorSelect-tab-sub--active'
-              )}
-              onClick={() => setSubTab(item.id)}
-            >
-              {item.name}
-            </div>
-          ))}
-        </div>
-      );
-    } else {
-      return null;
-    }
   }
 
   return (
@@ -1277,39 +1198,32 @@ function ColorSelect(props: ColorSelectProps) {
                   key={key}
                   className={cx(
                     'Theme-ColorSelect-tab-' + key,
-                    tab === key && `Theme-ColorSelect-tab-${key}--active`
+                    tab === key && 'Theme-ColorSelect-tab--active'
                   )}
                   onClick={() => {
                     setTab(key);
-                    setSubTabCheck();
                   }}
                 >
-                  {tab === key ? tabMap[key].activeIcon : tabMap[key].icon}
+                  {tabMap[key].label}
                 </div>
               ))}
             </div>
           ) : null}
-
-          {renderSubTab()}
           <div className="Theme-ColorSelect-content">
             {tab === 'color' ? (
-              <div className="Theme-ColorSelect-content-color">
-                {subTab === 0 ? (
-                  <ThemeColorList
-                    {...props}
-                    themeList={themeList}
-                    onChange={colorOnChange}
-                    value={value}
-                  />
-                ) : null}
-                {subTab === 1 ? (
-                  <CustomColor
-                    onChange={colorOnChange}
-                    value={value}
-                    themeList={themeList}
-                  />
-                ) : null}
-              </div>
+              <ThemeColorList
+                {...props}
+                themeList={themeList}
+                onChange={colorOnChange}
+                value={value}
+              />
+            ) : null}
+            {tab === 'custom' ? (
+              <CustomColor
+                onChange={colorOnChange}
+                value={value}
+                themeList={themeList}
+              />
             ) : null}
             {tab === 'gradient' ? (
               <GradientColor
@@ -1472,11 +1386,9 @@ function ColorPicker(props: ColorPickerProps) {
 }
 
 function ColorPickerControl(props: ColorPickerControlProps) {
-  const editorDefaultValue = getValueByPath(
-    props.editorThemePath || '',
-    props.data
-  );
-  const value = formatInheritData(props.value) || editorDefaultValue;
+  let editorDefaultValue = getDefaultValue(props.editorValueToken, props.data);
+
+  const value = props.value || editorDefaultValue;
 
   return (
     <>

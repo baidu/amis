@@ -8,7 +8,8 @@ import {
   loadScript,
   buildStyle,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  str2function
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
@@ -427,7 +428,7 @@ export class Chart extends React.Component<ChartProps> {
         this.echarts = (echarts as any).init(ref, theme);
 
         if (typeof onChartMount === 'string') {
-          onChartMount = new Function('chart', 'echarts') as any;
+          onChartMount = str2function(onChartMount, 'chart', 'echarts') as any;
         }
 
         onChartMount?.(this.echarts, echarts);
@@ -467,7 +468,7 @@ export class Chart extends React.Component<ChartProps> {
     });
   }
 
-  reload(
+  async reload(
     subpath?: string,
     query?: any,
     ctx?: any,
@@ -491,60 +492,61 @@ export class Chart extends React.Component<ChartProps> {
     this.echarts?.showLoading();
 
     store.markFetching(true);
-    env
-      .fetcher(api, store.data, {
+    try {
+      const result = await env.fetcher(api, store.data, {
         cancelExecutor: (executor: Function) => (this.reloadCancel = executor)
-      })
-      .then(result => {
-        isAlive(store) && store.markFetching(false);
-
-        if (!result.ok) {
-          !(api as ApiObject)?.silent &&
-            env.notify(
-              'error',
-              (api as ApiObject)?.messages?.failed ??
-                (result.msg || __('fetchFailed')),
-              result.msgTimeout !== undefined
-                ? {
-                    closeButton: true,
-                    timeout: result.msgTimeout
-                  }
-                : undefined
-            );
-          return;
-        }
-        delete this.reloadCancel;
-
-        const data = normalizeApiResponseData(result.data);
-        // 说明返回的是数据接口。
-        if (!data.series && this.props.config) {
-          const ctx = createObject(this.props.data, data);
-          this.renderChart(this.props.config, ctx);
-        } else {
-          this.renderChart(result.data || {});
-        }
-
-        this.echarts?.hideLoading();
-
-        let curInterval = this.props.interval;
-
-        if (curInterval && isString(curInterval)) {
-          curInterval = Number.parseInt(curInterval);
-        }
-
-        curInterval &&
-          this.mounted &&
-          (this.timer = setTimeout(this.reload, Math.max(curInterval, 1000)));
-      })
-      .catch(reason => {
-        if (env.isCancel(reason)) {
-          return;
-        }
-
-        isAlive(store) && store.markFetching(false);
-        !(api as ApiObject)?.silent && env.notify('error', reason);
-        this.echarts?.hideLoading();
       });
+
+      isAlive(store) && store.markFetching(false);
+
+      if (!result.ok) {
+        !(api as ApiObject)?.silent &&
+          env.notify(
+            'error',
+            (api as ApiObject)?.messages?.failed ??
+              (result.msg || __('fetchFailed')),
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
+        return;
+      }
+      delete this.reloadCancel;
+
+      const data = normalizeApiResponseData(result.data);
+      // 说明返回的是数据接口。
+      if (!data.series && this.props.config) {
+        const ctx = createObject(this.props.data, data);
+        this.renderChart(this.props.config, ctx);
+      } else {
+        this.renderChart(result.data || {});
+      }
+
+      this.echarts?.hideLoading();
+
+      let curInterval = this.props.interval;
+
+      if (curInterval && isString(curInterval)) {
+        curInterval = Number.parseInt(curInterval);
+      }
+
+      curInterval &&
+        this.mounted &&
+        (this.timer = setTimeout(this.reload, Math.max(curInterval, 1000)));
+
+      return store.data;
+    } catch (reason) {
+      if (env.isCancel(reason)) {
+        return;
+      }
+
+      isAlive(store) && store.markFetching(false);
+      !(api as ApiObject)?.silent && env.notify('error', reason);
+      this.echarts?.hideLoading();
+    }
   }
 
   receive(data: object, subPath?: string, replace?: boolean) {
@@ -617,6 +619,29 @@ export class Chart extends React.Component<ChartProps> {
 
   reloadEcharts(config: any) {
     this.echarts?.setOption(config!, this.props.replaceChartOption);
+    this.echarts.on('finished', async () => {
+      const {data, dispatchEvent} = this.props;
+
+      const rendererEvent = await dispatchEvent(
+        'finished',
+        createObject(
+          data,
+          {},
+          {
+            echarts: {
+              value: this.echarts,
+              enumerable: false,
+              configurable: true,
+              writable: true
+            }
+          }
+        )
+      );
+
+      if (rendererEvent?.prevented) {
+        return;
+      }
+    });
   }
 
   render() {

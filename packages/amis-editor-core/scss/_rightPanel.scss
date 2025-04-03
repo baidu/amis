@@ -20,23 +20,11 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
   @include panel-sm-content();
 
-  .ae-Settings-content {
-    padding: var(--gap-base);
-    #{$tooltip-bottom} {
-      margin-left: -10px;
-      animation-name: none;
-    }
-
-    .ae-Combo-item > div:first-child > #{$tooltip-bottom} {
-      margin-left: 15px;
-    }
-  }
-
   // 宽度可拖拽时不增加过渡，避免卡顿
   &.width-draggable {
     transition: none;
   }
-  
+
   // 用于避免右侧配置面板被超长的valueLabel撑开，导致样式异常
   .#{$ns}SubForm-valueLabel {
     word-break: break-all;
@@ -239,7 +227,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
   }
 
   // 属性配置表单面板
-  .config-form-content {
+  .ae-Settings-content {
     position: relative;
     height: 100%;
     padding: 10px 12px;
@@ -268,120 +256,6 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
         align-items: center;
         justify-content: center;
       }
-    }
-  }
-
-  // 内层tabs
-  .editor-prop-config-tabs {
-    display: block;
-    position: relative;
-    height: 100%;
-    padding: 0;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden;
-    margin: calc(0rem - (var(--gap-base)));
-
-    .old-action-tooltip-warpper {
-      position: absolute;
-      left: 12px;
-      top: px2rem(15px);
-      width: 91%;
-      z-index: 9999;
-      // 老动作入口
-      .old-action-btn {
-        width: 100%;
-      }
-    }
-
-    // tab导航
-    ul[role='tablist'],
-    &-links {
-      margin: 0;
-      flex: 0;
-      border-bottom: 1px solid #d4d6d9;
-      display: flex;
-      justify-content: space-between;
-      z-index: 1; // 防止被panel body中的部分组件覆盖border
-
-      > li {
-        flex: 1;
-        display: flex;
-        height: $category-1-height;
-        justify-content: center;
-        border: 0 !important;
-        padding: 0 !important;
-        max-width: none;
-        align-items: stretch;
-        padding: 0 !important;
-
-        > a {
-          display: inline-block;
-          height: 100%;
-          width: 100%;
-          text-align: center;
-          padding: 2px 0 0 0 !important;
-          font-family: PingFangSC-Regular;
-          color: #84868c;
-          width: 100%;
-          --Tabs--line-active-fontSize: 14px;
-          --Tabs--line-fontSize: 14px;
-          --Tabs--line-hover-fontSize: 14px;
-          --Tabs--line-disabled-fontSize: 14px;
-          letter-spacing: 0;
-          font-weight: 400;
-          text-decoration: none;
-          border: none !important;
-          border-bottom: 2px solid #fff !important;
-          box-sizing: border-box;
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-        }
-
-        &.is-active > a {
-          color: $Editor-theme-color !important;
-          border-bottom: 2px solid $editor-active-color !important;
-        }
-
-        &:not(:last-child):after {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          content: '';
-          width: 1px;
-          height: 12px;
-          background-color: #d8d8d8;
-        }
-
-        &:not(:last-child):after {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          content: '';
-          width: 1px;
-          height: 12px;
-          background-color: #d8d8d8;
-        }
-      }
-    }
-
-    // tab内容
-    &-cont {
-      height: calc(100% - 45px);
-      position: absolute;
-      width: 100%;
-      padding: 0;
-      overflow-y: overlay !important;
-      @include minScrollBar();
-      margin-top: -1px;
-    }
-
-    div.ae-switch-more-flex {
-      display: flex;
-      line-height: 25px;
     }
   }
 
@@ -504,6 +378,132 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     &::after {
       left: auto;
       right: 90px;
+    }
+  }
+}
+
+.ae-Settings-content {
+  padding: var(--gap-base);
+  #{$tooltip-bottom} {
+    margin-left: -10px;
+    animation-name: none;
+  }
+
+  .ae-Combo-item > div:first-child > #{$tooltip-bottom} {
+    margin-left: 15px;
+  }
+
+  // 内层tabs
+  .editor-prop-config-tabs {
+    display: block;
+    position: relative;
+    height: 100%;
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    margin: calc(0rem - (var(--gap-base)));
+
+    .old-action-tooltip-warpper {
+      position: absolute;
+      left: 12px;
+      top: px2rem(15px);
+      width: 91%;
+      z-index: 9999;
+      // 老动作入口
+      .old-action-btn {
+        width: 100%;
+      }
+    }
+
+    // tab导航
+    ul[role='tablist'],
+    &-links {
+      margin: 0;
+      flex: 0;
+      border-bottom: 1px solid #d4d6d9;
+      display: flex;
+      justify-content: space-between;
+      z-index: 1; // 防止被panel body中的部分组件覆盖border
+
+      > li {
+        flex: 1;
+        display: flex;
+        height: $category-1-height;
+        justify-content: center;
+        border: 0 !important;
+        padding: 0 !important;
+        max-width: none;
+        align-items: stretch;
+        padding: 0 !important;
+
+        > a {
+          display: inline-block;
+          height: 100%;
+          width: 100%;
+          text-align: center;
+          padding: 2px 0 0 0 !important;
+          font-family: PingFangSC-Regular;
+          color: #84868c;
+          width: 100%;
+          --Tabs--line-active-fontSize: 14px;
+          --Tabs--line-fontSize: 14px;
+          --Tabs--line-hover-fontSize: 14px;
+          --Tabs--line-disabled-fontSize: 14px;
+          letter-spacing: 0;
+          font-weight: 400;
+          text-decoration: none;
+          border: none !important;
+          border-bottom: 2px solid #fff !important;
+          box-sizing: border-box;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
+
+        &.is-active > a {
+          color: $Editor-theme-color !important;
+          border-bottom: 2px solid $editor-active-color !important;
+        }
+
+        &:not(:last-child):after {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #d8d8d8;
+        }
+
+        &:not(:last-child):after {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #d8d8d8;
+        }
+      }
+    }
+
+    // tab内容
+    &-cont {
+      height: calc(100% - 45px);
+      position: absolute;
+      width: 100%;
+      padding: 0;
+      overflow-y: overlay !important;
+      @include minScrollBar();
+      margin-top: -1px;
+    }
+
+    div.ae-switch-more-flex {
+      display: flex;
+      line-height: 25px;
     }
   }
 }

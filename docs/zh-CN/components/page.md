@@ -251,6 +251,30 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 通过配置 `asideSticky` 来开关，默认是开启状态。
 
+## aside 展示位置
+
+通过配置 `asidePosition`，可以控制侧边栏的展示位置。
+
+```schema
+{
+  "type": "page",
+  "asideResizor": true,
+  "asidePosition": "right",
+  "aside": [
+    {
+      "type": "tpl",
+      "tpl": "这是侧边栏部分"
+    }
+  ],
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "这是内容区"
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名              | 类型                                      | 默认值                                     | 说明                                                                                  |
@@ -264,6 +288,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | asideMinWidth       | `number`                                  |                                            | 页面边栏区域的最小宽度                                                                |
 | asideMaxWidth       | `number`                                  |                                            | 页面边栏区域的最大宽度                                                                |
 | asideSticky         | `boolean`                                 | true                                       | 用来控制边栏固定与否                                                                  |
+| asidePosition       | `"left" \| "right"`                       | `"left"`                                   | 页面边栏区域的位置                                                                    |
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |

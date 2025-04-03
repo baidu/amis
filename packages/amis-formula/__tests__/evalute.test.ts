@@ -488,11 +488,19 @@ test('evalute:array:func', () => {
 
   expect(evaluate('${ARRAYFINDINDEX(arr3, item => item === 2)}', data)).toBe(1);
 
+  expect(evaluate('${ARRAYFINDINDEX(arr3, item => item !== 1)}', data)).toBe(1);
+
   expect(
     evaluate('${ARRAYFIND(arr5, item => item.name === 1.3)}', data)
   ).toMatchObject({
     id: 1.1,
     name: 1.3
+  });
+
+  expect(
+    evaluate('${ARRAYFIND(arr5, item => item.id !== 1.1)}', data)
+  ).toMatchObject({
+    id: 2.2
   });
 
   expect(evaluate('${ARRAYSOME(arr5, item => item.name === 1.3)}', data)).toBe(
@@ -597,4 +605,13 @@ test('evalute:speical characters', () => {
   // 优先识别成位运算，而不是过滤器
   expect(evaluate('${1 | 2}', {})).toBe(3);
   expect(evaluate('${1 | abc}', {abc: 2})).toBe(3);
+});
+
+test('evalute:replace', () => {
+  const data = {};
+  expect(evaluate('${REPLACE("abcdefg", "abc", "cbd")}', data)).toBe('cbddefg');
+  expect(evaluate('${REPLACE("abcdefg", "efg", "efg")}', data)).toBe('abcdefg');
+  expect(evaluate('${REPLACE("abcdefg", "abc", "abcabc")}', data)).toBe(
+    'abcabcdefg'
+  );
 });

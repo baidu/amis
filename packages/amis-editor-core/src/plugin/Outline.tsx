@@ -26,12 +26,8 @@ export class OutlinePlugin extends BasePlugin {
     }
     panels.push({
       key: 'outline',
-      icon: 'png-icon outline-png', // 'fa fa-navicon',
-      title: (
-        <span className="editor-tab-icon" editor-tooltip="大纲">
-          <Icon icon="editor-outline" />
-        </span>
-      ),
+      icon: <Icon icon="editor-outline" />, // 'fa fa-navicon',
+      tooltip: '大纲',
       component: WidthDraggableContainer(OutlinePanel),
       position: 'left',
       order: 4000

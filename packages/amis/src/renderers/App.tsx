@@ -163,7 +163,7 @@ export interface AppProps
   store: IAppStore;
 }
 
-export default class App extends React.Component<AppProps, object> {
+export class App extends React.Component<AppProps, object> {
   static propsList: Array<string> = [
     'brandName',
     'logo',
@@ -240,7 +240,7 @@ export default class App extends React.Component<AppProps, object> {
     ctx?: any,
     silent?: boolean,
     replace?: boolean
-  ) {
+  ): Promise<any> {
     if (query) {
       return this.receive(query, undefined, replace);
     }
@@ -277,13 +277,15 @@ export default class App extends React.Component<AppProps, object> {
         );
       }
     }
+
+    return store.data;
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
+  async receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   /**
@@ -549,7 +551,7 @@ export default class App extends React.Component<AppProps, object> {
   type: 'app',
   storeType: AppStore.name
 })
-export class AppRenderer extends App {
+export default class AppRenderer extends App {
   static contextType = ScopedContext;
   constructor(props: AppProps, context: IScopedContext) {
     super(props);

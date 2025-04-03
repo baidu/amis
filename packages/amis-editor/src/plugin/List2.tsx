@@ -11,7 +11,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {repeatArray} from 'amis-editor-core';
 import set from 'lodash/set';
-import {escapeFormula, resolveArrayDatasource} from '../util';
+import {escapeFormula, generateId, resolveArrayDatasource} from '../util';
 import merge from 'lodash/merge';
 
 export class List2Plugin extends BasePlugin {
@@ -34,7 +34,6 @@ export class List2Plugin extends BasePlugin {
   pluginIcon = 'cards-plugin';
   scaffold = {
     type: 'cards',
-    columnsCount: 1,
     card: {
       type: 'container',
       body: [
@@ -59,7 +58,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:0597d8ab5c3a'
+              id: generateId()
             },
             {
               type: 'tpl',
@@ -67,7 +66,7 @@ export class List2Plugin extends BasePlugin {
               inline: true,
               wrapperComponent: '',
               style: {},
-              id: 'u:95d2a3ac3e70',
+              id: generateId(),
               themeCss: {
                 baseControlClassName: {
                   'padding-and-margin:default': {
@@ -96,7 +95,7 @@ export class List2Plugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:d153d5c33ebf'
+                  id: generateId()
                 },
                 {
                   type: 'tpl',
@@ -111,7 +110,7 @@ export class List2Plugin extends BasePlugin {
                       }
                     }
                   },
-                  id: 'u:4e03af905add'
+                  id: generateId()
                 }
               ],
               style: {
@@ -125,7 +124,7 @@ export class List2Plugin extends BasePlugin {
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false,
-              id: 'u:3e3e5dc43b6a'
+              id: generateId()
             }
           ],
           size: 'none',
@@ -156,7 +155,7 @@ export class List2Plugin extends BasePlugin {
               }
             }
           },
-          id: 'u:7a02e453c997'
+          id: generateId()
         },
         {
           type: 'container',
@@ -168,7 +167,7 @@ export class List2Plugin extends BasePlugin {
               wrapperComponent: '',
               style: {},
               maxLine: 1,
-              id: 'u:105ca9cda3ef',
+              id: generateId(),
               themeCss: {
                 baseControlClassName: {
                   'padding-and-margin:default': {
@@ -197,7 +196,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:d8e3f4be33db'
+              id: generateId()
             }
           ],
           size: 'none',
@@ -214,7 +213,7 @@ export class List2Plugin extends BasePlugin {
           wrapperBody: false,
           isFixedHeight: false,
           isFixedWidth: false,
-          id: 'u:0c0b56fd0c17'
+          id: generateId()
         },
         {
           type: 'container',
@@ -260,7 +259,7 @@ export class List2Plugin extends BasePlugin {
                   }
                 }
               },
-              id: 'u:0a2fe27eb501'
+              id: generateId()
             }
           ],
           size: 'xs',
@@ -277,7 +276,7 @@ export class List2Plugin extends BasePlugin {
           wrapperBody: false,
           isFixedHeight: false,
           isFixedWidth: false,
-          id: 'u:77cb3edb2288'
+          id: generateId()
         }
       ],
       wrapperBody: false,
@@ -317,13 +316,13 @@ export class List2Plugin extends BasePlugin {
           }
         }
       },
-      id: 'u:bb14c60372c6'
+      id: generateId()
     },
     placeholder: '',
     style: {
       gutterY: 10
     },
-    id: 'u:0fb820345fc1'
+    id: generateId()
   };
 
   previewSchema = {
@@ -377,19 +376,171 @@ export class List2Plugin extends BasePlugin {
               title: '组件',
               body: [
                 {
+                  name: 'masonryLayout',
+                  type: 'switch',
+                  label: '瀑布流布局',
+                  description: '开启后将以瀑布流的形式展示卡片'
+                },
+                {
+                  type: 'select',
+                  name: 'columnsSetting',
+                  label: '列数设置方式',
+                  visibleOn: 'this.masonryLayout',
+                  value: 'columnsCount',
+                  options: [
+                    {
+                      label: '固定列数',
+                      value: 'columnsCount'
+                    },
+                    {
+                      label: '响应式布局',
+                      value: 'itemClassName'
+                    }
+                  ],
+                  onChange: (
+                    value: string,
+                    oldValue: string,
+                    model: any,
+                    form: any
+                  ) => {
+                    if (value === 'columnsCount') {
+                      form.setValueByName('itemClassName', '');
+                    } else {
+                      form.setValueByName('columnsCount', undefined);
+                    }
+                  }
+                },
+                {
                   name: 'columnsCount',
                   type: 'input-range',
-                  visibleOn: '!this.leftFixed',
+                  visibleOn:
+                    'this.masonryLayout && this.columnsSetting === "columnsCount"',
                   min: 1,
                   max: 12,
                   step: 1,
-                  label: '每行个数'
+                  label: '每行列数'
+                },
+                {
+                  type: 'container',
+                  visibleOn:
+                    'this.masonryLayout && this.columnsSetting === "itemClassName"',
+                  label: '响应式列数',
+                  body: [
+                    {
+                      type: 'select',
+                      name: 'xs',
+                      label: '超小屏幕 (xs)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--xs12'},
+                        {label: '2列', value: 'Grid-col--xs6'},
+                        {label: '3列', value: 'Grid-col--xs4'},
+                        {label: '4列', value: 'Grid-col--xs3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--xs\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'sm',
+                      label: '小屏幕 (sm)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--sm12'},
+                        {label: '2列', value: 'Grid-col--sm6'},
+                        {label: '3列', value: 'Grid-col--sm4'},
+                        {label: '4列', value: 'Grid-col--sm3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--sm\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'md',
+                      label: '中等屏幕 (md)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--md12'},
+                        {label: '2列', value: 'Grid-col--md6'},
+                        {label: '3列', value: 'Grid-col--md4'},
+                        {label: '4列', value: 'Grid-col--md3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--md\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    },
+                    {
+                      type: 'select',
+                      name: 'lg',
+                      label: '大屏幕 (lg)',
+                      clearable: true,
+                      options: [
+                        {label: '1列', value: 'Grid-col--lg12'},
+                        {label: '2列', value: 'Grid-col--lg6'},
+                        {label: '3列', value: 'Grid-col--lg4'},
+                        {label: '4列', value: 'Grid-col--lg3'}
+                      ],
+                      onChange: (
+                        value: string,
+                        oldValue: string,
+                        model: any,
+                        form: any
+                      ) => {
+                        let itemClassName = form.data.itemClassName || '';
+                        itemClassName = itemClassName
+                          .replace(/\bGrid-col--lg\d+\b/g, '')
+                          .trim();
+                        if (value) {
+                          itemClassName = `${itemClassName} ${value}`.trim();
+                        }
+                        form.setValueByName('itemClassName', itemClassName);
+                      }
+                    }
+                  ]
                 },
                 {
                   type: 'input-number',
                   label: '左右间距',
                   name: 'style.gutterX',
-                  visibleOn: 'this.columnsCount > 1'
+                  visibleOn: 'this.masonryLayout && this.columnsCount > 1'
                 },
                 {
                   type: 'input-number',
@@ -421,18 +572,24 @@ export class List2Plugin extends BasePlugin {
       node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
     let field = node.schema.name || match?.[1];
     const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
-    const schema = scope?.parent?.getSchemaByPath(field);
-    if (isObject(schema?.items)) {
-      dataSchema = {
-        ...dataSchema,
-        ...(schema!.items as any)
-      };
 
-      // 列表添加序号方便处理
-      set(dataSchema, 'properties.index', {
-        type: 'number',
-        title: '索引'
-      });
+    if (scope) {
+      const origin = this.manager.dataSchema.current;
+      this.manager.dataSchema.switchTo(scope.parent!);
+      const schema = this.manager.dataSchema.getSchemaByPath(field);
+      this.manager.dataSchema.switchTo(origin);
+      if (isObject(schema?.items)) {
+        dataSchema = {
+          ...dataSchema,
+          ...(schema!.items as any)
+        };
+
+        // 列表添加序号方便处理
+        set(dataSchema, 'properties.index', {
+          type: 'number',
+          title: '索引'
+        });
+      }
     }
 
     return dataSchema;

@@ -652,7 +652,7 @@ order: 68
   "type": "page",
   "data": {
     "defaultKey": 1,
-    "activeKey": 2
+    "key": 2
   },
   "body": [
     {
@@ -881,6 +881,7 @@ order: 68
 | 事件名称 | 事件参数                             | 说明             |
 | -------- | ------------------------------------ | ---------------- |
 | change   | `value: number \| string` 选项卡索引 | 切换选项卡时触发 |
+| delete   | `value: number \| string` 选项卡索引 | 删除选项卡时触发 |
 
 ### change
 
@@ -918,6 +919,43 @@ order: 68
 }
 ```
 
+### delete
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "closable": true,
+    "mode": "line",
+    "tabs": [
+    {
+        "title": "选项卡1",
+        "body": "选项卡内容1"
+    },
+    {
+        "title": "选项卡2",
+        "body": "选项卡内容2"
+    },
+    {
+        "title": "选项卡3",
+        "body": "选项卡内容3"
+    }
+    ],
+    "onEvent": {
+        "delete": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "删除选项卡${event.data.value}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
@@ -925,6 +963,7 @@ order: 68
 | 动作名称        | 动作配置                                 | 说明             |
 | --------------- | ---------------------------------------- | ---------------- |
 | changeActiveKey | `activeKey: number \| string` 选项卡索引 | 激活指定的选项卡 |
+| deleteTab       | `deleteHash: string` 选项卡 hash         | 删除指定的选项卡 |
 
 ### changeActiveKey
 
@@ -1001,6 +1040,91 @@ order: 68
         },
         {
           "title": "选项卡3",
+          "body": "选项卡内容3"
+        }
+      ]
+    }
+]
+```
+
+### deleteTab
+
+可以尝试点击下方按钮，实现选项卡删除。
+
+```schema: scope="body"
+[
+    {
+      "type": "action",
+      "label": "删除选项卡1",
+      "className": "mr-3 mb-3",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "deleteTab",
+              "componentId": "tabs-change-receiver",
+              "args": {
+                "deleteHash": "tab1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "action",
+      "label": "删除选项卡2",
+      "className": "mr-3 mb-3",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "deleteTab",
+              "componentId": "tabs-change-receiver",
+              "args": {
+                "deleteHash": "tab2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "action",
+      "label": "删除选项卡3",
+      "className": "mr-3 mb-3",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "deleteTab",
+              "componentId": "tabs-change-receiver",
+              "args": {
+                "deleteHash": "tab3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tabs-change-receiver",
+      "type": "tabs",
+      "mode": "line",
+      "tabs": [
+        {
+          "title": "选项卡1",
+          "hash": "tab1",
+          "body": "选项卡内容1"
+        },
+        {
+          "title": "选项卡2",
+          "hash": "tab2",
+          "body": "选项卡内容2"
+        },
+        {
+          "title": "选项卡3",
+          "hash": "tab3",
           "body": "选项卡内容3"
         }
       ]

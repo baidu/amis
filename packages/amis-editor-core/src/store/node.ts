@@ -26,6 +26,7 @@ export const EditorNode = types
     parentId: '',
     parentRegion: '',
     isCommonConfig: false,
+    isFormConfig: false,
 
     id: '',
     type: '',
@@ -90,6 +91,28 @@ export const EditorNode = types
               item.region === regionOrType ||
               item.type === regionOrType)
           ) {
+            resolved = item;
+            break;
+          }
+
+          // 将当前节点的子节点全部放置到 pool中
+          if (item.children.length) {
+            pool.push.apply(pool, item.uniqueChildren);
+          }
+        }
+
+        return resolved;
+      },
+
+      getNodeByComponentId(id: string) {
+        let pool = self.children.concat();
+        let resolved: any = undefined;
+
+        while (pool.length) {
+          const item = pool.shift();
+          const schema = item.schema;
+
+          if (schema && schema.id === id) {
             resolved = item;
             break;
           }
@@ -618,16 +641,22 @@ export const EditorNode = types
       self.isCommonConfig = !!value;
     }
 
+    function updateIsFormConfig(value: boolean) {
+      self.isFormConfig = !!value;
+    }
+
     return {
       getClosestParentByType,
       getParentNodeByCB,
       updateIsCommonConfig,
+      updateIsFormConfig,
       addChild(props: {
         id: string;
         type: string;
         label: string;
         path: string;
         isCommonConfig?: boolean;
+        isFormConfig?: boolean;
         info?: RendererInfo;
         region?: string;
         getData?: () => any;
@@ -669,7 +698,8 @@ export const EditorNode = types
       patch(
         store: any,
         force = false,
-        setPatchInfo?: (id: string, value: any) => void
+        setPatchInfo?: (id: string, value: any) => void,
+        ids?: Map<string, string>
       ) {
         // 避免重复 patch
         if (self.patched && !force) {
@@ -688,6 +718,11 @@ export const EditorNode = types
         let patched = schema;
 
         if (!patched?.id) {
+          patched = {...patched, id: 'u:' + guid()};
+        }
+
+        // id重复了，重新生成一个
+        if (ids?.has(patched.id) && ids?.get(patched.id) !== self.schemaPath) {
           patched = {...patched, id: 'u:' + guid()};
         }
 
@@ -760,6 +795,23 @@ export const EditorNode = types
         return component;
       },
 
+      getTarget(): null | HTMLElement | Array<HTMLElement> {
+        const doc = (getRoot(self) as any).getDoc();
+
+        if (self.isRegion) {
+          const target = doc.querySelector(
+            `[data-region="${self.region}"][data-region-host="${self.id}"]`
+          ) as HTMLElement;
+          return target;
+        } else {
+          const target = [].slice.call(
+            doc.querySelectorAll(`[data-editor-id="${self.id}"]`)
+          );
+
+          return self.info?.renderer.name === 'button' ? target?.[0] : target;
+        }
+      },
+
       /**
        * 计算高亮区域信息。
        * @param layer
@@ -769,25 +821,13 @@ export const EditorNode = types
         if (!root.calculateStarted) {
           return;
         }
-        const doc = (getRoot(self) as any).getDoc();
-
-        if (self.isRegion) {
-          const target = doc.querySelector(
-            `[data-region="${self.region}"][data-region-host="${self.id}"]`
-          ) as HTMLElement;
-          calculateHighlightBox(target);
-        } else {
-          const target = [].slice.call(
-            doc.querySelectorAll(`[data-editor-id="${self.id}"]`)
-          );
-
-          // 按钮一般不会出现多份，所以先写死只展示一块。
-          calculateHighlightBox(
-            self.info?.renderer.name === 'button' ? target?.[0] : target
-          );
-
-          self.childRegions.forEach(child => child.calculateHighlightBox(root));
+        const target = this.getTarget();
+        if (!target) {
+          return;
         }
+
+        calculateHighlightBox(target);
+        self.childRegions.forEach(child => child.calculateHighlightBox(root));
       },
 
       resetHighlightBox(root: any) {

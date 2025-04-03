@@ -114,7 +114,8 @@ export class Plain extends React.Component<PlainProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:plain|text)$/,
+  type: 'plain',
+  alias: ['text'],
   name: 'plain'
 })
 export class PlainRenderer extends Plain {}

@@ -1,13 +1,10 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
+import type {DataScope, SchemaObject} from 'amis';
 import {
   getI18nEnabled,
   RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import {findTree, setVariable, someTree} from 'amis-core';
-import {registerEditorPlugin, repeatArray, diff} from 'amis-editor-core';
-import {
+  RendererPluginEvent,
   BasePlugin,
   BaseEventContext,
   PluginEvent,
@@ -16,25 +13,31 @@ import {
   BasicRendererInfo,
   PluginInterface,
   InsertEventContext,
-  ScaffoldForm
+  ScaffoldForm,
+  registerEditorPlugin,
+  repeatArray,
+  diff,
+  mockValue,
+  EditorNodeType,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel
 } from 'amis-editor-core';
+import type {EditorManager} from 'amis-editor-core';
+import {setVariable, someTree} from 'amis-core';
+import {reaction} from 'mobx';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
-import {EditorNodeType} from 'amis-editor-core';
-import type {DataScope, SchemaObject} from 'amis';
 import {
   getEventControlConfig,
-  getArgsWrapper
+  getArgsWrapper,
+  buildLinkActionDesc
 } from '../renderer/event-control/helper';
 import {
   schemaArrayFormat,
   schemaToArray,
   resolveArrayDatasource
 } from '../util';
-import {reaction} from 'mobx';
-
-import type {EditorManager} from 'amis-editor-core';
+import {getActionCommonProps} from '../renderer/event-control/helper';
 
 export class TablePlugin extends BasePlugin {
   static id = 'TablePlugin';
@@ -451,6 +454,15 @@ export class TablePlugin extends BasePlugin {
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
       innerArgs: ['selected'],
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            设置
+            {buildLinkActionDesc(props.manager, info)}
+            选中项
+          </div>
+        );
+      },
       schema: getArgsWrapper([
         getSchemaTpl('formulaControl', {
           name: 'selected',
@@ -464,22 +476,50 @@ export class TablePlugin extends BasePlugin {
     {
       actionType: 'selectAll',
       actionLabel: '设置全部选中',
-      description: '设置表格全部项选中'
+      description: '设置表格全部项选中',
+      ...getActionCommonProps('selectAll')
     },
     {
       actionType: 'clearAll',
       actionLabel: '清空选中项',
-      description: '清空表格所有选中项'
+      description: '清空表格所有选中项',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            清空
+            {buildLinkActionDesc(props.manager, info)}
+            选中项
+          </div>
+        );
+      }
     },
     {
       actionType: 'initDrag',
       actionLabel: '开启排序',
-      description: '开启表格拖拽排序功能'
+      description: '开启表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            开启
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     },
     {
       actionType: 'cancelDrag',
       actionLabel: '取消排序',
-      description: '取消表格拖拽排序功能'
+      description: '取消表格拖拽排序功能',
+      descDetail: (info: any, context: any, props: any) => {
+        return (
+          <div className="action-desc">
+            取消
+            {buildLinkActionDesc(props.manager, info)}
+            排序
+          </div>
+        );
+      }
     }
   ];
 
@@ -535,6 +575,7 @@ export class TablePlugin extends BasePlugin {
                 label: '头部',
                 name: 'showHeader',
                 pipeIn: (value: any) => value ?? true,
+                falseValue: false, // 这个属性模式按true处理，关闭不能删除，除非去掉配置的header
                 form: {
                   body: [
                     {
@@ -559,6 +600,7 @@ export class TablePlugin extends BasePlugin {
                 label: '底部',
                 name: 'showFooter',
                 pipeIn: (value: any) => value ?? true,
+                falseValue: false, // 这个属性模式按true处理，关闭不能删除，除非去掉配置的footer
                 form: {
                   body: [
                     {
@@ -645,6 +687,12 @@ export class TablePlugin extends BasePlugin {
                   }
                 ]
               },
+
+              getSchemaTpl('switch', {
+                name: 'showIndex',
+                label: '是否显示序号',
+                pipeIn: defaultValue(false)
+              }),
 
               getSchemaTpl('switch', {
                 name: 'affixHeader',

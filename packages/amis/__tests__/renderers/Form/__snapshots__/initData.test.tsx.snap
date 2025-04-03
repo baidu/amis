@@ -12,6 +12,7 @@ exports[`Form:initData 1`] = `
     />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="a"
       data-role="form-item"
     >
       <div
@@ -34,6 +35,7 @@ exports[`Form:initData 1`] = `
     </div>
     <div
       class="cxd-Form-item cxd-Form-item--normal"
+      data-amis-name="b"
       data-role="form-item"
     >
       <div
@@ -77,6 +79,7 @@ exports[`Form:initData:remote 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
   >
     <div
       class="cxd-Panel-heading"
@@ -85,7 +88,7 @@ exports[`Form:initData:remote 1`] = `
         class="cxd-Panel-title"
       >
         <span
-          class="cxd-TplField"
+          class="cxd-TplField fr-view"
         >
           <span>
             The form
@@ -106,6 +109,7 @@ exports[`Form:initData:remote 1`] = `
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="a"
           data-role="form-item"
         >
           <label
@@ -113,7 +117,7 @@ exports[`Form:initData:remote 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -141,6 +145,7 @@ exports[`Form:initData:remote 1`] = `
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="c"
           data-role="form-item"
         >
           <label
@@ -148,7 +153,7 @@ exports[`Form:initData:remote 1`] = `
           >
             <span>
               <span
-                class="cxd-TplField"
+                class="cxd-TplField fr-view"
               >
                 <span>
                   Label
@@ -248,6 +253,7 @@ exports[`Form:initData:super 1`] = `
             />
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
               data-role="form-item"
             >
               <div
@@ -270,6 +276,7 @@ exports[`Form:initData:super 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
               data-role="form-item"
             >
               <div
@@ -331,6 +338,7 @@ exports[`Form:initData:without-super 1`] = `
             />
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="a"
               data-role="form-item"
             >
               <div
@@ -353,6 +361,7 @@ exports[`Form:initData:without-super 1`] = `
             </div>
             <div
               class="cxd-Form-item cxd-Form-item--normal"
+              data-amis-name="b"
               data-role="form-item"
             >
               <div

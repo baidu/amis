@@ -5,8 +5,11 @@ div.ae-editor-FormulaControl {
   max-width: 100%;
 }
 .ae-editor-FormulaControl {
-  & > &-button {
+  & > &-buttonWrapper {
     height: auto;
+  }
+  & > &-buttonWrapper > &-button {
+    height: 100%;
     background-color: #f7f7f9;
     padding: 4px 8px;
     border-radius: 0 var(--button-size-sm-top-left-border-radius)
@@ -101,64 +104,84 @@ div.ae-editor-FormulaControl {
     }
   }
 
-  &-tooltipBox {
-    flex: 1;
-    max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
+  &-ResultBox {
     position: relative;
-  }
-
-  &-ResultBox-wrapper {
-    cursor: pointer;
-  }
-
-  & &-ResultBox {
-    flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
-    white-space: nowrap;
-    padding: 0 0 0 0.25rem;
-    font-size: 12px;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    border: 1px solid var(--Form-input-borderColor);
     border-radius: var(--input-default-default-top-left-border-radius) 0 0
       var(--input-default-default-bottom-left-border-radius);
+    background: var(--Form-input-bg);
+    font-size: var(--Form-input-fontSize);
+    padding: 0 8px;
 
-    & {
-      > div:first-child {
-        max-width: calc(100% - 30px); // 避免表达式内容太长撑开面板
-        // background: var(--button-primary-default-bg-color);
-        background: #007bff;
-        color: #fff;
-        padding: 1px 5px;
-        border-radius: 4px;
-        height: 26px;
-        flex: none;
-        > div,
-        span {
-          padding-right: 0; // 覆盖 amis 默认样式
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+
+    &-wrapper {
+      flex: 1 1;
+      width: 0px; // 通过flex-grow 展开宽度
+      border-radius: var(--Form-input-borderRadius);
+    }
+
+    &-editor {
+      & > .CodeMirror {
+        height: 100%;
+        color: var(--Form-input-color);
+        font-family: inherit;
+
+        // span[class^='cm-'] {
+        //   color: var(--input-default-default-color);
+        // }
+
+        // 解决上下 pre标签中表达式浮层遮挡问题
+        .CodeMirror-measure + div {
+          z-index: inherit !important;
         }
-      }
-      > div:last-child {
-        // background: var(--button-primary-default-bg-color);
-        background: #007bff;
-        margin-right: 0.75rem;
-        border-radius: 0 4px 4px 0;
-        color: #fff;
-        height: 26px;
-        svg {
-          fill: var(--Form-input-clearBtn-color);
-          &:hover {
-            fill: var(--Form-input-clearBtn-color-onHover);
-          }
+        pre.CodeMirror-line,
+        .CodeMirror pre.CodeMirror-line-like {
+          z-index: initial;
+        }
+
+        .CodeMirror-sizer {
+          min-height: 30px !important;
+        }
+
+        .CodeMirror-hscrollbar {
+          display: none !important;
+        }
+
+        .CodeMirror-scrollbar-filler {
+          display: none !important;
+        }
+        .CodeMirror-vscrollbar {
+          display: none !important;
+        }
+
+        .CodeMirror-scroll {
+          overflow: hidden !important;
+        }
+
+        .CodeMirror-lines {
+          line-height: 20px;
+          padding: 5px 0;
         }
       }
     }
 
-    span.c-field {
+    .cm-expression {
+      background: #007bff;
+      padding: 0px 5px;
+      margin: 0 1px;
+      color: #fff;
       font-size: 12px;
-    }
-
-    span.c-func {
-      color: #ae4597;
-      font-weight: bold;
-      line-height: 14px;
-      padding: 0 2px;
+      border-radius: 4px;
     }
   }
 

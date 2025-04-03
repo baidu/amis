@@ -10,7 +10,7 @@ import {autobind, getSchemaTpl} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import type {FormSchema} from '../../../amis/src/Schema';
+import type {FormSchema} from 'amis/lib/Schema';
 
 export interface StatusControlProps extends FormControlProps {
   name: string;
@@ -219,7 +219,7 @@ export class StatusControl extends React.Component<
             actionsClassName: 'border-none mt-2.5',
             wrapperComponent: 'div',
             submitOnChange: true,
-            autoFocus: true,
+            // autoFocus: true,
             formLazyChange: true,
             footerWrapClassName: 'hidden',
             preventEnterSubmit: true,
@@ -242,6 +242,10 @@ export class StatusControl extends React.Component<
                   {
                     label: '表达式',
                     value: 2
+                  },
+                  {
+                    label: '自定义条件',
+                    value: 3
                   }
                 ]
               },

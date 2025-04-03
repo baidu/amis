@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-		<g  fill="currentColor" fill-rule="nonzero">
-			<polygon  points="6.6 6.6 6.6 12 5.4 12 5.4 6.6 0 6.6 0 5.4 5.4 5.4 5.4 0 6.6 0 6.6 5.4 12 5.4 12 6.6">
-			</polygon>
-		</g>
-	</g>
-</svg>
+<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 6.6V12H5.4V6.6H0V5.4h5.4V0h1.2v5.4H12v1.2z" fill="currentColor"/></svg>

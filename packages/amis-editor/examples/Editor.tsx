@@ -1,6 +1,14 @@
 /* eslint-disable */
 import * as React from 'react';
-import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from '../src/index';
+import {
+  Editor,
+  ShortcutKey,
+  BasePlugin,
+  setThemeConfig,
+  PluginEvent,
+  GlobalVariableEventContext,
+  GlobalVariablesEventContext
+} from '../src/index';
 import {Select, Renderer, uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
@@ -312,6 +320,35 @@ const editorLanguages = [
   {
     label: 'English',
     value: 'en-US'
+  }
+];
+
+const globalEvents = [
+  {
+    name: 'globalEventA',
+    label: '全局事件A',
+    description: '全局事件动作A',
+    mapping: [
+      {
+        key: 'name',
+        type: 'string'
+      },
+      {
+        key: 'age',
+        type: 'number'
+      }
+    ]
+  },
+  {
+    name: 'globalEventB',
+    label: '全局事件B',
+    description: '全局事件动作A',
+    mapping: [
+      {
+        key: 'name',
+        type: 'string'
+      }
+    ]
   }
 ];
 
@@ -645,8 +682,12 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         plugins={LayoutList} // 存放常见布局组件
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
-          showOldEntry: false
+          showOldEntry: false,
+          globalEventGetter: () => globalEvents
         }}
+        onGlobalVariableInit={onGlobalVariableInit}
+        onGlobalVariableSave={onGlobalVariableSave}
+        onGlobalVariableDelete={onGlobalVariableDelete}
         amisEnv={
           {
             variable: {
@@ -750,4 +791,63 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
       </div>
     );
   }
+}
+
+// 通过 localstorage 存储全局变量
+// 实际场景肯定是后端存储到数据库里面
+// 可以参考这个利用这三个事件来实现全局变量的增删改查
+function getGlobalVariablesFromStorage(): Array<any> {
+  const key = 'amis-editor-example-global-variable';
+  let globalVariables = localStorage.getItem(key);
+  let variables: Array<any> = [];
+
+  if (globalVariables) {
+    variables = JSON.parse(globalVariables);
+  }
+
+  return variables;
+}
+
+function saveGlobalVariablesToStorage(variables: Array<any>) {
+  const key = 'amis-editor-example-global-variable';
+  localStorage.setItem(key, JSON.stringify(variables));
+}
+
+function onGlobalVariableInit(event: PluginEvent<GlobalVariablesEventContext>) {
+  event.setData(getGlobalVariablesFromStorage() || []);
+}
+
+function onGlobalVariableSave(event: PluginEvent<GlobalVariableEventContext>) {
+  const item = event.data;
+  const variables = getGlobalVariablesFromStorage();
+  const idx = item.id
+    ? variables.findIndex((it: any) => it.id === item.id)
+    : -1;
+
+  if (idx === -1) {
+    item.id = uuid();
+    variables.push(item);
+  } else {
+    variables[idx] = item;
+  }
+
+  saveGlobalVariablesToStorage(variables);
+}
+
+function onGlobalVariableDelete(
+  event: PluginEvent<GlobalVariableEventContext>
+) {
+  const item = event.data;
+  const variables = getGlobalVariablesFromStorage();
+  const idx = item.id
+    ? variables.findIndex((it: any) => it.id === item.id)
+    : -1;
+
+  if (idx === -1) {
+    return;
+  } else {
+    variables.splice(idx, 1);
+  }
+
+  saveGlobalVariablesToStorage(variables);
 }
