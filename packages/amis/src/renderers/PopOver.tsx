@@ -170,9 +170,10 @@ export const HocPopOver =
         const e = event.currentTarget;
         // 如果内容不超出，不需要弹出
         if (
-          this.getClassName() === 'ellipsis' &&
-          e &&
-          e.offsetWidth >= e.scrollWidth
+          (this.getClassName() === 'ellipsis' &&
+            e &&
+            e.offsetWidth >= e.scrollWidth) ||
+          this.getClassName() === 'noWrap'
         ) {
           return;
         }
