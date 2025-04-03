@@ -260,6 +260,7 @@ export class BaseTransferRenderer<
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
+    let selectedItems = value;
 
     if (Array.isArray(value)) {
       newValue = value.map(item => {
@@ -346,7 +347,8 @@ export class BaseTransferRenderer<
       resolveEventData(this.props, {
         value: newValue,
         options,
-        items: options // 为了保持名字统一
+        items: options, // 为了保持名字统一
+        selectedItems
       })
     );
     if (rendererEvent?.prevented) {
