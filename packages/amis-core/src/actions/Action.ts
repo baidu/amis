@@ -153,6 +153,23 @@ const getOmitActionProp = (type: string) => {
   return omitList;
 };
 
+export const getTargetComponent = (
+  action: ListenerAction,
+  renderer: ListenerContext,
+  event: RendererEvent<any>,
+  key?: string
+) => {
+  let targetComponent = renderer;
+  if (key && event.context.scoped) {
+    const func = action.componentId ? 'getComponentById' : 'getComponentByName';
+    if (typeof event.context.scoped[func] === 'function') {
+      targetComponent = event.context.scoped[func](key);
+    }
+  }
+
+  return targetComponent;
+};
+
 export const runActions = async (
   actions: ListenerAction | ListenerAction[],
   renderer: ListenerContext,
@@ -297,11 +314,7 @@ export const runAction = async (
     delete action.args?.messages;
   }
   const cmptFlag = key.componentId || key.componentName;
-  let targetComponent = cmptFlag
-    ? event.context.scoped?.[
-        action.componentId ? 'getComponentById' : 'getComponentByName'
-      ](cmptFlag)
-    : renderer;
+  const targetComponent = getTargetComponent(action, renderer, event, cmptFlag);
   // 动作配置
   const args = dataMapping(action.args, mergeData, (key: string) => {
     const curCmptType: string = targetComponent?.props?.type;
