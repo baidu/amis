@@ -90,6 +90,193 @@ exports[`Renderer:text 1`] = `
 </div>
 `;
 
+exports[`Renderer:text type is email: validate fail 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal is-error has-error--isEmail"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control is-error has-error--isEmail cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="text"
+                placeholder=""
+                size="10"
+                type="email"
+                value="abcd"
+              />
+            </div>
+          </div>
+          <ul
+            class="cxd-Form-feedback"
+          >
+            <li>
+              Email 格式不正确
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is email: validate success 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="text"
+                placeholder=""
+                size="10"
+                type="email"
+                value="test@baidu.com"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:text type is password with revealPassword 1`] = `
 <div>
   <div
@@ -154,6 +341,389 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
                 size="10"
                 type="password"
                 value="abcd"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is password: password invisible 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class="cxd-TextControl-input-password"
+                name="text"
+                placeholder=""
+                size="10"
+                type="password"
+                value="abcd"
+              />
+              <a
+                class="cxd-TextControl-revealPassword"
+              >
+                <icon-mock
+                  classname="cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
+                  icon="invisible"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is password: password visible 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class="cxd-TextControl-input-password"
+                name="text"
+                placeholder=""
+                size="10"
+                type="text"
+                value="abcd"
+              />
+              <a
+                class="cxd-TextControl-revealPassword"
+              >
+                <icon-mock
+                  classname="cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
+                  icon="view"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is url: validate fail 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal is-error has-error--isUrl"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control is-error has-error--isUrl cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="text"
+                placeholder=""
+                size="10"
+                type="url"
+                value="abcd"
+              />
+            </div>
+          </div>
+          <ul
+            class="cxd-Form-feedback"
+          >
+            <li>
+              URL 格式不正确
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is url: validate success 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    data-role="container"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField fr-view"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-amis-name="text"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField fr-view"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="text"
+                placeholder=""
+                size="10"
+                type="url"
+                value="https://www.baidu.com"
               />
             </div>
           </div>
