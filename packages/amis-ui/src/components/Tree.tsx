@@ -342,7 +342,10 @@ export class TreeSelector extends React.Component<
       });
     }
 
-    if (prevState.isAdding !== state.isAdding) {
+    if (
+      prevState.isAdding !== state.isAdding ||
+      prevState.flattenedOptions !== state.flattenedOptions
+    ) {
       this.handleVirtualHeight();
     }
   }
