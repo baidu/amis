@@ -124,13 +124,22 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
-
   /**
    * 是否默认收起
    *
    * @default true
    */
   defaultCollapsed?: boolean;
+
+  /**
+   * 是否启用多选框
+   */
+  enableBulkActions?: boolean;
+
+  /**
+   * 启用批量操作的表达式
+   */
+  enableBulkActionsOn?: SchemaExpression;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
@@ -596,6 +605,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleFilterInit = this.handleFilterInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.handleBulkAction = this.handleBulkAction.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleBulkGo = this.handleBulkGo.bind(this);
@@ -678,7 +688,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     // 所以这里应该忽略 autoGenerateFilter 情况
     if (
       (!this.props.filter && !autoGenerateFilter) ||
-      (store.filterTogggable && !store.filterVisible)
+      (store.filterTogglable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
     }
@@ -1518,7 +1528,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
 
     let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+    if (
+      this.props.pickerMode &&
+      this.props.onSelect && // embed 模式下才同步外部选择，否则是弹窗模式，props.value 不会变化，所以不会记录分页选择，会出现错误
+      (val = getPropValue(this.props))
+    ) {
       this.syncSelectedFromPicker(val);
     }
 
@@ -2155,6 +2169,24 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 如果事件是 selectedChange 并且是当前组件触发的，
+    // 则以当前组件的选择信息为准
+    if (e === 'selectedChange' && this.control === renderer) {
+      const store = this.props.store;
+      data.selectedItems = store.selectedItems.concat();
+      data.unSelectedItems = store.unSelectedItems.concat();
+      // selectedIndexes  还不支持
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
+  }
+
   unSelectItem(item: any, index: number) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
@@ -2180,7 +2212,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   }
 
   hasBulkActionsToolbar() {
-    const {headerToolbar, footerToolbar} = this.props;
+    const {headerToolbar, footerToolbar, enableBulkActions} = this.props;
+
+    if (enableBulkActions === false) {
+      return false;
+    }
 
     const isBulkActions = (item: any) =>
       ~['bulkActions', 'bulk-actions'].indexOf(item.type || item);
@@ -2219,10 +2255,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       store,
       render,
       classnames: cx,
-      primaryField
+      primaryField,
+      enableBulkActions
     } = this.props;
 
-    if (!bulkActions || !bulkActions.length) {
+    if (!bulkActions || !bulkActions.length || enableBulkActions === false) {
       return null;
     }
 
@@ -2532,7 +2569,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   renderFilterToggler() {
     const {store, classnames: cx, translate: __, filterTogglable} = this.props;
 
-    if (!store.filterTogggable) {
+    if (!store.filterTogglable) {
       return null;
     }
 
@@ -2901,7 +2938,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       filterCanAccessSuperData = true
     } = this.props;
 
-    if (!filter && (!store.filterTogggable || store.filterVisible)) {
+    if (!filter || (store.filterTogglable && !store.filterVisible)) {
       return null;
     }
 
@@ -3048,6 +3085,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         orderDir: store.query.orderDir,
         popOverContainer,
         onAction: this.handleAction,
+        dispatchEvent: this.dispatchEvent,
         onItemChange: this.handleItemChange,
         onSave: this.handleSave,
         onSaveOrder: this.handleSaveOrder,

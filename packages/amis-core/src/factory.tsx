@@ -29,7 +29,8 @@ import type {RendererEnv} from './env';
 import {OnEventProps, RendererEvent} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 import {StatusScopedProps} from './StatusScoped';
-
+import type {IScopedContext} from './Scoped';
+import {getPageId} from './utils/getPageId';
 export interface TestFunc {
   (
     path: string,
@@ -99,9 +100,10 @@ export interface RendererProps
   };
   onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
   dispatchEvent: (
-    e: React.UIEvent<any> | React.BaseSyntheticEvent<any> | string,
+    e: string | React.MouseEvent<any>,
     data: any,
-    renderer?: React.Component<RendererProps>
+    renderer?: React.Component<RendererProps>,
+    scoped?: IScopedContext
   ) => Promise<RendererEvent<any>>;
   mobileUI?: boolean;
   [propName: string]: any;
@@ -554,7 +556,8 @@ export const defaultOptions: RenderOptions = {
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
   filterHtml: (input: string) => input,
-  isMobile: isMobile
+  isMobile: isMobile,
+  getPageId: getPageId
 };
 
 export const stores: {

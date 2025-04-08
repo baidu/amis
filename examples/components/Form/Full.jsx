@@ -675,6 +675,7 @@ export default {
           label: '多选',
           multiple: true,
           inline: true,
+          checkAll: true,
           options: [
             {
               label: '选项1',
@@ -683,6 +684,11 @@ export default {
             {
               label: '选项2',
               value: 2
+            },
+            {
+              label: '选项3',
+              value: 3,
+              disabled: true
             }
           ]
         },

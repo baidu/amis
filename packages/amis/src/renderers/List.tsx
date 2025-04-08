@@ -547,13 +547,23 @@ export default class List extends React.Component<ListProps, ListState> {
       );
     } else {
       /** action无值代表List自身已经处理, 无需交给上层处理 */
-      action && onAction?.(e, action, ctx);
+      return action && onAction?.(e, action, ctx);
     }
   }
 
   handleCheck(item: IItem) {
     item.toggle();
     this.syncSelected();
+
+    const {dispatchEvent, store} = this.props;
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        ...store.eventContext,
+        item: item.data
+      })
+    );
   }
 
   handleCheckAll() {
@@ -561,6 +571,15 @@ export default class List extends React.Component<ListProps, ListState> {
 
     store.toggleAll();
     this.syncSelected();
+
+    const {dispatchEvent} = this.props;
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        ...store.eventContext
+      })
+    );
   }
 
   syncSelected() {

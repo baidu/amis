@@ -616,7 +616,7 @@ export class CRUDPlugin extends BasePlugin {
               }
             }
 
-            if (Array.isArray(items)) {
+            if (Array.isArray(items) && items[0]) {
               Object.keys(items[0]).forEach((key: any) => {
                 const value = items[0][key];
                 autoFillKeyValues.push({

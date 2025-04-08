@@ -1574,7 +1574,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const {onAction} = this.props;
 
     // todo
-    onAction && onAction(e, action, ctx);
+    return onAction?.(e, action, ctx);
   }
 
   renderActions(region: string) {
@@ -1667,19 +1667,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
   ): Promise<any> {
     const {dispatchEvent, data, store} = this.props;
 
-    const rendererEvent = await dispatchEvent(
+    store.updateSelected(selectedRowKeys);
+    this.syncSelected();
+
+    await dispatchEvent(
       'selectedChange',
       createObject(data, {
         selectedItems: selectedRows,
         unSelectedItems: unSelectedRows
       })
     );
-
-    if (rendererEvent?.prevented) {
-      return rendererEvent?.prevented;
-    }
-    store.updateSelected(selectedRowKeys);
-    this.syncSelected();
   }
 
   @autobind

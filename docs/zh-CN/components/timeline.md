@@ -622,6 +622,59 @@ order: 73
 }
 ```
 
+如果当前所有节点均需要以卡片形式展示，可以通过 timeline 节点增加 `cardSchema`以统一卡片渲染模板。在这种情况下，每个 `timelineItem`内的数据都可以作为数据引用，在 `cardSchema` 中引用展示。
+
+```schema
+{
+  type: 'page',
+  data: {
+    content: '这里是卡片主体内容，在所有的卡片都会展示'
+  },
+  body: {
+    type: 'timeline',
+    mode: 'alternate',
+    direction: 'horizontal',
+    cardSchema: {
+      type: 'card',
+      href: 'https://github.com/baidu/amis',
+      header: {
+        title: '${title}',
+        subTitle: '${time}',
+        description: '${detail}'
+      },
+      body: '${content}'
+    },
+    items: [
+      {
+        cardSchema: {
+          type: 'card',
+          href: 'https://github.com/baidu/amis',
+          header: {
+            title: '标题',
+            subTitle: '副标题',
+            description: '这是一段描述',
+            avatarText: 'AMIS'
+          },
+          body: '这里是内容'
+        }
+      },
+      {
+        time: '2019-02-08',
+        title: '卡片组说明',
+        detail:
+          'Content'
+      },
+      {
+        time: '2019-02-09',
+        title: '表格展现说明',
+        detail:
+          'Content'
+      }
+    ]
+  }
+}
+```
+
 ## 动态数据
 
 ### 远程数据
@@ -740,18 +793,19 @@ order: 73
 
 ## 属性表
 
-| 属性名          | 类型                                                                              | 默认值         | 说明                                                                                                                                                                                                                                      |
-| --------------- | --------------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type            | `string`                                                                          |                | `"timeline"` 指定为 时间轴 渲染器                                                                                                                                                                                                         |
-| items           | Array<[timelineItem](#timeline.item)>                                             | []             | 配置节点数据                                                                                                                                                                                                                              |
-| source          | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |                | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象                                                                                                                                                                               |
-| mode            | `left` \| `right` \| `alternate` \| `top` \| `bottom`                             | ` right``top ` | 可选。支持时间在左/上展示，标题和内容在右/下展示，以及时间和内容交错方向展示。left / right 在 direction 为 vertical 时生效，top / bottom 在 direction 为 vertical 时生效。(v6.11.0 以前版本只有 vertical 支持，horizontal 不支持设置模式) |
-| direction       | `vertical` \| `horizontal`                                                        | `vertical`     | 时间轴方向                                                                                                                                                                                                                                |
-| reverse         | `boolean`                                                                         | `false`        | 根据时间倒序显示                                                                                                                                                                                                                          |
-| iconClassName   | `string`                                                                          |                | 统一配置的节点图标 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                             |
-| timeClassName   | `string`                                                                          |                | 统一配置的节点时间 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                             |
-| titleClassName  | `string`                                                                          |                | 统一配置的节点标题 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                             |
-| detailClassName | `string`                                                                          |                | 统一配置的节点详情 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                             |
+| 属性名          | 类型                                                                              | 默认值         | 说明                                                                                                                                                                                                                                                                             |
+| --------------- | --------------------------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type            | `string`                                                                          |                | `"timeline"` 指定为 时间轴 渲染器                                                                                                                                                                                                                                                |
+| items           | Array<[timelineItem](#timeline.item)>                                             | []             | 配置节点数据                                                                                                                                                                                                                                                                     |
+| source          | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |                | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象                                                                                                                                                                                                                      |
+| mode            | `left` \| `right` \| `alternate` \| `top` \| `bottom`                             | ` right``top ` | 可选。支持时间在左/上展示，标题和内容在右/下展示，以及时间和内容交错方向展示。left / right 在 direction 为 vertical 时生效，top / bottom 在 direction 为 vertical 时生效。(v6.11.0 以前版本只有 vertical 支持，horizontal 不支持设置模式)                                        |
+| direction       | `vertical` \| `horizontal`                                                        | `vertical`     | 时间轴方向                                                                                                                                                                                                                                                                       |
+| reverse         | `boolean`                                                                         | `false`        | 根据时间倒序显示                                                                                                                                                                                                                                                                 |
+| iconClassName   | `string`                                                                          |                | 统一配置的节点图标 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                                                                    |
+| timeClassName   | `string`                                                                          |                | 统一配置的节点时间 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                                                                    |
+| titleClassName  | `string`                                                                          |                | 统一配置的节点标题 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                                                                    |
+| detailClassName | `string`                                                                          |                | 统一配置的节点详情 CSS 类（3.4.0 版本支持）名                                                                                                                                                                                                                                    |
+| cardSchema      | `string`                                                                          |                | 统一配置子节点渲染卡片模板。配置后  itemTitleSchema、titleClassName、detailClassName 将不生效。配置后 timeline item 中的数据都将可以在 cardSchema 中通过数据方式引用。如果子节点也配置了 cardSchema，子节点的 cardSchema 优先级高于 timeline 的 cardSchema。（v6.12.1 之后支持） |
 
 ### timeline.item
 

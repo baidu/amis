@@ -374,6 +374,7 @@ export default class DropDownButton extends React.Component<
               onClick={closeOnClick ? this.close : noop}
               onMouseEnter={this.keepOpen}
               ref={ref}
+              style={{width: this.target?.offsetWidth}}
             >
               {children
                 ? children

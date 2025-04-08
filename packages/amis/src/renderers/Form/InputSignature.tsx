@@ -120,7 +120,7 @@ export default class InputSignatureComp extends React.Component<
     if (!api.data) {
       const fd = new FormData();
       const fileBlob = await base64ToBlob(file);
-      fd.append('file', fileBlob, 'image/png');
+      fd.append('file', fileBlob, 'signature.png');
       api.data = fd;
     }
 

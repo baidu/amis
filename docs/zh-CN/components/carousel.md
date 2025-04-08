@@ -155,7 +155,7 @@ itemSchema: {
 | height                       | `string`                                              | `200px`                | 高度                                                    |
 | controls                     | `array`                                               | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引                              |
 | controlsTheme                | `string`                                              | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
-| animation                    | `string`                                              | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
+| animation                    | `string`                                              | fade                   | 切换动画效果，默认`fade`，另有`slide`模式，`marquee`跑马灯模式               |
 | thumbMode                    | `string`                                              | `"cover" \| "contain"` | 图片默认缩放模式                                        |
 | multiple                     | `object`                                              | `{count: 1}`           | 多图展示，count 表示展示的数量                          | `2.8.1` |
 | alwaysShowArrow              | `boolean`                                             | `false`                | 是否一直显示箭头，为 false 时鼠标 hover 才会显示        | `2.8.1` |
