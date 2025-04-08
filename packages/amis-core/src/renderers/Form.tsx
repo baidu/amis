@@ -968,9 +968,9 @@ export default class Form extends React.Component<FormProps, object> {
     return store.clearErrors();
   }
 
-  getValues() {
+  async getValues() {
     const {store} = this.props;
-    this.flush();
+    await this.flush();
     return store.data;
   }
 
