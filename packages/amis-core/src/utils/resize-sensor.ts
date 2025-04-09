@@ -197,20 +197,16 @@ export function resizeSensor(
       if (once) {
         observer.disconnect();
       }
-
-      if (type === 'both') {
+      const entry = entries[0];
+      const cr = entry.contentRect;
+      // 变化大于0.5px时才触发回调,允许一定的误差
+      if (
+        Math.abs(cr.width - originWidth) > 0.5 ||
+        Math.abs(cr.height - originHeight) > 0.5
+      ) {
         callback();
-      } else {
-        const entry = entries[0];
-        const cr = entry.contentRect;
-        if (
-          (type === 'width' && cr.width !== originWidth) ||
-          (type === 'height' && cr.height !== originHeight)
-        ) {
-          callback();
-          originWidth = cr.width;
-          originHeight = cr.height;
-        }
+        originWidth = cr.width;
+        originHeight = cr.height;
       }
     });
     observer.observe(element);
