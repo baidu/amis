@@ -200,11 +200,18 @@ export function resizeSensor(
       const entry = entries[0];
       const cr = entry.contentRect;
       // 变化大于0.5px时才触发回调,允许一定的误差
-      if (
-        Math.abs(cr.width - originWidth) > 0.5 ||
-        Math.abs(cr.height - originHeight) > 0.5
-      ) {
-        callback();
+      const widthChanged = Math.abs(cr.width - originWidth) > 0.5;
+      const heightChanged = Math.abs(cr.height - originHeight) > 0.5;
+
+      if (widthChanged || heightChanged) {
+        if (type === 'both') {
+          callback();
+        } else if (
+          (type === 'width' && widthChanged) ||
+          (type === 'height' && heightChanged)
+        ) {
+          callback();
+        }
         originWidth = cr.width;
         originHeight = cr.height;
       }
