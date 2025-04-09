@@ -69,9 +69,11 @@ exports[`Renderer:input table 1`] = `
                             <colgroup>
                               <col
                                 data-index="3"
+                                style="min-width: var(--Table-column-3-width);"
                               />
                               <col
                                 data-index="4"
+                                style="min-width: var(--Table-column-4-width);"
                               />
                             </colgroup>
                             <thead>
@@ -357,9 +359,11 @@ exports[`Renderer:input table add 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
@@ -636,9 +640,11 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                     </colgroup>
                     <thead>
@@ -942,15 +948,19 @@ exports[`Renderer:input-table init display 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
+                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
+                        style="min-width: var(--Table-column-6-width);"
                       />
                     </colgroup>
                     <thead>
@@ -1612,6 +1622,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                     </colgroup>
                     <thead>

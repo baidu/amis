@@ -68,12 +68,15 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
+                        style="min-width: var(--Table-column-5-width);"
                       />
                     </colgroup>
                     <thead>
@@ -2189,12 +2192,15 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
+                        style="min-width: var(--Table-column-5-width);"
                       />
                     </colgroup>
                     <thead>
@@ -2818,12 +2824,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     <colgroup>
                       <col
                         data-index="1"
+                        style="min-width: var(--Table-column-1-width);"
                       />
                       <col
                         data-index="3"
+                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
+                        style="min-width: var(--Table-column-4-width);"
                       />
                     </colgroup>
                     <thead>
