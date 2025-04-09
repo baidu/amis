@@ -8,12 +8,29 @@ import {renderThumbToGhost} from '../component/factory';
 import {EditorNodeType} from '../store/node';
 import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
+import {AutoScroll, getScrollableParent} from './autoScroll';
+function getRelativeParent(element: HTMLElement): HTMLElement | null {
+  let parent = element;
+  const win = parent.ownerDocument.defaultView || window;
+
+  while (parent) {
+    const style = win.getComputedStyle(parent);
+    if (style.position === 'relative') {
+      return parent;
+    }
+    parent = parent.parentElement as HTMLElement;
+  }
+  return null;
+}
 
 export class DefaultDNDMode implements DNDModeInterface {
   readonly dndContainer: HTMLElement; // 记录当前拖拽区域
   readonly relativeContainer: HTMLElement;
   dropOn?: string;
   dropPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center' | 'middle';
+
+  autoScroll?: AutoScroll;
+
   constructor(readonly dnd: EditorDNDManager, readonly region: EditorNodeType) {
     // 初始化时，默认将元素所在区域设置为当前拖拽区域
     this.dndContainer = this.dnd.store
@@ -23,16 +40,17 @@ export class DefaultDNDMode implements DNDModeInterface {
       ) as HTMLElement;
 
     // 获取相对定位的父级元素
-    let parent = this.dndContainer;
-    const win = parent.ownerDocument.defaultView || window;
+    this.relativeContainer =
+      getRelativeParent(this.dndContainer) || this.dndContainer;
 
-    while (parent) {
-      const style = win.getComputedStyle(parent);
-      if (style.position === 'relative') {
-        this.relativeContainer = parent;
-        break;
-      }
-      parent = parent.parentElement as HTMLElement;
+    const scrollableParent = getScrollableParent(
+      this.dndContainer,
+      this.dnd.store.getIframe()
+    );
+    if (scrollableParent) {
+      this.autoScroll = new AutoScroll({
+        container: scrollableParent
+      });
     }
   }
 
@@ -77,6 +95,8 @@ export class DefaultDNDMode implements DNDModeInterface {
   over(e: DragEvent, ghost: HTMLElement) {
     const target = this.getTarget(e);
     const wrapper = this.dndContainer;
+
+    this.autoScroll?.checkScroll(e);
 
     if (target) {
       const dropPosition = this.detectDropPosition(e, target);
@@ -263,6 +283,7 @@ export class DefaultDNDMode implements DNDModeInterface {
    * 销毁
    */
   dispose() {
+    delete this.autoScroll;
     delete this.dropOn;
     delete this.dropPosition;
   }

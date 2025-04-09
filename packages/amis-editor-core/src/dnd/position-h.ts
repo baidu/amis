@@ -6,10 +6,12 @@ import findIndex from 'lodash/findIndex';
 import {DNDModeInterface} from './interface';
 import {EditorNodeType} from '../store/node';
 import {EditorDNDManager} from './index';
+import {AutoScroll, getScrollableParent} from './autoScroll';
 
 export class PositionHDNDMode implements DNDModeInterface {
   readonly dndContainer: HTMLElement; // 记录当前拖拽区域
   dropBeforeId?: string;
+  autoScroll?: AutoScroll;
 
   constructor(readonly dnd: EditorDNDManager, readonly region: EditorNodeType) {
     // 初始化时，默认将元素所在区域设置为当前拖拽区域
@@ -18,6 +20,15 @@ export class PositionHDNDMode implements DNDModeInterface {
       .querySelector(
         `[data-region="${region.region}"][data-region-host="${region.id}"]`
       ) as HTMLElement;
+    const scrollableParent = getScrollableParent(
+      this.dndContainer,
+      this.dnd.store.getIframe()
+    );
+    if (scrollableParent) {
+      this.autoScroll = new AutoScroll({
+        container: scrollableParent
+      });
+    }
   }
 
   enter(e: DragEvent, ghost: HTMLElement) {
@@ -60,6 +71,8 @@ export class PositionHDNDMode implements DNDModeInterface {
   }
 
   over(e: DragEvent, ghost: HTMLElement) {
+    this.autoScroll?.checkScroll(e);
+
     let target = this.getTarget(e);
     if (!target) {
       return;
@@ -135,5 +148,6 @@ export class PositionHDNDMode implements DNDModeInterface {
    */
   dispose() {
     delete this.dropBeforeId;
+    delete this.autoScroll;
   }
 }

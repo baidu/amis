@@ -10,6 +10,7 @@ import {translateSchema} from '../util';
 import {DNDModeInterface} from './interface';
 import findLastIndex from 'lodash/findLastIndex';
 import find from 'lodash/find';
+import {AutoScroll, getScrollableParent} from './autoScroll';
 
 const className = 'PushHighlight';
 
@@ -21,6 +22,7 @@ export class FlexDNDMode implements DNDModeInterface {
   dragNode?: any;
   dragId: string;
   store: any;
+  autoScroll?: AutoScroll;
   constructor(
     readonly dnd: EditorDNDManager,
     readonly region: EditorNodeType,
@@ -33,6 +35,15 @@ export class FlexDNDMode implements DNDModeInterface {
         `[data-region="${region.region}"][data-region-host="${region.id}"]`
       ) as HTMLElement;
     this.maxRolLength = config.regionNode.maxRolLength || 4;
+    const scrollableParent = getScrollableParent(
+      this.dndContainer,
+      this.dnd.store.getIframe()
+    );
+    if (scrollableParent) {
+      this.autoScroll = new AutoScroll({
+        container: scrollableParent
+      });
+    }
   }
 
   /**
@@ -85,6 +96,8 @@ export class FlexDNDMode implements DNDModeInterface {
   }
 
   over(e: DragEvent, ghost: HTMLElement) {
+    this.autoScroll?.checkScroll(e);
+
     const {isMobile} = this.store;
     const colTarget = (e.target as HTMLElement).closest('[role="flex-col"]');
     const wrapper = this.dndContainer;
@@ -266,6 +279,7 @@ export class FlexDNDMode implements DNDModeInterface {
    * 销毁
    */
   dispose() {
+    delete this.autoScroll;
     delete this.dropBeforeId;
     delete this.position;
   }
