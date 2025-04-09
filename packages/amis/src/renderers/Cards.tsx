@@ -1017,13 +1017,17 @@ export default class Cards extends React.Component<GridProps, object> {
     const itemFinalClassName: string = (() => {
       // 移动端且非砖石布局时不使用网格类名
       if (mobileUI && !masonryLayout) {
-        return '';
+        return itemClassName || '';
       }
 
       // 砖石布局且设置了固定列数时使用计算的网格类名
       if (masonryLayout && columnsCount) {
         const colWidth = Math.round(12 / columnsCount);
         return `Grid-col--xs${colWidth} Grid-col--sm${colWidth} Grid-col--md${colWidth} Grid-col--lg${colWidth}`;
+      }
+
+      if (columnsCount) {
+        return `Grid-col--sm${Math.round(12 / columnsCount)}`;
       }
 
       // 其他情况使用配置的类名或空字符串
