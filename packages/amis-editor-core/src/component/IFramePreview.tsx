@@ -251,6 +251,7 @@ function InnerComponent({
     if (!editable) {
       return;
     }
+    e.stopPropagation();
     manager.dnd.dragEnter(e);
   }, []);
 
@@ -258,6 +259,7 @@ function InnerComponent({
     if (!editable) {
       return;
     }
+    e.stopPropagation();
     manager.dnd.dragLeave(e);
   }, []);
 
@@ -265,6 +267,7 @@ function InnerComponent({
     if (!editable) {
       return;
     }
+    e.stopPropagation();
     manager.dnd.dragOver(e);
   }, []);
 
@@ -272,6 +275,7 @@ function InnerComponent({
     if (!editable) {
       return;
     }
+    e.stopPropagation();
     manager.dnd.drop(e);
   }, []);
 
