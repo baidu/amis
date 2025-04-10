@@ -66,6 +66,7 @@ import type {DialogSchema} from 'amis/lib/renderers/Dialog';
 import type {DrawerSchema} from 'amis/lib/renderers/Drawer';
 import getLayoutInstance from '../layout';
 import {isAlive} from 'mobx-state-tree';
+import {modalsToDefinitions} from '../util';
 
 export interface SchemaHistory {
   versionId: number;
@@ -75,10 +76,17 @@ export interface SchemaHistory {
 export type SubEditorContext = {
   title: string;
   value: any;
-  onChange: (value: any, diff: any) => void;
+  onChange?: (value: any, diff: any) => void;
   slot?: any;
   data?: any;
   validate?: (value: any) => void | string | Promise<void | string>;
+
+  // 当 definitions 变化的时候，会触发这个回调
+  onDefinitionsChange?: (
+    definitions: any,
+    originDefinitions: any,
+    value: any
+  ) => any;
   canUndo?: boolean;
   canRedo?: boolean;
 
@@ -921,7 +929,7 @@ export const MainStore = types
 
       get subEditorValue() {
         if (self.subEditorContext) {
-          return self.subEditorContext.slot
+          let subSchema = self.subEditorContext.slot
             ? {
                 ...mapObject(self.subEditorContext.slot, function (value: any) {
                   if (value === '$$') {
@@ -933,6 +941,15 @@ export const MainStore = types
                 isSlot: true
               }
             : self.subEditorContext.value;
+
+          if (!subSchema.definitions) {
+            subSchema = {
+              ...subSchema,
+              definitions: modalsToDefinitions(this.modals)
+            };
+          }
+
+          return subSchema;
         }
 
         return undefined;
@@ -2029,9 +2046,10 @@ export const MainStore = types
       },
 
       confirmSubEditor([valueRaw]: any) {
-        const {onChange, slot} = self.subEditorContext!;
-        let value = valueRaw.schema;
-        let originValue = valueRaw.__pristine?.schema || value;
+        const {onChange, slot, onDefinitionsChange} = self.subEditorContext!;
+        let {definitions, ...value} = valueRaw.schema;
+        let {definitions: originDefinitions, ...originValue} =
+          valueRaw.__pristine?.schema || value;
 
         if (slot) {
           const slotPath = self.subEditorSlotPath;
@@ -2050,10 +2068,29 @@ export const MainStore = types
           }
         }
 
-        onChange(
+        const prevented =
+          onDefinitionsChange?.(definitions, originDefinitions, value) ===
+          false;
+
+        onChange?.(
           value,
           onChange.length > 1 ? diff(originValue, value) : undefined
         );
+
+        if (!prevented) {
+          // merge definitions
+          const patches = diff(
+            originDefinitions,
+            definitions,
+            (path, key) => key === '$$id'
+          );
+          this.traceableSetSchema(
+            JSONUpdate(self.schema, self.schema.$$id, {
+              definitions: patchDiff(originDefinitions, patches)
+            }),
+            true
+          );
+        }
 
         self.subEditorContext = undefined;
       },
