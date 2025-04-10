@@ -312,18 +312,14 @@ export default class Editor extends Component<EditorProps> {
   // 快捷功能键
   @autobind
   handleKeyDown(e: KeyboardEvent) {
+    const manager = this.manager;
+    const store = manager.store;
+
     // 弹窗模式不处理
-    if (this.props.isSubEditor) {
+    if (this.props.isSubEditor || this.props.readonly || store.activeElement) {
       // e.defaultPrevented // 或者已经阻止不处理
       return;
     }
-
-    if (this.props.readonly) {
-      return;
-    }
-
-    const manager = this.manager;
-    const store = manager.store;
 
     if (
       (e.target as HTMLElement).tagName === 'BODY' &&

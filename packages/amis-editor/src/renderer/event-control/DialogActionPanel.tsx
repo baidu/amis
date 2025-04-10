@@ -223,7 +223,7 @@ function DialogActionPanel({
         if (originInd) {
           const parent = JSONGetParentById(schema, originInd);
           if (parent && parent.actionType) {
-            originActionId = parent.$$id;
+            originActionId = originInd;
             newRefName = currentModal.modal.$$ref;
           } else {
             // 没找到很可能是在主页面里面的弹窗
@@ -312,7 +312,7 @@ function DialogActionPanel({
       if (originActionId && newRefName) {
         schema = JSONUpdate(
           schema,
-          currentModal.value,
+          originActionId,
           JSONPipeIn({
             $ref: newRefName
           }),
@@ -579,7 +579,7 @@ function DialogActionPanel({
       manager.openSubEditor({
         title: '新建弹窗',
         value: modal,
-        onChange: ({definitions, ...modal}: any, diff: any) => {
+        onDefinitionsChange: (definitions, originDefinitions, modal) => {
           // 不能变 $$id 如果有内部有引用，就找不到了
           modal = JSONPipeIn({...modal, $$id: modalId});
           let arr = modals.concat();
@@ -609,6 +609,7 @@ function DialogActionPanel({
           }
           setModals(arr);
           onBulkChange({__actionModals: arr});
+          return false;
         }
       });
       closePopOver?.();
@@ -640,7 +641,7 @@ function DialogActionPanel({
           currentModal.modal
         )
       },
-      onChange: ({definitions, ...modal}: any, diff: any) => {
+      onDefinitionsChange: (definitions, originDefinitions, modal) => {
         // 编辑的时候不要修改 $$id
         modal = JSONPipeIn({...modal, $$id: currentModal.modal.$$id});
         let arr = modals.map(item =>
@@ -666,6 +667,7 @@ function DialogActionPanel({
         arr = mergeDefinitions(arr, definitions, modal);
         setModals(arr);
         onBulkChange({__actionModals: arr});
+        return false;
       }
     });
   }, [modals]);

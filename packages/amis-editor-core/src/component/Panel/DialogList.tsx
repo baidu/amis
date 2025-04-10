@@ -41,8 +41,9 @@ export default observer(function DialogList({
     manager.openSubEditor({
       title: '编辑弹窗',
       value: modal,
-      onChange: ({definitions, ...modal}: any, diff: any) => {
+      onDefinitionsChange: (definitions, originDefinitions, modal) => {
         store.addModal(modal, definitions);
+        return false;
       }
     });
   }, []);
@@ -58,8 +59,9 @@ export default observer(function DialogList({
         ...(modal as any),
         definitions: modalsToDefinitions(store.modals, {}, modal)
       },
-      onChange: ({definitions, ...modal}: any, diff: any) => {
+      onDefinitionsChange: (definitions, originDefinitions, modal) => {
         store.updateModal(modalId, modal, definitions);
+        return false;
       }
     });
   }, []);
