@@ -2086,7 +2086,7 @@ export const MainStore = types
           );
           this.traceableSetSchema(
             JSONUpdate(self.schema, self.schema.$$id, {
-              definitions: patchDiff(originDefinitions, patches)
+              definitions: JSONPipeIn(patchDiff(originDefinitions, patches))
             }),
             true
           );
