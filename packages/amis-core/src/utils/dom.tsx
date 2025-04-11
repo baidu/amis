@@ -382,7 +382,12 @@ export function calculateHeight(
     let nextSibling = selfNode.nextElementSibling as HTMLElement;
     while (nextSibling) {
       const positon = getComputedStyle(nextSibling).position;
-      if (positon !== 'absolute' && positon !== 'fixed') {
+      const className = nextSibling.className;
+      if (
+        positon !== 'absolute' &&
+        positon !== 'fixed' &&
+        !className.includes('Spinner') // 过滤掉Loading
+      ) {
         const rect1 = selfNode.getBoundingClientRect();
         const rect2 = nextSibling.getBoundingClientRect();
 

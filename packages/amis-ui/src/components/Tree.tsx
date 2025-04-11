@@ -1612,11 +1612,13 @@ export class TreeSelector extends React.Component<
         // 虚拟列表 对应元素
         const virtualElement = this.virtualListRef.current!;
 
-        const virtualHeight =
-          treeElement!.offsetHeight -
-          calculateHeight(treeElement!, virtualElement!);
+        if (treeElement && virtualElement) {
+          const virtualHeight =
+            treeElement!.offsetHeight -
+            calculateHeight(treeElement, virtualElement);
 
-        this.setState({virtualHeight: virtualHeight});
+          this.setState({virtualHeight: virtualHeight});
+        }
       } else {
         this.setState({virtualHeight: flattenedOptions.length * itemHeight});
       }

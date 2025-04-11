@@ -271,10 +271,12 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       // tree 对应元素
       const treeElement = this.treeRef.root.current;
 
-      const treeHeight =
-        formElement!.offsetHeight - calculateHeight(formElement!, treeElement!);
+      if (formElement && treeElement) {
+        const treeHeight =
+          formElement!.offsetHeight - calculateHeight(formElement, treeElement);
 
-      this.setState({treeHeight: treeHeight});
+        this.setState({treeHeight: treeHeight});
+      }
     } else {
       this.setState({treeHeight: 0});
     }
@@ -305,7 +307,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           'hideRoot',
           'themeCss',
           'wrapperCustomStyle',
-          'heightAuto'
+          'heightAuto',
+          'options'
         ],
         prevProps,
         props
@@ -753,12 +756,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           })}
           {...testIdBuilder?.getChild('control').getTestId()}
         >
-          <Spinner
-            size="sm"
-            key="info"
-            show={loading}
-            loadingConfig={loadingConfig}
-          />
           {loading ? null : searchable ? (
             <>
               {this.renderSearch()}
@@ -767,6 +764,12 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           ) : (
             TreeCmpt
           )}
+          <Spinner
+            size="sm"
+            key="info"
+            show={loading}
+            loadingConfig={loadingConfig}
+          />
         </div>
         <CustomStyle
           {...this.props}
