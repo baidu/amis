@@ -60,8 +60,13 @@ const modalDescDetail: (info: any, context: any, props: any) => any = (
                       ...modal,
                       definitions: modalsToDefinitions(store.modals, {}, modal)
                     },
-                    onChange: ({definitions, ...modal}: any, diff: any) => {
+                    onDefinitionsChange: (
+                      definitions: any,
+                      originDefinitions: any,
+                      modal: any
+                    ) => {
                       store.updateModal(modalId, modal, definitions);
+                      return false;
                     }
                   });
                 }}

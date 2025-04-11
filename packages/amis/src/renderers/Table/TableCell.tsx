@@ -189,7 +189,7 @@ export class TableCell extends React.Component<TableCellProps> {
           />
         ) : null}
         {cellPrefix}
-        {textOverflow === 'ellipsis' && width ? (
+        {textOverflow === 'ellipsis' ? (
           <div className={cx(`TableCell-ellipsis`)}>{body}</div>
         ) : (
           body

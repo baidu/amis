@@ -45,6 +45,22 @@ export function numberFormatter(num: number | string, precision?: number) {
   return ZERO.toFixed(finalP);
 }
 
+// 还原千分符格式化的值，并保留小数点后的精度
+export function numberReverter(value: string | number | undefined) {
+  if (!value) return '';
+  const stringValue = value.toString();
+  const withoutCommas = stringValue.replace(/,/g, '');
+
+  // 如果原始字符串有小数点，保留小数部分的精度
+  if (stringValue.includes('.')) {
+    const decimalPlaces = stringValue.split('.')[1].length;
+    return Number(withoutCommas).toFixed(decimalPlaces);
+  }
+
+  // 对于整数，直接返回转换后的数字
+  return withoutCommas;
+}
+
 /**
  * 判断一个数字是否为整数，且在给定范围内
  *
