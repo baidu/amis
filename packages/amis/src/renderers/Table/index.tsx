@@ -375,6 +375,11 @@ export interface TableSchema extends BaseSchema {
    * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
    */
   deferApi?: SchemaApi;
+
+  /**
+   * 持久化 key
+   */
+  persistKey?: string;
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -654,7 +659,8 @@ export default class Table<
       lazyRenderAfter,
       tableLayout,
       resolveDefinitions,
-      showIndex
+      showIndex,
+      persistKey
     } = props;
 
     let combineNum = props.combineNum;
@@ -689,7 +695,8 @@ export default class Table<
         canAccessSuperData,
         lazyRenderAfter,
         tableLayout,
-        showIndex
+        showIndex,
+        persistKey
       },
       {
         resolveDefinitions
@@ -983,7 +990,8 @@ export default class Table<
         'canAccessSuperData',
         'lazyRenderAfter',
         'tableLayout',
-        'showIndex'
+        'showIndex',
+        'persistKey'
       ],
       prevProps,
       props,
