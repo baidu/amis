@@ -636,11 +636,9 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                     </colgroup>
                     <thead>
