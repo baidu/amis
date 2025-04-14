@@ -765,7 +765,8 @@ export const FormStore = ServiceStore.named('FormStore')
 
     function reset(cb?: (data: any) => void, resetData: boolean = true) {
       if (resetData) {
-        self.data = self.pristine;
+        // 父级的数据可能已经被修改，__super不应该被修改
+        self.data = createObject(self.data.__super, self.prevented);
       }
 
       // 值可能变了，重新验证一次。
