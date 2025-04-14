@@ -39,7 +39,6 @@
 
   &.is-disabled {
     pointer-events: none;
-    opacity: var(--Button-onDisabled-opacity);
 
     .#{$ns}Picker-placeholder {
       color: var(--Pick-status-disabled-color);
