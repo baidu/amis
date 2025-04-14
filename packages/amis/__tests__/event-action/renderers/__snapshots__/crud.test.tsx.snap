@@ -77,31 +77,24 @@ exports[`doAction:crud reload 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                       <col
                         data-index="9"
-                        style="min-width: var(--Table-column-9-width);"
                       />
                     </colgroup>
                     <thead>
@@ -1332,31 +1325,24 @@ exports[`doAction:crud reload with data1 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                       <col
                         data-index="9"
-                        style="min-width: var(--Table-column-9-width);"
                       />
                     </colgroup>
                     <thead>
@@ -1610,31 +1596,24 @@ exports[`doAction:crud reload with data2 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                       <col
                         data-index="9"
-                        style="min-width: var(--Table-column-9-width);"
                       />
                     </colgroup>
                     <thead>
