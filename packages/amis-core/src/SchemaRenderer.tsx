@@ -1,4 +1,5 @@
 import difference from 'lodash/difference';
+import findLastIndex from 'lodash/findLastIndex';
 import omit from 'lodash/omit';
 import React from 'react';
 import {isValidElementType} from 'react-is';
@@ -42,6 +43,9 @@ import {evalExpression, filter} from './utils/tpl';
 import Animations from './components/Animations';
 import {cloneObject} from './utils/object';
 import {observeGlobalVars} from './globalVar';
+import type {IRootStore} from './store/root';
+import {createObjectFromChain, extractObjectChain} from './utils';
+import {IIRendererStore} from './store/index';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -110,6 +114,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   unbindGlobalEvent: (() => void) | undefined = undefined;
   isStatic: any = undefined;
 
+  subStore?: IIRendererStore | null;
+
   constructor(props: SchemaRendererProps) {
     super(props);
 
@@ -118,6 +124,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.storeRef = this.storeRef.bind(this);
     this.handleGlobalVarChange = this.handleGlobalVarChange.bind(this);
 
     const schema = props.schema;
@@ -183,19 +190,57 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
+  storeRef(store: IIRendererStore | null) {
+    this.subStore = store;
+  }
+
   handleGlobalVarChange() {
     const handler = this.renderer?.onGlobalVarChanged;
-    const newData = cloneObject(this.props.data);
+    const topStore: IRootStore = this.props.topStore;
+    const chain = extractObjectChain(this.props.data).filter(
+      (item: any) => !item.hasOwnProperty('__isTempGlobalLayer')
+    );
+    const globalLayerIdx = findLastIndex(
+      chain,
+      item =>
+        item.hasOwnProperty('global') || item.hasOwnProperty('globalState')
+    );
+
+    const globalData = {
+      ...topStore.nextGlobalData,
+
+      // 兼容旧的全局变量
+      __page: topStore.nextGlobalData.__page,
+      appVariables: topStore.nextGlobalData.appVariables,
+      __isTempGlobalLayer: true
+    };
+
+    if (globalLayerIdx !== -1) {
+      chain.splice(globalLayerIdx + 1, 0, globalData);
+    }
+    const newData = createObjectFromChain(chain);
 
     // 如果渲染器自己做了实现，且返回 false，则不再继续往下执行
     if (handler?.(this.cRef, this.props.schema, newData) === false) {
       return;
     }
 
+    // 强制刷新并通过一个临时对象让下发给组件的全局变量更新
+    // 等 react 完成一轮渲染后，将临时渲染切成正式渲染
+    // 也就是说删掉临时对象，后续渲染读取真正变更后的全局变量
+    //
+
+    // 为什么这么做？因为很多组件内部都会 diff  this.props.data 和 prevProps.data
+    // 如果对应的数据没有发生变化，则会跳过组件状态的更新
     this.tmpData = newData;
-    this.forceUpdate(() => {
-      delete this.tmpData;
-    });
+    this.subStore?.temporaryUpdateGlobalVars(globalData);
+    topStore.addSyncGlobalVarStatePendingTask(
+      callback => this.forceUpdate(callback),
+      () => {
+        delete this.tmpData;
+        this.subStore?.unDoTemporaryUpdateGlobalVars();
+      }
+    );
   }
 
   resolveRenderer(props: SchemaRendererProps, force = false): any {
@@ -368,6 +413,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     if (Array.isArray(schema)) {
       return render!($path, schema as any, rest) as JSX.Element;
     }
+
+    // 用于全局变量刷新
+    (rest as any).data = this.tmpData || rest.data;
 
     const detectData =
       schema &&
@@ -548,9 +596,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       mobileUI: schema.useMobileUI === false ? false : rest.mobileUI
     };
 
-    // 用于全局变量刷新
-    props.data = this.tmpData || props.data;
-
     // style 支持公式
     if (schema.style) {
       (props as any).style = buildStyle(schema.style, detectData);
@@ -588,9 +633,13 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     let component = supportRef ? (
-      <Component {...props} ref={this.childRef} />
+      <Component {...props} ref={this.childRef} storeRef={this.storeRef} />
     ) : (
-      <Component {...props} forwardedRef={this.childRef} />
+      <Component
+        {...props}
+        forwardedRef={this.childRef}
+        storeRef={this.storeRef}
+      />
     );
 
     if (schema.animations) {

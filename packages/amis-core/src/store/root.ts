@@ -4,7 +4,8 @@ import {ServiceStore} from './service';
 import {
   createObjectFromChain,
   extractObjectChain,
-  isObjectShallowModified
+  isObjectShallowModified,
+  createObject
 } from '../utils';
 import {
   GlobalVariableItem,
@@ -27,6 +28,16 @@ export const RootStore = ServiceStore.named('RootStore')
     runtimeErrorStack: types.frozen(),
     query: types.frozen(),
     ready: false,
+
+    // 临时变更，等 react 完成一轮渲染后，将临时变更切成正式变更
+    // 主要是为了让可能需要重新渲染的部分组件可以实现 this.props.data 和 prevProps.data 不一致
+    // 因为很多组件内部会 diff this.props.data 和 prevProps.data 来决定是否更新的逻辑
+    globalVarTempStates: types.optional(
+      types.map(types.frozen<GlobalVariableState>()),
+      {}
+    ),
+
+    // 正式变更
     globalVarStates: types.optional(
       types.map(types.frozen<GlobalVariableState>()),
       {}
@@ -43,6 +54,46 @@ export const RootStore = ServiceStore.named('RootStore')
     };
   })
   .views(self => ({
+    get nextGlobalData(): any {
+      let globalData = {} as any;
+      let globalState = {} as any;
+
+      if (self.globalVarTempStates.size) {
+        let touched = false;
+        let saved = true;
+        let errors: any = {};
+        let initialized = true;
+        self.globalVarTempStates.forEach((state, key) => {
+          globalData[key] = state.value;
+          touched = touched || state.touched;
+          if (!state.saved) {
+            saved = false;
+          }
+
+          if (state.errorMessages.length) {
+            errors[key] = state.errorMessages;
+          }
+          if (!state.initialized) {
+            initialized = false;
+          }
+        });
+
+        globalState = {
+          fields: self.globalVarTempStates.toJSON(),
+          initialized: initialized,
+          touched: touched,
+          saved: saved,
+          errors: errors,
+          valid: !Object.keys(errors).length
+        };
+      }
+
+      return createObject(self.context, {
+        global: globalData,
+        globalState: globalState
+      });
+    },
+
     get downStream() {
       let result = self.data;
 
@@ -168,7 +219,7 @@ export const RootStore = ServiceStore.named('RootStore')
 
       if (getter) {
         await getGlobalVarData(item, context, getter);
-        const state = self.globalVarStates.get(item.key)!;
+        const state = self.globalVarTempStates.get(item.key)!;
         updateState(item.key, {
           initialized: true,
           pristine: state.value
@@ -234,7 +285,7 @@ export const RootStore = ServiceStore.named('RootStore')
             continue;
           }
 
-          const state = self.globalVarStates.get(key);
+          const state = self.globalVarTempStates.get(key);
           if (state) {
             updateState(key, {
               value: data[key],
@@ -275,7 +326,7 @@ export const RootStore = ServiceStore.named('RootStore')
       const itemsNotInitialized: Array<GlobalVariableItemFull> = [];
 
       for (let item of globalVars) {
-        let state = self.globalVarStates.get(item.key);
+        let state = self.globalVarTempStates.get(item.key);
         if (state?.initialized) {
           continue;
         }
@@ -323,8 +374,10 @@ export const RootStore = ServiceStore.named('RootStore')
         self.globalVars = yield initializeGlobalVars(newVars, updateVars);
 
         removeVars.forEach(item => {
-          self.globalVarStates.delete(item.key);
+          self.globalVarTempStates.delete(item.key);
         });
+
+        syncGlobalVarStates();
       });
 
     // 更新全局变量的值
@@ -350,7 +403,7 @@ export const RootStore = ServiceStore.named('RootStore')
         value: any;
       }
     ) => {
-      const state = self.globalVarStates.get(key);
+      const state = self.globalVarTempStates.get(key);
       if (!state) {
         return;
       }
@@ -483,7 +536,7 @@ export const RootStore = ServiceStore.named('RootStore')
       }> = [];
       const values: any = {};
       for (let varItem of self.globalVars) {
-        const state = self.globalVarStates.get(varItem.key);
+        const state = self.globalVarTempStates.get(varItem.key);
         if (!state?.touched) {
           continue;
         } else if (key && key !== varItem.key) {
@@ -536,6 +589,32 @@ export const RootStore = ServiceStore.named('RootStore')
       leading: false
     });
 
+    function syncGlobalVarStates() {
+      self.globalVarStates.clear();
+      self.globalVarTempStates.forEach((state, key) => {
+        self.globalVarStates.set(key, {...state});
+      });
+    }
+
+    let pendingCount = 0;
+    let callbacks: Array<() => void> = [];
+    function addSyncGlobalVarStatePendingTask(
+      fn: (callback: () => void) => void,
+      callback?: () => void
+    ) {
+      pendingCount++;
+      callback && callbacks.push(callback);
+      fn(() => {
+        pendingCount--;
+
+        if (pendingCount === 0) {
+          callbacks.forEach(callback => callback());
+          callbacks = [];
+          (self as any).syncGlobalVarStates();
+        }
+      });
+    }
+
     return {
       updateContext(context: any) {
         // 因为 context 不是受控属性，直接共用引用好了
@@ -543,12 +622,12 @@ export const RootStore = ServiceStore.named('RootStore')
         Object.assign(self.context, context);
       },
       updateGlobalVarState(key: string, state: Partial<GlobalVariableState>) {
-        const origin = self.globalVarStates.get(key);
+        const origin = self.globalVarTempStates.get(key);
         const newState = {
           ...(origin || createGlobalVarState()),
           ...state
         };
-        self.globalVarStates.set(key, newState as any);
+        self.globalVarTempStates.set(key, newState as any);
       },
       setGlobalVars,
       updateGlobalVarValue,
@@ -565,6 +644,8 @@ export const RootStore = ServiceStore.named('RootStore')
         }
       },
       init: init,
+      syncGlobalVarStates,
+      addSyncGlobalVarStatePendingTask,
       afterDestroy() {
         lazySaveGlobalVarValues.flush();
       }
