@@ -19,6 +19,7 @@ import {
   injectObjectChain
 } from '../utils';
 import {DataChangeReason} from '../types';
+import findLastIndex from 'lodash/findLastIndex';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -95,6 +96,35 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         self.data = data;
         self.upStreamData = data;
+      },
+
+      // 临时更新全局变量
+      temporaryUpdateGlobalVars(globalVar: any) {
+        const chain = extractObjectChain(self.data).filter(
+          (item: any) => !item.hasOwnProperty('__isTempGlobalLayer')
+        );
+        const idx = findLastIndex(
+          chain,
+          item =>
+            item.hasOwnProperty('global') || item.hasOwnProperty('globalState')
+        );
+
+        if (idx !== -1) {
+          chain.splice(idx + 1, 0, {
+            ...globalVar,
+            __isTempGlobalLayer: true
+          });
+        }
+
+        self.data = createObjectFromChain(chain);
+      },
+
+      // 撤销临时更新全局变量
+      unDoTemporaryUpdateGlobalVars() {
+        const chain = extractObjectChain(self.data).filter(
+          (item: any) => !item.hasOwnProperty('__isTempGlobalLayer')
+        );
+        self.data = createObjectFromChain(chain);
       },
 
       reset() {
