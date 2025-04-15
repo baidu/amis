@@ -929,27 +929,7 @@ export const MainStore = types
 
       get subEditorValue() {
         if (self.subEditorContext) {
-          let subSchema = self.subEditorContext.slot
-            ? {
-                ...mapObject(self.subEditorContext.slot, function (value: any) {
-                  if (value === '$$') {
-                    return self.subEditorContext!.value;
-                  }
-
-                  return value;
-                }),
-                isSlot: true
-              }
-            : self.subEditorContext.value;
-
-          if (!subSchema.definitions) {
-            subSchema = {
-              ...subSchema,
-              definitions: modalsToDefinitions(this.modals)
-            };
-          }
-
-          return subSchema;
+          return self.subEditorContext.value;
         }
 
         return undefined;
@@ -2029,8 +2009,29 @@ export const MainStore = types
           return;
         }
 
+        let subSchema = context.slot
+          ? {
+              ...mapObject(context.slot, function (value: any) {
+                if (value === '$$') {
+                  return context.value;
+                }
+
+                return value;
+              }),
+              isSlot: true
+            }
+          : context.value;
+
+        if (!subSchema.definitions) {
+          subSchema = {
+            ...subSchema,
+            definitions: modalsToDefinitions(self.modals)
+          };
+        }
+
         self.subEditorContext = {
           ...context,
+          value: subSchema,
           hostNode: self.getNodeById(activeId),
           data: createObject(
             self.ctx,
