@@ -891,12 +891,10 @@ export class FormPlugin extends BasePlugin {
               {
                 title: '基本',
                 body: [
-                  {
-                    name: 'title',
-                    type: 'input-text',
+                  getSchemaTpl('pageTitle', {
                     label: '标题',
                     visibleOn: isWrapped
-                  },
+                  }),
                   getSchemaTpl('switch', {
                     name: 'autoFocus',
                     label: tipedLabel(
