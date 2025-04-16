@@ -642,19 +642,28 @@ export class FormPlugin extends BasePlugin {
       DSFeatureEnum.BulkEdit,
       DSFeatureEnum.View
     ];
-    if (schema.hasOwnProperty('feat')) {
-      return validFeat.includes(schema.feat)
-        ? schema.feat
-        : DSFeatureEnum.Insert;
-    }
 
-    if (schema.initApi != null && schema.api != null) {
+    // 判断表单功能类型
+    const {initApi, api, feat} = schema;
+
+    // 根据API配置判断基础功能类型
+    if (initApi && api) {
       return DSFeatureEnum.Edit;
-    } else if (schema.initApi != null && schema.api == null) {
+    }
+    if (initApi && !api) {
       return DSFeatureEnum.View;
-    } else {
+    }
+    if (!initApi && api) {
       return DSFeatureEnum.Insert;
     }
+
+    // 检查自定义功能类型
+    if (feat && validFeat.includes(feat)) {
+      return feat;
+    }
+
+    // 默认返回插入模式
+    return DSFeatureEnum.Insert;
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
@@ -862,15 +871,21 @@ export class FormPlugin extends BasePlugin {
                 form: IFormStore
               ) => {
                 if (value !== oldValue) {
-                  form.setValues({
-                    dsType: this.dsManager.getDefaultBuilderKey(),
-                    initApi:
-                      DSFeatureEnum.Insert === value ||
-                      DSFeatureEnum.BulkEdit === value
-                        ? undefined
-                        : '',
-                    api: undefined
-                  });
+                  const newSchema: any = {
+                    dsType: this.dsManager.getDefaultBuilderKey()
+                  };
+
+                  // 批量编辑和新增需要删除获取数据接口
+                  if (
+                    DSFeatureEnum.Insert === value ||
+                    DSFeatureEnum.BulkEdit === value
+                  ) {
+                    newSchema.initApi = undefined;
+                  } else if (DSFeatureEnum.View === value) {
+                    newSchema.api = undefined;
+                  }
+                  // 删除数据源无用配置
+                  form.setValues(newSchema);
                 }
               }
             },
@@ -1561,8 +1576,9 @@ export class FormPlugin extends BasePlugin {
     }
 
     if (!_isModelComp(schema)) {
-      /** 存量数据可能未设置过feat, 需要添加一下 */
-      if (!schema.feat) {
+      /** 每次需要纠正一下feat，有可能直接是编辑了代码的api */
+      const exactlyFeat = this.guessDSFeatFromSchema(schema);
+      if (exactlyFeat !== schema.feat) {
         shouldUpdateSchema = true;
         patchedSchema = {
           ...patchedSchema,
