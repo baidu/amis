@@ -107,8 +107,6 @@ export function ColGroup({
           style.width = column.width;
         } else if (column.pristine.width) {
           style.width = column.pristine.width;
-        } else {
-          style.width = `var(--Table-column-${column.index}-width)`;
         }
 
         if (store.tableLayout === 'auto' && style.width) {

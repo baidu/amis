@@ -189,6 +189,7 @@ register('zh-CN', {
   'LocationPicker.placeholder': '请选择位置',
   'LocationPicker.getLocation': '点击获取位置信息',
   'Month.placeholder': '请选择月份',
+  'MapPicker.searchPlaceholder': '搜索地点',
   'Nav.sourceError': '获取链接错误',
   'networkError': '网络错误，可能是未配置跨域 CORS',
   'noResult': '未找到任何结果',

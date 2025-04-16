@@ -27,11 +27,9 @@ exports[`Renderer:table 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
           </colgroup>
           <thead>
@@ -356,11 +354,9 @@ exports[`Renderer:table align 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
           </colgroup>
           <thead>
@@ -718,27 +714,21 @@ exports[`Renderer:table children 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                     </colgroup>
                     <thead>
@@ -1271,11 +1261,9 @@ exports[`Renderer:table classNameExpr 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
           </colgroup>
           <thead>
@@ -1600,11 +1588,9 @@ exports[`Renderer:table column head style className 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
           </colgroup>
           <thead>
@@ -1950,23 +1936,18 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                     </colgroup>
                     <thead>
@@ -2491,23 +2472,18 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="7"
-                        style="min-width: var(--Table-column-7-width);"
                       />
                     </colgroup>
                     <thead>
@@ -3131,23 +3107,18 @@ exports[`Renderer:table groupName-default 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                     </colgroup>
                     <thead>
@@ -3876,23 +3847,18 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                     </colgroup>
                     <thead>
@@ -4625,23 +4591,18 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                     </colgroup>
                     <thead>
@@ -5362,23 +5323,18 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                     <colgroup>
                       <col
                         data-index="3"
-                        style="min-width: var(--Table-column-3-width);"
                       />
                       <col
                         data-index="4"
-                        style="min-width: var(--Table-column-4-width);"
                       />
                       <col
                         data-index="5"
-                        style="min-width: var(--Table-column-5-width);"
                       />
                       <col
                         data-index="6"
-                        style="min-width: var(--Table-column-6-width);"
                       />
                       <col
                         data-index="8"
-                        style="min-width: var(--Table-column-8-width);"
                       />
                     </colgroup>
                     <thead>
@@ -6068,11 +6024,9 @@ exports[`Renderer:table isHead fixed 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
           </colgroup>
           <thead>
@@ -6427,39 +6381,30 @@ exports[`Renderer:table list 1`] = `
           <colgroup>
             <col
               data-index="3"
-              style="min-width: var(--Table-column-3-width);"
             />
             <col
               data-index="4"
-              style="min-width: var(--Table-column-4-width);"
             />
             <col
               data-index="5"
-              style="min-width: var(--Table-column-5-width);"
             />
             <col
               data-index="6"
-              style="min-width: var(--Table-column-6-width);"
             />
             <col
               data-index="7"
-              style="min-width: var(--Table-column-7-width);"
             />
             <col
               data-index="8"
-              style="min-width: var(--Table-column-8-width);"
             />
             <col
               data-index="9"
-              style="min-width: var(--Table-column-9-width);"
             />
             <col
               data-index="10"
-              style="min-width: var(--Table-column-10-width);"
             />
             <col
               data-index="11"
-              style="min-width: var(--Table-column-11-width);"
             />
           </colgroup>
           <thead>

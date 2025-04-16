@@ -1182,7 +1182,8 @@ export default class FormTable<
         !(deleteApi as ApiObject)?.silent &&
           env.notify(
             'error',
-            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (result.msg || __('deleteFailed'))
           );
         this.dispatchEvent('deleteFail', {
           index: indexes[indexes.length - 1],

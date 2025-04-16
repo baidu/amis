@@ -554,14 +554,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
       rowSelection,
       keyField,
       primaryField,
-      canAccessSuperData
+      canAccessSuperData,
+      persistKey
     } = props;
 
     store.update({
       columnsTogglable,
       columns,
       canAccessSuperData,
-      rowSelectionKeyField: primaryField || rowSelection?.keyField || keyField
+      rowSelectionKeyField: primaryField || rowSelection?.keyField || keyField,
+      persistKey
     });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
 
@@ -710,7 +712,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const store = props.store;
 
     changedEffect(
-      ['orderBy', 'columnsTogglable', 'canAccessSuperData'],
+      ['orderBy', 'columnsTogglable', 'canAccessSuperData', 'persistKey'],
       prevProps,
       props,
       changes => {

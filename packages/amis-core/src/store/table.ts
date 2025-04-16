@@ -32,7 +32,7 @@ import {
   hasVisibleExpression,
   sortArray
 } from '../utils/helper';
-import {evalExpression} from '../utils/tpl';
+import {evalExpression, filter} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
 import {getPageId} from '../utils/getPageId';
@@ -593,7 +593,8 @@ export const TableStore = iRendererStore
     searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
     lazyRenderAfter: 100,
     tableLayout: 'auto',
-    theadHeight: 0
+    theadHeight: 0,
+    persistKey: ''
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -851,6 +852,10 @@ export const TableStore = iRendererStore
       getSelectionUpperLimit,
 
       get columnsKey() {
+        if (self.persistKey) {
+          return filter(self.persistKey, self.data);
+        }
+
         const fn = getEnv(self).getPageId || getPageId;
         return fn() + self.path;
       },
@@ -1218,6 +1223,7 @@ export const TableStore = iRendererStore
         (self.tableLayout = config.tableLayout);
 
       config.showIndex !== undefined && (self.showIndex = config.showIndex);
+      config.persistKey !== undefined && (self.persistKey = config.persistKey);
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns

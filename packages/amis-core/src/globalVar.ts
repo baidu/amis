@@ -9,6 +9,7 @@ import {isExpression} from './utils/formula';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/resolveVariableAndFilter';
 import {IRootStore} from './store/root';
+import isPlainObject from 'lodash/isPlainObject';
 
 /**
  * 全局变量的定义
@@ -298,6 +299,17 @@ export function observeGlobalVars(
         key,
         value
       });
+    } else if (isPlainObject(value) && !value.type) {
+      // 最多支持两层，多了可能就会有性能问题了
+      // 再多一层主要是为了支持某些 api 配置的是对象形式
+      Object.keys(value).forEach(k => {
+        if (isGlobalVarExpression(value[k])) {
+          expressions.push({
+            key: `${key}.${k}`,
+            value: value[k]
+          });
+        }
+      });
     } else if (
       [
         'items',
@@ -338,7 +350,7 @@ export function observeGlobalVars(
           exp =>
             `${exp.key}:${resolveVariableAndFilter(
               exp.value,
-              topStore.downStream,
+              topStore.nextGlobalData,
               '| json' // 如果用了复杂对象，要靠这个来比较
             )}`
         )

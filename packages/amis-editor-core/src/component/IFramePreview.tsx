@@ -3,6 +3,7 @@ import {EditorStoreType} from '../store/editor';
 import React, {memo} from 'react';
 import {EditorManager} from '../manager';
 import Frame, {useFrame} from 'react-frame-component';
+import {SchemaRenderer} from './SchemaRenderer';
 import {
   autobind,
   closeContextMenus,
@@ -124,7 +125,10 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
             },
             {
               ...env,
-              session: `${env.session}-iframe-preview`,
+              session: `${env.session}-${
+                editable ? 'edit' : 'preview'
+              }-iframe-preview`,
+              SchemaRenderer: editable ? SchemaRenderer : undefined,
               useMobileUI: true,
               isMobile: this.isMobile,
               getModalContainer: this.getModalContainer
