@@ -199,6 +199,7 @@ export const bindEvent = (renderer: any) => {
   return undefined;
 };
 
+export const BroadcastChannelMap = new Map<string, BroadcastChannel>();
 export const bindGlobalEventForRenderer = (renderer: any) => {
   if (!renderer) {
     return undefined;
@@ -220,6 +221,7 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
         renderer: renderer,
         bc
       });
+      BroadcastChannelMap.set(key, bc);
       bc.onmessage = e => {
         const {eventName, data} = e.data;
         const rendererEvent = createRendererEvent(eventName, {
@@ -243,6 +245,13 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
     };
   }
   return void 0;
+};
+
+export const closeBroadcastChannel = () => {
+  BroadcastChannelMap.forEach((bc, key) => {
+    bc.close();
+    BroadcastChannelMap.delete(key);
+  });
 };
 
 export const bindGlobalEvent = (

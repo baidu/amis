@@ -30,6 +30,8 @@ import {SimpleMap} from './utils/SimpleMap';
 import {
   bindEvent,
   bindGlobalEventForRenderer as bindGlobalEvent,
+  BroadcastChannelMap,
+  closeBroadcastChannel,
   dispatchEvent,
   RendererEvent
 } from './utils/renderer-event';
@@ -153,6 +155,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.toDispose.push(
       observeGlobalVars(schema, props.topStore, this.handleGlobalVarChange)
     );
+    // 关闭所有的广播通道
+    closeBroadcastChannel();
   }
 
   componentWillUnmount() {
