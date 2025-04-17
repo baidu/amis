@@ -335,9 +335,7 @@ export function getStyleNumber(element: HTMLElement, styleName: string) {
   if (!element) {
     return 0;
   }
-  return (
-    parseInt(getComputedStyle(element).getPropertyValue(styleName), 10) || 0
-  );
+  return parseFloat(getComputedStyle(element).getPropertyValue(styleName)) || 0;
 }
 
 /** 根据关键字高亮显示文本内容 */
