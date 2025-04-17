@@ -191,6 +191,7 @@ export function wrapControl<
               return;
             }
 
+            let valueIsExp = isExpression(value);
             let propValue = this.props.value;
             const model = rootStore.addStore({
               id: guid(),
@@ -222,8 +223,7 @@ export function wrapControl<
               unique,
               value,
               isValueSchemaExp:
-                isExpression(value) &&
-                value.replace(/\s/g, '') !== `\${${name}}`,
+                valueIsExp && value.replace(/\s/g, '') !== `\${${name}}`,
               rules: rules,
               messages: validationErrors,
               delimiter,
@@ -264,7 +264,13 @@ export function wrapControl<
             if (
               onChange &&
               value !== undefined &&
-              model.tmpValue !== undefined
+              model.tmpValue !== undefined &&
+              // 要么是默认值起作用了
+              // 要么是表达式起作用了
+              // 只有这两种情况才会触发 onChange
+              // 比如以下 case 就不应该触发
+              // 关联到上下文数据了，同时设置了默认值，因为是上下文数据优先，这个时候就不应该触发 onChange，因为没变化
+              (value === model.tmpValue || valueIsExp)
             ) {
               // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
               if (model.extraName) {
