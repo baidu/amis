@@ -605,7 +605,9 @@ export function wrapFetcher(
     ) {
       api.data = qsstringify(api.data, api.qsOptions) as any;
       api.headers = api.headers || (api.headers = {});
-      api.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      if (!api.headers['Content-Type']) {
+        api.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      }
     } else if (
       api.data &&
       typeof api.data !== 'string' &&
@@ -613,7 +615,10 @@ export function wrapFetcher(
     ) {
       api.data = JSON.stringify(api.data) as any;
       api.headers = api.headers || (api.headers = {});
-      api.headers['Content-Type'] = 'application/json';
+      // 避免覆盖用户自定义的Content-Type，如同为json请求，还有扩展的application/vnd.api+json
+      if (!api.headers['Content-Type']) {
+        api.headers['Content-Type'] = 'application/json';
+      }
     }
 
     // 如果发送适配器中设置了 mockResponse
