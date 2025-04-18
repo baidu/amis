@@ -41,6 +41,7 @@ export * from './types';
 export * from './store';
 export * from './globalVar';
 import * as utils from './utils/helper';
+import {closeBroadcastChannel} from './utils/renderer-event';
 import './globalVarClientHandler';
 import './globalVarDefaultValueHandler';
 import {getEnv} from 'mobx-state-tree';
@@ -97,7 +98,7 @@ import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
 import {EnvContext} from './env';
 import type {RendererEnv} from './env';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   evaluate,
   evaluateForAsync,
@@ -350,6 +351,10 @@ function AMISRenderer({
     env.enableAMISDebug ? enableDebug() : disableDebug();
     return () => env.enableAMISDebug || disableDebug();
   }, [env.enableAMISDebug]);
+
+  React.useEffect(() => {
+    closeBroadcastChannel();
+  }, []);
 
   if (props.locale !== undefined) {
     env.translate = translate;
