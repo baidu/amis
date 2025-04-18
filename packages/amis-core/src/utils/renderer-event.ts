@@ -199,8 +199,8 @@ export const bindEvent = (renderer: any) => {
   return undefined;
 };
 
-export const BroadcastChannelMap = new Map<string, BroadcastChannel>();
-export const bindGlobalEventForRenderer = (renderer: any) => {
+export const BroadcastChannelMap = new Map<string, BroadcastChannel[]>();
+export const bindGlobalEventForRenderer = (renderer: any, bcId: string) => {
   if (!renderer) {
     return undefined;
   }
@@ -221,7 +221,10 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
         renderer: renderer,
         bc
       });
-      BroadcastChannelMap.set(key, bc);
+      BroadcastChannelMap.set(
+        bcId,
+        bcs.map(i => i.bc)
+      );
       bc.onmessage = e => {
         const {eventName, data} = e.data;
         const rendererEvent = createRendererEvent(eventName, {
@@ -247,11 +250,12 @@ export const bindGlobalEventForRenderer = (renderer: any) => {
   return void 0;
 };
 
-export const closeBroadcastChannel = () => {
-  BroadcastChannelMap.forEach((bc, key) => {
-    bc.close();
-    BroadcastChannelMap.delete(key);
-  });
+export const closeBroadcastChannel = (bcId: string) => {
+  const bcs = BroadcastChannelMap.get(bcId);
+  if (Array.isArray(bcs)) {
+    bcs.forEach(bc => bc.close());
+  }
+  BroadcastChannelMap.delete(bcId);
 };
 
 export const bindGlobalEvent = (

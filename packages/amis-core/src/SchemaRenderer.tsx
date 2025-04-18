@@ -330,7 +330,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       this.unbindGlobalEvent?.();
 
       this.unbindEvent = bindEvent(ref);
-      this.unbindGlobalEvent = bindGlobalEvent(ref);
+      this.unbindGlobalEvent = bindGlobalEvent(ref, this.props.renderKey);
     }
     this.cRef = ref;
   }

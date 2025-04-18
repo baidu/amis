@@ -287,6 +287,7 @@ function AMISRenderer({
   options: RenderOptions;
   pathPrefix: string;
 }) {
+  const [renderKey] = React.useState(utils.guid());
   let locale = props.locale || getDefaultLocale();
   // 兼容 locale 的不同写法
   locale =
@@ -353,7 +354,9 @@ function AMISRenderer({
   }, [env.enableAMISDebug]);
 
   React.useEffect(() => {
-    closeBroadcastChannel();
+    return () => {
+      closeBroadcastChannel(renderKey);
+    };
   }, []);
 
   if (props.locale !== undefined) {
@@ -389,6 +392,7 @@ function AMISRenderer({
         theme={theme}
         locale={locale}
         translate={translate}
+        renderKey={renderKey}
       />
     </EnvContext.Provider>
   );
