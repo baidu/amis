@@ -36,6 +36,11 @@ import {filter} from '../utils/tpl';
 
 class ServerError extends Error {
   type = 'ServerError';
+
+  constructor(msg: string) {
+    super(msg);
+    Object.setPrototypeOf(this, ServerError.prototype);
+  }
 }
 
 export const Column = types
