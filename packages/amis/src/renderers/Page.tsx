@@ -1097,8 +1097,7 @@ export default class Page extends React.Component<PageProps> {
         {render(
           'dialog',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).dialog as object)),
+            ...store.dialogSchema,
             type: 'dialog'
           },
           {
@@ -1115,8 +1114,7 @@ export default class Page extends React.Component<PageProps> {
         {render(
           'drawer',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).drawer as object)),
+            ...store.drawerSchema,
             type: 'drawer'
           },
           {

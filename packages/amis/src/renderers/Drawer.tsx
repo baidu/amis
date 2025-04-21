@@ -777,8 +777,7 @@ export default class Drawer extends React.Component<DrawerProps> {
           ? render(
               'dialog',
               {
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).dialog as object)),
+                ...store.dialogSchema,
                 type: 'dialog'
               },
               {
@@ -796,8 +795,7 @@ export default class Drawer extends React.Component<DrawerProps> {
           ? render(
               'drawer',
               {
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).drawer as object)),
+                ...store.drawerSchema,
                 type: 'drawer'
               },
               {
