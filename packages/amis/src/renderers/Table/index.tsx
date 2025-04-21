@@ -7,6 +7,7 @@ import find from 'lodash/find';
 import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import isPlainObject from 'lodash/isPlainObject';
+
 import {
   TableStore,
   ITableStore,
@@ -75,6 +76,7 @@ import ColumnToggler from './ColumnToggler';
 import {exportExcel} from './exportExcel';
 import AutoFilterForm from './AutoFilterForm';
 import Cell from './Cell';
+import VCell from './VCell';
 
 import type {IColumn, IRow} from 'amis-core';
 
@@ -694,7 +696,7 @@ export default class Table<
         loading,
         canAccessSuperData,
         lazyRenderAfter,
-        tableLayout,
+        tableLayoutConfig: tableLayout,
         showIndex,
         persistKey
       },
@@ -2270,8 +2272,11 @@ export default class Table<
       filterItemIndex
     } = this.props;
 
+    // 如果列数大于20，并且列不是固定列，则使用按需渲染模式
+    const Comp = store.columns.length > 20 && !column.fixed ? VCell : Cell;
+
     return (
-      <Cell
+      <Comp
         key={props.key}
         region={region}
         column={column}
