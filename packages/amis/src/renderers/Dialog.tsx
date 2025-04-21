@@ -818,8 +818,7 @@ export default class Dialog extends React.Component<DialogProps> {
               'drawer',
               {
                 // 支持嵌套
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).drawer as object)),
+                ...store.drawerSchema,
                 type: 'drawer'
               },
               {
@@ -838,8 +837,7 @@ export default class Dialog extends React.Component<DialogProps> {
               'dialog',
               {
                 // 支持嵌套
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).dialog as object)),
+                ...store.dialogSchema,
                 type: 'dialog'
               },
               {

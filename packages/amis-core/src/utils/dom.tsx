@@ -96,6 +96,7 @@ export function calculatePosition(
 
   const clip = container.getBoundingClientRect();
   const clip2 = overlayNode.getBoundingClientRect();
+  const clip3 = scrollParent.getBoundingClientRect();
   const scaleX = overlayNode.offsetWidth
     ? clip2.width / overlayNode.offsetWidth
     : 1;
@@ -202,12 +203,15 @@ export function calculatePosition(
           : myY === 'bottom'
           ? overlayHeight
           : overlayHeight / 2;
+      // 需考虑 iframe 之外的高度，并不属于可视区域
+      const scrollParentOffset =
+        positionTop < 0 && window.self !== window.top ? clip3.y : 0;
 
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length || isAuto) {
         const transformed = {
           x: clip.x + positionLeft / scaleX,
-          y: clip.y + positionTop / scaleY,
+          y: clip.y - scrollParentOffset + positionTop / scaleY,
           width: overlayWidth,
           height: overlayHeight
         };

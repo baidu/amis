@@ -6,6 +6,7 @@ export class ServerError extends Error {
 
   constructor(msg: string, response: Payload) {
     super(msg);
+    Object.setPrototypeOf(this, ServerError.prototype);
     this.response = response;
   }
 }
