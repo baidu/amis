@@ -1714,7 +1714,10 @@ export const TableStore = iRendererStore
       self.selectedRows.clear();
 
       selected.forEach(item => {
-        let resolved = findTree(self.rows, a => a.pristine === item);
+        let resolved = findTree(
+          self.rows,
+          a => a.pristine === item || a.data === item
+        );
 
         // 先严格比较，
         if (!resolved) {
