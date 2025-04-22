@@ -44,7 +44,7 @@ export function makeWrapper(
 
   @observer
   class Wrapper extends React.Component<Props, States> {
-    static displayName = renderer.displayName;
+    static displayName: string | undefined = renderer.displayName;
     static propsList = ((renderer && renderer.propsList) || []).concat([
       '$$id'
       // '$$editor'

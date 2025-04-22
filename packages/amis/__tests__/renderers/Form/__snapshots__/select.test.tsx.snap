@@ -1156,11 +1156,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-1
-                              </span>
+                              group-1
                             </div>
                           </div>
                           <div
@@ -1170,11 +1166,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-2
-                              </span>
+                              group-2
                             </div>
                           </div>
                           <div
@@ -1184,11 +1176,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-3
-                              </span>
+                              group-3
                             </div>
                           </div>
                           <div
@@ -1198,11 +1186,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-4
-                              </span>
+                              group-4
                             </div>
                           </div>
                         </div>
@@ -1267,11 +1251,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-1-option-1
-                              </span>
+                              group-1-option-1
                             </div>
                           </div>
                           <div
@@ -1281,11 +1261,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-1-option-2
-                              </span>
+                              group-1-option-2
                             </div>
                           </div>
                           <div
@@ -1295,11 +1271,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-1-option-3
-                              </span>
+                              group-1-option-3
                             </div>
                           </div>
                           <div
@@ -1309,11 +1281,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span
-                                class=""
-                              >
-                                group-1-option-4
-                              </span>
+                              group-1-option-4
                             </div>
                           </div>
                         </div>
@@ -1770,11 +1738,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                           <div
                             class="cxd-GroupedSelection-itemLabel"
                           >
-                            <span
-                              class=""
-                            >
-                              group-1
-                            </span>
+                            group-1
                           </div>
                         </div>
                         <div
@@ -1790,11 +1754,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span
-                                  class=""
-                                >
-                                  option-1
-                                </span>
+                                option-1
                               </div>
                             </div>
                           </div>
@@ -1812,11 +1772,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span
-                                  class=""
-                                >
-                                  option-2
-                                </span>
+                                option-2
                               </div>
                             </div>
                           </div>
@@ -1834,11 +1790,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span
-                                  class=""
-                                >
-                                  option-3
-                                </span>
+                                option-3
                               </div>
                             </div>
                           </div>

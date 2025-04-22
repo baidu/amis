@@ -18,7 +18,7 @@ export function StatusScoped<
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {
-      static displayName = `StatusScoped(${
+      static displayName: string = `StatusScoped(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static ComposedComponent = ComposedComponent as React.ComponentType<T>;

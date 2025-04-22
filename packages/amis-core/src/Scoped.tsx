@@ -427,7 +427,7 @@ export function HocScoped<
     scopeRef?: (ref: any) => void;
   };
   class ScopedComponent extends React.Component<ScopedProps> {
-    static displayName = `Scoped(${
+    static displayName: string = `Scoped(${
       ComposedComponent.displayName || ComposedComponent.name
     })`;
     static contextType = ScopedContext;
