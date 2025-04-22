@@ -179,7 +179,7 @@
 
   &--dark {
     background: var(--Tooltip-bg--dark);
-    border: var(--common-popover-border);
+    border: none;
     box-shadow: var(--Tooltip-boxShadow--dark);
 
     .#{$ns}Tooltip-title {
