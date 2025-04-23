@@ -271,8 +271,6 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           });
 
         self.action = action;
-        self.dialogData = false;
-        self.drawerOpen = false;
       },
 
       openDialog(
