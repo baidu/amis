@@ -76,9 +76,13 @@ export function normalizeOptions(
         };
 
         if (typeof option.children !== 'undefined') {
+          // 用新的 share 避免 children 内部复用全局缓存
           option.children = normalizeOptions(
             option.children,
-            share,
+            {
+              values: [],
+              options: []
+            },
             valueField
           );
         } else if (value !== undefined) {
