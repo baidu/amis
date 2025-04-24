@@ -143,7 +143,6 @@ export default {
       {
         name: 'id',
         label: 'ID',
-        width: 50,
         searchable: {
           type: 'input-text',
           name: 'id',
