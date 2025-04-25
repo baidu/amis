@@ -12,10 +12,60 @@ import {
   resolveEventData,
   dataMapping,
   TestIdBuilder,
-  getVariable
+  getVariable,
+  guid
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellValue, CellRichTextValue} from 'exceljs';
+import {Icon, Button, TooltipWrapper} from 'amis-ui';
+
+/**
+ * Excel 文件状态
+ */
+export type ExcelFileState =
+  | 'init'
+  | 'error'
+  | 'pending'
+  | 'parsed'
+  | 'invalid';
+
+/**
+ * Excel 文件数据结构
+ */
+export interface ExcelFileData {
+  /** 单个 sheet 的数据 */
+  data: any[];
+  /** sheet 名称 */
+  sheetName?: string;
+  /** 图片数据 */
+  images?: string[];
+}
+
+/**
+ * Excel 文件输出数据结构
+ */
+export interface ExcelOutputData {
+  /** 文件名称 */
+  fileName: string;
+  /** 文件数据 */
+  data: any[] | ExcelFileData | ExcelFileData[];
+}
+
+/**
+ * Excel 文件对象
+ */
+export interface ExcelFile {
+  /** 文件唯一标识 */
+  id: string;
+  /** 文件名称 */
+  name: string;
+  /** 文件状态 */
+  state: ExcelFileState;
+  /** 错误信息 */
+  error?: string;
+  /** 解析后的数据 */
+  data?: any[] | ExcelFileData | ExcelFileData[];
+}
 
 /**
  * Excel 解析
@@ -61,6 +111,16 @@ export interface InputExcelControlSchema extends FormBaseControlSchema {
   placeholder?: string;
 
   /**
+   * 最大上传文件数
+   */
+  maxLength?: number;
+
+  /**
+   * 是否允许上传多个文件
+   */
+  multiple?: boolean;
+
+  /**
    * 文件解析完成后将字段同步到表单内部
    */
   autoFill?: {
@@ -78,7 +138,8 @@ export interface ExcelProps
     > {}
 
 export interface ExcelControlState {
-  filename: string;
+  files: Array<ExcelFile>;
+  error?: string | null;
 }
 
 export type InputExcelRendererEvent = 'change';
@@ -97,17 +158,21 @@ export default class ExcelControl extends React.PureComponent<
   };
 
   state: ExcelControlState = {
-    filename: ''
+    files: []
   };
 
+  dropzone = React.createRef<any>();
   ExcelJS: any;
 
   componentDidUpdate(prevProps: ExcelProps) {
     if (prevProps.value !== this.props.value && !this.props.value) {
-      this.setState({filename: ''});
+      this.setState({files: []});
     }
   }
 
+  /**
+   * 同步自动填充数据
+   */
   @autobind
   syncAutoFill(filename: string) {
     const {autoFill, onBulkChange, data, name} = this.props;
@@ -119,130 +184,365 @@ export default class ExcelControl extends React.PureComponent<
     const excludeSelfAutoFill = name ? omit(autoFill, name) : autoFill;
 
     if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
-      const toSync = dataMapping(excludeSelfAutoFill, {filename});
+      const context = {
+        ...data,
+        filename
+      };
+      const toSync = dataMapping(excludeSelfAutoFill, context);
 
       Object.keys(toSync).forEach(key => {
-        if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
-          toSync[key] = merge({}, data[key], toSync[key]);
+        const value = getVariable(data, key);
+        if (isPlainObject(toSync[key]) && isPlainObject(value)) {
+          toSync[key] = merge({}, value, toSync[key]);
         }
       });
       onBulkChange(toSync);
     }
   }
 
+  /**
+   * 处理文件上传
+   * 支持单文件和多文件上传，自动处理文件数量限制
+   */
   @autobind
-  handleDrop(files: File[]) {
-    const excel = files[0];
-    const fileName = excel.name;
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(excel);
-    reader.onload = async () => {
-      if (reader.result) {
-        // 如果是 xls 就用 xlsx 解析一下转成 xlsx 然后用 exceljs 解析
-        // 为啥不直接用 xlsx 解析内容？因为它的社区版本不支持读图片，只有收费版才支持
-        if (fileName.toLowerCase().endsWith('.xls')) {
-          import('xlsx').then(XLSX => {
-            const workbook = XLSX.read(
-              new Uint8Array(reader.result as ArrayBuffer),
-              {
-                cellDates: true
-              }
-            );
-            const xlsxFile = XLSX.writeXLSX(workbook, {type: 'array'});
-            this.processExcelFile(xlsxFile, fileName);
-          });
-        } else {
-          this.processExcelFile(reader.result, fileName);
+  async handleDrop(files: File[]) {
+    const {maxLength, multiple} = this.props;
+
+    if (!files.length) {
+      return;
+    }
+
+    // 如果 multiple 未定义或为 false，只取第一个文件并清除现有文件
+    if (multiple !== true) {
+      const filesToProcess = [files[0]];
+      this.setState(
+        {
+          files: filesToProcess.map(file => ({
+            id: guid(),
+            name: file.name,
+            state: 'pending' as ExcelFileState
+          }))
+        },
+        () => {
+          this.processFiles(filesToProcess);
         }
+      );
+      return;
+    }
+
+    // multiple 为 true 的情况，追加新文件
+    const remainingSlots = maxLength
+      ? maxLength - this.state.files.length
+      : files.length;
+
+    if (remainingSlots <= 0) {
+      return;
+    }
+
+    // 确保不超过剩余可上传数量
+    const filesToProcess = files.slice(0, remainingSlots);
+
+    this.setState(
+      state => ({
+        files: [
+          ...state.files,
+          ...filesToProcess.map(file => ({
+            id: guid(),
+            name: file.name,
+            state: 'pending' as ExcelFileState
+          }))
+        ]
+      }),
+      () => {
+        this.processFiles(filesToProcess);
       }
-    };
+    );
   }
 
-  processExcelFile(excelData: ArrayBuffer | string, fileName: string) {
-    const {allSheets, onChange, parseImage, autoFill} = this.props;
-    import('exceljs').then(async (E: any) => {
-      const ExcelJS = E.default || E;
+  /**
+   * 并行处理多个文件
+   * 使用 Promise.all 同时处理所有文件，提高效率
+   */
+  async processFiles(files: File[]) {
+    const pendingFiles = files
+      .map(file => {
+        const fileState = this.state.files.find(
+          f => f.name === file.name && f.state === 'pending'
+        );
+        return fileState ? {file, fileState} : null;
+      })
+      .filter(
+        (item): item is {file: File; fileState: ExcelFile} => item !== null
+      );
+    if (pendingFiles.length) {
+      await Promise.all(
+        pendingFiles.map(({file, fileState}) =>
+          this.processExcelFile(file, fileState)
+        )
+      );
+    }
+  }
+
+  @autobind
+  handleSelect() {
+    const {disabled, maxLength, multiple} = this.props;
+    const canAddMore = multiple === true || this.state.files.length === 0;
+
+    if (
+      !disabled &&
+      !(maxLength && this.state.files.length >= maxLength) &&
+      canAddMore &&
+      this.dropzone.current
+    ) {
+      this.dropzone.current.open();
+    }
+  }
+
+  /**
+   * 移除文件并更新表单数据
+   *
+   * @param file 要移除的文件对象
+   */
+  @autobind
+  removeFile(file: ExcelFile) {
+    this.setState(
+      state => ({
+        files: state.files.filter(f => f.id !== file.id)
+      }),
+      () => {
+        const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
+
+        // 直接调用 updateFormValue 来保持一致的数据格式
+        this.updateFormValue();
+      }
+    );
+  }
+
+  /**
+   * 更新文件状态
+   * 当状态变为 parsed 时自动更新表单值
+   */
+  updateFileState(fileId: string, updates: Partial<ExcelFile>) {
+    this.setState(
+      state => ({
+        files: state.files.map(f => (f.id === fileId ? {...f, ...updates} : f))
+      }),
+      () => {
+        if (updates.state === 'parsed') {
+          this.updateFormValue();
+        }
+      }
+    );
+  }
+
+  /**
+   * 更新表单值
+   * 根据当前已解析的文件更新表单数据
+   * 支持多文件模式和单文件模式
+   */
+  async updateFormValue() {
+    const {data, multiple} = this.props;
+    const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
+
+    if (parsedFiles.length === 0) {
+      await this.dispatchEvent('change');
+      this.props.onChange(undefined);
+      return;
+    }
+
+    let value: any;
+
+    if (multiple === true) {
+      // 多文件模式：返回包含文件名和sheet数据的数组
+      value = parsedFiles.map(file => {
+        const fileData = Array.isArray(file.data) ? file.data : [file.data];
+        return {
+          fileName: file.name,
+          data: fileData.map((sheet: any) => ({
+            sheetName: sheet.sheetName || 'Sheet1',
+            data: sheet.data || sheet
+          }))
+        };
+      });
+    } else {
+      // 单文件模式：保持原有格式
+      const file = parsedFiles[0];
+      if (this.props.allSheets) {
+        // 多表格模式
+        value = Array.isArray(file.data) ? file.data : [file.data];
+      } else {
+        // 单表格模式
+        value = file.data;
+      }
+    }
+
+    // 检查并处理变量表达式
+    if (value && this.isVariableExpression(value)) {
+      value = getVariable(data, value);
+    }
+
+    await this.dispatchEvent('change', value);
+    this.props.onChange(value);
+  }
+
+  /**
+   * 检查值是否为变量表达式
+   */
+  private isVariableExpression(value: any): value is string {
+    return typeof value === 'string' && value.includes('$');
+  }
+
+  /**
+   * 处理Excel文件
+   * 支持 .xls 和 .xlsx 格式
+   * 使用 xlsx 库转换 .xls 为 .xlsx，使用 exceljs 解析内容
+   */
+  async processExcelFile(excelFile: File, fileState: ExcelFile) {
+    const {autoFill, translate: __} = this.props;
+    try {
+      const arrayBuffer = await excelFile.arrayBuffer();
+      const isXls = excelFile.name.toLowerCase().endsWith('.xls');
+      let buffer: ArrayBuffer;
+      if (isXls) {
+        const XLSX = await import('xlsx');
+        const workbook = XLSX.read(new Uint8Array(arrayBuffer), {
+          cellDates: true
+        });
+        const xlsxFile = XLSX.writeXLSX(workbook, {type: 'array'});
+        buffer = xlsxFile.buffer;
+      } else {
+        buffer = arrayBuffer;
+      }
+
+      await this.parseExcelData(buffer, fileState);
+
+      if (autoFill) {
+        this.syncAutoFill(excelFile.name);
+      }
+    } catch (error) {
+      console.error('Excel parsing error:', error);
+      this.updateFileState(fileState.id, {
+        state: 'error',
+        error: error.message || __('Excel.parseError')
+      });
+    }
+  }
+
+  /**
+   * 解析 Excel 数据
+   * 支持解析所有 sheet 或单个 sheet
+   * 支持解析图片和富文本
+   */
+  async parseExcelData(excelData: ArrayBuffer | string, fileState: ExcelFile) {
+    const {allSheets, parseImage, translate: __} = this.props;
+    try {
+      const ExcelJS = (await import('exceljs')).default;
       this.ExcelJS = ExcelJS;
       const workbook = new ExcelJS.Workbook();
-      await workbook.xlsx.load(excelData);
-      let sheetsResult: any = [];
+
+      const data =
+        typeof excelData === 'string'
+          ? new Uint8Array(excelData.split('').map(c => c.charCodeAt(0))).buffer
+          : excelData;
+
+      await workbook.xlsx.load(data);
+
+      let sheetsResult: any;
       if (allSheets) {
-        workbook.eachSheet((worksheet: any) => {
-          const sheetState = worksheet.state || 'visible';
-          // hidden 的不处理
-          if (sheetState === 'hidden') {
-            return;
-          }
-          if (parseImage) {
-            sheetsResult.push({
-              sheetName: worksheet.name,
-              data: this.readWorksheet(worksheet),
-              images: this.readImages(worksheet, workbook)
-            });
-          } else {
-            sheetsResult.push({
-              sheetName: worksheet.name,
-              data: this.readWorksheet(worksheet)
-            });
-          }
-        });
+        sheetsResult = this.parseAllSheets(workbook, parseImage);
       } else {
         const worksheet = workbook.worksheets.find(
           (sheet: any) => sheet.state !== 'hidden'
         );
-
-        if (parseImage) {
-          const images = this.readImages(worksheet, workbook);
-          sheetsResult = {
-            data: this.readWorksheet(worksheet),
-            images
-          };
-        } else {
-          sheetsResult = this.readWorksheet(worksheet);
-        }
+        sheetsResult = parseImage
+          ? {
+              data: this.readWorksheet(worksheet),
+              images: this.readImages(worksheet, workbook)
+            }
+          : this.readWorksheet(worksheet);
       }
-      const dispatcher = await this.dispatchEvent('change', sheetsResult);
-      if (dispatcher?.prevented) {
+
+      this.updateFileState(fileState.id, {
+        state: 'parsed',
+        data: JSON.parse(JSON.stringify(sheetsResult))
+      });
+    } catch (error) {
+      console.error('Excel parsing error:', error);
+      this.updateFileState(fileState.id, {
+        state: 'error',
+        error: error.message || __('Excel.parseError')
+      });
+    }
+  }
+
+  /**
+   * 解析所有可见的 sheet
+   */
+  parseAllSheets(workbook: any, parseImage = false) {
+    const sheetsResult: Array<{
+      sheetName: string;
+      data: any[];
+      images?: string[];
+    }> = [];
+
+    workbook.eachSheet((worksheet: any) => {
+      const sheetState = worksheet.state || 'visible';
+      // hidden 的不处理
+      if (sheetState === 'hidden') {
         return;
       }
 
-      onChange(sheetsResult);
+      const sheetData: {
+        sheetName: string;
+        data: any[];
+        images?: string[];
+      } = {
+        sheetName: worksheet.name,
+        data: this.readWorksheet(worksheet)
+      };
 
-      if (autoFill) {
-        this.syncAutoFill(fileName);
+      if (parseImage) {
+        sheetData.images = this.readImages(worksheet, workbook);
       }
 
-      this.setState({filename: fileName});
+      sheetsResult.push(sheetData);
     });
+    return sheetsResult;
   }
 
-  /** 读取工作表里的图片 */
+  /**
+   * 读取工作表中的图片
+   * 支持输出为 base64 或 dataURI 格式
+   */
   readImages(worksheet: any, workbook: any) {
     const {imageDataURI} = this.props;
     const images = worksheet.getImages();
-    const imgResult: string[] = [];
-    for (const image of images) {
+    return images.map((image: {imageId: number}) => {
       const img = workbook.getImage(+image.imageId);
       const imgBase64 = this.encodeBase64Bytes(img.buffer);
-      if (imageDataURI) {
-        const extension = img.extension || 'png';
-        imgResult.push(`data:image/${extension};base64,` + imgBase64);
-      } else {
-        imgResult.push(imgBase64);
-      }
-    }
-    return imgResult;
+      return imageDataURI
+        ? `data:image/${img.extension || 'png'};base64,${imgBase64}`
+        : imgBase64;
+    });
   }
 
-  /** 将 buffer 转成 base64 */
+  /**
+   * 将 buffer 转成 base64
+   */
   encodeBase64Bytes(bytes: Uint8Array): string {
     return btoa(
       bytes.reduce((acc, current) => acc + String.fromCharCode(current), '')
     );
   }
 
-  async dispatchEvent(eventName: string, eventData?: Record<string, any>) {
-    const {dispatchEvent, data} = this.props;
+  /**
+   * 触发表单事件
+   */
+  private async dispatchEvent(
+    eventName: string,
+    eventData?: Record<string, any>
+  ) {
+    const {dispatchEvent} = this.props;
     return await dispatchEvent(
       eventName,
       resolveEventData(this.props, {value: eventData})
@@ -312,15 +612,15 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   /**
-   * 读取单个 sheet 的内容
+   * 读取工作表内容
    */
   readWorksheet(worksheet: any) {
     const result: any[] = [];
     const {parseMode, plainText, includeEmpty} = this.props;
 
     if (parseMode === 'array') {
-      worksheet.eachRow((row: any, rowNumber: number) => {
-        let values = row.values;
+      worksheet.eachRow((_row: any) => {
+        let values = _row.values;
         values.shift(); // excel 返回的值是从 1 开始的，0 节点永远是 null
         if (plainText) {
           values = values.map((item: any) => {
@@ -344,9 +644,9 @@ export default class ExcelControl extends React.PureComponent<
       return result;
     } else {
       let firstRowValues: any[] = [];
-      worksheet.eachRow((row: any, rowNumber: number) => {
+      worksheet.eachRow((row: any, rowIndex: number) => {
         // 将第一列作为字段名
-        if (rowNumber == 1) {
+        if (rowIndex == 1) {
           firstRowValues = (row.values ?? []).map((item: CellValue) =>
             this.isRichTextValue(item)
               ? this.richText2PlainString(item as CellRichTextValue)
@@ -388,58 +688,155 @@ export default class ExcelControl extends React.PureComponent<
     }
   }
 
-  doAction(action: any, data: object, throwErrors: boolean) {
-    const actionType = action?.actionType as string;
-    const {onChange, resetValue, formStore, store, name} = this.props;
-
-    if (actionType === 'clear') {
-      onChange('');
-    } else if (actionType === 'reset') {
-      const pristineVal =
-        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
-      onChange(pristineVal ?? '');
-    }
-  }
-
   render() {
     const {
       className,
       classnames: cx,
-      classPrefix: ns,
+      maxLength,
       disabled,
       translate: __,
       placeholder,
-      testIdBuilder
+      testIdBuilder,
+      multiple,
+      env,
+      container
     } = this.props;
+
+    const {files} = this.state;
+    const canAddMore = multiple === true || files.length === 0;
+    const isMaxLength = !!maxLength && files.length >= maxLength;
+    const isSingleFileFull = !multiple && files.length > 0;
 
     return (
       <div className={cx('ExcelControl', className)}>
         <Dropzone
           key="drop-zone"
+          ref={this.dropzone}
           onDrop={this.handleDrop}
           accept=".xlsx,.xls"
-          multiple={false}
-          disabled={disabled}
+          multiple={!!multiple}
+          disabled={disabled || isSingleFileFull}
+          noClick={true}
         >
-          {({getRootProps, getInputProps}) => (
-            <section className={cx('ExcelControl-container', className)}>
-              <div
-                {...getRootProps({className: cx('ExcelControl-dropzone')})}
-                {...testIdBuilder?.getTestId()}
+          {({getRootProps, getInputProps, isDragActive}) => (
+            <div
+              {...getRootProps({
+                className: cx('ExcelControl-container', className)
+              })}
+            >
+              <TooltipWrapper
+                placement="top"
+                container={container || env?.getModalContainer}
+                tooltip={
+                  isMaxLength
+                    ? __('File.maxLength', {maxLength})
+                    : isSingleFileFull
+                    ? __('File.singleFile')
+                    : maxLength
+                    ? __('File.maxLength', {
+                        maxLength,
+                        uploaded: files.length
+                      })
+                    : ''
+                }
+                tooltipClassName={cx('ExcelControl-tooltip')}
               >
-                <input
-                  {...getInputProps()}
-                  {...testIdBuilder?.getChild('input').getTestId()}
-                />
-                {this.state.filename ? (
-                  __('Excel.parsed', {
-                    filename: this.state.filename
-                  })
-                ) : (
-                  <p>{placeholder ?? __('Excel.placeholder')}</p>
-                )}
-              </div>
-            </section>
+                <div
+                  className={cx('ExcelControl-dropzone', {
+                    'is-disabled': disabled || isMaxLength || isSingleFileFull,
+                    'is-empty': !files.length,
+                    'is-active': isDragActive
+                  })}
+                >
+                  <input
+                    {...getInputProps()}
+                    {...testIdBuilder?.getChild('input').getTestId()}
+                  />
+
+                  {isDragActive ? (
+                    <div className={cx('ExcelControl-acceptTip')}>
+                      <Icon icon="cloud-upload" className="icon" />
+                      <span>
+                        {__('File.dragDrop')}
+                        <span className={cx('ExcelControl-uploadHint')}>
+                          {__('File.clickUpload')}
+                        </span>
+                      </span>
+                    </div>
+                  ) : (
+                    <Button
+                      level="enhance"
+                      disabled={disabled || !canAddMore}
+                      className={cx('ExcelControl-selectBtn', {
+                        'is-disabled': isMaxLength || !canAddMore
+                      })}
+                      onClick={this.handleSelect}
+                    >
+                      <Icon icon="upload" className="icon" />
+                      <span>
+                        {files.length && canAddMore
+                          ? __('File.continueAdd')
+                          : placeholder ?? __('Excel.placeholder')}
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              </TooltipWrapper>
+
+              {files.length > 0 && (
+                <ul className={cx('ExcelControl-list')}>
+                  {files.map(file => (
+                    <li key={file.id}>
+                      <TooltipWrapper
+                        placement="top"
+                        container={container || env?.getModalContainer}
+                        tooltipClassName={cx(
+                          'ExcelControl-list-tooltip',
+                          file.state === 'error' && 'is-invalid'
+                        )}
+                        tooltip={
+                          file.state === 'error' ? file.error : file.name
+                        }
+                      >
+                        <div
+                          className={cx('ExcelControl-itemInfo', {
+                            'is-invalid': file.state === 'error'
+                          })}
+                        >
+                          <span className={cx('ExcelControl-itemInfoIcon')}>
+                            <Icon icon="file-excel" className="icon" />
+                          </span>
+
+                          <span className={cx('ExcelControl-itemInfoText')}>
+                            {file.name}
+                          </span>
+
+                          {!disabled && (
+                            <a
+                              data-tooltip={__('Select.clear')}
+                              data-position="left"
+                              className={cx('ExcelControl-clear')}
+                              onClick={e => {
+                                e.stopPropagation();
+                                this.removeFile(file);
+                              }}
+                            >
+                              <Icon icon="close" className="icon" />
+                            </a>
+                          )}
+                        </div>
+                      </TooltipWrapper>
+
+                      {file.state === 'pending' && (
+                        <div className={cx('ExcelControl-progressInfo')}>
+                          <p>{__('Excel.parsing')}</p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           )}
         </Dropzone>
       </div>
