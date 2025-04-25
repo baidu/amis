@@ -21,8 +21,8 @@ test('Renderer:mobile nested select', async () => {
     amisRender(
       {
         type: 'form',
-        api: '/api/mock2/form/saveForm',
-        body: [
+        api: '/api/xxx',
+        controls: [
           {
             type: 'nested-select',
             name: 'nestedSelect',
