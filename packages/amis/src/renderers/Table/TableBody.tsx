@@ -70,11 +70,6 @@ export class TableBody<
 > extends React.Component<T> {
   componentDidMount(): void {
     this.props.store.initTableWidth();
-    console.log('tBody didmount');
-  }
-
-  componentDidUpdate(): void {
-    console.log('tBody didupdate');
   }
 
   @autobind

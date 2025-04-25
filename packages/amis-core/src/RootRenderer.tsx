@@ -57,7 +57,17 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         return;
       }
       const schema = props.schema;
-      const types: Array<string> = ['tpl', 'dialog', 'drawer'];
+      const types: Array<string> = [
+        'tpl',
+        'dialog',
+        'drawer',
+        'cell',
+        'spinner',
+        'group',
+        'container',
+        'dropdown-button',
+        'plain'
+      ];
       JSONTraverse(schema, (value: any, key: string) => {
         if (key === 'type') {
           types.push(value);

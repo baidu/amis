@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {startTransition} from 'react';
 import {ITableStore} from 'amis-core';
-import debounce from 'lodash/debounce';
 import {getScrollParent} from 'amis-core';
-import CachedRow from './CachedRow';
 import {resizeSensor} from 'amis-core';
 export interface VirtualTableBodyProps {
   className?: string;
@@ -43,7 +41,6 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
     const check = () => {
       const rect = header.getBoundingClientRect();
       const rect2 = firstRow.getBoundingClientRect();
-
       setScrollTop(rect.bottom - rect2.top);
     };
     let timer: ReturnType<typeof requestAnimationFrame> | null = null;
