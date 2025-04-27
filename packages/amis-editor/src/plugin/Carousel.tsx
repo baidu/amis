@@ -1,7 +1,13 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin, BasicToolbarItem} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  undefinedPipeOut,
+  BaseEventContext,
+  BasePlugin,
+  BasicToolbarItem,
+  defaultValue,
+  getSchemaTpl,
+  mockValue
+} from 'amis-editor-core';
 
 export class CarouselPlugin extends BasePlugin {
   static id = 'CarouselPlugin';
@@ -405,20 +411,20 @@ export class CarouselPlugin extends BasePlugin {
               title: '其他',
               body: [
                 {
-                  name: 'themeCss.baseControlClassName.--image-images-prev-icon',
+                  name: 'icons.prev',
                   label: '左切换图标',
                   type: 'icon-select',
-                  returnSvg: true
+                  pipeOut: undefinedPipeOut
                 },
                 {
-                  name: 'themeCss.baseControlClassName.--image-images-next-icon',
+                  name: 'icons.next',
                   label: '右切换图标',
                   type: 'icon-select',
-                  returnSvg: true
+                  pipeOut: undefinedPipeOut
                 },
-                getSchemaTpl('theme:select', {
+                getSchemaTpl('theme:size', {
                   label: '切换图标大小',
-                  name: 'themeCss.galleryControlClassName.width:default'
+                  name: 'themeCss.galleryControlClassName.size:default'
                 })
               ]
             },
