@@ -84,7 +84,10 @@ export interface CRUDScaffoldConfig<
   API extends any = ApiConfig
 > extends ScaffoldConfigBase {
   /** 工具栏 */
-  tools?: Extract<DSFeatureType, 'Insert' | 'BulkDelete' | 'BulkEdit'>[];
+  tools?: Extract<
+    DSFeatureType,
+    'Insert' | 'BulkDelete' | 'BulkEdit' | 'Export'
+  >[];
   /** 数据操作 */
   operators?: Extract<DSFeatureType, 'View' | 'Edit' | 'Delete'>[];
   /** 条件查询 */
@@ -101,6 +104,7 @@ export interface CRUDScaffoldConfig<
   bulkEditApi?: API;
   deleteApi?: API;
   bulkDeleteApi?: API;
+  exportApi?: API;
   insertApi?: API;
   listFields?: Fields[];
   insertFields?: Fields[];
