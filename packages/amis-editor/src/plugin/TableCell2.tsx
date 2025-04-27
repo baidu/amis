@@ -143,18 +143,11 @@ export class TableCell2Plugin extends BasePlugin {
         type: 'input-text'
       },
 
-      remarkTpl({
-        name: 'remark',
-        label: '标题提示',
-        labelRemark: '在标题旁展示提示'
+      getSchemaTpl('remark', {
+        label: '标题提示'
       }),
 
-      {
-        name: 'placeholder',
-        type: 'input-text',
-        label: tipedLabel('占位提示', '当没有值时用这个来替代展示。'),
-        value: '-'
-      }
+      getSchemaTpl('placeholder')
     ].filter(Boolean);
     const advanced = [
       getSchemaTpl('switch', {
@@ -538,22 +531,13 @@ export class TableCell2Plugin extends BasePlugin {
                 dc?.name?.(context),
                 /** 字段配置，兼容key */
                 dc?.key?.(context),
-                {
-                  name: 'title',
-                  label: '列标题',
-                  type: 'input-text'
-                },
-                remarkTpl({
-                  name: 'remark',
-                  label: '标题提示',
-                  labelRemark: '在标题旁展示提示'
+                getSchemaTpl('pageTitle', {
+                  label: '列标题'
                 }),
-                {
-                  name: 'placeholder',
-                  type: 'input-text',
-                  label: tipedLabel('占位提示', '当没有值时用这个来替代展示。'),
-                  value: '-'
-                }
+                getSchemaTpl('remark', {
+                  label: '标题提示'
+                }),
+                getSchemaTpl('placeholder')
               ]).filter(Boolean)
             },
             dc?.relationBuildSetting?.(context),
@@ -618,6 +602,9 @@ export class TableCell2Plugin extends BasePlugin {
             {
               title: '列设置',
               body: flattenDeep([
+                getSchemaTpl('pageTitle', {
+                  label: '列名称'
+                }),
                 {
                   type: 'ae-columnWidthControl',
                   name: 'width',

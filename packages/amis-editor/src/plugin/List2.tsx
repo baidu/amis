@@ -6,6 +6,7 @@ import {
   BasePlugin,
   BasicRendererInfo,
   PluginInterface,
+  getI18nEnabled,
   RendererInfoResolveEventContext
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
@@ -344,6 +345,7 @@ export class List2Plugin extends BasePlugin {
     const isCRUDBody = context.schema.type === 'crud';
     const curPosition = context?.schema?.style?.position;
     const isAbsolute = curPosition === 'fixed' || curPosition === 'absolute';
+    const i18nEnabled = getI18nEnabled();
 
     return [
       getSchemaTpl('tabs', [
@@ -354,7 +356,7 @@ export class List2Plugin extends BasePlugin {
               title: '基本',
               body: [
                 {
-                  type: 'input-text',
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                   label: '组件名称',
                   name: 'editorSetting.displayName'
                 },
