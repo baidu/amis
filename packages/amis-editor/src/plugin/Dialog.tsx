@@ -262,7 +262,7 @@ export class DialogPlugin extends BasePlugin {
             title: '基本',
             body: [
               {
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '组件名称',
                 name: 'editorSetting.displayName'
               },
