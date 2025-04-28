@@ -443,22 +443,6 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   /**
-   * 处理组件动作
-   */
-  doAction(action: any, data: object, throwErrors: boolean) {
-    const actionType = action?.actionType as string;
-    const {onChange, resetValue, formStore, store, name} = this.props;
-
-    if (actionType === 'clear') {
-      onChange('');
-    } else if (actionType === 'reset') {
-      const pristineVal =
-        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
-      onChange(pristineVal ?? '');
-    }
-  }
-
-  /**
    * 处理Excel文件
    * 支持 .xls 和 .xlsx 格式
    * 使用 xlsx 库转换 .xls 为 .xlsx，使用 exceljs 解析内容
@@ -774,6 +758,19 @@ export default class ExcelControl extends React.PureComponent<
     }
   }
 
+  doAction(action: any, data: object, throwErrors: boolean) {
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue, formStore, store, name} = this.props;
+
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange(pristineVal ?? '');
+    }
+  }
+
   render() {
     const {
       className,
@@ -793,6 +790,46 @@ export default class ExcelControl extends React.PureComponent<
     const isMaxLength = !!maxLength && files.length >= maxLength;
     const isSingleFileFull = !multiple && files.length > 0;
 
+    // 单文件模式使用简化UI
+    if (multiple !== true) {
+      return (
+        <div className={cx('ExcelControl', className)}>
+          <Dropzone
+            key="drop-zone"
+            ref={this.dropzone}
+            onDrop={this.handleDrop}
+            accept=".xlsx,.xls"
+            multiple={false}
+            disabled={disabled || isSingleFileFull}
+          >
+            {({getRootProps, getInputProps}) => (
+              <section className={cx('ExcelControl-container', className)}>
+                <div
+                  {...getRootProps({className: cx('ExcelControl-dropzone')})}
+                  {...testIdBuilder?.getTestId()}
+                >
+                  <input
+                    {...getInputProps()}
+                    {...testIdBuilder?.getChild('input').getTestId()}
+                  />
+                  {files.length > 0 && files[0].state === 'parsed' ? (
+                    <p>
+                      {__('Excel.parsed', {
+                        filename: files[0].name
+                      })}
+                    </p>
+                  ) : (
+                    <p>{placeholder ?? __('Excel.placeholder')}</p>
+                  )}
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        </div>
+      );
+    }
+
+    // 多文件模式使用当前UI，但简化风格
     return (
       <div className={cx('ExcelControl', className)}>
         <Dropzone
@@ -801,7 +838,7 @@ export default class ExcelControl extends React.PureComponent<
           onDrop={this.handleDrop}
           accept=".xlsx,.xls"
           multiple={!!multiple}
-          disabled={disabled || isSingleFileFull}
+          disabled={disabled || isMaxLength}
           noClick={true}
         >
           {({getRootProps, getInputProps, isDragActive}) => (
@@ -814,8 +851,8 @@ export default class ExcelControl extends React.PureComponent<
                 placement="top"
                 container={container || env?.getModalContainer}
                 tooltip={
-                  isMaxLength
-                    ? __('File.maxLength', {maxLength})
+                  maxLength === 1
+                    ? __('Excel.singleFile')
                     : maxLength
                     ? __('File.maxLength', {
                         maxLength,
@@ -827,14 +864,12 @@ export default class ExcelControl extends React.PureComponent<
               >
                 <div
                   className={cx('ExcelControl-dropzone', {
-                    'is-disabled': disabled || isMaxLength || isSingleFileFull,
+                    'is-disabled': disabled || isMaxLength,
                     'is-empty': !files.length,
                     'is-active': isDragActive
                   })}
                   onClick={
-                    disabled || isMaxLength || isSingleFileFull
-                      ? undefined
-                      : this.handleSelect
+                    disabled || isMaxLength ? undefined : this.handleSelect
                   }
                 >
                   <input
