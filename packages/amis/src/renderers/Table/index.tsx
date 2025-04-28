@@ -925,7 +925,8 @@ export default class Table<
           const rect1 = selfNode.getBoundingClientRect();
           const rect2 = nextSibling.getBoundingClientRect();
 
-          if (rect1.bottom <= rect2.top) {
+          // 浏览器缩放/扩大的时候会出现精度问题
+          if (rect1.bottom - rect2.top <= 0.5) {
             nextSiblingHeight +=
               nextSibling.offsetHeight +
               getStyleNumber(nextSibling, 'margin-bottom');
