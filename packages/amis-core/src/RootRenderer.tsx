@@ -36,7 +36,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       storeType: RootStore.name,
       parentId: ''
     }) as IRootStore;
-    this.store.updateContext(props.context);
+    this.store.updateContext(props.context, true);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
     this.store.setGlobalVars(props.globalVars);
