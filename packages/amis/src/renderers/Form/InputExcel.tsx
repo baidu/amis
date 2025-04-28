@@ -219,9 +219,8 @@ export default class ExcelControl extends React.PureComponent<
       const toSync = dataMapping(excludeSelfAutoFill, context);
 
       Object.keys(toSync).forEach(key => {
-        const value = data[key];
-        if (isPlainObject(toSync[key]) && isPlainObject(value)) {
-          toSync[key] = merge({}, value, toSync[key]);
+        if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+          toSync[key] = merge({}, data[key], toSync[key]);
         }
       });
       onBulkChange(toSync);
@@ -631,10 +630,16 @@ export default class ExcelControl extends React.PureComponent<
     eventData?: Record<string, any>
   ) {
     const {dispatchEvent} = this.props;
-    return await dispatchEvent(
+    const dispatcher = await dispatchEvent(
       eventName,
       resolveEventData(this.props, {value: eventData})
     );
+
+    if (dispatcher?.prevented) {
+      return;
+    }
+
+    return dispatcher;
   }
 
   /**
