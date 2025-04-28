@@ -5,20 +5,20 @@ import merge from 'lodash/merge';
 import isEmpty from 'lodash/isEmpty';
 import isPlainObject from 'lodash/isPlainObject';
 import {
-  FormItem,
-  FormControlProps,
   autobind,
-  isObject,
-  resolveEventData,
   dataMapping,
-  TestIdBuilder,
+  FormControlProps,
+  FormItem,
   getVariable,
   guid,
-  isExpression
+  isExpression,
+  isObject,
+  resolveEventData,
+  TestIdBuilder
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
-import type {CellValue, CellRichTextValue} from 'exceljs';
-import {Icon, Button, TooltipWrapper} from 'amis-ui';
+import type {CellRichTextValue, CellValue} from 'exceljs';
+import {Icon, TooltipWrapper} from 'amis-ui';
 
 /**
  * Excel 文件状态
@@ -445,7 +445,10 @@ export default class ExcelControl extends React.PureComponent<
       value = getVariable(data, value);
     }
 
-    await this.dispatchEvent('change', value);
+    const dispatcher = await this.dispatchEvent('change', value);
+    if (dispatcher?.prevented) {
+      return;
+    }
     this.props.onChange(value);
 
     // 在值变化时也触发自动填充
@@ -456,7 +459,7 @@ export default class ExcelControl extends React.PureComponent<
    * 在适当的时机触发自动填充
    */
   triggerAutoFill() {
-    const {autoFill, multiple} = this.props;
+    const {autoFill} = this.props;
     if (autoFill && !autoFill.hasOwnProperty('api') && isObject(autoFill)) {
       const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
       if (parsedFiles.length > 0) {
@@ -630,16 +633,10 @@ export default class ExcelControl extends React.PureComponent<
     eventData?: Record<string, any>
   ) {
     const {dispatchEvent} = this.props;
-    const dispatcher = await dispatchEvent(
+    return await dispatchEvent(
       eventName,
       resolveEventData(this.props, {value: eventData})
     );
-
-    if (dispatcher?.prevented) {
-      return;
-    }
-
-    return dispatcher;
   }
 
   /**
@@ -737,9 +734,9 @@ export default class ExcelControl extends React.PureComponent<
       return result;
     } else {
       let firstRowValues: any[] = [];
-      worksheet.eachRow((row: any, rowIndex: number) => {
+      worksheet.eachRow((row: any, rowNumber: number) => {
         // 将第一列作为字段名
-        if (rowIndex == 1) {
+        if (rowNumber == 1) {
           firstRowValues = (row.values ?? []).map((item: CellValue) =>
             this.isRichTextValue(item)
               ? this.richText2PlainString(item as CellRichTextValue)
@@ -781,7 +778,7 @@ export default class ExcelControl extends React.PureComponent<
     }
   }
 
-  doAction(action: any, data: object, throwErrors: boolean) {
+  doAction(action: any, _data: object, _throwErrors: boolean) {
     const actionType = action?.actionType as string;
     const {onChange, resetValue, formStore, store, name} = this.props;
 
