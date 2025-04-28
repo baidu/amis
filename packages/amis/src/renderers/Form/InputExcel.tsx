@@ -13,7 +13,8 @@ import {
   dataMapping,
   TestIdBuilder,
   getVariable,
-  guid
+  guid,
+  isExpression
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellValue, CellRichTextValue} from 'exceljs';
@@ -433,19 +434,12 @@ export default class ExcelControl extends React.PureComponent<
     }
 
     // 检查并处理变量表达式
-    if (value && this.isVariableExpression(value)) {
+    if (value && isExpression(value)) {
       value = getVariable(data, value);
     }
 
     await this.dispatchEvent('change', value);
     this.props.onChange(value);
-  }
-
-  /**
-   * 检查值是否为变量表达式
-   */
-  private isVariableExpression(value: any): value is string {
-    return typeof value === 'string' && value.includes('$');
   }
 
   /**
