@@ -207,8 +207,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     );
 
     const globalData = {
-      ...topStore.nextGlobalData,
-
+      global: topStore.nextGlobalData.global,
+      globalState: topStore.nextGlobalData.globalState,
       // 兼容旧的全局变量
       __page: topStore.nextGlobalData.__page,
       appVariables: topStore.nextGlobalData.appVariables,
