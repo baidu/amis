@@ -27,6 +27,7 @@
 
     &-ellipsis {
       width: auto;
+      max-height: var(--sizes-base-15);
       overflow: hidden;
       display: -webkit-inline-box;
       -webkit-box-orient: vertical;
