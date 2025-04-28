@@ -1492,7 +1492,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       return;
     }
     const cols = [].slice.call(
-      tbodyDom?.querySelectorAll(':scope>tr>td[data-col]')
+      tbodyDom?.querySelectorAll(':scope>tr:last-child>td[data-col]')
     );
     const colWidths: any = {};
     cols.forEach((col: HTMLElement) => {
