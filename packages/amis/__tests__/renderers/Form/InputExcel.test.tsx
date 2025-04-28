@@ -1,9 +1,23 @@
 import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react';
-import '../../__mocks__/matchMedia';
 import {render as amisRender} from '../../../src';
 import {makeEnv} from '../../helper';
 import type {RenderOptions} from 'amis-core';
+
+// Mock matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // Deprecated
+    removeListener: jest.fn(), // Deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
 
 // Mock DataTransfer API
 class MockDataTransferItem {
