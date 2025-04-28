@@ -174,8 +174,8 @@ export default class ExcelControl extends React.PureComponent<
    * 同步自动填充数据
    */
   @autobind
-  syncAutoFill(filename: string) {
-    const {autoFill, onBulkChange, data, name} = this.props;
+  syncAutoFill(filename: string, fileData?: any) {
+    const {autoFill, onBulkChange, data, name, multiple} = this.props;
 
     if (autoFill?.hasOwnProperty('api') || !isObject(autoFill)) {
       return;
@@ -184,14 +184,35 @@ export default class ExcelControl extends React.PureComponent<
     const excludeSelfAutoFill = name ? omit(autoFill, name) : autoFill;
 
     if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
-      const context = {
-        ...data,
-        filename
-      };
+      let context;
+
+      if (multiple === true) {
+        // 多文件模式：提供所有已解析文件的数组作为上下文
+        const parsedFiles = this.state.files
+          .filter(f => f.state === 'parsed')
+          .map(file => ({
+            filename: file.name,
+            data: file.data
+          }));
+
+        context = {
+          items: parsedFiles,
+          currentFile: {
+            filename,
+            data: fileData
+          }
+        };
+      } else {
+        // 单文件模式：只提供当前文件信息作为上下文
+        context = {
+          filename
+        };
+      }
+
       const toSync = dataMapping(excludeSelfAutoFill, context);
 
       Object.keys(toSync).forEach(key => {
-        const value = getVariable(data, key);
+        const value = data[key];
         if (isPlainObject(toSync[key]) && isPlainObject(value)) {
           toSync[key] = merge({}, value, toSync[key]);
         }
@@ -213,12 +234,17 @@ export default class ExcelControl extends React.PureComponent<
     }
 
     // 如果 multiple 未定义或为 false，只取第一个文件并清除现有文件
-    if (multiple !== true) {
-      const filesToProcess = [files[0]];
+    if (!multiple) {
+      const filesToProcess = [
+        {
+          file: files[0],
+          id: guid()
+        }
+      ];
       this.setState(
         {
-          files: filesToProcess.map(file => ({
-            id: guid(),
+          files: filesToProcess.map(({file, id}) => ({
+            id,
             name: file.name,
             state: 'pending' as ExcelFileState
           }))
@@ -240,14 +266,17 @@ export default class ExcelControl extends React.PureComponent<
     }
 
     // 确保不超过剩余可上传数量
-    const filesToProcess = files.slice(0, remainingSlots);
+    const filesToProcess = files.slice(0, remainingSlots).map(file => ({
+      file,
+      id: guid()
+    }));
 
     this.setState(
       state => ({
         files: [
           ...state.files,
-          ...filesToProcess.map(file => ({
-            id: guid(),
+          ...filesToProcess.map(({file, id}) => ({
+            id,
             name: file.name,
             state: 'pending' as ExcelFileState
           }))
@@ -263,23 +292,28 @@ export default class ExcelControl extends React.PureComponent<
    * 并行处理多个文件
    * 使用 Promise.all 同时处理所有文件，提高效率
    */
-  async processFiles(files: File[]) {
+  async processFiles(files: Array<{file: File; id: string}>) {
     const pendingFiles = files
-      .map(file => {
+      .map(({file, id}) => {
         const fileState = this.state.files.find(
-          f => f.name === file.name && f.state === 'pending'
+          f => f.id === id && f.state === 'pending'
         );
         return fileState ? {file, fileState} : null;
       })
       .filter(
         (item): item is {file: File; fileState: ExcelFile} => item !== null
       );
+
     if (pendingFiles.length) {
       await Promise.all(
         pendingFiles.map(({file, fileState}) =>
           this.processExcelFile(file, fileState)
         )
       );
+    } else {
+      // 如果没有待处理的文件，仍然需要更新表单值
+      // 这处理了清空所有文件的情况
+      this.updateFormValue();
     }
   }
 
@@ -310,17 +344,22 @@ export default class ExcelControl extends React.PureComponent<
         files: state.files.filter(f => f.id !== file.id)
       }),
       () => {
-        const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
-
-        // 直接调用 updateFormValue 来保持一致的数据格式
-        this.updateFormValue();
+        // 检查是否有待处理的文件
+        const pendingFiles = this.state.files.filter(
+          f => f.state === 'pending'
+        );
+        if (pendingFiles.length === 0) {
+          // 没有待处理文件，可以安全地更新表单值
+          this.updateFormValue();
+        }
+        // 否则等待所有文件处理完成后再更新值
       }
     );
   }
 
   /**
    * 更新文件状态
-   * 当状态变为 parsed 时自动更新表单值
+   * 当状态变为 parsed 时检查是否所有文件都已处理完成
    */
   updateFileState(fileId: string, updates: Partial<ExcelFile>) {
     this.setState(
@@ -329,7 +368,14 @@ export default class ExcelControl extends React.PureComponent<
       }),
       () => {
         if (updates.state === 'parsed') {
-          this.updateFormValue();
+          // 检查是否所有待处理的文件都已经处理完成
+          const pendingFiles = this.state.files.filter(
+            f => f.state === 'pending'
+          );
+          if (pendingFiles.length === 0) {
+            // 所有文件都已处理完成，一次性更新表单值
+            this.updateFormValue();
+          }
         }
       }
     );
@@ -341,7 +387,7 @@ export default class ExcelControl extends React.PureComponent<
    * 支持多文件模式和单文件模式
    */
   async updateFormValue() {
-    const {data, multiple} = this.props;
+    const {data, multiple, allSheets, parseImage} = this.props;
     const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
 
     if (parsedFiles.length === 0) {
@@ -358,16 +404,26 @@ export default class ExcelControl extends React.PureComponent<
         const fileData = Array.isArray(file.data) ? file.data : [file.data];
         return {
           fileName: file.name,
-          data: fileData.map((sheet: any) => ({
-            sheetName: sheet.sheetName || 'Sheet1',
-            data: sheet.data || sheet
-          }))
+          data: fileData.map((sheet: any) => {
+            // 确保每个sheet数据包含所需的属性
+            const sheetData: any = {
+              sheetName: sheet.sheetName || 'Sheet1',
+              data: sheet.data || sheet
+            };
+
+            // 如果启用了图片解析，确保图片数据也被包含
+            if (parseImage && sheet.images) {
+              sheetData.images = sheet.images;
+            }
+
+            return sheetData;
+          })
         };
       });
     } else {
       // 单文件模式：保持原有格式
       const file = parsedFiles[0];
-      if (this.props.allSheets) {
+      if (allSheets) {
         // 多表格模式
         value = Array.isArray(file.data) ? file.data : [file.data];
       } else {
@@ -393,6 +449,22 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   /**
+   * 处理组件动作
+   */
+  doAction(action: any, data: object, throwErrors: boolean) {
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue, formStore, store, name} = this.props;
+
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
+      const pristineVal =
+        getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
+      onChange(pristineVal ?? '');
+    }
+  }
+
+  /**
    * 处理Excel文件
    * 支持 .xls 和 .xlsx 格式
    * 使用 xlsx 库转换 .xls 为 .xlsx，使用 exceljs 解析内容
@@ -400,9 +472,23 @@ export default class ExcelControl extends React.PureComponent<
   async processExcelFile(excelFile: File, fileState: ExcelFile) {
     const {autoFill, translate: __} = this.props;
     try {
-      const arrayBuffer = await excelFile.arrayBuffer();
+      // 使用 Promise 包装 FileReader 操作
+      const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.result) {
+            resolve(reader.result as ArrayBuffer);
+          } else {
+            reject(new Error('Failed to read file'));
+          }
+        };
+        reader.onerror = () => reject(reader.error);
+        reader.readAsArrayBuffer(excelFile);
+      });
+
       const isXls = excelFile.name.toLowerCase().endsWith('.xls');
       let buffer: ArrayBuffer;
+
       if (isXls) {
         const XLSX = await import('xlsx');
         const workbook = XLSX.read(new Uint8Array(arrayBuffer), {
@@ -417,7 +503,13 @@ export default class ExcelControl extends React.PureComponent<
       await this.parseExcelData(buffer, fileState);
 
       if (autoFill) {
-        this.syncAutoFill(excelFile.name);
+        // 获取更新后的 fileState
+        const updatedFileState = this.state.files.find(
+          f => f.id === fileState.id
+        );
+        if (updatedFileState && updatedFileState.state === 'parsed') {
+          this.syncAutoFill(excelFile.name, updatedFileState.data);
+        }
       }
     } catch (error) {
       console.error('Excel parsing error:', error);
@@ -434,7 +526,7 @@ export default class ExcelControl extends React.PureComponent<
    * 支持解析图片和富文本
    */
   async parseExcelData(excelData: ArrayBuffer | string, fileState: ExcelFile) {
-    const {allSheets, parseImage, translate: __} = this.props;
+    const {allSheets, parseImage, plainText, translate: __} = this.props;
     try {
       const ExcelJS = (await import('exceljs')).default;
       this.ExcelJS = ExcelJS;
@@ -449,22 +541,22 @@ export default class ExcelControl extends React.PureComponent<
 
       let sheetsResult: any;
       if (allSheets) {
-        sheetsResult = this.parseAllSheets(workbook, parseImage);
+        sheetsResult = this.parseAllSheets(workbook, parseImage, plainText);
       } else {
         const worksheet = workbook.worksheets.find(
           (sheet: any) => sheet.state !== 'hidden'
         );
         sheetsResult = parseImage
           ? {
-              data: this.readWorksheet(worksheet),
+              data: this.readWorksheet(worksheet, plainText),
               images: this.readImages(worksheet, workbook)
             }
-          : this.readWorksheet(worksheet);
+          : this.readWorksheet(worksheet, plainText);
       }
 
       this.updateFileState(fileState.id, {
         state: 'parsed',
-        data: JSON.parse(JSON.stringify(sheetsResult))
+        data: sheetsResult
       });
     } catch (error) {
       console.error('Excel parsing error:', error);
@@ -478,7 +570,7 @@ export default class ExcelControl extends React.PureComponent<
   /**
    * 解析所有可见的 sheet
    */
-  parseAllSheets(workbook: any, parseImage = false) {
+  parseAllSheets(workbook: any, parseImage = false, plainText = true) {
     const sheetsResult: Array<{
       sheetName: string;
       data: any[];
@@ -498,7 +590,7 @@ export default class ExcelControl extends React.PureComponent<
         images?: string[];
       } = {
         sheetName: worksheet.name,
-        data: this.readWorksheet(worksheet)
+        data: this.readWorksheet(worksheet, plainText)
       };
 
       if (parseImage) {
@@ -510,25 +602,25 @@ export default class ExcelControl extends React.PureComponent<
     return sheetsResult;
   }
 
-  /**
-   * 读取工作表中的图片
-   * 支持输出为 base64 或 dataURI 格式
-   */
+  /** 读取工作表里的图片 */
   readImages(worksheet: any, workbook: any) {
     const {imageDataURI} = this.props;
     const images = worksheet.getImages();
-    return images.map((image: {imageId: number}) => {
+    const imgResult: string[] = [];
+    for (const image of images) {
       const img = workbook.getImage(+image.imageId);
       const imgBase64 = this.encodeBase64Bytes(img.buffer);
-      return imageDataURI
-        ? `data:image/${img.extension || 'png'};base64,${imgBase64}`
-        : imgBase64;
-    });
+      if (imageDataURI) {
+        const extension = img.extension || 'png';
+        imgResult.push(`data:image/${extension};base64,` + imgBase64);
+      } else {
+        imgResult.push(imgBase64);
+      }
+    }
+    return imgResult;
   }
 
-  /**
-   * 将 buffer 转成 base64
-   */
+  /** 将 buffer 转成 base64 */
   encodeBase64Bytes(bytes: Uint8Array): string {
     return btoa(
       bytes.reduce((acc, current) => acc + String.fromCharCode(current), '')
@@ -614,9 +706,9 @@ export default class ExcelControl extends React.PureComponent<
   /**
    * 读取工作表内容
    */
-  readWorksheet(worksheet: any) {
+  readWorksheet(worksheet: any, plainText = true) {
     const result: any[] = [];
-    const {parseMode, plainText, includeEmpty} = this.props;
+    const {parseMode, includeEmpty} = this.props;
 
     if (parseMode === 'array') {
       worksheet.eachRow((_row: any) => {
@@ -730,8 +822,6 @@ export default class ExcelControl extends React.PureComponent<
                 tooltip={
                   isMaxLength
                     ? __('File.maxLength', {maxLength})
-                    : isSingleFileFull
-                    ? __('File.singleFile')
                     : maxLength
                     ? __('File.maxLength', {
                         maxLength,
@@ -747,6 +837,11 @@ export default class ExcelControl extends React.PureComponent<
                     'is-empty': !files.length,
                     'is-active': isDragActive
                   })}
+                  onClick={
+                    disabled || isMaxLength || isSingleFileFull
+                      ? undefined
+                      : this.handleSelect
+                  }
                 >
                   <input
                     {...getInputProps()}
@@ -755,30 +850,12 @@ export default class ExcelControl extends React.PureComponent<
 
                   {isDragActive ? (
                     <div className={cx('ExcelControl-acceptTip')}>
-                      <Icon icon="cloud-upload" className="icon" />
-                      <span>
-                        {__('File.dragDrop')}
-                        <span className={cx('ExcelControl-uploadHint')}>
-                          {__('File.clickUpload')}
-                        </span>
-                      </span>
+                      <p>{__('File.dragDrop')}</p>
                     </div>
                   ) : (
-                    <Button
-                      level="enhance"
-                      disabled={disabled || !canAddMore}
-                      className={cx('ExcelControl-selectBtn', {
-                        'is-disabled': isMaxLength || !canAddMore
-                      })}
-                      onClick={this.handleSelect}
-                    >
-                      <Icon icon="upload" className="icon" />
-                      <span>
-                        {files.length && canAddMore
-                          ? __('File.continueAdd')
-                          : placeholder ?? __('Excel.placeholder')}
-                      </span>
-                    </Button>
+                    <div className={cx('ExcelControl-acceptTip')}>
+                      <p>{placeholder ?? __('Excel.placeholder')}</p>
+                    </div>
                   )}
                 </div>
               </TooltipWrapper>
