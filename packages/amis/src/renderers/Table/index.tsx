@@ -375,6 +375,11 @@ export interface TableSchema extends BaseSchema {
    * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
    */
   deferApi?: SchemaApi;
+
+  /**
+   * 持久化 key
+   */
+  persistKey?: string;
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -654,7 +659,8 @@ export default class Table<
       lazyRenderAfter,
       tableLayout,
       resolveDefinitions,
-      showIndex
+      showIndex,
+      persistKey
     } = props;
 
     let combineNum = props.combineNum;
@@ -689,7 +695,8 @@ export default class Table<
         canAccessSuperData,
         lazyRenderAfter,
         tableLayout,
-        showIndex
+        showIndex,
+        persistKey
       },
       {
         resolveDefinitions
@@ -722,7 +729,8 @@ export default class Table<
   static syncRows(
     store: ITableStore,
     props: TableProps,
-    prevProps?: TableProps
+    prevProps?: TableProps,
+    forceUpdateRows = false
   ) {
     const source = props.source;
     const value = getPropValue(props, (props: TableProps) => props.items);
@@ -732,6 +740,7 @@ export default class Table<
     // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (Array.isArray(value)) {
       if (
+        forceUpdateRows ||
         !prevProps ||
         !isEqual(
           getPropValue(prevProps, (props: TableProps) => props.items),
@@ -961,6 +970,7 @@ export default class Table<
   componentDidUpdate(prevProps: TableProps) {
     const props = this.props;
     const store = props.store;
+    let forceReSync = false;
 
     changedEffect(
       [
@@ -983,7 +993,8 @@ export default class Table<
         'canAccessSuperData',
         'lazyRenderAfter',
         'tableLayout',
-        'showIndex'
+        'showIndex',
+        'persistKey'
       ],
       prevProps,
       props,
@@ -1001,6 +1012,13 @@ export default class Table<
             10
           );
         }
+        if (
+          !forceReSync &&
+          changes.hasOwnProperty('combineNum') &&
+          store.combineNum !== changes.combineNum
+        ) {
+          forceReSync = true;
+        }
         if (changes.orderBy && !props.onQuery) {
           delete changes.orderBy;
         }
@@ -1011,13 +1029,15 @@ export default class Table<
     );
 
     if (
+      forceReSync ||
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
       (!props.value &&
         !props.items &&
         (props.data !== prevProps.data ||
           (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      Table.syncRows(store, props, prevProps) && this.syncSelected();
+      Table.syncRows(store, props, prevProps, forceReSync) &&
+        this.syncSelected();
     } else if (isArrayChildrenModified(prevProps.selected!, props.selected!)) {
       const prevSelectedRows = store.selectedRows
         .map(item => item.id)

@@ -3139,8 +3139,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         {render(
           'dialog',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).dialog as object)),
+            ...store.dialogSchema,
             type: 'dialog'
           },
           {

@@ -18,6 +18,7 @@ import {
   autobind,
   createObject,
   numberFormatter,
+  numberReverter,
   safeSub,
   normalizeOptions,
   Option,
@@ -499,8 +500,11 @@ export default class NumberControl extends React.Component<
           ) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              if (userTyping || this.input === document.activeElement) {
-                // 如果是用户输入状态，则只进行千分隔处理，避免光标乱跳
+              if (
+                (userTyping || this.input === document.activeElement) &&
+                numberReverter(value) === numberReverter(this.input?.value)
+              ) {
+                // 如果是用户输入状态，且value与输入框内值相同，则只进行千分隔处理，避免光标乱跳
                 let parts = value.toString().split('.');
                 parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                 value = parts.join('.');

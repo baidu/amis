@@ -845,8 +845,7 @@ export default class Service extends React.Component<ServiceProps> {
           // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
           'modal',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).dialog as object)),
+            ...store.dialogSchema,
             type: 'dialog'
           },
           {

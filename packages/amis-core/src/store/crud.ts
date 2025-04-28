@@ -54,6 +54,7 @@ class ServerError extends Error {
   readonly response: any;
   constructor(msg: string, response?: any) {
     super(msg);
+    Object.setPrototypeOf(this, ServerError.prototype);
     this.response = response;
   }
 }

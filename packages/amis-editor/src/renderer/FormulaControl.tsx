@@ -522,7 +522,8 @@ export default class FormulaControl extends React.Component<
         'validateApi',
         'themeCss',
         'onEvent',
-        'embed'
+        'embed',
+        'extraName'
       ];
 
       // 当前组件要剔除的字段

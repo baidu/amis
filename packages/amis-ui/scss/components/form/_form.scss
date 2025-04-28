@@ -538,6 +538,7 @@
 
   .#{$ns}Form--column-#{$i} > [data-role*='container'] {
     flex: 100%;
+    min-width: 0;
   }
 
   .#{$ns}Form--column-#{$i} > .#{$ns}Form-item:nth-last-child(-n + #{$i}) {
