@@ -166,8 +166,14 @@ export default class ExcelControl extends React.PureComponent<
   ExcelJS: any;
 
   componentDidUpdate(prevProps: ExcelProps) {
+    // 当值被外部设置为空时，清空文件列表
     if (prevProps.value !== this.props.value && !this.props.value) {
       this.setState({files: []});
+    }
+
+    // 如果值从外部改变了，并且不是被清空，则触发自动填充
+    if (prevProps.value !== this.props.value && this.props.value) {
+      this.triggerAutoFill();
     }
   }
 
@@ -376,6 +382,7 @@ export default class ExcelControl extends React.PureComponent<
           if (pendingFiles.length === 0) {
             // 所有文件都已处理完成，一次性更新表单值
             this.updateFormValue();
+            // autoFill 会在 updateFormValue 中触发
           }
         }
       }
@@ -387,6 +394,7 @@ export default class ExcelControl extends React.PureComponent<
    * 根据当前已解析的文件更新表单数据
    * 支持多文件模式和单文件模式
    */
+  @autobind
   async updateFormValue() {
     const {data, multiple, allSheets, parseImage} = this.props;
     const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
@@ -440,6 +448,24 @@ export default class ExcelControl extends React.PureComponent<
 
     await this.dispatchEvent('change', value);
     this.props.onChange(value);
+
+    // 在值变化时也触发自动填充
+    this.triggerAutoFill();
+  }
+
+  /**
+   * 在适当的时机触发自动填充
+   */
+  triggerAutoFill() {
+    const {autoFill, multiple} = this.props;
+    if (autoFill && !autoFill.hasOwnProperty('api') && isObject(autoFill)) {
+      const parsedFiles = this.state.files.filter(f => f.state === 'parsed');
+      if (parsedFiles.length > 0) {
+        // 取最后一个处理的文件
+        const lastFile = parsedFiles[parsedFiles.length - 1];
+        this.syncAutoFill(lastFile.name, lastFile.data);
+      }
+    }
   }
 
   /**
@@ -448,7 +474,7 @@ export default class ExcelControl extends React.PureComponent<
    * 使用 xlsx 库转换 .xls 为 .xlsx，使用 exceljs 解析内容
    */
   async processExcelFile(excelFile: File, fileState: ExcelFile) {
-    const {autoFill, translate: __} = this.props;
+    const {translate: __} = this.props;
     try {
       // 使用 Promise 包装 FileReader 操作
       const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
@@ -480,15 +506,7 @@ export default class ExcelControl extends React.PureComponent<
 
       await this.parseExcelData(buffer, fileState);
 
-      if (autoFill) {
-        // 获取更新后的 fileState
-        const updatedFileState = this.state.files.find(
-          f => f.id === fileState.id
-        );
-        if (updatedFileState && updatedFileState.state === 'parsed') {
-          this.syncAutoFill(excelFile.name, updatedFileState.data);
-        }
-      }
+      // autoFill 会在 updateFormValue 中统一处理
     } catch (error) {
       console.error('Excel parsing error:', error);
       this.updateFileState(fileState.id, {
