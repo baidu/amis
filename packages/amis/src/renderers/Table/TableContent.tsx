@@ -188,7 +188,11 @@ export class TableContent<
     return (
       <div
         onMouseMove={onMouseMove}
-        className={cx('Table-content', className)}
+        className={cx(
+          'Table-content',
+          className,
+          store.rows.length > store.lazyRenderAfter ? 'use-virtual-list' : ''
+        )}
         onScroll={onScroll}
       >
         <table
