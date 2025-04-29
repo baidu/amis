@@ -8,7 +8,8 @@ import {
   RendererPluginEvent,
   defaultValue,
   getSchemaTpl,
-  registerEditorPlugin
+  registerEditorPlugin,
+  tipedLabel
 } from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
 import {getActionCommonProps} from '../../renderer/event-control/helper';
@@ -114,6 +115,20 @@ export class ExcelControlPlugin extends BasePlugin {
                 {label: '数组', value: 'array'}
               ]
             },
+
+            getSchemaTpl('multiple', {
+              replace: true,
+              body: [
+                {
+                  type: 'input-number',
+                  name: 'maxLength',
+                  label: tipedLabel(
+                    '最大数量',
+                    '默认没有限制，当设置后，一次只允许上传解析指定数量文件。'
+                  )
+                }
+              ]
+            }),
             getSchemaTpl('switch', {
               name: 'allSheets',
               label: '是否解析所有 Sheet'
