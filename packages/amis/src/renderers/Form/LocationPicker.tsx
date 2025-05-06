@@ -202,7 +202,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
       >
         <LocationPicker
           {...this.props}
-          ak={filter(this.props.ak, this.props.data)}
+          ak={ak}
           onChange={this.handleChange}
         />
       </div>
