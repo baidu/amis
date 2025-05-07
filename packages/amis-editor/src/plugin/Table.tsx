@@ -734,12 +734,7 @@ export class TablePlugin extends BasePlugin {
                 ]
               },
 
-              {
-                name: 'placeholder',
-                pipeIn: defaultValue('暂无数据'),
-                type: 'input-text',
-                label: '无数据提示'
-              },
+              getSchemaTpl('tablePlaceholder'),
               {
                 name: 'rowClassNameExpr',
                 type: 'input-text',
