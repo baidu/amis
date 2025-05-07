@@ -5,7 +5,12 @@
 import React from 'react';
 import cx from 'classnames';
 import {FormItem} from 'amis';
-import {autobind, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  autobind,
+  getSchemaTpl,
+  getI18nEnabled,
+  tipedLabel
+} from 'amis-editor-core';
 import {FormControlProps, isObject} from 'amis-core';
 import type {SchemaApi} from 'amis';
 import debounce from 'lodash/debounce';
@@ -259,6 +264,7 @@ export default class MapSourceControl extends React.Component<
 
   renderObjectMap() {
     const {render} = this.props;
+    const i18nEnabled = getI18nEnabled();
     return render(
       'objectMap',
       getSchemaTpl('combo-container', {
@@ -335,7 +341,7 @@ export default class MapSourceControl extends React.Component<
 
           {
             placeholder: '内容',
-            type: 'input-text',
+            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
             name: 'value'
           }
         ]
