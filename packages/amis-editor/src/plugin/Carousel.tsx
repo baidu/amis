@@ -6,8 +6,10 @@ import {
   BasicToolbarItem,
   defaultValue,
   getSchemaTpl,
-  mockValue
+  mockValue,
+  diff
 } from 'amis-editor-core';
+import {schemaArrayFormat} from '../util';
 
 export class CarouselPlugin extends BasePlugin {
   static id = 'CarouselPlugin';
@@ -171,7 +173,18 @@ export class CarouselPlugin extends BasePlugin {
                       multiple: false,
                       items: [
                         {
-                          type: 'input-text',
+                          type: 'button',
+                          level: 'primary',
+                          size: 'sm',
+                          block: true,
+                          onClick: (event: any, item: any) => {
+                            const index = item.data?.__super?.__super?.index;
+                            this.editDetail(context.id, index);
+                          },
+                          label: '配置轮播容器'
+                        },
+                        {
+                          type: 'hidden',
                           name: 'itemSchema',
                           value: {
                             type: 'container',
@@ -478,6 +491,52 @@ export class CarouselPlugin extends BasePlugin {
         }
       });
     }
+  }
+
+  editDetail(id: string, index: number) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+    const defaultItemSchema = {
+      type: 'container',
+      body: {
+        type: 'tpl',
+        tpl: '拖拽组件到这里'
+      }
+    };
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置轮播容器',
+        value: value.options?.[index].itemSchema ?? defaultItemSchema,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: (newValue: any) => {
+          newValue = {
+            ...value,
+            options: value.options.map((item: any, idx: number) => {
+              if (idx === index) {
+                return {
+                  itemSchema: schemaArrayFormat(newValue)
+                };
+              }
+              return item;
+            })
+          };
+          manager.panelChangeValue(newValue, diff(value, newValue));
+          // 编辑完后自动滚动到当前轮播图
+          node.getComponent()?.changeSlide?.(index);
+        },
+        data: {
+          [value.labelField || 'label']: '假数据',
+          [value.valueField || 'value']: '假数据',
+          item: '假数据'
+        }
+      });
   }
 }
 
