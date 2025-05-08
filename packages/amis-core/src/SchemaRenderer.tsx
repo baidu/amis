@@ -36,7 +36,7 @@ import {
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
-import {buildStyle} from './utils/style';
+import {buildStyle, mergeStyle} from './utils/style';
 import {isExpression} from './utils/formula';
 import {StatusScopedProps} from './StatusScoped';
 import {evalExpression, filter} from './utils/tpl';
@@ -598,7 +598,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // style 支持公式
     if (schema.style) {
-      (props as any).style = buildStyle(schema.style, detectData);
+      (props as any).style = mergeStyle(
+        (props as any).style,
+        buildStyle(schema.style, detectData)
+      );
     }
 
     if (disable !== undefined) {
