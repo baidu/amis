@@ -133,6 +133,9 @@ export interface DSBuilderInterface<
   /** 批量删除数据 */
   buildCRUDBulkDeleteSchema(options: T, componentId?: string): Promise<any>;
 
+  /** 数据导出 */
+  buildCRUDExportSchema(options: T, componentId?: string): Promise<any>;
+
   /** 构建 CRUD 的顶部工具栏 */
   buildCRUDHeaderToolbar?: (
     options: T,
@@ -239,6 +242,9 @@ export abstract class DSBuilder<T extends DSBuilderBaseOptions>
 
   /** 批量删除数据 */
   abstract buildCRUDBulkDeleteSchema(options: T): Promise<any>;
+
+  /** 数据导出 */
+  abstract buildCRUDExportSchema(options: T): Promise<any>;
 
   /** 表格的表头查询 */
   abstract buildCRUDFilterSchema(options: T): Promise<any>;

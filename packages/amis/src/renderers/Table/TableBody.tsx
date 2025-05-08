@@ -284,15 +284,13 @@ export class TableBody<
       };
 
       for (let i = resultLen; i < store.filteredColumns.length; i++) {
-        const matchedColumns = [i]
-          .map(idx => store.filteredColumns.find(col => col.rawIndex === idx))
-          .filter(item => item);
+        const column = store.filteredColumns[i];
 
         result.push({
           ...item,
-          colSpan: matchedColumns.length,
-          firstColumn: matchedColumns[0]!,
-          lastColumn: matchedColumns[matchedColumns.length - 1]!
+          colSpan: 1,
+          firstColumn: column,
+          lastColumn: column
         });
       }
     }

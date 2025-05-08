@@ -1,14 +1,20 @@
 import React from 'react';
 import Cell from './Cell';
 import {useInView} from 'react-intersection-observer';
+import {observer} from 'mobx-react-lite';
 
-export default function VCell(props: any) {
+export default observer(function VCell(props: any) {
+  const cx = props.classnames;
+  const column = props.column;
+
   const {ref, inView} = useInView({
     threshold: 0,
-    triggerOnce: true
+    triggerOnce: true,
+    onChange: column.markAppeared,
+    skip: column.appeared
   });
 
-  return inView ? (
+  return inView || column.appeared ? (
     <Cell {...props} />
   ) : (
     <td
@@ -17,7 +23,7 @@ export default function VCell(props: any) {
       style={props.style}
       className={props.className}
     >
-      &nbsp;
+      <div className={cx('Table-emptyBlock')}>&nbsp;</div>
     </td>
   );
-}
+});

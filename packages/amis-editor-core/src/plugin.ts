@@ -1115,7 +1115,8 @@ export abstract class BasePlugin implements PluginInterface {
       schema.$$id &&
       plugin.name &&
       plugin.rendererName &&
-      plugin.rendererName === renderer.name // renderer.name 会从 renderer.type 中取值
+      (plugin.rendererName === renderer.name ||
+        plugin.rendererName === renderer.origin?.name) // renderer.name 会从 renderer.type 中取值
     ) {
       let curPluginName = plugin.name;
       if (schema?.isFreeContainer) {

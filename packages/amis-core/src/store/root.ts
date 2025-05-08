@@ -5,7 +5,8 @@ import {
   createObjectFromChain,
   extractObjectChain,
   isObjectShallowModified,
-  createObject
+  createObject,
+  cloneObject
 } from '../utils';
 import {
   GlobalVariableItem,
@@ -45,7 +46,8 @@ export const RootStore = ServiceStore.named('RootStore')
   })
   .volatile(self => {
     return {
-      context: {},
+      context: {} as any,
+      legacyGlobalTempContext: {} as any,
       globalVars: [] as Array<GlobalVariableItemFull>,
       globalData: {
         global: {},
@@ -57,13 +59,59 @@ export const RootStore = ServiceStore.named('RootStore')
     get nextGlobalData(): any {
       let globalData = {} as any;
       let globalState = {} as any;
+      const chain = extractObjectChain(self.data);
 
-      if (self.globalVarTempStates.size) {
+      let touched = false;
+      let saved = true;
+      let errors: any = {};
+      let initialized = true;
+      self.globalVarTempStates.forEach((state, key) => {
+        globalData[key] = state.value;
+        touched = touched || state.touched;
+        if (!state.saved) {
+          saved = false;
+        }
+
+        if (state.errorMessages.length) {
+          errors[key] = state.errorMessages;
+        }
+        if (!state.initialized) {
+          initialized = false;
+        }
+      });
+
+      globalState = {
+        fields: self.globalVarTempStates.toJSON(),
+        initialized: initialized,
+        touched: touched,
+        saved: saved,
+        errors: errors,
+        valid: !Object.keys(errors).length
+      };
+      chain.unshift({
+        global: globalData,
+        globalState: globalState
+      });
+      chain.unshift(self.legacyGlobalTempContext);
+      chain.unshift(self.context);
+
+      return createObjectFromChain(chain);
+    },
+
+    get downStream() {
+      let result = self.data;
+
+      if (self.context || self.query) {
+        const chain = extractObjectChain(result);
+
+        // 数据链中添加 global 和 globalState
+        // 对应的是全局变量的值和全局变量的状态
+        const globalData = {} as any;
         let touched = false;
         let saved = true;
         let errors: any = {};
         let initialized = true;
-        self.globalVarTempStates.forEach((state, key) => {
+        self.globalVarStates.forEach((state, key) => {
           globalData[key] = state.value;
           touched = touched || state.touched;
           if (!state.saved) {
@@ -78,67 +126,21 @@ export const RootStore = ServiceStore.named('RootStore')
           }
         });
 
-        globalState = {
-          fields: self.globalVarTempStates.toJSON(),
+        // 保存全局变量的值和状态
+        Object.assign(self.globalData.global, globalData);
+        Object.assign(self.globalData.globalState, {
+          fields: self.globalVarStates.toJSON(),
           initialized: initialized,
           touched: touched,
           saved: saved,
           errors: errors,
           valid: !Object.keys(errors).length
-        };
-      }
+        });
 
-      return createObject(self.context, {
-        global: globalData,
-        globalState: globalState
-      });
-    },
+        // self.globalData 一直都是那个对象，这样组件里面始终拿到的都是最新的
+        chain.unshift(self.globalData);
 
-    get downStream() {
-      let result = self.data;
-
-      if (self.context || self.query || self.globalVarStates.size) {
-        const chain = extractObjectChain(result);
-
-        // 数据链中添加 global 和 globalState
-        // 对应的是全局变量的值和全局变量的状态
-        if (self.globalVarStates.size) {
-          const globalData = {} as any;
-          let touched = false;
-          let saved = true;
-          let errors: any = {};
-          let initialized = true;
-          self.globalVarStates.forEach((state, key) => {
-            globalData[key] = state.value;
-            touched = touched || state.touched;
-            if (!state.saved) {
-              saved = false;
-            }
-
-            if (state.errorMessages.length) {
-              errors[key] = state.errorMessages;
-            }
-            if (!state.initialized) {
-              initialized = false;
-            }
-          });
-
-          // 保存全局变量的值和状态
-          Object.assign(self.globalData.global, globalData);
-          Object.assign(self.globalData.globalState, {
-            fields: self.globalVarStates.toJSON(),
-            initialized: initialized,
-            touched: touched,
-            saved: saved,
-            errors: errors,
-            valid: !Object.keys(errors).length
-          });
-
-          // self.globalData 一直都是那个对象，这样组件里面始终拿到的都是最新的
-          chain.unshift(self.globalData);
-        }
-
-        self.context && chain.unshift(self.context);
+        chain.unshift(self.context);
         self.query &&
           chain.splice(chain.length - 1, 0, {
             ...self.query,
@@ -594,6 +596,13 @@ export const RootStore = ServiceStore.named('RootStore')
       self.globalVarTempStates.forEach((state, key) => {
         self.globalVarStates.set(key, {...state});
       });
+      if (
+        self.legacyGlobalTempContext.__page !== self.context.__page ||
+        self.legacyGlobalTempContext.appVariables !== self.context.appVariables
+      ) {
+        Object.assign(self.context, self.legacyGlobalTempContext);
+        self.data = cloneObject(self.data);
+      }
     }
 
     let pendingCount = 0;
@@ -616,10 +625,24 @@ export const RootStore = ServiceStore.named('RootStore')
     }
 
     return {
-      updateContext(context: any) {
+      updateContext(context: any, isInit = false) {
         // 因为 context 不是受控属性，直接共用引用好了
         // 否则还会触发孩子节点的重新渲染
-        Object.assign(self.context, context);
+
+        const {__page, appVariables, ...rest} = context || {};
+
+        // 对历史用法做兼容
+        if (__page || appVariables) {
+          if (isInit) {
+            self.context.__page = context.__page;
+            self.context.appVariables = context.appVariables;
+          }
+
+          self.legacyGlobalTempContext.__page = __page;
+          self.legacyGlobalTempContext.appVariables = appVariables;
+        }
+
+        Object.assign(self.context, rest);
       },
       updateGlobalVarState(key: string, state: Partial<GlobalVariableState>) {
         const origin = self.globalVarTempStates.get(key);

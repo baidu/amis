@@ -832,12 +832,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
       // title 不应该传递到 cell-field 的 column 中，否则部分组件会将其渲染出来
       // 但是 cell-field 需要这个字段，展示列的名称
-      const {width, children, title, ...rest} = schema;
+      const {width, children, wrapperComponent, title, ...rest} = schema;
 
       return render(
         'cell-field',
         {
           ...rest,
+          // 空字符串/null 被认为是正常的值，导致 defaultProps 不生效
+          wrapperComponent: wrapperComponent || undefined,
           title: title || rest.label,
           type: 'cell-field',
           column: rest,

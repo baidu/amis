@@ -84,6 +84,7 @@ export class ApiDSBuilder extends DSBuilder<
     'Delete',
     'BulkEdit',
     'BulkDelete',
+    'Export',
     'SimpleQuery'
   ] as DSFeatureType[];
 
@@ -911,6 +912,28 @@ export class ApiDSBuilder extends DSBuilder<
     };
   }
 
+  async buildCRUDExportSchema(options: ApiDSBuilderOptions<'crud'>) {
+    const {scaffoldConfig} = options || {};
+    const {exportApi} = scaffoldConfig || {};
+
+    return {
+      type: 'button',
+      label: '数据导出',
+      behavior: 'Export',
+      className: 'm-r-xs',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'download',
+              api: exportApi
+            }
+          ]
+        }
+      }
+    };
+  }
+
   async buildCRUDBulkDeleteSchema(
     options: ApiDSBuilderOptions<'crud'>,
     componentId?: string
@@ -1133,7 +1156,8 @@ export class ApiDSBuilder extends DSBuilder<
               ? [
                   DSFeatureEnum.Insert,
                   DSFeatureEnum.BulkEdit,
-                  DSFeatureEnum.BulkDelete
+                  DSFeatureEnum.BulkDelete,
+                  DSFeatureEnum.Export
                 ]
               : undefined
           ),
@@ -1164,6 +1188,10 @@ export class ApiDSBuilder extends DSBuilder<
       collection.push(
         await this.buildCRUDBulkDeleteSchema(options, componentId)
       );
+    }
+
+    if (feats?.includes('Export')) {
+      collection.push(await this.buildCRUDExportSchema(options));
     }
 
     return this.buildToolbarFlex('header', collection, []);
@@ -1301,6 +1329,7 @@ export class ApiDSBuilder extends DSBuilder<
     let simpleQueryFields: ScaffoldField[] = [];
     let bulkDeleteApi: any;
     let deleteApi: any;
+    let exportApi: any;
 
     /** 已开启特性 */
     const feats: DSFeatureType[] = [];
@@ -1358,6 +1387,17 @@ export class ApiDSBuilder extends DSBuilder<
             );
             deleteApi =
               get(actionSchema, 'api', '') || get(actionSchema, 'args.api', '');
+          } else if (value === 'Export') {
+            feats.push('Export');
+
+            const actions = get(host, 'onEvent.click.actions', []);
+            const actionSchema = actions.find(
+              (action: any) =>
+                action?.actionType === 'download' &&
+                (action?.api != null || action?.args?.api != null)
+            );
+            exportApi =
+              get(actionSchema, 'api', '') || get(actionSchema, 'args.api', '');
           } else if (Array.isArray(value) && value.includes('SimpleQuery')) {
             feats.push('SimpleQuery');
 
@@ -1379,7 +1419,8 @@ export class ApiDSBuilder extends DSBuilder<
       tools: intersection(finalFeats, [
         DSFeatureEnum.Insert,
         DSFeatureEnum.BulkDelete,
-        DSFeatureEnum.BulkEdit
+        DSFeatureEnum.BulkEdit,
+        DSFeatureEnum.Export
       ]) as DSFeatureType[],
       /** 数据操作 */
       operators: intersection(finalFeats, [
@@ -1405,6 +1446,7 @@ export class ApiDSBuilder extends DSBuilder<
       bulkEditApi: JSONPipeOut(bulkEditApi),
       deleteApi: JSONPipeOut(deleteApi),
       bulkDeleteApi: JSONPipeOut(bulkDeleteApi),
+      exportApi: JSONPipeOut(exportApi),
       simpleQueryFields,
       primaryField: schema?.primaryField ?? 'id',
       __pristineSchema: omit(JSONPipeOut(schema), [

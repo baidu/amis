@@ -65,7 +65,7 @@ export const DSFeature = {
   },
   Export: {
     value: 'export',
-    label: '导出'
+    label: '数据导出'
   },
   SimpleQuery: {
     value: 'simpleQuery',

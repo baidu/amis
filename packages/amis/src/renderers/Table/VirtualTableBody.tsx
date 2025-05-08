@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {startTransition} from 'react';
 import {ITableStore} from 'amis-core';
 import {getScrollParent} from 'amis-core';
+import {resizeSensor} from 'amis-core';
 export interface VirtualTableBodyProps {
   className?: string;
   rows: React.ReactNode[];
@@ -28,67 +29,71 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
     const tbody = tBodyRef.current!;
     const table = tbody.parentElement!;
     const wrap = table.parentElement!;
-    const rect = tbody.querySelector(':scope > tr')!.getBoundingClientRect();
-    itemHeight.current = rect.height;
-    wrap.classList.add('use-virtual-list');
-    sizeRef.current = Math.min(
-      Math.ceil(document.body.clientHeight / itemHeight.current),
-      20
-    );
+    const rootDom = wrap.closest('.cxd-Table')!;
 
     const header =
-      wrap
-        .closest('.cxd-Table')
-        ?.querySelector(':scope > .cxd-Table-fixedTop') ||
+      rootDom?.querySelector(':scope > .cxd-Table-fixedTop') ||
       table.querySelector(':scope > thead')!;
     const firstRow = leadingPlaceholderRef.current!;
+    const isAutoFill = rootDom.classList.contains('cxd-Table--autoFillHeight');
+    const toDispose: Array<() => void> = [];
 
-    const checkOffset = () => {
+    const check = () => {
       const rect = header.getBoundingClientRect();
       const rect2 = firstRow.getBoundingClientRect();
-      itemHeight.current = tbody
-        .querySelector(':scope > tr')!
-        .getBoundingClientRect().height;
-      sizeRef.current = Math.min(
-        Math.ceil(document.body.clientHeight / itemHeight.current),
-        20
-      );
       setScrollTop(rect.bottom - rect2.top);
     };
+    let timer: ReturnType<typeof requestAnimationFrame> | null = null;
+    const lazyCheck = () => {
+      timer && cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(check);
+    };
 
-    // 使用 IntersectionObserver
-    const observer = new IntersectionObserver(checkOffset, {
-      rootMargin: '200px', // 提前加载的缓冲区
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] // 触发阈值
-    });
+    if (isAutoFill) {
+      wrap.addEventListener('scroll', lazyCheck);
+      toDispose.push(() => wrap.removeEventListener('scroll', lazyCheck));
+    } else {
+      let scrollContainer: HTMLElement | Document = getScrollParent(
+        rootDom as HTMLElement
+      ) as HTMLElement | Document;
+      scrollContainer =
+        scrollContainer === document.body ? document : scrollContainer;
+      scrollContainer.addEventListener('scroll', lazyCheck);
+      toDispose.push(() =>
+        scrollContainer.removeEventListener('scroll', lazyCheck)
+      );
+    }
 
-    // 观察元素
-    observer.observe(leadingPlaceholderRef.current!);
-    observer.observe(trailingPlaceholderRef.current!);
-    document.addEventListener('scrollend', checkOffset, true);
+    toDispose.push(
+      resizeSensor(wrap, () => {
+        itemHeight.current = tbody
+          .querySelector(':scope > tr')!
+          .getBoundingClientRect().height;
+        sizeRef.current = Math.min(
+          Math.ceil(
+            Math.min(window.innerHeight, wrap.clientHeight) / itemHeight.current
+          ),
+          20
+        );
+        check();
+      })
+    );
 
     return () => {
-      observer.disconnect();
-      document.removeEventListener('scrollend', checkOffset, true);
+      toDispose.forEach(fn => fn());
+      toDispose.length = 0;
     };
   }, []);
 
-  React.useLayoutEffect(() => {
-    const tbody = tBodyRef.current!;
-    const table = tbody.parentElement!;
-    const wrap = table.parentElement!;
-
-    wrap.classList.add('use-virtual-list');
-    wrap.style.cssText += `--Table-scroll-height: ${
-      itemHeight.current * rows.length
-    }px;--Table-scroll-offset: ${
-      start * itemHeight.current
-    }px; --Table-frame-height: ${itemHeight.current * visibleRows.length}px;`;
-  }, [start, visibleRows, itemHeight.current, rows]);
+  const styles: any = {
+    '--Table-scroll-height': `${itemHeight.current * rows.length}px`,
+    '--Table-scroll-offset': `${start * itemHeight.current}px`,
+    '--Table-frame-height': `${itemHeight.current * visibleRows.length}px`
+  };
 
   return (
     <>
-      <tbody className="virtual-table-body-placeholder leading">
+      <tbody style={styles} className="virtual-table-body-placeholder leading">
         <tr>
           <td colSpan={store.filteredColumns.length}>
             <div ref={leadingPlaceholderRef}></div>
@@ -98,7 +103,7 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
       <tbody className={className} ref={tBodyRef}>
         {visibleRows}
       </tbody>
-      <tbody className="virtual-table-body-placeholder trailing">
+      <tbody style={styles} className="virtual-table-body-placeholder trailing">
         <tr>
           <td colSpan={store.filteredColumns.length}>
             <div ref={trailingPlaceholderRef}></div>

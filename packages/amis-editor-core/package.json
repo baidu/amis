@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "6.12.0",
+  "version": "6.13.0-beta.8",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",

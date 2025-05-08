@@ -1,6 +1,8 @@
 // Excel 上传的配置，基于 https://react-dropzone.js.org/
 
 .#{$ns}ExcelControl {
+  position: relative;
+
   &-container {
     display: flex;
     flex-direction: column;
@@ -32,13 +34,117 @@
     color: var(--colors-neutral-text-6);
     outline: none;
     transition: border 0.24s ease-in-out;
+    cursor: pointer;
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &.is-active {
+      border-color: var(--primary);
+      background-color: var(--colors-neutral-fill-8);
+    }
+
+    &:focus {
+      border-color: var(--primary);
+    }
   }
 
-  &-dropzone:focus {
-    border-color: var(--primary);
+  &-acceptTip {
+    text-align: center;
+
+    .icon {
+      font-size: px2rem(30px);
+      margin-bottom: var(--gap-xs);
+    }
   }
 
-  &-dropzone.disabled {
-    opacity: 0.6;
+  &-uploadHint {
+    color: var(--primary);
+    margin-left: var(--gap-xs);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &-selectBtn {
+    .icon {
+      margin-right: var(--gap-xs);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+    }
+  }
+
+  &-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--gap-md) 0 0;
+
+    > li {
+      margin-bottom: var(--gap-sm);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &-itemInfo {
+    display: flex;
+    align-items: center;
+    padding: var(--gap-xs) var(--gap-sm);
+    background: var(--colors-neutral-fill-8);
+    border: var(--borders-base);
+    border-radius: var(--borders-radius-md);
+
+    &.is-invalid {
+      border-color: var(--danger);
+      background: var(--colors-danger-bg);
+    }
+  }
+
+  &-itemInfoIcon {
+    margin-right: var(--gap-sm);
+
+    .icon {
+      color: var(--colors-neutral-text-2);
+    }
+  }
+
+  &-itemInfoText {
+    flex: 1;
+    min-width: 0;
+    margin-right: var(--gap-sm);
+    color: var(--colors-neutral-text-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-clear {
+    opacity: 0.3;
+    transition: opacity var(--animation-duration);
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .icon {
+      color: var(--colors-neutral-text-2);
+    }
+  }
+
+  &-progressInfo {
+    margin-top: var(--gap-xs);
+    padding: 0 var(--gap-sm);
+    color: var(--colors-neutral-text-6);
+    font-size: var(--fonts-size-sm);
   }
 }

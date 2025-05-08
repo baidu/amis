@@ -38,12 +38,11 @@ export class RepeatControlPlugin extends BasePlugin {
   panelBody = [
     getSchemaTpl('layout:originPosition', {value: 'left-top'}),
     getSchemaTpl('switchDefaultValue'),
-    {
-      type: 'input-text',
+    getSchemaTpl('tplFormulaControl', {
       name: 'value',
       label: '默认值',
       visibleOn: 'typeof this.value !== "undefined"'
-    },
+    }),
 
     {
       name: 'options',

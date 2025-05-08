@@ -20,7 +20,7 @@ import type {ColumnSchema} from 'amis/lib/renderers/Table2';
 import type {DSBuilderInterface} from '../../builder';
 
 type ActionValue =
-  | Extract<DSFeatureType, 'Insert' | 'BulkEdit' | 'BulkDelete'>
+  | Extract<DSFeatureType, 'Insert' | 'BulkEdit' | 'BulkDelete' | 'Export'>
   | 'custom';
 
 interface Option {
@@ -55,7 +55,8 @@ export class CRUDToolbarControl extends React.Component<
   collection: ActionValue[] = [
     DSFeatureEnum.Insert,
     DSFeatureEnum.BulkEdit,
-    DSFeatureEnum.BulkDelete
+    DSFeatureEnum.BulkDelete,
+    DSFeatureEnum.Export
   ];
 
   constructor(props: CRUDToolbarControlProps) {
@@ -87,6 +88,7 @@ export class CRUDToolbarControl extends React.Component<
             DSFeatureEnum.Insert,
             DSFeatureEnum.BulkEdit,
             DSFeatureEnum.BulkDelete,
+            DSFeatureEnum.Export,
             'custom'
           ].includes(value)
         ) {
@@ -209,6 +211,20 @@ export class CRUDToolbarControl extends React.Component<
             schema: ctx,
             scaffoldConfig: {
               bulkDeleteApi: ''
+            }
+          },
+          CRUDSchemaID
+        );
+        break;
+      case 'Export':
+        scaffold = await builder.buildCRUDExportSchema(
+          {
+            feat: DSFeatureEnum.Export,
+            renderer: 'crud',
+            inScaffold: false,
+            schema: ctx,
+            scaffoldConfig: {
+              exportApi: ''
             }
           },
           CRUDSchemaID
