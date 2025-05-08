@@ -2324,8 +2324,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             `bulk-action/${index}`,
             {
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: btn.type || 'button',
-              ignoreConfirm: true
+              type: btn.type || 'button'
             },
             {
               key: `bulk-${index}`,
@@ -2337,7 +2336,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
                 this,
                 selectedItems.concat(),
                 unSelectedItems.concat()
-              )
+              ),
+              ignoreConfirm: true
             }
           )
         )}
