@@ -41,7 +41,11 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
     const check = () => {
       const rect = header.getBoundingClientRect();
       const rect2 = firstRow.getBoundingClientRect();
-      setScrollTop(rect.bottom - rect2.top);
+      const scrollTop = rect.bottom - rect2.top;
+      setScrollTop(scrollTop);
+      if (scrollTop && store.tableLayout !== 'fixed') {
+        store.switchToFixedLayout();
+      }
     };
     let timer: ReturnType<typeof requestAnimationFrame> | null = null;
     const lazyCheck = () => {
@@ -71,7 +75,8 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
           .getBoundingClientRect().height;
         sizeRef.current = Math.min(
           Math.ceil(
-            Math.min(window.innerHeight, wrap.clientHeight) / itemHeight.current
+            Math.min(isAutoFill ? wrap.clientHeight : window.innerHeight) /
+              itemHeight.current
           ),
           20
         );

@@ -318,6 +318,8 @@
     &.is-layout-fixed td {
       white-space: normal;
       word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &.table-fixed-left .is-sticky-last-left:after {
