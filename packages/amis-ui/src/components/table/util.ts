@@ -261,45 +261,67 @@ export function updateFixedRow(
   cx: Function
 ) {
   const children = row?.children || [];
-  for (let i = 0; i < children.length; i++) {
+  const length = children.length;
+
+  const CLASS_FIX_LEFT_LAST = cx('Table-cell-fix-left-last');
+  const CLASS_FIX_RIGHT_FIRST = cx('Table-cell-fix-right-first');
+  const CLASS_FIX_RIGHT_FIRST_PREV = cx('Table-cell-fix-right-first-prev');
+
+  const styleUpdates: {dom: HTMLElement; left?: string; right?: string}[] = [];
+  const classRemovals: HTMLElement[] = [];
+
+  for (let i = 0; i < length; i++) {
     const dom = children[i] as HTMLElement;
 
+    classRemovals.push(dom);
+
+    const fixed = columns[i] ? columns[i].fixed || '' : '';
+
+    let left, right;
+    if (isFixedLeftColumn(fixed)) {
+      left = i > 0 ? getPreviousLeftWidth(children, i, columns) + 'px' : '0';
+    } else if (isFixedRightColumn(fixed)) {
+      right =
+        i < length - 1 ? getAfterRightWidth(children, i, columns) + 'px' : '0';
+    }
+
+    styleUpdates.push({dom, left, right});
+  }
+
+  // 批量修改样式
+  styleUpdates.forEach(({dom, left, right}) => {
     dom.style.removeProperty('left');
     dom.style.removeProperty('right');
 
-    const fixed = columns[i] ? columns[i].fixed || '' : '';
-    if (isFixedLeftColumn(fixed)) {
-      dom.style.left =
-        i > 0 ? getPreviousLeftWidth(children, i, columns) + 'px' : '0';
-    } else if (isFixedRightColumn(fixed)) {
-      dom.style.right =
-        i < children.length - 1
-          ? getAfterRightWidth(children, i, columns) + 'px'
-          : '0';
-    }
+    left && (dom.style.left = left);
+    right && (dom.style.right = right);
+  });
 
-    dom.classList.remove(cx('Table-cell-fix-left-last'));
-    dom.classList.remove(cx('Table-cell-fix-right-first'));
-    dom.classList.remove(cx('Table-cell-fix-right-first-prev'));
-  }
+  // 批量移除类名
+  classRemovals.forEach(dom => {
+    dom.classList.remove(
+      CLASS_FIX_LEFT_LAST,
+      CLASS_FIX_RIGHT_FIRST,
+      CLASS_FIX_RIGHT_FIRST_PREV
+    );
+  });
+
   // 最后一个左fixed的添加样式
   let leftIndex = findLastIndex(columns, column =>
     isFixedLeftColumn(column.fixed)
   );
 
   if (leftIndex > -1) {
-    children[leftIndex]?.classList.add(cx('Table-cell-fix-left-last'));
+    children[leftIndex]?.classList.add(CLASS_FIX_LEFT_LAST);
   }
   // 第一个右fixed的添加样式
   let rightIndex = columns.findIndex(column =>
     isFixedRightColumn(column.fixed)
   );
   if (rightIndex > -1) {
-    children[rightIndex]?.classList.add(cx('Table-cell-fix-right-first'));
+    children[rightIndex]?.classList.add(CLASS_FIX_RIGHT_FIRST);
     if (rightIndex > 0) {
-      children[rightIndex - 1]?.classList.add(
-        cx('Table-cell-fix-right-first-prev')
-      );
+      children[rightIndex - 1]?.classList.add(CLASS_FIX_RIGHT_FIRST_PREV);
     }
   }
 }
