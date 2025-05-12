@@ -1,4 +1,4 @@
-import {flow, Instance, types} from 'mobx-state-tree';
+import {addDisposer, flow, Instance, types, isAlive} from 'mobx-state-tree';
 import {parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
 import {
@@ -22,6 +22,7 @@ import {
 } from '../globalVar';
 import isPlainObject from 'lodash/isPlainObject';
 import debounce from 'lodash/debounce';
+import {reaction} from 'mobx';
 
 export const RootStore = ServiceStore.named('RootStore')
   .props({
@@ -596,6 +597,9 @@ export const RootStore = ServiceStore.named('RootStore')
       self.globalVarTempStates.forEach((state, key) => {
         self.globalVarStates.set(key, {...state});
       });
+    }
+
+    function syncLegacyGlobalVarStates() {
       if (
         self.legacyGlobalTempContext.__page !== self.context.__page ||
         self.legacyGlobalTempContext.appVariables !== self.context.appVariables
@@ -619,23 +623,78 @@ export const RootStore = ServiceStore.named('RootStore')
         if (pendingCount === 0) {
           callbacks.forEach(callback => callback());
           callbacks = [];
-          (self as any).syncGlobalVarStates();
+          if (isAlive(self)) {
+            (self as any).syncGlobalVarStates();
+            (self as any).syncLegacyGlobalVarStates();
+          }
         }
       });
     }
 
+    function observeSet(
+      obj: Record<string, any>,
+      callback: (value: any) => void
+    ) {
+      if (!obj || obj.__observed) {
+        // 如果已经被观察过了，就不需要再观察了
+        return obj;
+      }
+      let timer: ReturnType<typeof requestAnimationFrame> = 0;
+      return new Proxy(
+        {...obj},
+        {
+          get(target, prop: string) {
+            if (prop === '__observed') {
+              return true;
+            }
+            return Reflect.get(target, prop);
+          },
+          set(target, prop: string, value) {
+            Reflect.set(target, prop, value);
+
+            cancelAnimationFrame(timer);
+            timer = requestAnimationFrame(() => callback(target));
+            console.warn("Don't modify the context directly.");
+
+            return true;
+          }
+        }
+      );
+    }
+
     return {
+      updateContextBySetter(context: any) {
+        this.updateContext(context);
+        self.data = cloneObject(self.data);
+      },
       updateContext(context: any, isInit = false) {
         // 因为 context 不是受控属性，直接共用引用好了
         // 否则还会触发孩子节点的重新渲染
 
-        const {__page, appVariables, ...rest} = context || {};
+        let {__page, appVariables, ...rest} = context || {};
 
         // 对历史用法做兼容
         if (__page || appVariables) {
+          // 有部分用户直接在自定义动作脚本里面修改 __page 或者 appVariables 变量
+          // 奇怪的是之前的实现方式这种修改是会更新变更的
+          // 所以这里用 Proxy 来解决不更新的问题
+          __page = __page
+            ? observeSet(__page, __page =>
+                (self as any).updateContextBySetter({...self.context, __page})
+              )
+            : __page;
+          appVariables = appVariables
+            ? observeSet(appVariables, appVariables =>
+                (self as any).updateContextBySetter({
+                  ...self.context,
+                  appVariables
+                })
+              )
+            : appVariables;
+
           if (isInit) {
-            self.context.__page = context.__page;
-            self.context.appVariables = context.appVariables;
+            self.context.__page = __page;
+            self.context.appVariables = appVariables;
           }
 
           self.legacyGlobalTempContext.__page = __page;
@@ -668,7 +727,20 @@ export const RootStore = ServiceStore.named('RootStore')
       },
       init: init,
       syncGlobalVarStates,
+      syncLegacyGlobalVarStates,
       addSyncGlobalVarStatePendingTask,
+      afterCreate() {
+        addDisposer(
+          self,
+          reaction(
+            () => self.nextGlobalData,
+            () =>
+              (self as any).addSyncGlobalVarStatePendingTask((callback: any) =>
+                requestAnimationFrame(callback)
+              )
+          )
+        );
+      },
       afterDestroy() {
         lazySaveGlobalVarValues.flush();
       }
