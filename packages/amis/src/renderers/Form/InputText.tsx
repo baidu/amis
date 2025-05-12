@@ -808,9 +808,10 @@ export default class TextControl extends React.PureComponent<
           const indices = isOpen
             ? mapItemIndex(filtedOptions, selectedItem)
             : {};
-          filtedOptions = filtedOptions.filter(
-            (option: any) => !~selectedItem.indexOf(option.value)
-          );
+          // 取消可选值跟输入框值相同时的过滤逻辑
+          // filtedOptions = filtedOptions.filter(
+          //   (option: any) => !~selectedItem.indexOf(option.value)
+          // );
 
           if (
             this.state.inputValue &&
