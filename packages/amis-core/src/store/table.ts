@@ -1457,7 +1457,7 @@ export const TableStore = iRendererStore
       document.body.removeChild(div);
     }
 
-    function syncTableWidth() {
+    function syncTableWidth(setWidth = false) {
       const table = tableRef;
       if (!table) {
         return;
@@ -1470,6 +1470,7 @@ export const TableStore = iRendererStore
         const column = self.columns[index];
         const realWidth = col.getBoundingClientRect().width;
         column.setRealWidth(realWidth);
+        setWidth && column.setWidth(realWidth);
       });
     }
 
@@ -2129,6 +2130,11 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,
+
+      switchToFixedLayout() {
+        this.syncTableWidth(true);
+        self.tableLayout = 'fixed';
+      },
 
       // events
       afterCreate() {

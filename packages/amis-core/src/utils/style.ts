@@ -67,3 +67,46 @@ export function buildStyle(style: any, data: any) {
 
   return styleVar;
 }
+
+/**
+ * 将 style 转换为对象
+ * @param style
+ * @returns
+ */
+export function normalizeStyle(style: any) {
+  if (!style) {
+    return {};
+  } else if (typeof style === 'string') {
+    return style.split(';').reduce((acc, item) => {
+      const [key, value] = item.split(':').map(item => item.trim());
+      if (key && value) {
+        acc[camelCase(key)] = value;
+      }
+      return acc;
+    }, {} as any);
+  } else {
+    return style;
+  }
+}
+
+/**
+ * 合并 style
+ * @param to
+ * @param from
+ * @returns
+ */
+export function mergeStyle(to: any, from: any) {
+  if (!to && !from) {
+    return {};
+  }
+
+  if (!to) {
+    return from;
+  }
+
+  if (!from) {
+    return to;
+  }
+
+  return Object.assign({}, normalizeStyle(to), normalizeStyle(from));
+}

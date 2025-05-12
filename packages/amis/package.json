@@ -65,7 +65,7 @@
     "mpegts.js": "^1.6.10",
     "office-viewer": "*",
     "prop-types": "^15.6.1",
-    "qrcode-react-next": "^0.0.4",
+    "qrcode-react-next": "1.0.0",
     "react-cropper": "^2.1.8",
     "react-dropzone": "^11.4.2",
     "react-intersection-observer": "9.5.2",
