@@ -31,6 +31,7 @@ import {
   resolveInputTableEventDataSchame
 } from '../../util';
 import type {SchemaType} from 'amis';
+import React from 'react';
 
 export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
