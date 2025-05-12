@@ -282,6 +282,7 @@ export default class ValidationControl extends React.Component<
             closeOnOutside: true,
             hideCaret: true,
             disabled: buttons.length === 0,
+            popOverContainer: () => document.body,
             buttons
           },
           {
