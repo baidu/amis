@@ -3100,6 +3100,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         footerToolbarRender: this.renderFooterToolbar,
         data: store.mergedData,
         loading: store.loading,
+        offset: store.offset,
         host: this,
         filterItemIndex: this.filterItemIndex,
         onDbClick: this.props.rowDbClick,
