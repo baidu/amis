@@ -211,14 +211,14 @@ export const HocPopOver =
       }
 
       buildSchema() {
-        const {popOver, name, label, translate: __, column} = this.props;
+        const {popOver, name, label, translate: __} = this.props;
 
         let schema;
 
         if (popOver === true) {
           schema = {
             type: 'panel',
-            body: column ?? `\${${name}}`
+            body: `\${${name}}`
           };
         } else if (
           popOver &&
@@ -248,7 +248,7 @@ export const HocPopOver =
         } else if (this.getClassName() === 'ellipsis') {
           schema = {
             type: 'panel',
-            body: column ?? `\${${name}}`
+            body: `\${${name}}`
           };
         }
 
