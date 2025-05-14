@@ -134,6 +134,10 @@ export interface DialogSchema extends BaseSchema {
    * 可拖拽
    */
   draggable?: boolean;
+  /**
+   * 可全屏
+   */
+  screenable?: boolean;
 
   /**
    * 数据映射
@@ -141,6 +145,9 @@ export interface DialogSchema extends BaseSchema {
   data?: {
     [propName: string]: any;
   };
+}
+export interface DialogState {
+  isFullscreen?: boolean;
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -183,7 +190,8 @@ export default class Dialog extends React.Component<DialogProps> {
     'actions',
     'popOverContainer',
     'overlay',
-    'draggable'
+    'draggable',
+    'screenable'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -197,6 +205,9 @@ export default class Dialog extends React.Component<DialogProps> {
     closeOnOutside: false,
     showErrorMsg: true
   };
+  state: DialogState = {
+    isFullscreen: false
+  };
 
   reaction: any;
   isDead = false;
@@ -206,6 +217,7 @@ export default class Dialog extends React.Component<DialogProps> {
 
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
+    this.handleSelfScreen = this.handleSelfScreen.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
@@ -270,7 +282,14 @@ export default class Dialog extends React.Component<DialogProps> {
 
     return ret;
   }
+  handleSelfScreen(e?: any) {
+    e.preventDefault();
+    e.stopPropagation();
 
+    this.setState({
+      isFullscreen: !this.state.isFullscreen
+    });
+  }
   async handleSelfClose(e?: any, confirmed?: boolean) {
     const {onClose, store, dispatchEvent} = this.props;
 
@@ -284,6 +303,9 @@ export default class Dialog extends React.Component<DialogProps> {
     }
     // clear error
     store.updateMessage();
+    this.setState({
+      isFullscreen: false
+    });
     onClose(confirmed);
   }
 
@@ -607,6 +629,7 @@ export default class Dialog extends React.Component<DialogProps> {
       popOverContainer,
       inDesign,
       themeCss,
+      screenable,
       id,
       ...rest
     } = {
@@ -615,16 +638,23 @@ export default class Dialog extends React.Component<DialogProps> {
     } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
-
+    let screenStyle = {} as any;
+    if (this.state.isFullscreen) {
+      screenStyle = {
+        width: '100%',
+        height: '100%'
+      };
+    }
     return (
       <Wrapper
         {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
-        style={style}
+        style={this.state.isFullscreen ? screenStyle : style}
         size={size}
         height={height}
         width={width}
+        isFullscreen={this.state.isFullscreen}
         modalClassName={setThemeClassName({
           ...this.props,
           name: 'dialogClassName',
@@ -682,6 +712,25 @@ export default class Dialog extends React.Component<DialogProps> {
                 />
               </a>
             ) : null}
+            {screenable ? (
+              <a
+                data-tooltip={
+                  this.state.isFullscreen
+                    ? __('Dialog.reset')
+                    : __('Dialog.screen')
+                }
+                data-position="left"
+                onClick={this.handleSelfScreen}
+                className={cx('Modal-close Modal-screen')}
+              >
+                <Icon
+                  icon={
+                    this.state.isFullscreen ? 'un-fullscreen' : 'full-screen'
+                  }
+                  className="icon"
+                />
+              </a>
+            ) : null}
             <div
               className={cx(
                 'Modal-title',
@@ -719,6 +768,25 @@ export default class Dialog extends React.Component<DialogProps> {
                   icon="close"
                   className="icon"
                   iconContent="Dialog-close"
+                />
+              </a>
+            ) : null}
+            {screenable ? (
+              <a
+                data-tooltip={
+                  this.state.isFullscreen
+                    ? __('Dialog.reset')
+                    : __('Dialog.screen')
+                }
+                data-position="left"
+                onClick={this.handleSelfScreen}
+                className={cx('Modal-close Modal-screen')}
+              >
+                <Icon
+                  icon={
+                    this.state.isFullscreen ? 'un-fullscreen' : 'full-screen'
+                  }
+                  className="icon"
                 />
               </a>
             ) : null}
