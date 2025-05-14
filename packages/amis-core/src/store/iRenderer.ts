@@ -33,6 +33,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     action: types.optional(types.frozen(), undefined),
     dialogSchema: types.frozen(),
     dialogOpen: false,
+    isFullscreen: false,
     dialogData: types.optional(types.frozen(), undefined),
     drawerSchema: types.frozen(),
     drawerOpen: false,
@@ -131,6 +132,9 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
       reset() {
         self.data = self.pristine;
+      },
+      setFullScreen(isFullscreen: boolean = false) {
+        self.isFullscreen = isFullscreen;
       },
 
       updateData(

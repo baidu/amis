@@ -339,7 +339,7 @@ export class DialogPlugin extends BasePlugin {
               }),
               getSchemaTpl('switch', {
                 label: '是否可全屏',
-                name: 'screenable',
+                name: 'allowFullscreen',
                 value: false
               }),
               getSchemaTpl('dataMap')
