@@ -64,6 +64,11 @@
       animation-name: modalOut;
     }
   }
+  &-fullScreen{
+    width: 100% !important;
+    height: 100% !important;
+    margin: auto;
+  }
 
   &-draggable > &-header {
     cursor: move;
@@ -97,6 +102,10 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
+    &-icons{
+      position: absolute;
+      right: 24px;
+    }
   }
 
   &-title {
@@ -137,6 +146,9 @@
         }
       }
     }
+  }
+  &-screen{
+    margin-right: #{px2rem(16px)};
   }
 
   &-content > &-close {
