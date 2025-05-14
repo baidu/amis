@@ -61,7 +61,6 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   modalClassName?: string;
   modalMaskClassName?: string;
   draggable?: boolean;
-  isFullscreen?: boolean;
 }
 
 export interface ModalState {
@@ -90,8 +89,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     container: document.body,
     size: '',
     overlay: true,
-    draggable: false,
-    isFullscreen: false
+    draggable: false
   };
 
   isRootClosed = false;
@@ -403,7 +401,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       classnames: cx,
       mobileUI,
       draggable,
-      isFullscreen,
       classPrefix
     } = this.props;
 
@@ -411,14 +408,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       width: style?.width ? style?.width : width,
       height: style?.height ? style?.height : height
     };
-    const fullStyle = isFullscreen
-      ? {
-          // 全屏时左、上0间距，拖拽失效
-          left: 0,
-          top: 0
-        }
-      : {};
-
     return (
       <Transition
         mountOnEnter
@@ -467,10 +456,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     size === 'custom' ? 'Modal-content-custom' : '',
                     contentClassName,
                     modalClassName,
-                    contentFadeStyles[status],
-                    isFullscreen ? 'Modal-fullScreen' : ''
+                    contentFadeStyles[status]
                   )}
-                  style={{..._style, ...this.getDragStyle(), ...fullStyle}}
+                  style={{..._style, ...this.getDragStyle()}}
                 >
                   {status === EXITED ? null : children}
                 </div>

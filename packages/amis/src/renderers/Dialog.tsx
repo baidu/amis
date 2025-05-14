@@ -620,6 +620,7 @@ export default class Dialog extends React.Component<DialogProps> {
       inDesign,
       themeCss,
       allowFullscreen,
+      draggable,
       id,
       ...rest
     } = {
@@ -628,29 +629,25 @@ export default class Dialog extends React.Component<DialogProps> {
     } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
-    let screenStyle = {} as any;
-    if (store.isFullscreen) {
-      screenStyle = {
-        width: '100%',
-        height: '100%'
-      };
-    }
     return (
       <Wrapper
         {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
-        style={store.isFullscreen ? screenStyle : style}
+        style={store.isFullscreen ? {width: '100%', height: '100%'} : style}
+        draggable={store.isFullscreen ? false : draggable}
         size={size}
         height={height}
         width={width}
         isFullscreen={store.isFullscreen}
-        modalClassName={setThemeClassName({
+        modalClassName={`${
+          store.isFullscreen ? cx('Modal-fullScreen') : ''
+        } ${setThemeClassName({
           ...this.props,
           name: 'dialogClassName',
           id,
           themeCss
-        })}
+        })}`}
         modalMaskClassName={setThemeClassName({
           ...this.props,
           name: 'dialogMaskClassName',
