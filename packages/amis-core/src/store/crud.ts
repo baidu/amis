@@ -151,6 +151,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       };
 
       return context;
+    },
+
+    get offset() {
+      return (self.page - 1) * self.perPage;
     }
   }))
   .actions(self => {

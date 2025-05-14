@@ -36,6 +36,7 @@ export interface CellProps extends ThemeProps {
   onImageEnlarge?: any;
   translate: (key: string, ...args: Array<any>) => string;
   testIdBuilder?: TestIdBuilder;
+  offset?: number;
 }
 
 export default function Cell({
@@ -58,7 +59,8 @@ export default function Cell({
   quickEditFormRef,
   onImageEnlarge,
   translate: __,
-  testIdBuilder
+  testIdBuilder,
+  offset
 }: CellProps) {
   if (column.name && item.rowSpans[column.name] === 0) {
     return null;
@@ -267,7 +269,7 @@ export default function Cell({
       >
         {`${filterItemIndex ? filterItemIndex(item.path, item) : item.path}`
           .split('.')
-          .map(a => parseInt(a, 10) + 1)
+          .map(a => parseInt(a, 10) + 1 + (offset || 0))
           .join('.')}
       </td>
     );
