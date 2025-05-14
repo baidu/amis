@@ -634,7 +634,7 @@ export default class Dialog extends React.Component<DialogProps> {
         {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
-        style={store.isFullscreen ? {width: '100%', height: '100%'} : style}
+        style={style}
         draggable={store.isFullscreen ? false : draggable}
         size={size}
         height={height}
