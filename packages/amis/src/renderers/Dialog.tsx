@@ -634,20 +634,21 @@ export default class Dialog extends React.Component<DialogProps> {
         {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
-        style={store.isFullscreen ? {width: '100%', height: '100%'} : style}
+        style={style}
         draggable={store.isFullscreen ? false : draggable}
         size={size}
         height={height}
         width={width}
         isFullscreen={store.isFullscreen}
-        modalClassName={`${
-          store.isFullscreen ? cx('Modal-fullScreen') : ''
-        } ${setThemeClassName({
-          ...this.props,
-          name: 'dialogClassName',
-          id,
-          themeCss
-        })}`}
+        modalClassName={cx(
+          setThemeClassName({
+            ...this.props,
+            name: 'dialogClassName',
+            id,
+            themeCss
+          }),
+          store.isFullscreen ? 'Modal-fullScreen' : ''
+        )}
         modalMaskClassName={setThemeClassName({
           ...this.props,
           name: 'dialogMaskClassName',
