@@ -72,7 +72,7 @@
     "react-visibility-sensor": "5.1.1",
     "smooth-signature": "^1.0.15",
     "sortablejs": "1.15.0",
-    "tinymce": "^6.1.2",
+    "tinymce": "^7.9.0",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1",
     "video-react": "0.15.0"
