@@ -330,7 +330,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   fetchCancel: Function | null = null;
 
-  async loadRemote(input: string) {
+  async loadRemote(input: string, force = false) {
     const {
       autoComplete,
       env,
@@ -345,9 +345,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       throw new Error('fetcher is required');
     }
 
-    if (formInited === false && addHook) {
+    if (!force && formInited === false && addHook) {
       this.unHook && this.unHook();
-      return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
+      return (this.unHook = addHook(
+        this.loadRemote.bind(this, input, true),
+        'init'
+      ));
     }
 
     this.lastTerm = input;
