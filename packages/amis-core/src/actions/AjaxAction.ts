@@ -61,7 +61,7 @@ export class AjaxAction implements RendererAction {
     const messages = (action?.api as ApiObject)?.messages;
     let api = normalizeApi(action.api);
 
-    if (api.sendOn !== undefined) {
+    if (api.sendOn) {
       // 发送请求前，判断是否需要发送
       const sendOn = await evalExpressionWithConditionBuilderAsync(
         api.sendOn,
