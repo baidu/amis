@@ -252,14 +252,22 @@ export class TableBody<
       })
       .filter(item => item.colSpan);
 
-    //  如果是勾选栏，或者是展开栏，或者是拖拽栏，让它和下一列合并。
+    //  如果是勾选栏，或者是展开栏，或者是拖拽栏
+    // 临时补一个空格，这样不会跟功能栏冲突
     if (
       result[0] &&
       typeof columns[0]?.type === 'string' &&
       columns[0]?.type.substring(0, 2) === '__'
     ) {
-      result[0].firstColumn = columns[0];
-      result[0].colSpan = (result[0].colSpan || 1) + 1;
+      result.unshift({
+        firstColumn: columns[0],
+        lastColumn: columns[0],
+        colSpan: 1,
+        text: ' ',
+        type: 'text'
+      });
+      // result[0].firstColumn = columns[0];
+      // result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     // 缺少的单元格补齐
