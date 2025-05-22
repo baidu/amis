@@ -408,7 +408,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       width: style?.width ? style?.width : width,
       height: style?.height ? style?.height : height
     };
-
     return (
       <Transition
         mountOnEnter
@@ -447,6 +446,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 onStart={this.handleDragStart}
                 onDrag={this.handleDrag}
                 onStop={this.handleDragStop}
+                cancel="Icon, svg, a, svg *"
                 handle={`.${classPrefix}Modal-header`}
               >
                 <div

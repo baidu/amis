@@ -122,6 +122,8 @@ register('zh-CN', {
   'deleteFailed': '删除失败',
   'desc': '降序',
   'Dialog.close': '关闭',
+  'Dialog.screen': '全屏',
+  'Dialog.reset': '退出全屏',
   'Dialog.title': '弹框',
   'Embed.invalidRoot': '选择器不对，页面上没有此元素',
   'Embed.downloading': '文件即将开始下载',

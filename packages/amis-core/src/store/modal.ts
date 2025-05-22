@@ -7,7 +7,8 @@ export const ModalStore = ServiceStore.named('ModalStore')
     form: types.frozen(),
     entered: false,
     resizeCoord: 0,
-    schema: types.frozen()
+    schema: types.frozen(),
+    isFullscreen: false
   })
   .views(self => {
     return {
@@ -43,6 +44,9 @@ export const ModalStore = ServiceStore.named('ModalStore')
         }
 
         self.schema = schema;
+      },
+      setFullScreen(isFullscreen: boolean = false) {
+        self.isFullscreen = isFullscreen;
       }
     };
   });

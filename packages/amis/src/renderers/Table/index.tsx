@@ -2270,7 +2270,8 @@ export default class Table<
       itemBadge,
       translate,
       testIdBuilder,
-      filterItemIndex
+      filterItemIndex,
+      offset
     } = this.props;
 
     // 如果列数大于20，并且列不是固定列，则使用按需渲染模式
@@ -2302,6 +2303,7 @@ export default class Table<
         testIdBuilder={testIdBuilder?.getChild(
           `cell-${props.rowPath}-${column.index}`
         )}
+        offset={offset}
       />
     );
   }
