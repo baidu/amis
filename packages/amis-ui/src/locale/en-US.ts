@@ -118,6 +118,8 @@ register('en-US', {
   'deleteFailed': 'Delete failed',
   'desc': 'Desc',
   'Dialog.close': 'Close',
+  'Dialog.screen': 'Screen',
+  'Dialog.reset': 'Reset',
   'Dialog.title': 'Title',
   'Embed.invalidRoot': 'Invalid root selector',
   'Embed.downloading': 'Start downloading',

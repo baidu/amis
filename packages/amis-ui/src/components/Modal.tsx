@@ -61,6 +61,7 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   modalClassName?: string;
   modalMaskClassName?: string;
   draggable?: boolean;
+  isFullscreen?: boolean;
 }
 
 export interface ModalState {
@@ -89,7 +90,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     container: document.body,
     size: '',
     overlay: true,
-    draggable: false
+    draggable: false,
+    isFullscreen: false
   };
 
   isRootClosed = false;
@@ -401,6 +403,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       classnames: cx,
       mobileUI,
       draggable,
+      isFullscreen,
       classPrefix
     } = this.props;
 
@@ -408,6 +411,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       width: style?.width ? style?.width : width,
       height: style?.height ? style?.height : height
     };
+    const fullStyle = isFullscreen
+      ? {
+          // 全屏时左、上0间距，拖拽失效
+          left: 0,
+          top: 0
+        }
+      : {};
 
     return (
       <Transition
@@ -447,6 +457,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 onStart={this.handleDragStart}
                 onDrag={this.handleDrag}
                 onStop={this.handleDragStop}
+                cancel="Icon, svg, a, svg *"
                 handle={`.${classPrefix}Modal-header`}
               >
                 <div
@@ -456,9 +467,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     size === 'custom' ? 'Modal-content-custom' : '',
                     contentClassName,
                     modalClassName,
-                    contentFadeStyles[status]
+                    contentFadeStyles[status],
+                    isFullscreen ? 'Modal-fullScreen' : ''
                   )}
-                  style={{..._style, ...this.getDragStyle()}}
+                  style={{..._style, ...this.getDragStyle(), ...fullStyle}}
                 >
                   {status === EXITED ? null : children}
                 </div>
