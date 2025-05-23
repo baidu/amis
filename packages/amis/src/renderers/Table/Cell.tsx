@@ -29,7 +29,7 @@ export interface CellProps extends ThemeProps {
   multiple: boolean;
   canAccessSuperData?: boolean;
   itemBadge?: BadgeObject;
-  onCheck?: (item: IRow) => void;
+  onCheck?: (item: IRow, value?: boolean, shift?: boolean) => void;
   onDragStart?: (e: React.DragEvent) => void;
   popOverContainer?: any;
   quickEditFormRef: any;
@@ -75,9 +75,12 @@ export default function Cell({
     return [Object.assign(style, stickyStyle), stickyClassName];
   }, []);
 
-  const onCheckboxChange = React.useCallback(() => {
-    onCheck?.(item);
-  }, []);
+  const onCheckboxChange = React.useCallback(
+    (value: boolean, shiftKey?: boolean) => {
+      onCheck?.(item, value, shiftKey);
+    },
+    []
+  );
 
   let [prefix, affix, addtionalClassName] = React.useMemo(() => {
     let prefix: React.ReactNode[] = [];
