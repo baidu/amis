@@ -55,7 +55,7 @@ test('Renderer:icon-picker', async () => {
     }
   });
 
-  fireEvent.click(getByTitle('glyphicon glyphicon-plus'));
+  fireEvent.click(container.querySelector('.glyphicon-plus')!);
 
   await wait(500);
   replaceReactAriaIds(container);
