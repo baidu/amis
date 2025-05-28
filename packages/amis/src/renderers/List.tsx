@@ -1274,7 +1274,7 @@ export default class List extends React.Component<ListProps, ListState> {
       );
       this.itemRefs[index] = {
         element: ref,
-        letter: value.charAt(0).toUpperCase()
+        letter: value?.charAt(0).toUpperCase()
       };
     }
   }
