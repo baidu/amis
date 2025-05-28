@@ -337,6 +337,11 @@ export class DialogPlugin extends BasePlugin {
                 name: 'draggable',
                 value: false
               }),
+              getSchemaTpl('switch', {
+                label: '是否可全屏',
+                name: 'allowFullscreen',
+                value: false
+              }),
               getSchemaTpl('dataMap')
             ]
           }

@@ -250,7 +250,7 @@ export class SwitchControlPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('theme:formItem'),
           {
             title: '说明',
             body: [

@@ -808,6 +808,8 @@ export interface PluginEventListener {
     >
   ) => void;
 
+  afterBuildPanelBody?: (event: PluginEvent<AfterBuildPanelBody>) => void;
+
   // 外部可以接管全局变量的增删改查
   // 全局变量列表获取
   onGlobalVariableInit?: (
@@ -1115,7 +1117,8 @@ export abstract class BasePlugin implements PluginInterface {
       schema.$$id &&
       plugin.name &&
       plugin.rendererName &&
-      plugin.rendererName === renderer.name // renderer.name 会从 renderer.type 中取值
+      (plugin.rendererName === renderer.name ||
+        plugin.rendererName === renderer.origin?.name) // renderer.name 会从 renderer.type 中取值
     ) {
       let curPluginName = plugin.name;
       if (schema?.isFreeContainer) {
@@ -1184,7 +1187,7 @@ export abstract class BasePlugin implements PluginInterface {
         ? plugin.panelBodyCreator(context)
         : plugin.panelBody!;
 
-      this.manager.trigger('after-build-panel-body', {
+      const event = this.manager.trigger('after-build-panel-body', {
         context,
         data: body,
         plugin
@@ -1209,7 +1212,8 @@ export abstract class BasePlugin implements PluginInterface {
         title: plugin.panelTitle || '设置',
         render: enableAsync
           ? makeAsyncLayer(async () => {
-              const panelBody = await (body as Promise<SchemaCollection>);
+              const panelBody = await ((event.data ||
+                body) as Promise<SchemaCollection>);
 
               return this.manager.makeSchemaFormRender({
                 ...baseProps,
@@ -1218,7 +1222,7 @@ export abstract class BasePlugin implements PluginInterface {
             }, omit(plugin.async, 'enable'))
           : this.manager.makeSchemaFormRender({
               ...baseProps,
-              body: body as SchemaCollection
+              body: (event.data || body) as SchemaCollection
             })
       });
     } else if (

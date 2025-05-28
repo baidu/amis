@@ -433,6 +433,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-height: 667px;
   }
 
   > .frame-content .ae-Dialog-preview-mount-node > *:first-child {

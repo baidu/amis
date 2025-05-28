@@ -636,12 +636,7 @@ export class BaseCRUDPlugin extends BasePlugin {
             })
           ]
         },
-        {
-          name: 'placeholder',
-          pipeIn: defaultValue('暂无数据'),
-          type: 'input-text',
-          label: '占位内容'
-        },
+        getSchemaTpl('tablePlaceholder'),
         getSchemaTpl('switch', {
           name: 'syncLocation',
           label: tipedLabel(

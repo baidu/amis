@@ -9,6 +9,8 @@ import {createObject} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
 import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
+import flatten from 'lodash/flatten';
+import {VirtualTableBody} from './VirtualTableBody';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
@@ -250,14 +252,22 @@ export class TableBody<
       })
       .filter(item => item.colSpan);
 
-    //  如果是勾选栏，或者是展开栏，或者是拖拽栏，让它和下一列合并。
+    //  如果是勾选栏，或者是展开栏，或者是拖拽栏
+    // 临时补一个空格，这样不会跟功能栏冲突
     if (
       result[0] &&
       typeof columns[0]?.type === 'string' &&
       columns[0]?.type.substring(0, 2) === '__'
     ) {
-      result[0].firstColumn = columns[0];
-      result[0].colSpan = (result[0].colSpan || 1) + 1;
+      result.unshift({
+        firstColumn: columns[0],
+        lastColumn: columns[0],
+        colSpan: 1,
+        text: ' ',
+        type: 'text'
+      });
+      // result[0].firstColumn = columns[0];
+      // result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     // 缺少的单元格补齐
@@ -362,6 +372,7 @@ export class TableBody<
       classnames: cx,
       className,
       render,
+      store,
       rows,
       columns,
       rowsProps,
@@ -370,16 +381,17 @@ export class TableBody<
       translate: __
     } = this.props;
 
-    return (
-      <tbody className={className}>
-        {rows.length ? (
-          <>
-            {this.renderSummary('prefix', prefixRow)}
-            {this.renderRows(rows, columns, rowsProps)}
-            {this.renderSummary('affix', affixRow)}
-          </>
-        ) : null}
-      </tbody>
+    const doms: React.ReactNode[] = flatten(
+      []
+        .concat(this.renderSummary('prefix', prefixRow) as any)
+        .concat(this.renderRows(rows, columns, rowsProps) as any)
+        .concat(this.renderSummary('affix', affixRow) as any)
+    ).filter(Boolean);
+
+    return rows.length > store.lazyRenderAfter ? (
+      <VirtualTableBody rows={doms} store={this.props.store} />
+    ) : (
+      <tbody className={className}>{doms}</tbody>
     );
   }
 }

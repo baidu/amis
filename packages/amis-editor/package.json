@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "6.12.0",
+  "version": "6.13.0-beta.8",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "*",
+    "amis-editor-core": "^6.13.0-beta.8",
     "amis-postcss": "1.0.0",
     "amis-theme-editor-helper": "*",
     "i18n-runtime": "*",

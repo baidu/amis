@@ -162,6 +162,26 @@ order: 14
   }
 ]
 ```
+## 解析多个文件
+可以配置"multiple": true，来开启多文件解析功能，通过"maxLength": 5，来限制最多上传5个文件。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "allSheets": true,
+            "label": "上传 Excel",
+            "multiple": true,
+            "maxLength": 5
+        }
+    ]
+}
+```
 
 ## 解析图片
 
@@ -277,14 +297,16 @@ interface InputExcelData {
 
 ## 属性表
 
-| 属性名       | 类型                     | 默认值                          | 说明               | 版本    |
-| ------------ | ------------------------ | ------------------------------- | ------------------ | ------- |
-| allSheets    | `boolean`                | false                           | 是否解析所有 sheet |
-| parseMode    | `'array'` 或 `'object'`  | 'object'                        | 解析模式           |
-| includeEmpty | `boolean`                | true                            | 是否包含空值       |
-| plainText    | `boolean`                | true                            | 是否解析为纯文本   |
-| placeholder  | `string`                 | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
-| autoFill     | `Record<string, string>` |                                 | 自动填充           | `3.5.0` |
+| 属性名          | 类型                       | 默认值                   | 说明           | 版本       |
+|--------------|--------------------------|-----------------------|--------------|----------|
+| allSheets    | `boolean`                | false                 | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'`   | 'object'              | 解析模式         |
+| includeEmpty | `boolean`                | true                  | 是否包含空值       |
+| plainText    | `boolean`                | true                  | 是否解析为纯文本     |
+| placeholder  | `string`                 | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1`  |
+| autoFill     | `Record<string, string>` |                       | 自动填充         | `3.5.0`  |
+| multiple     | `boolean`                |                       | 解析多个文件       | `6.13.0` |
+| maxLength    | `number`                 |                       | 解析文件最大数      | `6.13.0` |
 
 ## 事件表
 

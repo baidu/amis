@@ -122,7 +122,8 @@ export const Column = types
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
-    className: types.union(types.string, types.frozen())
+    className: types.union(types.string, types.frozen()),
+    appeared: false
   })
   .views(self => ({
     get isPrimary() {
@@ -174,6 +175,9 @@ export const Column = types
 
     setRealWidth(value: number) {
       self.realWidth = value;
+    },
+    markAppeared(value: boolean) {
+      self.appeared = self.appeared || value;
     }
   }));
 
@@ -202,9 +206,9 @@ export const Row = types
     loaded: false, // 懒数据是否加载完了
     loading: false, // 懒数据是否正在加载
     error: '', // 懒数据加载失败的错误信息
-    depth: types.number, // 当前children位于第几层，便于使用getParent获取最顶层TableStore
-    appeared: true,
-    lazyRender: false
+    depth: types.number // 当前children位于第几层，便于使用getParent获取最顶层TableStore
+    // appeared: true,
+    // lazyRender: false
   })
   .views(self => ({
     get parent() {
@@ -486,9 +490,9 @@ export const Row = types
       }
     },
 
-    markAppeared(value: any) {
-      value && (self.appeared = !!value);
-    },
+    // markAppeared(value: any) {
+    //   value && (self.appeared = !!value);
+    // },
 
     markLoading(value: any) {
       self.loading = !!value;
@@ -1453,7 +1457,7 @@ export const TableStore = iRendererStore
       document.body.removeChild(div);
     }
 
-    function syncTableWidth() {
+    function syncTableWidth(setWidth = false) {
       const table = tableRef;
       if (!table) {
         return;
@@ -1466,6 +1470,7 @@ export const TableStore = iRendererStore
         const column = self.columns[index];
         const realWidth = col.getBoundingClientRect().width;
         column.setRealWidth(realWidth);
+        setWidth && column.setWidth(realWidth);
       });
     }
 
@@ -1614,19 +1619,19 @@ export const TableStore = iRendererStore
 
       if (!allMatched) {
         // 前 20 个直接渲染，后面的按需渲染
-        if (
-          self.lazyRenderAfter &&
-          self.falttenedRows.length > self.lazyRenderAfter
-        ) {
-          for (
-            let i = self.lazyRenderAfter, len = self.falttenedRows.length;
-            i < len;
-            i++
-          ) {
-            self.falttenedRows[i].appeared = false;
-            self.falttenedRows[i].lazyRender = true;
-          }
-        }
+        // if (
+        //   self.lazyRenderAfter &&
+        //   self.falttenedRows.length > self.lazyRenderAfter
+        // ) {
+        //   for (
+        //     let i = self.lazyRenderAfter, len = self.falttenedRows.length;
+        //     i < len;
+        //     i++
+        //   ) {
+        //     self.falttenedRows[i].appeared = false;
+        //     self.falttenedRows[i].lazyRender = true;
+        //   }
+        // }
 
         const expand = self.footable && self.footable.expand;
         if (
@@ -2125,6 +2130,11 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,
+
+      switchToFixedLayout() {
+        this.syncTableWidth(true);
+        self.tableLayout = 'fixed';
+      },
 
       // events
       afterCreate() {
