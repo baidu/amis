@@ -1131,6 +1131,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
     return (
       <tbody ref={this.tbodyDom} className={cx('Table-tbody')}>
+        {dataSource.map((data, index) => this.renderRow(data, index, []))}
         {!hasScrollY && !sticky && headSummary
           ? this.renderSummaryRow(headSummary)
           : null}
@@ -1168,9 +1169,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               </div>
             </Cell>
           </tr>
-        ) : (
-          dataSource.map((data, index) => this.renderRow(data, index, []))
-        )}
+        ) : null}
       </tbody>
     );
   }
@@ -1474,6 +1473,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderScrollTable() {
+    // todo 这个模式有个很大的问题就是依赖 tablelayout 的 fixed 模式，这就意味这列的宽度都得配置
     const {footSummary, classnames: cx} = this.props;
 
     return (
@@ -1695,7 +1695,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </div>
         ) : null}
 
-        {!hasScrollY && !(sticky && autoFillHeight) ? (
+        {hasScrollY && !autoFillHeight ? (
           this.renderScrollTable()
         ) : (
           <div
