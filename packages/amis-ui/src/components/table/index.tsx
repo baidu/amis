@@ -1131,6 +1131,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
     return (
       <tbody ref={this.tbodyDom} className={cx('Table-tbody')}>
+        {dataSource.map((data, index) => this.renderRow(data, index, []))}
         {!hasScrollY && !sticky && headSummary
           ? this.renderSummaryRow(headSummary)
           : null}
@@ -1168,9 +1169,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               </div>
             </Cell>
           </tr>
-        ) : (
-          dataSource.map((data, index) => this.renderRow(data, index, []))
-        )}
+        ) : null}
       </tbody>
     );
   }
