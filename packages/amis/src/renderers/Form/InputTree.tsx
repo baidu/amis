@@ -15,7 +15,6 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   resolveEventData,
-  toNumber,
   findTreeIndex,
   hasAbility,
   findTree,
@@ -23,10 +22,7 @@ import {
   BaseApiObject,
   getVariable,
   setThemeClassName,
-  CustomStyle,
-  resizeSensor,
-  anyChanged,
-  calculateHeight
+  CustomStyle
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi, SchemaCollection} from '../../Schema';
@@ -191,6 +187,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
   };
 
   /**
+   * tree 组件层类名
+   */
+  treeClassName?: string;
+
+  /**
    * 高度自动增长？
    */
   heightAuto?: boolean;
@@ -217,8 +218,6 @@ interface TreeState {
   filteredOptions: Option[];
   keyword: string;
   allowSearch: boolean;
-  virtualListHeight: number;
-  treeHeight: number;
 }
 
 export default class TreeControl extends React.Component<TreeProps, TreeState> {
@@ -232,54 +231,18 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     pathSeparator: '/'
   };
   treeRef: any;
-  readonly rootRef = React.createRef<HTMLDivElement>();
-  unSensor?: () => void;
 
   constructor(props: TreeProps) {
     super(props);
     this.state = {
       keyword: '',
       filteredOptions: this.props.options ?? [],
-      allowSearch: false,
-      virtualListHeight: 0,
-      treeHeight: 0
+      allowSearch: false
     };
     this.handleSearch = debounce(this.handleSearch.bind(this), 250, {
       trailing: true,
       leading: false
     });
-  }
-
-  componentDidMount() {
-    const formElement = this.rootRef.current?.parentElement;
-    this.handleHeight();
-
-    this.unSensor = resizeSensor(
-      formElement!,
-      () => {
-        this.handleHeight();
-      },
-      false,
-      'height'
-    );
-  }
-
-  handleHeight() {
-    if (!this.props.heightAuto) {
-      // form-item 对应元素
-      const formElement = this.rootRef.current?.parentElement;
-      // tree 对应元素
-      const treeElement = this.treeRef?.root.current;
-
-      if (formElement && treeElement) {
-        const treeHeight =
-          formElement!.offsetHeight - calculateHeight(formElement, treeElement);
-
-        this.setState({treeHeight: treeHeight});
-      }
-    } else {
-      this.setState({treeHeight: 0});
-    }
   }
 
   componentDidUpdate(prevProps: TreeProps) {
@@ -296,32 +259,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         filteredOptions:
           searchable && keyword ? this.filterOptions(options, keyword) : options
       });
-    }
-
-    if (
-      anyChanged(
-        [
-          'label',
-          'searchable',
-          'creatable',
-          'hideRoot',
-          'themeCss',
-          'wrapperCustomStyle',
-          'heightAuto',
-          'options'
-        ],
-        prevProps,
-        props
-      )
-    ) {
-      this.handleHeight();
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.unSensor) {
-      this.unSensor();
-      delete this.unSensor;
     }
   }
 
@@ -651,7 +588,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       translate: __,
       data,
       virtualThreshold,
-      itemHeight,
       loadingConfig,
       menuTpl,
       enableDefaultIcon,
@@ -665,10 +601,11 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       id,
       wrapperCustomStyle,
       themeCss,
-      env
+      env,
+      treeClassName
     } = this.props;
     let {highlightTxt} = this.props;
-    const {filteredOptions, keyword, allowSearch, treeHeight} = this.state;
+    const {filteredOptions, keyword, allowSearch} = this.state;
 
     if (isPureVariable(highlightTxt)) {
       highlightTxt = resolveVariableAndFilter(highlightTxt, data);
@@ -676,6 +613,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     const TreeCmpt = (
       <TreeSelector
+        className={treeClassName}
         classPrefix={ns}
         onRef={this.domRef}
         labelField={labelField}
@@ -727,8 +665,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
         virtualThreshold={virtualThreshold}
-        height={treeHeight}
-        itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
@@ -749,7 +685,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     return (
       <>
         <div
-          ref={this.rootRef}
           className={cx(`${ns}TreeControl`, className, treeContainerClassName, {
             'is-sticky': searchable && searchConfig?.sticky,
             'h-auto': heightAuto

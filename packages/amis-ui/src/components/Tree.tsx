@@ -145,7 +145,6 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   createTip?: string;
   // 是否开启虚拟滚动
   virtualThreshold?: number;
-  itemHeight?: number;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -196,6 +195,7 @@ interface TreeSelectorState {
   dropIndicator?: IDropIndicator;
 
   virtualHeight: number;
+  itemHeight: number;
 }
 
 export class TreeSelector extends React.Component<
@@ -237,7 +237,6 @@ export class TreeSelector extends React.Component<
     pathSeparator: '/',
     nodePath: [],
     virtualThreshold: 100,
-    itemHeight: 32,
     enableDefaultIcon: true
   };
   // 展开的节点
@@ -256,7 +255,7 @@ export class TreeSelector extends React.Component<
     y: 0
   };
   root = React.createRef<HTMLDivElement>();
-  virtualListRef = React.createRef<any>();
+  virtualListRef: HTMLDivElement | null = null;
   unSensor?: () => void;
 
   constructor(props: TreeSelectorProps) {
@@ -283,7 +282,8 @@ export class TreeSelector extends React.Component<
       isEditing: false,
       editingItem: null,
       dropIndicator: undefined,
-      virtualHeight: 0
+      virtualHeight: 0,
+      itemHeight: 0
     };
 
     this.syncUnFolded(props, undefined, true);
@@ -297,12 +297,16 @@ export class TreeSelector extends React.Component<
     this.props.onRef?.(this);
     enableNodePath && this.expandLazyLoadNodes();
 
-    this.handleVirtualHeight();
+    let treeElement: HTMLElement = this.root.current!;
+    treeElement =
+      treeElement?.parentElement?.matches('.cxd-TreeControl') &&
+      treeElement.parentElement.childElementCount === 1
+        ? treeElement.parentElement
+        : treeElement;
+
     this.unSensor = resizeSensor(
-      this.root.current!,
-      () => {
-        this.handleVirtualHeight();
-      },
+      treeElement,
+      this.handleVirtualHeight,
       false,
       'height'
     );
@@ -341,13 +345,6 @@ export class TreeSelector extends React.Component<
         valueSet: new Set(newValue)
       });
     }
-
-    if (
-      prevState.isAdding !== state.isAdding ||
-      prevState.flattenedOptions !== state.flattenedOptions
-    ) {
-      this.handleVirtualHeight();
-    }
   }
 
   componentWillUnmount(): void {
@@ -369,6 +366,12 @@ export class TreeSelector extends React.Component<
       path ? path.toString().split(pathSeparator) : []
     );
     onExpandTree?.(nodePathArr);
+  }
+
+  @autobind
+  virtualListRefSetter(ref: HTMLDivElement | null) {
+    this.virtualListRef = ref;
+    ref && this.handleVirtualHeight();
   }
 
   syncUnFolded(
@@ -1212,7 +1215,15 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
-  renderItem({index, style}: {index: number; style?: Record<string, any>}) {
+  renderItem({
+    index,
+    style,
+    ...rest
+  }: {
+    index: number;
+    style?: Record<string, any>;
+    ref?: (node: HTMLElement | null) => void;
+  }) {
     const {
       itemClassName,
       showIcon,
@@ -1469,15 +1480,18 @@ export class TreeSelector extends React.Component<
 
     return (
       <li
+        {...rest}
         key={`${item[valueField || 'value']}-${index}`}
         className={cx(`Tree-item ${itemClassName || ''}`, {
           'Tree-item--isLeaf': isLeaf,
           'is-child': this.relations.get(item)
         })}
-        style={{
-          ...style,
-          paddingLeft: `calc(${level} * var(--Tree-indent))`
-        }}
+        style={
+          {
+            ...style,
+            '--Tree-depth': level
+          } as any
+        }
         {...itemTestBuilder?.getTestId()}
       >
         {body}
@@ -1575,21 +1589,27 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
+  styleGetter(node: HTMLElement | null) {
+    node && this.setState({itemHeight: node?.offsetHeight || 0});
+  }
+
+  @autobind
   renderList(list: Options) {
-    const {virtualThreshold, itemHeight = 32} = this.props;
-    const {virtualHeight} = this.state;
+    const {virtualThreshold} = this.props;
+    const {virtualHeight, itemHeight} = this.state;
     if (virtualThreshold && list.length > virtualThreshold) {
-      return (
-        <div ref={this.virtualListRef}>
+      return itemHeight ? (
+        <div ref={this.virtualListRefSetter}>
           <VirtualList
             height={virtualHeight}
             itemCount={list.length}
             prefix={this.renderCheckAll()}
             itemSize={itemHeight}
-            //! hack: 让 VirtualList 重新渲染
-            renderItem={this.renderItem.bind(this)}
+            renderItem={this.renderItem}
           />
         </div>
+      ) : (
+        this.renderItem({index: 0, ref: this.styleGetter})
       );
     }
 
@@ -1601,27 +1621,55 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  @autobind
   handleVirtualHeight() {
-    const {virtualThreshold, itemHeight = 32, height} = this.props;
-    const {flattenedOptions} = this.state;
+    const {virtualThreshold} = this.props;
+    const {flattenedOptions, itemHeight} = this.state;
 
     if (virtualThreshold && flattenedOptions.length > virtualThreshold) {
-      if (height && height > 0) {
-        // tree 对应元素
-        const treeElement = this.root.current!;
-        // 虚拟列表 对应元素
-        const virtualElement = this.virtualListRef.current!;
+      // tree 对应元素
+      let treeElement: HTMLElement = this.root.current!;
 
-        if (treeElement && virtualElement) {
-          const virtualHeight =
-            treeElement!.offsetHeight -
-            calculateHeight(treeElement, virtualElement);
-
-          this.setState({virtualHeight: virtualHeight});
-        }
-      } else {
-        this.setState({virtualHeight: flattenedOptions.length * itemHeight});
+      if (
+        !this.virtualListRef ||
+        (!treeElement.offsetHeight && !treeElement.offsetWidth)
+      ) {
+        return;
       }
+
+      treeElement =
+        treeElement?.parentElement?.matches('.cxd-TreeControl') &&
+        treeElement.parentElement.childElementCount === 1
+          ? treeElement.parentElement
+          : treeElement;
+
+      const styles = getComputedStyle(treeElement);
+      let offsetHeight = 0;
+      if (styles.flexGrow !== '0') {
+        // 当配置了成了动态高度时，根据实际高度来
+        offsetHeight = treeElement.offsetHeight;
+      } else {
+        offsetHeight = itemHeight * flattenedOptions.length;
+      }
+      const virtualElement = this.virtualListRef!;
+
+      // 通常时外围设置了 maxHeight
+      if (
+        virtualElement.offsetHeight &&
+        virtualElement.offsetHeight > treeElement.offsetHeight
+      ) {
+        offsetHeight = treeElement.offsetHeight;
+      }
+
+      // 虚拟列表 对应元素
+      // todo 去支持外部滚动也支持虚拟滚动的场景，目前不支持，所以只能让高度最大，其实就没启动虚拟滚动
+      // 目前只有没有配置  heightAuto 的时候
+      // 或者配置了 flexGrow 的时候，才会有虚拟滚动的效果
+
+      const virtualHeight =
+        offsetHeight - calculateHeight(treeElement, virtualElement);
+
+      this.setState({virtualHeight: virtualHeight});
     }
   }
 
