@@ -589,6 +589,14 @@ export const MainStore = types
         return this.getValueOf(self.activeId);
       },
 
+      get panelsValue() {
+        let newValue = this.value;
+        if (self.isMobile && newValue && newValue.mobile) {
+          newValue = Object.assign({}, newValue, newValue.mobile);
+        }
+        return newValue;
+      },
+
       getValueOf(id: string) {
         const schema = JSONGetById(self.schema, id);
         const data = JSONPipeOut(schema, false);
@@ -1601,7 +1609,7 @@ export const MainStore = types
 
         // 通常 Panel 和 codeEditor 过来都有 diff 信息
         if (diff) {
-          const result = patchDiff(origin, diff);
+          const result = patchDiff(origin, diff, self.isMobile);
           let schema = JSONUpdate(self.schema, id, JSONPipeIn(result), true);
           schema = changeFilter?.(schema, value, id, diff) || schema;
           this.traceableSetSchema(schema, noTrace);
