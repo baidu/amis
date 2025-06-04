@@ -269,7 +269,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       // form-item 对应元素
       const formElement = this.rootRef.current?.parentElement;
       // tree 对应元素
-      const treeElement = this.treeRef.root.current;
+      const treeElement = this.treeRef?.root.current;
 
       if (formElement && treeElement) {
         const treeHeight =
