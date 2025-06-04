@@ -417,6 +417,7 @@ exports[`Tree: showOutline 1`] = `
                       >
                         <li
                           class="cxd-Tree-item "
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -454,6 +455,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -486,6 +488,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -523,6 +526,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 2;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -555,6 +559,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 2;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -587,6 +592,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -619,6 +625,7 @@ exports[`Tree: showOutline 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
