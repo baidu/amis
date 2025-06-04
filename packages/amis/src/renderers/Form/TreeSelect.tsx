@@ -793,7 +793,7 @@ export default class TreeSelectControl extends React.Component<
         onExpandTree={expandTreeOptions}
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
-        itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
+        // itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}

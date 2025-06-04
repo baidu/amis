@@ -552,7 +552,7 @@ export const FormStore = ServiceStore.named('FormStore')
       );
     };
 
-    // 10s 内不要重复弹同一个错误
+    // 5s 内不要重复弹同一个错误
     const toastValidateError = throttle(
       (msg, validateError?: ValidateError) => {
         const env = getEnv(self);
@@ -560,7 +560,7 @@ export const FormStore = ServiceStore.named('FormStore')
           validateError
         });
       },
-      10000,
+      5000,
       {
         trailing: false,
         leading: true

@@ -238,18 +238,28 @@ export class ImagesPlugin extends BasePlugin {
           {
             title: '其他',
             body: [
-              {
+              // {
+              //   name: 'themeCss.galleryControlClassName.--image-images-prev-icon',
+              //   label: '左切换图标',
+              //   type: 'icon-select',
+              //   returnSvg: true
+              // },
+              // {
+              //   name: 'themeCss.galleryControlClassName.--image-images-next-icon',
+              //   label: '右切换图标',
+              //   type: 'icon-select',
+              //   returnSvg: true
+              // },
+              getSchemaTpl('icon', {
                 name: 'themeCss.galleryControlClassName.--image-images-prev-icon',
                 label: '左切换图标',
-                type: 'icon-select',
                 returnSvg: true
-              },
-              {
+              }),
+              getSchemaTpl('icon', {
                 name: 'themeCss.galleryControlClassName.--image-images-next-icon',
                 label: '右切换图标',
-                type: 'icon-select',
                 returnSvg: true
-              },
+              }),
               getSchemaTpl('theme:select', {
                 label: '切换图标大小',
                 name: 'themeCss.galleryControlClassName.--image-images-item-size'
