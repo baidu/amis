@@ -4,6 +4,7 @@ import {
   defaultValue,
   isObject,
   tipedLabel,
+  getI18nEnabled,
   EditorManager
 } from 'amis-editor-core';
 import {render, type SchemaObject} from 'amis';
@@ -1789,6 +1790,7 @@ setSchemaTpl('deferField', {
 setSchemaTpl(
   'signBtn',
   (options: {label: string; name: string; icon: string}) => {
+    const i18nEnabled = getI18nEnabled();
     return {
       type: 'flex',
       justify: 'space-between',
@@ -1814,7 +1816,7 @@ setSchemaTpl(
                 {
                   name: options.name,
                   label: '按钮文案',
-                  type: 'input-text'
+                  type: i18nEnabled ? 'input-text-i18n' : 'input-text'
                 },
                 getSchemaTpl('icon', {
                   name: options.icon,

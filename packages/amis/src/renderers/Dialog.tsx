@@ -134,6 +134,10 @@ export interface DialogSchema extends BaseSchema {
    * 可拖拽
    */
   draggable?: boolean;
+  /**
+   * 可全屏
+   */
+  allowFullscreen?: boolean;
 
   /**
    * 数据映射
@@ -183,7 +187,8 @@ export default class Dialog extends React.Component<DialogProps> {
     'actions',
     'popOverContainer',
     'overlay',
-    'draggable'
+    'draggable',
+    'allowFullscreen'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -206,6 +211,7 @@ export default class Dialog extends React.Component<DialogProps> {
 
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
+    this.handleSelfScreen = this.handleSelfScreen.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
@@ -270,7 +276,12 @@ export default class Dialog extends React.Component<DialogProps> {
 
     return ret;
   }
-
+  handleSelfScreen(e?: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    const {store} = this.props;
+    store.setFullScreen(!store.isFullscreen);
+  }
   async handleSelfClose(e?: any, confirmed?: boolean) {
     const {onClose, store, dispatchEvent} = this.props;
 
@@ -284,6 +295,7 @@ export default class Dialog extends React.Component<DialogProps> {
     }
     // clear error
     store.updateMessage();
+    store.setFullScreen(false);
     onClose(confirmed);
   }
 
@@ -607,6 +619,8 @@ export default class Dialog extends React.Component<DialogProps> {
       popOverContainer,
       inDesign,
       themeCss,
+      allowFullscreen,
+      draggable,
       id,
       ...rest
     } = {
@@ -615,22 +629,26 @@ export default class Dialog extends React.Component<DialogProps> {
     } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
-
     return (
       <Wrapper
         {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
         style={style}
+        draggable={store.isFullscreen ? false : draggable}
         size={size}
         height={height}
         width={width}
-        modalClassName={setThemeClassName({
-          ...this.props,
-          name: 'dialogClassName',
-          id,
-          themeCss
-        })}
+        isFullscreen={store.isFullscreen}
+        modalClassName={cx(
+          setThemeClassName({
+            ...this.props,
+            name: 'dialogClassName',
+            id,
+            themeCss
+          }),
+          store.isFullscreen ? 'Modal-fullScreen' : ''
+        )}
         modalMaskClassName={setThemeClassName({
           ...this.props,
           name: 'dialogMaskClassName',
@@ -682,6 +700,21 @@ export default class Dialog extends React.Component<DialogProps> {
                 />
               </a>
             ) : null}
+            {allowFullscreen ? (
+              <a
+                data-tooltip={
+                  store.isFullscreen ? __('Dialog.reset') : __('Dialog.screen')
+                }
+                data-position="left"
+                onClick={this.handleSelfScreen}
+                className={cx('Modal-close Modal-screen')}
+              >
+                <Icon
+                  icon={store.isFullscreen ? 'un-fullscreen' : 'full-screen'}
+                  className="icon"
+                />
+              </a>
+            ) : null}
             <div
               className={cx(
                 'Modal-title',
@@ -719,6 +752,21 @@ export default class Dialog extends React.Component<DialogProps> {
                   icon="close"
                   className="icon"
                   iconContent="Dialog-close"
+                />
+              </a>
+            ) : null}
+            {allowFullscreen ? (
+              <a
+                data-tooltip={
+                  store.isFullscreen ? __('Dialog.reset') : __('Dialog.screen')
+                }
+                data-position="left"
+                onClick={this.handleSelfScreen}
+                className={cx('Modal-close Modal-screen')}
+              >
+                <Icon
+                  icon={store.isFullscreen ? 'un-fullscreen' : 'full-screen'}
+                  className="icon"
                 />
               </a>
             ) : null}
@@ -818,8 +866,7 @@ export default class Dialog extends React.Component<DialogProps> {
               'drawer',
               {
                 // 支持嵌套
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).drawer as object)),
+                ...store.drawerSchema,
                 type: 'drawer'
               },
               {
@@ -838,8 +885,7 @@ export default class Dialog extends React.Component<DialogProps> {
               'dialog',
               {
                 // 支持嵌套
-                ...((store.action as ActionObject) &&
-                  ((store.action as ActionObject).dialog as object)),
+                ...store.dialogSchema,
                 type: 'dialog'
               },
               {

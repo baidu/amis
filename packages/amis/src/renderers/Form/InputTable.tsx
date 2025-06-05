@@ -1182,7 +1182,8 @@ export default class FormTable<
         !(deleteApi as ApiObject)?.silent &&
           env.notify(
             'error',
-            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+            (deleteApi as ApiObject)?.messages?.failed ??
+              (result.msg || __('deleteFailed'))
           );
         this.dispatchEvent('deleteFail', {
           index: indexes[indexes.length - 1],
@@ -1683,9 +1684,10 @@ export default class FormTable<
     }
 
     if (btns.length) {
-      let operation = columns.find(item => item.type === 'operation');
+      let idx = columns.findIndex(item => item.type === 'operation');
+      let operation = columns[idx];
 
-      if (!operation) {
+      if (idx === -1) {
         operation = {
           type: 'operation',
           buttons: [],
@@ -1696,6 +1698,11 @@ export default class FormTable<
           innerClassName: 'm-n'
         };
         columns.push(operation);
+      } else {
+        operation = {
+          ...operation
+        };
+        columns.splice(idx, 1, operation);
       }
 
       operation.buttons = Array.isArray(operation.buttons)
@@ -2028,7 +2035,7 @@ export default class FormTable<
             quickEditFormRef: this.subFormRef,
             quickEditFormItemRef: this.subFormItemRef,
             columnsTogglable: columnsTogglable,
-            combineNum: combineNum,
+            combineNum: this.state.editIndex ? 0 : combineNum,
             combineFromIndex: combineFromIndex,
             expandConfig,
             canAccessSuperData,

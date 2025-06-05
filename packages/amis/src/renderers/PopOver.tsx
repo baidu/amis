@@ -170,9 +170,10 @@ export const HocPopOver =
         const e = event.currentTarget;
         // 如果内容不超出，不需要弹出
         if (
-          this.getClassName() === 'ellipsis' &&
-          e &&
-          e.clientHeight >= e.scrollHeight
+          (this.getClassName() === 'ellipsis' &&
+            e &&
+            e.clientHeight >= e.scrollHeight) ||
+          this.getClassName() === 'noWrap'
         ) {
           return;
         }
@@ -210,7 +211,7 @@ export const HocPopOver =
       }
 
       buildSchema() {
-        const {popOver, name, label, translate: __} = this.props;
+        const {popOver, name, label, translate: __, column} = this.props;
 
         let schema;
 
@@ -247,7 +248,7 @@ export const HocPopOver =
         } else if (this.getClassName() === 'ellipsis') {
           schema = {
             type: 'panel',
-            body: `\${${name}}`
+            body: column && column.type === 'mapping' ? column : `\${${name}}`
           };
         }
 

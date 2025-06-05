@@ -22,10 +22,14 @@
   position: relative;
 
   .#{$ns}Field-popOverWrap {
+    display: -webkit-inline-box;
+    vertical-align: middle;
+
     &-ellipsis {
       width: auto;
+      max-height: var(--sizes-base-15);
       overflow: hidden;
-      display: -webkit-box;
+      display: -webkit-inline-box;
       -webkit-box-orient: vertical;
       line-clamp: 1;
       -webkit-line-clamp: 1;
@@ -35,6 +39,19 @@
     &-noWrap {
       white-space: nowrap;
     }
+  }
+}
+
+.#{$ns}Field--copyable {
+  white-space: nowrap;
+
+  .#{$ns}Form-item {
+    display: inline-block;
+    margin-bottom: unset;
+    vertical-align: middle;
+  }
+  .#{$ns}Field-copyBtn {
+    vertical-align: middle;
   }
 }
 

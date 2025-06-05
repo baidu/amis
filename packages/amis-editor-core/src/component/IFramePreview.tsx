@@ -3,6 +3,7 @@ import {EditorStoreType} from '../store/editor';
 import React, {memo} from 'react';
 import {EditorManager} from '../manager';
 import Frame, {useFrame} from 'react-frame-component';
+import {SchemaRenderer} from './SchemaRenderer';
 import {
   autobind,
   closeContextMenus,
@@ -39,7 +40,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
         return el.outerHTML;
       });
     styles.push(
-      `<style>body {height:auto !important;min-height:100%;display: flex;flex-direction: column;}</style>`
+      `<style>body {height:auto !important;min-height:auto;display: flex;flex-direction: column;}</style>`
     );
 
     this.initialContent = `<!DOCTYPE html><html><head>${styles.join(
@@ -124,7 +125,10 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
             },
             {
               ...env,
-              session: `${env.session}-iframe-preview`,
+              session: `${env.session}-${
+                editable ? 'edit' : 'preview'
+              }-iframe-preview`,
+              SchemaRenderer: editable ? SchemaRenderer : undefined,
               useMobileUI: true,
               isMobile: this.isMobile,
               getModalContainer: this.getModalContainer
@@ -244,7 +248,42 @@ function InnerComponent({
 
   const syncIframeHeight = React.useCallback(() => {
     const iframe = manager.store.getIframe()!;
-    iframe.style.cssText += `height: ${doc!.body.offsetHeight}px`;
+    iframe.style.cssText += `height: ${Math.max(
+      doc!.body.offsetHeight,
+      667
+    )}px`;
+  }, []);
+
+  const handleDragEnter = React.useCallback((e: DragEvent) => {
+    if (!editable) {
+      return;
+    }
+    e.stopPropagation();
+    manager.dnd.dragEnter(e);
+  }, []);
+
+  const handleDragLeave = React.useCallback((e: DragEvent) => {
+    if (!editable) {
+      return;
+    }
+    e.stopPropagation();
+    manager.dnd.dragLeave(e);
+  }, []);
+
+  const handleDragOver = React.useCallback((e: DragEvent) => {
+    if (!editable) {
+      return;
+    }
+    e.stopPropagation();
+    manager.dnd.dragOver(e);
+  }, []);
+
+  const handleDrop = React.useCallback((e: DragEvent) => {
+    if (!editable) {
+      return;
+    }
+    e.stopPropagation();
+    manager.dnd.drop(e);
   }, []);
 
   React.useEffect(() => {
@@ -258,6 +297,10 @@ function InnerComponent({
     layer!.addEventListener('dblclick', handleDBClick);
     layer!.addEventListener('mouseover', handeMouseOver);
     layer!.addEventListener('submit', handleSubmit);
+    layer!.addEventListener('dragenter', handleDragEnter);
+    layer!.addEventListener('dragleave', handleDragLeave);
+    layer!.addEventListener('dragover', handleDragOver);
+    layer!.addEventListener('drop', handleDrop);
 
     const unSensor = resizeSensor(doc!.body, () => {
       syncIframeHeight();
@@ -272,6 +315,10 @@ function InnerComponent({
       layer!.removeEventListener('mouseover', handeMouseOver);
       layer!.removeEventListener('dblclick', handleDBClick);
       layer!.removeEventListener('submit', handleSubmit);
+      layer!.removeEventListener('dragenter', handleDragEnter);
+      layer!.removeEventListener('dragleave', handleDragLeave);
+      layer!.removeEventListener('dragover', handleDragOver);
+      layer!.removeEventListener('drop', handleDrop);
       store.setDoc(document);
       unSensor();
     };

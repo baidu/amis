@@ -19,6 +19,7 @@ import {
 } from './utils/helper';
 import {dataMapping, tokenize} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
+import {extractObjectChain} from './utils/object';
 
 /**
  * 忽略静态数据中的 schema 属性
@@ -50,6 +51,7 @@ export function HocStoreFactory(renderer: {
       store?: IIRendererStore;
       data?: RendererData;
       scope?: RendererData;
+      storeRef?: (store: IIRendererStore | null) => void;
       rootStore: any;
       topStore: any;
     };
@@ -84,6 +86,9 @@ export function HocStoreFactory(renderer: {
           parentId: this.props.store ? this.props.store.id : ''
         }) as IIRendererStore;
         store.setTopStore(props.topStore);
+
+        props.storeRef?.(store);
+
         this.store = store;
 
         const extendsData =
@@ -402,6 +407,7 @@ export function HocStoreFactory(renderer: {
 
         // @ts-ignore
         delete this.store;
+        this.props.storeRef?.(null);
       }
 
       renderChild(
@@ -424,7 +430,7 @@ export function HocStoreFactory(renderer: {
       }
 
       render() {
-        const {detectField, ...rest} = this.props;
+        const {detectField, storeRef, ...rest} = this.props;
 
         if (this.state.hidden || this.state.visible === false) {
           return null;

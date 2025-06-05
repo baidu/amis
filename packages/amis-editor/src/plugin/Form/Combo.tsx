@@ -375,6 +375,8 @@ export class ComboControlPlugin extends BasePlugin {
                     form.setValueByName('removable', value);
                     !value && form.setValueByName('draggable', false);
                     form.setValueByName('flat', false);
+                    form.setValueByName('maxLength', undefined);
+                    form.setValueByName('minLength', undefined);
                   }
                 }),
                 {

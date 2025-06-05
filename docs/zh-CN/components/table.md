@@ -2043,6 +2043,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | lazyRenderAfter  | `number`                                                 | `100`                     | 用来控制从第几行开始懒渲染行，用来渲染大表格时有用                                                                                                                                                     |                                   |
 | tableLayout      | `auto` \| `fixed`                                        | `auto`                    | 当配置为 fixed 时，内容将不会撑开表格，自动换行                                                                                                                                                        |                                   |
 | reUseRow         | `false` \| `match`                                       |                           | 默认，当 API 返回数据与当前一致时，不会触发表格行重渲染（省性能但可能导致数据渲染不同步）；为 false，则总会触发重渲染；为 match，尽量复用返回数据中 id 一致的对象，性能可认为是默认和 false 两者的折中 |                                   |
+| persistKey       | `string`                                                 |                           | 用于配置列排序、列显示的本地缓存所使用的 key                                                                                                                                                           |                                   |
 
 ### 列配置属性表
 

@@ -307,7 +307,8 @@ export default class NestedSelectControl extends React.Component<
     }
 
     const isPrevented = await this.dispatchEvent('change', {
-      value
+      value,
+      selectedItems: option
     });
     isPrevented || onChange(value);
     isPrevented || this.handleResultClear();
@@ -432,7 +433,8 @@ export default class NestedSelectControl extends React.Component<
       ? value.map(item => item[valueField as string])
       : value;
     const isPrevented = await this.dispatchEvent('change', {
-      value: newValue
+      value: newValue,
+      selectedItems: option
     });
     isPrevented || onChange(newValue);
     isPrevented || this.handleResultClear();

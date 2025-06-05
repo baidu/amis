@@ -126,6 +126,8 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
       closeOnOutside &&
       target &&
       this.wrapperRef.current &&
+      // 要可见，不可见就不处理了，通常是打开了新页签
+      this.wrapperRef.current.offsetHeight &&
       !this.wrapperRef.current
         .getAttributeNames()
         .find(n => n.startsWith(SubPopoverDisplayedID)) &&

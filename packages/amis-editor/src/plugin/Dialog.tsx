@@ -262,7 +262,7 @@ export class DialogPlugin extends BasePlugin {
             title: '基本',
             body: [
               {
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 label: '组件名称',
                 name: 'editorSetting.displayName'
               },
@@ -335,6 +335,11 @@ export class DialogPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 label: '是否可拖拽',
                 name: 'draggable',
+                value: false
+              }),
+              getSchemaTpl('switch', {
+                label: '是否可全屏',
+                name: 'allowFullscreen',
                 value: false
               }),
               getSchemaTpl('dataMap')

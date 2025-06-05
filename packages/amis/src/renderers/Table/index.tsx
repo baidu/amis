@@ -75,6 +75,7 @@ import ColumnToggler from './ColumnToggler';
 import {exportExcel} from './exportExcel';
 import AutoFilterForm from './AutoFilterForm';
 import Cell from './Cell';
+import VCell from './VCell';
 
 import type {IColumn, IRow} from 'amis-core';
 
@@ -375,6 +376,11 @@ export interface TableSchema extends BaseSchema {
    * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
    */
   deferApi?: SchemaApi;
+
+  /**
+   * 持久化 key
+   */
+  persistKey?: string;
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -654,7 +660,9 @@ export default class Table<
       lazyRenderAfter,
       tableLayout,
       resolveDefinitions,
-      showIndex
+      showIndex,
+      persistKey,
+      useVirtualList
     } = props;
 
     let combineNum = props.combineNum;
@@ -689,7 +697,8 @@ export default class Table<
         canAccessSuperData,
         lazyRenderAfter,
         tableLayout,
-        showIndex
+        showIndex,
+        persistKey
       },
       {
         resolveDefinitions
@@ -722,7 +731,8 @@ export default class Table<
   static syncRows(
     store: ITableStore,
     props: TableProps,
-    prevProps?: TableProps
+    prevProps?: TableProps,
+    forceUpdateRows = false
   ) {
     const source = props.source;
     const value = getPropValue(props, (props: TableProps) => props.items);
@@ -732,6 +742,7 @@ export default class Table<
     // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (Array.isArray(value)) {
       if (
+        forceUpdateRows ||
         !prevProps ||
         !isEqual(
           getPropValue(prevProps, (props: TableProps) => props.items),
@@ -843,6 +854,7 @@ export default class Table<
   }
 
   autoFillHeightDispose?: () => void;
+  autoFillHeightDispose2?: () => void;
   initAutoFillHeight() {
     const props = this.props;
     const currentNode = this.dom.current!;
@@ -855,6 +867,13 @@ export default class Table<
         'height'
       );
       this.toDispose.push(this.autoFillHeightDispose);
+      this.autoFillHeightDispose2 = resizeSensor(
+        document.body,
+        this.updateAutoFillHeight,
+        false,
+        'height'
+      );
+      this.toDispose.push(this.autoFillHeightDispose2);
       this.updateAutoFillHeight();
     }
   }
@@ -914,7 +933,8 @@ export default class Table<
           const rect1 = selfNode.getBoundingClientRect();
           const rect2 = nextSibling.getBoundingClientRect();
 
-          if (rect1.bottom <= rect2.top) {
+          // 浏览器缩放/扩大的时候会出现精度问题
+          if (rect1.bottom - rect2.top <= 0.5) {
             nextSiblingHeight +=
               nextSibling.offsetHeight +
               getStyleNumber(nextSibling, 'margin-bottom');
@@ -961,6 +981,7 @@ export default class Table<
   componentDidUpdate(prevProps: TableProps) {
     const props = this.props;
     const store = props.store;
+    let forceReSync = false;
 
     changedEffect(
       [
@@ -983,7 +1004,8 @@ export default class Table<
         'canAccessSuperData',
         'lazyRenderAfter',
         'tableLayout',
-        'showIndex'
+        'showIndex',
+        'persistKey'
       ],
       prevProps,
       props,
@@ -1001,6 +1023,13 @@ export default class Table<
             10
           );
         }
+        if (
+          !forceReSync &&
+          changes.hasOwnProperty('combineNum') &&
+          store.combineNum !== changes.combineNum
+        ) {
+          forceReSync = true;
+        }
         if (changes.orderBy && !props.onQuery) {
           delete changes.orderBy;
         }
@@ -1011,13 +1040,15 @@ export default class Table<
     );
 
     if (
+      forceReSync ||
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
       (!props.value &&
         !props.items &&
         (props.data !== prevProps.data ||
           (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      Table.syncRows(store, props, prevProps) && this.syncSelected();
+      Table.syncRows(store, props, prevProps, forceReSync) &&
+        this.syncSelected();
     } else if (isArrayChildrenModified(prevProps.selected!, props.selected!)) {
       const prevSelectedRows = store.selectedRows
         .map(item => item.id)
@@ -1041,12 +1072,15 @@ export default class Table<
     // 检测属性变化，来切换功能
     if (props.autoFillHeight !== prevProps.autoFillHeight) {
       if (this.autoFillHeightDispose) {
-        const idx = this.toDispose.indexOf(this.autoFillHeightDispose);
-        if (idx !== -1) {
-          this.toDispose.splice(idx, 1);
-        }
+        this.toDispose = this.toDispose.filter(
+          fn =>
+            ![this.autoFillHeightDispose, this.autoFillHeightDispose2].includes(
+              fn
+            )
+        );
         this.autoFillHeightDispose();
         delete this.autoFillHeightDispose;
+        delete this.autoFillHeightDispose2;
         const tableContent = this.table?.parentElement as HTMLElement;
         if (tableContent) {
           tableContent.style.height = '';
@@ -1063,6 +1097,7 @@ export default class Table<
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
     delete this.autoFillHeightDispose;
+    delete this.autoFillHeightDispose2;
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();
@@ -1117,20 +1152,15 @@ export default class Table<
       // 那么用户只能通过事件动作来更新上层变量来实现选中
       item.toggle(value);
     }
+    this.syncSelected();
 
-    const rendererEvent = await dispatchEvent(
+    await dispatchEvent(
       'selectedChange',
       createObject(data, {
         ...store.eventContext,
         item: item.data
       })
     );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
-    this.syncSelected();
   }
 
   handleRowClick(item: IRow, index: number) {
@@ -1199,19 +1229,14 @@ export default class Table<
     const {store, data, dispatchEvent} = this.props;
 
     store.toggleAll();
+    this.syncSelected();
 
-    const rendererEvent = await dispatchEvent(
+    await dispatchEvent(
       'selectedChange',
       createObject(data, {
         ...store.eventContext
       })
     );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
-    this.syncSelected();
   }
 
   handleQuickChange(
@@ -2257,11 +2282,16 @@ export default class Table<
       itemBadge,
       translate,
       testIdBuilder,
-      filterItemIndex
+      filterItemIndex,
+      offset
     } = this.props;
 
+    // 如果列数大于20，并且列不是固定列，则使用按需渲染模式
+    const Comp =
+      store.filteredColumns.length > 20 && !column.fixed ? VCell : Cell;
+
     return (
-      <Cell
+      <Comp
         key={props.key}
         region={region}
         column={column}
@@ -2285,6 +2315,7 @@ export default class Table<
         testIdBuilder={testIdBuilder?.getChild(
           `cell-${props.rowPath}-${column.index}`
         )}
+        offset={offset}
       />
     );
   }

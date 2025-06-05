@@ -8,7 +8,8 @@ import {
   createObject,
   isEffectiveApi,
   ApiObject,
-  autobind
+  autobind,
+  isObject
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -148,6 +149,11 @@ export interface TimelineSchema extends BaseSchema {
    * 节点详情的CSS类名
    */
   detailClassName?: string;
+
+  /**
+   * 卡片展示配置，如果传入则将items数据传入cardSchema中循环渲染，itemTitleSchema、titleClassName、detailClassName将不生效。配置后 timeline item中的数据都将可以在cardSchema中通过数据方式引用。如果子节点也配置了cardSchema，则子节点的cardSchema优先级高于timeline的cardSchema
+   */
+  cardSchema?: CardSchema;
 }
 
 export interface TimelineProps
@@ -167,6 +173,10 @@ export function TimelineCmpt(props: TimelineProps) {
     timeClassName,
     titleClassName,
     detailClassName,
+    cardSchema: commonCardSchema,
+    name,
+    itemKeyName,
+    indexKeyName,
     render
   } = props;
 
@@ -181,11 +191,22 @@ export function TimelineCmpt(props: TimelineProps) {
         icon,
         iconClassName,
         title,
+        time,
+        detail,
         timeClassName,
         titleClassName,
         detailClassName,
         cardSchema
       } = timelineItem;
+
+      const cardRenderer = cardSchema || commonCardSchema;
+      const ctx = createObject(data, {
+        ...(isObject(timelineItem)
+          ? {index, ...timelineItem}
+          : {[name]: timelineItem}),
+        [itemKeyName || 'item']: timelineItem,
+        [indexKeyName || 'index']: index
+      });
 
       return {
         ...timelineItem,
@@ -194,16 +215,18 @@ export function TimelineCmpt(props: TimelineProps) {
         titleClassName,
         detailClassName,
         icon: isPureVariable(icon)
-          ? resolveVariableAndFilter(icon, data, '| raw')
+          ? resolveVariableAndFilter(icon, ctx, '| raw')
           : icon,
         title: itemTitleSchema
           ? render(`${index}/body`, itemTitleSchema, {
-              data: createObject(data, timelineItem)
+              data: ctx
             })
           : resolveRender('title', title),
-        cardNode: cardSchema
-          ? render('card', cardSchema, {
-              data: createObject(data, cardSchema)
+        time: resolveRender('time', time),
+        detail: resolveRender('detail', detail),
+        cardNode: cardRenderer
+          ? render('card', cardRenderer, {
+              data: ctx // 当前继承的data和本身节点的数据作为当前卡片schema的渲染数据
             })
           : undefined
       };

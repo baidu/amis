@@ -326,6 +326,44 @@ export class EditorManager {
       config?.variables,
       config?.variableOptions
     );
+    let topParent = this.parent;
+    while (topParent?.parent) {
+      topParent = topParent.parent;
+    }
+    const topStore = topParent?.store || store;
+
+    const setGlobalVariables = (variables: GlobalVariableItem[]) => {
+      const id = 'global-variables-schema';
+      const scope = this.dataSchema.root;
+      const globalSchema: any = {
+        type: 'object',
+        title: '全局变量',
+        properties: {}
+      };
+
+      variables.forEach(variable => {
+        globalSchema.properties[variable.key] = {
+          type: 'string',
+          title: variable.label || variable.key,
+          description: variable.description,
+          ...variable.valueSchema
+        };
+      });
+
+      const jsonschema: any = {
+        $id: id,
+        type: 'object',
+        properties: {
+          global: globalSchema
+        }
+      };
+      scope.removeSchema(jsonschema.$id);
+      scope.addSchema(jsonschema);
+    };
+
+    if (topStore.globalVariables?.length) {
+      setGlobalVariables(topStore.globalVariables);
+    }
 
     this.toDispose.push(
       // 当前节点区域数量发生变化，重新构建孩子渲染器列表。
@@ -410,37 +448,7 @@ export class EditorManager {
       ),
 
       // 同步全局变量数据结构，以便支持fx 可视化操作
-      reaction(
-        () => store.globalVariables,
-        variables => {
-          const id = 'global-variables-schema';
-          const scope = this.dataSchema.root;
-          const globalSchema: any = {
-            type: 'object',
-            title: '全局变量',
-            properties: {}
-          };
-
-          variables.forEach(variable => {
-            globalSchema.properties[variable.key] = {
-              type: 'string',
-              title: variable.label || variable.key,
-              description: variable.description,
-              ...variable.valueSchema
-            };
-          });
-
-          const jsonschema: any = {
-            $id: id,
-            type: 'object',
-            properties: {
-              global: globalSchema
-            }
-          };
-          scope.removeSchema(jsonschema.$id);
-          scope.addSchema(jsonschema);
-        }
-      )
+      reaction(() => topStore.globalVariables, setGlobalVariables)
     );
   }
 
@@ -1013,8 +1021,11 @@ export class EditorManager {
       // crud 和 table 等表格类容器
       regionNodeId = curActiveId;
       regionNodeRegion = 'columns';
-    } else if (node.schema.items && isLayoutPlugin(node.schema)) {
-      // 当前节点是布局类容器节点
+    } else if (
+      node.schema.items &&
+      (isLayoutPlugin(node.schema) || node.type === 'combo')
+    ) {
+      // 当前节点是布局类容器节点或 combo 组件
       regionNodeId = curActiveId;
       regionNodeRegion = 'items';
     } else if (node.schema.body) {

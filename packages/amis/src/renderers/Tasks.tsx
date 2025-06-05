@@ -428,7 +428,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                           'Button--size-md',
                           btnClassName,
                           {
-                            disabled: item.status !== readyStatusCode
+                            [`is-disabled`]: item.status !== readyStatusCode
                           }
                         )}
                       >

@@ -31,9 +31,16 @@ import {normalizeApiResponseData} from '../utils/api';
 import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ServiceStore} from './service';
 import {IFormStore} from './form';
+import {getPageId} from '../utils/getPageId';
+import {filter} from '../utils/tpl';
 
 class ServerError extends Error {
   type = 'ServerError';
+
+  constructor(msg: string) {
+    super(msg);
+    Object.setPrototypeOf(this, ServerError.prototype);
+  }
 }
 
 export const Column = types
@@ -216,7 +223,8 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     dragging: false,
     rowSelectionKeyField: 'id',
     formsRef: types.optional(types.array(types.frozen()), []),
-    canAccessSuperData: false
+    canAccessSuperData: false,
+    persistKey: ''
   })
   .views(self => {
     function getToggable() {
@@ -455,6 +463,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
         (self.columnsTogglable = config.columnsTogglable);
       config.canAccessSuperData !== undefined &&
         (self.canAccessSuperData = !!config.canAccessSuperData);
+      config.persistKey !== undefined && (self.persistKey = config.persistKey);
 
       if (typeof config.orderBy === 'string') {
         setOrderByInfo(
@@ -506,11 +515,20 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       persistSaveToggledColumns();
     }
 
+    function getPersistKey() {
+      if (self.persistKey) {
+        return filter(self.persistKey, self.data);
+      }
+
+      const fn = getEnv(self).getPageId || getPageId;
+      return fn() + self.path;
+    }
+
     function persistSaveToggledColumns() {
       const key =
-        location.pathname +
-        self.path +
+        getPersistKey() +
         self.toggableColumns.map(item => item.name || item.index).join('-');
+
       localStorage.setItem(
         key,
         JSON.stringify(self.activeToggaleColumns.map(item => item.index))
@@ -824,8 +842,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
             return;
           }
           const key =
-            location.pathname +
-            self.path +
+            getPersistKey() +
             self.toggableColumns.map(item => item.name || item.index).join('-');
 
           const data = localStorage.getItem(key);

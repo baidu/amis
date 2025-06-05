@@ -304,9 +304,6 @@ export interface ListProps
 
 export interface ListState {
   currentLetter?: string;
-  visibleItems: Set<number>;
-  isScrollingToLetter: boolean;
-  itemRefs: Map<number, HTMLElement>;
 }
 
 export default class List extends React.Component<ListProps, ListState> {
@@ -343,17 +340,20 @@ export default class List extends React.Component<ListProps, ListState> {
   parentNode?: any;
   body?: any;
   renderedToolbars: Array<string>;
-  private observers: Map<number, IntersectionObserver> = new Map();
-  private _scrollTimeout: number | null = null;
+  private observer: IntersectionObserver | null = null;
+  itemRefs: Array<{
+    element: HTMLElement;
+    letter: string;
+    isIntersecting?: boolean;
+  }> = [];
+  userClick: boolean = false;
+  userClickTimer: any;
 
   constructor(props: ListProps) {
     super(props);
 
     this.state = {
-      currentLetter: undefined,
-      visibleItems: new Set(),
-      isScrollingToLetter: false,
-      itemRefs: new Map()
+      currentLetter: undefined
     };
 
     this.handleAction = this.handleAction.bind(this);
@@ -368,9 +368,6 @@ export default class List extends React.Component<ListProps, ListState> {
     this.bodyRef = this.bodyRef.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleLetterClick = this.handleLetterClick.bind(this);
-    this.handleItemVisibilityChange =
-      this.handleItemVisibilityChange.bind(this);
-    this.updateCurrentLetter = this.updateCurrentLetter.bind(this);
     this.setItemRef = this.setItemRef.bind(this);
 
     const {
@@ -447,11 +444,11 @@ export default class List extends React.Component<ListProps, ListState> {
 
     if (this.props.showIndexBar) {
       if (!prevProps.showIndexBar || prevProps.items !== props.items) {
-        this.clearObservers();
+        this.observer?.disconnect();
         this.observeItems();
       }
     } else if (prevProps.showIndexBar) {
-      this.clearObservers();
+      this.observer?.disconnect();
     }
 
     if (
@@ -498,12 +495,7 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   componentWillUnmount() {
-    this.clearObservers();
-
-    // 清除可能存在的滚动超时
-    if (this._scrollTimeout) {
-      clearTimeout(this._scrollTimeout);
-    }
+    this.observer?.disconnect();
   }
 
   private getIndexDataField(listItem: any, indexField?: string): string {
@@ -547,13 +539,23 @@ export default class List extends React.Component<ListProps, ListState> {
       );
     } else {
       /** action无值代表List自身已经处理, 无需交给上层处理 */
-      action && onAction?.(e, action, ctx);
+      return action && onAction?.(e, action, ctx);
     }
   }
 
   handleCheck(item: IItem) {
     item.toggle();
     this.syncSelected();
+
+    const {dispatchEvent, store} = this.props;
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        ...store.eventContext,
+        item: item.data
+      })
+    );
   }
 
   handleCheckAll() {
@@ -561,6 +563,15 @@ export default class List extends React.Component<ListProps, ListState> {
 
     store.toggleAll();
     this.syncSelected();
+
+    const {dispatchEvent} = this.props;
+    dispatchEvent(
+      //增删改查卡片模式选择表格项
+      'selectedChange',
+      createObject(store.data, {
+        ...store.eventContext
+      })
+    );
   }
 
   syncSelected() {
@@ -1101,11 +1112,7 @@ export default class List extends React.Component<ListProps, ListState> {
 
     const dataFieldName = this.getIndexDataField(listItem, indexField);
 
-    this.setState({currentLetter: letter, isScrollingToLetter: true});
-
-    if (this._scrollTimeout) {
-      clearTimeout(this._scrollTimeout);
-    }
+    this.setState({currentLetter: letter});
 
     const targetItem = store.items.find(item => {
       const value = getPropValue(
@@ -1118,18 +1125,13 @@ export default class List extends React.Component<ListProps, ListState> {
     });
 
     if (targetItem) {
-      const itemElement = this.state.itemRefs.get(targetItem.index);
+      const itemElement = this.itemRefs[targetItem.index];
       if (itemElement) {
-        itemElement.scrollIntoView({
+        this.userClick = true;
+        itemElement.element.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
-
-        this._scrollTimeout = window.setTimeout(() => {
-          this.setState({isScrollingToLetter: false});
-          this.clearObservers();
-          this.observeItems();
-        }, 800);
       }
     }
   }
@@ -1142,22 +1144,15 @@ export default class List extends React.Component<ListProps, ListState> {
       store,
       placeholder,
       render,
-      multiple,
       listItem,
-      onAction,
-      hideCheckToggler,
-      checkOnItemClick,
-      itemAction,
       affixHeader,
-      env,
       classnames: cx,
       size,
       translate: __,
       loading = false,
       loadingConfig,
       showIndexBar,
-      indexField = 'title',
-      indexBarOffset
+      indexField = 'title'
     } = this.props;
 
     const currentLetter = this.state.currentLetter;
@@ -1233,125 +1228,54 @@ export default class List extends React.Component<ListProps, ListState> {
   }
 
   private observeItems() {
-    setTimeout(() => {
-      if (!this.body) return;
-
-      const {
-        store,
-        listItem,
-        indexField = 'title',
-        indexBarOffset
-      } = this.props;
-      const dataFieldName = this.getIndexDataField(listItem, indexField);
-
-      // 获取偏移量，优先使用 indexBarOffset
-      let offsetTop = 0;
-
-      if (indexBarOffset !== undefined) {
-        offsetTop = indexBarOffset;
-      } else {
-        try {
-          if (this.body.parentElement) {
-            const parentStyle = getComputedStyle(this.body.parentElement);
-            const parentCssVar = parentStyle
-              .getPropertyValue('--affix-offset-top')
-              .trim();
-            if (parentCssVar && parentCssVar !== '0px') {
-              offsetTop = parseInt(parentCssVar, 10) || 0;
-            }
-          }
-        } catch (e) {
-          console.warn('获取固定头部高度失败:', e);
-        }
-      }
-
-      // 确保至少有一个最小值
-      offsetTop = Math.max(offsetTop, 0);
-
-      store.items.forEach(item => {
-        const itemElement = this.state.itemRefs.get(item.index);
-        if (!itemElement) return;
-
-        const observer = new IntersectionObserver(
-          entries => {
-            entries.forEach(entry => {
-              this.handleItemVisibilityChange(item.index, entry.isIntersecting);
-            });
-          },
-          {
-            root: null,
-            rootMargin: `-${offsetTop}px 0px 0px 0px`,
-            threshold: 0.1
-          }
-        );
-
-        observer.observe(itemElement);
-        this.observers.set(item.index, observer);
-      });
-    }, 100);
+    this.observer = new IntersectionObserver(this.scrollObserver);
+    this.itemRefs.forEach(item => {
+      this.observer!.observe(item.element);
+    });
   }
 
-  private clearObservers() {
-    this.observers.forEach(observer => observer.disconnect());
-    this.observers.clear();
-  }
-
-  private handleItemVisibilityChange(itemIndex: number, isVisible: boolean) {
-    // 如果正在通过字母导航滚动，不更新可见性
-    if (this.state.isScrollingToLetter) return;
-
-    this.setState(prevState => {
-      const newVisibleItems = new Set(prevState.visibleItems);
-      if (isVisible) {
-        newVisibleItems.add(itemIndex);
-      } else {
-        newVisibleItems.delete(itemIndex);
+  @autobind
+  scrollObserver(entries: IntersectionObserverEntry[]) {
+    entries.forEach(entry => {
+      const index = entry.target.getAttribute('data-index')!;
+      const currentSection = this.itemRefs[parseInt(index, 10)];
+      if (currentSection) {
+        currentSection.isIntersecting = entry.isIntersecting;
       }
-      return {visibleItems: newVisibleItems};
-    }, this.updateCurrentLetter);
-  }
+    });
+    // 找到第一个可见的区域
+    const firstVisibleIndex = this.itemRefs.findIndex(
+      item => item.isIntersecting
+    );
 
-  private updateCurrentLetter() {
-    if (this.state.isScrollingToLetter) return;
-
-    const {store, listItem, indexField = 'title'} = this.props;
-    const {visibleItems} = this.state;
-
-    if (visibleItems.size === 0) return;
-
-    // 找到可见项中索引最小的（最靠近顶部的）
-    const topVisibleIndex = Math.min(...Array.from(visibleItems));
-    const topItem = store.items.find(item => item.index === topVisibleIndex);
-
-    if (topItem) {
-      const dataFieldName = this.getIndexDataField(listItem, indexField);
-      const value = getPropValue(
-        {data: topItem.data},
-        () => topItem.data[dataFieldName]
-      );
-
-      if (typeof value === 'string') {
-        const letter = value.charAt(0).toUpperCase();
-        if (letter !== this.state.currentLetter) {
-          this.setState({currentLetter: letter});
-        }
+    if (!this.userClick) {
+      if (typeof firstVisibleIndex === 'number') {
+        const item = this.itemRefs[firstVisibleIndex];
+        this.setState({currentLetter: item.letter});
       }
+    } else {
+      // 滚动结束后，重置userClick状态
+      if (this.userClickTimer) {
+        clearTimeout(this.userClickTimer);
+      }
+      this.userClickTimer = setTimeout(() => {
+        this.userClick = false;
+      }, 300);
     }
   }
 
-  setItemRef(index: number, ref: HTMLElement | null) {
+  setItemRef(index: number, item: IItem, ref: HTMLElement | null) {
     if (ref) {
-      this.setState(prevState => {
-        const newItemRefs = new Map(prevState.itemRefs);
-        newItemRefs.set(index, ref);
-        return {itemRefs: newItemRefs};
-      });
-    } else if (this.state.itemRefs.has(index)) {
-      this.setState(prevState => {
-        const newItemRefs = new Map(prevState.itemRefs);
-        newItemRefs.delete(index);
-        return {itemRefs: newItemRefs};
-      });
+      const {indexField, listItem} = this.props;
+      const dataFieldName = this.getIndexDataField(listItem, indexField);
+      const value = getPropValue(
+        {data: item.data},
+        () => item.data[dataFieldName]
+      );
+      this.itemRefs[index] = {
+        element: ref,
+        letter: value?.charAt(0).toUpperCase()
+      };
     }
   }
 }
@@ -1532,7 +1456,7 @@ export interface ListItemProps
   itemAction?: ActionSchema;
   onEvent?: OnEventProps['onEvent'];
   hasClickActions?: boolean;
-  itemRef?: (index: number, ref: HTMLElement | null) => void;
+  itemRef?: (index: number, item: IItem, ref: HTMLElement | null) => void;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1801,7 +1725,8 @@ export class ListItem extends React.Component<ListItemProps> {
       hasClickActions,
       itemIndex,
       indexBarOffset,
-      itemRef
+      itemRef,
+      item
     } = this.props;
     const avatar = filter(avatarTpl, data);
     const title = filter(titleTpl, data);
@@ -1825,7 +1750,7 @@ export class ListItem extends React.Component<ListItemProps> {
               : 'var(--affix-offset-top)'
         }}
         ref={ref =>
-          itemRef && itemIndex !== undefined && itemRef(itemIndex, ref)
+          itemRef && itemIndex !== undefined && itemRef(itemIndex, item, ref)
         }
       >
         {this.renderLeft()}

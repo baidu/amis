@@ -40,7 +40,8 @@ export class NumberControlPlugin extends BasePlugin {
     label: '数字',
     name: 'number',
     showSteps: true,
-    keyboard: true
+    keyboard: true,
+    kilobitSeparator: true
   };
   previewSchema: any = {
     type: 'form',

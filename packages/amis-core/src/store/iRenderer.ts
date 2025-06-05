@@ -19,6 +19,7 @@ import {
   injectObjectChain
 } from '../utils';
 import {DataChangeReason} from '../types';
+import findLastIndex from 'lodash/findLastIndex';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -30,8 +31,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     pristineRaw: types.optional(types.frozen(), {}), // pristine的原始值
     upStreamData: types.optional(types.frozen(), {}), // 最原始的数据，只有由上游同步下来时才更新。用来判断是否变化过
     action: types.optional(types.frozen(), undefined),
+    dialogSchema: types.frozen(),
     dialogOpen: false,
     dialogData: types.optional(types.frozen(), undefined),
+    drawerSchema: types.frozen(),
     drawerOpen: false,
     drawerData: types.optional(types.frozen(), undefined)
   })
@@ -95,6 +98,35 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         self.data = data;
         self.upStreamData = data;
+      },
+
+      // 临时更新全局变量
+      temporaryUpdateGlobalVars(globalVar: any) {
+        const chain = extractObjectChain(self.data).filter(
+          (item: any) => !item.hasOwnProperty('__isTempGlobalLayer')
+        );
+        const idx = findLastIndex(
+          chain,
+          item =>
+            item.hasOwnProperty('global') || item.hasOwnProperty('globalState')
+        );
+
+        if (idx !== -1) {
+          chain.splice(idx + 1, 0, {
+            ...globalVar,
+            __isTempGlobalLayer: true
+          });
+        }
+
+        self.data = createObjectFromChain(chain);
+      },
+
+      // 撤销临时更新全局变量
+      unDoTemporaryUpdateGlobalVars() {
+        const chain = extractObjectChain(self.data).filter(
+          (item: any) => !item.hasOwnProperty('__isTempGlobalLayer')
+        );
+        self.data = createObjectFromChain(chain);
       },
 
       reset() {
@@ -239,8 +271,6 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           });
 
         self.action = action;
-        self.dialogData = false;
-        self.drawerOpen = false;
       },
 
       openDialog(
@@ -274,6 +304,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         } else {
           self.dialogData = data;
         }
+        self.dialogSchema = self.action.dialog;
         self.dialogOpen = true;
         callback && dialogCallbacks.set(self.dialogData, callback);
         dialogScoped = scoped || null;
@@ -282,6 +313,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
       closeDialog(confirmed?: any, data?: any) {
         const callback = dialogCallbacks.get(self.dialogData);
 
+        // 不要过早的清空，否则内部组件提前销毁，会出现 store 异常读取问题
+        // self.dialogSchema = null;
         self.dialogOpen = false;
         dialogScoped = null;
 
@@ -323,6 +356,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         } else {
           self.drawerData = data;
         }
+        self.drawerSchema = self.action.drawer;
         self.drawerOpen = true;
 
         if (callback) {
@@ -334,6 +368,9 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
       closeDrawer(confirmed?: any, data?: any) {
         const callback = dialogCallbacks.get(self.drawerData);
+
+        // 不要过早的清空，否则内部组件提前销毁，会出现 store 异常读取问题
+        // self.drawerSchema = null;
         self.drawerOpen = false;
         drawerScoped = null;
 

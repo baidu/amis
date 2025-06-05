@@ -636,12 +636,7 @@ export class BaseCRUDPlugin extends BasePlugin {
             })
           ]
         },
-        {
-          name: 'placeholder',
-          pipeIn: defaultValue('暂无数据'),
-          type: 'input-text',
-          label: '占位内容'
-        },
+        getSchemaTpl('tablePlaceholder'),
         getSchemaTpl('switch', {
           name: 'syncLocation',
           label: tipedLabel(
@@ -786,6 +781,8 @@ export class BaseCRUDPlugin extends BasePlugin {
                       layout: ['total', 'perPage', 'pager'],
                       perPageAvailable: [10, 20, 50, 100]
                     }
+                  : schema.pullRefresh.disabled
+                  ? null
                   : {
                       type: 'button',
                       behavior: 'loadMore',
@@ -804,7 +801,8 @@ export class BaseCRUDPlugin extends BasePlugin {
                       }
                     };
 
-              this.addFeatToToolbar(schema, newCompSchema, 'footer', 'right');
+              newCompSchema &&
+                this.addFeatToToolbar(schema, newCompSchema, 'footer', 'right');
             }
             form.setValues({
               perPage: value !== 'more' ? undefined : schema.perPage,
@@ -822,7 +820,47 @@ export class BaseCRUDPlugin extends BasePlugin {
               name: 'pullRefresh.disabled',
               label: '禁用加载更多',
               pipeIn: (value: any) => !!value,
-              pipeOut: (value: boolean) => value
+              pipeOut: (value: boolean) => value,
+              onChange: (
+                value: string,
+                oldValue: any,
+                model: any,
+                form: any
+              ) => {
+                const schema = cloneDeep(form.data);
+                if (value) {
+                  deepRemove(schema, item => {
+                    return item.behavior === 'loadMore';
+                  });
+                } else {
+                  this.addFeatToToolbar(
+                    schema,
+                    {
+                      type: 'button',
+                      behavior: 'loadMore',
+                      label: '加载更多',
+                      onEvent: {
+                        click: {
+                          actions: [
+                            {
+                              componentId: schema.id,
+                              groupType: 'component',
+                              actionType: 'loadMore'
+                            }
+                          ],
+                          weight: 0
+                        }
+                      }
+                    },
+                    'footer',
+                    'right'
+                  );
+                }
+
+                form.setValues({
+                  footerToolbar: schema.footerToolbar
+                });
+              }
             },
             {
               type: 'switch',
@@ -886,7 +924,8 @@ export class BaseCRUDPlugin extends BasePlugin {
             },
             {
               type: 'fieldset',
-              title: '文本配置',
+              title: '移动端下拉刷新文案配置',
+              size: 'base',
               visibleOn:
                 '!data.pullRefresh?.disabled && data.pullRefresh?.showText',
               body: [

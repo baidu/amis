@@ -61,7 +61,7 @@ export class AjaxAction implements RendererAction {
     const messages = (action?.api as ApiObject)?.messages;
     let api = normalizeApi(action.api);
 
-    if (api.sendOn !== undefined) {
+    if (api.sendOn) {
       // 发送请求前，判断是否需要发送
       const sendOn = await evalExpressionWithConditionBuilderAsync(
         api.sendOn,
@@ -120,16 +120,16 @@ export class AjaxAction implements RendererAction {
             result.msg ??
             result.defaultMsg;
           msg &&
-          env.notify(
-            'success',
-            msg,
-            result.msgTimeout !== undefined
-              ? {
-                closeButton: true,
-                timeout: result.msgTimeout
-              }
-              : undefined
-          );
+            env.notify(
+              'success',
+              msg,
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
         }
       }
 
@@ -143,9 +143,9 @@ export class AjaxAction implements RendererAction {
             e.message,
             result.msgTimeout !== undefined
               ? {
-                closeButton: true,
-                timeout: result.msgTimeout
-              }
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
               : undefined
           );
         } else {

@@ -552,7 +552,7 @@ export const FormStore = ServiceStore.named('FormStore')
       );
     };
 
-    // 10s 内不要重复弹同一个错误
+    // 5s 内不要重复弹同一个错误
     const toastValidateError = throttle(
       (msg, validateError?: ValidateError) => {
         const env = getEnv(self);
@@ -560,7 +560,7 @@ export const FormStore = ServiceStore.named('FormStore')
           validateError
         });
       },
-      10000,
+      5000,
       {
         trailing: false,
         leading: true
@@ -765,7 +765,8 @@ export const FormStore = ServiceStore.named('FormStore')
 
     function reset(cb?: (data: any) => void, resetData: boolean = true) {
       if (resetData) {
-        self.data = self.pristine;
+        // 父级的数据可能已经被修改，__super不应该被修改
+        self.data = createObject(self.data.__super, self.pristine);
       }
 
       // 值可能变了，重新验证一次。

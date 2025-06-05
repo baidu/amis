@@ -537,17 +537,7 @@ export class DateRangeControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', {
-              renderer: {...renderer, sizeMutable: false},
-              schema: [
-                // 需要作为一个字符串表达式传入，因为切换 type 后 panelBodyCreator 不会重新执行
-                getSchemaTpl('formItemSize', {
-                  hiddenOn: `["${sizeImmutableComponents.join(
-                    '","'
-                  )}"].includes(this.type)`
-                })
-              ]
-            }),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('style:classNames', [
               getSchemaTpl('className', {
                 label: '描述',

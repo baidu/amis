@@ -1117,23 +1117,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 }
 @Renderer({
-  type: 'tabs',
-  onGlobalVarChanged(instance, schema, data): any {
-    if (isGlobalVarExpression(schema.source)) {
-      // tabs 要靠手动刷新了
-      const [newLocalTabs, isFromSource] = (instance as any).initTabArray(
-        (instance.props as any).tabs,
-        (instance.props as any).source,
-        data
-      );
-
-      instance.setState({
-        localTabs: newLocalTabs,
-        isFromSource
-      });
-      return false;
-    }
-  }
+  type: 'tabs'
 })
 export class TabsRenderer extends Tabs {
   static contextType = ScopedContext;

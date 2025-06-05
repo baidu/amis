@@ -36,12 +36,17 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
         data.componentId === 'customCmptId' ? true : false,
         manager
       );
+
+      const _subActionSchema = isFunction(subActionSchema)
+        ? subActionSchema(manager, data)
+        : subActionSchema;
+
       // 追加到基础配置
       schema = [
         ...(Array.isArray(baseSchema) ? baseSchema : [baseSchema]),
-        ...(Array.isArray(subActionSchema)
-          ? subActionSchema
-          : [subActionSchema])
+        ...(Array.isArray(_subActionSchema)
+          ? _subActionSchema
+          : [_subActionSchema])
       ];
     } else {
       const __originActionSchema = data.__actionSchema;

@@ -780,6 +780,9 @@ export default class Form extends React.Component<FormProps, object> {
     const initedAt = store.initedAt;
 
     store.setInited(true);
+    // 等待 formInited 属性下发成功
+    // 因为 hooks 里面可以能有读取 props 的操作
+    await new Promise<void>(resolve => this.forceUpdate(resolve));
     const hooks = this.hooks['init'] || [];
     const groupedHooks = groupBy(hooks, item =>
       (item as any).__enforce === 'prev'
@@ -2121,8 +2124,7 @@ export default class Form extends React.Component<FormProps, object> {
         {render(
           'modal',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).dialog as object)),
+            ...store.dialogSchema,
             type: 'dialog'
           },
           {
@@ -2137,8 +2139,7 @@ export default class Form extends React.Component<FormProps, object> {
         {render(
           'modal',
           {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).drawer as object)),
+            ...store.drawerSchema,
             type: 'drawer'
           },
           {

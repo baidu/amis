@@ -29,13 +29,14 @@ export interface CellProps extends ThemeProps {
   multiple: boolean;
   canAccessSuperData?: boolean;
   itemBadge?: BadgeObject;
-  onCheck?: (item: IRow) => void;
+  onCheck?: (item: IRow, value?: boolean, shift?: boolean) => void;
   onDragStart?: (e: React.DragEvent) => void;
   popOverContainer?: any;
   quickEditFormRef: any;
   onImageEnlarge?: any;
   translate: (key: string, ...args: Array<any>) => string;
   testIdBuilder?: TestIdBuilder;
+  offset?: number;
 }
 
 export default function Cell({
@@ -58,7 +59,8 @@ export default function Cell({
   quickEditFormRef,
   onImageEnlarge,
   translate: __,
-  testIdBuilder
+  testIdBuilder,
+  offset
 }: CellProps) {
   if (column.name && item.rowSpans[column.name] === 0) {
     return null;
@@ -73,9 +75,12 @@ export default function Cell({
     return [Object.assign(style, stickyStyle), stickyClassName];
   }, []);
 
-  const onCheckboxChange = React.useCallback(() => {
-    onCheck?.(item);
-  }, []);
+  const onCheckboxChange = React.useCallback(
+    (value: boolean, shiftKey?: boolean) => {
+      onCheck?.(item, value, shiftKey);
+    },
+    []
+  );
 
   let [prefix, affix, addtionalClassName] = React.useMemo(() => {
     let prefix: React.ReactNode[] = [];
@@ -267,7 +272,7 @@ export default function Cell({
       >
         {`${filterItemIndex ? filterItemIndex(item.path, item) : item.path}`
           .split('.')
-          .map(a => parseInt(a, 10) + 1)
+          .map(a => parseInt(a, 10) + 1 + (offset || 0))
           .join('.')}
       </td>
     );

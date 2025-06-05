@@ -54,6 +54,7 @@ class ServerError extends Error {
   readonly response: any;
   constructor(msg: string, response?: any) {
     super(msg);
+    Object.setPrototypeOf(this, ServerError.prototype);
     this.response = response;
   }
 }
@@ -73,7 +74,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     items: types.optional(types.array(types.frozen()), []),
     selectedItems: types.optional(types.array(types.frozen()), []),
     unSelectedItems: types.optional(types.array(types.frozen()), []),
-    filterTogggable: false,
+    filterTogglable: false,
     filterVisible: true,
     hasInnerModalOpen: false
   })
@@ -150,6 +151,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       };
 
       return context;
+    },
+
+    get offset() {
+      return (self.page - 1) * self.perPage;
     }
   }))
   .actions(self => {
@@ -279,6 +284,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           const data = {
             ...self.data,
+            count: items.length,
             [options.totalField || 'total']: items.length,
             items: items.slice(
               (self.page - 1) * self.perPage,
@@ -615,8 +621,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    const setFilterTogglable = (toggable: boolean, filterVisible?: boolean) => {
-      self.filterTogggable = toggable;
+    const setFilterTogglable = (
+      togglable: boolean,
+      filterVisible?: boolean
+    ) => {
+      self.filterTogglable = togglable;
 
       filterVisible !== void 0 && (self.filterVisible = filterVisible);
     };

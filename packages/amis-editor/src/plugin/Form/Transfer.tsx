@@ -9,6 +9,7 @@ import {
   tipedLabel,
   RendererPluginAction,
   RendererPluginEvent,
+  getI18nEnabled,
   undefinedPipeOut
 } from 'amis-editor-core';
 import type {Schema} from 'amis';
@@ -182,6 +183,7 @@ export class TransferPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
+    const i18nEnabled = getI18nEnabled();
 
     return getSchemaTpl('tabs', [
       {
@@ -318,7 +320,7 @@ export class TransferPlugin extends BasePlugin {
               {
                 label: '标题',
                 name: 'selectTitle',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 inputClassName: 'is-inline '
               }
             ]
@@ -368,7 +370,7 @@ export class TransferPlugin extends BasePlugin {
               {
                 label: '标题',
                 name: 'resultTitle',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 inputClassName: 'is-inline '
               }
             ]
@@ -387,7 +389,7 @@ export class TransferPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', renderer),
+          getSchemaTpl('theme:formItem'),
           getSchemaTpl('style:classNames', [
             getSchemaTpl('className', {
               label: '描述',

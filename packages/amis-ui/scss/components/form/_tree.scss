@@ -57,6 +57,7 @@
 
   &-item {
     line-height: var(--Tree-itemHeight);
+    padding-left: calc(var(--Tree-depth) * var(--Tree-indent));
     position: relative;
 
     > div {
@@ -107,12 +108,7 @@
     &:before {
       position: absolute;
       top: -8px;
-      left: calc(
-        (
-            var(--Tree-icon-gap) + var(--Tree-itemArrowWidth) +
-              var(--Tree-icon-margin-right)
-          ) / 2 - var(--Tree-indent)
-      );
+      left: calc(var(--Tree-depth) * var(--Tree-indent));
       bottom: 0px;
       border-left: 1px solid var(--borderColor);
       content: '';
@@ -139,7 +135,7 @@
     align-items: center;
     position: relative;
     user-select: none;
-    margin-bottom: px2rem(4px);
+    // margin-bottom: px2rem(4px);
     padding-left: var(--Tree-icon-gap);
     & > * {
       position: relative;
@@ -174,6 +170,7 @@
 
     .#{$ns}Checkbox {
       margin-right: var(--inputTree-checkboxes-size-marginRight);
+      margin-top: 0;
     }
   }
 
@@ -352,8 +349,10 @@
   }
 
   &-itemArrowPlaceholder {
-    display: inline-block;
-    width: calc(var(--Tree-itemArrowWidth) + var(--Tree-icon-gap));
+    display: inline-flex;
+    width: var(--Tree-itemArrowWidth);
+    flex-shrink: 0;
+    margin-right: var(--inputTree-base-size-expandMarginRight);
   }
 
   &-itemDrager {

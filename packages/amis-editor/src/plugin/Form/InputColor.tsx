@@ -259,7 +259,7 @@ export class ColorControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('style:classNames', {
               schema: [
                 getSchemaTpl('className', {

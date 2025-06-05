@@ -287,5 +287,40 @@ extendLocale('en-US', {
   '0383d6f467ed0dd89860a7b8cc793ce9': 'Upper {{@1}} layer {{@2}}',
   'b818d2fd22f70de2d912f19048e2cde2': 'Intercepted {{@1}} rendering error',
   'e9a11b908a9b4f3d9dc947d9a64c0dab':
-    'A rendering error occurred. Please refer to the console output for detailed error information.'
+    'A rendering error occurred. Please refer to the console output for detailed error information.',
+  'b1b98c19058af70d8bd499e1899e93bc': 'layout container',
+  '027446c2f9070b0f5b16a18208bf5fc7': 'show',
+  'bf86dc21effb6c836c6d2d64ee4d772f': 'Unnamed pop-up window',
+  '0f136747da0492424ae0f3a5f8536cd7': 'Pop up content',
+  '391a66bca64718f749d70ce9ecf0b6ec': 'Edit pop-up window',
+  'c8a73d5366fe78793510eb5f12ee8bf5':
+    'The current pop-up has been associated with {{@1}} events. After deletion, the configured event actions will be deleted together.',
+  '53496b54aa8c9f4aa53942be89a41d48':
+    "Are you sure to delete the pop-up window '{{@1}}'?",
+  'c006dd1233f901c11ac20e4d3b5f2c9c': '{{@1}}- Copy',
+  'ec57384066ed6b56e3438d24ed8ca9f6': 'Add pop-up window',
+  'b0ca3ca2b749bc7241e000576e882bba':
+    'There are currently no pop ups available',
+  '9f4df7f4516303ed28fb6bd1f77d4b3b': '{{@1}}- [Form Configuration]',
+  'f407c6b6264be4b590e28085d392b73d':
+    'Can be dragged into the following areas and fixed into the container',
+  '98f96f7700503bf2bd5459fd73890dc3': 'Pop up list',
+  '47131cfa02ab5ca5e8898b0619fc2b09': 'Return to Editor',
+  'a5473fde424758cce0394940531f7dd7': 'Not supported for modification',
+  'fcfffbf5d7dd5c491645e2e0947eddb8': 'global variable',
+  '06146cf9eb8197f3fc225f08b6ab3e4d':
+    'The selected pop-up window has already been opened and cannot be opened multiple times',
+  '856cb7db25755c9d52998f7be682139e': 'Adjust hierarchy',
+  '95ea25497027a9b0084782d036f0de3b': 'Placed on the top floor',
+  'f1e3d563cdff8372a98ea674b7ecdc49': 'Send to back',
+  'df19e56c123faf5d6c75b859596c400a': 'Bring Forward',
+  '28314e4683f2eb6b304b753c863e0f9b': 'Send backward',
+  'ec7162e062c17a5e5e88a7f2c21f4f71': 'Empty a container',
+  'c96df65b93a6a6cf30537b836958ada7': 'Confirmation box',
+  '60cdeeb33a3bedb6232fa35fbb9f6304': 'Drawer pop-up window',
+  'e4f90eaada2ccb1dccb6ac5dfea4427d': 'Pop up preview',
+  'f2613ee5e6671fc93ff41adcf6fefc2b': 'animations',
+  '1943442b4ebb62ba60ec9f364a7232ec': 'Quick Variables',
+  '032b9cfa0d50e5795f3db3a26428d3a2': 'This is a pop-up window',
+  'f2b639746efdcbfe7525bedf1192a943': 'Unnamed popup {{@1}}'
 });

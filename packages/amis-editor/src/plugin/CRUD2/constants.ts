@@ -28,6 +28,13 @@ export const ToolsConfig = {
       align: 'left',
       icon: 'fa fa-layer-group',
       order: 30
+    },
+    {
+      label: '数据导出',
+      value: 'Export',
+      align: 'left',
+      icon: 'fa fa-layer-group',
+      order: 40
     }
   ]
 };

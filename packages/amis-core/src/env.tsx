@@ -168,6 +168,11 @@ export interface RendererEnv {
    * 渲染器包裹组件可以外部指定
    */
   SchemaRenderer?: React.ComponentType<any>;
+
+  /**
+   * 获取当前页面标识
+   */
+  getPageId?: () => string;
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);

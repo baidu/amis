@@ -315,7 +315,10 @@ const INNER_EVENTS: Array<CRUDRendererEvent> = [
   'selected'
 ];
 
-export default class CRUD2 extends React.Component<CRUD2Props, any> {
+export default class CRUD2<T extends CRUD2Props> extends React.Component<
+  T,
+  any
+> {
   static propsList: Array<keyof CRUD2Props> = [
     'mode',
     'syncLocation',
@@ -390,7 +393,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
   stopingAutoRefresh: boolean = false;
 
-  constructor(props: CRUD2Props) {
+  constructor(props: T) {
     super(props);
 
     const {
@@ -1208,6 +1211,24 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     }
   }
 
+  @autobind
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 如果事件是 selectedChange 并且是当前组件触发的，
+    // 则以当前组件的选择信息为准
+    if (e === 'selectedChange' && this.control === renderer) {
+      const store = this.props.store;
+      data.selectedItems = store.selectedItems.concat();
+      data.unSelectedItems = store.unSelectedItems.concat();
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
+  }
+
   unSelectItem(item: any, index: number) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
@@ -1695,6 +1716,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         onSort: this.handleQuerySearch,
         onSelect: this.handleSelect,
         onAction: this.handleAction,
+        dispatchEvent: this.dispatchEvent,
         data: store.mergedData,
         loading: store.loading,
         host: this
@@ -1775,15 +1797,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 }
 
-@Renderer({
-  type: 'crud2',
-  storeType: CRUDStore.name,
-  isolateScope: true
-})
-export class CRUD2Renderer extends CRUD2 {
+export class CRUD2RendererBase<T extends CRUD2Props> extends CRUD2<T> {
   static contextType = ScopedContext;
 
-  constructor(props: CRUD2Props, context: IScopedContext) {
+  constructor(props: T, context: IScopedContext) {
     super(props);
 
     const scoped = context;
@@ -1827,3 +1844,10 @@ export class CRUD2Renderer extends CRUD2 {
     scoped.close(target);
   }
 }
+
+@Renderer({
+  type: 'crud2',
+  storeType: CRUDStore.name,
+  isolateScope: true
+})
+export class CRUD2Renderer extends CRUD2RendererBase<CRUD2Props> {}

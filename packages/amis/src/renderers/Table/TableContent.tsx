@@ -191,13 +191,7 @@ export class TableContent<
         className={cx('Table-content', className)}
         onScroll={onScroll}
       >
-        <table
-          ref={tableRef}
-          className={cx(
-            tableClassName,
-            store.tableLayout === 'fixed' ? 'is-layout-fixed' : undefined
-          )}
-        >
+        <table ref={tableRef} className={cx(tableClassName)}>
           <ColGroup columns={columns} store={store} />
           <thead>
             {columnsGroup.length ? (
@@ -329,10 +323,20 @@ export default observer((props: TableContentProps) => {
   // store.allExpanded;
   // store.orderBy
   // store.orderDir
+  let className = props.classnames(
+    props.className,
+    store.rows.length > store.lazyRenderAfter ? 'use-virtual-list' : ''
+  );
+  let tableClassName = props.classnames(
+    props.tableClassName,
+    store.tableLayout === 'fixed' ? 'is-layout-fixed' : undefined
+  );
 
   return (
     <TableContent
       {...props}
+      className={className}
+      tableClassName={tableClassName}
       columnWidthReady={store.columnWidthReady}
       someChecked={store.someChecked}
       allChecked={store.allChecked}

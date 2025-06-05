@@ -5,11 +5,12 @@ import {SchemaNode, ActionObject} from 'amis-core';
 import TableRow from './TableRow';
 import {filter} from 'amis-core';
 import {observer} from 'mobx-react';
-import {trace, reaction} from 'mobx';
-import {createObject, flattenTree} from 'amis-core';
+import {createObject} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
 import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
+import flatten from 'lodash/flatten';
+import {VirtualTableBody} from './VirtualTableBody';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
@@ -230,7 +231,7 @@ export class TableBody<
       [propName: string]: any;
     }> = items
       .map((item, index) => {
-        let colIdxs: number[] = [offset + index];
+        const colIdxs: number[] = [offset + index];
         if (item.colSpan > 1) {
           for (let i = 1; i < item.colSpan; i++) {
             colIdxs.push(offset + index + i);
@@ -251,19 +252,27 @@ export class TableBody<
       })
       .filter(item => item.colSpan);
 
-    //  如果是勾选栏，或者是展开栏，或者是拖拽栏，让它和下一列合并。
+    //  如果是勾选栏，或者是展开栏，或者是拖拽栏
+    // 临时补一个空格，这样不会跟功能栏冲突
     if (
       result[0] &&
       typeof columns[0]?.type === 'string' &&
       columns[0]?.type.substring(0, 2) === '__'
     ) {
-      result[0].firstColumn = columns[0];
-      result[0].colSpan = (result[0].colSpan || 1) + 1;
+      result.unshift({
+        firstColumn: columns[0],
+        lastColumn: columns[0],
+        colSpan: 1,
+        text: ' ',
+        type: 'text'
+      });
+      // result[0].firstColumn = columns[0];
+      // result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     // 缺少的单元格补齐
-    let appendLen =
-      columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+    const resultLen = result.reduce((p, c) => p + (c.colSpan || 1), 0);
+    let appendLen = columns.length - resultLen;
 
     // 多了则干掉一些
     while (appendLen < 0) {
@@ -275,20 +284,23 @@ export class TableBody<
     }
 
     // 少了则补个空的
+    // 只补空的时，当存在fixed:right时会导致样式有问题 会把其他列的盖住
     if (appendLen) {
-      const item = /*result.length
-        ? result.pop()
-        : */ {
+      const item = {
         type: 'html',
         html: '&nbsp;'
       };
-      const column = store.filteredColumns[store.filteredColumns.length - 1];
-      result.push({
-        ...item,
-        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen,
-        firstColumn: column,
-        lastColumn: column
-      });
+
+      for (let i = resultLen; i < store.filteredColumns.length; i++) {
+        const column = store.filteredColumns[i];
+
+        result.push({
+          ...item,
+          colSpan: 1,
+          firstColumn: column,
+          lastColumn: column
+        });
+      }
     }
 
     const ctx = createObject(data, {
@@ -360,6 +372,7 @@ export class TableBody<
       classnames: cx,
       className,
       render,
+      store,
       rows,
       columns,
       rowsProps,
@@ -368,16 +381,17 @@ export class TableBody<
       translate: __
     } = this.props;
 
-    return (
-      <tbody className={className}>
-        {rows.length ? (
-          <>
-            {this.renderSummary('prefix', prefixRow)}
-            {this.renderRows(rows, columns, rowsProps)}
-            {this.renderSummary('affix', affixRow)}
-          </>
-        ) : null}
-      </tbody>
+    const doms: React.ReactNode[] = flatten(
+      []
+        .concat(this.renderSummary('prefix', prefixRow) as any)
+        .concat(this.renderRows(rows, columns, rowsProps) as any)
+        .concat(this.renderSummary('affix', affixRow) as any)
+    ).filter(Boolean);
+
+    return rows.length > store.lazyRenderAfter ? (
+      <VirtualTableBody rows={doms} store={this.props.store} />
+    ) : (
+      <tbody className={className}>{doms}</tbody>
     );
   }
 }

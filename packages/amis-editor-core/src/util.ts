@@ -1874,7 +1874,8 @@ export function getModals(schema: any) {
         modals.push({
           ...body,
           type: key,
-          actionType: value
+          actionType: value,
+          $$ref: undefined
         });
       }
     }
@@ -1886,7 +1887,7 @@ export function getModals(schema: any) {
     .reverse()
     .forEach(key => {
       const definition = schema.definitions[key];
-      if (['dialog', 'drawer'].includes(definition.type)) {
+      if (definition && ['dialog', 'drawer'].includes(definition.type)) {
         // 不要把已经内嵌弹窗中的弹窗再放到外面
         if (
           definition.$$originId &&
