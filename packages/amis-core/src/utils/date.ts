@@ -71,12 +71,10 @@ export const filterDate = (
     const date = new Date();
     return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    const result = utc ? mm(value).local() : mm(value);
-    return result.isValid()
-      ? result
-      : utc
-      ? mm(value, format).local()
-      : mm(value, format);
+    // 优先通过指定格式解析，如果失败，则通过默认格式解析
+    const date =
+      [mm(value, format), mm(value)].find(item => item.isValid())! || mm(value);
+    return utc ? date.local() : date;
   }
 };
 
