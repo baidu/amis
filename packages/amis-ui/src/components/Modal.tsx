@@ -61,6 +61,7 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   modalClassName?: string;
   modalMaskClassName?: string;
   draggable?: boolean;
+  isFullscreen?: boolean;
 }
 
 export interface ModalState {
@@ -89,7 +90,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     container: document.body,
     size: '',
     overlay: true,
-    draggable: false
+    draggable: false,
+    isFullscreen: false
   };
 
   isRootClosed = false;
@@ -401,6 +403,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       classnames: cx,
       mobileUI,
       draggable,
+      isFullscreen,
       classPrefix
     } = this.props;
 
@@ -456,9 +459,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     size === 'custom' ? 'Modal-content-custom' : '',
                     contentClassName,
                     modalClassName,
-                    contentFadeStyles[status]
+                    contentFadeStyles[status],
+                    isFullscreen ? 'Modal-fullScreen' : ''
                   )}
-                  style={{..._style, ...this.getDragStyle()}}
+                  style={{..._style, ...this.getDragStyle(), ...fullStyle}}
                 >
                   {status === EXITED ? null : children}
                 </div>
