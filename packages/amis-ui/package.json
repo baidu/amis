@@ -29,6 +29,7 @@
     },
     "./scss/": "./scss/",
     "./lib/themes/": {
+      "style": "./lib/themes/",
       "require": "./lib/themes/",
       "import": "./esm/themes/"
     },
