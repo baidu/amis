@@ -28,7 +28,10 @@
       "import": "./esm/index.js"
     },
     "./scss/": "./scss/",
-    "./lib/themes/": "./lib/themes/",
+    "./lib/themes/": {
+      "require": "./lib/themes/",
+      "import": "./esm/themes/"
+    },
     "./lib/*": {
       "require": "./lib/*.js",
       "import": "./esm/*.js"
