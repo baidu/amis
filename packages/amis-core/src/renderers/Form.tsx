@@ -994,7 +994,13 @@ export default class Form extends React.Component<FormProps, object> {
     if (!skipFlush) {
       await this.flush();
     }
-    const validateErrCb = () => dispatchEvent('validateError', data);
+    const validateErrCb = () => {
+      // 滚动到组件位置
+      const errorDiv = document.getElementsByClassName('is-error');
+      errorDiv[0]?.scrollIntoView &&
+        errorDiv[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+      dispatchEvent('validateError', data);
+    };
     return store.submit(
       fn,
       this.hooks['validate'] || [],
