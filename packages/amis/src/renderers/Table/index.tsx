@@ -854,6 +854,7 @@ export default class Table<
   }
 
   autoFillHeightDispose?: () => void;
+  autoFillHeightDispose2?: () => void;
   initAutoFillHeight() {
     const props = this.props;
     const currentNode = this.dom.current!;
@@ -866,6 +867,13 @@ export default class Table<
         'height'
       );
       this.toDispose.push(this.autoFillHeightDispose);
+      this.autoFillHeightDispose2 = resizeSensor(
+        document.body,
+        this.updateAutoFillHeight,
+        false,
+        'height'
+      );
+      this.toDispose.push(this.autoFillHeightDispose2);
       this.updateAutoFillHeight();
     }
   }
@@ -1064,12 +1072,15 @@ export default class Table<
     // 检测属性变化，来切换功能
     if (props.autoFillHeight !== prevProps.autoFillHeight) {
       if (this.autoFillHeightDispose) {
-        const idx = this.toDispose.indexOf(this.autoFillHeightDispose);
-        if (idx !== -1) {
-          this.toDispose.splice(idx, 1);
-        }
+        this.toDispose = this.toDispose.filter(
+          fn =>
+            ![this.autoFillHeightDispose, this.autoFillHeightDispose2].includes(
+              fn
+            )
+        );
         this.autoFillHeightDispose();
         delete this.autoFillHeightDispose;
+        delete this.autoFillHeightDispose2;
         const tableContent = this.table?.parentElement as HTMLElement;
         if (tableContent) {
           tableContent.style.height = '';
@@ -1086,6 +1097,7 @@ export default class Table<
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
     delete this.autoFillHeightDispose;
+    delete this.autoFillHeightDispose2;
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();

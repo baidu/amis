@@ -64,9 +64,10 @@
       animation-name: modalOut;
     }
   }
-  &-fullScreen{
+  &-fullScreen {
     width: 100% !important;
     height: 100% !important;
+    max-width: 100% !important;
     margin: auto;
   }
 
@@ -102,7 +103,7 @@
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);
     border-top-right-radius: var(--Modal-content-borderRadius);
-    &-icons{
+    &-icons {
       position: absolute;
       right: 24px;
     }
@@ -147,7 +148,7 @@
       }
     }
   }
-  &-screen{
+  &-screen {
     margin-right: #{px2rem(16px)};
   }
 
