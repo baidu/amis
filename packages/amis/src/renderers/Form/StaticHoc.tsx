@@ -126,7 +126,7 @@ let supportStatic = <T extends FormControlProps>() => {
             [props.type || '', 'form-static-schema'].join('-'),
             staticSchema,
             {
-              ...omit(props, ['onEvent']),
+              selectedOptions: props.selectedOptions,
               ...(props.selectedOptions
                 ? {
                     data: createObject(
