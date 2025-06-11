@@ -111,8 +111,8 @@ export class CmptAction implements RendererAction {
     ) {
       try {
         const valid =
-          (await component?.props.onValidate?.()) &&
-          (await component?.validate?.());
+          (await component?.props.onValidate?.()) && // wrapControl 里面的 validate 是，返回校验是否有问题
+          !(await component?.validate?.()); // 组件里面的 validate 方法是，如果有问题返回错误信息，没有问题返回空
 
         if (valid) {
           event.setData(
@@ -127,7 +127,10 @@ export class CmptAction implements RendererAction {
           event.setData(
             createObject(event.data, {
               [action.outputVar || `${action.actionType}Result`]: {
-                error: (component?.props?.formItem?.errors || []).join(','),
+                error:
+                  typeof valid === 'string'
+                    ? valid
+                    : (component?.props?.formItem?.errors || []).join(','),
                 value: component?.props?.formItem?.value
               }
             })
