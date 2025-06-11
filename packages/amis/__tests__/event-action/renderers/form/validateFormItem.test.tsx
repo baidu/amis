@@ -68,37 +68,55 @@ test('doAction:formItem validate', async () => {
           },
           {
             type: 'form',
+            onEvent: {
+              formItemValidateSucc: {
+                actions: [
+                  {
+                    expression: '${event.data.__formName === "name"}',
+                    actionType: 'setValue',
+                    componentId: 'validate_res',
+                    args: {
+                      value: 'validate name success'
+                    }
+                  },
+                  {
+                    expression: '${event.data.__formName === "email"}',
+                    actionType: 'setValue',
+                    componentId: 'validate_res',
+                    args: {
+                      value: 'validate email success'
+                    }
+                  }
+                ]
+              },
+              formItemValidateError: {
+                actions: [
+                  {
+                    expression: '${event.data.__formName === "name"}',
+                    actionType: 'setValue',
+                    componentId: 'validate_res',
+                    args: {
+                      value: 'validate name fail'
+                    }
+                  },
+                  {
+                    expression: '${event.data.__formName === "email"}',
+                    actionType: 'setValue',
+                    componentId: 'validate_res',
+                    args: {
+                      value: 'validate email fail'
+                    }
+                  }
+                ]
+              }
+            },
             body: [
               {
                 type: 'input-text',
                 id: 'name_validate',
                 name: 'name',
                 label: '姓名：',
-                required: true,
-                onEvent: {
-                  formItemValidateSucc: {
-                    actions: [
-                      {
-                        actionType: 'setValue',
-                        componentId: 'validate_res',
-                        args: {
-                          value: 'validate name success'
-                        }
-                      }
-                    ]
-                  },
-                  formItemValidateError: {
-                    actions: [
-                      {
-                        actionType: 'setValue',
-                        componentId: 'validate_res',
-                        args: {
-                          value: 'validate name fail'
-                        }
-                      }
-                    ]
-                  }
-                }
+                required: true
               },
               {
                 name: 'email',
@@ -108,30 +126,6 @@ test('doAction:formItem validate', async () => {
                 required: true,
                 validations: {
                   isEmail: true
-                },
-                onEvent: {
-                  formItemValidateSucc: {
-                    actions: [
-                      {
-                        actionType: 'setValue',
-                        componentId: 'validate_res',
-                        args: {
-                          value: 'validate email success'
-                        }
-                      }
-                    ]
-                  },
-                  formItemValidateError: {
-                    actions: [
-                      {
-                        actionType: 'setValue',
-                        componentId: 'validate_res',
-                        args: {
-                          value: 'validate email fail'
-                        }
-                      }
-                    ]
-                  }
                 }
               }
             ]

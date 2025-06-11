@@ -11,6 +11,7 @@ import {ILoopAction} from './LoopAction';
 import {IParallelAction} from './ParallelAction';
 import {ISwitchAction} from './SwitchAction';
 import {debug} from '../utils/debug';
+import {injectObjectChain} from '../utils';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -256,15 +257,16 @@ export const runAction = async (
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
   // 注意：并行ajax请求结果必须通过event取值
-  const mergeData = createObject(
-    createObject(
-      rendererProto.__super
-        ? createObject(rendererProto.__super, additional)
-        : additional,
-      rendererProto
-    ),
-    event.data
-  );
+  const mergeData = injectObjectChain(event.data, additional);
+  // createObject(
+  //   createObject(
+  //     rendererProto.__super
+  //       ? createObject(rendererProto.__super, additional)
+  //       : additional,
+  //     rendererProto
+  //   ),
+  //   event.data
+  // );
   // 兼容一下1.9.0之前的版本
   const expression = action.expression ?? action.execOn;
   // 执行条件

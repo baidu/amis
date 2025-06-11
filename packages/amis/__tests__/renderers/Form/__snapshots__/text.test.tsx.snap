@@ -141,7 +141,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error has-error--isEmail cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isEmail cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -238,7 +238,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control cxd-TextControl"
+            class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -614,7 +614,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error has-error--isUrl cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isUrl cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -711,7 +711,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control cxd-TextControl"
+            class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -1383,7 +1383,7 @@ exports[`Renderer:text with minLength 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error has-error--maxLength cxd-TextControl"
+            class="cxd-Form-control is-error has-error--maxLength cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input cxd-TextControl-input--borderHalf test-text-class-one"

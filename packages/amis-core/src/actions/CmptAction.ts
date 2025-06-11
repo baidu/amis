@@ -109,11 +109,11 @@ export class CmptAction implements RendererAction {
       action.actionType === 'validateFormItem' &&
       getRendererByName(component?.props?.type)?.isFormItem
     ) {
-      const {dispatchEvent, data} = component?.props || {};
       try {
         const valid =
-          (await component?.props.onValidate?.()) ||
+          (await component?.props.onValidate?.()) &&
           (await component?.validate?.());
+
         if (valid) {
           event.setData(
             createObject(event.data, {
@@ -123,7 +123,6 @@ export class CmptAction implements RendererAction {
               }
             })
           );
-          dispatchEvent && dispatchEvent('formItemValidateSucc', data);
         } else {
           event.setData(
             createObject(event.data, {
@@ -133,7 +132,6 @@ export class CmptAction implements RendererAction {
               }
             })
           );
-          dispatchEvent && dispatchEvent('formItemValidateError', data);
         }
       } catch (e) {
         event.setData(
@@ -144,7 +142,6 @@ export class CmptAction implements RendererAction {
             }
           })
         );
-        dispatchEvent && dispatchEvent('formItemValidateError', data);
       }
       return;
     }
