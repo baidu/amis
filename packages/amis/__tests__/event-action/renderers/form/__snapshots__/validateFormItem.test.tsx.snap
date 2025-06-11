@@ -159,7 +159,7 @@ exports[`doAction:formItem validate 1`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+                    class="cxd-Form-control is-error has-error--isRequired cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"
@@ -457,7 +457,7 @@ exports[`doAction:formItem validate 2`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+                    class="cxd-Form-control is-error has-error--isRequired cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"
@@ -715,7 +715,7 @@ exports[`doAction:formItem validate 3`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control is-error has-error--isEmail cxd-TextControl"
+                    class="cxd-Form-control is-error has-error--isEmail cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"
@@ -866,7 +866,7 @@ exports[`doAction:formItem validate 4`] = `
                   placeholder=""
                   size="10"
                   type="text"
-                  value="validate email fail"
+                  value="validate email success"
                 />
               </div>
             </div>
@@ -966,7 +966,7 @@ exports[`doAction:formItem validate 4`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control cxd-TextControl"
+                    class="cxd-Form-control cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"
@@ -1210,7 +1210,7 @@ exports[`doAction:formItem validate 5`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control cxd-TextControl"
+                    class="cxd-Form-control cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"
@@ -1454,7 +1454,7 @@ exports[`doAction:formItem validate 6`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-Form-control cxd-TextControl"
+                    class="cxd-Form-control cxd-TextControl is-focused"
                   >
                     <div
                       class="cxd-TextControl-input"

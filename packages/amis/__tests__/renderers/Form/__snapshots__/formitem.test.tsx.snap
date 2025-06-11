@@ -56,7 +56,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -158,7 +158,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error cxd-TextControl"
+            class="cxd-Form-control is-error cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"
@@ -260,7 +260,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl is-focused"
           >
             <div
               class="cxd-TextControl-input"

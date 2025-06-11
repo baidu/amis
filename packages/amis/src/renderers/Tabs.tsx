@@ -724,14 +724,17 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  switchTo(index: number) {
+  switchTo(index: number, callback?: () => void) {
     const localTabs = this.state.localTabs;
 
     Array.isArray(localTabs) &&
       localTabs[index] &&
-      this.setState({
-        activeKey: (this.activeKey = localTabs[index].hash || index)
-      });
+      this.setState(
+        {
+          activeKey: (this.activeKey = localTabs[index].hash || index)
+        },
+        callback
+      );
   }
 
   @autobind
@@ -746,6 +749,26 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             : index === this.state.activeKey
         )
       : -1;
+  }
+
+  @autobind
+  async dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 当有表单项校验出错时，要切到对应的tab
+    if (e === 'formItemValidateError') {
+      const tabIndex = renderer?.props.tabIndex;
+      if (typeof tabIndex === 'number') {
+        await new Promise<void>(resolve => {
+          this.switchTo(tabIndex, resolve);
+        });
+      }
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
   }
 
   // 渲染tabs的title
@@ -892,6 +915,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               `item/${index}`,
               (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
               {
+                tabIndex: index,
+                dispatchEvent: this.dispatchEvent,
                 disabled: disabled || isDisabled(tab, ctx) || undefined, // 下发个 undefined，让子表单项自己判断
                 data: ctx,
                 formMode: tab.mode || subFormMode || formMode,
@@ -972,6 +997,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   `tab/${index}`,
                   (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
+                    tabIndex: index,
+                    dispatchEvent: this.dispatchEvent,
                     disabled: disabled || isDisabled(tab, data) || undefined, // 下发个 undefined，让子表单项自己判断,
                     formMode: tab.mode || subFormMode || formMode,
                     formHorizontal:
