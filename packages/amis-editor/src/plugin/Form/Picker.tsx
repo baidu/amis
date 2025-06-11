@@ -480,10 +480,7 @@ export class PickerControlPlugin extends BasePlugin {
           getSchemaTpl(
             'collapseGroup',
             [
-              getSchemaTpl('style:formItem', {
-                renderer: context.info.renderer,
-                hiddenList: ['labelHide']
-              }),
+              getSchemaTpl('theme:formItem'),
               {
                 title: '基本',
                 body: [

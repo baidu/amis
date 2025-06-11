@@ -151,7 +151,7 @@ export class AssociatedSelection extends BaseSelection<
               onChange={this.handleLeftSelect}
               onDeferLoad={this.handleLeftDeferLoad}
               virtualThreshold={virtualThreshold}
-              itemHeight={itemHeight}
+              // itemHeight={itemHeight}
               loadingConfig={loadingConfig}
               testIdBuilder={testIdBuilder?.getChild('left-selection')}
             />
@@ -218,7 +218,7 @@ export class AssociatedSelection extends BaseSelection<
                   multiple={multiple}
                   labelField={labelField}
                   virtualThreshold={virtualThreshold}
-                  itemHeight={itemHeight}
+                  // itemHeight={itemHeight}
                   loadingConfig={loadingConfig}
                   checkAllLabel={checkAllLabel}
                   checkAll={checkAll}

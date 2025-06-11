@@ -365,7 +365,7 @@ export class WizardPlugin extends BasePlugin {
               addButtonText: '新增一步',
               scaffold: {
                 title: '标题',
-                items: [
+                body: [
                   {
                     type: 'input-text',
                     name: 'var1',

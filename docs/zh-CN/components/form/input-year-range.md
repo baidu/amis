@@ -45,7 +45,7 @@ order: 15
 
 ## 存成两个字段
 
-默认年份范围存储一个字段，用 `delemiter` 分割，如果配置 `extraName` 则会存两个字段。
+默认年份范围存储一个字段，用 `delimiter` 分割，如果配置 `extraName` 则会存两个字段。
 
 ```schema: scope="body"
 {

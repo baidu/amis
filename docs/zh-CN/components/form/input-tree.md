@@ -1375,7 +1375,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
         "direction": "column",
         "isFixedHeight": true,
         "style": {
-          "height": "300px",
+          "height": "320px",
           "paddingRight": "10px"
         },
         "items": [
@@ -1383,7 +1383,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
             "type": "input-tree",
             "id": "tree",
             "name": "tree",
-            "label": "Tree",
+            "label": false,
             "virtualThreshold": 5,
             "options": [
               {
@@ -1501,7 +1501,8 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                                               |
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                                     |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                                     |
-| treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                                  |
+| treeContainerClassName | `string`                                     |                  | tree 控件最外层容器类名, 与 inputClassName 等价                                                                                      |
+| treeClassName          | `string`                                     |                  | tree 组件层类名                                                                                                                      |
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
 | highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
