@@ -253,6 +253,11 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   lazyLoad?: boolean;
 
   /**
+   * 分页个数，默认不分页
+   */
+  perPage?: number;
+
+  /**
    * 严格模式，为了性能默认不开的。
    */
   strictMode?: boolean;
@@ -422,6 +427,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       length: this.getValueAsArray(props).length
     });
 
+    if (typeof props.perPage === 'number' && props.perPage > 0) {
+      store.changePage(1, props.perPage);
+    }
+
     formItem && isAlive(formItem) && formItem.setSubStore(store);
     addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
@@ -466,6 +475,13 @@ export default class ComboControl extends React.Component<ComboProps> {
           }
         );
       }
+    }
+
+    if (prevProps.perPage !== props.perPage) {
+      props.store.changePage(
+        1,
+        typeof props.perPage === 'number' ? props.perPage : 0
+      );
     }
   }
 
@@ -582,7 +598,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       delimiter,
       scaffold,
       disabled,
-      submitOnChange
+      submitOnChange,
+      store
     } = this.props;
 
     if (disabled) {
@@ -607,6 +624,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (addattop === true) {
       this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
+      store.changePage(1);
+    } else {
+      store.perPage &&
+        store.changePage(Math.ceil(value.length / store.perPage));
     }
 
     this.props.onChange(value, submitOnChange, true);
@@ -662,6 +683,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
       activeIndex = 0;
+      store.changePage(1);
+    } else {
+      store.perPage &&
+        store.changePage(Math.ceil(value.length / store.perPage));
     }
 
     store.setActiveKey(activeIndex);
@@ -680,7 +705,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       env,
       translate: __,
       dispatchEvent,
-      submitOnChange
+      submitOnChange,
+      store
     } = this.props;
 
     if (disabled) {
@@ -728,6 +754,13 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     this.keys.splice(key, 1);
     value.splice(key, 1);
+
+    const lastPage = store.perPage
+      ? 1
+      : Math.ceil(value.length / store.perPage);
+    if (store.page > lastPage) {
+      store.changePage(lastPage);
+    }
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
@@ -987,7 +1020,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       const subForms = this.subForms;
       return Promise.all(
         value.map(async (values: any, index: number) => {
-          const subForm = subForms[index];
+          const subForm = this.refsMap[index];
           if (subForm) {
             return subForm.validate(true, false, false);
           } else {
@@ -1026,7 +1059,9 @@ export default class ComboControl extends React.Component<ComboProps> {
           }
         })
       ).then(values => {
-        if (~values.indexOf(false)) {
+        const idx = values.indexOf(false);
+        if (~idx) {
+          store.perPage && store.changePage(Math.ceil(idx / store.perPage));
           return __((messages && messages.validateFailed) || 'validateFailed');
         }
 
@@ -1660,7 +1695,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemsWrapperClassName,
       static: isStatic,
       mobileUI,
-      store
+      store,
+      render
     } = this.props;
 
     let items = this.props.items;
@@ -1691,7 +1727,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       >
         <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {Array.isArray(value) && value.length ? (
-            value.map((value, index, thelist) => {
+            store.getRangeByPage(value).map((value, index, thelist) => {
+              index += store.offset;
               let delBtn: any = this.renderDelBtn(value, index);
 
               const data = this.formatValue(value, index);
@@ -1773,18 +1810,32 @@ export default class ComboControl extends React.Component<ComboProps> {
             <div className={cx(`Combo-placeholder`)}>{__(placeholder)}</div>
           ) : null}
         </div>
-        {!isStatic && !disabled ? (
-          <div className={cx(`Combo-toolbar`)}>
-            {this.renderAddBtn()}
-            {draggable ? (
-              <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
-                {Array.isArray(value) && value.length > 1
-                  ? __(draggableTip)
-                  : ''}
-              </span>
-            ) : null}
-          </div>
-        ) : null}
+
+        <div className={cx(`Combo-toolbar`)}>
+          {!isStatic && !disabled ? this.renderAddBtn() : null}
+          {!isStatic && !disabled && draggable ? (
+            <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
+              {Array.isArray(value) && value.length > 1 ? __(draggableTip) : ''}
+            </span>
+          ) : null}
+
+          {store.multiplePage
+            ? render(
+                'pager',
+                {
+                  type: 'pagination'
+                },
+                {
+                  activePage: store.page,
+                  perPage: store.perPage,
+                  total: value.length || 0,
+                  onPageChange: store.changePage,
+                  className: 'Combo-pager',
+                  disabled: disabled
+                }
+              )
+            : null}
+        </div>
       </div>
     );
   }
