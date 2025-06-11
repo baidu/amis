@@ -364,7 +364,10 @@ export default class FormTable<
   constructor(props: T) {
     super(props);
     const {addHook} = props;
-    const items = Array.isArray(props.value) ? props.value.concat() : [];
+    let items = Array.isArray(props.value) ? props.value.concat() : [];
+
+    // 处理初始数据中的表达式
+    items = this.processItemsWithExpressions(items, props.data);
 
     this.state = {
       columns: this.buildColumns(props),
@@ -428,7 +431,9 @@ export default class FormTable<
     }
 
     if (props.value !== prevProps.value && props.value !== this.emittedValue) {
-      const items = Array.isArray(props.value) ? props.value.concat() : [];
+      let items = Array.isArray(props.value) ? props.value.concat() : [];
+      // 处理初始数据中的表达式
+      items = this.processItemsWithExpressions(items, props.data);
       toUpdate = {
         ...toUpdate,
         items: items,
@@ -647,6 +652,43 @@ export default class FormTable<
     return isPrevented;
   }
 
+  /**
+   * 派发事件
+   * @param eventName 事件名称
+   * @param eventData 事件数据
+   * @returns
+   */
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent} = this.props;
+    const {items, rowIndex} = this.state;
+    const rendererEvent = await dispatchEvent?.(
+      eventName,
+      resolveEventData(this.props, {
+        value: [...items],
+        rowIndex,
+        ...eventData
+      })
+    );
+
+    return !!rendererEvent?.prevented;
+  }
+
+  /**
+   * 点击"编辑"按钮
+   * @param index 编辑的行索引
+   */
+  async editItem(index: string) {
+    const {items} = this.state;
+    const indexes = index.split('.').map(item => parseInt(item, 10));
+    const item = getTree(items, indexes);
+    const isPrevented = await this.dispatchEvent('edit', {
+      index: indexes[indexes.length - 1],
+      indexPath: indexes.join('.'),
+      item
+    });
+    !isPrevented && this.startEdit(index, true);
+  }
+
   async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
     const {
       onAction,
@@ -860,8 +902,15 @@ export default class FormTable<
               );
             }
           } else {
-            /** 如果value值设置为表达式，则忽略 */
-            if (!isExpression(column.value)) {
+            /** 如果value值设置为表达式，则解析它 */
+            if (isExpression(column.value)) {
+              const resolvedValue = resolveVariableAndFilter(
+                column.value,
+                data,
+                '| raw'
+              );
+              setVariable(value, column.name, resolvedValue);
+            } else {
               setVariable(value, column.name, column.value);
             }
           }
@@ -946,40 +995,97 @@ export default class FormTable<
   }
 
   /**
-   * 点击“编辑”按钮
-   * @param index 编辑的行索引
+   * 处理初始数据中的表达式
+   * @param items 表格数据项
+   * @param data 上下文数据
+   * @returns 处理后的表格数据项
    */
-  async editItem(index: string) {
-    const {items} = this.state;
-    const indexes = index.split('.').map(item => parseInt(item, 10));
-    const item = getTree(items, indexes);
-    const isPrevented = await this.dispatchEvent('edit', {
-      index: indexes[indexes.length - 1],
-      indexPath: indexes.join('.'),
-      item
+  processItemsWithExpressions(
+    items: Array<TableDataItem>,
+    data: any
+  ): Array<TableDataItem> {
+    if (!Array.isArray(items) || !items.length) {
+      return items;
+    }
+
+    const columns = Array.isArray(this.props.columns) ? this.props.columns : [];
+    if (columns.length === 0) {
+      return items;
+    }
+
+    const contextData = data || {};
+
+    // 处理每个表格数据项
+    const processedItems = items.map(item => {
+      const newItem = {...item};
+
+      // 处理每个列的表达式
+      columns.forEach(column => {
+        if (typeof column.name === 'string') {
+          // 处理表格数据项中的表达式
+          if (
+            typeof newItem[column.name] === 'string' &&
+            isExpression(newItem[column.name])
+          ) {
+            const resolvedValue = resolveVariableAndFilter(
+              newItem[column.name],
+              createObject(contextData, newItem),
+              '| raw'
+            );
+            newItem[column.name] = resolvedValue;
+          }
+
+          // 处理列定义中的value属性表达式
+          if (typeof column.value !== 'undefined') {
+            if (
+              'type' in column &&
+              (column.type === 'input-date' ||
+                column.type === 'input-datetime' ||
+                column.type === 'input-time' ||
+                column.type === 'input-month' ||
+                column.type === 'input-quarter' ||
+                column.type === 'input-year')
+            ) {
+              if (
+                !(
+                  typeof column.value === 'string' && column.value.trim() === ''
+                )
+              ) {
+                const date = filterDate(
+                  column.value,
+                  contextData,
+                  column.format || 'X'
+                );
+                setVariable(
+                  newItem,
+                  column.name,
+                  (column.utc ? moment.utc(date) : date).format(
+                    column.format || 'X'
+                  )
+                );
+              }
+            } else {
+              // 如果value值设置为表达式，则解析它
+              if (isExpression(column.value)) {
+                // 使用当前行数据作为上下文来解析表达式
+                const resolvedValue = resolveVariableAndFilter(
+                  column.value,
+                  createObject(contextData, newItem),
+                  '| raw'
+                );
+                setVariable(newItem, column.name, resolvedValue);
+              } else {
+                setVariable(newItem, column.name, column.value);
+              }
+            }
+          }
+        }
+      });
+
+      return newItem;
     });
-    !isPrevented && this.startEdit(index, true);
-  }
 
-  /**
-   * 派发事件
-   * @param eventName 事件名称
-   * @param eventData 事件数据
-   * @returns
-   */
-  async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent} = this.props;
-    const {items, rowIndex} = this.state;
-    const rendererEvent = await dispatchEvent(
-      eventName,
-      resolveEventData(this.props, {
-        value: [...items],
-        rowIndex,
-        ...eventData
-      })
-    );
-
-    return !!rendererEvent?.prevented;
+    return processedItems;
   }
 
   startEdit(index: string, isCreate: boolean = false) {
@@ -1182,8 +1288,7 @@ export default class FormTable<
         !(deleteApi as ApiObject)?.silent &&
           env.notify(
             'error',
-            (deleteApi as ApiObject)?.messages?.failed ??
-              (result.msg || __('deleteFailed'))
+            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
           );
         this.dispatchEvent('deleteFail', {
           index: indexes[indexes.length - 1],
@@ -1451,8 +1556,8 @@ export default class FormTable<
                       ...this.columnToQuickEdit(column),
                       ...quickEdit,
                       // 因为列本身已经做过显隐判断了，单元格不应该再处理
-                      visibleOn: '',
-                      hiddenOn: '',
+                      // visibleOn: '',
+                      // hiddenOn: '',
                       visible: true,
                       hidden: false,
                       saveImmediately: true,
@@ -2035,7 +2140,7 @@ export default class FormTable<
             quickEditFormRef: this.subFormRef,
             quickEditFormItemRef: this.subFormItemRef,
             columnsTogglable: columnsTogglable,
-            combineNum: this.state.editIndex ? 0 : combineNum,
+            combineNum: combineNum,
             combineFromIndex: combineFromIndex,
             expandConfig,
             canAccessSuperData,
