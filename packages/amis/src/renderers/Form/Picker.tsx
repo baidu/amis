@@ -33,6 +33,7 @@ import type {TooltipWrapperSchema} from '../TooltipWrapper';
 import type {Option} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 import {reaction} from 'mobx';
+import {AutoFoldedList} from 'amis-ui';
 
 /**
  * Picker
@@ -631,83 +632,31 @@ export default class PickerControl extends React.PureComponent<
       css
     } = this.props;
     const {maxTagCount, overflowTagPopover} = this.getOverflowConfig();
-    const totalCount = selectedOptions.length;
     let tags = selectedOptions;
     const enableOverflow =
-      multiple !== false &&
-      isIntegerInRange(maxTagCount, {
-        start: 0,
-        end: totalCount,
-        left: 'inclusive',
-        right: 'exclusive'
-      });
+      multiple !== false && typeof maxTagCount === 'number' && maxTagCount > 0;
 
-    /** 多选且开启限制标签数量 */
-    if (enableOverflow) {
-      tags = [
-        ...selectedOptions.slice(0, maxTagCount),
-        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
-      ];
-    }
+    const tooltipProps: any = {
+      tooltipClassName: cx(
+        'Picker-overflow',
+        overflowTagPopover?.tooltipClassName
+      ),
+      title: __('已选项'),
+      ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+    };
 
     return (
-      <>
-        {tags.map((item, index) => {
-          if (enableOverflow && index === maxTagCount) {
-            return (
-              <TooltipWrapper
-                key={index}
-                container={popOverContainer}
-                tooltip={{
-                  tooltipClassName: cx(
-                    'Picker-overflow',
-                    overflowTagPopover?.tooltipClassName
-                  ),
-                  title: __('已选项'),
-                  ...omit(overflowTagPopover, [
-                    'children',
-                    'content',
-                    'tooltipClassName'
-                  ]),
-                  children: () => {
-                    return (
-                      <div className={cx(`${ns}Picker-overflow-wrapper`)}>
-                        {selectedOptions
-                          .slice(maxTagCount, totalCount)
-                          .map((overflowItem, rawIndex) => {
-                            const key = rawIndex + maxTagCount;
-
-                            return this.renderTag(overflowItem, key);
-                          })}
-                      </div>
-                    );
-                  }
-                }}
-              >
-                <div
-                  key={index}
-                  className={cx(`${ns}Picker-value`, {
-                    'is-disabled': disabled
-                  })}
-                >
-                  <span
-                    className={`${ns}Picker-valueLabel ${setThemeClassName({
-                      ...this.props,
-                      name: 'pickFontClassName',
-                      id,
-                      themeCss: themeCss || css
-                    })}`}
-                  >
-                    {item.label}
-                  </span>
-                </div>
-              </TooltipWrapper>
-            );
-          }
-
+      <AutoFoldedList
+        enabled={!!enableOverflow}
+        tooltipClassName={cx('Picker-overflow-wrapper')}
+        items={tags}
+        popOverContainer={popOverContainer}
+        tooltipOptions={tooltipProps}
+        maxVisibleCount={maxTagCount}
+        renderItem={(item, index, folded) => {
           return this.renderTag(item, index);
-        })}
-      </>
+        }}
+      ></AutoFoldedList>
     );
   }
 

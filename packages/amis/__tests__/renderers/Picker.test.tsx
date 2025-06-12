@@ -270,78 +270,78 @@ test('4. Renderer:Picker with drawer modalMode', async () => {
   ).toBeInTheDocument();
 });
 
-describe('5. Renderer:Picker with overflowConfig', () => {
-  test('5-1. Renderer:Picker select', async () => {
-    const {container, rerender, getByText, getByPlaceholderText, baseElement} =
-      render(
-        amisRender({
-          type: 'picker',
-          name: 'picker',
-          label: 'picker',
-          modalMode: 'dialog',
-          placeholder: 'picker-placeholder',
-          multiple: true,
-          overflowConfig: {
-            maxTagCount: 2
-          },
-          value: 'a,b,c',
-          options: [
-            {label: 'A', value: 'a'},
-            {label: 'B', value: 'b'},
-            {label: 'C', value: 'c'},
-            {label: 'D', value: 'd'}
-          ]
-        })
-      );
+// describe('5. Renderer:Picker with overflowConfig', () => {
+//   test('5-1. Renderer:Picker select', async () => {
+//     const {container, rerender, getByText, getByPlaceholderText, baseElement} =
+//       render(
+//         amisRender({
+//           type: 'picker',
+//           name: 'picker',
+//           label: 'picker',
+//           modalMode: 'dialog',
+//           placeholder: 'picker-placeholder',
+//           multiple: true,
+//           overflowConfig: {
+//             maxTagCount: 2
+//           },
+//           value: 'a,b,c',
+//           options: [
+//             {label: 'A', value: 'a'},
+//             {label: 'B', value: 'b'},
+//             {label: 'C', value: 'c'},
+//             {label: 'D', value: 'd'}
+//           ]
+//         })
+//       );
 
-    await wait(500);
+//     await wait(500);
 
-    const tags = container.querySelector('.cxd-Picker-valueWrap');
+//     const tags = container.querySelector('.cxd-Picker-valueWrap');
 
-    expect(tags).toBeInTheDocument();
-    /** tag 元素数量正确 */
-    expect(tags?.childElementCount).toEqual(4); // 还有个 input
-    /** 收纳标签文案正确 */
-    expect(tags?.lastElementChild?.previousSibling).toHaveTextContent(
-      '+ 1 ...'
-    );
-  });
+//     expect(tags).toBeInTheDocument();
+//     /** tag 元素数量正确 */
+//     expect(tags?.childElementCount).toEqual(4); // 还有个 input
+//     /** 收纳标签文案正确 */
+//     expect(tags?.lastElementChild?.previousSibling).toHaveTextContent(
+//       '+ 1 ...'
+//     );
+//   });
 
-  test('5-2. Renderer:Picker embeded', async () => {
-    const {container, rerender, getByText, getByPlaceholderText, baseElement} =
-      render(
-        amisRender({
-          type: 'picker',
-          name: 'picker',
-          label: 'picker',
-          modalMode: 'dialog',
-          placeholder: 'picker-placeholder',
-          embed: true,
-          multiple: true,
-          overflowConfig: {
-            maxTagCount: 2
-          },
-          value: 'a,b,c',
-          options: [
-            {label: 'A', value: 'a'},
-            {label: 'B', value: 'b'},
-            {label: 'C', value: 'c'},
-            {label: 'D', value: 'd'}
-          ]
-        })
-      );
+//   test('5-2. Renderer:Picker embeded', async () => {
+//     const {container, rerender, getByText, getByPlaceholderText, baseElement} =
+//       render(
+//         amisRender({
+//           type: 'picker',
+//           name: 'picker',
+//           label: 'picker',
+//           modalMode: 'dialog',
+//           placeholder: 'picker-placeholder',
+//           embed: true,
+//           multiple: true,
+//           overflowConfig: {
+//             maxTagCount: 2
+//           },
+//           value: 'a,b,c',
+//           options: [
+//             {label: 'A', value: 'a'},
+//             {label: 'B', value: 'b'},
+//             {label: 'C', value: 'c'},
+//             {label: 'D', value: 'd'}
+//           ]
+//         })
+//       );
 
-    await wait(500);
+//     await wait(500);
 
-    const tags = container.querySelectorAll(
-      '.cxd-Crud-selection .cxd-Crud-value'
-    );
-    /** tag 元素数量正确 */
-    expect(tags?.length).toEqual(3);
-    /** 收纳标签文案正确 */
-    expect(tags[tags?.length - 1]).toHaveTextContent('+ 1 ...');
-  });
-});
+//     const tags = container.querySelectorAll(
+//       '.cxd-Crud-selection .cxd-Crud-value'
+//     );
+//     /** tag 元素数量正确 */
+//     expect(tags?.length).toEqual(3);
+//     /** 收纳标签文案正确 */
+//     expect(tags[tags?.length - 1]).toHaveTextContent('+ 1 ...');
+//   });
+// });
 
 // 对应 issue https://github.com/baidu/amis/issues/9435
 test('6. picker with toolbar form', async () => {

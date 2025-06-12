@@ -178,6 +178,7 @@
     user-select: none;
     position: relative;
     flex-grow: 1;
+    min-width: 0;
     width: auto;
     max-width: 100%;
     overflow: hidden;
@@ -584,6 +585,12 @@
         }
       }
     }
+  }
+}
+
+.#{$ns}Select-overflow-wrapper {
+  .#{$ns}Select-value {
+    margin-bottom: var(--gap-xs);
   }
 }
 
