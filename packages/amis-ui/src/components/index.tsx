@@ -148,6 +148,7 @@ import MobileDevTool from './MobileDevTool';
 import DropdownContextMenus from './DropdownContextMenus';
 import {HorizontalScroll} from './HorizontalScroll';
 import type {HorizontalScrollProps} from './HorizontalScroll';
+import AutoFoldedList from './AutoFoldedList';
 
 import AlphabetIndexer from './AlphabetIndexer';
 export {
@@ -297,5 +298,6 @@ export {
   AlphabetIndexer,
   Slider,
   HorizontalScroll,
-  HorizontalScrollProps
+  HorizontalScrollProps,
+  AutoFoldedList
 };

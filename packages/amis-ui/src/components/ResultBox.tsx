@@ -10,6 +10,7 @@ import {autobind, ucFirst} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import TooltipWrapper, {TooltipObject} from './TooltipWrapper';
+import AutoFoldedList from './AutoFoldedList';
 
 export interface ResultBoxProps
   extends ThemeProps,
@@ -122,7 +123,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     onChange?.(e.currentTarget.value);
   }
 
-  renderMultipeTags(tags: any[]) {
+  renderMultipleTags(tags: any[]) {
     const {
       maxTagCount,
       overflowTagPopover,
@@ -133,17 +134,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       testIdBuilder
     } = this.props;
 
-    if (
-      maxTagCount != null &&
-      isInteger(Math.floor(maxTagCount)) &&
-      Math.floor(maxTagCount) >= 0 &&
-      Math.floor(maxTagCount) < tags.length
-    ) {
-      const maxVisibleCount = Math.floor(maxTagCount);
+    if (typeof maxTagCount === 'number' && maxTagCount > 0) {
       const tooltipProps: TooltipObject = {
-        placement: 'top',
-        trigger: 'hover',
-        showArrow: false,
         offset: [0, -10],
         tooltipClassName: cx(
           'ResultBox-overflow',
@@ -152,97 +144,56 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
       };
 
-      return [
-        ...tags.slice(0, maxVisibleCount),
-        {label: `+ ${tags.length - maxVisibleCount} ...`}
-      ].map((item, index) => {
-        const isShowInvalid = showInvalidMatch && item?.__unmatched;
-        const itemTIB = testIdBuilder?.getChild(item.value || index);
-        return index === maxVisibleCount ? (
-          <TooltipWrapper
-            key={tags.length}
-            container={popOverContainer}
-            tooltip={{
-              ...tooltipProps,
-              children: () => (
-                <div className={cx('ResultBox-overflow-wrapper')}>
-                  {tags
-                    .slice(maxVisibleCount, tags.length)
-                    .map((item, index) => {
-                      const itemIndex = index + maxVisibleCount;
-
-                      return (
-                        <div
-                          className={cx('ResultBox-value', {
-                            'is-invalid': showInvalidMatch && item?.__unmatched
-                          })}
-                          key={itemIndex}
-                          onClick={this.handleItemClick}
-                          {...itemTIB?.getTestId()}
-                        >
-                          <span
-                            className={cx('ResultBox-valueLabel')}
-                            data-index={index}
-                            {...itemTIB?.getChild('click').getTestId()}
-                          >
-                            {itemRender(item)}
-                          </span>
-                          <a
-                            data-index={itemIndex}
-                            onClick={this.removeItem}
-                            {...itemTIB?.getChild('close').getTestId()}
-                          >
-                            <Icon icon="close" className="icon" />
-                          </a>
-                        </div>
-                      );
-                    })}
-                </div>
-              )
-            }}
-          >
-            <div
-              className={cx('ResultBox-value', {
-                'is-invalid': isShowInvalid
-              })}
-              key={index}
-            >
-              <span className={cx('ResultBox-valueLabel')}>{item.label}</span>
-            </div>
-          </TooltipWrapper>
-        ) : (
-          <TooltipWrapper
-            container={popOverContainer}
-            placement={'top'}
-            tooltip={item['label']}
-            trigger={'hover'}
-            key={index}
-          >
-            <div
-              className={cx('ResultBox-value', {
-                'is-invalid': isShowInvalid
-              })}
-              onClick={this.handleItemClick}
-              {...itemTIB?.getTestId()}
-            >
-              <span
-                className={cx('ResultBox-valueLabel')}
-                data-index={index}
-                {...itemTIB?.getChild('click').getTestId()}
+      return (
+        <AutoFoldedList
+          tooltipClassName={cx('Select-overflow-wrapper')}
+          items={tags}
+          popOverContainer={popOverContainer}
+          tooltipOptions={tooltipProps}
+          maxVisibleCount={maxTagCount}
+          renderItem={(item, index, folded) => {
+            const itemTIB = testIdBuilder?.getChild(item.value || index);
+            const isShowInvalid = showInvalidMatch && item?.__unmatched;
+            const body = (
+              <div
+                className={cx('ResultBox-value', {
+                  'is-invalid': isShowInvalid
+                })}
+                onClick={this.handleItemClick}
+                {...itemTIB?.getTestId()}
               >
-                {itemRender(item)}
-              </span>
-              <a
-                data-index={index}
-                onClick={this.removeItem}
-                {...itemTIB?.getChild('close').getTestId()}
+                <span
+                  className={cx('ResultBox-valueLabel')}
+                  data-index={index}
+                  {...itemTIB?.getChild('click').getTestId()}
+                >
+                  {itemRender(item)}
+                </span>
+                <a
+                  data-index={index}
+                  onClick={this.removeItem}
+                  {...itemTIB?.getChild('close').getTestId()}
+                >
+                  <Icon icon="close" className="icon" />
+                </a>
+              </div>
+            );
+            return folded ? (
+              body
+            ) : (
+              <TooltipWrapper
+                container={popOverContainer}
+                placement={'top'}
+                tooltip={item['label']}
+                trigger={'hover'}
+                key={index}
               >
-                <Icon icon="close" className="icon" />
-              </a>
-            </div>
-          </TooltipWrapper>
-        );
-      });
+                {body}
+              </TooltipWrapper>
+            );
+          }}
+        ></AutoFoldedList>
+      );
     }
 
     return tags.map((item, index) => {
@@ -341,7 +292,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       >
         <div className={cx('ResultBox-value-wrap')}>
           {Array.isArray(result) && result.length ? (
-            this.renderMultipeTags(result)
+            this.renderMultipleTags(result)
           ) : result && !Array.isArray(result) ? (
             <span className={cx('ResultBox-singleValue')}>
               {isPlainObject(result) ? itemRender(result) : result}
