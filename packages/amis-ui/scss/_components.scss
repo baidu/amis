@@ -2970,10 +2970,7 @@
   --Form-selectValue-borderColor: var(--colors-brand-7);
   --Form-selectValue-color: var(--colors-brand-5);
   --Form-selectValue-fontSize: var(--select-multiple-fontSize);
-  --Form-selectValue-onDisable-bg: #{color.adjust(
-      color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
-      $lightness: 5%
-    )};
+  --Form-selectValue-onDisable-bg: var(--colors-neutral-fill-10);
   --Form-selectValue-onHover-bg: #{color.adjust(
       color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
       $lightness: -5%

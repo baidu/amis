@@ -6,6 +6,7 @@
     .#{$ns}Select-value {
       position: static;
       white-space: normal;
+      flex-shrink: 0;
       user-select: none;
       line-height: calc(
         var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
@@ -26,11 +27,12 @@
       padding: var(--select-multiple-paddingTop)
         var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
         var(--select-multiple-paddingLeft);
-      margin: var(--select-multiple-marginTop)
-        var(--select-multiple-marginRight) var(--ResultBox-tag-marginBottom)
-        var(--select-multiple-marginLeft);
 
-      &:hover {
+      &.is-disabled {
+        background-color: var(--Form-selectValue-onDisable-bg);
+      }
+
+      &:not(.is-disabled):hover {
         background-color: var(--Form-selectValue-onHover-bgColor);
       }
     }
@@ -183,8 +185,12 @@
     max-width: 100%;
     overflow: hidden;
     padding-right: px2rem(4px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--select-multiple-marginRight);
   }
   &-valuesNoWrap {
+    flex-wrap: nowrap;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
