@@ -165,7 +165,9 @@ export class RightPanels extends React.Component<
                             className="pluginIcon"
                           />
                         )}
-                        {!usePluginIcon && <i className={`fa ${panel.icon}`} />}
+                        {!usePluginIcon && (
+                          <Icon icon={panel.icon} className="fa" />
+                        )}
                       </span>
                     }
                     className={`editorPanel-tabs-pane ae-Editor-${panel.key}Pane`}
