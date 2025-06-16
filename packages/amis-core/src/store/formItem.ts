@@ -94,6 +94,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     itemsRef: types.optional(types.array(types.string), []),
     inited: false,
     validated: false,
+    validatedAt: 0,
     validating: false,
     multiple: false,
     delimiter: ',',
@@ -572,6 +573,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       self.validating = false;
+      self.validatedAt = Date.now();
       return self.valid;
     });
 

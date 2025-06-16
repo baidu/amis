@@ -3276,7 +3276,7 @@ exports[`Renderer:Wizard validate 1`] = `
               </span>
             </label>
             <div
-              class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
+              class="cxd-Form-control is-error has-error--isRequired cxd-TextControl is-focused"
             >
               <div
                 class="cxd-TextControl-input"

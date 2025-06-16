@@ -32,12 +32,14 @@ import {FormBaseControl, FormItemConfig, FormItemWrap} from './Item';
 import {Api, DataChangeReason} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
+import {reaction} from 'mobx';
 import {
   callStrFunction,
   changedEffect,
   cloneObject,
   setVariable,
-  tokenize
+  tokenize,
+  injectObjectChain
 } from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
@@ -79,7 +81,6 @@ export interface ControlOutterProps extends RendererProps {
     changePristine?: boolean,
     changeReason?: DataChangeReason
   ) => void;
-  formItemDispatchEvent: (type: string, data: any) => void;
   formItemRef?: (control: any) => void;
 }
 
@@ -298,6 +299,26 @@ export function wrapControl<
                 onChange(model.tmpValue, model.name, false, true);
               }
             }
+
+            this.reaction = reaction(
+              () => model.validatedAt,
+              (validatedAt: number) => {
+                this.props.dispatchEvent?.(
+                  model.valid
+                    ? 'formItemValidateSucc'
+                    : 'formItemValidateError',
+                  injectObjectChain(
+                    this.props.formStore?.data ?? this.props.data,
+                    {
+                      __errors: model.errors,
+                      __formName: model.name,
+                      __formValue: model.tmpValue,
+                      __formControl: this.control
+                    }
+                  )
+                );
+              }
+            );
           }
 
           componentDidMount() {
@@ -656,7 +677,7 @@ export function wrapControl<
 
           async validate() {
             if (!this.model) return;
-            const {formStore: form, data, formItemDispatchEvent} = this.props;
+            const {formStore: form, data, dispatchEvent} = this.props;
             let result;
 
             if (
@@ -675,10 +696,6 @@ export function wrapControl<
             }
 
             const valid = !result.some(item => item === false);
-            (formItemDispatchEvent ?? this.props.dispatchEvent)?.(
-              valid ? 'formItemValidateSucc' : 'formItemValidateError',
-              form?.data ?? this.props.data // form里的一定是最新的数据
-            );
             return valid;
           }
 

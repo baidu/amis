@@ -14,6 +14,12 @@
 
   &.is-mobile {
     text-align: right;
+
+    .#{$ns}ResultBox-value-wrap {
+      min-width: 0;
+      flex-wrap: wrap !important;
+      flex: 1;
+    }
   }
 
   &-optionArrowRight {

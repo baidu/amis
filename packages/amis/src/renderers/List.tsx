@@ -405,13 +405,14 @@ export default class List extends React.Component<ListProps, ListState> {
     let items: Array<object> = [];
     let updateItems = false;
 
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
-        getPropValue(prevProps, (props: ListProps) => props.items) !== value)
-    ) {
-      items = value;
-      updateItems = true;
+    if (Array.isArray(value)) {
+      if (
+        !prevProps ||
+        getPropValue(prevProps, (props: ListProps) => props.items) !== value
+      ) {
+        items = value;
+        updateItems = true;
+      }
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
