@@ -833,7 +833,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div
                 key={index}
                 className={cx('Select-value', {
-                  'is-disabled': disabled,
+                  'is-disabled': disabled || item.disabled,
                   'is-invalid': showInvalidMatch ? item.__unmatched : false
                 })}
               >
@@ -896,7 +896,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           >
             <div
               className={cx('Select-value', {
-                'is-disabled': disabled,
+                'is-disabled': disabled || item.disabled,
                 'is-invalid': showInvalidMatch ? item.__unmatched : false
               })}
             >
