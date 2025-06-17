@@ -1819,7 +1819,9 @@ export default class ComboControl extends React.Component<ComboProps> {
             </span>
           ) : null}
 
-          {store.multiplePage
+          {store.multiplePage &&
+          Array.isArray(value) &&
+          value.length > store.perPage
             ? render(
                 'pager',
                 {
