@@ -535,7 +535,10 @@ export default class Editor extends Component<EditorProps> {
 
     manager.openContextMenu(targetId, region, {
       x: window.scrollX + e.clientX + offsetX,
-      y: window.scrollY + e.clientY + offsetY
+      y: window.scrollY + e.clientY + offsetY,
+      clientX: e.clientX,
+      clientY: e.clientY,
+      target: e.target as HTMLElement
     });
   }
 
