@@ -625,13 +625,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
     let rows: Array<object> = [];
     let updateRows = false;
 
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
-        getPropValue(prevProps, (props: Table2Props) => props.items) !== value)
-    ) {
-      updateRows = true;
-      rows = value;
+    if (Array.isArray(value)) {
+      if (
+        !prevProps ||
+        getPropValue(prevProps, (props: Table2Props) => props.items) !== value
+      ) {
+        updateRows = true;
+        rows = value;
+      }
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps

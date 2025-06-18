@@ -70,6 +70,7 @@ import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
+import {AutoFoldedList} from 'amis-ui';
 
 interface LoadMoreConfig {
   showIcon?: boolean;
@@ -2850,76 +2851,38 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       return null;
     }
 
-    const totalCount = store.selectedItems.length;
     let tags: any[] = store.selectedItems;
     const enableOverflow =
-      multiple !== false &&
-      isIntegerInRange(maxTagCount, {
-        start: 0,
-        end: totalCount,
-        left: 'inclusive',
-        right: 'exclusive'
-      });
+      multiple !== false && typeof maxTagCount === 'number' && maxTagCount > 0;
 
-    if (enableOverflow) {
-      tags = [
-        ...store.selectedItems.slice(0, maxTagCount),
-        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
-      ];
-    }
+    const tooltipProps: any = {
+      offset: [0, -10],
+      tooltipClassName: cx(
+        'Crud-selection-overflow',
+        overflowTagPopover?.tooltipClassName
+      ),
+      title: __('已选项'),
+      ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+    };
 
     return (
       <div className={cx('Crud-selection')}>
-        <div className={cx('Crud-selectionLabel')}>
+        <div data-folder-ignore className={cx('Crud-selectionLabel')}>
           {__('CRUD.selected', {total: store.selectedItems.length})}
         </div>
-        {tags.map((item, index) => {
-          if (enableOverflow && index === maxTagCount) {
-            return (
-              <TooltipWrapper
-                key={index}
-                container={popOverContainer}
-                tooltip={{
-                  placement: 'top',
-                  trigger: 'hover',
-                  showArrow: false,
-                  offset: [0, -10],
-                  tooltipClassName: cx(
-                    'Crud-selection-overflow',
-                    overflowTagPopover?.tooltipClassName
-                  ),
-                  title: __('已选项'),
-                  ...omit(overflowTagPopover, [
-                    'children',
-                    'content',
-                    'tooltipClassName'
-                  ]),
-                  children: () => {
-                    return (
-                      <div
-                        className={cx(`${ns}Crud-selection-overflow-wrapper`)}
-                      >
-                        {store.selectedItems
-                          .slice(maxTagCount, totalCount)
-                          .map((overflowItem, rawIndex) => {
-                            const key = rawIndex + maxTagCount;
 
-                            return this.renderTag(overflowItem, key);
-                          })}
-                      </div>
-                    );
-                  }
-                }}
-              >
-                <div key={index} className={cx(`Crud-value`)}>
-                  <span className={cx('Crud-valueLabel')}>{item.label}</span>
-                </div>
-              </TooltipWrapper>
-            );
-          }
+        <AutoFoldedList
+          enabled={!!enableOverflow}
+          tooltipClassName={cx('Crud-selection-overflow-wrapper')}
+          items={tags}
+          popOverContainer={popOverContainer}
+          tooltipOptions={tooltipProps}
+          maxVisibleCount={maxTagCount}
+          renderItem={(item, index, folded) => {
+            return this.renderTag(item, index);
+          }}
+        ></AutoFoldedList>
 
-          return this.renderTag(item, index);
-        })}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
           {__('clear')}
         </a>

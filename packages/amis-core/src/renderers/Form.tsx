@@ -660,6 +660,14 @@ export default class Form extends React.Component<FormProps, object> {
           }
         })
         .then(this.initInterval)
+        .then(() =>
+          this.props.dispatchEvent(
+            'initApiFinished',
+            injectObjectChain(store.data, {
+              __trigger: 'init'
+            })
+          )
+        )
         .then(this.onInit);
     } else {
       setTimeout(this.onInit.bind(this), 4);
@@ -895,6 +903,12 @@ export default class Form extends React.Component<FormProps, object> {
       if (result?.ok) {
         this.initInterval(result);
         store.reset(undefined, false);
+        await this.props.dispatchEvent(
+          'initApiFinished',
+          injectObjectChain(store.data, {
+            __trigger: 'reload'
+          })
+        );
       }
     } else {
       store.reset(undefined, false);

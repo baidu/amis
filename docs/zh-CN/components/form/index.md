@@ -1433,7 +1433,7 @@ Form 支持轮询初始化接口，步骤如下：
 | 事件名称              | 事件参数                                                                                                                                                                                     | 说明                                                                                                                                        |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | 事件名称              | 事件参数                                                                                                                                                                                     | 说明                                                                                                                                        |
-| inited                | `responseData: any` 请求的响应数据<br />`responseStatus: number` 响应状态，0 表示成功<br />`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                                                                                                                  |
+| inited                | `responseData: any` 请求的响应数据<br />`responseStatus: number` 响应状态，0 表示成功<br />`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | 表单初始化完成事件，不管配置不配置 initApi 都会触发，实际上还会等部分子表单项初始化完成                                                     |
 | change                | `event.data: object` 当前表单数据                                                                                                                                                            | 表单值变化时触发                                                                                                                            |
 | formItemValidateSucc  | `event.data: object` 当前表单数据<br />`event.data.__formName` 表单项名字<br />`event.data.__formValue` 表单项值                                                                             | 表单项校验成功时触发                                                                                                                        |
 | formItemValidateError | `event.data: object` 当前表单数据 <br />`event.data.__formName` 表单项名字<br />`event.data.__formValue` 表单项值<br />`event.data.__errors`表单项错误                                       | 表单项校验失败时触发                                                                                                                        |
@@ -1442,6 +1442,7 @@ Form 支持轮询初始化接口，步骤如下：
 | submit                | `event.data: object` 当前表单数据                                                                                                                                                            | 点击提交按钮或者触发表单提交动作的时候触发（配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置） |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                                 | 提交成功时触发                                                                                                                              |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                  | 提交失败时触发                                                                                                                              |
+| initApiFinished       | `[name]: any` 当前数据域中指定字段的值 <br />`event.data.__trigger` 触发原因：`init` \| `reload`                                                                                             | asyncApi 远程请求轮训结束                                                                                                                   |
 | asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                       | asyncApi 远程请求轮训结束                                                                                                                   |
 
 ### inited
@@ -1846,6 +1847,66 @@ Form 支持轮询初始化接口，步骤如下：
     "static": true,
     "name": "tip",
     "label": "上下文"
+  }
+]
+```
+
+### initApiFinished
+
+> 6.13.0 起开始支持此事件
+
+initApi 请求完成后触发，包括初始化过程和后续的重新刷新都会触发
+
+可以通过 `event.data.__trigger` 来判断，它的分别是 `init` 和 `reload`。
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "title": "尝试提交表单",
+    "initApi": "/api/mock2/page/initData",
+    "id": "theform",
+    "actions": [
+      {
+        "label": "Reload",
+        type: "button",
+        onEvent: {
+          click: {
+            actions: [
+              {
+                actionType: "reload",
+                componentId: "theform"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ],
+    "onEvent": {
+      "initApiFinished": {
+        "actions": [
+          {
+            "actionType": "toast",
+            "args": {
+              "msgType": "info",
+              "msg": "context: ${event.data|json} trigger: ${event.data.__trigger}"
+            }
+          }
+        ]
+      }
+    }
   }
 ]
 ```
