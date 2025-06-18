@@ -188,6 +188,11 @@
   min-height: 0;
   background-color: $default-bg-color;
 
+  .ae-Preview-outter {
+    transform: translateZ(0); // 让其变成合成层，里面的 fixed 元素相对与此层定位
+    height: 100%;
+  }
+
   .ae-Preview-body {
     position: relative;
     height: 100%;
@@ -230,8 +235,6 @@
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
       border-radius: 4px;
-      transform: scale(1);
-      transform-origin: center top;
       display: flex;
       flex-direction: column;
 
