@@ -116,7 +116,7 @@ export default class ValidationControl extends React.Component<
       validators.push({
         name: 'required',
         value: true,
-        message: validationErrors?.required
+        message: validationErrors?.isRequired
       });
     }
 
@@ -157,6 +157,7 @@ export default class ValidationControl extends React.Component<
       const {name, value, message} = data;
       if (name === 'required') {
         required = value;
+        message && (validationErrors['isRequired'] = message);
         return;
       }
       if (value != null) {
