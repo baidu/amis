@@ -131,6 +131,7 @@ registerValidator(
   {
     label: '必填',
     name: 'required',
+    message: '这是必填项',
     tag: {
       [ValidatorTag.Text]: ValidTagMatchType.isDefault,
       [ValidatorTag.File]: ValidTagMatchType.isDefault,
