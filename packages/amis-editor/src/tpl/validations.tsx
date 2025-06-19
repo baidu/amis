@@ -15,10 +15,10 @@ import forEach from 'lodash/forEach';
 
 setSchemaTpl('validations', function () {
   const options = [
-    // {
-    //     label: '必填',
-    //     value: 'isRequired'
-    // },
+    {
+      label: '必填',
+      value: 'isRequired'
+    },
     {
       label: '邮箱格式',
       value: 'isEmail'
@@ -277,10 +277,10 @@ setSchemaTpl('validations', function () {
 setSchemaTpl('validationErrors', function () {
   const i18nEnabled = getI18nEnabled();
   const options = [
-    // {
-    //     label: '必填',
-    //     value: 'isRequired'
-    // },
+    {
+      label: '必填',
+      value: 'isRequired'
+    },
     {
       label: '邮箱格式',
       value: 'isEmail'
