@@ -1448,12 +1448,18 @@ export class EditorManager {
     info: {
       x: number;
       y: number;
+      clientX: number;
+      clientY: number;
+      target: HTMLElement;
     }
   ) {
     let menus: Array<ContextMenuItem> = [];
     const commonContext = this.buildEventContext(id);
     const context: ContextMenuEventContext = {
       ...commonContext,
+      clientX: info.clientX,
+      clientY: info.clientY,
+      target: info.target,
       selections: this.store.selections.map(item =>
         this.buildEventContext(item)
       ),
