@@ -1229,10 +1229,11 @@ order: 35
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称  | 事件参数                                                                                                                    | 说明             |
-| --------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| change    | `[name]: string` 组件的值（多个以逗号分隔)<br/>`selectedItems: object` \| `object[]`选中项（< 2.3.2 及以下版本 为`option`） | 选中值变化时触发 |
-| itemClick | `item: Option` 所点击的选项                                                                                                 | 选项被点击时触发 |
+| 事件名称        | 事件参数                                                                                                                    | 说明                       |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| change          | `[name]: string` 组件的值（多个以逗号分隔)<br/>`selectedItems: object` \| `object[]`选中项（< 2.3.2 及以下版本 为`option`） | 选中值变化时触发           |
+| itemClick       | `item: Option` 所点击的选项                                                                                                 | 选项被点击时触发           |
+| staticItemClick | `item: Option` 所点击的选项                                                                                                 | 静态展示时选项被点击时触发 |
 
 ### change
 
@@ -1305,6 +1306,55 @@ order: 35
         ],
         "onEvent": {
           "itemClick": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.item|json}"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+```
+
+### staticItemClick
+
+> 6.13.0 起支持
+
+静态展示时选项被点击时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "picker",
+        "name": "picker",
+        "label": "picker",
+        "static": true,
+        "value": "a,b",
+        "multiple": true,
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ],
+        "onEvent": {
+          "staticItemClick": {
             "actions": [
               {
                 "actionType": "toast",

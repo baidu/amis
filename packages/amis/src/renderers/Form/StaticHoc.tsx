@@ -7,7 +7,11 @@ function renderCommonStatic(props: any, defaultValue: string) {
   const {type, render, staticSchema} = props;
   const staticProps = {
     ...props,
-    ...staticSchema
+    ...staticSchema,
+    dispatchEvent: (eventName: string, data: any) => {
+      // 不要透传 renderer， 因为这样 onEvent 就不是表单项那层的了
+      return props.dispatchEvent(eventName, data);
+    }
   };
 
   switch (type) {
