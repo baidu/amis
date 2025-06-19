@@ -717,7 +717,7 @@ export const EditorNode = types
         let schema = root.getSchema(info.id);
         let patched = schema;
 
-        if (!patched?.id) {
+        if (!patched?.id && patched?.type) {
           patched = {...patched, id: 'u:' + guid()};
         }
 
