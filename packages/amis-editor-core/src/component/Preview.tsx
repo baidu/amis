@@ -117,9 +117,9 @@ export default class Preview extends Component<PreviewProps> {
   @autobind
   contentsRef(ref: HTMLDivElement | null) {
     if (ref) {
-      this.layer = ref.parentElement!.querySelector(
-        '.ae-Preview-widgets'
-      ) as HTMLDivElement;
+      this.layer = ref
+        .closest('.ae-Preview')!
+        .querySelector('.ae-Preview-widgets') as HTMLDivElement;
 
       this.unSensor = resizeSensor(ref, this.handlePanelChange);
       if (this.props.isMobile) {
@@ -646,61 +646,63 @@ export default class Preview extends Component<PreviewProps> {
         )}
         ref={this.currentDom}
       >
-        <div
-          key={
-            /* contentsLayer 逻辑不一样需要更新一下 */ isMobile
-              ? 'mobile-body'
-              : 'pc-body'
-          }
-          className={cx(
-            'ae-Preview-body',
-            className,
-            editable ? 'is-edting' : '',
-            isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
-          )}
-          ref={this.contentsRef}
-        >
-          <div className="ae-Preview-inner">
-            {!store.ready ? (
-              <div className="ae-Preview-loading">
-                <Spinner overlay size="lg" />
-              </div>
-            ) : isMobile ? (
-              <IFramePreview
-                {...rest}
-                key="mobile"
-                editable={editable}
-                store={store}
-                env={env}
-                manager={manager}
-                autoFocus={autoFocus}
-                appLocale={appLocale}
-              ></IFramePreview>
-            ) : (
-              <SmartPreview
-                {...rest}
-                editable={editable}
-                autoFocus={autoFocus}
-                store={store}
-                env={env}
-                manager={manager}
-                key="pc"
-                appLocale={appLocale}
-              />
+        <div className={cx('ae-Preview-outter')}>
+          <div
+            key={
+              /* contentsLayer 逻辑不一样需要更新一下 */ isMobile
+                ? 'mobile-body'
+                : 'pc-body'
+            }
+            className={cx(
+              'ae-Preview-body',
+              className,
+              editable ? 'is-edting' : '',
+              isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
+            )}
+            ref={this.contentsRef}
+          >
+            <div className="ae-Preview-inner">
+              {!store.ready ? (
+                <div className="ae-Preview-loading">
+                  <Spinner overlay size="lg" />
+                </div>
+              ) : isMobile ? (
+                <IFramePreview
+                  {...rest}
+                  key="mobile"
+                  editable={editable}
+                  store={store}
+                  env={env}
+                  manager={manager}
+                  autoFocus={autoFocus}
+                  appLocale={appLocale}
+                ></IFramePreview>
+              ) : (
+                <SmartPreview
+                  {...rest}
+                  editable={editable}
+                  autoFocus={autoFocus}
+                  store={store}
+                  env={env}
+                  manager={manager}
+                  key="pc"
+                  appLocale={appLocale}
+                />
+              )}
+            </div>
+            {this.currentDom.current && (
+              <BackTop
+                key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
+                className="ae-editor-action-btn"
+                target={this.getCurrentTarget.bind(this)}
+                onClick={(e: any) => {
+                  console.log(e);
+                }}
+              >
+                <Icon icon="back-up" className="back-top-icon" />
+              </BackTop>
             )}
           </div>
-          {this.currentDom.current && (
-            <BackTop
-              key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
-              className="ae-editor-action-btn"
-              target={this.getCurrentTarget.bind(this)}
-              onClick={(e: any) => {
-                console.log(e);
-              }}
-            >
-              <Icon icon="back-up" className="back-top-icon" />
-            </BackTop>
-          )}
         </div>
 
         <div

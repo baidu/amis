@@ -197,7 +197,7 @@ export class VariableManager {
       }
     });
 
-    return reverseOrder ? options : reverse(options);
+    return reverseOrder ? options : (reverse(options as any) as Option[]);
   }
 
   /**

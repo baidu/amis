@@ -218,7 +218,7 @@ export default class ValidationControl extends React.Component<
   handleRemoveRule(valid: string) {
     const validators = this.transformValid(this.props.data);
 
-    remove(validators, v => v.name === valid);
+    remove(validators as any, v => v.name === valid);
     this.updateValidation(validators);
   }
 
@@ -313,7 +313,7 @@ export default class ValidationControl extends React.Component<
     validators = validators.concat();
     // 优先渲染默认的顺序
     Object.keys(defaultValidators).forEach((validName: string) => {
-      const data = remove(validators, v => v.name === validName);
+      const data = remove(validators as any, v => v.name === validName);
       rules.push(
         <ValidationItem
           rendererSchema={rendererSchema}
@@ -331,7 +331,7 @@ export default class ValidationControl extends React.Component<
     });
 
     Object.keys(builtInValidators).forEach((validName: string) => {
-      const data = remove(validators, v => v.name === validName);
+      const data = remove(validators as any, v => v.name === validName);
       rules.push(
         <ValidationItem
           rendererSchema={rendererSchema}
