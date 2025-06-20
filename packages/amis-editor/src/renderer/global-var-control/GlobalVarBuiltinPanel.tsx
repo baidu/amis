@@ -22,6 +22,7 @@ const basicControls: Array<any> = [
   {
     type: 'input-text',
     label: '标题',
+    required: true,
     name: 'label',
     size: 'md'
   },
