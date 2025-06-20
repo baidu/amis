@@ -554,6 +554,9 @@ export interface ContextMenuEventContext extends BaseEventContext {
   region: string;
   selections: Array<BaseEventContext>;
   data: Array<ContextMenuItem>;
+  clientX?: number;
+  clientY?: number;
+  target?: HTMLElement;
 }
 
 export interface SelectionEventContext extends BaseEventContext {

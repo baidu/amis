@@ -232,7 +232,10 @@ export class BasicToolbarPlugin extends BasePlugin {
 
             this.manager.openContextMenu(id, '', {
               x: x,
-              y: window.scrollY + info.top + info.height + 8
+              y: window.scrollY + info.top + info.height + 8,
+              target: e.target as HTMLElement,
+              clientX: e.clientX,
+              clientY: e.clientY
             });
           }
         }
@@ -250,8 +253,41 @@ export class BasicToolbarPlugin extends BasePlugin {
     }
   }
 
+  getElementsFromPoint(x: number, y: number, target: HTMLElement) {
+    const store = this.manager.store;
+    const doc = store.getDoc();
+
+    // 通常是来源于移动端预览的 iframe
+    if (target.ownerDocument !== doc) {
+      const preview: HTMLElement = (store.getLayer() as HTMLElement)
+        .previousSibling?.firstChild as HTMLElement;
+      const previewRect = preview.getBoundingClientRect();
+
+      x -= previewRect.left;
+      y -= previewRect.top;
+      // 如果有缩放比例，重新计算位置
+      const scale = store.getScale();
+      if (scale >= 0) {
+        x = x / scale;
+        y = y / scale;
+      }
+    }
+
+    let elements = store.getDoc().elementsFromPoint(x, y);
+    return elements.filter(item => item.hasAttribute('data-editor-id'));
+  }
+
   buildEditorContextMenu(
-    {id, schema, region, info, selections}: ContextMenuEventContext,
+    {
+      id,
+      schema,
+      region,
+      info,
+      selections,
+      clientX,
+      clientY,
+      target
+    }: ContextMenuEventContext,
     menus: Array<ContextMenuItem>
   ) {
     const manager = this.manager;
@@ -261,7 +297,10 @@ export class BasicToolbarPlugin extends BasePlugin {
     const paths = store.getNodePathById(id);
     const first = paths.pop()!;
     const host = node.host as EditorNodeType;
-    const regionNode = node.parent as EditorNodeType;
+
+    const elements = target
+      ? this.getElementsFromPoint(clientX!, clientY!, target)
+      : [];
 
     if (selections.length) {
       // 多选时的右键菜单
@@ -341,10 +380,12 @@ export class BasicToolbarPlugin extends BasePlugin {
           isHiglight && store.setHoverId(id)
       });
 
-      if (paths.length) {
-        const children = paths
-          .filter(node => !node.isRegion && node.info?.editable !== false)
-          .reverse()
+      if (elements.length) {
+        const children = elements
+          .map(item => store.getNodeById(item.getAttribute('data-editor-id')!)!)
+          .filter(
+            node => node && !node.isRegion && node.info?.editable !== false
+          )
           .map(node => ({
             label: node.label,
             data: node.id,

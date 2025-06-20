@@ -298,10 +298,8 @@ export const HocPopOver =
         }
 
         const selectClassName = this.getClassName();
-        const defaultPositon =
-          selectClassName === 'ellipsis' && !popOver
-            ? 'right-top-center-bottom'
-            : 'center';
+        const defaultPlacement =
+          selectClassName === 'ellipsis' && !popOver ? 'auto' : 'center';
         const position =
           (popOver && (popOver as SchemaPopOverObject).position) || '';
 
@@ -335,7 +333,7 @@ export const HocPopOver =
         ) : (
           <Overlay
             container={popOverContainer}
-            placement={position || config.position || defaultPositon}
+            placement={position || config.position || defaultPlacement}
             target={() => this.target}
             onHide={this.closePopOver}
             rootClose

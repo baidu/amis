@@ -10,7 +10,7 @@ import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
 import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
 import flatten from 'lodash/flatten';
-import {VirtualTableBody} from './VirtualTableBody';
+import VirtualTableBody from './VirtualTableBody';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;

@@ -327,12 +327,12 @@ export class CollapseGroupPlugin extends BasePlugin {
   };
 
   regions: Array<RegionConfig> = [
-    {
-      key: 'body',
-      label: '内容区',
-      renderMethod: 'render',
-      insertPosition: 'inner'
-    }
+    // {
+    //   key: 'body',
+    //   label: '内容区',
+    //   renderMethod: 'render',
+    //   insertPosition: 'inner'
+    // }
   ];
 }
 
