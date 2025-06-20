@@ -15,7 +15,8 @@ import {
   JSONTraverse,
   wrapFetcher,
   GlobalVariableItem,
-  setVariable
+  setVariable,
+  getTheme
 } from 'amis-core';
 import {
   PluginInterface,
@@ -1936,8 +1937,8 @@ export class EditorManager {
   }
 
   startDrag(id: string, e: React.DragEvent) {
-    e.persist();
-    this.dnd.startDrag(id, e.nativeEvent);
+    e.persist?.();
+    this.dnd.startDrag(id, e.nativeEvent || e);
   }
 
   async scaffold(form: ScaffoldForm, value: any): Promise<SchemaObject> {
@@ -2489,6 +2490,10 @@ export class EditorManager {
         JSONPipeOut(data)
       );
     }
+  }
+
+  getThemeClassPrefix() {
+    return getTheme(this.config.theme || 'cxd').classPrefix;
   }
 
   /**

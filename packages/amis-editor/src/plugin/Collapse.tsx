@@ -8,7 +8,9 @@ import {
   RegionConfig,
   BaseEventContext,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  PluginEvent,
+  PreventClickEventContext
 } from 'amis-editor-core';
 import {
   buildLinkActionDesc,
@@ -272,6 +274,22 @@ export class CollapsePlugin extends BasePlugin {
       label: '内容区'
     }
   ];
+
+  onPreventClick(e: PluginEvent<PreventClickEventContext>) {
+    const mouseEvent = e.context.data;
+
+    if (mouseEvent.defaultPrevented) {
+      return false;
+    } else if (
+      (mouseEvent.target as HTMLElement).closest(
+        `.${this.manager.getThemeClassPrefix()}Collapse-arrow-wrap`
+      )
+    ) {
+      return false;
+    }
+
+    return;
+  }
 }
 
 registerEditorPlugin(CollapsePlugin);

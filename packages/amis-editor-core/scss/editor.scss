@@ -742,7 +742,8 @@
     border: 2px solid $Editor-hlbox--onActive-bg;
 
     &[draggable='true'] {
-      pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
+      // 可以注释下面的代码是因为会给目标元素添加 draggable 属性，
+      // pointer-events: all; // 高亮区启用鼠标事件，支持拖拽
       cursor: move;
     }
 
