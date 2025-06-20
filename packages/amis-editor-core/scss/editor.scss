@@ -191,6 +191,7 @@
   .ae-Preview-outter {
     transform: translateZ(0); // 让其变成合成层，里面的 fixed 元素相对与此层定位
     height: 100%;
+    width: 100%;
   }
 
   .ae-Preview-body {
@@ -238,36 +239,55 @@
       display: flex;
       flex-direction: column;
 
-      > *:not(iframe):first-child {
-        // min-width: 100%;
+      > .ae-PageWrapper {
         position: relative;
-        // min-height: calc(100vh - 131px); // 确保能撑开画布区
         flex: 1;
-        height: auto;
-        background: white;
-        box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
-        margin-bottom: 0;
-      }
-      .ae-Dialog-preview-mount-node {
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        > *:first-child {
-          flex: 1;
-        }
-        .amis-dialog-widget {
-          // 编辑态防止内容超出底部空白
-          position: static;
-          z-index: 0;
-        }
 
-        > .cxd-Page {
-          // 这里主要是为了确保能撑开画布区
-          display: flex;
-          > .cxd-Page-content {
-            height: auto;
-          }
+        > *:not(iframe):first-child {
+          // min-width: 100%;
+          position: relative;
+          // min-height: calc(100vh - 131px); // 确保能撑开画布区
+          flex: 1;
+          height: auto;
+          background: white;
+          box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+          margin-bottom: 0;
         }
       }
+
+      // > *:not(iframe):first-child {
+      //   // min-width: 100%;
+      //   position: relative;
+      //   // min-height: calc(100vh - 131px); // 确保能撑开画布区
+      //   flex: 1;
+      //   height: auto;
+      //   background: white;
+      //   box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+      //   margin-bottom: 0;
+      // }
+      // .ae-Dialog-preview-mount-node {
+      //   display: flex;
+      //   flex-direction: column;
+      //   > *:first-child {
+      //     flex: 1;
+      //   }
+      //   .amis-dialog-widget {
+      //     // 编辑态防止内容超出底部空白
+      //     position: static;
+      //     z-index: 0;
+      //   }
+
+      //   > .cxd-Page {
+      //     // 这里主要是为了确保能撑开画布区
+      //     display: flex;
+      //     > .cxd-Page-content {
+      //       height: auto;
+      //     }
+      //   }
+      // }
     }
 
     &:focus {
@@ -295,7 +315,7 @@
       height: 100%;
       flex-grow: unset;
       min-height: unset;
-      min-width: unset;
+      min-width: 300px;
       padding: 0;
       overflow: visible;
 
@@ -319,6 +339,7 @@
         transform: scale(1);
         transform-origin: center top;
         height: 100%;
+        overflow: hidden;
         display: block;
         position: relative;
 
@@ -430,22 +451,22 @@
 .ae-IFramePreview {
   &,
   & > .frame-content,
-  .ae-Dialog-preview-mount-node {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 667px;
-  }
+  // .ae-IFramePreview {
+  //   width: 100%;
+  //   height: 100%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   flex: 1;
+  //   min-height: 667px;
+  // }
 
-  > .frame-content .ae-Dialog-preview-mount-node > *:first-child {
-    flex: 1;
-    min-width: 100%;
-    position: relative;
-    min-height: 100%;
-    background: white;
-  }
+  // > .frame-content .ae-IFramePreview > *:first-child {
+  //   flex: 1;
+  //   min-width: 100%;
+  //   position: relative;
+  //   min-height: 100%;
+  //   background: white;
+  // }
 
   &.is-edting {
     --animation-duration: 0;
@@ -707,6 +728,10 @@
   box-sizing: border-box;
   pointer-events: none;
   transition: all ease-out 0.15s;
+
+  .is-scrolling & {
+    transition: none;
+  }
 
   &:hover {
     z-index: 3;

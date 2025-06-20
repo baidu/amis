@@ -128,6 +128,37 @@ export class PickerControlPlugin extends BasePlugin {
           }
         ];
       }
+    },
+    {
+      eventName: 'staticItemClick',
+      eventLabel: '静态展示节点点击',
+      description: '静态展示时节点点击时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {itemSchema} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    title: '所点击的选项',
+                    properties: itemSchema
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所点击的选项索引'
+                  }
+                }
+              }
+            }
+          }
+        ];
+      }
     }
   ];
   panelJustify = true;

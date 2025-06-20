@@ -298,7 +298,9 @@ export class BasicToolbarPlugin extends BasePlugin {
     const first = paths.pop()!;
     const host = node.host as EditorNodeType;
 
-    const elements = this.getElementsFromPoint(clientX, clientY, target);
+    const elements = target
+      ? this.getElementsFromPoint(clientX!, clientY!, target)
+      : [];
 
     if (selections.length) {
       // 多选时的右键菜单
