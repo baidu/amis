@@ -1392,7 +1392,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       loadDataOnceFetchOnFilter,
       source,
       columns,
-      dispatchEvent
+      dispatchEvent,
+      options
     } = this.props;
 
     // reload 需要清空用户选择，无论是否开启keepItemSelectionOnPageChange
@@ -1526,6 +1527,18 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         matchFunc,
         totalField
       });
+    } else if (pickerMode) {
+      store.initFromScope(
+        {
+          items: options || []
+        },
+        '${items}',
+        {
+          columns: store.columns ?? columns,
+          matchFunc,
+          totalField
+        }
+      );
     }
 
     let val: any;
