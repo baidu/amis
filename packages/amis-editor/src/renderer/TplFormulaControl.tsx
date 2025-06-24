@@ -623,7 +623,8 @@ export class TplFormulaControl extends React.Component<
           style={{fontSize: '12px'}}
           tooltip={{
             tooltipTheme: 'dark',
-            children: () => renderFormulaValue(highlightValue)
+            children: () =>
+              renderFormulaValue(highlightValue, this.props.env.filterHtml)
           }}
         >
           <div
