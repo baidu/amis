@@ -113,7 +113,7 @@ export class Value extends React.Component<ValueProps> {
           step={field.step}
           min={field.minimum}
           max={field.maximum}
-          precision={field.precision ?? 2}
+          precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
           disabled={disabled}
