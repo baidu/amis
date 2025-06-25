@@ -92,6 +92,10 @@
       color: var(--select-base-default-option-color);
       background: var(--select-base-default-option-bg-color);
 
+      & > .#{$ns}Checkbox {
+        margin: 0;
+      }
+
       > .#{$ns}NestedSelect-optionLabel {
         min-width: 0;
         min-height: 0;
