@@ -806,9 +806,7 @@ export default class ExcelControl extends React.PureComponent<
     } = this.props;
 
     const {files} = this.state;
-    const canAddMore = multiple === true || files.length === 0;
     const isMaxLength = !!maxLength && files.length >= maxLength;
-    const isSingleFileFull = !multiple && files.length > 0;
 
     // 单文件模式使用简化UI
     if (multiple !== true) {
@@ -820,7 +818,7 @@ export default class ExcelControl extends React.PureComponent<
             onDrop={this.handleDrop}
             accept=".xlsx,.xls"
             multiple={false}
-            disabled={disabled || isSingleFileFull}
+            disabled={disabled}
           >
             {({getRootProps, getInputProps}) => (
               <section className={cx('ExcelControl-container', className)}>
