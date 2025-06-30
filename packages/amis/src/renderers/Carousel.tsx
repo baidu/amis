@@ -161,12 +161,18 @@ const defaultSchema = {
         {data.hasOwnProperty('image') ? (
           <Image
             src={data.image}
-            title={data.title}
-            href={data.href}
-            blank={data.blank}
-            htmlTarget={data.htmlTarget}
-            caption={data.description}
-            thumbMode={data.thumbMode ?? thumbMode ?? 'contain'}
+            title={data.hasOwnProperty('title') ? data.title : ''}
+            href={data.hasOwnProperty('href') ? data.href : ''}
+            blank={data.hasOwnProperty('blank') ? data.blank : false}
+            htmlTarget={
+              data.hasOwnProperty('htmlTarget') ? data.htmlTarget : ''
+            }
+            caption={data.hasOwnProperty('description') ? data.description : ''}
+            thumbMode={
+              data.hasOwnProperty('thumbMode')
+                ? data.thumbMode
+                : thumbMode ?? 'contain'
+            }
             imageMode="original"
             className={cx('Carousel-image')}
           />
