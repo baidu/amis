@@ -135,13 +135,7 @@ export class DateField extends React.Component<DateProps, DateState> {
       <span className="text-muted">{placeholder}</span>
     );
 
-    let value = getPropValue(this.props);
-
-    //时间范围格式修正
-    if (typeof value === 'string' && value.includes(',')) {
-      const values = value.split(',');
-      value = values[0];
-    }
+    const value = getPropValue(this.props);
 
     // 主要是给 fromNow 用的
     let date: any = null;
