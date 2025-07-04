@@ -371,7 +371,15 @@ function traverseStyle(style: any, path: string, result: any) {
   Object.keys(style).forEach(key => {
     if (key !== '$$id') {
       if (isObject(style[key])) {
-        const nowPath = path ? `${path} ${key}` : key;
+        const keys = key.split(',');
+        const nowPath = path
+          ? keys
+              .map(key => {
+                const paths = path.split(',');
+                return paths.map(path => `${path} ${key}`).join(',');
+              })
+              .join(',')
+          : key;
         traverseStyle(style[key], nowPath, result);
       } else if (path === '') {
         !result[key] && (result[key] = {});
@@ -384,16 +392,17 @@ function traverseStyle(style: any, path: string, result: any) {
   });
 }
 
-/**
- * 设置源码编辑自定义样式
- */
-export function insertEditCustomStyle(params: {
+export function formatCustomStyle(params: {
   customStyle: any;
   id?: string;
   doc?: Document;
   customStyleClassPrefix?: string;
   [propName: string]: any;
-}) {
+}): {
+  content: string;
+  index?: string;
+  id: string;
+} {
   const {customStyle, doc, data, customStyleClassPrefix} = params;
   const id = params.id?.replace?.('u:', '') || params.id + '';
   let styles: any = {};
@@ -418,7 +427,7 @@ export function insertEditCustomStyle(params: {
             '| raw'
           ) || styles[key]
         }\n}`;
-      } else if (key === 'root') {
+      } else if (key.startsWith('root')) {
         const res = map(
           styles[key],
           (value: any, key) =>
@@ -430,21 +439,9 @@ export function insertEditCustomStyle(params: {
               ) || value
             };`
         );
-        content += `\n${className} {\n  ${res.join('\n  ')}\n}`;
-      } else if (/^root:/.test(key)) {
-        const res = map(
-          styles[key],
-          (value: any, key) =>
-            `${key}: ${
-              resolveVariableAndFilter(
-                value.replace(/['|"]/g, ''),
-                data,
-                '| raw'
-              ) || value
-            };`
-        );
-        const nowKey = key.replace('root', '');
-        content += `\n${className}${nowKey} {\n  ${res.join('\n  ')}\n}`;
+        content += `\n${key.replace(/root/g, className)} {\n  ${res.join(
+          '\n  '
+        )}\n}`;
       } else {
         const res = map(
           styles[key],
@@ -457,17 +454,39 @@ export function insertEditCustomStyle(params: {
               ) || value
             };`
         );
-        content += `\n${className} ${key} {\n  ${res.join('\n  ')}\n}`;
+        const keys = key.split(',');
+        content += `\n${keys.map(key => `${className} ${key}`)} {\n  ${res.join(
+          '\n  '
+        )}\n}`;
       }
     });
   }
+  return {
+    content: content,
+    index: index,
+    id: id
+  };
+}
 
+/**
+ * 设置源码编辑自定义样式
+ */
+export function insertEditCustomStyle(params: {
+  customStyle: any;
+  id?: string;
+  doc?: Document;
+  customStyleClassPrefix?: string;
+  [propName: string]: any;
+}) {
+  const {doc} = params;
+  const {content, index, id} = formatCustomStyle(params);
   insertStyle({
     style: content,
     classId: 'wrapperCustomStyle-' + (id || uuid()) + index,
     doc,
     id: id.replace(/(-.*)/, '')
   });
+  return content;
 }
 
 export interface InsertCustomStyle {
