@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {createObject} from './object';
 import {tokenize} from './tokenize';
+import {resolveVariableAndFilter} from './resolveVariableAndFilter';
 
 const timeUnitMap: {
   [propName: string]: string;
@@ -34,7 +35,7 @@ export const filterDate = (
 
   // todo
   const date = new Date();
-  value = tokenize(
+  value = resolveVariableAndFilter(
     value,
     createObject(data, {
       now: mm().toDate(),
