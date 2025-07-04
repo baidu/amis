@@ -424,7 +424,8 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   renderDay = (props: any, currentDate: moment.Moment) => {
     const {todayActiveStyle} = props; /** 只有today才会传入这个属性 */
     const {classnames: cx, translate: __, testIdBuilder} = this.props;
-    const injectedProps = omit(props, ['todayActiveStyle']);
+    const key = props.key;
+    const injectedProps = omit(props, ['todayActiveStyle', 'key']);
     /** 某些情况下需要用inline style覆盖动态class，需要hack important的样式 */
     const todayDomRef = (node: HTMLSpanElement | null) => {
       if (todayActiveStyle && node) {
@@ -552,7 +553,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
             return (
               <div
-                key={injectedProps.key + 'content' + index}
+                key={key + 'content' + index}
                 className={cx(
                   'ScheduleCalendar-large-schedule-content',
                   item.className
@@ -573,7 +574,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             );
           });
           return (
-            <td {...injectedProps}>
+            <td key={key} {...injectedProps}>
               <div className={cx('ScheduleCalendar-large-day-wrap')}>
                 <div className={cx('ScheduleCalendar-large-schedule-header')}>
                   <span>{currentDate.date()}</span>
@@ -600,7 +601,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           ></div>
         );
         return (
-          <td {...injectedProps}>
+          <td key={key} {...injectedProps}>
             <span style={todayActiveStyle} ref={todayDomRef}>
               {currentDate.date()}
               {ScheduleIcon}
@@ -611,7 +612,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     }
 
     return (
-      <td {...injectedProps}>
+      <td key={key} {...injectedProps}>
         <span
           style={todayActiveStyle}
           ref={todayDomRef}

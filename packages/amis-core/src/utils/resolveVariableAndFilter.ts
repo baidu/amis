@@ -1,4 +1,5 @@
 import {Evaluator, parse} from 'amis-formula';
+import {memoParse} from './tokenize';
 
 export const resolveVariableAndFilter = (
   path?: string,
@@ -11,7 +12,7 @@ export const resolveVariableAndFilter = (
   }
 
   try {
-    const ast = parse(path, {
+    const ast = memoParse(path, {
       evalMode: false,
       allowFilter: true
     });

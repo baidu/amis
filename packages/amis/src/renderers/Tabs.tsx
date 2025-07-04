@@ -35,6 +35,7 @@ import {str2AsyncFunction} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import type {TabsMode} from 'amis-ui/lib/components/Tabs';
 import isNaN from 'lodash/isNaN';
+import debounce from 'lodash/debounce';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -255,6 +256,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
   activeKey: any;
   newTabDefaultId: number = 3;
+
+  lazySwitchTo = debounce(this.switchTo.bind(this), 250, {
+    leading: true,
+    trailing: false
+  });
 
   constructor(props: TabsProps) {
     super(props);
@@ -498,6 +504,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onChange((tab as any).value ?? tab.title, name);
       }
     }
+  }
+
+  componentWillUnmount(): void {
+    this.lazySwitchTo.cancel();
   }
 
   resolveTabByKey(key: any) {
@@ -762,9 +772,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     if (e === 'formItemValidateError') {
       const tabIndex = renderer?.props.tabIndex;
       if (typeof tabIndex === 'number') {
-        await new Promise<void>(resolve => {
-          this.switchTo(tabIndex, resolve);
-        });
+        this.lazySwitchTo(tabIndex);
       }
     }
 
