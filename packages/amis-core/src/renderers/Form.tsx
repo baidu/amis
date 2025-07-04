@@ -63,6 +63,7 @@ import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
 import isEqual from 'lodash/isEqual';
 import CustomStyle from '../components/CustomStyle';
+import debounce from 'lodash/debounce';
 
 export interface FormHorizontal {
   left?: number;
@@ -484,6 +485,15 @@ export default class Form extends React.Component<FormProps, object> {
     trailing: true,
     leading: false
   });
+  // 当有多次调用时，只需要跳一个
+  lazyJumpToErrorComponent = debouce(
+    this.jumpToErrorComponent.bind(this),
+    250,
+    {
+      trailing: false,
+      leading: true
+    }
+  );
   unBlockRouting?: () => void;
   formRef = React.createRef<HTMLElement>();
   constructor(props: FormProps) {
@@ -711,6 +721,7 @@ export default class Form extends React.Component<FormProps, object> {
     clearTimeout(this.timer);
     // this.lazyHandleChange.flush();
     this.lazyEmitChange.cancel();
+    this.lazyJumpToErrorComponent.cancel();
     this.asyncCancel && this.asyncCancel();
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
@@ -1113,6 +1124,21 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
+  jumpToErrorComponent(renderer: any) {
+    // 当表单校验错误是，优先调用组件的 focus
+    // 如果没有 focus 方法，则滚动到错误信息的位置
+    if (typeof renderer?.focus === 'function') {
+      renderer.focus();
+    } else {
+      this.formRef.current
+        ?.querySelector(`.${this.props.classPrefix}Form-feedback`)
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+    }
+  }
+
   dispatchEvent(
     e: React.MouseEvent<any> | string,
     data: any,
@@ -1125,18 +1151,7 @@ export default class Form extends React.Component<FormProps, object> {
       renderer?.props.type !== 'form'
     ) {
       if (e === 'formItemValidateError') {
-        // 当表单校验错误是，优先调用组件的 focus
-        // 如果没有 focus 方法，则滚动到错误信息的位置
-        if (typeof (renderer as any)?.focus === 'function') {
-          (renderer as any).focus();
-        } else {
-          this.formRef.current
-            ?.querySelector('.cxd-Form-feedback')
-            ?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-        }
+        this.lazyJumpToErrorComponent(renderer);
       }
 
       // 如果事件是 formItemValidateSucc 或者 formItemValidateError 转成当前组件触发的，
