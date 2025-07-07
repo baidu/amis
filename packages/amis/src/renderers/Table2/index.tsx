@@ -1186,13 +1186,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
   @autobind
   rowClassName(record: any, rowIndex: number) {
     const {rowClassNameExpr, store, themeCss, id, rowClassName} = this.props;
+    debugger;
 
     const classnames = [];
     if (rowClassName) {
       classnames.push(rowClassName);
     }
     if (rowClassNameExpr) {
-      classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
+      classnames.push(filter(rowClassNameExpr, {...record, rowIndex}));
     }
     // row可能不存在
     // 比如初始化给了10条数据，异步接口又替换成4条
