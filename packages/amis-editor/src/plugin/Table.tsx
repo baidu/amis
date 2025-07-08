@@ -617,6 +617,15 @@ export class TablePlugin extends BasePlugin {
                     }
                   ]
                 }
+              },
+
+              {
+                type: 'input-number',
+                name: 'lazyRenderAfter',
+                label: '懒渲染行数',
+                description:
+                  '表格渲染时，超过多少行后才开始懒渲染，默认 100 行。可以提升渲染性能。',
+                pipeIn: defaultValue(100)
               }
 
               // {
