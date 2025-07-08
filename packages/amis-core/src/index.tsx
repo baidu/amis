@@ -123,7 +123,9 @@ import {
   disableDebug,
   promisify,
   replaceText,
-  wrapFetcher
+  wrapFetcher,
+  resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync
 } from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
@@ -256,7 +258,9 @@ export {
   wrapFetcher,
   SchemaRenderer,
   getCustomVendor,
-  registerCustomVendor
+  registerCustomVendor,
+  resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync
 };
 
 export function render(

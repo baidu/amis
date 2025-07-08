@@ -473,12 +473,10 @@ export class TableCellPlugin extends BasePlugin {
               label: '内部 CSS 类名'
             }),
 
-            {
+            getSchemaTpl('theme:width2', {
               name: 'width',
-              type: 'input-number',
-              label: '列宽',
-              description: '固定列的宽度，不推荐设置。'
-            }
+              label: '列宽'
+            })
           ]
         }
       ])

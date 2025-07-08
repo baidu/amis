@@ -7,6 +7,7 @@ import {
 import {createAnimationStyle, formateId, type SchemaCollection} from 'amis';
 import kebabCase from 'lodash/kebabCase';
 import {styleManager} from 'amis-core';
+import {MixedInput} from 'amis-ui';
 
 const animationOptions = {
   enter: [
@@ -727,20 +728,16 @@ setSchemaTpl('style:widthHeight', (option: any = {}) => {
   return {
     type: 'container',
     body: [
-      {
-        type: 'input-number',
+      getSchemaTpl('theme:width2', {
         name: 'width',
         label: '宽度',
-        unitOptions: ['px', '%', 'rem', 'em', 'vw'],
         ...widthSchema
-      },
-      {
-        type: 'input-number',
-        name: 'height',
-        label: '高度',
-        unitOptions: ['px', '%', 'rem', 'em', 'vh'],
+      }),
+      getSchemaTpl('theme:height2', {
+        name: 'width',
+        label: '宽度',
         ...heightSchema
-      }
+      })
     ]
   };
 });
@@ -1653,3 +1650,181 @@ setSchemaTpl('animation', () => {
     ]
   };
 });
+
+setSchemaTpl(
+  'theme:width2',
+  (options: {
+    classname?: string;
+    visibleOn?: string;
+    label?: string;
+    description?: string;
+  }) => {
+    const makeNumericMethod = (affix: string) => ({
+      type: 'number',
+      inputSettings: {
+        precision: 2
+      },
+      label: affix,
+      pipeIn: (value: any) => {
+        value = typeof value === 'string' ? value.replace(affix, '') : '';
+        if (typeof value === 'string' && !/^\d+(?:\.\d+)?$/.test(value)) {
+          value = '';
+        }
+
+        return value ? value.replace(affix, '') : '';
+      },
+      pipeOut: (value: any) => {
+        return typeof value === 'number' ||
+          (typeof value === 'string' && /^\d+(?:\.\d+)?$/.test(value))
+          ? `${value}${affix}`
+          : '';
+      },
+      test: (value: any) => {
+        return typeof value === 'string' && value.endsWith(affix);
+      }
+    });
+
+    return {
+      label: '宽度',
+      methods: [
+        makeNumericMethod('px'),
+        {
+          ...makeNumericMethod('%'),
+          inputSettings: {
+            min: 0,
+            max: 100,
+            step: 1,
+            precision: 2
+          }
+        },
+        makeNumericMethod('rem'),
+        makeNumericMethod('em'),
+        {
+          ...makeNumericMethod('vw'),
+          inputSettings: {
+            min: 0,
+            max: 100,
+            step: 1,
+            precision: 2
+          }
+        },
+        {
+          label: '自适应',
+          pipeIn: () => '',
+          pipeOut: () => 'auto',
+          inputSettings: {
+            disabled: true,
+            clearable: false,
+            placeholder: 'auto'
+          },
+          test: (value: any, defaultMethod: any) => {
+            return value === 'auto' || (!defaultMethod && !value);
+          }
+        },
+        {
+          label: 'CSS公式',
+          pipeOut: (value: any) =>
+            typeof value !== 'string' || !value.startsWith('calc(')
+              ? `calc()`
+              : value,
+          test: (value: any) => {
+            return typeof value === 'string' && value.startsWith('calc(');
+          }
+        }
+      ],
+      pipeIn: defaultValue('auto'),
+      ...options,
+      component: MixedInput,
+      asFormItem: true
+    };
+  }
+);
+
+setSchemaTpl(
+  'theme:height2',
+  (options: {
+    classname?: string;
+    visibleOn?: string;
+    label?: string;
+    description?: string;
+  }) => {
+    const makeNumericMethod = (affix: string) => ({
+      type: 'number',
+      inputSettings: {
+        precision: 2
+      },
+      label: affix,
+      pipeIn: (value: any) => {
+        value = typeof value === 'string' ? value.replace(affix, '') : '';
+        if (typeof value === 'string' && !/^\d+(?:\.\d+)?$/.test(value)) {
+          value = '';
+        }
+
+        return value ? value.replace(affix, '') : '';
+      },
+      pipeOut: (value: any) => {
+        return typeof value === 'number' ||
+          (typeof value === 'string' && /^\d+(?:\.\d+)?$/.test(value))
+          ? `${value}${affix}`
+          : '';
+      },
+      test: (value: any) => {
+        return typeof value === 'string' && value.endsWith(affix);
+      }
+    });
+
+    return {
+      label: '高度',
+      methods: [
+        makeNumericMethod('px'),
+        {
+          ...makeNumericMethod('%'),
+          inputSettings: {
+            min: 0,
+            max: 100,
+            step: 1,
+            precision: 2
+          }
+        },
+        makeNumericMethod('rem'),
+        makeNumericMethod('em'),
+        {
+          ...makeNumericMethod('vh'),
+          inputSettings: {
+            min: 0,
+            max: 100,
+            step: 1,
+            precision: 2
+          }
+        },
+        {
+          label: '自适应',
+          pipeIn: () => '',
+          pipeOut: () => 'auto',
+          inputSettings: {
+            disabled: true,
+            clearable: false,
+            placeholder: 'auto'
+          },
+          test: (value: any, defaultMethod: any) => {
+            return value === 'auto' || (!defaultMethod && !value);
+          }
+        },
+        {
+          label: 'CSS公式',
+          pipeOut: (value: any) =>
+            typeof value !== 'string' || !value.startsWith('calc(')
+              ? `calc()`
+              : value,
+          test: (value: any) => {
+            return typeof value === 'string' && value.startsWith('calc(');
+          }
+        }
+      ],
+      pipeIn: defaultValue('auto'),
+      ...options,
+      component: MixedInput,
+      asFormItem: true
+    };
+  }
+);

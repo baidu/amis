@@ -45,6 +45,12 @@ const pages: TreeArray = [
         label: 'Combo',
         path: '/form/combo',
         component: React.lazy(() => import('./form/Combo'))
+      },
+
+      {
+        label: 'MixedInput',
+        path: '/form/mixed-input',
+        component: React.lazy(() => import('./form/MixedInput'))
       }
     ]
   },
