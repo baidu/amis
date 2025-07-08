@@ -397,13 +397,9 @@ export class DialogPlugin extends BasePlugin {
                   }
                 }
               },
-              {
-                type: 'input-number',
-                label: '宽度',
+              getSchemaTpl('theme:width2', {
                 name: 'style.width',
                 disabled: true,
-                clearable: true,
-                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
                 visibleOn: 'this.size !== "custom"',
                 pipeIn: (value: any, form: any) => {
                   if (!form.data.size) {
@@ -419,48 +415,22 @@ export class DialogPlugin extends BasePlugin {
                   }
                   return '';
                 }
-              },
-              {
-                type: 'input-number',
-                label: '宽度',
+              }),
+              getSchemaTpl('theme:width2', {
                 name: 'style.width',
-                clearable: true,
-                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
                 visibleOn: 'this.size === "custom"',
-                pipeOut: (value: string) => {
-                  const curValue = parseInt(value);
-                  if (value === 'auto' || curValue || curValue === 0) {
-                    return value;
-                  } else {
-                    return undefined;
-                  }
-                }
-              },
-              {
-                type: 'input-number',
-                label: '高度',
+                pipeIn: defaultValue('500px')
+              }),
+              getSchemaTpl('theme:height2', {
                 name: 'style.height',
                 disabled: true,
-                visibleOn: 'this.size !== "custom"',
-                clearable: true,
-                unitOptions: ['px', '%', 'em', 'vh', 'vw']
-              },
-              {
-                type: 'input-number',
-                label: '高度',
+                visibleOn: 'this.size !== "custom"'
+              }),
+
+              getSchemaTpl('theme:height2', {
                 name: 'style.height',
-                visibleOn: 'this.size === "custom"',
-                clearable: true,
-                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
-                pipeOut: (value: string) => {
-                  const curValue = parseInt(value);
-                  if (value === 'auto' || curValue || curValue === 0) {
-                    return value;
-                  } else {
-                    return undefined;
-                  }
-                }
-              },
+                visibleOn: 'this.size === "custom"'
+              }),
               getSchemaTpl('theme:border', {
                 name: 'themeCss.dialogClassName.border'
               }),

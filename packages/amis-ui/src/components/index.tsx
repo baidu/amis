@@ -151,6 +151,7 @@ import type {HorizontalScrollProps} from './HorizontalScroll';
 import AutoFoldedList from './AutoFoldedList';
 
 import AlphabetIndexer from './AlphabetIndexer';
+import MixedInput from './MixedInput';
 export {
   NotFound,
   Alert as AlertComponent,
@@ -299,5 +300,6 @@ export {
   Slider,
   HorizontalScroll,
   HorizontalScrollProps,
-  AutoFoldedList
+  AutoFoldedList,
+  MixedInput
 };
