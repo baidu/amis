@@ -463,10 +463,10 @@ export class Pagination extends React.Component<
           >
             <li
               className={cx('Pagination-prev', {
-                'is-disabled': Number(internalPageNum) < 2
+                'is-disabled': activePage < 2
               })}
               onClick={(e: any) => {
-                if (Number(internalPageNum) < 2) {
+                if (activePage < 2) {
                   return e.preventDefault();
                 }
 
@@ -489,10 +489,10 @@ export class Pagination extends React.Component<
             {basePager}
             <li
               className={cx('Pagination-next', {
-                'is-disabled': Number(internalPageNum) >= lastPage && !hasNext // 到达最后一页并且没有配置hasNext属性时，禁止点击下一页按钮
+                'is-disabled': activePage >= lastPage && !hasNext // 到达最后一页并且没有配置hasNext属性时，禁止点击下一页按钮
               })}
               onClick={(e: any) => {
-                if (Number(internalPageNum) === lastPage && !hasNext) {
+                if (activePage === lastPage && !hasNext) {
                   return e.preventDefault();
                 }
                 return this.handlePageNumChange(
