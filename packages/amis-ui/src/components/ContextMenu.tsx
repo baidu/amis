@@ -271,10 +271,17 @@ export class ContextMenu extends React.Component<
 
   @autobind
   autoCalculatePosition(menu: HTMLElement) {
+    const lastChild = menu.lastChild as HTMLElement;
+
+    // 因为 debounce 的原因，可能menu 已经被卸载了。
+    if (!lastChild?.offsetWidth) {
+      return;
+    }
+
     // 智能定位，选择一个合适的对齐方式。
     const info = calculatePosition(
       'asContextMenu',
-      menu.lastChild,
+      lastChild,
       menu.children[1] as HTMLElement,
       menu.children[0]
     );

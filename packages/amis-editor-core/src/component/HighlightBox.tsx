@@ -225,7 +225,7 @@ export default observer(function ({
     (isActive && !store.activeElement) || ~store.selections.indexOf(id);
 
   React.useLayoutEffect(() => {
-    if (!node.draggable || !isSelected) {
+    if (!node.draggable || !isSelected || !isAlive(node)) {
       return;
     }
     const dom = node.getTarget() as HTMLElement;
