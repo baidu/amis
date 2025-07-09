@@ -178,7 +178,7 @@
     }
     &-right {
       display: inline-block;
-      width: px2rem(32px);
+      min-width: px2rem(32px);
       height: var(--Pagination-height);
       line-height: var(--Pagination-height);
       border: var(--borderWidth) solid var(--borderColor);
@@ -299,7 +299,6 @@
     .#{$ns}Pagination-simplego {
       &-input {
         min-width: px2rem(32px);
-        width: px2rem(32px);
       }
     }
   }
