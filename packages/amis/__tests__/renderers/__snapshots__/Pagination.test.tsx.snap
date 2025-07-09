@@ -963,21 +963,11 @@ exports[`Renderer:Pagination with simple mode 1`] = `
             />
           </span>
         </li>
-        <li
-          class="cxd-Pagination-simplego"
+        <span
+          class="Pagination-simple-number"
         >
-          <input
-            class="cxd-Pagination-simplego-input"
-            type="text"
-            value="1"
-          />
-          /
-          <span
-            class="cxd-Pagination-simplego-right"
-          >
-            1
-          </span>
-        </li>
+          1
+        </span>
         <li
           class="cxd-Pagination-next is-disabled"
         >
