@@ -416,28 +416,31 @@ export class Pagination extends React.Component<
     const lastPage = this.getLastPage();
 
     let basePager: React.ReactNode = null;
-    // 移动端复用简介模式的样式
-    if ((mode !== 'simple' && mobileUI) || (mode === 'simple' && !mobileUI)) {
+    // 移动端复用简洁模式的样式
+    if ((mode !== 'simple' && mobileUI) || mode === 'simple') {
       basePager = mobileUI ? (
-        <li className={cx('Pagination-simplego')} key="simple-go">
-          <input
-            className={cx('Pagination-simplego-input')}
-            key="simple-input"
-            type="text"
-            disabled={disabled}
-            onChange={this.handleSimpleKeyUp}
-            onKeyUp={this.handleSimpleKeyUp}
-            onBlur={this.handleSimpleBlur}
-            value={internalPageNum}
-            {...testIdBuilder?.getChild('simple-input').getTestId()}
-          />
-          /
-          <span className={cx('Pagination-simplego-right')} key="go-right">
-            {lastPage}
-          </span>
-        </li>
+        // 移动端简洁模式不需要中间的数字
+        mode === 'simple' ? null : (
+          <li className={cx('Pagination-simplego')} key="simple-go">
+            <input
+              className={cx('Pagination-simplego-input')}
+              key="simple-input"
+              type="text"
+              disabled={disabled}
+              onChange={this.handleSimpleKeyUp}
+              onKeyUp={this.handleSimpleKeyUp}
+              onBlur={this.handleSimpleBlur}
+              value={internalPageNum}
+              {...testIdBuilder?.getChild('simple-input').getTestId()}
+            />
+            /
+            <span className={cx('Pagination-simplego-right')} key="go-right">
+              {lastPage}
+            </span>
+          </li>
+        )
       ) : (
-        <span>{activePage}</span>
+        <span className="Pagination-simple-number">{activePage}</span>
       );
 
       return (
