@@ -33,6 +33,7 @@ export class ServicePlugin extends BasePlugin {
   static id = 'ServicePlugin';
   // 关联渲染器名字
   rendererName = 'service';
+  useLazyRender = true; // 使用懒渲染
 
   name = '服务Service';
 

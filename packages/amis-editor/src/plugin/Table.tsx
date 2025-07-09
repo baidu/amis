@@ -43,6 +43,7 @@ export class TablePlugin extends BasePlugin {
   static id = 'TablePlugin';
   // 关联渲染器名字
   rendererName = 'table';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称

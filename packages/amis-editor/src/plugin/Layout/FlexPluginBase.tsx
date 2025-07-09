@@ -85,6 +85,7 @@ const defaultFlexContainerSchema = (
 export class FlexPluginBase extends LayoutBasePlugin {
   static id = 'FlexPluginBase';
   rendererName = 'flex';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;
 
