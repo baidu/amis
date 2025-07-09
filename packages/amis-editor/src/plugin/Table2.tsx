@@ -355,6 +355,7 @@ export class Table2Plugin extends BasePlugin {
   pluginIcon = 'table-plugin';
 
   rendererName = 'table2';
+  useLazyRender = true; // 使用懒渲染
 
   isBaseComponent = true;
 

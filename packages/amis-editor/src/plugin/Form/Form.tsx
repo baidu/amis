@@ -69,6 +69,8 @@ export class FormPlugin extends BasePlugin {
 
   name = '表单';
 
+  useLazyRender = true;
+
   panelTitle = '表单';
   // 关联渲染器名字
   rendererName = 'form';

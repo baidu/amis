@@ -15,6 +15,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   static id = 'CollapseGroupPlugin';
   // 关联渲染器名字
   rendererName = 'collapse-group';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/CollapseGroupSchema.json';
 
   // 组件名称

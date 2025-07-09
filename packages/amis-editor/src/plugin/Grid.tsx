@@ -24,6 +24,7 @@ export class GridPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'grid';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/GridSchema.json';
 
   // 组件名称

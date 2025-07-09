@@ -23,6 +23,7 @@ export class CollapsePlugin extends BasePlugin {
   static id = 'CollapsePlugin';
   // 关联渲染器名字
   rendererName = 'collapse';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/CollapseSchema.json';
 
   // 组件名称
