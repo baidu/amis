@@ -416,9 +416,9 @@ export class Pagination extends React.Component<
     const lastPage = this.getLastPage();
 
     let basePager: React.ReactNode = null;
-    // 非简洁模式
+    // 移动端复用简介模式的样式
     if ((mode !== 'simple' && mobileUI) || (mode === 'simple' && !mobileUI)) {
-      basePager = (
+      basePager = mobileUI ? (
         <li className={cx('Pagination-simplego')} key="simple-go">
           <input
             className={cx('Pagination-simplego-input')}
@@ -436,6 +436,8 @@ export class Pagination extends React.Component<
             {lastPage}
           </span>
         </li>
+      ) : (
+        <span>{activePage}</span>
       );
 
       return (
@@ -487,10 +489,10 @@ export class Pagination extends React.Component<
             {basePager}
             <li
               className={cx('Pagination-next', {
-                'is-disabled': Number(internalPageNum) >= lastPage
+                'is-disabled': Number(internalPageNum) >= lastPage && !hasNext // 到达最后一页并且没有配置hasNext属性时，禁止点击下一页按钮
               })}
               onClick={(e: any) => {
-                if (Number(internalPageNum) === lastPage) {
+                if (Number(internalPageNum) === lastPage && !hasNext) {
                   return e.preventDefault();
                 }
                 return this.handlePageNumChange(
