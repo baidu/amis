@@ -86,13 +86,7 @@ export const AppStore = ServiceStore.named('AppStore')
         let path = item.link || item.url;
 
         if (item.schema || item.schemaApi) {
-          path =
-            item.url ||
-            `/${paths
-              .map(item => item.index)
-              .concat(index)
-              .map(index => `page-${index + 1}`)
-              .join('/')}`;
+          path = item.url || `page-${index + 1}`;
 
           if (path && path[0] !== '/') {
             let parentPath = '/';
