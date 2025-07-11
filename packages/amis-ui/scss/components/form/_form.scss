@@ -592,8 +592,7 @@
     }
 
     .#{$ns}Form-label {
-      flex: 0 0 28%;
-      max-width: 28%;
+      width: 28%;
       min-height: 1px;
       text-align: left;
       padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
@@ -613,6 +612,9 @@
           top: px2rem(10px);
         }
       }
+    }
+    .#{$ns}Form-label--right {
+      text-align: right;
     }
 
     .#{$ns}Form-description {
@@ -832,6 +834,9 @@
       padding: 0;
       min-height: 0;
     }
+  }
+  .#{$ns}Form-item--labelTop {
+    flex-direction: column;
   }
 
   .#{$ns}Form-groupColumn {
