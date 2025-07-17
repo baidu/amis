@@ -35,14 +35,17 @@ export const filterDate = (
 
   // todo
   const date = new Date();
-  value = resolveVariableAndFilter(
-    value,
-    createObject(data, {
-      now: mm().toDate(),
-      today: mm([date.getFullYear(), date.getMonth(), date.getDate()])
-    }),
-    '| raw'
-  );
+  value =
+    typeof value === 'string'
+      ? resolveVariableAndFilter(
+          value,
+          createObject(data, {
+            now: mm().toDate(),
+            today: mm([date.getFullYear(), date.getMonth(), date.getDate()])
+          }),
+          '| raw'
+        )
+      : value;
 
   if (value && typeof value === 'string' && (m = relativeValueRe.exec(value))) {
     const date = new Date();
