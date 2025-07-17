@@ -128,7 +128,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       placeholder,
       onlyChildren,
       autoCheckChildren = true,
-      initiallyOpen = true
+      initiallyOpen = true,
+      searchPlaceholder
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -163,6 +164,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           sortable={sortable}
           searchResultMode={searchResultMode}
           onSearch={searchable ? this.handleSearch : undefined}
+          searchPlaceholder={searchPlaceholder}
           showArrow={showArrow}
           onDeferLoad={deferLoad}
           selectTitle={selectTitle}
