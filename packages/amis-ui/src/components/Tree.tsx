@@ -1649,7 +1649,8 @@ export class TreeSelector extends React.Component<
         // 当配置了成了动态高度时，根据实际高度来
         offsetHeight = treeElement.offsetHeight;
       } else {
-        offsetHeight = itemHeight * flattenedOptions.length;
+        offsetHeight =
+          itemHeight * Math.min(flattenedOptions.length, virtualThreshold);
       }
       const virtualElement = this.virtualListRef!;
 
