@@ -72,7 +72,9 @@ const basicControls: Array<any> = [
   {
     type: 'textarea',
     label: '描述',
-    name: 'description'
+    name: 'description',
+    maxLength: 255,
+    showCounter: true
   }
 ];
 
