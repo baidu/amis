@@ -45,14 +45,18 @@ export interface DrawerProps {
   drawerClassName?: string;
   drawerMaskClassName?: string;
   mobileUI?: boolean;
+  onDragging?: (value: boolean) => void;
 }
+
 export interface DrawerState {}
+
 const fadeStyles: {
   [propName: string]: string;
 } = {
   [ENTERING]: 'in',
   [ENTERED]: 'in'
 };
+
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
   static defaultProps: Pick<
     DrawerProps,
@@ -223,7 +227,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   @autobind
   resizeMouseDown(e: React.MouseEvent<any>) {
-    const {position, classPrefix: ns} = this.props;
+    const {position, classPrefix: ns, onDragging} = this.props;
+    onDragging && onDragging(true);
     const drawer = this.contentDom;
     const resizer = this.resizer.current!;
 
@@ -282,6 +287,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   @autobind
   removeResize() {
+    const {onDragging} = this.props;
+    onDragging && onDragging(false);
     document.body.removeEventListener('mousemove', this.bindResize);
     document.body.removeEventListener('mouseup', this.removeResize);
   }
