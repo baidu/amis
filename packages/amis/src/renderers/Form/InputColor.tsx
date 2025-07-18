@@ -94,6 +94,7 @@ export default class ColorControl extends React.PureComponent<
           <ColorPicker
             classPrefix={ns}
             {...rest}
+            placeholder={rest.placeholder as string}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI

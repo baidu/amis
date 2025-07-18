@@ -28,16 +28,6 @@ export interface IFrameSchema extends BaseSchema {
    */
   src: SchemaUrlPath;
 
-  /**
-   * 事件相应，配置后当 iframe 通过 postMessage 发送事件时，可以触发 AMIS 内部的动作。
-   */
-  events?: {
-    [eventName: string]: ActionSchema;
-  };
-
-  // 事件动作
-  onEvent?: OnEventProps['onEvent'];
-
   width?: number | string;
   height?: number | string;
 

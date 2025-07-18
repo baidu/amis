@@ -6,13 +6,14 @@ import {
   buildStyle,
   CustomStyle,
   isVisible,
-  setThemeClassName
+  setThemeClassName,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {JSONSchema} from '../types';
 
-export interface StateSchema extends Omit<BaseSchema, 'type'> {
+export interface StateSchema extends BaseSchemaWithoutType {
   /**
    * 状态标题
    */

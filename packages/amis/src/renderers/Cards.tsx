@@ -47,13 +47,8 @@ import find from 'lodash/find';
  * Cards 卡片集合渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
-export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
-  /**
-   * 指定为 cards 类型
-   */
-  type: 'cards';
-
-  card?: Partial<CardSchema> | Card2Schema;
+export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
+  card?: CardSchema | Card2Schema;
 
   /**
    * 头部 CSS 类名
@@ -152,6 +147,12 @@ export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   valueField?: string;
 }
 
+export interface CardsSchema extends BaseCardsSchema {
+  /**
+   * 指定为 cards 类型
+   */
+  type: 'cards';
+}
 export interface Column {
   type: string;
   [propName: string]: any;

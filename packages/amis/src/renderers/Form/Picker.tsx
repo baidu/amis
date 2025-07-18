@@ -40,6 +40,10 @@ import {AutoFoldedList} from 'amis-ui';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
  */
 export interface PickerControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 Picker 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
+   */
   type: 'picker';
 
   /**

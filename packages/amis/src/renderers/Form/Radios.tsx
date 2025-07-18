@@ -24,6 +24,10 @@ import {filter} from 'amis-core';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
 export interface RadiosControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 Radios 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
+   */
   type: 'radios';
 
   /**

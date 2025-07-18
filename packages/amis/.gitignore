@@ -6,5 +6,7 @@ sdk
 /output
 /coverage
 /schema.json
+/schema-minimal.json
+/revision.json
 /npm
 /esm

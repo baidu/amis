@@ -281,12 +281,7 @@ export interface ExpandableSchema {
   expandedRowKeysExpr: string;
 }
 
-export interface TableSchema2 extends BaseSchema {
-  /**
-   * 指定为表格类型
-   */
-  type: 'table2';
-
+export interface BaseTableSchema2 extends BaseSchema {
   /**
    * 表格标题
    */
@@ -444,6 +439,13 @@ export interface TableSchema2 extends BaseSchema {
    * @default 100
    */
   lazyRenderAfter?: number;
+}
+
+export interface TableSchema2 extends BaseTableSchema2 {
+  /**
+   * 指定为表格类型
+   */
+  type: 'table2';
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
