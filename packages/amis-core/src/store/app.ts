@@ -74,6 +74,9 @@ export const AppStore = ServiceStore.named('AppStore')
     toggleOffScreen() {
       self.offScreen = !self.offScreen;
     },
+    updateOffScreen(value: boolean) {
+      self.offScreen = value;
+    },
 
     setPages(pages: any) {
       if (pages && !Array.isArray(pages)) {
