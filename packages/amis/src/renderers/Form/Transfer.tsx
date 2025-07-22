@@ -42,15 +42,9 @@ import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import type {Option} from 'amis-core';
 import type {PaginationSchema} from '../Pagination';
 
-/**
- * Transfer
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
- */
-export interface TransferControlSchema
+export interface BaseTransferControlSchema
   extends FormOptionsSchema,
     SpinnerExtraProps {
-  type: 'transfer';
-
   /**
    * 是否显示剪头
    */
@@ -195,6 +189,18 @@ export interface TransferControlSchema
     PaginationSchema,
     'layout' | 'maxButtons' | 'perPageAvailable' | 'popOverContainerSelector'
   >;
+}
+
+/**
+ * Transfer
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
+ */
+export interface TransferControlSchema extends BaseTransferControlSchema {
+  /**
+   * 指定为 Transfer 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
+   */
+  type: 'transfer';
 }
 
 export interface BaseTransferProps

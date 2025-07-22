@@ -628,9 +628,9 @@ export class GridPlugin extends BasePlugin {
     event: PluginEvent<RendererJSONSchemaResolveEventContext>
   ) {
     const context = event.context;
-    const parent = context.node.parent?.host as EditorNodeType;
+    const parent = context.node.host as EditorNodeType;
 
-    if (parent?.info?.plugin === this) {
+    if (context.node.isVitualRenderer && parent?.info?.plugin === this) {
       event.setData('/schemas/GridColumn.json');
     }
   }

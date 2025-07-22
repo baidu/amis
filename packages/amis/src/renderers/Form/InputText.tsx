@@ -34,9 +34,14 @@ import type {ListenerAction} from 'amis-core';
 
 /**
  * Text 文本输入框。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/text
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-text
  */
 export interface TextControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 InputText 渲染器。
+   *
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-text
+   */
   type:
     | 'input-text'
     | 'input-email'

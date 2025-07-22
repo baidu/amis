@@ -146,7 +146,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-license": "^2.7.0",
     "ts-jest": "^29.0.2",
-    "ts-json-schema-generator": "0.96.0",
+    "ts-json-schema-generator": "2.4.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.6.4"
   },
@@ -155,6 +155,7 @@
     "esm",
     "sdk",
     "schema.json",
+    "schema-minimal.json",
     "revision.json"
   ],
   "exports": {
@@ -193,6 +194,14 @@
       ],
       "import": [
         "./schema.json"
+      ]
+    },
+    "./schema-minimal.json": {
+      "require": [
+        "./schema-minimal.json"
+      ],
+      "import": [
+        "./schema-minimal.json"
       ]
     }
   },

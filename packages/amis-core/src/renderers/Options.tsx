@@ -7,7 +7,8 @@ import {
   PlainObject,
   ActionObject,
   OptionProps,
-  BaseApiObject
+  BaseApiObject,
+  BaseSchemaWithoutType
 } from '../types';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {isAlive} from 'mobx-state-tree';
@@ -34,7 +35,8 @@ import {
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps,
-  FormBaseControl
+  FormBaseControl,
+  FormBaseControlWithoutSize
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
 
@@ -53,13 +55,13 @@ import findIndex from 'lodash/findIndex';
 import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
-import type {Option} from '../types';
+import type {BaseApi, Option} from '../types';
 import {deleteVariable, resolveEventData} from '../utils';
 import {extendObject} from '../utils/object';
 
 export {Option};
 
-export interface FormOptionsControl extends FormBaseControl {
+export interface FormOptionsControlSelf {
   /**
    * 选项集合
    */
@@ -68,7 +70,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 可用来通过 API 拉取 options。
    */
-  source?: BaseApiObject | string;
+  source?: BaseApi;
 
   /**
    * 默认选择选项第一个值。
@@ -93,6 +95,11 @@ export interface FormOptionsControl extends FormBaseControl {
    * 是否为多选模式
    */
   multiple?: boolean;
+
+  /**
+   * 是否默认全选
+   */
+  checkAll?: boolean;
 
   /**
    * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
@@ -135,12 +142,12 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
    */
-  deferApi?: BaseApiObject | string;
+  deferApi?: BaseApi;
 
   /**
    * 添加时调用的接口
    */
-  addApi?: BaseApiObject | string;
+  addApi?: BaseApi;
 
   /**
    * 新增时的表单项。
@@ -170,7 +177,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 编辑时调用的 API
    */
-  editApi?: BaseApiObject | string;
+  editApi?: BaseApi;
 
   /**
    * 选项修改的表单项
@@ -191,7 +198,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 选项删除 API
    */
-  deleteApi?: BaseApiObject | string;
+  deleteApi?: BaseApi;
 
   /**
    * 选项删除提示文字。
@@ -203,6 +210,10 @@ export interface FormOptionsControl extends FormBaseControl {
    */
   clearValueOnSourceChange?: boolean;
 }
+
+export interface FormOptionsControl
+  extends FormOptionsControlSelf,
+    FormBaseControl {}
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
   autoLoadOptionsFromSource?: boolean;

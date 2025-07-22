@@ -9,7 +9,8 @@ import {
   isEffectiveApi,
   ApiObject,
   autobind,
-  isObject
+  isObject,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -32,7 +33,7 @@ enum DirectionMode {
   alternate = 'alternate'
 }
 
-export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
+export interface TimelineItemSchema extends BaseSchemaWithoutType {
   /**
    * 时间点
    */

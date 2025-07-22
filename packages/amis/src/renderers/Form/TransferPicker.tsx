@@ -7,7 +7,7 @@ import {
 } from 'amis-core';
 import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
+import {BaseTransferRenderer, BaseTransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject, toNumber} from 'amis-core';
@@ -20,7 +20,7 @@ import pick from 'lodash/pick';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer-picker
  */
 export interface TransferPickerControlSchema
-  extends Omit<TransferControlSchema, 'type'>,
+  extends BaseTransferControlSchema,
     SpinnerExtraProps {
   type: 'transfer-picker';
   /**
@@ -151,7 +151,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     return (
       <div className={cx('TransferControl', className)}>
         <TransferPicker
-          placeholder={placeholder}
+          placeholder={placeholder as string}
           borderMode={borderMode}
           selectMode={selectMode}
           onlyChildren={onlyChildren}

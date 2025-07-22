@@ -87,12 +87,7 @@ export type ComboSubControl = SchemaObject & {
  * Combo 组合输入框类型
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/combo
  */
-export interface ComboControlSchema extends FormBaseControlSchema {
-  /**
-   * 指定为组合输入框类型
-   */
-  type: 'combo';
-
+export interface BaseComboControlSchema extends FormBaseControlSchema {
   /**
    * 单组表单项初始值。默认为 `{}`
    *
@@ -295,6 +290,13 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   };
   updatePristineAfterStoreDataReInit?: boolean;
   testIdBuilder?: TestIdBuilder;
+}
+
+export interface ComboControlSchema extends BaseComboControlSchema {
+  /**
+   * 指定为组合输入框类型
+   */
+  type: 'combo';
 }
 
 export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange' | 'dragEnd';

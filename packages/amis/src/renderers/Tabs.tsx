@@ -15,7 +15,8 @@ import {
   isObject,
   createObject,
   getVariable,
-  isObjectShallowModified
+  isObjectShallowModified,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from 'amis-ui';
@@ -37,7 +38,7 @@ import type {TabsMode} from 'amis-ui/lib/components/Tabs';
 import isNaN from 'lodash/isNaN';
 import debounce from 'lodash/debounce';
 
-export interface TabSchema extends Omit<BaseSchema, 'type'> {
+export interface TabSchema extends BaseSchemaWithoutType {
   /**
    * Tab 标题
    */

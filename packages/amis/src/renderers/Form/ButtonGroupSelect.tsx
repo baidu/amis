@@ -3,6 +3,10 @@ import {
   OptionsControl,
   OptionsControlProps,
   FormOptionsControl,
+  FormOptionsControlSelf,
+  FormBaseControl,
+  BaseSchemaWithoutType,
+  FormBaseControlWithoutSize,
   filter,
   getVariable
 } from 'amis-core';
@@ -10,7 +14,7 @@ import {Option, TestIdBuilder} from 'amis-core';
 import {ActionObject, isObject} from 'amis-core';
 import type {BadgeObject} from 'amis-ui';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
-import {ButtonGroupSchema} from '../ButtonGroup';
+import {BaseButtonGroupSchema} from '../ButtonGroup';
 import {supportStatic} from './StaticHoc';
 
 /**
@@ -18,8 +22,9 @@ import {supportStatic} from './StaticHoc';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/button-group
  */
 export interface ButtonGroupControlSchema
-  extends Omit<ButtonGroupSchema, 'type'>,
-    Omit<FormOptionsControl, 'size'> {
+  extends FormOptionsControlSelf,
+    FormBaseControlWithoutSize,
+    BaseButtonGroupSchema {
   type: 'button-group-select';
 }
 

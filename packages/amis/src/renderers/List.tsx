@@ -6,7 +6,8 @@ import {
   ScopedContext,
   filterClassNameObject,
   getMatchedEventTargets,
-  getPropValue
+  getPropValue,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
@@ -95,7 +96,7 @@ export type ListBodyFieldObject = {
 
 export type ListBodyField = SchemaObject & ListBodyFieldObject;
 
-export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
+export interface ListItemSchema extends BaseSchemaWithoutType {
   actions?: Array<ActionSchema>;
 
   /**
@@ -138,12 +139,7 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
  * List 列表展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
-export interface ListSchema extends BaseSchema {
-  /**
-   * 指定为 List 列表展示控件。
-   */
-  type: 'list' | 'static-list';
-
+export interface BaseListSchema extends BaseSchema {
   /**
    * 标题
    */
@@ -259,6 +255,12 @@ export interface ListSchema extends BaseSchema {
   indexBarOffset?: number;
 }
 
+export interface ListSchema extends BaseListSchema {
+  /**
+   * 指定为 List 列表展示控件。
+   */
+  type: 'list' | 'static-list';
+}
 export interface Column {
   type: string;
   [propName: string]: any;

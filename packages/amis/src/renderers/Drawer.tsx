@@ -38,9 +38,7 @@ import {isAlive} from 'mobx-state-tree';
  * Drawer 抽出式弹框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */
-export interface DrawerSchema extends BaseSchema {
-  type: 'drawer';
-
+export interface DrawerSchemaBase extends BaseSchema {
   /**
    * 弹窗参数说明，值格式为 JSONSchema。
    */
@@ -157,7 +155,9 @@ export interface DrawerSchema extends BaseSchema {
   };
 }
 
-export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
+export interface DrawerSchema extends DrawerSchemaBase {
+  type: 'drawer';
+}
 
 export interface DrawerProps
   extends RendererProps,

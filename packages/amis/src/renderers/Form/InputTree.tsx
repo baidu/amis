@@ -36,6 +36,10 @@ type NodeBehaviorType = 'unfold' | 'check';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
 export interface TreeControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 InputTree 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tree
+   */
   type: 'input-tree';
 
   /**
@@ -195,6 +199,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
    * 高度自动增长？
    */
   heightAuto?: boolean;
+
+  /**
+   * 设置 icon 字段名
+   */
+  iconField?: string;
 }
 
 export interface TreeProps

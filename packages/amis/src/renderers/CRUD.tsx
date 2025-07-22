@@ -24,7 +24,8 @@ import {
   qsstringify,
   qsparse,
   isIntegerInRange,
-  spliceTree
+  spliceTree,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
@@ -52,9 +53,9 @@ import {
   SchemaCollection
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {CardsSchema} from './Cards';
-import {ListSchema} from './List';
-import {TableSchema} from './Table';
+import {BaseCardsSchema} from './Cards';
+import {BaseListSchema} from './List';
+import {TableSchema, BaseTableSchema} from './Table';
 import type {TableRendererEvent} from './Table';
 import type {CardsRendererEvent} from './Cards';
 import {
@@ -99,7 +100,7 @@ export type CRUDBultinToolbarType =
   | 'export-csv'
   | 'export-excel';
 
-export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
+export interface CRUDBultinToolbar extends BaseSchemaWithoutType {
   type: CRUDBultinToolbarType;
 }
 
@@ -454,15 +455,15 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
   mode: 'cards';
-} & Omit<CardsSchema, 'type'>;
+} & BaseCardsSchema;
 
 export type CRUDListSchema = CRUDCommonSchema & {
   mode: 'list';
-} & Omit<ListSchema, 'type'>;
+} & BaseListSchema;
 
 export type CRUDTableSchema = CRUDCommonSchema & {
   mode?: 'table';
-} & Omit<TableSchema, 'type'>;
+} & BaseTableSchema;
 
 /**
  * CRUD 增删改查渲染器。
