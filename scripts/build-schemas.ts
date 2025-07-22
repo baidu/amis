@@ -7,6 +7,8 @@ import path from 'path';
 import {
   ObjectTypeFormatter,
   LiteralUnionTypeFormatter,
+  IntersectionTypeFormatter,
+  IntersectionType,
   SubTypeFormatter,
   TypeFormatter,
   UnionType,
@@ -20,10 +22,16 @@ import {
   createParser,
   StringType,
   LiteralType,
+  Context,
   Schema,
-  uniqueArray
+  uniqueArray,
+  ReferenceType,
+  ChainNodeParser,
+  IntersectionNodeParser
 } from 'ts-json-schema-generator';
+import ts from 'typescript';
 import mkdirp from 'mkdirp';
+import isPlainObject from 'lodash/isPlainObject';
 
 /**
  * 程序主入口
@@ -59,35 +67,59 @@ async function main() {
       target: 'schema-minimal.json'
     }
   ]) {
-    // We configure the formatter an add our custom formatter to it.
+    // 创建 formatter 用于优化体积
     const formatter = createFormatter(
-      config as any,
+      c as any,
       (fmt, circularReferenceTypeFormatter) => {
-        // If your formatter DOES support children, you'll need this reference too:
         fmt.addTypeFormatter(
           new MyNodeTypeFormatter(circularReferenceTypeFormatter)
+        );
+        fmt.addTypeFormatter(
+          new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
         );
         fmt.addTypeFormatter(new MyLiteralUnionTypeFormatter());
       }
     );
 
     const program = createProgram(c as any);
-    const parser = createParser(program, c as any);
+    const parser = createParser(program, c as any, prs => {
+      prs.addNodeParser(
+        new MyIntersectionNodeParser(
+          program.getTypeChecker(),
+          prs as ChainNodeParser
+        )
+      );
+    });
     const generator = new SchemaGenerator(program, parser, formatter, c);
 
-    const schema = generator.createSchema(c.type);
+    let schema = generator.createSchema(c.type);
 
     if (optimizeForMonaco) {
       convertAnyOfItemToConditionalItem(schema, [
-        'SchemaObject',
-        'ActionSchema'
+        'ActionSchema',
+        'CRUDSchema',
+        'CRUD2Schema',
+        'SchemaObject'
       ]);
-      optimizeConditions(schema);
+      schema = optimizeConditions(schema);
     }
 
     const outputFile = path.join(outDir, target);
     mkdirp(path.dirname(outputFile));
     fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
+  }
+}
+
+class MyIntersectionNodeParser extends IntersectionNodeParser {
+  public createType(node: any, context: Context) {
+    const types = (node as ts.IntersectionType).types.map(subnode =>
+      this.childNodeParser.createType(subnode as any, context)
+    );
+    if (types.some(t => t.getName() === 'ActionSchema')) {
+      return new IntersectionType(types);
+    }
+
+    return super.createType(node, context);
   }
 }
 
@@ -158,7 +190,7 @@ class MyNodeTypeFormatter extends ObjectTypeFormatter {
     return Object.keys(properties || {}).reduce((result, key) => {
       const item = properties[key];
 
-      if (item?.const || (item?.enum && /^(?:type|actionType)$/i.test(key))) {
+      if (isIdentityField(item, key, properties)) {
         result[key] = {
           ...item
         };
@@ -197,6 +229,43 @@ class MyLiteralUnionTypeFormatter extends LiteralUnionTypeFormatter {
 
     return definition;
   }
+}
+
+class MyIntersectionTypeFormatter extends IntersectionTypeFormatter {
+  getDefinition(type: IntersectionType): Definition {
+    const types = type.getTypes();
+
+    if (
+      types.some(item =>
+        ['SchemaObject', 'ActionSchema'].includes(item.getName())
+      )
+    ) {
+      return {
+        allOf: types.map(item => {
+          const subType = this.childTypeFormatter.getDefinition(item);
+
+          return {
+            ...subType,
+            additionalProperties: true
+          };
+        })
+      };
+    }
+
+    return super.getDefinition(type);
+  }
+}
+
+function isIdentityField(item: any, key: string, host: any) {
+  if (item?.const) {
+    return true;
+  } else if (item?.enum && /^(?:type|mode|actionType)$/i.test(key)) {
+    return !!(
+      key !== 'mode' ||
+      (host.type && ['crud', 'crud2'].includes(host.type.const))
+    );
+  }
+  return false;
 }
 
 function convertAnyOfItemToConditionalItem(schema: any, list: Array<string>) {
@@ -259,10 +328,7 @@ function pickConstProperties(schema: any): any {
   const keys = Object.keys(schema.properties || {});
   const filteredProperties: any = {};
   keys.forEach((key: string) => {
-    if (
-      schema.properties[key]?.const ||
-      (schema.properties[key]?.enum && /^(?:type|actionType)$/i.test(key))
-    ) {
+    if (isIdentityField(schema.properties[key], key, schema.properties)) {
       filteredProperties[key] = {
         ...schema.properties[key]
       };
@@ -295,6 +361,25 @@ function optimizeConditions(schema: any) {
     $ref: '#/definitions/VanillaAction'
   };
 
+  const CRUDSchema = schema.definitions.CRUDSchema;
+  const CRUDSchemaAllOf = CRUDSchema.allOf;
+  delete CRUDSchema.allOf;
+  CRUDSchema.if = {
+    required: ['mode']
+  };
+  CRUDSchema.then = {
+    allOf: CRUDSchemaAllOf.map((item: any) => {
+      delete item.if.properties.type;
+      item.if.required = item.if.required.filter(
+        (item: string) => item !== 'type'
+      );
+      return item;
+    })
+  };
+  CRUDSchema.else = {
+    $ref: '#/definitions/CRUDTableSchema'
+  };
+
   const schemaObjectSchema = schema.definitions.SchemaObject;
   schemaObjectSchema.allOf = schemaObjectSchema.allOf
     .filter(
@@ -309,7 +394,7 @@ function optimizeConditions(schema: any) {
   schemaObjectSchema.allOf.push({
     if: {
       properties: {
-        type: {const: ['action', 'button', 'submit', 'reset']}
+        type: {enum: ['action', 'button', 'submit', 'reset']}
       },
       required: ['type']
     },
@@ -318,10 +403,144 @@ function optimizeConditions(schema: any) {
     }
   });
 
+  schemaObjectSchema.allOf.push({
+    if: {
+      properties: {
+        type: {const: 'crud'}
+      },
+      required: ['type']
+    },
+    then: {
+      $ref: '#/definitions/CRUDSchema'
+    }
+  });
+
   schema.definitions.FormSchema.allOf = schema.definitions.BaseFormSchema.allOf;
+  schema.definitions.VanillaAction.allOf[1].additionalProperties = true;
   // delete schema.definitions.FormSchemaBase.additionalProperties;
   // delete schema.definitions.BaseSchemaWithoutType.additionalProperties;
   // delete schema.definitions.FormSchema.additionalProperties;
+
+  // 替换 SchemaObject 与 ActionSchema 的定义
+  schema.definitions.SchemaObjectLoose = {
+    allOf: schema.definitions.SchemaObject.allOf.map((item: any) => {
+      return {
+        ...item,
+        then: {
+          ...item.then,
+          additionalProperties: true
+        }
+      };
+    })
+  };
+
+  schema.definitions.ActionSchemaLoose = {
+    if: schema.definitions.ActionSchema.if,
+    then: {
+      allOf: schema.definitions.ActionSchema.then.allOf.map((item: any) => {
+        return {
+          ...item,
+          then: {
+            ...item.then,
+            additionalProperties: true
+          }
+        };
+      })
+    },
+    else: schema.definitions.ActionSchema.else
+  };
+
+  schema = JSONValueMap(schema, item => {
+    if (
+      item?.$ref === '#/definitions/SchemaObject' &&
+      item.additionalProperties === true
+    ) {
+      return {
+        $ref: '#/definitions/SchemaObjectLoose'
+      };
+    } else if (
+      item?.$ref === '#/definitions/ActionSchema' &&
+      item.additionalProperties === true
+    ) {
+      return {
+        $ref: '#/definitions/ActionSchemaLoose'
+      };
+    }
+
+    return item;
+  });
+
+  return schema;
+}
+
+/**
+ * 每层都会执行，返回新的对象，新对象不会递归下去
+ * @param json
+ * @param mapper
+ * @returns
+ */
+export function JSONValueMap(
+  json: any,
+  mapper: (
+    value: any,
+    key: string | number,
+    host: Object,
+    stack: Array<Object>
+  ) => any,
+  deepFirst: boolean = false,
+  stack: Array<Object> = []
+) {
+  if (!isPlainObject(json) && !Array.isArray(json)) {
+    return json;
+  }
+
+  const iterator = (
+    origin: any,
+    key: number | string,
+    host: any,
+    stack: Array<any> = []
+  ) => {
+    if (deepFirst) {
+      const value = JSONValueMap(origin, mapper, deepFirst, stack);
+      return mapper(value, key, host, stack) ?? value;
+    }
+
+    let mapped: any = mapper(origin, key, host, stack) ?? origin;
+
+    // 如果不是深度优先，上层的对象都修改了，就不继续递归进到新返回的对象了
+    if (mapped === origin) {
+      return JSONValueMap(origin, mapper, deepFirst, stack);
+    }
+    return mapped;
+  };
+
+  if (Array.isArray(json)) {
+    let modified = false;
+    let arr = json.map((value, index) => {
+      let newValue: any = iterator(value, index, json, [json].concat(stack));
+      modified = modified || newValue !== value;
+      return newValue;
+    });
+    return modified ? arr : json;
+  }
+
+  let modified = false;
+  const toUpdate: any = {};
+  Object.keys(json).forEach(key => {
+    const value: any = json[key];
+    let result: any = iterator(value, key, json, [json].concat(stack));
+    if (result !== value) {
+      modified = true;
+      toUpdate[key] = result;
+    }
+  });
+
+  return modified
+    ? {
+        ...json,
+        ...toUpdate
+      }
+    : json;
 }
 
 main().catch(e => {

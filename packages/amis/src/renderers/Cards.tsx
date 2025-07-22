@@ -38,17 +38,17 @@ import {
   SchemaTpl,
   SchemaTokenizeableString
 } from '../Schema';
-import {CardProps, CardSchema} from './Card';
+import {CardProps, CardSchema, CardSchemaWithoutType} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
 import type {IItem, IScopedContext} from 'amis-core';
 import find from 'lodash/find';
 
 /**
  * Cards 卡片集合渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/cards
  */
 export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
-  card?: CardSchema | Card2Schema;
+  card?: CardSchemaWithoutType | Card2Schema;
 
   /**
    * 头部 CSS 类名
