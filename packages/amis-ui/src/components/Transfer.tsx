@@ -765,7 +765,7 @@ export class Transfer<
         labelField={labelField}
         valueField={valueField}
         virtualThreshold={virtualThreshold}
-        itemHeight={itemHeight}
+        // itemHeight={itemHeight}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
         autoCheckChildren={autoCheckChildren}
@@ -882,7 +882,7 @@ export class Transfer<
         labelField={labelField}
         valueField={valueField}
         virtualThreshold={virtualThreshold}
-        itemHeight={itemHeight}
+        // itemHeight={itemHeight}
         loadingConfig={loadingConfig}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}

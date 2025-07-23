@@ -259,6 +259,7 @@ function VariableList(props: VariableListProps) {
   }
 
   function onSearch(term: string) {
+    term = term.trim();
     const tree = filterTree(
       variables,
       (i: any, key: number, level: number, paths: any[]) => {

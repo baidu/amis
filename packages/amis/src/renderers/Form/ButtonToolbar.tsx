@@ -1,13 +1,19 @@
 import React from 'react';
 import {BaseSchema} from '../../Schema';
 import {ActionSchema} from '../Action';
-import {FormControlProps, FormItem} from 'amis-core';
+import {
+  FormControlProps,
+  FormItem,
+  FormBaseControlWithoutSize
+} from 'amis-core';
 
 /**
  * Button Toolar 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-toolbar
  */
-export interface ButtonToolbarSchema extends BaseSchema {
+export interface ButtonToolbarSchema
+  extends BaseSchema,
+    FormBaseControlWithoutSize {
   /**
    * 指定为按钮工具集合类型
    */
@@ -18,7 +24,10 @@ export interface ButtonToolbarSchema extends BaseSchema {
 
 export interface ButtonToolbarProps
   extends FormControlProps,
-    Omit<ButtonToolbarSchema, 'className'> {}
+    Omit<
+      ButtonToolbarSchema,
+      'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export default class ButtonToolbar extends React.Component<
   ButtonToolbarProps,

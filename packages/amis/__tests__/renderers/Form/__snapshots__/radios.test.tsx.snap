@@ -398,6 +398,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   data-role="checkbox"
                 >
                   <input
+                    checked=""
                     type="radio"
                   />
                   <i>

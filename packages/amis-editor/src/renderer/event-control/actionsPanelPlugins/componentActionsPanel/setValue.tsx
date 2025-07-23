@@ -186,23 +186,6 @@ registerActionPanel('setValue', {
         body: [
           {
             type: 'wrapper',
-            visibleOn: 'this.componentId === "customCmptId"',
-            className: 'p-none mb-6',
-            body: [
-              ...renderCmptActionSelect(
-                '目标组件',
-                true,
-                (value: string, oldVal: any, data: any, form: any) => {
-                  form.setValueByName('args.__containerType', 'all');
-                  form.setValueByName('args.__comboType', 'all');
-                },
-                true
-              )
-            ]
-          },
-          {
-            type: 'wrapper',
-            visibleOn: 'this.componentId !== "customCmptId"',
             className: 'p-none mb-6',
             body: [
               ...renderCmptActionSelect(

@@ -1,6 +1,6 @@
 import React from 'react';
 import {ClassName, Renderer, RendererProps} from 'amis-core';
-import {autobind, getPropValue} from 'amis-core';
+import {autobind, getPropValue, BaseSchemaWithoutType} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {
   BaseSchema,
@@ -14,7 +14,7 @@ import {BadgeObject} from 'amis-ui';
 import {handleAction} from 'amis-core';
 import {validations} from 'amis-core';
 
-export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
+export interface ListItemSchema extends BaseSchemaWithoutType {
   /**
    * 单项点击事件
    */

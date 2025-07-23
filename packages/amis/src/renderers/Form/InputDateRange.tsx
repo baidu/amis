@@ -15,16 +15,8 @@ import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
-/**
- * DateRange 日期范围控件
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
- */
-export interface DateRangeControlSchema extends FormBaseControlSchema {
-  /**
-   * 指定为日期范围控件
-   */
-  type: 'input-date-range' | 'input-datetime-range' | 'input-time-range';
 
+export interface BaseDateRangeControlSchema extends FormBaseControlSchema {
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
    *
@@ -128,6 +120,17 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
    * 弹窗容器选择器
    */
   popOverContainerSelector?: string;
+}
+
+/**
+ * DateRange 日期范围控件
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
+ */
+export interface DateRangeControlSchema extends BaseDateRangeControlSchema {
+  /**
+   * 指定为日期范围控件
+   */
+  type: 'input-date-range' | 'input-datetime-range' | 'input-time-range';
 }
 
 export interface DateRangeProps

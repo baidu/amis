@@ -389,7 +389,7 @@ export class TransferPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', renderer),
+          getSchemaTpl('theme:formItem'),
           getSchemaTpl('style:classNames', [
             getSchemaTpl('className', {
               label: '描述',

@@ -479,7 +479,7 @@ regions: Array<RegionConfig> = [
 - `placeholder?: string` 区域占位字符，用于提示
 - `matchRegion?: (elem: JSX.Element | undefined | null, component: JSX.Element ) => boolean` 对于复杂的控件需要用到这个配置。如果配置了，则遍历 react dom 直到目标节点调换成 Region 节点，如果没有配置这个，但是又配置了 renderMethod 方法，那就直接将 renderMethod 里面返回的 react dom 直接包一层 Region
 - `renderMethod?: string` 指定要覆盖哪个方法。
-- `rendererName?: string` 通常是 hack 当前渲染器，单有时候当前渲染器其实是组合的别的渲染器。如果要篡改别的渲染器，则通过渲染器名字指定。
+- `rendererName?: string` 通常是 hack 当前渲染器，但有时候当前渲染器其实是组合的别的渲染器。如果要篡改别的渲染器，则通过渲染器名字指定。
 - `insertPosition?: 'outter' | 'inner'` 当配置 renderMethod 的时候会自动把 Region 插入进去。 默认是 outter 模式，有时候可能需要配置成 inner， 比如 renderMethod 为 render 的时候。
 - `optional?: boolean` 是否为可选容器，如果是可选容器，不会强制自动创建成员
 - `renderMethodOverride?: (regions: Array<RegionConfig>, insertRegion: (component: JSX.Element, dom: JSX.Element, regions: Array<RegionConfig>, info: RendererInfo, manager: EditorManager) => JSX.Element ) => Function` 有时候有些包括是需要其他条件的，所以要自己写包裹逻辑。比如 Panel 里面的 renderBody

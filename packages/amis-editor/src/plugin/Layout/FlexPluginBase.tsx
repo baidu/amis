@@ -85,6 +85,7 @@ const defaultFlexContainerSchema = (
 export class FlexPluginBase extends LayoutBasePlugin {
   static id = 'FlexPluginBase';
   rendererName = 'flex';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;
 
@@ -587,9 +588,9 @@ export class FlexPluginBase extends LayoutBasePlugin {
     event: PluginEvent<RendererJSONSchemaResolveEventContext>
   ) {
     const context = event.context;
-    const parent = context.node.parent?.host as EditorNodeType;
+    const parent = context.node.host as EditorNodeType;
 
-    if (parent?.info?.plugin === this) {
+    if (context.node.isVitualRenderer && parent?.info?.plugin === this) {
       event.setData('/schemas/FlexColumn.json');
     }
   }

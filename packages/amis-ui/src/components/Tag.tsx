@@ -21,6 +21,7 @@ export interface TagProps extends ThemeProps {
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   children?: React.ReactNode | Array<React.ReactNode>;
+  dataIndex?: number;
 }
 
 export interface CheckableTagProps extends TagProps {
@@ -102,7 +103,8 @@ export class Tag extends React.Component<TagProps> {
       color,
       icon,
       style,
-      label
+      label,
+      dataIndex
     } = this.props;
 
     const isPresetColor =
@@ -148,6 +150,7 @@ export class Tag extends React.Component<TagProps> {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        data-index={dataIndex}
       >
         <span
           className={cx('Tag-text')}
@@ -179,7 +182,8 @@ class CheckableTagComp extends React.Component<CheckableTagProps> {
       label,
       children,
       checked,
-      style = {}
+      style = {},
+      dataIndex
     } = this.props;
 
     return (
@@ -191,6 +195,7 @@ class CheckableTagComp extends React.Component<CheckableTagProps> {
         onClick={disabled ? noop : this.handleClick}
         style={style}
         title={typeof label === 'string' ? label : undefined}
+        data-index={dataIndex}
       >
         {label || children}
       </span>

@@ -348,9 +348,10 @@ export default class IconPickerControl extends React.PureComponent<
                           })}
                           key={index}
                         >
-                          <i
+                          <Icon
                             className={cx(`${option.value}`)}
                             title={`${option.value}`}
+                            icon={option.value}
                           />
                         </div>
                       ))}

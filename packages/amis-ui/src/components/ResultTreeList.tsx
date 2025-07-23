@@ -309,7 +309,7 @@ export class BaseResultTreeList extends React.Component<
             loadingConfig={loadingConfig}
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
             virtualThreshold={virtualThreshold}
-            itemHeight={itemHeight}
+            // itemHeight={itemHeight}
             testIdBuilder={testIdBuilder}
           />
         ) : (

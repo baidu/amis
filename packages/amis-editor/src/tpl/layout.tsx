@@ -749,27 +749,37 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || '宽度',
-      name: config?.name || 'style.width',
-      value: config?.value || '300px',
+    return getSchemaTpl('theme:width2', {
+      name: 'style.width',
+      value: '300px',
+      pipeIn: config?.pipeIn,
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && this.isFixedWidth`
-        : 'this.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut,
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : 'this.isFixedWidth'
+    });
+
+    // return {
+    //   type: 'input-number',
+    //   label: config?.label || '宽度',
+    //   name: config?.name || 'style.width',
+    //   value: config?.value || '300px',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && this.isFixedWidth`
+    //     : 'this.isFixedWidth',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut,
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -785,25 +795,30 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || '宽度',
-      name: config?.name || 'style.width',
-      value: config?.value || '300px',
-      visibleOn: config?.visibleOn || true,
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut,
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+    return getSchemaTpl('theme:width2', {
+      name: 'style.width',
+      value: '300px',
+      ...config
+    });
+    // return {
+    //   type: 'input-number',
+    //   label: config?.label || '宽度',
+    //   name: config?.name || 'style.width',
+    //   value: config?.value || '300px',
+    //   visibleOn: config?.visibleOn || true,
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut,
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -819,30 +834,39 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label:
-        config?.label ||
-        tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
-      name: config?.name || 'style.maxWidth',
-      value: config?.value,
+    return getSchemaTpl('theme:width2', {
+      name: 'style.maxWidth',
+      label: tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
       min: '${style.minWidth | toInt}',
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && !this.isFixedWidth`
-        : '!this.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : '!this.isFixedWidth'
+    });
+    // return {
+    //   type: 'input-number',
+    //   label:
+    //     config?.label ||
+    //     tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
+    //   name: config?.name || 'style.maxWidth',
+    //   value: config?.value,
+    //   min: '${style.minWidth | toInt}',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && !this.isFixedWidth`
+    //     : '!this.isFixedWidth',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -858,30 +882,40 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label:
-        config?.label ||
-        tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
-      name: config?.name || 'style.minWidth',
-      value: config?.value,
+    return getSchemaTpl('theme:width2', {
+      name: 'style.minWidth',
+      label: tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
       max: '${style.maxWidth | toInt}',
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && !this.isFixedWidth`
-        : '!this.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : '!this.isFixedWidth'
+    });
+
+    // return {
+    //   type: 'input-number',
+    //   label:
+    //     config?.label ||
+    //     tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
+    //   name: config?.name || 'style.minWidth',
+    //   value: config?.value,
+    //   max: '${style.maxWidth | toInt}',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && !this.isFixedWidth`
+    //     : '!this.isFixedWidth',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -989,27 +1023,36 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || '高度',
-      name: config?.name || 'style.height',
-      value: config?.value || '300px',
+    return getSchemaTpl('theme:height2', {
+      name: 'style.height',
+      value: '300px',
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && this.isFixedHeight`
-        : 'this.isFixedHeight',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : 'this.isFixedHeight'
+    });
+
+    // return {
+    //   type: 'input-number',
+    //   label: config?.label || '高度',
+    //   name: config?.name || 'style.height',
+    //   value: config?.value || '300px',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && this.isFixedHeight`
+    //     : 'this.isFixedHeight',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -1025,30 +1068,40 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label:
-        config?.label ||
-        tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
-      name: config?.name || 'style.maxHeight',
-      value: config?.value,
+    return getSchemaTpl('theme:height2', {
+      name: 'style.maxHeight',
+      label: tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
       min: '${style.minHeight | toInt}',
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && !this.isFixedHeight`
-        : '!this.isFixedHeight',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : '!this.isFixedHeight'
+    });
+
+    // return {
+    //   type: 'input-number',
+    //   label:
+    //     config?.label ||
+    //     tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
+    //   name: config?.name || 'style.maxHeight',
+    //   value: config?.value,
+    //   min: '${style.minHeight | toInt}',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && !this.isFixedHeight`
+    //     : '!this.isFixedHeight',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 
@@ -1064,30 +1117,40 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    return {
-      type: 'input-number',
-      label:
-        config?.label ||
-        tipedLabel('最小高度', '最小高度即当前元素最小的垂直展示区域'),
-      name: config?.name || 'style.minHeight',
-      value: config?.value,
+    return getSchemaTpl('theme:height2', {
+      name: 'style.minHeight',
+      label: tipedLabel('最小高度', '最小高度即当前元素最小的垂直展示区域'),
       max: '${style.maxHeight | toInt}',
+      ...config,
       visibleOn: config?.visibleOn
         ? `(${config?.visibleOn}) && !this.isFixedHeight`
-        : '!this.isFixedHeight',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      // pipeOut: config?.pipeOut
-      pipeOut: (value: string) => {
-        const curValue = parseInt(value);
-        if (value === 'auto' || curValue || curValue === 0) {
-          return value;
-        } else {
-          return undefined;
-        }
-      }
-    };
+        : '!this.isFixedHeight'
+    });
+
+    // return {
+    //   type: 'input-number',
+    //   label:
+    //     config?.label ||
+    //     tipedLabel('最小高度', '最小高度即当前元素最小的垂直展示区域'),
+    //   name: config?.name || 'style.minHeight',
+    //   value: config?.value,
+    //   max: '${style.maxHeight | toInt}',
+    //   visibleOn: config?.visibleOn
+    //     ? `(${config?.visibleOn}) && !this.isFixedHeight`
+    //     : '!this.isFixedHeight',
+    //   clearable: true,
+    //   unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+    //   pipeIn: config?.pipeIn,
+    //   // pipeOut: config?.pipeOut
+    //   pipeOut: (value: string) => {
+    //     const curValue = parseInt(value);
+    //     if (value === 'auto' || curValue || curValue === 0) {
+    //       return value;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   }
+    // };
   }
 );
 

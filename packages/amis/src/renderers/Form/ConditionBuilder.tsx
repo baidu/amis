@@ -28,7 +28,7 @@ import {
 
 import {IconSchema} from '../Icon';
 import {isMobile} from 'amis-core';
-import type {InputFormulaControlSchema} from './InputFormula';
+import type {BaseInputFormulaControlSchema} from './InputFormula';
 
 /**
  * 条件组合控件
@@ -98,7 +98,7 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   /**
    * 将字段输入控件变成公式编辑器。
    */
-  formula?: Omit<InputFormulaControlSchema, 'type'>;
+  formula?: BaseInputFormulaControlSchema;
 
   /**
    * if 里面公式编辑器配置
@@ -215,6 +215,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
           popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
+          placeholder={rest.placeholder as string}
           formula={formula as any}
         />
       </div>

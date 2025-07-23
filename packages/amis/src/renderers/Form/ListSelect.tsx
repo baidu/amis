@@ -18,9 +18,13 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * List 复选框
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
  */
 export interface ListControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 ListSelect 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
+   */
   type: 'list-select';
 
   /**

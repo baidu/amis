@@ -32,6 +32,7 @@ interface BaseField {
 
   defaultValue?: any;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export type FieldGroup = {

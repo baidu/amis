@@ -95,16 +95,7 @@ export class InputGroupControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {
-              renderer: context.info.renderer,
-              schema: [
-                getSchemaTpl('switch', {
-                  label: '内联模式',
-                  name: 'inline',
-                  pipeIn: defaultValue(false)
-                })
-              ]
-            }),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('style:classNames')
           ])
         ]

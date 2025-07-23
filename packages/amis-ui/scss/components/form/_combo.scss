@@ -70,6 +70,19 @@
     margin-bottom: var(--Combo-items-marginBottom);
   }
 
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &:empty {
+      display: none;
+    }
+  }
+
+  // &-pager {
+
+  // }
+
   &-item {
     background: var(--combo-bg-color);
   }

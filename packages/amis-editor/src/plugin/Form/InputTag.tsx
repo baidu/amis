@@ -183,9 +183,13 @@ export class TagControlPlugin extends BasePlugin {
               rendererSchema: (schema: Schema) => schema,
               mode: 'vertical' // 改成上下展示模式
             }),
-            getSchemaTpl('joinValues'),
+            getSchemaTpl('joinValues', {
+              visibleOn: true
+            }),
             getSchemaTpl('delimiter'),
-            getSchemaTpl('extractValue'),
+            getSchemaTpl('extractValue', {
+              visibleOn: 'this.joinValues === false'
+            }),
             {
               type: 'input-number',
               name: 'max',

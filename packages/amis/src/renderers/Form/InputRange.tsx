@@ -75,7 +75,7 @@ export interface RangeControlSchema extends FormBaseControlSchema {
   /**
    * 刻度
    */
-  marks?: MarksType;
+  marks?: Array<any>;
 
   /**
    * 是否展示标签
@@ -162,7 +162,7 @@ export interface RangeProps extends FormControlProps {
   /**
    * 刻度
    */
-  marks?: MarksType;
+  marks?: Array<any>;
 
   /**
    * 是否展示标签

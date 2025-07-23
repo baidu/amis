@@ -424,7 +424,7 @@ export class DateControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', renderer),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('style:classNames', [
               getSchemaTpl('className', {
                 label: '描述',

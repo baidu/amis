@@ -24,6 +24,10 @@ import debounce from 'lodash/debounce';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
 export interface CheckboxesControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 Checkboxes 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
+   */
   type: 'checkboxes';
 
   /**

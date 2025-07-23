@@ -219,7 +219,7 @@ export class LocationControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:classNames', {
               schema: [

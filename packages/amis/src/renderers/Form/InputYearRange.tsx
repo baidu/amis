@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
-import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
+import InputDateRange, {BaseDateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
 import {isMobile} from 'amis-core';
@@ -11,8 +11,7 @@ import {isMobile} from 'amis-core';
  * YearRange 年份范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-year-range
  */
-export interface YearRangeControlSchema
-  extends Omit<DateRangeControlSchema, 'type'> {
+export interface YearRangeControlSchema extends BaseDateRangeControlSchema {
   type: 'input-year-range';
 }
 

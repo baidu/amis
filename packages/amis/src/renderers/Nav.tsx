@@ -42,7 +42,7 @@ import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 import {HorizontalScroll} from 'amis-ui/lib/components/HorizontalScroll';
 
-import type {Payload} from 'amis-core';
+import type {BaseSchemaWithoutType, Payload} from 'amis-core';
 import type {
   BaseSchema,
   SchemaObject,
@@ -58,7 +58,7 @@ export type IconItemSchema = {
   position: string; // before after
 };
 
-export type NavItemSchema = {
+export interface NavItemSchema extends BaseSchemaWithoutType {
   /**
    * 文字说明
    */
@@ -90,7 +90,7 @@ export type NavItemSchema = {
   className?: string; // 自定义菜单项样式
 
   mode?: string; // 菜单项模式 分组模式：group、divider
-} & Omit<BaseSchema, 'type'>;
+}
 
 export interface NavOverflow {
   /**
@@ -149,7 +149,7 @@ export interface NavOverflow {
   /**
    * 自定义样式
    */
-  style?: React.CSSProperties;
+  style?: any;
 
   /**
    * 导航超出后响应式收纳方案。

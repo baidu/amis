@@ -40,8 +40,14 @@ export enum FormulaDateType {
  * @param item
  * @returns
  */
-export function renderFormulaValue(item: any) {
+export function renderFormulaValue(
+  item: any,
+  filterHtml?: (html: string) => string
+) {
   const html = {__html: typeof item === 'string' ? item : item?.html};
+  if (typeof filterHtml === 'function' && html.__html) {
+    html.__html = filterHtml(html.__html);
+  }
   // bca-disable-next-line
   return <span dangerouslySetInnerHTML={html}></span>;
 }

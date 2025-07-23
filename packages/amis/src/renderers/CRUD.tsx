@@ -24,7 +24,8 @@ import {
   qsstringify,
   qsparse,
   isIntegerInRange,
-  spliceTree
+  spliceTree,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
@@ -52,9 +53,9 @@ import {
   SchemaCollection
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {CardsSchema} from './Cards';
-import {ListSchema} from './List';
-import {TableSchema} from './Table';
+import {BaseCardsSchema} from './Cards';
+import {BaseListSchema} from './List';
+import {TableSchema, BaseTableSchema} from './Table';
 import type {TableRendererEvent} from './Table';
 import type {CardsRendererEvent} from './Cards';
 import {
@@ -70,6 +71,7 @@ import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
+import {AutoFoldedList} from 'amis-ui';
 
 interface LoadMoreConfig {
   showIcon?: boolean;
@@ -98,7 +100,7 @@ export type CRUDBultinToolbarType =
   | 'export-csv'
   | 'export-excel';
 
-export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
+export interface CRUDBultinToolbar extends BaseSchemaWithoutType {
   type: CRUDBultinToolbarType;
 }
 
@@ -453,15 +455,15 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
   mode: 'cards';
-} & Omit<CardsSchema, 'type'>;
+} & BaseCardsSchema;
 
 export type CRUDListSchema = CRUDCommonSchema & {
   mode: 'list';
-} & Omit<ListSchema, 'type'>;
+} & BaseListSchema;
 
 export type CRUDTableSchema = CRUDCommonSchema & {
   mode?: 'table';
-} & Omit<TableSchema, 'type'>;
+} & BaseTableSchema;
 
 /**
  * CRUD 增删改查渲染器。
@@ -1391,7 +1393,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       loadDataOnceFetchOnFilter,
       source,
       columns,
-      dispatchEvent
+      dispatchEvent,
+      options
     } = this.props;
 
     // reload 需要清空用户选择，无论是否开启keepItemSelectionOnPageChange
@@ -1525,6 +1528,18 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         matchFunc,
         totalField
       });
+    } else if (pickerMode) {
+      store.initFromScope(
+        {
+          items: options || []
+        },
+        '${items}',
+        {
+          columns: store.columns ?? columns,
+          matchFunc,
+          totalField
+        }
+      );
     }
 
     let val: any;
@@ -2850,76 +2865,38 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       return null;
     }
 
-    const totalCount = store.selectedItems.length;
     let tags: any[] = store.selectedItems;
     const enableOverflow =
-      multiple !== false &&
-      isIntegerInRange(maxTagCount, {
-        start: 0,
-        end: totalCount,
-        left: 'inclusive',
-        right: 'exclusive'
-      });
+      multiple !== false && typeof maxTagCount === 'number' && maxTagCount > 0;
 
-    if (enableOverflow) {
-      tags = [
-        ...store.selectedItems.slice(0, maxTagCount),
-        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
-      ];
-    }
+    const tooltipProps: any = {
+      offset: [0, -10],
+      tooltipClassName: cx(
+        'Crud-selection-overflow',
+        overflowTagPopover?.tooltipClassName
+      ),
+      title: __('已选项'),
+      ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+    };
 
     return (
       <div className={cx('Crud-selection')}>
-        <div className={cx('Crud-selectionLabel')}>
+        <div data-folder-ignore className={cx('Crud-selectionLabel')}>
           {__('CRUD.selected', {total: store.selectedItems.length})}
         </div>
-        {tags.map((item, index) => {
-          if (enableOverflow && index === maxTagCount) {
-            return (
-              <TooltipWrapper
-                key={index}
-                container={popOverContainer}
-                tooltip={{
-                  placement: 'top',
-                  trigger: 'hover',
-                  showArrow: false,
-                  offset: [0, -10],
-                  tooltipClassName: cx(
-                    'Crud-selection-overflow',
-                    overflowTagPopover?.tooltipClassName
-                  ),
-                  title: __('已选项'),
-                  ...omit(overflowTagPopover, [
-                    'children',
-                    'content',
-                    'tooltipClassName'
-                  ]),
-                  children: () => {
-                    return (
-                      <div
-                        className={cx(`${ns}Crud-selection-overflow-wrapper`)}
-                      >
-                        {store.selectedItems
-                          .slice(maxTagCount, totalCount)
-                          .map((overflowItem, rawIndex) => {
-                            const key = rawIndex + maxTagCount;
 
-                            return this.renderTag(overflowItem, key);
-                          })}
-                      </div>
-                    );
-                  }
-                }}
-              >
-                <div key={index} className={cx(`Crud-value`)}>
-                  <span className={cx('Crud-valueLabel')}>{item.label}</span>
-                </div>
-              </TooltipWrapper>
-            );
-          }
+        <AutoFoldedList
+          enabled={!!enableOverflow}
+          tooltipClassName={cx('Crud-selection-overflow-wrapper')}
+          items={tags}
+          popOverContainer={popOverContainer}
+          tooltipOptions={tooltipProps}
+          maxVisibleCount={maxTagCount}
+          renderItem={(item, index, folded) => {
+            return this.renderTag(item, index);
+          }}
+        ></AutoFoldedList>
 
-          return this.renderTag(item, index);
-        })}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
           {__('clear')}
         </a>

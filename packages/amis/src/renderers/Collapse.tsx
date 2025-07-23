@@ -16,16 +16,7 @@ import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 import classNames from 'classnames';
 
-/**
- * Collapse 折叠渲染器，格式说明。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
- */
-export interface CollapseSchema extends BaseSchema {
-  /**
-   * 指定为折叠器类型
-   */
-  type: 'collapse';
-
+export interface BaseCollapseSchema extends BaseSchema {
   /**
    * 标识
    */
@@ -40,11 +31,6 @@ export interface CollapseSchema extends BaseSchema {
    * 标题
    */
   header?: string | SchemaCollection;
-
-  /**
-   * 内容区域
-   */
-  body: SchemaCollection;
 
   /**
    * 配置 Body 容器 className
@@ -104,6 +90,22 @@ export interface CollapseSchema extends BaseSchema {
    * 标题内容分割线
    */
   divideLine?: boolean;
+}
+
+/**
+ * Collapse 折叠渲染器，格式说明。
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
+ */
+export interface CollapseSchema extends BaseCollapseSchema {
+  /**
+   * 指定为折叠器类型
+   */
+  type: 'collapse';
+
+  /**
+   * 内容区域
+   */
+  body: SchemaCollection;
 }
 
 export interface CollapseProps

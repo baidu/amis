@@ -81,7 +81,11 @@
       flex: 1;
       min-width: 0;
       min-height: 0;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-clamp: 2;
+      box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
       user-select: none;
@@ -91,12 +95,28 @@
       }
     }
 
-    &-arrow {
+    & > .#{$ns}Checkbox {
       flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      align-items: center;
+      justify-content: flex-start;
+
+      > i + span {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    &-arrow {
+      flex-shrink: 0;
       min-width: 0;
       min-height: 0;
       text-align: right;
       padding-right: px2rem(6px);
+      width: 20px;
       > svg {
         transform: scale(0.8);
         transition: transform var(--animation-duration);

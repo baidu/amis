@@ -15,9 +15,7 @@ import type {FormulaPickerInputSettings} from 'amis-ui/lib/components/formula/Pi
  * InputFormula 公式编辑器
  * 文档：https://baidu.gitee.io/amis/zh-CN/components/form/input-formula
  */
-export interface InputFormulaControlSchema extends FormBaseControlSchema {
-  type: 'input-formula';
-
+export interface BaseInputFormulaControlSchema extends FormBaseControlSchema {
   /**
    * evalMode 即直接就是表达式，否则
    * 需要 ${这里面才是表达式}
@@ -126,6 +124,11 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
    * 输入框的类型
    */
   inputSettings?: FormulaPickerInputSettings;
+}
+
+export interface InputFormulaControlSchema
+  extends BaseInputFormulaControlSchema {
+  type: 'input-formula';
 }
 
 export interface InputFormulaProps

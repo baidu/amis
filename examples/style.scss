@@ -824,6 +824,10 @@ body {
   }
 }
 
+.schema-wrapper {
+  display: flex;
+}
+
 @include media-breakpoint-up(lg) {
   .Doc {
     display: flex;

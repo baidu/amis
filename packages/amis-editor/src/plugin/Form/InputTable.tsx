@@ -1430,7 +1430,7 @@ export class TableControlPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('theme:formItem'),
           getSchemaTpl('style:classNames', {
             schema: [
               getSchemaTpl('className', {

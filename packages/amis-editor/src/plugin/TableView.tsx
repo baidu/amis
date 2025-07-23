@@ -91,6 +91,7 @@ export class TableViewPlugin extends BasePlugin {
   static id = 'TableViewPlugin';
   // 关联渲染器名字
   rendererName = 'table-view';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/TableViewSchema.json';
 
   // 组件名称

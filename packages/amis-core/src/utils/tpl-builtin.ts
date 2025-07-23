@@ -97,3 +97,6 @@ export function register(): Enginer & {name: string} {
     }
   };
 }
+
+// 避免 resolveVariableAndFilter 被摇了
+export const testResolveVariableAndFilter = resolveVariableAndFilter;

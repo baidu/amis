@@ -74,7 +74,7 @@ test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
             type: 'input-month',
             name: 'startTime',
             size: 'md',
-            valueFormat: 'X',
+            valueFormat: 'YYYY-MM',
             maxDate: '${endTime}',
             value: '2000-05'
           },
@@ -83,7 +83,7 @@ test('Renderer:inputMonth with dynamic minDate & maxDate', async () => {
             label: '结束日期',
             size: 'md',
             name: 'endTime',
-            valueFormat: 'X',
+            valueFormat: 'YYYY-MM',
             minDate: '${startTime}',
             maxDate: '${startTime} +1year',
             value: '2000-10'

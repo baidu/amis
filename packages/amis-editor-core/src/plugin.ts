@@ -214,6 +214,11 @@ export interface InlineEditableElement {
  * 渲染器信息。
  */
 export interface RendererInfo extends RendererScaffoldInfo {
+  // 是否使用懒渲染，默认 false
+  // 当一个页面有很多组件时，开启懒渲染可以提升性能。
+  // 打算正对容器组件开启懒渲染
+  useLazyRender?: boolean;
+
   scaffolds?: Array<Partial<RendererScaffoldInfo>>;
 
   rendererName?: string;
@@ -554,6 +559,9 @@ export interface ContextMenuEventContext extends BaseEventContext {
   region: string;
   selections: Array<BaseEventContext>;
   data: Array<ContextMenuItem>;
+  clientX?: number;
+  clientY?: number;
+  target?: HTMLElement;
 }
 
 export interface SelectionEventContext extends BaseEventContext {
@@ -807,6 +815,8 @@ export interface PluginEventListener {
       }
     >
   ) => void;
+
+  afterBuildPanelBody?: (event: PluginEvent<AfterBuildPanelBody>) => void;
 
   // 外部可以接管全局变量的增删改查
   // 全局变量列表获取
@@ -1144,7 +1154,8 @@ export abstract class BasePlugin implements PluginInterface {
         isListComponent: plugin.isListComponent,
         rendererName: plugin.rendererName,
         memberImmutable: plugin.memberImmutable,
-        getSubEditorVariable: plugin.getSubEditorVariable
+        getSubEditorVariable: plugin.getSubEditorVariable,
+        useLazyRender: plugin.useLazyRender
       };
     }
   }
@@ -1185,7 +1196,7 @@ export abstract class BasePlugin implements PluginInterface {
         ? plugin.panelBodyCreator(context)
         : plugin.panelBody!;
 
-      this.manager.trigger('after-build-panel-body', {
+      const event = this.manager.trigger('after-build-panel-body', {
         context,
         data: body,
         plugin
@@ -1210,7 +1221,8 @@ export abstract class BasePlugin implements PluginInterface {
         title: plugin.panelTitle || '设置',
         render: enableAsync
           ? makeAsyncLayer(async () => {
-              const panelBody = await (body as Promise<SchemaCollection>);
+              const panelBody = await ((event.data ||
+                body) as Promise<SchemaCollection>);
 
               return this.manager.makeSchemaFormRender({
                 ...baseProps,
@@ -1219,7 +1231,7 @@ export abstract class BasePlugin implements PluginInterface {
             }, omit(plugin.async, 'enable'))
           : this.manager.makeSchemaFormRender({
               ...baseProps,
-              body: body as SchemaCollection
+              body: (event.data || body) as SchemaCollection
             })
       });
     } else if (

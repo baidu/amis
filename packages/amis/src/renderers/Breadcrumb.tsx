@@ -4,12 +4,12 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
-import {filter} from 'amis-core';
+import {filter, BaseSchemaWithoutType} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
 import {Breadcrumb} from 'amis-ui';
 import type {TestIdBuilder} from 'amis-core';
 
-export type BreadcrumbBaseItemSchema = {
+export interface BreadcrumbBaseItemSchema extends BaseSchemaWithoutType {
   /**
    * 文字
    */
@@ -24,9 +24,9 @@ export type BreadcrumbBaseItemSchema = {
    * 链接地址
    */
   href?: SchemaUrlPath;
-} & Omit<BaseSchema, 'type'>;
+}
 
-export type BreadcrumbItemSchema = {
+export interface BreadcrumbItemSchema extends BaseSchemaWithoutType {
   /**
    * 文字
    */
@@ -46,7 +46,7 @@ export type BreadcrumbItemSchema = {
    * 下拉菜单
    */
   dropdown?: Array<BreadcrumbBaseItemSchema>;
-} & Omit<BaseSchema, 'type'>;
+}
 
 export type TooltipPositionType = 'top' | 'bottom' | 'left' | 'right';
 

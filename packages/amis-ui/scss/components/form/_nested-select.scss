@@ -14,6 +14,12 @@
 
   &.is-mobile {
     text-align: right;
+
+    .#{$ns}ResultBox-value-wrap {
+      min-width: 0;
+      flex-wrap: wrap !important;
+      flex: 1;
+    }
   }
 
   &-optionArrowRight {
@@ -85,6 +91,10 @@
       font-weight: var(--select-base-default-option-fontWeight);
       color: var(--select-base-default-option-color);
       background: var(--select-base-default-option-bg-color);
+
+      & > .#{$ns}Checkbox {
+        margin: 0;
+      }
 
       > .#{$ns}NestedSelect-optionLabel {
         min-width: 0;

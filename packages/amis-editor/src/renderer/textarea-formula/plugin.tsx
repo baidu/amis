@@ -234,6 +234,9 @@ export class FormulaPlugin {
     ) || {
       html: expression
     };
+    if (getProps()?.env?.filterHtml && highlightValue.html) {
+      highlightValue.html = getProps()?.env?.filterHtml(highlightValue.html);
+    }
 
     const wrap = document.createElement('span');
     wrap.className = className;

@@ -8,7 +8,9 @@ import {
   RegionConfig,
   BaseEventContext,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  PluginEvent,
+  PreventClickEventContext
 } from 'amis-editor-core';
 import {
   buildLinkActionDesc,
@@ -21,6 +23,7 @@ export class CollapsePlugin extends BasePlugin {
   static id = 'CollapsePlugin';
   // 关联渲染器名字
   rendererName = 'collapse';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/CollapseSchema.json';
 
   // 组件名称
@@ -272,6 +275,22 @@ export class CollapsePlugin extends BasePlugin {
       label: '内容区'
     }
   ];
+
+  onPreventClick(e: PluginEvent<PreventClickEventContext>) {
+    const mouseEvent = e.context.data;
+
+    if (mouseEvent.defaultPrevented) {
+      return false;
+    } else if (
+      (mouseEvent.target as HTMLElement).closest(
+        `.${this.manager.getThemeClassPrefix()}Collapse-arrow-wrap`
+      )
+    ) {
+      return false;
+    }
+
+    return;
+  }
 }
 
 registerEditorPlugin(CollapsePlugin);

@@ -13,6 +13,10 @@ import {supportStatic} from './StaticHoc';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chart-radios
  */
 export interface ChartRadiosControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 ChartRadios 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chart-radios
+   */
   type: 'chart-radios';
   config: any;
   showTooltipOnHighlight?: boolean;

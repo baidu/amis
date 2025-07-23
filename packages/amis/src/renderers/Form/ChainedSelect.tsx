@@ -22,9 +22,13 @@ import isEmpty from 'lodash/isEmpty';
 
 /**
  * 链式下拉框
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chained-select
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
  */
 export interface ChainedSelectControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为链式下拉框
+   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
+   */
   type: 'chained-select';
 }
 
@@ -339,6 +343,7 @@ export default class ChainedSelectControl extends React.Component<
       env,
       testIdBuilder,
       popoverClassName,
+      placeholder,
       ...rest
     } = this.props;
     const arr = Array.isArray(value)
@@ -355,6 +360,7 @@ export default class ChainedSelectControl extends React.Component<
       <div className={cx(`${ns}ChainedSelectControl`, className)}>
         <Select
           {...rest}
+          placeholder={placeholder as string}
           mobileUI={mobileUI}
           popOverContainer={
             mobileUI

@@ -26,6 +26,7 @@ import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
 import {
   ActionObject,
+  BaseApi,
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
@@ -56,14 +57,9 @@ import {IScopedContext} from '../Scoped';
 
 export type LabelAlign = 'right' | 'left' | 'top' | 'inherit';
 
-export interface FormBaseControl extends BaseSchemaWithoutType {
+export interface FormBaseControlWithoutSize {
   /**
-   * 表单项大小
-   */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
-
-  /**
-   * 描述标题
+   * 描述标题, 当值为 false 时不展示
    */
   label?: string | false;
 
@@ -166,7 +162,11 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
    * 占位符
    */
-  placeholder?: string;
+  placeholder?:
+    | string
+    | {
+        [propName: string]: string;
+      };
 
   /**
    * 是否为必填
@@ -421,7 +421,7 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
         /**
          * 自动填充 api
          */
-        api?: BaseApiObject | string;
+        api?: BaseApi;
 
         /**
          * 是否展示数据格式错误提示，默认为不展示
@@ -474,6 +474,15 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   initAutoFill?: boolean | 'fillIfNotSet';
 
   row?: number; // flex模式下指定所在的行数
+}
+
+export interface FormBaseControl
+  extends BaseSchemaWithoutType,
+    FormBaseControlWithoutSize {
+  /**
+   * 表单项大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {

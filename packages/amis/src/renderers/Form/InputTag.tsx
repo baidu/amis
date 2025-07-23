@@ -31,6 +31,10 @@ import {matchSorter} from 'match-sorter';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
  */
 export interface TagControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 InputTag 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tag
+   */
   type: 'input-tag';
 
   /**
@@ -64,7 +68,7 @@ export interface TagControlSchema extends FormOptionsSchema {
   overflowTagPopover?: TooltipWrapperSchema;
 
   /** 是否开启批量添加模式 */
-  enableBatchAdd: boolean;
+  enableBatchAdd?: boolean;
 
   /**
    * 开启批量添加后，输入多个标签的分隔符，支持传入多个符号，默认为"-"

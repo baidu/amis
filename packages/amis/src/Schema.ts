@@ -126,6 +126,7 @@ import {TableSchema2} from './renderers/Table2';
 import {
   BaseSchemaWithoutType,
   FormBaseControl,
+  FormOptionsControlSelf,
   FormOptionsControl,
   SchemaClassName,
   SchemaExpression
@@ -227,6 +228,7 @@ export type SchemaType =
   | 'timeline'
   | 'control'
   | 'input-array'
+  | 'action' // button 的别名
   | 'button'
   | 'submit'
   | 'reset'
@@ -247,6 +249,7 @@ export type SchemaType =
   | 'input-time'
   | 'input-quarter'
   | 'input-year'
+  | 'input-year-range'
   | 'input-month'
   | 'input-date-range'
   | 'input-time-range'
@@ -878,12 +881,7 @@ export interface ToastSchemaBase extends BaseSchema {
  *
  * 说明：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index
  */
-export interface FormSchema extends FormSchemaBase, BaseSchema {
-  /**
-   * 指定为表单渲染器。
-   */
-  type: 'form';
-
+export interface BaseFormSchema extends FormSchemaBase, BaseSchemaWithoutType {
   /**
    * 按钮集合，会固定在底部显示。
    */
@@ -895,10 +893,14 @@ export interface FormSchema extends FormSchemaBase, BaseSchema {
   body?: SchemaCollection;
 }
 
-export interface FormBaseControlSchema extends FormBaseControl {
+export interface FormSchema extends BaseFormSchema {
   /**
-   * 表单项类型
+   * 指定为表单渲染器。
    */
+  type: 'form';
+}
+
+export interface FormBaseControlSchema extends FormBaseControl {
   type: SchemaType;
 
   /**
@@ -914,6 +916,6 @@ export interface FormBaseControlSchema extends FormBaseControl {
 
 export interface FormOptionsSchema
   extends FormBaseControlSchema,
-    Omit<FormOptionsControl, 'remark' | 'labelRemark'> {}
+    FormOptionsControlSelf {}
 
 export {SchemaClassName, SchemaExpression};

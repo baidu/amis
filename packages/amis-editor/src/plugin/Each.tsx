@@ -12,6 +12,7 @@ export class EachPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'each';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/EachSchema.json';
 
   // 组件名称

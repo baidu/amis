@@ -8,7 +8,8 @@ import {
   filter,
   getPropValue,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  BaseSchemaWithoutType
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
@@ -16,11 +17,11 @@ import {BaseSchema, SchemaCollection} from '../Schema';
 import isPlainObject from 'lodash/isPlainObject';
 import type {SchemaExpression} from 'amis-core';
 
-export type StepSchema = {
+export interface StepSchema extends BaseSchemaWithoutType {
   /**
    * 标题
    */
-  title: string | SchemaCollection;
+  title?: string | SchemaCollection;
 
   /**
    * 子标题
@@ -38,7 +39,7 @@ export type StepSchema = {
    * 描述
    */
   description?: string | SchemaCollection;
-} & Omit<BaseSchema, 'type'>;
+}
 
 export interface StepsSchema extends BaseSchema {
   /**

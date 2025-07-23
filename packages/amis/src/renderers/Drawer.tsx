@@ -38,9 +38,7 @@ import {isAlive} from 'mobx-state-tree';
  * Drawer 抽出式弹框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */
-export interface DrawerSchema extends BaseSchema {
-  type: 'drawer';
-
+export interface DrawerSchemaBase extends BaseSchema {
   /**
    * 弹窗参数说明，值格式为 JSONSchema。
    */
@@ -157,7 +155,9 @@ export interface DrawerSchema extends BaseSchema {
   };
 }
 
-export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
+export interface DrawerSchema extends DrawerSchemaBase {
+  type: 'drawer';
+}
 
 export interface DrawerProps
   extends RendererProps,
@@ -181,6 +181,7 @@ export interface DrawerProps
 export interface DrawerState {
   entered: boolean;
   resizeCoord: number;
+
   [propName: string]: any;
 }
 
@@ -229,6 +230,7 @@ export default class Drawer extends React.Component<DrawerProps> {
   $$id: string = guid();
   drawer: any;
   clearErrorTimer: ReturnType<typeof setTimeout> | undefined;
+
   constructor(props: DrawerProps) {
     super(props);
 
@@ -497,6 +499,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
       btnDisabled: store.loading,
+      inDragging: store.inDragging,
       syncLocation: false
     };
 
@@ -655,6 +658,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         overlay={overlay}
         onEntered={this.handleEntered}
         onExited={this.handleExited}
+        onDragging={store.setDragging}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
           !store.drawerOpen && !store.dialogOpen && closeOnOutside

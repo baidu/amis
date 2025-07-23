@@ -27,6 +27,7 @@ export class TabsPlugin extends BasePlugin {
   static id = 'TabsPlugin';
   // 关联渲染器名字
   rendererName = 'tabs';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/TabsSchema.json';
 
   // 组件名称

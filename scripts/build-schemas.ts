@@ -2,24 +2,28 @@
  * @file 用来生成 json-schemas
  */
 
-import fs = require('fs');
-import path = require('path');
-import tsj = require('ts-json-schema-generator');
-import mkdirp = require('mkdirp');
+import fs from 'fs';
+import path from 'path';
 import {
-  DiagnosticError,
-  IntersectionTypeFormatter,
   ObjectTypeFormatter,
+  LiteralUnionTypeFormatter,
   SubTypeFormatter,
-  UnknownNodeError,
-  UnknownTypeError,
-  IntersectionNodeParser,
-  SubNodeParser,
+  TypeFormatter,
+  UnionType,
+  derefType,
+  BaseType,
+  ObjectType,
+  Definition,
+  createFormatter,
+  SchemaGenerator,
+  createProgram,
+  createParser,
+  StringType,
+  LiteralType,
   Schema,
   uniqueArray
 } from 'ts-json-schema-generator';
-import {IntersectionTypeFormatter as MyIntersectionTypeFormatter} from './TypeFormatter/IntersectionTypeFormatter';
-import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/IntersectionNodeParser';
+import mkdirp from 'mkdirp';
 
 /**
  * 程序主入口
@@ -36,190 +40,162 @@ async function main() {
     path: path.join(dir, 'Schema.ts'),
     tsconfig: tsConfig,
     type: 'RootSchema',
-    skipTypeCheck: true
+    skipTypeCheck: true,
+    jsDoc: 'extended' as 'extended',
+    additionalProperties: false
   };
 
-  const generator = tsj.createGenerator(config);
-  hackIt(generator);
-  const schema = generator.createSchema(config.type);
-
-  fixSchema(schema);
-
-  const outputFile = path.join(outDir, 'schema.json');
-  mkdirp(path.dirname(outputFile));
-  fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
-}
-
-function fixSchema(schema: Schema) {
-  const keys = Object.keys(schema.definitions!);
-  const list: Array<{
-    patternProperties: any;
-    referenceKey: string;
-    definationKey: string;
-  }> = [];
-
-  keys.forEach(definationKey => {
-    const definition: any = schema.definitions![definationKey];
-
-    if (
-      Array.isArray(definition.allOf) &&
-      definition.allOf.length &&
-      definition.allOf[0].patternProperties &&
-      /^#\/definitions\/(.*?)$/.test(definition.allOf[0].$ref || '')
-    ) {
-      const referenceKey = RegExp.$1;
-
-      if (schema.definitions![referenceKey]) {
-        list.push({
-          patternProperties: definition.allOf[0].patternProperties,
-          referenceKey,
-          definationKey
-        });
-        definition.allOf[0].$ref =
-          '#/definitions/' + referenceKey + definationKey;
+  for (let {config: c, target, optimizeForMonaco} of [
+    {
+      config,
+      target: 'schema.json',
+      optimizeForMonaco: true
+    },
+    {
+      config: {
+        ...config,
+        additionalProperties: true
+      },
+      target: 'schema-minimal.json'
+    }
+  ]) {
+    // We configure the formatter an add our custom formatter to it.
+    const formatter = createFormatter(
+      config as any,
+      (fmt, circularReferenceTypeFormatter) => {
+        // If your formatter DOES support children, you'll need this reference too:
+        fmt.addTypeFormatter(
+          new MyNodeTypeFormatter(circularReferenceTypeFormatter)
+        );
+        fmt.addTypeFormatter(new MyLiteralUnionTypeFormatter());
       }
+    );
+
+    const program = createProgram(c as any);
+    const parser = createParser(program, c as any);
+    const generator = new SchemaGenerator(program, parser, formatter, c);
+
+    const schema = generator.createSchema(c.type);
+
+    if (optimizeForMonaco) {
+      convertAnyOfItemToConditionalItem(schema, [
+        'SchemaObject',
+        'ActionSchema'
+      ]);
+      optimizeConditions(schema);
     }
-  });
 
-  copyAnyOf(schema, list);
-
-  convertAnyOfItemToConditionalItem(schema, ['SchemaObject', 'ActionSchema']);
-
-  schema.definitions!['UnkownSchema'] = {
-    type: 'object',
-    description: '不能识别渲染器类型，无法提供提示信息。'
-  };
-}
-
-function copyAnyOf(
-  schema: Schema,
-  list: Array<{
-    patternProperties: any;
-    referenceKey: string;
-    definationKey: string;
-  }>
-) {
-  list.forEach(({referenceKey, definationKey, patternProperties}) => {
-    const definition: any = schema.definitions![referenceKey];
-
-    if (Array.isArray(definition.anyOf)) {
-      const anyOf = definition.anyOf.map((item: any) => {
-        if (item.properties) {
-          const keys = Object.keys(patternProperties)[0];
-          const extenedPatternProperties = {
-            [`^(${uniqueArray(
-              Object.keys(item.properties).concat(
-                keys.substring(2, keys.length - 2).split('|')
-              )
-            ).join('|')})$`]: {}
-          };
-
-          return {
-            ...item,
-            additionalProperties: false,
-            patternProperties: extenedPatternProperties
-          };
-        } else if (!/^#\/definitions\/(.*?)$/.test(item.$ref || '')) {
-          return item;
-        }
-        const baseKey = RegExp.$1;
-        if (!baseKey || !schema.definitions![baseKey]) {
-          return item;
-        }
-        const baseDefinition: any = schema.definitions![baseKey]!;
-
-        if (!baseDefinition) {
-          return item;
-        }
-
-        if (
-          Array.isArray(baseDefinition.anyOf) &&
-          baseDefinition.anyOf.length
-        ) {
-          if (baseKey === 'ButtonControlSchema') {
-            copyAnyOf(schema, [
-              {
-                referenceKey: baseKey,
-                definationKey,
-                patternProperties
-              }
-            ]);
-
-            return {
-              $ref: '#/definitions/' + baseKey + definationKey
-            };
-          } else {
-            return item;
-          }
-        } else if (!baseDefinition.properties) {
-          return item;
-        }
-
-        const keys = Object.keys(patternProperties)[0];
-        const extenedPatternProperties = {
-          [`^(${uniqueArray(
-            Object.keys(baseDefinition.properties).concat(
-              keys.substring(2, keys.length - 2).split('|')
-            )
-          ).join('|')})$`]: {}
-        };
-
-        return {
-          ...item,
-          additionalProperties: false,
-          patternProperties: extenedPatternProperties
-        };
-      });
-
-      schema.definitions![`${referenceKey}${definationKey}`] = {
-        anyOf: anyOf
-      };
-    }
-  });
-}
-
-function hackIt(generator: any) {
-  const circularReferenceTypeFormatter = generator.typeFormatter;
-  const typeFormatters =
-    circularReferenceTypeFormatter.childTypeFormatter.typeFormatters;
-
-  replaceTypeFormatter(
-    typeFormatters,
-    IntersectionTypeFormatter,
-    new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
-  );
-
-  const chainNodeParser = generator.nodeParser.childNodeParser;
-  const typeChecker = generator.program.getTypeChecker();
-
-  replaceNodeParser(
-    chainNodeParser.nodeParsers,
-    IntersectionNodeParser,
-    new MyIntersectionNodeParser(typeChecker as any, chainNodeParser) as any
-  );
-}
-
-function replaceTypeFormatter(
-  typeFormatters: Array<SubTypeFormatter>,
-  Klass: any,
-  replaceWith: SubTypeFormatter
-) {
-  const idx = typeFormatters.findIndex(item => item instanceof Klass);
-
-  if (~idx) {
-    typeFormatters.splice(idx, 1, replaceWith);
+    const outputFile = path.join(outDir, target);
+    mkdirp(path.dirname(outputFile));
+    fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
   }
 }
 
-function replaceNodeParser(
-  nodeParsers: Array<SubNodeParser>,
-  Klass: any,
-  replaceWith: SubNodeParser
-) {
-  const idx = nodeParsers.findIndex(item => item instanceof Klass);
+class MyNodeTypeFormatter extends ObjectTypeFormatter {
+  getDefinition(type: ObjectType): Definition {
+    const types = type.getBaseTypes();
+    if (types.length === 0) {
+      return this.getObjectDefinition(type);
+    }
+    // 体积太大了，只能这样
 
-  if (~idx) {
-    nodeParsers.splice(idx, 1, replaceWith);
+    const definition: Definition = {
+      allOf: [
+        this.getObjectDefinition(type),
+
+        ...types.map((t: BaseType) => this.childTypeFormatter.getDefinition(t))
+      ]
+    };
+
+    const firstType: Definition = definition.allOf![0] as any;
+
+    if (
+      firstType.type === 'object' &&
+      firstType.additionalProperties === false
+    ) {
+      definition.allOf = definition.allOf?.map(item => {
+        if (typeof item === 'object' && item != null) {
+          if (item.$ref) {
+            item.additionalProperties = true;
+          } else {
+            delete item.additionalProperties;
+          }
+        }
+
+        return item;
+      });
+      definition.additionalProperties = false;
+      definition.properties = types.reduce((result, baseType) => {
+        const other = this.childTypeFormatter.getDefinition(
+          derefType(baseType)!
+        );
+
+        return {
+          ...(other.properties
+            ? this.getObjectBriefDefinition(other.properties)
+            : {}),
+          ...result
+        };
+      }, this.getObjectBriefDefinition(firstType.properties));
+      if (firstType.required) {
+        definition.required = firstType.required;
+      }
+
+      if (
+        firstType.properties &&
+        definition.required &&
+        Object.keys(firstType.properties!).join(',') ===
+          definition.required.join(',')
+      ) {
+        definition.allOf!.shift();
+      }
+    }
+
+    return definition;
+  }
+
+  getObjectBriefDefinition(properties: any): Record<string, any> {
+    return Object.keys(properties || {}).reduce((result, key) => {
+      const item = properties[key];
+
+      if (item?.const || (item?.enum && /^(?:type|actionType)$/i.test(key))) {
+        result[key] = {
+          ...item
+        };
+        delete result[key].description;
+      } else if (!result[key]) {
+        result[key] = true;
+      }
+
+      return result;
+    }, {} as Record<string, any>);
+  }
+}
+
+class MyLiteralUnionTypeFormatter extends LiteralUnionTypeFormatter {
+  getDefinition(type: UnionType): Definition {
+    const types = type.getTypes();
+
+    let definition = super.getDefinition(type);
+
+    // 表单项的 label 格式转换不对，针对这种场景修复
+    // label: string | false;
+    // 如以上定义会被处理成
+    // {type: "boolean", enum: [false]}
+    if (
+      !definition.anyOf &&
+      types.some(
+        item =>
+          item instanceof StringType && item.getPreserveLiterals() === false
+      ) &&
+      types.some(item => item instanceof LiteralType && !item.isString())
+    ) {
+      definition = {
+        anyOf: [{type: 'string'}, definition]
+      };
+    }
+
+    return definition;
   }
 }
 
@@ -247,19 +223,26 @@ function convertAnyOfItemToConditionalItem(schema: any, list: Array<string>) {
           continue;
         }
 
-        allOf.push({
-          if: {
-            properties: pickConstProperties(src)
-          },
-          then: item
-        });
+        const constProps = pickConstProperties(src);
+
+        Object.keys(constProps).length &&
+          allOf.push({
+            if: {
+              properties: constProps,
+              required: Object.keys(constProps)
+            },
+            then: item
+          });
       } else {
-        allOf.push({
-          if: {
-            properties: pickConstProperties(item)
-          },
-          then: item
-        });
+        const constProps = pickConstProperties(item);
+        Object.keys(constProps).length &&
+          allOf.push({
+            if: {
+              properties: constProps,
+              required: Object.keys(constProps)
+            },
+            then: item
+          });
       }
     }
 
@@ -269,51 +252,78 @@ function convertAnyOfItemToConditionalItem(schema: any, list: Array<string>) {
   });
 }
 
-function pickConstProperties(schema: any) {
-  const keys = Object.keys(schema.properties);
-  const filtedProperties: any = {};
+function pickConstProperties(schema: any): any {
+  if (!schema.properties && schema.allOf?.[0]?.properties) {
+    return pickConstProperties(schema.allOf[0]);
+  }
+  const keys = Object.keys(schema.properties || {});
+  const filteredProperties: any = {};
   keys.forEach((key: string) => {
     if (
       schema.properties[key]?.const ||
-      (schema.properties[key]?.enum && /type|mode/i.test(key))
+      (schema.properties[key]?.enum && /^(?:type|actionType)$/i.test(key))
     ) {
-      filtedProperties[key] = schema.properties[key];
+      filteredProperties[key] = {
+        ...schema.properties[key]
+      };
+      delete filteredProperties[key].description;
     }
   });
-  return filtedProperties;
+  return filteredProperties;
+}
+
+// 优化条件逻辑，主要处理 action 与 schemaObject 部分的 if
+// 避免 monaco-editor 无法精确定位
+function optimizeConditions(schema: any) {
+  const actionSchema = schema.definitions.ActionSchema;
+  const actionSchemaAllOf = actionSchema.allOf;
+
+  delete actionSchema.allOf;
+  actionSchema.if = {
+    required: ['actionType']
+  };
+  actionSchema.then = {
+    allOf: actionSchemaAllOf.map((item: any) => {
+      delete item.if.properties.type;
+      item.if.required = item.if.required.filter(
+        (item: string) => item !== 'type'
+      );
+      return item;
+    })
+  };
+  actionSchema.else = {
+    $ref: '#/definitions/VanillaAction'
+  };
+
+  const schemaObjectSchema = schema.definitions.SchemaObject;
+  schemaObjectSchema.allOf = schemaObjectSchema.allOf
+    .filter(
+      (item: any) => !(item.if.properties.type && item.if.properties.actionType)
+    )
+    .map((item: any) => {
+      Object.keys(item.if.properties || {}).forEach(key => {
+        delete item.if.properties[key].description;
+      });
+      return item;
+    });
+  schemaObjectSchema.allOf.push({
+    if: {
+      properties: {
+        type: {const: ['action', 'button', 'submit', 'reset']}
+      },
+      required: ['type']
+    },
+    then: {
+      $ref: '#/definitions/ActionSchema'
+    }
+  });
+
+  schema.definitions.FormSchema.allOf = schema.definitions.BaseFormSchema.allOf;
+  // delete schema.definitions.FormSchemaBase.additionalProperties;
+  // delete schema.definitions.BaseSchemaWithoutType.additionalProperties;
+  // delete schema.definitions.FormSchema.additionalProperties;
 }
 
 main().catch(e => {
-  if (e instanceof DiagnosticError) {
-    console.log('Ts 错误\n');
-
-    e.getDiagnostics().forEach(diagnostic => {
-      const poistion = diagnostic.file!.getLineAndCharacterOfPosition(
-        diagnostic.start!
-      );
-
-      console.log(
-        `\x1b[36m${diagnostic.file!.fileName}:${poistion.line + 1}:${
-          poistion.character + 1
-        }\x1b[0m - \x1b[31merror\x1b[0m\n`
-      );
-      console.log(diagnostic.messageText);
-      console.log('\n');
-    });
-  } else if (e instanceof UnknownNodeError) {
-    let node = e.getNode();
-
-    const sourceFile = node.getSourceFile();
-    const position = sourceFile.getLineAndCharacterOfPosition(node.pos);
-
-    console.log(
-      `\x1b[36m${sourceFile.fileName}:${position.line + 1}:${
-        position.character + 1
-      }\x1b[0m - \x1b[31m类型不支持转 JSON Schema\x1b[0m\n`
-    );
-  } else if (e instanceof UnknownTypeError) {
-    console.log(`类型不支持`, e);
-  } else {
-    console.error(e);
-  }
+  console.error(e);
 });

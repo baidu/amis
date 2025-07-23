@@ -72,6 +72,7 @@ export class TableRow<
     checkdisable: boolean;
     trRef?: React.Ref<any>;
     isNested?: boolean;
+    checkable?: boolean;
   }
 > {
   @autobind
@@ -207,6 +208,7 @@ export class TableRow<
       checkdisable,
       trRef,
       isNested,
+      checkable,
       testIdBuilder,
       rowPath,
       ...rest
@@ -371,6 +373,7 @@ export default observer((props: TableRowProps) => {
       // 不是 item.locals 的原因是 item.locals 会变化多次，比如父级上下文变化也会进来，但是 item.data 只会变化一次。
       data={canAccessSuperData ? item.locals : item.data}
       isNested={store.isNested}
+      checkable={item.checkable}
     />
   );
 });

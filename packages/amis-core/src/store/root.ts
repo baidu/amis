@@ -374,8 +374,13 @@ export const RootStore = ServiceStore.named('RootStore')
         );
 
         // 初始化全局变量
-        self.globalVars = yield initializeGlobalVars(newVars, updateVars);
+        const globalVars = yield initializeGlobalVars(newVars, updateVars);
 
+        if (!isAlive(self)) {
+          return;
+        }
+
+        self.globalVars = globalVars;
         removeVars.forEach(item => {
           self.globalVarTempStates.delete(item.key);
         });

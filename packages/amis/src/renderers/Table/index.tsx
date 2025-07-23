@@ -227,12 +227,7 @@ type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
  * Table 表格渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
  */
-export interface TableSchema extends BaseSchema {
-  /**
-   * 指定为表格渲染器。
-   */
-  type: 'table' | 'static-table';
-
+export interface BaseTableSchema extends BaseSchema {
   /**
    * 是否固定表头
    */
@@ -280,7 +275,11 @@ export interface TableSchema extends BaseSchema {
   /**
    * 占位符
    */
-  placeholder?: string | SchemaTpl;
+  placeholder?:
+    | string
+    | {
+        [propName: string]: string;
+      };
 
   /**
    * 是否显示序号
@@ -383,6 +382,12 @@ export interface TableSchema extends BaseSchema {
   persistKey?: string;
 }
 
+export interface TableSchema extends BaseTableSchema {
+  /**
+   * 指定为表格渲染器。
+   */
+  type: 'table' | 'static-table';
+}
 export interface TableProps extends RendererProps, SpinnerExtraProps {
   title?: string; // 标题
   header?: SchemaNode;
@@ -854,6 +859,7 @@ export default class Table<
   }
 
   autoFillHeightDispose?: () => void;
+  autoFillHeightDispose2?: () => void;
   initAutoFillHeight() {
     const props = this.props;
     const currentNode = this.dom.current!;
@@ -866,6 +872,13 @@ export default class Table<
         'height'
       );
       this.toDispose.push(this.autoFillHeightDispose);
+      this.autoFillHeightDispose2 = resizeSensor(
+        document.body,
+        this.updateAutoFillHeight,
+        false,
+        'height'
+      );
+      this.toDispose.push(this.autoFillHeightDispose2);
       this.updateAutoFillHeight();
     }
   }
@@ -1064,12 +1077,15 @@ export default class Table<
     // 检测属性变化，来切换功能
     if (props.autoFillHeight !== prevProps.autoFillHeight) {
       if (this.autoFillHeightDispose) {
-        const idx = this.toDispose.indexOf(this.autoFillHeightDispose);
-        if (idx !== -1) {
-          this.toDispose.splice(idx, 1);
-        }
+        this.toDispose = this.toDispose.filter(
+          fn =>
+            ![this.autoFillHeightDispose, this.autoFillHeightDispose2].includes(
+              fn
+            )
+        );
         this.autoFillHeightDispose();
         delete this.autoFillHeightDispose;
+        delete this.autoFillHeightDispose2;
         const tableContent = this.table?.parentElement as HTMLElement;
         if (tableContent) {
           tableContent.style.height = '';
@@ -1086,6 +1102,7 @@ export default class Table<
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
     delete this.autoFillHeightDispose;
+    delete this.autoFillHeightDispose2;
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();

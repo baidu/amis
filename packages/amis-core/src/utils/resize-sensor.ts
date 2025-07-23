@@ -177,11 +177,79 @@ function detach(element: HTMLElement) {
   }
 }
 
-export function resizeSensor(
+export function appearSensor(
+  element: HTMLElement,
+  callback: () => void,
+  once: boolean = false
+) {
+  if (once) {
+    callback = ((original: () => void) => {
+      return () => {
+        original();
+        dispose();
+      };
+    })(callback);
+  }
+
+  element.addEventListener('animationstart', callback);
+  let originalAnimationName = element.style.animationName;
+  let originalAnimationDuration = element.style.animationDuration;
+  element.style.cssText =
+    'animation-name: apearSensor; animation-duration: 0.2s;';
+  let dispose = () => {
+    element.style.animationName = originalAnimationName;
+    element.style.animationDuration = originalAnimationDuration;
+    element.removeEventListener('animationstart', callback);
+  };
+
+  return dispose;
+}
+
+export function resizeSensorV2(
   element: HTMLElement,
   callback: () => void,
   once: boolean = false,
   type: EventType = 'both'
+) {
+  const rect = element.getBoundingClientRect();
+  let originWidth = rect.width;
+  let originHeight = rect.height;
+
+  const observer = new ResizeObserver(function (entries) {
+    if (once) {
+      observer.disconnect();
+    }
+    const entry = entries[0];
+    const cr = entry.contentRect;
+    // 变化大于0.5px时才触发回调,允许一定的误差
+    const widthChanged = Math.abs(cr.width - originWidth) > 0.5;
+    const heightChanged = Math.abs(cr.height - originHeight) > 0.5;
+
+    if (widthChanged || heightChanged) {
+      if (type === 'both') {
+        callback();
+      } else if (
+        (type === 'width' && widthChanged) ||
+        (type === 'height' && heightChanged)
+      ) {
+        callback();
+      }
+      originWidth = cr.width;
+      originHeight = cr.height;
+    }
+  });
+  observer.observe(element);
+  return () => {
+    observer.disconnect();
+  };
+}
+
+export function resizeSensor(
+  element: HTMLElement,
+  callback: () => void,
+  once: boolean = false,
+  type: EventType = 'both',
+  triggerOnAppear: boolean = false
 ): () => void {
   if (!element) {
     return () => {};
@@ -189,36 +257,12 @@ export function resizeSensor(
 
   // 优先用 ResizeObserver
   if (typeof ResizeObserver !== 'undefined') {
-    const rect = element.getBoundingClientRect();
-    let originWidth = rect.width;
-    let originHeight = rect.height;
-
-    const observer = new ResizeObserver(function (entries) {
-      if (once) {
-        observer.disconnect();
-      }
-      const entry = entries[0];
-      const cr = entry.contentRect;
-      // 变化大于0.5px时才触发回调,允许一定的误差
-      const widthChanged = Math.abs(cr.width - originWidth) > 0.5;
-      const heightChanged = Math.abs(cr.height - originHeight) > 0.5;
-
-      if (widthChanged || heightChanged) {
-        if (type === 'both') {
-          callback();
-        } else if (
-          (type === 'width' && widthChanged) ||
-          (type === 'height' && heightChanged)
-        ) {
-          callback();
-        }
-        originWidth = cr.width;
-        originHeight = cr.height;
-      }
-    });
-    observer.observe(element);
+    const disposes = [
+      resizeSensorV2(element, callback, once, type),
+      triggerOnAppear ? appearSensor(element, callback, true) : undefined
+    ];
     return () => {
-      observer.disconnect();
+      disposes.forEach(dispose => dispose?.());
     };
   }
 

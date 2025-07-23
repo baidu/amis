@@ -813,14 +813,12 @@ export class TreeControlPlugin extends BasePlugin {
                   }
                 }
               },
-              {
-                type: 'input-number',
+              getSchemaTpl('theme:height2', {
                 label: '固定高度',
                 name: 'wrapperCustomStyle.root.height',
                 clearable: true,
-                visibleOn: '!this.heightAuto',
-                unitOptions: ['px', '%', 'em', 'vh', 'vw']
-              }
+                visibleOn: '!this.heightAuto'
+              })
             ]
           }),
           getSchemaTpl('theme:form-label'),

@@ -20,6 +20,7 @@ export class List2Plugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/CardsSchema.json';
 
   // 组件名称

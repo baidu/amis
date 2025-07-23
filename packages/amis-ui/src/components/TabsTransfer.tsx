@@ -416,7 +416,7 @@ export class TabsTransfer extends React.Component<
                 })
             : undefined
         }
-        itemHeight={itemHeight}
+        // itemHeight={itemHeight}
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}

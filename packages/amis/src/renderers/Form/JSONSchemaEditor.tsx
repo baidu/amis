@@ -13,8 +13,7 @@ import {isMobile} from 'amis-core';
  * JSON Schema Editor
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema
-  extends Omit<FormBaseControlSchema, 'placeholder'> {
+export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
   /**
    * 指定为 JSON Schema Editor
    */
@@ -99,9 +98,7 @@ export interface JSONSchemaEditorProps
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
-export default class JSONSchemaEditorControl extends React.PureComponent<
-  JSONSchemaEditorProps
-> {
+export default class JSONSchemaEditorControl extends React.PureComponent<JSONSchemaEditorProps> {
   static defaultProps = {
     enableAdvancedSetting: false,
     placeholder: schemaEditorItemPlaceholder

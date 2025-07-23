@@ -39,7 +39,7 @@ export const deepRemove = (
 
     let item: any = waitProcess.pop();
     if (Array.isArray(item)) {
-      remove(item, (val: any) => {
+      remove(item as any, (val: any) => {
         const res = predicate(val);
 
         if (res && !checkAll) {
@@ -58,7 +58,7 @@ export const deepRemove = (
 
     Object.entries(item).forEach(([key, value]) => {
       if (isObject(value) && predicate(value)) {
-        delete item[key];
+        delete (item as any)[key];
         checkAll || (find = true);
       }
       waitProcess.push(value);

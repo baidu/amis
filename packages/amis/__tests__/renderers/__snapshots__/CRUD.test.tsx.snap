@@ -2693,6 +2693,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             >
               <div
                 class="cxd-Crud-selectionLabel"
+                data-folder-ignore="true"
               >
                 已选4条：
               </div>
@@ -2768,6 +2769,9 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                   </span>
                 </span>
               </div>
+              <div
+                class="cxd-AutoFoldedList-more"
+              />
               <a
                 class="cxd-Crud-selectionClear"
               >

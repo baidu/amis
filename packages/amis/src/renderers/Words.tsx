@@ -15,6 +15,7 @@ import {
 import {BaseSchema, SchemaObject} from '../Schema';
 import {Tag} from 'amis-ui';
 import {TagSchema} from './Tag';
+import {createObject} from 'amis-core';
 
 type Words = string | string[];
 /**
@@ -126,6 +127,22 @@ export class WordsField extends React.Component<WordsProps, object> {
     return limit ?? (Array.isArray(words) ? 10 : 200);
   }
 
+  @autobind
+  handleItemClick(e: React.MouseEvent<HTMLSpanElement>) {
+    const index = parseInt(e.currentTarget.dataset.index || '');
+    const options = this.props.selectedOptions;
+
+    if (Array.isArray(options)) {
+      const item = options[index];
+      if (item) {
+        this.props.dispatchEvent(
+          'staticItemClick',
+          createObject(this.props.data, {item, index})
+        );
+      }
+    }
+  }
+
   renderContent(words: Words) {
     const {delimiter, inTag, classnames: cx} = this.props;
 
@@ -139,10 +156,10 @@ export class WordsField extends React.Component<WordsProps, object> {
       const lastIndex = words.length - 1;
       return words.map((item, index) => {
         return (
-          <Fragment key={index}>
+          <span data-index={index} key={index} onClick={this.handleItemClick}>
             {labelToString(item)}
             {index === lastIndex ? '' : delimiter ? delimiter : '， '}
-          </Fragment>
+          </span>
         );
       });
     }
@@ -150,12 +167,14 @@ export class WordsField extends React.Component<WordsProps, object> {
     return words.map((label, key) => (
       // 使用tag展示时，默认不使用连接符
       <Tag
+        onClick={this.handleItemClick}
         key={key}
         label={label}
         className={'mb-1'}
         {...(typeof inTag === 'object'
           ? {...inTag, className: cx(inTag.className)}
           : undefined)}
+        dataIndex={key}
       />
     ));
   }

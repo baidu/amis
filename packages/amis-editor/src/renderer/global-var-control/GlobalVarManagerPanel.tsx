@@ -113,6 +113,13 @@ export function registerGlobalVarPanel(
   globalVarPanels.push({...panel, type});
 }
 
+export function unregisterGlobalVarPanel(type: string) {
+  const idx = globalVarPanels.findIndex(item => item.type === type);
+  if (~idx) {
+    globalVarPanels.splice(idx, 1);
+  }
+}
+
 export interface GlobalVarMangerProps extends PanelProps {}
 
 export const GlobalVarManger = observer((props: GlobalVarMangerProps) => {

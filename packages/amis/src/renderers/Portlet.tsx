@@ -10,7 +10,8 @@ import {
   autobind,
   isDisabled,
   isObject,
-  createObject
+  createObject,
+  BaseSchemaWithoutType
 } from 'amis-core';
 
 import {filter} from 'amis-core';
@@ -28,7 +29,7 @@ import {ActionSchema} from './Action';
  * 栏目容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/portlet
  */
-export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
+export interface PortletTabSchema extends BaseSchemaWithoutType {
   /**
    * Tab 标题
    */
@@ -73,7 +74,7 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
   unmountOnExit?: boolean;
 }
 
-export interface PortletSchema extends Omit<BaseSchema, 'type'> {
+export interface PortletSchema extends BaseSchemaWithoutType {
   /**
    * 指定为 portlet 类型
    */

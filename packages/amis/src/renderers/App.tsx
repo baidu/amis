@@ -305,8 +305,10 @@ export class App extends React.Component<AppProps, object> {
   handleNavClick(e: React.MouseEvent) {
     e.preventDefault();
 
+    const store = this.props.store;
     const env = this.props.env;
     const link = e.currentTarget.getAttribute('href')!;
+    store.updateOffScreen(false);
     env.jumpTo(link, undefined, this.props.data);
   }
 

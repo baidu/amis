@@ -11,6 +11,7 @@ import {ILoopAction} from './LoopAction';
 import {IParallelAction} from './ParallelAction';
 import {ISwitchAction} from './SwitchAction';
 import {debug} from '../utils/debug';
+import {injectObjectChain} from '../utils';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -215,11 +216,20 @@ export const runActions = async (
     } catch (e) {
       const ignore = actionConfig.ignoreError ?? false;
       if (!ignore) {
-        throw Error(
+        // 通过标记 stop 来阻止后续动作执行
+        // 不要抛出，避免后续的代码逻辑不执行，同时避免 unhandled promise rejection
+        event.stopPropagation();
+        event.preventDefault();
+        console.error(
           `${actionConfig.actionType} 动作执行失败，原因：${
             e.message || '未知'
           }`
         );
+        // throw Error(
+        //   `${actionConfig.actionType} 动作执行失败，原因：${
+        //     e.message || '未知'
+        //   }`
+        // );
       }
     }
 
@@ -256,15 +266,16 @@ export const runAction = async (
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
   // 注意：并行ajax请求结果必须通过event取值
-  const mergeData = createObject(
-    createObject(
-      rendererProto.__super
-        ? createObject(rendererProto.__super, additional)
-        : additional,
-      rendererProto
-    ),
-    event.data
-  );
+  const mergeData = injectObjectChain(event.data, additional);
+  // createObject(
+  //   createObject(
+  //     rendererProto.__super
+  //       ? createObject(rendererProto.__super, additional)
+  //       : additional,
+  //     rendererProto
+  //   ),
+  //   event.data
+  // );
   // 兼容一下1.9.0之前的版本
   const expression = action.expression ?? action.execOn;
   // 执行条件
@@ -352,40 +363,42 @@ export const runAction = async (
   debug('action', `run action ${action.actionType} with args`, args);
   debug('action', `run action ${action.actionType} with data`, data);
 
-  let stopped = false;
-  const actionResult = await actionInstrance.run(
-    {
-      ...action,
-      args,
-      rawData: actionConfig.data,
-      data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
-      ...key
-    },
-    renderer,
-    event,
-    mergeData
-  );
-  // 二次确认弹窗如果取消，则终止后续动作
-  if (action?.actionType === 'confirmDialog' && !actionResult) {
-    stopped = true;
-    preventDefault = true; // 这种对表单项change比较有意义，例如switch切换时弹确认弹窗，如果取消后不能把switch修改了
-  }
-
-  let stopPropagation = false;
-  if (action.stopPropagation) {
-    stopPropagation = await evalExpressionWithConditionBuilderAsync(
-      action.stopPropagation,
-      mergeData,
-      false
+  try {
+    let stopped = false;
+    const actionResult = await actionInstrance.run(
+      {
+        ...action,
+        args,
+        rawData: actionConfig.data,
+        data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
+        ...key
+      },
+      renderer,
+      event,
+      mergeData
     );
-  }
-  console.debug(`[${action.actionType}] action end event`, event);
-  console.groupEnd?.();
+    // 二次确认弹窗如果取消，则终止后续动作
+    if (action?.actionType === 'confirmDialog' && !actionResult) {
+      stopped = true;
+      preventDefault = true; // 这种对表单项change比较有意义，例如switch切换时弹确认弹窗，如果取消后不能把switch修改了
+    }
 
-  // 阻止原有动作执行
-  preventDefault && event.preventDefault();
-  // 阻止后续动作执行
-  (stopPropagation || stopped) && event.stopPropagation();
+    let stopPropagation = false;
+    if (action.stopPropagation) {
+      stopPropagation = await evalExpressionWithConditionBuilderAsync(
+        action.stopPropagation,
+        mergeData,
+        false
+      );
+    }
+    // 阻止原有动作执行
+    preventDefault && event.preventDefault();
+    // 阻止后续动作执行
+    (stopPropagation || stopped) && event.stopPropagation();
+  } finally {
+    console.debug(`[${action.actionType}] action end event`, event);
+    console.groupEnd?.();
+  }
 };
 
 // 注册动作参数映射忽略键

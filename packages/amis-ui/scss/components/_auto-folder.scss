@@ -1,0 +1,40 @@
+.#{$ns}AutoFoldedList {
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+
+  &-more {
+    display: inline-block;
+
+    &:empty {
+      display: none;
+    }
+
+    > span {
+      user-select: none;
+      cursor: pointer;
+      line-height: calc(
+        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+            2px
+          )}
+      );
+      display: inline-block;
+      vertical-align: middle;
+      font-size: var(--Form-selectValue-fontSize);
+      font-weight: var(--select-multiple-fontWeight);
+      color: var(--select-multiple-color);
+      background: var(--Form-select-value-bgColor);
+      border: px2rem(1px) solid var(--Form-select-value-borderColor);
+      border-radius: var(--select-multiple-top-left-border-radius)
+        var(--select-multiple-top-right-border-radius)
+        var(--select-multiple-bottom-right-border-radius)
+        var(--select-multiple-bottom-left-border-radius);
+      padding: var(--select-multiple-paddingTop)
+        var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
+        var(--select-multiple-paddingLeft);
+
+      &:hover {
+        background-color: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+  }
+}

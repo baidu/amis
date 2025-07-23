@@ -113,7 +113,7 @@ const ColSize: React.FC<FormControlProps> = props => {
     <div className="ColSize">
       {baseColSize
         .filter(n => {
-          if (type === 'combo' && !multiLine && n === '1') {
+          if (type === 'combo' && !multiLine && n === '1' && body.length > 1) {
             return false;
           }
           return true;

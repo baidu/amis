@@ -22,6 +22,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/ContainerSchema.json';
 
   // 组件名称

@@ -8,12 +8,7 @@ import {ActionSchema} from './Action';
  * Button Group 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-group
  */
-export interface ButtonGroupSchema extends BaseSchema {
-  /**
-   * 指定为提交按钮类型
-   */
-  type: 'button-group';
-
+export interface BaseButtonGroupSchema extends BaseSchema {
   /**
    * @deprecated 给 Button 配置 className。建议用btnLevel
    */
@@ -37,7 +32,7 @@ export interface ButtonGroupSchema extends BaseSchema {
   /**
    * 按钮选中的样式级别
    */
-  btnActiveLevel: string;
+  btnActiveLevel?: string;
 
   /**
    * 垂直展示？
@@ -73,6 +68,13 @@ export interface ButtonGroupSchema extends BaseSchema {
    * 按钮大小
    */
   size?: 'xs' | 'sm' | 'md' | 'lg';
+}
+
+export interface ButtonGroupSchema extends BaseButtonGroupSchema {
+  /**
+   * 指定为提交按钮类型
+   */
+  type: 'button-group';
 }
 
 export default ButtonGroup;

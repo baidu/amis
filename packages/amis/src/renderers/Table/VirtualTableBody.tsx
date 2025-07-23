@@ -1,15 +1,15 @@
 import React, {startTransition} from 'react';
-import {ITableStore} from 'amis-core';
+import {ITableStore, localeable, themeable, ThemeProps} from 'amis-core';
 import {getScrollParent} from 'amis-core';
 import {resizeSensor} from 'amis-core';
-export interface VirtualTableBodyProps {
+export interface VirtualTableBodyProps extends ThemeProps {
   className?: string;
   rows: React.ReactNode[];
   store: ITableStore;
 }
 
-export function VirtualTableBody(props: VirtualTableBodyProps) {
-  const {className, rows, store} = props;
+function VirtualTableBody(props: VirtualTableBodyProps) {
+  const {className, rows, store, classPrefix} = props;
   const leadingPlaceholderRef = React.useRef<HTMLTableSectionElement>(null);
   const trailingPlaceholderRef = React.useRef<HTMLTableSectionElement>(null);
   const tBodyRef = React.useRef<HTMLTableSectionElement>(null);
@@ -29,13 +29,13 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
     const tbody = tBodyRef.current!;
     const table = tbody.parentElement!;
     const wrap = table.parentElement!;
-    const rootDom = wrap.closest('.cxd-Table')!;
+    const rootDom = wrap.closest(`.${classPrefix}Table`)!;
 
     const header =
-      rootDom?.querySelector(':scope > .cxd-Table-fixedTop') ||
+      rootDom?.querySelector(`:scope > .${classPrefix}Table-fixedTop`) ||
       table.querySelector(':scope > thead')!;
     const firstRow = leadingPlaceholderRef.current!;
-    const isAutoFill = rootDom.classList.contains('cxd-Table--autoFillHeight');
+    const isAutoFill = rootDom.classList.contains(`${classPrefix}Table--autoFillHeight`);
     const toDispose: Array<() => void> = [];
 
     const check = () => {
@@ -118,3 +118,5 @@ export function VirtualTableBody(props: VirtualTableBodyProps) {
     </>
   );
 }
+
+export default themeable(VirtualTableBody);

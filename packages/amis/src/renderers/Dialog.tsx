@@ -41,7 +41,7 @@ import {isAlive} from 'mobx-state-tree';
  * Dialog 弹框渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
  */
-export interface DialogSchema extends BaseSchema {
+export interface DialogSchemaBase extends BaseSchema {
   type: 'dialog';
 
   /**
@@ -150,8 +150,9 @@ export interface DialogState {
   isFullscreen?: boolean;
 }
 
-export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
-
+export interface DialogSchema extends DialogSchemaBase {
+  type: 'dialog';
+}
 export interface DialogProps
   extends RendererProps,
     Omit<DialogSchema, 'className' | 'data'>,

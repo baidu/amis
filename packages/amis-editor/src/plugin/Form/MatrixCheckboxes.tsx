@@ -224,7 +224,7 @@ export class MatrixControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:formItem'),
             getSchemaTpl('style:classNames'),
             {
               label: tipedLabel('对齐方式', '默认当开启全选后居左排列'),

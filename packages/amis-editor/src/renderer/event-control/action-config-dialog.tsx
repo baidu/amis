@@ -355,7 +355,9 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             type: 'textarea',
                             label: '动作描述',
                             mode: 'horizontal',
-                            visibleOn: 'this.actionType'
+                            visibleOn: 'this.actionType',
+                            maxLength: 512,
+                            showCounter: true
                           },
                           {
                             type: 'tpl',

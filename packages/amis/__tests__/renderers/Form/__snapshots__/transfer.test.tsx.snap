@@ -460,6 +460,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                       >
                         <li
                           class="cxd-Tree-item "
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -497,6 +498,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -529,6 +531,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item "
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -566,6 +569,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -598,6 +602,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel is-checked"
@@ -1606,6 +1611,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                   >
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1656,6 +1662,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel is-checked"
@@ -1701,6 +1708,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1751,6 +1759,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1796,6 +1805,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1841,6 +1851,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1891,6 +1902,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1936,6 +1948,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -1981,6 +1994,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2064,6 +2078,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                       >
                         <li
                           class="cxd-Tree-item "
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -2105,6 +2120,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -2285,6 +2301,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                   >
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2335,6 +2352,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel is-checked"
@@ -2380,6 +2398,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2430,6 +2449,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel is-checked"
@@ -2475,6 +2495,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2520,6 +2541,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item "
+                      style="--Tree-depth: 0;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2570,6 +2592,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2615,6 +2638,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2660,6 +2684,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                     </li>
                     <li
                       class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                      style="--Tree-depth: 1;"
                     >
                       <div
                         class="cxd-Tree-itemLabel"
@@ -2764,6 +2789,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                       >
                         <li
                           class="cxd-Tree-item "
+                          style="--Tree-depth: 0;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -2805,6 +2831,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                         </li>
                         <li
                           class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                          style="--Tree-depth: 1;"
                         >
                           <div
                             class="cxd-Tree-itemLabel"
@@ -3313,6 +3340,7 @@ exports[`Renderer:transfer left tree 1`] = `
                               >
                                 <li
                                   class="cxd-Tree-item "
+                                  style="--Tree-depth: 0;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3350,6 +3378,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3382,6 +3411,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item "
+                                  style="--Tree-depth: 0;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3419,6 +3449,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3451,6 +3482,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3483,6 +3515,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item "
+                                  style="--Tree-depth: 0;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3520,6 +3553,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3552,6 +3586,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -3584,6 +3619,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                                  style="--Tree-depth: 1;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -5566,6 +5602,7 @@ exports[`Renderer:transfer tree 1`] = `
                           >
                             <li
                               class="cxd-Tree-item "
+                              style="--Tree-depth: 0;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5616,6 +5653,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5661,6 +5699,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item "
+                              style="--Tree-depth: 0;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5711,6 +5750,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5756,6 +5796,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5801,6 +5842,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item "
+                              style="--Tree-depth: 0;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5851,6 +5893,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5896,6 +5939,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -5941,6 +5985,7 @@ exports[`Renderer:transfer tree 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf is-child"
+                              style="--Tree-depth: 1;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -6116,6 +6161,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
             >
               <li
                 class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                style="--Tree-depth: 0;"
               >
                 <div
                   class="cxd-Tree-itemLabel"
@@ -6161,6 +6207,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
               </li>
               <li
                 class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                style="--Tree-depth: 0;"
               >
                 <div
                   class="cxd-Tree-itemLabel"
@@ -6206,6 +6253,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
               </li>
               <li
                 class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                style="--Tree-depth: 0;"
               >
                 <div
                   class="cxd-Tree-itemLabel"

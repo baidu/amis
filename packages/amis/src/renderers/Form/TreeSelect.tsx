@@ -44,6 +44,10 @@ type NodeBehaviorType = 'unfold' | 'check';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
 export interface TreeSelectControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 TreeSelect 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree-select
+   */
   type: 'tree-select';
 
   /**
@@ -793,7 +797,7 @@ export default class TreeSelectControl extends React.Component<
         onExpandTree={expandTreeOptions}
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
-        itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
+        // itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}

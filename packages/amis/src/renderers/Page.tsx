@@ -51,13 +51,14 @@ import {scrollPosition, isMobile} from 'amis-core';
  * css 定义
  */
 interface CSSRule {
-  [selector: string]:
-    | Record<string, string>
-    | Record<string, Record<string, string>>; // 定义
+  [selector: string]: {
+    [propName: string]: any;
+  };
 }
 
 /**
  * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
+ * 一个页面只允许有一个 Page 渲染器。
  */
 export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**

@@ -202,6 +202,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
       >
         <LocationPicker
           {...this.props}
+          placeholder={this.props.placeholder as string}
           ak={filter(this.props.ak, this.props.data)}
           onChange={this.handleChange}
         />

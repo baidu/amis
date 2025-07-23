@@ -27,6 +27,8 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   testIdBuilder?: TestIdBuilder;
+  onFocus?: (e: any) => void;
+  onBlur?: (e: any) => void;
 }
 
 export class Value extends React.Component<ValueProps> {
@@ -52,6 +54,7 @@ export class Value extends React.Component<ValueProps> {
   render() {
     let {
       classnames: cx,
+      className,
       field,
       value,
       onChange,
@@ -62,7 +65,9 @@ export class Value extends React.Component<ValueProps> {
       formula,
       popOverContainer,
       mobileUI,
-      testIdBuilder
+      testIdBuilder,
+      onFocus,
+      onBlur
     } = this.props;
     let input: JSX.Element | undefined = undefined;
     if (formula) {
@@ -101,8 +106,10 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           placeholder={__(field.placeholder)}
-          disabled={disabled}
+          disabled={disabled || field.disabled}
           mobileUI={mobileUI}
+          onFocus={onFocus}
+          onBlur={onBlur}
           testIdBuilder={testIdBuilder?.getChild('text')}
         />
       );
@@ -116,7 +123,9 @@ export class Value extends React.Component<ValueProps> {
           precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
-          disabled={disabled}
+          disabled={disabled || field.disabled}
+          onFocus={onFocus}
+          onBlur={onBlur}
           mobileUI={mobileUI}
           testIdBuilder={testIdBuilder?.getChild('number')}
         />
@@ -130,9 +139,11 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           timeFormat=""
-          disabled={disabled}
+          disabled={disabled || field.disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          onFocus={onFocus}
+          onBlur={onBlur}
           testIdBuilder={testIdBuilder?.getChild('date')}
         />
       );
@@ -147,9 +158,11 @@ export class Value extends React.Component<ValueProps> {
           onChange={onChange}
           dateFormat=""
           timeFormat={field.format || 'HH:mm'}
-          disabled={disabled}
+          disabled={disabled || field.disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          onFocus={onFocus}
+          onBlur={onBlur}
           testIdBuilder={testIdBuilder?.getChild('time')}
         />
       );
@@ -162,9 +175,11 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           timeFormat={field.timeFormat || 'HH:mm'}
-          disabled={disabled}
+          disabled={disabled || field.disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          onFocus={onFocus}
+          onBlur={onBlur}
           testIdBuilder={testIdBuilder?.getChild('datetime')}
         />
       );
@@ -183,11 +198,13 @@ export class Value extends React.Component<ValueProps> {
           data={data}
           onChange={onChange}
           multiple={op === 'select_any_in' || op === 'select_not_any_in'}
-          disabled={disabled}
+          disabled={disabled || field.disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
           maxTagCount={field.maxTagCount}
           overflowTagPopover={field.overflowTagPopover}
+          onFocus={onFocus}
+          onBlur={onBlur}
           testIdBuilder={testIdBuilder?.getChild('select')}
         />
       );
@@ -197,7 +214,7 @@ export class Value extends React.Component<ValueProps> {
           <Switch
             value={value ?? field.defaultValue}
             onChange={onChange}
-            disabled={disabled}
+            disabled={disabled || field.disabled}
             testIdBuilder={testIdBuilder?.getChild('switch')}
           />
         </div>
@@ -206,6 +223,9 @@ export class Value extends React.Component<ValueProps> {
       input = this.renderCustomValue({
         value: value ?? field.defaultValue,
         onChange,
+        onFocus,
+        onBlur,
+        disabled: disabled || field.disabled,
         inputSettings: field,
         testIdBuilder: testIdBuilder?.getChild('custom')
       });
@@ -214,6 +234,9 @@ export class Value extends React.Component<ValueProps> {
       input = this.renderCustomValue({
         value: value ?? (field as any).defaultValue,
         onChange,
+        onFocus,
+        onBlur,
+        disabled: disabled || (field as any).disabled,
         testIdBuilder: testIdBuilder?.getChild('custom'),
         inputSettings: {
           value: omit(field, [
@@ -226,7 +249,7 @@ export class Value extends React.Component<ValueProps> {
       });
     }
 
-    return <div className={cx('CBValue')}>{input}</div>;
+    return <div className={cx('CBValue', className)}>{input}</div>;
   }
 }
 

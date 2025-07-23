@@ -1375,7 +1375,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
         "direction": "column",
         "isFixedHeight": true,
         "style": {
-          "height": "300px",
+          "height": "320px",
           "paddingRight": "10px"
         },
         "items": [
@@ -1383,7 +1383,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
             "type": "input-tree",
             "id": "tree",
             "name": "tree",
-            "label": "Tree",
+            "label": false,
             "virtualThreshold": 5,
             "options": [
               {
@@ -1501,7 +1501,8 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                                               |
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                                     |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                                     |
-| treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                                  |
+| treeContainerClassName | `string`                                     |                  | tree 控件最外层容器类名, 与 inputClassName 等价                                                                                      |
+| treeClassName          | `string`                                     |                  | tree 组件层类名                                                                                                                      |
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
 | highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
@@ -1530,6 +1531,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | deleteConfirm (3.6.4 及以上版本)     | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                                                                                                                                                                                      | 删除节点提交时触发           |
 | deferLoadFinished (3.6.4 及以上版本) | `[name]: object` 组件的值<br/>`result: object` deferApi 懒加载远程请求成功后返回的数据 <br/>`items: object[]`选项集合                                                                                                                                                                          | 懒加载接口远程请求成功时触发 |
 | itemClick (6.9.0 以上版本)           | `item: Option` 所点击的选项 息                                                                                                                                                                                                                                                                 | 节点点击时触发               |
+| staticItemClick (6.13.0 以上版本)    | `item: Option` 所点击的选项 息                                                                                                                                                                                                                                                                 | 静态展示节点点击时触发       |
 | add（不推荐）                        | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 新增节点提交时触发           |
 | edit（不推荐）                       | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 编辑节点提交时触发           |
 | delete（不推荐）                     | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                                                                                                                                                                                | 删除节点提交时触发           |
@@ -1834,6 +1836,65 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
         "nodeBehavior": [],
         "onEvent": {
           "itemClick": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.item|json}"
+                }
+              }
+            ]
+          }
+        },
+        "options": [
+          {
+            "label": "Folder A",
+            "value": 1,
+            "children": [
+              {
+                "label": "file A",
+                "value": 2
+              },
+              {
+                "label": "file B",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "label": "file C",
+            "value": 4
+          },
+          {
+            "label": "file D",
+            "value": 5
+          }
+        ]
+      }
+    ]
+}
+```
+
+### staticItemClick
+
+> 6.13.0 起支持
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tree",
+        "name": "tree",
+        "label": "Tree",
+        "nodeBehavior": [],
+        static: true,
+        multiple: true,
+        value: "4,5",
+        "onEvent": {
+          "staticItemClick": {
             "actions": [
               {
                 "actionType": "toast",

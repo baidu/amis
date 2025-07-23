@@ -11,12 +11,7 @@ import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
  */
-export interface RemarkSchema extends BaseSchema {
-  /**
-   * 指定为提示类型
-   */
-  type: 'remark';
-
+export interface BaseRemarkSchema extends BaseSchema {
   label?: string;
 
   icon?: SchemaIcon;
@@ -54,7 +49,14 @@ export interface RemarkSchema extends BaseSchema {
   shape?: 'circle' | 'square';
 }
 
-export type SchemaRemark = string | Omit<RemarkSchema, 'type'>;
+export interface RemarkSchema extends BaseRemarkSchema {
+  /**
+   * 指定为提示类型
+   */
+  type: 'remark';
+}
+
+export type SchemaRemark = string | BaseRemarkSchema;
 
 export function filterContents(
   tooltip:

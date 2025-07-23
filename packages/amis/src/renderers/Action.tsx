@@ -93,7 +93,7 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * 指定按钮类型，支持 button、submit或者reset三种类型。
    */
-  type: 'button' | 'submit' | 'reset';
+  type: 'action' | 'button' | 'submit' | 'reset';
 
   /**
    * 提示文字，配置了操作前会要求用户确认。
@@ -175,6 +175,11 @@ export interface ButtonSchema extends BaseSchema {
   body?: SchemaCollection;
 
   tabIndex?: string;
+
+  /**
+   * 点击后打开的链接地址
+   */
+  href?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -366,6 +371,18 @@ export interface EmailActionSchema extends ButtonSchema {
 }
 
 export interface OtherActionSchema extends ButtonSchema {
+  /**
+   * 指定为其他动作如：
+   * "prev",
+   *  "next",
+   *  "cancel",
+   *  "close",
+   *  "submit",
+   *  "confirm",
+   *  "add",
+   *  "reset",
+   *  "reset-and-submit"
+   */
   actionType:
     | 'prev'
     | 'next'
@@ -376,12 +393,12 @@ export interface OtherActionSchema extends ButtonSchema {
     | 'add'
     | 'reset'
     | 'reset-and-submit';
-  [propName: string]: any;
 }
 
 export interface VanillaAction extends ButtonSchema {
   actionType?: string;
   downloadFileName?: string;
+  [propName: string]: any;
 }
 
 /**
@@ -517,7 +534,7 @@ export interface ActionProps
       ButtonSchema,
       'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
-    ThemeProps,
+    Omit<ThemeProps, 'className'>,
     Omit<AjaxActionSchema, CommonKeys>,
     Omit<UrlActionSchema, CommonKeys>,
     Omit<LinkActionSchema, CommonKeys>,
@@ -528,6 +545,7 @@ export interface ActionProps
     Omit<ReloadActionSchema, CommonKeys>,
     Omit<EmailActionSchema, CommonKeys | 'body'>,
     Omit<OtherActionSchema, CommonKeys>,
+    Omit<RendererProps, 'data'>,
     SpinnerExtraProps {
   actionType: any;
   onAction?: (
@@ -544,7 +562,6 @@ export interface ActionProps
     | null;
   componentClass: React.ElementType;
   tooltipContainer?: any;
-  data?: any;
   isMenuItem?: boolean;
   active?: boolean;
 }
@@ -874,7 +891,9 @@ export class Action extends React.Component<ActionProps, ActionState> {
           onClick={this.handleAction}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          type={type && ~allowedType.indexOf(type) ? type : 'button'}
+          type={
+            (type && ~allowedType.indexOf(type) ? type : 'button') as 'button'
+          }
           disabled={disabled}
           componentClass={isMenuItem ? 'a' : componentClass}
           overrideClassName={isMenuItem}

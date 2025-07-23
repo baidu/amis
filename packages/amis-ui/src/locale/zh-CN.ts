@@ -317,7 +317,8 @@ register('zh-CN', {
   'validate.isTimeSameOrAfter':
     '当前时间值不合法，请输入和 $1 相同或之后的时间值',
   'validate.isTimeBetween': '当前时间值不合法，请输入 $1 和 $2 之间的时间值',
-  'validate.isVariableName': '请输入合法的变量名',
+  'validate.isVariableName':
+    '请输入合法的变量名，变量名只能以字母或下划线开头，后续可包含字母、数字和下划线',
   'validateFailed': '表单验证失败',
   'Wizard.configError': '配置错误',
   'Wizard.finish': '完成',

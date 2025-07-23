@@ -281,12 +281,7 @@ export interface ExpandableSchema {
   expandedRowKeysExpr: string;
 }
 
-export interface TableSchema2 extends BaseSchema {
-  /**
-   * 指定为表格类型
-   */
-  type: 'table2';
-
+export interface BaseTableSchema2 extends BaseSchema {
   /**
    * 表格标题
    */
@@ -444,6 +439,13 @@ export interface TableSchema2 extends BaseSchema {
    * @default 100
    */
   lazyRenderAfter?: number;
+}
+
+export interface TableSchema2 extends BaseTableSchema2 {
+  /**
+   * 指定为表格类型
+   */
+  type: 'table2';
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -625,13 +627,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
     let rows: Array<object> = [];
     let updateRows = false;
 
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
-        getPropValue(prevProps, (props: Table2Props) => props.items) !== value)
-    ) {
-      updateRows = true;
-      rows = value;
+    if (Array.isArray(value)) {
+      if (
+        !prevProps ||
+        getPropValue(prevProps, (props: Table2Props) => props.items) !== value
+      ) {
+        updateRows = true;
+        rows = value;
+      }
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
@@ -1191,7 +1194,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       classnames.push(rowClassName);
     }
     if (rowClassNameExpr) {
-      classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
+      classnames.push(filter(rowClassNameExpr, {...record, rowIndex}));
     }
     // row可能不存在
     // 比如初始化给了10条数据，异步接口又替换成4条

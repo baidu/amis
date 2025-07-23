@@ -2874,7 +2874,7 @@
   --select-multiple-paddingLeft: var(--sizes-size-3);
   --select-multiple-paddingRight: var(--sizes-size-3);
   --select-multiple-marginTop: var(--sizes-size-0);
-  --select-multiple-marginBottom: var(--sizes-size-0);
+  --select-multiple-marginBottom: var(--sizes-size-3);
   --select-multiple-marginLeft: var(--sizes-size-0);
   --select-multiple-marginRight: var(--sizes-size-3);
   --select-multiple-color: var(--colors-neutral-text-2);
@@ -2970,17 +2970,14 @@
   --Form-selectValue-borderColor: var(--colors-brand-7);
   --Form-selectValue-color: var(--colors-brand-5);
   --Form-selectValue-fontSize: var(--select-multiple-fontSize);
-  --Form-selectValue-onDisable-bg: #{color.adjust(
-      color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
-      $lightness: 5%
-    )};
+  --Form-selectValue-onDisable-bg: var(--colors-neutral-fill-10);
   --Form-selectValue-onHover-bg: #{color.adjust(
       color.adjust(color.adjust($info, $lightness: 40%), $saturation: 2.5%),
       $lightness: -5%
     )};
   --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
   --Form-selectValue-onInvalid-color: var(--danger);
-  --Form-valueLabel-maxWidth: #{px2rem(120px)};
+  --Form-valueLabel-maxWidth: #{px2rem(200px)};
   --Form-select-onFocus-boxShadow: none;
   --ResultBox-tag-height: #{px2rem(22px)};
   --ResultBox-tag-marginBottom: var(--select-multiple-marginBottom);

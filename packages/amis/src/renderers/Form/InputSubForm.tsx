@@ -5,7 +5,12 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject, guid} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {FormBaseControlSchema, FormSchema, SchemaClassName} from '../../Schema';
+import {
+  BaseFormSchema,
+  FormBaseControlSchema,
+  FormSchema,
+  SchemaClassName
+} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 import {isMobile} from 'amis-core';
@@ -102,7 +107,7 @@ export interface SubFormControlSchema extends FormBaseControlSchema {
   /**
    * 子表单详情
    */
-  form?: Omit<FormSchema, 'type'>;
+  form?: BaseFormSchema;
 
   scaffold?: any;
 }

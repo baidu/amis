@@ -8,7 +8,7 @@ import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTabsTransferRenderer} from './TabsTransfer';
 import {TabsTransferPicker} from 'amis-ui';
-import {TabsTransferControlSchema} from './TabsTransfer';
+import {BaseTransferControlSchema} from './Transfer';
 import {autobind, createObject} from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject, toNumber} from 'amis-core';
@@ -21,7 +21,7 @@ import {isMobile} from 'amis-core';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer-picker
  */
 export interface TabsTransferPickerControlSchema
-  extends Omit<TabsTransferControlSchema, 'type'>,
+  extends BaseTransferControlSchema,
     SpinnerExtraProps {
   type: 'tabs-transfer-picker';
 }
@@ -131,7 +131,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
         <TabsTransferPicker
           activeKey={this.state.activeKey}
           onTabChange={this.onTabChange}
-          placeholder={placeholder}
+          placeholder={placeholder as string}
           value={selectedOptions}
           disabled={disabled}
           options={options}

@@ -51,13 +51,15 @@ const modalDescDetail: (info: any, context: any, props: any) => any = (
                 onClick={(e: React.UIEvent<any>) => {
                   e.preventDefault();
                   e.stopPropagation();
-
                   const modalId = modal.$$id;
+                  const modalSchema =
+                    store.modals.find((item: any) => item.$$id === modalId) ||
+                    modal;
                   manager.openSubEditor({
                     title: '编辑弹窗',
                     value: {
                       type: 'dialog',
-                      ...modal,
+                      ...modalSchema,
                       definitions: modalsToDefinitions(store.modals, {}, modal)
                     },
                     onDefinitionsChange: (

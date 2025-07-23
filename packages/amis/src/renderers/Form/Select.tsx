@@ -35,6 +35,10 @@ import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 export interface SelectControlSchema
   extends FormOptionsSchema,
     SpinnerExtraProps {
+  /**
+   * 指定为 Select 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
+   */
   type: 'select' | 'multi-select';
 
   /**
@@ -598,7 +602,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
                 : rest.popOverContainer || env.getModalContainer
             }
             borderMode={borderMode}
-            placeholder={placeholder}
+            placeholder={placeholder as string}
             multiple={multiple || multi}
             ref={this.inputRef}
             value={selectedOptions}
@@ -771,7 +775,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
-          placeholder={placeholder}
+          placeholder={placeholder as string}
           itemHeight={itemHeight}
           virtualThreshold={virtualThreshold}
           virtualListHeight={266}

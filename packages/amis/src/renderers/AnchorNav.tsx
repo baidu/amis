@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, BaseSchemaWithoutType} from 'amis-core';
 import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
 import {isVisible, autobind} from 'amis-core';
 import {filter} from 'amis-core';
@@ -10,7 +10,7 @@ import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
  */
 
-export type AnchorNavSectionSchema = {
+export interface AnchorNavSectionSchema extends BaseSchemaWithoutType {
   /**
    * 导航文字说明
    */
@@ -30,7 +30,7 @@ export type AnchorNavSectionSchema = {
    * 子节点
    */
   children?: Array<AnchorNavSectionSchema>;
-} & Omit<BaseSchema, 'type'>;
+}
 
 /**
  * AnchorNav 锚点导航渲染器

@@ -99,9 +99,9 @@ export interface PanelSchema extends BaseSchema {
   /**
    * 外观配置的classname
    */
-  headerControlClassName: string;
-  bodyControlClassName: string;
-  actionsControlClassName: string;
+  headerControlClassName?: string;
+  bodyControlClassName?: string;
+  actionsControlClassName?: string;
 }
 
 export interface PanelProps

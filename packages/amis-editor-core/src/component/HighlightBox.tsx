@@ -221,6 +221,26 @@ export default observer(function ({
 
   // 判断是否在最右侧（考虑组件头部工具栏被遮挡的问题）
   const isRightElem = aePreviewOffsetWidth - node.x < 176; // 跳过icode代码检查
+  const isSelected =
+    (isActive && !store.activeElement) || ~store.selections.indexOf(id);
+
+  React.useLayoutEffect(() => {
+    if (!node.draggable || !isSelected || !isAlive(node)) {
+      return;
+    }
+    const dom = node.getTarget() as HTMLElement;
+    const targets = Array.isArray(dom) ? dom : dom ? [dom] : [];
+    targets.forEach(item => {
+      item.setAttribute('draggable', 'true');
+      item.addEventListener('dragstart', handleDragStart as any);
+    });
+    return () => {
+      targets.forEach(item => {
+        item.removeAttribute('draggable');
+        item.removeEventListener('dragstart', handleDragStart as any);
+      });
+    };
+  }, [node.draggable, isSelected]);
 
   /* bca-disable */
   return (
@@ -230,8 +250,7 @@ export default observer(function ({
         {
           shake: id === store.insertOrigId,
           focused: store.activeElement && isActive,
-          selected:
-            (isActive && !store.activeElement) || ~store.selections.indexOf(id),
+          selected: isSelected,
           hover: isHover,
           regionOn: node.childRegions.some(region =>
             store.isRegionHighlighted(region.id, region.region)

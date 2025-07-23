@@ -43,9 +43,9 @@ import {
   SchemaObject,
   SchemaTokenizeableString
 } from '../Schema';
-import {CardsSchema} from './Cards';
-import {ListSchema} from './List';
-import {TableSchema2} from './Table2';
+import {BaseCardsSchema} from './Cards';
+import {BaseListSchema} from './List';
+import {BaseTableSchema2} from './Table2';
 import {SchemaCollection} from '../Schema';
 
 import type {Table2RendererEvent} from './Table2';
@@ -281,15 +281,15 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
   mode: 'cards';
-} & Omit<CardsSchema, 'type'>;
+} & BaseCardsSchema;
 
 export type CRUD2ListSchema = CRUD2CommonSchema & {
   mode: 'list';
-} & Omit<ListSchema, 'type'>;
+} & BaseListSchema;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
   mode?: 'table2';
-} & Omit<TableSchema2, 'type'>;
+} & BaseTableSchema2;
 
 export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 

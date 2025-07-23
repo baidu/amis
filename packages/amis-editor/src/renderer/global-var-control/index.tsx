@@ -1,8 +1,13 @@
 import {
   GlobalVarManagerPanel,
-  registerGlobalVarPanel
+  registerGlobalVarPanel,
+  unregisterGlobalVarPanel
 } from './GlobalVarManagerPanel';
 
 import './GlobalVarBuiltinPanel';
 
-export {GlobalVarManagerPanel, registerGlobalVarPanel};
+export {
+  GlobalVarManagerPanel,
+  registerGlobalVarPanel,
+  unregisterGlobalVarPanel
+};
