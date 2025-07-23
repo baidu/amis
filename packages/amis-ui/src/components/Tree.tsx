@@ -107,8 +107,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   enableNodePath?: boolean;
   // 路径节点的分隔符
   pathSeparator?: string;
-  // 已选择节点路径
-  nodePath: any[];
+
   // ui级联关系，true代表级联选中，false代表不级联，默认为true
   autoCheckChildren: boolean;
 
@@ -157,7 +156,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   removeTip?: string;
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
-  onExpandTree?: (nodePathArr: any[]) => void;
+  onAutoDeferLoad?: () => void;
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
@@ -235,7 +234,6 @@ export class TreeSelector extends React.Component<
     removeTip: 'Tree.removeNode',
     enableNodePath: false,
     pathSeparator: '/',
-    nodePath: [],
     virtualThreshold: 100,
     enableDefaultIcon: true
   };
@@ -267,10 +265,9 @@ export class TreeSelector extends React.Component<
         delimiter: props.delimiter,
         valueField: props.valueField,
         labelField: props.labelField,
-        options: props.options,
-        pathSeparator: props.pathSeparator
+        options: props.options
       },
-      props.enableNodePath
+      props.multiple
     );
     this.state = {
       value,
@@ -334,11 +331,10 @@ export class TreeSelector extends React.Component<
           multiple: props.multiple,
           delimiter: props.delimiter,
           valueField: props.valueField,
-          pathSeparator: props.pathSeparator,
           options: props.options,
           labelField: props.labelField
         },
-        props.enableNodePath
+        props.multiple
       );
       this.setState({
         value: newValue,
@@ -361,11 +357,8 @@ export class TreeSelector extends React.Component<
    * 展开懒加载节点的父节点
    */
   expandLazyLoadNodes() {
-    const {pathSeparator, onExpandTree, nodePath = []} = this.props;
-    const nodePathArr = nodePath.map(path =>
-      path ? path.toString().split(pathSeparator) : []
-    );
-    onExpandTree?.(nodePathArr);
+    const {onAutoDeferLoad, value} = this.props;
+    onAutoDeferLoad?.();
   }
 
   @autobind
@@ -469,65 +462,9 @@ export class TreeSelector extends React.Component<
     );
   }
 
-  /**
-   * enableNodePath为true时，将label和value转换成node path格式
-   */
-  transform2NodePath(value: any) {
-    const {
-      multiple,
-      options,
-      valueField,
-      labelField,
-      joinValues,
-      extractValue,
-      pathSeparator,
-      delimiter
-    } = this.props;
-
-    const nodesValuePath: string[] = [];
-    const selectedNodes = Array.isArray(value) ? value.concat() : [value];
-    const selectedNodesPath = selectedNodes.map(node => {
-      const nodePath = getTreeAncestors(options, node, true)?.reduce(
-        (acc, node) => {
-          acc[labelField as string].push(node[labelField as string]);
-          acc[valueField as string].push(node[valueField as string]);
-          return acc;
-        },
-        {[labelField as string]: [], [valueField as string]: []}
-      );
-      const nodeValuePath = nodePath[valueField as string].join(pathSeparator);
-
-      nodesValuePath.push(nodeValuePath);
-      return {
-        ...node,
-        [labelField]: nodePath[labelField as string].join(pathSeparator),
-        [valueField]: nodeValuePath
-      };
-    });
-
-    if (multiple) {
-      return joinValues
-        ? nodesValuePath.join(delimiter)
-        : extractValue
-        ? nodesValuePath
-        : selectedNodesPath;
-    } else {
-      return joinValues || extractValue
-        ? selectedNodesPath[0][valueField]
-        : selectedNodesPath[0];
-    }
-  }
-
   @autobind
   handleSelect(node: any, value?: any) {
-    const {
-      joinValues,
-      valueField,
-      deferField,
-      onChange,
-      enableNodePath,
-      onlyLeaf
-    } = this.props;
+    const {joinValues, valueField, deferField, onChange, onlyLeaf} = this.props;
 
     if (node[valueField as string] === undefined) {
       if (node[deferField] && !node.loaded) {
@@ -545,13 +482,7 @@ export class TreeSelector extends React.Component<
         value: [node]
       },
       () => {
-        onChange(
-          enableNodePath
-            ? this.transform2NodePath(node)
-            : joinValues
-            ? node[valueField as string]
-            : node
-        );
+        onChange(joinValues ? node[valueField as string] : node);
       }
     );
   }
@@ -689,6 +620,13 @@ export class TreeSelector extends React.Component<
       }
     } else {
       value.has(item) && value.delete(item);
+      // 因为有可能多个节点的值是一样的
+      value.forEach(v => {
+        if (v[valueField] === item[valueField]) {
+          value.delete(v);
+        }
+      });
+
       if (autoCheckChildren) {
         if (cascade || withChildren || onlyChildren) {
           const children = item.children ? [...item.children] : [];
@@ -729,6 +667,11 @@ export class TreeSelector extends React.Component<
   }
 
   fireChange(value: Option[]) {
+    // 去重
+    value = value.filter(
+      (item, index, self) =>
+        self.findIndex(v => v.value === item.value) === index
+    );
     const {
       joinValues,
       extractValue,
@@ -739,9 +682,7 @@ export class TreeSelector extends React.Component<
     } = this.props;
 
     onChange(
-      enableNodePath
-        ? this.transform2NodePath(value)
-        : joinValues
+      joinValues
         ? value.map(item => item[valueField as string]).join(delimiter)
         : extractValue
         ? value.map(item => item[valueField as string])

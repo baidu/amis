@@ -22,7 +22,6 @@ import {
   getTree,
   isEmpty,
   getTreeAncestors,
-  normalizeNodePath,
   mapTree,
   getTreeDepth,
   flattenTree,
@@ -248,7 +247,7 @@ export interface OptionsControlProps
   reloadOptions: (subpath?: string, query?: any) => void;
   deferLoad: (option: Option) => void;
   leftDeferLoad: (option: Option, leftOptions: Option) => void;
-  expandTreeOptions: (nodePathArr: any[]) => void;
+  autoDeferLoad: () => void;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -334,11 +333,7 @@ export class OptionsControlBase<
       return;
     }
 
-    formItem.setOptions(
-      normalizeOptions(options, undefined, valueField),
-      this.changeOptionValue,
-      data
-    );
+    formItem.setOptions(options, this.changeOptionValue, data, true);
 
     this.toDispose.push(
       reaction(
@@ -418,9 +413,10 @@ export class OptionsControlBase<
 
     if (!props.source && prevProps.options !== props.options && formItem) {
       formItem.setOptions(
-        normalizeOptions(props.options || [], undefined, props.valueField),
+        props.options,
         this.changeOptionValue,
-        props.data
+        props.data,
+        true
       );
       this.normalizeValue();
     } else if (
@@ -824,19 +820,41 @@ export class OptionsControlBase<
   }
 
   @autobind
-  expandTreeOptions(nodePathArr: any[]) {
-    const {deferApi, source, env, formItem, data} = this.props;
-    const api = deferApi || source;
-
-    if (!api) {
-      env.notify(
-        'error',
-        '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
-      );
+  async autoDeferLoad() {
+    const {formItem, valueField, pathSeparator, enableNodePath} = this.props;
+    if (!formItem || !enableNodePath) {
       return;
     }
 
-    formItem?.expandTreeOptions(nodePathArr, api, createObject(data));
+    const pool = formItem
+      .getSelectedOptions()
+      .filter((item: any) => item.__unmatched);
+
+    const separator = pathSeparator || '/';
+    const valueKey = valueField || 'value';
+
+    while (pool.length) {
+      const option = pool[0];
+      const value = option[valueKey];
+      if (!isAlive(formItem)) {
+        break;
+      }
+
+      if (typeof value !== 'string' || !value.includes(separator)) {
+        // 如果不是带路径的值，直接跳过
+        pool.shift();
+        continue;
+      }
+      const paths = value.split(separator).slice(0, -1);
+      const [resolved] = formItem.getSelectedOptions(paths.join(separator));
+      if (resolved?.__unmatched) {
+        pool.unshift(resolved);
+      } else if (resolved.defer && !resolved.loaded) {
+        await this.deferLoad(resolved);
+      } else {
+        pool.shift();
+      }
+    }
   }
 
   @autobind
@@ -881,11 +899,10 @@ export class OptionsControlBase<
     const formItem = this.props.formItem as IFormItemStore;
     formItem &&
       formItem.setOptions(
-        skipNormalize
-          ? options
-          : normalizeOptions(options || [], undefined, this.props.valueField),
+        options,
         this.changeOptionValue,
-        this.props.data
+        this.props.data,
+        skipNormalize ? false : true
       );
   }
 
@@ -1355,15 +1372,6 @@ export class OptionsControlBase<
       translate: __
     } = this.props;
 
-    const {nodePathArray, nodeValueArray} = normalizeNodePath(
-      value,
-      enableNodePath,
-      labelField,
-      valueField,
-      pathSeparator,
-      delimiter
-    );
-
     const Control = this.config.component;
 
     return (
@@ -1374,15 +1382,7 @@ export class OptionsControlBase<
         options={formItem ? formItem.filteredOptions : []}
         onToggle={this.handleToggle}
         onToggleAll={this.handleToggleAll}
-        selectedOptions={
-          formItem
-            ? formItem.getSelectedOptions(
-                value,
-                enableNodePath ? nodeValueArray : undefined
-              )
-            : []
-        }
-        nodePath={nodePathArray}
+        selectedOptions={formItem ? formItem.getSelectedOptions(value) : []}
         loading={formItem ? formItem.loading : false}
         setLoading={this.setLoading}
         setOptions={this.setOptions}
@@ -1390,7 +1390,7 @@ export class OptionsControlBase<
         reloadOptions={this.reload}
         deferLoad={this.deferLoad}
         leftDeferLoad={this.leftDeferLoad}
-        expandTreeOptions={this.expandTreeOptions}
+        autoDeferLoad={this.autoDeferLoad}
         creatable={
           creatable !== false && isEffectiveApi(addApi) ? true : creatable
         }

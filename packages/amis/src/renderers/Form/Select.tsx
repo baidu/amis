@@ -385,7 +385,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       const options = (ret.data && (ret.data as any).options) || ret.data || [];
       const combinedOptions = this.mergeOptions(options);
 
-      setOptions(combinedOptions);
+      setOptions(combinedOptions, true);
 
       return {
         options: combinedOptions

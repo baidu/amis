@@ -1,5 +1,6 @@
 import {Options} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
+import {filterTree, mapTree} from './helper';
 
 export function normalizeOptions(
   options:
@@ -14,7 +15,9 @@ export function normalizeOptions(
     values: [],
     options: []
   },
-  valueField = 'value'
+  valueField = 'value',
+  enableNodePath = false,
+  pathSeparator = '/'
 ): Options {
   if (typeof options === 'string') {
     return options.split(',').map(item => {
@@ -57,10 +60,30 @@ export function normalizeOptions(
       return option;
     });
   } else if (Array.isArray(options as Options)) {
-    return (options as Options)
-      .filter(item => item !== null && item !== undefined)
-      .map(item => {
-        const value = item && item[valueField];
+    return mapTree(
+      filterTree(
+        options as Options,
+        item => item !== null && item !== undefined
+      ),
+      (item, key, level, paths) => {
+        let value = item && item[valueField];
+
+        // 如果开启了路径模式，则将 value 转成 'xxx/xxx' 的形式
+        if (typeof value === 'string' && value.includes(pathSeparator)) {
+          // 已经是这种形式了，不处理
+        } else if (enableNodePath && paths && paths.length) {
+          const values = paths
+            .map(p => p[valueField])
+            .filter(item => typeof item !== 'undefined');
+          const last = values[paths.length - 1];
+          if (typeof last === 'string' && last.includes(pathSeparator)) {
+            value = last + pathSeparator + value;
+          } else if (values.length) {
+            values.push(value);
+            value = values.join(pathSeparator);
+          }
+        }
+
         const idx =
           value !== undefined && !item.children
             ? share.values.indexOf(value)
@@ -75,23 +98,9 @@ export function normalizeOptions(
           [valueField]: value
         };
 
-        if (typeof option.children !== 'undefined') {
-          // 用新的 share 避免 children 内部复用全局缓存
-          option.children = normalizeOptions(
-            option.children,
-            {
-              values: [],
-              options: []
-            },
-            valueField
-          );
-        } else if (value !== undefined) {
-          share.values.push(value);
-          share.options.push(option);
-        }
-
         return option;
-      });
+      }
+    );
   } else if (isPlainObject(options)) {
     return Object.keys(options).map(key => {
       const idx = share.values.indexOf(key);

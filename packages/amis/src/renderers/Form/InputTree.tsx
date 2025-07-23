@@ -591,9 +591,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       labelField,
       iconField,
       deferField,
-      nodePath,
       deferLoad,
-      expandTreeOptions,
+      autoDeferLoad,
       translate: __,
       data,
       virtualThreshold,
@@ -655,7 +654,6 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         cascade={cascade}
         foldedField="collapsed"
         value={value || ''}
-        nodePath={nodePath}
         enableNodePath={enableNodePath}
         pathSeparator={pathSeparator}
         selfDisabledAffectChildren={false}
@@ -672,7 +670,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onDelete={onDelete}
         bultinCUD={!addControls && !editControls}
         onDeferLoad={deferLoad}
-        onExpandTree={expandTreeOptions}
+        onAutoDeferLoad={autoDeferLoad}
         virtualThreshold={virtualThreshold}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
