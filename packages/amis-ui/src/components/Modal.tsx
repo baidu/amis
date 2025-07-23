@@ -462,7 +462,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     contentFadeStyles[status],
                     isFullscreen ? 'Modal-fullScreen' : ''
                   )}
-                  style={{..._style, ...this.getDragStyle(), ...fullStyle}}
+                  style={{..._style, ...this.getDragStyle()}}
                 >
                   {status === EXITED ? null : children}
                 </div>
