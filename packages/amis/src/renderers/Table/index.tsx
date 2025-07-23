@@ -216,6 +216,8 @@ export type TableColumnObject = {
   innerStyle?: {
     [propName: string]: any;
   };
+
+  [propName: string]: any;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;

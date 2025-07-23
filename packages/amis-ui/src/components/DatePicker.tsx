@@ -246,13 +246,13 @@ const timeFormats = {
 export type ShortCutDate = {
   label: string;
   /** 支持表达式 */
-  date: moment.Moment | string;
+  date: string;
 };
 
 export type ShortCutDateRange = {
   label: string;
-  startDate?: moment.Moment | string;
-  endDate?: moment.Moment | string;
+  startDate?: string;
+  endDate?: string;
 };
 
 export type ShortCuts =

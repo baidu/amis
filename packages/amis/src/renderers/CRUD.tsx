@@ -146,12 +146,7 @@ export type AutoGenerateFilterObject = {
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
 
-export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
-  /**
-   *  指定为 CRUD 渲染器。
-   */
-  type: 'crud';
-
+export interface CRUDCommonSchemaWithoutType {
   /**
    * 指定内容区的展示模式。
    */
@@ -353,6 +348,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   keepItemSelectionOnPageChange?: boolean;
 
   /**
+   * 当开启 keepItemSelectionOnPageChange 时，最大保留已勾选项的数量。
+   */
+  maxKeepItemSelectionLength?: number;
+
+  /**
    * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。
    */
   labelTpl?: SchemaTpl;
@@ -453,17 +453,36 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   loadMoreProps?: LoadMoreConfig;
 }
 
-export type CRUDCardsSchema = CRUDCommonSchema & {
+export interface CRUDCommonSchema
+  extends CRUDCommonSchemaWithoutType,
+    BaseSchema,
+    SpinnerExtraProps {
+  /**
+   *  指定为 CRUD 渲染器。
+   */
+  type: 'crud';
+}
+
+export interface CRUDCardsSchema
+  extends CRUDCommonSchemaWithoutType,
+    BaseCardsSchema {
   mode: 'cards';
-} & BaseCardsSchema;
+  type: 'crud';
+}
 
-export type CRUDListSchema = CRUDCommonSchema & {
+export interface CRUDListSchema
+  extends CRUDCommonSchemaWithoutType,
+    BaseListSchema {
   mode: 'list';
-} & BaseListSchema;
+  type: 'crud';
+}
 
-export type CRUDTableSchema = CRUDCommonSchema & {
+export interface CRUDTableSchema
+  extends CRUDCommonSchemaWithoutType,
+    BaseTableSchema {
   mode?: 'table';
-} & BaseTableSchema;
+  type: 'crud';
+}
 
 /**
  * CRUD 增删改查渲染器。

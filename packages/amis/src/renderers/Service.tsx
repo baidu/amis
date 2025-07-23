@@ -56,7 +56,7 @@ export type DataProviderCollection = Partial<
   Record<ProviderEventType, DataProvider>
 >;
 
-export type DataProvider = string | Function;
+export type DataProvider = string;
 
 export type ComposedDataProvider = DataProvider | DataProviderCollection;
 
@@ -425,7 +425,7 @@ export default class Service extends React.Component<ServiceProps> {
     const dataProviders = this.dataProviders;
 
     if (dataProviders && ~eventTypes.indexOf(event)) {
-      const fn = dataProviders[event];
+      const fn = dataProviders[event] as any;
 
       if (fn && typeof fn === 'function') {
         const unsubscribe = await fn(

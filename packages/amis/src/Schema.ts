@@ -730,7 +730,7 @@ export type SchemaMessage = {
   saveSuccess?: string;
 };
 
-export type SchemaFunction = string | Function;
+export type SchemaFunction = string;
 
 export interface BaseSchema extends BaseSchemaWithoutType {
   type: SchemaType;
