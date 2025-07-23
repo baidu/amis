@@ -73,6 +73,7 @@ export interface FormHorizontal {
   labelAlign?: 'left' | 'right'; // label对齐方式
   /** label自定义宽度，默认单位为px */
   labelWidth?: number | string;
+  textOverflow?: 'default' | 'ellipsis';
 }
 
 export interface FormSchemaBase {
@@ -141,6 +142,7 @@ export interface FormSchemaBase {
      * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为120
      */
     ellipsisThreshold?: number | false;
+    textOverflow?: 'default' | 'ellipsis';
   };
 
   /**
@@ -2013,6 +2015,7 @@ export default class Form extends React.Component<FormProps, object> {
       dispatchEvent,
       labelAlign,
       labelWidth,
+      textOverflow,
       static: isStatic,
       canAccessSuperData
     } = props;
@@ -2032,6 +2035,7 @@ export default class Form extends React.Component<FormProps, object> {
           ? 'right'
           : labelAlign,
       formLabelWidth: labelWidth,
+      formTextOverflow: textOverflow,
       controlWidth,
       /**
        * form.loading有为true时才下发disabled属性，否则不显性设置disbaled为false

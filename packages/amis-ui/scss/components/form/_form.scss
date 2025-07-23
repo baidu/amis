@@ -285,7 +285,20 @@
         margin: 0;
         margin-right: var(--Form--horizontal-label-gap);
         flex-shrink: 0;
-
+        .#{$ns}Form-ellipsis {
+          max-width: 100%;
+          display: inline-block;
+          .fr-view span{
+            max-width: 100%;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .#{$ns}Remark{
+            margin-top: px2rem(-24px);
+          }
+        }
         .#{$ns}Form-star {
           position: absolute;
           left: px2rem(-6px);
