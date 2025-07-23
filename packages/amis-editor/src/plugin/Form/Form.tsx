@@ -1369,7 +1369,7 @@ export class FormPlugin extends BasePlugin {
                     'this.mode === "normal" || this.labelAlign === "top"'
                 }),
                 {
-                  name: 'textOverflow',
+                  name: 'labelOverflow',
                   type: 'button-group-select',
                   label: '文本超出处理',
                   size: 'xs',
