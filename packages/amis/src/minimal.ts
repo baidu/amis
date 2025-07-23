@@ -164,6 +164,7 @@ registerRenderer({
 // import './renderers/Form/ButtonGroupSelect';
 registerRenderer({
   type: 'button-group-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/ButtonGroupSelect')
 });
 // import './renderers/Form/Control';
@@ -174,6 +175,7 @@ registerRenderer({
 // import './renderers/Form/Hidden';
 registerRenderer({
   type: 'hidden',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Hidden')
 });
 // import './renderers/Form/InputText';
@@ -187,228 +189,275 @@ registerRenderer({
     'input-email',
     'input-url'
   ],
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputText')
 });
 // import './renderers/Form/InputTag';
 registerRenderer({
   type: 'input-tag',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputTag')
 });
 // import './renderers/Form/InputNumber';
 registerRenderer({
   type: 'input-number',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputNumber')
 });
 // import './renderers/Form/Textarea';
 registerRenderer({
   type: 'textarea',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Textarea')
 });
 // import './renderers/Form/Checkboxes';
 registerRenderer({
   type: 'checkboxes',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Checkboxes')
 });
 // import './renderers/Form/Checkbox';
 registerRenderer({
   type: 'checkbox',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Checkbox')
 });
 // import './renderers/Form/InputCity';
 registerRenderer({
   type: 'input-city',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputCity')
 });
 // import './renderers/Form/ChartRadios';
 registerRenderer({
   type: 'chart-radios',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/ChartRadios')
 });
 // import './renderers/Form/InputRating';
 registerRenderer({
   type: 'input-rating',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputRating')
 });
 // import './renderers/Form/Switch';
 registerRenderer({
   type: 'switch',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Switch')
 });
 // import './renderers/Form/Radios';
 registerRenderer({
   type: 'radios',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Radios')
 });
 // import './renderers/Form/Radio';
 registerRenderer({
   type: 'radio',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Radio')
 });
 // import './renderers/Form/JSONSchema';
 registerRenderer({
   type: 'json-schema',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/JSONSchema')
 });
 
 // import './renderers/Form/JSONSchemaEditor';
 registerRenderer({
   type: 'json-schema-editor',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/JSONSchemaEditor')
 });
 // import './renderers/Form/ListSelect';
 registerRenderer({
   type: 'list-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/ListSelect')
 });
 // import './renderers/Form/LocationPicker';
 registerRenderer({
   type: 'location-picker',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/LocationPicker')
 });
 // import './renderers/Form/Select';
 registerRenderer({
   type: 'select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Select')
 });
 registerRenderer({
   type: 'multi-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Select')
 });
 import './renderers/Form/Static';
 // import './renderers/Form/InputDate';
 registerRenderer({
   type: 'input-date',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 registerRenderer({
   type: 'input-datetime',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 registerRenderer({
   type: 'input-time',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 registerRenderer({
   type: 'input-month',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 registerRenderer({
   type: 'input-quarter',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 registerRenderer({
   type: 'input-year',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDate')
 });
 // import './renderers/Form/InputDateRange';
 registerRenderer({
   type: 'input-date-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDateRange')
 });
 registerRenderer({
   type: 'input-datetime-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDateRange')
 });
 registerRenderer({
   type: 'input-time-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputDateRange')
 });
 // import './renderers/Form/InputFormula';
 registerRenderer({
   type: 'input-formula',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputFormula')
 });
 // import './renderers/Form/InputRepeat';
 registerRenderer({
   type: 'input-repeat',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputRepeat')
 });
 // import './renderers/Form/InputTree';
 registerRenderer({
   type: 'input-tree',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputTree')
 });
 // import './renderers/Form/TreeSelect';
 registerRenderer({
   type: 'tree-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/TreeSelect')
 });
 // import './renderers/Form/InputImage';
 registerRenderer({
   type: 'input-image',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputImage')
 });
 // import './renderers/Form/InputFile';
 registerRenderer({
   type: 'input-file',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputFile')
 });
 // import './renderers/Form/UUID';
 registerRenderer({
   type: 'uuid',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/UUID')
 });
 // import './renderers/Form/MatrixCheckboxes';
 registerRenderer({
   type: 'matrix-checkboxes',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/MatrixCheckboxes')
 });
 // import './renderers/Form/InputMonthRange';
 registerRenderer({
   type: 'input-month-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputMonthRange')
 });
 // import './renderers/Form/InputQuarterRange';
 registerRenderer({
   type: 'input-quarter-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputQuarterRange')
 });
 // import './renderers/Form/InputYearRange';
 registerRenderer({
   type: 'input-year-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputYearRange')
 });
 // import './renderers/Form/InputRange';
 registerRenderer({
   type: 'input-range',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputRange')
 });
 // import './renderers/Form/InputArray';
 registerRenderer({
   type: 'input-array',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputArray')
 });
 // import './renderers/Form/Combo';
 registerRenderer({
   type: 'combo',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Combo')
 });
 registerRenderer({
   type: 'input-kv',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Combo')
 });
 registerRenderer({
   type: 'input-kvs',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Combo')
 });
 // import './renderers/Form/ConditionBuilder';
 registerRenderer({
   type: 'condition-builder',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/ConditionBuilder')
 });
 // import './renderers/Form/InputSubForm';
 registerRenderer({
   type: 'input-sub-form',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputSubForm')
 });
 // import './renderers/Form/InputExcel';
 registerRenderer({
   type: 'input-excel',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputExcel')
 });
 // import './renderers/Form/InputRichText';
 registerRenderer({
   type: 'input-rich-text',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputRichText')
 });
 import './renderers/Form/Editor';
@@ -419,71 +468,85 @@ import './renderers/Form/Editor';
 // import './renderers/Form/DiffEditor';
 registerRenderer({
   type: 'diff-editor',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/DiffEditor')
 });
 // import './renderers/Form/InputColor';
 registerRenderer({
   type: 'input-color',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputColor')
 });
 // import './renderers/Form/ChainedSelect';
 registerRenderer({
   type: 'chained-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/ChainedSelect')
 });
 // import './renderers/Form/NestedSelect';
 registerRenderer({
   type: 'nested-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/NestedSelect')
 });
 // import './renderers/Form/Transfer';
 registerRenderer({
   type: 'transfer',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Transfer')
 });
 // import './renderers/Form/TransferPicker';
 registerRenderer({
   type: 'transfer-picker',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/TransferPicker')
 });
 // import './renderers/Form/InputTable';
 registerRenderer({
   type: 'input-table',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputTable')
 });
 // import './renderers/Form/Picker';
 registerRenderer({
   type: 'picker',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Picker')
 });
 // import './renderers/Form/IconPicker';
 registerRenderer({
   type: 'icon-picker',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/IconPicker')
 });
 // import './renderers/Form/IconSelect';
 registerRenderer({
   type: 'icon-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/IconSelect')
 });
 // import './renderers/Form/Formula';
 registerRenderer({
   type: 'formula',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/Formula')
 });
 // import './renderers/Form/FieldSet';
 registerRenderer({
   type: 'fieldset',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/FieldSet')
 });
 // import './renderers/Form/TabsTransfer';
 registerRenderer({
   type: 'tabs-transfer',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/TabsTransfer')
 });
 // import './renderers/Form/TabsTransferPicker';
 registerRenderer({
   type: 'tabs-transfer-picker',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/TabsTransferPicker')
 });
 // import './renderers/Form/Group';
@@ -494,21 +557,25 @@ registerRenderer({
 // import './renderers/Form/InputGroup';
 registerRenderer({
   type: 'input-group',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputGroup')
 });
 // import './renderers/Form/UserSelect';
 registerRenderer({
   type: 'users-select',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/UserSelect')
 });
 // import './renderers/Form/InputSignature';
 registerRenderer({
   type: 'input-signature',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputSignature')
 });
 // import './renderers/Form/InputVerificationCode';
 registerRenderer({
   type: 'input-verification-code',
+  isFormItem: true,
   getComponent: () => import('./renderers/Form/InputVerificationCode')
 });
 import './renderers/Grid';
