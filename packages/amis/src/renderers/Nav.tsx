@@ -427,7 +427,7 @@ export class Navigation extends React.Component<
     }
 
     await onSelect?.(link, depth);
-    return false;
+    // return false;
   }
 
   @autobind
