@@ -146,6 +146,9 @@ export interface DialogSchemaBase extends BaseSchema {
     [propName: string]: any;
   };
 }
+export interface DialogState {
+  isFullscreen?: boolean;
+}
 
 export interface DialogSchema extends DialogSchemaBase {
   type: 'dialog';
@@ -202,6 +205,9 @@ export default class Dialog extends React.Component<DialogProps> {
     closeOnEsc: false,
     closeOnOutside: false,
     showErrorMsg: true
+  };
+  state: DialogState = {
+    isFullscreen: false
   };
 
   reaction: any;
