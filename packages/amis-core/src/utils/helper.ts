@@ -1940,69 +1940,6 @@ export function removeHTMLTag(str: string) {
   return typeof str === 'string' ? str.replace(/<\/?[^>]+(>|$)/g, '') : str;
 }
 
-/**
- * 将路径格式的value转换成普通格式的value值
- *
- * @example
- *
- * 'a/b/c' => 'c';
- * {label: 'A/B/C', value: 'a/b/c'} => {label: 'C', value: 'c'};
- * 'a/b/c,a/d' => 'c,d';
- * ['a/b/c', 'a/d'] => ['c', 'd'];
- * [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}] => [{label: 'C', value: 'c'},{label: 'D', value: 'd'}]
- */
-export function normalizeNodePath(
-  value: any,
-  enableNodePath: boolean,
-  labelField: string = 'label',
-  valueField: string = 'value',
-  pathSeparator: string = '/',
-  delimiter: string = ','
-) {
-  const nodeValueArray: any[] = [];
-  const nodePathArray: any[] = [];
-  const getLastNodeFromPath = (path: any) =>
-    last(path ? path.toString().split(pathSeparator) : []);
-
-  if (typeof value === 'undefined' || !enableNodePath) {
-    return {nodeValueArray, nodePathArray};
-  }
-
-  // 尾节点为当前options中value值
-  if (Array.isArray(value)) {
-    value.forEach(nodePath => {
-      if (nodePath && nodePath.hasOwnProperty(valueField)) {
-        nodeValueArray.push({
-          ...nodePath,
-          [labelField]: getLastNodeFromPath(nodePath[labelField]),
-          [valueField]: getLastNodeFromPath(nodePath[valueField])
-        });
-        nodePathArray.push(nodePath[valueField]);
-      } else {
-        nodeValueArray.push(getLastNodeFromPath(nodePath));
-        nodePathArray.push(nodePath);
-      }
-    });
-  } else if (typeof value === 'string') {
-    value
-      .toString()
-      .split(delimiter)
-      .forEach(path => {
-        nodeValueArray.push(getLastNodeFromPath(path));
-        nodePathArray.push(path);
-      });
-  } else {
-    nodeValueArray.push({
-      ...value,
-      [labelField]: getLastNodeFromPath(value[labelField]),
-      [valueField || 'value']: getLastNodeFromPath(value[valueField])
-    });
-    nodePathArray.push(value[valueField]);
-  }
-
-  return {nodeValueArray, nodePathArray};
-}
-
 // 主要用于排除点击输入框和链接等情况
 export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   const target: HTMLElement = e.target as HTMLElement;

@@ -477,7 +477,7 @@ export default class TreeSelectControl extends React.Component<
     if (this.cache[input] || ~input.indexOf("'") /*中文没输完 233*/) {
       let options = this.cache[input] || [];
       let combinedOptions = this.mergeOptions(options);
-      setOptions(combinedOptions);
+      setOptions(combinedOptions, true);
 
       return Promise.resolve({
         options: combinedOptions
@@ -496,7 +496,7 @@ export default class TreeSelectControl extends React.Component<
       let options = (ret.data && (ret.data as any).options) || ret.data || [];
       this.cache[input] = options;
       let combinedOptions = this.mergeOptions(options);
-      setOptions(combinedOptions);
+      setOptions(combinedOptions, true);
 
       return {
         options: combinedOptions
@@ -507,8 +507,15 @@ export default class TreeSelectControl extends React.Component<
   }
 
   mergeOptions(options: Array<object>) {
-    const {selectedOptions} = this.props;
-    let combinedOptions = normalizeOptions(options).concat();
+    const {selectedOptions, valueField, enableNodePath, pathSeparator} =
+      this.props;
+    let combinedOptions = normalizeOptions(
+      options,
+      undefined,
+      valueField,
+      enableNodePath,
+      pathSeparator
+    ).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
@@ -703,7 +710,6 @@ export default class TreeSelectControl extends React.Component<
       minLength,
       labelField,
       deferField,
-      nodePath,
       onAdd,
       creatable,
       createTip,
@@ -719,7 +725,7 @@ export default class TreeSelectControl extends React.Component<
       rootCreateTip,
       translate: __,
       deferLoad,
-      expandTreeOptions,
+      autoDeferLoad,
       selfDisabledAffectChildren,
       showOutline,
       autoCheckChildren,
@@ -776,7 +782,6 @@ export default class TreeSelectControl extends React.Component<
         foldedField="collapsed"
         hideRoot={hideRoot}
         value={value || ''}
-        nodePath={nodePath}
         enableNodePath={enableNodePath}
         pathSeparator={pathSeparator}
         maxLength={maxLength}
@@ -794,7 +799,7 @@ export default class TreeSelectControl extends React.Component<
         onDelete={onDelete}
         bultinCUD={!addControls && !editControls}
         onDeferLoad={deferLoad}
-        onExpandTree={expandTreeOptions}
+        onAutoDeferLoad={autoDeferLoad}
         selfDisabledAffectChildren={selfDisabledAffectChildren}
         virtualThreshold={virtualThreshold}
         // itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}

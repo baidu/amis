@@ -9,7 +9,8 @@ import {
   getOptionValue,
   getOptionValueBindField,
   labelToString,
-  uncontrollable
+  uncontrollable,
+  normalizeOptions
 } from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
@@ -26,9 +27,9 @@ import {
   noop,
   isObject,
   findTree,
+  findTreeAll,
   autobind,
-  ucFirst,
-  normalizeNodePath
+  ucFirst
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -105,35 +106,11 @@ export function value2array(
   value: OptionValue | Array<OptionValue>,
   props: Pick<
     OptionProps,
-    | 'multi'
-    | 'multiple'
-    | 'delimiter'
-    | 'valueField'
-    | 'labelField'
-    | 'options'
-    | 'pathSeparator'
+    'multi' | 'multiple' | 'delimiter' | 'valueField' | 'labelField' | 'options'
   >,
-  enableNodePath: boolean = false
+  findAll = false
 ): Array<Option> {
-  const {
-    labelField,
-    valueField = 'value',
-    pathSeparator,
-    delimiter,
-    options,
-    multi,
-    multiple
-  } = props;
-  if (enableNodePath) {
-    value = normalizeNodePath(
-      value,
-      enableNodePath,
-      labelField,
-      valueField,
-      pathSeparator,
-      delimiter
-    ).nodeValueArray;
-  }
+  const {valueField = 'value', delimiter, options, multi, multiple} = props;
 
   if (multi || multiple) {
     if (typeof value === 'string') {
@@ -148,15 +125,30 @@ export function value2array(
       value = [value];
     }
 
-    return value
-      .map(
-        (value: any) =>
-          expandValue(value, options, valueField) ||
-          (isObject(value) && value.hasOwnProperty(valueField)
-            ? value
-            : undefined)
-      )
-      .filter((item: any) => item) as Array<Option>;
+    return (
+      findAll
+        ? (value as Array<OptionValue>).reduce((acc, item) => {
+            let found = expandValues(item, options, valueField);
+
+            if (
+              !found.length &&
+              item &&
+              isObject(item) &&
+              item.hasOwnProperty(valueField)
+            ) {
+              found = [item as Option];
+            }
+
+            return acc.concat(found);
+          }, [] as Array<Option>)
+        : value.map(
+            (value: any) =>
+              expandValue(value, options, valueField) ||
+              (isObject(value) && value.hasOwnProperty(valueField)
+                ? value
+                : undefined)
+          )
+    ).filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {
     value = value[0];
   }
@@ -203,6 +195,40 @@ export function expandValue(
   }) as Option;
 }
 
+export function expandValues(
+  value: OptionValue,
+  options: Options,
+  valueField = 'value'
+): Array<Option> {
+  const valueType = typeof value;
+
+  if (
+    valueType !== 'string' &&
+    valueType !== 'number' &&
+    valueType !== 'boolean' &&
+    valueType !== 'object'
+  ) {
+    return [value] as Array<Option>;
+  }
+
+  if (!options) {
+    return [];
+  }
+
+  if (
+    valueType === 'object' &&
+    value &&
+    value.hasOwnProperty(valueField || 'value')
+  ) {
+    value = (value as Option)[valueField || 'value'] ?? '';
+  }
+
+  return findTreeAll(
+    options,
+    optionValueCompare(value, valueField || 'value')
+  ) as Array<Option>;
+}
+
 export function matchOptionValue(
   a: OptionValue,
   b: Option,
@@ -218,103 +244,6 @@ export function optionValueCompare(
   valueField: string = 'value'
 ) {
   return (b: Option) => matchOptionValue(a, b, valueField);
-}
-
-export function normalizeOptions(
-  options: string | {[propName: string]: string} | Array<string> | Options,
-  share: {
-    values: Array<any>;
-    options: Array<any>;
-  } = {
-    values: [],
-    options: []
-  },
-  valueField = 'value'
-): Options {
-  if (typeof options === 'string') {
-    return options.split(',').map(item => {
-      const idx = share.values.indexOf(item);
-      if (~idx) {
-        return share.options[idx];
-      }
-
-      const option = {
-        label: item,
-        value: item
-      };
-
-      share.values.push(option.value);
-      share.options.push(option);
-
-      return option;
-    });
-  } else if (
-    Array.isArray(options as Array<string>) &&
-    typeof (options as Array<string>)[0] === 'string'
-  ) {
-    return (options as Array<string>).map(item => {
-      const idx = share.values.indexOf(item);
-      if (~idx) {
-        return share.options[idx];
-      }
-
-      const option = {
-        label: item,
-        value: item
-      };
-
-      share.values.push(option.value);
-      share.options.push(option);
-
-      return option;
-    });
-  } else if (Array.isArray(options as Options)) {
-    return (options as Options).map(item => {
-      const value = item && item[valueField];
-
-      const idx =
-        value !== undefined && !item.children
-          ? share.values.indexOf(value)
-          : -1;
-
-      if (~idx) {
-        return share.options[idx];
-      }
-
-      const option = {
-        ...item,
-        value
-      };
-
-      if (typeof option.children !== 'undefined') {
-        option.children = normalizeOptions(option.children, share, valueField);
-      } else if (value !== undefined) {
-        share.values.push(value);
-        share.options.push(option);
-      }
-
-      return option;
-    });
-  } else if (isPlainObject(options)) {
-    return Object.keys(options).map(key => {
-      const idx = share.values.indexOf(key);
-      if (~idx) {
-        return share.options[idx];
-      }
-
-      const option = {
-        label: (options as {[propName: string]: string})[key] as string,
-        value: key
-      };
-
-      share.values.push(option.value);
-      share.options.push(option);
-
-      return option;
-    });
-  }
-
-  return [];
 }
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;

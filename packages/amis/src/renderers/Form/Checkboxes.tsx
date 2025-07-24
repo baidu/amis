@@ -253,7 +253,7 @@ export default class CheckboxesControl extends React.Component<
         className={itemClassName}
         key={index}
         onChange={() => onToggle(option)}
-        checked={!!~selectedOptions.indexOf(option)}
+        checked={selectedOptions.includes(option)}
         disabled={disabled || option.disabled}
         inline={inline}
         labelClassName={optionLabelClassName || labelClassName}

@@ -100,6 +100,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     delimiter: ',',
     valueField: 'value',
     labelField: 'label',
+    enableNodePath: false,
+    pathSeparator: '/',
     joinValues: true,
     extractValue: false,
     options: types.optional(types.frozen<Array<any>>(), []),
@@ -215,16 +217,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return self.pagination.total ?? 0;
       },
 
-      getSelectedOptions: (
-        value: any = self.tmpValue,
-        nodeValueArray?: any[] | undefined
-      ) => {
+      getSelectedOptions: (value: any = self.tmpValue) => {
         // 查看是否命中缓存
         if (
           value != null &&
-          nodeValueArray != null &&
           isEqual(value, getSelectedOptionsCache.value) &&
-          isEqual(nodeValueArray, getSelectedOptionsCache.nodeValueArray) &&
           getSelectedOptionsCache.res
         ) {
           return getSelectedOptionsCache.res;
@@ -238,9 +235,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         const {labelField, extractValue, multiple, delimiter} = self;
         const valueField = self.valueField || 'value';
 
-        const valueArray = nodeValueArray
-          ? nodeValueArray
-          : Array.isArray(value)
+        const valueArray = Array.isArray(value)
           ? value
           : // 单选时不应该分割
           typeof value === 'string' && multiple
@@ -305,7 +300,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         if (selectedOptions.length) {
           getSelectedOptionsCache.value = value;
-          getSelectedOptionsCache.nodeValueArray = nodeValueArray;
           getSelectedOptionsCache.res = selectedOptions;
         }
 
@@ -356,6 +350,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       multiple,
       valueField,
       labelField,
+      enableNodePath,
+      pathSeparator,
       joinValues,
       extractValue,
       type,
@@ -383,6 +379,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       delimiter?: string;
       valueField?: string;
       labelField?: string;
+      enableNodePath?: boolean;
+      pathSeparator?: string;
       joinValues?: boolean;
       extractValue?: boolean;
       type?: string;
@@ -429,6 +427,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.valueField = (valueField as string) || 'value');
       typeof labelField !== 'undefined' &&
         (self.labelField = (labelField as string) || 'label');
+      typeof enableNodePath !== 'undefined' &&
+        (self.enableNodePath = !!enableNodePath);
+      typeof pathSeparator !== 'undefined' &&
+        (self.pathSeparator = (pathSeparator as string) || '/');
       typeof clearValueOnHidden !== 'undefined' &&
         (self.clearValueOnHidden = !!clearValueOnHidden);
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
@@ -659,8 +661,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     function setOptions(
       options: Array<object>,
       onChange?: (value: any) => void,
-      data?: Object
+      data?: Object,
+      normalizeIt: boolean = false
     ) {
+      if (normalizeIt) {
+        options = normalizeOptions(
+          options as any,
+          undefined,
+          self.valueField,
+          self.enableNodePath,
+          self.pathSeparator
+        );
+      }
+
       if (!Array.isArray(options)) {
         return;
       }
@@ -829,7 +842,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data ||
         [];
 
-      options = normalizeOptions(options as any, undefined, self.valueField);
+      options = normalizeOptions(
+        options as any,
+        undefined,
+        self.valueField,
+        self.enableNodePath,
+        self.pathSeparator
+      );
 
       if (self.enableSourcePagination) {
         self.pagination = {
@@ -892,7 +911,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return [];
       }
 
-      options = normalizeOptions(options, undefined, self.valueField);
+      options = normalizeOptions(
+        options,
+        undefined,
+        self.valueField,
+        self.enableNodePath,
+        self.pathSeparator
+      );
 
       if (self.enableSourcePagination) {
         self.pagination = {
@@ -1053,7 +1078,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           leftOptions: newLeftOptions
         }),
         undefined,
-        data
+        data,
+        true
       );
 
       // 插入新的子节点，用于之后BaseSelection.resolveSelected查找
@@ -1077,7 +1103,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             children
           }),
           undefined,
-          data
+          data,
+          true
         );
       }
 
@@ -1191,109 +1218,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           children: options
         }),
         undefined,
-        data
+        data,
+        true
       );
 
       return json;
-    });
-
-    /**
-     * 根据当前节点路径展开树形组件父节点
-     */
-    const expandTreeOptions: (
-      nodePathArr: any[],
-      api: Api,
-      data?: object,
-      config?: fetchOptions
-    ) => Promise<Payload | null | void> = flow(function* getInitData(
-      nodePathArr: any[],
-      api: string,
-      data: object,
-      config?: fetchOptions
-    ) {
-      // 多选模式下需要记录遍历过的Node，避免发送相同的请求
-      const traversedNode = new Map();
-
-      for (let nodePath of nodePathArr) {
-        // 根节点已经展开了，不需要加载
-        if (nodePath.length <= 1) {
-          continue;
-        }
-
-        // 叶节点不需要展开
-        for (let level = 0; level < nodePath.length - 1; level++) {
-          let tree = self.options.concat();
-          let nodeValue = nodePath[level];
-
-          if (traversedNode.has(nodeValue)) {
-            continue;
-          }
-          // 节点value认为是唯一的
-          let node = findTree(tree, (item, key, treeLevel: number) => {
-            return (
-              treeLevel === level + 1 &&
-              optionValueCompare(nodeValue, self.valueField || 'value')(item)
-            );
-          });
-
-          // 只处理懒加载节点
-          if (!node || !node.defer) {
-            continue;
-          }
-          const indexes = findTreeIndex(
-            tree,
-            item => item === node
-          ) as number[];
-
-          setOptions(
-            spliceTree(tree, indexes, 1, {
-              ...node,
-              loading: true
-            }),
-            undefined,
-            node
-          );
-
-          let json = yield fetchOptions(
-            api,
-            node,
-            {...config, silent: true},
-            false
-          );
-
-          if (!json) {
-            setOptions(
-              spliceTree(tree, indexes, 1, {
-                ...node,
-                loading: false,
-                error: true
-              }),
-              undefined,
-              node
-            );
-          }
-
-          traversedNode.set(nodeValue, true);
-
-          let childrenOptions: Array<IOption> =
-            json.data?.options ||
-            json.data.items ||
-            json.data.rows ||
-            json.data ||
-            [];
-
-          setOptions(
-            spliceTree(tree, indexes, 1, {
-              ...node,
-              loading: false,
-              loaded: true,
-              children: childrenOptions
-            }),
-            undefined,
-            node
-          );
-        }
-      }
     });
 
     // @issue 强依赖form，需要改造暂且放过。
@@ -1600,7 +1529,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       loadOptionsFromDataScope,
       deferLoadOptions,
       deferLoadLeftOptions,
-      expandTreeOptions,
       syncOptions,
       setLoading,
       setSubStore,

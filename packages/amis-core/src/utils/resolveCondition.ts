@@ -75,7 +75,7 @@ export function resolveCondition(
         conditions.children,
         conditions.conjunction,
         data
-      );
+      ) as boolean;
     }
     return defaultResult;
   }
