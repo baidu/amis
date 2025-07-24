@@ -156,6 +156,10 @@ export interface TreeControlSchema extends FormOptionsSchema {
    */
   searchConfig?: {
     /**
+     * 哪些字段可以用于本地检索，默认['label','value']
+     */
+    searchKeys: string | string[];
+    /**
      * 搜索框外层CSS样式类
      */
     className?: string;
@@ -349,14 +353,21 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
   }
 
   filterOptions(options: Array<Option>, keywords: string): Array<Option> {
-    const {labelField, valueField} = this.props;
+    const {labelField, valueField, searchConfig} = this.props;
 
     return options.map(option => {
       option = {
         ...option
       };
+      let searchKeys = searchConfig?.searchKeys;
+      if (searchKeys) {
+        searchKeys = Array.isArray(searchKeys) ? searchKeys : [searchKeys];
+      } else {
+        searchKeys = [labelField || 'label', valueField || 'value'];
+      }
+
       option.visible = !!matchSorter([option], keywords, {
-        keys: [labelField || 'label', valueField || 'value'],
+        keys: searchKeys,
         threshold: matchSorter.rankings.CONTAINS
       }).length;
 
