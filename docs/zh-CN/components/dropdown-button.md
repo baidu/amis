@@ -276,6 +276,7 @@ order: 44
 | closeOnClick    | `boolean`               | `false`           | 点击按钮后自动关闭下拉菜单                |
 | trigger         | `click` 或 `hover`      | `click`           | 触发方式                                  |
 | hideCaret       | `boolean`               | false             | 隐藏下拉图标                              |
+| popOverContainerSelector       | `string`               |              | 弹出的下拉按钮放在哪个节点下                              |
 
 ## 事件表
 
