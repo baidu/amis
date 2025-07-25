@@ -149,6 +149,12 @@ export const AppStore = ServiceStore.named('AppStore')
     ) {
       // 同一个页面直接返回。
       if (self.activePage?.id === page.id) {
+        if (params !== undefined) {
+          self.activePage = {
+            ...self.activePage,
+            params: params
+          };
+        }
         return;
       }
 
