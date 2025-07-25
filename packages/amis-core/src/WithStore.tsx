@@ -259,7 +259,6 @@ export function HocStoreFactory(renderer: {
                   )
                 ),
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
-                ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
               }),
               (props.updatePristineAfterStoreDataReInit ??
