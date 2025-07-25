@@ -119,6 +119,11 @@ export interface DropdownButtonSchema extends BaseSchema {
   hideCaret?: boolean;
 
   /**
+   * 弹出的下拉按钮放在哪个节点下
+   */
+  popOverContainerSelector?: string;
+
+  /**
    * 菜单 CSS 样式
    */
   menuClassName?: string;
@@ -337,6 +342,7 @@ export default class DropDownButton extends React.Component<
       buttons: _buttons,
       data,
       popOverContainer,
+      popOverContainerSelector,
       classnames: cx,
       classPrefix: ns,
       children,
@@ -390,10 +396,11 @@ export default class DropDownButton extends React.Component<
         }}
       </RootClose>
     );
-    if (popOverContainer) {
+    if (popOverContainer || popOverContainerSelector) {
       return (
         <Overlay
           container={popOverContainer}
+          containerSelector={popOverContainerSelector}
           target={() => this.target}
           placement={overlayPlacement}
           show
