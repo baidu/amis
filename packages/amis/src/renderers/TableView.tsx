@@ -199,7 +199,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
           color: td.color,
           fontWeight: td.bold ? 'bold' : 'normal',
           background: td.background,
-          padding: td.padding || padding,
+          padding: td.padding ?? padding,
           width: td.width || 'auto',
           textAlign: td.align || 'left',
           verticalAlign: td.valign || 'center',
