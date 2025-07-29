@@ -443,6 +443,11 @@
       text-overflow: ellipsis;
       // display: inline-block;
       max-width: 100%;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
 
     &.is-mobile {
@@ -476,6 +481,14 @@
         .#{$ns}Select-option-item-check {
           border-bottom: none;
         }
+      }
+    }
+
+    &-disabledTip {
+      margin-left: var(--gap-xs);
+      color: #ff9326;
+      &:hover {
+        color: #ff9326;
       }
     }
   }

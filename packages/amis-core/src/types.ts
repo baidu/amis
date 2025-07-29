@@ -29,6 +29,11 @@ export interface Option {
   disabled?: boolean;
 
   /**
+   * 禁用提示
+   */
+  disabledTip?: string;
+
+  /**
    * 支持嵌套
    */
   children?: Options;
