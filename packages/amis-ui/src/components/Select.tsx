@@ -1083,7 +1083,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
           ) : (
             <span
               className={cx('Select-option-content')}
-              title={typeof label === 'string' ? label : ''}
+              title={
+                item.disabledTip && item.disabled
+                  ? ''
+                  : typeof label === 'string'
+                  ? label
+                  : ''
+              }
               {...optTestIdBudr?.getChild('content').getTestId()}
             >
               {item.disabled
@@ -1093,7 +1099,19 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     inputValue as string,
                     cx('Select-option-hl')
                   )}
-              {item.tip ? <span>{item.tip}</span> : null}
+              {item.disabledTip && item.disabled ? (
+                <TooltipWrapper
+                  placement="right"
+                  tooltip={item.disabledTip}
+                  trigger="hover"
+                >
+                  <a className={cx('Select-option-disabledTip')}>
+                    <Icon className="icon" icon="question2" />
+                  </a>
+                </TooltipWrapper>
+              ) : item.tip ? (
+                <span>{item.tip}</span>
+              ) : null}
             </span>
           )}
           {editable ? (
