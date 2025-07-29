@@ -24,13 +24,23 @@ import {
 } from 'amis-core';
 import {Icon, SpinnerExtraProps, Input, Spinner, OverflowTpl} from 'amis-ui';
 import {ActionSchema} from '../Action';
-import {FormOptionsSchema, SchemaApi} from '../../Schema';
+import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 import type {Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
+
+export type InputTextAddOnObject = {
+  /**
+   * 操作按钮位置
+   */
+  position?: 'left' | 'right';
+  [propName: string]: any;
+};
+
+export type InputTextAddOn = ActionSchema & InputTextAddOnObject;
 
 /**
  * Text 文本输入框。
@@ -51,12 +61,10 @@ export interface TextControlSchema extends FormOptionsSchema {
     | 'native-time'
     | 'native-number';
 
-  addOn?: {
-    position?: 'left' | 'right';
-    label?: string;
-    icon?: string;
-    className?: string;
-  } & ActionSchema;
+  /**
+   * 附带的操作按钮
+   */
+  addOn?: InputTextAddOn;
 
   /**
    * 是否去除首尾空白文本。

@@ -62,16 +62,7 @@ export type CardBodyField = SchemaObject & {
   copyable?: SchemaCopyable;
 };
 
-/**
- * Card 卡片渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
- */
-export interface CardSchema extends BaseSchema {
-  /**
-   * 指定为 card 类型
-   */
-  type: 'card';
-
+export interface CardSchemaWithoutType {
   /**
    * 头部配置
    */
@@ -218,6 +209,17 @@ export interface CardSchema extends BaseSchema {
    * 卡片内容区的表单项label是否使用Card内部的样式，默认为true
    */
   useCardLabel?: boolean;
+}
+
+/**
+ * Card 卡片渲染器。
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
+ */
+export interface CardSchema extends CardSchemaWithoutType, BaseSchema {
+  /**
+   * 指定为 card 类型
+   */
+  type: 'card';
 }
 export interface CardProps
   extends RendererProps,
