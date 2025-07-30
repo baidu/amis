@@ -899,11 +899,7 @@ export default class FormTable<
         : {
             editIndex: next.join('.'),
             isCreateMode: true,
-            columns: this.buildColumns(
-              this.props,
-              true,
-              `${parseInt(index) + 1}`
-            )
+            columns: this.buildColumns(this.props, true, next.join('.'))
           }) as any)
     };
 
