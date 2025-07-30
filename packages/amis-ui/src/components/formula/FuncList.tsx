@@ -31,6 +31,7 @@ export function FuncList(props: FuncListProps) {
 
   const onSearch = React.useCallback(
     (term: string) => {
+      term = term.trim();
       const filtered = props.data
         .map(item => {
           return {

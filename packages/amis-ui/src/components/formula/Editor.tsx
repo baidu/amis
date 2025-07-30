@@ -256,7 +256,7 @@ export class FormulaEditor extends React.Component<
 
   async componentDidMount() {
     const functionList = await FormulaEditor.buildFunctions();
-    if (this.unmounted) {
+    if (this.unmounted || !Array.isArray(functionList)) {
       return;
     }
     if (!this.state.functions) {
@@ -264,8 +264,30 @@ export class FormulaEditor extends React.Component<
         functions: functionList
       });
     } else {
+      const unMerged = functionList.concat();
+      const functions = this.state.functions
+        .map(group => {
+          const idx = unMerged.findIndex(
+            item => item.groupName === group.groupName
+          );
+
+          if (~idx) {
+            const item = unMerged.splice(idx, 1)[0];
+            return {
+              ...group,
+              items: group.items
+                .concat(item.items)
+                .filter((item: any, index, list: any[]) => {
+                  // 过滤掉重复的函数
+                  return list.findIndex(i => i.name === item.name) === index;
+                })
+            };
+          }
+          return group;
+        })
+        .concat(unMerged);
       this.setState({
-        functions: [...functionList, ...this.state.functions]
+        functions: functions
       });
     }
   }
