@@ -1368,6 +1368,25 @@ export class FormPlugin extends BasePlugin {
                   hiddenOn:
                     'this.mode === "normal" || this.labelAlign === "top"'
                 }),
+                {
+                  name: 'labelOverflow',
+                  type: 'button-group-select',
+                  label: '文本超出处理',
+                  size: 'xs',
+                  mode: 'inline',
+                  inputClassName: 'mt-1 w-full',
+                  pipeIn: defaultValue('default'),
+                  options: [
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '溢出隐藏',
+                      value: 'ellipsis'
+                    }
+                  ]
+                },
 
                 getSchemaTpl('theme:font', {
                   label: '标题文字',

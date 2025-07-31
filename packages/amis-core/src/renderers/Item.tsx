@@ -72,6 +72,10 @@ export interface FormBaseControlWithoutSize {
    * label自定义宽度，默认单位为px
    */
   labelWidth?: number | string;
+  /**
+   * label展示形式
+   */
+  labelOverflow?: 'default' | 'ellipsis';
 
   /**
    * 配置 label className
@@ -530,6 +534,8 @@ export interface FormItemProps extends RendererProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   labelAlign?: LabelAlign;
   labelWidth?: number | string;
+  formLabelOverflow?: string;
+  labelOverflow?: 'default' | 'ellipsis';
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
@@ -1274,7 +1280,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         (props.labelAlign !== 'inherit' && props.labelAlign) ||
         props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
-
+      const labelOverflow = props.labelOverflow || props.formLabelOverflow;
       return (
         <div
           data-role="form-item"
@@ -1316,7 +1322,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               )}
               style={labelWidth != null ? {width: labelWidth} : undefined}
             >
-              <span>
+              <span
+                {...(labelOverflow === 'ellipsis'
+                  ? {
+                      className: cx('Form-ellipsis'),
+                      title: label
+                    }
+                  : {})}
+              >
                 {label ? render('label', label) : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
