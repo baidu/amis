@@ -1323,10 +1323,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               style={labelWidth != null ? {width: labelWidth} : undefined}
             >
               <span
-                className={cx(
-                  `${labelOverflow === 'ellipsis' ? 'Form-ellipsis' : ''}`
-                )}
-                title={`${labelOverflow === 'ellipsis' ? label : ''}`}
+                {...(labelOverflow === 'ellipsis'
+                  ? {
+                      className: cx('Form-ellipsis'),
+                      title: label
+                    }
+                  : {})}
               >
                 {label ? render('label', label) : null}
                 {required && (label || labelRemark) ? (
