@@ -2,7 +2,8 @@ import {
   registerEditorPlugin,
   BasePlugin,
   getSchemaTpl,
-  tipedLabel
+  tipedLabel,
+  defaultValue
 } from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
@@ -49,6 +50,30 @@ export class LinkPlugin extends BasePlugin {
                   type: 'input-text'
                 }
               }),
+              {
+                type: 'input-number',
+                label: '最大显示行数',
+                name: 'maxLine',
+                min: 0
+              },
+              {
+                type: 'ae-switch-more',
+                formType: 'extend',
+                mode: 'normal',
+                label: '气泡提示',
+                form: {
+                  body: [
+                    getSchemaTpl('textareaFormulaControl', {
+                      name: 'tooltip',
+                      mode: 'normal',
+                      label: tipedLabel(
+                        '正常提示',
+                        '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
+                      )
+                    })
+                  ]
+                }
+              },
               {
                 label: tipedLabel('内容', '不填写时，自动使用目标地址值'),
                 type: 'ae-textareaFormulaControl',
