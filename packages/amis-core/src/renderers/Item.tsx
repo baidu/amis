@@ -1316,6 +1316,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   }`]: horizontal.leftFixed,
                   [`Form-itemColumn--${left}`]: !horizontal.leftFixed,
                   'Form-label--left': labelAlign === 'left',
+                  'Form-label--right': labelAlign === 'right',
                   'Form-label-noLabel': label === ''
                 },
                 getItemLabelClassName(props)
@@ -1443,6 +1444,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       } = props;
 
       description = description || desc;
+      const labelAlign =
+        (props.labelAlign !== 'inherit' && props.labelAlign) ||
+        props.formLabelAlign;
 
       return (
         <div
@@ -1456,6 +1460,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
+            labelAlign === 'top' && 'Form-item--labelTop',
             setThemeClassName({
               ...props,
               name: 'wrapperCustomStyle',
