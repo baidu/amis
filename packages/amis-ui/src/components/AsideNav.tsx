@@ -11,6 +11,7 @@ import {ClassNamesFn, themeable} from 'amis-core';
 export type LinkItem = LinkItemProps;
 interface LinkItemProps {
   id?: number;
+  parentIds?: number[];
   label: string;
   hidden?: boolean;
   open?: boolean;
@@ -36,6 +37,7 @@ export interface AsideNavProps {
   id?: string;
   className?: string;
   classPrefix: string;
+  folded?: boolean;
   classnames: ClassNamesFn;
   renderLink: Function;
   isActive: Function;
@@ -94,27 +96,8 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
   constructor(props: AsideNavProps) {
     super(props);
 
-    const isOpen = props.isOpen;
-    let id = 1;
     this.state = {
-      navigations: mapTree(
-        props.navigations,
-        (item: Navigation) => {
-          const isActive =
-            typeof item.active === 'undefined'
-              ? (props.isActive as Function)(item)
-              : item.active;
-
-          return {
-            ...item,
-            id: id++,
-            active: isActive,
-            open: isActive || isOpen(item as LinkItemProps)
-          };
-        },
-        1,
-        true
-      )
+      navigations: this.prepareNavigations(props)
     };
 
     this.renderLink = this.renderLink.bind(this);
@@ -123,34 +106,58 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
 
   componentDidUpdate(prevProps: AsideNavProps) {
     const props = this.props;
-    const isOpen = prevProps.isOpen;
 
     if (
       prevProps.navigations !== props.navigations ||
       prevProps.isActive !== props.isActive
     ) {
-      let id = 1;
       this.setState({
-        navigations: mapTree(
-          props.navigations,
-          (item: Navigation) => {
-            const isActive =
-              typeof item.active === 'undefined'
-                ? (props.isActive as Function)(item)
-                : item.active;
-
-            return {
-              ...item,
-              id: id++,
-              active: isActive,
-              open: isActive || isOpen(item as LinkItemProps)
-            };
-          },
-          1,
-          true
-        )
+        navigations: this.prepareNavigations(props, prevProps)
       });
     }
+  }
+
+  private prepareNavigations(
+    props: AsideNavProps,
+    prevProps?: AsideNavProps
+  ): Navigation[] {
+    const isOpen = prevProps?.isOpen || props.isOpen;
+    let id = 1;
+    const navigations = mapTree(
+      props.navigations,
+      (item: Navigation) => {
+        const isActive =
+          typeof item.active === 'undefined'
+            ? (props.isActive as Function)(item)
+            : item.active;
+
+        return {
+          ...item,
+          id: id++,
+          active: isActive,
+          open: isActive || isOpen(item as LinkItemProps)
+        };
+      },
+      1,
+      true
+    );
+    return mapTree(
+      navigations,
+      (
+        item: Navigation,
+        key: number,
+        level: number,
+        paths: Array<Navigation>,
+        indexes: Array<number>
+      ) => {
+        return {
+          ...item,
+          parentIds: paths.map(item => item.id)
+        };
+      },
+      1,
+      true
+    );
   }
 
   toggleExpand(link: LinkItemProps, e?: React.MouseEvent<HTMLElement>) {
@@ -162,10 +169,31 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     this.setState({
       navigations: mapTree(
         this.state.navigations,
-        (item: Navigation) => ({
-          ...item,
-          open: link.id === item.id ? !item.open : item.open
-        }),
+        item => {
+          // 切换当前节点
+          if (link.id === item.id) {
+            return {
+              ...item,
+              open: !item.open
+            };
+          }
+          // 如果未打开，或者边栏不是折叠状态，不用处理
+          if (!this.props.folded) {
+            return item;
+          }
+          // 祖辈节点保持打开状态
+          if (link.parentIds!.some(id => id === item.parentId)) {
+            return {
+              ...item,
+              open: true
+            };
+          }
+          // 折叠状态下，关闭所有非祖辈节点
+          return {
+            ...item,
+            open: false
+          };
+        },
         1,
         true
       )

@@ -440,6 +440,7 @@ export class App extends React.PureComponent<{
 
     return (
       <AsideNav
+        folded={this.state.folded}
         navigations={this.state.navigations.map((item: any) => ({
           ...item,
           children: item.children
