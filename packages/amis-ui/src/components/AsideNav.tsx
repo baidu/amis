@@ -394,9 +394,33 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
       subMenuElement.setAttribute('data-pop-direction', 'left');
     }
 
+    const viewportMargin = 20;
     // 设置垂直方向
     if (shouldExpandUp) {
       subMenuElement.setAttribute('data-pop-vertical', 'up');
+      const willOverflowAbove = spaceAbove < subMenuHeight;
+      if (willOverflowAbove) {
+        // 如果仍会溢出，适当下移
+        const offsetHeight = parentRect.bottom - rect.height - viewportMargin;
+        subMenuElement.style.setProperty(
+          'bottom',
+          `${offsetHeight}px`,
+          'important'
+        );
+      }
+    } else if (spaceBelow < subMenuHeight) {
+      // 如果仍会溢出，适当上移
+      const offsetHeightRequired = parentRect.top + rect.height - viewportHeight + viewportMargin;
+      const offsetHeightAvailable = spaceAbove - viewportMargin;
+      const offsetHeight = Math.min(
+        offsetHeightRequired,
+        offsetHeightAvailable
+      );
+      subMenuElement.style.setProperty(
+        'top',
+        `${-offsetHeight}px`,
+        'important'
+      );
     }
   }
 
@@ -407,6 +431,8 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     // 清除所有调整属性
     subMenuElement.removeAttribute('data-pop-direction');
     subMenuElement.removeAttribute('data-pop-vertical');
+    subMenuElement.style.removeProperty('top');
+    subMenuElement.style.removeProperty('bottom');
   }
 }
 
