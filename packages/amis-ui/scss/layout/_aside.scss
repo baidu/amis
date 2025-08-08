@@ -104,6 +104,9 @@
     overflow: hidden;
     margin-left: calc(var(--gap-md) * -1);
     transition: all var(--animation-duration) ease-in-out 0s;
+    .#{$ns}Layout--folded & {
+      transition: none !important;
+    }
     background: var(--Layout-aside-subList-bg);
 
     .#{$ns}Layout--folded .#{$ns}AsideNav-item > & {
