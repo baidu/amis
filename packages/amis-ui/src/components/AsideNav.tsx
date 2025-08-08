@@ -102,6 +102,8 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
 
     this.renderLink = this.renderLink.bind(this);
     this.toggleExpand = this.toggleExpand.bind(this);
+    this.handleSubMenuHover = this.handleSubMenuHover.bind(this);
+    this.handleSubMenuLeave = this.handleSubMenuLeave.bind(this);
   }
 
   componentDidUpdate(prevProps: AsideNavProps) {
@@ -249,6 +251,12 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
               if (!link.open) {
                 this.toggleExpand(link, e);
               }
+              const subMenuElement = e.currentTarget.querySelector(
+                `.${cx('AsideNav-subList')}`
+              ) as HTMLElement;
+              if (subMenuElement && link.id) {
+                this.handleSubMenuHover(link.id!, subMenuElement);
+              }
             }
         }
         onMouseLeave={
@@ -257,6 +265,12 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
             : e => {
               if (link.open) {
                 this.toggleExpand(link, e);
+              }
+              const subMenuElement = e.currentTarget.querySelector(
+                `.${cx('AsideNav-subList')}`
+              ) as HTMLElement;
+              if (subMenuElement && link.id) {
+                this.handleSubMenuLeave(link.id, subMenuElement);
               }
             }
         }
@@ -324,6 +338,75 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         <ul className={cx(`AsideNav-list`)}>{links}</ul>
       </nav>
     );
+  }
+
+  handleSubMenuHover(linkId: number, subMenuElement: HTMLElement) {
+    if (!this.props.folded || !subMenuElement) return;
+
+    const { classnames: cx } = this.props;
+
+    // 获取父级菜单项的位置信息
+    const parentElement = subMenuElement.closest(
+      `.${cx('AsideNav-item')}`
+    ) as HTMLElement;
+    if (!parentElement) return;
+
+    const parentRect = parentElement.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // 重置所有属性
+    subMenuElement.removeAttribute('data-pop-direction');
+    subMenuElement.removeAttribute('data-pop-vertical');
+
+    // 临时显示子菜单以获取其真实尺寸
+    const originalDisplay = subMenuElement.style.display;
+    const originalOpacity = subMenuElement.style.opacity;
+    const originalHeight = subMenuElement.style.height;
+    const originalMaxHeight = subMenuElement.style.maxHeight;
+
+    subMenuElement.style.display = 'block';
+    subMenuElement.style.opacity = '0';
+    subMenuElement.style.height = 'auto';
+    subMenuElement.style.maxHeight = 'none';
+
+    const rect = subMenuElement.getBoundingClientRect();
+
+    // 恢复原始样式
+    subMenuElement.style.display = originalDisplay;
+    subMenuElement.style.opacity = originalOpacity;
+    subMenuElement.style.height = originalHeight;
+    subMenuElement.style.maxHeight = originalMaxHeight;
+
+    // 检测水平方向是否溢出
+    const willOverflowRight = rect.right > viewportWidth;
+
+    // 检测垂直方向溢出情况
+    const spaceBelow = viewportHeight - parentRect.bottom;
+    const spaceAbove = parentRect.top;
+    const subMenuHeight = rect.height;
+
+    // 判断是否需要向上展开
+    const shouldExpandUp = spaceBelow < subMenuHeight && spaceAbove > spaceBelow;
+
+    // 设置水平方向
+    if (willOverflowRight) {
+      subMenuElement.setAttribute('data-pop-direction', 'left');
+    }
+
+    // 设置垂直方向
+    if (shouldExpandUp) {
+      subMenuElement.setAttribute('data-pop-vertical', 'up');
+    }
+  }
+
+  handleSubMenuLeave(linkId: number, subMenuElement: HTMLElement) {
+    // 只在折叠状态下处理
+    if (!this.props.folded || !subMenuElement) return;
+
+    // 清除所有调整属性
+    subMenuElement.removeAttribute('data-pop-direction');
+    subMenuElement.removeAttribute('data-pop-vertical');
   }
 }
 
