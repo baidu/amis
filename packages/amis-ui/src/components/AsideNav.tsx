@@ -207,6 +207,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     depth = 1
   ): React.ReactNode {
     const {
+      folded,
       renderLink,
       isActive,
       renderSubLinks,
@@ -241,6 +242,24 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
           [`is-open`]: link.open,
           [`is-active`]: link.active
         })}
+        onMouseEnter={
+          !folded || !link.children || !link.children.length
+            ? undefined
+            : e => {
+              if (!link.open) {
+                this.toggleExpand(link, e);
+              }
+            }
+        }
+        onMouseLeave={
+          !folded || !link.children || !link.children.length
+            ? undefined
+            : e => {
+              if (link.open) {
+                this.toggleExpand(link, e);
+              }
+            }
+        }
       >
         {dom}
         {renderSubLinks(link, this.renderLink, depth, this.props)}
