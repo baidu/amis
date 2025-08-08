@@ -9,6 +9,7 @@ export class FieldSetControlPlugin extends BasePlugin {
   static id = 'FieldSetControlPlugin';
   // 关联渲染器名字
   rendererName = 'fieldset';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/FieldSetControlSchema.json';
 
   // 组件名称

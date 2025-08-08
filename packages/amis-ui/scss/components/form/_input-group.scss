@@ -87,6 +87,7 @@
     flex-grow: 1;
     min-width: 0;
     display: inline-flex;
+    margin: 0;
 
     &:not(:first-child) {
       border-top-left-radius: 0;
@@ -101,7 +102,28 @@
     }
   }
 
-  .#{$ns}SelectControl {
+  .#{$ns}MixedInput-input {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 0;
+    display: inline-flex;
+    margin: 0;
+
+    &:not(:first-child) > * {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: none;
+    }
+
+    &:not(:last-child) > * {
+      border-right-width: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .#{$ns}SelectControl,
+  .#{$ns}MixedInput-select {
     .#{$ns}Select {
       background: var(--InputGroup-select-bg);
       border: var(--InputGroup-select-borderWidth) solid
@@ -116,7 +138,6 @@
     &:first-child .#{$ns}Select {
       border-top-left-radius: var(--InputGroup-select-borderRadius);
       border-bottom-left-radius: var(--InputGroup-select-borderRadius);
-      background-color: var(--colors-neutral-fill-10);
     }
 
     &:last-child .#{$ns}Select {

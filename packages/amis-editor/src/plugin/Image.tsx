@@ -362,24 +362,21 @@ export class ImagePlugin extends BasePlugin {
                 name: 'themeCss.desControlClassName.padding-and-margin',
                 editorValueToken: '--image-image-description'
               }),
-              {
+              getSchemaTpl('icon', {
                 name: 'themeCss.iconControlClassName.--image-image-normal-icon',
                 label: '放大图标',
-                type: 'icon-select',
                 returnSvg: true
-              },
-              {
+              }),
+              getSchemaTpl('icon', {
                 name: 'themeCss.galleryControlClassName.--image-images-prev-icon',
                 label: '左切换图标',
-                type: 'icon-select',
                 returnSvg: true
-              },
-              {
+              }),
+              getSchemaTpl('icon', {
                 name: 'themeCss.galleryControlClassName.--image-images-next-icon',
                 label: '右切换图标',
-                type: 'icon-select',
                 returnSvg: true
-              },
+              }),
               getSchemaTpl('theme:select', {
                 label: '切换图标大小',
                 name: 'themeCss.galleryControlClassName.--image-images-item-size'

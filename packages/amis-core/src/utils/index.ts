@@ -1,3 +1,4 @@
+export * from './tpl-builtin';
 export * from './api';
 export * from './attachmentAdpator';
 export * from './autobind';
@@ -50,7 +51,6 @@ export * from './SimpleMap';
 export * from './string2regExp';
 export * from './style';
 export * from './tokenize';
-export * from './tpl-builtin';
 export * from './tpl';
 export * from './uncontrollable';
 export * from './validations';

@@ -4,7 +4,9 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  getVariable
+  getVariable,
+  BaseSchemaWithoutType,
+  FormBaseControlWithoutSize
 } from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {Editor} from 'amis-ui';
@@ -18,7 +20,9 @@ import type {ListenerAction} from 'amis-core';
  * Editor 代码编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/editor
  */
-export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
+export interface EditorControlSchema
+  extends BaseSchemaWithoutType,
+    FormBaseControlWithoutSize {
   type:
     | 'editor'
     | 'bat-editor'

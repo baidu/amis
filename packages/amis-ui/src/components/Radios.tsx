@@ -23,6 +23,8 @@ import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {columnsSplit} from 'amis-core';
 import {TestIdBuilder} from 'amis-core';
+import TooltipWrapper from './TooltipWrapper';
+import Icon from './icons';
 
 interface RadioProps extends OptionProps {
   id?: string;
@@ -145,6 +147,8 @@ export class Radios extends React.Component<RadioProps, any> {
     //   );
     // }
 
+    const finalDisabled = disabled || option.disabled;
+
     return (
       <Checkbox
         type="radio"
@@ -152,7 +156,7 @@ export class Radios extends React.Component<RadioProps, any> {
         onChange={() => this.toggleOption(option)}
         checked={!!~valueArray.indexOf(option)}
         className={cx(itemClassName, option.className)}
-        disabled={disabled || option.disabled}
+        disabled={finalDisabled}
         description={option.description}
         inline={inline}
         labelClassName={labelClassName}
@@ -160,6 +164,17 @@ export class Radios extends React.Component<RadioProps, any> {
         optionType={optionType}
       >
         {renderLabel(option, this.props)}
+        {option.disabledTip && finalDisabled ? (
+          <TooltipWrapper
+            placement="right"
+            tooltip={option.disabledTip}
+            trigger="hover"
+          >
+            <a className={cx('Select-option-disabledTip')}>
+              <Icon className="icon" icon="question2" />
+            </a>
+          </TooltipWrapper>
+        ) : null}
       </Checkbox>
     );
   }

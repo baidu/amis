@@ -22,6 +22,7 @@ const basicControls: Array<any> = [
   {
     type: 'input-text',
     label: '标题',
+    required: true,
     name: 'label',
     size: 'md'
   },
@@ -71,7 +72,9 @@ const basicControls: Array<any> = [
   {
     type: 'textarea',
     label: '描述',
-    name: 'description'
+    name: 'description',
+    maxLength: 255,
+    showCounter: true
   }
 ];
 

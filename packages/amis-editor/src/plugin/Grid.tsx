@@ -24,6 +24,7 @@ export class GridPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'grid';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/GridSchema.json';
 
   // 组件名称
@@ -627,9 +628,9 @@ export class GridPlugin extends BasePlugin {
     event: PluginEvent<RendererJSONSchemaResolveEventContext>
   ) {
     const context = event.context;
-    const parent = context.node.parent?.host as EditorNodeType;
+    const parent = context.node.host as EditorNodeType;
 
-    if (parent?.info?.plugin === this) {
+    if (context.node.isVitualRenderer && parent?.info?.plugin === this) {
       event.setData('/schemas/GridColumn.json');
     }
   }

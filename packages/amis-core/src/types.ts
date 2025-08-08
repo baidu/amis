@@ -29,6 +29,11 @@ export interface Option {
   disabled?: boolean;
 
   /**
+   * 禁用提示
+   */
+  disabledTip?: string;
+
+  /**
    * 支持嵌套
    */
   children?: Options;
@@ -58,7 +63,7 @@ export interface Option {
   /**
    * 如果设置了，优先级更高，不设置走 source 接口加载。
    */
-  deferApi?: BaseApiObject | string;
+  deferApi?: BaseApi;
 
   /**
    * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
@@ -210,6 +215,8 @@ export interface BaseApiObject {
     failed?: string;
   };
 }
+
+export type BaseApi = BaseApiObject | string;
 
 export type ClassName =
   | string
@@ -376,8 +383,8 @@ export interface ActionObject extends ButtonObject {
     | 'setExpanded'
     | 'clearError';
 
-  api?: BaseApiObject | string;
-  asyncApi?: BaseApiObject | string;
+  api?: BaseApi;
+  asyncApi?: BaseApi;
   payload?: any;
   dialog?: SchemaNode;
   to?: string;
@@ -601,7 +608,7 @@ export interface NavigationObject {
 }
 
 /**
- * 表达式，语法 `data.xxx > 5`。
+ * 表达式，语法 `${xxx > 5}`。
  */
 export type SchemaExpression = string;
 
@@ -745,8 +752,6 @@ export interface BaseSchemaWithoutType {
    * 可以组件级别用来关闭移动端样式
    */
   useMobileUI?: boolean;
-
-  testIdBuilder?: TestIdBuilder;
 }
 
 export type OperatorType =

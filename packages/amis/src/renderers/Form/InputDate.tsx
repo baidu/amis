@@ -554,6 +554,10 @@ export default class DateControl extends React.PureComponent<
     this.dateRef = ref;
   }
 
+  focus() {
+    this.dateRef?.focus?.();
+  }
+
   // 派发有event的事件
   @autobind
   dispatchEvent(e: string | React.MouseEvent<any>) {

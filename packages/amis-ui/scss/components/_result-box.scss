@@ -1,5 +1,4 @@
 .#{$ns}ResultBox {
-  flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
   align-items: center;
@@ -24,6 +23,13 @@
 
   @include input-input();
   @include input-border();
+
+  flex-wrap: nowrap;
+
+  input {
+    flex-shrink: 0;
+  }
+
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
@@ -121,6 +127,14 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    gap: var(--sizes-size-3);
+
+    > .#{$ns}AutoFoldedList {
+      flex-grow: 5;
+      display: flex;
+      align-items: center;
+      gap: var(--sizes-size-3);
+    }
   }
 
   &-actions {
@@ -197,8 +211,6 @@
     padding: var(--select-multiple-paddingTop)
       var(--select-multiple-paddingRight) var(--select-multiple-paddingBottom)
       var(--select-multiple-paddingLeft);
-    margin: var(--select-multiple-marginTop) var(--select-multiple-marginRight)
-      var(--ResultBox-tag-marginBottom) var(--select-multiple-marginLeft);
     user-select: none;
     border-radius: var(--select-multiple-top-left-border-radius)
       var(--select-multiple-top-right-border-radius)

@@ -38,22 +38,17 @@ import {
   SchemaTpl,
   SchemaTokenizeableString
 } from '../Schema';
-import {CardProps, CardSchema} from './Card';
+import {CardProps, CardSchema, CardSchemaWithoutType} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
 import type {IItem, IScopedContext} from 'amis-core';
 import find from 'lodash/find';
 
 /**
  * Cards 卡片集合渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/cards
  */
-export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
-  /**
-   * 指定为 cards 类型
-   */
-  type: 'cards';
-
-  card?: Partial<CardSchema> | Card2Schema;
+export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
+  card?: CardSchemaWithoutType | Card2Schema;
 
   /**
    * 头部 CSS 类名
@@ -152,6 +147,12 @@ export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   valueField?: string;
 }
 
+export interface CardsSchema extends BaseCardsSchema {
+  /**
+   * 指定为 cards 类型
+   */
+  type: 'cards';
+}
 export interface Column {
   type: string;
   [propName: string]: any;
@@ -290,13 +291,14 @@ export default class Cards extends React.Component<GridProps, object> {
     let items: Array<object> = [];
     let updateItems = false;
 
-    if (
-      Array.isArray(value) &&
-      (!prevProps ||
-        getPropValue(prevProps, (props: GridProps) => props.items) !== value)
-    ) {
-      items = value;
-      updateItems = true;
+    if (Array.isArray(value)) {
+      if (
+        !prevProps ||
+        getPropValue(prevProps, (props: GridProps) => props.items) !== value
+      ) {
+        items = value;
+        updateItems = true;
+      }
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps

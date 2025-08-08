@@ -285,6 +285,9 @@ exports[`1. Renderer:Picker base 2`] = `
                 B
               </span>
             </div>
+            <div
+              class="cxd-AutoFoldedList-more"
+            />
             <input
               value=""
             />

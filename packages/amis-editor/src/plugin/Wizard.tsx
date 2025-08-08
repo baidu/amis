@@ -28,6 +28,7 @@ export class WizardPlugin extends BasePlugin {
   static id = 'WizardPlugin';
   // 关联渲染器名字
   rendererName = 'wizard';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/WizardSchema.json';
 
   name = '向导';

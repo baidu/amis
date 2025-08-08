@@ -13,7 +13,7 @@ import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {autobind, JSONGetById, JSONUpdate, appTranslate} from '../util';
-import {ErrorBoundary} from 'amis-core';
+import {ErrorBoundary, LazyComponent} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
@@ -207,13 +207,25 @@ export function makeWrapper(
               );
             }}
           >
-            <Wrapper
-              {...rest}
-              render={this.renderChild}
-              $$editor={info}
-              $$node={this.editorNode}
-              ref={this.wrapperRef}
-            />
+            {info.useLazyRender ? (
+              <LazyComponent placeholder={<span />}>
+                <Wrapper
+                  {...rest}
+                  render={this.renderChild}
+                  $$editor={info}
+                  $$node={this.editorNode}
+                  ref={this.wrapperRef}
+                />
+              </LazyComponent>
+            ) : (
+              <Wrapper
+                {...rest}
+                render={this.renderChild}
+                $$editor={info}
+                $$node={this.editorNode}
+                ref={this.wrapperRef}
+              />
+            )}
           </ErrorBoundary>
         </EditorNodeContext.Provider>
       );

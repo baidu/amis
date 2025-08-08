@@ -43,6 +43,7 @@ export class TablePlugin extends BasePlugin {
   static id = 'TablePlugin';
   // 关联渲染器名字
   rendererName = 'table';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
@@ -617,6 +618,15 @@ export class TablePlugin extends BasePlugin {
                     }
                   ]
                 }
+              },
+
+              {
+                type: 'input-number',
+                name: 'lazyRenderAfter',
+                label: '懒渲染行数',
+                description:
+                  '表格渲染时，超过多少行后才开始懒渲染，默认 100 行。可以提升渲染性能。',
+                pipeIn: defaultValue(100)
               }
 
               // {

@@ -13,7 +13,7 @@ import {
   formateCheckThemeCss
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
-import {Checkbox, Icon, Spinner} from 'amis-ui';
+import {Checkbox, Icon, Spinner, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
@@ -24,6 +24,10 @@ import debounce from 'lodash/debounce';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
 export interface CheckboxesControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 Checkboxes 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
+   */
   type: 'checkboxes';
 
   /**
@@ -236,6 +240,7 @@ export default class CheckboxesControl extends React.Component<
       optionType,
       menuTpl,
       data,
+      classnames: cx,
       testIdBuilder
     } = this.props;
     const labelText = String(option[labelField || 'label']);
@@ -243,6 +248,7 @@ export default class CheckboxesControl extends React.Component<
     const itemTestIdBuilder = testIdBuilder?.getChild(
       'item-' + labelText || index
     );
+    const finalDisabled = disabled || option.disabled;
 
     return (
       <Checkbox
@@ -250,7 +256,7 @@ export default class CheckboxesControl extends React.Component<
         key={index}
         onChange={() => onToggle(option)}
         checked={!!~selectedOptions.indexOf(option)}
-        disabled={disabled || option.disabled}
+        disabled={finalDisabled}
         inline={inline}
         labelClassName={optionLabelClassName || labelClassName}
         description={option.description}
@@ -263,6 +269,17 @@ export default class CheckboxesControl extends React.Component<
               data: createObject(data, option)
             })
           : labelText}
+        {option.disabledTip && finalDisabled ? (
+          <TooltipWrapper
+            placement="right"
+            tooltip={option.disabledTip}
+            trigger="hover"
+          >
+            <a className={cx('Select-option-disabledTip')}>
+              <Icon className="icon" icon="question2" />
+            </a>
+          </TooltipWrapper>
+        ) : null}
         {removable && hasAbility(option, 'removable') ? (
           <a data-tooltip={__('Select.clear')} data-position="left">
             <Icon

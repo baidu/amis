@@ -88,7 +88,7 @@ export default class Preview extends Component<PreviewProps> {
     currentDom.addEventListener('mouseover', this.handeMouseOver);
     currentDom.addEventListener('mousedown', this.handeMouseDown);
     currentDom.addEventListener('submit', this.handleSubmit);
-    this.props.manager.on('after-update', this.handlePanelChange);
+    this.props.manager.on('after-update', this.handlePreviewViewChange);
   }
 
   componentWillUnmount() {
@@ -101,11 +101,9 @@ export default class Preview extends Component<PreviewProps> {
       currentDom.removeEventListener('mouseover', this.handeMouseOver);
       currentDom.removeEventListener('mousedown', this.handeMouseDown);
       currentDom.removeEventListener('submit', this.handleSubmit);
-      this.props.manager.off('after-update', this.handlePanelChange);
+      this.props.manager.off('after-update', this.handlePreviewViewChange);
       this.dialogReaction?.();
     }
-
-    this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
 
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
   }
@@ -115,22 +113,54 @@ export default class Preview extends Component<PreviewProps> {
   scrollLayer?: HTMLDivElement;
 
   @autobind
+  handleLayerScroll(e: WheelEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const store = this.props.store;
+    const iframe = store.getIframe();
+
+    if (iframe) {
+      iframe.contentWindow?.scrollTo({
+        top: iframe.contentWindow?.scrollY + e.deltaY,
+        behavior: 'smooth'
+      });
+      this.handlePreviewViewChange();
+    } else {
+      this.scrollLayer?.scrollTo({
+        top: this.scrollLayer.scrollTop + e.deltaY,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  @autobind
   contentsRef(ref: HTMLDivElement | null) {
     if (ref) {
-      this.layer = ref.parentElement!.querySelector(
-        '.ae-Preview-widgets'
-      ) as HTMLDivElement;
+      this.layer = ref
+        .closest('.ae-Preview')!
+        .querySelector('.ae-Preview-widgets') as HTMLDivElement;
 
-      this.unSensor = resizeSensor(ref, this.handlePanelChange);
+      this.unSensor = resizeSensor(ref, this.handlePreviewViewChange);
       if (this.props.isMobile) {
         ref = ref.firstChild as HTMLDivElement;
       }
 
       this.scrollLayer = ref as HTMLDivElement;
-      this.scrollLayer.removeEventListener('scroll', this.handlePanelChange);
-      this.scrollLayer.addEventListener('scroll', this.handlePanelChange);
+      this.scrollLayer.removeEventListener(
+        'scroll',
+        this.handlePreviewViewChange
+      );
+      this.scrollLayer.addEventListener('scroll', this.handlePreviewViewChange);
       this.props.store.setLayer(this.layer);
+
+      this.layer.addEventListener('wheel', this.handleLayerScroll, true);
     } else {
+      this.layer?.removeEventListener('wheel', this.handleLayerScroll, true);
+      this.scrollLayer?.removeEventListener(
+        'scroll',
+        this.handlePreviewViewChange
+      );
       delete this.scrollLayer;
       delete this.layer;
       this.unSensor?.();
@@ -158,7 +188,7 @@ export default class Preview extends Component<PreviewProps> {
   );
 
   @autobind
-  handlePanelChange() {
+  handlePreviewViewChange() {
     if (this.layer && this.scrollLayer) {
       requestAnimationFrame(() => {
         if (!this.layer) {
@@ -646,61 +676,63 @@ export default class Preview extends Component<PreviewProps> {
         )}
         ref={this.currentDom}
       >
-        <div
-          key={
-            /* contentsLayer 逻辑不一样需要更新一下 */ isMobile
-              ? 'mobile-body'
-              : 'pc-body'
-          }
-          className={cx(
-            'ae-Preview-body',
-            className,
-            editable ? 'is-edting' : '',
-            isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
-          )}
-          ref={this.contentsRef}
-        >
-          <div className="ae-Preview-inner">
-            {!store.ready ? (
-              <div className="ae-Preview-loading">
-                <Spinner overlay size="lg" />
-              </div>
-            ) : isMobile ? (
-              <IFramePreview
-                {...rest}
-                key="mobile"
-                editable={editable}
-                store={store}
-                env={env}
-                manager={manager}
-                autoFocus={autoFocus}
-                appLocale={appLocale}
-              ></IFramePreview>
-            ) : (
-              <SmartPreview
-                {...rest}
-                editable={editable}
-                autoFocus={autoFocus}
-                store={store}
-                env={env}
-                manager={manager}
-                key="pc"
-                appLocale={appLocale}
-              />
+        <div className={cx('ae-Preview-outter')}>
+          <div
+            key={
+              /* contentsLayer 逻辑不一样需要更新一下 */ isMobile
+                ? 'mobile-body'
+                : 'pc-body'
+            }
+            className={cx(
+              'ae-Preview-body',
+              className,
+              editable ? 'is-edting' : '',
+              isMobile ? 'is-mobile' : 'is-pc hoverShowScrollBar'
+            )}
+            ref={this.contentsRef}
+          >
+            <div className="ae-Preview-inner">
+              {!store.ready ? (
+                <div className="ae-Preview-loading">
+                  <Spinner overlay size="lg" />
+                </div>
+              ) : isMobile ? (
+                <IFramePreview
+                  {...rest}
+                  key="mobile"
+                  editable={editable}
+                  store={store}
+                  env={env}
+                  manager={manager}
+                  autoFocus={autoFocus}
+                  appLocale={appLocale}
+                ></IFramePreview>
+              ) : (
+                <SmartPreview
+                  {...rest}
+                  editable={editable}
+                  autoFocus={autoFocus}
+                  store={store}
+                  env={env}
+                  manager={manager}
+                  key="pc"
+                  appLocale={appLocale}
+                />
+              )}
+            </div>
+            {this.currentDom.current && (
+              <BackTop
+                key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
+                className="ae-editor-action-btn"
+                target={this.getCurrentTarget.bind(this)}
+                onClick={(e: any) => {
+                  console.log(e);
+                }}
+              >
+                <Icon icon="back-up" className="back-top-icon" />
+              </BackTop>
             )}
           </div>
-          {this.currentDom.current && (
-            <BackTop
-              key={isMobile ? 'mobile-back-up' : 'pc-back-up'}
-              className="ae-editor-action-btn"
-              target={this.getCurrentTarget.bind(this)}
-              onClick={(e: any) => {
-                console.log(e);
-              }}
-            >
-              <Icon icon="back-up" className="back-top-icon" />
-            </BackTop>
-          )}
         </div>
 
         <div
@@ -814,7 +846,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
 
     return (
       // 弹窗挂载节点
-      <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
+      <div ref={this.dialogMountRef} className="ae-PageWrapper">
         {render(
           editable ? store.filteredSchema : store.filteredSchemaForPreview,
           {

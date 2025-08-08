@@ -35,7 +35,7 @@ import {
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
-import {TableSchema} from '../Table';
+import {BaseTableSchema, TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
@@ -51,9 +51,7 @@ export type TableDataItem = {
   [x: string | number]: any;
 };
 
-export interface TableControlSchema
-  extends FormBaseControl,
-    Omit<TableSchema, 'type'> {
+export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   type: 'input-table';
 
   /**
@@ -901,7 +899,7 @@ export default class FormTable<
         : {
             editIndex: next.join('.'),
             isCreateMode: true,
-            columns: this.buildColumns(this.props, true, `${index}`)
+            columns: this.buildColumns(this.props, true, next.join('.'))
           }) as any)
     };
 

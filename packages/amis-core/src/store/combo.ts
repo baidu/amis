@@ -36,6 +36,8 @@ export const ComboStore = iRendererStore
     maxLength: 0,
     length: 0,
     activeKey: 0,
+    perPage: 0,
+    page: 1,
     memberValidMap: types.optional(types.frozen(), {})
   })
   .views(self => {
@@ -99,6 +101,24 @@ export const ComboStore = iRendererStore
         return self.multiple
           ? [forms[parseInt(name, 10)]]
           : forms[0].getItemsByName(name);
+      },
+
+      get multiplePage() {
+        return self.multiple && self.perPage > 0;
+      },
+
+      get offset() {
+        return (self.page - 1) * self.perPage;
+      },
+
+      getRangeByPage(items: Array<any>) {
+        if (self.perPage <= 0) {
+          return items;
+        }
+
+        const start = this.offset;
+        const end = start + self.perPage;
+        return items.slice(start, end);
       }
     };
   })
@@ -185,7 +205,13 @@ export const ComboStore = iRendererStore
       unBindUniuqueItem,
       addForm,
       onChildStoreDispose,
-      setMemberValid
+      setMemberValid,
+      changePage: (page: number, perPage?: number) => {
+        self.page = page || 1;
+        if (typeof perPage === 'number') {
+          self.perPage = perPage;
+        }
+      }
     };
   });
 

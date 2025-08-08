@@ -69,6 +69,8 @@ export class FormPlugin extends BasePlugin {
 
   name = '表单';
 
+  useLazyRender = true;
+
   panelTitle = '表单';
   // 关联渲染器名字
   rendererName = 'form';
@@ -155,8 +157,8 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化数据接口请求完成',
-      description: '远程初始化数据接口请求完成时触发',
+      eventLabel: '表单初始化完成',
+      description: '表单初始化完成时触发',
       // 表单数据为表单变量
       dataSchema: [
         {
@@ -325,6 +327,31 @@ export class FormPlugin extends BasePlugin {
                 error: {
                   type: 'object',
                   title: '保存接口请求失败后返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'initApiFinished',
+      eventLabel: '初始化数据接口请求完成',
+      description: '远程初始化数据接口请求完成时触发',
+      // 表单数据为表单变量
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值',
+              properties: {
+                __trigger: {
+                  type: 'string',
+                  title: '触发事件',
+                  enum: ['init', 'reload']
                 }
               }
             }
@@ -1341,6 +1368,25 @@ export class FormPlugin extends BasePlugin {
                   hiddenOn:
                     'this.mode === "normal" || this.labelAlign === "top"'
                 }),
+                {
+                  name: 'labelOverflow',
+                  type: 'button-group-select',
+                  label: '文本超出处理',
+                  size: 'xs',
+                  mode: 'inline',
+                  inputClassName: 'mt-1 w-full',
+                  pipeIn: defaultValue('default'),
+                  options: [
+                    {
+                      label: '默认',
+                      value: 'default'
+                    },
+                    {
+                      label: '溢出隐藏',
+                      value: 'ellipsis'
+                    }
+                  ]
+                },
 
                 getSchemaTpl('theme:font', {
                   label: '标题文字',

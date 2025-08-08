@@ -214,6 +214,11 @@ export interface InlineEditableElement {
  * 渲染器信息。
  */
 export interface RendererInfo extends RendererScaffoldInfo {
+  // 是否使用懒渲染，默认 false
+  // 当一个页面有很多组件时，开启懒渲染可以提升性能。
+  // 打算正对容器组件开启懒渲染
+  useLazyRender?: boolean;
+
   scaffolds?: Array<Partial<RendererScaffoldInfo>>;
 
   rendererName?: string;
@@ -554,6 +559,9 @@ export interface ContextMenuEventContext extends BaseEventContext {
   region: string;
   selections: Array<BaseEventContext>;
   data: Array<ContextMenuItem>;
+  clientX?: number;
+  clientY?: number;
+  target?: HTMLElement;
 }
 
 export interface SelectionEventContext extends BaseEventContext {
@@ -1146,7 +1154,8 @@ export abstract class BasePlugin implements PluginInterface {
         isListComponent: plugin.isListComponent,
         rendererName: plugin.rendererName,
         memberImmutable: plugin.memberImmutable,
-        getSubEditorVariable: plugin.getSubEditorVariable
+        getSubEditorVariable: plugin.getSubEditorVariable,
+        useLazyRender: plugin.useLazyRender
       };
     }
   }

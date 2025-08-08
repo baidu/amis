@@ -111,7 +111,7 @@ export default class FeatureControl extends React.Component<
     item.remove?.(schema);
     removeFeature?.(item, schema);
 
-    remove(inUseFeat, item);
+    remove(inUseFeat as any, item);
     item.add && unUseFeat.push(item);
     onBulkChange?.(schema);
 
@@ -131,7 +131,7 @@ export default class FeatureControl extends React.Component<
     const {inUseFeat, unUseFeat} = this.state;
 
     inUseFeat.push(item);
-    remove(unUseFeat, item);
+    remove(unUseFeat as any, item);
 
     const schema = cloneDeep(data);
     item.add?.(schema);
@@ -299,7 +299,7 @@ export default class FeatureControl extends React.Component<
     return render('action', {
       type: 'dropdown-button',
       closeOnClick: true,
-      label: '添加' || addText,
+      label: addText || '添加',
       className: `${klass}-action`,
       btnClassName: `${klass}-action--btn`,
       menuClassName: `${klass}-action--menus`,

@@ -82,6 +82,7 @@ import FormItem, {
 } from './renderers/Item';
 import type {
   FormBaseControl,
+  FormBaseControlWithoutSize,
   FormControlProps,
   FormItemProps
 } from './renderers/Item';
@@ -91,7 +92,10 @@ import {
   OptionsControlBase
 } from './renderers/Options';
 import type {OptionsControlProps} from './renderers/Options';
-import type {FormOptionsControl} from './renderers/Options';
+import type {
+  FormOptionsControl,
+  FormOptionsControlSelf
+} from './renderers/Options';
 import {Schema} from './types';
 import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
@@ -123,7 +127,9 @@ import {
   disableDebug,
   promisify,
   replaceText,
-  wrapFetcher
+  wrapFetcher,
+  resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync
 } from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
@@ -230,8 +236,10 @@ export {
   OptionsControlProps,
   OptionsControlBase,
   FormOptionsControl,
+  FormOptionsControlSelf,
   FormControlProps,
   FormBaseControl,
+  FormBaseControlWithoutSize,
   extendDefaultEnv,
   addRootWrapper,
   RendererConfig,
@@ -256,7 +264,9 @@ export {
   wrapFetcher,
   SchemaRenderer,
   getCustomVendor,
-  registerCustomVendor
+  registerCustomVendor,
+  resolveVariableAndFilter,
+  resolveVariableAndFilterForAsync
 };
 
 export function render(

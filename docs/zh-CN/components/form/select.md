@@ -1028,6 +1028,8 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 `maxTagCount`可以限制标签的最大展示数量，超出数量的部分会收纳到 Popover 中，可以通过`overflowTagPopover`配置 Popover 相关的[属性](../tooltip#属性表)，注意该属性仅在多选模式开启后生效。
 
+> 6.13.0 版本开始，可摆放个数会根据所剩空间尽可能多的摆放，但是摆放个数不会超出设定的值，所以可以将这个值稍微设置大点。
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -1038,7 +1040,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
       "type": "select",
       "name": "select",
       "multiple": true,
-      "maxTagCount": 3,
+      "maxTagCount": 100,
       "checkAll": true,
       "defaultCheckAll": true,
       "overflowTagPopover": {
@@ -1054,7 +1056,26 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
         {"label": "椰子", "value": "Coconut"},
         {"label": "猕猴桃", "value": "Kiwifruit"},
         {"label": "柠檬", "value": "Lemon"},
-        {"label": "菠萝", "value": "Pineapple"}
+        {"label": "菠萝", "value": "Pineapple"},
+        {"label": "葡萄", "value": "Grape"},
+        {"label": "石榴", "value": "Pomegranate"},
+        {"label": "芒果", "value": "Mango"},
+        {"label": "木瓜", "value": "Papaya"},
+        {"label": "山竹", "value": "Mangosteen"},
+        {"label": "榴莲", "value": "Durian"},
+        {"label": "龙眼", "value": "Longan"},
+        {"label": "荔枝", "value": "Litchi"},
+        {"label": "枇杷", "value": "Loquat"},
+        {"label": "柿子", "value": "Persimmon"},
+        {"label": "柚子", "value": "Pomelo"},
+        {"label": "橙子", "value": "Orange"},
+        {"label": "橘子", "value": "Tangerine"},
+        {"label": "金桔", "value": "Kumquat"},
+        {"label": "李子", "value": "Plum"},
+        {"label": "杏子", "value": "Apricot"},
+        {"label": "桃子", "value": "Peach"},
+        {"label": "梨子", "value": "Pear"},
+        {"label": "草莓", "value": "Strawberry"}
       ]
     }
   ]
@@ -1267,8 +1288,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | clearable                | `boolean`                                                                         |                                                                                    | 是否展示清空图标                                                                                                                                                                                             |
 | overlay                  | `{ width: string \| number, align: "left" \| "center" \| "right" }`               |                                                                                    | 弹层宽度与对齐方式 `2.8.0 以上版本`                                                                                                                                                                          |
 | showInvalidMatch         | `boolean`                                                                         | `false`                                                                            | 选项值与选项组不匹配时选项值是否飘红                                                                                                                                                                         |
-| noResultsText            | `string`                                                                          | `"未找到任何结果"`                                                                 | 无结果时的文本                                                                              |
-
+| noResultsText            | `string`                                                                          | `"未找到任何结果"`                                                                 | 无结果时的文本                                                                                                                                                                                               |
 
 ## 事件表
 

@@ -63,6 +63,7 @@ import {reaction} from 'mobx';
 import groupBy from 'lodash/groupBy';
 import isEqual from 'lodash/isEqual';
 import CustomStyle from '../components/CustomStyle';
+import debounce from 'lodash/debounce';
 
 export interface FormHorizontal {
   left?: number;
@@ -72,6 +73,7 @@ export interface FormHorizontal {
   labelAlign?: 'left' | 'right'; // label对齐方式
   /** label自定义宽度，默认单位为px */
   labelWidth?: number | string;
+  labelOverflow?: 'default' | 'ellipsis';
 }
 
 export interface FormSchemaBase {
@@ -140,6 +142,7 @@ export interface FormSchemaBase {
      * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为120
      */
     ellipsisThreshold?: number | false;
+    labelOverflow?: 'default' | 'ellipsis';
   };
 
   /**
@@ -484,7 +487,17 @@ export default class Form extends React.Component<FormProps, object> {
     trailing: true,
     leading: false
   });
+  // 当有多次调用时，只需要跳一个
+  lazyJumpToErrorComponent = debouce(
+    this.jumpToErrorComponent.bind(this),
+    250,
+    {
+      trailing: false,
+      leading: true
+    }
+  );
   unBlockRouting?: () => void;
+  formRef = React.createRef<HTMLElement>();
   constructor(props: FormProps) {
     super(props);
 
@@ -510,7 +523,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.dispatchInited = this.dispatchInited.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
-    this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.flush = this.flush.bind(this);
 
     const {store, canAccessSuperData, persistData, simpleMode, formLazyChange} =
@@ -659,6 +672,14 @@ export default class Form extends React.Component<FormProps, object> {
           }
         })
         .then(this.initInterval)
+        .then(() =>
+          this.props.dispatchEvent(
+            'initApiFinished',
+            injectObjectChain(store.data, {
+              __trigger: 'init'
+            })
+          )
+        )
         .then(this.onInit);
     } else {
       setTimeout(this.onInit.bind(this), 4);
@@ -702,6 +723,7 @@ export default class Form extends React.Component<FormProps, object> {
     clearTimeout(this.timer);
     // this.lazyHandleChange.flush();
     this.lazyEmitChange.cancel();
+    this.lazyJumpToErrorComponent.cancel();
     this.asyncCancel && this.asyncCancel();
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
@@ -894,6 +916,12 @@ export default class Form extends React.Component<FormProps, object> {
       if (result?.ok) {
         this.initInterval(result);
         store.reset(undefined, false);
+        await this.props.dispatchEvent(
+          'initApiFinished',
+          injectObjectChain(store.data, {
+            __trigger: 'reload'
+          })
+        );
       }
     } else {
       store.reset(undefined, false);
@@ -1097,9 +1125,44 @@ export default class Form extends React.Component<FormProps, object> {
       store.setLocalPersistData(persistDataKeys);
     }
   }
-  formItemDispatchEvent(type: string, data: any) {
-    const {dispatchEvent} = this.props;
-    return dispatchEvent(type, data);
+
+  jumpToErrorComponent(renderer: any) {
+    // 当表单校验错误是，优先调用组件的 focus
+    // 如果没有 focus 方法，则滚动到错误信息的位置
+    if (typeof renderer?.focus === 'function') {
+      renderer.focus();
+    } else {
+      this.formRef.current
+        ?.querySelector(`.${this.props.classPrefix}Form-feedback`)
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+    }
+  }
+
+  dispatchEvent(
+    e: React.MouseEvent<any> | string,
+    data: any,
+    renderer?: React.Component<RendererProps>, // for didmount
+    scoped?: IScopedContext
+  ) {
+    // 把这两个事件转到 form 组件上，让 form 组件来处理
+    if (
+      (e === 'formItemValidateSucc' || e === 'formItemValidateError') &&
+      renderer?.props.type !== 'form'
+    ) {
+      if (e === 'formItemValidateError') {
+        this.lazyJumpToErrorComponent(renderer);
+      }
+
+      // 如果事件是 formItemValidateSucc 或者 formItemValidateError 转成当前组件触发的，
+      // 所以 onEvent 是配置在 form 层的而不是表单项层
+      renderer = undefined;
+      scoped = undefined;
+    }
+
+    return this.props.dispatchEvent(e, data, renderer, scoped);
   }
 
   emittedData: any = null;
@@ -1952,6 +2015,7 @@ export default class Form extends React.Component<FormProps, object> {
       dispatchEvent,
       labelAlign,
       labelWidth,
+      labelOverflow,
       static: isStatic,
       canAccessSuperData
     } = props;
@@ -1971,6 +2035,7 @@ export default class Form extends React.Component<FormProps, object> {
           ? 'right'
           : labelAlign,
       formLabelWidth: labelWidth,
+      formLabelOverflow: labelOverflow,
       controlWidth,
       /**
        * form.loading有为true时才下发disabled属性，否则不显性设置disbaled为false
@@ -1988,7 +2053,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      formItemDispatchEvent: this.formItemDispatchEvent,
+      dispatchEvent: this.dispatchEvent,
       formPristine: form.pristine,
       onFlushForm: this.flush
       // value: (control as any)?.name
@@ -2055,6 +2120,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     return (
       <WrapperComponent
+        ref={this.formRef}
         className={cx(
           `Form`,
           `Form--${mode || 'normal'}`,

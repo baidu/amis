@@ -355,6 +355,7 @@ export class Table2Plugin extends BasePlugin {
   pluginIcon = 'table-plugin';
 
   rendererName = 'table2';
+  useLazyRender = true; // 使用懒渲染
 
   isBaseComponent = true;
 
@@ -994,7 +995,16 @@ export class Table2Plugin extends BasePlugin {
                   }),
                   getSchemaTpl('tablePlaceholder', {
                     hidden: isCRUDContext
-                  })
+                  }),
+
+                  {
+                    type: 'input-number',
+                    name: 'lazyRenderAfter',
+                    label: '懒渲染行数',
+                    description:
+                      '表格渲染时，超过多少行后才开始懒渲染，默认 100 行。可以提升渲染性能。',
+                    pipeIn: defaultValue(100)
+                  }
                   // TODD: 组件功能没有支持，暂时隐藏
                   // {
                   //   type: 'input-number',

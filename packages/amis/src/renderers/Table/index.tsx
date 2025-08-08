@@ -216,6 +216,8 @@ export type TableColumnObject = {
   innerStyle?: {
     [propName: string]: any;
   };
+
+  [propName: string]: any;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
@@ -227,12 +229,7 @@ type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
  * Table 表格渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
  */
-export interface TableSchema extends BaseSchema {
-  /**
-   * 指定为表格渲染器。
-   */
-  type: 'table' | 'static-table';
-
+export interface BaseTableSchema extends BaseSchema {
   /**
    * 是否固定表头
    */
@@ -280,7 +277,11 @@ export interface TableSchema extends BaseSchema {
   /**
    * 占位符
    */
-  placeholder?: string | SchemaTpl;
+  placeholder?:
+    | string
+    | {
+        [propName: string]: string;
+      };
 
   /**
    * 是否显示序号
@@ -383,6 +384,12 @@ export interface TableSchema extends BaseSchema {
   persistKey?: string;
 }
 
+export interface TableSchema extends BaseTableSchema {
+  /**
+   * 指定为表格渲染器。
+   */
+  type: 'table' | 'static-table';
+}
 export interface TableProps extends RendererProps, SpinnerExtraProps {
   title?: string; // 标题
   header?: SchemaNode;

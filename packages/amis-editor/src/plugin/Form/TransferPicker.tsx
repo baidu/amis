@@ -68,6 +68,32 @@ export class TransferPickerPlugin extends TransferPlugin {
           }
         }
       ]
+    },
+    {
+      eventName: 'staticItemClick',
+      eventLabel: '静态展示节点点击',
+      description: '静态展示时节点点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前选项'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前选项索引'
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   ];
 

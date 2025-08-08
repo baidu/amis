@@ -74,6 +74,9 @@ export const AppStore = ServiceStore.named('AppStore')
     toggleOffScreen() {
       self.offScreen = !self.offScreen;
     },
+    updateOffScreen(value: boolean) {
+      self.offScreen = value;
+    },
 
     setPages(pages: any) {
       if (pages && !Array.isArray(pages)) {
@@ -146,6 +149,12 @@ export const AppStore = ServiceStore.named('AppStore')
     ) {
       // 同一个页面直接返回。
       if (self.activePage?.id === page.id) {
+        if (params !== undefined) {
+          self.activePage = {
+            ...self.activePage,
+            params: params
+          };
+        }
         return;
       }
 

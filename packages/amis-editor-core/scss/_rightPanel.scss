@@ -173,8 +173,8 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
             }
 
             > svg {
-              width: 45px;
-              height: 45px;
+              width: 16px;
+              height: 16px;
               color: #151b26;
             }
 
@@ -405,11 +405,9 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
     margin: calc(0rem - (var(--gap-base)));
 
     .old-action-tooltip-warpper {
-      position: absolute;
-      left: 12px;
-      top: px2rem(15px);
-      width: 91%;
-      z-index: 9999;
+      display: block;
+      padding: 10px 12px 0;
+
       // 老动作入口
       .old-action-btn {
         width: 100%;

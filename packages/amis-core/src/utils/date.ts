@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {createObject} from './object';
 import {tokenize} from './tokenize';
+import {resolveVariableAndFilter} from './resolveVariableAndFilter';
 
 const timeUnitMap: {
   [propName: string]: string;
@@ -34,14 +35,17 @@ export const filterDate = (
 
   // todo
   const date = new Date();
-  value = tokenize(
-    value,
-    createObject(data, {
-      now: mm().toDate(),
-      today: mm([date.getFullYear(), date.getMonth(), date.getDate()])
-    }),
-    '| raw'
-  );
+  value =
+    typeof value === 'string'
+      ? resolveVariableAndFilter(
+          value,
+          createObject(data, {
+            now: mm().toDate(),
+            today: mm([date.getFullYear(), date.getMonth(), date.getDate()])
+          }),
+          '| raw'
+        )
+      : value;
 
   if (value && typeof value === 'string' && (m = relativeValueRe.exec(value))) {
     const date = new Date();
@@ -71,12 +75,10 @@ export const filterDate = (
     const date = new Date();
     return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    const result = utc ? mm(value).local() : mm(value);
-    return result.isValid()
-      ? result
-      : utc
-      ? mm(value, format).local()
-      : mm(value, format);
+    // 优先通过指定格式解析，如果失败，则通过默认格式解析
+    const date =
+      [mm(value, format), mm(value)].find(item => item.isValid())! || mm(value);
+    return utc ? date.local() : date;
   }
 };
 

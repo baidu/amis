@@ -60,6 +60,7 @@ export class CRUDPlugin extends BasePlugin {
   static id = 'CRUDPlugin';
   // 关联渲染器名字
   rendererName = 'crud';
+  useLazyRender = true; // 使用懒渲染
   $schema = '/schemas/CRUDSchema.json';
 
   order = -800;

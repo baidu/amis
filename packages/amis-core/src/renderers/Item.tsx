@@ -26,6 +26,7 @@ import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
 import {
   ActionObject,
+  BaseApi,
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
@@ -56,14 +57,9 @@ import {IScopedContext} from '../Scoped';
 
 export type LabelAlign = 'right' | 'left' | 'top' | 'inherit';
 
-export interface FormBaseControl extends BaseSchemaWithoutType {
+export interface FormBaseControlWithoutSize {
   /**
-   * 表单项大小
-   */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
-
-  /**
-   * 描述标题
+   * 描述标题, 当值为 false 时不展示
    */
   label?: string | false;
 
@@ -76,6 +72,10 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
    * label自定义宽度，默认单位为px
    */
   labelWidth?: number | string;
+  /**
+   * label展示形式
+   */
+  labelOverflow?: 'default' | 'ellipsis';
 
   /**
    * 配置 label className
@@ -166,7 +166,11 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
    * 占位符
    */
-  placeholder?: string;
+  placeholder?:
+    | string
+    | {
+        [propName: string]: string;
+      };
 
   /**
    * 是否为必填
@@ -421,7 +425,7 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
         /**
          * 自动填充 api
          */
-        api?: BaseApiObject | string;
+        api?: BaseApi;
 
         /**
          * 是否展示数据格式错误提示，默认为不展示
@@ -476,6 +480,15 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   row?: number; // flex模式下指定所在的行数
 }
 
+export interface FormBaseControl
+  extends BaseSchemaWithoutType,
+    FormBaseControlWithoutSize {
+  /**
+   * 表单项大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+}
+
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
   wrap?: boolean;
@@ -521,6 +534,8 @@ export interface FormItemProps extends RendererProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   labelAlign?: LabelAlign;
   labelWidth?: number | string;
+  formLabelOverflow?: string;
+  labelOverflow?: 'default' | 'ellipsis';
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
@@ -1265,7 +1280,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         (props.labelAlign !== 'inherit' && props.labelAlign) ||
         props.formLabelAlign;
       const labelWidth = props.labelWidth || props.formLabelWidth;
-
+      const labelOverflow = props.labelOverflow || props.formLabelOverflow;
       return (
         <div
           data-role="form-item"
@@ -1307,7 +1322,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               )}
               style={labelWidth != null ? {width: labelWidth} : undefined}
             >
-              <span>
+              <span
+                {...(labelOverflow === 'ellipsis'
+                  ? {
+                      className: cx('Form-ellipsis'),
+                      title: label
+                    }
+                  : {})}
+              >
                 {label ? render('label', label) : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>

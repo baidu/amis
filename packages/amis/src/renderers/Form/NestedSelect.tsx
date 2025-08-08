@@ -49,6 +49,10 @@ import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
 export interface NestedSelectControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 NestedSelect 渲染器。
+   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
+   */
   type: 'nested-select';
   /**
    * 边框模式，全边框，还是半边框，或者没边框。

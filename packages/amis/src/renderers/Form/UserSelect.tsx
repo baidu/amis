@@ -20,6 +20,9 @@ import {supportStatic} from './StaticHoc';
  * UserSelect 移动端人员选择。
  */
 export interface UserSelectControlSchema extends FormOptionsSchema {
+  /**
+   * 指定为 UserSelect 渲染器。
+   */
   type: 'users-select';
 }
 
@@ -273,7 +276,7 @@ export default class UserSelectControl extends React.Component<
             multi={multi}
             multiple={multiple}
             searchable={searchable}
-            placeholder={placeholder}
+            placeholder={placeholder as string}
             searchPlaceholder={searchPlaceholder}
             deferLoad={this.deferLoad}
             onChange={this.changeValue}

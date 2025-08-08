@@ -7,7 +7,11 @@ import {
 import React from 'react';
 import find from 'lodash/find';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
+import {
+  BaseTransferControlSchema,
+  BaseTransferRenderer,
+  TransferControlSchema
+} from './Transfer';
 import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
 import {
@@ -30,7 +34,7 @@ import {matchSorter} from 'match-sorter';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
-  extends Omit<TransferControlSchema, 'type'>,
+  extends BaseTransferControlSchema,
     SpinnerExtraProps {
   type: 'tabs-transfer';
 }

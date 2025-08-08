@@ -1,6 +1,6 @@
 /**
  * 组件名称：Pagination 分页组件
- * 
+ *
  * 单测内容：
  1. pagination-wrapper
  2. 基础使用
@@ -127,17 +127,18 @@ test('Renderer:Pagination with simple mode', async () => {
   expect(pageChange.mock.calls[0]).toEqual([3, 10, 'forward']);
 
   // keyboard up & down
-  const simplego = container.querySelector('.cxd-Pagination-simplego-input')! as HTMLInputElement;
-  fireEvent.focus(simplego);
-  await wait(500);
+  // 简洁模式下不支持键盘上下键切换页码
+  // const simplego = container.querySelector('.cxd-Pagination-simplego-input')! as HTMLInputElement;
+  // fireEvent.focus(simplego);
+  // await wait(500);
 
-  fireEvent.keyUp(simplego, {key: "ArrowUp", code: 38});
-  expect(simplego.value).toBe('2');
-  expect(pageChange).toBeCalled();
+  // fireEvent.keyUp(simplego, {key: "ArrowUp", code: 38});
+  // expect(simplego.value).toBe('2');
+  // expect(pageChange).toBeCalled();
 
-  fireEvent.keyUp(simplego, {key: "ArrowDown", code: 40});
-  expect(simplego.value).toBe('1');
-  await wait(500);
+  // fireEvent.keyUp(simplego, {key: "ArrowDown", code: 40});
+  // expect(simplego.value).toBe('1');
+  // await wait(500);
 
   rerender(
     amisRender(
@@ -419,7 +420,7 @@ test('pagination: Pagination with ellipsisPageGap', async () => {
             type: 'pagination',
             layout: 'pager',
             mode: 'normal',
-            activePage: "${page}",
+            activePage: '${page}',
             lastPage: 10,
             total: 10,
             perPage: 1,
