@@ -13,7 +13,9 @@ export class CommonConfigWrapper extends NodeWrapper {
     }
 
     const info = this.props.$$editor;
-    let dom = info.wrapperResolve ? info.wrapperResolve(root) : root;
+    let dom = info.wrapperResolve
+      ? info.wrapperResolve(root, this.props)
+      : root;
 
     (Array.isArray(dom) ? dom : dom ? [dom] : []).forEach(dom => {
       dom.classList.remove('ae-Editor-common-config');
@@ -29,7 +31,9 @@ export class CommonConfigWrapper extends NodeWrapper {
 
     const info = this.props.$$editor;
 
-    let dom = info.wrapperResolve ? info.wrapperResolve(root) : root;
+    let dom = info.wrapperResolve
+      ? info.wrapperResolve(root, this.props)
+      : root;
     const schema = this.props.$$commonSchema;
     schema &&
       (Array.isArray(dom) ? dom : dom ? [dom] : []).forEach(dom => {

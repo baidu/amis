@@ -6,13 +6,14 @@ import {RegionConfig, RendererInfo} from '../plugin';
 import {needFillPlaceholder} from '../util';
 import {EditorStoreType} from '../store/editor';
 import {EditorNodeContext, EditorNodeType} from '../store/node';
+import {RendererProps} from 'amis-core';
 
 export interface RegionWrapperProps {
   name: string;
   label: string;
   placeholder?: string | JSX.Element;
   preferTag?: string;
-  wrapperResolve?: (dom: HTMLElement) => HTMLElement;
+  wrapperResolve?: (dom: HTMLElement, props: RendererProps) => HTMLElement;
   editorStore: EditorStoreType;
   manager: EditorManager;
   rendererName?: string;
@@ -97,7 +98,9 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
       return;
     }
     const wrapperResolve = this.props.wrapperResolve;
-    const wrapper = wrapperResolve ? wrapperResolve(dom) : dom.parentElement!;
+    const wrapper = wrapperResolve
+      ? wrapperResolve(dom, this.props as any)
+      : dom.parentElement!;
 
     wrapper.setAttribute('data-region', region);
     wrapper.setAttribute('data-region-host', id);
