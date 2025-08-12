@@ -8,5 +8,5 @@
     "packages/amis-editor"
   ],
   "useWorkspaces": false,
-  "version": "6.13.0-beta.8"
+  "version": "6.13.0"
 }
