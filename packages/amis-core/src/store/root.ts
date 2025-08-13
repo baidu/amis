@@ -100,58 +100,52 @@ export const RootStore = ServiceStore.named('RootStore')
     },
 
     get downStream() {
-      let result = self.data;
+      const chain = extractObjectChain(self.data);
 
-      if (self.context || self.query) {
-        const chain = extractObjectChain(result);
+      // 数据链中添加 global 和 globalState
+      // 对应的是全局变量的值和全局变量的状态
+      const globalData = {} as any;
+      let touched = false;
+      let saved = true;
+      let errors: any = {};
+      let initialized = true;
+      self.globalVarStates.forEach((state, key) => {
+        globalData[key] = state.value;
+        touched = touched || state.touched;
+        if (!state.saved) {
+          saved = false;
+        }
 
-        // 数据链中添加 global 和 globalState
-        // 对应的是全局变量的值和全局变量的状态
-        const globalData = {} as any;
-        let touched = false;
-        let saved = true;
-        let errors: any = {};
-        let initialized = true;
-        self.globalVarStates.forEach((state, key) => {
-          globalData[key] = state.value;
-          touched = touched || state.touched;
-          if (!state.saved) {
-            saved = false;
-          }
+        if (state.errorMessages.length) {
+          errors[key] = state.errorMessages;
+        }
+        if (!state.initialized) {
+          initialized = false;
+        }
+      });
 
-          if (state.errorMessages.length) {
-            errors[key] = state.errorMessages;
-          }
-          if (!state.initialized) {
-            initialized = false;
-          }
+      // 保存全局变量的值和状态
+      Object.assign(self.globalData.global, globalData);
+      Object.assign(self.globalData.globalState, {
+        fields: self.globalVarStates.toJSON(),
+        initialized: initialized,
+        touched: touched,
+        saved: saved,
+        errors: errors,
+        valid: !Object.keys(errors).length
+      });
+
+      // self.globalData 一直都是那个对象，这样组件里面始终拿到的都是最新的
+      chain.unshift(self.globalData);
+
+      self.context && chain.unshift(self.context);
+      self.query &&
+        chain.splice(chain.length - 1, 0, {
+          ...self.query,
+          __query: self.query
         });
 
-        // 保存全局变量的值和状态
-        Object.assign(self.globalData.global, globalData);
-        Object.assign(self.globalData.globalState, {
-          fields: self.globalVarStates.toJSON(),
-          initialized: initialized,
-          touched: touched,
-          saved: saved,
-          errors: errors,
-          valid: !Object.keys(errors).length
-        });
-
-        // self.globalData 一直都是那个对象，这样组件里面始终拿到的都是最新的
-        chain.unshift(self.globalData);
-
-        chain.unshift(self.context);
-        self.query &&
-          chain.splice(chain.length - 1, 0, {
-            ...self.query,
-            __query: self.query
-          });
-
-        result = createObjectFromChain(chain);
-      }
-
-      return result;
+      return createObjectFromChain(chain);
     }
   }))
   .actions(self => {
