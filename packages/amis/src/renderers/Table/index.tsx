@@ -1564,7 +1564,8 @@ export default class Table<
   }
 
   getPopOverContainer() {
-    return this.dom.current;
+    const {popOverContainer} = this.props;
+    return popOverContainer ? popOverContainer() : this.dom.current;
   }
 
   handleMouseMove(e: React.MouseEvent<any>) {
