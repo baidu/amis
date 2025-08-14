@@ -14,7 +14,12 @@ import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
 import {RAW_TYPE_MAP} from './util';
-import type {GlobalVariableItem, RendererConfig, Schema} from 'amis-core';
+import type {
+  GlobalVariableItem,
+  RendererConfig,
+  RendererProps,
+  Schema
+} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
@@ -102,7 +107,7 @@ export interface RegionConfig {
   /**
    * 返回需要添加 data-region 的 dom 节点。
    */
-  wrapperResolve?: (dom: HTMLElement) => HTMLElement;
+  wrapperResolve?: (dom: HTMLElement, props: RendererProps) => HTMLElement;
 
   /**
    * 当拖入到这个容器时，是否需要修改一下 ghost 结构？
@@ -284,7 +289,10 @@ export interface RendererInfo extends RendererScaffoldInfo {
    * 返回哪些 dom 节点，需要自动加上 data-editor-id 属性
    * 目前只有 TableCell 里面用到了，就它需要同时给某一列下所有 td 都加上那个属性。
    */
-  wrapperResolve?: (dom: HTMLElement) => HTMLElement | Array<HTMLElement>;
+  wrapperResolve?: (
+    dom: HTMLElement,
+    props: RendererProps
+  ) => HTMLElement | Array<HTMLElement>;
 
   /**
    * 默认下发哪些属性，如果要动态下发，请使用 filterProps
