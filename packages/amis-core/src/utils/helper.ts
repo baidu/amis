@@ -2239,7 +2239,7 @@ export function parseQuery(
       : query
     : {};
   /* 处理hash中的query */
-  const hash = window.location?.hash;
+  const hash = location?.hash ?? window.location?.hash;
   let hashQuery = {};
   let idx = -1;
 

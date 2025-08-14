@@ -286,7 +286,11 @@ export async function exportExcel(
       pageField,
       perPageField
     });
-    if (!res.data) {
+
+    if ((toolbar.api as any)?.responseType === 'blob') {
+      // 如果是返回的文件流就直接下载
+      return;
+    } else if (!res.data) {
       env.notify('warning', __('placeholder.noData'));
       return;
     }
