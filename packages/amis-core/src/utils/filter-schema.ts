@@ -7,7 +7,7 @@ import {PlainObject} from '../types';
 import {injectPropsToObject, mapObject} from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {tokenize} from './tokenize';
-import type {ClassValue} from '../theme';
+import {classnames, type ClassValue} from '../theme';
 
 /**
  * 计算下发给子组件的className，处理对象类型的className，将其中的表达式计算出来，避免被classnames识别为true
@@ -92,6 +92,11 @@ export function getExprProperties(
         } else {
           value = filter(value, ctx || data);
         }
+      }
+
+      // classNameExpr 做合并处理
+      if (/className$/i.test(key) && props?.[key]) {
+        value = classnames(value, props[key]);
       }
 
       exprProps[key] = value;

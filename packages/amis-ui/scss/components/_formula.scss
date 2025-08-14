@@ -614,6 +614,8 @@
         padding: 0 0 0 var(--Form-input-paddingX);
         align-items: center;
         height: var(--InputFormula-input-schema-height);
+        min-width: 0;
+        background: transparent;
       }
     }
 
