@@ -13,6 +13,8 @@ export interface SubEditorProps {
 
 @observer
 export class ScaffoldModal extends React.Component<SubEditorProps> {
+  modalBodyRef = React.createRef<HTMLDivElement>();
+
   @autobind
   async handleConfirm([values]: any) {
     const store = this.props.store;
@@ -34,6 +36,11 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
     store.scaffoldForm?.callback(values);
     store.closeScaffoldForm();
     store.scaffoldForm?.stepsBody && store.setScaffoldStep(0);
+  }
+
+  @autobind
+  getPopOverContainer() {
+    return (this.modalBodyRef.current as any)?.parentElement || document.body;
   }
 
   buildSchema() {
@@ -228,7 +235,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
           ) : null}
           <div className={cx('Modal-title')}>{scaffoldFormContext?.title}</div>
         </div>
-        <div className={cx('Modal-body')}>
+        <div ref={this.modalBodyRef} className={cx('Modal-body')}>
           {scaffoldFormContext ? (
             render(
               this.buildSchema(),
@@ -236,7 +243,8 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
                 data: store.scaffoldData,
                 onValidate: scaffoldFormContext.validate,
                 scopeRef: this.scopeRef,
-                manager
+                manager,
+                popOverContainer: this.getPopOverContainer
               },
               {
                 ...manager.env,
