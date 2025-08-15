@@ -1,0 +1,76 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "fields": [
+      {
+        "label": "文本",
+        "type": "text",
+        "name": "text"
+      },
+      {
+        "label": "数字",
+        "type": "number",
+        "name": "number"
+      },
+      {
+        "label": "布尔",
+        "type": "boolean",
+        "name": "boolean"
+      },
+      {
+        "label": "选项",
+        "type": "select",
+        "name": "select",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          },
+          {
+            "label": "D",
+            "value": "d"
+          },
+          {
+            "label": "E",
+            "value": "e"
+          }
+        ]
+      },
+      {
+        "label": "动态选项",
+        "type": "select",
+        "name": "select2",
+        "source": "/api/mock2/form/getOptions?waitSeconds=1"
+      },
+      {
+        "label": "日期",
+        "children": [
+          {
+            "label": "日期",
+            "type": "date",
+            "name": "date"
+          },
+          {
+            "label": "时间",
+            "type": "time",
+            "name": "time"
+          },
+          {
+            "label": "日期时间",
+            "type": "datetime",
+            "name": "datetime"
+          }
+        ]
+      }
+    ]
+  }
+}
