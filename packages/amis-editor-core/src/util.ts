@@ -930,21 +930,34 @@ export function diff(
   return DeepDiff.diff(left, right, prefilter);
 }
 
-export function patchDiff(left: any, changes: Array<DiffChange> | undefined) {
+export function patchDiff(
+  left: any,
+  changes: Array<DiffChange> | undefined,
+  isMobile: boolean = false
+): any {
   if (!changes) {
     return left;
   }
 
   return changes.reduce(
-    (target: any, change: DiffChange) => applyChange(target, left, change),
+    (target: any, change: DiffChange) =>
+      applyChange(target, left, change, isMobile),
     left
   );
 }
 
+// 移动端需要写入 mobile.schema 的属性
+export const MOBILE_SCHEMA_KEYS = ['mode', 'labelAlign'];
+
 /**
  * 因为左侧是个不可变动的对象，所以先 copy 了对应的属性，再传给 DeepDiff.applyChange
  */
-function applyChange(target: any, source: any, change: DiffChange) {
+function applyChange(
+  target: any,
+  source: any,
+  change: DiffChange,
+  isMobile: boolean = false
+): any {
   if (target && Array.isArray(change?.path)) {
     target = target === source ? {...target} : target;
 
@@ -977,7 +990,18 @@ function applyChange(target: any, source: any, change: DiffChange) {
       }
     );
 
-    DeepDiff.applyChange(target, source, change);
+    let changePath = change.path.concat();
+    if (isMobile) {
+      const lastKey = changePath[changePath.length - 1];
+      if (MOBILE_SCHEMA_KEYS.includes(lastKey)) {
+        changePath = ['mobile', ...changePath];
+      }
+    }
+
+    DeepDiff.applyChange(target, source, {
+      ...change,
+      path: changePath
+    });
   }
 
   return target;
