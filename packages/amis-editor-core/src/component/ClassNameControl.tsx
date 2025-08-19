@@ -459,7 +459,35 @@ const classOptions = [
       }
     ]
   },
+  
+  {
+      label: '对齐',
+      children: [
+        {
+          label: '左',
+          value: 'text-left'
+        },
 
+        '|',
+        {
+          label: '中',
+          value: 'text-center'
+        },
+
+        '|',
+        {
+          label: '右',
+          value: 'text-right'
+        },
+
+        '|',
+        {
+          label: 'justify',
+          value: 'text-justify'
+        }
+      ]
+  },
+  
   {
     label: '其他',
     className: 'w2x',
