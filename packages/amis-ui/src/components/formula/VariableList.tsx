@@ -287,9 +287,11 @@ function VariableList(props: VariableListProps) {
   }
 
   function handleChange(item: any) {
-    if (item.isMember || item.memberDepth !== undefined) {
-      return;
-    }
+    // 允许所有有 value 的元素被点击插入
+    // 注释掉原来的阻止逻辑，允许 isMember 元素直接点击
+    // if (item.isMember || item.memberDepth !== undefined) {
+    //   return;
+    // }
     onSelect?.(item);
   }
 
