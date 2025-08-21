@@ -360,7 +360,11 @@ export class FormulaPlugin {
                   } else {
                     break;
                   }
-                } else if (item?.type === 'literal' && typeof item.value === 'string') {
+                } else if (
+                  (item?.type === 'literal' &&
+                    typeof item.value === 'string') ||
+                  item?.type === 'string'
+                ) {
                   // 支持字符串字面量属性访问，如 data['username']
                   const propName = item.value;
                   const variable =
@@ -387,9 +391,15 @@ export class FormulaPlugin {
                     vars = variable.children || [];
                   } else {
                     // 对于数组访问的情况，如 data[0]，尝试查找数组元素的类型定义
-                    if (typeof item.value === 'number' || /^\d+$/.test(propName)) {
+                    if (
+                      typeof item.value === 'number' ||
+                      /^\d+$/.test(propName)
+                    ) {
                       // 数字索引，查找数组项的定义
-                      const arrayItemVar = findTree(vars, v => v.isMember === true);
+                      const arrayItemVar = findTree(
+                        vars,
+                        v => v.isMember === true
+                      );
                       if (arrayItemVar) {
                         // 继续使用数组项的子属性
                         vars = arrayItemVar.children || [];
@@ -397,24 +407,43 @@ export class FormulaPlugin {
                         // 数字索引本身不高亮，但允许继续处理后续属性
                         continue;
                       } else {
-                        break;
+                        // 兼容没有 isMember 标记的数组配置
+                        // 对于数组类型的变量，其children就是数组元素的属性
+                        if (vars && vars.length > 0) {
+                          path = host.name + '[' + item.value + '].';
+                          // vars 保持不变，继续处理后续属性
+                          continue;
+                        } else {
+                          break;
+                        }
                       }
                     } else {
                       break;
                     }
                   }
-                } else if (item?.type === 'literal' && typeof item.value === 'number') {
+                } else if (
+                  item?.type === 'literal' &&
+                  typeof item.value === 'number'
+                ) {
                   // 支持数字索引访问，如 data[0]
                   // 查找数组项的定义
                   const arrayItemVar = findTree(vars, v => v.isMember === true);
                   if (arrayItemVar) {
                     // 继续使用数组项的子属性
-                    vars = arrayItemVar.children || [];
+                    vars = arrayItemVar.children || [arrayItemVar];
                     path = host.name + '[' + item.value + '].';
                     // 数字索引本身不高亮，但允许继续处理后续属性
                     continue;
                   } else {
-                    break;
+                    // 兼容没有 isMember 标记的数组配置
+                    // 对于数组类型的变量，其children就是数组元素的属性
+                    if (vars && vars.length > 0) {
+                      path = host.name + '[' + item.value + '].';
+                      // vars 保持不变，继续处理后续属性
+                      continue;
+                    } else {
+                      break;
+                    }
                   }
                 } else {
                   break;
