@@ -833,6 +833,57 @@ order: 54
 }
 ```
 
+> since 6.15.0
+
+也可以配置表达式，根据行数据来决定可否添加子节点 `${a === 'a1' || index === 0}`
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "addable": true,
+      "childrenAddable": "${a === 'a1' || index === 0}",
+      "scaffold": {
+        parentA: "${parent.a}"
+      },
+      "editable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a"
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 获取父级数据
 
 默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Table 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
@@ -1074,18 +1125,19 @@ order: 54
 | 属性名                       | 类型                                      | 默认值          | 说明                                                                                                 |
 | ---------------------------- | ----------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------- |
 | type                         | `string`                                  | `"input-table"` | 指定为 Table 渲染器                                                                                  |
-| addable                      | `boolean`                                 | `false`         | 是否可增加一行                                                                                       |
-| copyable                     | `boolean`                                 | `false`         | 是否可复制一行                                                                                       |
+| addable                      | `boolean` \| `string`                     | `false`         | 是否可增加一行，支持数据映射                                                                         |
+| copyable                     | `boolean` \| `string`                     | `false`         | 是否可复制一行，支持数据映射                                                                         |
 | copyData                     | `PlainObject`                             |                 | 控制复制时的数据映射，不配置时复制整行数据                                                           |
-| childrenAddable              | `boolean`                                 | `false`         | 是否可增加子级节点                                                                                   |
-| editable                     | `boolean`                                 | `false`         | 是否可编辑                                                                                           |
-| removable                    | `boolean`                                 | `false`         | 是否可删除                                                                                           |
+| childrenAddable              | `boolean` \| `string`                     | `false`         | 是否可增加子级节点，支持数据映射                                                                     |
+| editable                     | `boolean` \| `string`                     | `false`         | 是否可编辑，支持数据映射                                                                             |
+| removable                    | `boolean` \| `string`                     | `false`         | 是否可删除，支持数据映射                                                                             |
 | showTableAddBtn              | `boolean`                                 | `true`          | 是否显示表格操作栏添加按钮，前提是要开启可新增功能                                                   |
 | showFooterAddBtn             | `boolean`                                 | `true`          | 是否显示表格下方添加按，前提是要开启可新增功能                                                       |
 | addApi                       | [API](../../../docs/types/api)            | -               | 新增时提交的 API                                                                                     |
 | footerAddBtn                 | [SchemaNode](../../docs/types/schemanode) | -               | 底部新增按钮配置                                                                                     |
 | updateApi                    | [API](../../../docs/types/api)            | -               | 修改时提交的 API                                                                                     |
 | deleteApi                    | [API](../../../docs/types/api)            | -               | 删除时提交的 API                                                                                     |
+| scaffold                     | `Record<string, any>`                     |                 | 新增时初始数据，支持数据映射                                                                         |
 | addBtnLabel                  | `string`                                  |                 | 增加按钮名称                                                                                         |
 | addBtnIcon                   | `string`                                  | `"plus"`        | 增加按钮图标                                                                                         |
 | subAddBtnLabel               | `string`                                  |                 | 子级增加按钮名称                                                                                     |
@@ -1100,7 +1152,7 @@ order: 54
 | confirmBtnIcon               | `string`                                  | `"check"`       | 确认编辑按钮图标                                                                                     |
 | cancelBtnLabel               | `string`                                  | `""`            | 取消编辑按钮名称                                                                                     |
 | cancelBtnIcon                | `string`                                  | `"times"`       | 取消编辑按钮图标                                                                                     |
-| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，可用来控制表格的操作交互                                                       |
+| needConfirm                  | `boolean`                                 | `true`          | 是否需要确认操作，可用来控制表格的操作交互                                                           |
 | canAccessSuperData           | `boolean`                                 | `false`         | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
 | strictMode                   | `boolean`                                 | `true`          | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
 | minLength                    | `number`                                  | `0`             | 最小行数, `2.4.1`版本后支持变量                                                                      |
