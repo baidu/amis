@@ -645,6 +645,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
     this.filterItemIndex = this.filterItemIndex.bind(this);
+    this.handleItemAction = this.handleItemAction.bind(this);
 
     const {
       location,
@@ -1074,8 +1075,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
   }
 
-  handleItemAction(action: ActionObject, ctx: any) {
-    this.doAction(action, ctx);
+  handleItemAction(e: any, action: ActionObject, ctx: any) {
+    return this.doAction(action, ctx);
   }
 
   handleFilterInit(values: object) {
@@ -2386,7 +2387,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
               key: `item-${index}`,
               data: itemData,
               disabled: btn.disabled || selectedItems.length !== 1,
-              onAction: this.handleItemAction.bind(this, btn, itemData)
+              onAction: this.handleItemAction
             }
           )
         )}
