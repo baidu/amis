@@ -73,7 +73,7 @@ export default function Cell({
       store.filteredColumns
     );
     return [Object.assign(style, stickyStyle), stickyClassName];
-  }, []);
+  }, [store.filteredColumns.length]);
 
   const onCheckboxChange = React.useCallback(
     (value: boolean, shiftKey?: boolean) => {
