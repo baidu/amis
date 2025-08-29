@@ -286,10 +286,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   componentDidMount() {
     this.props?.onRef?.(this);
 
-    if (this.props.loading) {
-      return;
-    }
-
     if (this.headerDom?.current) {
       // overflow设置为hidden的情况
       const hiddenDomRefs = [this.headerDom, this.footDom];
