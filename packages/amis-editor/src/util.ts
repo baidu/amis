@@ -67,7 +67,7 @@ export const resolveOptionType = (schema: any = {}) => {
 
   const value = option?.[valueField || 'value'] ?? option;
 
-  return value !== undefined ? typeof value : 'string';
+  return value !== undefined && value !== null ? typeof value : 'string';
 };
 
 /**

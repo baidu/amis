@@ -163,6 +163,9 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     amisEnv={amisEnv || config.amisEnv}
                     appLocale={config.appLocale}
                     i18nEnabled={config.i18nEnabled}
+                    toolbarMode={store.toolbarMode as 'default' | 'mini'}
+                    noDialog={store.noDialog}
+                    amisDocHost={store.amisDocHost}
                     plugins={config.plugins}
                     actionOptions={config.actionOptions}
                     showCustomRenderersPanel={
