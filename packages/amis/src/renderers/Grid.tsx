@@ -112,7 +112,12 @@ export interface GridProps
   extends RendererProps,
     Omit<GridSchema, 'type' | 'className' | 'columnClassName'>,
     SpinnerExtraProps {
-  itemRender?: (item: any, length: number, props: any) => JSX.Element;
+  itemRender?: (
+    item: any,
+    index: number,
+    length: number,
+    props: any
+  ) => JSX.Element;
 }
 
 function fromBsClass(cn: string) {
@@ -146,15 +151,24 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
 
   renderChild(
     region: string,
-    node: SchemaCollection,
+    key: number,
+    column: GridColumnObject,
     length: number,
     props: any = {}
   ) {
     const {render, itemRender} = this.props;
 
     return itemRender
-      ? itemRender(node, length, this.props)
-      : render(region, node, props);
+      ? itemRender(
+          {
+            ...column,
+            ...(column.body ? {type: 'wrapper', wrap: false} : {})
+          },
+          key,
+          length,
+          this.props
+        )
+      : render(region, (column as any).body, props);
   }
 
   renderColumn(column: ColumnNode, key: number, length: number) {
@@ -204,7 +218,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         )}
         style={styleVar}
       >
-        {this.renderChild(`column/${key}`, (column as any).body || [], length, {
+        {this.renderChild(`column/${key}`, key, column, length, {
           disabled,
           formMode: column.mode || subFormMode || formMode,
           formHorizontal:

@@ -1635,14 +1635,14 @@ export class ListItem extends React.Component<ListItemProps> {
       }) as JSX.Element;
     }
 
-    return this.renderFeild(region, childNode, key, this.props);
+    return this.renderField(region, childNode, key, this.props);
   }
 
-  itemRender(field: any, index: number, props: any) {
-    return this.renderFeild(`column/${index}`, field, index, props);
+  itemRender(field: any, index: number, len: number, props: any) {
+    return this.renderField(`column/${index}`, field, index, props);
   }
 
-  renderFeild(region: string, field: any, key: any, props: any) {
+  renderField(region: string, field: any, key: any, props: any) {
     const render = props?.render || this.props.render;
     const data = this.props.data;
     const cx = this.props.classnames;
