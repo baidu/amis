@@ -34,16 +34,51 @@ export interface RichTextControlSchema extends FormBaseControlSchema {
   receiver?: SchemaApi;
 
   /**
-   * 视频保存 API
-   *
-   * @default /api/upload/video
+   * 视频保存 API，不配置时用 receiver
    */
   videoReceiver?: SchemaApi;
+
+  /**
+   * 文件保存 API，不配置时用 receiver
+   */
+  fileReceiver?: SchemaApi;
 
   /**
    * 接收器的字段名
    */
   fileField?: string;
+
+  // todo 支持分块上传
+  // /**
+  //  * 默认为 'auto' amis 所在服务器，限制了文件上传大小不得超出10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。
+  //  */
+  // useChunk?: 'auto' | boolean;
+
+  // /**
+  //  * 分块大小，默认为 5M.
+  //  *
+  //  * @default 5242880
+  //  */
+  // chunkSize?: number;
+
+  // /**
+  //  * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
+  //  *
+  //  * @default /api/upload/startChunk
+  //  */
+  // startChunkApi?: string;
+
+  // /**
+  //  * 默认 `/api/upload/chunk` 想自己存储时才需要关注。
+  //  */
+  // chunkApi?: SchemaApi;
+
+  // /**
+  //  * 默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。
+  //  *
+  //  * @default /api/upload/finishChunkApi
+  //  */
+  // finishChunkApi?: SchemaApi;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -146,6 +181,111 @@ export default class RichTextControl extends React.Component<
     }
   }
 
+  async uploadFile(
+    blob: Blob,
+    filename: string,
+    mediaType: 'file' | 'image' | 'media'
+  ): Promise<{link: string; meta: any}> {
+    const formData = new FormData();
+    const {
+      receiver: imageReceiver,
+      videoReceiver,
+      fileReceiver,
+      env,
+      fileField,
+      data
+      // useChunk,
+      // startChunkApi,
+      // chunkApi,
+      // finishChunkApi,
+      // chunkSize = 5 * 1024 * 1024
+    } = this.props;
+    const api =
+      (mediaType === 'file'
+        ? fileReceiver
+        : mediaType === 'media'
+        ? videoReceiver
+        : imageReceiver) || imageReceiver;
+
+    const apiObject = buildApi(api, data, {
+      method: api.method || 'post'
+    });
+
+    if (!apiObject.url) {
+      return new Promise<{
+        link: string;
+        meta: any;
+      }>(resolve => {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          var base64data = reader.result;
+          resolve({
+            link: base64data as string,
+            meta: {
+              alt: filename,
+              text: filename,
+              title: filename,
+              type: 'image',
+              size: blob.size
+            }
+          });
+        };
+      });
+    } else if (apiObject.data) {
+      qsstringify(apiObject.data)
+        .split('&')
+        .filter(item => item !== '')
+        .forEach(item => {
+          let parts = item.split('=');
+          formData.append(parts[0], decodeURIComponent(parts[1]));
+        });
+    }
+    formData.append(fileField || 'file', blob, filename);
+    const fetcher = env.fetcher;
+
+    const receiver = {
+      adaptor: (payload: object) => {
+        return {
+          ...payload,
+          data: payload
+        };
+      },
+      ...apiObject
+    };
+
+    const response = await fetcher(receiver, formData, {
+      method: 'post'
+    });
+    if (response.ok) {
+      const location =
+        response.data?.link ||
+        response.data?.url ||
+        response.data?.value ||
+        response.data?.data?.link ||
+        response.data?.data?.url ||
+        response.data?.data?.value;
+      if (location) {
+        return {
+          link: location,
+          meta: {
+            alt: filename,
+            text: filename,
+            title: filename,
+            ...(response.data?.data || response.data),
+            type: 'image',
+            size: blob.size
+          }
+        };
+      } else {
+        console.warn('must have return value');
+        throw new Error('must have return value');
+      }
+    } else {
+      throw new Error(response.msg || '上传失败');
+    }
+  }
+
   getConfig(props: RichTextProps) {
     const finnalVendor =
       props.vendor || (props.env.richTextToken ? 'froala' : 'tinymce');
@@ -212,71 +352,37 @@ export default class RichTextControl extends React.Component<
         ...(props.buttons ? {toolbarButtons: props.buttons} : {})
       };
     } else {
-      const fetcher = props.env.fetcher;
       return {
+        images_file_types: 'gif,jpg,png,svg,webp',
+        file_picker_types: 'file media image',
         ...props.options,
         onLoaded: this.handleTinyMceLoaded,
         images_upload_handler: (blobInfo: any, progress: any) =>
-          new Promise(async (resolve, reject) => {
-            const formData = new FormData();
+          this.uploadFile(blobInfo.blob(), blobInfo.filename(), 'image').then(
+            item => item.link
+          ),
+        file_picker_callback: (callback: any, value: any, meta: any) => {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          if (meta.filetype === 'media') {
+            input.setAttribute('accept', 'video/*');
+          } else if (meta.filetype === 'image') {
+            input.setAttribute('accept', 'image/*');
+          } else {
+            // 其他类型，先不限制了
+          }
 
-            if (imageApi.data) {
-              qsstringify(imageApi.data)
-                .split('&')
-                .filter(item => item !== '')
-                .forEach(item => {
-                  let parts = item.split('=');
-                  formData.append(parts[0], decodeURIComponent(parts[1]));
-                });
-            }
-
-            formData.append(
-              props.fileField || 'file',
-              blobInfo.blob(),
-              blobInfo.filename()
-            );
-
-            try {
-              if (!imageApi.url) {
-                var reader = new FileReader();
-                reader.readAsDataURL(blobInfo.blob());
-                reader.onloadend = function () {
-                  var base64data = reader.result;
-                  resolve(base64data);
-                };
-                return;
-              }
-              const receiver = {
-                adaptor: (payload: object) => {
-                  return {
-                    ...payload,
-                    data: payload
-                  };
-                },
-                ...imageApi
-              };
-
-              const response = await fetcher(receiver, formData, {
-                method: 'post'
+          input.onchange = (e: any) => {
+            const file = e.target.files[0];
+            if (file) {
+              this.uploadFile(file, file.name, meta.filetype).then(item => {
+                callback(item.link, item.meta);
               });
-              if (response.ok) {
-                const location =
-                  response.data?.link ||
-                  response.data?.url ||
-                  response.data?.value ||
-                  response.data?.data?.link ||
-                  response.data?.data?.url ||
-                  response.data?.data?.value;
-                if (location) {
-                  resolve(location);
-                } else {
-                  console.warn('must have return value');
-                }
-              }
-            } catch (e) {
-              reject(e);
             }
-          })
+          };
+
+          input.click();
+        }
       };
     }
   }
