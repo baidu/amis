@@ -333,7 +333,7 @@ export class FormulaPlugin {
               for (let i = 0, len = list.length; i < len; i++) {
                 const item = list[i]?.key;
 
-                // 只能识别这种固定下标的情况
+                // 支持 identifier 和 literal 类型的属性访问
                 if (item?.type === 'identifier') {
                   const variable =
                     findTree(vars, v => v.value === path + item.name) ??
@@ -360,6 +360,93 @@ export class FormulaPlugin {
                   } else {
                     break;
                   }
+                } else if (
+                  (item?.type === 'literal' &&
+                    typeof item.value === 'string') ||
+                  item?.type === 'string'
+                ) {
+                  // 支持字符串字面量属性访问，如 data['username']
+                  const propName = item.value;
+                  const variable =
+                    findTree(vars, v => v.value === path + propName) ??
+                    findTree(
+                      vars,
+                      v => v.value === propName // 兼容不带路径的情况
+                    );
+                  if (variable) {
+                    this.markText(
+                      {
+                        line: item.start.line - 1,
+                        ch: item.start.column - 1
+                      },
+                      {
+                        line: item.end.line - 1,
+                        ch: item.end.column - 1
+                      },
+                      variable.label,
+                      'cm-field',
+                      propName
+                    );
+                    path += propName + '.';
+                    vars = variable.children || [];
+                  } else {
+                    // 对于数组访问的情况，如 data[0]，尝试查找数组元素的类型定义
+                    if (
+                      typeof item.value === 'number' ||
+                      /^\d+$/.test(propName)
+                    ) {
+                      // 数字索引，查找数组项的定义
+                      const arrayItemVar = findTree(
+                        vars,
+                        v => v.isMember === true
+                      );
+                      if (arrayItemVar) {
+                        // 继续使用数组项的子属性
+                        vars = arrayItemVar.children || [];
+                        path = host.name + '[' + item.value + '].';
+                        // 数字索引本身不高亮，但允许继续处理后续属性
+                        continue;
+                      } else {
+                        // 兼容没有 isMember 标记的数组配置
+                        // 对于数组类型的变量，其children就是数组元素的属性
+                        if (vars && vars.length > 0) {
+                          path = host.name + '[' + item.value + '].';
+                          // vars 保持不变，继续处理后续属性
+                          continue;
+                        } else {
+                          break;
+                        }
+                      }
+                    } else {
+                      break;
+                    }
+                  }
+                } else if (
+                  item?.type === 'literal' &&
+                  typeof item.value === 'number'
+                ) {
+                  // 支持数字索引访问，如 data[0]
+                  // 查找数组项的定义
+                  const arrayItemVar = findTree(vars, v => v.isMember === true);
+                  if (arrayItemVar) {
+                    // 继续使用数组项的子属性
+                    vars = arrayItemVar.children || [arrayItemVar];
+                    path = host.name + '[' + item.value + '].';
+                    // 数字索引本身不高亮，但允许继续处理后续属性
+                    continue;
+                  } else {
+                    // 兼容没有 isMember 标记的数组配置
+                    // 对于数组类型的变量，其children就是数组元素的属性
+                    if (vars && vars.length > 0) {
+                      path = host.name + '[' + item.value + '].';
+                      // vars 保持不变，继续处理后续属性
+                      continue;
+                    } else {
+                      break;
+                    }
+                  }
+                } else {
+                  break;
                 }
               }
             }
