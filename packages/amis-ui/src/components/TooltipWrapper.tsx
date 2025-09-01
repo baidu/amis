@@ -317,8 +317,7 @@ export class TooltipWrapper extends React.Component<
       offset,
       tooltipTheme = 'light',
       showArrow = true,
-      children,
-      filterHtml
+      children
     } = tooltipObj;
 
     const childProps: any = {
@@ -372,10 +371,7 @@ export class TooltipWrapper extends React.Component<
           {children ? (
             <>{typeof children === 'function' ? children() : children}</>
           ) : (
-            <Html
-              html={typeof content === 'string' ? content : ''}
-              filterHtml={filterHtml}
-            />
+            <Html html={typeof content === 'string' ? content : ''} />
           )}
         </Tooltip>
       </Overlay>
