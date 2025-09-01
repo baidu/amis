@@ -2763,7 +2763,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         </span>
         <span className={cx('Crud-valueLabel')}>
           {labelTpl ? (
-            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+            <Html html={filter(labelTpl, item)} />
           ) : (
             getVariable(item, labelField || 'label') ||
             getVariable(item, valueField || primaryField || 'id')

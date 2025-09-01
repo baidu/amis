@@ -17,12 +17,16 @@ export interface HtmlProps {
   filterHtml?: (input: string) => string;
 }
 
+export const HTMLFilterContext = React.createContext((txt: string) => txt);
+
 export class Html extends React.Component<HtmlProps> {
   static defaultProps = {
     inline: true
   };
 
   dom: any;
+
+  static contextType = HTMLFilterContext;
 
   constructor(props: HtmlProps) {
     super(props);
@@ -49,7 +53,9 @@ export class Html extends React.Component<HtmlProps> {
     const {html, filterHtml} = this.props;
 
     if (html) {
-      this.dom.innerHTML = filterHtml ? filterHtml(html) : html;
+      let filter: (text: string) => string =
+        filterHtml || (this.context as any) || ((text: string) => text);
+      this.dom.innerHTML = filter(html);
     }
   }
 
