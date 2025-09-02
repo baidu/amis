@@ -1424,10 +1424,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
             <span className={cx('Crud-valueLabel')}>
               {labelTpl ? (
-                <Html
-                  html={filter(labelTpl, item)}
-                  filterHtml={env.filterHtml}
-                />
+                <Html html={filter(labelTpl, item)} />
               ) : (
                 getVariable(item, labelField || 'label') ||
                 getVariable(item, primaryField || 'id')
