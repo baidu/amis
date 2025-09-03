@@ -6,9 +6,6 @@ module.exports = {
     test: /.*(ts|tsx|js|jsx)$/
   },
   includes: ['src/renderers'],
-  ignore: {
-    list: ['src/*']
-  },
   importInfo: {
     source: 'i18n-runtime',
     imported: 'i18n',
