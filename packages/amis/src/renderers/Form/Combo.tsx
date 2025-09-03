@@ -1366,7 +1366,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     return (
       <CTabs
-        addBtnText={__(addBtnText || 'add')}
+        addBtnText={__(addBtnText || addButtonText || 'add')}
         className={'ComboTabs'}
         mode={tabsStyle}
         activeKey={store.activeKey}
