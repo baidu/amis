@@ -78,18 +78,6 @@ export interface FileControlSchema extends FormBaseControlSchema {
   autoUpload?: boolean;
 
   /**
-   * 默认 `/api/upload/chunk` 想自己存储时才需要关注。
-   */
-  chunkApi?: SchemaApi;
-
-  /**
-   * 分块大小，默认为 5M.
-   *
-   * @default 5242880
-   */
-  chunkSize?: number;
-
-  /**
    * 分块上传的并发数
    */
   concurrency?: number;
@@ -120,13 +108,6 @@ export interface FileControlSchema extends FormBaseControlSchema {
   fileField?: string;
 
   /**
-   * 默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。
-   *
-   * @default /api/upload/finishChunkApi
-   */
-  finishChunkApi?: SchemaApi;
-
-  /**
    * 是否隐藏上传按钮
    */
   hideUploadButton?: boolean;
@@ -149,6 +130,18 @@ export interface FileControlSchema extends FormBaseControlSchema {
   receiver?: SchemaApi;
 
   /**
+   * 默认为 'auto' amis 所在服务器，限制了文件上传大小不得超出10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。
+   */
+  useChunk?: 'auto' | boolean;
+
+  /**
+   * 分块大小，默认为 5M.
+   *
+   * @default 5242880
+   */
+  chunkSize?: number;
+
+  /**
    * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
    *
    * @default /api/upload/startChunk
@@ -156,9 +149,16 @@ export interface FileControlSchema extends FormBaseControlSchema {
   startChunkApi?: string;
 
   /**
-   * 默认为 'auto' amis 所在服务器，限制了文件上传大小不得超出10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。
+   * 默认 `/api/upload/chunk` 想自己存储时才需要关注。
    */
-  useChunk?: 'auto' | boolean;
+  chunkApi?: SchemaApi;
+
+  /**
+   * 默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。
+   *
+   * @default /api/upload/finishChunkApi
+   */
+  finishChunkApi?: SchemaApi;
 
   /**
    * 按钮 CSS 类名
