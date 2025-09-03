@@ -30,7 +30,9 @@ import {
   eachTree,
   everyTree,
   findTreeIndex,
-  applyFilters
+  applyFilters,
+  evalExpression,
+  injectObjectChain
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -43,6 +45,7 @@ import moment from 'moment';
 import {sortArray, str2function} from 'amis-core';
 
 import type {SchemaTokenizeableString} from '../../Schema';
+import isPlainObject from 'lodash/isPlainObject';
 
 // 占位符定义为常量
 const PLACE_HOLDER = '__isPlaceholder';
@@ -57,17 +60,17 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 可新增
    */
-  addable?: boolean;
+  addable?: boolean | string;
 
   /**
    * 是否可以新增子项
    */
-  childrenAddable?: boolean;
+  childrenAddable?: boolean | string;
 
   /**
    * 可复制新增
    */
-  copyable?: boolean;
+  copyable?: boolean | string;
 
   /**
    * 复制按钮文字
@@ -123,7 +126,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 可否删除
    */
-  removable?: boolean;
+  removable?: boolean | string;
 
   /**
    * 删除的 API
@@ -133,7 +136,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 可否编辑
    */
-  editable?: boolean;
+  editable?: boolean | string;
 
   /**
    * 更新按钮名称
@@ -181,7 +184,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   updateApi?: SchemaApi;
 
   /**
-   * 初始值，新增的时候
+   * 初始值，新增的时候，支持数据映射
    */
   scaffold?: any;
 
@@ -821,10 +824,11 @@ export default class FormTable<
   async addItem(
     index?: string,
     isDispatch: boolean = true,
+    parent?: Record<string, any>,
     callback?: () => void
   ) {
     index = index || `${this.state.items.length - 1}`;
-    const {needConfirm, scaffold, columns, data, perPage} = this.props;
+    let {needConfirm, scaffold, columns, data, perPage} = this.props;
     let items = this.state.items.concat();
     let value: TableDataItem = {
       [PLACE_HOLDER]: true
@@ -867,11 +871,6 @@ export default class FormTable<
       });
     }
 
-    value = {
-      ...value,
-      ...scaffold
-    };
-
     if (needConfirm === false) {
       Reflect.deleteProperty(value, PLACE_HOLDER);
     }
@@ -879,6 +878,19 @@ export default class FormTable<
     const indexes = index.split('.').map(item => parseInt(item, 10));
     const next = indexes.concat();
     next[next.length - 1] += 1;
+
+    value = {
+      ...value,
+      ...(isPlainObject(scaffold)
+        ? dataMapping(
+            // 支持数据映射
+            scaffold,
+            injectObjectChain(data, {
+              parent
+            })
+          )
+        : null)
+    };
 
     let originHost = items;
     items = spliceTree(items, next, 0, value);
@@ -938,7 +950,7 @@ export default class FormTable<
   }
 
   async subAddItem(index?: string, isDispatch: boolean = true, item?: any) {
-    return this.addItem(index + '.-1', isDispatch, () => {
+    return this.addItem(index + '.-1', isDispatch, item.locals, () => {
       item?.setExpanded(true);
     });
   }
@@ -1315,14 +1327,18 @@ export default class FormTable<
         children: ({
           key,
           rowIndexPath,
-          inputTableCanAddItem
+          inputTableCanAddItem,
+          row
         }: {
           key: any;
           rowIndexPath: string;
           inputTableCanAddItem: boolean;
           inputTableCanRemoveItem: boolean;
+          row: any;
         }) =>
           (this.state.editIndex && needConfirm !== false) ||
+          (typeof props.addable === 'string' &&
+            !evalExpression(props.addable, row.locals)) ||
           !inputTableCanAddItem ? null : (
             <Button
               classPrefix={ns}
@@ -1335,6 +1351,7 @@ export default class FormTable<
               onClick={this.addItem.bind(
                 this,
                 this.convertToRawPath(rowIndexPath),
+                undefined,
                 undefined,
                 undefined
               )}
@@ -1366,7 +1383,9 @@ export default class FormTable<
           rowIndexPath: string;
           row: any;
         }) =>
-          this.state.editIndex && needConfirm !== false ? null : (
+          (this.state.editIndex && needConfirm !== false) ||
+          (typeof props.childrenAddable === 'string' &&
+            !evalExpression(props.childrenAddable, row.locals)) ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -1402,8 +1421,18 @@ export default class FormTable<
 
     if (!isStatic && props.copyable && props.showCopyBtn !== false) {
       btns.push({
-        children: ({key, rowIndexPath}: {key: any; rowIndexPath: string}) =>
-          this.state.editIndex && needConfirm !== false ? null : (
+        children: ({
+          key,
+          rowIndexPath,
+          row
+        }: {
+          key: any;
+          rowIndexPath: string;
+          row: any;
+        }) =>
+          (this.state.editIndex && needConfirm !== false) ||
+          (typeof props.copyable === 'string' &&
+            !evalExpression(props.copyable, row.locals)) ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -1501,13 +1530,17 @@ export default class FormTable<
           children: ({
             key,
             rowIndexPath,
-            data
+            data,
+            row
           }: {
             key: any;
             rowIndexPath: string;
             data: any;
+            row: any;
           }) =>
             this.state.editIndex ||
+            (typeof props.editable === 'string' &&
+              !evalExpression(props.editable, row.locals)) ||
             (data && data.hasOwnProperty(PLACE_HOLDER)) ? null : (
               <Button
                 classPrefix={ns}
@@ -1639,16 +1672,20 @@ export default class FormTable<
           key,
           rowIndexPath,
           data,
-          inputTableCanRemoveItem
+          inputTableCanRemoveItem,
+          row
         }: {
           key: any;
           rowIndexPath: string;
           data: any;
           inputTableCanRemoveItem: boolean;
+          row: any;
         }) =>
           ((this.state.editIndex ||
             (data && data.hasOwnProperty(PLACE_HOLDER))) &&
             needConfirm !== false) ||
+          (typeof props.removable === 'string' &&
+            !evalExpression(props.removable, row.locals)) ||
           !inputTableCanRemoveItem ? null : (
             <Button
               classPrefix={ns}
