@@ -185,7 +185,7 @@ export class CardPlugin extends BasePlugin {
   fieldWrapperResolve = (dom: HTMLElement) => dom;
 
   overrides = {
-    renderFeild: function (
+    renderField: function (
       this: any,
       region: string,
       field: any,

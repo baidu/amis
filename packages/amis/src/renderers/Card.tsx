@@ -516,7 +516,7 @@ export class CardRenderer extends React.Component<CardProps> {
     return this.renderField(region, childNode, key, this.props);
   }
 
-  itemRender(field: any, index: number, props: any) {
+  itemRender(field: any, index: number, len: number, props: any) {
     return this.renderField(`column/${index}`, field, index, props);
   }
 
