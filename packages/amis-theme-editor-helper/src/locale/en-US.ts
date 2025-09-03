@@ -229,5 +229,18 @@ extendLocale('en-US', {
   'c0215e2abf0fe27597acba2be64f6993': 'Small size',
   '93dee976f68681ec6950380d757d8c18': 'Multiple selection mode',
   '9be232c5cffa019aab21bd631ff23462': 'Yunshe',
-  '1dfba2e7e2df2efc4a25f4f2adcba25e': 'System preset theme'
+  '1dfba2e7e2df2efc4a25f4f2adcba25e': 'System preset theme',
+  '96b15b89fd7df6180780a7ac7305ba7c': 'Border size',
+  '84fafbb9668c30ba550e8bd3ebab65a6': 'Border style',
+  '9b4bae5d8251de0b6f00b704936b00d3': 'Border color',
+  'd9c2ace0d7ecc55bdea2fd91732ca29c': 'Gradient',
+  '20def7942674282277c3714ed7ea6ce0': 'image',
+  '690660d9dbd7312ad2825e554736e2f8': 'Font color',
+  '5f15efdc32badce0902c46a7a0105c51': 'Font size',
+  '916e646c9e6add3ae7053cbec7c37d91': 'Font weight',
+  'c3ce3c8fd80b9b9e221353faa162facf': 'Line height',
+  '4e7f76261f8c4c6d78998f85fc1f4c6e': 'Margin',
+  '841d77223f0ec8cd0b530ed8e0775b20': 'Padding',
+  'border-size': 'Border size',
+  'border-style': 'Border style'
 });

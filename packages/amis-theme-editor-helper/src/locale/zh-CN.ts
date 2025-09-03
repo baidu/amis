@@ -228,5 +228,18 @@ extendLocale('zh-CN', {
   'c0215e2abf0fe27597acba2be64f6993': '尺寸小',
   '93dee976f68681ec6950380d757d8c18': '多选模式',
   '9be232c5cffa019aab21bd631ff23462': '云舍',
-  '1dfba2e7e2df2efc4a25f4f2adcba25e': '系统预设主题'
+  '1dfba2e7e2df2efc4a25f4f2adcba25e': '系统预设主题',
+  '96b15b89fd7df6180780a7ac7305ba7c': '边框粗细',
+  '84fafbb9668c30ba550e8bd3ebab65a6': '边框样式',
+  '9b4bae5d8251de0b6f00b704936b00d3': '边框颜色',
+  'd9c2ace0d7ecc55bdea2fd91732ca29c': '渐变',
+  '20def7942674282277c3714ed7ea6ce0': '图片',
+  '690660d9dbd7312ad2825e554736e2f8': '字体颜色',
+  '5f15efdc32badce0902c46a7a0105c51': '字体大小',
+  '916e646c9e6add3ae7053cbec7c37d91': '字体字重',
+  'c3ce3c8fd80b9b9e221353faa162facf': '字体行高',
+  '4e7f76261f8c4c6d78998f85fc1f4c6e': '外边距',
+  '841d77223f0ec8cd0b530ed8e0775b20': '内边距',
+  'border-size': '边框粗细',
+  'border-style': '边框样式'
 });
