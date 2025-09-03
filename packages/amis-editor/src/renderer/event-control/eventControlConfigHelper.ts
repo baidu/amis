@@ -273,7 +273,7 @@ export const actionConfigInitFormatterHoc =
           []
         );
         // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
-        config.args['__comboType'] = 'all';
+        config.args['__comboType'] = 'rows';
       } else if (typeof action.args?.value === 'object') {
         config.args.value = objectToComboArray(action.args?.value);
         config.args['__containerType'] = 'appoint';
@@ -292,6 +292,7 @@ export const actionConfigInitFormatterHoc =
         action.actionType === 'setValue' &&
         typeof action.args?.value === 'string'
       ) {
+        config.args['__comboType'] = 'all';
         config.args['__containerType'] = 'all';
         config.args['__valueInput'] = config.args['value'];
         delete config.args?.value;
