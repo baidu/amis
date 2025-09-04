@@ -218,7 +218,7 @@ function getPlugins(format = 'esm') {
                     return `amis-ui/lib/components/Toast`;
                   } else if ('NotFound' === name) {
                     return `amis-ui/lib/components/404`;
-                  } else if (['withStore', 'withRemoteConfig'].includes(name)) {
+                  } else if (['withStore', 'withRemoteConfig', 'HTMLFilterContext'].includes(name)) {
                     return `amis-ui/lib/${name}`;
                   } /* else if (name[0].toUpperCase() === name[0]) {
                     return `amis-ui/lib/components/${name}`;
