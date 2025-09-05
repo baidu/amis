@@ -1390,6 +1390,9 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
             resetPage: true
           });
         },
+        onInit: (data: any) => {
+          this.initQuery(data);
+        },
         // 移动端的查询表单支持折叠
         ...(this.props.mobileUI
           ? {
