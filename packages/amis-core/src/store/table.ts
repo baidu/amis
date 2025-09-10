@@ -202,6 +202,7 @@ export const Row = types
       types.array(types.late((): IAnyModelType => Row)),
       []
     ),
+    height: 0,
     defer: false, // 是否为懒数据
     loaded: false, // 懒数据是否加载完了
     loading: false, // 懒数据是否正在加载
@@ -448,6 +449,10 @@ export const Row = types
 
     setIsHover(value: boolean) {
       self.isHover = value;
+    },
+
+    setHeight(value: number): void {
+      self.height = value;
     },
 
     replaceWith(data: any) {
@@ -1147,6 +1152,10 @@ export const TableStore = iRendererStore
         }
 
         return context;
+      },
+
+      getItemById(id: string) {
+        return findTree(self.rows, item => item.id === id) as IRow;
       }
     };
   })

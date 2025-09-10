@@ -2,6 +2,7 @@ import React, {startTransition} from 'react';
 import {ITableStore, localeable, themeable, ThemeProps} from 'amis-core';
 import {getScrollParent} from 'amis-core';
 import {resizeSensor} from 'amis-core';
+import type {IRow} from 'amis-core/lib/store/table';
 export interface VirtualTableBodyProps extends ThemeProps {
   className?: string;
   rows: React.ReactNode[];
@@ -18,12 +19,79 @@ function VirtualTableBody(props: VirtualTableBodyProps) {
   const sizeRef = React.useRef(20);
 
   const buffer = 10;
-  const offset = Math.floor(scrollTop / itemHeight.current);
-  const start = Math.max(0, offset - buffer);
+  // get range
+  const [from, to] = React.useMemo(() => {
+    let from = 0;
+    let offsetHeight = 0;
 
-  const visibleRows = React.useMemo(() => {
-    return rows.slice(start, offset + sizeRef.current + buffer);
-  }, [rows, offset, start, buffer]);
+    for (let i = 0, len = rows.length; i < len; i++) {
+      const row = rows[from] as React.ReactElement;
+      const item = row?.props?.item;
+      const height = item?.height || itemHeight.current;
+      if (offsetHeight + height > scrollTop) {
+        break;
+      }
+      offsetHeight += height;
+      from++;
+    }
+
+    from = Math.max(0, from - buffer);
+    let to = Math.min(from + sizeRef.current + buffer * 2, rows.length);
+
+    if (store.combineNum) {
+      // 开头的 rowSpan 如果有 0 的话，继续往上找，直到找到没有 0 的为止
+      // 如果有 0 意味着这个单元格是被上面的单元格合并了的，要保证 table 的完整性需要这么处理
+      while (from > 0) {
+        const row = rows[from] as React.ReactElement;
+        const item = row?.props?.item;
+        if (
+          Object.values(item?.rowSpans || {}).some(
+            (value: number) => value === 0
+          )
+        ) {
+          from--;
+          continue;
+        }
+        break;
+      }
+
+      // 保障表格渲染的完整性，不能因为滚动位置的原因把 rowspan 切断了
+      let index = to;
+      for (; index >= from; index--) {
+        const row = rows[index] as React.ReactElement;
+        const item = row?.props?.item;
+        const rowSpan = Math.max(
+          1,
+          ...(Object.values(item?.rowSpans || {}) as Array<number>)
+        );
+        if (rowSpan > 1) {
+          to = Math.max(to, index + rowSpan);
+        }
+      }
+    }
+    return [from, to];
+  }, [rows, scrollTop]);
+
+  // get visible rows
+  const [visibleRows, offsetHeight, totalHeight, virtualHeight] =
+    React.useMemo(() => {
+      let offsetHeight = 0;
+      let totalHeight = 0;
+      let virtualHeight = 0;
+      offsetHeight = 0;
+      rows.forEach((item, index) => {
+        const row: IRow = (item as React.ReactElement)?.props?.item;
+        const height = row?.height || itemHeight.current;
+
+        totalHeight += height;
+        if (index < from) {
+          offsetHeight += height;
+        } else if (index <= to) {
+          virtualHeight += height;
+        }
+      });
+      return [rows.slice(from, to), offsetHeight, totalHeight, virtualHeight];
+    }, [rows, from, to]);
 
   React.useEffect(() => {
     const tbody = tBodyRef.current!;
@@ -35,7 +103,9 @@ function VirtualTableBody(props: VirtualTableBodyProps) {
       rootDom?.querySelector(`:scope > .${classPrefix}Table-fixedTop`) ||
       table.querySelector(':scope > thead')!;
     const firstRow = leadingPlaceholderRef.current!;
-    const isAutoFill = rootDom.classList.contains(`${classPrefix}Table--autoFillHeight`);
+    const isAutoFill = rootDom.classList.contains(
+      `${classPrefix}Table--autoFillHeight`
+    );
     const toDispose: Array<() => void> = [];
 
     const check = () => {
@@ -70,9 +140,17 @@ function VirtualTableBody(props: VirtualTableBodyProps) {
 
     toDispose.push(
       resizeSensor(wrap, () => {
-        itemHeight.current = tbody
-          .querySelector(':scope > tr')!
-          .getBoundingClientRect().height;
+        const trs = [].slice.apply(tbody.querySelectorAll(':scope > tr')!);
+        trs.forEach((tr: any) => {
+          const id = tr.getAttribute('data-id');
+          const item = store.getItemById(id);
+          if (!item) {
+            return;
+          }
+          itemHeight.current = tr.offsetHeight;
+          item.setHeight(itemHeight.current!);
+        });
+
         sizeRef.current = Math.min(
           Math.ceil(
             Math.min(isAutoFill ? wrap.clientHeight : window.innerHeight) /
@@ -91,9 +169,9 @@ function VirtualTableBody(props: VirtualTableBodyProps) {
   }, []);
 
   const styles: any = {
-    '--Table-scroll-height': `${itemHeight.current * rows.length}px`,
-    '--Table-scroll-offset': `${start * itemHeight.current}px`,
-    '--Table-frame-height': `${itemHeight.current * visibleRows.length}px`
+    '--Table-scroll-height': `${totalHeight}px`,
+    '--Table-scroll-offset': `${offsetHeight}px`,
+    '--Table-frame-height': `${virtualHeight}px`
   };
 
   return (
