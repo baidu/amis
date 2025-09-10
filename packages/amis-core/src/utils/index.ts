@@ -60,6 +60,7 @@ export * from './style-helper';
 export * from './resolveCondition';
 export * from './arraySlice';
 export * from './math';
+export * from './memoryParse';
 
 import animation from './Animation';
 

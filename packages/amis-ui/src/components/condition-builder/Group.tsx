@@ -8,6 +8,7 @@ import {
   LocaleProps,
   guid,
   ConditionGroupValue,
+  someTree,
   isPureVariable,
   resolveVariableAndFilter
 } from 'amis-core';
@@ -49,8 +50,14 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean; // 是否折叠
   depth: number;
-  isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
-  isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  isAddBtnVisibleOn?: (param: {
+    depth: number;
+    breadth: number;
+  }) => boolean | undefined;
+  isAddGroupBtnVisibleOn?: (param: {
+    depth: number;
+    breadth: number;
+  }) => boolean | undefined;
   testIdBuilder?: TestIdBuilder;
 }
 
@@ -211,9 +218,14 @@ export class ConditionGroup extends React.Component<
         : null;
 
     const param = {depth, breadth: body?.length ?? 0};
-    const addConditionVisibleBool = isAddBtnVisibleOn?.(param) ?? true;
+    const anyFieldAvailable = someTree(
+      fields,
+      (field: any) => field.disabled !== true
+    );
+    const addConditionVisibleBool =
+      isAddBtnVisibleOn?.(param) ?? anyFieldAvailable;
     const addConditionGroupVisibleBool =
-      isAddGroupBtnVisibleOn?.(param) ?? true;
+      isAddGroupBtnVisibleOn?.(param) ?? anyFieldAvailable;
 
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>

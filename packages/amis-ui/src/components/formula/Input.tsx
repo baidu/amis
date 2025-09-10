@@ -266,7 +266,12 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
       inputSettings,
       className: `FormulaPicker-input-custom`
     });
-  } else if (schemaType && schemaType != 'text' && customInputRender) {
+  } else if (
+    !isExpr &&
+    schemaType &&
+    schemaType != 'text' &&
+    customInputRender
+  ) {
     return customInputRender({
       value: cmptValue,
       onChange: pipOutValue,

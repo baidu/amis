@@ -130,25 +130,25 @@ type Value = ValueGroup;
 
 ```json
 "fields": [
-  {
-    "label": "字段1"
-    // 字段1
-  },
-  {
-    "label": "字段2"
-    // 字段2
-  },
-  {
-    "label": "字段分组",
-    "children": [
-      {
-        "label": "字段3"
-      },
-      {
-        "label": "字段4"
-      }
-    ]
-  }
+{
+"label": "字段1"
+// 字段1
+},
+{
+"label": "字段2"
+// 字段2
+},
+{
+"label": "字段分组",
+"children": [
+{
+"label": "字段3"
+},
+{
+"label": "字段4"
+}
+]
+}
 ]
 ```
 
@@ -161,7 +161,8 @@ type Value = ValueGroup;
 - `type` 字段配置中配置成 `"text"`
 - `label` 字段名称。
 - `placeholder` 占位符
-- `operators` 默认为 `[ 'equal', 'not_equal', 'is_empty', 'is_not_empty', 'like', 'not_like', 'starts_with', 'ends_with' ]` 如果不要那么多，可以配置覆盖。
+- `operators` 默认为
+  `[ 'equal', 'not_equal', 'is_empty', 'is_not_empty', 'like', 'not_like', 'starts_with', 'ends_with' ]` 如果不要那么多，可以配置覆盖。
 - `defaultOp` 默认为 `"equal"`
 
 ```schema: scope="body"
@@ -191,7 +192,9 @@ type Value = ValueGroup;
 - `type` 字段配置中配置成 `"number"`
 - `label` 字段名称。
 - `placeholder` 占位符
-- `operators` 默认为 `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]` 如果不要那么多，可以配置覆盖。
+- `operators` 默认为
+  `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]`
+  如果不要那么多，可以配置覆盖。
 - `defaultOp` 默认为 `"equal"`
 - `minimum` 最小值
 - `maximum` 最大值
@@ -227,7 +230,9 @@ type Value = ValueGroup;
 - `type` 字段配置中配置成 `"date"`
 - `label` 字段名称。
 - `placeholder` 占位符
-- `operators` 默认为 `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]` 如果不要那么多，可以配置覆盖。
+- `operators` 默认为
+  `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]`
+  如果不要那么多，可以配置覆盖。
 - `defaultOp` 默认为 `"equal"`
 - `defaultValue` 默认值
 - `format` 默认 `"YYYY-MM-DD"` 值格式
@@ -260,7 +265,9 @@ type Value = ValueGroup;
 - `type` 字段配置中配置成 `"datetime"`
 - `label` 字段名称。
 - `placeholder` 占位符
-- `operators` 默认为 `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]` 如果不要那么多，可以配置覆盖。
+- `operators` 默认为
+  `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]`
+  如果不要那么多，可以配置覆盖。
 - `defaultOp` 默认为 `"equal"`
 - `defaultValue` 默认值
 - `format` 默认 `""` 值格式
@@ -294,7 +301,9 @@ type Value = ValueGroup;
 - `type` 字段配置中配置成 `"time"`
 - `label` 字段名称。
 - `placeholder` 占位符
-- `operators` 默认为 `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]` 如果不要那么多，可以配置覆盖。
+- `operators` 默认为
+  `[ 'equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'is_empty', 'is_not_empty' ]`
+  如果不要那么多，可以配置覆盖。
 - `defaultOp` 默认为 `"equal"`
 - `defaultValue` 默认值
 - `format` 默认 `"HH:mm"` 值格式
@@ -333,7 +342,8 @@ type Value = ValueGroup;
 - `source` 动态选项，请配置 api。
 - `searchable` 是否可以搜索
 - `autoComplete` 自动提示补全，每次输入新内容后，将调用接口，根据接口返回更新选项。
-- `maxTagCount` 可以限制标签的最大展示数量，超出数量的部分会收纳到 Popover 中，可以通过 `overflowTagPopover` 配置 Popover 相关的属性，注意该属性仅在多选模式开启后生效。
+- `maxTagCount` 可以限制标签的最大展示数量，超出数量的部分会收纳到 Popover 中，可以通过 `overflowTagPopover` 配置 Popover
+  相关的属性，注意该属性仅在多选模式开启后生效。
 
 ```schema: scope="body"
 {
@@ -505,7 +515,8 @@ type Value = ValueGroup;
 
 > 2.3.0 及以上版本
 
-通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`、`chained`，默认为`list`。这三个数据格式基本类似，只是下拉框展示方式不同，`tree`是树形下拉，`chained`为多个级联的下拉。当存在多层 children 嵌套时，建议使用`tree`。
+通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`、`chained`，默认为`list`。这三个数据格式基本类似，只是下拉框展示方式不同，
+`tree`是树形下拉，`chained`为多个级联的下拉。当存在多层 children 嵌套时，建议使用`tree`。
 
 selectMode 为`list`时
 
@@ -1424,25 +1435,26 @@ selectMode 为`chained`时，使用`source`字段
 
 ## 属性表
 
-| 属性名               | 类型                                | 默认值   | 说明                                                                                                          | 版本    |
-| -------------------- | ----------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------- | ------- |
-| className            | `string`                            |          | 外层 dom 类名                                                                                                 |
-| fieldClassName       | `string`                            |          | 输入字段的类名                                                                                                |
-| source               | `string`                            |          | 通过远程拉取配置项                                                                                            |
-| embed                | `boolean`                           | true     | 内嵌展示                                                                                                      |
-| title                | `string`                            |          | 弹窗配置的顶部标题                                                                                            |
-| fields               |                                     |          | 字段配置                                                                                                      |
-| showANDOR            | `boolean`                           |          | 用于 simple 模式下显示切换按钮                                                                                |
-| showNot              | `boolean`                           |          | 是否显示「非」按钮                                                                                            |
-| draggable            | `boolean`                           | true     | 是否可拖拽                                                                                                    |
-| searchable           | `boolean`                           |          | 字段是否可搜索                                                                                                |
-| selectMode           | `'list'` \| `'tree'` \| `'chained'` | `'list'` | 组合条件左侧选项类型。`'chained'`模式需要`3.2.0及以上版本`                                                    |
-| addBtnVisibleOn      | `string`                            |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型   | `3.2.0` |
-| addGroupBtnVisibleOn | `string`                            |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型 | `3.2.0` |
-| inputSettings        | `InputSettings`                     |          | 开启公式编辑模式时的输入控件类型                                                                              | `3.2.0` |
-| formula              | `object`                            |          | 字段输入控件变成公式编辑器。                                                                                  | `3.2.0` |
-| showIf               | `boolean`                           |          | 开启后条件中额外还能配置启动条件。                                                                            | `3.2.0` |
-| formulaForIf         | `object`                            |          | 给 showIF 表达式用的公式信息                                                                                  | `3.4.0` |
+| 属性名                  | 类型                                  | 默认值      | 说明                                                                   | 版本       |
+|----------------------|-------------------------------------|----------|----------------------------------------------------------------------|----------|
+| className            | `string`                            |          | 外层 dom 类名                                                            |
+| fieldClassName       | `string`                            |          | 输入字段的类名                                                              |
+| source               | `string`                            |          | 通过远程拉取配置项                                                            |
+| embed                | `boolean`                           | true     | 内嵌展示                                                                 |
+| title                | `string`                            |          | 弹窗配置的顶部标题                                                            |
+| fields               |                                     |          | 字段配置                                                                 |
+| showANDOR            | `boolean`                           |          | 用于 simple 模式下显示切换按钮                                                  |
+| showNot              | `boolean`                           |          | 是否显示「非」按钮                                                            |
+| draggable            | `boolean`                           | true     | 是否可拖拽                                                                |
+| searchable           | `boolean`                           |          | 字段是否可搜索                                                              |
+| selectMode           | `'list'` \| `'tree'` \| `'chained'` | `'list'` | 组合条件左侧选项类型。`'chained'`模式需要`3.2.0及以上版本`                               |
+| addBtnVisibleOn      | `string`                            |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型  | `3.2.0`  |
+| addGroupBtnVisibleOn | `string`                            |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型 | `3.2.0`  |
+| inputSettings        | `InputSettings`                     |          | 开启公式编辑模式时的输入控件类型                                                     | `3.2.0`  |
+| formula              | `object`                            |          | 字段输入控件变成公式编辑器。                                                       | `3.2.0`  |
+| showIf               | `boolean`                           |          | 开启后条件中额外还能配置启动条件。                                                    | `3.2.0`  |
+| formulaForIf         | `object`                            |          | 给 showIF 表达式用的公式信息                                                   | `3.4.0`  |
+| uniqueFields         | `boolean`                           |          | 是否限制字段唯一，也就是说不允许一个字段设置在两个规则里面                                        | `6.14.0` |
 
 ### InputSettings
 

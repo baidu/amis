@@ -61,6 +61,11 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   fields: ConditionBuilderFields;
 
   /**
+   * 是否限制字段唯一，也就是说不允许一个字段设置在两个规则里面
+   */
+  uniqueFields?: boolean;
+
+  /**
    * 其他配置
    */
   config?: ConditionBuilderConfig;
@@ -138,7 +143,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     if (typeof addBtnVisibleOn === 'string' && addBtnVisibleOn) {
       return evalExpression(addBtnVisibleOn, createObject(data, param));
     }
-    return true;
+    return;
   }
 
   @autobind
@@ -147,7 +152,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     if (typeof addGroupBtnVisibleOn === 'string' && addGroupBtnVisibleOn) {
       return evalExpression(addGroupBtnVisibleOn, createObject(data, param));
     }
-    return true;
+    return;
   }
 
   validate(): any {

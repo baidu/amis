@@ -90,7 +90,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'trackExpression',
   'editorSetting',
   'updatePristineAfterStoreDataReInit',
-  'source'
+  'source',
+  'scopeRef'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
