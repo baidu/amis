@@ -734,8 +734,8 @@ setSchemaTpl('style:widthHeight', (option: any = {}) => {
         ...widthSchema
       }),
       getSchemaTpl('theme:height2', {
-        name: 'width',
-        label: '宽度',
+        name: 'height',
+        label: '高度',
         ...heightSchema
       })
     ]
