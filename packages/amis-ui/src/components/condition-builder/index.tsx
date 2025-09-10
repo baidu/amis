@@ -10,8 +10,10 @@ import {
   getTree,
   spliceTree,
   mapTree,
+  findTree,
   guid,
-  noop
+  noop,
+  ConditionRule
 } from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
@@ -30,6 +32,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   title?: string;
   fields: ConditionBuilderFields;
   funcs?: ConditionBuilderFuncs;
+  uniqueFields?: boolean; // 是否限制字段唯一，也就是说不允许一个字段设置在两个规则里面
   showNot?: boolean; // 是否显示非按钮
   showANDOR?: boolean; // 是否显示并或切换键按钮
   showIf?: boolean; // 是否显示条件
@@ -46,8 +49,14 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree' | 'chained';
-  isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
-  isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  isAddBtnVisibleOn?: (param: {
+    depth: number;
+    breadth: number;
+  }) => boolean | undefined;
+  isAddGroupBtnVisibleOn?: (param: {
+    depth: number;
+    breadth: number;
+  }) => boolean | undefined;
   testIdBuilder?: TestIdBuilder;
 }
 
@@ -266,6 +275,7 @@ export class QueryBuilder extends React.Component<
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
       showIf,
+      uniqueFields,
       formulaForIf,
       testIdBuilder
     } = this.props;
@@ -285,13 +295,32 @@ export class QueryBuilder extends React.Component<
           })
         }
       : value;
+    let finalFields = fields || this.config.fields;
+    if (uniqueFields && Array.isArray(value?.children)) {
+      finalFields = mapTree(finalFields, (field: any) => {
+        const selected = findTree(
+          (value as any)?.children,
+          (rule: any) =>
+            rule.left?.type === 'field' && rule.left?.field === field.name
+        );
+
+        if (selected) {
+          return {
+            ...field,
+            disabled: true
+          };
+        }
+
+        return field;
+      });
+    }
 
     return (
       <ConditionGroup
         builderMode={builderMode}
         config={this.config}
         funcs={funcs || this.config.funcs}
-        fields={fields || this.config.fields}
+        fields={finalFields}
         value={normalizedValue as any}
         onChange={onChange}
         classnames={cx}
