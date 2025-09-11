@@ -261,6 +261,7 @@ export class SelectControlPlugin extends BasePlugin {
                 // 当数据源是自定义静态选项时，不额外配置默认值，在选项上直接勾选即可，放开会有个bug：当去掉勾选时，默认值配置组件不清空，只是schema清空了value
                 visibleOn: 'this.selectFirst !== true && this.source != null'
               }),
+              getSchemaTpl('autoFill'),
               getSchemaTpl(
                 'loadingConfig',
                 {

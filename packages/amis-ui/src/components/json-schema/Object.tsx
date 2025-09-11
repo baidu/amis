@@ -33,56 +33,71 @@ export function InputJSONSchemaObject(
     renderValue,
     mobileUI,
     className,
-    addButtonText
+    addButtonText,
+    autoCreateMembers,
+    popOverContainer
   } = props;
-  const buildMembers = React.useCallback((schema: any, value: any) => {
-    const members: Array<JSONSchemaObjectMember> = [];
-    const required = Array.isArray(schema.required) ? schema.required : [];
+  const buildMembers = React.useCallback(
+    (schema: any, value: any) => {
+      const members: Array<JSONSchemaObjectMember> = [];
+      const required = Array.isArray(schema.required) ? schema.required : [];
 
-    Object.keys(schema.properties || {}).forEach(key => {
-      const child = schema.properties[key];
-      members.push({
-        key: guid(),
-        name: key,
-        nameMutable: !required.includes(key),
-        required: required.includes(key),
-        schema: child,
-        value: value?.[key] ?? child.default
-      });
-    });
-
-    const keys = Object.keys(value || {});
-    for (let key of keys) {
-      const exists = members.find(m => m.name === key);
-      if (!exists && schema.additionalProperties !== false) {
-        members.push({
+      Object.keys(schema.properties || {}).forEach(key => {
+        const child = schema.properties[key];
+        const memeber = {
           key: guid(),
           name: key,
+          nameMutable: !required.includes(key),
+          required: required.includes(key),
+          schema: child,
+          value: value?.[key] ?? child.default
+        };
+
+        // 如果关闭了自动创建成员，则无值的时候不展开
+        if (
+          autoCreateMembers === false &&
+          typeof memeber.value === 'undefined'
+        ) {
+          return;
+        }
+
+        members.push(memeber);
+      });
+
+      const keys = Object.keys(value || {});
+      for (let key of keys) {
+        const exists = members.find(m => m.name === key);
+        if (!exists && schema.additionalProperties !== false) {
+          members.push({
+            key: guid(),
+            name: key,
+            nameMutable: true,
+            schema: {
+              type: 'string',
+              default: ''
+            },
+            value: value[key] ?? ''
+          });
+        }
+      }
+
+      if (!members.length && schema.additionalProperties !== false) {
+        members.push({
+          key: guid(),
+          name: '',
           nameMutable: true,
           schema: {
             type: 'string',
             default: ''
           },
-          value: value[key] ?? ''
+          value: ''
         });
       }
-    }
 
-    if (!members.length && schema.additionalProperties !== false) {
-      members.push({
-        key: guid(),
-        name: '',
-        nameMutable: true,
-        schema: {
-          type: 'string',
-          default: ''
-        },
-        value: ''
-      });
-    }
-
-    return members;
-  }, []);
+      return members;
+    },
+    [autoCreateMembers]
+  );
 
   const [members, _setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
     []
@@ -94,9 +109,7 @@ export function InputJSONSchemaObject(
     membersRef.current = members;
   };
 
-  const [collapsed, setCollapsed] = React.useState<boolean>(
-    collapsable ? true : false
-  );
+  const [collapsed, setCollapsed] = React.useState<boolean>(!!collapsable);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -190,7 +203,7 @@ export function InputJSONSchemaObject(
     const members = buildMembers(props.schema, props.value);
     setMembers(members);
     emitChange();
-  }, [JSON.stringify(props.schema)]);
+  }, [JSON.stringify(props.schema), buildMembers]);
 
   React.useEffect(() => {
     const value = props.value;
@@ -326,6 +339,7 @@ export function InputJSONSchemaObject(
                             placeholder={__('JSONSchema.key')}
                             options={filtedOptions}
                             mobileUI={mobileUI}
+                            popOverContainer={popOverContainer}
                           />
                         ) : (
                           <Select

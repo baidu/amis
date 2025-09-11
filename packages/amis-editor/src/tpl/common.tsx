@@ -19,6 +19,7 @@ import keys from 'lodash/keys';
 import type {Schema} from 'amis';
 
 import type {DSField} from '../builder';
+import OptionAutoFill from '../component/OptionAutoFill';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -854,19 +855,17 @@ setSchemaTpl(
 );
 
 setSchemaTpl('autoFill', {
-  type: 'input-kv',
+  component: OptionAutoFill,
+  asFormItem: true,
+  mode: 'normal',
   name: 'autoFill',
   label: tipedLabel(
-    '自动填充',
+    '选项填充',
     '将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，支持数据映射'
   )
 });
 
-setSchemaTpl('autoFillApi', {
-  type: 'input-kv',
-  name: 'autoFill',
-  label: tipedLabel('数据录入', '自动填充或参照录入')
-});
+setSchemaTpl('autoFillApi', (config: any) => getSchemaTpl('autoFill', config));
 
 setSchemaTpl('required', {
   type: 'switch',
