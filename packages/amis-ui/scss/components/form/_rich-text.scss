@@ -115,8 +115,8 @@
       var(--inputRichText-disabled-top-right-border-radius)
       var(--inputRichText-disabled-bottom-right-border-radius)
       var(--inputRichText-disabled-bottom-left-border-radius);
-    pointer-events: none;
-    opacity: 0.6;
+    //pointer-events: none;
+    //opacity: 0.6;
 
     .fr-box.fr-basic.fr-top .fr-wrapper {
       border-width: var(--inputRichText-disabled-top-border-width)
