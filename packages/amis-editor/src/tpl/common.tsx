@@ -862,11 +862,7 @@ setSchemaTpl('autoFill', {
   )
 });
 
-setSchemaTpl('autoFillApi', {
-  type: 'input-kv',
-  name: 'autoFill',
-  label: tipedLabel('数据录入', '自动填充或参照录入')
-});
+setSchemaTpl('autoFillApi', (config: any) => getSchemaTpl('autoFill', config));
 
 setSchemaTpl('required', {
   type: 'switch',
