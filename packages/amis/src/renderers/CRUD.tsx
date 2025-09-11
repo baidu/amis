@@ -50,7 +50,8 @@ import {
   SchemaObject,
   SchemaTokenizeableString,
   SchemaTpl,
-  SchemaCollection
+  SchemaCollection,
+  BaseFormSchema
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {BaseCardsSchema} from './Cards';
@@ -209,7 +210,7 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 过滤器表单
    */
-  filter?: any; // todo
+  filter?: BaseFormSchema; // todo
 
   /**
    * 初始是否拉取
@@ -2954,7 +2955,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         key: 'filter',
         panelClassName: cx(
           'Crud-filter',
-          filter!.panelClassName || 'Panel--default'
+          filter.panelClassName || 'Panel--default'
+        ),
+        className: cx(
+          filter.className,
+          filter.wrapWithPanel ? '' : 'Crud-filter'
         ),
         data: store.filterData,
         onReset: this.handleFilterReset,
@@ -2962,7 +2967,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         onInit: this.handleFilterInit,
         formStore: undefined,
         canAccessSuperData:
-          filter?.canAccessSuperData ?? filterCanAccessSuperData
+          filter.canAccessSuperData ?? filterCanAccessSuperData
       }
     );
   }

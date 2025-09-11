@@ -104,7 +104,9 @@
     }
 
     &.#{$ns}DropDown-groupTitle {
-      height: inherit;
+      //height: inherit;
+      height: auto;
+      line-height: 1;
       font-size: var(--fontSizeSm);
       padding: var(--gap-xs) var(--gap-xs);
       padding-left: var(--gap-sm);
@@ -113,7 +115,8 @@
       cursor: default;
 
       &:hover {
-        background: none;
+        background: none !important;
+        color: var(--DropDown-group-color) !important;
       }
 
       span {

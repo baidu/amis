@@ -20,7 +20,8 @@ import {
   autobind,
   isMobile,
   createObject,
-  getVariable
+  getVariable,
+  extendObject
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
@@ -54,6 +55,7 @@ import CustomStyle from '../components/CustomStyle';
 import classNames from 'classnames';
 import isPlainObject from 'lodash/isPlainObject';
 import {IScopedContext} from '../Scoped';
+import {BaseFormSchema} from 'amis/src/Schema';
 
 export type LabelAlign = 'right' | 'left' | 'top' | 'inherit';
 
@@ -406,6 +408,7 @@ export interface FormBaseControlWithoutSize {
   /**
    * 自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。
    *
+   * 支持配置 api，配置 api 后将额外请求外部接口完成填充，同时支持自动填充与用户选择填充两种模式。
    */
   autoFill?:
     | {
@@ -436,7 +439,7 @@ export interface FormBaseControlWithoutSize {
         /**
          * 填充时的数据映射
          */
-        fillMappinng?: {
+        fillMapping?: {
           [propName: string]: any;
         };
 
@@ -444,6 +447,11 @@ export interface FormBaseControlWithoutSize {
          * 触发条件，默认为 change
          */
         trigger?: 'change' | 'focus' | 'blur';
+
+        /**
+         * 是否支持多选
+         */
+        multiple?: boolean;
 
         /**
          * 弹窗方式，当为参照录入时用可以配置
@@ -468,7 +476,11 @@ export interface FormBaseControlWithoutSize {
         /**
          * 参照录入时的过滤条件
          */
-        filter?: any;
+        filter?: BaseFormSchema;
+
+        // picker 里面的部分属性
+        labelField?: string;
+        nameField?: string;
       };
 
   /**
@@ -686,10 +698,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       this.toDispose.push(
         reaction(
           () => JSON.stringify(model.tmpValue),
-          () =>
-            this.mounted &&
-            this.initedApiFilled &&
-            this.syncApiAutoFill(model.tmpValue)
+          () => this.mounted && this.handleAutoFill('change')
         )
       );
 
@@ -720,6 +729,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = props;
 
     if (
+      model &&
       isEffectiveApi(props.autoFill?.api, props.data) &&
       isApiOutdated(
         prevProps.autoFill?.api,
@@ -728,7 +738,22 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         props.data
       )
     ) {
-      this.syncApiAutoFill(model?.tmpValue, true);
+      // 判断是否是因为自身值之外的值变化引起的，如果是则强制刷新
+      let checkIfCausedByOtherVariables = false;
+      if (props.autoFill?.api !== prevProps.autoFill?.api) {
+        checkIfCausedByOtherVariables = true;
+      } else {
+        let api = props.autoFill?.api;
+        const tmData = {};
+        setVariable(tmData, model.name, model.tmpValue);
+        checkIfCausedByOtherVariables = isApiOutdated(
+          api,
+          api,
+          extendObject(prevProps.data, tmData),
+          extendObject(props.data, tmData)
+        );
+      }
+      this.syncApiAutoFill(model.tmpValue, checkIfCausedByOtherVariables);
     }
   }
 
@@ -771,7 +796,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   handleAutoFill(type: string) {
     const {autoFill, formItem, data} = this.props;
-    const {trigger, mode} = autoFill;
+    const {trigger, mode} = autoFill || {};
     if (trigger === type && mode === 'popOver') {
       // 参照录入 popOver形式
       formItem?.openPopOver(

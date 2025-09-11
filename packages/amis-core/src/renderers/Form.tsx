@@ -361,6 +361,12 @@ export interface FormSchemaBase {
   static?: boolean;
   staticOn?: SchemaExpression;
   staticClassName?: SchemaClassName;
+
+  /**
+   * 是否可以访问上层数据，默认是会允许，这样顶层同名数据会自动赋值到同名表单项
+   * @default true
+   */
+  canAccessSuperData?: boolean;
 }
 
 export type FormGroup = FormSchemaBase & {

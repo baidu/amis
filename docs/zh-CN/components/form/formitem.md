@@ -1611,7 +1611,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
           platform: '${platform1}'
         },
         api: {
-          url: "/api/mock2/form/autoUpdate?browser=${browser}&version=${version}",
+          url: "/api/mock2/form/autoUpdate?browser=${browser}",
           responseData: {
             browser: "${browser}",
             version: "${version}",
