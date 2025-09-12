@@ -236,6 +236,8 @@
 .#{$ns}Dialog-error {
   color: var(--danger);
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .#{$ns}Modal--full {
