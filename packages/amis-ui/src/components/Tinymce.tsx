@@ -194,7 +194,8 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       ].join('\n'),
       ...rest,
       target: this.elementRef.current,
-      readOnly: this.props.disabled,
+      disabled: this.props.disabled,
+      readonly: this.props.disabled,
       promotion: false,
       setup: (editor: any) => {
         this.editor = editor;
