@@ -267,7 +267,7 @@ export class ImageControlPlugin extends BasePlugin {
               getSchemaTpl('proxy', {
                 value: true
               }),
-              // getSchemaTpl('autoFill'),
+              getSchemaTpl('autoFill'),
 
               getSchemaTpl('multiple', {
                 patch: {

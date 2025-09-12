@@ -11,6 +11,7 @@ export interface InputBoxProps
       'style' | 'prefix' | 'onChange' | 'translate' | 'size'
     > {
   value?: string;
+  blurValue?: string;
   readOnly?: boolean;
   onChange?: (value: string) => void;
   onClear?: (e: React.MouseEvent<any>) => void;
@@ -84,6 +85,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       disabled,
       hasError,
       value,
+      blurValue,
       placeholder,
       prefix: result,
       children,
@@ -126,7 +128,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
         ) : (
           <Input
             {...rest}
-            value={value ?? ''}
+            value={(isFocused ? undefined : blurValue) ?? value ?? ''}
             onChange={this.handleChange}
             placeholder={placeholder}
             onFocus={this.handleFocus}
