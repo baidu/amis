@@ -211,18 +211,20 @@ function isFixedRightColumn(fixed: boolean | string | undefined) {
 }
 
 function getPreviousLeftWidth(
-  doms: HTMLCollection,
   index: number,
   columns: Array<ColumnProps | SummaryProps>
 ) {
-  let width = 0;
+  let widths = [];
   for (let i = 0; i < index; i++) {
     if (columns && columns[i] && isFixedLeftColumn(columns[i].fixed)) {
-      const dom = doms[i] as HTMLElement;
-      width += dom.offsetWidth;
+      widths.push(`var(--Table-column-${i}-width)`);
     }
   }
-  return width;
+  return widths.length
+    ? widths.length > 1
+      ? `calc(${widths.join(' + ')})`
+      : widths[0]
+    : '0';
 }
 
 function getPreviousTopHeight(thead: HTMLCollection, rowIndex: number) {
@@ -238,20 +240,20 @@ function getPreviousTopHeight(thead: HTMLCollection, rowIndex: number) {
 }
 
 function getAfterRightWidth(
-  doms: HTMLCollection,
   index: number,
   columns: Array<ColumnProps | SummaryProps>
 ) {
-  let width = 0;
-  for (let i = doms.length - 0; i > index; i--) {
+  let widths = [];
+  for (let i = columns.length - 0; i > index; i--) {
     if (columns && columns[i] && isFixedRightColumn(columns[i].fixed)) {
-      const dom = doms[i] as HTMLElement;
-      if (dom) {
-        width += dom.offsetWidth;
-      }
+      widths.push(`var(--Table-column-${i}-width)`);
     }
   }
-  return width;
+  return widths.length
+    ? widths.length > 1
+      ? `calc(${widths.join(' + ')})`
+      : widths[0]
+    : '0';
 }
 
 // 更新一个tr下的td的left和class
@@ -277,12 +279,12 @@ export function updateFixedRow(
 
     const fixed = columns[i] ? columns[i].fixed || '' : '';
 
-    let left, right;
+    let left: string = '',
+      right: string = '';
     if (isFixedLeftColumn(fixed)) {
-      left = i > 0 ? getPreviousLeftWidth(children, i, columns) + 'px' : '0';
+      left = i > 0 ? getPreviousLeftWidth(i, columns) : '0';
     } else if (isFixedRightColumn(fixed)) {
-      right =
-        i < length - 1 ? getAfterRightWidth(children, i, columns) + 'px' : '0';
+      right = i < length - 1 ? getAfterRightWidth(i, columns) : '0';
     }
 
     styleUpdates.push({dom, left, right});

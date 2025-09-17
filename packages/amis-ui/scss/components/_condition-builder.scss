@@ -1,6 +1,7 @@
 .#{$ns}ConditionBuilderControl.is-mobile {
   overflow-x: auto;
 }
+
 .#{$ns}CBGroup {
   font-size: var(--fontSizeSm);
   position: relative;
@@ -10,6 +11,7 @@
   // padding: px2rem(30px) px2rem(27px) px2rem(17px);
   // margin-top: px2rem(30px);
   display: flex;
+
   &-toolbarCondition {
     // text-align: center;
     // margin-top: px2rem(-44px);
@@ -111,6 +113,7 @@
 
   &-body {
     position: relative;
+
     &-wrapper {
       flex: 1;
       min-width: 0;
@@ -170,6 +173,7 @@
     .#{$ns}CBGroup-toolbarConditionAdd {
       display: flex;
       align-items: center;
+
       .#{$ns}ButtonGroup {
         & > .cxd-Button:not(:last-child) {
           margin-right: px2rem(24px);
@@ -181,6 +185,7 @@
       // }
     }
   }
+
   .#{$ns}ResultBox {
     padding-right: px2rem(3px);
   }
@@ -199,6 +204,7 @@
     margin: 5px;
     display: flex;
     color: var(--Form-select-caret-iconColor);
+
     &:hover {
       color: var(--Form-select-caret-onHover-iconColor);
     }
@@ -223,6 +229,7 @@
       var(--conditionBuilder-body-paddingRight)
       var(--conditionBuilder-body-paddingBottom) px2rem(10px);
     background: var(--conditionBuilder-body-bg-color);
+
     &.simple {
       margin-left: 0;
     }
@@ -258,6 +265,7 @@
   &.is-active {
     color: #2468f1;
   }
+
   cursor: pointer;
   // margin-left: auto;
 }
@@ -274,6 +282,7 @@
   & + & {
     margin-top: px2rem(10px);
   }
+
   &-dragbar {
     cursor: move;
     width: 20px;
@@ -290,6 +299,7 @@
     align-items: center;
     position: relative;
     transition: all var(--animation-duration) ease-out;
+
     &-group {
       width: 100%;
       flex-direction: row;
@@ -309,10 +319,12 @@
         background: $white;
         z-index: $zindex-dropdown;
       }
+
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(-5px);
         position: absolute;
       }
+
       > .#{$ns}CBGroup {
         margin: 0px;
       }
@@ -330,6 +342,7 @@
       align-items: center;
       flex: 1;
       min-width: 0;
+
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(10px);
         position: absolute;
@@ -391,6 +404,11 @@
 
   &-simple {
     margin-bottom: var(--gap-sm);
+
+    &:only-child .#{$ns}CBGroupOrItem-body > .#{$ns}CBGroupOrItem-body-item {
+      // same as padding-right
+      padding-left: var(--conditionBuilder-body-paddingRight);
+    }
   }
 }
 
@@ -400,6 +418,7 @@
   vertical-align: middle;
   // margin: px2rem(3px);
   cursor: pointer;
+
   > a {
     @include icon-color();
   }
@@ -426,6 +445,7 @@
 
   &-args {
     display: inline-block;
+
     > span {
       display: inline-block;
       padding: 0 5px;
