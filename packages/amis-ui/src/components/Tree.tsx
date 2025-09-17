@@ -217,7 +217,7 @@ export class TreeSelector extends React.Component<
     iconField: 'icon',
     deferField: 'defer',
     unfoldedField: 'unfolded',
-    foldedField: 'foled',
+    foldedField: 'folded',
     disabledField: 'disabled',
     joinValues: true,
     extractValue: false,
@@ -240,10 +240,11 @@ export class TreeSelector extends React.Component<
     enableDefaultIcon: true
   };
   // 展开的节点
-  unfolded: WeakMap<Object, boolean> = new WeakMap();
+  unfolded: Record<string, boolean> = {};
   // key: child option, value: parent option;
   relations: WeakMap<Option, Option> = new WeakMap();
   levels: WeakMap<Option, number> = new WeakMap();
+  indexes: WeakMap<Option, number> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -287,7 +288,6 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props, undefined, true);
-    this.flattenOptions(props, true);
   }
 
   componentDidMount() {
@@ -321,7 +321,6 @@ export class TreeSelector extends React.Component<
 
     if (prevProps.options !== props.options) {
       this.syncUnFolded(props);
-      this.flattenOptions(props);
     }
 
     if (
@@ -349,7 +348,8 @@ export class TreeSelector extends React.Component<
 
   componentWillUnmount(): void {
     // clear data
-    this.relations = this.unfolded = this.levels = new WeakMap() as any;
+    this.relations = this.levels = this.indexes = new WeakMap() as any;
+    this.unfolded = {};
 
     if (this.unSensor) {
       this.unSensor();
@@ -390,12 +390,12 @@ export class TreeSelector extends React.Component<
     const {deferField, foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded.has(node) && !initFoldedLevel) {
+      if (unfolded[`${level}-${index}`] && !initFoldedLevel) {
         return;
       }
 
       if (node.children && node.children.length) {
-        let ret: any = true;
+        let ret: any = unfolded[`${level}-${index}`];
 
         if (
           node[deferField] &&
@@ -412,18 +412,17 @@ export class TreeSelector extends React.Component<
           ret = !!node[unfoldedField];
         } else if (foldedField && typeof node[foldedField] !== 'undefined') {
           ret = !node[foldedField];
-        } else {
+        } else if (initial || typeof ret === 'undefined') {
           ret = !!props.initiallyOpen && !initFoldedLevel;
           if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
         }
-        unfolded.set(node, ret);
+        unfolded[`${level}-${index}`] = ret;
       }
     });
 
-    initFoldedLevel && this.forceUpdate();
-    this.flattenOptions(undefined, initial);
+    this.flattenOptions(props, initial);
     return unfolded;
   }
 
@@ -436,12 +435,14 @@ export class TreeSelector extends React.Component<
       onDeferLoad?.(node);
       return;
     }
+    const index = this.indexes.get(node);
+    const level = this.levels.get(node);
     // ！ hack: 在node上直接添加属性，options 在更新的时候旧的字段会保留
     if (node[deferField] && node.loaded) {
-      node[unfoldedField] = !unfolded.get(node);
+      node[unfoldedField] = !unfolded[`${level}-${index}`];
     }
 
-    unfolded.set(node, !unfolded.get(node));
+    unfolded[`${level}-${index}`] = !unfolded[`${level}-${index}`];
     this.flattenOptions();
     this.forceUpdate();
   }
@@ -449,10 +450,12 @@ export class TreeSelector extends React.Component<
   isUnfolded(node: any): boolean {
     const unfolded = this.unfolded;
     const parent = this.relations.get(node);
+    const index = this.indexes.get(node);
+    const level = this.levels.get(node);
     if (parent) {
-      return !!unfolded.get(node) && this.isUnfolded(parent);
+      return !!unfolded[`${level}-${index}`] && this.isUnfolded(parent);
     }
-    return !!unfolded.get(node);
+    return !!unfolded[`${level}-${index}`];
   }
 
   @autobind
@@ -992,7 +995,9 @@ export class TreeSelector extends React.Component<
         };
 
         if (node?.children?.length) {
-          this.unfolded.set(node, false);
+          const index = this.indexes.get(node);
+          const level = this.levels.get(node);
+          this.unfolded[`${level}-${index}`] = false;
           this.flattenOptions();
           this.forceUpdate();
         }
@@ -1050,6 +1055,7 @@ export class TreeSelector extends React.Component<
           return;
         }
         this.levels.set(item, level);
+        this.indexes.set(item, index);
         parent && this.relations.set(item, parent);
         if (paths.length === 0) {
           // 父节点
