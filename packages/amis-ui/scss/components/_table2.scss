@@ -179,6 +179,17 @@
     border-collapse: collapse;
     border: none;
 
+    &--fixed {
+      table-layout: fixed;
+
+      > thead > tr > th,
+      > thead > tr > td,
+      > tbody > tr > td,
+      > tfoot > tr > td {
+        white-space: normal !important;
+      }
+    }
+
     & th,
     & td {
       text-align: left;
