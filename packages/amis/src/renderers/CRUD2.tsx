@@ -443,7 +443,8 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   }
 
   componentDidMount() {
-    const {store, pickerMode, loadType, loadDataOnce, maxLoadNum} = this.props;
+    const {store, pickerMode, loadType, loadDataOnce, maxLoadNum, filter} =
+      this.props;
 
     // 初始化分页
     let pagination = loadType && !loadDataOnce;
@@ -459,7 +460,10 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     }
 
     // 初始化筛选条件
-    this.initQuery({});
+    // 有filter时,从filter初始化
+    if (!this.normalizeFilterSchema(filter)?.length) {
+      this.initQuery({});
+    }
 
     if (pickerMode) {
       // 解析picker组件默认值
@@ -1355,7 +1359,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     );
   }
 
-  renderFilter(filterSchema: SchemaObject[] | SchemaObject) {
+  normalizeFilterSchema(filterSchema: SchemaObject[] | SchemaObject) {
     if (
       !filterSchema ||
       (Array.isArray(filterSchema) && filterSchema.length === 0)
@@ -1370,6 +1374,16 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
       : [];
 
     if (filterSchemas.length < 1) {
+      return null;
+    }
+
+    return filterSchemas;
+  }
+
+  renderFilter(filterSchema: SchemaObject[] | SchemaObject) {
+    const filterSchemas = this.normalizeFilterSchema(filterSchema);
+
+    if (!filterSchemas?.length) {
       return null;
     }
 
@@ -1389,6 +1403,9 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
             replaceQuery: true,
             resetPage: true
           });
+        },
+        onInit: (data: any) => {
+          this.initQuery(data);
         },
         // 移动端的查询表单支持折叠
         ...(this.props.mobileUI
@@ -1445,10 +1462,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
             </span>
             <span className={cx('Crud-valueLabel')}>
               {labelTpl ? (
-                <Html
-                  html={filter(labelTpl, item)}
-                  filterHtml={env.filterHtml}
-                />
+                <Html html={filter(labelTpl, item)} />
               ) : (
                 getVariable(item, labelField || 'label') ||
                 getVariable(item, primaryField || 'id')

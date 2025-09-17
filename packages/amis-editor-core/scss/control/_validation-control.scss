@@ -5,8 +5,8 @@
   &-dropdown {
     @include flexBox(row, space-between);
     position: absolute;
-    top: #{px2rem(-45px)};
-    right: #{px2rem(20px)};
+    top: #{px2rem(-42px)};
+    right: #{px2rem(10px)};
     height: $category-2-height;
 
     &-btn {

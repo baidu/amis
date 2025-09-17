@@ -162,14 +162,7 @@ export interface TableViewSchema extends BaseSchema {
 
 export interface TableViewProps
   extends RendererProps,
-    Omit<TableViewSchema, 'type' | 'className'> {
-  itemRender?: (
-    item: any,
-    key: number,
-    length: number,
-    props: any
-  ) => JSX.Element;
-}
+    Omit<TableViewSchema, 'type' | 'className'> {}
 
 const defaultPadding = 'var(--TableCell-paddingY) var(--TableCell-paddingX)';
 

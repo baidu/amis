@@ -1976,7 +1976,7 @@ div.ae-DragImage {
   }
 
   .ae-Steps {
-    margin: auto;
+    margin: 0 auto 20px;
     max-width: px2rem(350px);
     --Steps-title-fontsize: #{px2rem(14px)};
 
@@ -1984,7 +1984,7 @@ div.ae-DragImage {
       display: flex !important;
       width: px2rem(22px) !important;
       height: px2rem(22px) !important;
-      margin-top: px2rem(5px);
+      // margin-top: px2rem(5px);
       font-size: px2rem(12px) !important;
       align-items: center;
       justify-content: center;

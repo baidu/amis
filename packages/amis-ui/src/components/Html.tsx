@@ -6,6 +6,7 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from 'amis-core';
+import {HTMLFilterContext} from '../HTMLFilterContext';
 
 export interface HtmlProps {
   className?: string;
@@ -23,6 +24,8 @@ export class Html extends React.Component<HtmlProps> {
   };
 
   dom: any;
+
+  static contextType = HTMLFilterContext;
 
   constructor(props: HtmlProps) {
     super(props);
@@ -49,7 +52,9 @@ export class Html extends React.Component<HtmlProps> {
     const {html, filterHtml} = this.props;
 
     if (html) {
-      this.dom.innerHTML = filterHtml ? filterHtml(html) : html;
+      let filter: (text: string) => string =
+        filterHtml || (this.context as any) || ((text: string) => text);
+      this.dom.innerHTML = filter(html);
     }
   }
 

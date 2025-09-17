@@ -33,6 +33,8 @@ export interface InputJSONSchemaItemProps extends ThemeProps, LocaleProps {
   required?: boolean;
   addButtonText?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
+  autoCreateMembers?: boolean;
 }
 
 export interface InputJSONSchemaProps

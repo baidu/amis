@@ -50,7 +50,8 @@ import {
   SchemaObject,
   SchemaTokenizeableString,
   SchemaTpl,
-  SchemaCollection
+  SchemaCollection,
+  BaseFormSchema
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {BaseCardsSchema} from './Cards';
@@ -209,7 +210,7 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 过滤器表单
    */
-  filter?: any; // todo
+  filter?: BaseFormSchema; // todo
 
   /**
    * 初始是否拉取
@@ -645,6 +646,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
     this.filterItemIndex = this.filterItemIndex.bind(this);
+    this.handleItemAction = this.handleItemAction.bind(this);
 
     const {
       location,
@@ -1074,8 +1076,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
   }
 
-  handleItemAction(action: ActionObject, ctx: any) {
-    this.doAction(action, ctx);
+  handleItemAction(e: any, action: ActionObject, ctx: any) {
+    return this.doAction(action, ctx);
   }
 
   handleFilterInit(values: object) {
@@ -2386,7 +2388,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
               key: `item-${index}`,
               data: itemData,
               disabled: btn.disabled || selectedItems.length !== 1,
-              onAction: this.handleItemAction.bind(this, btn, itemData)
+              onAction: this.handleItemAction
             }
           )
         )}
@@ -2848,7 +2850,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         </span>
         <span className={cx('Crud-valueLabel')}>
           {labelTpl ? (
-            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+            <Html html={filter(labelTpl, item)} />
           ) : (
             getVariable(item, labelField || 'label') ||
             getVariable(item, valueField || primaryField || 'id')
@@ -2953,7 +2955,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         key: 'filter',
         panelClassName: cx(
           'Crud-filter',
-          filter!.panelClassName || 'Panel--default'
+          filter.panelClassName || 'Panel--default'
+        ),
+        className: cx(
+          filter.className,
+          filter.wrapWithPanel ? '' : 'Crud-filter'
         ),
         data: store.filterData,
         onReset: this.handleFilterReset,
@@ -2961,7 +2967,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         onInit: this.handleFilterInit,
         formStore: undefined,
         canAccessSuperData:
-          filter?.canAccessSuperData ?? filterCanAccessSuperData
+          filter.canAccessSuperData ?? filterCanAccessSuperData
       }
     );
   }

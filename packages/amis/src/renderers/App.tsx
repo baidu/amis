@@ -339,11 +339,7 @@ export class App extends React.Component<AppProps, object> {
 
           <div className={cx('Layout-brand')}>
             {logo && ~logo.indexOf('<svg') ? (
-              <Html
-                className={cx('AppLogo-html')}
-                html={logo}
-                filterHtml={env.filterHtml}
-              />
+              <Html className={cx('AppLogo-html')} html={logo} />
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
             ) : (

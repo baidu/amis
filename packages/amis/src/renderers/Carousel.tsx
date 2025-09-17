@@ -177,7 +177,7 @@ const defaultSchema = {
             className={cx('Carousel-image')}
           />
         ) : data.hasOwnProperty('html') ? (
-          <Html html={data.html} filterHtml={props.env.filterHtml} />
+          <Html html={data.html} />
         ) : data.hasOwnProperty('item') ? (
           <span>{data.item}</span>
         ) : (

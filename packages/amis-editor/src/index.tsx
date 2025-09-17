@@ -66,4 +66,5 @@ import './renderer/ListItemControl';
 import 'amis-theme-editor-helper';
 
 export * from './component/BaseControl';
+export {OptionAutoFill} from './component/OptionAutoFill';
 export * from './icons/index';

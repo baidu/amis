@@ -50,7 +50,7 @@ const result = async (req, res) => {
     data: items
       ? data
       : data.filter(function (item) {
-          return browser ? ~item.browser.indexOf(browser) : false;
+          return browser ? ~item.browser.toLowerCase().indexOf(browser.toLowerCase()) : false;
         })[0]
   });
 };

@@ -28,8 +28,8 @@ export default function ColGroup({
     };
   };
   isFixed: boolean;
-  syncTableWidth: Function;
-  initTableWidth: Function;
+  syncTableWidth?: Function;
+  initTableWidth?: Function;
   selectable: boolean;
   expandable: boolean;
   draggable: boolean;
@@ -45,12 +45,15 @@ export default function ColGroup({
 
   React.useEffect(() => {
     if (domRef.current) {
-      initTableWidth();
-      syncTableWidth();
+      initTableWidth?.();
+      syncTableWidth?.();
     }
   }, []);
 
   React.useEffect(() => {
+    if (!syncTableWidth) {
+      return;
+    }
     const table = domRef.current!.parentElement!;
     const observer = new MutationObserver(() => {
       syncTableWidth();
@@ -82,7 +85,7 @@ export default function ColGroup({
         } else if (col.width) {
           style.width = col.width;
         } else if (showReal) {
-          style.width = col.realWidth;
+          style.width = colWidths[col?.name]?.realWidth;
         }
 
         if (!isFixed && style.width) {
