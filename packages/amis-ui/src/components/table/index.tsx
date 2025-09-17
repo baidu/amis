@@ -195,7 +195,7 @@ export interface TableState {
   expandedRowKeys: Array<string | number>;
   widthReady: boolean;
   colWidths: {
-    [name: string]: {
+    [name: string | number]: {
       width: number;
       realWidth: number;
       minWidth: number;
@@ -1510,6 +1510,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           realWidth: col.offsetWidth,
           originWidth: column?.width
         };
+        colWidths[index] = colWidths[column.name];
       }
     });
 
@@ -1634,7 +1635,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     });
 
     if (!isEqual(colWidths, this.state.colWidths)) {
-      this.setState({colWidths, widthReady: true});
+      this.setState({colWidths}, this.syncTableWidth);
     }
 
     document.body.removeChild(div);
@@ -1681,6 +1682,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       });
     }
 
+    const mainStyle = {...this.props.style};
+    if (this.state.widthReady) {
+      Object.keys(this.state.colWidths).forEach(key => {
+        if (!/^\d+$/.test(key)) {
+          return;
+        }
+        const width = this.state.colWidths[key].realWidth;
+        if (width) {
+          mainStyle[`--Table-column-${key}-width`] = `${width}px`;
+        }
+      });
+    }
+
     return (
       <div
         ref={this.tableDom}
@@ -1690,6 +1704,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           [cx('Table-bordered')]: bordered,
           [cx('Table-resizable')]: resizable
         })}
+        style={mainStyle}
       >
         {title ? (
           <div className={cx('Table-title')}>
