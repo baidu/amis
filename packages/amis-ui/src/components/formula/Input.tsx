@@ -23,6 +23,7 @@ import Tag from '../Tag';
 import type {FormulaPickerInputSettings, FormulaPickerProps} from './Picker';
 import CodeEditor, {FuncGroup, VariableItem} from './CodeEditor';
 import InputBox from '../InputBox';
+import omit from 'lodash/omit';
 
 export interface FormulaInputProps
   extends Pick<
@@ -263,6 +264,25 @@ const FormulaInput = (props: FormulaInputProps, ref: any) => {
       value: cmptValue,
       onChange: pipOutValue,
       inputSettings,
+      className: `FormulaPicker-input-custom`
+    });
+  } else if (
+    !isExpr &&
+    schemaType &&
+    schemaType != 'text' &&
+    customInputRender
+  ) {
+    return customInputRender({
+      value: cmptValue,
+      onChange: pipOutValue,
+      inputSettings: {
+        value: omit(inputSettings, [
+          'label',
+          'operators',
+          'defaultOp',
+          'defaultValue'
+        ])
+      } as any,
       className: `FormulaPicker-input-custom`
     });
   } else {

@@ -26,6 +26,7 @@ interface BaseField {
   label: string;
   valueTypes?: Array<'value' | 'field' | 'func'>;
   operators?: Array<string | customOperator>;
+  disabled?: boolean;
 
   // valueTypes 里面配置 func 才有效。
   funcs?: Array<string>;
