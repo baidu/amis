@@ -1507,7 +1507,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           width:
             item?.originWidth !== column?.width ? column?.width : item?.width,
           minWidth: column?.minWidth,
-          realWidth: col.offsetWidth,
+          realWidth: col.getBoundingClientRect().width,
           originWidth: column?.width
         };
         colWidths[index] = colWidths[column.name];
