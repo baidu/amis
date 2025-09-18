@@ -1358,7 +1358,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       headerClassName
     } = this.props;
 
-    const style = {overflow: 'hidden'};
+    // paddingRight 30 用来解决有内容区有滚动条时，到最右端对不齐问题
+    const style = {
+      overflow: 'hidden',
+      paddingRight: 30
+    };
     if (!!sticky) {
       Object.assign(style, {top: 0});
     }
