@@ -339,6 +339,9 @@ export class TreeSelector extends React.Component<
         },
         props.enableNodePath
       );
+      // VirtualList 如果属性不变不会重新渲染
+      // 而value 变化会影响 renderItem 的结果，所以这里让它变一下
+      this.renderItem = this.renderItem.bind(this);
       this.setState({
         value: newValue,
         valueSet: new Set(newValue)
