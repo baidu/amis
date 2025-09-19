@@ -413,15 +413,12 @@ export class OptionsControlBase<
   }
 
   @autobind
-  async onFetchFinished(options?: Array<Option>) {
+  async onLoadOptionsFinished(options?: Array<Option>) {
     if (this.input?.props?.dispatchEvent) {
       const dispatchEvent = this.input.props.dispatchEvent;
-      const rendererEvent = await dispatchEvent('fetchFinished', {
+      await dispatchEvent('loadOptionsFinished', {
         options
       });
-      if (rendererEvent?.prevented) {
-        return;
-      }
     }
   }
 
@@ -483,8 +480,8 @@ export class OptionsControlBase<
             undefined
           )
           .then(() => this.normalizeValue())
-          .then(() => {
-            this.onFetchFinished(this.props.formItem?.options);
+          .then(async () => {
+            await this.onLoadOptionsFinished(this.props.formItem?.options);
           });
       }
     }
@@ -790,8 +787,8 @@ export class OptionsControlBase<
             isInit ? setPrinstineValue : onChange,
             setError
           )
-          .then(() => {
-            this.onFetchFinished(this.props.formItem?.options);
+          .then(async () => {
+            await this.onLoadOptionsFinished(this.props.formItem?.options);
           })
       : undefined;
   }

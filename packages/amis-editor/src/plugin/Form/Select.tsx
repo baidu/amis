@@ -164,9 +164,9 @@ export class SelectControlPlugin extends BasePlugin {
       ...OPTION_EDIT_EVENTS,
       ...OPTION_EDIT_EVENTS_OLD(schema),
        {
-        eventName: 'fetchFinished',
-        eventLabel: '远程数据接口请求完成',
-        description: '远程数据接口请求完成时触发',
+        eventName: 'loadOptionsFinished',
+        eventLabel: '从远程加载options完成',
+        description: '从远程加载options完成时触发',
         dataSchema: [
           {
             type: 'object',
