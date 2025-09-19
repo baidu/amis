@@ -801,8 +801,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       },
       clearValue?: boolean,
       onChange?: (value: any) => void,
-      setErrorFlag?: boolean,
-      onFetchInited?: (options: Array<IOption>) => void
+      setErrorFlag?: boolean
     ) => Promise<Payload | null> = flow(function* getInitData(
       api: string,
       data: object,
@@ -813,8 +812,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         submitOnChange?: boolean,
         changeImmediately?: boolean
       ) => void,
-      setErrorFlag?: boolean,
-      onFetchInited?: (options: Array<IOption>) => void
+      setErrorFlag?: boolean
     ) {
       let json: Payload = yield fetchOptions(api, data, config, setErrorFlag);
       if (!json) {
@@ -857,7 +855,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           }
         });
       }
-      onFetchInited?.(options);
+
       setOptions(options, onChange, data);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {

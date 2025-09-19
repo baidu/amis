@@ -413,10 +413,10 @@ export class OptionsControlBase<
   }
 
   @autobind
-  async onFetchInited(options: Array<Option>) {
+  async onFetchFinished(options?: Array<Option>) {
     if (this.input?.props?.dispatchEvent) {
       const dispatchEvent = this.input.props.dispatchEvent;
-      const rendererEvent = await dispatchEvent('fetchInited', {
+      const rendererEvent = await dispatchEvent('fetchFinished', {
         options
       });
       if (rendererEvent?.prevented) {
@@ -480,10 +480,12 @@ export class OptionsControlBase<
             undefined,
             true,
             this.changeOptionValue,
-            undefined,
-            this.onFetchInited
+            undefined
           )
-          .then(() => this.normalizeValue());
+          .then(() => this.normalizeValue())
+          .then(() => {
+            this.onFetchFinished(this.props.formItem?.options);
+          });
       }
     }
 
@@ -779,15 +781,18 @@ export class OptionsControlBase<
     }
 
     return isAlive(formItem)
-      ? formItem.loadOptions(
-          source,
-          data,
-          undefined,
-          false,
-          isInit ? setPrinstineValue : onChange,
-          setError,
-          this.onFetchInited
-        )
+      ? formItem
+          .loadOptions(
+            source,
+            data,
+            undefined,
+            false,
+            isInit ? setPrinstineValue : onChange,
+            setError
+          )
+          .then(() => {
+            this.onFetchFinished(this.props.formItem?.options);
+          })
       : undefined;
   }
 
