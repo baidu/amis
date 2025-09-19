@@ -162,7 +162,32 @@ export class SelectControlPlugin extends BasePlugin {
         }
       },
       ...OPTION_EDIT_EVENTS,
-      ...OPTION_EDIT_EVENTS_OLD(schema)
+      ...OPTION_EDIT_EVENTS_OLD(schema),
+      {
+        eventName: 'loadOptionsFinished',
+        eventLabel: '从远程加载options完成',
+        description: '从远程加载options完成时触发',
+        dataSchema: (manager: EditorManager) => {
+          const {value, selectedItems, items} =
+            resolveOptionEventDataSchame(manager);
+          return [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  properties: {
+                    value,
+                    selectedItems,
+                    items
+                  }
+                }
+              }
+            }
+          ];
+        }
+      }
     ];
   };
 
