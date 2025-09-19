@@ -287,9 +287,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         getVariable(formStore?.pristine ?? store?.pristine, name) ?? resetValue;
       onChange?.(pristineVal ?? '');
     } else if (action.actionType === 'expand') {
-      this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
+      this.treeRef.setFoldedOrUnfolded(action.args?.openLevel);
     } else if (action.actionType === 'collapse') {
-      this.treeRef.syncUnFolded(this.props, action.args?.closeLevel || 0);
+      this.treeRef.setFoldedOrUnfolded(action.args?.closeLevel || 0, true);
     } else if (action.actionType === 'add') {
       this.addItemFromAction(action.args?.item, action.args?.parentValue);
     } else if (action.actionType === 'edit') {
