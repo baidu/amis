@@ -413,12 +413,24 @@ export class OptionsControlBase<
   }
 
   @autobind
-  async onLoadOptionsFinished(options?: Array<Option>) {
+  async onLoadOptionsFinished() {
     if (this.input?.props?.dispatchEvent) {
-      const dispatchEvent = this.input.props.dispatchEvent;
-      await dispatchEvent('loadOptionsFinished', {
-        options
-      });
+      const {
+        options,
+        selectedOptions = [],
+        multiple,
+        tmpValue
+      } = this.props.formItem || {};
+      const {dispatchEvent} = this.input.props;
+      await dispatchEvent(
+        'loadOptionsFinished',
+        resolveEventData(this.props, {
+          options,
+          items: options, // 为了保持名字统一
+          value: tmpValue,
+          selectedItems: multiple ? selectedOptions : selectedOptions[0]
+        })
+      );
     }
   }
 
@@ -481,7 +493,7 @@ export class OptionsControlBase<
           )
           .then(() => this.normalizeValue())
           .then(async () => {
-            await this.onLoadOptionsFinished(this.props.formItem?.options);
+            await this.onLoadOptionsFinished();
           });
       }
     }
@@ -788,7 +800,7 @@ export class OptionsControlBase<
             setError
           )
           .then(async () => {
-            await this.onLoadOptionsFinished(this.props.formItem?.options);
+            await this.onLoadOptionsFinished();
           })
       : undefined;
   }
