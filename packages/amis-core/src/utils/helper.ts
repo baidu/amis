@@ -922,14 +922,21 @@ export function mapTree<T extends TreeItem>(
  */
 export function eachTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths?: Array<T>) => any,
+  iterator: (
+    item: T,
+    key: number,
+    level: number,
+    paths: Array<T>,
+    indexes: Array<number>
+  ) => any,
   level: number = 1,
-  paths: Array<T> = []
+  paths: Array<T> = [],
+  indexes: Array<number> = []
 ) {
   const length = tree.length;
   for (let i = 0; i < length; i++) {
     const item = tree[i];
-    const res = iterator(item, i, level, paths);
+    const res = iterator(item, i, level, paths, indexes);
     if (res === 'break') {
       break;
     }
@@ -938,7 +945,13 @@ export function eachTree<T extends TreeItem>(
     }
 
     if (item.children?.splice) {
-      eachTree(item.children, iterator, level + 1, paths.concat(item));
+      eachTree(
+        item.children,
+        iterator,
+        level + 1,
+        paths.concat(item),
+        indexes.concat(i)
+      );
     }
   }
 }
