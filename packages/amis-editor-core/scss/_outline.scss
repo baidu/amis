@@ -274,6 +274,10 @@
   padding: 0;
 
   li {
+    &.is-unused {
+      color: var(--text--muted-color);
+    }
+
     cursor: pointer;
     margin: 4px 0;
     padding: 4px 10px;
