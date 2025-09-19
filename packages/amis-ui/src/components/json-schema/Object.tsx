@@ -121,6 +121,7 @@ export function InputJSONSchemaObject(
     members.forEach(member => {
       if (
         !member.invalid &&
+        member.name &&
         (typeof member.value !== 'undefined' ||
           typeof value[member.name] !== 'undefined')
       ) {

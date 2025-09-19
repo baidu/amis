@@ -244,7 +244,7 @@ export class TreeSelector extends React.Component<
   // key: child option, value: parent option;
   relations: WeakMap<Option, Option> = new WeakMap();
   levels: WeakMap<Option, number> = new WeakMap();
-  indexes: WeakMap<Option, number> = new WeakMap();
+  nodePaths: WeakMap<Option, string> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -287,7 +287,7 @@ export class TreeSelector extends React.Component<
       itemHeight: 0
     };
 
-    this.syncUnFolded(props, undefined, true);
+    this.syncUnFolded(props, true);
   }
 
   componentDidMount() {
@@ -339,6 +339,9 @@ export class TreeSelector extends React.Component<
         },
         props.enableNodePath
       );
+      // VirtualList 如果属性不变不会重新渲染
+      // 而value 变化会影响 renderItem 的结果，所以这里让它变一下
+      this.renderItem = this.renderItem.bind(this);
       this.setState({
         value: newValue,
         valueSet: new Set(newValue)
@@ -348,7 +351,7 @@ export class TreeSelector extends React.Component<
 
   componentWillUnmount(): void {
     // clear data
-    this.relations = this.levels = this.indexes = new WeakMap() as any;
+    this.relations = this.levels = this.nodePaths = new WeakMap() as any;
     this.unfolded = {};
 
     if (this.unSensor) {
@@ -374,33 +377,21 @@ export class TreeSelector extends React.Component<
     ref && this.handleVirtualHeight();
   }
 
-  syncUnFolded(
-    props: TreeSelectorProps,
-    unfoldedLevel?: number,
-    initial?: boolean
-  ) {
-    // 传入默认展开层级需要重新初始化unfolded
-    let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
-    let expandLevel = Number(
-      initFoldedLevel ? unfoldedLevel : props.unfoldedLevel
-    );
+  syncUnFolded(props: TreeSelectorProps, initial?: boolean) {
+    let expandLevel = Number(props.unfoldedLevel);
 
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {deferField, foldedField, unfoldedField} = this.props;
 
-    eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded[`${level}-${index}`] && !initFoldedLevel) {
-        return;
-      }
-
+    eachTree(props.options, (node: Option, index, level, paths, indexes) => {
+      const unfoldedKey = indexes.concat(index).join('-');
       if (node.children && node.children.length) {
-        let ret: any = unfolded[`${level}-${index}`];
+        let ret: any = unfolded[unfoldedKey];
 
         if (
           node[deferField] &&
           node.loaded &&
-          !initFoldedLevel &&
           unfoldedField &&
           node[unfoldedField] !== false
         ) {
@@ -413,17 +404,37 @@ export class TreeSelector extends React.Component<
         } else if (foldedField && typeof node[foldedField] !== 'undefined') {
           ret = !node[foldedField];
         } else if (initial || typeof ret === 'undefined') {
-          ret = !!props.initiallyOpen && !initFoldedLevel;
+          ret = !!props.initiallyOpen;
           if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
         }
-        unfolded[`${level}-${index}`] = ret;
+        unfolded[unfoldedKey] = ret;
       }
     });
 
     this.flattenOptions(props, initial);
     return unfolded;
+  }
+
+  @autobind
+  setFoldedOrUnfolded(targetLevel: number, isFolded = false) {
+    let unfolded = this.unfolded;
+    const {options, deferField, onDeferLoad} = this.props;
+    eachTree(options, (node: Option, index, level, paths, indexes) => {
+      const unfoldedKey = indexes.concat(index).join('-');
+
+      if (node[deferField] && !node.loaded) {
+        onDeferLoad?.(node);
+        return;
+      }
+
+      if (node.children && node.children.length) {
+        let ret = isFolded ? level < targetLevel : level <= targetLevel;
+        unfolded[unfoldedKey] = ret;
+      }
+    });
+    this.flattenOptions(this.props);
   }
 
   @autobind
@@ -435,27 +446,24 @@ export class TreeSelector extends React.Component<
       onDeferLoad?.(node);
       return;
     }
-    const index = this.indexes.get(node);
-    const level = this.levels.get(node);
+    const path = this.nodePaths.get(node)!;
     // ！ hack: 在node上直接添加属性，options 在更新的时候旧的字段会保留
     if (node[deferField] && node.loaded) {
-      node[unfoldedField] = !unfolded[`${level}-${index}`];
+      node[unfoldedField] = !unfolded[path];
     }
 
-    unfolded[`${level}-${index}`] = !unfolded[`${level}-${index}`];
+    unfolded[path] = !unfolded[path];
     this.flattenOptions();
-    this.forceUpdate();
   }
 
   isUnfolded(node: any): boolean {
     const unfolded = this.unfolded;
     const parent = this.relations.get(node);
-    const index = this.indexes.get(node);
-    const level = this.levels.get(node);
+    const path = this.nodePaths.get(node)!;
     if (parent) {
-      return !!unfolded[`${level}-${index}`] && this.isUnfolded(parent);
+      return !!unfolded[path] && this.isUnfolded(parent);
     }
-    return !!unfolded[`${level}-${index}`];
+    return !!unfolded[path];
   }
 
   @autobind
@@ -995,11 +1003,9 @@ export class TreeSelector extends React.Component<
         };
 
         if (node?.children?.length) {
-          const index = this.indexes.get(node);
-          const level = this.levels.get(node);
-          this.unfolded[`${level}-${index}`] = false;
+          const path = this.nodePaths.get(node)!;
+          this.unfolded[path] = false;
           this.flattenOptions();
-          this.forceUpdate();
         }
       } else {
         this.dragNode = null;
@@ -1049,13 +1055,13 @@ export class TreeSelector extends React.Component<
 
     eachTree(
       props?.options || this.props.options,
-      (item, index, level, paths: Option[]) => {
+      (item, index, level, paths: Option[], indexes: Array<number>) => {
         const parent = paths[paths.length - 1];
         if (!isVisible(item)) {
           return;
         }
         this.levels.set(item, level);
-        this.indexes.set(item, index);
+        this.nodePaths.set(item, indexes.concat(index).join('-'));
         parent && this.relations.set(item, parent);
         if (paths.length === 0) {
           // 父节点
