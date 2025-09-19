@@ -25,7 +25,8 @@ import {
   JSONGetByPath,
   addModal,
   mergeDefinitions,
-  getModals
+  getModals,
+  collectRefs
 } from '../util';
 import {
   InsertEventContext,
@@ -1090,6 +1091,10 @@ export const MainStore = types
             $$ref: modal.$$ref
           };
         });
+      },
+
+      get usedRefs() {
+        return collectRefs(self.schema);
       }
     };
   })
@@ -2085,12 +2090,13 @@ export const MainStore = types
             definitions,
             (path, key) => key === '$$id'
           );
-          this.traceableSetSchema(
-            JSONUpdate(self.schema, self.schema.$$id, {
-              definitions: JSONPipeIn(patchDiff(originDefinitions, patches))
-            }),
-            true
-          );
+          patches &&
+            this.traceableSetSchema(
+              JSONUpdate(self.schema, self.schema.$$id, {
+                definitions: JSONPipeIn(patchDiff(originDefinitions, patches))
+              }),
+              true
+            );
         }
 
         self.subEditorContext = undefined;
