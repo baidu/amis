@@ -412,6 +412,19 @@ export class OptionsControlBase<
     return false;
   }
 
+  @autobind
+  async onFetchInited(options: Array<Option>) {
+    if (this.input?.props?.dispatchEvent) {
+      const dispatchEvent = this.input.props.dispatchEvent;
+      const rendererEvent = await dispatchEvent('fetchInited', {
+        options
+      });
+      if (rendererEvent?.prevented) {
+        return;
+      }
+    }
+  }
+
   componentDidUpdate(prevProps: OptionsProps) {
     const props = this.props;
     const formItem = props.formItem as IFormItemStore;
@@ -466,7 +479,9 @@ export class OptionsControlBase<
             props.data,
             undefined,
             true,
-            this.changeOptionValue
+            this.changeOptionValue,
+            undefined,
+            this.onFetchInited
           )
           .then(() => this.normalizeValue());
       }
@@ -770,7 +785,8 @@ export class OptionsControlBase<
           undefined,
           false,
           isInit ? setPrinstineValue : onChange,
-          setError
+          setError,
+          this.onFetchInited
         )
       : undefined;
   }

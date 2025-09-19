@@ -162,7 +162,29 @@ export class SelectControlPlugin extends BasePlugin {
         }
       },
       ...OPTION_EDIT_EVENTS,
-      ...OPTION_EDIT_EVENTS_OLD(schema)
+      ...OPTION_EDIT_EVENTS_OLD(schema),
+       {
+        eventName: 'fetchInited',
+        eventLabel: '初始化数据接口请求完成',
+        description: '远程初始化数据接口请求完成时触发',
+        dataSchema: [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  options: {
+                    type: 'object',
+                    title: '选项'
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
     ];
   };
 
