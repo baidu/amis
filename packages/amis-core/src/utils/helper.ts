@@ -168,9 +168,9 @@ export function syncDataFromSuper(
 }
 
 /**
- * 生成 8 位随机数字。
+ * 生成 12 位随机数字。
  *
- * @return {string} 8位随机数字
+ * @return {string} 12位随机数字
  */
 export function guid() {
   function s4() {
