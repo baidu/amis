@@ -7,6 +7,7 @@ import {
   insertEditCustomStyle,
   hasExpression
 } from '../utils/style-helper';
+import isEmpty from 'lodash/isEmpty';
 
 interface CustomStyleProps {
   config: {
@@ -53,9 +54,7 @@ export default function (props: CustomStyleProps) {
 
   useEffect(() => {
     if (themeCss && id) {
-      if (
-        !(typeof themeCss === 'object' && Object.keys(themeCss).length === 0)
-      ) {
+      if (!isEmpty(themeCss)) {
         insertCustomStyle({
           themeCss,
           classNames,
@@ -90,12 +89,7 @@ export default function (props: CustomStyleProps) {
 
   useEffect(() => {
     if (wrapperCustomStyle && id) {
-      if (
-        !(
-          typeof wrapperCustomStyle === 'object' &&
-          Object.keys(wrapperCustomStyle).length === 0
-        )
-      ) {
+      if (!isEmpty(wrapperCustomStyle)) {
         insertEditCustomStyle({
           customStyle: wrapperCustomStyle,
           id,
