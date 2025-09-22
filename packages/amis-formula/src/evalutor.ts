@@ -803,7 +803,7 @@ export class Evaluator {
 
     if (bResult) {
       const c = Math.pow(10, bResult);
-      return Math.floor(a * c) / c;
+      return Math.floor(parseFloat((a * c).toFixed(10))) / c;
     }
 
     return Math.floor(a);
