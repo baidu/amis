@@ -6,7 +6,7 @@ import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import kebabCase from 'lodash/kebabCase';
 import {resolveVariableAndFilter} from './resolveVariableAndFilter';
-import forEach from 'lodash/forEach';
+import some from 'lodash/some';
 import {isExpression} from './formula';
 
 export const valueMap: PlainObject = {
@@ -398,21 +398,15 @@ function traverseStyle(style: any, path: string, result: any) {
 
 export function hasExpression(customStyle: any) {
   let styles: any = {};
-  let hasExpressionResult = false;
   traverseStyle(customStyle || {}, '', styles);
   if (!isEmpty(styles)) {
-    Object.keys(styles).forEach((key: string) => {
-      const res = forEach(styles[key], (value: any, key) => {
-        if (isExpression(value)) {
-          hasExpressionResult = true;
-        }
-        if (isExpression(key)) {
-          hasExpressionResult = true;
-        }
+    return some(Object.keys(styles), (key: string) => {
+      return some(styles[key], (value: any, k) => {
+        return isExpression(value) || isExpression(k);
       });
     });
   }
-  return hasExpressionResult;
+  return false;
 }
 
 export function formatCustomStyle(params: {
