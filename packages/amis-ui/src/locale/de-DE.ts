@@ -456,5 +456,7 @@ register('de-DE', {
   'Signature.embedLabel': 'Klicken Sie zum Signieren',
   'Signature.embedUpdateLabel': 'Aktualisiert zum Signieren',
   'QRCode.tooLong':
-    'Der QR-Code-Wert ist zu lang, bitte setzen Sie den Text auf weniger als {{max}} Zeichen.'
+    'Der QR-Code-Wert ist zu lang, bitte setzen Sie den Text auf weniger als {{max}} Zeichen.',
+  'swith.on': 'öffnen',
+  'swith.off': 'schließen'
 });
