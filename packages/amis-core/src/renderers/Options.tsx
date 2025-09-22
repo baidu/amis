@@ -412,6 +412,28 @@ export class OptionsControlBase<
     return false;
   }
 
+  @autobind
+  async onLoadOptionsFinished() {
+    if (this.input?.props?.dispatchEvent) {
+      const {
+        options,
+        selectedOptions = [],
+        multiple,
+        tmpValue
+      } = this.props.formItem || {};
+      const {dispatchEvent} = this.input.props;
+      await dispatchEvent(
+        'loadOptionsFinished',
+        resolveEventData(this.props, {
+          options,
+          items: options, // 为了保持名字统一
+          value: tmpValue,
+          selectedItems: multiple ? selectedOptions : selectedOptions[0]
+        })
+      );
+    }
+  }
+
   componentDidUpdate(prevProps: OptionsProps) {
     const props = this.props;
     const formItem = props.formItem as IFormItemStore;
@@ -466,9 +488,13 @@ export class OptionsControlBase<
             props.data,
             undefined,
             true,
-            this.changeOptionValue
+            this.changeOptionValue,
+            undefined
           )
-          .then(() => this.normalizeValue());
+          .then(() => this.normalizeValue())
+          .then(async () => {
+            await this.onLoadOptionsFinished();
+          });
       }
     }
 
@@ -764,14 +790,18 @@ export class OptionsControlBase<
     }
 
     return isAlive(formItem)
-      ? formItem.loadOptions(
-          source,
-          data,
-          undefined,
-          false,
-          isInit ? setPrinstineValue : onChange,
-          setError
-        )
+      ? formItem
+          .loadOptions(
+            source,
+            data,
+            undefined,
+            false,
+            isInit ? setPrinstineValue : onChange,
+            setError
+          )
+          .then(async () => {
+            await this.onLoadOptionsFinished();
+          })
       : undefined;
   }
 
