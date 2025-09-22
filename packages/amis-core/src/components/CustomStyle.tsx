@@ -1,10 +1,11 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import type {RendererEnv} from '../env';
 import {
   removeCustomStyle,
   type InsertCustomStyle,
   insertCustomStyle,
-  insertEditCustomStyle
+  insertEditCustomStyle,
+  hasExpression
 } from '../utils/style-helper';
 
 interface CustomStyleProps {
@@ -22,69 +23,108 @@ export default function (props: CustomStyleProps) {
   const {themeCss, classNames, defaultData, wrapperCustomStyle} = config;
   const id = config.id ? `${config.id}` : config.id;
 
+  const cssHasExpression = useMemo(() => {
+    return (
+      hasExpression(themeCss || {}) || hasExpression(wrapperCustomStyle || {})
+    );
+  }, [themeCss, wrapperCustomStyle]);
+
+  let styleId = id;
+  // 如果有变量 并且存在index变量则生成多个行
+  if (typeof data?.index === 'number' && cssHasExpression) {
+    styleId += `-${data.index}`;
+  }
+
   useEffect(() => {
-    if (styleIdCount.has(id)) {
-      styleIdCount.set(id, styleIdCount.get(id) + 1);
+    if (styleIdCount.has(styleId)) {
+      styleIdCount.set(styleId, styleIdCount.get(styleId) + 1);
     } else if (id) {
-      styleIdCount.set(id, 1);
+      styleIdCount.set(styleId, 1);
     }
     return () => {
-      if (styleIdCount.has(id)) {
-        styleIdCount.set(id, styleIdCount.get(id) - 1);
-        if (styleIdCount.get(id) === 0) {
-          styleIdCount.delete(id);
+      if (styleIdCount.has(styleId)) {
+        styleIdCount.set(styleId, styleIdCount.get(styleId) - 1);
+        if (styleIdCount.get(styleId) === 0) {
+          styleIdCount.delete(styleId);
         }
       }
     };
-  }, [id]);
+  }, [styleId]);
 
   useEffect(() => {
     if (themeCss && id) {
-      insertCustomStyle({
-        themeCss,
-        classNames,
-        id,
-        defaultData,
-        customStyleClassPrefix: env?.customStyleClassPrefix,
-        doc: env?.getModalContainer?.()?.ownerDocument,
-        data
-      });
+      if (
+        !(typeof themeCss === 'object' && Object.keys(themeCss).length === 0)
+      ) {
+        insertCustomStyle({
+          themeCss,
+          classNames,
+          id,
+          defaultData,
+          customStyleClassPrefix: env?.customStyleClassPrefix,
+          doc: env?.getModalContainer?.()?.ownerDocument,
+          data,
+          cssHasExpression
+        });
+      }
     }
 
     return () => {
-      if (id && !styleIdCount.get(id)) {
+      if (id && !styleIdCount.get(styleId)) {
         removeCustomStyle(
           '',
           id,
           env?.getModalContainer?.()?.ownerDocument,
-          data
+          data,
+          cssHasExpression
         );
       }
     };
-  }, [themeCss, id]);
+  }, [
+    themeCss,
+    id,
+    styleId,
+    cssHasExpression,
+    cssHasExpression ? data : undefined
+  ]);
 
   useEffect(() => {
     if (wrapperCustomStyle && id) {
-      insertEditCustomStyle({
-        customStyle: wrapperCustomStyle,
-        id,
-        customStyleClassPrefix: env?.customStyleClassPrefix,
-        doc: env?.getModalContainer?.()?.ownerDocument,
-        data
-      });
+      if (
+        !(
+          typeof wrapperCustomStyle === 'object' &&
+          Object.keys(wrapperCustomStyle).length === 0
+        )
+      ) {
+        insertEditCustomStyle({
+          customStyle: wrapperCustomStyle,
+          id,
+          customStyleClassPrefix: env?.customStyleClassPrefix,
+          doc: env?.getModalContainer?.()?.ownerDocument,
+          data,
+          cssHasExpression
+        });
+      }
     }
 
     return () => {
-      if (id && !styleIdCount.get(id)) {
+      if (id && !styleIdCount.get(styleId)) {
         removeCustomStyle(
           'wrapperCustomStyle',
           id,
           env?.getModalContainer?.()?.ownerDocument,
-          data
+          data,
+          cssHasExpression
         );
       }
     };
-  }, [wrapperCustomStyle, id]);
+  }, [
+    wrapperCustomStyle,
+    id,
+    styleId,
+    cssHasExpression,
+    cssHasExpression ? data : undefined
+  ]);
 
   return null;
 }
