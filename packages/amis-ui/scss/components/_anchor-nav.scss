@@ -13,7 +13,7 @@
       top: var(--affix-offset-top);
       height: fit-content;
       max-height: 100%;
-      overflow-y: scroll;
+      // overflow-y: scroll;
 
       > .#{$ns}AnchorNav-link {
         position: relative;
