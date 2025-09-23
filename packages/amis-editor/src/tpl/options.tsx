@@ -519,12 +519,9 @@ setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
               title: createBtnLabel || `新增${optionLabel || '选项'}`,
               ...addDialog,
               body: {
-                /** 标识符，用于 SubEditor 确认后找到对应的 Schema */
-                'amis-select-addControls': true,
-                'type': 'form',
-                'api': addApi,
-                /** 这里是为了兼容旧版，比如type: text类型的组件会被渲染为input-text */
-                'controls': [
+                type: 'form',
+                api: addApi,
+                body: [
                   ...(value
                     ? Array.isArray(value)
                       ? value
@@ -553,6 +550,8 @@ setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
                     manager.openSubEditor({
                       title: '配置新增表单',
                       value: scaffold,
+                      memberImmutable: true,
+                      typeMutable: false,
                       onChange: (value, diff: any) => {
                         const pureSchema = JSONPipeOut(
                           value,
@@ -564,13 +563,10 @@ setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
                           'body',
                           'id'
                         ]);
-                        const targetForm = findObjectsWithKey(
-                          pureSchema,
-                          'amis-select-addControls'
-                        );
-                        const addApi = targetForm?.[0]?.api;
+                        const targetForm = pureSchema.body[0];
+                        const addApi = targetForm?.api;
                         const addControls =
-                          targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+                          targetForm?.controls ?? targetForm?.body;
 
                         onBulkChange({addApi, addDialog, addControls});
                       }
@@ -654,13 +650,10 @@ setSchemaTpl('optionEditControl', (params: OptionControlParams) => {
               title: '编辑选项',
               ...editDialog,
               body: {
-                /** 标识符，用于 SubEditor 确认后找到对应的 Schema */
-                'amis-select-editControls': true,
-                'type': 'form',
-                'api': editApi,
-                'initApi': editInitApi,
-                /** 这里是为了兼容旧版，比如type: text类型的组件会被渲染为input-text */
-                'controls': [
+                type: 'form',
+                api: editApi,
+                initApi: editInitApi,
+                body: [
                   ...(value
                     ? Array.isArray(value)
                       ? value
@@ -689,6 +682,8 @@ setSchemaTpl('optionEditControl', (params: OptionControlParams) => {
                     manager.openSubEditor({
                       title: '配置编辑表单',
                       value: scaffold,
+                      memberImmutable: true,
+                      typeMutable: false,
                       onChange: (value, diff: any) => {
                         const pureSchema = JSONPipeOut(
                           value,
@@ -700,14 +695,11 @@ setSchemaTpl('optionEditControl', (params: OptionControlParams) => {
                           'body',
                           'id'
                         ]);
-                        const targetForm = findObjectsWithKey(
-                          pureSchema,
-                          'amis-select-editControls'
-                        );
-                        const editApi = targetForm?.[0]?.api;
-                        const editInitApi = targetForm?.[0]?.initApi;
+                        const targetForm = pureSchema.body[0];
+                        const editApi = targetForm?.api;
+                        const editInitApi = targetForm?.initApi;
                         const editControls =
-                          targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+                          targetForm?.controls ?? targetForm?.body;
 
                         onBulkChange({
                           editApi,
