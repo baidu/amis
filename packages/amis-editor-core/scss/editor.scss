@@ -1413,8 +1413,8 @@
   //       right: -1px;
   //       bottom: -1px;
   //       z-index: 10;
-  //       background: rgba($Editor-rgion-bg, 0.05);
-  //       border: 1px solid rgba($Editor-rgion-bg, 0.2);
+  //       background: rgba($Editor-region-bg, 0.05);
+  //       border: 1px solid rgba($Editor-region-bg, 0.2);
   //       -webkit-backdrop-filter: blur(0.5px);
   //       backdrop-filter: blur(0.5px);
   //       filter: blur(0.5px);
@@ -1482,7 +1482,7 @@
   box-sizing: content-box;
   border-style: solid;
   border-color: transparent;
-  // background: rgba($Editor-rgion-bg, 0.05);
+  // background: rgba($Editor-region-bg, 0.05);
   pointer-events: none;
   z-index: 2;
   transition: all ease-out 0.15s;
@@ -1495,7 +1495,7 @@
     left: 0;
     z-index: -1;
     content: '';
-    border: 1px dotted lighten($Editor-rgion-bg, 15%);
+    border: 1px dotted lighten($Editor-region-bg, 15%);
     visibility: hidden;
   }
 
@@ -1504,7 +1504,7 @@
     right: 50%;
     top: -17px;
     transform: translateX(50%);
-    background: $Editor-rgion-bg; // $Editor-rgion-bg;
+    background: $Editor-region-bg; // $Editor-region-bg;
     color: #fff;
     padding: 3px 8px;
     font-size: 11px;
@@ -1592,7 +1592,7 @@
     &:before {
       visibility: visible;
       // box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
-      border: 1px solid lighten($Editor-rgion-bg, 5%);
+      border: 1px solid lighten($Editor-region-bg, 5%);
     }
 
     > .region-tip {
@@ -1698,8 +1698,8 @@ div.ae-DragImage {
   //     bottom: -1px;
   //     min-width: 100%;
   //     min-height: 100%;
-  //     background: rgba($Editor-rgion-bg, 0.2);
-  //     border: 1px solid $Editor-rgion-bg;
+  //     background: rgba($Editor-region-bg, 0.2);
+  //     border: 1px solid $Editor-region-bg;
   //   }
   // }
 
@@ -1707,7 +1707,7 @@ div.ae-DragImage {
 
   &.use-indicator {
     position: absolute;
-    background: $Editor-rgion-bg;
+    background: $Editor-region-bg;
     display: inline-block;
     z-index: 5;
     height: var(--ae-DragGhost-size);
@@ -1715,10 +1715,16 @@ div.ae-DragImage {
     // transition: all 0.15s ease-out;
   }
 
+  &-line {
+    width: 100%;
+    height: var(--ae-DragGhost-size);
+    background: $Editor-region-bg;
+  }
+
   &.use-position {
     display: inline-block;
     position: absolute;
-    background: $Editor-rgion-bg;
+    background: $Editor-region-bg;
     height: var(--ae-DragGhost-size);
     width: 100%;
     z-index: 5;
