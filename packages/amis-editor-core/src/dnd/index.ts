@@ -3,7 +3,7 @@
  */
 import find from 'lodash/find';
 import {isAlive} from 'mobx-state-tree';
-import {toast} from 'amis';
+import {findTree, toast} from 'amis';
 import debounce from 'lodash/debounce';
 import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
@@ -315,18 +315,23 @@ export class EditorDNDManager {
             // 如果当前选中了某个组件，则默认让其第一个区域处于拖入状态。
             if (containerId) {
               const node = store.getNodeById(containerId);
-              if (node?.childRegions.length) {
+              const target = node
+                ? findTree([node], item => item.childRegions.length)
+                : null;
+              if (target?.childRegions.length) {
                 let slotIndex = 0;
-                node.childRegions.forEach((regionItem: any, index: number) => {
-                  // 优先使用body作为插入子元素的位置
-                  if (regionItem.region) {
-                    slotIndex = index;
+                target.childRegions.forEach(
+                  (regionItem: any, index: number) => {
+                    // 优先使用body作为插入子元素的位置
+                    if (regionItem.region) {
+                      slotIndex = index;
+                    }
                   }
-                });
+                );
                 this.switchToRegion(
                   e,
-                  node.id,
-                  node.childRegions[slotIndex].region
+                  target.id,
+                  target.childRegions[slotIndex].region
                 );
               }
             }

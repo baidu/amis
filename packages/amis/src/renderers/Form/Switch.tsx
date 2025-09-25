@@ -125,10 +125,10 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   }
 
   renderStatic() {
-    const {value, trueValue} = this.props;
+    const {value, trueValue, translate} = this.props;
 
-    const {on = '开', off = '关'} = this.getResult();
-    const body = <span>{value === trueValue ? on : off}</span>;
+    const {on = 'swith.on', off = 'swith.off'} = this.getResult();
+    const body = <span>{value === trueValue ? translate(on) : translate(off)}</span>;
     return this.renderBody(body);
   }
 

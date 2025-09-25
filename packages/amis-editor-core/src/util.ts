@@ -1919,6 +1919,17 @@ export function getModals(schema: any) {
   return modals;
 }
 
+export function collectRefs(schema: any) {
+  const usedRefs: string[] = [];
+  JSONTraverse(schema, (value: any, key: string) => {
+    if (key === '$ref' && typeof value === 'string') {
+      usedRefs.push(value);
+    }
+    return value;
+  });
+  return usedRefs;
+}
+
 /**
  * 深度 splice 数组，同时返回新的对象，按需拷贝，没有副作用
  * @param target

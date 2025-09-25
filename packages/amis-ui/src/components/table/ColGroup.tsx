@@ -20,7 +20,7 @@ export default function ColGroup({
 }: {
   columns: Array<ColumnProps>;
   colWidths: {
-    [key: string | number]: {
+    [key: number]: {
       width: number;
       realWidth: number;
       minWidth: number;
@@ -81,25 +81,29 @@ export default function ColGroup({
       observer.disconnect();
     };
   }, [columns.length]);
+  let offset = 0;
 
   return (
     <colgroup ref={domRef}>
-      {draggable ? <col style={{width: DefaultCellWidth + 'px'}} /> : null}
-      {selectable ? (
-        <col style={{width: rowSelectionColumnWidth + 'px'}} />
-      ) : null}
-      {expandable && isLeftExpandable ? (
-        <col style={{width: expandableColumnWidth + 'px'}} />
-      ) : null}
+      {draggable
+        ? (offset++, (<col style={{width: DefaultCellWidth + 'px'}} />))
+        : null}
+      {selectable
+        ? (offset++, (<col style={{width: rowSelectionColumnWidth + 'px'}} />))
+        : null}
+      {expandable && isLeftExpandable
+        ? (offset++, (<col style={{width: expandableColumnWidth + 'px'}} />))
+        : null}
       {tdColumns.map((col, index) => {
         const style: any = {};
+        const colIndex = index + offset;
 
-        if (colWidths[col?.name]?.width) {
-          style.width = colWidths[col?.name].width;
+        if (colWidths[colIndex]?.width) {
+          style.width = colWidths[colIndex].width;
         } else if (col.width) {
           style.width = col.width;
         } else if (showReal) {
-          style.width = colWidths[col?.name]?.realWidth;
+          style.width = colWidths[colIndex]?.realWidth;
         }
 
         if (!isFixed && style.width) {

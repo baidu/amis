@@ -644,56 +644,13 @@ export function mapReactElement(
   return mapped;
 }
 
-const thumbHost = document.createElement('div');
 export function renderThumbToGhost(
   ghost: HTMLElement,
   region: EditorNodeType,
   schema: any,
   manager: EditorManager
 ) {
+  // 换成简单的线条即可， 目前也只有form 的 flex 模式拖拽会用到
   // bca-disable-next-line
-  ghost.innerHTML = '';
-  let path = '';
-  const host = region.host!;
-  const component = host.getComponent()!;
-  const isForm = component?.renderControl && region.region === 'body';
-
-  try {
-    reactRender(
-      render(
-        {
-          children: ({render}: any) => {
-            return isForm
-              ? render('', {
-                  type: 'form',
-                  wrapWithPanel: false,
-                  mode: component.props.mode,
-                  body: [schema]
-                })
-              : render(region.region, schema);
-          }
-        } as any,
-        {},
-        {
-          ...manager.env,
-          theme: component?.props.theme || manager.env.theme,
-          session: 'ghost-thumb'
-        },
-        path
-      ),
-      thumbHost
-    );
-  } catch (e) {}
-
-  /* bca-disable */
-  const html =
-    thumbHost.innerHTML ||
-    '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
-  // bca-disable-line
-  ghost.innerHTML = html;
-  /* bca-enable */
-
-  unmountComponentAtNode(thumbHost);
-  // bca-disable-next-line
-  thumbHost.innerHTML = '';
+  ghost.innerHTML = '<div class="ae-DragGhost-line"></div>';
 }

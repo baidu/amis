@@ -98,7 +98,7 @@ export function calculatePosition(
   const clip2 = overlayNode.getBoundingClientRect();
   const clip3 = scrollParent.getBoundingClientRect();
   const scaleX = overlayNode.offsetWidth
-    ? clip2.width / overlayNode.offsetWidth
+    ? Math.ceil(clip2.width) / overlayNode.offsetWidth
     : 1;
   const scaleY = overlayNode.offsetHeight
     ? clip2.height / overlayNode.offsetHeight
