@@ -20,3 +20,11 @@
     vertical-align: text-top;
   }
 }
+
+.max-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
