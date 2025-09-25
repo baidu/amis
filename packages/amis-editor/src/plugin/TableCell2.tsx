@@ -684,7 +684,7 @@ export class TableCell2Plugin extends BasePlugin {
                   type: 'select',
                   name: 'fixed',
                   label: '固定当前列',
-                  hidden: this._isOpColumn,
+                  // hidden: this._isOpColumn,
                   options: [
                     {label: '不固定', value: false},
                     {label: '左侧固定', value: 'left'},

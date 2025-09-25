@@ -127,6 +127,12 @@
   .#{$ns}Table-header {
     padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
+    &--affixed {
+      overflow: hidden;
+      background-color: var(--Table-thead-bg);
+      padding-right: var(--Table-scrollbar-width) !important;
+    }
+
     &.#{$ns}Table-sticky-holder {
       position: sticky;
       z-index: 3;
@@ -662,6 +668,19 @@
 
       .#{$ns}Table-cell-fix-left {
         z-index: 3 !important;
+      }
+    }
+
+    &.is-autoFillHeight {
+      overflow: auto;
+      & > .#{$ns}Table-content {
+        overflow: visible !important;
+        transform: unset !important;
+      }
+      & > .#{$ns}Table-content > table > thead > tr > th {
+        position: sticky;
+        top: 0;
+        z-index: 10 !important; // 添加z-index确保显示在最上层
       }
     }
   }
