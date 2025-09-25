@@ -680,7 +680,12 @@
       & > .#{$ns}Table-content > table > thead > tr > th {
         position: sticky;
         top: 0;
-        z-index: 10 !important; // 添加z-index确保显示在最上层
+        z-index: 2 !important; // 添加z-index确保显示在最上层
+
+        &.#{$ns}Table-cell-fix-left,
+        &.#{$ns}Table-cell-fix-right {
+          z-index: 3 !important;
+        }
       }
     }
   }
