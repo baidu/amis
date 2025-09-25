@@ -244,7 +244,7 @@ function getAfterRightWidth(
   columns: Array<ColumnProps | SummaryProps>
 ) {
   let widths = [];
-  for (let i = columns.length - 0; i > index; i--) {
+  for (let i = columns.length - 1; i > index; i--) {
     if (columns && columns[i] && isFixedRightColumn(columns[i].fixed)) {
       widths.push(`var(--Table-column-${i}-width)`);
     }
