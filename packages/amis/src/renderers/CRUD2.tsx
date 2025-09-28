@@ -1267,7 +1267,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   toggleToggle(index: number) {
     const {store} = this.props;
     const column = store.columns[index];
-    const toggled = column.toggled;
+    const toggled = column.toggled ?? true;
     store.updateColumns(
       store.columns.map((c: any, i: number) => ({
         ...c,
