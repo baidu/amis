@@ -1,6 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
+import TooltipWrapper, {
+  TooltipObject
+} from 'amis-ui/lib/components/TooltipWrapper';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
@@ -50,11 +53,18 @@ export interface LinkSchema extends BaseSchema {
    * 右侧图标
    */
   rightIcon?: string;
+
+  /**
+   * 最大显示行数
+   */
+  maxLine?: number;
 }
 
 export interface LinkProps
   extends RendererProps,
-    Omit<LinkSchema, 'type' | 'className'> {}
+    Omit<LinkSchema, 'type' | 'className'> {
+  tooltip?: string | TooltipObject;
+}
 
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
@@ -94,7 +104,9 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      rightIcon
+      rightIcon,
+      maxLine,
+      tooltip
     } = this.props;
 
     let value =
@@ -102,20 +114,30 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         ? filter(href, data, '| raw')
         : undefined) || getPropValue(this.props);
 
+    // 显示行数处理
+    let customStyles: React.CSSProperties = {};
+    let cln = '';
+    if (maxLine && maxLine > 0) {
+      cln = 'max-line';
+      customStyles.WebkitLineClamp = +maxLine;
+    }
+
     return (
-      <Link
-        className={className}
-        style={style}
-        href={value}
-        disabled={disabled}
-        title={title}
-        htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
-        icon={icon}
-        rightIcon={rightIcon}
-        onClick={this.handleClick}
-      >
-        {body ? render('body', body) : value || __('link')}
-      </Link>
+      <TooltipWrapper tooltip={tooltip}>
+        <Link
+          className={cx(className, cln)}
+          style={Object.assign({}, style, customStyles)}
+          href={value}
+          disabled={disabled}
+          title={title}
+          htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
+          icon={icon}
+          rightIcon={rightIcon}
+          onClick={this.handleClick}
+        >
+          {body ? render('body', body) : value || __('link')}
+        </Link>
+      </TooltipWrapper>
     );
   }
 }
