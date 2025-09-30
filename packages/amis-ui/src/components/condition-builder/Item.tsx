@@ -95,7 +95,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
           : undefined) ??
         config.types[field?.type]?.defaultOp ??
         undefined,
-      right: undefined
+      right: field?.defaultValue ?? undefined
     };
     const onChange = this.props.onChange;
 
