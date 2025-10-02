@@ -23,6 +23,8 @@ export const envOverwrite = (schema: any, locale?: string, device?: string) => {
         delete newValue[locale];
         return newValue;
       } else if (isMobileDevice && value.mobile) {
+        // 这里会merge mobile 的配置到顶层，但$$id是不期望被merge的，所以需要删除
+        delete value.mobile.$$id;
         const newValue = Object.assign({}, value, value.mobile);
         delete newValue.mobile;
         return newValue;
