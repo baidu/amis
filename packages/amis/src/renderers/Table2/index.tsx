@@ -1629,9 +1629,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 })
               );
             },
-            toggleToggle: (index: number) => {
-              const column = store.columnsData[index];
-              column.toggleToggle();
+            toggleToggle: (id: string) => {
+              const column = store.columnsData.find(
+                (col: any) => col?.id === id
+              );
+              column?.toggleToggle();
 
               dispatchEvent(
                 'columnToggled',
