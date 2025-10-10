@@ -4153,7 +4153,6 @@ order: 67
 | footerClassName  | `string`                                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
 | toolbarClassName | `string`                                                 | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
 | columns          | `Array<Column>`                                          |                           | 用来设置列信息                                                            |
-| combineNum       | `number`                                                 |                           | 自动合并单元格                                                            |
 | itemActions      | Array<[Action](./action-button)>                         |                           | 悬浮行操作按钮组                                                          |
 | itemCheckableOn  | [表达式](../../docs/concepts/expression)                 |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
 | itemDraggableOn  | [表达式](../../docs/concepts/expression)                 |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
