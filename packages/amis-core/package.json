@@ -77,13 +77,13 @@
     "react-json-view": "1.21.3",
     "react-overlays": "5.1.1",
     "tslib": "^2.3.1",
-    "uncontrollable": "7.2.1"
+    "uncontrollable": "7.2.1",
+    "react-is": ">=16.8.6"
   },
   "peerDependencies": {
     "amis-formula": "*",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
-    "react-is": ">=16.8.6"
+    "react-dom": ">=16.8.6"
   },
   "jest": {
     "testEnvironment": "jsdom",
