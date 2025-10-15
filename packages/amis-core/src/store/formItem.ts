@@ -549,6 +549,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             );
           }
         } catch (err) {
+          const env = getEnv(self);
+          if (env.isCancel(err)) {
+            return;
+          }
           addError(String(err));
         }
       }
