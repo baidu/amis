@@ -105,9 +105,9 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
         {toggableColumns?.map((column: any, index: number) => (
           <li
             className={cx('ColumnToggler-menuItem')}
-            key={'item' + (column.index || index)}
+            key={'item' + (column.id || index)}
             onClick={() => {
-              toggleToggle && toggleToggle(index);
+              toggleToggle && toggleToggle(column.id);
             }}
           >
             <Checkbox
