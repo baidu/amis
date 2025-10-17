@@ -1,0 +1,21 @@
+{
+    "status": 0,
+    "msg": "ok",
+    "data": {
+        "columns": [
+            { "label": "Col A", "col": "a" },
+            { "label": "Col B", "col": "b" },
+            { "label": "Col C", "col": "c" },
+            { "label": "Col D", "col": "d" },
+            { "label": "Col E", "col": "e" }
+        ],
+        "rows": [
+            { "label": "Row 1", "rol": 1 },
+            { "label": "Row 2", "rol": 2 },
+            { "label": "Row 3", "rol": 3 },
+            { "label": "Row 4", "rol": 4 },
+            { "label": "Row 5", "rol": 5 },
+            { "label": "Row 6", "rol": 6 }
+        ]
+    }
+}
