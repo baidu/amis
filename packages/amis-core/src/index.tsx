@@ -147,6 +147,10 @@ import styleManager from './StyleManager';
 import {bindGlobalEvent, dispatchGlobalEvent} from './utils/renderer-event';
 
 import {getCustomVendor, registerCustomVendor} from './utils/icon';
+import useEnvContext, {EnvContextProvider} from './hooks/useEnvContext';
+import useRenderOptionsContext, {
+  RenderOptionsContextProvider
+} from './hooks/useRenderOptionsContext';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -164,6 +168,10 @@ export {
   RenderOptions,
   RendererEnv,
   EnvContext,
+  EnvContextProvider,
+  useEnvContext,
+  RenderOptionsContextProvider,
+  useRenderOptionsContext,
   RegisterStore,
   registerStore,
   FormItem,

@@ -550,10 +550,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           }
         } catch (err) {
           const env = getEnv(self);
-          if (env.isCancel(err)) {
-            return;
+          if (!env.isCancel(err)) {
+            addError(String(err));
           }
-          addError(String(err));
         }
       }
 
