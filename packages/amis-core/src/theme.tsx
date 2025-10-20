@@ -148,14 +148,11 @@ export function themeable<
 
       constructor(props: OuterProps) {
         super(props);
-
-        this.childRef = this.childRef.bind(this);
-        this.getWrappedInstance = this.getWrappedInstance.bind(this);
       }
 
       ref: any;
 
-      childRef(ref: any) {
+      childRef = (ref: any) => {
         while (ref && ref.getWrappedInstance) {
           ref = ref.getWrappedInstance();
         }
@@ -163,7 +160,7 @@ export function themeable<
         this.ref = ref;
       }
 
-      getWrappedInstance() {
+      getWrappedInstance = () => {
         return this.ref;
       }
 
