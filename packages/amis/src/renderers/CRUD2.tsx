@@ -1264,14 +1264,15 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   }
 
   @autobind
-  toggleToggle(index: number) {
+  toggleToggle(id: string) {
     const {store} = this.props;
-    const column = store.columns[index];
+    const column = store.columns.find((c: any) => c.id === id);
+    if (!column) return;
     const toggled = column.toggled ?? true;
     store.updateColumns(
-      store.columns.map((c: any, i: number) => ({
+      store.columns.map((c: any) => ({
         ...c,
-        toggled: index === i ? !toggled : c.toggled !== false
+        toggled: c.id === id ? !toggled : c.toggled !== false
       }))
     );
   }

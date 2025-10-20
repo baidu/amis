@@ -560,6 +560,9 @@ export const defaultOptions: RenderOptions = {
   getPageId: getPageId
 };
 
+export const RenderOptionsContext =
+  React.createContext<RenderOptions>(defaultOptions);
+
 export const stores: {
   [propName: string]: IRendererStore;
 } = {};
