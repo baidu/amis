@@ -11,6 +11,7 @@ import {ClassNamesFn, themeable} from 'amis-core';
 export type LinkItem = LinkItemProps;
 interface LinkItemProps {
   id?: number;
+  parentIds?: number[];
   label: string;
   hidden?: boolean;
   open?: boolean;
@@ -36,6 +37,7 @@ export interface AsideNavProps {
   id?: string;
   className?: string;
   classPrefix: string;
+  folded?: boolean;
   classnames: ClassNamesFn;
   renderLink: Function;
   isActive: Function;
@@ -94,63 +96,70 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
   constructor(props: AsideNavProps) {
     super(props);
 
-    const isOpen = props.isOpen;
-    let id = 1;
     this.state = {
-      navigations: mapTree(
-        props.navigations,
-        (item: Navigation) => {
-          const isActive =
-            typeof item.active === 'undefined'
-              ? (props.isActive as Function)(item)
-              : item.active;
-
-          return {
-            ...item,
-            id: id++,
-            active: isActive,
-            open: isActive || isOpen(item as LinkItemProps)
-          };
-        },
-        1,
-        true
-      )
+      navigations: this.prepareNavigations(props)
     };
 
     this.renderLink = this.renderLink.bind(this);
     this.toggleExpand = this.toggleExpand.bind(this);
+    this.handleSubMenuHover = this.handleSubMenuHover.bind(this);
+    this.handleSubMenuLeave = this.handleSubMenuLeave.bind(this);
   }
 
   componentDidUpdate(prevProps: AsideNavProps) {
     const props = this.props;
-    const isOpen = prevProps.isOpen;
 
     if (
       prevProps.navigations !== props.navigations ||
       prevProps.isActive !== props.isActive
     ) {
-      let id = 1;
       this.setState({
-        navigations: mapTree(
-          props.navigations,
-          (item: Navigation) => {
-            const isActive =
-              typeof item.active === 'undefined'
-                ? (props.isActive as Function)(item)
-                : item.active;
-
-            return {
-              ...item,
-              id: id++,
-              active: isActive,
-              open: isActive || isOpen(item as LinkItemProps)
-            };
-          },
-          1,
-          true
-        )
+        navigations: this.prepareNavigations(props, prevProps)
       });
     }
+  }
+
+  private prepareNavigations(
+    props: AsideNavProps,
+    prevProps?: AsideNavProps
+  ): Navigation[] {
+    const isOpen = prevProps?.isOpen || props.isOpen;
+    let id = 1;
+    const navigations = mapTree(
+      props.navigations,
+      (item: Navigation) => {
+        const isActive =
+          typeof item.active === 'undefined'
+            ? (props.isActive as Function)(item)
+            : item.active;
+
+        return {
+          ...item,
+          id: id++,
+          active: isActive,
+          open: isActive || isOpen(item as LinkItemProps)
+        };
+      },
+      1,
+      true
+    );
+    return mapTree(
+      navigations,
+      (
+        item: Navigation,
+        key: number,
+        level: number,
+        paths: Array<Navigation>,
+        indexes: Array<number>
+      ) => {
+        return {
+          ...item,
+          parentIds: paths.map(item => item.id)
+        };
+      },
+      1,
+      true
+    );
   }
 
   toggleExpand(link: LinkItemProps, e?: React.MouseEvent<HTMLElement>) {
@@ -162,10 +171,31 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     this.setState({
       navigations: mapTree(
         this.state.navigations,
-        (item: Navigation) => ({
-          ...item,
-          open: link.id === item.id ? !item.open : item.open
-        }),
+        item => {
+          // 切换当前节点
+          if (link.id === item.id) {
+            return {
+              ...item,
+              open: !item.open
+            };
+          }
+          // 如果未打开，或者边栏不是折叠状态，不用处理
+          if (!this.props.folded) {
+            return item;
+          }
+          // 祖辈节点保持打开状态
+          if (link.parentIds!.some(id => id === item.parentId)) {
+            return {
+              ...item,
+              open: true
+            };
+          }
+          // 折叠状态下，关闭所有非祖辈节点
+          return {
+            ...item,
+            open: false
+          };
+        },
         1,
         true
       )
@@ -179,6 +209,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     depth = 1
   ): React.ReactNode {
     const {
+      folded,
       renderLink,
       isActive,
       renderSubLinks,
@@ -213,6 +244,36 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
           [`is-open`]: link.open,
           [`is-active`]: link.active
         })}
+        onMouseEnter={
+          !folded || !link.children || !link.children.length
+            ? undefined
+            : e => {
+              if (!link.open) {
+                this.toggleExpand(link, e);
+              }
+              const subMenuElement = e.currentTarget.querySelector(
+                `.${cx('AsideNav-subList')}`
+              ) as HTMLElement;
+              if (subMenuElement && link.id) {
+                this.handleSubMenuHover(link.id!, subMenuElement);
+              }
+            }
+        }
+        onMouseLeave={
+          !folded || !link.children || !link.children.length
+            ? undefined
+            : e => {
+              if (link.open) {
+                this.toggleExpand(link, e);
+              }
+              const subMenuElement = e.currentTarget.querySelector(
+                `.${cx('AsideNav-subList')}`
+              ) as HTMLElement;
+              if (subMenuElement && link.id) {
+                this.handleSubMenuLeave(link.id, subMenuElement);
+              }
+            }
+        }
       >
         {dom}
         {renderSubLinks(link, this.renderLink, depth, this.props)}
@@ -277,6 +338,101 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         <ul className={cx(`AsideNav-list`)}>{links}</ul>
       </nav>
     );
+  }
+
+  handleSubMenuHover(linkId: number, subMenuElement: HTMLElement) {
+    if (!this.props.folded || !subMenuElement) return;
+
+    const { classnames: cx } = this.props;
+
+    // 获取父级菜单项的位置信息
+    const parentElement = subMenuElement.closest(
+      `.${cx('AsideNav-item')}`
+    ) as HTMLElement;
+    if (!parentElement) return;
+
+    const parentRect = parentElement.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // 重置所有属性
+    subMenuElement.removeAttribute('data-pop-direction');
+    subMenuElement.removeAttribute('data-pop-vertical');
+
+    // 临时显示子菜单以获取其真实尺寸
+    const originalDisplay = subMenuElement.style.display;
+    const originalOpacity = subMenuElement.style.opacity;
+    const originalHeight = subMenuElement.style.height;
+    const originalMaxHeight = subMenuElement.style.maxHeight;
+
+    subMenuElement.style.display = 'block';
+    subMenuElement.style.opacity = '0';
+    subMenuElement.style.height = 'auto';
+    subMenuElement.style.maxHeight = 'none';
+
+    const rect = subMenuElement.getBoundingClientRect();
+
+    // 恢复原始样式
+    subMenuElement.style.display = originalDisplay;
+    subMenuElement.style.opacity = originalOpacity;
+    subMenuElement.style.height = originalHeight;
+    subMenuElement.style.maxHeight = originalMaxHeight;
+
+    // 检测水平方向是否溢出
+    const willOverflowRight = rect.right > viewportWidth;
+
+    // 检测垂直方向溢出情况
+    const spaceBelow = viewportHeight - parentRect.bottom;
+    const spaceAbove = parentRect.top;
+    const subMenuHeight = rect.height;
+
+    // 判断是否需要向上展开
+    const shouldExpandUp = spaceBelow < subMenuHeight && spaceAbove > spaceBelow;
+
+    // 设置水平方向
+    if (willOverflowRight) {
+      subMenuElement.setAttribute('data-pop-direction', 'left');
+    }
+
+    const viewportMargin = 20;
+    // 设置垂直方向
+    if (shouldExpandUp) {
+      subMenuElement.setAttribute('data-pop-vertical', 'up');
+      const willOverflowAbove = spaceAbove < subMenuHeight;
+      if (willOverflowAbove) {
+        // 如果仍会溢出，适当下移
+        const offsetHeight = parentRect.bottom - rect.height - viewportMargin;
+        subMenuElement.style.setProperty(
+          'bottom',
+          `${offsetHeight}px`,
+          'important'
+        );
+      }
+    } else if (spaceBelow < subMenuHeight) {
+      // 如果仍会溢出，适当上移
+      const offsetHeightRequired = parentRect.top + rect.height - viewportHeight + viewportMargin;
+      const offsetHeightAvailable = spaceAbove - viewportMargin;
+      const offsetHeight = Math.min(
+        offsetHeightRequired,
+        offsetHeightAvailable
+      );
+      subMenuElement.style.setProperty(
+        'top',
+        `${-offsetHeight}px`,
+        'important'
+      );
+    }
+  }
+
+  handleSubMenuLeave(linkId: number, subMenuElement: HTMLElement) {
+    // 只在折叠状态下处理
+    if (!this.props.folded || !subMenuElement) return;
+
+    // 清除所有调整属性
+    subMenuElement.removeAttribute('data-pop-direction');
+    subMenuElement.removeAttribute('data-pop-vertical');
+    subMenuElement.style.removeProperty('top');
+    subMenuElement.style.removeProperty('bottom');
   }
 }
 
