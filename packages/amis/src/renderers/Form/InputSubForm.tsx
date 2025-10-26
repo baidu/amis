@@ -5,24 +5,19 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject, guid} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {
-  BaseFormSchema,
-  FormBaseControlSchema,
-  FormSchema,
-  SchemaClassName
-} from '../../Schema';
+import {FormBaseControlSchema, AMISClassName} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 import {isMobile} from 'amis-core';
 import {PopUp} from 'amis-ui';
 import {autobind} from 'amis-core';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormBase, AMISFormItem, TestIdBuilder} from 'amis-core';
 /**
  * SubForm 子表单
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/subform
  */
-export interface SubFormControlSchema extends FormBaseControlSchema {
+export interface AMISInputSubFormSchema extends AMISFormItem {
   /**
    * 指定为 SubForm 子表单
    */
@@ -87,17 +82,17 @@ export interface SubFormControlSchema extends FormBaseControlSchema {
   /**
    * 新增按钮 CSS 类名
    */
-  addButtonClassName?: SchemaClassName;
+  addButtonClassName?: AMISClassName;
 
   /**
    * 值元素的类名
    */
-  itemClassName?: SchemaClassName;
+  itemClassName?: AMISClassName;
 
   /**
    * 值列表元素的类名
    */
-  itemsClassName?: SchemaClassName;
+  itemsClassName?: AMISClassName;
 
   /**
    * 是否在左下角显示报错信息
@@ -107,7 +102,7 @@ export interface SubFormControlSchema extends FormBaseControlSchema {
   /**
    * 子表单详情
    */
-  form?: BaseFormSchema;
+  form?: AMISFormBase;
 
   scaffold?: any;
 }

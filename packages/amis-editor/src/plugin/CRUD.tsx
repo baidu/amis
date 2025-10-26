@@ -29,7 +29,7 @@ import {
   JSONPipeIn
 } from 'amis-editor-core';
 import {setVariable, someTree, normalizeApi} from 'amis-core';
-import type {CRUDCommonSchema} from 'amis';
+import type {AMISCRUDCommonSchema} from 'amis';
 import {getEnv} from 'mobx-state-tree';
 import type {
   EditorNodeType,
@@ -45,7 +45,7 @@ interface ColumnItem {
   name: string;
 }
 
-type CRUDModes = CRUDCommonSchema['mode'];
+type CRUDModes = AMISCRUDCommonSchema['mode'];
 
 // 将展现控件转成编辑控件
 const viewTypeToEditType = (type: string) => {

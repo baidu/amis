@@ -14,11 +14,12 @@ import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {buildStyle} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * tpl 渲染器
  */
-export interface TplSchema extends BaseSchema {
+export interface AMISTplSchema extends AMISSchemaBase {
   /**
    * 指定为模板渲染器。
    *
@@ -56,7 +57,7 @@ export interface TplSchema extends BaseSchema {
   testidBuilder?: TestIdBuilder;
 }
 
-export interface TplProps extends RendererProps, TplSchema {
+export interface TplProps extends RendererProps, AMISTplSchema {
   className?: string;
   value?: string;
 }

@@ -1,12 +1,18 @@
 import React from 'react';
-import {createObject, Renderer, RendererEnv, RendererProps} from 'amis-core';
+import {
+  AMISSchemaBase,
+  createObject,
+  Renderer,
+  RendererEnv,
+  RendererProps,
+  AMISSchemaCollection
+} from 'amis-core';
 import {Api, Payload} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
   SchemaTokenizeableString,
-  SchemaTpl,
-  SchemaCollection
+  SchemaTpl
 } from '../Schema';
 import {withStore} from 'amis-ui';
 import {flow, Instance, types} from 'mobx-state-tree';
@@ -23,7 +29,7 @@ import {
  * Mapping 映射展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */
-export interface MappingSchema extends BaseSchema {
+export interface AMISMappingSchema extends AMISSchemaBase {
   /**
    * 指定为映射展示控件
    */
@@ -54,7 +60,7 @@ export interface MappingSchema extends BaseSchema {
   /**
    * 自定义渲染映射值，支持html或schema
    */
-  itemSchema?: SchemaCollection;
+  itemSchema?: AMISSchemaCollection;
 
   /**
    * 如果想远程拉取字典，请配置 source 为接口。
@@ -144,7 +150,7 @@ export type IStore = Instance<typeof Store>;
 
 export interface MappingProps
   extends Omit<RendererProps, 'store'>,
-    Omit<MappingSchema, 'type' | 'className'> {
+    Omit<AMISMappingSchema, 'type' | 'className'> {
   store: IStore;
   renderValue: (map: any, key: any) => String;
   renderViewValue: (value: any, key: any) => React.ReactNode;

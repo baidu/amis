@@ -2,7 +2,7 @@ import React from 'react';
 import mapValues from 'lodash/mapValues';
 
 import {Tabs as CTabs, Tab} from 'amis-ui';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {resolveVariable} from 'amis-core';
 import {str2AsyncFunction} from 'amis-core';
 import {
@@ -11,25 +11,21 @@ import {
   isDisabled,
   isObject,
   createObject,
-  BaseSchemaWithoutType
+  BaseSchemaWithoutType,
+  AMISSchemaCollection
 } from 'amis-core';
 
 import {filter} from 'amis-core';
-import {
-  SchemaTpl,
-  SchemaClassName,
-  BaseSchema,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
+import {SchemaTpl, AMISClassName, BaseSchema, SchemaIcon} from '../Schema';
 
 import {ActionSchema} from './Action';
+import {AMISButtonSchema} from 'amis-core';
 
 /**
  * 栏目容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/portlet
  */
-export interface PortletTabSchema extends BaseSchemaWithoutType {
+export interface PortletTabSchema extends AMISSchemaBase {
   /**
    * Tab 标题
    */
@@ -39,17 +35,17 @@ export interface PortletTabSchema extends BaseSchemaWithoutType {
    * 内容
    * @deprecated 用 body 属性
    */
-  tab?: SchemaCollection;
+  tab?: AMISSchemaCollection;
 
   /**
    * 可以在右侧配置点其他功能按钮，随着tab切换而切换
    */
-  toolbar?: Array<ActionSchema>;
+  toolbar?: Array<AMISButtonSchema>;
 
   /**
    * 内容
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 按钮图标
@@ -74,7 +70,7 @@ export interface PortletTabSchema extends BaseSchemaWithoutType {
   unmountOnExit?: boolean;
 }
 
-export interface PortletSchema extends BaseSchemaWithoutType {
+export interface AMISPortletSchema extends AMISSchemaBase {
   /**
    * 指定为 portlet 类型
    */
@@ -90,7 +86,7 @@ export interface PortletSchema extends BaseSchemaWithoutType {
   /**
    * 类名
    */
-  tabsClassName?: SchemaClassName;
+  tabsClassName?: AMISClassName;
 
   /**
    * 展示形式
@@ -100,12 +96,12 @@ export interface PortletSchema extends BaseSchemaWithoutType {
   /**
    * 内容类名
    */
-  contentClassName?: SchemaClassName;
+  contentClassName?: AMISClassName;
 
   /**
    * 链接外层类名
    */
-  linksClassName?: SchemaClassName;
+  linksClassName?: AMISClassName;
 
   /**
    * 卡片是否只有在点开的时候加载？
@@ -120,7 +116,7 @@ export interface PortletSchema extends BaseSchemaWithoutType {
   /**
    * 可以在右侧配置点其他功能按钮。不会随着tab切换
    */
-  toolbar?: Array<ActionSchema>;
+  toolbar?: Array<AMISButtonSchema>;
 
   /**
    * 是否支持溢出滚动
@@ -152,7 +148,7 @@ export interface PortletSchema extends BaseSchemaWithoutType {
 
 export interface PortletProps
   extends RendererProps,
-    Omit<PortletSchema, 'className' | 'contentClassName'> {
+    Omit<AMISPortletSchema, 'className' | 'contentClassName'> {
   activeKey?: number;
   tabRender?: (
     tab: PortletTabSchema,
@@ -203,7 +199,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
     }
   }
 
-  renderToolbarItem(toolbar: Array<ActionSchema>) {
+  renderToolbarItem(toolbar: Array<AMISButtonSchema>) {
     const {render} = this.props;
     let actions: Array<JSX.Element> = [];
     if (Array.isArray(toolbar)) {

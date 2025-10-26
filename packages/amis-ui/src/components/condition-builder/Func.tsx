@@ -20,11 +20,11 @@ import ResultBox from '../ResultBox';
 import {Icon} from '../icons';
 import Expression from './Expression';
 import {ConditionBuilderConfig} from './config';
-import type {TestIdBuilder, ExpressionFunc} from 'amis-core';
+import type {TestIdBuilder, AMISExpressionFunc} from 'amis-core';
 
 export interface ConditionFuncProps extends ThemeProps, LocaleProps {
-  value: ExpressionFunc;
-  onChange: (value: ExpressionFunc) => void;
+  value: AMISExpressionFunc;
+  onChange: (value: AMISExpressionFunc) => void;
   disabled?: boolean;
   config: ConditionBuilderConfig;
   fields?: ConditionBuilderField[];

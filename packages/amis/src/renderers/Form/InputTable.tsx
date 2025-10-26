@@ -32,13 +32,14 @@ import {
   findTreeIndex,
   applyFilters,
   evalExpression,
-  injectObjectChain
+  injectObjectChain,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import {BaseTableSchema, TableSchema} from '../Table';
-import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
+import {SchemaApi, AMISClassName} from '../../Schema';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
@@ -54,7 +55,7 @@ export type TableDataItem = {
   [x: string | number]: any;
 };
 
-export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
+export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   type: 'input-table';
 
   /**
@@ -241,7 +242,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 底部新增按钮配置
    */
-  footerAddBtn?: SchemaCollection;
+  footerAddBtn?: AMISSchemaCollection;
 
   /**
    * 是否开启 static 状态切换
@@ -251,7 +252,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 底部工具栏CSS样式类
    */
-  toolbarClassName?: SchemaClassName;
+  toolbarClassName?: AMISClassName;
 
   /**
    * 自定义搜索匹配函数，当存在列的 searchable 为 true 时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
@@ -272,7 +273,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
 export interface TableProps
   extends FormControlProps,
     Omit<
-      TableControlSchema,
+      AMISInputTableSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

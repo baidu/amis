@@ -9,7 +9,8 @@ import {
   formatInputThemeCss,
   setThemeClassName,
   TestIdBuilder,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -32,7 +33,7 @@ import {supportStatic} from './StaticHoc';
  * 数字输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-number
  */
-export interface NumberControlSchema extends FormBaseControlSchema {
+export interface AMISNumberControlSchema extends AMISFormItem {
   type: 'input-number';
 
   /**

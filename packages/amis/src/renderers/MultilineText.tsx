@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {
+  AMISSchemaBase,
   Renderer,
   RendererProps,
   filter,
@@ -15,7 +16,7 @@ import {MultilineText} from 'amis-ui';
 /**
  * MultilineText
  */
-export interface MultilineTextSchema extends BaseSchema {
+export interface AMISMultilineTextSchema extends AMISSchemaBase {
   type: 'multiline-text';
 
   /**
@@ -41,7 +42,7 @@ export interface MultilineTextSchema extends BaseSchema {
 
 export interface MultilineTextProps
   extends RendererProps,
-    Omit<MultilineTextSchema, 'type' | 'className'> {}
+    Omit<AMISMultilineTextSchema, 'type' | 'className'> {}
 
 export class MultilineTextField extends React.Component<
   MultilineTextProps,

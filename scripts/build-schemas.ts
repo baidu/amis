@@ -26,15 +26,20 @@ import {
   Schema,
   uniqueArray,
   ReferenceType,
+  IndexedAccessTypeNodeParser,
   ChainNodeParser,
-  IntersectionNodeParser
+  ExpressionWithTypeArgumentsNodeParser,
+  IntersectionNodeParser,
+  FunctionType
 } from 'ts-json-schema-generator';
-import ts from 'typescript';
+import ts, {TypeOperatorNode, TypeReferenceNode} from 'typescript';
 import mkdirp from 'mkdirp';
 import isPlainObject from 'lodash/isPlainObject';
 
 /**
  * 程序主入口
+ *
+ * todo 别名 String 对 jsdoc 内容咋没有生成 description？
  */
 async function main() {
   const dir = path.join(__dirname, '../packages/amis/src');
@@ -45,9 +50,9 @@ async function main() {
   );
 
   const config = {
-    path: path.join(dir, 'Schema.ts'),
+    path: path.join(dir, 'SchemaCommon.ts'),
     tsconfig: tsConfig,
-    type: 'RootSchema',
+    type: 'RootRenderer',
     skipTypeCheck: true,
     jsDoc: 'extended' as 'extended',
     additionalProperties: false
@@ -58,14 +63,14 @@ async function main() {
       config,
       target: 'schema.json',
       optimizeForMonaco: true
-    },
-    {
-      config: {
-        ...config,
-        additionalProperties: true
-      },
-      target: 'schema-minimal.json'
     }
+    // {
+    //   config: {
+    //     ...config,
+    //     additionalProperties: true
+    //   },
+    //   target: 'schema-minimal.json'
+    // }
   ]) {
     // 创建 formatter 用于优化体积
     const formatter = createFormatter(
@@ -74,17 +79,17 @@ async function main() {
         fmt.addTypeFormatter(
           new MyNodeTypeFormatter(circularReferenceTypeFormatter)
         );
-        fmt.addTypeFormatter(
-          new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
-        );
         fmt.addTypeFormatter(new MyLiteralUnionTypeFormatter());
+        fmt.addTypeFormatter(
+          new MyFunctionTypeFormatter(circularReferenceTypeFormatter)
+        );
       }
     );
 
     const program = createProgram(c as any);
     const parser = createParser(program, c as any, prs => {
       prs.addNodeParser(
-        new MyIntersectionNodeParser(
+        new MyIndexedAccessTypeNodeParser(
           program.getTypeChecker(),
           prs as ChainNodeParser
         )
@@ -96,12 +101,12 @@ async function main() {
 
     if (optimizeForMonaco) {
       convertAnyOfItemToConditionalItem(schema, [
-        'ActionSchema',
-        'CRUDSchema',
-        'CRUD2Schema',
-        'SchemaObject'
+        'AMISSchema',
+        'AMISCRUDSchema',
+        'AMISCRUD2Schema',
+        'AMISAction'
       ]);
-      schema = optimizeConditions(schema);
+      // schema = optimizeConditions(schema);
     }
 
     const outputFile = path.join(outDir, target);
@@ -110,13 +115,33 @@ async function main() {
   }
 }
 
-class MyIntersectionNodeParser extends IntersectionNodeParser {
-  public createType(node: any, context: Context) {
-    const types = (node as ts.IntersectionType).types.map(subnode =>
-      this.childNodeParser.createType(subnode as any, context)
-    );
-    if (types.some(t => t.getName() === 'ActionSchema')) {
-      return new IntersectionType(types);
+class MyIndexedAccessTypeNodeParser extends IndexedAccessTypeNodeParser {
+  public createType(node: ts.IndexedAccessTypeNode, context: Context) {
+    // 支持 Module Augmentation 用法
+    if (
+      node.indexType.kind === ts.SyntaxKind.TypeOperator &&
+      (node.indexType as TypeOperatorNode).operator ===
+        ts.SyntaxKind.KeyOfKeyword &&
+      (node.indexType as TypeOperatorNode).type.kind ===
+        ts.SyntaxKind.TypeReference &&
+      node.objectType.kind === (node.indexType as TypeOperatorNode).type.kind &&
+      (node.objectType as any).typeName.escapedText ===
+        (node.indexType as any).type.typeName.escapedText
+    ) {
+      // 检测到 xxxxx[keyof xxxxx]
+      // 需要查找 xxxxx 的类型定义，并返回一个联合类型
+      const target = node.objectType as TypeReferenceNode;
+      const symbol = this.typeChecker.getSymbolAtLocation(target.typeName);
+      if (symbol) {
+        return new UnionType(
+          Array.from(symbol.members?.values() || []).map(member =>
+            this.childNodeParser.createType(
+              (member.valueDeclaration as any).type,
+              context
+            )
+          )
+        );
+      }
     }
 
     return super.createType(node, context);
@@ -130,7 +155,6 @@ class MyNodeTypeFormatter extends ObjectTypeFormatter {
       return this.getObjectDefinition(type);
     }
     // 体积太大了，只能这样
-
     const definition: Definition = {
       allOf: [
         this.getObjectDefinition(type),
@@ -231,28 +255,16 @@ class MyLiteralUnionTypeFormatter extends LiteralUnionTypeFormatter {
   }
 }
 
-class MyIntersectionTypeFormatter extends IntersectionTypeFormatter {
-  getDefinition(type: IntersectionType): Definition {
-    const types = type.getTypes();
-
-    if (
-      types.some(item =>
-        ['SchemaObject', 'ActionSchema'].includes(item.getName())
-      )
-    ) {
-      return {
-        allOf: types.map(item => {
-          const subType = this.childTypeFormatter.getDefinition(item);
-
-          return {
-            ...subType,
-            additionalProperties: true
-          };
-        })
-      };
-    }
-
-    return super.getDefinition(type);
+class MyFunctionTypeFormatter implements SubTypeFormatter {
+  constructor(protected childTypeFormatter: TypeFormatter) {}
+  getChildren() {
+    return [];
+  }
+  supportsType(type: BaseType) {
+    return type instanceof FunctionType;
+  }
+  getDefinition(type: FunctionType): Definition {
+    return {type: 'string', description: 'function'};
   }
 }
 
@@ -341,7 +353,7 @@ function pickConstProperties(schema: any): any {
 // 优化条件逻辑，主要处理 action 与 schemaObject 部分的 if
 // 避免 monaco-editor 无法精确定位
 function optimizeConditions(schema: any) {
-  const actionSchema = schema.definitions.ActionSchema;
+  const actionSchema = schema.definitions.AMISAction;
   const actionSchemaAllOf = actionSchema.allOf;
 
   delete actionSchema.allOf;

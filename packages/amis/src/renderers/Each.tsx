@@ -1,16 +1,18 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   CustomStyle,
   Renderer,
   RendererProps,
   buildStyle,
   isPureVariable,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Schema} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 
 export interface EachExtraProps extends RendererProps {
   items: any;
@@ -43,7 +45,7 @@ function EachItem(props: EachExtraProps) {
  * Each 循环功能渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */
-export interface EachSchema extends BaseSchema {
+export interface AMISEachSchema extends AMISSchemaBase {
   /**
    * 指定为each展示类型
    */
@@ -73,7 +75,7 @@ export interface EachSchema extends BaseSchema {
    */
   indexKeyName?: string;
 
-  items?: SchemaCollection;
+  items?: AMISSchemaCollection;
 
   placeholder?: string;
 }

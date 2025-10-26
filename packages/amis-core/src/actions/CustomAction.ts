@@ -9,15 +9,16 @@ import {
   registerAction,
   runActions
 } from './Action';
+import {AMISFunction} from '../schema';
 
-type ScriptType =
-  | string
-  | ((
-      renderer: any,
-      doAction: (action: ActionObject, data: Record<string, any>) => void,
-      event: RendererEvent<any>,
-      action: ListenerAction
-    ) => void); // 自定义JS，actionType: custom
+type ScriptType = AMISFunction<
+  (
+    renderer: any,
+    doAction: (action: ActionObject, data: Record<string, any>) => void,
+    event: RendererEvent<any>,
+    action: ListenerAction
+  ) => void
+>;
 
 export interface ICustomAction extends ListenerAction {
   actionType: 'custom';

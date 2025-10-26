@@ -1,798 +1,223 @@
-import {PageSchema} from './renderers/Page';
-import {FlexSchema} from './renderers/Flex';
-import {TplSchema} from './renderers/Tpl';
+import {AMISPageSchema} from './renderers/Page';
+import {AMISFormSchema} from 'amis-core';
+import {AMISAlertSchema} from './renderers/Alert';
+
+import {AMISFlexSchema} from './renderers/Flex';
+import {AMISTplSchema} from './renderers/Tpl';
 import {RemarkSchema, SchemaRemark} from './renderers/Remark';
 import {ActionSchema} from './renderers/Action';
-import {AlertSchema} from './renderers/Alert';
-import {AudioSchema} from './renderers/Audio';
-import {ButtonGroupSchema} from './renderers/ButtonGroup';
-import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
-import {CardSchema} from './renderers/Card';
-import {CardsSchema} from './renderers/Cards';
-import {CalendarSchema} from './renderers/Calendar';
-import {CarouselSchema} from './renderers/Carousel';
-import {ChartSchema} from './renderers/Chart';
-import {CollapseSchema} from './renderers/Collapse';
-import {CollapseGroupSchema} from './renderers/CollapseGroup';
-import {ColorSchema} from './renderers/Color';
-import {ContainerSchema} from './renderers/Container';
-import {SwitchContainerSchema} from './renderers/SwitchContainer';
-import {CRUDSchema} from './renderers/CRUD';
-import {CRUD2Schema} from './renderers/CRUD2';
-import {DateSchema} from './renderers/Date';
-import {DividerSchema} from './renderers/Divider';
-import {DropdownButtonSchema} from './renderers/DropDownButton';
-import {EachSchema} from './renderers/Each';
-import {GridSchema} from './renderers/Grid';
-import {Grid2DSchema} from './renderers/Grid2D';
-import {HBoxSchema} from './renderers/HBox';
-import {IconSchema} from './renderers/Icon';
-import {IFrameSchema} from './renderers/IFrame';
-import {ImageSchema} from './renderers/Image';
-import {ImagesSchema} from './renderers/Images';
-import {JsonSchema} from './renderers/Json';
-import {LinkSchema} from './renderers/Link';
-import {ListSchema} from './renderers/List';
-import {MappingSchema} from './renderers/Mapping';
-import {NavSchema} from './renderers/Nav';
-import {OperationSchema} from './renderers/Operation';
-import {PanelSchema} from './renderers/Panel';
-import {PlainSchema} from './renderers/Plain';
-import {ProgressSchema} from './renderers/Progress';
-import {QRCodeSchema} from './renderers/QRCode';
-import {ServiceSchema} from './renderers/Service';
-import {StatusSchema} from './renderers/Status';
-import {TabsSchema} from './renderers/Tabs';
-import {PortletSchema} from './renderers/Portlet';
-import {TasksSchema} from './renderers/Tasks';
-import {VBoxSchema} from './renderers/VBox';
-import {VideoSchema} from './renderers/Video';
-import {WizardSchema} from './renderers/Wizard';
-import {WrapperSchema} from './renderers/Wrapper';
-import {TableSchema} from './renderers/Table';
-import {DialogSchema, DialogSchemaBase} from './renderers/Dialog';
-import {DrawerSchema} from './renderers/Drawer';
-import {SearchBoxSchema} from './renderers/SearchBox';
-import {SparkLineSchema} from './renderers/SparkLine';
-import {TooltipWrapperSchema} from './renderers/TooltipWrapper';
-import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
-import {PaginationSchema} from './renderers/Pagination';
-import {AnchorNavSchema} from './renderers/AnchorNav';
-import {AvatarSchema} from './renderers/Avatar';
-import {StepsSchema} from './renderers/Steps';
-import {SpinnerSchema} from './renderers/Spinner';
-import {TimelineSchema} from './renderers/Timeline';
-import {ArrayControlSchema} from './renderers/Form/InputArray';
+import {AMISAudioSchema} from './renderers/Audio';
+import {AMISButtonGroupSchema} from './renderers/ButtonGroup';
+import {AMISButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
+import {AMISCardSchema} from './renderers/Card';
+import {AMISCardsSchema} from './renderers/Cards';
+import {AMISCalendarSchema} from './renderers/Calendar';
+import {AMISCarouselSchema} from './renderers/Carousel';
+import {AMISChartSchema} from './renderers/Chart';
+import {AMISCollapseSchema} from './renderers/Collapse';
+import {AMISCollapseGroupSchema} from './renderers/CollapseGroup';
+import {AMISColorSchema} from './renderers/Color';
+import {AMISContainerSchema} from './renderers/Container';
+import {AMISSwitchContainerSchema} from './renderers/SwitchContainer';
+import {AMISCRUDSchema} from './renderers/CRUD';
+import {AMISCRUD2Schema} from './renderers/CRUD2';
+import {AMISDateSchema} from './renderers/Date';
+import {AMISDividerSchema} from './renderers/Divider';
+import {AMISDropdownButtonSchema} from './renderers/DropDownButton';
+import {AMISEachSchema} from './renderers/Each';
+import {AMISGridSchema} from './renderers/Grid';
+import {AMISGrid2DSchema} from './renderers/Grid2D';
+import {AMISHBoxSchema} from './renderers/HBox';
+import {AMISIconSchema} from './renderers/Icon';
+import {AMISIFrameSchema} from './renderers/IFrame';
+import {AMISImageSchema} from './renderers/Image';
+import {AMISImagesSchema} from './renderers/Images';
+import {AMISJsonSchema} from './renderers/Json';
+import {AMISLinkSchema} from './renderers/Link';
+import {AMISListSchema} from './renderers/List';
+import {AMISMappingSchema} from './renderers/Mapping';
+import {AMISNavSchema} from './renderers/Nav';
+import {AMISOperationSchema} from './renderers/Operation';
+import {AMISPanelSchema} from './renderers/Panel';
+import {AMISPlainSchema} from './renderers/Plain';
+import {AMISProgressSchema} from './renderers/Progress';
+import {AMISQRCodeSchema} from './renderers/QRCode';
+import {AMISServiceSchema} from './renderers/Service';
+import {AMISStatusSchema} from './renderers/Status';
+import {AMISTabsSchema} from './renderers/Tabs';
+import {AMISPortletSchema} from './renderers/Portlet';
+import {AMISTasksSchema} from './renderers/Tasks';
+import {AMISVBoxSchema} from './renderers/VBox';
+import {AMISVideoSchema} from './renderers/Video';
+import {AMISWizardSchema} from './renderers/Wizard';
+import {AMISWrapperSchema} from './renderers/Wrapper';
+import {AMISTableSchema} from './renderers/Table';
+import {AMISSearchBoxSchema} from './renderers/SearchBox';
+import {AMISSparkLineSchema} from './renderers/SparkLine';
+import {AMISTooltipWrapperSchema} from './renderers/TooltipWrapper';
+import {AMISPaginationWrapperSchema} from './renderers/PaginationWrapper';
+import {AMISPaginationSchema} from './renderers/Pagination';
+import {AMISAnchorNavSchema} from './renderers/AnchorNav';
+import {AMISAvatarSchema} from './renderers/Avatar';
+import {AMISStepsSchema} from './renderers/Steps';
+import {AMISSpinnerSchema} from './renderers/Spinner';
+import {AMISTimelineSchema} from './renderers/Timeline';
+import {AMISArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
-import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
-import {CheckboxControlSchema} from './renderers/Form/Checkbox';
-import {CheckboxesControlSchema} from './renderers/Form/Checkboxes';
-import {ComboControlSchema} from './renderers/Form/Combo';
-import {ConditionBuilderControlSchema} from './renderers/Form/ConditionBuilder';
-import {DiffControlSchema} from './renderers/Form/DiffEditor';
-import {EditorControlSchema} from './renderers/Form/Editor';
-import {FieldSetControlSchema} from './renderers/Form/FieldSet';
-import {FormulaControlSchema} from './renderers/Form/Formula';
-import {GroupControlSchema} from './renderers/Form/Group';
-import {HiddenControlSchema} from './renderers/Form/Hidden';
-import {IconPickerControlSchema} from './renderers/Form/IconPicker';
-import {InputCityControlSchema} from './renderers/Form/InputCity';
-import {InputColorControlSchema} from './renderers/Form/InputColor';
+import {AMISChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
+import {AMISCheckboxControlSchema} from './renderers/Form/Checkbox';
+import {AMISCheckboxesControlSchema} from './renderers/Form/Checkboxes';
+import {AMISComboControlSchema} from './renderers/Form/Combo';
+import {AMISConditionBuilderControlSchema} from './renderers/Form/ConditionBuilder';
+import {AMISDiffControlSchema} from './renderers/Form/DiffEditor';
+import {AMISEditorControlSchema} from './renderers/Form/Editor';
+import {AMISFieldSetControlSchema} from './renderers/Form/FieldSet';
+import {AMISFormulaControlSchema} from './renderers/Form/Formula';
+import {AMISGroupControlSchema} from './renderers/Form/Group';
+import {AMISHiddenControlSchema} from './renderers/Form/Hidden';
+import {AMISIconPickerControlSchema} from './renderers/Form/IconPicker';
+import {AMISInputCityControlSchema} from './renderers/Form/InputCity';
+import {AMISInputColorControlSchema} from './renderers/Form/InputColor';
 import {
-  DateControlSchema,
-  DateTimeControlSchema,
-  TimeControlSchema,
-  MonthControlSchema,
-  QuarterControlSchema,
-  YearControlSchema
+  AMISDateControlSchema,
+  AMISDateTimeControlSchema,
+  AMISTimeControlSchema,
+  AMISMonthControlSchema,
+  AMISQuarterControlSchema,
+  AMISYearControlSchema
 } from './renderers/Form/InputDate';
-import {DateRangeControlSchema} from './renderers/Form/InputDateRange';
-import {FileControlSchema} from './renderers/Form/InputFile';
-import {InputGroupControlSchema} from './renderers/Form/InputGroup';
-import {ImageControlSchema} from './renderers/Form/InputImage';
-import {MonthRangeControlSchema} from './renderers/Form/InputMonthRange';
-import {QuarterRangeControlSchema} from './renderers/Form/InputQuarterRange';
-import {NumberControlSchema} from './renderers/Form/InputNumber';
-import {RangeControlSchema} from './renderers/Form/InputRange';
-import {RatingControlSchema} from './renderers/Form/InputRating';
-import {RepeatControlSchema} from './renderers/Form/InputRepeat';
-import {RichTextControlSchema} from './renderers/Form/InputRichText';
-import {SubFormControlSchema} from './renderers/Form/InputSubForm';
-import {TableControlSchema} from './renderers/Form/InputTable';
-import {TagControlSchema} from './renderers/Form/InputTag';
-import {TextControlSchema} from './renderers/Form/InputText';
-import {TreeControlSchema} from './renderers/Form/InputTree';
-import {ListControlSchema} from './renderers/Form/ListSelect';
-import {LocationControlSchema} from './renderers/Form/LocationPicker';
-import {MatrixControlSchema} from './renderers/Form/MatrixCheckboxes';
-import {NestedSelectControlSchema} from './renderers/Form/NestedSelect';
-import {PickerControlSchema} from './renderers/Form/Picker';
-import {RadiosControlSchema} from './renderers/Form/Radios';
-import {SelectControlSchema} from './renderers/Form/Select';
-import {StaticExactControlSchema} from './renderers/Form/Static';
-import {SwitchControlSchema} from './renderers/Form/Switch';
-import {TabsTransferControlSchema} from './renderers/Form/TabsTransfer';
-import {TextareaControlSchema} from './renderers/Form/Textarea';
-import {TransferControlSchema} from './renderers/Form/Transfer';
-import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
-import {UUIDControlSchema} from './renderers/Form/UUID';
-import {FormControlSchema} from './renderers/Form/Control';
-import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
-import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
-import {UserSelectControlSchema} from './renderers/Form/UserSelect';
+import {AMISDateRangeControlSchema} from './renderers/Form/InputDateRange';
+import {AMISFileControlSchema} from './renderers/Form/InputFile';
+import {AMISInputGroupControlSchema} from './renderers/Form/InputGroup';
+import {AMISImageControlSchema} from './renderers/Form/InputImage';
+import {AMISMonthRangeControlSchema} from './renderers/Form/InputMonthRange';
+import {AMISQuarterRangeControlSchema} from './renderers/Form/InputQuarterRange';
+import {AMISNumberControlSchema} from './renderers/Form/InputNumber';
+import {AMISInputRangeSchema} from './renderers/Form/InputRange';
+import {AMISInputRatingSchema} from './renderers/Form/InputRating';
+import {AMISInputRepeatSchema} from './renderers/Form/InputRepeat';
+import {AMISInputRichTextSchema} from './renderers/Form/InputRichText';
+import {AMISInputSubFormSchema} from './renderers/Form/InputSubForm';
+import {AMISInputTableSchema} from './renderers/Form/InputTable';
+import {AMISInputTagSchema} from './renderers/Form/InputTag';
+import {AMISTextControlSchema} from './renderers/Form/InputText';
+import {AMISInputTreeSchema} from './renderers/Form/InputTree';
+import {AMISListControlSchema} from './renderers/Form/ListSelect';
+import {AMISLocationControlSchema} from './renderers/Form/LocationPicker';
+import {AMISMatrixControlSchema} from './renderers/Form/MatrixCheckboxes';
+import {AMISNestedSelectControlSchema} from './renderers/Form/NestedSelect';
+import {AMISPickerSchema} from './renderers/Form/Picker';
+import {AMISRadiosControlSchema} from './renderers/Form/Radios';
+import {AMISSelectSchema} from './renderers/Form/Select';
+import {AMISStaticSchema} from './renderers/Form/Static';
+import {AMISSwitchSchema} from './renderers/Form/Switch';
+import {AMISTabsTransferSchema} from './renderers/Form/TabsTransfer';
+import {AMISTextareaSchema} from './renderers/Form/Textarea';
+import {AMISTransferSchema} from './renderers/Form/Transfer';
+import {AMISTreeSelectSchema} from './renderers/Form/TreeSelect';
+import {AMISUuidSchema} from './renderers/Form/UUID';
+import {AMISFormControlSchema} from './renderers/Form/Control';
+import {AMISTransferPickerSchema} from './renderers/Form/TransferPicker';
+import {AMISTabsTransferPickerSchema} from './renderers/Form/TabsTransferPicker';
+import {AMISUsersSelectSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
-import {InputSignatureSchema} from './renderers/Form/InputSignature';
-import {TableSchema2} from './renderers/Table2';
+import {AMISInputSignatureSchema} from './renderers/Form/InputSignature';
+import {AMISTableSchema2} from './renderers/Table2';
+import {AMISAppSchema} from './renderers/App';
+import {AMISWebComponentSchema} from './renderers/WebComponent';
+import {AMISIShapeSchema} from './renderers/Shape';
+import {AMISMarkdownSchema} from './renderers/Markdown';
+import {AMISCustomSchema} from './renderers/Custom';
+import {AIMSAMISSchema} from './renderers/AMIS';
+import {AMISBreadcrumbSchema} from './renderers/Breadcrumb';
+import {AMISBarCodeSchema} from './renderers/BarCode';
+import {AMISCodeSchema} from './renderers/Code';
+import {AMISLogSchema} from './renderers/Log';
+import {AMISNumberSchema} from './renderers/Number';
+import {AMISOfficeViewerSchema} from './renderers/OfficeViewer';
+import {AMISPdfViewerSchema} from './renderers/PdfViewer';
+import {AMISPropertySchema} from './renderers/Property';
+import {AMISTagSchema} from './renderers/Tag';
+import {AMISTableViewSchema} from './renderers/TableView';
 import {
   BaseSchemaWithoutType,
   FormBaseControl,
-  FormOptionsControlSelf,
+  AMISFormItem,
+  AMISFormItemWithOptions,
   FormOptionsControl,
-  SchemaClassName,
-  SchemaExpression
+  AMISClassName,
+  SchemaExpression,
+  AMISSchema,
+  AMISSchemaType,
+  AMISSchemaCollection
 } from 'amis-core';
-import type {FormSchemaBase, TestIdBuilder} from 'amis-core';
-import {MultilineTextSchema} from './renderers/MultilineText';
-import {DateRangeSchema} from './renderers/DateRange';
-import {PasswordSchema} from './renderers/Password';
-import {WordsSchema} from './renderers/Words';
-import {RadioControlSchema} from './renderers/Form/Radio';
-import {SliderSchema} from './renderers/Slider';
+import type {
+  AMISApi,
+  AMISApiObject,
+  AMISButtonSchema,
+  AMISDefaultData,
+  AMISFeedbackDialog,
+  AMISFunction,
+  AMISIcon,
+  AMISLegacyActionSchema,
+  AMISMessageConfig,
+  AMISOption,
+  AMISRedirect,
+  AMISReloadTarget,
+  AMISRemarkBase,
+  AMISSchemaBase,
+  AMISTemplate,
+  AMISToastBase,
+  AMISTokenizeableString,
+  AMISTooltip,
+  AMISUrlPath,
+  AMISVariableName,
+  FormSchemaBase,
+  TestIdBuilder
+} from 'amis-core';
+import {AMISDateRangeSchema} from './renderers/DateRange';
+import {AMISPasswordSchema} from './renderers/Password';
+import {AMISWordsSchema} from './renderers/Words';
+import {AMISRadioControlSchema} from './renderers/Form/Radio';
+import {AMISSliderSchema} from './renderers/Slider';
+import {AMISMultilineTextSchema} from './renderers/MultilineText';
+import {AMISDialogSchema} from './renderers/Dialog';
 
-// 每加个类型，这补充一下。
-export type SchemaType =
-  | 'form'
-  | 'alert'
-  | 'app'
-  | 'audio'
-  | 'avatar'
-  | 'button-group'
-  | 'breadcrumb'
-  | 'card'
-  | 'card2'
-  | 'cards'
-  | 'carousel'
-  | 'chart'
-  | 'calendar'
-  | 'collapse'
-  | 'collapse-group'
-  | 'color'
-  | 'crud'
-  | 'crud2'
-  | 'custom'
-  | 'date'
-  | 'static-date' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'datetime'
-  | 'static-datetime' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'time'
-  | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'month'
-  | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'date-range'
-  | 'dialog'
-  | 'spinner'
-  | 'divider'
-  | 'dropdown-button'
-  | 'drawer'
-  | 'each'
-  | 'flex'
-  | 'flex-item'
-  | 'grid-2d'
-  | 'icon'
-  | 'iframe'
-  | 'image'
-  | 'static-image' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'images'
-  | 'static-images' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'json-schema'
-  | 'json-schema-editor'
-  | 'json'
-  | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'link'
-  | 'list'
-  | 'log'
-  | 'static-list' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'map'
-  | 'mapping'
-  | 'markdown'
-  | 'nav'
-  | 'number'
-  | 'page'
-  | 'pagination'
-  | 'pagination-wrapper'
-  | 'property'
-  | 'operation'
-  | 'plain'
-  | 'text'
-  | 'progress'
-  | 'qrcode'
-  | 'qr-code'
-  | 'barcode'
-  | 'remark'
-  | 'search-box'
-  | 'sparkline'
-  | 'status'
-  | 'table'
-  | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
-  | 'table2'
-  | 'html'
-  | 'tpl'
-  | 'tasks'
-  | 'vbox'
-  | 'video'
-  | 'wizard'
-  | 'wrapper'
-  | 'web-component'
-  | 'anchor-nav'
-  | 'steps'
-  | 'timeline'
-  | 'control'
-  | 'input-array'
-  | 'action' // button 的别名
-  | 'button'
-  | 'submit'
-  | 'reset'
-  | 'button-group-select'
-  | 'button-toolbar'
-  | 'chained-select'
-  | 'chart-radios'
-  | 'checkbox'
-  | 'checkboxes'
-  | 'input-city'
-  | 'input-color'
-  | 'combo'
-  | 'condition-builder'
-  | 'container'
-  | 'switch-container'
-  | 'input-date'
-  | 'input-datetime'
-  | 'input-time'
-  | 'input-quarter'
-  | 'input-year'
-  | 'input-year-range'
-  | 'input-month'
-  | 'input-date-range'
-  | 'input-time-range'
-  | 'input-datetime-range'
-  | 'input-excel'
-  | 'input-formula'
-  | 'diff-editor'
-  | 'office-viewer'
-  | 'pdf-viewer'
-  | 'input-signature'
-  | 'input-verification-code'
-  | 'shape'
+export type SchemaType = AMISSchemaType;
+export type SchemaObject = AMISSchema;
 
-  // editor 系列
-  | 'editor'
-  | 'bat-editor'
-  | 'c-editor'
-  | 'coffeescript-editor'
-  | 'cpp-editor'
-  | 'csharp-editor'
-  | 'css-editor'
-  | 'dockerfile-editor'
-  | 'fsharp-editor'
-  | 'go-editor'
-  | 'handlebars-editor'
-  | 'html-editor'
-  | 'ini-editor'
-  | 'java-editor'
-  | 'javascript-editor'
-  | 'json-editor'
-  | 'less-editor'
-  | 'lua-editor'
-  | 'markdown-editor'
-  | 'msdax-editor'
-  | 'objective-c-editor'
-  | 'php-editor'
-  | 'plaintext-editor'
-  | 'postiats-editor'
-  | 'powershell-editor'
-  | 'pug-editor'
-  | 'python-editor'
-  | 'r-editor'
-  | 'razor-editor'
-  | 'ruby-editor'
-  | 'sb-editor'
-  | 'scss-editor'
-  | 'sol-editor'
-  | 'sql-editor'
-  | 'swift-editor'
-  | 'typescript-editor'
-  | 'vb-editor'
-  | 'xml-editor'
-  | 'yaml-editor'
-
-  //
-  | 'fieldset'
-  | 'fieldSet'
-  | 'input-file'
-  | 'formula'
-  | 'grid'
-  | 'group'
-  | 'hbox'
-  | 'hidden'
-  | 'icon-picker'
-  | 'icon-select'
-  | 'input-image'
-  | 'input-group'
-  | 'list-select'
-  | 'location-picker'
-  | 'matrix-checkboxes'
-  | 'input-month-range'
-  | 'input-quarter-range'
-  | 'nested-select'
-  | 'input-number'
-  | 'panel'
-  | 'picker'
-  | 'radio'
-  | 'radios'
-  | 'input-range'
-  | 'input-rating'
-  | 'input-repeat'
-  | 'input-rich-text'
-  | 'select'
-  | 'service'
-  | 'static'
-  | 'input-sub-form'
-  | 'switch'
-  | 'input-table'
-  | 'tabs'
-  | 'tabs-transfer'
-  | 'input-tag'
-  | 'input-text'
-  | 'input-password'
-  | 'input-email'
-  | 'input-url'
-  | 'uuid'
-  | 'multi-select'
-  | 'textarea'
-  | 'transfer'
-  | 'transfer-picker'
-  | 'tabs-transfer-picker'
-  | 'input-tree'
-  | 'tree-select'
-  | 'table-view'
-  | 'portlet'
-  | 'grid-nav'
-  | 'users-select'
-  | 'tag'
-  | 'tags'
-  | 'words'
-  | 'password'
-  | 'multiline-text'
-  | 'amis'
-
-  // 原生 input 类型
-  | 'native-date'
-  | 'native-time'
-  | 'native-number'
-  | 'code'
-  | 'tooltip-wrapper'
-  | 'slider';
-
-export type SchemaObject =
-  | PageSchema
-  | FlexSchema
-  | TplSchema
-  | RemarkSchema
-  | ActionSchema
-  | AlertSchema
-  | AudioSchema
-  | AvatarSchema
-  | ButtonGroupSchema
-  | ButtonToolbarSchema
-  | CalendarSchema
-  | CardSchema
-  | CardsSchema
-  | CarouselSchema
-  | ChartSchema
-  | CollapseSchema
-  | CollapseGroupSchema
-  | ColorSchema
-  | ContainerSchema
-  | SwitchContainerSchema
-  | CRUDSchema
-  | CRUD2Schema
-  | DateSchema
-  | DialogSchema
-  | DividerSchema
-  | DrawerSchema
-  | DropdownButtonSchema
-  | EachSchema
-  | GridSchema
-  | Grid2DSchema
-  | HBoxSchema
-  | IconSchema
-  | IFrameSchema
-  | ImageSchema
-  | ImagesSchema
-  | JsonSchema
-  | LinkSchema
-  | ListSchema
-  | MappingSchema
-  | NavSchema
-  | OperationSchema
-  | PaginationSchema
-  | PaginationWrapperSchema
-  | PanelSchema
-  | PlainSchema
-  | ProgressSchema
-  | QRCodeSchema
-  | SearchBoxSchema
-  | ServiceSchema
-  | SparkLineSchema
-  | StatusSchema
-  | SpinnerSchema
-  | TableSchema
-  | TableSchema2
-  | TabsSchema
-  | TasksSchema
-  | VBoxSchema
-  | VideoSchema
-  | WizardSchema
-  | WrapperSchema
-  | TooltipWrapperSchema
-  | FormSchema
-  | AnchorNavSchema
-  | StepsSchema
-  | PortletSchema
-  | TimelineSchema
-
-  // 表单项
-  | FormControlSchema
-  | ArrayControlSchema
-  | ButtonGroupControlSchema
-  | ChainedSelectControlSchema
-  | CheckboxControlSchema
-  | CheckboxesControlSchema
-  | InputCityControlSchema
-  | InputColorControlSchema
-  | ComboControlSchema
-  | ConditionBuilderControlSchema
-  | DateControlSchema
-  | DateTimeControlSchema
-  | TimeControlSchema
-  | MonthControlSchema
-  | QuarterControlSchema
-  | YearControlSchema
-  | DateRangeControlSchema
-  | DiffControlSchema
-  | EditorControlSchema
-  | FieldSetControlSchema
-  | FileControlSchema
-  | FormulaControlSchema
-  | GroupControlSchema
-  | HiddenControlSchema
-  | IconPickerControlSchema
-  | ImageControlSchema
-  | InputGroupControlSchema
-  | ListControlSchema
-  | JSONSchemaEditorControlSchema
-  | InputSignatureSchema
-  | LocationControlSchema
-  | UUIDControlSchema
-  | MatrixControlSchema
-  | MonthRangeControlSchema
-  | QuarterRangeControlSchema
-  | NestedSelectControlSchema
-  | NumberControlSchema
-  | PickerControlSchema
-  | RadiosControlSchema
-  | RadioControlSchema
-  | RangeControlSchema
-  | RatingControlSchema
-  | RichTextControlSchema
-  | RepeatControlSchema
-  | SelectControlSchema
-  | SubFormControlSchema
-  | SwitchControlSchema
-  | StaticExactControlSchema
-  | TableControlSchema
-  | TabsTransferControlSchema
-  | TagControlSchema
-  | TextControlSchema
-  | TextareaControlSchema
-  | TransferControlSchema
-  | TransferPickerControlSchema
-  | TabsTransferPickerControlSchema
-  | TreeControlSchema
-  | TreeSelectControlSchema
-  | UserSelectControlSchema
-  | DateRangeSchema
-  | MultilineTextSchema
-  | PasswordSchema
-  | WordsSchema
-  | SliderSchema;
-
-export type SchemaCollection =
-  | SchemaObject
-  | SchemaTpl
-  | Array<SchemaObject | SchemaTpl>;
-
-export interface SchemaApiObject {
-  /**
-   * API 发送类型
-   */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp' | 'js';
-
-  /**
-   * API 发送目标地址
-   */
-  url: SchemaUrlPath;
-
-  /**
-   * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
-   */
-  data?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 默认数据映射中的key如果带点，或者带大括号，会转成对象比如：
-   *
-   * {
-   *   'a.b': '123'
-   * }
-   *
-   * 经过数据映射后变成
-   * {
-   *  a: {
-   *   b: '123
-   *  }
-   * }
-   *
-   * 如果想要关闭此功能，请设置 convertKeyToPath 为 false
-   */
-  convertKeyToPath?: boolean;
-
-  /**
-   * 用来做接口返回的数据映射。
-   */
-  responseData?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 如果 method 为 get 的接口，设置了 data 信息。
-   * 默认 data 会自动附带在 query 里面发送给后端。
-   *
-   * 如果想通过 body 发送给后端，那么请把这个配置成 false。
-   *
-   * 但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override
-   */
-  attachDataToQuery?: boolean;
-
-  /**
-   * 发送体的格式
-   */
-  dataType?: 'json' | 'form-data' | 'form';
-
-  /**
-   * 如果是文件下载接口，请配置这个。
-   */
-  responseType?: 'blob';
-
-  /**
-   * 携带 headers，用法和 data 一样，可以用变量。
-   */
-  headers?: {
-    [propName: string]: string | number;
-  };
-
-  /**
-   * 设置发送条件
-   */
-  sendOn?: SchemaExpression;
-
-  /**
-   * 默认都是追加模式，如果想完全替换把这个配置成 true
-   */
-  replaceData?: boolean;
-
-  /**
-   * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
-   *
-   * @default true
-   */
-  autoRefresh?: boolean;
-
-  /**
-   * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
-   * 如果你希望监控 url 外的变量，请配置 trackExpression。
-   */
-  trackExpression?: string;
-
-  /**
-   * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。
-   */
-  cache?: number;
-
-  /**
-   * 强制将数据附加在 query，默认只有 api 地址中没有用变量的时候 crud 查询接口才会
-   * 自动附加数据到 query 部分，如果想强制附加请设置这个属性。
-   * 对于那种临时加了个变量但是又不想全部参数写一遍的时候配置很有用。
-   */
-  forceAppendDataToQuery?: boolean;
-
-  /**
-   * qs 配置项
-   */
-  qsOptions?: {
-    arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';
-    indices?: boolean;
-    allowDots?: boolean;
-  };
-
-  /**
-   * autoFill 是否显示自动填充错误提示
-   */
-  silent?: boolean;
-
-  /**
-   * 文件下载时，指定文件名
-   */
-  downloadFileName?: string;
-}
-
-export type SchemaApi = string | SchemaApiObject;
-
-/**
- * 组件名字，这个名字可以用来定位，用于组件通信
- */
-export type SchemaName = string;
-
-/**
- * 配置刷新动作，这个动作通常在完成渲染器本省的固定动作后出发。
- *
- * 一般用来配置目标组件的 name 属性。多个目标可以用逗号隔开。
- *
- * 当目标是 windows 时表示刷新整个页面。
- *
- * 刷新目标的同时还支持传递参数如： `foo?a=${a}&b=${b},boo?c=${c}`
- */
-export type SchemaReload = string;
-
-/**
- * 页面跳转地址，支持相对地址。
- */
-export type SchemaRedirect = string;
-
-/**
- * 支持两种语法，但是不能混着用。分别是：
- *
- * 1. `${xxx}` 或者 `${xxx|upperCase}`
- * 2. `<%= data.xxx %>`
- *
- *
- * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
- */
-export type SchemaTpl = string;
-
-/**
- * 初始数据，设置得值可用于组件内部模板使用。
- */
-export type SchemaDefaultData = {
-  [propName: string]: any;
-};
+export type SchemaCollection = AMISSchemaCollection;
+export type SchemaApiObject = AMISApiObject;
+export type SchemaApi = AMISApi;
+export type SchemaName = AMISVariableName;
+export type SchemaReload = AMISReloadTarget;
+export type SchemaRedirect = AMISRedirect;
+export type SchemaTpl = AMISTemplate;
+export type SchemaDefaultData = AMISDefaultData;
 
 /**
  * 用来关联 json schema 的，不用管。
  */
 export type SchemaSchema = string;
+export type SchemaIcon = AMISIcon;
+export type SchemaTokenizeableString = AMISTokenizeableString;
+export type SchemaUrlPath = AMISUrlPath;
 
-/**
- * iconfont 里面的类名。
- */
-export type SchemaIcon = string;
-
-export type SchemaTokenizeableString = string;
-
-export type SchemaUrlPath = SchemaTokenizeableString;
-
-export type SchemaTooltip =
-  | string
-  | {
-      /**
-       * 标题
-       */
-      title?: string;
-
-      /**
-       * 内容
-       */
-      content: string;
-    };
+export type SchemaTooltip = AMISTooltip;
 
 /**
  * 消息文案配置，记住这个优先级是最低的，如果你的接口返回了 msg，接口返回的优先。
  */
-export type SchemaMessage = {
-  /**
-   * 获取失败时的提示
-   */
-  fetchFailed?: string;
+export type SchemaMessage = AMISMessageConfig;
+export type SchemaFunction = AMISFunction;
 
-  /**
-   * 获取成功的提示，默认为空。
-   */
-  fetchSuccess?: string;
-
-  /**
-   * 保存失败时的提示。
-   */
-  saveFailed?: string;
-
-  /**
-   * 保存成功时的提示。
-   */
-  saveSuccess?: string;
-};
-
-export type SchemaFunction = string;
-
-export interface BaseSchema extends BaseSchemaWithoutType {
+export interface BaseSchema extends AMISSchemaBase {
   type: SchemaType;
 
   testid?: string;
 }
 
-export interface Option {
-  /**
-   * 用来显示的文字
-   */
-  label?: string;
-
-  /**
-   * 可以用来给 Option 标记个范围，让数据展示更清晰。
-   *
-   * 这个只有在数值展示的时候显示。
-   */
-  scopeLabel?: string;
-
-  /**
-   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
-   */
-  value?: any;
-
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 支持嵌套
-   */
-  children?: Options;
-
-  /**
-   * 是否可见
-   */
-  visible?: boolean;
-
-  /**
-   * 最好不要用！因为有 visible 就够了。
-   *
-   * @deprecated 用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 描述，部分控件支持
-   */
-  description?: string;
-
-  /**
-   * 标记后数据延时加载
-   */
-  defer?: boolean;
-
-  /**
-   * 如果设置了，优先级更高，不设置走 source 接口加载。
-   */
-  deferApi?: SchemaApi;
-
+export interface Option extends AMISOption {
   /**
    * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
    */
@@ -807,115 +232,249 @@ export interface Option {
 }
 export interface Options extends Array<Option> {}
 
-export interface FeedbackDialog extends DialogSchemaBase {
-  /**
-   * 可以用来配置 feedback 的出现条件
-   */
-  visibleOn?: string;
+export type FeedbackDialog = AMISFeedbackDialog;
+export type ToastSchemaBase = AMISToastBase;
+export type FormBaseControlSchema = AMISFormItem;
 
-  /**
-   * feedback 弹框取消是否中断后续操作
-   */
-  skipRestOnCancel?: boolean;
+export interface FormOptionsSchema extends AMISFormItemWithOptions {}
 
-  /**
-   * feedback 弹框确认是否中断后续操作
-   */
-  skipRestOnConfirm?: boolean;
+export {AMISClassName, SchemaExpression};
+
+export type RootSchema = AMISPageSchema;
+
+declare module 'amis-core' {
+  interface AMISSchemaRegistry {
+    // 基础组件
+    'form': AMISFormSchema;
+    'alert': AMISAlertSchema;
+    'app': AMISAppSchema;
+    'audio': AMISAudioSchema;
+    'avatar': AMISAvatarSchema;
+    'button-group': AMISButtonGroupSchema;
+    'breadcrumb': AMISBreadcrumbSchema;
+    'card': AMISCardSchema;
+    'card2': AMISCardSchema;
+    'cards': AMISCardsSchema;
+    'carousel': AMISCarouselSchema;
+    'chart': AMISChartSchema;
+    'calendar': AMISCalendarSchema;
+    'collapse': AMISCollapseSchema;
+    'collapse-group': AMISCollapseGroupSchema;
+    'color': AMISColorSchema;
+    'crud': AMISCRUDSchema;
+    'crud2': AMISCRUD2Schema;
+    'custom': AMISCustomSchema;
+    'date': AMISDateSchema;
+    'static-date': AMISDateSchema;
+    'datetime': AMISDateTimeControlSchema;
+    'static-datetime': AMISDateTimeControlSchema;
+    'time': AMISTimeControlSchema;
+    'static-time': AMISTimeControlSchema;
+    'month': AMISMonthControlSchema;
+    'static-month': AMISMonthControlSchema;
+    'date-range': AMISDateRangeSchema;
+    'dialog': AMISDialogSchema;
+    'spinner': AMISSpinnerSchema;
+    'divider': AMISDividerSchema;
+    'dropdown-button': AMISDropdownButtonSchema;
+    'each': AMISEachSchema;
+    'flex': AMISFlexSchema;
+    'flex-item': AMISFlexSchema;
+    'grid-2d': AMISGrid2DSchema;
+    'icon': AMISIconSchema;
+    'iframe': AMISIFrameSchema;
+    'image': AMISImageSchema;
+    'static-image': AMISImageSchema;
+    'images': AMISImagesSchema;
+    'static-images': AMISImagesSchema;
+    'json-schema': JSONSchemaEditorControlSchema;
+    'json-schema-editor': JSONSchemaEditorControlSchema;
+    'json': AMISJsonSchema;
+    'static-json': AMISJsonSchema;
+    'link': AMISLinkSchema;
+    'list': AMISListSchema;
+    'log': AMISLogSchema;
+    'static-list': AMISListSchema;
+    'map': AMISLocationControlSchema;
+    'mapping': AMISMappingSchema;
+    'markdown': AMISMarkdownSchema;
+    'nav': AMISNavSchema;
+    'number': AMISNumberSchema;
+    'page': AMISPageSchema;
+    'pagination': AMISPaginationSchema;
+    'pagination-wrapper': AMISPaginationWrapperSchema;
+    'property': AMISPropertySchema;
+    'operation': AMISOperationSchema;
+    'plain': AMISPlainSchema;
+    'text': AMISTextControlSchema;
+    'progress': AMISProgressSchema;
+    'qrcode': AMISQRCodeSchema;
+    'qr-code': AMISQRCodeSchema;
+    'barcode': AMISBarCodeSchema;
+    'remark': RemarkSchema;
+    'search-box': AMISSearchBoxSchema;
+    'sparkline': AMISSparkLineSchema;
+    'status': AMISStatusSchema;
+    'table': AMISTableSchema;
+    'static-table': AMISInputTableSchema;
+    'table2': AMISTableSchema2;
+    'html': AMISTplSchema;
+    'tpl': AMISTplSchema;
+    'tasks': AMISTasksSchema;
+    'vbox': AMISVBoxSchema;
+    'video': AMISVideoSchema;
+    'wizard': AMISWizardSchema;
+    'wrapper': AMISWrapperSchema;
+    'web-component': AMISWebComponentSchema;
+    'anchor-nav': AMISAnchorNavSchema;
+    'steps': AMISStepsSchema;
+    'timeline': AMISTimelineSchema;
+    'control': AMISFormControlSchema;
+    'input-array': AMISArrayControlSchema;
+    'action': AMISLegacyActionSchema;
+    'button': AMISButtonSchema;
+    'submit': AMISButtonSchema;
+    'reset': AMISButtonSchema;
+    'button-group-select': ButtonGroupControlSchema;
+    'button-toolbar': AMISButtonToolbarSchema;
+    'chained-select': AMISChainedSelectControlSchema;
+    'chart-radios': AMISRadiosControlSchema;
+    'checkbox': AMISCheckboxControlSchema;
+    'checkboxes': AMISCheckboxesControlSchema;
+    'input-city': AMISInputCityControlSchema;
+    'input-color': AMISInputColorControlSchema;
+    'combo': AMISComboControlSchema;
+    'condition-builder': AMISConditionBuilderControlSchema;
+    'container': AMISContainerSchema;
+    'switch-container': AMISSwitchContainerSchema;
+    'input-date': AMISDateControlSchema;
+    'input-datetime': AMISDateTimeControlSchema;
+    'input-time': AMISTimeControlSchema;
+    'input-quarter': AMISQuarterControlSchema;
+    'input-year': AMISYearControlSchema;
+    'input-year-range': AMISDateRangeControlSchema;
+    'input-month': AMISMonthControlSchema;
+    'input-date-range': AMISDateRangeControlSchema;
+    'input-time-range': AMISDateRangeControlSchema;
+    'input-datetime-range': AMISDateRangeControlSchema;
+    'input-excel': AMISFileControlSchema;
+    'input-formula': AMISFormulaControlSchema;
+    'diff-editor': AMISDiffControlSchema;
+    'office-viewer': AMISOfficeViewerSchema;
+    'pdf-viewer': AMISPdfViewerSchema;
+    'input-signature': AMISInputSignatureSchema;
+    'input-verification-code': AMISTextControlSchema;
+    'shape': AMISIShapeSchema;
+
+    // Editor 系列
+    'editor': AMISEditorControlSchema;
+    'bat-editor': AMISEditorControlSchema;
+    'c-editor': AMISEditorControlSchema;
+    'coffeescript-editor': AMISEditorControlSchema;
+    'cpp-editor': AMISEditorControlSchema;
+    'csharp-editor': AMISEditorControlSchema;
+    'css-editor': AMISEditorControlSchema;
+    'dockerfile-editor': AMISEditorControlSchema;
+    'fsharp-editor': AMISEditorControlSchema;
+    'go-editor': AMISEditorControlSchema;
+    'handlebars-editor': AMISEditorControlSchema;
+    'html-editor': AMISEditorControlSchema;
+    'ini-editor': AMISEditorControlSchema;
+    'java-editor': AMISEditorControlSchema;
+    'javascript-editor': AMISEditorControlSchema;
+    'json-editor': AMISEditorControlSchema;
+    'less-editor': AMISEditorControlSchema;
+    'lua-editor': AMISEditorControlSchema;
+    'markdown-editor': AMISEditorControlSchema;
+    'msdax-editor': AMISEditorControlSchema;
+    'objective-c-editor': AMISEditorControlSchema;
+    'php-editor': AMISEditorControlSchema;
+    'plaintext-editor': AMISEditorControlSchema;
+    'postiats-editor': AMISEditorControlSchema;
+    'powershell-editor': AMISEditorControlSchema;
+    'pug-editor': AMISEditorControlSchema;
+    'python-editor': AMISEditorControlSchema;
+    'r-editor': AMISEditorControlSchema;
+    'razor-editor': AMISEditorControlSchema;
+    'ruby-editor': AMISEditorControlSchema;
+    'sb-editor': AMISEditorControlSchema;
+    'scss-editor': AMISEditorControlSchema;
+    'sol-editor': AMISEditorControlSchema;
+    'sql-editor': AMISEditorControlSchema;
+    'swift-editor': AMISEditorControlSchema;
+    'typescript-editor': AMISEditorControlSchema;
+    'vb-editor': AMISEditorControlSchema;
+    'xml-editor': AMISEditorControlSchema;
+    'yaml-editor': AMISEditorControlSchema;
+
+    // 表单项
+    'fieldset': AMISFieldSetControlSchema;
+    'fieldSet': AMISFieldSetControlSchema;
+    'input-file': AMISFileControlSchema;
+    'formula': AMISFormulaControlSchema;
+    'grid': AMISGridSchema;
+    'group': AMISGroupControlSchema;
+    'hbox': AMISHBoxSchema;
+    'hidden': AMISHiddenControlSchema;
+    'icon-picker': AMISIconPickerControlSchema;
+    'icon-select': AMISIconPickerControlSchema;
+    'input-image': AMISImageControlSchema;
+    'input-group': AMISInputGroupControlSchema;
+    'list-select': AMISListControlSchema;
+    'location-picker': AMISLocationControlSchema;
+    'matrix-checkboxes': AMISMatrixControlSchema;
+    'input-month-range': AMISMonthRangeControlSchema;
+    'input-quarter-range': AMISQuarterRangeControlSchema;
+    'nested-select': AMISNestedSelectControlSchema;
+    'input-number': AMISNumberControlSchema;
+    'panel': AMISPanelSchema;
+    'picker': AMISPickerSchema;
+    'radio': AMISRadioControlSchema;
+    'radios': AMISRadiosControlSchema;
+    'input-range': AMISInputRangeSchema;
+    'input-rating': AMISInputRatingSchema;
+    'input-repeat': AMISInputRepeatSchema;
+    'input-rich-text': AMISInputRichTextSchema;
+    'select': AMISSelectSchema;
+    'service': AMISServiceSchema;
+    'static': AMISStaticSchema;
+    'input-sub-form': AMISInputSubFormSchema;
+    'switch': AMISSwitchSchema;
+    'input-table': AMISInputTableSchema;
+    'tabs': AMISTabsSchema;
+    'tabs-transfer': AMISTabsTransferSchema;
+    'input-tag': AMISInputTagSchema;
+    'input-text': AMISTextControlSchema;
+    'input-password': AMISPasswordSchema;
+    'input-email': AMISTextControlSchema;
+    'input-url': AMISTextControlSchema;
+    'uuid': AMISUuidSchema;
+    'multi-select': AMISSelectSchema;
+    'textarea': AMISTextareaSchema;
+    'transfer': AMISTransferSchema;
+    'transfer-picker': AMISTransferPickerSchema;
+    'tabs-transfer-picker': AMISTabsTransferPickerSchema;
+    'input-tree': AMISInputTreeSchema;
+    'tree-select': AMISTreeSelectSchema;
+    'table-view': AMISTableViewSchema;
+    'portlet': AMISPortletSchema;
+    'grid-nav': AMISGridSchema;
+    'users-select': AMISUsersSelectSchema;
+    'tag': AMISTagSchema;
+    'tags': AMISTagSchema;
+    'words': AMISWordsSchema;
+    'password': AMISPasswordSchema;
+    'multiline-text': AMISMultilineTextSchema;
+    'amis': AIMSAMISSchema;
+
+    // 原生 input 类型
+    'native-date': AMISDateControlSchema;
+    'native-time': AMISTimeControlSchema;
+    'native-number': AMISNumberControlSchema;
+    'code': AMISCodeSchema;
+    'tooltip-wrapper': AMISTooltipWrapperSchema;
+    'slider': AMISSliderSchema;
+  }
 }
 
-export type RootSchema = PageSchema;
-
-export interface ToastSchemaBase extends BaseSchema {
-  /**
-   * 轻提示内容
-   */
-  items: Array<{
-    title?: SchemaCollection;
-    body: SchemaCollection;
-    level: 'info' | 'success' | 'error' | 'warning';
-    id: string;
-    position?:
-      | 'top-right'
-      | 'top-center'
-      | 'top-left'
-      | 'bottom-center'
-      | 'bottom-left'
-      | 'bottom-right'
-      | 'center';
-    closeButton?: boolean;
-    showIcon?: boolean;
-    timeout?: number;
-  }>;
-
-  /**
-   * 弹出位置
-   */
-  position:
-    | 'top-right'
-    | 'top-center'
-    | 'top-left'
-    | 'bottom-center'
-    | 'bottom-left'
-    | 'bottom-right'
-    | 'center';
-
-  /**
-   * 是否展示关闭按钮
-   */
-  closeButton: boolean;
-
-  /**
-   * 是否展示图标
-   */
-  showIcon?: boolean;
-
-  /**
-   * 持续时间
-   */
-  timeout: number;
-}
-
-/**
- * Form 表单渲染器。
- *
- * 说明：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index
- */
-export interface BaseFormSchema extends FormSchemaBase, BaseSchemaWithoutType {
-  /**
-   * 按钮集合，会固定在底部显示。
-   */
-  actions?: Array<ActionSchema>;
-
-  /**
-   * 表单项集合
-   */
-  body?: SchemaCollection;
-}
-
-export interface FormSchema extends BaseFormSchema {
-  /**
-   * 指定为表单渲染器。
-   */
-  type: 'form';
-}
-
-export interface FormBaseControlSchema extends FormBaseControl {
-  type: SchemaType;
-
-  /**
-   * 显示一个小图标, 鼠标放上去的时候显示提示内容
-   */
-  remark?: SchemaRemark;
-
-  /**
-   * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
-   */
-  labelRemark?: SchemaRemark;
-}
-
-export interface FormOptionsSchema
-  extends FormBaseControlSchema,
-    FormOptionsControlSelf {}
-
-export {SchemaClassName, SchemaExpression};
+export type RootRenderer = AMISPageSchema;

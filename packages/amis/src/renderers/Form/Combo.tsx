@@ -51,7 +51,7 @@ import {
 import {
   FormBaseControlSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
@@ -60,7 +60,7 @@ import type {SchemaTokenizeableString} from '../../Schema';
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItem, TestIdBuilder} from 'amis-core';
 
 export type ComboCondition = {
   test: string;
@@ -79,7 +79,7 @@ export type ComboSubControl = SchemaObject & {
   /**
    * 列类名，可以用来修改这类宽度。
    */
-  columnClassName?: SchemaClassName;
+  columnClassName?: AMISClassName;
   testid?: string;
 };
 
@@ -87,7 +87,7 @@ export type ComboSubControl = SchemaObject & {
  * Combo 组合输入框类型
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/combo
  */
-export interface BaseComboControlSchema extends FormBaseControlSchema {
+export interface BaseComboControlSchema extends AMISFormItem {
   /**
    * 单组表单项初始值。默认为 `{}`
    *
@@ -123,12 +123,12 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   /**
    * 内部单组表单项的类名
    */
-  formClassName?: SchemaClassName;
+  formClassName?: AMISClassName;
 
   /**
    * 新增按钮CSS类名
    */
-  addButtonClassName?: SchemaClassName;
+  addButtonClassName?: AMISClassName;
 
   /**
    * 新增按钮文字
@@ -292,7 +292,7 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   testIdBuilder?: TestIdBuilder;
 }
 
-export interface ComboControlSchema extends BaseComboControlSchema {
+export interface AMISComboControlSchema extends BaseComboControlSchema {
   /**
    * 指定为组合输入框类型
    */
@@ -311,7 +311,7 @@ function pickVars(vars: any, fields: Array<string>) {
 export interface ComboProps
   extends FormControlProps,
     Omit<
-      ComboControlSchema,
+      AMISComboControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   store: IComboStore;

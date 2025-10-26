@@ -17,9 +17,9 @@ import {
   getSchemaTpl
 } from 'amis-editor-core';
 
-import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis';
-import type {Api} from 'amis';
-import type {FormControlProps} from 'amis-core';
+import type {SchemaObject, SchemaApi} from 'amis';
+import type {Api, AMISButtonSchema} from 'amis';
+import type {AMISSchemaCollection, FormControlProps} from 'amis-core';
 import type {ActionSchema} from 'amis';
 import debounce from 'lodash/debounce';
 
@@ -53,7 +53,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * 顶部按钮集合
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 底部集合
@@ -68,7 +68,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * 触发Picker的按钮配置
    */
-  pickerBtnSchema?: ActionSchema;
+  pickerBtnSchema?: AMISButtonSchema;
 
   /**
    * picker标题
@@ -83,7 +83,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * picker模式的Schema
    */
-  pickerSchema?: SchemaCollection;
+  pickerSchema?: AMISSchemaCollection;
 
   /**
    * Picker数据源
@@ -156,7 +156,7 @@ export interface APIControlProps extends FormControlProps {
 export interface APIControlState {
   apiStr: string;
   selectedItem?: any[];
-  schema?: SchemaCollection;
+  schema?: AMISSchemaCollection;
   loading: boolean;
 }
 
@@ -403,14 +403,19 @@ export default class APIControl extends React.Component<
         <label className={cx(`${classPrefix}Form-label`)}>
           {label?.type ? render('label', label) : label || ''}
           {labelRemark
-            ? render('label-remark', {
-                type: 'remark',
-                icon: labelRemark.icon || 'warning-mark',
-                tooltip: labelRemark,
-                className: cx(`Form-lableRemark`, labelRemark?.className),
-                useMobileUI,
-                container: popOverContainer || env.getModalContainer
-              })
+            ? render(
+                'label-remark',
+                {
+                  type: 'remark',
+                  icon: labelRemark.icon || 'warning-mark',
+                  tooltip: labelRemark,
+                  className: cx(`Form-lableRemark`, labelRemark?.className),
+                  useMobileUI
+                },
+                {
+                  container: popOverContainer || env.getModalContainer
+                }
+              )
             : null}
         </label>
       </header>
@@ -475,7 +480,7 @@ export default class APIControl extends React.Component<
                 'ae-ApiControl-PickerBtn',
                 pickerBtnSchema?.className
               )
-            },
+            } as any,
             {
               onClick: async (e: React.MouseEvent<any>) => {
                 if (!isOpened && enablePickerMode) {
@@ -991,7 +996,7 @@ export default class APIControl extends React.Component<
       <>
         <div className={cx('ae-ApiControl', className, {border})}>
           {onlyTabs ? (
-            render('api-control-tabs', this.renderApiConfigTabs(true), {
+            render('api-control-tabs', this.renderApiConfigTabs(true) as any, {
               data: normalizeApi(value)
             })
           ) : (
@@ -1040,7 +1045,7 @@ export default class APIControl extends React.Component<
                   {enablePickerMode ? this.renderPickerSchema() : null}
                 </div>
 
-                {render('api-control-dialog', this.renderApiDialog(), {
+                {render('api-control-dialog', this.renderApiDialog() as any, {
                   data: normalizeApi(value)
                 })}
               </div>

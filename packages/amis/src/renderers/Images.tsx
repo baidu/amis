@@ -13,7 +13,7 @@ import {
 } from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
 import Transition, {
   ENTERED,
@@ -21,11 +21,12 @@ import Transition, {
   EXITING,
   EXITED
 } from 'react-transition-group/Transition';
+import {AMISSchemaBase} from 'amis-core';
 /**
  * 图片集展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */
-export interface ImagesSchema extends BaseSchema {
+export interface AMISImagesSchema extends AMISSchemaBase {
   /**
    * 指定为图片集渲染器
    */
@@ -96,17 +97,17 @@ export interface ImagesSchema extends BaseSchema {
   /**
    * 外层 CSS 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 列表 CSS 类名
    */
-  listClassName?: SchemaClassName;
+  listClassName?: AMISClassName;
 
   /**
    * 放大详情图 CSS 类名
    */
-  imageGallaryClassName?: SchemaClassName;
+  imageGallaryClassName?: AMISClassName;
 
   /**
    * 是否展示图片工具栏
@@ -188,7 +189,7 @@ export interface ImagesSchema extends BaseSchema {
 
 export interface ImagesProps
   extends RendererProps,
-    Omit<ImagesSchema, 'type' | 'className'> {
+    Omit<AMISImagesSchema, 'type' | 'className'> {
   delimiter: string;
   onEnlarge?: (
     info: ImageThumbProps & {

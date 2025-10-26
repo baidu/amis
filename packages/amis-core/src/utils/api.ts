@@ -931,7 +931,7 @@ export function isValidApi(api: string) {
 }
 
 export function isEffectiveApi(
-  api?: Api,
+  api?: Api | false,
   data?: any,
   initFetch?: boolean,
   initFetchOn?: string

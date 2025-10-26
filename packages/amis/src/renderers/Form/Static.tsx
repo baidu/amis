@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  AMISFormItem
+} from 'amis-core';
 import {TableCell} from '../Table';
 import PopOver, {SchemaPopOver} from '../PopOver';
 import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
@@ -18,7 +23,7 @@ import {
  * Static
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/static
  */
-export interface StaticExactControlSchema extends FormBaseControlSchema {
+export interface AMISStaticSchema extends AMISFormItem {
   type: 'static';
 
   /**

@@ -4,10 +4,10 @@ import {
   ConditionBuilderFields,
   ConditionBuilderType
 } from './types';
-import type {OperatorType} from 'amis-core';
+import type {AMISOperatorType} from 'amis-core';
 
 export interface BaseFieldConfig {
-  operations: Array<OperatorType>;
+  operations: Array<AMISOperatorType>;
 }
 
 export interface ConditionBuilderConfig {

@@ -34,16 +34,17 @@ import {
   SchemaApi,
   SchemaObject,
   SchemaExpression,
-  SchemaClassName
+  AMISClassName
 } from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
-import type {Option} from 'amis-core';
-import type {PaginationSchema} from '../Pagination';
+import type {AMISFormItemWithOptions, Option} from 'amis-core';
+import type {AMISPaginationSchema} from '../Pagination';
+import {AMISExpression} from 'amis-core';
 
 export interface BaseTransferControlSchema
-  extends FormOptionsSchema,
+  extends AMISFormItemWithOptions,
     SpinnerExtraProps {
   /**
    * 是否显示剪头
@@ -180,13 +181,13 @@ export interface BaseTransferControlSchema
    */
   pagination?: {
     /** 是否左侧选项分页，默认不开启 */
-    enable: SchemaExpression;
+    enable: AMISExpression;
     /** 分页组件CSS类名 */
-    className?: SchemaClassName;
+    className?: AMISClassName;
     /** 是否开启前端分页 */
     loadDataOnce?: boolean;
   } & Pick<
-    PaginationSchema,
+    AMISPaginationSchema,
     'layout' | 'maxButtons' | 'perPageAvailable' | 'popOverContainerSelector'
   >;
 }
@@ -195,7 +196,7 @@ export interface BaseTransferControlSchema
  * Transfer
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
  */
-export interface TransferControlSchema extends BaseTransferControlSchema {
+export interface AMISTransferSchema extends BaseTransferControlSchema {
   /**
    * 指定为 Transfer 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
@@ -206,7 +207,7 @@ export interface TransferControlSchema extends BaseTransferControlSchema {
 export interface BaseTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferControlSchema,
+      AMISTransferSchema,
       | 'type'
       | 'options'
       | 'className'

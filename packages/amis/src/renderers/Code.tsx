@@ -4,7 +4,7 @@
 import React from 'react';
 import isPlainObject from 'lodash/isPlainObject';
 import {BaseSchema} from '../Schema';
-import {Renderer, RendererProps, anyChanged} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps, anyChanged} from 'amis-core';
 import {getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {editor as EditorNamespace} from 'monaco-editor';
@@ -73,7 +73,7 @@ export interface CustomLang {
  * 代码高亮组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/code
  */
-export interface CodeSchema extends BaseSchema {
+export interface AMISCodeSchema extends AMISSchemaBase {
   type: 'code';
 
   /**
@@ -151,7 +151,7 @@ export interface CodeSchema extends BaseSchema {
 
 export interface CodeProps
   extends RendererProps,
-    Omit<CodeSchema, 'type' | 'className' | 'wrapperComponent'> {
+    Omit<AMISCodeSchema, 'type' | 'className' | 'wrapperComponent'> {
   wrapperComponent?: any;
 }
 

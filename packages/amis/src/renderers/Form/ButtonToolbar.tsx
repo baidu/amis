@@ -4,14 +4,15 @@ import {ActionSchema} from '../Action';
 import {
   FormControlProps,
   FormItem,
-  FormBaseControlWithoutSize
+  FormBaseControlWithoutSize,
+  AMISButtonSchema
 } from 'amis-core';
 
 /**
  * Button Toolar 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-toolbar
  */
-export interface ButtonToolbarSchema
+export interface AMISButtonToolbarSchema
   extends BaseSchema,
     FormBaseControlWithoutSize {
   /**
@@ -19,13 +20,13 @@ export interface ButtonToolbarSchema
    */
   type: 'button-toolbar';
 
-  buttons: Array<ActionSchema>;
+  buttons: Array<AMISButtonSchema>;
 }
 
 export interface ButtonToolbarProps
   extends FormControlProps,
     Omit<
-      ButtonToolbarSchema,
+      AMISButtonToolbarSchema,
       'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

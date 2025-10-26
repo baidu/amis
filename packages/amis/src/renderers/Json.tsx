@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 
 import type {InteractionProps} from 'react-json-view';
 import {autobind, getPropValue, noop} from 'amis-core';
@@ -17,7 +17,7 @@ export const JsonView = React.lazy(() =>
  * JSON 数据展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/json
  */
-export interface JsonSchema extends BaseSchema {
+export interface AMISJsonSchema extends AMISSchemaBase {
   /**
    * 指定为Json展示类型
    */
@@ -74,7 +74,7 @@ export interface JsonSchema extends BaseSchema {
   ellipsisThreshold?: number | false;
 }
 
-export interface JSONProps extends RendererProps, JsonSchema {
+export interface JSONProps extends RendererProps, AMISJsonSchema {
   levelExpand: number;
   className?: string;
   placeholder?: string;

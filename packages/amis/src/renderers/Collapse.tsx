@@ -8,15 +8,16 @@ import {
   autobind,
   resolveEventData,
   isPureVariable,
-  resolveVariableAndFilter,
+  AMISSchemaCollection,
   setThemeClassName,
-  CustomStyle
+  CustomStyle,
+  AMISSchemaBase
 } from 'amis-core';
 import {Collapse as BasicCollapse, Icon} from 'amis-ui';
-import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaTpl, SchemaObject} from '../Schema';
 import classNames from 'classnames';
 
-export interface BaseCollapseSchema extends BaseSchema {
+export interface BaseCollapseSchema extends AMISSchemaBase {
   /**
    * 标识
    */
@@ -30,7 +31,7 @@ export interface BaseCollapseSchema extends BaseSchema {
   /**
    * 标题
    */
-  header?: string | SchemaCollection;
+  header?: string | AMISSchemaCollection;
 
   /**
    * 配置 Body 容器 className
@@ -90,27 +91,27 @@ export interface BaseCollapseSchema extends BaseSchema {
    * 标题内容分割线
    */
   divideLine?: boolean;
+
+  /**
+   * 内容区域
+   */
+  body: AMISSchemaCollection;
 }
 
 /**
  * Collapse 折叠渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
-export interface CollapseSchema extends BaseCollapseSchema {
+export interface AMISCollapseSchema extends BaseCollapseSchema {
   /**
    * 指定为折叠器类型
    */
   type: 'collapse';
-
-  /**
-   * 内容区域
-   */
-  body: SchemaCollection;
 }
 
 export interface CollapseProps
   extends RendererProps,
-    Omit<CollapseSchema, 'type' | 'className'> {
+    Omit<AMISCollapseSchema, 'type' | 'className'> {
   wrapperComponent?: any;
   headingComponent?: any;
 

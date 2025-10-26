@@ -6,7 +6,8 @@ import {
   RendererProps,
   runActions,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaBase
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
@@ -20,7 +21,7 @@ import {dataMapping, resolveVariableAndFilter} from 'amis-core';
  * IFrame 渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/iframe
  */
-export interface IFrameSchema extends BaseSchema {
+export interface AMISIFrameSchema extends AMISSchemaBase {
   type: 'iframe';
 
   /**
@@ -50,7 +51,7 @@ export interface IFrameSchema extends BaseSchema {
 
 export interface IFrameProps
   extends RendererProps,
-    Omit<IFrameSchema, 'type' | 'className'> {
+    Omit<AMISIFrameSchema, 'type' | 'className'> {
   inDragging?: boolean;
 }
 

@@ -6,7 +6,8 @@ import {
   Overlay,
   PopOver,
   autobind,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import {
   FormItem,
@@ -24,7 +25,7 @@ import {isMobile} from 'amis-core';
  * Location 选点组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location
  */
-export interface LocationControlSchema extends FormBaseControlSchema {
+export interface AMISLocationControlSchema extends AMISFormItem {
   type: 'location-picker';
 
   /**
@@ -64,7 +65,7 @@ export interface LocationControlProps
   extends FormControlProps,
     Omit<ThemeProps, 'className'>,
     Omit<
-      LocationControlSchema,
+      AMISLocationControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   value: any;

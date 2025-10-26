@@ -31,7 +31,13 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   parsePrimitiveQueryString,
-  JSONTraverse
+  JSONTraverse,
+  AMISSchemaBase,
+  AMISSpinnerConfig,
+  AMISApi,
+  AMISLocalSource,
+  AMISExpression,
+  AMISSchemaCollection
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
 import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
@@ -44,9 +50,8 @@ import {
   SchemaTokenizeableString
 } from '../Schema';
 import {BaseCardsSchema} from './Cards';
-import {BaseListSchema} from './List';
+import {AMISListBase} from './List';
 import {BaseTableSchema2} from './Table2';
-import {SchemaCollection} from '../Schema';
 
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
@@ -55,7 +60,7 @@ import isEmpty from 'lodash/isEmpty';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
-export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
+export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**
    *  指定为 CRUD2 渲染器。
    */
@@ -69,12 +74,12 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 初始化数据 API
    */
-  api?: SchemaApi;
+  api?: AMISApi;
 
   /**
    * 也可以直接从环境变量中读取，但是不太推荐。
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 静默拉取
@@ -84,7 +89,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
    * 设置自动刷新时间
    */
   interval?: number;
-  stopAutoRefreshWhen?: SchemaExpression;
+  stopAutoRefreshWhen?: AMISExpression;
 
   /**
    * 数据展示模式 无限加载 or 分页
@@ -119,17 +124,17 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 快速编辑后用来批量保存的 API
    */
-  quickSaveApi?: SchemaApi;
+  quickSaveApi?: AMISApi;
 
   /**
    * 快速编辑配置成及时保存时使用的 API
    */
-  quickSaveItemApi?: SchemaApi;
+  quickSaveItemApi?: AMISApi;
 
   /**
    * 保存排序的 api
    */
-  saveOrderApi?: SchemaApi;
+  saveOrderApi?: AMISApi;
 
   /**
    * 是否将过滤条件的参数同步到地址栏,默认为true
@@ -164,7 +169,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 顶部区域
    */
-  headerToolbar?: SchemaCollection;
+  headerToolbar?: AMISSchemaCollection;
 
   /**
    * 顶部区域CSS类名
@@ -174,7 +179,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 底部区域
    */
-  footerToolbar?: SchemaCollection;
+  footerToolbar?: AMISSchemaCollection;
 
   /**
    * 底部区域CSS类名
@@ -285,13 +290,16 @@ export type CRUD2CardsSchema = CRUD2CommonSchema & {
 
 export type CRUD2ListSchema = CRUD2CommonSchema & {
   mode: 'list';
-} & BaseListSchema;
+} & AMISListBase;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
   mode?: 'table2';
 } & BaseTableSchema2;
 
-export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
+export type AMISCRUD2Schema =
+  | CRUD2CardsSchema
+  | CRUD2ListSchema
+  | CRUD2TableSchema;
 
 export interface CRUD2Props
   extends RendererProps,
@@ -1346,7 +1354,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     });
   }
 
-  renderToolbar(region: string, toolbar?: SchemaCollection) {
+  renderToolbar(region: string, toolbar?: AMISSchemaCollection) {
     if (!toolbar) {
       return null;
     }

@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
@@ -18,7 +19,7 @@ import {supportStatic} from './StaticHoc';
  * Radio 单选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
-export interface RadioControlSchema extends FormBaseControlSchema {
+export interface AMISRadioControlSchema extends AMISFormItem {
   /**
    * 指定为多行文本输入框
    */
@@ -50,7 +51,7 @@ export interface RadioControlSchema extends FormBaseControlSchema {
 export interface RadioProps
   extends FormControlProps,
     Omit<
-      RadioControlSchema,
+      AMISRadioControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   checked?: boolean;
@@ -104,7 +105,8 @@ export default class RadioControl extends React.Component<RadioProps, any> {
       partial,
       optionType,
       checked,
-      labelClassName
+      labelClassName,
+      classnames: cx
     } = this.props;
 
     return (
@@ -118,7 +120,7 @@ export default class RadioControl extends React.Component<RadioProps, any> {
         partial={partial}
         optionType={optionType}
         checked={checked}
-        labelClassName={labelClassName}
+        labelClassName={cx(labelClassName)}
       >
         {option ? render('option', option) : null}
       </Checkbox>
@@ -141,7 +143,8 @@ export default class RadioControl extends React.Component<RadioProps, any> {
       optionType,
       checked,
       labelClassName,
-      classPrefix: ns
+      classPrefix: ns,
+      classnames: cx
     } = this.props;
 
     return (
@@ -157,7 +160,7 @@ export default class RadioControl extends React.Component<RadioProps, any> {
           partial={partial}
           optionType={optionType}
           checked={checked}
-          labelClassName={labelClassName}
+          labelClassName={cx(labelClassName)}
         >
           {option ? render('option', option) : null}
         </Checkbox>

@@ -8,6 +8,8 @@ import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
 import {resolveVariableAndFilter} from 'amis-core';
 import {visibilityFilter} from 'amis-core';
 import {buildStyle} from 'amis-core';
+import {AMISExpression} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 export type PropertyItemProps = {
   /**
@@ -23,12 +25,12 @@ export type PropertyItemProps = {
   /**
    * 配置是否显示，如果不显示，后续的节点会补上来
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
 
   /**
    * 配置是否显示，如果不显示，后续的节点会补上来
    */
-  hiddenOn?: SchemaExpression;
+  hiddenOn?: AMISExpression;
 
   /**
    * 跨几列
@@ -42,7 +44,7 @@ export type PropertyItem = PropertyItemProps & SchemaObject;
  * Property 属性列表
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/property
  */
-export interface PropertySchema extends BaseSchema {
+export interface AMISPropertySchema extends AMISSchemaBase {
   /**
    * 指定为 property 展示类型
    */
@@ -101,7 +103,7 @@ export interface PropertySchema extends BaseSchema {
 
 export interface PropertyProps
   extends RendererProps,
-    Omit<PropertySchema, 'type' | 'className'> {}
+    Omit<AMISPropertySchema, 'type' | 'className'> {}
 
 interface PropertyContent {
   label: any;

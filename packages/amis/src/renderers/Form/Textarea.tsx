@@ -9,7 +9,7 @@ import {
   setThemeClassName
 } from 'amis-core';
 import {Textarea} from 'amis-ui';
-import type {ListenerAction} from 'amis-core';
+import type {AMISFormItem, ListenerAction} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import cx from 'classnames';
@@ -18,7 +18,7 @@ import cx from 'classnames';
  * TextArea 多行文本输入框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/textarea
  */
-export interface TextareaControlSchema extends FormBaseControlSchema {
+export interface AMISTextareaSchema extends AMISFormItem {
   /**
    * 指定为多行文本输入框
    */

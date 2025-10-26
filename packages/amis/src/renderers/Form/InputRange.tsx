@@ -23,6 +23,7 @@ import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 import type {SchemaTokenizeableString} from '../../Schema';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Range
@@ -34,7 +35,7 @@ export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 export type InputRangeRendererEvent = 'change' | 'blur' | 'focus';
 export type InputRangeRendererAction = 'clear';
-export interface RangeControlSchema extends FormBaseControlSchema {
+export interface AMISInputRangeSchema extends AMISFormItem {
   type: 'input-range';
 
   /**

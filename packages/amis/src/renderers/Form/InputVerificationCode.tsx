@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AMISFormItem,
   autobind,
   FormControlProps,
   FormItem,
@@ -8,7 +9,7 @@ import {
 import {FormBaseControlSchema} from '../../Schema';
 import {VerificationCode} from 'amis-ui';
 
-export interface VerificationCodeSchema extends FormBaseControlSchema {
+export interface VerificationCodeSchema extends AMISFormItem {
   value?: string;
   length?: number;
   /**

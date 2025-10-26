@@ -1,14 +1,13 @@
 import React from 'react';
 import {FormItem, FormControlProps} from 'amis-core';
-import {ComboStore, IComboStore} from 'amis-core';
+import {ComboStore, IComboStore, AMISSchemaCollection} from 'amis-core';
 import Combo, {BaseComboControlSchema} from './Combo';
-import {SchemaCollection} from '../../Schema';
 
 /**
  * InputArray 数组输入框。 combo 的别名。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/array
  */
-export interface ArrayControlSchema extends BaseComboControlSchema {
+export interface AMISArrayControlSchema extends BaseComboControlSchema {
   /**
    * 指定为数组输入框类型
    */
@@ -18,7 +17,7 @@ export interface ArrayControlSchema extends BaseComboControlSchema {
 export interface InputArrayProps
   extends FormControlProps,
     Omit<
-      ArrayControlSchema,
+      AMISArrayControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   store: IComboStore;

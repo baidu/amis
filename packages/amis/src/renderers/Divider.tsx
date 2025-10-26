@@ -5,21 +5,22 @@ import {
   CustomStyle,
   setThemeClassName,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Divider 分割线渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  */
-export interface DividerSchema extends BaseSchema {
+export interface AMISDividerSchema extends AMISSchemaBase {
   type: 'divider';
   lineStyle?: 'dashed' | 'solid';
   direction?: 'horizontal' | 'vertical';
   color?: string;
   rotate?: number;
-  title?: SchemaCollection;
+  title?: AMISSchemaCollection;
   titleClassName?: string;
   titlePosition?: 'left' | 'center' | 'right';
   [propName: string]: any;
@@ -27,7 +28,7 @@ export interface DividerSchema extends BaseSchema {
 
 export interface DividerProps
   extends RendererProps,
-    Omit<DividerSchema, 'type' | 'className'> {}
+    Omit<AMISDividerSchema, 'type' | 'className'> {}
 
 export default class Divider extends React.Component<DividerProps, object> {
   static defaultProps: Pick<

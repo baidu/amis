@@ -11,13 +11,13 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 
 import type {Position} from 'monaco-editor';
-import type {ListenerAction} from 'amis-core';
+import type {AMISFormItem, ListenerAction} from 'amis-core';
 
 /**
  * Diff 编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/diff
  */
-export interface DiffControlSchema extends FormBaseControlSchema {
+export interface AMISDiffControlSchema extends AMISFormItem {
   /**
    * 指定为 Diff 编辑器
    */
@@ -44,7 +44,7 @@ export type DiffEditorRendererEvent = 'blur' | 'focus';
 export interface DiffEditorProps
   extends FormControlProps,
     Omit<
-      DiffControlSchema,
+      AMISDiffControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

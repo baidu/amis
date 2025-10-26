@@ -10,18 +10,15 @@ import {
   ApiObject,
   autobind,
   isObject,
-  BaseSchemaWithoutType
+  BaseSchemaWithoutType,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
-import type {
-  BaseSchema,
-  SchemaApi,
-  SchemaCollection,
-  SchemaTokenizeableString
-} from '../Schema';
+import type {BaseSchema, SchemaApi, SchemaTokenizeableString} from '../Schema';
 import type {IconCheckedSchema} from 'amis-ui';
-import {CardSchema} from './Card';
+import {AMISCardSchema} from './Card';
 
 type DotSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -33,7 +30,7 @@ enum DirectionMode {
   alternate = 'alternate'
 }
 
-export interface TimelineItemSchema extends BaseSchemaWithoutType {
+export interface TimelineItemSchema extends AMISSchemaBase {
   /**
    * 时间点
    */
@@ -42,7 +39,7 @@ export interface TimelineItemSchema extends BaseSchemaWithoutType {
   /**
    * 时间节点标题
    */
-  title?: SchemaCollection;
+  title?: AMISSchemaCollection;
 
   /**
    * 详细内容
@@ -97,10 +94,10 @@ export interface TimelineItemSchema extends BaseSchemaWithoutType {
   /**
    * 卡片展示配置，如果传入则以卡片形式展示，传入对象转为卡片展示，传入的time、title、detail及相关属性将被忽略，只有连线配置和节点圆圈配置生效
    */
-  cardSchema?: CardSchema;
+  cardSchema?: AMISCardSchema;
 }
 
-export interface TimelineSchema extends BaseSchema {
+export interface AMISTimelineSchema extends AMISSchemaBase {
   /**
    * 指定为 Timeline 时间轴渲染器
    */
@@ -133,7 +130,7 @@ export interface TimelineSchema extends BaseSchema {
   /**
    * 节点title自定一展示模板
    */
-  itemTitleSchema?: SchemaCollection;
+  itemTitleSchema?: AMISSchemaCollection;
   /**
    * 图标的CSS类名
    */
@@ -154,12 +151,12 @@ export interface TimelineSchema extends BaseSchema {
   /**
    * 卡片展示配置，如果传入则将items数据传入cardSchema中循环渲染，itemTitleSchema、titleClassName、detailClassName将不生效。配置后 timeline item中的数据都将可以在cardSchema中通过数据方式引用。如果子节点也配置了cardSchema，则子节点的cardSchema优先级高于timeline的cardSchema
    */
-  cardSchema?: CardSchema;
+  cardSchema?: AMISCardSchema;
 }
 
 export interface TimelineProps
   extends RendererProps,
-    Omit<TimelineSchema, 'className'> {}
+    Omit<AMISTimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
   const {
@@ -182,7 +179,7 @@ export function TimelineCmpt(props: TimelineProps) {
   } = props;
 
   // 渲染内容
-  const resolveRender = (region: string, val?: SchemaCollection) =>
+  const resolveRender = (region: string, val?: AMISSchemaCollection) =>
     typeof val === 'string' ? filter(val, data) : val && render(region, val);
 
   // 处理源数据

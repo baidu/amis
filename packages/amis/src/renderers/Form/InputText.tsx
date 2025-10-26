@@ -27,7 +27,7 @@ import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
-import type {Option} from 'amis-core';
+import type {AMISFormItemWithOptions, Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -46,7 +46,7 @@ export type InputTextAddOn = ActionSchema & InputTextAddOnObject;
  * Text 文本输入框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-text
  */
-export interface TextControlSchema extends FormOptionsSchema {
+export interface AMISTextControlSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 InputText 渲染器。
    *

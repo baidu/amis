@@ -14,7 +14,8 @@ import {
   RendererProps,
   resolveVariableAndFilter,
   ScopedContext,
-  getGlobalOptions
+  getGlobalOptions,
+  AMISSchemaBase
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 
@@ -22,7 +23,7 @@ export const PdfView = React.lazy(
   () => import('amis-ui/lib/components/PdfViewer')
 );
 
-export interface PdfViewerSchema extends BaseSchema {
+export interface AMISPdfViewerSchema extends AMISSchemaBase {
   type: 'pdf-viewer';
   /**
    * 文件地址

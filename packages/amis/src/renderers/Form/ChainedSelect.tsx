@@ -8,7 +8,8 @@ import {
   resolveEventData,
   getVariable,
   setThemeClassName,
-  CustomStyle
+  CustomStyle,
+  AMISFormItemWithOptions
 } from 'amis-core';
 import {Select, Spinner} from 'amis-ui';
 import {Api, ApiObject} from 'amis-core';
@@ -24,7 +25,8 @@ import isEmpty from 'lodash/isEmpty';
  * 链式下拉框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
  */
-export interface ChainedSelectControlSchema extends FormOptionsSchema {
+export interface AMISChainedSelectControlSchema
+  extends AMISFormItemWithOptions {
   /**
    * 指定为链式下拉框
    * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
@@ -35,7 +37,7 @@ export interface ChainedSelectControlSchema extends FormOptionsSchema {
 export interface ChainedSelectProps
   extends OptionsControlProps,
     Omit<
-      ChainedSelectControlSchema,
+      AMISChainedSelectControlSchema,
       | 'options'
       | 'type'
       | 'source'

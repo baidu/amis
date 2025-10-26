@@ -19,7 +19,7 @@ import pick from 'lodash/pick';
  * TransferPicker 穿梭器的弹框形态
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer-picker
  */
-export interface TransferPickerControlSchema
+export interface AMISTransferPickerSchema
   extends BaseTransferControlSchema,
     SpinnerExtraProps {
   type: 'transfer-picker';
@@ -39,7 +39,7 @@ export interface TransferPickerControlSchema
 export interface TabsTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferPickerControlSchema,
+      AMISTransferPickerSchema,
       | 'type'
       | 'options'
       | 'inputClassName'

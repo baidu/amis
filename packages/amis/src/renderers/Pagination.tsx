@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   Renderer,
   RendererProps,
   autobind,
@@ -12,7 +13,7 @@ import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
 import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
 
-export interface PaginationSchema extends BaseSchema {
+export interface AMISPaginationSchema extends AMISSchemaBase {
   type: 'pagination';
 
   /**
@@ -90,7 +91,7 @@ export interface PaginationSchema extends BaseSchema {
 
 export interface PaginationProps
   extends RendererProps,
-    Omit<PaginationSchema, 'type' | 'className'> {}
+    Omit<AMISPaginationSchema, 'type' | 'className'> {}
 
 export default class Pagination extends React.Component<PaginationProps> {
   formatNumber(num: number | string | undefined, defaultValue?: number) {

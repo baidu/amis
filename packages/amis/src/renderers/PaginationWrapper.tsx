@@ -1,12 +1,12 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
 import {IPaginationStore, PaginationStore} from 'amis-core';
+import {AMISSchemaBase, AMISSchemaCollection} from 'amis-core';
 
 /**
  * 分页容器功能性渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination-wrapper
  */
-export interface PaginationWrapperSchema extends BaseSchema {
+export interface AMISPaginationWrapperSchema extends AMISSchemaBase {
   /**
    * 指定为分页容器功能性渲染器
    */
@@ -52,12 +52,12 @@ export interface PaginationWrapperSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 }
 
 export interface PaginationWrapProps
   extends RendererProps,
-    Omit<PaginationWrapperSchema, 'type' | 'className'> {
+    Omit<AMISPaginationWrapperSchema, 'type' | 'className'> {
   inputName: string;
   outputName: string;
   perPage: number;

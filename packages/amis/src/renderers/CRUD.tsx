@@ -9,9 +9,27 @@ import {
   createObjectFromChain,
   filterTarget,
   mapTree,
-  findTree
+  findTree,
+  AMISApi,
+  AMISButtonWithAction,
+  AMISName,
+  AMISFormBase,
+  AMISSchemaCollection,
+  AMISLegacyActionSchema,
+  AMISMessageConfig,
+  AMISFunction,
+  AMISLocalSource,
+  AMISSpinnerConfig,
+  AMISButton,
+  AMISButtonSchema
 } from 'amis-core';
-import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
+import {
+  SchemaNode,
+  Schema,
+  ActionObject,
+  PlainObject,
+  AMISExpression
+} from 'amis-core';
 import {CRUDStore, ICRUDStore, getMatchedEventTargets} from 'amis-core';
 import {
   createObject,
@@ -43,38 +61,37 @@ import {Icon, confirm} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaExpression,
   SchemaMessage,
   SchemaName,
-  SchemaObject,
+  SchemaObject as AMISSchema,
   SchemaTokenizeableString,
-  SchemaTpl,
-  SchemaCollection,
-  BaseFormSchema
+  SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {BaseCardsSchema} from './Cards';
-import {BaseListSchema} from './List';
+import {AMISListBase} from './List';
 import {TableSchema, BaseTableSchema} from './Table';
-import type {TableRendererEvent} from './Table';
-import type {CardsRendererEvent} from './Cards';
+import type {AMISTableBase, TableRendererEvent} from './Table';
+import type {AMISCardsBase, CardsRendererEvent} from './Cards';
 import {
   isPureVariable,
   resolveVariableAndFilter,
   parseQuery,
   parsePrimitiveQueryString,
-  isMobile
+  isMobile,
+  AMISSchemaBase
 } from 'amis-core';
 
-import type {PaginationProps} from './Pagination';
+import type {AMISPaginationSchema, PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
 import {AutoFoldedList} from 'amis-ui';
 
-interface LoadMoreConfig {
+interface AMISLoadMoreConfig {
   showIcon?: boolean;
   showText?: boolean;
   color?: string;
@@ -88,7 +105,7 @@ interface LoadMoreConfig {
   dataAppendTo?: 'top' | 'bottom';
 }
 
-export type CRUDBultinToolbarType =
+export type AMISCRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'
   | 'pagination'
@@ -101,20 +118,20 @@ export type CRUDBultinToolbarType =
   | 'export-csv'
   | 'export-excel';
 
-export interface CRUDBultinToolbar extends BaseSchemaWithoutType {
-  type: CRUDBultinToolbarType;
+export interface AMISCRUDBultinToolbar extends AMISSchemaBase {
+  type: AMISCRUDBultinToolbarType;
 }
 
-export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
+export type AMISCRUDToolbar = AMISSchema | AMISCRUDBultinToolbar;
 
-export type CRUDToolbarObject = {
+export type AMISCRUDToolbarExtra = {
   /**
    * 对齐方式
    */
   align?: 'left' | 'right';
 };
 
-export type AutoGenerateFilterObject = {
+export interface AMISAutoGenerateFilterObject {
   /**
    * 过滤条件单行列数
    */
@@ -142,36 +159,31 @@ export type AutoGenerateFilterObject = {
   /**
    * 启用批量操作的表达式
    */
-  enableBulkActionsOn?: SchemaExpression;
-};
+  enableBulkActionsOn?: AMISExpression;
+}
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
 
-export interface CRUDCommonSchemaWithoutType {
-  /**
-   * 指定内容区的展示模式。
-   */
-  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list';
-
+export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   /**
    * 初始化数据 API
    */
-  api?: SchemaApi;
+  api?: AMISApi;
 
   /**
    * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
    */
-  deferApi?: SchemaApi;
+  deferApi?: AMISApi;
 
   /**
    * 批量操作
    */
-  bulkActions?: Array<ActionSchema>;
+  bulkActions?: Array<AMISButtonSchema>;
 
   /**
    * 单条操作
    */
-  itemActions?: Array<ActionSchema>;
+  itemActions?: Array<AMISButtonSchema>;
 
   /**
    * 每页个数，默认为 10，如果不是请设置。
@@ -203,14 +215,14 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 是否可通过拖拽排序，通过表达式来配置
    */
-  draggableOn?: SchemaExpression;
+  draggableOn?: AMISExpression;
 
-  name?: SchemaName;
+  name?: AMISName;
 
   /**
    * 过滤器表单
    */
-  filter?: BaseFormSchema; // todo
+  filter?: AMISFormBase; // todo
 
   /**
    * 初始是否拉取
@@ -222,12 +234,12 @@ export interface CRUDCommonSchemaWithoutType {
    * 初始是否拉取，用表达式来配置。
    * @deprecated 建议用 api 的 sendOn 代替。
    */
-  initFetchOn?: SchemaExpression;
+  initFetchOn?: AMISExpression;
 
   /**
    * 配置内部 DOM 的 className
    */
-  innerClassName?: SchemaClassName;
+  innerClassName?: AMISClassName;
 
   /**
    * 设置自动刷新时间
@@ -265,17 +277,17 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 快速编辑后用来批量保存的 API
    */
-  quickSaveApi?: SchemaApi;
+  quickSaveApi?: AMISApi;
 
   /**
    * 快速编辑配置成及时保存时使用的 API
    */
-  quickSaveItemApi?: SchemaApi;
+  quickSaveItemApi?: AMISApi;
 
   /**
    * 保存排序的 api
    */
-  saveOrderApi?: SchemaApi;
+  saveOrderApi?: AMISApi;
 
   /**
    * 是否将过滤条件的参数同步到地址栏,默认为true
@@ -283,7 +295,7 @@ export interface CRUDCommonSchemaWithoutType {
    */
   syncLocation?: boolean;
 
-  toolbar?: SchemaCollection;
+  toolbar?: AMISSchemaCollection;
 
   /**
    * 工具栏是否为 inline 模式
@@ -293,23 +305,19 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<
-    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
-  >;
+  headerToolbar?: Array<AMISCRUDToolbar & AMISCRUDToolbarExtra>;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<
-    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
-  >;
+  footerToolbar?: Array<AMISCRUDToolbar & AMISCRUDToolbarExtra>;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
    */
   perPageAvailable?: Array<number>;
 
-  messages?: SchemaMessage;
+  messages?: AMISMessageConfig;
 
   /**
    * 是否隐藏快速编辑的按钮。
@@ -325,7 +333,7 @@ export interface CRUDCommonSchemaWithoutType {
    * 静默拉取
    */
   silentPolling?: boolean;
-  stopAutoRefreshWhen?: SchemaExpression;
+  stopAutoRefreshWhen?: AMISExpression;
 
   stopAutoRefreshWhenModalIsOpen?: boolean;
   filterTogglable?:
@@ -385,12 +393,22 @@ export interface CRUDCommonSchemaWithoutType {
    *  * `options.matchSorter` 系统默认的排序方法
    * @since 3.5.0
    */
-  matchFunc?: string | any;
+  matchFunc?: AMISFunction<
+    (
+      items: Array<any>,
+      itemsRaw: Array<any>,
+      options: {
+        query: Record<string, any>;
+        columns: Array<any>;
+        matchSorter: (items: Array<any>, value: string) => Array<any>;
+      }
+    ) => Array<any>
+  >;
 
   /**
    * 也可以直接从环境变量中读取，但是不太推荐。
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 如果时内嵌模式，可以通过这个来配置默认的展开选项。
@@ -420,12 +438,7 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
-
-  /**
-   * 内容区域占满屏幕剩余空间
-   */
-  autoFillHeight?: TableSchema['autoFillHeight'];
+  autoGenerateFilter?: AMISAutoGenerateFilterObject | boolean;
 
   /**
    * 是否开启Query信息转换，开启后将会对url中的Query进行转换，默认开启，默认仅转化布尔值
@@ -451,37 +464,28 @@ export interface CRUDCommonSchemaWithoutType {
   /**
    * 加载更多配置
    */
-  loadMoreProps?: LoadMoreConfig;
+  loadMoreProps?: AMISLoadMoreConfig;
 }
 
-export interface CRUDCommonSchema
-  extends CRUDCommonSchemaWithoutType,
-    BaseSchema,
-    SpinnerExtraProps {
+export interface AMISCRUDDefault extends AMISCRUDBase, AMISTableBase {
   /**
    *  指定为 CRUD 渲染器。
    */
   type: 'crud';
 }
 
-export interface CRUDCardsSchema
-  extends CRUDCommonSchemaWithoutType,
-    BaseCardsSchema {
+export interface AMISCRUDCards extends AMISCRUDBase, AMISCardsBase {
   mode: 'cards';
   type: 'crud';
 }
 
-export interface CRUDListSchema
-  extends CRUDCommonSchemaWithoutType,
-    BaseListSchema {
+export interface AMISCRUDList extends AMISCRUDBase, AMISListBase {
   mode: 'list';
   type: 'crud';
 }
 
-export interface CRUDTableSchema
-  extends CRUDCommonSchemaWithoutType,
-    BaseTableSchema {
-  mode?: 'table';
+export interface AMISCRUDTable extends AMISCRUDBase, AMISTableBase {
+  mode: 'table';
   type: 'crud';
 }
 
@@ -489,11 +493,17 @@ export interface CRUDTableSchema
  * CRUD 增删改查渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/crud
  */
-export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
+export type AMISCRUDSchema =
+  | AMISCRUDTable
+  | AMISCRUDCards
+  | AMISCRUDList
+  | AMISCRUDDefault;
+
+export type AMISCRUDCommonSchema = AMISCRUDCards | AMISCRUDList | AMISCRUDTable;
 
 export interface CRUDProps
   extends RendererProps,
-    Omit<CRUDCommonSchema, 'type' | 'className'>,
+    Omit<AMISCRUDBase, 'type' | 'className'>,
     SpinnerExtraProps {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
@@ -1121,7 +1131,10 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         '${items}',
         {
           columns: store.columns ?? columns,
-          matchFunc,
+          matchFunc:
+            typeof matchFunc === 'string'
+              ? (str2function(matchFunc) as any)
+              : matchFunc,
           totalField
         }
       );
@@ -2269,7 +2282,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       return false;
     }
 
-    let bulkBtns: Array<ActionSchema> = [];
+    let bulkBtns: Array<AMISButtonSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -2302,8 +2315,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     const selectedItems = store.selectedItems;
     const unSelectedItems = store.unSelectedItems;
 
-    let bulkBtns: Array<ActionSchema> = [];
-    let itemBtns: Array<ActionSchema> = [];
+    let bulkBtns: Array<AMISButtonSchema> = [];
+    let itemBtns: Array<AMISButtonSchema> = [];
     const ctx = createObject(store.mergedData, {
       currentPageData: (store.mergedData?.items || []).concat(),
       ...store.eventContext,
@@ -2361,7 +2374,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             {
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: btn.type || 'button'
-            },
+            } as AMISButtonSchema,
             {
               key: `bulk-${index}`,
               data: ctx,
@@ -2382,8 +2395,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             `bulk-action/${index}`,
             {
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: 'button'
-            },
+              type: btn.type || 'button'
+            } as AMISButtonSchema,
             {
               key: `item-${index}`,
               data: itemData,
@@ -2451,9 +2464,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         {render(
           'pagination',
           {
-            type: 'pagination',
-            testIdBuilder: testIdBuilder?.getChild('pagination')
-          },
+            type: 'pagination' as 'pagination'
+          } as AMISPaginationSchema,
           {
             ...extraProps,
             activePage: page,
@@ -2462,7 +2474,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             mode: store.mode,
             perPage: store.perPage,
             popOverContainer: this.parentContainer,
-            onPageChange: this.handleChangePage
+            onPageChange: this.handleChangePage,
+            testIdBuilder: testIdBuilder?.getChild('pagination')
           }
         )}
       </div>
@@ -2664,10 +2677,13 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
   }
 
   renderToolbar(
-    toolbar?: SchemaNode,
+    toolbar?: AMISCRUDToolbar & AMISCRUDToolbarExtra,
     index: number = 0,
     childProps: any = {},
-    toolbarRenderer?: (toolbar: SchemaNode, index: number) => React.ReactNode
+    toolbarRenderer?: (
+      toolbar: AMISCRUDToolbar & AMISCRUDToolbarExtra,
+      index: number
+    ) => React.ReactNode
   ) {
     if (!toolbar) {
       return null;
@@ -2679,7 +2695,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
     } else if (type === 'pagination') {
-      return this.renderPagination(toolbar);
+      return this.renderPagination(toolbar as AMISPaginationSchema);
     } else if (type === 'statistics') {
       return this.renderStatistics();
     } else if (type === 'switch-per-page') {
@@ -2691,7 +2707,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     } else if (type === 'export-csv') {
       return this.renderExportCSV(toolbar as Schema);
     } else if (type === 'reload') {
-      let reloadButton = {
+      let reloadButton: AMISButtonSchema = {
         label: '',
         icon: 'fa fa-sync',
         tooltip: __('reload'),
@@ -2758,7 +2774,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
 
     const $$editable = childProps.$$editable;
-    return render(`toolbar/${index}`, toolbar, {
+    return render(`toolbar/${index}`, toolbar as AMISSchemaCollection, {
       data: store.toolbarData,
       page: store.page,
       lastPage: store.lastPage,
@@ -2774,7 +2790,10 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
 
   renderHeaderToolbar(
     childProps: any,
-    toolbarRenderer?: (toolbar: SchemaNode, index: number) => React.ReactNode
+    toolbarRenderer?: (
+      toolbar: AMISCRUDToolbar & AMISCRUDToolbarExtra,
+      index: number
+    ) => React.ReactNode
   ) {
     let {toolbar, toolbarInline, headerToolbar} = this.props;
 
@@ -2791,7 +2810,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     }
 
     return this.renderToolbar(
-      headerToolbar || [],
+      (headerToolbar as any) || [],
       0,
       childProps,
       toolbarRenderer
@@ -2818,7 +2837,12 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
       }
     }
 
-    return this.renderToolbar(footerToolbar, 0, childProps, toolbarRenderer);
+    return this.renderToolbar(
+      footerToolbar as any,
+      0,
+      childProps,
+      toolbarRenderer as any
+    );
   }
 
   renderTag(item: any, index: number) {
@@ -2948,11 +2972,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         submitText: __('search'),
         ...filter,
         type: 'form',
-        api: null,
-        testIdBuilder: testIdBuilder?.getChild('filter')
+        api: undefined
       },
       {
         key: 'filter',
+        testIdBuilder: testIdBuilder?.getChild('filter'),
         panelClassName: cx(
           'Crud-filter',
           filter.panelClassName || 'Panel--default'

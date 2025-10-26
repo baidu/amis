@@ -2,6 +2,7 @@ import React from 'react';
 import merge from 'lodash/merge';
 import assign from 'lodash/assign';
 import {
+  AMISSchemaBase,
   isPureVariable,
   Renderer,
   RendererProps,
@@ -25,7 +26,7 @@ export interface StatusSource {
  * 状态展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/status
  */
-export interface StatusSchema extends BaseSchema {
+export interface AMISStatusSchema extends AMISSchemaBase {
   /**
    * 指定为状态展示控件
    */
@@ -79,7 +80,7 @@ export interface StatusSchema extends BaseSchema {
 
 export interface StatusProps
   extends RendererProps,
-    Omit<StatusSchema, 'className'> {}
+    Omit<AMISStatusSchema, 'className'> {}
 
 export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {

@@ -14,9 +14,9 @@ import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItem, TestIdBuilder} from 'amis-core';
 
-export interface BaseDateRangeControlSchema extends FormBaseControlSchema {
+export interface BaseAMISDateRangeControlSchema extends AMISFormItem {
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
    *
@@ -126,7 +126,8 @@ export interface BaseDateRangeControlSchema extends FormBaseControlSchema {
  * DateRange 日期范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
  */
-export interface DateRangeControlSchema extends BaseDateRangeControlSchema {
+export interface AMISDateRangeControlSchema
+  extends BaseAMISDateRangeControlSchema {
   /**
    * 指定为日期范围控件
    */
@@ -136,7 +137,7 @@ export interface DateRangeControlSchema extends BaseDateRangeControlSchema {
 export interface DateRangeProps
   extends FormControlProps,
     Omit<
-      DateRangeControlSchema,
+      AMISDateRangeControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   delimiter: string;

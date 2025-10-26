@@ -13,7 +13,7 @@ import {
   findTree,
   guid,
   noop,
-  ConditionRule
+  AMISConditionRule
 } from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
@@ -22,7 +22,7 @@ import defaultConfig, {ConditionBuilderConfig} from './config';
 import {FormulaPickerProps} from '../formula/Picker';
 import PickerContainer from '../PickerContainer';
 import ResultBox from '../ResultBox';
-import type {ConditionGroupValue, TestIdBuilder} from 'amis-core';
+import type {AMISConditionGroupValue, TestIdBuilder} from 'amis-core';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
@@ -37,9 +37,9 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   showANDOR?: boolean; // 是否显示并或切换键按钮
   showIf?: boolean; // 是否显示条件
   formulaForIf?: FormulaPickerProps;
-  value?: ConditionGroupValue;
+  value?: AMISConditionGroupValue;
   data?: any;
-  onChange: (value?: ConditionGroupValue) => void;
+  onChange: (value?: AMISConditionGroupValue) => void;
   config?: ConditionBuilderConfig;
   disabled?: boolean;
   draggable?: boolean;
@@ -61,7 +61,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
 }
 
 export interface ConditionBuilderState {
-  tmpValue: ConditionGroupValue;
+  tmpValue: AMISConditionGroupValue;
 }
 
 export class QueryBuilder extends React.Component<
@@ -239,7 +239,7 @@ export class QueryBuilder extends React.Component<
   }
 
   @autobind
-  highlightValue(value: ConditionGroupValue) {
+  highlightValue(value: AMISConditionGroupValue) {
     const {classnames: cx, translate: __} = this.props;
     const html = {
       __html: `<span class="label label-info">${__(
@@ -253,8 +253,8 @@ export class QueryBuilder extends React.Component<
   }
 
   renderBody(
-    onChange: (value: ConditionGroupValue) => void,
-    value?: ConditionGroupValue,
+    onChange: (value: AMISConditionGroupValue) => void,
+    value?: AMISConditionGroupValue,
     popOverContainer?: any
   ) {
     const {
@@ -391,8 +391,8 @@ export class QueryBuilder extends React.Component<
         size={'md'}
         popOverContainer={popOverContainer}
         bodyRender={(params: {
-          value: ConditionGroupValue;
-          onChange: (value: ConditionGroupValue) => void;
+          value: AMISConditionGroupValue;
+          onChange: (value: AMISConditionGroupValue) => void;
         }) => this.renderBody(params.onChange, params.value)}
         title={title}
       >

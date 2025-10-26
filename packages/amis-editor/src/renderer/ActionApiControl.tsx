@@ -17,9 +17,13 @@ import {
 } from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
-import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis';
+import type {SchemaObject, SchemaApi} from 'amis';
 import type {Api} from 'amis';
-import type {FormControlProps} from 'amis-core';
+import type {
+  FormControlProps,
+  AMISButtonSchema,
+  AMISSchemaCollection
+} from 'amis-core';
 import type {ActionSchema} from 'amis';
 
 export interface APIControlProps extends FormControlProps {
@@ -34,7 +38,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * 顶部按钮集合
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 底部集合
@@ -49,7 +53,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * 触发Picker的按钮配置
    */
-  pickerBtnSchema?: ActionSchema;
+  pickerBtnSchema?: AMISButtonSchema;
 
   /**
    * picker标题
@@ -64,7 +68,7 @@ export interface APIControlProps extends FormControlProps {
   /**
    * picker模式的Schema
    */
-  pickerSchema?: SchemaCollection;
+  pickerSchema?: AMISSchemaCollection;
 
   /**
    * Picker数据源
@@ -107,7 +111,7 @@ export interface APIControlProps extends FormControlProps {
 export interface APIControlState {
   apiStr: string;
   selectedItem?: any[];
-  schema?: SchemaCollection;
+  schema?: AMISSchemaCollection;
 }
 
 export default class APIControl extends React.Component<

@@ -9,10 +9,11 @@ import {
   ScopedContext,
   autobind,
   getPropValue,
-  setVariable
+  setVariable,
+  AMISSchemaBase
 } from 'amis-core';
 
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {SearchBox} from 'amis-ui';
 
 import {ListenerAction, TestIdBuilder} from 'amis-core';
@@ -21,7 +22,7 @@ import type {SpinnerExtraProps} from 'amis-ui';
 /**
  * 搜索框渲染器
  */
-export interface SearchBoxSchema extends BaseSchema {
+export interface AMISSearchBoxSchema extends AMISSchemaBase {
   /**
    * 指定为搜索框。
    *
@@ -32,7 +33,7 @@ export interface SearchBoxSchema extends BaseSchema {
   /**
    * 外层 css 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 关键字名字。
@@ -77,7 +78,7 @@ export interface SearchBoxSchema extends BaseSchema {
 
 interface SearchBoxProps
   extends RendererProps,
-    Omit<SearchBoxSchema, 'type' | 'className'>,
+    Omit<AMISSearchBoxSchema, 'type' | 'className'>,
     SpinnerExtraProps {
   name: string;
   onQuery?: (query: {[propName: string]: string}) => any;

@@ -17,14 +17,14 @@ import {localeable, LocaleProps} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItem, TestIdBuilder} from 'amis-core';
 
 /**
  * City 城市选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/city
  */
-export interface InputCityControlSchema
-  extends FormBaseControlSchema,
+export interface AMISInputCityControlSchema
+  extends AMISFormItem,
     SpinnerExtraProps {
   /**
    * 指定为城市选择框。
@@ -73,7 +73,7 @@ export interface InputCityControlSchema
 }
 
 export interface CityPickerProps
-  extends Omit<InputCityControlSchema, 'type' | 'className'>,
+  extends Omit<AMISInputCityControlSchema, 'type' | 'className'>,
     LocaleProps,
     ThemeProps {
   value: any;

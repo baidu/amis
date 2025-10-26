@@ -1,15 +1,15 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaCollection, SchemaTpl} from '../../Schema';
+import {SchemaTpl} from '../../Schema';
 import Collapse, {BaseCollapseSchema} from '../Collapse';
 import {FormBaseControlWithoutSize, BaseSchemaWithoutType} from 'amis-core';
-import type {FormHorizontal} from 'amis-core';
+import type {FormHorizontal, AMISSchemaCollection} from 'amis-core';
 
 /**
  * FieldSet 表单项集合
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/fieldset
  */
-export interface FieldSetControlSchema
+export interface AMISFieldSetControlSchema
   extends FormBaseControlWithoutSize,
     BaseSchemaWithoutType,
     BaseCollapseSchema {
@@ -36,7 +36,7 @@ export interface FieldSetControlSchema
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 标题
@@ -71,7 +71,7 @@ export interface FieldSetControlSchema
 export interface FieldSetProps
   extends RendererProps,
     Omit<
-      FieldSetControlSchema,
+      AMISFieldSetControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

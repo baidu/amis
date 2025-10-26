@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
+import {
+  FormItem,
+  FormBaseControl,
+  FormControlProps,
+  AMISFormItem
+} from 'amis-core';
 import {FormulaPicker} from 'amis-ui';
 import {autobind} from 'amis-core';
 
@@ -15,7 +20,7 @@ import type {FormulaPickerInputSettings} from 'amis-ui/lib/components/formula/Pi
  * InputFormula 公式编辑器
  * 文档：https://baidu.gitee.io/amis/zh-CN/components/form/input-formula
  */
-export interface BaseInputFormulaControlSchema extends FormBaseControlSchema {
+export interface BaseInputFormulaControlSchema extends AMISFormItem {
   /**
    * evalMode 即直接就是表达式，否则
    * 需要 ${这里面才是表达式}

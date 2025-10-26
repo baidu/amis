@@ -19,6 +19,7 @@ import {
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellRichTextValue, CellValue} from 'exceljs';
 import {Icon, TooltipWrapper} from 'amis-ui';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Excel 文件状态
@@ -72,7 +73,7 @@ export interface ExcelFile {
  * Excel 解析
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-excel
  */
-export interface InputExcelControlSchema extends FormBaseControlSchema {
+export interface InputExcelControlSchema extends AMISFormItem {
   /**
    * 指定为 Excel 解析
    */

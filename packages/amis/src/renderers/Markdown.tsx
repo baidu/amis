@@ -2,7 +2,7 @@
  * @file 用来渲染 Markdown
  */
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {LazyComponent} from 'amis-core';
@@ -13,7 +13,7 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
  * Markdown 渲染
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/markdown
  */
-export interface MarkdownSchema extends BaseSchema {
+export interface AMISMarkdownSchema extends AMISSchemaBase {
   /**
    * markdown 渲染
    */
@@ -41,7 +41,7 @@ function loadComponent(): Promise<any> {
 
 export interface MarkdownProps
   extends RendererProps,
-    Omit<MarkdownSchema, 'type' | 'className'> {}
+    Omit<AMISMarkdownSchema, 'type' | 'className'> {}
 
 interface MarkdownState {
   content: string;

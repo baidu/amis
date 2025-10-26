@@ -1,4 +1,4 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
   ListenerContext,

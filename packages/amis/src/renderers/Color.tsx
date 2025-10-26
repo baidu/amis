@@ -2,7 +2,7 @@
  * @file 用来展示颜色块。
  */
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 
@@ -10,7 +10,7 @@ import {getPropValue} from 'amis-core';
  * Color 显示渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/color
  */
-export interface ColorSchema extends BaseSchema {
+export interface AMISColorSchema extends AMISSchemaBase {
   /**
    *  指定为颜色显示控件
    */
@@ -29,7 +29,7 @@ export interface ColorSchema extends BaseSchema {
 
 export interface ColorProps
   extends RendererProps,
-    Omit<ColorSchema, 'type' | 'className'> {}
+    Omit<AMISColorSchema, 'type' | 'className'> {}
 
 export class ColorField extends React.Component<ColorProps, object> {
   static defaultProps = {

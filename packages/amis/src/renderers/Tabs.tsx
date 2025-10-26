@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  AMISExpression,
+  AMISSchemaBase,
+  AMISTokenizeableString,
   CustomStyle,
   Renderer,
   RendererProps,
@@ -16,14 +19,14 @@ import {
   createObject,
   getVariable,
   isObjectShallowModified,
-  BaseSchemaWithoutType
+  BaseSchemaWithoutType,
+  AMISSchemaCollection
 } from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from 'amis-ui';
 import {
   BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
+  AMISClassName,
   SchemaIcon,
   SchemaExpression,
   SchemaObject
@@ -38,7 +41,7 @@ import type {TabsMode} from 'amis-ui/lib/components/Tabs';
 import isNaN from 'lodash/isNaN';
 import debounce from 'lodash/debounce';
 
-export interface TabSchema extends BaseSchemaWithoutType {
+export interface TabSchema extends AMISSchemaBase {
   /**
    * Tab 标题
    */
@@ -48,12 +51,12 @@ export interface TabSchema extends BaseSchemaWithoutType {
    * 内容
    * @deprecated 用 body 属性
    */
-  tab?: SchemaCollection;
+  tab?: AMISSchemaCollection;
 
   /**
    * 内容
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 徽标
@@ -109,7 +112,7 @@ export interface TabSchema extends BaseSchemaWithoutType {
  * 选项卡控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
  */
-export interface TabsSchema extends BaseSchema {
+export interface AMISTabsSchema extends AMISSchemaBase {
   type: 'tabs';
 
   /**
@@ -130,12 +133,12 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 内容类名
    */
-  contentClassName?: SchemaClassName;
+  contentClassName?: AMISClassName;
 
   /**
    * 链接外层类名
    */
-  linksClassName?: SchemaClassName;
+  linksClassName?: AMISClassName;
 
   /**
    * 卡片是否只有在点开的时候加载？
@@ -200,12 +203,12 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 初始化激活的选项卡，hash值或索引值，支持使用表达式
    */
-  defaultKey?: SchemaExpression | number;
+  defaultKey?: AMISTokenizeableString | number;
 
   /**
    * 激活的选项卡，hash值或索引值，支持使用表达式
    */
-  activeKey?: SchemaExpression | number;
+  activeKey?: AMISTokenizeableString | number;
 
   /**
    * 超过多少个时折叠按钮
@@ -224,7 +227,7 @@ export interface TabsSchema extends BaseSchema {
 
 export interface TabsProps
   extends RendererProps,
-    Omit<TabsSchema, 'className' | 'contentClassName' | 'activeKey'> {
+    Omit<AMISTabsSchema, 'className' | 'contentClassName' | 'activeKey'> {
   activeKey?: string | number;
   defaultKey?: string | number;
   location?: any;

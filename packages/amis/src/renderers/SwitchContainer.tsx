@@ -7,13 +7,15 @@ import {
   CustomStyle,
   isVisible,
   setThemeClassName,
-  BaseSchemaWithoutType
+  BaseSchemaWithoutType,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 import {JSONSchema} from '../types';
 
-export interface StateSchema extends BaseSchemaWithoutType {
+export interface StateSchema extends AMISSchemaBase {
   /**
    * 状态标题
    */
@@ -22,7 +24,7 @@ export interface StateSchema extends BaseSchemaWithoutType {
   /**
    * 内容
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 显示条件
@@ -34,7 +36,7 @@ export interface StateSchema extends BaseSchemaWithoutType {
  * SwitchContainer 状态容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/state-container
  */
-export interface SwitchContainerSchema extends BaseSchema {
+export interface AMISSwitchContainerSchema extends AMISSchemaBase {
   /**
    * 指定为 container 类型
    */
@@ -55,7 +57,7 @@ export interface SwitchContainerSchema extends BaseSchema {
 
 export interface SwitchContainerProps
   extends RendererProps,
-    Omit<SwitchContainerSchema, 'type' | 'className' | 'style'> {
+    Omit<AMISSwitchContainerSchema, 'type' | 'className' | 'style'> {
   children?: (props: any) => React.ReactNode;
 }
 

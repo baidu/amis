@@ -1,14 +1,16 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  AMISExpression,
+  AMISSchemaBase,
+  Renderer,
+  RendererProps,
+  AMISSchemaCollection,
+  AMISSchema
+} from 'amis-core';
 import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import cx from 'classnames';
 import {isVisible, ucFirst} from 'amis-core';
-import {
-  BaseSchema,
-  SchemaCollection,
-  SchemaExpression,
-  SchemaObject
-} from '../Schema';
+import {BaseSchema, SchemaExpression, SchemaObject} from '../Schema';
 import {FormHorizontal} from 'amis-core';
 
 export type HBoxColumnObject = {
@@ -51,7 +53,7 @@ export type HBoxColumnObject = {
   /**
    * 内容区
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 是否显示
@@ -62,7 +64,7 @@ export type HBoxColumnObject = {
   /**
    * 是否显示表达式
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
 };
 
 export type HBoxColumn = HBoxColumnObject;
@@ -71,7 +73,7 @@ export type HBoxColumn = HBoxColumnObject;
  * Hbox 水平布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/hbox
  */
-export interface HBoxSchema extends BaseSchema {
+export interface AMISHBoxSchema extends AMISSchemaBase {
   /**
    * 指定为each展示类型
    */
@@ -103,7 +105,7 @@ export interface HBoxSchema extends BaseSchema {
   align?: 'left' | 'right' | 'between' | 'center';
 }
 
-export interface HBoxProps extends RendererProps, HBoxSchema {
+export interface HBoxProps extends RendererProps, AMISHBoxSchema {
   className: string;
   itemRender?: (
     item: any,
@@ -120,7 +122,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
     gap: 'xs'
   };
 
-  renderChild(region: string, node: Schema, props: any = {}) {
+  renderChild(region: string, node: AMISSchema, props: any = {}) {
     const {render} = this.props;
 
     return render(region, node, props);

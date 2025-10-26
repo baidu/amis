@@ -29,8 +29,8 @@ import {
 import {Html, Icon, OverflowTpl, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
-import type {TooltipWrapperSchema} from '../TooltipWrapper';
-import type {Option} from 'amis-core';
+import type {AMISTooltipWrapperSchema} from '../TooltipWrapper';
+import type {AMISFormItemWithOptions, Option} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 import {reaction} from 'mobx';
 import {AutoFoldedList} from 'amis-ui';
@@ -39,7 +39,7 @@ import {AutoFoldedList} from 'amis-ui';
  * Picker
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
  */
-export interface PickerControlSchema extends FormOptionsSchema {
+export interface AMISPickerSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 Picker 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
@@ -104,12 +104,12 @@ export interface PickerControlSchema extends FormOptionsSchema {
     /**
      * 开启最大标签展示数量后，选择器内收纳标签的Popover配置
      */
-    overflowTagPopover?: TooltipWrapperSchema;
+    overflowTagPopover?: AMISTooltipWrapperSchema;
 
     /**
      * 开启最大标签展示数量后，CRUD顶部内收纳标签的Popover配置
      */
-    overflowTagPopoverInCRUD?: TooltipWrapperSchema;
+    overflowTagPopoverInCRUD?: AMISTooltipWrapperSchema;
   };
 
   /**

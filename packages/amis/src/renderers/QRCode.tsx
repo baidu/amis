@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import {
   ActionObject,
+  AMISSchemaBase,
   IScopedContext,
   isNumeric,
   isObject,
@@ -14,7 +15,7 @@ import {
 import {FormItem, FormControlProps} from 'amis-core';
 import {filter} from 'amis-core';
 import {QRCode as QRCodeRender} from 'qrcode-react-next';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {getPropValue} from 'amis-core';
 import mapValues from 'lodash/mapValues';
 import {saveAs} from 'file-saver';
@@ -36,7 +37,7 @@ export interface QRCodeImageSettings {
  * 二维码展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  */
-export interface QRCodeSchema extends BaseSchema {
+export interface AMISQRCodeSchema extends AMISSchemaBase {
   type: 'qrcode' | 'qr-code';
 
   /**
@@ -47,7 +48,7 @@ export interface QRCodeSchema extends BaseSchema {
   /**
    * css 类名
    */
-  qrcodeClassName?: SchemaClassName;
+  qrcodeClassName?: AMISClassName;
 
   /**
    * 二维码的宽高大小，默认 128
@@ -128,7 +129,7 @@ export interface QRCodeSchema extends BaseSchema {
 
 export interface QRCodeProps
   extends FormControlProps,
-    Omit<QRCodeSchema, 'type' | 'className'> {}
+    Omit<AMISQRCodeSchema, 'type' | 'className'> {}
 
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {

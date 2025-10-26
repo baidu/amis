@@ -28,7 +28,7 @@ import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../WithRootStore';
-import {FormBaseControl, FormItemConfig, FormItemWrap} from './Item';
+import {AMISFormItem, FormItemConfig, FormItemWrap} from './Item';
 import {Api, DataChangeReason} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';

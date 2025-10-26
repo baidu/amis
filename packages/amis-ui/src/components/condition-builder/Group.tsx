@@ -7,7 +7,7 @@ import {
   localeable,
   LocaleProps,
   guid,
-  ConditionGroupValue,
+  AMISConditionGroupValue,
   someTree,
   isPureVariable,
   resolveVariableAndFilter
@@ -28,7 +28,7 @@ interface ConditionGroupState {
 export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full';
   config: ConditionBuilderConfig;
-  value?: ConditionGroupValue;
+  value?: AMISConditionGroupValue;
   fields: ConditionBuilderFields;
   funcs?: ConditionBuilderFuncs;
   showNot?: boolean;
@@ -38,7 +38,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   data?: any;
   disabled?: boolean;
   searchable?: boolean;
-  onChange: (value: ConditionGroupValue) => void;
+  onChange: (value: AMISConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
   draggable?: boolean;
@@ -87,7 +87,7 @@ export class ConditionGroup extends React.Component<
       id: guid(),
       conjunction: 'and',
       ...this.props.value
-    } as ConditionGroupValue;
+    } as AMISConditionGroupValue;
   }
 
   @autobind
@@ -288,7 +288,7 @@ export class ConditionGroup extends React.Component<
                   key={item.id}
                   fields={fields}
                   fieldClassName={fieldClassName}
-                  value={item as ConditionGroupValue}
+                  value={item as AMISConditionGroupValue}
                   index={index}
                   onChange={this.handleItemChange}
                   funcs={funcs}

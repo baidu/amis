@@ -8,7 +8,7 @@ import {
   resolveVariableAndFilter,
   createObject,
   evalExpression,
-  ConditionRule
+  AMISConditionRule
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -26,15 +26,16 @@ import {
   ConditionBuilder
 } from 'amis-ui';
 
-import {IconSchema} from '../Icon';
+import {AMISIconSchema} from '../Icon';
 import {isMobile} from 'amis-core';
 import type {BaseInputFormulaControlSchema} from './InputFormula';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * 条件组合控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/condition-builder
  */
-export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
+export interface AMISConditionBuilderControlSchema extends AMISFormItem {
   /**
    * 指定为
    */
@@ -48,7 +49,7 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   /**
    * 非内嵌模式时 弹窗触发icon
    */
-  pickerIcon?: IconSchema;
+  pickerIcon?: AMISIconSchema;
 
   /**
    * 函数集合
@@ -114,7 +115,7 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
 export interface ConditionBuilderProps
   extends FormControlProps,
     Omit<
-      ConditionBuilderControlSchema,
+      AMISConditionBuilderControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
@@ -166,7 +167,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
 
       let isEmpty = true;
       const allowRightEmpty = ['is_empty', 'is_not_empty'];
-      value?.children?.forEach((item: ConditionRule) => {
+      value?.children?.forEach((item: AMISConditionRule) => {
         // 如果左侧、操作符为空，必填不通过
         if (
           item.op &&

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
@@ -10,7 +10,7 @@ import {Link} from 'amis-ui';
  * Link 链接展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/link
  */
-export interface LinkSchema extends BaseSchema {
+export interface AMISLinkSchema extends AMISSchemaBase {
   /**
    * 指定为 link 链接展示控件
    */
@@ -54,7 +54,7 @@ export interface LinkSchema extends BaseSchema {
 
 export interface LinkProps
   extends RendererProps,
-    Omit<LinkSchema, 'type' | 'className'> {}
+    Omit<AMISLinkSchema, 'type' | 'className'> {}
 
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {

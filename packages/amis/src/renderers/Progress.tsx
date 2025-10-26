@@ -6,12 +6,13 @@ import {
   ActionObject,
   ScopedContext,
   IScopedContext,
-  ScopedComponentType
+  ScopedComponentType,
+  AMISSchemaBase
 } from 'amis-core';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 import cx from 'classnames';
-import {BaseSchema, SchemaClassName, SchemaTpl} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaTpl} from '../Schema';
 import {autobind, getPropValue, createObject} from 'amis-core';
 
 import {Progress} from 'amis-ui';
@@ -21,7 +22,7 @@ import type {ColorMapType} from 'amis-ui/lib/components/Progress';
  * 进度展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/progress
  */
-export interface ProgressSchema extends BaseSchema {
+export interface AMISProgressSchema extends AMISSchemaBase {
   type: 'progress';
 
   /**
@@ -42,7 +43,7 @@ export interface ProgressSchema extends BaseSchema {
   /**
    * 进度条 CSS 类名
    */
-  progressClassName?: SchemaClassName;
+  progressClassName?: AMISClassName;
 
   /**
    * 配置不同的值段，用不同的样式提示用户
@@ -104,7 +105,7 @@ export interface ProgressSchema extends BaseSchema {
 
 export interface ProgressProps
   extends RendererProps,
-    Omit<ProgressSchema, 'type' | 'className'> {}
+    Omit<AMISProgressSchema, 'type' | 'className'> {}
 
 interface ProgressState {
   value: number;

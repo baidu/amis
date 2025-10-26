@@ -1,18 +1,24 @@
 import React from 'react';
 import ButtonGroup from './Form/ButtonGroupSelect';
-import {Renderer} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
+import {
+  AMISExpression,
+  AMISLegacyActionSchema,
+  AMISSchemaBase,
+  Renderer,
+  AMISButtonSchema
+} from 'amis-core';
+import {BaseSchema, AMISClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**
  * Button Group 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-group
  */
-export interface BaseButtonGroupSchema extends BaseSchema {
+export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
   /**
    * @deprecated 给 Button 配置 className。建议用btnLevel
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * @deprecated 给选中态 Button 配置 className。建议用btnActiveLevel
@@ -22,7 +28,7 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   /**
    * 按钮集合
    */
-  buttons?: Array<ActionSchema>;
+  buttons?: Array<AMISButtonSchema>;
 
   /**
    * 按钮样式级别
@@ -52,7 +58,7 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   /**
    * 通过 JS 表达式来配置当前表单项的禁用状态。
    */
-  disabledOn?: SchemaExpression;
+  disabledOn?: AMISExpression;
 
   /**
    * 是否显示
@@ -62,7 +68,7 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   /**
    * 通过 JS 表达式来配置当前表单项是否显示
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
 
   /**
    * 按钮大小
@@ -70,7 +76,7 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-export interface ButtonGroupSchema extends BaseButtonGroupSchema {
+export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
   /**
    * 指定为提交按钮类型
    */

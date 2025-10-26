@@ -3,6 +3,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
+import {AMISSchemaBase} from 'amis-core';
 
 export type GridObject = {
   /**
@@ -57,7 +58,7 @@ export type Grid = GridObject & SchemaObject;
  * 二维布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid-2d
  */
-export interface Grid2DSchema extends BaseSchema {
+export interface AMISGrid2DSchema extends AMISSchemaBase {
   /**
    * 指定为 grid-2d 展示类型
    */
@@ -96,7 +97,7 @@ export interface Grid2DSchema extends BaseSchema {
 
 export interface Grid2DProps
   extends RendererProps,
-    Omit<Grid2DSchema, 'type' | 'className'> {
+    Omit<AMISGrid2DSchema, 'type' | 'className'> {
   itemRender?: (
     item: any,
     key: number,

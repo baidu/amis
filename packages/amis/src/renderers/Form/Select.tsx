@@ -18,23 +18,25 @@ import {
   TestIdBuilder,
   getVariable,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISFormItemWithOptions,
+  AMISSpinnerConfig
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
+import {BaseTransferRenderer, AMISTransferSchema} from './Transfer';
 import {supportStatic} from './StaticHoc';
 
-import type {SchemaClassName} from '../../Schema';
+import type {AMISClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 
 /**
  * Select 下拉选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
  */
-export interface SelectControlSchema
-  extends FormOptionsSchema,
-    SpinnerExtraProps {
+export interface AMISSelectSchema
+  extends AMISFormItemWithOptions,
+    AMISSpinnerConfig {
   /**
    * 指定为 Select 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
@@ -143,7 +145,7 @@ export interface SelectControlSchema
   /**
    * 选项的自定义CSS类名
    */
-  optionClassName?: SchemaClassName;
+  optionClassName?: AMISClassName;
 
   /**
    * 下拉框 Popover 设置
@@ -669,7 +671,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 export interface TransferDropDownProps
   extends OptionsControlProps,
     Omit<
-      TransferControlSchema,
+      AMISTransferSchema,
       | 'type'
       | 'options'
       | 'inputClassName'

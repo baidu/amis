@@ -9,14 +9,15 @@ import {
   ScopedContext,
   createObject,
   resolveVariableAndFilter,
-  isPureVariable
+  isPureVariable,
+  AMISSchemaBase
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {LocaleProps, localeable} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {handleAction} from 'amis-core';
 import type {
   ImageAction,
@@ -35,7 +36,7 @@ export interface ImageToolbarAction {
  * 图片展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/image
  */
-export interface ImageSchema extends BaseSchema {
+export interface AMISImageSchema extends AMISSchemaBase {
   /**
    * 指定为图片展示类型
    */
@@ -104,25 +105,25 @@ export interface ImageSchema extends BaseSchema {
   /**
    * 外层 css 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /** 组件内层 css 类名 */
-  innerClassName?: SchemaClassName;
+  innerClassName?: AMISClassName;
 
   /**
    * 图片 css 类名
    */
-  imageClassName?: SchemaClassName;
+  imageClassName?: AMISClassName;
 
   /**
    * 图片缩略图外层 css 类名
    */
-  thumbClassName?: SchemaClassName;
+  thumbClassName?: AMISClassName;
 
   /**
    * 放大详情图 CSS 类名
    */
-  imageGallaryClassName?: SchemaClassName;
+  imageGallaryClassName?: AMISClassName;
 
   /** 图片说明文字 */
   caption?: SchemaTpl;
@@ -203,7 +204,7 @@ export interface ImageSchema extends BaseSchema {
 export interface ImageThumbProps
   extends LocaleProps,
     ThemeProps,
-    Omit<ImageSchema, 'type' | 'className' | 'innerClassName'> {
+    Omit<AMISImageSchema, 'type' | 'className' | 'innerClassName'> {
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;

@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   createObject,
   CustomStyle,
   Renderer,
   RendererProps,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
@@ -12,14 +14,9 @@ import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop, filterClassNameObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon, hasIcon} from 'amis-ui';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaIcon} from '../Schema';
 import {ActionSchema} from './Action';
-import {DividerSchema} from './Divider';
+import {AMISDividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
 import type {
   TooltipObject,
@@ -30,14 +27,14 @@ import {isMobile} from 'amis-core';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})
-  | DividerSchema
+  | AMISDividerSchema
   | 'divider';
 
 /**
  * 下拉按钮渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dropdown-button
  */
-export interface DropdownButtonSchema extends BaseSchema {
+export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   /**
    * 指定为 DropDown Button 类型
    */
@@ -51,7 +48,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   /**
    * 给 Button 配置 className。
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * 按钮集合，支持分组
@@ -61,7 +58,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 按钮文字
@@ -133,7 +130,7 @@ export interface DropdownButtonSchema extends BaseSchema {
 
 export interface DropDownButtonProps
   extends RendererProps,
-    Omit<DropdownButtonSchema, 'type' | 'className'> {
+    Omit<AMISDropdownButtonSchema, 'type' | 'className'> {
   disabledTip?: string | TooltipObject;
   /**
    * 按钮提示文字，hover focus 时显示

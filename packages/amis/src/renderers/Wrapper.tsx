@@ -1,16 +1,17 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema, AMISSchemaCollection} from '../Schema';
 import {resolveVariable} from 'amis-core';
 import {SchemaNode} from 'amis-core';
 import mapValues from 'lodash/mapValues';
 import {buildStyle} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Wrapper 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wrapper
  */
-export interface WrapperSchema extends BaseSchema {
+export interface AMISWrapperSchema extends AMISSchemaBase {
   /**
    * 指定为 container 类型
    */
@@ -19,7 +20,7 @@ export interface WrapperSchema extends BaseSchema {
   /**
    * 内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
 
@@ -35,7 +36,7 @@ export interface WrapperSchema extends BaseSchema {
 
 export interface WrapperProps
   extends RendererProps,
-    Omit<WrapperSchema, 'className'> {
+    Omit<AMISWrapperSchema, 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 

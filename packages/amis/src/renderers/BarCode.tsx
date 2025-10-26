@@ -5,13 +5,14 @@ import React, {Suspense} from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
 
 /**
  * BarCode 显示渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/barcode
  */
-export interface BarCodeSchema extends BaseSchema {
+export interface AMISBarCodeSchema extends AMISSchemaBase {
   /**
    *  指定为颜色显示控件
    */
@@ -35,7 +36,7 @@ export interface BarCodeSchema extends BaseSchema {
 
 export interface BarCodeProps
   extends RendererProps,
-    Omit<BarCodeSchema, 'type' | 'className'> {}
+    Omit<AMISBarCodeSchema, 'type' | 'className'> {}
 
 export class BarCodeField extends React.Component<BarCodeProps, object> {
   render() {

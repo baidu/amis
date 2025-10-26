@@ -2,16 +2,16 @@ import React from 'react';
 import {Renderer} from 'amis-core';
 import {SchemaObject, BaseSchema} from '../Schema';
 import {DateControlRenderer} from './Form/InputDate';
-import type {SchemaClassName} from 'amis-core';
+import type {AMISClassName, AMISSchemaBase} from 'amis-core';
 
-interface scheduleItem {
+interface AMISScheduleItem {
   startTime: string;
   endTime: string;
   content: any;
-  className?: string;
+  className?: AMISClassName;
 }
 
-export interface CalendarSchema extends BaseSchema {
+export interface AMISCalendarSchema extends AMISSchemaBase {
   /**
    * 指定为日历选择控件
    */
@@ -20,12 +20,12 @@ export interface CalendarSchema extends BaseSchema {
   /**
    * 日程
    */
-  schedules?: Array<scheduleItem> | string;
+  schedules?: Array<AMISScheduleItem> | string;
 
   /**
    * 日程显示颜色自定义
    */
-  scheduleClassNames?: Array<string>;
+  scheduleClassNames?: Array<AMISClassName>;
 
   /**
    * 日程点击展示

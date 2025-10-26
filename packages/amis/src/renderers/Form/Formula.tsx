@@ -3,12 +3,13 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {evalJS, filter} from 'amis-core';
 import {autobind, isObjectShallowModified, setVariable} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * 公式功能控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/formula
  */
-export interface FormulaControlSchema extends FormBaseControlSchema {
+export interface AMISFormulaControlSchema extends AMISFormItem {
   /**
    * 指定为公式功能控件。
    */
@@ -48,7 +49,7 @@ export interface FormulaControlSchema extends FormBaseControlSchema {
 export interface FormulaProps
   extends FormControlProps,
     Omit<
-      FormulaControlSchema,
+      AMISFormulaControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

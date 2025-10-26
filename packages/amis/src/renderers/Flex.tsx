@@ -8,16 +8,18 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Schema} from 'amis-core';
-import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaObject} from '../Schema';
 
 /**
  * Flex 布局
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/flex
  */
-export interface FlexSchema extends BaseSchema {
+export interface AMISFlexSchema extends AMISSchemaBase {
   /**
    * 指定为 flex 展示类型
    */
@@ -69,7 +71,7 @@ export interface FlexSchema extends BaseSchema {
   /**
    * 每个 flex 的设置
    */
-  items: SchemaCollection;
+  items: AMISSchemaCollection;
 
   /**
    * 自定义样式
@@ -81,7 +83,7 @@ export interface FlexSchema extends BaseSchema {
 
 export interface FlexProps
   extends RendererProps,
-    Omit<FlexSchema, 'type' | 'className'> {}
+    Omit<AMISFlexSchema, 'type' | 'className'> {}
 
 export default class Flex extends React.Component<FlexProps, object> {
   static defaultProps: Partial<FlexProps> = {
@@ -185,7 +187,7 @@ export default class Flex extends React.Component<FlexProps, object> {
   }
 }
 
-export interface FlexItemSchema extends BaseSchema {
+export interface FlexItemSchema extends AMISSchemaBase {
   /**
    * 功能和 wrapper 类似，主要是给 flex 子节点用的
    */
@@ -194,7 +196,7 @@ export interface FlexItemSchema extends BaseSchema {
   /**
    * 内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 自定义样式

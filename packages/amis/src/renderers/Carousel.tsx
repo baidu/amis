@@ -5,7 +5,12 @@ import Transition, {
   EXITING,
   EXITED
 } from 'react-transition-group/Transition';
-import {Renderer, RendererProps, setThemeClassName} from 'amis-core';
+import {
+  AMISSchemaBase,
+  Renderer,
+  RendererProps,
+  setThemeClassName
+} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
 import {
   autobind,
@@ -15,9 +20,9 @@ import {
   getPropValue,
   CustomStyle
 } from 'amis-core';
-import {ActionObject} from 'amis-core';
+import {ActionObject, AMISSchemaCollection} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
+import {BaseSchema, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -26,7 +31,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
  * Carousel 轮播图渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
  */
-export interface CarouselSchema extends BaseSchema {
+export interface AMISCarouselSchema extends AMISSchemaBase {
   /**
    * 指定为轮播图类型
    */
@@ -93,7 +98,7 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 配置单条呈现模板
    */
-  itemSchema?: SchemaCollection;
+  itemSchema?: AMISSchemaCollection;
 
   name?: SchemaName;
 
@@ -123,8 +128,8 @@ export interface CarouselSchema extends BaseSchema {
    * 自定义箭头图标
    */
   icons?: {
-    prev?: SchemaCollection;
-    next?: SchemaCollection;
+    prev?: AMISSchemaCollection;
+    next?: AMISSchemaCollection;
   };
 }
 
@@ -138,7 +143,7 @@ const animationStyles: {
 
 export interface CarouselProps
   extends RendererProps,
-    Omit<CarouselSchema, 'className'> {
+    Omit<AMISCarouselSchema, 'className'> {
   value?: any;
 }
 

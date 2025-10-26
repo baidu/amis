@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import isString from 'lodash/isString';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {FormControlProps} from 'amis-core';
 import isEqual from 'lodash/isEqual';
@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 /**
  * 自定义组件
  */
-export interface CustomSchema extends BaseSchema {
+export interface AMISCustomSchema extends AMISSchemaBase {
   /**
    * 实现自定义功能的渲染器，主要给 JS SDK 和可视化编辑器里使用。
    *
@@ -25,7 +25,7 @@ export interface CustomSchema extends BaseSchema {
   html?: string;
 }
 
-export interface CustomProps extends FormControlProps, CustomSchema {
+export interface CustomProps extends FormControlProps, AMISCustomSchema {
   className?: string;
   value?: any;
   wrapperComponent?: any;

@@ -1,16 +1,24 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  AMISSchemaBase,
+  AMISTemplate,
+  AMISSchemaCollection,
+  AMISClassName,
+  AMISIcon,
+  AMISLegacyActionSchema
+} from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
-import type {BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
 
 /**
  * Alert 提示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/alert
  */
-export interface AlertSchema extends BaseSchema {
+export interface AMISAlertSchema extends AMISSchemaBase {
   /**
    * 指定为提示框类型
    */
@@ -19,12 +27,12 @@ export interface AlertSchema extends BaseSchema {
   /**
    * 提示框标题
    */
-  title?: string;
+  title?: AMISTemplate;
 
   /**
    * 内容区域
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 提示类型
@@ -39,7 +47,7 @@ export interface AlertSchema extends BaseSchema {
   /**
    * 关闭按钮CSS类名
    */
-  closeButtonClassName?: string;
+  closeButtonClassName?: AMISClassName;
 
   /**
    * 是否显示ICON
@@ -49,17 +57,17 @@ export interface AlertSchema extends BaseSchema {
   /**
    * 左侧图标
    */
-  icon?: SchemaIcon;
+  icon?: AMISIcon;
 
   /**
    * 图标CSS类名
    */
-  iconClassName?: string;
+  iconClassName?: AMISClassName;
 
   /**
    * 操作区域
    */
-  actions?: SchemaCollection;
+  actions?: AMISLegacyActionSchema[];
 }
 
 @Renderer({

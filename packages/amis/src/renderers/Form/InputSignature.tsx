@@ -19,7 +19,8 @@ import {Signature} from 'amis-ui';
 import pick from 'lodash/pick';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {base64ToBlob} from 'file64';
-export interface InputSignatureSchema extends FormBaseControlSchema {
+import {AMISFormItem} from 'amis-core';
+export interface AMISInputSignatureSchema extends AMISFormItem {
   type: 'input-signature';
   /**
    * 组件宽度，默认占满父容器

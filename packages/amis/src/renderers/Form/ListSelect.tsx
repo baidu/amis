@@ -5,22 +5,20 @@ import {
   Option,
   FormOptionsControl,
   getVariable,
-  filter
+  filter,
+  AMISFormItemWithOptions,
+  AMISSchemaCollection
 } from 'amis-core';
 import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
-import {
-  FormOptionsSchema,
-  SchemaClassName,
-  SchemaCollection
-} from '../../Schema';
+import {FormOptionsSchema, AMISClassName} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 /**
  * List 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
  */
-export interface ListControlSchema extends FormOptionsSchema {
+export interface AMISListControlSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 ListSelect 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
@@ -40,24 +38,24 @@ export interface ListControlSchema extends FormOptionsSchema {
   /**
    * 可以自定义展示模板。
    */
-  itemSchema?: SchemaCollection;
+  itemSchema?: AMISSchemaCollection;
 
   /**
    * 激活态自定义展示模板。
    */
-  activeItemSchema?: SchemaCollection;
+  activeItemSchema?: AMISSchemaCollection;
 
   /**
    * 支持配置 list div 的 css 类名。
    * 比如：flex justify-between
    */
-  listClassName?: SchemaClassName;
+  listClassName?: AMISClassName;
 }
 
 export interface ListProps
   extends OptionsControlProps,
     Omit<
-      ListControlSchema,
+      AMISListControlSchema,
       | 'type'
       | 'options'
       | 'className'

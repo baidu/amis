@@ -1,5 +1,4 @@
 import React from 'react';
-import extend from 'lodash/extend';
 import {Renderer, RendererProps} from '../factory';
 import {FormStore, IFormStore} from '../store/form';
 import {
@@ -64,6 +63,15 @@ import groupBy from 'lodash/groupBy';
 import isEqual from 'lodash/isEqual';
 import CustomStyle from '../components/CustomStyle';
 import debounce from 'lodash/debounce';
+import {
+  AMISApi,
+  AMISButtonWithAction,
+  AMISClassName,
+  AMISDefaultData,
+  AMISExpression,
+  AMISSchemaCollection,
+  AMISSchemaBase
+} from '../schema';
 
 export interface FormHorizontal {
   left?: number;
@@ -76,7 +84,7 @@ export interface FormHorizontal {
   labelOverflow?: 'default' | 'ellipsis';
 }
 
-export interface FormSchemaBase {
+export interface AMISFormBase extends AMISSchemaBase {
   /**
    * 表单标题
    */
@@ -85,12 +93,14 @@ export interface FormSchemaBase {
   /**
    * 按钮集合，会固定在底部显示。
    */
-  actions?: Array<any>;
+  actions?: Array<AMISButtonWithAction>;
 
   /**
    * 表单项集合
    */
-  body?: any;
+  body?: AMISSchemaCollection;
+
+  className?: AMISClassName;
 
   /**
    * @deprecated 请用类型 tabs
@@ -102,7 +112,7 @@ export interface FormSchemaBase {
    */
   fieldSet?: any;
 
-  data?: any;
+  data?: AMISDefaultData;
 
   /**
    * 是否开启调试，开启后会在顶部实时显示表单项数据。
@@ -148,12 +158,12 @@ export interface FormSchemaBase {
   /**
    * 用来初始化表单数据
    */
-  initApi?: string | BaseApiObject;
+  initApi?: AMISApi;
 
   /**
    * Form 用来获取初始数据的 api,与initApi不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
-  initAsyncApi?: string | BaseApiObject;
+  initAsyncApi?: AMISApi;
 
   /**
    * 设置了initAsyncApi后，默认会从返回数据的data.finished来判断是否完成，也可以设置成其他的xxx，就会从data.xxx中获取
@@ -173,7 +183,7 @@ export interface FormSchemaBase {
   /**
    * 建议改成 api 的 sendOn 属性。
    */
-  initFetchOn?: string;
+  initFetchOn?: AMISExpression;
 
   /**
    * 设置后将轮询调用 initApi
@@ -188,7 +198,7 @@ export interface FormSchemaBase {
   /**
    * 配置停止轮询的条件
    */
-  stopAutoRefreshWhen?: string;
+  stopAutoRefreshWhen?: AMISExpression;
 
   /**
    * 是否开启本地缓存
@@ -210,7 +220,7 @@ export interface FormSchemaBase {
    *
    * 详情：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
    */
-  api?: string | BaseApiObject;
+  api?: AMISApi;
 
   /**
    * Form 也可以配置 feedback。
@@ -220,7 +230,7 @@ export interface FormSchemaBase {
   /**
    * 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
-  asyncApi?: string | BaseApiObject;
+  asyncApi?: AMISApi;
 
   /**
    * 轮询请求的时间间隔，默认为 3秒。设置 asyncApi 才有效
@@ -277,7 +287,7 @@ export interface FormSchemaBase {
   /**
    * 配置容器 panel className
    */
-  panelClassName?: ClassName;
+  panelClassName?: AMISClassName;
 
   /**
    * 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。
@@ -359,14 +369,27 @@ export interface FormSchemaBase {
    * 展示态时的className
    */
   static?: boolean;
-  staticOn?: SchemaExpression;
-  staticClassName?: SchemaClassName;
+  staticOn?: AMISExpression;
+  staticClassName?: AMISClassName;
 
   /**
    * 是否可以访问上层数据，默认是会允许，这样顶层同名数据会自动赋值到同名表单项
    * @default true
    */
   canAccessSuperData?: boolean;
+}
+
+export type FormSchemaBase = AMISFormBase;
+
+export interface AMISFormSchema extends AMISFormBase {
+  type: 'form';
+}
+
+// 注册到 AMISSchemaRegistry 中
+declare module '../schema' {
+  interface AMISSchemaRegistry {
+    form: AMISFormSchema;
+  }
 }
 
 export type FormGroup = FormSchemaBase & {

@@ -13,7 +13,7 @@ import DatePicker from '../DatePicker';
 import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {FormulaPicker, FormulaPickerProps} from '../formula/Picker';
-import type {OperatorType, TestIdBuilder} from 'amis-core';
+import type {AMISOperatorType, TestIdBuilder} from 'amis-core';
 import omit from 'lodash/omit';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
@@ -21,7 +21,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   data?: any;
   onChange: (value: any) => void;
   field: FieldSimple;
-  op?: OperatorType;
+  op?: AMISOperatorType;
   disabled?: boolean;
   formula?: FormulaPickerProps;
   popOverContainer?: any;

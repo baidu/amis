@@ -43,12 +43,13 @@ import {supportStatic} from './StaticHoc';
 import {matchSorter} from 'match-sorter';
 
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import {AMISFormItemWithOptions} from 'amis-core';
 
 /**
  * Nested Select
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
-export interface NestedSelectControlSchema extends FormOptionsSchema {
+export interface AMISNestedSelectControlSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 NestedSelect 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select

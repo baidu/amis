@@ -7,7 +7,8 @@ import {
   getVariable,
   setThemeClassName,
   CustomStyle,
-  formateCheckThemeCss
+  formateCheckThemeCss,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
@@ -19,14 +20,14 @@ import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
 
 export interface SchemaMap {
-  checkbox: CheckboxControlSchema;
+  checkbox: AMISCheckboxControlSchema;
 }
 
 /**
  * Checkbox 勾选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkbox
  */
-export interface CheckboxControlSchema extends FormBaseControlSchema {
+export interface AMISCheckboxControlSchema extends AMISFormItem {
   /**
    * 指定为多行文本输入框
    */
@@ -60,7 +61,7 @@ export interface CheckboxControlSchema extends FormBaseControlSchema {
 export interface CheckboxProps
   extends FormControlProps,
     Omit<
-      CheckboxControlSchema,
+      AMISCheckboxControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
@@ -111,7 +112,8 @@ export default class CheckboxControl extends React.Component<
       partial,
       optionType,
       checked,
-      labelClassName
+      labelClassName,
+      classnames: cx
     } = this.props;
 
     return (
@@ -124,7 +126,7 @@ export default class CheckboxControl extends React.Component<
         partial={partial}
         optionType={optionType}
         checked={checked}
-        labelClassName={labelClassName}
+        labelClassName={cx(labelClassName)}
       >
         {option ? render('option', option) : null}
       </Checkbox>
@@ -186,7 +188,7 @@ export default class CheckboxControl extends React.Component<
           partial={partial}
           optionType={optionType}
           checked={checked}
-          labelClassName={labelClassName}
+          labelClassName={cx(labelClassName)}
           testIdBuilder={testIdBuilder}
           className="first last"
         >

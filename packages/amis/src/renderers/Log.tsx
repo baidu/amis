@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {
+  AMISSchemaBase,
   buildApi,
   isApiOutdated,
   isEffectiveApi,
@@ -47,7 +48,7 @@ export type LogOperation =
  * 日志展示组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
-export interface LogSchema extends BaseSchema {
+export interface AMISLogSchema extends AMISSchemaBase {
   /**
    * 指定为 log 链接展示控件
    */
@@ -101,7 +102,7 @@ export interface LogSchema extends BaseSchema {
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {}
+    Omit<AMISLogSchema, 'type' | 'className'> {}
 
 export interface LogState {
   lastLine: string;

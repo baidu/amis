@@ -23,14 +23,15 @@ import {ActionObject} from 'amis-core';
 import {isMobile} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-import {TooltipWrapperSchema} from '../TooltipWrapper';
+import {AMISTooltipWrapperSchema} from '../TooltipWrapper';
 import {matchSorter} from 'match-sorter';
+import {AMISFormItemWithOptions} from 'amis-core';
 
 /**
  * Tag 输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
  */
-export interface TagControlSchema extends FormOptionsSchema {
+export interface AMISInputTagSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 InputTag 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tag
@@ -65,7 +66,7 @@ export interface TagControlSchema extends FormOptionsSchema {
   /**
    * 收纳标签的Popover配置
    */
-  overflowTagPopover?: TooltipWrapperSchema;
+  overflowTagPopover?: AMISTooltipWrapperSchema;
 
   /** 是否开启批量添加模式 */
   enableBatchAdd?: boolean;

@@ -55,21 +55,20 @@ import {
   SpinnerExtraProps
 } from 'amis-ui';
 import {TableCell} from './TableCell';
-import type {AutoGenerateFilterObject} from '../CRUD';
+import type {AMISAutoGenerateFilterObject} from '../CRUD';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import TableContent, {renderItemActions} from './TableContent';
 import {
   BaseSchema,
   SchemaApi,
-  SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
   SchemaTpl
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
-import {SchemaQuickEdit} from '../QuickEdit';
-import {SchemaCopyable} from '../Copyable';
+import {AMISQuickEdit, SchemaQuickEdit} from '../QuickEdit';
+import {AMISCopyable, SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
 import ColumnToggler from './ColumnToggler';
 import {exportExcel} from './exportExcel';
@@ -77,12 +76,26 @@ import AutoFilterForm from './AutoFilterForm';
 import Cell from './Cell';
 import VCell from './VCell';
 
-import type {IColumn, IRow} from 'amis-core';
+import type {
+  IColumn,
+  IRow,
+  AMISVariableName,
+  AMISPopOverBase,
+  AMISSchema,
+  AMISApi,
+  AMISOptions,
+  AMISClassName,
+  AMISLocalSource,
+  AMISExpression,
+  AMISBadgeBase,
+  AMISSchemaBase,
+  AMISRemarkBase
+} from 'amis-core';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
  */
-export type TableColumnObject = {
+export interface AMISTableColumnConfig {
   /**
    * 列标题
    */
@@ -96,27 +109,27 @@ export type TableColumnObject = {
   /**
    * 绑定字段名
    */
-  name?: string;
+  name?: AMISVariableName;
 
   /**
    * 配置查看详情功能
    */
-  popOver?: SchemaPopOver;
+  popOver?: AMISPopOverBase;
 
   /**
    * 配置快速编辑功能
    */
-  quickEdit?: SchemaQuickEdit;
+  quickEdit?: AMISQuickEdit;
 
   /**
    * 作为表单项时，可以单独配置编辑时的快速编辑面板。
    */
-  quickEditOnUpdate?: SchemaQuickEdit;
+  quickEditOnUpdate?: AMISQuickEdit;
 
   /**
    * 配置点击复制功能
    */
-  copyable?: SchemaCopyable;
+  copyable?: AMISCopyable;
 
   /**
    * 配置是否可以排序
@@ -126,7 +139,7 @@ export type TableColumnObject = {
   /**
    * 是否可快速搜索
    */
-  searchable?: boolean | SchemaObject;
+  searchable?: boolean | AMISSchema;
 
   /**
    * 配置是否默认展示
@@ -174,8 +187,8 @@ export type TableColumnObject = {
   filterable?:
     | boolean
     | {
-        source?: string;
-        options?: Array<any>;
+        source?: AMISApi;
+        options?: AMISOptions;
       };
 
   /**
@@ -187,7 +200,7 @@ export type TableColumnObject = {
   /**
    * 提示信息
    */
-  remark?: SchemaRemark;
+  remark?: AMISRemarkBase;
 
   /**
    * 默认值, 只有在 inputTable 里面才有用
@@ -218,18 +231,24 @@ export type TableColumnObject = {
   };
 
   [propName: string]: any;
-};
+}
 
-export type TableColumnWithType = SchemaObject & TableColumnObject;
-export type TableColumn = TableColumnWithType | TableColumnObject;
+export type AMISTableColumnWithType = AMISSchema & AMISTableColumnConfig;
+export type AMISTableColumn = AMISTableColumnWithType | AMISTableColumnConfig;
 
-type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
+// 保留原来的叫法
+export type TableColumnObject = AMISTableColumnConfig;
+export type TableColumnWithType = AMISTableColumnWithType;
+export type TableColumn = AMISTableColumn;
+
+export type AMISAutoFillHeightObject = Record<'height' | 'maxHeight', number>;
+type AutoFillHeightObject = AMISAutoFillHeightObject;
 
 /**
  * Table 表格渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
  */
-export interface BaseTableSchema extends BaseSchema {
+export interface AMISTableBase extends AMISSchemaBase {
   /**
    * 是否固定表头
    */
@@ -267,12 +286,12 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 底部外层 CSS 类名
    */
-  footerClassName?: SchemaClassName;
+  footerClassName?: AMISClassName;
 
   /**
    * 顶部外层 CSS 类名
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * 占位符
@@ -301,12 +320,12 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 数据源：绑定当前环境变量
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 表格 CSS 类名
    */
-  tableClassName?: SchemaClassName;
+  tableClassName?: AMISClassName;
 
   /**
    * 标题
@@ -316,12 +335,12 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 工具栏 CSS 类名
    */
-  toolbarClassName?: SchemaClassName;
+  toolbarClassName?: AMISClassName;
 
   /**
    * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
    */
-  combineNum?: number | SchemaExpression;
+  combineNum?: number | AMISExpression;
 
   /**
    * 合并单元格配置，配置从第几列开始合并。
@@ -331,12 +350,12 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 顶部总结行
    */
-  prefixRow?: Array<SchemaObject>;
+  prefixRow?: Array<AMISSchema>;
 
   /**
    * 底部总结行
    */
-  affixRow?: Array<SchemaObject>;
+  affixRow?: Array<AMISSchema>;
 
   /**
    * 是否可调整列宽
@@ -351,12 +370,12 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 行角标
    */
-  itemBadge?: BadgeObject;
+  itemBadge?: AMISBadgeBase;
 
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
-  autoGenerateFilter?: AutoGenerateFilterObject | boolean;
+  autoGenerateFilter?: AMISAutoGenerateFilterObject | boolean;
 
   /**
    * 表格是否可以获取父级数据域值，默认为false
@@ -366,7 +385,7 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 表格自动计算高度
    */
-  autoFillHeight?: boolean | AutoFillHeightObject;
+  autoFillHeight?: boolean | AMISAutoFillHeightObject;
 
   /**
    * table layout
@@ -376,20 +395,22 @@ export interface BaseTableSchema extends BaseSchema {
   /**
    * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
    */
-  deferApi?: SchemaApi;
+  deferApi?: AMISApi;
 
   /**
    * 持久化 key
    */
   persistKey?: string;
 }
+export type BaseTableSchema = AMISTableBase;
 
-export interface TableSchema extends BaseTableSchema {
+export interface AMISTableSchema extends AMISTableBase {
   /**
    * 指定为表格渲染器。
    */
   type: 'table' | 'static-table';
 }
+export type TableSchema = AMISTableSchema;
 export interface TableProps extends RendererProps, SpinnerExtraProps {
   title?: string; // 标题
   header?: SchemaNode;

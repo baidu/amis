@@ -1,23 +1,21 @@
 import {
   Renderer,
   RendererProps,
-  SchemaClassName,
-  getPropValue
+  AMISClassName,
+  getPropValue,
+  AMISSchemaBase,
+  AMISVariableName,
+  AMISSchemaCollection
 } from 'amis-core';
 import React from 'react';
-import {
-  BaseSchema,
-  SchemaObject,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
+import {BaseSchema, SchemaObject, SchemaIcon} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * 渲染数据里的 amis schema
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/amis
  */
-export interface AIMSRenderSchema extends BaseSchema {
+export interface AIMSAMISSchema extends AMISSchemaBase {
   /**
    * 指定类型
    */
@@ -26,7 +24,10 @@ export interface AIMSRenderSchema extends BaseSchema {
   /**
    * 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
+
+  name?: AMISVariableName;
+  value?: AMISSchemaCollection;
 }
 
 @Renderer({

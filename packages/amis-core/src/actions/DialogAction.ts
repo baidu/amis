@@ -1,3 +1,8 @@
+import {
+  AMISDefaultData,
+  AMISDialogSchemaBase,
+  AMISLegacyReloadActionButton
+} from '../schema';
 import {Schema, SchemaNode} from '../types';
 import {extendObject} from '../utils';
 import {RendererEvent} from '../utils/renderer-event';
@@ -11,7 +16,7 @@ import {
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
-  dialog?: Schema;
+  dialog?: AMISDialogSchemaBase;
   // 兼容历史，保留。为了和其他弹窗保持一致
   args: {
     msg: string;
@@ -32,9 +37,9 @@ export interface IDialogAction extends ListenerAction {
   actionType: 'dialog';
   // 兼容历史，保留。不建议用args
   args: {
-    dialog: SchemaNode;
+    dialog: AMISDialogSchemaBase;
   };
-  dialog?: SchemaNode;
+  dialog?: AMISDialogSchemaBase;
 
   /**
    * 是否等待确认结果
@@ -49,13 +54,13 @@ export interface IDialogAction extends ListenerAction {
 
 export interface IConfirmDialogAction extends ListenerAction {
   actionType: 'confirmDialog';
-  dialog?: Schema;
+  dialog?: AMISDialogSchemaBase;
 
   // 兼容历史，保留。不建议用args
   args: {
     msg: string;
     title: string;
-    body?: Schema;
+    body?: AMISLegacyReloadActionButton;
     closeOnEsc?: boolean;
     size?: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
     confirmText?: string;

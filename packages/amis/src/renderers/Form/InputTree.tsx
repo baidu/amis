@@ -22,10 +22,12 @@ import {
   BaseApiObject,
   getVariable,
   setThemeClassName,
-  CustomStyle
+  CustomStyle,
+  AMISFormItemWithOptions,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
-import {FormOptionsSchema, SchemaApi, SchemaCollection} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
@@ -35,7 +37,7 @@ type NodeBehaviorType = 'unfold' | 'check';
  * Tree 下拉选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
-export interface TreeControlSchema extends FormOptionsSchema {
+export interface AMISInputTreeSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 InputTree 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tree
@@ -149,7 +151,7 @@ export interface TreeControlSchema extends FormOptionsSchema {
   /**
    * 自定义节点操作栏区域
    */
-  itemActions?: SchemaCollection;
+  itemActions?: AMISSchemaCollection;
 
   /**
    * 搜索框的配置
@@ -209,7 +211,7 @@ export interface TreeControlSchema extends FormOptionsSchema {
 export interface TreeProps
   extends OptionsControlProps,
     Omit<
-      TreeControlSchema,
+      AMISInputTreeSchema,
       | 'type'
       | 'options'
       | 'className'

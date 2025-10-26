@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  AMISApi,
+  AMISClassName,
+  AMISDefaultData,
+  AMISDefinitions,
+  AMISExpression,
   Renderer,
   RendererProps,
   filterTarget,
@@ -23,7 +28,9 @@ import {
   autobind,
   bulkBindFunctions,
   isObjectShallowModified,
-  createObject
+  createObject,
+  AMISSchemaCollection,
+  AMISSchema
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Alert2 as Alert, SpinnerExtraProps} from 'amis-ui';
@@ -31,21 +38,19 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {
   BaseSchema,
-  SchemaCollection,
-  SchemaClassName,
   SchemaDefaultData,
   SchemaApi,
   SchemaExpression,
   SchemaName,
   SchemaMessage
 } from '../Schema';
-import {SchemaRemark} from './Remark';
+import {SchemaRemark, AMISRemarkObject} from './Remark';
 import {isAlive, onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
-import {scrollPosition, isMobile} from 'amis-core';
+import {AMISSchemaBase, AMISSpinnerConfig, AMISTemplate} from 'amis-core';
 
 /**
  * css 定义
@@ -60,7 +65,7 @@ interface CSSRule {
  * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
  * 一个页面只允许有一个 Page 渲染器。
  */
-export interface PageSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**
    * 指定为 page 渲染器。
    */
@@ -69,32 +74,32 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 页面标题
    */
-  title?: string;
+  title?: AMISTemplate;
 
   /**
    * 页面副标题
    */
-  subTitle?: string;
+  subTitle?: AMISTemplate;
 
   /**
    * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。
    */
-  remark?: SchemaRemark;
+  remark?: AMISRemarkObject;
 
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 内容区 css 类名
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: AMISClassName;
 
   /**
    * 边栏区域
    */
-  aside?: SchemaCollection;
+  aside?: AMISSchemaCollection;
 
   /**
    * 边栏是否允许拖动
@@ -128,12 +133,12 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 边栏区 css 类名
    */
-  asideClassName?: SchemaClassName;
+  asideClassName?: AMISClassName;
 
   /**
    * 配置容器 className
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 自定义页面级别样式表
@@ -148,17 +153,17 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 页面级别的初始数据
    */
-  data?: SchemaDefaultData;
+  data?: AMISDefaultData;
 
   /**
    * 配置 header 容器 className
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。
    */
-  initApi?: SchemaApi;
+  initApi?: AMISApi;
 
   /**
    * 是否默认就拉取？
@@ -168,7 +173,7 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 是否默认就拉取表达式
    */
-  initFetchOn?: SchemaExpression;
+  initFetchOn?: AMISExpression;
 
   messages?: SchemaMessage;
 
@@ -177,14 +182,12 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 页面顶部区域，当存在 title 时在右上角显示。
    */
-  toolbar?: SchemaCollection;
+  toolbar?: AMISSchemaCollection;
 
   /**
    * 配置 toolbar 容器 className
    */
-  toolbarClassName?: SchemaClassName;
-
-  definitions?: any; // todo
+  toolbarClassName?: AMISClassName;
 
   /**
    * 配置轮询间隔，配置后 initApi 将轮询加载。
@@ -199,7 +202,7 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 配置停止轮询的条件。
    */
-  stopAutoRefreshWhen?: SchemaExpression;
+  stopAutoRefreshWhen?: AMISExpression;
   // primaryField?: string, // 指定主键的字段名，默认为 `id`
 
   /**
@@ -233,7 +236,15 @@ export interface PageSchema extends BaseSchema, SpinnerExtraProps {
     pullingText?: string;
     loosingText?: string;
   };
+
+  /**
+   * 类似 json-schema 的定义，可以被其他组件引用
+   * 目前只有顶级组件可以定义，其他组件不能定义。
+   */
+  definitions?: AMISDefinitions;
 }
+
+export type PageSchema = AMISPageSchema;
 
 export interface PageProps
   extends RendererProps,
@@ -871,12 +882,17 @@ export default class Page extends React.Component<PageProps> {
             >
               {render('title', title, subProps)}
               {remark
-                ? render('remark', {
-                    type: 'remark',
-                    tooltip: remark,
-                    placement: remarkPlacement || 'bottom',
-                    container: popOverContainer || env.getModalContainer
-                  })
+                ? render(
+                    'remark',
+                    {
+                      type: 'remark',
+                      tooltip: remark,
+                      placement: remarkPlacement || 'bottom'
+                    },
+                    {
+                      container: popOverContainer || env.getModalContainer
+                    }
+                  )
                 : null}
             </h2>
           ) : null}

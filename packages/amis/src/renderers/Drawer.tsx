@@ -7,7 +7,9 @@ import {
   resolveVariableAndFilter,
   setThemeClassName,
   ValidateError,
-  RendererEvent
+  RendererEvent,
+  AMISSchema,
+  AMISButtonSchema
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -25,20 +27,16 @@ import {IModalStore, ModalStore} from 'amis-core';
 import {filter} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {IServiceStore, CustomStyle} from 'amis-core';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaName
-} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaName} from '../Schema';
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
+import {AMISSchemaBase, AMISSchemaCollection} from 'amis-core';
 
 /**
  * Drawer 抽出式弹框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */
-export interface DrawerSchemaBase extends BaseSchema {
+export interface AMISDrawerSchemaBase extends AMISSchemaBase {
   /**
    * 弹窗参数说明，值格式为 JSONSchema。
    */
@@ -47,32 +45,32 @@ export interface DrawerSchemaBase extends BaseSchema {
   /**
    * 默认不用填写，自动会创建确认和取消按钮。
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 配置 外层 className
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 配置 Body 容器 className
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: AMISClassName;
 
   /**
    * 配置 头部 容器 className
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * 配置 头部 容器 className
    */
-  footerClassName?: SchemaClassName;
+  footerClassName?: AMISClassName;
 
   /**
    * 是否支持按 ESC 关闭 Dialog
@@ -89,7 +87,7 @@ export interface DrawerSchemaBase extends BaseSchema {
   /**
    * 请通过配置 title 设置标题
    */
-  title?: SchemaCollection;
+  title?: AMISSchemaCollection;
 
   /**
    * 从什么位置弹出
@@ -115,12 +113,12 @@ export interface DrawerSchemaBase extends BaseSchema {
   /**
    * 头部
    */
-  header?: SchemaCollection;
+  header?: AMISSchemaCollection;
 
   /**
    * 底部
    */
-  footer?: SchemaCollection;
+  footer?: AMISSchemaCollection;
 
   /**
    * 影响自动生成的按钮，如果自己配置了按钮这个配置无效。
@@ -155,13 +153,13 @@ export interface DrawerSchemaBase extends BaseSchema {
   };
 }
 
-export interface DrawerSchema extends DrawerSchemaBase {
+export interface AMISDrawerSchema extends AMISDrawerSchemaBase {
   type: 'drawer';
 }
 
 export interface DrawerProps
   extends RendererProps,
-    Omit<DrawerSchema, 'className' | 'data'>,
+    Omit<AMISDrawerSchema, 'className' | 'data'>,
     SpinnerExtraProps {
   onClose: () => void;
   onConfirm: (
@@ -172,7 +170,7 @@ export interface DrawerProps
   ) => void;
   children?: React.ReactNode | ((props?: any) => React.ReactNode);
   wrapperComponent: React.ElementType;
-  lazySchema?: (props: DrawerProps) => SchemaCollection;
+  lazySchema?: (props: DrawerProps) => AMISSchemaCollection;
   store: IModalStore;
   show?: boolean;
   drawerContainer?: () => HTMLElement;
@@ -271,14 +269,14 @@ export default class Drawer extends React.Component<DrawerProps> {
     clearTimeout(this.clearErrorTimer);
   }
 
-  buildActions(): Array<ActionSchema> {
+  buildActions(): Array<AMISButtonSchema> {
     const {actions, confirm, translate: __, testIdBuilder} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
     }
 
-    let ret: Array<ActionSchema> = [];
+    let ret: Array<AMISButtonSchema> = [];
     ret.push({
       type: 'button',
       testIdBuilder: testIdBuilder?.getChild('cancel'),
@@ -480,14 +478,14 @@ export default class Drawer extends React.Component<DrawerProps> {
     );
   }
 
-  renderBody(body: SchemaNode, key?: any): React.ReactNode {
+  renderBody(body: AMISSchemaCollection, key?: any): React.ReactNode {
     let {render, store} = this.props;
 
     if (Array.isArray(body)) {
       return body.map((body, key) => this.renderBody(body, key));
     }
 
-    let schema: Schema = body as Schema;
+    let schema = body as AMISSchema;
     let subProps: any = {
       key,
       disabled: store.loading,
@@ -507,7 +505,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       schema = {
         mode: 'horizontal',
         wrapWithPanel: false,
-        submitText: null,
+        submitText: undefined,
         ...schema
       };
     }

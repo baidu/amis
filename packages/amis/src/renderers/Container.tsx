@@ -8,10 +8,12 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection,
+  AMISSchemaBase
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
-import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 
 /** 容器拖拽配置 */
 export interface ContainerDraggableConfig {
@@ -67,7 +69,7 @@ export interface ContainerDraggableConfig {
  * Container 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/container
  */
-export interface ContainerSchema extends BaseSchema {
+export interface AMISContainerSchema extends AMISSchemaBase {
   /**
    * 指定为 container 类型
    */
@@ -76,12 +78,12 @@ export interface ContainerSchema extends BaseSchema {
   /**
    * 内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * body 类名
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: AMISClassName;
 
   /**
    * 自定义样式
@@ -113,7 +115,7 @@ export interface ContainerSchema extends BaseSchema {
 
 export interface ContainerProps
   extends RendererProps,
-    Omit<ContainerSchema, 'type' | 'className' | 'style'> {
+    Omit<AMISContainerSchema, 'type' | 'className' | 'style'> {
   children?: (props: any) => React.ReactNode;
 }
 

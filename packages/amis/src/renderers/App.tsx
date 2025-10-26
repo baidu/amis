@@ -13,20 +13,17 @@ import {
   RendererProps,
   envOverwrite,
   filter,
-  replaceText
+  replaceText,
+  AMISSchemaBase
 } from 'amis-core';
-import {
-  BaseSchema,
-  SchemaApi,
-  SchemaClassName,
-  SchemaCollection
-} from '../Schema';
+import {BaseSchema, SchemaApi, AMISClassName} from '../Schema';
 import {IScopedContext, ScopedContext} from 'amis-core';
 import {AppStore, IAppStore} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {autobind} from 'amis-core';
+import type {AMISApi, AMISSchemaCollection} from 'amis-core';
 
-export interface AppPage extends SpinnerExtraProps {
+export interface AMISAppPage extends SpinnerExtraProps {
   /**
    * 菜单文字
    */
@@ -71,12 +68,12 @@ export interface AppPage extends SpinnerExtraProps {
   /**
    * 支持多层级。
    */
-  children?: Array<AppPage>;
+  children?: Array<AMISAppPage>;
 
   /**
    * 菜单上的类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 是否在导航中可见，适合于那种需要携带参数才显示的页面。比如具体某个数据的编辑页面。
@@ -95,13 +92,13 @@ export interface AppPage extends SpinnerExtraProps {
  * App 渲染器，适合 JSSDK 用来做多页渲染。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/app
  */
-export interface AppSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISAppSchema extends AMISSchemaBase, SpinnerExtraProps {
   /**
    * 指定为 app 类型。
    */
   type: 'app';
 
-  api?: SchemaApi;
+  api?: AMISApi;
 
   /**
    * 系统名称
@@ -116,32 +113,32 @@ export interface AppSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 顶部区域
    */
-  header?: SchemaCollection;
+  header?: AMISSchemaCollection;
 
   /**
    * 边栏菜单前面的区域
    */
-  asideBefore?: SchemaCollection;
+  asideBefore?: AMISSchemaCollection;
 
   /**
    * 边栏菜单后面的区域
    */
-  asideAfter?: SchemaCollection;
+  asideAfter?: AMISSchemaCollection;
 
   /**
    * 页面集合。
    */
-  pages?: Array<AppPage> | AppPage;
+  pages?: Array<AMISAppPage> | AMISAppPage;
 
   /**
    * 底部区域。
    */
-  footer?: SchemaCollection;
+  footer?: AMISSchemaCollection;
 
   /**
    * css 类名。
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
   /**
    * 显示面包屑路径。
    */
@@ -158,7 +155,7 @@ export interface AppSchema extends BaseSchema, SpinnerExtraProps {
 
 export interface AppProps
   extends RendererProps,
-    Omit<AppSchema, 'type' | 'className'> {
+    Omit<AMISAppSchema, 'type' | 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
   store: IAppStore;
 }

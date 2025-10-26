@@ -1,3 +1,4 @@
+import {AMISDrawerSchemaBase} from '../schema';
 import {SchemaNode} from '../types';
 import {extendObject} from '../utils';
 import {RendererEvent} from '../utils/renderer-event';
@@ -12,9 +13,9 @@ export interface IDrawerAction extends ListenerAction {
   actionType: 'drawer';
   // 兼容历史，保留。不建议用args
   args: {
-    drawer: SchemaNode;
+    drawer: AMISDrawerSchemaBase;
   };
-  drawer?: SchemaNode;
+  drawer?: AMISDrawerSchemaBase;
 
   /**
    * 是否等待确认结果

@@ -1,5 +1,13 @@
 import React from 'react';
-import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  filterTarget,
+  AMISFormBase,
+  AMISExpression,
+  AMISApi,
+  ApiObject
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {Api, ActionObject} from 'amis-core';
@@ -18,10 +26,8 @@ import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Steps} from 'amis-ui';
 import {
   BaseSchema,
-  FormSchema,
-  BaseFormSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaExpression,
   SchemaName,
   SchemaReload
@@ -32,19 +38,20 @@ import {ActionSchema} from './Action';
 import {tokenize, evalExpressionWithConditionBuilderAsync} from 'amis-core';
 import {StepSchema} from './Steps';
 import isEqual from 'lodash/isEqual';
+import {AMISButtonSchema} from 'amis-core';
 
-export interface WizardStepSchema extends BaseFormSchema, StepSchema {
+export interface WizardStepSchema extends AMISFormBase, StepSchema {
   /**
    * 当前步骤用来保存数据的 api。
    */
-  api?: SchemaApi;
+  api?: AMISApi;
 
-  asyncApi?: SchemaApi;
+  asyncApi?: AMISApi;
 
   /**
    * 当前步骤用来获取初始数据的 api
    */
-  initApi?: SchemaApi;
+  initApi?: AMISApi;
 
   /**
    * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
@@ -54,7 +61,7 @@ export interface WizardStepSchema extends BaseFormSchema, StepSchema {
   /**
    * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
    */
-  jumpableOn?: SchemaExpression;
+  jumpableOn?: AMISExpression;
 
   /**
    * Step 标题
@@ -65,7 +72,7 @@ export interface WizardStepSchema extends BaseFormSchema, StepSchema {
   /**
    * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
@@ -84,7 +91,7 @@ export interface WizardStepSchema extends BaseFormSchema, StepSchema {
  * 表单向导
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wizard
  */
-export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISWizardSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为表单向导
    */
@@ -93,7 +100,7 @@ export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 配置按钮 className
    */
-  actionClassName?: SchemaClassName;
+  actionClassName?: AMISClassName;
 
   /**
    * 完成按钮的文字描述
@@ -119,7 +126,9 @@ export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
    * Wizard 用来保存数据的 api。
    * [详情](https://baidu.github.io/amis/docs/api#wizard)
    */
-  api?: SchemaApi;
+  api?: AMISApi;
+
+  asyncApi?: AMISApi;
 
   /**
    * 是否合并后再提交
@@ -129,7 +138,7 @@ export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * Wizard 用来获取初始数据的 api。
    */
-  initApi?: SchemaApi;
+  initApi?: AMISApi;
 
   /**
    * 展示模式
@@ -194,7 +203,7 @@ export interface WizardSchema extends BaseSchema, SpinnerExtraProps {
 
 export interface WizardProps
   extends RendererProps,
-    Omit<WizardSchema, 'className'> {
+    Omit<AMISWizardSchema, 'className'> {
   store: IServiceStore;
   onFinished: (values: object, action: any) => any;
 }
@@ -553,7 +562,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     });
 
     until(
-      () => store.checkRemote(finnalAsyncApi as Api, store.data),
+      () => store.checkRemote(finnalAsyncApi, store.data),
       (ret: any) => ret && ret[finishedField || 'finished'],
       cancel => (this.asyncCancel = cancel)
     )
@@ -562,7 +571,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         this.gotoStep(this.state.currentStep + 1);
       })
       .catch(e => {
-        !finnalAsyncApi.silent && env.notify('error', e.message);
+        !(finnalAsyncApi as ApiObject).silent && env.notify('error', e.message);
         store.markSaving(false);
       });
   }
@@ -1223,7 +1232,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                   wrapWithPanel: false,
 
                   // 接口相关需要外部来接管
-                  api: null
+                  api: undefined
                 },
                 {
                   key: this.state.currentStep,

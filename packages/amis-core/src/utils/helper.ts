@@ -43,6 +43,7 @@ import {keyToPath} from './keyToPath';
 import {isExpression, replaceExpression} from './formula';
 import type {IStatusStore} from '../store/status';
 import {isAlive} from 'mobx-state-tree';
+import {AMISExpression} from '../schema';
 
 export {
   createObject,
@@ -451,8 +452,8 @@ export function isVisible(
   schema: {
     id?: string;
     name?: string;
-    visibleOn?: string;
-    hiddenOn?: string;
+    visibleOn?: AMISExpression;
+    hiddenOn?: AMISExpression;
     visible?: boolean;
     hidden?: boolean;
   },

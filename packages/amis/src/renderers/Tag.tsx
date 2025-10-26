@@ -9,21 +9,22 @@ import {
   Renderer,
   RendererProps
 } from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaIcon} from '../Schema';
 import {getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 import {Tag} from 'amis-ui';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Tag
  */
-export interface TagSchema extends BaseSchema {
+export interface AMISTagSchema extends AMISSchemaBase {
   type: 'tag';
   /**
    * 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 自定义样式
@@ -82,7 +83,7 @@ export interface TagSchema extends BaseSchema {
 
 export interface TagProps
   extends RendererProps,
-    Omit<TagSchema, 'type' | 'className'> {
+    Omit<AMISTagSchema, 'type' | 'className'> {
   onClick?: (params: {[propName: string]: any}) => void;
   onClose?: (params: {[propName: string]: any}) => void;
 }

@@ -12,6 +12,7 @@ import {IParallelAction} from './ParallelAction';
 import {ISwitchAction} from './SwitchAction';
 import {debug} from '../utils/debug';
 import {injectObjectChain} from '../utils';
+import {AMISAction, AMISActionBase} from '../schema';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -21,25 +22,12 @@ export enum LoopStatus {
 }
 
 // 监听器动作定义
-export interface ListenerAction {
-  actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
-  description?: string; // 事件描述，actionType: broadcast
-  componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
-  componentName?: string; // 组件Name，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
-  ignoreError?: boolean; // 当执行动作发生错误时，是否忽略并继续执行
-  args?: Record<string, any>; // 动作配置，可以配置数据映射。注意：存在schema配置的动作都不能放在args里面，避免数据域不同导致的解析错误问题
-  data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
-  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
-  outputVar?: string; // 输出数据变量名
-  preventDefault?: boolean; // 阻止原有组件的动作行为
-  stopPropagation?: boolean; // 阻止后续的事件处理器执行
-  expression?: string | ConditionGroupValue; // 执行条件
-  execOn?: string; // 执行条件，1.9.0废弃
+export interface ListenerAction extends AMISActionBase {
   [propName: string]: any;
 }
 
 export interface ILogicAction extends ListenerAction {
-  children?: ListenerAction[]; // 子动作
+  children?: AMISAction[]; // 子动作
 }
 
 // 逻辑动作类型，支持并行、排他（switch）、循环（支持continue和break）

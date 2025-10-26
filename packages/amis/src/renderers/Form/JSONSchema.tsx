@@ -1,5 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl, autobind} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  autobind,
+  AMISFormItem
+} from 'amis-core';
 import {InputJSONSchema} from 'amis-ui';
 import {withRemoteConfig} from 'amis-ui';
 import {FormBaseControlSchema} from '../../Schema';
@@ -9,7 +15,7 @@ import {InputFormulaControlSchema} from './InputFormula';
  * JSON Schema
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema
  */
-export interface JSONSchemaControlSchema extends FormBaseControlSchema {
+export interface JSONSchemaControlSchema extends AMISFormItem {
   /**
    * 指定为 JSON Schema
    */

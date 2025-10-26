@@ -24,7 +24,7 @@ import {
   extendObject
 } from '../utils/helper';
 import {observer} from 'mobx-react';
-import {FormHorizontal, FormSchemaBase} from './Form';
+import {AMISFormBase, FormHorizontal, FormSchemaBase} from './Form';
 import {
   ActionObject,
   BaseApi,
@@ -55,11 +55,18 @@ import CustomStyle from '../components/CustomStyle';
 import classNames from 'classnames';
 import isPlainObject from 'lodash/isPlainObject';
 import {IScopedContext} from '../Scoped';
-import {BaseFormSchema} from 'amis/src/Schema';
+import {
+  AMISApi,
+  AMISClassName,
+  AMISRemarkBase,
+  AMISSchemaBase,
+  AMISTemplate,
+  AMISVariableName
+} from '../schema';
 
 export type LabelAlign = 'right' | 'left' | 'top' | 'inherit';
 
-export interface FormBaseControlWithoutSize {
+export interface AMISFormItemBase extends AMISSchemaBase {
   /**
    * 描述标题, 当值为 false 时不展示
    */
@@ -82,32 +89,32 @@ export interface FormBaseControlWithoutSize {
   /**
    * 配置 label className
    */
-  labelClassName?: string;
+  labelClassName?: AMISClassName;
 
   /**
    * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
    */
-  name?: string;
+  name?: AMISVariableName;
 
   /**
    * 额外的字段名，当为范围组件时可以用来将另外一个值打平出来
    */
-  extraName?: string;
+  extraName?: AMISVariableName;
 
   /**
    * 显示一个小图标, 鼠标放上去的时候显示提示内容
    */
-  remark?: any;
+  remark?: AMISRemarkBase;
 
   /**
    * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
    */
-  labelRemark?: any;
+  labelRemark?: AMISRemarkBase;
 
   /**
    * 输入提示，聚焦的时候显示
    */
-  hint?: string;
+  hint?: AMISTemplate;
 
   /**
    * 当修改完的时候是否提交表单。
@@ -133,17 +140,17 @@ export interface FormBaseControlWithoutSize {
   /**
    * 描述内容，支持 Html 片段。
    */
-  description?: string;
+  description?: AMISTemplate;
 
   /**
    * @deprecated 用 description 代替
    */
-  desc?: string;
+  desc?: AMISTemplate;
 
   /**
    * 配置描述上的 className
    */
-  descriptionClassName?: ClassName;
+  descriptionClassName?: AMISClassName;
 
   /**
    * 配置当前表单项展示模式
@@ -403,7 +410,7 @@ export interface FormBaseControlWithoutSize {
   /**
    * 远端校验表单项接口
    */
-  validateApi?: string | BaseApiObject;
+  validateApi?: AMISApi;
 
   /**
    * 自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。
@@ -428,7 +435,7 @@ export interface FormBaseControlWithoutSize {
         /**
          * 自动填充 api
          */
-        api?: BaseApi;
+        api?: AMISApi;
 
         /**
          * 是否展示数据格式错误提示，默认为不展示
@@ -476,7 +483,7 @@ export interface FormBaseControlWithoutSize {
         /**
          * 参照录入时的过滤条件
          */
-        filter?: BaseFormSchema;
+        filter?: AMISFormBase;
 
         // picker 里面的部分属性
         labelField?: string;
@@ -492,14 +499,13 @@ export interface FormBaseControlWithoutSize {
   row?: number; // flex模式下指定所在的行数
 }
 
-export interface FormBaseControl
-  extends BaseSchemaWithoutType,
-    FormBaseControlWithoutSize {
+export interface AMISFormItem extends AMISFormItemBase {
   /**
    * 表单项大小
    */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
 }
+export type FormBaseControl = AMISFormItem;
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;

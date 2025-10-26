@@ -1,13 +1,9 @@
 import React from 'react';
-import {filter, Renderer, RendererProps} from 'amis-core';
+import {AMISFormItem, filter, Renderer, RendererProps} from 'amis-core';
 import {isVisible, getWidthRate, makeHorizontalDeeper} from 'amis-core';
 import {FormBaseControl, FormItemWrap} from 'amis-core';
 
-import {
-  FormBaseControlSchema,
-  SchemaClassName,
-  SchemaObject
-} from '../../Schema';
+import {FormBaseControlSchema, AMISClassName, SchemaObject} from '../../Schema';
 import {FormHorizontal} from 'amis-core';
 import {reaction} from 'mobx';
 
@@ -15,7 +11,7 @@ export type GroupSubControl = SchemaObject & {
   /**
    * 列类名
    */
-  columnClassName?: SchemaClassName;
+  columnClassName?: AMISClassName;
 
   /**
    * 宽度占用比率。在某些容器里面有用比如 group
@@ -32,7 +28,7 @@ export type GroupSubControl = SchemaObject & {
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
-export interface GroupControlSchema extends FormBaseControlSchema {
+export interface AMISGroupControlSchema extends AMISFormItem {
   type: 'group';
 
   /**
@@ -62,7 +58,7 @@ export interface GroupControlSchema extends FormBaseControlSchema {
 
 export interface InputGroupProps
   extends RendererProps,
-    Omit<GroupControlSchema, 'type' | 'className'> {}
+    Omit<AMISGroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
   type: 'group'

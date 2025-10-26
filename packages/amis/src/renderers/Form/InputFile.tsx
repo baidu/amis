@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   prettyBytes,
-  resolveEventData
+  resolveEventData,
+  AMISFormItem
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -24,7 +25,7 @@ import {dataMapping} from 'amis-core';
 import {
   FormBaseControlSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaTokenizeableString
 } from '../../Schema';
 import merge from 'lodash/merge';
@@ -35,7 +36,7 @@ import {filter} from 'amis-core';
  * File 文件上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  */
-export interface FileControlSchema extends FormBaseControlSchema {
+export interface AMISFileControlSchema extends AMISFormItem {
   /**
    * 指定为文件上传
    */
@@ -163,12 +164,12 @@ export interface FileControlSchema extends FormBaseControlSchema {
   /**
    * 按钮 CSS 类名
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * 上传按钮 CSS 类名
    */
-  btnUploadClassName?: SchemaClassName;
+  btnUploadClassName?: AMISClassName;
 
   /**
    * 是否为多选
@@ -259,7 +260,7 @@ export interface FileControlSchema extends FormBaseControlSchema {
 export interface FileProps
   extends FormControlProps,
     Omit<
-      FileControlSchema,
+      AMISFileControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   stateTextMap: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import {FormItem, FormControlProps} from 'amis-core';
+import {FormItem, FormControlProps, AMISFormItem} from 'amis-core';
 import {JSONSchemaEditor} from 'amis-ui';
 import {autobind, isObject} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
@@ -13,7 +13,7 @@ import {isMobile} from 'amis-core';
  * JSON Schema Editor
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
+export interface JSONSchemaEditorControlSchema extends AMISFormItem {
   /**
    * 指定为 JSON Schema Editor
    */

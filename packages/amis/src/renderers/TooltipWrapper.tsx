@@ -3,9 +3,11 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 import {filter} from 'amis-core';
 import {escapeHtml} from 'amis-core';
 import {buildStyle} from 'amis-core';
@@ -15,7 +17,7 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 
-export interface TooltipWrapperSchema extends BaseSchema {
+export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   /**
    * 文字提示容器
    */
@@ -79,7 +81,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 内容区包裹标签

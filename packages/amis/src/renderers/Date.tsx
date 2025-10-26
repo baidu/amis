@@ -10,12 +10,13 @@ import moment, {Moment} from 'moment';
 import 'moment-timezone';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Date 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */
-export interface DateSchema extends BaseSchema {
+export interface AMISDateSchema extends AMISSchemaBase {
   /**
    * 指定为日期展示类型
    */
@@ -65,7 +66,7 @@ export interface DateSchema extends BaseSchema {
 
 export interface DateProps
   extends RendererProps,
-    Omit<DateSchema, 'type' | 'className'> {}
+    Omit<AMISDateSchema, 'type' | 'className'> {}
 
 export interface DateState {
   random?: number;

@@ -5,12 +5,13 @@ import {
   FormBaseControl,
   resolveEventData,
   getVariable,
-  ListenerAction
+  ListenerAction,
+  AMISFormItem,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Icon, Switch} from 'amis-ui';
 import {autobind, isObject} from 'amis-core';
-import {IconSchema} from '../Icon';
-import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
+import {AMISIconSchema} from '../Icon';
 import {supportStatic} from './StaticHoc';
 
 import type {SpinnerExtraProps} from 'amis-ui';
@@ -20,7 +21,7 @@ import type {SpinnerExtraProps} from 'amis-ui';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/switch
  */
 
-export interface SwitchControlSchema extends FormBaseControlSchema {
+export interface AMISSwitchSchema extends AMISFormItem {
   /**
    * 指定为多行文本输入框
    */
@@ -44,12 +45,12 @@ export interface SwitchControlSchema extends FormBaseControlSchema {
   /**
    * 开启时显示的内容
    */
-  onText?: string | IconSchema | SchemaCollection;
+  onText?: string | AMISIconSchema | AMISSchemaCollection;
 
   /**
    * 关闭时显示的内容
    */
-  offText?: string | IconSchema | SchemaCollection;
+  offText?: string | AMISIconSchema | AMISSchemaCollection;
 
   /** 开关尺寸 */
   size?: 'sm' | 'md';
@@ -128,7 +129,9 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {value, trueValue, translate} = this.props;
 
     const {on = 'swith.on', off = 'swith.off'} = this.getResult();
-    const body = <span>{value === trueValue ? translate(on) : translate(off)}</span>;
+    const body = (
+      <span>{value === trueValue ? translate(on) : translate(off)}</span>
+    );
     return this.renderBody(body);
   }
 

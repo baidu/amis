@@ -9,7 +9,8 @@ import {
   resolveMappingObject,
   CustomStyle,
   setThemeClassName,
-  isVisible
+  isVisible,
+  AMISSchemaBase
 } from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
@@ -113,7 +114,7 @@ export type ColObject = {
  * 表格展现渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table-view
  */
-export interface TableViewSchema extends BaseSchema {
+export interface AMISTableViewSchema extends AMISSchemaBase {
   /**
    * 指定为 table-view 展示类型
    */
@@ -162,7 +163,7 @@ export interface TableViewSchema extends BaseSchema {
 
 export interface TableViewProps
   extends RendererProps,
-    Omit<TableViewSchema, 'type' | 'className'> {}
+    Omit<AMISTableViewSchema, 'type' | 'className'> {}
 
 const defaultPadding = 'var(--TableCell-paddingY) var(--TableCell-paddingX)';
 

@@ -13,20 +13,24 @@ import {
 } from 'amis-core';
 import {Steps, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {StepStatus} from 'amis-ui/lib/components/Steps';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 import isPlainObject from 'lodash/isPlainObject';
-import type {SchemaExpression} from 'amis-core';
+import type {
+  AMISSchemaBase,
+  SchemaExpression,
+  AMISSchemaCollection
+} from 'amis-core';
 
-export interface StepSchema extends BaseSchemaWithoutType {
+export interface StepSchema extends AMISSchemaBase {
   /**
    * 标题
    */
-  title?: string | SchemaCollection;
+  title?: string | AMISSchemaCollection;
 
   /**
    * 子标题
    */
-  subTitle?: string | SchemaCollection;
+  subTitle?: string | AMISSchemaCollection;
 
   /**
    * 图标
@@ -38,10 +42,10 @@ export interface StepSchema extends BaseSchemaWithoutType {
   /**
    * 描述
    */
-  description?: string | SchemaCollection;
+  description?: string | AMISSchemaCollection;
 }
 
-export interface StepsSchema extends BaseSchema {
+export interface AMISStepsSchema extends AMISSchemaBase {
   /**
    * 指定为 Steps 步骤条渲染器
    */
@@ -97,7 +101,7 @@ export interface StepsSchema extends BaseSchema {
 
 export interface StepsProps
   extends RendererProps,
-    Omit<StepsSchema, 'className'> {}
+    Omit<AMISStepsSchema, 'className'> {}
 
 export function StepsCmpt(props: StepsProps) {
   const {
@@ -132,7 +136,7 @@ export function StepsCmpt(props: StepsProps) {
     ? resolveVariableAndFilter(status, data, '| raw')
     : status;
 
-  const resolveRender = (val?: string | SchemaCollection) =>
+  const resolveRender = (val?: string | AMISSchemaCollection) =>
     typeof val === 'string' ? filter(val, data) : val && render('inner', val);
   const value = getPropValue(props) ?? 0;
   const resolveValue =

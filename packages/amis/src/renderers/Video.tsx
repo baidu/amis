@@ -19,13 +19,14 @@ import {filter} from 'amis-core';
 import {CustomStyle, setThemeClassName} from 'amis-core';
 // import css
 // import 'video-react/dist/video-react.css';
-import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * 视频播放器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/video
  */
-export interface VideoSchema extends BaseSchema {
+export interface AMISVideoSchema extends AMISSchemaBase {
   /**
    * 指定为视频类型
    */
@@ -55,7 +56,7 @@ export interface VideoSchema extends BaseSchema {
   /**
    * 配置帧列表容器className
    */
-  framesClassName?: SchemaClassName;
+  framesClassName?: AMISClassName;
 
   // 用于设置行内样式
   style?: {
@@ -87,7 +88,7 @@ export interface VideoSchema extends BaseSchema {
   /**
    * 配置播放器 className
    */
-  playerClassName?: SchemaClassName;
+  playerClassName?: AMISClassName;
 
   /**
    * 视频封面地址
@@ -382,7 +383,7 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
 
 export interface VideoProps
   extends RendererProps,
-    Omit<VideoSchema, 'className'> {
+    Omit<AMISVideoSchema, 'className'> {
   columnsCount: number;
 }
 

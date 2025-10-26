@@ -14,7 +14,7 @@ import {Option, TestIdBuilder} from 'amis-core';
 import {ActionObject, isObject} from 'amis-core';
 import type {BadgeObject} from 'amis-ui';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
-import {BaseButtonGroupSchema} from '../ButtonGroup';
+import {AMISButtonGroupSchemaBase} from '../ButtonGroup';
 import {supportStatic} from './StaticHoc';
 
 /**
@@ -24,7 +24,7 @@ import {supportStatic} from './StaticHoc';
 export interface ButtonGroupControlSchema
   extends FormOptionsControlSelf,
     FormBaseControlWithoutSize,
-    BaseButtonGroupSchema {
+    AMISButtonGroupSchemaBase {
   type: 'button-group-select';
 }
 

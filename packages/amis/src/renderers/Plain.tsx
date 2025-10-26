@@ -4,12 +4,13 @@ import {filter} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {getPropValue} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Plain 纯文本渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/plain
  */
-export interface PlainSchema extends BaseSchema {
+export interface AMISPlainSchema extends AMISSchemaBase {
   /**
    * 指定为模板渲染器。
    *
@@ -33,7 +34,7 @@ export interface PlainSchema extends BaseSchema {
 }
 export interface PlainProps
   extends RendererProps,
-    Omit<PlainSchema, 'type' | 'className'> {
+    Omit<AMISPlainSchema, 'type' | 'className'> {
   wrapperComponent?: any;
 }
 

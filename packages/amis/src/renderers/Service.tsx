@@ -27,14 +27,17 @@ import {
 import {
   BaseSchema,
   SchemaApi,
-  SchemaCollection,
   SchemaExpression,
   SchemaMessage,
   SchemaName
 } from '../Schema';
 import {IIRendererStore} from 'amis-core';
 
-import type {ListenerAction} from 'amis-core';
+import type {
+  AMISSchemaCollection,
+  AMISExpression,
+  ListenerAction
+} from 'amis-core';
 import type {ScopedComponentType} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import {isAlive} from 'mobx-state-tree';
@@ -64,7 +67,7 @@ export type ComposedDataProvider = DataProvider | DataProviderCollection;
  * Service 服务类控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/service
  */
-export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 指定为 Service 数据拉取控件。
    */
@@ -88,12 +91,12 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * @deprecated 改成 api 的 sendOn。
    */
-  fetchOn?: SchemaExpression;
+  fetchOn?: AMISExpression;
 
   /**
    * 是否默认就拉取？
@@ -105,7 +108,7 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
    *
    * @deprecated 改成 api 的 sendOn。
    */
-  initFetchOn?: SchemaExpression;
+  initFetchOn?: AMISExpression;
 
   /**
    * 用来获取远程 Schema 的 api
@@ -121,7 +124,7 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
    * 用表达式来配置。
    * @deprecated 改成 api 的 sendOn。
    */
-  initFetchSchemaOn?: SchemaExpression;
+  initFetchSchemaOn?: AMISExpression;
 
   /**
    * 是否轮询拉取
@@ -136,7 +139,7 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 关闭轮询的条件。
    */
-  stopAutoRefreshWhen?: SchemaExpression;
+  stopAutoRefreshWhen?: AMISExpression;
 
   messages?: SchemaMessage;
 
@@ -150,7 +153,7 @@ export interface ServiceSchema extends BaseSchema, SpinnerExtraProps {
 
 export interface ServiceProps
   extends RendererProps,
-    Omit<ServiceSchema, 'type' | 'className'> {
+    Omit<AMISServiceSchema, 'type' | 'className'> {
   store: IServiceStore;
   messages: SchemaMessage;
   testIdBuilder?: TestIdBuilder;

@@ -1,11 +1,11 @@
 import React from 'react';
-import {Renderer, isVisible, ClassNamesFn} from 'amis-core';
+import {Renderer, isVisible, ClassNamesFn, AMISSchemaBase} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 
 import ColumnToggler, {ColumnTogglerProps} from '../Table/ColumnToggler';
 import {BaseSchema} from '../../Schema';
 
-export interface ColumnTogglerSchema extends BaseSchema {
+export interface ColumnTogglerSchema extends AMISSchemaBase {
   label?: string;
   tooltip?: string;
   size?: string;

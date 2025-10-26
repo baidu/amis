@@ -8,7 +8,8 @@ import {
   CustomStyle,
   setThemeClassName,
   PlainObject,
-  localeFormatter
+  localeFormatter,
+  AMISFormItem
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -34,7 +35,7 @@ import {dataMapping} from 'amis-core';
 import {
   FormBaseControlSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaTokenizeableString,
   SchemaUrlPath
 } from '../../Schema';
@@ -43,14 +44,14 @@ import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
-import {TplSchema} from '../Tpl';
+import {AMISTplSchema} from '../Tpl';
 import Sortable from 'sortablejs';
 
 /**
  * Image 图片上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
  */
-export interface ImageControlSchema extends FormBaseControlSchema {
+export interface AMISImageControlSchema extends AMISFormItem {
   /**
    * 格式校验失败是否显示弹窗
    * */
@@ -101,17 +102,17 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   /**
    * 上传按钮文案
    */
-  uploadBtnText?: string | TplSchema;
+  uploadBtnText?: string | AMISTplSchema;
 
   /**
    * 选择图片按钮的 CSS 类名
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * 上传按钮的 CSS 类名
    */
-  btnUploadClassName?: SchemaClassName;
+  btnUploadClassName?: AMISClassName;
 
   /**
    * @deprecated
@@ -305,7 +306,7 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   /**
    * 固定尺寸的 CSS类名
    */
-  fixedSizeClassName?: SchemaClassName;
+  fixedSizeClassName?: AMISClassName;
 
   /**
    * 是否可拖拽排序
@@ -325,7 +326,7 @@ let preventEvent = (e: any) => e.stopPropagation();
 export interface ImageProps
   extends FormControlProps,
     Omit<
-      ImageControlSchema,
+      AMISImageControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   onImageEnlarge?: (

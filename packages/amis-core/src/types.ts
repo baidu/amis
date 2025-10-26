@@ -4,67 +4,25 @@ import {ListenerAction} from './actions/Action';
 import {debounceConfig, trackConfig} from './utils/renderer-event';
 import type {TestIdBuilder, ValidateError} from './utils/helper';
 import {AnimationsProps} from './utils/animations';
+import {
+  AMISOption,
+  AMISApiObject,
+  AMISClassName,
+  AMISSchemaBase,
+  AMISOperatorType,
+  AMISExpressionValue,
+  AMISExpressionSimple,
+  AMISExpressionFunc,
+  AMISExpressionField,
+  AMISExpressionFormula,
+  AMISExpressionComplex,
+  AMISConditionRule,
+  AMISConditionGroupValue,
+  AMISConditionValue,
+  AMISExpression
+} from './schema';
 
-export interface Option {
-  /**
-   * 用来显示的文字
-   */
-  label?: string;
-
-  /**
-   * 可以用来给 Option 标记个范围，让数据展示更清晰。
-   *
-   * 这个只有在数值展示的时候显示。
-   */
-  scopeLabel?: string;
-
-  /**
-   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
-   */
-  value?: any;
-
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 禁用提示
-   */
-  disabledTip?: string;
-
-  /**
-   * 支持嵌套
-   */
-  children?: Options;
-
-  /**
-   * 是否可见
-   */
-  visible?: boolean;
-
-  /**
-   * 最好不要用！因为有 visible 就够了。
-   *
-   * @deprecated 用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 描述，部分控件支持
-   */
-  description?: string;
-
-  /**
-   * 标记后数据延时加载
-   */
-  defer?: boolean;
-
-  /**
-   * 如果设置了，优先级更高，不设置走 source 接口加载。
-   */
-  deferApi?: BaseApi;
-
+export interface Option extends AMISOption {
   /**
    * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
    */
@@ -74,155 +32,15 @@ export interface Option {
    * 只有设置了 defer 才有意义，内部字段不可以外部设置
    */
   loaded?: boolean;
-
-  [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
 export type OptionValue = string | number | null | undefined | Option;
 
-export interface BaseApiObject {
-  /**
-   * API 发送类型
-   */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp' | 'js';
-
-  /**
-   * API 发送目标地址
-   */
-  url: string;
-
-  /**
-   * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
-   */
-  data?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 默认数据映射中的key如果带点，或者带大括号，会转成对象比如：
-   *
-   * {
-   *   'a.b': '123'
-   * }
-   *
-   * 经过数据映射后变成
-   * {
-   *  a: {
-   *   b: '123
-   *  }
-   * }
-   *
-   * 如果想要关闭此功能，请设置 convertKeyToPath 为 false
-   */
-  convertKeyToPath?: boolean;
-
-  /**
-   * 用来做接口返回的数据映射。
-   */
-  responseData?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 如果 method 为 get 的接口，设置了 data 信息。
-   * 默认 data 会自动附带在 query 里面发送给后端。
-   *
-   * 如果想通过 body 发送给后端，那么请把这个配置成 false。
-   *
-   * 但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override
-   */
-  attachDataToQuery?: boolean;
-
-  /**
-   * 发送体的格式
-   */
-  dataType?: 'json' | 'form-data' | 'form';
-
-  /**
-   * 如果是文件下载接口，请配置这个。
-   */
-  responseType?: 'blob';
-
-  /**
-   * 携带 headers，用法和 data 一样，可以用变量。
-   */
-  headers?: {
-    [propName: string]: string | number;
-  };
-
-  /**
-   * 设置发送条件
-   */
-  sendOn?: string;
-
-  /**
-   * 默认都是追加模式，如果想完全替换把这个配置成 true
-   */
-  replaceData?: boolean;
-
-  /**
-   * 是否将两次返回的数据字段，做一个合并。配置返回对象中的字段名，支持配置多个。
-   *
-   * 比如：同时返回 log 字段，第一次返回 {log: '1'}，第二次返回 {log: '2'}，合并后的结果是 {log: ['1', '2']]}
-   * 再比如：同时返回 items 字段，第一次返回 {items: [1, 2]}，第二次返回 {items: [3, 4]}，合并后的结果是 {items: [1, 2, 3, 4]}
-   */
-  concatDataFields?: string | Array<string>;
-
-  /**
-   * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
-   *
-   * @default true
-   */
-  autoRefresh?: boolean;
-
-  /**
-   * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
-   * 如果你希望监控 url 外的变量，请配置 trackExpression。
-   */
-  trackExpression?: string;
-
-  /**
-   * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。
-   */
-  cache?: number;
-
-  /**
-   * 强制将数据附加在 query，默认只有 api 地址中没有用变量的时候 crud 查询接口才会
-   * 自动附加数据到 query 部分，如果想强制附加请设置这个属性。
-   * 对于那种临时加了个变量但是又不想全部参数写一遍的时候配置很有用。
-   */
-  forceAppendDataToQuery?: boolean;
-
-  /**
-   * qs 配置项
-   */
-  qsOptions?: {
-    arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';
-    indices?: boolean;
-    allowDots?: boolean;
-  };
-
-  /**
-   * autoFill 是否显示自动填充错误提示
-   */
-  silent?: boolean;
-
-  /**
-   * 提示信息
-   */
-  messages?: {
-    success?: string;
-    failed?: string;
-  };
-}
+export interface BaseApiObject extends AMISApiObject {}
 
 export type BaseApi = BaseApiObject | string;
 
-export type ClassName =
-  | string
-  | {
-      [propName: string]: boolean | undefined | null | string;
-    };
+export type ClassName = AMISClassName;
 
 export type RequestAdaptor = (
   api: ApiObject,
@@ -306,20 +124,9 @@ export interface Payload {
   };
 }
 
-export interface Schema {
-  type: string;
-  detectField?: string;
-  visibleOn?: string;
-  hiddenOn?: string;
-  disabledOn?: string;
-  staticOn?: string;
-  visible?: boolean;
-  hidden?: boolean;
-  disabled?: boolean;
-  static?: boolean;
+export interface Schema extends AMISSchemaBase {
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
-  definitions?: Definitions;
-  animations?: AnimationsProps;
+  component?: React.ElementType;
   [propName: string]: any;
 }
 
@@ -607,218 +414,16 @@ export interface NavigationObject {
   [propName: string]: any;
 }
 
-/**
- * 表达式，语法 `${xxx > 5}`。
- */
-export type SchemaExpression = string;
-
-/**
- * css类名，配置字符串，或者对象。
- *
- *     className: "red"
- *
- * 用对象配置时意味着你能跟表达式一起搭配使用，如：
- *
- *     className: {
- *         "red": "data.progress > 80",
- *         "blue": "data.progress > 60"
- *     }
- */
-export type SchemaClassName =
-  | string
-  | {
-      [propName: string]: boolean | undefined | null | SchemaExpression;
-    };
-export interface BaseSchemaWithoutType {
-  /**
-   * 组件唯一 id，主要用于页面设计器中定位 json 节点
-   */
-  $$id?: string;
-  /**
-   * 容器 css 类名
-   */
-  className?: SchemaClassName;
-
-  /**
-   * 配合 definitions 一起使用，可以实现无限循环的渲染器。
-   */
-  $ref?: string;
-
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 是否禁用表达式
-   */
-  disabledOn?: SchemaExpression;
-
-  /**
-   * 是否隐藏
-   * @deprecated 推荐用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 是否隐藏表达式
-   * @deprecated 推荐用 visibleOn
-   */
-  hiddenOn?: SchemaExpression;
-
-  /**
-   * 是否显示
-   */
-
-  visible?: boolean;
-
-  /**
-   * 是否显示表达式
-   */
-  visibleOn?: SchemaExpression;
-
-  /**
-   * 组件唯一 id，主要用于日志采集
-   */
-  id?: string;
-
-  /**
-   * 事件动作配置
-   */
-  onEvent?: {
-    [propName: string]: {
-      weight?: number; // 权重
-      actions: ListenerAction[]; // 执行的动作集
-      debounce?: debounceConfig;
-      track?: trackConfig;
-    };
-  };
-  /**
-   * 是否静态展示
-   */
-  static?: boolean;
-  /**
-   * 是否静态展示表达式
-   */
-  staticOn?: SchemaExpression;
-  /**
-   * 静态展示空值占位
-   */
-  staticPlaceholder?: string;
-  /**
-   * 静态展示表单项类名
-   */
-  staticClassName?: SchemaClassName;
-  /**
-   * 静态展示表单项Label类名
-   */
-  staticLabelClassName?: SchemaClassName;
-  /**
-   * 静态展示表单项Value类名
-   */
-  staticInputClassName?: SchemaClassName;
-  staticSchema?: any;
-
-  /**
-   * 组件样式
-   */
-  style?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 编辑器配置，运行时可以忽略
-   */
-  editorSetting?: {
-    /**
-     * 组件行为、用途，如 create、update、remove
-     */
-    behavior?: string;
-
-    /**
-     * 组件名称，通常是业务名称方便定位
-     */
-    displayName?: string;
-
-    /**
-     * 编辑器假数据，方便展示
-     */
-    mock?: any;
-
-    [propName: string]: any;
-  };
-
-  /**
-   * 可以组件级别用来关闭移动端样式
-   */
-  useMobileUI?: boolean;
-}
-
-export type OperatorType =
-  | 'equal'
-  | 'not_equal'
-  | 'is_empty'
-  | 'is_not_empty'
-  | 'like'
-  | 'not_like'
-  | 'starts_with'
-  | 'ends_with'
-  | 'less'
-  | 'less_or_equal'
-  | 'greater'
-  | 'greater_or_equal'
-  | 'between'
-  | 'not_between'
-  | 'select_equals'
-  | 'select_not_equals'
-  | 'select_any_in'
-  | 'select_not_any_in'
-  | {
-      label: string;
-      value: string;
-    };
-
-export type ExpressionSimple = string | number | object | undefined;
-export type ExpressionValue =
-  | ExpressionSimple
-  | {
-      type: 'value';
-      value: ExpressionSimple;
-    };
-export type ExpressionFunc = {
-  type: 'func';
-  func: string;
-  args: Array<ExpressionComplex>;
-};
-export type ExpressionField = {
-  type: 'field';
-  field: string;
-};
-export type ExpressionFormula = {
-  type: 'formula';
-  value: string;
-};
-
-export type ExpressionComplex =
-  | ExpressionValue
-  | ExpressionFunc
-  | ExpressionField
-  | ExpressionFormula;
-
-export interface ConditionRule {
-  id: any;
-  left?: ExpressionComplex;
-  op?: OperatorType;
-  right?: ExpressionComplex | Array<ExpressionComplex>;
-  if?: string;
-}
-
-export interface ConditionGroupValue {
-  id: string;
-  conjunction: 'and' | 'or';
-  not?: boolean;
-  children?: Array<ConditionRule | ConditionGroupValue>;
-  if?: string;
-}
-
-export interface ConditionValue extends ConditionGroupValue {}
+export type SchemaExpression = AMISExpression;
+export type SchemaClassName = AMISClassName;
+export type BaseSchemaWithoutType = AMISSchemaBase;
+export type OperatorType = AMISOperatorType;
+export type ExpressionSimple = AMISExpressionSimple;
+export type ExpressionValue = AMISExpressionValue;
+export type ExpressionFunc = AMISExpressionFunc;
+export type ExpressionField = AMISExpressionField;
+export type ExpressionFormula = AMISExpressionFormula;
+export type ExpressionComplex = AMISExpressionComplex;
+export type ConditionRule = AMISConditionRule;
+export type ConditionGroupValue = AMISConditionGroupValue;
+export type ConditionValue = AMISConditionValue;

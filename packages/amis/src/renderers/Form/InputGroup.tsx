@@ -6,22 +6,24 @@ import {
   FormControlProps,
   IFormItemStore,
   IFormStore,
-  anyChanged
+  anyChanged,
+  AMISFormItem,
+  AMISSchemaCollection
 } from 'amis-core';
-import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
+import {FormBaseControlSchema} from '../../Schema';
 import {isMobile} from 'amis-core';
 
 /**
  * InputGroup
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-group
  */
-export interface InputGroupControlSchema extends FormBaseControlSchema {
+export interface AMISInputGroupControlSchema extends AMISFormItem {
   type: 'input-group';
 
   /**
    * FormItem 集合
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 校验提示信息配置

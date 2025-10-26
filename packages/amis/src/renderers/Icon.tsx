@@ -15,12 +15,13 @@ import {
   Icon as IconUI,
   IconCheckedSchema
 } from 'amis-ui';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Icon 图标渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */
-export interface IconSchema extends BaseSchema {
+export interface AMISIconSchema extends AMISSchemaBase {
   type: 'icon';
 
   /**
@@ -38,7 +39,7 @@ export interface IconSchema extends BaseSchema {
 
 export interface IconProps
   extends RendererProps,
-    Omit<IconSchema, 'type' | 'className'> {}
+    Omit<AMISIconSchema, 'type' | 'className'> {}
 
 export class Icon extends React.Component<IconProps, object> {
   static defaultProps: Partial<IconProps> = {

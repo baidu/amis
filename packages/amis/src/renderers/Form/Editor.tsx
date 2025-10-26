@@ -20,7 +20,7 @@ import type {ListenerAction} from 'amis-core';
  * Editor 代码编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/editor
  */
-export interface EditorControlSchema
+export interface AMISEditorControlSchema
   extends BaseSchemaWithoutType,
     FormBaseControlWithoutSize {
   type:

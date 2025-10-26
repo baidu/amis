@@ -5,13 +5,15 @@ import {
   RendererProps,
   buildStyle,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection
 } from 'amis-core';
 import pick from 'lodash/pick';
-import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 
 import {ucFirst} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
+import {AMISSchemaBase} from 'amis-core';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -56,12 +58,12 @@ export type GridColumnObject = {
    */
   horizontal?: FormHorizontal;
 
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 列类名
    */
-  columnClassName?: SchemaClassName;
+  columnClassName?: AMISClassName;
 
   /**
    * 样式
@@ -81,7 +83,7 @@ export interface ColumnArray extends Array<ColumnNode> {}
  * Grid 格子布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */
-export interface GridSchema extends BaseSchema {
+export interface AMISGridSchema extends AMISSchemaBase {
   /**
    * 指定为 Grid 格子布局渲染器。
    */
@@ -110,7 +112,7 @@ export interface GridSchema extends BaseSchema {
 
 export interface GridProps
   extends RendererProps,
-    Omit<GridSchema, 'type' | 'className' | 'columnClassName'>,
+    Omit<AMISGridSchema, 'type' | 'className' | 'columnClassName'>,
     SpinnerExtraProps {
   itemRender?: (
     item: any,

@@ -1,6 +1,6 @@
 import React from 'react';
 import upperFirst from 'lodash/upperFirst';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, AMISUrlPath, Renderer, RendererProps} from 'amis-core';
 import {autobind, detectPropValueChanged, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {resolveVariable} from 'amis-core';
@@ -11,7 +11,7 @@ import {BaseSchema, SchemaUrlPath} from '../Schema';
  * Audio 音频渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
  */
-export interface AudioSchema extends BaseSchema {
+export interface AMISAudioSchema extends AMISSchemaBase {
   /**
    * 指定为音频播放器
    */
@@ -25,7 +25,7 @@ export interface AudioSchema extends BaseSchema {
   /**
    * "视频播放地址, 支持 $ 取变量。
    */
-  src?: SchemaUrlPath;
+  src?: AMISUrlPath;
 
   /**
    * 是否循环播放
@@ -50,7 +50,7 @@ export interface AudioSchema extends BaseSchema {
 
 export interface AudioProps
   extends RendererProps,
-    Omit<AudioSchema, 'className'> {}
+    Omit<AMISAudioSchema, 'className'> {}
 
 export interface AudioState {
   src?: string;

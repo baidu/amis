@@ -9,7 +9,10 @@ import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
 import {
   resolveVariable,
   resolveVariableAndFilter,
-  filterClassNameObject
+  filterClassNameObject,
+  AMISSchemaCollection,
+  AMISSchemaBase,
+  AMISSchema
 } from 'amis-core';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
@@ -17,8 +20,7 @@ import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
 import {
   BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
+  AMISClassName,
   SchemaExpression,
   SchemaObject,
   SchemaTpl,
@@ -28,7 +30,13 @@ import {ActionSchema} from './Action';
 import {Card} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {Icon} from 'amis-ui';
-import type {IItem} from 'amis-core';
+import type {
+  AMISButtonSchema,
+  AMISExpression,
+  AMISFormItem,
+  AMISTemplate,
+  IItem
+} from 'amis-core';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -39,7 +47,7 @@ export type CardBodyField = SchemaObject & {
   /**
    * label 类名
    */
-  labelClassName?: SchemaClassName;
+  labelClassName?: AMISClassName;
 
   /**
    * 绑定字段名
@@ -62,30 +70,30 @@ export type CardBodyField = SchemaObject & {
   copyable?: SchemaCopyable;
 };
 
-export interface CardSchemaWithoutType {
+export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
   /**
    * 头部配置
    */
   header?: {
-    className?: SchemaClassName;
+    className?: AMISClassName;
 
     /**
      * 标题
      */
-    title?: SchemaTpl;
-    titleClassName?: SchemaClassName;
+    title?: AMISTemplate;
+    titleClassName?: AMISClassName;
 
     /**
      * 副标题
      */
-    subTitle?: SchemaCollection;
-    subTitleClassName?: SchemaClassName;
+    subTitle?: AMISSchemaCollection;
+    subTitleClassName?: AMISClassName;
     subTitlePlaceholder?: string;
 
     /**
      * 描述
      */
-    description?: SchemaTpl;
+    description?: AMISTemplate;
 
     /**
      * 描述占位内容
@@ -95,52 +103,52 @@ export interface CardSchemaWithoutType {
     /**
      * 描述占位类名
      */
-    descriptionClassName?: SchemaClassName;
+    descriptionClassName?: AMISClassName;
 
     /**
      * @deprecated 建议用 description
      */
-    desc?: SchemaTpl;
+    desc?: AMISTemplate;
 
     /**
      * @deprecated 建议用 descriptionPlaceholder
      */
-    descPlaceholder?: SchemaTpl;
+    descPlaceholder?: AMISTemplate;
 
     /**
      * @deprecated 建议用 descriptionClassName
      */
-    descClassName?: SchemaClassName;
+    descClassName?: AMISClassName;
 
     /**
      * 图片地址
      */
     avatar?: SchemaUrlPath;
 
-    avatarText?: SchemaTpl;
+    avatarText?: AMISTemplate;
     avatarTextBackground?: String[];
-    avatarTextClassName?: SchemaClassName;
+    avatarTextClassName?: AMISClassName;
 
     /**
      * 图片包括层类名
      */
-    avatarClassName?: SchemaClassName;
+    avatarClassName?: AMISClassName;
 
     /**
      * 图片类名。
      */
-    imageClassName?: SchemaClassName;
+    imageClassName?: AMISClassName;
 
     /**
      * 是否点亮
      */
-    highlight?: SchemaExpression;
-    highlightClassName?: SchemaClassName;
+    highlight?: AMISExpression;
+    highlightClassName?: AMISClassName;
 
     /**
      * 链接地址
      */
-    href?: SchemaTpl;
+    href?: AMISTemplate;
 
     /**
      * 是否新窗口打开
@@ -157,7 +165,7 @@ export interface CardSchemaWithoutType {
    * 多媒体区域
    */
   media?: {
-    className?: SchemaClassName;
+    className?: AMISClassName;
 
     /**
      * 多媒体类型
@@ -193,17 +201,17 @@ export interface CardSchemaWithoutType {
   /**
    * 底部按钮集合。
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 工具栏按钮
    */
-  toolbar?: Array<ActionSchema>;
+  toolbar?: Array<AMISButtonSchema>;
 
   /**
    * 次要说明
    */
-  secondary?: SchemaTpl;
+  secondary?: AMISTemplate;
 
   /**
    * 卡片内容区的表单项label是否使用Card内部的样式，默认为true
@@ -215,7 +223,7 @@ export interface CardSchemaWithoutType {
  * Card 卡片渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
-export interface CardSchema extends CardSchemaWithoutType, BaseSchema {
+export interface AMISCardSchema extends AMISCardSchemaWithoutType {
   /**
    * 指定为 card 类型
    */
@@ -223,7 +231,7 @@ export interface CardSchema extends CardSchemaWithoutType, BaseSchema {
 }
 export interface CardProps
   extends RendererProps,
-    Omit<CardSchema, 'className'> {
+    Omit<AMISCardSchema, 'className'> {
   onCheck: (item: IItem) => void;
   actionsCount: number;
   itemIndex?: number;
@@ -496,7 +504,7 @@ export class CardRenderer extends React.Component<CardProps> {
   }
 
   renderChild(
-    node: SchemaNode,
+    node: AMISSchemaCollection,
     region: string = 'body',
     key: any = 0
   ): React.ReactNode {
@@ -506,7 +514,7 @@ export class CardRenderer extends React.Component<CardProps> {
       return render(region, node, {key}) as JSX.Element;
     }
 
-    const childNode: Schema = node as Schema;
+    const childNode: AMISSchema = node as AMISSchema;
 
     if (childNode.type === 'hbox' || childNode.type === 'grid') {
       return render(region, node, {
@@ -522,7 +530,7 @@ export class CardRenderer extends React.Component<CardProps> {
     return this.renderField(`column/${index}`, field, index, props);
   }
 
-  renderField(region: string, field: Schema, key: any, props: any) {
+  renderField(region: string, field: AMISSchema, key: any, props: any) {
     const {render, classnames: cx, itemIndex} = props;
     const useCardLabel = props?.useCardLabel !== false;
     const data = this.props.data;
@@ -534,9 +542,14 @@ export class CardRenderer extends React.Component<CardProps> {
 
     return (
       <div className={cx('Card-field')} key={key}>
-        {useCardLabel && field.label ? (
-          <label className={cx('Card-fieldLabel', field.labelClassName)}>
-            {field.label}
+        {useCardLabel && (field as AMISFormItem).label ? (
+          <label
+            className={cx(
+              'Card-fieldLabel',
+              (field as AMISFormItem).labelClassName
+            )}
+          >
+            {(field as AMISFormItem).label}
           </label>
         ) : null}
 

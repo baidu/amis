@@ -12,12 +12,13 @@ import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Rating
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/rating
  */
-export interface RatingControlSchema extends FormBaseControlSchema {
+export interface AMISInputRatingSchema extends AMISFormItem {
   type: 'input-rating';
 
   /**

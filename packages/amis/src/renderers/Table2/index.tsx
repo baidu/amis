@@ -59,7 +59,7 @@ import './TableCell';
 import './ColumnToggler';
 import {SchemaQuickEdit} from '../QuickEdit';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISButtonSchema, AMISSchemaBase, TestIdBuilder} from 'amis-core';
 
 /**
  * Table 表格2渲染器。
@@ -281,7 +281,7 @@ export interface ExpandableSchema {
   expandedRowKeysExpr: string;
 }
 
-export interface BaseTableSchema2 extends BaseSchema {
+export interface BaseTableSchema2 extends AMISSchemaBase {
   /**
    * 表格标题
    */
@@ -395,7 +395,7 @@ export interface BaseTableSchema2 extends BaseSchema {
   /**
    * 操作列配置
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 批量操作最大限制数
@@ -441,7 +441,7 @@ export interface BaseTableSchema2 extends BaseSchema {
   lazyRenderAfter?: number;
 }
 
-export interface TableSchema2 extends BaseTableSchema2 {
+export interface AMISTableSchema2 extends BaseTableSchema2 {
   /**
    * 指定为表格类型
    */

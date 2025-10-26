@@ -5,7 +5,8 @@ import {
   buildApi,
   qsstringify,
   resolveEventData,
-  autobind
+  autobind,
+  AMISFormItem
 } from 'amis-core';
 import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
@@ -18,7 +19,7 @@ import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
  * RichText
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-rich-text
  */
-export interface RichTextControlSchema extends FormBaseControlSchema {
+export interface AMISInputRichTextSchema extends AMISFormItem {
   type: 'input-rich-text';
 
   /**
