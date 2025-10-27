@@ -44,14 +44,10 @@ export interface AMISInputRatingSchema extends AMISFormItem {
   /**
    * 星星被选中的颜色
    */
-  // colors?: string | {
-  //   [propName: string | number]: string;
-  // };
-
   colors?: string | {[propName: string]: string};
 
   /**
-   * 未被选中的星星的颜色
+   * 未被选中的星星颜色
    */
   inactiveColor?: string;
 
@@ -61,7 +57,7 @@ export interface AMISInputRatingSchema extends AMISFormItem {
   texts?: {[propName: string]: string};
 
   /**
-   * 文字的位置
+   * 文字位置
    */
   textPosition?: textPositionType;
 

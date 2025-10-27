@@ -19,27 +19,27 @@ export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
 export type GridColumnObject = {
   /**
-   * 组件唯一 id
+   * 组件唯一标识符
    */
   id?: string;
 
   /**
-   * 极小屏（<768px）时宽度占比
+   * 极小屏幕宽度占比
    */
   xs?: number | 'auto';
 
   /**
-   * 小屏时（>=768px）宽度占比
+   * 小屏幕宽度占比
    */
   sm?: number | 'auto';
 
   /**
-   * 中屏时(>=992px)宽度占比
+   * 中等屏幕宽度占比
    */
   md?: number | 'auto';
 
   /**
-   * 大屏时(>=1200px)宽度占比
+   * 大屏幕宽度占比
    */
   lg?: number | 'auto';
 
@@ -49,29 +49,38 @@ export type GridColumnObject = {
   valign?: 'top' | 'middle' | 'bottom' | 'between';
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 子表单项展示方式
    */
   mode?: 'normal' | 'inline' | 'horizontal';
 
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版宽度占比配置
    */
   horizontal?: FormHorizontal;
 
+  /**
+   * 列内容配置
+   */
   body?: AMISSchemaCollection;
 
   /**
-   * 列类名
+   * 列CSS类名
    */
   columnClassName?: AMISClassName;
 
   /**
-   * 样式
+   * 自定义样式
    */
   style?: any;
 
+  /**
+   * 包装器自定义样式
+   */
   wrapperCustomStyle?: any;
 
+  /**
+   * 主题样式配置
+   */
   themeCss?: any;
 };
 
@@ -80,22 +89,22 @@ export type ColumnNode = GridColumn;
 export interface ColumnArray extends Array<ColumnNode> {}
 
 /**
- * Grid 格子布局渲染器。
+ * Grid 网格布局组件，用于创建响应式网格系统
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */
 export interface AMISGridSchema extends AMISSchemaBase {
   /**
-   * 指定为 Grid 格子布局渲染器。
+   * 指定为 grid 组件
    */
   type: 'grid';
 
   /**
-   * 列集合
+   * 列配置数组，定义每列的布局和内容
    */
   columns: Array<GridColumn>;
 
   /**
-   * 水平间距
+   * 列之间的水平间距
    */
   gap?: 'xs' | 'sm' | 'base' | 'none' | 'md' | 'lg';
 

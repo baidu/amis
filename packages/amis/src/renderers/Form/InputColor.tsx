@@ -18,7 +18,7 @@ export const ColorPicker = React.lazy(
  */
 export interface AMISInputColorControlSchema extends AMISFormItem {
   /**
-   * 指定为颜色选择框
+   * 指定为 color 组件
    */
   type: 'input-color';
 
@@ -33,17 +33,17 @@ export interface AMISInputColorControlSchema extends AMISFormItem {
   format?: 'hex' | 'hexa' | 'rgb' | 'rgba' | 'hsl';
 
   /**
-   * 选中颜色后是否关闭弹出层。
+   * 选中颜色后是否关闭弹出层
    */
   closeOnSelect?: boolean;
 
   /**
-   * 预设颜色，用户可以直接从预设中选。
+   * 预设颜色
    */
   presetColors?: Array<PresetColor>;
 
   /**
-   * 是否允许用户输入颜色。
+   * 是否允许用户输入颜色
    */
   allowCustomColor?: boolean;
   /**

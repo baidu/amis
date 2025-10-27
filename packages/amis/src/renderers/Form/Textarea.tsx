@@ -20,7 +20,7 @@ import cx from 'classnames';
  */
 export interface AMISTextareaSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 textarea 组件
    */
   type: 'textarea';
 
@@ -40,27 +40,27 @@ export interface AMISTextareaSchema extends AMISFormItem {
   readOnly?: boolean;
 
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 限制文字个数
+   * 最大长度
    */
   maxLength?: number;
 
   /**
-   * 是否显示计数
+   * 是否显示字符计数
    */
   showCounter?: boolean;
 
   /**
-   * 输入内容是否可清除
+   * 是否显示清除按钮
    */
   clearable?: boolean;
 
   /**
-   * 重置值
+   * 重置时的默认值
    */
   resetValue?: string;
 }

@@ -69,84 +69,91 @@ export type ComposedDataProvider = DataProvider | DataProviderCollection;
  */
 export interface AMISServiceSchema extends BaseSchema, SpinnerExtraProps {
   /**
-   * 指定为 Service 数据拉取控件。
+   * 指定为 service 组件
    */
   type: 'service';
 
   /**
-   * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。
+   * API 接口配置
    */
   api?: SchemaApi;
 
   /**
-   * WebScocket 地址，用于实时获取数据
+   * WebSocket 地址
    */
   ws?: string;
 
   /**
-   * 通过调用外部函数来获取数据
+   * 数据提供者函数
    */
   dataProvider?: ComposedDataProvider;
 
   /**
-   * 内容区域
+   * 内容区域配置
    */
   body?: AMISSchemaCollection;
 
   /**
-   * @deprecated 改成 api 的 sendOn。
+   * 数据拉取条件表达式
+   * @deprecated 建议使用 api 的 sendOn 属性
    */
   fetchOn?: AMISExpression;
 
   /**
-   * 是否默认就拉取？
+   * 是否在组件初始化时自动拉取数据
    */
   initFetch?: boolean;
 
   /**
-   * 是否默认就拉取？通过表达式来决定.
-   *
-   * @deprecated 改成 api 的 sendOn。
+   * 通过表达式控制是否在初始化时拉取数据
+   * @deprecated 建议使用 api 的 sendOn 属性
    */
   initFetchOn?: AMISExpression;
 
   /**
-   * 用来获取远程 Schema 的 api
+   * 用于获取远程 Schema 的 API 配置
    */
   schemaApi?: SchemaApi;
 
   /**
-   * 是否默认加载 schemaApi
+   * 是否在组件初始化时自动加载 schemaApi
    */
   initFetchSchema?: boolean;
 
   /**
-   * 用表达式来配置。
-   * @deprecated 改成 api 的 sendOn。
+   * 通过表达式控制是否加载 schemaApi
+   * @deprecated 建议使用 api 的 sendOn 属性
    */
   initFetchSchemaOn?: AMISExpression;
 
   /**
-   * 是否轮询拉取
+   * 轮询间隔时间（毫秒），设置为 0 时停止轮询
    */
   interval?: number;
 
   /**
-   * 是否静默拉取
+   * 是否静默轮询，不显示加载状态
    */
   silentPolling?: boolean;
 
   /**
-   * 关闭轮询的条件。
+   * 停止自动刷新的条件表达式
    */
   stopAutoRefreshWhen?: AMISExpression;
 
+  /**
+   * 消息配置，用于显示成功或失败提示
+   */
   messages?: SchemaMessage;
 
+  /**
+   * 组件名称，用于组件通信和数据绑定
+   */
   name?: SchemaName;
 
   /**
-   * 是否以Alert的形式显示api接口响应的错误信息，默认展示
+   * 是否以 Alert 形式显示 API 接口响应的错误信息
+   * @default true
    */
   showErrorMsg?: boolean;
 }

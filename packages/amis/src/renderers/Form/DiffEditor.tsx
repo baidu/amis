@@ -19,17 +19,17 @@ import type {AMISFormItem, ListenerAction} from 'amis-core';
  */
 export interface AMISDiffControlSchema extends AMISFormItem {
   /**
-   * 指定为 Diff 编辑器
+   * 指定为 diff-editor 组件
    */
   type: 'diff-editor';
 
   /**
-   * 左侧面板的值， 支持取变量。
+   * 左侧面板的值
    */
   diffValue?: SchemaTokenizeableString;
 
   /**
-   * 语言，参考 monaco-editor
+   * 语言
    */
   language?: string;
 

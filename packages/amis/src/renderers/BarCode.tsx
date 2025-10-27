@@ -14,7 +14,7 @@ const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
  */
 export interface AMISBarCodeSchema extends AMISSchemaBase {
   /**
-   *  指定为颜色显示控件
+   * 指定为 barcode 组件
    */
   type: 'barcode';
 

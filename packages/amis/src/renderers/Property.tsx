@@ -13,27 +13,27 @@ import {AMISSchemaBase} from 'amis-core';
 
 export type PropertyItemProps = {
   /**
-   * 属性名
+   * 属性名称标签
    */
   label?: SchemaTpl;
 
   /**
-   * 属性值
+   * 属性值内容
    */
   content?: SchemaTpl;
 
   /**
-   * 配置是否显示，如果不显示，后续的节点会补上来
+   * 控制属性项是否显示的表达式
    */
   visibleOn?: AMISExpression;
 
   /**
-   * 配置是否显示，如果不显示，后续的节点会补上来
+   * 控制属性项是否隐藏的表达式
    */
   hiddenOn?: AMISExpression;
 
   /**
-   * 跨几列
+   * 跨列数
    */
   span?: number;
 };
@@ -46,17 +46,17 @@ export type PropertyItem = PropertyItemProps & SchemaObject;
  */
 export interface AMISPropertySchema extends AMISSchemaBase {
   /**
-   * 指定为 property 展示类型
+   * 指定为 property 组件
    */
   type: 'property';
 
   /**
-   * 标题
+   * 属性列表标题
    */
   title?: string;
 
   /**
-   * 一共几列
+   * 每行显示的列数
    */
   column?: number;
 
@@ -66,35 +66,38 @@ export interface AMISPropertySchema extends AMISSchemaBase {
   mode?: 'table' | 'simple';
 
   /**
-   * 每个 property 的设置
+   * 属性项配置数组
    */
   items: Array<PropertyItem>;
 
   /**
-   * 自定义样式
+   * 自定义容器样式
    */
   style?: {
     [propName: string]: any;
   };
 
   /**
-   * 标题样式
+   * 标题样式配置
    */
   titleStyle?: {
     [propName: string]: any;
   };
 
   /**
-   * 自定义样式
+   * 属性名称标签样式配置
    */
   labelStyle?: {
     [propName: string]: any;
   };
 
+  /**
+   * 属性名称和值之间的分隔符
+   */
   separator?: string;
 
   /**
-   * 自定义样式
+   * 属性值内容样式配置
    */
   contentStyle?: {
     [propName: string]: any;

@@ -21,7 +21,7 @@ import cx from 'classnames';
  */
 export interface AMISCollapseGroupSchema extends AMISSchemaBase {
   /**
-   * 指定为折叠器类型
+   * 指定为 collapse-group 组件
    */
   type: 'collapse-group';
 
@@ -51,7 +51,7 @@ export interface AMISCollapseGroupSchema extends AMISSchemaBase {
   body?: AMISSchemaCollection;
 
   /**
-   * 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式，默认开启
+   * 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式
    */
   enableFieldSetStyle?: boolean;
 }

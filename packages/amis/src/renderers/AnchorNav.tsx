@@ -38,7 +38,7 @@ export interface AnchorNavSectionSchema extends AMISSchemaBase {
  */
 export interface AMISAnchorNavSchema extends AMISSchemaBase {
   /**
-   * 指定为 AnchorNav 锚点导航渲染器
+   * 指定为 anchor-nav 组件
    */
   type: 'anchor-nav';
 

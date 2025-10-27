@@ -23,54 +23,60 @@ import type {
 
 export interface StepSchema extends AMISSchemaBase {
   /**
-   * 标题
+   * 步骤标题
    */
   title?: string | AMISSchemaCollection;
 
   /**
-   * 子标题
+   * 步骤子标题
    */
   subTitle?: string | AMISSchemaCollection;
 
   /**
-   * 图标
+   * 步骤图标
    */
   icon?: string;
 
+  /**
+   * 步骤值
+   */
   value?: string | number;
 
   /**
-   * 描述
+   * 步骤描述
    */
   description?: string | AMISSchemaCollection;
 }
 
 export interface AMISStepsSchema extends AMISSchemaBase {
   /**
-   * 指定为 Steps 步骤条渲染器
+   * 指定为 steps 组件
    */
   type: 'steps';
 
   /**
-   * 步骤
+   * 步骤配置数组
    */
   steps?: Array<StepSchema>;
 
   /**
-   * API 或 数据映射
+   * 数据源配置
    */
   source?: string;
 
   /**
-   * 指定当前步骤
+   * 指定当前激活的步骤
    */
   value?: number | string;
 
   /**
-   * 变量映射
+   * 变量映射名称
    */
   name?: string;
 
+  /**
+   * 步骤状态配置
+   */
   status?:
     | StepStatus
     | {

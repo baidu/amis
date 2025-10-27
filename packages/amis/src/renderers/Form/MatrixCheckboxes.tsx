@@ -33,12 +33,12 @@ export interface AMISMatrixControlSchema extends AMISFormItem {
   multiple?: boolean;
 
   /**
-   * 设置单选模式，multiple为false时有效
+   * 设置单选模式
    */
   singleSelectMode?: boolean;
 
   /**
-   * 可用来通过 API 拉取 options。
+   * 可用来通过 API 拉取 options
    */
   source?: SchemaApi;
 

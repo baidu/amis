@@ -30,43 +30,43 @@ export interface AMISAppPage extends SpinnerExtraProps {
   label?: string;
 
   /**
-   * 菜单图标，比如： fa fa-file
+   * 菜单图标
    */
   icon?: string;
 
   /**
-   * 路由规则。比如：/banner/:id。当地址以 / 打头，则不继承上层的路径，否则将集成父级页面的路径。
+   * 路由规则
    */
   url?: string;
 
   /**
-   * 当match url 时跳转到目标地址.没有配置 schema 和 shcemaApi  时有效.
+   * 当match url 时跳转到目标地址
    */
   redirect?: string;
 
   /**
-   * 当match url 转成渲染目标地址的页面.没有配置 schema 和 shcemaApi  时有效.
+   * 当match url 转成渲染目标地址的页面
    */
   rewrite?: string;
 
   /**
-   * 不要出现多个，如果出现多个只有第一个有用。在路由找不到的时候作为默认页面。
+   * 不要出现多个，如果出现多个只有第一个有用。在路由找不到的时候作为默认页面
    */
   isDefaultPage?: boolean;
 
   /**
-   * 二选一，如果配置了 url 一定要配置。否则不知道如何渲染。
+   * 二选一，如果配置了 url 一定要配置。否则不知道如何渲染
    */
   schema?: any;
   schemaApi?: any;
 
   /**
-   * 单纯的地址。可以设置外部链接。
+   * 单纯的地址。可以设置外部链接
    */
   link?: string;
 
   /**
-   * 支持多层级。
+   * 支持多层级
    */
   children?: Array<AMISAppPage>;
 
@@ -76,7 +76,7 @@ export interface AMISAppPage extends SpinnerExtraProps {
   className?: AMISClassName;
 
   /**
-   * 是否在导航中可见，适合于那种需要携带参数才显示的页面。比如具体某个数据的编辑页面。
+   * 是否在导航中可见
    */
   visible?: boolean;
 
@@ -94,7 +94,7 @@ export interface AMISAppPage extends SpinnerExtraProps {
  */
 export interface AMISAppSchema extends AMISSchemaBase, SpinnerExtraProps {
   /**
-   * 指定为 app 类型。
+   * 指定为 app 组件
    */
   type: 'app';
 

@@ -50,7 +50,7 @@ export type LogOperation =
  */
 export interface AMISLogSchema extends AMISSchemaBase {
   /**
-   * 指定为 log 链接展示控件
+   * 指定为 log 组件
    */
   type: 'log';
 

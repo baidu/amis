@@ -21,9 +21,7 @@ import {AMISSchemaBase} from 'amis-core';
  */
 export interface AMISTplSchema extends AMISSchemaBase {
   /**
-   * 指定为模板渲染器。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+   * 指定为 tpl 组件
    */
   type: 'tpl' | 'html';
 
@@ -33,7 +31,7 @@ export interface AMISTplSchema extends AMISSchemaBase {
   raw?: string;
 
   /**
-   * 是否内联显示？
+   * 是否内联显示
    */
   inline?: boolean;
 

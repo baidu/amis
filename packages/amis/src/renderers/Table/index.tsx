@@ -93,16 +93,16 @@ import type {
 } from 'amis-core';
 
 /**
- * 表格列，不指定类型时默认为文本类型。
+ * 表格列配置，不指定类型时默认为文本类型
  */
 export interface AMISTableColumnConfig {
   /**
-   * 列标题
+   * 列标题文本
    */
   label: string;
 
   /**
-   * 配置是否固定当前列
+   * 是否固定当前列
    */
   fixed?: 'left' | 'right' | 'none';
 
@@ -112,27 +112,27 @@ export interface AMISTableColumnConfig {
   name?: AMISVariableName;
 
   /**
-   * 配置查看详情功能
+   * 查看详情配置
    */
   popOver?: AMISPopOverBase;
 
   /**
-   * 配置快速编辑功能
+   * 快速编辑配置
    */
   quickEdit?: AMISQuickEdit;
 
   /**
-   * 作为表单项时，可以单独配置编辑时的快速编辑面板。
+   * 更新时快速编辑配置
    */
   quickEditOnUpdate?: AMISQuickEdit;
 
   /**
-   * 配置点击复制功能
+   * 点击复制配置
    */
   copyable?: AMISCopyable;
 
   /**
-   * 配置是否可以排序
+   * 是否可排序
    */
   sortable?: boolean;
 
@@ -142,7 +142,7 @@ export interface AMISTableColumnConfig {
   searchable?: boolean | AMISSchema;
 
   /**
-   * 配置是否默认展示
+   * 是否默认展示
    */
   toggled?: boolean;
 
@@ -162,7 +162,7 @@ export interface AMISTableColumnConfig {
   vAlign?: 'top' | 'middle' | 'bottom';
 
   /**
-   * 标题左右对齐方式
+   * 标题对齐方式
    */
   headerAlign?: 'left' | 'right' | 'center' | 'justify';
 
@@ -182,7 +182,7 @@ export interface AMISTableColumnConfig {
   labelClassName?: string;
 
   /**
-   * todo
+   * 是否可过滤
    */
   filterable?:
     | boolean
@@ -192,39 +192,38 @@ export interface AMISTableColumnConfig {
       };
 
   /**
-   * 结合表格的 footable 一起使用。
-   * 填写 *、xs、sm、md、lg指定 footable 的触发条件，可以填写多个用空格隔开
+   * 响应式断点
    */
   breakpoint?: '*' | 'xs' | 'sm' | 'md' | 'lg';
 
   /**
-   * 提示信息
+   * 提示信息配置
    */
   remark?: AMISRemarkBase;
 
   /**
-   * 默认值, 只有在 inputTable 里面才有用
+   * 默认值
    */
   value?: any;
 
   /**
-   * 是否唯一, 只有在 inputTable 里面才有用
+   * 是否唯一
    */
   unique?: boolean;
 
   /**
-   * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
+   * 是否可以获取父级数据
    */
   canAccessSuperData?: boolean;
 
   /**
-   * 当一次性渲染太多列上有用，默认为 100，可以用来提升表格渲染性能
+   * 延迟渲染阈值
    * @default 100
    */
   lazyRenderAfter?: number;
 
   /**
-   * 单元格内部组件自定义样式 style作为单元格自定义样式的配置
+   * 单元格内部组件自定义样式
    */
   innerStyle?: {
     [propName: string]: any;

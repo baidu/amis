@@ -23,17 +23,17 @@ import type {SpinnerExtraProps} from 'amis-ui';
 
 export interface AMISSwitchSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 switch 组件
    */
   type: 'switch';
 
   /**
-   * 勾选值
+   * 开启时的值
    */
   trueValue?: boolean | string | number;
 
   /**
-   * 未勾选值
+   * 关闭时的值
    */
   falseValue?: boolean | string | number;
 
@@ -43,19 +43,23 @@ export interface AMISSwitchSchema extends AMISFormItem {
   option?: string;
 
   /**
-   * 开启时显示的内容
+   * 开启时显示内容
    */
   onText?: string | AMISIconSchema | AMISSchemaCollection;
 
   /**
-   * 关闭时显示的内容
+   * 关闭时显示内容
    */
   offText?: string | AMISIconSchema | AMISSchemaCollection;
 
-  /** 开关尺寸 */
+  /**
+   * 开关尺寸
+   */
   size?: 'sm' | 'md';
 
-  /** 是否处于加载状态 */
+  /**
+   * 是否加载中
+   */
   loading?: boolean;
 }
 

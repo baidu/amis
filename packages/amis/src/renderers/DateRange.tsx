@@ -14,22 +14,22 @@ import {getPropValue} from 'amis-core';
  */
 export interface AMISDateRangeSchema extends AMISSchemaBase {
   /**
-   * 指定为日期展示类型
+   * 指定为 date-range 组件
    */
   type: 'date-range';
 
   /**
-   * 值的时间格式，参考 moment 中的格式说明。
+   * 值的时间格式
    */
   valueFormat?: string;
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。
+   * 展示的时间格式
    */
   format?: string;
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+   * 展示的时间格式（新：同format）
    */
   displayFormat?: string;
 

@@ -172,6 +172,11 @@ export interface AMISSchemaBase {
    */
   useMobileUI?: boolean;
   animations?: AMISAnimations;
+
+  /**
+   * 测试 id，用于自动化测试
+   */
+  testid?: string;
 }
 
 export type AMISOperatorType =

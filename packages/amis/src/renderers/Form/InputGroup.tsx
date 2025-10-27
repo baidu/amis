@@ -30,7 +30,7 @@ export interface AMISInputGroupControlSchema extends AMISFormItem {
    */
   validationConfig?: {
     /**
-     * 错误提示的展示模式, full为整体飘红, highlight为仅错误项飘红, 默认为full
+     * 错误提示的展示模式
      */
     errorMode?: 'full' | 'partial';
 

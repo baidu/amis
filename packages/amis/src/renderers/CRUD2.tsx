@@ -62,12 +62,12 @@ export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
 export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**
-   *  指定为 CRUD2 渲染器。
+   * 指定为 crud2 组件
    */
   type: 'crud2';
 
   /**
-   * 指定内容区的展示模式。
+   * 指定内容区的展示模式
    */
   mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list' | 'table2';
 
@@ -77,7 +77,7 @@ export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   api?: AMISApi;
 
   /**
-   * 也可以直接从环境变量中读取，但是不太推荐。
+   * 也可以直接从环境变量中读取
    */
   source?: AMISLocalSource;
 
@@ -92,12 +92,12 @@ export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   stopAutoRefreshWhen?: AMISExpression;
 
   /**
-   * 数据展示模式 无限加载 or 分页
+   * 数据展示模式
    */
   loadType?: 'more' | 'pagination';
 
   /**
-   * 无限加载时，根据此项设置其每页加载数量，可以不限制
+   * 无限加载时，根据此项设置其每页加载数量
    */
   perPage?: number;
 

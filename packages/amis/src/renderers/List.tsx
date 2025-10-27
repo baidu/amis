@@ -65,21 +65,21 @@ import {AlphabetIndexer} from 'amis-ui';
 import {AMISQuickEdit} from './QuickEdit';
 
 /**
- * 不指定类型默认就是文本
+ * 列表字段配置，不指定类型默认就是文本
  */
 export type AMISListFieldConfig = {
   /**
-   * 列标题
+   * 字段标签名称
    */
   label?: string;
 
   /**
-   * label 类名
+   * 标签CSS类名
    */
   labelClassName?: AMISClassName;
 
   /**
-   * 内层组件的CSS类名
+   * 内层组件CSS类名
    */
   innerClassName?: AMISClassName;
 
@@ -89,12 +89,12 @@ export type AMISListFieldConfig = {
   name?: string;
 
   /**
-   * 配置查看详情功能
+   * 查看详情配置
    */
   popOver?: AMISPopOverBase;
 
   /**
-   * 配置快速编辑功能
+   * 快速编辑配置
    */
   quickEdit?: AMISQuickEdit;
 

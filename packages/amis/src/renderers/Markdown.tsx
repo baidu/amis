@@ -15,7 +15,7 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
  */
 export interface AMISMarkdownSchema extends AMISSchemaBase {
   /**
-   * markdown 渲染
+   * 指定为 markdown 组件
    */
   type: 'markdown';
 

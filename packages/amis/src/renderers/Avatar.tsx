@@ -90,7 +90,7 @@ export interface AMISAvatarSchema extends AMISSchemaBase {
   crossOrigin: 'anonymous' | 'use-credentials' | '';
 
   /**
-   * 图片加载失败的是否默认处理，字符串函数
+   * 图片加载失败的是否默认处理
    */
   onError?: string;
 }

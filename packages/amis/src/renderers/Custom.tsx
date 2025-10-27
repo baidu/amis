@@ -12,16 +12,38 @@ import isEqual from 'lodash/isEqual';
  */
 export interface AMISCustomSchema extends AMISSchemaBase {
   /**
-   * 实现自定义功能的渲染器，主要给 JS SDK 和可视化编辑器里使用。
-   *
-   * 文档：https://baidu.gitee.io/amis/components/custom
+   * 指定为 custom 组件
    */
   type: 'custom';
+
+  /**
+   * 组件挂载时的回调函数
+   */
   onMount?: Function | string;
+
+  /**
+   * 组件更新时的回调函数
+   */
   onUpdate?: Function | string;
+
+  /**
+   * 组件卸载时的回调函数
+   */
   onUnmount?: Function | string;
+
+  /**
+   * 是否内联渲染
+   */
   inline?: boolean;
+
+  /**
+   * 组件唯一标识符
+   */
   id?: string;
+
+  /**
+   * HTML 字符串
+   */
   html?: string;
 }
 

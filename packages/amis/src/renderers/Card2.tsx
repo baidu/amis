@@ -12,7 +12,7 @@ import {AMISSchemaBase} from 'amis-core';
  */
 export interface AMISCard2Schema extends AMISSchemaBase {
   /**
-   * 指定为 card2 类型
+   * 指定为 card2 组件
    */
   type: 'card2';
 

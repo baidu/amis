@@ -54,43 +54,38 @@ import Sortable from 'sortablejs';
 export interface AMISImageControlSchema extends AMISFormItem {
   /**
    * 格式校验失败是否显示弹窗
-   * */
+   */
   showErrorModal?: boolean;
   /**
    * 校验格式失败时显示的文字信息
-   * */
+   */
   invalidTypeMessage?: string;
   /**
    * 校验文件大小失败时显示的文字信息
-   * */
+   */
   invalidSizeMessage?: string;
   /**
-   * 指定为图片上传控件
+   * 指定为 image 组件
    */
   type: 'input-image';
 
   /**
-   * 默认展示图片的链接
+   * 默认展示图片链接
    */
   src?: SchemaUrlPath;
 
   /**
-   * 默认展示图片的类名
+   * 默认展示图片类名
    */
   imageClassName?: string;
 
   /**
    * 配置接收的图片类型
-   *
-   * 建议直接填写文件后缀
-   * 如：.txt,.csv
-   *
-   * 多个类型用逗号隔开。
    */
   accept?: string;
 
   /**
-   * 默认都是通过用户选择图片后上传返回图片地址，如果开启此选项，则可以允许用户图片地址。
+   * 是否允许用户输入图片地址
    */
   allowInput?: boolean;
 

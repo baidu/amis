@@ -25,7 +25,7 @@ export interface AMISIconSchema extends AMISSchemaBase {
   type: 'icon';
 
   /**
-   * 按钮类型
+   * 图标类型
    */
   icon: SchemaTpl | IconCheckedSchema;
 

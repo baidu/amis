@@ -12,7 +12,7 @@ import {getPropValue} from 'amis-core';
  */
 export interface AMISColorSchema extends AMISSchemaBase {
   /**
-   *  指定为颜色显示控件
+   * 指定为 color 组件
    */
   type: 'color';
 
@@ -22,7 +22,7 @@ export interface AMISColorSchema extends AMISSchemaBase {
   defaultColor?: string;
 
   /**
-   * 是否用文字显示值。
+   * 是否用文字显示值
    */
   showValue?: boolean;
 }

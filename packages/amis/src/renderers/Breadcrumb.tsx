@@ -59,7 +59,7 @@ export type ItemPlace = 'start' | 'middle' | 'end';
 
 export interface AMISBreadcrumbSchema extends AMISSchemaBase {
   /**
-   *  指定为面包屑显示控件
+   * 指定为 breadcrumb 组件
    */
   type: 'breadcrumb';
 

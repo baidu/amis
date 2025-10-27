@@ -15,8 +15,7 @@ import {AMISFormItemWithOptions} from 'amis-core';
  */
 export interface ChartRadiosControlSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 ChartRadios 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chart-radios
+   * 指定为 chart-radios 组件
    */
   type: 'chart-radios';
   config: any;

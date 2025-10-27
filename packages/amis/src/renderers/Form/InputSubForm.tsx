@@ -19,7 +19,7 @@ import type {AMISFormBase, AMISFormItem, TestIdBuilder} from 'amis-core';
  */
 export interface AMISInputSubFormSchema extends AMISFormItem {
   /**
-   * 指定为 SubForm 子表单
+   * 指定为 sub-form 组件
    */
   type: 'input-sub-form';
 
@@ -64,7 +64,7 @@ export interface AMISInputSubFormSchema extends AMISFormItem {
   maxLength?: number;
 
   /**
-   * 当值中存在这个字段，则按钮名称将使用此字段的值来展示。
+   * 当值中存在这个字段，则按钮名称将使用此字段的值来展示
    */
   labelField?: string;
 
@@ -80,7 +80,7 @@ export interface AMISInputSubFormSchema extends AMISFormItem {
   addButtonText?: string;
 
   /**
-   * 新增按钮 CSS 类名
+   * 新增按钮CSS类名
    */
   addButtonClassName?: AMISClassName;
 

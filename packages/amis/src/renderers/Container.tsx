@@ -18,7 +18,7 @@ import {BaseSchema, AMISClassName} from '../Schema';
 /** 容器拖拽配置 */
 export interface ContainerDraggableConfig {
   /**
-   * 可拖拽的方向, 默认为所有方向, 支持设置为X或Y轴
+   * 可拖拽的方向
    */
   axis?: 'both' | 'x' | 'y';
 
@@ -28,7 +28,7 @@ export interface ContainerDraggableConfig {
   defaultPosition?: {x: number; y: number};
 
   /**
-   * 拖拽的边界, 可以设置坐标, 也可以设置父级元素的选择器
+   * 拖拽的边界
    */
   bounds?:
     | {
@@ -55,7 +55,7 @@ export interface ContainerDraggableConfig {
   cancel?: string;
 
   /**
-   * 拖拽距离的缩放比, 默认为1
+   * 拖拽距离的缩放比
    */
   scale?: number;
 
@@ -71,7 +71,7 @@ export interface ContainerDraggableConfig {
  */
 export interface AMISContainerSchema extends AMISSchemaBase {
   /**
-   * 指定为 container 类型
+   * 指定为 container 组件
    */
   type: 'container';
 

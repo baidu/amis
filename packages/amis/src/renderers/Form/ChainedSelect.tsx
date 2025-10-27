@@ -28,8 +28,7 @@ import isEmpty from 'lodash/isEmpty';
 export interface AMISChainedSelectControlSchema
   extends AMISFormItemWithOptions {
   /**
-   * 指定为链式下拉框
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
+   * 指定为 chained-select 组件
    */
   type: 'chained-select';
 }

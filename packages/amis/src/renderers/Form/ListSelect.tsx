@@ -20,13 +20,12 @@ import {supportStatic} from './StaticHoc';
  */
 export interface AMISListControlSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 ListSelect 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
+   * 指定为 list-select 组件
    */
   type: 'list-select';
 
   /**
-   * 开启双击点选并提交。
+   * 开启双击点选并提交
    */
   submitOnDBClick?: boolean;
 
@@ -36,18 +35,17 @@ export interface AMISListControlSchema extends AMISFormItemWithOptions {
   imageClassName?: string;
 
   /**
-   * 可以自定义展示模板。
+   * 可以自定义展示模板
    */
   itemSchema?: AMISSchemaCollection;
 
   /**
-   * 激活态自定义展示模板。
+   * 激活态自定义展示模板
    */
   activeItemSchema?: AMISSchemaCollection;
 
   /**
-   * 支持配置 list div 的 css 类名。
-   * 比如：flex justify-between
+   * 支持配置 list div 的 css 类名
    */
   listClassName?: AMISClassName;
 }

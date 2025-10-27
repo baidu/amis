@@ -5,7 +5,7 @@ import {BaseSchema} from '../Schema';
 
 export interface AMISSpinnerSchema extends BaseSchema, SpinnerExtraProps {
   /**
-   * 组件类型
+   * 指定为 spinner 组件
    */
   type: 'spinner';
 

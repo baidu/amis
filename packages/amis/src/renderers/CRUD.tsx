@@ -92,13 +92,43 @@ import {Spinner} from 'amis-ui';
 import {AutoFoldedList} from 'amis-ui';
 
 interface AMISLoadMoreConfig {
+  /**
+   * 是否显示加载图标
+   */
   showIcon?: boolean;
+
+  /**
+   * 是否显示加载文本
+   */
   showText?: boolean;
+
+  /**
+   * 加载按钮颜色
+   */
   color?: string;
+
+  /**
+   * 加载图标类型
+   */
   iconType?: string;
+
+  /**
+   * 加载文本内容配置
+   */
   contentText?: {
+    /**
+     * 下拉加载文本
+     */
     contentdown: string;
+
+    /**
+     * 释放加载文本
+     */
     contentrefresh: string;
+
+    /**
+     * 加载中文本
+     */
     contentnomore: string;
   };
   minLoadingTime?: number;

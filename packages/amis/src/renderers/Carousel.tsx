@@ -33,23 +33,22 @@ import {ScopedContext, IScopedContext} from 'amis-core';
  */
 export interface AMISCarouselSchema extends AMISSchemaBase {
   /**
-   * 指定为轮播图类型
+   * 指定为 carousel 组件
    */
   type: 'carousel';
 
   /**
-   * 轮播图方向，默认为水平方向
+   * 轮播图方向
    */
   direction?: 'horizontal' | 'vertical';
 
   /**
-   * 是否循环播放, 默认为 true。
+   * 是否循环播放
    */
   loop?: boolean;
 
   /**
    * 是否支持鼠标事件
-   * 默认为 true。
    */
   mouseEvent?: boolean;
 

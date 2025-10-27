@@ -23,54 +23,51 @@ import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
 import {AMISSchemaBase} from 'amis-core';
 
 /**
- * 视频播放器
+ * 视频播放器组件，用于播放视频内容
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/video
  */
 export interface AMISVideoSchema extends AMISSchemaBase {
   /**
-   * 指定为视频类型
+   * 指定为 video 组件
    */
   type: 'video';
 
   /**
-   * 是否自动播放
+   * 是否自动播放视频
    */
   autoPlay?: boolean;
 
   /**
-   * 如果显示切帧，通过此配置项可以控制每行显示多少帧
+   * 切帧显示时每行显示的帧数
    */
   columnsCount?: number;
 
   /**
-   * 设置后，可以显示切帧.点击帧的时候会将视频跳到对应时间。
-   *
-   * frames: {
-   *  '01:22': 'http://domain/xxx.jpg'
-   * }
+   * 切帧配置
    */
   frames?: {
     [propName: string]: string;
   };
 
   /**
-   * 配置帧列表容器className
+   * 帧列表容器CSS类名
    */
   framesClassName?: AMISClassName;
 
-  // 用于设置行内样式
+  /**
+   * 自定义样式
+   */
   style?: {
     [propName: string]: any;
   };
 
   /**
-   * 如果是实时的，请标记一下
+   * 是否为实时视频流
    */
   isLive?: boolean;
 
   /**
-   * 点击帧画面时是否跳转视频对应的点
-   *
+   * 点击帧画面时是否跳转到视频对应时间点
    * @default true
    */
   jumpFrame?: boolean;
@@ -86,12 +83,12 @@ export interface AMISVideoSchema extends AMISSchemaBase {
   loop?: boolean;
 
   /**
-   * 配置播放器 className
+   * 播放器容器CSS类名
    */
   playerClassName?: AMISClassName;
 
   /**
-   * 视频封面地址
+   * 视频封面图片地址
    */
   poster?: SchemaUrlPath;
 

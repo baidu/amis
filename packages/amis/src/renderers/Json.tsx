@@ -19,7 +19,7 @@ export const JsonView = React.lazy(() =>
  */
 export interface AMISJsonSchema extends AMISSchemaBase {
   /**
-   * 指定为Json展示类型
+   * 指定为 json 组件
    */
   type: 'json' | 'static-json';
 
@@ -69,7 +69,7 @@ export interface AMISJsonSchema extends AMISSchemaBase {
   sortKeys?: boolean;
 
   /**
-   * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为false
+   * 设置字符串的最大展示长度
    */
   ellipsisThreshold?: number | false;
 }

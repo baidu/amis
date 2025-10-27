@@ -15,7 +15,8 @@ import type {
   BaseSchema,
   SchemaApi,
   SchemaExpression,
-  SchemaObject
+  SchemaObject,
+  SchemaCollection
 } from './Schema';
 import type {AMISTableViewSchema, TrObject} from './renderers/TableView';
 import type {ActionSchema, ButtonSchema} from './renderers/Action';
@@ -51,5 +52,6 @@ export {
   EditorAvailableLanguages,
   registerFilter,
   registerFormula,
-  overrideSupportStatic
+  overrideSupportStatic,
+  SchemaCollection
 };

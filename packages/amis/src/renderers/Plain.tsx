@@ -12,9 +12,7 @@ import {AMISSchemaBase} from 'amis-core';
  */
 export interface AMISPlainSchema extends AMISSchemaBase {
   /**
-   * 指定为模板渲染器。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+   * 指定为 plain 组件
    */
   type: 'plain' | 'text';
 
@@ -22,7 +20,7 @@ export interface AMISPlainSchema extends AMISSchemaBase {
   text?: SchemaTpl;
 
   /**
-   * 是否内联显示？
+   * 是否内联显示
    */
   inline?: boolean;
 

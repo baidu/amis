@@ -42,37 +42,43 @@ export type TdObject = {
   width?: number;
 
   /**
-   * 单元格内的组件
+   * 单元格内的组件配置
    */
   body?: SchemaObject;
 
   /**
-   * 水平对齐
+   * 水平对齐方式
    */
   align?: 'left' | 'center' | 'right' | 'justify';
 
   /**
-   * 垂直对齐
+   * 垂直对齐方式
    */
   valign?: 'top' | 'middle' | 'bottom' | 'baseline';
 
   /**
-   * 跨几行
+   * 跨行数
    */
   colspan?: number;
 
   /**
-   * 跨几列
+   * 跨列数
    */
   rowspan?: number;
 
   /**
-   * 自定义样式
+   * 自定义样式配置
    */
   style?: object;
 
+  /**
+   * 控制单元格是否显示的表达式
+   */
   visibleOn?: string;
 
+  /**
+   * 控制单元格是否隐藏的表达式
+   */
   hiddenOn?: string;
 };
 

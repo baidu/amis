@@ -18,7 +18,7 @@ import {AMISSchemaBase} from 'amis-core';
  */
 export interface AMISDateSchema extends AMISSchemaBase {
   /**
-   * 指定为日期展示类型
+   * 指定为 date 组件
    */
   type:
     | 'date'
@@ -29,12 +29,12 @@ export interface AMISDateSchema extends AMISSchemaBase {
     | 'static-time';
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。
+   * 展示的时间格式
    */
   format?: string;
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+   * 展示的时间格式（新：同format）
    */
   displayFormat?: string;
 
@@ -44,17 +44,17 @@ export interface AMISDateSchema extends AMISSchemaBase {
   placeholder?: string;
 
   /**
-   * 值的时间格式，参考 moment 中的格式说明。
+   * 值的时间格式
    */
   valueFormat?: string;
 
   /**
-   * 显示成相对时间，比如1分钟前
+   * 显示成相对时间
    */
   fromNow?: boolean;
 
   /**
-   * 更新频率， 默认为1分钟
+   * 更新频率
    */
   updateFrequency?: number;
 

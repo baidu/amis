@@ -42,11 +42,11 @@ export type HBoxColumnObject = {
   };
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 配置子表单项默认的展示方式
    */
   mode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比
    */
   horizontal?: FormHorizontal;
 
@@ -75,17 +75,17 @@ export type HBoxColumn = HBoxColumnObject;
  */
 export interface AMISHBoxSchema extends AMISSchemaBase {
   /**
-   * 指定为each展示类型
+   * 指定为 hbox 组件
    */
   type: 'hbox';
   columns: Array<HBoxColumn>;
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 配置子表单项默认的展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 

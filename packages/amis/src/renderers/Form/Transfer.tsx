@@ -47,12 +47,12 @@ export interface BaseTransferControlSchema
   extends AMISFormItemWithOptions,
     SpinnerExtraProps {
   /**
-   * 是否显示剪头
+   * 是否显示箭头
    */
   showArrow?: boolean;
 
   /**
-   * 可排序？
+   * 是否可排序
    */
   sortable?: boolean;
 
@@ -67,17 +67,17 @@ export interface BaseTransferControlSchema
   resultListModeFollowSelect?: boolean;
 
   /**
-   * 当 selectMode 为 associated 时用来定义左侧的选项
+   * 左侧选项
    */
   leftOptions?: Array<Option>;
 
   /**
-   * 当 selectMode 为 associated 时用来定义左侧的选择模式
+   * 左侧选择模式
    */
   leftMode?: 'tree' | 'list';
 
   /**
-   * 当 selectMode 为 associated 时用来定义右侧的选择模式
+   * 右侧选择模式
    */
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
@@ -87,17 +87,17 @@ export interface BaseTransferControlSchema
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
 
   /**
-   * 当 selectMode 为 table 时定义表格列信息。
+   * 表格列配置
    */
   columns?: Array<any>;
 
   /**
-   * 当 searchResultMode 为 table 时定义表格列信息。
+   * 搜索结果表格列配置
    */
   searchResultColumns?: Array<any>;
 
   /**
-   * 可搜索？
+   * 是否可搜索
    */
   searchable?: boolean;
 

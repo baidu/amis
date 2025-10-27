@@ -65,7 +65,7 @@ export interface NavItemSchema extends AMISSchemaBase {
   label?: string | AMISSchemaCollection;
 
   /**
-   * 图标类名，参考 fontawesome 4。
+   * 图标类名
    */
   icon?: SchemaIcon | Array<IconItemSchema>;
 

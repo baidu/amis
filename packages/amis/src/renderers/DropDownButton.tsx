@@ -36,17 +36,17 @@ export type DropdownButton =
  */
 export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   /**
-   * 指定为 DropDown Button 类型
+   * 指定为 dropdown-button 组件
    */
   type: 'dropdown-button';
 
   /**
-   * 是否独占一行 `display: block`
+   * 是否独占一行
    */
   block?: boolean;
 
   /**
-   * 给 Button 配置 className。
+   * 给 Button 配置 className
    */
   btnClassName?: AMISClassName;
 
@@ -96,7 +96,7 @@ export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   align?: 'left' | 'right';
 
   /**
-   * 是否只显示图标。
+   * 是否只显示图标
    */
   iconOnly?: boolean;
 

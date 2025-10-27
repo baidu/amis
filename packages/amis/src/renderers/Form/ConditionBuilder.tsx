@@ -37,17 +37,17 @@ import {AMISFormItem} from 'amis-core';
  */
 export interface AMISConditionBuilderControlSchema extends AMISFormItem {
   /**
-   * 指定为
+   * 指定为 condition-builder 组件
    */
   type: 'condition-builder';
 
   /**
-   * 内嵌模式，默认为 true
+   * 内嵌模式
    */
   embed?: boolean;
 
   /**
-   * 非内嵌模式时 弹窗触发icon
+   * 非内嵌模式时弹窗触发icon
    */
   pickerIcon?: AMISIconSchema;
 
@@ -62,7 +62,7 @@ export interface AMISConditionBuilderControlSchema extends AMISFormItem {
   fields: ConditionBuilderFields;
 
   /**
-   * 是否限制字段唯一，也就是说不允许一个字段设置在两个规则里面
+   * 是否限制字段唯一
    */
   uniqueFields?: boolean;
 
@@ -82,22 +82,22 @@ export interface AMISConditionBuilderControlSchema extends AMISFormItem {
   builderMode?: 'simple' | 'full';
 
   /**
-   * 是否显示并或切换键按钮，只在简单模式下有用
+   * 是否显示并或切换键按钮
    */
   showANDOR?: boolean;
 
   /**
-   * 是否可拖拽，默认为 true
+   * 是否可拖拽
    */
   draggable?: boolean;
 
   /*
-   * 表达式：控制按钮“添加条件”的显示
+   * 表达式：控制按钮"添加条件"的显示
    */
   addBtnVisibleOn?: string;
 
   /**
-   * 表达式：控制按钮“添加条件组”的显示
+   * 表达式：控制按钮"添加条件组"的显示
    */
   addGroupBtnVisibleOn?: string;
 

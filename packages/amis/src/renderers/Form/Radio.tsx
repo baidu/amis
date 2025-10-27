@@ -21,17 +21,17 @@ import {supportStatic} from './StaticHoc';
  */
 export interface AMISRadioControlSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 radio 组件
    */
   type: 'radio';
 
   /**
-   * 勾选值
+   * 选中时的值
    */
   trueValue?: boolean | string | number;
 
   /**
-   * 未勾选值
+   * 未选中时的值
    */
   falseValue?: boolean | string | number;
 
@@ -41,10 +41,18 @@ export interface AMISRadioControlSchema extends AMISFormItem {
   option?: string;
 
   /**
-   * 角标
+   * 角标配置
    */
   badge?: BadgeObject;
+
+  /**
+   * 是否支持部分选中
+   */
   partial?: boolean;
+
+  /**
+   * 选项类型
+   */
   optionType?: 'default' | 'button';
 }
 

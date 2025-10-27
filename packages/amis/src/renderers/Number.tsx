@@ -24,7 +24,7 @@ import getMiniDecimal, {
  */
 export interface AMISNumberSchema extends AMISSchemaBase {
   /**
-   * 指定为数字展示类型
+   * 指定为 number 组件
    */
   type: 'number';
 

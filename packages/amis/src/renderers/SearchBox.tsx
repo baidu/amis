@@ -24,9 +24,7 @@ import type {SpinnerExtraProps} from 'amis-ui';
  */
 export interface AMISSearchBoxSchema extends AMISSchemaBase {
   /**
-   * 指定为搜索框。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/search-box
+   * 指定为 search-box 组件
    */
   type: 'search-box';
 
@@ -36,9 +34,7 @@ export interface AMISSearchBoxSchema extends AMISSchemaBase {
   className?: AMISClassName;
 
   /**
-   * 关键字名字。
-   *
-   * @default keywords
+   * 关键字名字
    */
   name?: string;
 
@@ -48,7 +44,7 @@ export interface AMISSearchBoxSchema extends AMISSchemaBase {
   placeholder?: string;
 
   /**
-   * 是否为 Mini 样式。
+   * 是否为 Mini 样式
    */
   mini?: boolean;
 
@@ -63,7 +59,7 @@ export interface AMISSearchBoxSchema extends AMISSchemaBase {
   clearable?: boolean;
 
   /**
-   * 是否立马搜索。
+   * 是否立马搜索
    */
   searchImediately?: boolean;
 

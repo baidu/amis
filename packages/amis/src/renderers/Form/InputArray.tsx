@@ -9,7 +9,7 @@ import Combo, {BaseComboControlSchema} from './Combo';
  */
 export interface AMISArrayControlSchema extends BaseComboControlSchema {
   /**
-   * 指定为数组输入框类型
+   * 指定为 array 组件
    */
   type: 'input-array';
 }

@@ -31,44 +31,44 @@ import {
  */
 export interface AMISMappingSchema extends AMISSchemaBase {
   /**
-   * 指定为映射展示控件
+   * 指定为 mapping 组件
    */
   type: 'map' | 'mapping';
 
   /**
-   * 关联字段名。
+   * 关联的字段名
    */
   name?: string;
 
   /**
-   * 配置映射规则，值可以使用模板语法。当 key 为 * 时表示 else，也就是说值没有映射到任何规则时用 * 对应的值展示。
+   * 映射规则配置
    */
   map?: {
     [propName: string]: SchemaTpl;
   };
 
   /**
-   * map或source为对象数组时，作为value值的字段名
+   * 当 map 或 source 为对象数组时，作为 value 值的字段名
    */
   valueField?: string;
 
   /**
-   * map或source为对象数组时，作为label值的字段名
+   * 当 map 或 source 为对象数组时，作为 label 值的字段名
    */
   labelField?: string;
 
   /**
-   * 自定义渲染映射值，支持html或schema
+   * 自定义渲染映射值的 Schema 配置
    */
   itemSchema?: AMISSchemaCollection;
 
   /**
-   * 如果想远程拉取字典，请配置 source 为接口。
+   * 远程数据源配置
    */
   source?: SchemaApi | SchemaTokenizeableString;
 
   /**
-   * 占位符
+   * 占位符文本
    */
   placeholder?: string;
 }

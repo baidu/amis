@@ -41,7 +41,7 @@ export interface Token {
   color?: string;
 
   /**
-   * 背景色，不过不知道为何没效果
+   * 背景色
    */
   background?: string;
 
@@ -64,7 +64,7 @@ export interface CustomLang {
   tokens: Token[];
 
   /**
-   * 编辑器颜色相关配置，不传使用内置默认值
+   * 编辑器颜色相关配置
    */
   colors?: EditorNamespace.IColors;
 }

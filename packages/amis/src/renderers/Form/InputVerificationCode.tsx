@@ -13,7 +13,7 @@ export interface VerificationCodeSchema extends AMISFormItem {
   value?: string;
   length?: number;
   /**
-   * is密码模式
+   * 是否密码模式
    */
   masked?: boolean;
   disabled?: boolean;

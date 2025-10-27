@@ -38,62 +38,54 @@ import {filter} from 'amis-core';
  */
 export interface AMISFileControlSchema extends AMISFormItem {
   /**
-   * 指定为文件上传
+   * 指定为 file 组件
    */
   type: 'input-file';
 
   /**
-   * 上传文件按钮说明
+   * 按钮文案
    * @default 请选择文件
    */
   btnLabel?: string;
 
   /**
-   * 默认只支持纯文本，要支持其他类型，请配置此属性。建议直接填写文件后缀
-   * 如：.txt,.csv
-   *
-   * 多个类型用逗号隔开。
-   *
+   * 接受的文件类型
    * @default text/plain
    */
   accept?: string;
 
   /**
-   * 控制 input 标签的 capture 属性，用于移动端拍照或录像。
+   * 移动端拍照录像
    */
   capture?: string;
 
   /**
-   * 如果上传的文件比较小可以设置此选项来简单的把文件 base64 的值给 form 一起提交，目前不支持多选。
+   * 是否转为 base64
    */
   asBase64?: boolean;
 
   /**
-   * 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
+   * 是否转为 blob
    */
   asBlob?: boolean;
 
   /**
-   * 是否自动开始上传
+   * 是否自动上传
    */
   autoUpload?: boolean;
 
   /**
-   * 分块上传的并发数
+   * 并发数
    */
   concurrency?: number;
 
   /**
-   * 分割符
+   * 分隔符
    */
   delimiter?: string;
 
   /**
-   * 默认显示文件路径的时候会支持直接下载，
-   * 可以支持加前缀如：`http://xx.dom/filename=` ，
-   * 如果不希望这样，可以把当前配置项设置为 `false`。
-   *
-   * 1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post.
+   * 下载地址
    */
   downloadUrl?: SchemaApi;
 
@@ -103,7 +95,7 @@ export interface AMISFileControlSchema extends AMISFormItem {
   templateUrl?: SchemaApi;
 
   /**
-   * 默认 `file`, 如果你不想自己存储，则可以忽略此属性。
+   * 文件字段名
    * @default file
    */
   fileField?: string;
@@ -114,37 +106,34 @@ export interface AMISFileControlSchema extends AMISFormItem {
   hideUploadButton?: boolean;
 
   /**
-   * 最多的个数
+   * 最大文件数
    */
   maxLength?: number;
 
   /**
-   * 默认没有限制，当设置后，文件大小大于此值将不允许上传。
+   * 最大文件大小
    */
   maxSize?: number;
 
   /**
-   * 默认 `/api/upload/file` 如果想自己存储，请设置此选项。
-   *
+   * 上传接口
    * @default /api/upload/file
    */
   receiver?: SchemaApi;
 
   /**
-   * 默认为 'auto' amis 所在服务器，限制了文件上传大小不得超出10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。
+   * 是否分块上传
    */
   useChunk?: 'auto' | boolean;
 
   /**
-   * 分块大小，默认为 5M.
-   *
+   * 分块大小
    * @default 5242880
    */
   chunkSize?: number;
 
   /**
-   * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
-   *
+   * 分块开始接口
    * @default /api/upload/startChunk
    */
   startChunkApi?: string;

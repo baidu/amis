@@ -21,7 +21,7 @@ import {Icon} from 'amis-ui';
  */
 export interface AMISPanelSchema extends AMISSchemaBase {
   /**
-   * 指定为Panel渲染器。
+   * 指定为 panel 组件
    */
   type: 'panel';
 
@@ -56,12 +56,12 @@ export interface AMISPanelSchema extends AMISSchemaBase {
   footerClassName?: AMISClassName;
 
   /**
-   * footer 和 actions 外层 div 类名。
+   * footer 和 actions 外层 div 类名
    */
   footerWrapClassName?: AMISClassName;
 
   /**
-   * 头部内容, 和 title 二选一。
+   * 头部内容, 和 title 二选一
    */
   header?: AMISSchemaCollection;
 
@@ -76,7 +76,7 @@ export interface AMISPanelSchema extends AMISSchemaBase {
   title?: SchemaTpl;
 
   /**
-   * 固定底部, 想要把按钮固定在底部的时候配置。
+   * 固定底部, 想要把按钮固定在底部的时候配置
    */
   affixFooter?: boolean | 'always';
 
@@ -86,11 +86,11 @@ export interface AMISPanelSchema extends AMISSchemaBase {
   collapsible?: boolean;
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 配置子表单项默认的展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 

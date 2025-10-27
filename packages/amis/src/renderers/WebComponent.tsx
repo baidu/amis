@@ -15,22 +15,22 @@ import mapValues from 'lodash/mapValues';
  */
 export interface AMISWebComponentSchema extends AMISSchemaBase {
   /**
-   * 指定为 web-component 类型
+   * 指定为 web-component 组件
    */
   type: 'web-component';
 
   /**
-   * 标签
+   * HTML 标签名
    */
   tag: string;
 
   /**
-   * 子节点
+   * 子内容配置
    */
   body: AMISSchemaCollection;
 
   /**
-   * 组件属性
+   * 传递给 Web 组件的属性
    */
   props?: {
     [propName: string]: any;

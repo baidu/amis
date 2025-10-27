@@ -7,7 +7,8 @@ import {
   AMISSchemaCollection,
   AMISClassName,
   AMISIcon,
-  AMISLegacyActionSchema
+  AMISLegacyActionSchema,
+  AMISButtonSchema
 } from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -20,7 +21,7 @@ import type {AlertProps} from 'amis-ui/lib/components/Alert2';
  */
 export interface AMISAlertSchema extends AMISSchemaBase {
   /**
-   * 指定为提示框类型
+   * 指定为 alert 组件
    */
   type: 'alert';
 
@@ -30,7 +31,7 @@ export interface AMISAlertSchema extends AMISSchemaBase {
   title?: AMISTemplate;
 
   /**
-   * 内容区域
+   * 提示内容
    */
   body: AMISSchemaCollection;
 
@@ -50,7 +51,7 @@ export interface AMISAlertSchema extends AMISSchemaBase {
   closeButtonClassName?: AMISClassName;
 
   /**
-   * 是否显示ICON
+   * 是否显示图标
    */
   showIcon?: boolean;
 
@@ -65,9 +66,9 @@ export interface AMISAlertSchema extends AMISSchemaBase {
   iconClassName?: AMISClassName;
 
   /**
-   * 操作区域
+   * 操作区域配置
    */
-  actions?: AMISLegacyActionSchema[];
+  actions?: AMISButtonSchema[];
 }
 
 @Renderer({

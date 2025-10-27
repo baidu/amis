@@ -13,7 +13,7 @@ interface AMISScheduleItem {
 
 export interface AMISCalendarSchema extends AMISSchemaBase {
   /**
-   * 指定为日历选择控件
+   * 指定为 calendar 组件
    */
   type: 'calendar';
 

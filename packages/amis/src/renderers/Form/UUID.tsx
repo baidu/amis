@@ -10,7 +10,7 @@ import {FormBaseControlSchema} from '../../Schema';
 export interface AMISUuidSchema extends AMISFormItem {
   type: 'uuid';
   /**
-   * 长度，默认 uuid 的长度是 36，如果不需要那么长，可以设置这个来缩短
+   * 长度
    */
   length?: number;
 }

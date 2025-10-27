@@ -39,8 +39,7 @@ type NodeBehaviorType = 'unfold' | 'check';
  */
 export interface AMISInputTreeSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 InputTree 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tree
+   * 指定为 tree 组件
    */
   type: 'input-tree';
 
@@ -65,31 +64,27 @@ export interface AMISInputTreeSchema extends AMISFormItemWithOptions {
   showIcon?: boolean;
 
   /**
-   * ui级联关系，true代表级联选中，false代表不级联，默认为true
+   * ui级联关系
    */
   autoCheckChildren?: boolean;
 
   /**
-   * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
-   * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
-   * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
-   * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
-   * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
+   * 数据级联关系
    */
   cascade?: boolean;
 
   /**
-   * 节点行为配置，默认为选中
+   * 节点行为配置
    */
   nodeBehavior?: NodeBehaviorType[];
 
   /**
-   * 子节点取消时自动取消父节点的值，默认为false
+   * 子节点取消时自动取消父节点的值
    */
   autoCancelParent?: boolean;
 
   /**
-   * 选父级的时候是否把子节点的值也包含在内。
+   * 选父级的时候是否把子节点的值也包含在内
    */
   withChildren?: boolean;
 

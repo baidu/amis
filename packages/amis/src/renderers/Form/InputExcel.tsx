@@ -75,22 +75,22 @@ export interface ExcelFile {
  */
 export interface InputExcelControlSchema extends AMISFormItem {
   /**
-   * 指定为 Excel 解析
+   * 指定为 excel 组件
    */
   type: 'input-excel';
 
   /**
-   * 是否解析所有 sheet，默认情况下只解析第一个
+   * 是否解析所有 sheet
    */
   allSheets?: boolean;
 
   /**
-   * 解析模式，array 是解析成二维数组，object 是将第一列作为字段名，解析为对象数组
+   * 解析模式
    */
   parseMode?: 'array' | 'object';
 
   /**
-   * 是否包含空内容，主要用于二维数组模式
+   * 是否包含空内容
    */
   includeEmpty?: boolean;
 

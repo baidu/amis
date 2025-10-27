@@ -27,7 +27,7 @@ export interface AMISInputCityControlSchema
   extends AMISFormItem,
     SpinnerExtraProps {
   /**
-   * 指定为城市选择框。
+   * 指定为 city 组件
    */
   type: 'input-city';
 
@@ -37,27 +37,27 @@ export interface AMISInputCityControlSchema
   extractValue?: boolean;
 
   /**
-   * 是否将各个信息拼接成字符串。
+   * 是否将各个信息拼接成字符串
    */
   joinValues?: boolean;
 
   /**
-   * 拼接的符号是啥？
+   * 拼接的符号
    */
   delimiter?: string;
 
   /**
-   * 允许选择城市？
+   * 允许选择城市
    */
   allowCity?: boolean;
 
   /**
-   * 允许选择地区？
+   * 允许选择地区
    */
   allowDistrict?: boolean;
 
   /**
-   * 允许选择街道？
+   * 允许选择街道
    */
   allowStreet?: boolean;
 

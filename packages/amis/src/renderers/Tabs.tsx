@@ -43,59 +43,63 @@ import debounce from 'lodash/debounce';
 
 export interface TabSchema extends AMISSchemaBase {
   /**
-   * Tab 标题
+   * Tab 标签页标题
    */
   title?: string | SchemaObject;
 
   /**
-   * 内容
-   * @deprecated 用 body 属性
+   * Tab 内容区域（已废弃）
+   * @deprecated 建议使用 body 属性
    */
   tab?: AMISSchemaCollection;
 
   /**
-   * 内容
+   * Tab 内容区域
    */
   body?: AMISSchemaCollection;
 
   /**
-   * 徽标
+   * 徽标数字
    */
   badge?: number;
 
   /**
-   * 设置以后将跟url的hash对应
+   * URL hash 对应
    */
   hash?: string;
 
   /**
-   * 按钮图标
+   * Tab 标签页图标
    */
   icon?: SchemaIcon;
 
+  /**
+   * 图标位置
+   */
   iconPosition?: 'left' | 'right';
 
   /**
-   * 设置以后内容每次都会重新渲染
+   * 是否每次切换都重新渲染
    */
   reload?: boolean;
 
   /**
-   * 点开时才加载卡片内容
+   * 是否在首次进入时才加载
    */
   mountOnEnter?: boolean;
 
   /**
-   * 卡片隐藏就销毁卡片节点。
+   * 是否在隐藏时销毁内容节点
    */
   unmountOnExit?: boolean;
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 子表单项展示方式
    */
   mode?: 'normal' | 'inline' | 'horizontal';
+
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版时的左右宽度占比配置
    */
   horizontal?: FormHorizontal;
   /**
@@ -113,6 +117,9 @@ export interface TabSchema extends AMISSchemaBase {
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
  */
 export interface AMISTabsSchema extends AMISSchemaBase {
+  /**
+   * 指定为 tabs 组件
+   */
   type: 'tabs';
 
   /**

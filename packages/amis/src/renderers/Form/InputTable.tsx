@@ -89,8 +89,7 @@ export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   copyAddBtn?: boolean;
 
   /**
-   * 复制的时候用来配置复制映射的数据。默认值是 {&:$$}，相当与复制整个行数据
-   * 通常有时候需要用来标记是复制过来的，也可能需要删掉一下主键字段。
+   * 复制数据映射
    */
   copyData?: Record<string, any>;
 

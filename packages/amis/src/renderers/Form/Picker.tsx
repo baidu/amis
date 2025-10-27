@@ -41,8 +41,7 @@ import {AutoFoldedList} from 'amis-ui';
  */
 export interface AMISPickerSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 Picker 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
+   * 指定为 picker 组件
    */
   type: 'picker';
 
@@ -52,38 +51,37 @@ export interface AMISPickerSchema extends AMISFormItemWithOptions {
   labelTpl?: SchemaTpl;
 
   /**
-   * 建议用 labelTpl
    * 选中一个字段名用来作为值的描述文字
    */
   labelField?: string;
 
   /**
-   * 选一个可以用来作为值的字段。
+   * 选一个可以用来作为值的字段
    */
   valueField?: string;
 
   /**
-   * 弹窗选择框详情。
+   * 弹窗选择框详情
    */
   pickerSchema?: any; // Omit<CRUDSchema, 'type'>;
 
   /**
-   * 弹窗模式，dialog 或者 drawer
+   * 弹窗模式
    */
   modalMode?: 'dialog' | 'drawer';
 
   /**
-   * 弹窗的尺寸，可选值为 'sm'、'md'、'lg'、'xl'
+   * 弹窗的尺寸
    */
   modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
   /**
-   * 弹窗的标题，默认为情选择
+   * 弹窗的标题
    */
   modalTitle?: string;
 
   /**
-   * 内嵌模式，也就是说不弹框了。
+   * 内嵌模式
    */
   embed?: boolean;
 
@@ -92,12 +90,12 @@ export interface AMISPickerSchema extends AMISFormItemWithOptions {
    */
   overflowConfig: {
     /**
-     * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+     * 标签的最大展示数量
      */
     maxTagCount?: number;
 
     /**
-     * 开启最大标签展示数量后，收纳标签生效的位置，未开启内嵌模式默认为选择器, 开启后默认为选择器 + 模态框，可选值为'select'(选择器)、'crud'(增删改查)
+     * 收纳标签生效的位置
      */
     displayPosition?: ('select' | 'crud')[];
 

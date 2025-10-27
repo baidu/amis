@@ -23,11 +23,11 @@ import {AMISFormItem} from 'amis-core';
 export interface AMISInputSignatureSchema extends AMISFormItem {
   type: 'input-signature';
   /**
-   * 组件宽度，默认占满父容器
+   * 组件宽度
    */
   width?: number;
   /**
-   * 组件高度，默认占满父容器
+   * 组件高度
    */
   height?: number;
   /**
@@ -56,8 +56,8 @@ export interface AMISInputSignatureSchema extends AMISFormItem {
    */
   undoBtnLabel?: string;
   /**
-   * 清空按钮图标
-   * @default 清空
+   * 撤销按钮图标
+   * @default 撤销
    */
   undoBtnIcon?: string;
   /**

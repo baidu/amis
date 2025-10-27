@@ -16,17 +16,17 @@ import {Schema} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 /**
- * Flex 布局
+ * Flex 弹性布局组件，简化版 Flex 布局，主要用于不熟悉 CSS 的开发者
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/flex
  */
 export interface AMISFlexSchema extends AMISSchemaBase {
   /**
-   * 指定为 flex 展示类型
+   * 指定为 flex 组件
    */
   type: 'flex';
 
   /**
-   * 水平分布
+   * 水平分布方式
    */
   justify?:
     | 'start'
@@ -39,7 +39,7 @@ export interface AMISFlexSchema extends AMISSchemaBase {
     | 'space-evenly';
 
   /**
-   * 垂直布局
+   * 垂直对齐方式
    */
   alignItems?:
     | 'stretch'
@@ -51,7 +51,7 @@ export interface AMISFlexSchema extends AMISSchemaBase {
     | 'baseline';
 
   /**
-   * 多行情况下的垂直分布
+   * 多行垂直分布方式
    */
   alignContent?:
     | 'normal'
@@ -64,12 +64,12 @@ export interface AMISFlexSchema extends AMISSchemaBase {
     | 'stretch';
 
   /**
-   * 方向
+   * 布局方向
    */
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 
   /**
-   * 每个 flex 的设置
+   * Flex 子项配置
    */
   items: AMISSchemaCollection;
 

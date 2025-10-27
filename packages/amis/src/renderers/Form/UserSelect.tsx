@@ -22,7 +22,7 @@ import {supportStatic} from './StaticHoc';
  */
 export interface AMISUsersSelectSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 UserSelect 渲染器。
+   * 指定为 users-select 组件
    */
   type: 'users-select';
 }

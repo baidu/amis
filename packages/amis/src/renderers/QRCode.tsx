@@ -41,7 +41,7 @@ export interface AMISQRCodeSchema extends AMISSchemaBase {
   type: 'qrcode' | 'qr-code';
 
   /**
-   * 关联字段名。
+   * 关联字段名
    */
   name?: string;
 
@@ -52,7 +52,6 @@ export interface AMISQRCodeSchema extends AMISSchemaBase {
 
   /**
    * 二维码的宽高大小，默认 128
-   * @default 128
    */
   codeSize?: number;
 
@@ -93,7 +92,6 @@ export interface AMISQRCodeSchema extends AMISSchemaBase {
 
   /**
    * 码眼边框颜色
-   * @default '#000000'
    */
   eyeBorderColor?: string;
 

@@ -24,7 +24,7 @@ export interface AMISTransferPickerSchema
     SpinnerExtraProps {
   type: 'transfer-picker';
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 

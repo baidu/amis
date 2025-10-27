@@ -13,7 +13,7 @@ import {BaseSchema, SchemaUrlPath} from '../Schema';
  */
 export interface AMISAudioSchema extends AMISSchemaBase {
   /**
-   * 指定为音频播放器
+   * 指定为 audio 组件
    */
   type: 'audio';
 
@@ -23,7 +23,7 @@ export interface AMISAudioSchema extends AMISSchemaBase {
   inline?: boolean;
 
   /**
-   * "视频播放地址, 支持 $ 取变量。
+   * 音频播放地址
    */
   src?: AMISUrlPath;
 

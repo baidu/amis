@@ -69,15 +69,11 @@ export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
 
   /**
    * 卡片 CSS 类名
-   *
-   * @default Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3
    */
   itemClassName?: AMISClassName;
 
   /**
    * 无数据提示
-   *
-   * @default 暂无数据
    */
   placeholder?: SchemaTpl;
 
@@ -92,9 +88,7 @@ export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
   showHeader?: boolean;
 
   /**
-   * 数据源: 绑定当前环境变量
-   *
-   * @default ${items}
+   * 数据源
    */
   source?: AMISLocalSource;
 

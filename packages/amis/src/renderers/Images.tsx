@@ -28,7 +28,7 @@ import {AMISSchemaBase} from 'amis-core';
  */
 export interface AMISImagesSchema extends AMISSchemaBase {
   /**
-   * 指定为图片集渲染器
+   * 指定为 images 组件
    */
   type: 'images' | 'static-images';
 
@@ -44,7 +44,6 @@ export interface AMISImagesSchema extends AMISSchemaBase {
 
   /**
    * 配置值的连接符
-   * @default ,
    */
   delimiter?: string;
 
@@ -70,17 +69,17 @@ export interface AMISImagesSchema extends AMISSchemaBase {
   options?: Array<any>;
 
   /**
-   * 图片地址，默认读取数据中的 image 属性，如果不是请配置 ,如  ${imageUrl}
+   * 图片地址，默认读取数据中的 image 属性
    */
   src?: string;
 
   /**
-   * 大图地址，不设置用 src 属性，如果不是请配置，如：${imageOriginUrl}
+   * 大图地址，不设置用 src 属性
    */
   originalSrc?: string; // 原图
 
   /**
-   * 是否启动放大功能。
+   * 是否启动放大功能
    */
   enlargeAble?: boolean;
 
@@ -90,7 +89,7 @@ export interface AMISImagesSchema extends AMISSchemaBase {
   enlargetWithImages?: boolean;
 
   /**
-   * 是否显示尺寸。
+   * 是否显示尺寸
    */
   showDimensions?: boolean;
 

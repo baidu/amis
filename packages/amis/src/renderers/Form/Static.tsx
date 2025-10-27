@@ -27,7 +27,7 @@ export interface AMISStaticSchema extends AMISFormItem {
   type: 'static';
 
   /**
-   * 内容模板， 支持 HTML
+   * 内容模板，支持 HTML
    */
   tpl?: SchemaTpl;
 
@@ -52,7 +52,7 @@ export interface AMISStaticSchema extends AMISFormItem {
   copyable?: SchemaCopyable;
 
   /**
-   * 边框模式，默认是无边框的
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 }

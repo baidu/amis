@@ -22,7 +22,7 @@ import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 
 export interface InputDateBaseControlSchema extends AMISFormItem {
   /**
-   * 指定为日期选择控件
+   * 指定为 date 组件
    */
   type:
     | 'input-date'
@@ -38,36 +38,37 @@ export interface InputDateBaseControlSchema extends AMISFormItem {
   clearable?: boolean;
 
   /**
-   * 日期存储格式
+   * 存储格式
    */
   format?: string;
 
   /**
-   * 替代format
+   * 存储格式（替代 format）
    */
   valueFormat?: string;
 
   /**
-   * 日期展示格式
+   * 显示格式
    */
   inputFormat?: string;
 
   /**
-   * 日期展示格式(新：替代inputFormat)
+   * 显示格式（新版）
    */
   displayFormat?: string;
+
   /**
-   * 设定是否存储 utc 时间。
+   * 是否存储 UTC 时间
    */
   utc?: boolean;
 
   /**
-   * 是否为内联模式？
+   * 是否为内联模式
    */
   emebed?: boolean;
 
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
@@ -77,13 +78,12 @@ export interface InputDateBaseControlSchema extends AMISFormItem {
   shortcuts?: string | ShortCuts[];
 
   /**
-   * 字符串函数，用来决定是否禁用某个日期。
-   *
-   * (currentDate: moment.Moment, props: any) => boolean;
+   * 日期禁用函数
    */
   disabledDate?: string;
 
-  /* * 是否禁止输入
+  /**
+   * 是否禁止手动输入
    */
   inputForbid?: boolean;
 }
@@ -94,7 +94,7 @@ export interface InputDateBaseControlSchema extends AMISFormItem {
  */
 export interface AMISDateControlSchema extends InputDateBaseControlSchema {
   /**
-   * 指定为日期选择控件
+   * 指定为 date 组件
    */
   type: 'input-date';
 

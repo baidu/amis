@@ -14,7 +14,7 @@ export type GroupSubControl = SchemaObject & {
   columnClassName?: AMISClassName;
 
   /**
-   * 宽度占用比率。在某些容器里面有用比如 group
+   * 宽度占用比率
    */
   columnRatio?: number | 'auto';
 
@@ -42,16 +42,16 @@ export interface AMISGroupControlSchema extends AMISFormItem {
   gap?: 'xs' | 'sm' | 'normal';
 
   /**
-   * 配置时垂直摆放还是左右摆放。
+   * 配置时垂直摆放还是左右摆放
    */
   direction?: 'horizontal' | 'vertical';
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 子表单项展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 }

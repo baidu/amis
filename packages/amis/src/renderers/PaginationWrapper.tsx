@@ -8,7 +8,7 @@ import {AMISSchemaBase, AMISSchemaCollection} from 'amis-core';
  */
 export interface AMISPaginationWrapperSchema extends AMISSchemaBase {
   /**
-   * 指定为分页容器功能性渲染器
+   * 指定为 pagination-wrapper 组件
    */
   type: 'pagination-wrapper';
 
@@ -18,34 +18,27 @@ export interface AMISPaginationWrapperSchema extends AMISSchemaBase {
   showPageInput?: boolean;
 
   /**
-   * 最多显示多少个分页按钮。
-   *
-   * @default 5
+   * 最多显示多少个分页按钮
    */
   maxButtons?: number;
 
   /**
    * 输入字段名
-   *
-   * @default items
    */
   inputName?: string;
 
   /**
    * 输出字段名
-   *
-   * @default items
    */
   outputName?: string;
 
   /**
-   * 每页显示多条数据。
-   * @default 10
+   * 每页显示多条数据
    */
   perPage?: number;
 
   /**
-   * 分页显示位置，如果配置为 none 则需要自己在内容区域配置 pagination 组件，否则不显示。
+   * 分页显示位置，如果配置为 none 则需要自己在内容区域配置 pagination 组件，否则不显示
    */
   position?: 'top' | 'bottom' | 'none';
 

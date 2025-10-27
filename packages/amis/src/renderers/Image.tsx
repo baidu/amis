@@ -25,20 +25,39 @@ import type {
 } from 'amis-ui/lib/components/ImageGallery';
 
 export interface ImageToolbarAction {
+  /**
+   * 操作按钮键名
+   */
   key: keyof typeof ImageActionKey;
+
+  /**
+   * 操作按钮标签文本
+   */
   label?: string;
+
+  /**
+   * 操作按钮图标
+   */
   icon?: string;
+
+  /**
+   * 操作按钮图标CSS类名
+   */
   iconClassName?: string;
+
+  /**
+   * 是否禁用操作按钮
+   */
   disabled?: boolean;
 }
 
 /**
- * 图片展示控件。
+ * 图片展示组件，用于显示图片内容
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/image
  */
 export interface AMISImageSchema extends AMISSchemaBase {
   /**
-   * 指定为图片展示类型
+   * 指定为 image 组件
    */
   type: 'image' | 'static-image';
 
@@ -53,7 +72,7 @@ export interface AMISImageSchema extends AMISSchemaBase {
   title?: SchemaTpl;
 
   /**
-   * 关联字段名，也可以直接配置 src
+   * 关联字段名
    */
   name?: string;
 
@@ -63,17 +82,17 @@ export interface AMISImageSchema extends AMISSchemaBase {
   imageCaption?: SchemaTpl;
 
   /**
-   * 图片地址，如果配置了 name，这个属性不用配置。
+   * 图片地址
    */
   src?: SchemaUrlPath;
 
   /**
-   * 大图地址，不设置用 src
+   * 大图地址
    */
   originalSrc?: SchemaUrlPath;
 
   /**
-   * 是否启动放大功能。
+   * 是否启用放大功能
    */
   enlargeAble?: boolean;
 
@@ -83,17 +102,12 @@ export interface AMISImageSchema extends AMISSchemaBase {
   enlargeWithGallary?: boolean;
 
   /**
-   * 是否显示尺寸。
-   */
-  // showDimensions?: boolean;
-
-  /**
    * 图片无法显示时的替换文本
    */
   alt?: string;
 
   /**
-   * 高度
+   * 图片高度
    */
   height?: number;
 

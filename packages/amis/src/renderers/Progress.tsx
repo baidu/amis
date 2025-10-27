@@ -41,7 +41,7 @@ export interface AMISProgressSchema extends AMISSchemaBase {
   mode: 'line' | 'circle' | 'dashboard';
 
   /**
-   * 进度条 CSS 类名
+   * 进度条CSS类名
    */
   progressClassName?: AMISClassName;
 
@@ -66,7 +66,7 @@ export interface AMISProgressSchema extends AMISSchemaBase {
   stripe?: boolean;
 
   /**
-   * 是否显示动画（只有在开启的时候才能看出来）
+   * 是否显示动画
    */
   animate?: boolean;
 
@@ -76,7 +76,7 @@ export interface AMISProgressSchema extends AMISSchemaBase {
   strokeWidth?: number;
 
   /**
-   * 仪表盘进度条缺口角度，可取值 0 ~ 295
+   * 仪表盘进度条缺口角度
    */
   gapDegree?: number;
 

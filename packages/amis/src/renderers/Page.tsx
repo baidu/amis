@@ -67,7 +67,7 @@ interface CSSRule {
  */
 export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**
-   * 指定为 page 渲染器。
+   * 指定为 page 组件
    */
   type: 'page';
 
@@ -82,22 +82,22 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   subTitle?: AMISTemplate;
 
   /**
-   * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。
+   * 页面描述
    */
   remark?: AMISRemarkObject;
 
   /**
-   * 内容区域
+   * 页面内容区域配置
    */
   body?: AMISSchemaCollection;
 
   /**
-   * 内容区 css 类名
+   * 内容区域的 CSS 类名
    */
   bodyClassName?: AMISClassName;
 
   /**
-   * 边栏区域
+   * 边栏区域配置
    */
   aside?: AMISSchemaCollection;
 

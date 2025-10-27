@@ -46,8 +46,7 @@ type NodeBehaviorType = 'unfold' | 'check';
  */
 export interface AMISTreeSelectSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 TreeSelect 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree-select
+   * 指定为 tree-select 组件
    */
   type: 'tree-select';
 
@@ -72,17 +71,17 @@ export interface AMISTreeSelectSchema extends AMISFormItemWithOptions {
   showIcon?: boolean;
 
   /**
-   * 父子之间是否完全独立。
+   * 父子之间是否完全独立
    */
   cascade?: boolean;
 
   /**
-   * 节点行为配置，默认为选中
+   * 节点行为配置
    */
   nodeBehavior?: NodeBehaviorType[];
 
   /**
-   * 选父级的时候是否把子节点的值也包含在内。
+   * 选父级的时候是否把子节点的值也包含在内
    */
   withChildren?: boolean;
 

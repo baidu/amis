@@ -42,7 +42,7 @@ import {AMISButtonSchema} from 'amis-core';
 
 export interface WizardStepSchema extends AMISFormBase, StepSchema {
   /**
-   * 当前步骤用来保存数据的 api。
+   * 当前步骤用来保存数据的 api
    */
   api?: AMISApi;
 
@@ -54,12 +54,12 @@ export interface WizardStepSchema extends AMISFormBase, StepSchema {
   initApi?: AMISApi;
 
   /**
-   * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
+   * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看
    */
   jumpable?: boolean;
 
   /**
-   * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
+   * 通过 JS 表达式来配置当前步骤可否被直接跳转到
    */
   jumpableOn?: AMISExpression;
 
@@ -70,7 +70,7 @@ export interface WizardStepSchema extends AMISFormBase, StepSchema {
   label?: string;
 
   /**
-   * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
+   * 每一步可以单独配置按钮。如果不配置wizard会自动生成
    */
   actions?: Array<AMISButtonSchema>;
 
@@ -82,7 +82,7 @@ export interface WizardStepSchema extends AMISFormBase, StepSchema {
   reload?: SchemaReload;
 
   /**
-   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据
    */
   target?: string;
 }

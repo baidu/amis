@@ -84,7 +84,7 @@ export interface BaseCollapseSchema extends AMISSchemaBase {
   mountOnEnter?: boolean;
 
   /**
-   * 卡片隐藏就销毁内容。
+   * 卡片隐藏就销毁内容
    */
   unmountOnExit?: boolean;
   /**

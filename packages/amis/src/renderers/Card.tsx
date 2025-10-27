@@ -40,118 +40,151 @@ import type {
 
 export type CardBodyField = SchemaObject & {
   /**
-   * 列标题
+   * 字段标签名称
    */
   label: string;
 
   /**
-   * label 类名
+   * 标签CSS类名
    */
   labelClassName?: AMISClassName;
 
   /**
-   * 绑定字段名
+   * 绑定的字段名
    */
   name?: string;
 
   /**
-   * 配置查看详情功能
+   * 查看详情配置
    */
   popOver?: SchemaPopOver;
 
   /**
-   * 配置快速编辑功能
+   * 快速编辑配置
    */
   quickEdit?: SchemaQuickEdit;
 
   /**
-   * 配置点击复制功能
+   * 点击复制配置
    */
   copyable?: SchemaCopyable;
 };
 
 export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
   /**
-   * 头部配置
+   * 卡片头部配置
    */
   header?: {
+    /**
+     * 头部容器CSS类名
+     */
     className?: AMISClassName;
 
     /**
-     * 标题
+     * 卡片标题
      */
     title?: AMISTemplate;
+
+    /**
+     * 标题CSS类名
+     */
     titleClassName?: AMISClassName;
 
     /**
-     * 副标题
+     * 卡片副标题
      */
     subTitle?: AMISSchemaCollection;
+
+    /**
+     * 副标题CSS类名
+     */
     subTitleClassName?: AMISClassName;
+
+    /**
+     * 副标题占位符文本
+     */
     subTitlePlaceholder?: string;
 
     /**
-     * 描述
+     * 卡片描述，支持模板语法
      */
     description?: AMISTemplate;
 
     /**
-     * 描述占位内容
+     * 描述占位符文本
      */
     descriptionPlaceholder?: string;
 
     /**
-     * 描述占位类名
+     * 描述的 CSS 类名
      */
     descriptionClassName?: AMISClassName;
 
     /**
-     * @deprecated 建议用 description
+     * 描述字段（已废弃）
+     * @deprecated 建议使用 description
      */
     desc?: AMISTemplate;
 
     /**
-     * @deprecated 建议用 descriptionPlaceholder
+     * 描述占位符（已废弃）
+     * @deprecated 建议使用 descriptionPlaceholder
      */
     descPlaceholder?: AMISTemplate;
 
     /**
-     * @deprecated 建议用 descriptionClassName
+     * 描述类名（已废弃）
+     * @deprecated 建议使用 descriptionClassName
      */
     descClassName?: AMISClassName;
 
     /**
-     * 图片地址
+     * 头像图片地址
      */
     avatar?: SchemaUrlPath;
 
+    /**
+     * 头像文字，当没有图片时显示
+     */
     avatarText?: AMISTemplate;
+
+    /**
+     * 头像文字背景色数组
+     */
     avatarTextBackground?: String[];
+
+    /**
+     * 头像文字的 CSS 类名
+     */
     avatarTextClassName?: AMISClassName;
 
     /**
-     * 图片包括层类名
+     * 头像容器的 CSS 类名
      */
     avatarClassName?: AMISClassName;
 
     /**
-     * 图片类名。
+     * 图片的 CSS 类名
      */
     imageClassName?: AMISClassName;
 
     /**
-     * 是否点亮
+     * 是否高亮显示
      */
     highlight?: AMISExpression;
+
+    /**
+     * 高亮状态的 CSS 类名
+     */
     highlightClassName?: AMISClassName;
 
     /**
-     * 链接地址
+     * 链接地址，点击头部时跳转
      */
     href?: AMISTemplate;
 
     /**
-     * 是否新窗口打开
+     * 是否在新窗口打开链接
      */
     blank?: boolean;
   };
@@ -225,7 +258,7 @@ export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
  */
 export interface AMISCardSchema extends AMISCardSchemaWithoutType {
   /**
-   * 指定为 card 类型
+   * 指定为 card 组件
    */
   type: 'card';
 }

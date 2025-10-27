@@ -19,7 +19,7 @@ import {ActionSchema} from './Action';
  */
 export interface AMISOperationSchema extends AMISSchemaBase {
   /**
-   * 指定为操作栏
+   * 指定为 operation 组件
    */
   type: 'operation';
 

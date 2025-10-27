@@ -26,8 +26,7 @@ import {filter} from 'amis-core';
  */
 export interface AMISRadiosControlSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 Radios 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
+   * 指定为 radios 组件
    */
   type: 'radios';
 

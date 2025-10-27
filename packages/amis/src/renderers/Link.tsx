@@ -12,12 +12,12 @@ import {Link} from 'amis-ui';
  */
 export interface AMISLinkSchema extends AMISSchemaBase {
   /**
-   * 指定为 link 链接展示控件
+   * 指定为 link 组件
    */
   type: 'link';
 
   /**
-   * 是否新窗口打开。
+   * 是否新窗口打开
    */
   blank?: boolean;
 
@@ -27,7 +27,7 @@ export interface AMISLinkSchema extends AMISSchemaBase {
   href?: string;
 
   /**
-   * 链接内容，如果不配置将显示链接地址。
+   * 链接内容
    */
   body?: SchemaTpl;
 

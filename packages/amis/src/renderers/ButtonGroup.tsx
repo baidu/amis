@@ -36,27 +36,27 @@ export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
   btnLevel?: string;
 
   /**
-   * 按钮选中的样式级别
+   * 按钮选中样式级别
    */
   btnActiveLevel?: string;
 
   /**
-   * 垂直展示？
+   * 是否垂直展示
    */
   vertical?: boolean;
 
   /**
-   * 平铺展示？
+   * 是否平铺展示
    */
   tiled?: boolean;
 
   /**
-   * 是否为禁用状态。
+   * 是否禁用
    */
   disabled?: boolean;
 
   /**
-   * 通过 JS 表达式来配置当前表单项的禁用状态。
+   * 禁用表达式
    */
   disabledOn?: AMISExpression;
 
@@ -66,7 +66,7 @@ export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
   visible?: boolean;
 
   /**
-   * 通过 JS 表达式来配置当前表单项是否显示
+   * 显示表达式
    */
   visibleOn?: AMISExpression;
 
@@ -78,7 +78,7 @@ export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
 
 export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
   /**
-   * 指定为提交按钮类型
+   * 指定为 button-group 组件
    */
   type: 'button-group';
 }

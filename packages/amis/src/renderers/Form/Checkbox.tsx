@@ -29,17 +29,17 @@ export interface SchemaMap {
  */
 export interface AMISCheckboxControlSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 checkbox 组件
    */
   type: 'checkbox';
 
   /**
-   * 勾选值
+   * 勾选时的值
    */
   trueValue?: boolean | string | number;
 
   /**
-   * 未勾选值
+   * 未勾选时的值
    */
   falseValue?: boolean | string | number;
 
@@ -49,12 +49,28 @@ export interface AMISCheckboxControlSchema extends AMISFormItem {
   option?: string;
 
   /**
-   * 角标
+   * 角标配置
    */
   badge?: BadgeObject;
+
+  /**
+   * 是否支持部分选中
+   */
   partial?: boolean;
+
+  /**
+   * 选项类型
+   */
   optionType?: 'default' | 'button';
+
+  /**
+   * 是否默认选中
+   */
   checked?: boolean;
+
+  /**
+   * 测试 ID 构建器
+   */
   testIdBuilder?: TestIdBuilder;
 }
 

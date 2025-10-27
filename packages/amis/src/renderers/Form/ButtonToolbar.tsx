@@ -16,7 +16,7 @@ export interface AMISButtonToolbarSchema
   extends BaseSchema,
     FormBaseControlWithoutSize {
   /**
-   * 指定为按钮工具集合类型
+   * 指定为 button-toolbar 组件
    */
   type: 'button-toolbar';
 

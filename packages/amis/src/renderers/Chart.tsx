@@ -67,7 +67,7 @@ const DEFAULT_EVENT_PARAMS = [
  */
 export interface AMISChartSchema extends AMISSchemaBase {
   /**
-   * 指定为 chart 类型
+   * 指定为 chart 组件
    */
   type: 'chart';
 
@@ -82,19 +82,17 @@ export interface AMISChartSchema extends AMISSchemaBase {
   api?: SchemaApi;
 
   /**
-   * 是否初始加载。
-   * @deprecated 建议直接配置 api 的 sendOn
+   * 是否初始加载
    */
   initFetch?: boolean;
 
   /**
    * 是否初始加载用表达式来配置
-   * @deprecated 建议用 api.sendOn 属性。
    */
   initFetchOn?: AMISExpression;
 
   /**
-   * 配置echart的config，支持数据映射。如果用了数据映射，为了同步更新，请设置 trackExpression
+   * 配置echart的config，支持数据映射
    */
   config?: any;
 

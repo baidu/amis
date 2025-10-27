@@ -19,7 +19,7 @@ import type {
 
 export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   /**
-   * 文字提示容器
+   * 指定为 tooltip-wrapper 组件
    */
   type: 'tooltip-wrapper';
 
@@ -29,7 +29,7 @@ export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   title?: string;
 
   /**
-   * 文字提示内容，兼容 tooltip，但建议通过 content 来实现提示内容
+   * 文字提示内容
    */
   content?: string;
 
@@ -39,7 +39,7 @@ export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   tooltip?: string;
 
   /**
-   * 文字提示浮层出现位置，默认为top
+   * 文字提示浮层出现位置
    */
   placement?: 'top' | 'right' | 'bottom' | 'left';
 
@@ -59,22 +59,21 @@ export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   disabled?: boolean;
 
   /**
-   * 浮层触发方式，默认为hover
+   * 浮层触发方式
    */
   trigger?: Trigger | Array<Trigger>;
 
   /**
-   * 浮层延迟显示时间, 单位 ms
+   * 浮层延迟显示时间
    */
-
   mouseEnterDelay?: number;
   /**
-   * 浮层延迟隐藏时间, 单位 ms
+   * 浮层延迟隐藏时间
    */
   mouseLeaveDelay?: number;
 
   /**
-   * 是否点击非内容区域关闭提示，默认为true
+   * 是否点击非内容区域关闭提示
    */
   rootClose?: boolean;
 
@@ -89,12 +88,12 @@ export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   wrapperComponent: string;
 
   /**
-   * 内容区是否内联显示，默认为false
+   * 内容区是否内联显示
    */
   inline?: boolean;
 
   /**
-   * 主题样式， 默认为light
+   * 主题样式
    */
   tooltipTheme?: 'light' | 'dark';
 

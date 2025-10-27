@@ -19,7 +19,7 @@ export interface AMISCopyableObject {
   icon?: SchemaIcon;
 
   /**
-   * 配置复制时的内容模板。
+   * 配置复制时的内容模板
    */
   content?: SchemaTpl;
 
