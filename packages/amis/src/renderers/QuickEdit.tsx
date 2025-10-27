@@ -20,7 +20,7 @@ import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import omit from 'lodash/omit';
 import {Icon} from 'amis-ui';
-import {SchemaCollection, SchemaObject} from '../Schema';
+import {SchemaApi, SchemaCollection, SchemaObject} from '../Schema';
 
 export type SchemaQuickEditObject =
   /**
@@ -30,7 +30,7 @@ export type SchemaQuickEditObject =
       /**
        * 是否立即保存
        */
-      saveImmediately?: boolean;
+      saveImmediately?: boolean | {api: SchemaApi};
 
       /**
        * 接口保存失败后，是否重置组件编辑状态
@@ -115,6 +115,20 @@ export interface QuickEditState {
 let inited: boolean = false;
 let currentOpened: any;
 
+export const getQuickEditApi = (
+  saveImmediately?: SchemaQuickEditObject['saveImmediately'],
+  quickSaveItemApi?: SchemaApi
+) => {
+  if (saveImmediately === true) {
+    return quickSaveItemApi;
+  }
+
+  if (typeof saveImmediately === 'object' && 'api' in saveImmediately) {
+    return saveImmediately.api;
+  }
+
+  return undefined;
+};
 export const HocQuickEdit =
   (config: Partial<QuickEditConfig> = {}) =>
   (Component: React.ComponentType<any>): any => {

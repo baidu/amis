@@ -73,6 +73,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
 import {AutoFoldedList} from 'amis-ui';
+import {getQuickEditApi, type SchemaQuickEditObject} from './QuickEdit';
 
 interface LoadMoreConfig {
   showIcon?: boolean;
@@ -940,8 +941,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           action.reload
             ? this.reloadTarget(filterTarget(action.reload, data), data)
             : redirect
-            ? null
-            : this.search(undefined, undefined, true, true);
+              ? null
+              : this.search(undefined, undefined, true, true);
           action.close && this.closeTarget(action.close);
         })
         .catch(e => {
@@ -1481,7 +1482,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         const rendererEvent = await dispatchEvent?.(
           'fetchInited',
           createObject(this.props.data, {
-            responseData: value?.ok ? store.data ?? {} : value,
+            responseData: value?.ok ? (store.data ?? {}) : value,
             responseStatus:
               value?.status === undefined ? (error ? 1 : 0) : value?.status,
             responseMsg: msg
@@ -1496,7 +1497,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         const rendererEvent = await dispatchEvent?.(
           'research',
           createObject(this.props.data, {
-            responseData: value?.ok ? store.data ?? {} : value,
+            responseData: value?.ok ? (store.data ?? {}) : value,
             responseStatus:
               value?.status === undefined ? (error ? 1 : 0) : value?.status,
             responseMsg: msg
@@ -1675,10 +1676,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    options?: {
-      resetOnFailed?: boolean;
-      reload?: string;
-    }
+    options?: SchemaQuickEditObject
   ) {
     const {
       store,
@@ -1750,7 +1748,9 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           );
         });
     } else {
-      if (!isEffectiveApi(quickSaveItemApi)) {
+      const api = getQuickEditApi(options?.saveImmediately, quickSaveItemApi);
+
+      if (!isEffectiveApi(api)) {
         env && env.alert('CRUD quickSaveItemApi is required!');
         return;
       }
@@ -1763,7 +1763,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
 
       const sendData = createObject(data, rows);
       return store
-        .saveRemote(quickSaveItemApi, sendData)
+        .saveRemote(api, sendData)
         .then(async (result: any) => {
           // 如果请求 cancel 了，会来到这里
           if (!result) {
@@ -2594,8 +2594,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             {isLoading
               ? contentText.contentrefresh
               : isNoMore
-              ? contentText.contentnomore
-              : contentText.contentdown}
+                ? contentText.contentnomore
+                : contentText.contentdown}
           </span>
         )}
       </div>
