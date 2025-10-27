@@ -126,7 +126,9 @@ export interface Payload {
 
 export interface Schema extends AMISSchemaBase {
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
-  component?: React.ElementType;
+  component?: React.ElementType & {
+    wrapedAsFormItem?: any;
+  };
   [propName: string]: any;
 }
 

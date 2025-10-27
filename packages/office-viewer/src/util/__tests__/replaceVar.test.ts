@@ -11,7 +11,7 @@ export function createWord(fileName: string, data: any) {
   const xmlContent = new Uint8Array(
     fs.readFileSync(path.join(__dirname, fileName), null).buffer
   );
-  return new Word(xmlContent, {
+  return new Word(xmlContent as any, {
     enableVar: true,
     data,
     evalVar: (name, d: any) => {

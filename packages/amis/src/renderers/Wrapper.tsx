@@ -1,9 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, AMISSchemaCollection} from '../Schema';
-import {resolveVariable} from 'amis-core';
-import {SchemaNode} from 'amis-core';
-import mapValues from 'lodash/mapValues';
+import {Renderer, RendererProps, AMISSchemaCollection} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {AMISSchemaBase} from 'amis-core';
 
@@ -24,14 +20,10 @@ export interface AMISWrapperSchema extends AMISSchemaBase {
 
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
 
-  wrap?: boolean;
-
   /**
-   * 自定义样式
+   * 是否包裹内容 默认 true
    */
-  style?: {
-    [propName: string]: any;
-  };
+  wrap?: boolean;
 }
 
 export interface WrapperProps

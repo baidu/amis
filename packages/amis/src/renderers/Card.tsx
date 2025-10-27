@@ -38,7 +38,7 @@ import type {
   IItem
 } from 'amis-core';
 
-export type CardBodyField = SchemaObject & {
+export type AMISCardFieldBase = {
   /**
    * 字段标签名称
    */
@@ -69,8 +69,9 @@ export type CardBodyField = SchemaObject & {
    */
   copyable?: SchemaCopyable;
 };
+export type AMISCardField = AMISSchema & AMISCardFieldBase;
 
-export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
+export interface AMISCardSchemaBase extends AMISSchemaBase {
   /**
    * 卡片头部配置
    */
@@ -192,7 +193,7 @@ export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
   /**
    * 内容区域
    */
-  body?: Array<CardBodyField>;
+  body?: Array<AMISCardField>;
 
   /**
    * 多媒体区域
@@ -256,7 +257,7 @@ export interface AMISCardSchemaWithoutType extends AMISSchemaBase {
  * Card 卡片渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
-export interface AMISCardSchema extends AMISCardSchemaWithoutType {
+export interface AMISCardSchema extends AMISCardSchemaBase {
   /**
    * 指定为 card 组件
    */

@@ -9,7 +9,7 @@ export * from 'amis-core';
 export * from 'amis-ui';
 import './minimal';
 import {registerFilter, registerFormula} from 'amis-formula';
-import {AMISFormSchema} from 'amis-core';
+import type {AMISFormSchema} from 'amis-core';
 
 import type {
   BaseSchema,
@@ -31,6 +31,10 @@ import './renderers/icons/mk';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
 
+import type {AMISDialogSchema} from './renderers/Dialog';
+import type {AMISDrawerSchema} from './renderers/Drawer';
+export * from './SchemaFull';
+
 export {
   BaseSchema,
   AMISFormSchema as FormSchema,
@@ -44,12 +48,17 @@ export {
   AMISCRUDSchema,
   ButtonSchema,
   AMISCRUD2Schema,
+  AMISCRUD2Schema as CRUD2Schema,
   AMISTabsSchema as TabsSchema,
   AMISTabsSchema,
   SchemaExpression,
   Action,
   SchemaType,
   EditorAvailableLanguages,
+  AMISDialogSchema as DialogSchema,
+  AMISDrawerSchema as DrawerSchema,
+  AMISDialogSchema,
+  AMISDrawerSchema,
   registerFilter,
   registerFormula,
   overrideSupportStatic,

@@ -70,7 +70,8 @@ import {
   AMISDefaultData,
   AMISExpression,
   AMISSchemaCollection,
-  AMISSchemaBase
+  AMISSchemaBase,
+  AMISButtonSchema
 } from '../schema';
 
 export interface FormHorizontal {
@@ -93,7 +94,7 @@ export interface AMISFormBase extends AMISSchemaBase {
   /**
    * 按钮集合，会固定在底部显示。
    */
-  actions?: Array<AMISButtonWithAction>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 表单项集合
@@ -381,7 +382,14 @@ export interface AMISFormBase extends AMISSchemaBase {
 
 export type FormSchemaBase = AMISFormBase;
 
+/**
+ * 表单渲染器
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index
+ */
 export interface AMISFormSchema extends AMISFormBase {
+  /**
+   * 指定为表单渲染器
+   */
   type: 'form';
 }
 

@@ -60,17 +60,23 @@ import type {SchemaTokenizeableString} from '../../Schema';
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 
-import type {AMISFormItem, TestIdBuilder} from 'amis-core';
+import type {
+  AMISApi,
+  AMISFormItem,
+  AMISSchema,
+  AMISTemplate,
+  TestIdBuilder
+} from 'amis-core';
 
-export type ComboCondition = {
+export type AMISComboCondition = {
   test: string;
-  items: Array<ComboSubControl>;
+  items: Array<AMISComboItem>;
   label: string;
   scaffold?: any;
   mode?: string;
 };
 
-export type ComboSubControl = SchemaObject & {
+export interface AMISComboItemBase {
   /**
    * 是否唯一
    */
@@ -80,8 +86,9 @@ export type ComboSubControl = SchemaObject & {
    * 列类名
    */
   columnClassName?: AMISClassName;
-  testid?: string;
-};
+}
+
+export type AMISComboItem = AMISSchema & AMISComboItemBase;
 
 /**
  * Combo 组合输入框类型
@@ -107,7 +114,7 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   /**
    * 删除时调用的 API 接口
    */
-  deleteApi?: SchemaApi;
+  deleteApi?: AMISApi;
 
   /**
    * 是否可切换条件，配合 conditions 使用
@@ -117,7 +124,7 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   /**
    * 符合某类条件后才渲染的 schema 配置
    */
-  conditions?: Array<ComboCondition>;
+  conditions?: Array<AMISComboCondition>;
 
   /**
    * 内部单组表单项的 CSS 类名
@@ -148,7 +155,7 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   /**
    * 数组输入框的子项配置
    */
-  items?: Array<ComboSubControl>;
+  items?: Array<AMISComboItem>;
 
   /**
    * 是否可拖拽排序
@@ -239,7 +246,7 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   /**
    * 选项卡标题的生成模板。
    */
-  tabsLabelTpl?: SchemaTpl;
+  tabsLabelTpl?: AMISTemplate;
 
   /**
    * 数据比较多，比较卡时，可以试试开启。
@@ -288,7 +295,6 @@ export interface AMISComboSchemaBase extends AMISFormItem {
     maxLengthValidateFailed?: string;
   };
   updatePristineAfterStoreDataReInit?: boolean;
-  testIdBuilder?: TestIdBuilder;
 }
 
 export interface AMISComboSchema extends AMISComboSchemaBase {
@@ -591,7 +597,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     return value;
   }
 
-  addItemWith(condition: ComboCondition) {
+  addItemWith(condition: AMISComboCondition) {
     const {
       flat,
       joinValues,
@@ -1233,19 +1239,19 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
-  pickCondition(value: any): ComboCondition | null {
-    const conditions: Array<ComboCondition> = this.props.conditions!;
+  pickCondition(value: any): AMISComboCondition | null {
+    const conditions: Array<AMISComboCondition> = this.props.conditions!;
     return find(
       conditions,
       item => item.test && evalExpression(item.test, value)
-    ) as ComboCondition | null;
+    ) as AMISComboCondition | null;
   }
 
   handleComboTypeChange(index: number, selection: any) {
     const {multiple, onChange, value, flat, submitOnChange} = this.props;
 
-    const conditions: Array<ComboCondition> = this.props
-      .conditions as Array<ComboCondition>;
+    const conditions: Array<AMISComboCondition> = this.props
+      .conditions as Array<AMISComboCondition>;
     const condition = find(conditions, item => item.label === selection.label);
 
     if (!condition) {
@@ -1384,7 +1390,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         {value.map((value: any, index: number) => {
           const data = this.formatValue(value, index);
           const tabTIDBuilder = testIdBuilder?.getChild(`tab-${index}`);
-          let condition: ComboCondition | null | undefined = null;
+          let condition: AMISComboCondition | null | undefined = null;
           let toolbar = undefined;
           if (
             finnalRemovable && // 表达式判断单条是否可删除
@@ -1460,7 +1466,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   <label>{__('Combo.type')}</label>
                   <Select
                     onChange={this.handleComboTypeChange.bind(this, index)}
-                    options={(conditions as Array<ComboCondition>).map(
+                    options={(conditions as Array<AMISComboCondition>).map(
                       item => ({
                         label: item.label,
                         value: item.label
@@ -1733,7 +1739,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               let delBtn: any = this.renderDelBtn(value, index);
 
               const data = this.formatValue(value, index);
-              let condition: ComboCondition | null = null;
+              let condition: AMISComboCondition | null = null;
 
               if (Array.isArray(conditions) && conditions.length) {
                 condition = this.pickCondition(data);
@@ -1783,7 +1789,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       <label>{__('Combo.type')}</label>
                       <Select
                         onChange={this.handleComboTypeChange.bind(this, index)}
-                        options={(conditions as Array<ComboCondition>).map(
+                        options={(conditions as Array<AMISComboCondition>).map(
                           item => ({
                             label: item.label,
                             value: item.label
@@ -1863,7 +1869,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const data = isObject(value)
       ? this.formatValue(value)
       : this.formatValue(this.defaultValue);
-    let condition: ComboCondition | null = null;
+    let condition: AMISComboCondition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
       condition = this.pickCondition(data);
@@ -1894,10 +1900,12 @@ export default class ComboControl extends React.Component<ComboProps> {
               <label>{__('Combo.type')}</label>
               <Select
                 onChange={this.handleComboTypeChange.bind(this, 0)}
-                options={(conditions as Array<ComboCondition>).map(item => ({
-                  label: item.label,
-                  value: item.label
-                }))}
+                options={(conditions as Array<AMISComboCondition>).map(
+                  item => ({
+                    label: item.label,
+                    value: item.label
+                  })
+                )}
                 value={condition.label}
                 clearable={false}
               />
@@ -1925,7 +1933,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   // 为了给 editor 重写使用
   renderItems(
-    finnalControls: ComboSubControl[],
+    finnalControls: AMISComboItem[],
     data: object,
     index?: number,
     originData?: any

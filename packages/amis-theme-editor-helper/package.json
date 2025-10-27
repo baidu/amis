@@ -68,7 +68,7 @@
     "amis": "*",
     "amis-core": "*",
     "amis-ui": "*",
-    "i18n-runtime": "*",
+    "i18n-runtime": "1.0.10",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   }

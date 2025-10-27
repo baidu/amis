@@ -7,15 +7,11 @@ import {
   CustomStyle,
   isVisible,
   setThemeClassName,
-  BaseSchemaWithoutType,
   AMISSchemaBase,
   AMISSchemaCollection
 } from 'amis-core';
-import {DndContainer as DndWrapper} from 'amis-ui';
-import {BaseSchema} from '../Schema';
-import {JSONSchema} from '../types';
 
-export interface StateSchema extends AMISSchemaBase {
+export interface AMISStatusSchemaBase extends AMISSchemaBase {
   /**
    * 状态标题
    */
@@ -45,7 +41,7 @@ export interface AMISSwitchContainerSchema extends AMISSchemaBase {
   /**
    * 状态项列表
    */
-  items: Array<StateSchema>;
+  items: Array<AMISStatusSchemaBase>;
 
   /**
    * 自定义样式
@@ -109,7 +105,7 @@ export default class SwitchContainer extends React.Component<
   }
 
   @autobind
-  renderBody(item: JSONSchema): JSX.Element | null {
+  renderBody(item: AMISStatusSchemaBase): JSX.Element | null {
     const {children, render, disabled} = this.props;
     const body = item?.body;
 
@@ -147,7 +143,7 @@ export default class SwitchContainer extends React.Component<
 
     const activeItem =
       items[this.state.activeIndex] ??
-      items.find((item: JSONSchema) => isVisible(item, data));
+      items.find((item: AMISStatusSchemaBase) => isVisible(item, data));
 
     const contentDom = (
       <div

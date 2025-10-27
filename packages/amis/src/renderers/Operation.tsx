@@ -28,6 +28,9 @@ export interface AMISOperationSchema extends AMISSchemaBase {
    */
   placeholder?: string;
 
+  /**
+   * 按钮集合
+   */
   buttons: Array<AMISButtonSchema>;
 }
 

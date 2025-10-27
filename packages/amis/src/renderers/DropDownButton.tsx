@@ -6,16 +6,16 @@ import {
   Renderer,
   RendererProps,
   setThemeClassName,
-  AMISSchemaCollection
+  AMISSchemaCollection,
+  AMISButtonSchema
 } from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop, filterClassNameObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Icon, hasIcon} from 'amis-ui';
-import {BaseSchema, AMISClassName, SchemaIcon} from '../Schema';
-import {ActionSchema} from './Action';
+import {Icon} from 'amis-ui';
+import {AMISClassName, SchemaIcon} from '../Schema';
 import {AMISDividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
 import type {
@@ -23,10 +23,13 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 import {resolveVariableAndFilter} from 'amis-core';
-import {isMobile} from 'amis-core';
+
+export type DropdownNestedButton = AMISButtonSchema & {
+  children?: Array<DropdownButton>;
+};
 
 export type DropdownButton =
-  | (ActionSchema & {children?: Array<DropdownButton>})
+  | DropdownNestedButton
   | AMISDividerSchema
   | 'divider';
 
@@ -271,21 +274,28 @@ export default class DropDownButton extends React.Component<
     } = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
-    if (typeof button !== 'string' && Array.isArray(button?.children)) {
+    if (
+      typeof button !== 'string' &&
+      Array.isArray((button as DropdownNestedButton)?.children)
+    ) {
       return (
         <div
           key={index}
           className={cx('DropDown-menu', {'is-mobile': mobileUI})}
         >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
-            {button.icon ? (
-              <Icon cx={cx} icon={button.icon} className="m-r-xs" />
+            {(button as DropdownNestedButton).icon ? (
+              <Icon
+                cx={cx}
+                icon={(button as DropdownNestedButton).icon}
+                className="m-r-xs"
+              />
             ) : null}
-            <span>{button.label}</span>
+            <span>{(button as DropdownNestedButton).label}</span>
           </li>
-          {button.children.map((child, childIndex) =>
+          {(button as DropdownNestedButton).children!.map((child, childIndex) =>
             this.renderButton(child, `${index}/${childIndex + 1}`)
-          )}
+          ) ?? []}
         </div>
       );
     }

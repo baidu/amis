@@ -22,6 +22,7 @@ import {AppStore, IAppStore} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {autobind} from 'amis-core';
 import type {AMISApi, AMISSchemaCollection} from 'amis-core';
+import {AMISDefinitions} from 'amis-core';
 
 export interface AMISAppPage extends SpinnerExtraProps {
   /**
@@ -151,6 +152,12 @@ export interface AMISAppSchema extends AMISSchemaBase, SpinnerExtraProps {
    * 显示面包屑首页路径。
    */
   showBreadcrumbHomePath?: boolean;
+
+  /**
+   * 类似 json-schema 的定义，可以被其他组件引用
+   * 目前只有顶级组件可以定义，其他组件不能定义。
+   */
+  definitions?: AMISDefinitions;
 }
 
 export interface AppProps

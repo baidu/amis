@@ -14,6 +14,9 @@ import {FormBaseControl, FormItemWrap} from 'amis-core';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/control
  */
 export interface AMISFormControlSchema extends AMISFormItem {
+  /**
+   * 指定为 control 组件
+   */
   type: 'control';
 
   /**

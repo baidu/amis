@@ -60,7 +60,7 @@ export default class ZipPackageParser implements PackageParser {
       if (type === 'string') {
         return strFromU8(file);
       } else if (type === 'blob') {
-        return new Blob([file]);
+        return new Blob([file as any]);
       } else if (type === 'uint8array') {
         return file;
       }

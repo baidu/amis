@@ -29,7 +29,9 @@ test('pagination: pageNum change event', async () => {
             actions: [
               {
                 actionType: 'custom',
-                script: mockFn
+                args: {
+                  script: mockFn
+                }
               }
             ]
           }
@@ -109,7 +111,9 @@ test('pagination: prevent pageNum change event ', async () => {
               {
                 actionType: 'custom',
                 preventDefault: true, // 阻止事件默认行为
-                script: mockFn
+                args: {
+                  script: mockFn
+                }
               }
             ]
           }

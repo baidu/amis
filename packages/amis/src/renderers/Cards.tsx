@@ -37,7 +37,7 @@ import {
   SchemaTpl,
   SchemaTokenizeableString
 } from '../Schema';
-import {AMISCardSchemaWithoutType, CardProps} from './Card';
+import {AMISCardSchemaBase, CardProps} from './Card';
 import {AMISCard2Schema, Card2Props} from './Card2';
 import type {
   IItem,
@@ -55,7 +55,7 @@ import find from 'lodash/find';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/cards
  */
 export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
-  card?: AMISCardSchemaWithoutType | AMISCard2Schema;
+  card?: AMISCardSchemaBase | AMISCard2Schema;
 
   /**
    * 头部 CSS 类名

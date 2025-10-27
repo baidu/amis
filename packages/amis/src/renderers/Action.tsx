@@ -270,7 +270,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
 
     e.preventDefault();
-    let action = pick(this.props, ActionProps) as ActionSchema;
+    let action = pick(this.props, ActionProps) as AMISButtonSchema;
     const actionType = action.actionType;
 
     // ajax 会在 wrapFetcher 里记录，这里再处理就重复了，因此去掉
@@ -295,7 +295,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         ...action,
         responseType: 'blob',
         actionType: 'ajax',
-        api: normalizeApi(action.api)
+        api: normalizeApi((action as AMISLegacyAjaxActionButton).api)
       };
     }
 

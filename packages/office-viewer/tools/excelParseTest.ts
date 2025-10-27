@@ -20,7 +20,7 @@ const dir = process.argv[2];
     if (file.endsWith('.xlsx') && !file.includes('~$')) {
       console.log(file);
       const data = readFileSync(file);
-      const excel = await createOfficeViewer(data, {}, file);
+      const excel = await createOfficeViewer(data as any, {}, file);
     }
   }
 })();

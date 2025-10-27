@@ -3,7 +3,9 @@
  */
 import React from 'react';
 import {
+  AMISClassName,
   AMISSchemaBase,
+  AMISUrlPath,
   buildApi,
   isApiOutdated,
   isEffectiveApi,
@@ -11,7 +13,6 @@ import {
   RendererProps,
   resolveVariableAndFilter
 } from 'amis-core';
-import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
 const foregroundColors = {
@@ -57,12 +58,12 @@ export interface AMISLogSchema extends AMISSchemaBase {
   /**
    * 自定义 CSS 类名
    */
-  className?: string;
+  className?: AMISClassName;
 
   /**
    * 获取日志的地址
    */
-  source: string;
+  source: AMISUrlPath;
 
   /**
    * 控件高度

@@ -18,7 +18,7 @@ export class AvatarPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'avatar';
-  $schema = '/schemas/AvatarSchema.json';
+  $schema = '/schemas/AMISAvatarSchema.json';
 
   // 组件名称
   name = '头像';

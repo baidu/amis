@@ -248,6 +248,10 @@ export interface AMISConditionGroupValue {
 
 export interface AMISConditionValue extends AMISConditionGroupValue {}
 
+/**
+ * 按钮渲染器，展示一个按钮同时支持多种行为定义。
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/action
+ */
 export type AMISButtonSchema = AMISLegacyActionSchema | AMISButton;
 
 /**
@@ -286,6 +290,10 @@ export type AMISSchemaCollection =
  * 支持通过 `${ AMISExpression }` 内嵌表达式的模版字符
  */
 export type AMISTokenizeableString = string;
+
+/**
+ * URL 路径, 支持通过 `${ AMISExpression }` 内嵌表达式的模版字符
+ */
 export type AMISUrlPath = AMISTokenizeableString;
 
 /**
@@ -1140,15 +1148,41 @@ export interface AMISButtonWithAction extends AMISButton {
 }
 
 export interface AMISLegacyAjaxActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 ajax 动作。
+   */
   actionType: 'ajax';
+
+  /**
+   * 请求地址。
+   */
   api: AMISApi;
+
+  /**
+   * 反馈弹窗。
+   */
   feedback?: AMISFeedbackDialog;
+
+  /**
+   * 响应类型。
+   */
   responseType?: 'json' | 'blob';
+
+  /**
+   * 下载文件名。
+   */
   downloadFileName?: string;
 }
 
 export interface AMISLegacyDialogActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 dialog 动作。
+   */
   actionType: 'dialog';
+
+  /**
+   * 弹窗配置。
+   */
   dialog: AMISDialogSchemaBase;
 
   /**
@@ -1158,7 +1192,14 @@ export interface AMISLegacyDialogActionButton extends AMISButtonWithAction {
 }
 
 export interface AMISLegacyDrawerActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 drawer 动作。
+   */
   actionType: 'drawer';
+
+  /**
+   * 抽屉配置。
+   */
   drawer: AMISDrawerSchemaBase;
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -1167,7 +1208,14 @@ export interface AMISLegacyDrawerActionButton extends AMISButtonWithAction {
 }
 
 export interface AMISLegacyReloadActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 reload 动作。
+   */
   actionType: 'reload';
+
+  /**
+   * 刷新目标。
+   */
   target: AMISReloadTarget;
 }
 
@@ -1189,27 +1237,75 @@ export interface AMISLegacyBehaviorActionButton extends AMISButtonWithAction {
 }
 
 export interface AMISLegacyLinkActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 link 动作。
+   */
   actionType: 'link';
+
+  /**
+   * 链接地址。
+   */
   link?: AMISUrlPath;
 }
 
 export interface AMISLegacyUrlActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 url 动作。
+   */
   actionType: 'url';
+
+  /**
+   * 链接地址。
+   */
   url?: AMISUrlPath;
+
+  /**
+   * 是否在新窗口打开。
+   */
   blank?: boolean;
 }
 
 export interface AMISLegacyJumpActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 jump 动作。
+   */
   actionType: 'jump';
+
+  /**
+   * 跳转地址。
+   */
   to?: AMISUrlPath;
 }
 
 export interface AMISLegacyEmailActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 email 动作。
+   */
   actionType: 'email';
+
+  /**
+   * 收件人。
+   */
   to?: string;
+
+  /**
+   * 抄送人。
+   */
   cc?: string;
+
+  /**
+   * 密送人。
+   */
   bcc?: string;
+
+  /**
+   * 主题。
+   */
   subject?: AMISTemplate;
+
+  /**
+   * 内容。
+   */
   body?: AMISTemplate;
 }
 
@@ -1264,26 +1360,70 @@ export interface AMISToastBase extends AMISSchemaBase {
 }
 
 export interface AMISLegacyToastActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 toast 动作。
+   */
   actionType: 'toast';
+
+  /**
+   * 提示配置。
+   */
   toast: AMISToastBase;
 }
 
 export interface AMISLegacyCopyActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 copy 动作。
+   */
   actionType: 'copy';
+
+  /**
+   * 内容。
+   */
   content?: AMISTemplate;
+
+  /**
+   * 复制内容。
+   */
   copy?: AMISTemplate;
+
+  /**
+   * 复制格式。
+   */
   copyFormat?: 'text' | 'html';
 }
 
 export interface AMISLegacySaveAsActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 saveAs 动作。
+   */
   actionType: 'saveAs';
+
+  /**
+   * 保存地址。
+   */
   api: AMISApi;
+
+  /**
+   * 文件名。
+   */
   fileName?: string;
 }
 
 export interface AMISLegacyDownloadActionButton extends AMISButtonWithAction {
+  /**
+   * 指定为 download 动作。
+   */
   actionType: 'download';
+
+  /**
+   * 下载地址。
+   */
   api: AMISApi;
+
+  /**
+   * 下载文件名。
+   */
   downloadFileName?: string;
 }
 

@@ -256,19 +256,15 @@ export class ConditionBilderPlugin extends BasePlugin {
                         options: defaultConfig.types[data.type]?.operators.map(
                           item => {
                             if (isObject(item) && item.label && item.value) {
-                              return (
-                                {
-                                  label: item.label,
-                                  value: item.value
-                                } || []
-                              );
+                              return {
+                                label: item.label,
+                                value: item.value
+                              };
                             } else if (isString(item)) {
-                              return (
-                                {
-                                  label: OperationMap[item],
-                                  value: item
-                                } || []
-                              );
+                              return {
+                                label: OperationMap[item],
+                                value: item
+                              };
                             } else {
                               return [];
                             }

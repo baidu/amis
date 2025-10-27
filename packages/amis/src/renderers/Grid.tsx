@@ -6,7 +6,8 @@ import {
   buildStyle,
   CustomStyle,
   setThemeClassName,
-  AMISSchemaCollection
+  AMISSchemaCollection,
+  AMISSchema
 } from 'amis-core';
 import pick from 'lodash/pick';
 import {BaseSchema, AMISClassName} from '../Schema';
@@ -17,10 +18,7 @@ import {AMISSchemaBase} from 'amis-core';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
-export type GridColumnObject = {
-  /**
-   * 组件唯一标识符
-   */
+export type AMISGridColumn = {
   id?: string;
 
   /**
@@ -84,8 +82,7 @@ export type GridColumnObject = {
   themeCss?: any;
 };
 
-export type GridColumn = GridColumnObject;
-export type ColumnNode = GridColumn;
+export type ColumnNode = AMISGridColumn;
 export interface ColumnArray extends Array<ColumnNode> {}
 
 /**
@@ -101,7 +98,7 @@ export interface AMISGridSchema extends AMISSchemaBase {
   /**
    * 列配置数组，定义每列的布局和内容
    */
-  columns: Array<GridColumn>;
+  columns: Array<AMISGridColumn>;
 
   /**
    * 列之间的水平间距
@@ -163,7 +160,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   renderChild(
     region: string,
     key: number,
-    column: GridColumnObject,
+    column: AMISGridColumn,
     length: number,
     props: any = {}
   ) {

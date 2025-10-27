@@ -41,6 +41,7 @@ import {isAlive} from 'mobx-state-tree';
 export interface AMISDialogSchema extends AMISDialogSchemaBase {
   type: 'dialog';
 }
+export type DialogSchema = AMISDialogSchema;
 export interface DialogProps
   extends RendererProps,
     Omit<AMISDialogSchema, 'className' | 'data'>,

@@ -4,13 +4,14 @@ import {Schema} from '../types';
 import {formateId} from '../utils';
 import {createAnimationStyle} from '../utils/animations';
 import styleManager from '../StyleManager';
+import {AMISSchemaBase} from '../schema';
 
 function Animations({
   schema,
   component,
   show
 }: {
-  schema: Schema;
+  schema: AMISSchemaBase;
   component: any;
   show: boolean;
 }) {
@@ -18,7 +19,7 @@ function Animations({
   const [animationShow, setAnimationShow] = useState(!enter?.inView);
   const [placeholderShow, setPlaceholderShow] = useState(!!enter?.inView);
 
-  const id = useMemo(() => formateId(schema.id), []);
+  const id = useMemo(() => formateId(schema.id!), []);
   const observer = useMemo(newObserver, []);
   const animationClassNames = useMemo(initAnimationClassNames, []);
   const animationTimeout = useMemo(initAnimationTimeout, []);

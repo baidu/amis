@@ -95,7 +95,7 @@ import type {
 /**
  * 表格列配置，不指定类型时默认为文本类型
  */
-export interface AMISTableColumnConfig {
+export interface AMISTableColumnBase {
   /**
    * 列标题文本
    */
@@ -232,12 +232,13 @@ export interface AMISTableColumnConfig {
   [propName: string]: any;
 }
 
-export type AMISTableColumnWithType = AMISSchema & AMISTableColumnConfig;
-export type AMISTableColumn = AMISTableColumnWithType | AMISTableColumnConfig;
+export type AMISTableColumn =
+  | AMISTableColumnBase
+  | (AMISSchema & AMISTableColumnBase);
 
 // 保留原来的叫法
-export type TableColumnObject = AMISTableColumnConfig;
-export type TableColumnWithType = AMISTableColumnWithType;
+export type TableColumnObject = AMISTableColumnBase;
+export type TableColumnWithType = AMISSchema & AMISTableColumnBase;
 export type TableColumn = AMISTableColumn;
 
 export type AMISAutoFillHeightObject = Record<'height' | 'maxHeight', number>;

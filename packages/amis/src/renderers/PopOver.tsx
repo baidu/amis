@@ -144,7 +144,7 @@ export const HocPopOver =
         } else if (popOver) {
           schema = {
             type: 'panel',
-            ...popOver
+            ...(popOver as any)
           };
         } else if (this.getClassName() === 'ellipsis') {
           schema = {

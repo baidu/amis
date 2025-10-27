@@ -15,15 +15,44 @@ import {
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  */
 export interface AMISDividerSchema extends AMISSchemaBase {
+  /**
+   * 指定为 divider 组件
+   */
   type: 'divider';
+  /**
+   * 分割线的类型，可选值：'dashed'（虚线）、'solid'（实线）
+   */
   lineStyle?: 'dashed' | 'solid';
+
+  /**
+   * 分割线方向，可选值：'horizontal'（水平）、'vertical'（垂直）
+   */
   direction?: 'horizontal' | 'vertical';
+
+  /**
+   * 分割线颜色，支持普通颜色值和渐变
+   */
   color?: string;
+
+  /**
+   * 分割线旋转角度
+   */
   rotate?: number;
+
+  /**
+   * 分割线标题内容
+   */
   title?: AMISSchemaCollection;
+
+  /**
+   * 分割线标题自定义样式类名
+   */
   titleClassName?: string;
+
+  /**
+   * 分割线标题位置，可选值：'left'、'center'、'right'
+   */
   titlePosition?: 'left' | 'center' | 'right';
-  [propName: string]: any;
 }
 
 export interface DividerProps

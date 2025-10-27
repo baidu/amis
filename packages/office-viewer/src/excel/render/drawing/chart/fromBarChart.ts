@@ -3,10 +3,11 @@ import {Workbook} from '../../../Workbook';
 import {getStack} from './getStack';
 import {calcPercentStacked} from './calcPercentStacked';
 import {getData} from './getData';
+import type {SeriesOption} from 'echarts';
 
 export function fromBarChart(workbook: Workbook, barChart: CT_BarChart) {
   const categories: string[] = [];
-  const series = [];
+  const series: SeriesOption[] = [];
   const barSer = barChart.ser || [];
   let isPercentStacked = false;
   for (const barSeries of barSer) {
@@ -21,7 +22,7 @@ export function fromBarChart(workbook: Workbook, barChart: CT_BarChart) {
       name,
       type: 'bar',
       stack: stack.stack,
-      data: seriesData
+      data: seriesData as number[]
     });
   }
 

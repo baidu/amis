@@ -33,7 +33,7 @@ export default class XMLPackageParser implements PackageParser {
     }
     let overrides = [];
     const parts = this.xml.getElementsByTagName('pkg:part');
-    for (const part of parts) {
+    for (const part of parts as any) {
       const name = part.getAttribute('pkg:name')!;
       const contentType = part.getAttribute('pkg:contentType')!;
       const content = part.firstElementChild!;
@@ -92,7 +92,7 @@ export default class XMLPackageParser implements PackageParser {
       if (type === 'string') {
         return strFromU8(file);
       } else if (type === 'blob') {
-        return new Blob([file]);
+        return new Blob([file as any]);
       } else if (type === 'uint8array') {
         return file;
       }

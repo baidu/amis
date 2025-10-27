@@ -48,6 +48,7 @@ import {
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
 import type {
+  AMISButtonSchema,
   AMISClassName,
   AMISExpression,
   AMISLegacyActionSchema,
@@ -67,7 +68,7 @@ import {AMISQuickEdit} from './QuickEdit';
 /**
  * 列表字段配置，不指定类型默认就是文本
  */
-export type AMISListFieldConfig = {
+export type AMISListFieldBase = {
   /**
    * 字段标签名称
    */
@@ -103,13 +104,13 @@ export type AMISListFieldConfig = {
    */
   copyable?: AMISCopyable;
 };
-export type ListBodyFieldObject = AMISListFieldConfig;
+export type ListBodyFieldObject = AMISListFieldBase;
 
-export type AMISListField = AMISSchema & AMISListFieldConfig;
+export type AMISListField = AMISSchema & AMISListFieldBase;
 export type ListBodyField = AMISListField;
 
 export interface AMISListItemBase extends AMISSchemaBase {
-  actions?: Array<AMISLegacyActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 操作位置，默认在右侧，可以设置成左侧。

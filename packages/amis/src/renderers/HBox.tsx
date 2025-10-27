@@ -13,7 +13,7 @@ import {isVisible, ucFirst} from 'amis-core';
 import {BaseSchema, SchemaExpression, SchemaObject} from '../Schema';
 import {FormHorizontal} from 'amis-core';
 
-export type HBoxColumnObject = {
+export type AMISHBoxColumn = {
   /**
    * 列上 CSS 类名
    */
@@ -67,7 +67,7 @@ export type HBoxColumnObject = {
   visibleOn?: AMISExpression;
 };
 
-export type HBoxColumn = HBoxColumnObject;
+export type HBoxColumn = AMISHBoxColumn;
 
 /**
  * Hbox 水平布局渲染器。

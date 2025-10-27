@@ -42,6 +42,7 @@ export interface AMISDrawerSchema extends AMISDrawerSchemaBase {
    */
   type: 'drawer';
 }
+export type DrawerSchema = AMISDrawerSchema;
 
 export interface DrawerProps
   extends RendererProps,

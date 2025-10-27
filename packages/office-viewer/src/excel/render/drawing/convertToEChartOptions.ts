@@ -14,10 +14,12 @@ import {fromPieChart} from './chart/fromPieChart';
  * 将 chartSpace 配置转成 EChartOptions
  * P3365
  */
+import type {EChartsOption, SeriesOption} from 'echarts';
+
 export function convertToEChartOptions(
   workbook: Workbook,
   chartSpace: IChartSpace
-): echarts.EChartOption | null {
+): EChartsOption | null {
   const chart = chartSpace.chart;
   console.log('chart', chart);
   if (!chart) {
@@ -43,7 +45,7 @@ export function convertToEChartOptions(
   }
 
   let categories: string[] = [];
-  let series: echarts.EChartOption.Series[] = [];
+  let series: SeriesOption[] = [];
 
   if (plotArea.lineChart) {
     const result = fromLineChart(workbook, plotArea.lineChart);

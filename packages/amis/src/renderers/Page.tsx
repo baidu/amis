@@ -82,7 +82,7 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   subTitle?: AMISTemplate;
 
   /**
-   * 页面描述
+   * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。
    */
   remark?: AMISRemarkObject;
 

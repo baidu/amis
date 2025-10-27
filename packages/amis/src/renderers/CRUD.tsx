@@ -21,7 +21,8 @@ import {
   AMISLocalSource,
   AMISSpinnerConfig,
   AMISButton,
-  AMISButtonSchema
+  AMISButtonSchema,
+  AMISTemplate
 } from 'amis-core';
 import {
   SchemaNode,
@@ -135,6 +136,9 @@ interface AMISLoadMoreConfig {
   dataAppendTo?: 'top' | 'bottom';
 }
 
+/**
+ * 内置工具栏类型
+ */
 export type AMISCRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'
@@ -335,12 +339,16 @@ export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<AMISCRUDToolbar & AMISCRUDToolbarExtra>;
+  headerToolbar?: Array<
+    (AMISCRUDToolbar & AMISCRUDToolbarExtra) | AMISCRUDBultinToolbarType
+  >;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<AMISCRUDToolbar & AMISCRUDToolbarExtra>;
+  footerToolbar?: Array<
+    (AMISCRUDToolbar & AMISCRUDToolbarExtra) | AMISCRUDBultinToolbarType
+  >;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
@@ -394,7 +402,7 @@ export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   /**
    * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。
    */
-  labelTpl?: SchemaTpl;
+  labelTpl?: AMISTemplate;
 
   /**
    * 是否为前端单次加载模式，可以用来实现前端分页。
@@ -505,17 +513,35 @@ export interface AMISCRUDDefault extends AMISCRUDBase, AMISTableBase {
 }
 
 export interface AMISCRUDCards extends AMISCRUDBase, AMISCardsBase {
+  /**
+   *  指定为 cards 模式。
+   */
   mode: 'cards';
+  /**
+   *  指定为 CRUD 渲染器。
+   */
   type: 'crud';
 }
 
 export interface AMISCRUDList extends AMISCRUDBase, AMISListBase {
+  /**
+   *  指定为 list 模式。
+   */
   mode: 'list';
+  /**
+   *  指定为 CRUD 渲染器。
+   */
   type: 'crud';
 }
 
 export interface AMISCRUDTable extends AMISCRUDBase, AMISTableBase {
+  /**
+   *  指定为 table 模式。
+   */
   mode: 'table';
+  /**
+   *  指定为 CRUD 渲染器。
+   */
   type: 'crud';
 }
 
