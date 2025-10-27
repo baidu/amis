@@ -13,7 +13,7 @@ export class Card2Plugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'card2';
-  $schema = '/schemas/Card2Schema.json';
+  $schema = '/schemas/AMISCard2Schema.json';
 
   // 组件名称
   name = '卡片';

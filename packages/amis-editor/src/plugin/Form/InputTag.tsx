@@ -19,7 +19,7 @@ export class TagControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-tag';
-  $schema = '/schemas/TagControlSchema.json';
+  $schema = '/schemas/AMISInputTagSchema.json';
 
   // 组件名称
   name = '标签选择';

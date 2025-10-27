@@ -156,7 +156,7 @@ export class TreeControlPlugin extends BasePlugin {
   static id = 'TreeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-tree';
-  $schema = '/schemas/TreeControlSchema.json';
+  $schema = '/schemas/AMISInputTreeSchema.json';
 
   // 组件名称
   name = '树组件';

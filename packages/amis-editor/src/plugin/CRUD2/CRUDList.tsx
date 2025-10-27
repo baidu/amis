@@ -43,7 +43,7 @@ export class CRUDListPlugin extends BaseCRUDPlugin {
 
   order = -1000;
 
-  $schema = '/schemas/CRUD2ListSchema.json';
+  $schema = '/schemas/AMISCRUD2ListSchema.json';
 
   docLink = '/amis/zh-CN/components/list';
 

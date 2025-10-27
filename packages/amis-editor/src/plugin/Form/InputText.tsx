@@ -32,7 +32,7 @@ export class TextControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-text';
 
-  $schema = '/schemas/TextControlSchema.json';
+  $schema = '/schemas/AMISInputTextSchema.json';
 
   order = -600;
   // 添加源对应组件中文名称 & type字段

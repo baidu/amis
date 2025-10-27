@@ -22,7 +22,7 @@ export class RateControlPlugin extends BasePlugin {
   static id = 'RateControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-rating';
-  $schema = '/schemas/RatingControlSchema.json';
+  $schema = '/schemas/AMISInputRatingSchema.json';
 
   // 组件名称
   name = '评分';

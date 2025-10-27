@@ -31,7 +31,7 @@ export class CheckboxControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'checkbox';
-  $schema = '/schemas/CheckboxControlSchema.json';
+  $schema = '/schemas/AMISCheckboxSchema.json';
 
   // 组件名称
   name = '勾选框';

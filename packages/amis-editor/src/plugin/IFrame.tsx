@@ -12,7 +12,7 @@ export class IFramePlugin extends BasePlugin {
   static id = 'IFramePlugin';
   // 关联渲染器名字
   rendererName = 'iframe';
-  $schema = '/schemas/IFrameSchema.json';
+  $schema = '/schemas/AMISIFrameSchema.json';
 
   // 组件名称
   name = 'iFrame';

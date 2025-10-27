@@ -6,7 +6,7 @@ export class MonthRangeControlPlugin extends DateRangeControlPlugin {
   static id = 'MonthRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-month-range';
-  $schema = '/schemas/MonthRangeControlSchema.json';
+  $schema = '/schemas/AMISInputMonthRangeSchema.json';
 
   // 组件名称
   icon = 'fa fa-calendar';

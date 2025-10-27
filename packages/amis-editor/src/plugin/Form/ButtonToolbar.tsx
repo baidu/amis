@@ -13,7 +13,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button-toolbar';
-  $schema = '/schemas/ButtonToolbarControlSchema.json';
+  $schema = '/schemas/AMISButtonToolbarSchema.json';
 
   // 组件名称
   name = '按钮工具栏';

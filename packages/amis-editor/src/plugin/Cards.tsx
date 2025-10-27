@@ -26,7 +26,7 @@ export class CardsPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';
-  $schema = '/schemas/CardsSchema.json';
+  $schema = '/schemas/AMISCardsSchema.json';
 
   // 组件名称
   name = '卡片列表';

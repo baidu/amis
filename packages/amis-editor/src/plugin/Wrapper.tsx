@@ -11,7 +11,7 @@ export class WrapperPlugin extends LayoutBasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'wrapper';
-  $schema = '/schemas/WrapperSchema.json';
+  $schema = '/schemas/AMISWrapperSchema.json';
   disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称

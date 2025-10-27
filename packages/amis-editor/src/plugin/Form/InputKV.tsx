@@ -17,7 +17,7 @@ export class KVControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-kv';
-  $schema = '/schemas/KVControlSchema.json';
+  $schema = '/schemas/AMISInputKVSchema.json';
 
   // 组件名称
   name = 'KV 键值对';

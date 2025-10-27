@@ -43,7 +43,7 @@ export class DialogPlugin extends BasePlugin {
   static id = 'DialogPlugin';
   // 关联渲染器名字
   rendererName = 'dialog';
-  $schema = '/schemas/DialogSchema.json';
+  $schema = '/schemas/AMISDialogSchema.json';
 
   // 组件名称
   name = '弹窗';

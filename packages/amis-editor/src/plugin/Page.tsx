@@ -22,7 +22,7 @@ export class PagePlugin extends BasePlugin {
   static id = 'PagePlugin';
   // 关联渲染器名字
   rendererName = 'page';
-  $schema = '/schemas/PageSchema.json';
+  $schema = '/schemas/AMISPageSchema.json';
 
   // 组件名称
   name = '页面';

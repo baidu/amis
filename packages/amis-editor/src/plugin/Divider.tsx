@@ -14,7 +14,7 @@ export class DividerPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'divider';
-  $schema = '/schemas/DividerSchema.json';
+  $schema = '/schemas/AMISDividerSchema.json';
 
   // 组件名称
   name = '分隔线';

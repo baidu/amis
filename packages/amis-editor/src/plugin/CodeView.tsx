@@ -9,7 +9,7 @@ export class CodeViewPlugin extends BasePlugin {
   static id = 'CodeViewPlugin';
   // 关联渲染器名字
   rendererName = 'code';
-  $schema = '/schemas/CodeSchema.json';
+  $schema = '/schemas/AMISCodeSchema.json';
 
   // 组件名称
   name = '代码高亮';

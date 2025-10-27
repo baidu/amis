@@ -16,7 +16,7 @@ export class OperationPlugin extends BasePlugin {
   static id = 'OperationPlugin';
   // 关联渲染器名字
   rendererName = 'operation';
-  $schema = '/schemas/OperationSchema.json';
+  $schema = '/schemas/AMISOperationSchema.json';
 
   // 组件名称
   name = '操作栏';

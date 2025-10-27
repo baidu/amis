@@ -24,7 +24,7 @@ export class WebComponentPlugin extends BasePlugin {
   static id = 'WebComponentPlugin';
   // 关联渲染器名字
   rendererName = 'web-component';
-  $schema = '/schemas/WebComponentSchema.json';
+  $schema = '/schemas/AMISWebComponentSchema.json';
 
   // 组件名称
   name = 'Web Component';

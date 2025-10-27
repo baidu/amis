@@ -25,7 +25,7 @@ export class ImagePlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'image';
-  $schema = '/schemas/ImageSchema.json';
+  $schema = '/schemas/AMISImageSchema.json';
 
   // 组件名称
   name = '图片展示';

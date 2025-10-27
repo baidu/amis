@@ -20,7 +20,7 @@ export class SubFormControlPlugin extends BasePlugin {
   static id = 'SubFormControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-sub-form';
-  $schema = '/schemas/SubFormControlSchema.json';
+  $schema = '/schemas/AMISInputSubFormSchema.json';
 
   // 组件名称
   name = '子表单项';

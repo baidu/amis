@@ -43,7 +43,7 @@ export class CRUDCardsPlugin extends BaseCRUDPlugin {
 
   order = -1000;
 
-  $schema = '/schemas/CRUD2CardsSchema.json';
+  $schema = '/schemas/AMISCRUD2CardsSchema.json';
 
   docLink = '/amis/zh-CN/components/cards';
 

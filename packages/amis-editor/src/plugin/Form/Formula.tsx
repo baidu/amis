@@ -6,7 +6,7 @@ export class FormulaControlPlugin extends BasePlugin {
   static id = 'FormulaControlPlugin';
   // 关联渲染器名字
   rendererName = 'formula';
-  $schema = '/schemas/FormulaControlSchema.json';
+  $schema = '/schemas/AMISFormulaSchema.json';
 
   // 组件名称
   name = '公式';

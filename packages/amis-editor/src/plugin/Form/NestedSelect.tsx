@@ -23,7 +23,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   static id = 'NestedSelectControlPlugin';
   // 关联渲染器名字
   rendererName = 'nested-select';
-  $schema = '/schemas/NestedSelectControlSchema.json';
+  $schema = '/schemas/AMISNestedSelectSchema.json';
 
   // 组件名称
   name = '级联选择器';

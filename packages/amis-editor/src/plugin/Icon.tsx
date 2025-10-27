@@ -11,7 +11,7 @@ export class IconPlugin extends BasePlugin {
   static id = 'IconPlugin';
   // 关联渲染器名字
   rendererName = 'icon';
-  $schema = '/schemas/Icon.json';
+  $schema = '/schemas/AMISIconSchema.json';
 
   // 组件名称
   name = '图标';

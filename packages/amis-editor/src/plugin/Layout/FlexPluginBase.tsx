@@ -86,7 +86,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
   static id = 'FlexPluginBase';
   rendererName = 'flex';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/FlexSchema.json';
+  $schema = '/schemas/AMISFlexSchema.json';
   disabledRendererPlugin = false;
 
   name = '布局容器';

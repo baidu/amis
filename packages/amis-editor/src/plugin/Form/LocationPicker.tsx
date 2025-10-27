@@ -19,7 +19,7 @@ export class LocationControlPlugin extends BasePlugin {
   static id = 'LocationControlPlugin';
   // 关联渲染器名字
   rendererName = 'location-picker';
-  $schema = '/schemas/LocationControlSchema.json';
+  $schema = '/schemas/AMISLocationPickerSchema.json';
 
   // 组件名称
   name = '地理位置选择';

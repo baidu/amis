@@ -24,7 +24,7 @@ export class CollapsePlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'collapse';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/CollapseSchema.json';
+  $schema = '/schemas/AMISCollapseSchema.json';
 
   // 组件名称
   name = '折叠器';

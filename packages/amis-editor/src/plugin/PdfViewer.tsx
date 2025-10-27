@@ -7,7 +7,7 @@ export class PdfViewerPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'pdf-viewer';
-  $schema = '/schemas/PdfViewerSchema.json';
+  $schema = '/schemas/AMISPdfViewerSchema.json';
 
   // 组件名称
   name = 'PDF预览';

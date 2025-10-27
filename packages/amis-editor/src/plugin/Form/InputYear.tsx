@@ -6,7 +6,7 @@ export class YearControlPlugin extends DateControlPlugin {
   static id = 'YearControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-year';
-  $schema = '/schemas/YearControlSchema.json';
+  $schema = '/schemas/AMISInputYearSchema.json';
 
   // 组件名称
   name = 'Year';

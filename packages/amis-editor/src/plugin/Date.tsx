@@ -35,7 +35,7 @@ export class DatePlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'date';
-  $schema = '/schemas/DateSchema.json';
+  $schema = '/schemas/AMISDateSchema.json';
 
   // 组件名称
   name = '日期展示';

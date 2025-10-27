@@ -29,7 +29,7 @@ export class WizardPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'wizard';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/WizardSchema.json';
+  $schema = '/schemas/AMISWizardSchema.json';
 
   name = '向导';
   isBaseComponent = true;
@@ -911,7 +911,7 @@ export class WizardPlugin extends BasePlugin {
               type={info.type}
               plugin={info.plugin}
               renderer={info.renderer}
-              $schema="/schemas/WizardStepSchema.json"
+              $schema="/schemas/AMISWizardStepSchema.json"
               hostId={info.id}
               memberIndex={index}
               name={step.title || `步骤${index + 1}`}

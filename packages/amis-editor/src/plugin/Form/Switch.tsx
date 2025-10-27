@@ -23,7 +23,7 @@ export class SwitchControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'switch';
-  $schema = '/schemas/SwitchControlSchema.json';
+  $schema = '/schemas/AMISSwitchSchema.json';
 
   // 组件名称
   name = '开关';

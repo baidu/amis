@@ -20,7 +20,7 @@ export class DropDownButtonPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'dropdown-button';
-  $schema = '/schemas/DropdownButtonSchema.json';
+  $schema = '/schemas/AMISDropdownButtonSchema.json';
 
   // 组件名称
   name = '下拉按钮';

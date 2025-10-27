@@ -9,7 +9,7 @@ export class PropertyPlugin extends BasePlugin {
   static id = 'PropertyPlugin';
   // 关联渲染器名字
   rendererName = 'property';
-  $schema = '/schemas/PropertySchema.json';
+  $schema = '/schemas/AMISPropertySchema.json';
 
   // 组件名称
   name = '属性表';

@@ -8,7 +8,7 @@ export class ImagesPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'images';
-  $schema = '/schemas/ImagesSchema.json';
+  $schema = '/schemas/AMISImagesSchema.json';
 
   // 组件名称
   name = '图片集';

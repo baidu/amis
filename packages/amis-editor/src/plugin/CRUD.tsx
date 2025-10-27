@@ -61,7 +61,7 @@ export class CRUDPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'crud';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/CRUDSchema.json';
+  $schema = '/schemas/AMISCRUDSchema.json';
 
   order = -800;
 

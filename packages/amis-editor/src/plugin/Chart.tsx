@@ -100,7 +100,7 @@ export class ChartPlugin extends BasePlugin {
   static id = 'ChartPlugin';
   // 关联渲染器名字
   rendererName = 'chart';
-  $schema = '/schemas/ChartSchema.json';
+  $schema = '/schemas/AMISChartSchema.json';
 
   // 组件名称
   name = '图表';

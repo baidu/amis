@@ -9,7 +9,7 @@ export class QRCodePlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'qrcode';
-  $schema = '/schemas/QRCodeSchema.json';
+  $schema = '/schemas/AMISQRCodeSchema.json';
 
   // 组件名称
   name = '二维码';

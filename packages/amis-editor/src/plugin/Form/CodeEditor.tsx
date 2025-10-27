@@ -17,7 +17,7 @@ export class CodeEditorControlPlugin extends BasePlugin {
   static id = 'CodeEditorControlPlugin';
   // 关联渲染器名字
   rendererName = 'editor';
-  $schema = '/schemas/EditorControlSchema.json';
+  $schema = '/schemas/AMISCodeEditorSchema.json';
 
   // 组件名称
   name = '代码编辑器';

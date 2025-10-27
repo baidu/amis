@@ -5,7 +5,7 @@ export class TimeControlPlugin extends DateControlPlugin {
   static id = 'TimeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-time';
-  $schema = '/schemas/TimeControlSchema.json';
+  $schema = '/schemas/AMISInputTimeSchema.json';
 
   // 组件名称
   name = '时间框';

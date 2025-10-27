@@ -13,7 +13,7 @@ export class StatusPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'status';
-  $schema = '/schemas/StatusSchema.json';
+  $schema = '/schemas/AMISStatusSchema.json';
 
   // 组件名称
   name = '状态显示';

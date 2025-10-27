@@ -44,7 +44,7 @@ export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'table';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/TableSchema.json';
+  $schema = '/schemas/AMISTableSchema.json';
 
   // 组件名称
   name = '原子表格';

@@ -22,7 +22,7 @@ export class TransferPlugin extends BasePlugin {
   static id = 'TransferPlugin';
   // 关联渲染器名字
   rendererName = 'transfer';
-  $schema = '/schemas/TransferControlSchema.json';
+  $schema = '/schemas/AMISTransferSchema.json';
 
   // 组件名称
   name = '穿梭器';

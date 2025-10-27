@@ -6,7 +6,7 @@ export class YearRangeControlPlugin extends DateRangeControlPlugin {
   static id = 'YearRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-year-range';
-  $schema = '/schemas/DateRangeControlSchema.json';
+  $schema = '/schemas/AMISInputYearRangeSchema.json';
 
   // 组件名称
   icon = 'fa fa-calendar';

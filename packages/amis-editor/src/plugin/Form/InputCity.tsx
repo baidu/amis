@@ -22,7 +22,7 @@ export class CityControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-city';
-  $schema = '/schemas/CityControlSchema.json';
+  $schema = '/schemas/AMISInputCitySchema.json';
 
   // 组件名称
   name = '城市选择';

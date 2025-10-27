@@ -25,7 +25,7 @@ export class GridPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'grid';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/GridSchema.json';
+  $schema = '/schemas/AMISGridSchema.json';
 
   // 组件名称
   name = '分栏';
@@ -588,7 +588,7 @@ export class GridPlugin extends BasePlugin {
             type={info.type}
             plugin={info.plugin}
             renderer={info.renderer}
-            $schema="/schemas/GridColumn.json"
+            $schema="/schemas/AMISGridColumnSchema.json"
             hostId={info.id}
             memberIndex={index}
             name={`第${index + 1}栏`}

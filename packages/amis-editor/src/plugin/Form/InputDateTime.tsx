@@ -6,7 +6,7 @@ export class DateTimeControlPlugin extends DateControlPlugin {
   static id = 'DateTimeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-datetime';
-  $schema = '/schemas/DateTimeControlSchema.json';
+  $schema = '/schemas/AMISInputDateTimeSchema.json';
 
   // 组件名称
   isBaseComponent = true;

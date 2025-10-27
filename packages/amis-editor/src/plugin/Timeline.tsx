@@ -8,7 +8,7 @@ import {schemaArrayFormat, schemaToArray} from '../util';
 export class TimelinePlugin extends BasePlugin {
   static id = 'TimelinePlugin';
   rendererName = 'timeline';
-  $schema = '/schemas/TimelineSchema.json';
+  $schema = '/schemas/AMISTimelineSchema.json';
   label: '时间轴';
   type: 'timeline';
   name = '时间轴';

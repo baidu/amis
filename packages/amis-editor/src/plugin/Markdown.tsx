@@ -7,7 +7,7 @@ export class MarkdownPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'markdown';
-  $schema = '/schemas/MarkdownSchema.json';
+  $schema = '/schemas/AMISMarkdownSchema.json';
 
   // 组件名称
   name = 'Markdown';

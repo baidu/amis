@@ -21,7 +21,7 @@ export class ButtonPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button';
-  $schema = '/schemas/ActionSchema.json';
+  $schema = '/schemas/AMISButtonSchema.json';
 
   order = -400;
 

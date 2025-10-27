@@ -21,7 +21,7 @@ export class ConditionBilderPlugin extends BasePlugin {
   static id = 'ConditionBilderPlugin';
   // 关联渲染器名字
   rendererName = 'condition-builder';
-  $schema = '/schemas/ConditionBuilderControlSchema.json';
+  $schema = '/schemas/AMISConditionBuilderSchema.json';
 
   // 组件名称
   name = '条件组件';

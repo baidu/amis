@@ -5,7 +5,7 @@ export class PasswordControlPlugin extends TextControlPlugin {
   static id = 'PasswordControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-password';
-  $schema = '/schemas/TextControlSchema.json';
+  $schema = '/schemas/AMISPasswordSchema.json';
   name = '密码框';
   isBaseComponent = true;
   icon = 'fa fa-asterisk';

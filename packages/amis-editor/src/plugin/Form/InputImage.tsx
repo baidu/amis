@@ -54,7 +54,7 @@ export class ImageControlPlugin extends BasePlugin {
   static id = 'ImageControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-image';
-  $schema = '/schemas/ImageControlSchema.json';
+  $schema = '/schemas/AMISInputImageSchema.json';
 
   // 组件名称
   name = '图片上传';

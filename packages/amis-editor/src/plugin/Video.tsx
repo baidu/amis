@@ -9,7 +9,7 @@ export class VideoPlugin extends BasePlugin {
   static id = 'VideoPlugin';
   // 关联渲染器名字
   rendererName = 'video';
-  $schema = '/schemas/VideoSchema.json';
+  $schema = '/schemas/AMISVideoSchema.json';
 
   // 组件名称
   name = '视频';

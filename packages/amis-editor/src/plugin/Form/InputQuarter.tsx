@@ -6,7 +6,7 @@ export class InputQuarterPlugin extends DateControlPlugin {
   static id = 'InputQuarterPlugin';
   // 关联渲染器名字
   rendererName = 'input-quarter';
-  $schema = '/schemas/QuarterControlSchema.json';
+  $schema = '/schemas/AMISInputQuarterSchema.json';
 
   // 组件名称
   name = '季度';

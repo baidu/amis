@@ -52,7 +52,7 @@ export class SelectControlPlugin extends BasePlugin {
 
   notRenderFormZone = true;
 
-  $schema = '/schemas/SelectControlSchema.json';
+  $schema = '/schemas/AMISSelectSchema.json';
 
   description = '支持多选，输入提示，可使用 source 获取选项';
 

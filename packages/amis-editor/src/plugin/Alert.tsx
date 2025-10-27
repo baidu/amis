@@ -11,7 +11,7 @@ export class AlertPlugin extends BasePlugin {
 
   // 关联渲染器名字
   rendererName = 'alert';
-  $schema = '/schemas/AlertSchema.json';
+  $schema = '/schemas/AMISAlertSchema.json';
 
   // 组件名称
   name = '提示';

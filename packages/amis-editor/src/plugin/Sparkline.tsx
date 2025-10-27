@@ -10,7 +10,7 @@ export class SparklinePlugin extends BasePlugin {
   static id = 'SparklinePlugin';
   // 关联渲染器名字
   rendererName = 'sparkline';
-  $schema = '/schemas/SparklineSchema.json';
+  $schema = '/schemas/AMISSparkLineSchema.json';
 
   // 组件名称
   name = '走势图';

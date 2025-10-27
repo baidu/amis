@@ -6,7 +6,7 @@ export class TimeRangeControlPlugin extends DateRangeControlPlugin {
   static id = 'TimeRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-time-range';
-  $schema = '/schemas/DateRangeControlSchema.json';
+  $schema = '/schemas/AMISInputTimeRangeSchema.json';
 
   // 组件名称
   icon = 'fa fa-calendar';

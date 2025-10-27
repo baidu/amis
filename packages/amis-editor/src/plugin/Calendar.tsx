@@ -15,7 +15,7 @@ export class CalendarPlugin extends BasePlugin {
   static id = 'CalendarPlugin';
   // 关联渲染器名字
   rendererName = 'calendar';
-  $schema = '/schemas/Calendar.json';
+  $schema = '/schemas/AMISCalendarSchema.json';
 
   // 组件名称
   name = '日历日程';

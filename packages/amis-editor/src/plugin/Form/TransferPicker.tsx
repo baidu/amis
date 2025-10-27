@@ -6,7 +6,7 @@ export class TransferPickerPlugin extends TransferPlugin {
   static id = 'TransferPickerPlugin';
   // 关联渲染器名字
   rendererName = 'transfer-picker';
-  $schema = '/schemas/TransferPickerControlSchema.json';
+  $schema = '/schemas/AMISTransferPickerSchema.json';
 
   // 组件名称
   name = '穿梭选择器';

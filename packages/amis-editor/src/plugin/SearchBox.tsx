@@ -17,7 +17,7 @@ export class SearchBoxPlugin extends BasePlugin {
   static id = 'SearchBoxPlugin';
   // 关联渲染器名字
   rendererName = 'search-box';
-  $schema = '/schemas/SearchBoxSchema.json';
+  $schema = '/schemas/AMISSearchBoxSchema.json';
 
   // 组件名称
   name = '搜索框';
