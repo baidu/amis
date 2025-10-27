@@ -18,7 +18,7 @@ import {supportStatic} from './StaticHoc';
  * List 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
  */
-export interface AMISListControlSchema extends AMISFormItemWithOptions {
+export interface AMISListSelectSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 list-select 组件
    */
@@ -53,7 +53,7 @@ export interface AMISListControlSchema extends AMISFormItemWithOptions {
 export interface ListProps
   extends OptionsControlProps,
     Omit<
-      AMISListControlSchema,
+      AMISListSelectSchema,
       | 'type'
       | 'options'
       | 'className'

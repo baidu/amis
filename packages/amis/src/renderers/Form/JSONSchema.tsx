@@ -9,13 +9,13 @@ import {
 import {InputJSONSchema} from 'amis-ui';
 import {withRemoteConfig} from 'amis-ui';
 import {FormBaseControlSchema} from '../../Schema';
-import {InputFormulaControlSchema} from './InputFormula';
+import {AMISInputFormulaSchema} from './InputFormula';
 
 /**
  * JSON Schema
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema
  */
-export interface JSONSchemaControlSchema extends AMISFormItem {
+export interface AMISJsonSchemaSchema extends AMISFormItem {
   /**
    * 指定为 json-schema 组件
    */
@@ -29,13 +29,13 @@ export interface JSONSchemaControlSchema extends AMISFormItem {
   /**
    * 将字段输入控件变成公式编辑器
    */
-  formula?: Omit<InputFormulaControlSchema, 'type'>;
+  formula?: Omit<AMISInputFormulaSchema, 'type'>;
 }
 
 export interface JSONSchemaProps
   extends FormControlProps,
     Omit<
-      JSONSchemaControlSchema,
+      AMISJsonSchemaSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

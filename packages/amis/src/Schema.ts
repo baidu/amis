@@ -62,37 +62,37 @@ import {AMISAvatarSchema} from './renderers/Avatar';
 import {AMISStepsSchema} from './renderers/Steps';
 import {AMISSpinnerSchema} from './renderers/Spinner';
 import {AMISTimelineSchema} from './renderers/Timeline';
-import {AMISArrayControlSchema} from './renderers/Form/InputArray';
-import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
-import {AMISChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
-import {AMISCheckboxControlSchema} from './renderers/Form/Checkbox';
-import {AMISCheckboxesControlSchema} from './renderers/Form/Checkboxes';
-import {AMISComboControlSchema} from './renderers/Form/Combo';
-import {AMISConditionBuilderControlSchema} from './renderers/Form/ConditionBuilder';
-import {AMISDiffControlSchema} from './renderers/Form/DiffEditor';
+import {AMISInputArraySchema} from './renderers/Form/InputArray';
+import {AMISButtonGroupSelectSchema} from './renderers/Form/ButtonGroupSelect';
+import {AMISChainedSelectSchema} from './renderers/Form/ChainedSelect';
+import {AMISCheckboxSchema} from './renderers/Form/Checkbox';
+import {AMISCheckboxesSchema} from './renderers/Form/Checkboxes';
+import {AMISComboSchema} from './renderers/Form/Combo';
+import {AMISConditionBuilderSchema} from './renderers/Form/ConditionBuilder';
+import {AMISDiffEditorSchema} from './renderers/Form/DiffEditor';
 import {AMISCodeEditorSchema} from './renderers/Form/Editor';
-import {AMISFieldSetControlSchema} from './renderers/Form/FieldSet';
-import {AMISFormulaControlSchema} from './renderers/Form/Formula';
-import {AMISGroupControlSchema} from './renderers/Form/Group';
-import {AMISHiddenControlSchema} from './renderers/Form/Hidden';
-import {AMISIconPickerControlSchema} from './renderers/Form/IconPicker';
-import {AMISInputCityControlSchema} from './renderers/Form/InputCity';
-import {AMISInputColorControlSchema} from './renderers/Form/InputColor';
+import {AMISFieldSetSchema} from './renderers/Form/FieldSet';
+import {AMISFormulaSchema} from './renderers/Form/Formula';
+import {AMISGroupSchema} from './renderers/Form/Group';
+import {AMISHiddenSchema} from './renderers/Form/Hidden';
+import {AMISIconPickerSchema} from './renderers/Form/IconPicker';
+import {AMISInputCitySchema} from './renderers/Form/InputCity';
+import {AMISInputColorSchema} from './renderers/Form/InputColor';
 import {
-  AMISDateControlSchema,
-  AMISDateTimeControlSchema,
-  AMISTimeControlSchema,
-  AMISMonthControlSchema,
-  AMISQuarterControlSchema,
-  AMISYearControlSchema
+  AMISInputDateSchema,
+  AMISInputDateTimeSchema,
+  AMISInputTimeSchema,
+  AMISInputMonthSchema,
+  AMISInputQuarterSchema,
+  AMISInputYearSchema
 } from './renderers/Form/InputDate';
-import {AMISDateRangeControlSchema} from './renderers/Form/InputDateRange';
-import {AMISFileControlSchema} from './renderers/Form/InputFile';
-import {AMISInputGroupControlSchema} from './renderers/Form/InputGroup';
-import {AMISImageControlSchema} from './renderers/Form/InputImage';
-import {AMISMonthRangeControlSchema} from './renderers/Form/InputMonthRange';
-import {AMISQuarterRangeControlSchema} from './renderers/Form/InputQuarterRange';
-import {AMISNumberControlSchema} from './renderers/Form/InputNumber';
+import {AMISInputDateRangeSchema} from './renderers/Form/InputDateRange';
+import {AMISInputFileSchema} from './renderers/Form/InputFile';
+import {AMISInputGroupSchema} from './renderers/Form/InputGroup';
+import {AMISInputImageSchema} from './renderers/Form/InputImage';
+import {AMISInputMonthRangeSchema} from './renderers/Form/InputMonthRange';
+import {AMISInputQuarterRangeSchema} from './renderers/Form/InputQuarterRange';
+import {AMISInputNumberSchema} from './renderers/Form/InputNumber';
 import {AMISInputRangeSchema} from './renderers/Form/InputRange';
 import {AMISInputRatingSchema} from './renderers/Form/InputRating';
 import {AMISInputRepeatSchema} from './renderers/Form/InputRepeat';
@@ -100,14 +100,14 @@ import {AMISInputRichTextSchema} from './renderers/Form/InputRichText';
 import {AMISInputSubFormSchema} from './renderers/Form/InputSubForm';
 import {AMISInputTableSchema} from './renderers/Form/InputTable';
 import {AMISInputTagSchema} from './renderers/Form/InputTag';
-import {AMISTextControlSchema} from './renderers/Form/InputText';
+import {AMISInputTextSchema} from './renderers/Form/InputText';
 import {AMISInputTreeSchema} from './renderers/Form/InputTree';
-import {AMISListControlSchema} from './renderers/Form/ListSelect';
-import {AMISLocationControlSchema} from './renderers/Form/LocationPicker';
-import {AMISMatrixControlSchema} from './renderers/Form/MatrixCheckboxes';
-import {AMISNestedSelectControlSchema} from './renderers/Form/NestedSelect';
+import {AMISListSelectSchema} from './renderers/Form/ListSelect';
+import {AMISLocationPickerSchema} from './renderers/Form/LocationPicker';
+import {AMISMatrixCheckboxesSchema} from './renderers/Form/MatrixCheckboxes';
+import {AMISNestedSelectSchema} from './renderers/Form/NestedSelect';
 import {AMISPickerSchema} from './renderers/Form/Picker';
-import {AMISRadiosControlSchema} from './renderers/Form/Radios';
+import {AMISRadiosSchema} from './renderers/Form/Radios';
 import {AMISSelectSchema} from './renderers/Form/Select';
 import {AMISStaticSchema} from './renderers/Form/Static';
 import {AMISSwitchSchema} from './renderers/Form/Switch';
@@ -120,7 +120,7 @@ import {AMISFormControlSchema} from './renderers/Form/Control';
 import {AMISTransferPickerSchema} from './renderers/Form/TransferPicker';
 import {AMISTabsTransferPickerSchema} from './renderers/Form/TabsTransferPicker';
 import {AMISUsersSelectSchema} from './renderers/Form/UserSelect';
-import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {AMISJsonSchemaEditorSchema} from './renderers/Form/JSONSchemaEditor';
 import {AMISInputSignatureSchema} from './renderers/Form/InputSignature';
 import {AMISTableSchema2} from './renderers/Table2';
 import {AMISAppSchema} from './renderers/App';
@@ -178,7 +178,7 @@ import type {
 import {AMISDateRangeSchema} from './renderers/DateRange';
 import {AMISPasswordSchema} from './renderers/Password';
 import {AMISWordsSchema} from './renderers/Words';
-import {AMISRadioControlSchema} from './renderers/Form/Radio';
+import {AMISRadioSchema} from './renderers/Form/Radio';
 import {AMISSliderSchema} from './renderers/Slider';
 import {AMISMultilineTextSchema} from './renderers/MultilineText';
 import {AMISDialogSchema} from './renderers/Dialog';
@@ -285,17 +285,17 @@ declare module 'amis-core' {
     /** 静态日期显示组件，用于格式化显示日期 */
     'static-date': AMISDateSchema;
     /** 日期时间输入组件，支持日期和时间选择 */
-    'datetime': AMISDateTimeControlSchema;
+    'datetime': AMISInputDateTimeSchema;
     /** 静态日期时间显示组件，用于格式化显示日期时间 */
-    'static-datetime': AMISDateTimeControlSchema;
+    'static-datetime': AMISInputDateTimeSchema;
     /** 时间输入组件，用于时间选择 */
-    'time': AMISTimeControlSchema;
+    'time': AMISInputTimeSchema;
     /** 静态时间显示组件，用于格式化显示时间 */
-    'static-time': AMISTimeControlSchema;
+    'static-time': AMISInputTimeSchema;
     /** 月份输入组件，用于月份选择 */
-    'month': AMISMonthControlSchema;
+    'month': AMISInputMonthSchema;
     /** 静态月份显示组件，用于格式化显示月份 */
-    'static-month': AMISMonthControlSchema;
+    'static-month': AMISInputMonthSchema;
     /** 日期范围组件，用于选择日期范围 */
     'date-range': AMISDateRangeSchema;
     /** 对话框组件，用于弹窗展示内容 */
@@ -328,9 +328,9 @@ declare module 'amis-core' {
     /** 静态图片列表组件，以列表形式展示多张图片 */
     'static-images': AMISImagesSchema;
     /** JSON Schema 编辑器组件，用于编辑 JSON Schema */
-    'json-schema': JSONSchemaEditorControlSchema;
+    'json-schema': AMISJsonSchemaEditorSchema;
     /** JSON Schema 编辑器组件（别名），用于编辑 JSON Schema */
-    'json-schema-editor': JSONSchemaEditorControlSchema;
+    'json-schema-editor': AMISJsonSchemaEditorSchema;
     /** JSON 数据展示组件，用于格式化显示 JSON 数据 */
     'json': AMISJsonSchema;
     /** 静态 JSON 数据展示组件，用于格式化显示 JSON 数据 */
@@ -344,7 +344,7 @@ declare module 'amis-core' {
     /** 静态列表组件，用于展示数据列表 */
     'static-list': AMISListSchema;
     /** 地图组件，用于显示地图和位置信息 */
-    'map': AMISLocationControlSchema;
+    'map': AMISLocationPickerSchema;
     /** 数据映射组件，用于数据转换和映射 */
     'mapping': AMISMappingSchema;
     /** Markdown 渲染组件，用于渲染 Markdown 内容 */
@@ -366,7 +366,7 @@ declare module 'amis-core' {
     /** 纯文本组件，用于显示纯文本内容 */
     'plain': AMISPlainSchema;
     /** 文本输入组件，用于文本输入 */
-    'text': AMISTextControlSchema;
+    'text': AMISInputTextSchema;
     /** 进度条组件，用于显示进度 */
     'progress': AMISProgressSchema;
     /** 二维码组件，用于生成和显示二维码 */
@@ -414,7 +414,7 @@ declare module 'amis-core' {
     /** 表单控件组件，通用表单控件基类 */
     'control': AMISFormControlSchema;
     /** 数组输入组件，用于输入数组数据 */
-    'input-array': AMISArrayControlSchema;
+    'input-array': AMISInputArraySchema;
     /** 动作按钮组件，用于执行各种动作 */
     'action': AMISLegacyActionSchema;
     /** 按钮组件，用于触发动作 */
@@ -424,55 +424,55 @@ declare module 'amis-core' {
     /** 重置按钮组件，用于重置表单 */
     'reset': AMISButtonSchema;
     /** 按钮组选择组件，将按钮组作为选择器使用 */
-    'button-group-select': ButtonGroupControlSchema;
+    'button-group-select': AMISButtonGroupSelectSchema;
     /** 按钮工具栏组件，用于工具栏中的按钮组 */
     'button-toolbar': AMISButtonToolbarSchema;
     /** 级联选择组件，支持级联选择 */
-    'chained-select': AMISChainedSelectControlSchema;
+    'chained-select': AMISChainedSelectSchema;
     /** 图表单选组件，以图表形式展示单选选项 */
-    'chart-radios': AMISRadiosControlSchema;
+    'chart-radios': AMISRadiosSchema;
     /** 复选框组件，用于多选 */
-    'checkbox': AMISCheckboxControlSchema;
+    'checkbox': AMISCheckboxSchema;
     /** 复选框组组件，用于多选 */
-    'checkboxes': AMISCheckboxesControlSchema;
+    'checkboxes': AMISCheckboxesSchema;
     /** 城市选择组件，用于选择城市 */
-    'input-city': AMISInputCityControlSchema;
+    'input-city': AMISInputCitySchema;
     /** 颜色输入组件，用于颜色选择 */
-    'input-color': AMISInputColorControlSchema;
+    'input-color': AMISInputColorSchema;
     /** 组合输入组件，用于复杂输入场景 */
-    'combo': AMISComboControlSchema;
+    'combo': AMISComboSchema;
     /** 条件构建器组件，用于构建复杂条件 */
-    'condition-builder': AMISConditionBuilderControlSchema;
+    'condition-builder': AMISConditionBuilderSchema;
     /** 容器组件，用于布局和包装 */
     'container': AMISContainerSchema;
     /** 开关容器组件，根据条件显示不同内容 */
     'switch-container': AMISSwitchContainerSchema;
     /** 日期输入组件，用于日期选择 */
-    'input-date': AMISDateControlSchema;
+    'input-date': AMISInputDateSchema;
     /** 日期时间输入组件，用于日期时间选择 */
-    'input-datetime': AMISDateTimeControlSchema;
+    'input-datetime': AMISInputDateTimeSchema;
     /** 时间输入组件，用于时间选择 */
-    'input-time': AMISTimeControlSchema;
+    'input-time': AMISInputTimeSchema;
     /** 季度输入组件，用于季度选择 */
-    'input-quarter': AMISQuarterControlSchema;
+    'input-quarter': AMISInputQuarterSchema;
     /** 年份输入组件，用于年份选择 */
-    'input-year': AMISYearControlSchema;
+    'input-year': AMISInputYearSchema;
     /** 年份范围输入组件，用于年份范围选择 */
-    'input-year-range': AMISDateRangeControlSchema;
+    'input-year-range': AMISInputDateRangeSchema;
     /** 月份输入组件，用于月份选择 */
-    'input-month': AMISMonthControlSchema;
+    'input-month': AMISInputMonthSchema;
     /** 日期范围输入组件，用于日期范围选择 */
-    'input-date-range': AMISDateRangeControlSchema;
+    'input-date-range': AMISInputDateRangeSchema;
     /** 时间范围输入组件，用于时间范围选择 */
-    'input-time-range': AMISDateRangeControlSchema;
+    'input-time-range': AMISInputDateRangeSchema;
     /** 日期时间范围输入组件，用于日期时间范围选择 */
-    'input-datetime-range': AMISDateRangeControlSchema;
+    'input-datetime-range': AMISInputDateRangeSchema;
     /** Excel 文件输入组件，用于上传 Excel 文件 */
-    'input-excel': AMISFileControlSchema;
+    'input-excel': AMISInputFileSchema;
     /** 公式输入组件，用于输入和计算公式 */
-    'input-formula': AMISFormulaControlSchema;
+    'input-formula': AMISFormulaSchema;
     /** 差异编辑器组件，用于比较和编辑差异 */
-    'diff-editor': AMISDiffControlSchema;
+    'diff-editor': AMISDiffEditorSchema;
     /** Office 文档查看器组件，用于查看 Office 文档 */
     'office-viewer': AMISOfficeViewerSchema;
     /** PDF 查看器组件，用于查看 PDF 文档 */
@@ -480,7 +480,7 @@ declare module 'amis-core' {
     /** 签名输入组件，用于电子签名 */
     'input-signature': AMISInputSignatureSchema;
     /** 验证码输入组件，用于输入验证码 */
-    'input-verification-code': AMISTextControlSchema;
+    'input-verification-code': AMISInputTextSchema;
     /** 形状组件，用于绘制各种形状 */
     'shape': AMISIShapeSchema;
 
@@ -566,51 +566,51 @@ declare module 'amis-core' {
 
     // ==================== 表单项组件 ====================
     /** 字段集 */
-    'fieldset': AMISFieldSetControlSchema;
+    'fieldset': AMISFieldSetSchema;
     /** 字段集（别名） */
-    'fieldSet': AMISFieldSetControlSchema;
+    'fieldSet': AMISFieldSetSchema;
     /** 文件上传 */
-    'input-file': AMISFileControlSchema;
+    'input-file': AMISInputFileSchema;
     /** 公式 */
-    'formula': AMISFormulaControlSchema;
+    'formula': AMISFormulaSchema;
     /** 网格布局 */
     'grid': AMISGridSchema;
     /** 分组 */
-    'group': AMISGroupControlSchema;
+    'group': AMISGroupSchema;
     /** 水平布局 */
     'hbox': AMISHBoxSchema;
     /** 隐藏字段 */
-    'hidden': AMISHiddenControlSchema;
+    'hidden': AMISHiddenSchema;
     /** 图标选择器 */
-    'icon-picker': AMISIconPickerControlSchema;
+    'icon-picker': AMISIconPickerSchema;
     /** 图标选择器（别名） */
-    'icon-select': AMISIconPickerControlSchema;
+    'icon-select': AMISIconPickerSchema;
     /** 图片上传 */
-    'input-image': AMISImageControlSchema;
+    'input-image': AMISInputImageSchema;
     /** 输入组合 */
-    'input-group': AMISInputGroupControlSchema;
+    'input-group': AMISInputGroupSchema;
     /** 列表选择 */
-    'list-select': AMISListControlSchema;
+    'list-select': AMISListSelectSchema;
     /** 位置选择器 */
-    'location-picker': AMISLocationControlSchema;
+    'location-picker': AMISLocationPickerSchema;
     /** 矩阵复选框 */
-    'matrix-checkboxes': AMISMatrixControlSchema;
+    'matrix-checkboxes': AMISMatrixCheckboxesSchema;
     /** 月份范围输入 */
-    'input-month-range': AMISMonthRangeControlSchema;
+    'input-month-range': AMISInputMonthRangeSchema;
     /** 季度范围输入 */
-    'input-quarter-range': AMISQuarterRangeControlSchema;
+    'input-quarter-range': AMISInputQuarterRangeSchema;
     /** 嵌套选择 */
-    'nested-select': AMISNestedSelectControlSchema;
+    'nested-select': AMISNestedSelectSchema;
     /** 数字输入 */
-    'input-number': AMISNumberControlSchema;
+    'input-number': AMISInputNumberSchema;
     /** 面板 */
     'panel': AMISPanelSchema;
     /** 选择器 */
     'picker': AMISPickerSchema;
     /** 单选按钮 */
-    'radio': AMISRadioControlSchema;
+    'radio': AMISRadioSchema;
     /** 单选按钮组 */
-    'radios': AMISRadiosControlSchema;
+    'radios': AMISRadiosSchema;
     /** 范围输入 */
     'input-range': AMISInputRangeSchema;
     /** 评分输入 */
@@ -638,13 +638,13 @@ declare module 'amis-core' {
     /** 标签输入 */
     'input-tag': AMISInputTagSchema;
     /** 文本输入 */
-    'input-text': AMISTextControlSchema;
+    'input-text': AMISInputTextSchema;
     /** 密码输入 */
     'input-password': AMISPasswordSchema;
     /** 邮箱输入 */
-    'input-email': AMISTextControlSchema;
+    'input-email': AMISInputTextSchema;
     /** URL 输入 */
-    'input-url': AMISTextControlSchema;
+    'input-url': AMISInputTextSchema;
     /** UUID 生成 */
     'uuid': AMISUuidSchema;
     /** 多选 */
@@ -684,11 +684,11 @@ declare module 'amis-core' {
 
     // ==================== 原生输入组件 ====================
     /** 原生日期输入 */
-    'native-date': AMISDateControlSchema;
+    'native-date': AMISInputDateSchema;
     /** 原生时间输入 */
-    'native-time': AMISTimeControlSchema;
+    'native-time': AMISInputTimeSchema;
     /** 原生数字输入 */
-    'native-number': AMISNumberControlSchema;
+    'native-number': AMISInputNumberSchema;
     /** 代码展示 */
     'code': AMISCodeSchema;
     /** 工具提示包装器 */

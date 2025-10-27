@@ -17,7 +17,7 @@ import type {AMISFormItem, ListenerAction} from 'amis-core';
  * Diff 编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/diff
  */
-export interface AMISDiffControlSchema extends AMISFormItem {
+export interface AMISDiffEditorSchema extends AMISFormItem {
   /**
    * 指定为 diff-editor 组件
    */
@@ -44,7 +44,7 @@ export type DiffEditorRendererEvent = 'blur' | 'focus';
 export interface DiffEditorProps
   extends FormControlProps,
     Omit<
-      AMISDiffControlSchema,
+      AMISDiffEditorSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

@@ -87,7 +87,7 @@ export type ComboSubControl = SchemaObject & {
  * Combo 组合输入框类型
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/combo
  */
-export interface BaseComboControlSchema extends AMISFormItem {
+export interface AMISComboSchemaBase extends AMISFormItem {
   /**
    * 单组表单项初始值
    * @default {}
@@ -291,7 +291,7 @@ export interface BaseComboControlSchema extends AMISFormItem {
   testIdBuilder?: TestIdBuilder;
 }
 
-export interface AMISComboControlSchema extends BaseComboControlSchema {
+export interface AMISComboSchema extends AMISComboSchemaBase {
   /**
    * 指定为组合输入框类型
    */
@@ -310,7 +310,7 @@ function pickVars(vars: any, fields: Array<string>) {
 export interface ComboProps
   extends FormControlProps,
     Omit<
-      AMISComboControlSchema,
+      AMISComboSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   store: IComboStore;

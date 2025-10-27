@@ -9,7 +9,7 @@ import {AMISFormItem} from 'amis-core';
  * 公式功能控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/formula
  */
-export interface AMISFormulaControlSchema extends AMISFormItem {
+export interface AMISFormulaSchema extends AMISFormItem {
   /**
    * 指定为 formula 组件
    */
@@ -49,7 +49,7 @@ export interface AMISFormulaControlSchema extends AMISFormItem {
 export interface FormulaProps
   extends FormControlProps,
     Omit<
-      AMISFormulaControlSchema,
+      AMISFormulaSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

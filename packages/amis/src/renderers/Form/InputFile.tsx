@@ -36,7 +36,7 @@ import {filter} from 'amis-core';
  * File 文件上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  */
-export interface AMISFileControlSchema extends AMISFormItem {
+export interface AMISInputFileSchema extends AMISFormItem {
   /**
    * 指定为 file 组件
    */
@@ -249,7 +249,7 @@ export interface AMISFileControlSchema extends AMISFormItem {
 export interface FileProps
   extends FormControlProps,
     Omit<
-      AMISFileControlSchema,
+      AMISInputFileSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   stateTextMap: {

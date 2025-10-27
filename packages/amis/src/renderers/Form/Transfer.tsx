@@ -39,13 +39,17 @@ import {
 import {supportStatic} from './StaticHoc';
 
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
-import type {AMISFormItemWithOptions, Option} from 'amis-core';
+import type {
+  AMISFormItemWithOptions,
+  AMISSpinnerConfig,
+  Option
+} from 'amis-core';
 import type {AMISPaginationSchema} from '../Pagination';
 import {AMISExpression} from 'amis-core';
 
-export interface BaseTransferControlSchema
+export interface AMISTransferSchemaBase
   extends AMISFormItemWithOptions,
-    SpinnerExtraProps {
+    AMISSpinnerConfig {
   /**
    * 是否显示箭头
    */
@@ -196,7 +200,7 @@ export interface BaseTransferControlSchema
  * Transfer
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
  */
-export interface AMISTransferSchema extends BaseTransferControlSchema {
+export interface AMISTransferSchema extends AMISTransferSchemaBase {
   /**
    * 指定为 Transfer 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer

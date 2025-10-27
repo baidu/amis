@@ -20,14 +20,14 @@ import {supportStatic} from './StaticHoc';
 import type {TestIdBuilder} from 'amis-core';
 
 export interface SchemaMap {
-  checkbox: AMISCheckboxControlSchema;
+  checkbox: AMISCheckboxSchema;
 }
 
 /**
  * Checkbox 勾选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkbox
  */
-export interface AMISCheckboxControlSchema extends AMISFormItem {
+export interface AMISCheckboxSchema extends AMISFormItem {
   /**
    * 指定为 checkbox 组件
    */
@@ -77,7 +77,7 @@ export interface AMISCheckboxControlSchema extends AMISFormItem {
 export interface CheckboxProps
   extends FormControlProps,
     Omit<
-      AMISCheckboxControlSchema,
+      AMISCheckboxSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

@@ -17,7 +17,7 @@ import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaTpl, SchemaObject} from '../Schema';
 import classNames from 'classnames';
 
-export interface BaseCollapseSchema extends AMISSchemaBase {
+export interface AMISCollapseSchemaBase extends AMISSchemaBase {
   /**
    * 标识
    */
@@ -102,7 +102,7 @@ export interface BaseCollapseSchema extends AMISSchemaBase {
  * Collapse 折叠渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
-export interface AMISCollapseSchema extends BaseCollapseSchema {
+export interface AMISCollapseSchema extends AMISCollapseSchemaBase {
   /**
    * 指定为折叠器类型
    */

@@ -28,14 +28,14 @@ import {
 
 import {AMISIconSchema} from '../Icon';
 import {isMobile} from 'amis-core';
-import type {BaseInputFormulaControlSchema} from './InputFormula';
+import type {AMISInputFormulaSchemaBase} from './InputFormula';
 import {AMISFormItem} from 'amis-core';
 
 /**
  * 条件组合控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/condition-builder
  */
-export interface AMISConditionBuilderControlSchema extends AMISFormItem {
+export interface AMISConditionBuilderSchema extends AMISFormItem {
   /**
    * 指定为 condition-builder 组件
    */
@@ -104,7 +104,7 @@ export interface AMISConditionBuilderControlSchema extends AMISFormItem {
   /**
    * 将字段输入控件变成公式编辑器。
    */
-  formula?: BaseInputFormulaControlSchema;
+  formula?: AMISInputFormulaSchemaBase;
 
   /**
    * if 里面公式编辑器配置
@@ -115,7 +115,7 @@ export interface AMISConditionBuilderControlSchema extends AMISFormItem {
 export interface ConditionBuilderProps
   extends FormControlProps,
     Omit<
-      AMISConditionBuilderControlSchema,
+      AMISConditionBuilderSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

@@ -24,7 +24,7 @@ import type {AMISFormItem, TestIdBuilder} from 'amis-core';
  * Matrix 选择控件。适合做权限勾选。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
  */
-export interface AMISMatrixControlSchema extends AMISFormItem {
+export interface AMISMatrixCheckboxesSchema extends AMISFormItem {
   type: 'matrix-checkboxes';
 
   /**

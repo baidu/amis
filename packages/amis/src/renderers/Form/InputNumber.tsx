@@ -33,7 +33,7 @@ import {supportStatic} from './StaticHoc';
  * 数字输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-number
  */
-export interface AMISNumberControlSchema extends AMISFormItem {
+export interface AMISInputNumberSchema extends AMISFormItem {
   /**
    * 指定为 number 组件
    */

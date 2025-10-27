@@ -16,7 +16,7 @@ import find from 'lodash/find';
 import {FormBaseControlSchema} from '../../Schema';
 
 import * as IconSelectStore from './IconSelectStore';
-export interface IconSelectControlSchema extends AMISFormItem {
+export interface AMISIconSelectSchema extends AMISFormItem {
   type: 'icon-select';
 
   placeholder?: string;

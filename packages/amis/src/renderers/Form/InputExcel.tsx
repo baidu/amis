@@ -73,7 +73,7 @@ export interface ExcelFile {
  * Excel 解析
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-excel
  */
-export interface InputExcelControlSchema extends AMISFormItem {
+export interface AMISInputExcelSchema extends AMISFormItem {
   /**
    * 指定为 excel 组件
    */
@@ -135,7 +135,7 @@ export interface InputExcelControlSchema extends AMISFormItem {
 export interface ExcelProps
   extends FormControlProps,
     Omit<
-      InputExcelControlSchema,
+      AMISInputExcelSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

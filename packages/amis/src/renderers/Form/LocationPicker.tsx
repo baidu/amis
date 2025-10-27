@@ -25,7 +25,7 @@ import {isMobile} from 'amis-core';
  * Location 选点组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location
  */
-export interface AMISLocationControlSchema extends AMISFormItem {
+export interface AMISLocationPickerSchema extends AMISFormItem {
   type: 'location-picker';
 
   /**
@@ -63,7 +63,7 @@ export interface LocationControlProps
   extends FormControlProps,
     Omit<ThemeProps, 'className'>,
     Omit<
-      AMISLocationControlSchema,
+      AMISLocationPickerSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   value: any;

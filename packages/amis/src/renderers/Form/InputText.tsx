@@ -46,7 +46,7 @@ export type InputTextAddOn = ActionSchema & InputTextAddOnObject;
  * Text 文本输入框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-text
  */
-export interface AMISTextControlSchema extends AMISFormItemWithOptions {
+export interface AMISInputTextSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 text 组件
    */

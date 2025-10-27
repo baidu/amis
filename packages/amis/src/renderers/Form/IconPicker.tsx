@@ -14,7 +14,7 @@ import {FormBaseControlSchema} from '../../Schema';
  * 图标选择器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/icon-picker
  */
-export interface AMISIconPickerControlSchema extends AMISFormItem {
+export interface AMISIconPickerSchema extends AMISFormItem {
   type: 'icon-picker';
   // 这就不应该成为一个 amis 控件。。。
 }

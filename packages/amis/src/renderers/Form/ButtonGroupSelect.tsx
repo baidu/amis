@@ -8,7 +8,8 @@ import {
   BaseSchemaWithoutType,
   FormBaseControlWithoutSize,
   filter,
-  getVariable
+  getVariable,
+  AMISFormItemWithOptions
 } from 'amis-core';
 import {Option, TestIdBuilder} from 'amis-core';
 import {ActionObject, isObject} from 'amis-core';
@@ -21,9 +22,8 @@ import {supportStatic} from './StaticHoc';
  * 按钮组控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/button-group
  */
-export interface ButtonGroupControlSchema
-  extends FormOptionsControlSelf,
-    FormBaseControlWithoutSize,
+export interface AMISButtonGroupSelectSchema
+  extends AMISFormItemWithOptions,
     AMISButtonGroupSchemaBase {
   type: 'button-group-select';
 }
@@ -31,7 +31,7 @@ export interface ButtonGroupControlSchema
 export interface ButtonGroupProps
   extends OptionsControlProps,
     Omit<
-      ButtonGroupControlSchema,
+      AMISButtonGroupSelectSchema,
       | 'size'
       | 'source'
       | 'type'

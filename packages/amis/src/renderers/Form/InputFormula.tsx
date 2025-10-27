@@ -20,7 +20,7 @@ import type {FormulaPickerInputSettings} from 'amis-ui/lib/components/formula/Pi
  * InputFormula 公式编辑器
  * 文档：https://baidu.gitee.io/amis/zh-CN/components/form/input-formula
  */
-export interface BaseInputFormulaControlSchema extends AMISFormItem {
+export interface AMISInputFormulaSchemaBase extends AMISFormItem {
   /**
    * evalMode 即直接就是表达式，否则需要 ${这里面才是表达式}
    */
@@ -125,15 +125,14 @@ export interface BaseInputFormulaControlSchema extends AMISFormItem {
   inputSettings?: FormulaPickerInputSettings;
 }
 
-export interface InputFormulaControlSchema
-  extends BaseInputFormulaControlSchema {
+export interface AMISInputFormulaSchema extends AMISInputFormulaSchemaBase {
   type: 'input-formula';
 }
 
 export interface InputFormulaProps
   extends FormControlProps,
     Omit<
-      InputFormulaControlSchema,
+      AMISInputFormulaSchema,
       'options' | 'inputClassName' | 'className' | 'descriptionClassName'
     > {}
 
@@ -142,7 +141,7 @@ export interface InputFormulaProps
 })
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
-    InputFormulaControlSchema,
+    AMISInputFormulaSchema,
     'inputMode' | 'borderMode' | 'evalMode'
   > = {
     inputMode: 'input-button',

@@ -7,7 +7,7 @@ import {FormBaseControlSchema, AMISClassName, SchemaObject} from '../../Schema';
 import {FormHorizontal} from 'amis-core';
 import {reaction} from 'mobx';
 
-export type GroupSubControl = SchemaObject & {
+export type AMISGroupSubItem = SchemaObject & {
   /**
    * 列类名
    */
@@ -28,13 +28,13 @@ export type GroupSubControl = SchemaObject & {
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
-export interface AMISGroupControlSchema extends AMISFormItem {
+export interface AMISGroupSchema extends AMISFormItem {
   type: 'group';
 
   /**
    * FormItem 集合
    */
-  body: Array<GroupSubControl>;
+  body: Array<AMISGroupSubItem>;
 
   /**
    * 间隔
@@ -58,7 +58,7 @@ export interface AMISGroupControlSchema extends AMISFormItem {
 
 export interface InputGroupProps
   extends RendererProps,
-    Omit<AMISGroupControlSchema, 'type' | 'className'> {}
+    Omit<AMISGroupSchema, 'type' | 'className'> {}
 
 @Renderer({
   type: 'group'

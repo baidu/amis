@@ -29,7 +29,7 @@ import debounce from 'lodash/debounce';
  * 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
-export interface AMISCheckboxesControlSchema extends AMISFormItemWithOptions {
+export interface AMISCheckboxesSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 checkboxes 组件
    */
@@ -64,7 +64,7 @@ export interface AMISCheckboxesControlSchema extends AMISFormItemWithOptions {
 export interface CheckboxesProps
   extends OptionsControlProps,
     Omit<
-      AMISCheckboxesControlSchema,
+      AMISCheckboxesSchema,
       | 'options'
       | 'type'
       | 'className'

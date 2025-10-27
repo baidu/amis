@@ -19,7 +19,7 @@ import {supportStatic} from './StaticHoc';
  * Radio 单选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
-export interface AMISRadioControlSchema extends AMISFormItem {
+export interface AMISRadioSchema extends AMISFormItem {
   /**
    * 指定为 radio 组件
    */
@@ -59,7 +59,7 @@ export interface AMISRadioControlSchema extends AMISFormItem {
 export interface RadioProps
   extends FormControlProps,
     Omit<
-      AMISRadioControlSchema,
+      AMISRadioSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   checked?: boolean;

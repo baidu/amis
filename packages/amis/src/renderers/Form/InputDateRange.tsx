@@ -16,7 +16,7 @@ import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import type {AMISFormItem, TestIdBuilder} from 'amis-core';
 
-export interface BaseAMISDateRangeControlSchema extends AMISFormItem {
+export interface AMISDateRangeSchemaBase extends AMISFormItem {
   /**
    * 分隔符
    */
@@ -127,8 +127,7 @@ export interface BaseAMISDateRangeControlSchema extends AMISFormItem {
  * DateRange 日期范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
  */
-export interface AMISDateRangeControlSchema
-  extends BaseAMISDateRangeControlSchema {
+export interface AMISInputDateRangeSchema extends AMISDateRangeSchemaBase {
   /**
    * 指定为日期范围控件
    */
@@ -138,7 +137,7 @@ export interface AMISDateRangeControlSchema
 export interface DateRangeProps
   extends FormControlProps,
     Omit<
-      AMISDateRangeControlSchema,
+      AMISInputDateRangeSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   delimiter: string;

@@ -13,7 +13,7 @@ import {isMobile} from 'amis-core';
  * JSON Schema Editor
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends AMISFormItem {
+export interface AMISJsonSchemaEditorSchema extends AMISFormItem {
   /**
    * 指定为 JSON Schema 编辑器组件，用于编辑 JSON Schema
    */
@@ -82,7 +82,7 @@ export interface JSONSchemaEditorControlSchema extends AMISFormItem {
 export interface JSONSchemaEditorProps
   extends FormControlProps,
     Omit<
-      JSONSchemaEditorControlSchema,
+      AMISJsonSchemaEditorSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

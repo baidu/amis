@@ -69,11 +69,6 @@ export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
    * 显示表达式
    */
   visibleOn?: AMISExpression;
-
-  /**
-   * 按钮大小
-   */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
 export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
@@ -81,6 +76,11 @@ export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
    * 指定为 button-group 组件
    */
   type: 'button-group';
+
+  /**
+   * 按钮大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
 export default ButtonGroup;

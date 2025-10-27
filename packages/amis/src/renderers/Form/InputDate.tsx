@@ -20,18 +20,7 @@ import {supportStatic} from './StaticHoc';
 
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 
-export interface InputDateBaseControlSchema extends AMISFormItem {
-  /**
-   * 指定为 date 组件
-   */
-  type:
-    | 'input-date'
-    | 'input-datetime'
-    | 'input-time'
-    | 'input-month'
-    | 'input-quarter'
-    | 'input-year';
-
+export interface AMISInputDateSchemaBase extends AMISFormItem {
   /**
    * 是否显示清除按钮
    */
@@ -92,7 +81,7 @@ export interface InputDateBaseControlSchema extends AMISFormItem {
  * Date日期选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date
  */
-export interface AMISDateControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputDateSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为 date 组件
    */
@@ -145,7 +134,7 @@ export interface AMISDateControlSchema extends InputDateBaseControlSchema {
  * Datetime日期时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/datetime
  */
-export interface AMISDateTimeControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputDateTimeSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为日期时间选择控件
    */
@@ -205,7 +194,7 @@ export interface AMISDateTimeControlSchema extends InputDateBaseControlSchema {
  * Time 时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/time
  */
-export interface AMISTimeControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputTimeSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为日期时间选择控件
    */
@@ -250,7 +239,7 @@ export interface AMISTimeControlSchema extends InputDateBaseControlSchema {
  * Month 月份选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/Month
  */
-export interface AMISMonthControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputMonthSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */
@@ -282,7 +271,7 @@ export interface AMISMonthControlSchema extends InputDateBaseControlSchema {
 /**
  * 季度选择控件
  */
-export interface AMISQuarterControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputQuarterSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */
@@ -314,7 +303,7 @@ export interface AMISQuarterControlSchema extends InputDateBaseControlSchema {
 /**
  * 年份选择控件
  */
-export interface AMISYearControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputYearSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */

@@ -51,7 +51,7 @@ import Sortable from 'sortablejs';
  * Image 图片上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
  */
-export interface AMISImageControlSchema extends AMISFormItem {
+export interface AMISInputImageSchema extends AMISFormItem {
   /**
    * 格式校验失败是否显示弹窗
    */
@@ -321,7 +321,7 @@ let preventEvent = (e: any) => e.stopPropagation();
 export interface ImageProps
   extends FormControlProps,
     Omit<
-      AMISImageControlSchema,
+      AMISInputImageSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   onImageEnlarge?: (

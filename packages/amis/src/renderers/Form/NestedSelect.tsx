@@ -49,7 +49,7 @@ import {AMISFormItemWithOptions} from 'amis-core';
  * Nested Select
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
-export interface AMISNestedSelectControlSchema extends AMISFormItemWithOptions {
+export interface AMISNestedSelectSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 nested-select 组件
    */

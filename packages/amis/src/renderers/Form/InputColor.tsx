@@ -16,7 +16,7 @@ export const ColorPicker = React.lazy(
  * Color 颜色选择框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/color
  */
-export interface AMISInputColorControlSchema extends AMISFormItem {
+export interface AMISInputColorSchema extends AMISFormItem {
   /**
    * 指定为 color 组件
    */
@@ -55,7 +55,7 @@ export interface AMISInputColorControlSchema extends AMISFormItem {
 export interface ColorProps
   extends FormControlProps,
     Omit<
-      AMISInputColorControlSchema,
+      AMISInputColorSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

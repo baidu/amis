@@ -22,19 +22,17 @@ export interface AMISSparkLineSchema extends AMISSchemaBase {
   className?: AMISClassName;
 
   /**
-   * 关联数据变量。
+   * 关联数据变量
    */
   name?: string;
 
   /**
    * 宽度
-   * @default 100
    */
   width?: number;
 
   /**
    * 高度
-   * @default 50
    */
   height?: number;
 
