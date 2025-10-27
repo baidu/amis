@@ -1297,21 +1297,6 @@ export default class Table<
       item.path
     );
 
-    if (!saveImmediately && !propsSaveImmediately) {
-      return;
-    } else if (saveImmediately && saveImmediately.api) {
-      this.props.onAction(
-        null,
-        {
-          actionType: 'ajax',
-          api: saveImmediately.api,
-          reload: options?.reload
-        },
-        item.locals
-      );
-      return;
-    }
-
     if (!onSave) {
       return;
     }
@@ -1757,13 +1742,13 @@ export default class Table<
           title: column.enlargeTitle
             ? filter(column.enlargeTitle, row.data)
             : column.title
-            ? filter(column.title, row.data)
-            : undefined,
+              ? filter(column.title, row.data)
+              : undefined,
           caption: column.enlargeCaption
             ? filter(column.enlargeCaption, row.data)
             : column.caption
-            ? filter(column.caption, row.data)
-            : undefined
+              ? filter(column.caption, row.data)
+              : undefined
         }))
       );
     });
@@ -2255,7 +2240,7 @@ export default class Table<
           )}
           style={props.style}
         >
-          {props.label ?? column.label
+          {(props.label ?? column.label)
             ? render('tpl', props.label ?? column.label)
             : null}
 
