@@ -182,6 +182,7 @@ import {AMISRadioControlSchema} from './renderers/Form/Radio';
 import {AMISSliderSchema} from './renderers/Slider';
 import {AMISMultilineTextSchema} from './renderers/MultilineText';
 import {AMISDialogSchema} from './renderers/Dialog';
+import {AMISDrawerSchema} from './renderers/Drawer';
 
 export type SchemaType = AMISSchemaType;
 export type SchemaObject = AMISSchema;
@@ -277,6 +278,7 @@ declare module 'amis-core' {
     'spinner': AMISSpinnerSchema;
     'divider': AMISDividerSchema;
     'dropdown-button': AMISDropdownButtonSchema;
+    'drawer': AMISDrawerSchema;
     'each': AMISEachSchema;
     'flex': AMISFlexSchema;
     'flex-item': AMISFlexSchema;
