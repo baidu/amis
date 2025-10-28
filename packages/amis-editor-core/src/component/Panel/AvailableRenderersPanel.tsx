@@ -11,7 +11,9 @@ type PanelStates = {
 
 @observer
 export class AvailableRenderersPanel extends React.Component<
-  PanelProps,
+  PanelProps & {
+    tabsChildren?: React.ReactNode | ((props: PanelProps) => React.ReactNode);
+  },
   PanelStates
 > {
   @autobind
@@ -22,7 +24,7 @@ export class AvailableRenderersPanel extends React.Component<
   }
 
   render() {
-    const {store, manager, children} = this.props;
+    const {store, manager, children, tabsChildren} = this.props;
     const renderersTabsKey = store.renderersTabsKey || 'base-renderers';
     const curTheme = store.theme;
     const customRenderersByOrder = store.customRenderersByOrder || [];
@@ -75,6 +77,9 @@ export class AvailableRenderersPanel extends React.Component<
                     searchRendererType={'custom-renderer'}
                   />
                 </Tab>
+                {typeof tabsChildren === 'function'
+                  ? tabsChildren(this.props)
+                  : tabsChildren}
               </Tabs>
             )}
           {(!store.showCustomRenderersPanel ||
